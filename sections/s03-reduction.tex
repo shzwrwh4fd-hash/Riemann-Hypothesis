@@ -1,0 +1,88 @@
+\section{Reduction to primitive characters}\label{sec:reduction}
+
+In this section we reduce \cref{thm:main-rh,thm:main-grh} and \cref{cor:main-strip} to a statement
+about primitive characters. All arguments are classical; we include them because they are the last
+steps of the formal proof.
+
+\begin{definition}\label{def:everychar}
+$\sfname{EveryCharacter}$ is the statement of \cref{thm:main-grh}: for every $N\ge1$, every character
+$\chi$ modulo $N$ and every $s$ with $\Re s>\frac12$ and ($\chi\neq\one_N$ or $s\neq1$),
+$L(s,\chi)\neq0$. \formal{UpperTheory.EveryCharacter}
+\end{definition}
+
+\begin{definition}\label{def:zerofreeall}
+For $\theta\in\R$, $\psi\in\mathcal P$ is \emph{zero-free above $\theta$} if $L(s,\psi)\ne0$ whenever
+$\Re s>\theta$. $\sfname{ZeroFreeAll}$ is the statement that every $\psi\in\mathcal P$ is zero-free
+above $\frac12$. \formal{Formalism.HC.ZeroFreeAll}
+\end{definition}
+
+For $\psi=\one$, $\sfname{ZeroFreeAll}$ includes the assertion $\zeta(1)\neq0$ about Mathlib's value
+at the pole, which holds. We use the following classical facts \cite[Ch.~5, 9]{Davenport2000}.
+
+\begin{littheorem}[Change of level]\label{lit:reduction:level}
+If $M\mid N$, $\psi$ is a character modulo $M$ and ($\psi\ne\one_M$ or $s\ne1$), then
+$L(s,\psi_{\uparrow N})=L(s,\psi)\prod_{p\mid N}(1-\psi(p)p^{-s})$.
+\end{littheorem}
+
+\begin{littheorem}[Functional equations]\label{lit:reduction:fe}
+(a) If $\chi$ is primitive modulo $N$, then
+$\Lambda(\chi,1-s)=N^{s-1/2}\eps(\chi)\Lambda(\chi^{-1},s)$ for all $s$, where $\eps(\chi)\ne0$ is the
+root number. (b) If $s\notin\{1,0,-1,-2,\dots\}$, then
+$\zeta(1-s)=2(2\pi)^{-s}\Gamma(s)\cos(\pi s/2)\zeta(s)$ \cite{Riemann1859}.
+\end{littheorem}
+
+\begin{lemma}\label{lem:reduction:factors}
+Let $\Re s>0$. Then $1-\psi(p)p^{-s}\ne0$ for every character $\psi$ and every prime $p$, and
+$G_\chi(s)\neq0$ for every character $\chi$.
+\end{lemma}
+
+\begin{proof}
+$|\psi(p)p^{-s}|\le p^{-\Re s}<1$. And $\Gamma$ has no zeros, and no poles in $\Re s>0$.
+\end{proof}
+
+\begin{proposition}[From primitive to all characters]\label{prop:reduction:imprimitive}
+$\sfname{ZeroFreeAll}$ implies $\sfname{EveryCharacter}$. \formal{UpperTheory.Top.imprimitive}
+\end{proposition}
+
+\begin{proof}
+Let $\chi$ be a character modulo $N$ and $\Re s>\frac12$ with ($\chi\ne\one_N$ or $s\ne1$). Let
+$f=\cond\chi$ and $\chi^*$ the primitive character modulo $f$ inducing $\chi$. If $\chi\ne\one_N$ then
+$\chi^*\ne\one_f$, so ($\chi^*\neq\one_f$ or $s\ne1$) in all cases, and \cref{lit:reduction:level}
+gives $L(s,\chi)=L(s,\chi^*)\prod_{p\mid N}(1-\chi^*(p)p^{-s})$. The first factor is non-zero by
+$\sfname{ZeroFreeAll}$, the others by \cref{lem:reduction:factors}.
+\end{proof}
+
+\begin{proposition}[Riemann Hypothesis]\label{prop:reduction:rh}
+$\sfname{EveryCharacter}$ implies \cref{thm:main-rh}. \formal{Formalism.VW.rh_of_every}
+\end{proposition}
+
+\begin{proof}
+Applied to $N=1$, $\sfname{EveryCharacter}$ gives $\zeta(s)\ne0$ for $\Re s>\frac12$, $s\ne1$. Let
+$\zeta(s)=0$ with $s\ne1$ not a trivial zero, and suppose $\Re s<\frac12$. Put $t=1-s$. Then
+$\Re t>\frac12$, and $t\ne1$ because $\zeta(0)=-\frac12\ne0$. By \cref{lit:reduction:fe}(b),
+$0=\zeta(1-t)=2(2\pi)^{-t}\Gamma(t)\cos(\pi t/2)\zeta(t)$. Here $\Gamma(t)\ne0$ and $\zeta(t)\ne0$, and
+$\cos(\pi t/2)=0$ would force $t=2k+1$, i.e.\ $s=-2k$ with $k\in\Z$. That is impossible: $k<0$
+contradicts $\Re s<\frac12$, $k=0$ gives $s=0$, and $k\ge1$ gives a trivial zero.
+\end{proof}
+
+\begin{proposition}[Critical strip]\label{prop:reduction:strip}
+$\sfname{EveryCharacter}$ implies \cref{cor:main-strip}. \formal{Claim.strip}
+\formal{Formalism.VW.critLine}
+\end{proposition}
+
+\begin{proof}
+Let $0<\Re s<1$ and $L(s,\chi)=0$; then $s\neq0,1$, and $\Re s>\frac12$ is excluded by
+$\sfname{EveryCharacter}$. Suppose $\Re s<\frac12$.
+
+First, $L(s,\chi^*)=0$, by \cref{lit:reduction:level} and \cref{lem:reduction:factors}. Next,
+$\Lambda(\chi^*,s)=G_{\chi^*}(s)L(s,\chi^*)=0$. Applying \cref{lit:reduction:fe}(a) to the primitive
+character $(\chi^*)^{-1}$ gives $\Lambda((\chi^*)^{-1},1-s)=0$. Since $1-s\neq0$, this means
+$L(1-s,(\chi^*)^{-1})=0$.
+
+But $\Re(1-s)>\frac12$ and $1-s\neq1$, so this contradicts $\sfname{EveryCharacter}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:main-rh,thm:main-grh} and \cref{cor:main-strip}]
+By \cref{thm:zerofreeall}, proved in \cref{sec:top}, $\sfname{ZeroFreeAll}$ holds. Now apply
+\cref{prop:reduction:imprimitive,prop:reduction:rh,prop:reduction:strip}.
+\end{proof}

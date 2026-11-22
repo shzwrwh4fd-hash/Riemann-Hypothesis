@@ -1,0 +1,1213 @@
+\section{Shared results V: divisors, Iwasawa decompositions and interpolation}\label{sec:pf:sh-div}
+
+\providecommand{\shdivGBig}{\sfname{GBig}}
+\providecommand{\shdivGC}{\Gamma_{\C}}
+\providecommand{\shdivEm}{\mathrm{E}_{\mathrm{main}}}
+\providecommand{\shdivLi}{\operatorname{Li}}
+\providecommand{\shdivPic}{\operatorname{Pic}}
+\providecommand{\shdivex}{\operatorname{ex}}
+\providecommand{\shdivEv}{\sfname{Ev}}
+
+This section proves nineteen results of the formal development \cite{LeanSource2026} which are used by several of the
+preceding sections of Part~II. They are of very different nature and size. Some are classical theorems (or formalized
+forms of them): the boundedness of completed Hecke $L$-functions in vertical strips, the prime number theorem for arithmetic
+progressions with an exceptional zero, the finiteness of the volume of an adelic unitary quotient. For these we state
+precisely what the formal statement asserts, compare it with the published statement and describe the formal proof. Others
+are re-packagings or specialisations which get a short proof. The remaining ones (rationality and integrality of theta series,
+Galois conjugates of rational theta lifts, the volume ratio identity, the cut inequality for Weyl modules, the class sum span)
+rest on long formal proofs; for them we give the statement, the complete deduction from the main ingredients, and the
+statements of the ingredients, the proofs of the deepest of which are not reproduced here (they are listed with their
+content where they are used).
+
+The section is organised by topic.
+\begin{itemize}
+\item \Cref{sec:pf:sh-div:hecke}: Hecke $L$-functions of CM fields (used in \cref{sec:pf:fit,sec:pf:rowprops,sec:pf:liftinj}):
+boundedness in strips (\cref{pf:sh-div:strips}), the absolute value form of the functional equation
+(\cref{pf:sh-div:feabs}), non-vanishing at integers (\cref{pf:sh-div:lne}), the field data of a host
+(\cref{pf:sh-div:fielddat}) and the Galois conjugates of toric ratios (\cref{pf:sh-div:toric}).
+\item \Cref{sec:pf:sh-div:primes}: primes in arithmetic progressions and split primes (used in
+\cref{sec:pf:stageU,sec:pf:top-supply}): \cref{pf:sh-div:primesrel,pf:sh-div:apinterval,pf:sh-div:split}.
+\item \Cref{sec:pf:sh-div:vol}: volumes (used in \cref{sec:pf:fs,sec:pf:stageU}): finiteness of the volume of the
+adelic unitary quotient (\cref{pf:sh-div:finvol}) and the volume ratio identity from the one-vector Siegel formula
+(\cref{pf:sh-div:volratio}).
+\item \Cref{sec:pf:sh-div:theta}: theta series (used in \cref{sec:pf:liftinj,sec:pf:onto3,sec:pf:rowprops,sec:pf:stageU,%
+sec:pf:open0,sec:pf:rows}): rationality and integrality (\cref{pf:sh-div:series}), conjugates of rational theta lifts
+(\cref{pf:sh-div:conj}), the class sum span (\cref{pf:sh-div:classsum}), the rational row test
+(\cref{pf:sh-div:rowrat}) and symmetric column forms (\cref{pf:sh-div:symcol}).
+\item \Cref{sec:pf:sh-div:frames}: frames, twisted places, numerical rows and the cut inequality (used in
+\cref{sec:pf:baselat1,sec:pf:baselat2,sec:pf:bundles,sec:pf:open0,sec:pf:stageU,sec:pf:onto2}):
+\cref{pf:sh-div:hostframes,pf:sh-div:twisted,pf:sh-div:szrow,pf:sh-div:excut}.
+\end{itemize}
+Throughout, the objects of the development (global data $D$, hosts, real data, faces, grids, stages, contexts) are those of
+\cref{sec:hosts,sec:families} and of the sections of Part~II quoted at each place; we recall what is needed.
+
+%==========================================================================================================================
+\subsection{Hecke \texorpdfstring{$L$}{L}-functions of CM fields}\label{sec:pf:sh-div:hecke}
+
+\paragraph{Conventions.} Let $E$ be a number field with idele group $\A_E^\times$. A \emph{Hecke character} of $E$ is a
+continuous homomorphism $\chi:\A_E^\times\to\C^\times$ trivial on the diagonal image of $E^\times$; it is \emph{unitary} if
+$|\chi|=1$. For a finite place $v$ let $\chi_v$ be the restriction of $\chi$ to $E_v^\times$, fix $\varpi_v\in E^\times$ which is a
+uniformiser at $v$, and put $\chi(v)=\chi_v(\varpi_v)$. For $k\in E^\times$ let $\chi_\infty(k)$ be the value of $\chi$ at the idele
+which is $k$ at the archimedean places and $1$ elsewhere. The character $\chi$ is \emph{unramified} at $v$ if $\chi_v$ is trivial
+on $\OO_v^\times$, and $a\in\N$ is the \emph{conductor exponent} of $\chi$ at $v$ if for every $m\in\N$, $\chi_v$ is trivial on
+the units $x\equiv1\bmod\mathfrak p_v^m$ (all units if $m=0$) exactly when $a\le m$; we then write $a=a_v(\chi)$.
+
+Let $E$ be totally complex and let $\varphi=(\varphi_i)_{i\in I}$ be a finite family of embeddings $E\to\C$. It is a
+\emph{CM type} if every embedding $\sigma:E\to\C$ is equal to $\varphi_i$ or to $\overline{\varphi_i}$ for exactly one $i$. A Hecke
+character $\chi$ has \emph{infinity type} $n\in\Z^I$ (with respect to $\varphi$) if
+\begin{equation}\label{eq:pf:sh-div:inftype}
+\chi_\infty(k)=\prod_{i\in I}\Bigl(\frac{\varphi_i(k)}{|\varphi_i(k)|}\Bigr)^{n_i}\qquad(k\in E^\times),
+\end{equation}
+and \emph{weight} $m\in\Z^I$ if it has infinity type $2m$, i.e.\ $\chi_\infty(k)=\prod_i(\varphi_i(k)/\overline{\varphi_i(k)})^{m_i}$.
+The Euler factor at a finite place $v$ is $L_v(s,\chi)=(1-\chi(v)\Nm v^{-s})^{-1}$ if $\chi$ is unramified at $v$ and $1$ otherwise,
+and for $n\in\Z^I$ we put
+\[
+\Gamma_\infty(n,s)=\prod_{i\in I}\shdivGC\bigl(s+\tfrac{|n_i|}2\bigr),\qquad \shdivGC(s)=2(2\pi)^{-s}\Gamma(s).
+\]
+A \emph{completed $L$-function} of $(\chi,n)$ is an entire function $\Lambda$ such that for $\Re s>1$ the Euler product
+$\prod_vL_v(s,\chi)$ converges unconditionally to a number $L$ with $\Lambda(s)=\Gamma_\infty(n,s)L$. A \emph{Hecke $L$-function} of $\chi$ is
+an entire function $\Lambda$ equal to the Euler product $\prod_vL_v(s,\chi)$ for $\Re s>1$ (no archimedean factor). Two completed
+$L$-functions (or two Hecke $L$-functions) of the same data coincide, since they agree on $\Re s>1$. A function $\Lambda$ is
+\emph{bounded in vertical strips} if for all real $a<b$ it is bounded on $\{a\le\Re s\le b\}$.
+
+For a unitary $\chi$ and $\Re s>1$ the Euler product converges absolutely and is the exponential of
+$\sum_v-\log(1-c_v\Nm v^{-s})$, where $c_v=\chi(v)$ if $\chi$ is unramified at $v$ and $c_v=0$ otherwise
+(\lref{GlobalTheory.HeckeOne.hasProd_exp}); in particular it does not vanish there.
+
+\begin{theorem}[Completed Hecke $L$-functions are bounded in vertical strips]\label{pf:sh-div:strips}
+Let $E$ be a totally complex number field, $\varphi$ a CM type of $E$ indexed by $I$, and $\chi$ a unitary Hecke character of $E$
+of infinity type $n\in\Z^I$ with $n\ne0$. Then $(\chi,n)$ has a completed $L$-function $\Lambda$ which is bounded in vertical
+strips.
+\formallabel{GlobalTheory.HeckeStrip.completedLBoundedInStrips}
+\end{theorem}
+
+This is Hecke's theorem on the analytic continuation of the $L$-series of Gr\"o\ss{}encharaktere
+\cite{Hecke1920}, in Tate's adelic form \cite{Tate1967thesis}; see \cite[Ch.~VII, \S8]{Neukirch1999}. Since $n\ne0$, $\chi$ is
+not of the form $|\cdot|^{it}$, so the completed $L$-function has no poles; boundedness in vertical strips follows from the
+representation of $\Lambda$ as a Mellin transform of a theta series, split at $t=1$, which is uniformly convergent on vertical
+strips. The formal statement differs from the published one in two harmless ways: the factor $(|d_E|\Nm\mathfrak f(\chi))^{s/2}$ is
+omitted from $\Lambda$ (it is entire, non-vanishing and bounded on vertical strips), and only the existence of an entire
+function with the stated Euler product and the bound on strips is asserted. The formal proof follows Hecke's argument.
+
+\begin{proof}
+\emph{Step 1: the ideal character.} Since $\chi$ is unitary, there are a non-zero ideal $\mathfrak m$ of $\OO_E$ and a
+multiplicative function $X$ on the ideals of $\OO_E$ with $X(0)=0$, $X(\OO_E)=1$, $|X(\mathfrak a)|=1$ for non-zero $\mathfrak a$
+prime to $\mathfrak m$, $X(\mathfrak a)=0$ if $\mathfrak a$ is not prime to $\mathfrak m$, $X(\mathfrak p_v)=\chi(v)$ if $\chi$ is
+unramified at $v$ and $0$ otherwise, and $X(\beta\OO_E)=\chi_\infty(\beta)^{-1}$ for $\beta\in\OO_E$ with $\beta\equiv1\bmod\mathfrak m$
+(\lref{GlobalTheory.T.exists_idealCharacter_of_unitary_heckeChar}). By \eqref{eq:pf:sh-div:inftype},
+$X(\beta\OO_E)=w(\beta)$ for such $\beta\ne0$, where $w(\alpha)=\prod_i(\varphi_i(\alpha)/|\varphi_i(\alpha)|)^{-n_i}$.
+
+\emph{Step 2: decomposition into partial series.} For a function $F$ on $\OO_E$ put
+$P_F(s)=\sum_{(\alpha)}F(\alpha)w(\alpha)\Nm(\alpha)^{-s}$, the sum over the non-zero principal ideals $(\alpha)$; it is well defined
+when $F(u\alpha)w(u\alpha)=F(\alpha)w(\alpha)$ for all units $u$. Grouping the ideals prime to $\mathfrak m$ by their ray classes and
+multiplying each class by a fixed integral ideal of the inverse class, one obtains finitely many constants $c_k\in\C$, integers
+$B_k\ge1$, non-zero ideals $M_k$ and functions $F_k$ on $\OO_E$, periodic modulo $M_k$ and satisfying the unit condition, with
+\[
+\sum_{\mathfrak a}X(\mathfrak a)\Nm\mathfrak a^{-s}=\sum_kc_kB_k^{\,s}P_{F_k}(s)\qquad(\Re s>1)
+\]
+(\lref{GlobalTheory.T.heckeLSeries_eq_sum_principalPartialSeries}).
+
+\emph{Step 3: Hecke's theta argument.} For every such $F$ (periodic modulo a non-zero ideal, with the unit condition) the
+function $\Gamma_\infty(n,s)P_F(s)$, $\Re s>1$, extends to an entire function bounded in vertical strips
+(\lref{GlobalTheory.T.completed_heckePartialLSeries_entire_bounded_strips}). The formal proof is Hecke's: for the theta
+function $\theta_F(y)$, $y\in\R^I$, attached to $F$ and $n$ (a sum over $\alpha\in\OO_E$ weighted by $F(\alpha)$, the coordinates
+$\varphi_i(\alpha)$ and $n$), Poisson summation gives $\theta_F(y)=\kappa e^{-\sum_iy_i}\theta_a(-y)$ with a dual coefficient function $a$
+whose non-zero arguments stay away from $0$ (\lref{GlobalTheory.T.heckeThetaKernel_poisson_summation}); $\Gamma_\infty(n,s)P_F(s)$ is
+written as an integral of $\theta_F$ over a fundamental domain for the action of the units (obtained from a measurable partition of
+unity by unit-logarithm translates); the integral is split by the functional equation of the Mellin transform into two integrals
+of Laplace type against rapidly decreasing functions, which are entire and bounded in vertical strips
+(\lref{GlobalTheory.T.mellin_integral_split_functional_equation} and \lref{GlobalTheory.T.laplace_integral_entire_boundedInVerticalStrips}).
+
+\emph{Step 4: conclusion.} Let $\Lambda_k$ be the entire functions of Step~3 for $F_k$ and $\Lambda(s)=\sum_kc_kB_k^{\,s}\Lambda_k(s)$.
+It is entire. For $\Re s>1$, the Dirichlet series $\sum X(\mathfrak a)\Nm\mathfrak a^{-s}$ equals the exponential of
+$\sum_v-\log(1-X(\mathfrak p_v)\Nm v^{-s})$ (\lref{GlobalTheory.tsum_ideal_mul_absNorm_cpow_eq_exp_tsum}: unique factorisation and
+absolute convergence for a completely multiplicative $X$ with $|X|\le1$), which by Step~1 and
+\lref{GlobalTheory.HeckeOne.hasProd_exp} is the limit of the Euler product of $\chi$; by Step~2,
+$\Lambda(s)=\Gamma_\infty(n,s)\prod_vL_v(s,\chi)$. Finally on $a\le\Re s\le b$ we have $|B_k^{\,s}|\le B_k^{\,b}$ and $|\Lambda_k|\le C_k$, so
+$|\Lambda|\le\sum_k|c_k|B_k^{\,b}C_k$.
+\end{proof}
+
+\begin{definition}[Root numbers]\label{pf:sh-div:rootnumbers}
+Let $E$ be a number field, $\chi$ a Hecke character of $E$ and $a=(a_v)$ a finitely supported family of natural numbers indexed by
+the finite places. Let $d_v$ be the exponent of $\mathfrak p_v$ in the different of $E/\Q$. For $c\in E^\times$ let $G_v(\chi,a_v,c)$
+be the local Gauss sum of $\chi$ at $v$ modulo $\mathfrak p_v^{a_v}$ attached to $c$ \cite{LeanSource2026}. Put
+\[
+\varepsilon_v(\chi,a_v,s)=\chi_v(\varpi_v^{a_v+d_v})\Nm v^{-s(a_v+d_v)}\Nm v^{d_v/2}\cdot
+\begin{cases}1,&a_v=0,\\ G_v(\chi,a_v,\varpi_v^{a_v+d_v}),&a_v\ge1,\end{cases}
+\]
+$\varepsilon_f(\chi,a,s)=\prod_v\varepsilon_v(\chi,a_v,s)$ (a finite product: $\varepsilon_v=1$ if $a_v=d_v=0$) and, for $n\in\Z^I$,
+$\varepsilon_\infty(n)=(-i)^{\sum_i|n_i|}$.
+\end{definition}
+
+The \emph{functional equation of Hecke $L$-functions} $\sfname{HeckeTateFunctionalEquation}$ is the following statement (a
+hypothesis of the development, labelled as a published result, \cite{Hecke1920,Tate1967thesis}): for every totally complex $E$ with
+a CM type $\varphi$, every unitary Hecke character $\chi$ of infinity type $n\ne0$ and conductor exponents $a=(a_v(\chi))_v$, there
+are completed $L$-functions $\Lambda$ of $(\chi,n)$ and $\Lambda'$ of $(\chi^{-1},-n)$ with
+\begin{equation}\label{eq:pf:sh-div:fe}
+\Lambda(s)=\varepsilon_\infty(n)\,\varepsilon_f(\chi,a,s)\,\Lambda'(1-s)\qquad(s\in\C).
+\end{equation}
+Its \emph{absolute value form} $\sfname{HeckeFunctionalEquationAbs}$ is the statement: for $E,\varphi,\chi,n,a$ as above and
+\emph{all} completed $L$-functions $\Lambda$ of $(\chi,n)$ and $\Lambda'$ of $(\chi^{-1},-n)$ there is $\varepsilon\in\C$ with
+$|\varepsilon|=1$ and
+\begin{equation}\label{eq:pf:sh-div:feabs}
+\Lambda(s)=\varepsilon\,\Bigl(|d_E|\prod_v\Nm v^{a_v}\Bigr)^{1/2-s}\Lambda'(1-s)\qquad(s\in\C).
+\end{equation}
+
+\begin{proposition}[The functional equation in absolute value form]\label{pf:sh-div:feabs}
+The functional equation of Hecke $L$-functions, $\sfname{HeckeTateFunctionalEquation}$, implies its absolute value form,
+$\sfname{HeckeFunctionalEquationAbs}$.
+\formallabel{GlobalTheory.Published.HeckeTateFunctionalEquation.abs}
+\formallabel{GlobalTheory.HeckeEpsAbs.locEps_eq_mul}\formallabel{GlobalTheory.HeckeEpsAbs.finEps_eq}
+\formallabel{GlobalTheory.HeckeEpsAbs.norm_locEps_half}\formallabel{GlobalTheory.HeckeEpsAbs.norm_finEps_half}
+\formallabel{GlobalTheory.HeckeEpsAbs.norm_archEps}
+\end{proposition}
+
+\begin{proof}
+Let $\Lambda_0,\Lambda'_0$ be the functions given by \eqref{eq:pf:sh-div:fe}. By uniqueness of completed $L$-functions,
+$\Lambda=\Lambda_0$ and $\Lambda'=\Lambda'_0$. Put $\varepsilon=\varepsilon_\infty(n)\varepsilon_f(\chi,a,\frac12)$. Clearly
+$|\varepsilon_\infty(n)|=1$. We show:
+\begin{enumerate}[label=(\alph*)]
+\item $\varepsilon_v(\chi,a_v,s)=\varepsilon_v(\chi,a_v,\tfrac12)\,\bigl(\Nm v^{a_v+d_v}\bigr)^{1/2-s}$ for every $v$ and $s$;
+\item $\varepsilon_f(\chi,a,s)=\varepsilon_f(\chi,a,\tfrac12)\,\bigl(|d_E|\prod_v\Nm v^{a_v}\bigr)^{1/2-s}$;
+\item $|\varepsilon_v(\chi,a_v,\tfrac12)|=1$ for every $v$, hence $|\varepsilon_f(\chi,a,\tfrac12)|=1$.
+\end{enumerate}
+(a) is the identity $\Nm v^{-s(a_v+d_v)}=\Nm v^{-(a_v+d_v)/2}\,\Nm v^{(a_v+d_v)(1/2-s)}$.
+For (b), let $S$ be the finite set of places dividing the different or with $a_v\ne0$. Outside $S$ we have $a_v=d_v=0$ and
+$\varepsilon_v=1$ (\lref{GlobalTheory.HeckeEps.locEps_eq_one}), so both products run over $S$, and by (a)
+$\varepsilon_f(\chi,a,s)=\varepsilon_f(\chi,a,\frac12)\prod_{v\in S}(\Nm v^{a_v+d_v})^{1/2-s}$. Since the absolute norm of the different
+is $|d_E|$, $\prod_{v\in S}\Nm v^{a_v+d_v}=|d_E|\prod_v\Nm v^{a_v}$.
+For (c): $|\chi_v|=1$ as $\chi$ is unitary, $|\Nm v^{-(a_v+d_v)/2}\Nm v^{d_v/2}|=\Nm v^{-a_v/2}$, and for $a_v\ge1$ the Gauss sum
+attached to an element of valuation $a_v+d_v$ satisfies $|G_v|^2=\Nm v^{a_v}$ because $a_v$ is the conductor exponent
+(\lref{GlobalTheory.T.heckeLocalGaussSum_norm_sq_eq_absNorm_pow}; this is the classical evaluation of the absolute value of
+a local Gauss sum, \cite[Ch.~2]{Tate1967thesis}). Hence $|\varepsilon_v(\chi,a_v,\frac12)|=1$ for every $v$, and $|\varepsilon_f(\chi,a,\frac12)|=1$.
+Inserting (b) in \eqref{eq:pf:sh-div:fe} gives \eqref{eq:pf:sh-div:feabs} with $|\varepsilon|=1$.
+\end{proof}
+
+\paragraph{Non-vanishing at integers.}
+We use the notation of \cref{sec:pf:fit} for grids: $D$ is a global datum with host $E$ (a CM field with maximal real subfield
+$F$), $T$ a set of types with level characters $L_c$ and base type $\mu_0$, and $G$ a grid datum. For $i,j<m$ and a type $t$,
+\[
+\nu_H(G,t,i,j)=\mu_{0,j}\,\xi_H(t)\,\chi_H(G,m-i)^{-1},
+\]
+\begin{gather*}
+\mathrm{fam}(G,\mu_0,i,j,\mathrm{none})=\nu_H(G,\mu_0,i,j),\\
+\mathrm{fam}(G,\mu_0,i,j,c)=\nu_H(G,\mu_0,i,j)\,\delta_c\quad(c\in\{0,1\}),
+\end{gather*}
+where $\mu_{0,j}$, $\xi_H(t)$ and $\delta_0,\delta_1$ are Hecke characters of $E$ which are part of the level characters and
+$\chi_H(G,\cdot)$ the Hecke characters of the grid; $\xi_H(\mu_0)=1$ and every $\xi_H(t)$ has finite order. Let $h(i,j)$ be the half
+rank of the square $(i,j)$ (half the sum of the ranks of the spaces at $(i,j)$ and $(i+1,j+1)$) and $e_0(i,j)$ half the
+difference of its two bottom ranks; $e_0(i,j)\le h(i,j)$ by a direct comparison of the definitions
+(both are defined by explicit formulas in the ranks). The CM type of the host is
+$\varphi_D=(\overline{\tau_D})_\tau$, the complex conjugates of the embeddings of $E$ attached to the elements $\tau$ of the CM set
+of $D$.
+
+The uniform quantifier $\shdivGBig$ is that of \cref{pf:fit:uniform}: $\shdivGBig(Q)$ asserts that there is $C_{F0}$ such that for
+all $\eps$ and $C_F\ge C_{F0}$ there are $C_0,x_0$ such that $Q(G,\mu_0,C,x,b)$ holds for all $C\ge C_0$, all global data $D$ with
+size data of exponent $\eps$ and scale $x\ge x_0$ satisfying the standing conditions $\sfname{Rec}$, all level characters with base
+type $\mu_0$ and all grid data $G$ at level $(1,C_F,b)$. Two square statements are concerned:
+\begin{itemize}
+\item $\sfname{FieldDat}=\shdivGBig(Q_1)$, where $Q_1$ asserts: $E$ is a CM field, abelian over $\Q$; the field data
+$\sfname{IsFieldData}(d,\varphi_D)$ hold, namely $d$ is a prime $>4$, $E/F$ is unramified at all finite places, $\prod_i\varphi_i(x)=1$
+for every root of unity $x\in E$, $2\mid d_E$, $|I|\ge2$, $\varphi_D$ is a CM type, and there is $\omega\in E$ with $\omega^2=-d$ and
+$\varphi_i(\omega)=i\sqrt d$ for all $i$; the conductor $\mathfrak f(G)=\prod_{v\in S_0}\mathfrak p_v^{c(v)}$ of the grid ($S_0$ its
+set of places of $F$, $c(v_0)=1$ at the base place and $c(v)=2$ otherwise) satisfies the \emph{base condition}: $\mathfrak f\ne0$,
+$\mathfrak f\ne\OO_F$, and every prime $v\mid\mathfrak f$ splits in $E$, has exponent $\le2$ in $\mathfrak f$ and lies over an odd
+prime $l$ not dividing $d_E$ such that every prime of $E$ above $l$ has norm $l$; and there is a period lattice $\Lambda$ with
+$\Lambda=\{x\in\C:\ x$ an algebraic integer of the form $a+bi\sqrt d$, $a,b\in\Q\}$ (an \emph{integral lattice of discriminant $-d$});
+\item $\sfname{LNe}=\shdivGBig(Q_2)$, where $Q_2$ asserts: for all $i,j<m$, (a) for every type $t$ there is a Hecke
+$L$-function $\Lambda$ of $\nu_H(G,t,i,j)$ with $\Lambda(s)\ne0$ for all integers $s$ with $1-e_0(i,j)\le s\le h(i,j)$, and (b) for
+every $c$ there is a Hecke $L$-function $\Lambda$ of $\mathrm{fam}(G,\mu_0,i,j,c)$ with $\Lambda(s)\ne0$ for all integers $s\ge1$.
+\end{itemize}
+
+\begin{lemma}[Non-vanishing at $s=1$ and in the half plane of absolute convergence]\label{pf:sh-div:lone}
+Let $\chi$ be a unitary Hecke character of a number field $E$ and $\Lambda$ a Hecke $L$-function of $\chi$. Then $\Lambda(s)\ne0$ for
+every integer $s\ge1$.
+\formallabel{GlobalTheory.CMVal.IsHeckeL.ne_zero_nat}
+\end{lemma}
+
+\begin{proof}
+For $s\ge2$, $\Lambda(s)$ is the exponential of a convergent series. For $s=1$ this is the classical non-vanishing of
+$L(1,\chi)$ \cite{Hecke1920}, \cite[Ch.~VII]{Neukirch1999}; the formal proof
+(\lref{GlobalTheory.eulerProduct_ne_zero_one_of_entire}) is the argument with
+$\zeta_E(s)^2L(s,\chi)L(s,\bar\chi)$: if $\Lambda(1)=0$, then, with $Z(s)=(s-1)\zeta_E(s)$ entire
+(\lref{GlobalTheory.dedekindZeta_eulerProduct_mul_sub_one_entire}), the function
+$Z(s)^2\,\frac{\Lambda(s)}{s-1}\,\frac{\overline{\Lambda(\bar s)}}{s-1}$ is entire and equals for $\Re s>1$ the exponential of a
+Dirichlet series with non-negative coefficients $\sum_{v,k}(2+2\Re c_v^k)\,k^{-1}\Nm v^{-ks}$; by Landau's theorem on Dirichlet series
+with non-negative coefficients this is impossible.
+\end{proof}
+
+\begin{lemma}[Non-vanishing at integers left of $1$]\label{pf:sh-div:lnezeroint}
+Assume $\sfname{HeckeFunctionalEquationAbs}$ and the conclusion of \cref{pf:sh-div:strips}. Let $E$ be a CM field with a CM type
+$\varphi$, and $\chi$ a unitary Hecke character of $E$ of weight $m\in\Z^I$ with $m_i>0$ for all $i$. Then $\chi$ has a Hecke
+$L$-function $\Lambda$, and $\Lambda(s)\ne0$ for every integer $s$ with $s+m_i>0$ for all $i$.
+\formallabel{GlobalTheory.LValNe.heckeL_ne_zero_int}
+\formallabel{GlobalTheory.LValNe.exists_heckeL}
+\end{lemma}
+
+\begin{proof}
+A Hecke $L$-function of $\chi$ exists because $m\ne0$
+(\lref{GlobalTheory.ToricDistribution.exists_isHeckeL_of_hasInf}: a unitary Hecke character of non-zero weight of a CM field has
+a Hecke $L$-function). Let $\Lambda$ be any Hecke $L$-function of $\chi$ and $s$ an integer with $s+m_i>0$ for all $i$. If $s\ge1$, use
+\cref{pf:sh-div:lone}. Let $s\le0$. The character $\chi$ has infinity type $2m\ne0$ and $\chi^{-1}$ (unitary) has infinity type
+$-2m$ and weight $-m\ne0$. By \cref{pf:sh-div:strips} there are completed $L$-functions $\Lambda_c$ of $(\chi,2m)$ and $\Lambda'_c$ of
+$(\chi^{-1},-2m)$, and $\chi^{-1}$ has a Hecke $L$-function $\Lambda'$. If $f$ is a Hecke $L$-function and $f_c$ a completed
+$L$-function of the same character and infinity type $n$, then $f_c(z)=\Gamma_\infty(n,z)f(z)$ at every $z$ such that no
+$z+|n_i|/2$ is a pole of $\Gamma$, by analytic continuation from $\Re z>1$
+(\lref{GlobalTheory.LValNe.completed_eq}). At $z=1-s$ we have $z+|{-2m_i}|/2=1-s+m_i\ge1$, so
+$\Lambda'_c(1-s)=\Gamma_\infty(-2m,1-s)\Lambda'(1-s)\ne0$ by \cref{pf:sh-div:lone} (as $1-s\ge1$). By \eqref{eq:pf:sh-div:feabs}, in which
+$\varepsilon\ne0$ and the base of the power is a non-zero integer, $\Lambda_c(s)=0$ if and only if $\Lambda'_c(1-s)=0$
+(\lref{GlobalTheory.Published.HeckeFEModel.zero_iff}); hence $\Lambda_c(s)\ne0$. At $z=s$ we have $s+|2m_i|/2=s+m_i\ge1$, so
+$\Lambda_c(s)=\Gamma_\infty(2m,s)\Lambda(s)$, and therefore $\Lambda(s)\ne0$.
+\end{proof}
+
+\begin{proposition}[Non-vanishing of the square $L$-functions]\label{pf:sh-div:lne}
+$\sfname{HeckeFunctionalEquationAbs}$, the conclusion of \cref{pf:sh-div:strips} and $\sfname{FieldDat}$ imply $\sfname{LNe}$.
+\formallabel{GlobalTheory.SqTop.lNe_of_functionalEquation}
+\formallabel{GlobalTheory.SqTop.lNe_square}
+\formallabel{GlobalTheory.SqTop.squareBottomHalfRankDiff_le_halfRank}
+\end{proposition}
+
+\begin{proof}
+Take the thresholds $C_{F0}$, and then $C_0,x_0$, of $\sfname{FieldDat}$. In the situation of $\sfname{LNe}$, $\sfname{FieldDat}$ gives
+that $E$ is a CM field and that $\varphi_D$ is a CM type; it remains to prove $Q_2$ for fixed $i,j$, and this uses nothing else. Let $\kappa=\kappa(i,j)\in\N^I$ be the weight of the square at $s=0$. By
+\lref{GlobalTheory.FunObj.SqNum.Model.isValChar_nu}, $\nu_H(G,\mu_0,i,j)$ and all $\nu_H(G,\mu_0,i,j)\delta_c$ are unitary, trivial on
+$\A_F^\times$, of weight $\kappa$ and with prescribed conductor exponents; and by
+\lref{GlobalTheory.FunObj.SqNum.Model.kap_add}, $\kappa_\tau(i,j,s)+s$ does not depend on $s\le h(i,j)$ and $\kappa_\tau(i,j,s)>0$,
+so $\kappa_\tau=\kappa_\tau(i,j,h(i,j))+h(i,j)>h(i,j)$ for every $\tau$.
+
+(b) For each $c$, $\mathrm{fam}(G,\mu_0,i,j,c)$ is unitary of positive weight $\kappa$, so it has a Hecke $L$-function, which does not
+vanish at the integers $s\ge1$ by \cref{pf:sh-div:lone}.
+
+(a) Since $\xi_H(\mu_0)=1$, $\nu_H(G,t,i,j)=\nu_H(G,\mu_0,i,j)\,\xi_H(t)$. The character $\xi_H(t)$ has finite order, hence is trivial
+on $E^\times$ at infinity (\lref{GlobalTheory.TypeValues.inf_eq_one}: a Hecke character of finite order of a totally complex field
+is trivial on the connected group $\prod_{w\mid\infty}E_w^\times$); thus $\nu_H(G,t,i,j)$ also has weight $\kappa$. It is unitary, being
+the character attached to a unitary idele class character of the grid
+(\lref{GlobalTheory.FunObj.SqNum.chrEq_nu} and \lref{GlobalTheory.ChrEqUnique.isUnitary_of_chrEq}). By
+\cref{pf:sh-div:lnezeroint} it has a Hecke $L$-function $\Lambda$ with $\Lambda(s)\ne0$ whenever $s+\kappa_\tau>0$ for all $\tau$. If
+$s\ge1-e_0(i,j)$, then $s+\kappa_\tau>1-e_0(i,j)+h(i,j)\ge1$, since $e_0\le h$.
+\end{proof}
+
+\begin{remark}\label{pf:sh-div:rem:lne}
+In (a) the upper bound $s\le h(i,j)$ is not used: the proof gives non-vanishing at all integers $s\ge1-e_0(i,j)$. The boundedness
+in vertical strips supplied by \cref{pf:sh-div:strips} is not used either; only the existence of completed $L$-functions is.
+\end{remark}
+
+\begin{proposition}[Field data]\label{pf:sh-div:fielddat}
+$\sfname{FieldDat}$ holds, with all thresholds equal to $0$.
+\formallabel{GlobalTheory.SqTop.fieldDat}
+\formallabel{GlobalTheory.SqTop.FieldDatPf.isCMType_cmPhi}\formallabel{GlobalTheory.SqTop.FieldDatPf.isBaseCond_condF}
+\formallabel{GlobalTheory.SqTop.FieldDatPf.good_prime}\formallabel{GlobalTheory.SqTop.FieldDatPf.splitsC_of_mod}
+\end{proposition}
+
+\begin{proof}
+Let $D$, size data and a grid $G$ be given as in $\shdivGBig$; we use only that $D$ has a host and that its size data contain
+the parameter conditions $g_i\equiv1\bmod Q_Sqd$ ($i=0,1$) for the two level primes and the complete splitting of the primes
+$p_{de},p'_{de}$ in $E$. Recall that the host field $E$ is a CM field of degree $4\,\mathrm{ord}$ over $\Q$, Galois over $\Q$ with an
+injective homomorphism of $\Gal(E/\Q)$ into an abelian group; hence $E$ is abelian over $\Q$
+(\lref{GlobalTheory.ToricDenomBridge.host_isAbelianGalois}).
+
+\emph{The CM type.} By the construction of the host, the embeddings $\varphi_D$ form a CM type and $\varphi_\tau(\sqrt{-d})$ does not
+depend on $\tau$, where $\sqrt{-d}\in E$ is the square root of $-d$ of the host
+(\lref{GlobalTheory.LamTie.CMType.phi_cmType}, transported along the bijection between the CM set of $D$ and the CM type
+of the host).
+
+\emph{Field data.} $d$ is prime and $d\equiv7\bmod16$, so $d>4$; $E/F$ is unramified at the finite places, $2\mid d_E$, and the product
+of the $\varphi_i(x)$ over a CM type with constant value at $\sqrt{-d}$ is $1$ for every root of unity $x$
+(\lref{GlobalTheory.ToricDenomBridge.host_unramFin}, \lref{GlobalTheory.ToricDenomBridge.two_dvd_discr_host}, and \lref{UpperTheory.prod_CMType_embeddings_root_of_unity_eq_one});
+$|I|\ge2$ since $[E:\Q]\le2|I|$ for a CM type and $[E:\Q]=4\,\mathrm{ord}\ge4$. Finally $\varphi_i(\sqrt{-d})^2=-d$, so
+$\varphi_i(\sqrt{-d})=\pm i\sqrt d$ with a sign independent of $i$; take $\omega=\pm\sqrt{-d}$ accordingly
+(\lref{GlobalTheory.ToricDenomBridge.isFieldData_host}).
+
+\emph{Base condition.} The places of $S_0$ lie over one of the five primes $g_0,g_1,p_{de},p'_{de},q_0$ (the base place lies over
+the auxiliary prime $q_0$). Each of them is odd, does not divide $d_E$, and every prime $\mathfrak P$ of $E$ above it has norm $p$ and
+lies over a place of $F$ which splits in $E$: for $g_0,g_1$ and $q_0$ this follows from $p\equiv1\bmod Q_Sqd$ (for $q_0$ from its
+defining congruence), since $16\mid Q_S$ gives $p\equiv1\bmod4$ and $p$ splits completely in $E$
+(by \cref{pf:sh-div:split}, and since a prime which splits completely in $E$ does not divide $d_E$ and the primes above it have norm $p$, \lref{GlobalTheory.SplitEmbSep.not_dvd_discr_of_split} and \lref{GlobalTheory.Mem.Chr.splitsC_main}); for $p_{de},p'_{de}$ from
+$p\equiv1\bmod15$ and the complete splitting of the size data. Since $\mathfrak f(G)=\prod_{v\in S_0}\mathfrak p_v^{c(v)}$ with
+$c(v)\le2$, every prime dividing $\mathfrak f(G)$ is in $S_0$ and has exponent $\le2$; $\mathfrak f(G)\ne0$, and $\mathfrak f(G)\ne\OO_F$
+because the base place has exponent $1$.
+
+\emph{The lattice.} Let $\Lambda=\Z+\Z\frac{1+i\sqrt d}2$. Since $d$ is a prime $\equiv3\bmod4$, $\Lambda$ is the ring of integers of
+$\Q(i\sqrt d)$: its elements are integral ($\frac{1+i\sqrt d}2$ is a root of $X^2-X+\frac{d+1}4$), and conversely if $x=a+bi\sqrt d$
+($a,b\in\Q$) is integral, then so is $\bar x$, hence $t=2a$ and $n=a^2+db^2$ are integers; $(2db)^2=d(4n-t^2)$ shows that $2db$ is an integer divisible by the prime $d$, so $u=2b\in\Z$;
+then $4n=t^2+du^2$ and $d\equiv-1\bmod4$ give $t\equiv u\bmod2$, and $x=\frac{t-u}2+u\frac{1+i\sqrt d}2\in\Lambda$
+(\lref{GlobalTheory.ToricDenomBridge.isIntLattice_of}).
+\end{proof}
+
+\paragraph{Toric sums and their conjugates.}
+Let $E$ be a CM field with maximal real subfield $F$, unramified over $F$ at the finite places, $K\subseteq E$ an imaginary
+quadratic field, $d>0$ and $\delta\in K$ with $\delta^2=-d$, $\iota:K\to\C$, and $\varphi$ a CM type of $E$ with
+$\varphi_i|_K=\iota$ for all $i$. Let $s\ge1$, $\kappa\in\N^I$ with $\kappa_i\ge1$, $\mathfrak f$ an ideal of $\OO_F$ with the base
+condition, $Q$ a finite set of places of $F$ split in $E$ and prime to $\mathfrak f$, $c=\mathfrak f\prod_{q\in Q}\mathfrak p_q$, and
+$\chi$ a \emph{valuation character}: unitary, trivial on $\A_F^\times$, of weight $\kappa+s$, with conductor exponent at every prime
+$\mathfrak P\mid v$ equal to the exponent of $v$ in $\mathfrak f$. Such a tuple is a \emph{toric datum}. Let
+$\shdivPic(c)=\A_{E,f}^\times/E^\times\widehat\OO_c^\times$ be the ring class group of conductor $c$ (finite for $c\ne0$,
+\lref{GlobalTheory.CMVal.PicFin.finite_picO}), and for $y\in\A_{E,f}^\times$ put $\lambda(y)=\chi_f(y)|y|^s$, where $\chi_f$ is the
+finite part of $\chi$ and $|y|$ the idelic norm. For each class $q$ let $S_q$ be a \emph{lattice sum} of weight $(2s,\kappa)$ of the
+lattice of $q$ (an Eisenstein-type sum over the lattice of the class, \cite{LeanSource2026}). A \emph{twisted sum} of $(\chi,\psi)$,
+for a character $\psi$ of $\shdivPic(c)$, is a number $T=\sum_q\psi(q)^{-1}\lambda(q)^{-1}S_q(0)$; a \emph{toric sum} is a twisted sum
+for $\psi=1$ (the two definitions agree for $\psi=1$). Finally put
+$\mathrm{co}(\Omega,T)=C_0\,T/\Omega^{2s|I|+2\sum_i\kappa_i}$ with an explicit constant $C_0=C_0(E,d,2s,\kappa)$.
+
+$\sfname{TwistedTransport}$ is the statement: for all $K,d,\delta,\iota$ as above there is a period $\Omega_0\ne0$ such that
+(i) $\mathrm{co}(\Omega_0,T)$ is algebraic for every toric datum, every $\psi$ and every twisted sum $T$ of $(\chi,\psi)$; and
+(ii) for every algebraic closure $\Omega$ of $K$ with an embedding $j$ extending $\iota$, every Artin map $\mathrm{art}$ of $K$
+with values in $\Gal(\Omega/K)^{\mathrm{ab}}$ satisfying the axioms of global class field theory, every $g\in\Aut(\C)$,
+$\sigma\in\Gal(\Omega/K)$ with $j\sigma=gj$ and every finite idele $t$ with $\mathrm{art}(t)^{-1}=\sigma^{\mathrm{ab}}$, there is
+$\Omega_1\ne0$ such that for every toric datum, every $(\kappa',\chi')$ conjugate to $(\kappa,\chi)$ under $g$ (that is,
+$\kappa'_j=\kappa_i$ whenever $g\varphi_i=\varphi_j$, $\lambda_{\chi'}=g\circ\lambda_\chi$ and $\chi'$ has weight $\kappa'+s$), every $\psi$
+and twisted sums $T$ of $(\chi,\psi)$ and $T'$ of $(\chi',g\psi)$:
+\[
+g\bigl(\mathrm{co}(\Omega_0,T)\bigr)=\mathrm{co}\Bigl(\Omega_1,\ |t|^{-\sum\kappa_i}\bigl(\lambda_{\chi'}(t_E)\,(g\psi)([t_E])\bigr)^{-1}T'\Bigr),
+\]
+where $t_E$ is the image of $t$ in $\A_{E,f}^\times$ and $[t_E]$ its class.
+$\sfname{ToricRatioConjugates}$ is the statement: for every toric datum there are a non-zero toric sum $T_0$ of $\chi$ (for the
+conductor $\mathfrak f$) and twisted sums $T(\psi)$ of $(\chi,\psi)$ for all $\psi$, such that every ratio $T(\psi)/T_0$ is algebraic,
+and for all $(\Omega,j,\mathrm{art},g,\sigma,t)$ as in (ii) with $g$ fixing all $\varphi_i(x)$ and all values of $\lambda_\chi$, and all
+$\psi$,
+\begin{equation}\label{eq:pf:sh-div:toricconj}
+g\Bigl(\frac{T(\psi)}{T_0}\Bigr)=(g\psi)([t_E])^{-1}\,\frac{T(g\psi)}{T_0},
+\end{equation}
+and $(g\psi)([t_E])$ is a root of unity.
+
+\begin{proposition}[Conjugates of toric ratios]\label{pf:sh-div:toric}
+$\sfname{TwistedTransport}$ implies $\sfname{ToricRatioConjugates}$.
+\formallabel{GlobalTheory.ToricTransport.toricRatioConjugates_of_transport}
+\formallabel{GlobalTheory.ToricTransport.exists_toricSum_ne_zero}\formallabel{GlobalTheory.ToricTransport.exists_twistedSum}
+\formallabel{GlobalTheory.ToricTransport.isTwistedSum_one}
+\end{proposition}
+
+\begin{proof}
+Fix a toric datum, and let $\Omega_0$ be the period of $\sfname{TwistedTransport}$ for $(K,d,\delta,\iota)$.
+
+\emph{Existence.} $\chi$ has a Hecke $L$-function $\Lambda$ (\cref{pf:sh-div:lnezeroint}), and the toric sum attached to
+the empty set of auxiliary places is the value $\Lambda(s)$ (\lref{GlobalTheory.ToricSumValue.toricSum_eq}), which is non-zero by
+\cref{pf:sh-div:lone} since $s\ge1$; let $T_0=\Lambda(s)$. For every
+$\psi$ a twisted sum $T(\psi)$ exists: $\shdivPic(c)$ is finite, the finite part of $\chi$ is trivial on the units of the order
+of conductor $c$, and every class has a lattice sum
+(\lref{GlobalTheory.CMVal.OrderUnits.finPart_eq_one} and \lref{GlobalTheory.CMVal.LatEnt.exists_isLatSum}).
+
+\emph{Algebraicity.} The normalising factors of $\mathrm{co}(\Omega_0,\cdot)$ do not depend on $\psi$, so
+$T(\psi)/T_0=\mathrm{co}(\Omega_0,T(\psi))\,\mathrm{co}(\Omega_0,T_0)^{-1}$ (\lref{GlobalTheory.ToricTransport.coordIn_div}),
+a quotient of algebraic numbers by (i), applied to $(\chi,\psi)$ and to the toric datum with $Q=\emptyset$ and $\psi=1$.
+
+\emph{Conjugation.} Let $g$ fix all $\varphi_i(x)$ and all values of $\lambda_\chi$, and let $\Omega_1$ be given by (ii). Then
+$(\kappa,\chi)$ is conjugate to itself under $g$: if $g\varphi_i=\varphi_j$ then $\varphi_i=\varphi_j$ (as $g$ fixes $\varphi_i(E)$),
+hence $i=j$ by the uniqueness in the definition of a CM type; and $\lambda_\chi=g\circ\lambda_\chi$. Apply (ii) to $T=T(\psi)$,
+$T'=T(g\psi)$, and to $T=T'=T_0$ with $\psi=1$ (note $g\cdot1=1$). The common factors $|t|^{-\sum\kappa_i}$ and $\lambda_\chi(t_E)^{-1}$
+are non-zero (\lref{GlobalTheory.IndefiniteRowSideFullHecke.LatticeNormTransport.lamF_ne_zero}) and cancel in the quotient, which
+gives \eqref{eq:pf:sh-div:toricconj}. Finally $(g\psi)([t_E])$ is a value of a character of the finite group $\shdivPic(c)$, hence a
+root of unity.
+\end{proof}
+
+%==========================================================================================================================
+\subsection{Primes in arithmetic progressions and split primes}\label{sec:pf:sh-div:primes}
+
+For $M\ge1$ let $\pi(X;M,b)$ be the number of primes $p\le X$ with $p\equiv b\bmod M$, $\psi(X;M,b)=\sum_{n\le X,\,n\equiv b\,(M)}\Lambda(n)$,
+$\shdivLi(X)=\int_2^X\frac{dt}{\log t}$, and for $\theta\in\Z$, $\beta\in\R$
+\[
+\shdivEm(\theta,\beta,X)=\shdivLi(X)-\theta\,\shdivLi(X^\beta),\qquad
+\rho(C,c,B,X)=Ce^{-c\log X/\log B}+Ce^{-c\sqrt{\log X}} .
+\]
+For $c_1>0$ and $M\ge3$, a pair $(\chi,\beta)$ of a Dirichlet character modulo $M$ and a real number is \emph{exceptional} if
+$\chi^2=1$, $1-c_1/\log M<\beta<1$ and $L(\beta,\chi^*)=0$, where $\chi^*$ is the primitive character inducing $\chi$. For $b$ prime
+to $M$, $(\theta,\beta)$ is an \emph{exceptional datum} for $b$ if either $\theta=0$ and there is no exceptional pair, or there is
+an exceptional pair $(\chi,\beta)$ with $\chi(b)=\theta$.
+
+$\sfname{PrimesRel}$ is the statement: there are $c_1\in(0,\frac18]$ and $c_2,c_3,C_A,c_S>0$ such that for every $M\ge3$:
+\begin{enumerate}[label=(P\arabic*)]
+\item any two exceptional pairs modulo $M$ are equal;
+\item every exceptional pair satisfies $1-\beta\ge c_S/(M^2\log M)$;
+\item for $b$ prime to $M$, every exceptional datum $(\theta,\beta)$ for $b$ and every $X\ge M^{c_2}$,
+\[
+\bigl|\varphi(M)\pi(X;M,b)-\shdivEm(\theta,\beta,X)\bigr|\le C_A\bigl(e^{-c_3\log X/\log M}+e^{-\sqrt{c_3\log X}}\bigr)\shdivEm(\theta,\beta,X).
+\]
+\end{enumerate}
+
+\begin{theorem}[Primes in progressions with relative error]\label{pf:sh-div:primesrel}
+$\sfname{PrimesRel}$ holds.
+\formallabel{GlobalTheory.Lin.primesRel_holds}
+\formallabel{GlobalTheory.Lin.sign_of_sq_eq_one}
+\end{theorem}
+
+(P3) is a form of the prime number theorem for arithmetic progressions in the range $X\ge M^{c_2}$, with the contribution of a
+possible exceptional zero; estimates of this kind go back to Gallagher \cite{Gallagher1970} (see also \cite[Ch.~18]{IwaniecKowalski2004},
+where they are used for Linnik's theorem). (P1) is the Landau--Page theorem \cite[Ch.~14]{Davenport2000}, and (P2) is much weaker
+than the classical bound $1-\beta\gg M^{-1/2}(\log M)^{-2}$ of loc.\ cit. In the formal statement the error term is relative to the
+main term, uniformly in $X\ge M^{c_2}$, and primes are counted directly (rather than weighted by $\Lambda$).
+
+\begin{proof}
+The formal proof combines three results, each a formalized classical theorem:
+\begin{enumerate}[label=(\alph*)]
+\item (\lref{GlobalTheory.T.exceptionalDirichletZero_unique_zeroFreeRegion}) There is $a>0$ such that for every
+$c_1\in(0,a]$ there is $c>0$ such that for all $M\ge3$: exceptional pairs are unique; an exceptional pair $(\chi,\beta)$ has $\chi\ne1$,
+$\beta\ge\frac78$, $L(\beta,\chi)=0$ with a simple zero, and $1-\beta\ge c/(M^2\log M)$; and every zero $\rho$ of $L(s,\chi)$ with
+$\Re\rho<1$ is either real with $(\chi,\rho)$ exceptional or satisfies $\Re\rho\le1-c/\log(M(|\Im\rho|+2))$. The formal proof uses
+a lower bound for $|L(1,\chi)|$ (\lref{GlobalTheory.T.exists_dirichletLFunction_zero_gap_near_one}).
+\item (\lref{GlobalTheory.T.chebyshevPsiProgression_relative_error}) There is $a'>0$ such that for every $c_1\in(0,a']$ there
+are $c_2,c_3,C>0$ with
+$\bigl|\varphi(M)\psi(u;M,b)-(u-\theta u^\beta/\beta)\bigr|\le C\bigl(e^{-c_3\log u/\log M}+e^{-\sqrt{c_3\log u}}\bigr)(u-\theta u^\beta/\beta)$
+for all $M\ge3$, $b$ prime to $M$, exceptional data $(\theta,\beta)$ for $b$ and $u\ge M^{c_2}$. This is Gallagher's theorem; the formal
+proof follows his method: the explicit formula, a log-free zero density estimate, the Deuring--Heilbronn repulsion of the zeros
+by an exceptional zero, and bounds for higher logarithmic derivatives
+(\lref{GlobalTheory.T.logFree_zeroDensity_dirichlet_one_modulus}, \lref{GlobalTheory.T.explicit_formula_dirichlet_zeros_right_half}, and \lref{GlobalTheory.T.one_sub_re_ge_of_exceptional_zero_repulsion}).
+\item (\lref{GlobalTheory.T.primeCount_relative_error_of_psi_relative_error}) Partial summation: for all $c_2,c_3,C,c_S>0$
+there are $c'_2,c'_3,C'>0$ such that if $B\ge3$, $1\le\phi\le B$, $\theta=0$ or ($\theta=\pm1$, $\beta\ge\frac78$ and $c_S/B^3\le1-\beta$),
+and a set $P$ of integers satisfies the estimate of (b) (with $\phi$, $B$ in place of $\varphi(M)$, $M$) for $\sum_{n\le u,\,n\in P}\Lambda(n)$,
+then $|\phi\,\#\{p\le X\ \text{prime},\ p\in P\}-\shdivEm(\theta,\beta,X)|\le C'(e^{-c'_3\log X/\log B}+e^{-\sqrt{c'_3\log X}})\shdivEm(\theta,\beta,X)$
+for $X\ge B^{c'_2}$.
+\end{enumerate}
+Let $c_1=\min(\frac18,a,a')$, let $c$ be the constant of (a) and $c_2,c_3,C$ those of (b) for $c_1$, and $c'_2,c'_3,C'$ those of (c) for
+$(c_2,c_3,C,c)$. We claim that $\sfname{PrimesRel}$ holds with $(c_1,c'_2,c'_3,C',c_S=c)$. (P1) and (P2) are part of (a). For (P3), let
+$b$ be prime to $M$ and $(\theta,\beta)$ an exceptional datum. If $\theta\ne0$ there is an exceptional pair $(\chi,\beta)$ with
+$\chi(b)=\theta$; since $\chi^2=1$ and $b$ is a unit, $\theta=\chi(b)=\pm1$, $\beta\ge\frac78$ by
+(a), and $c/M^3\le c/(M^2\log M)\le1-\beta$ as $\log M\le M$. Apply (c) with $B=M$, $\phi=\varphi(M)\in[1,M]$ and $P$ the residue
+class of $b$, whose hypothesis is (b).
+\end{proof}
+
+$\sfname{PrimesAPInterval}(C_0,C_r,c_r,c)$ is the statement: for all $m\ge3$, $a$ prime to $m$ and reals $Y,h$ with
+$Y\ge(4m)^{C_0}$, $h\le1$, $\rho(C_r,c_r,4m,Y)\le h/100$ and $(4m)^7\le hY^{1/3}$,
+\begin{equation}\label{eq:pf:sh-div:apinterval}
+\#\{p\ \text{prime}:\ Y<p\le Y(1+h),\ p\equiv a\bmod m\}\ \ge\ c\,h\,(4m)^{-6}\,\frac{Y}{\log Y}.
+\end{equation}
+
+\begin{lemma}[Short intervals from relative asymptotics]\label{pf:sh-div:shortint}
+For all $C_0,C_r,c_r,c_b>0$ there are $C'_0\ge C_0$ and $c>0$ with the following property. Let $B\ge4$, $1\le G\le B$,
+$\theta\in\{-1,0,1\}$ and $\beta\in\R$ with $\frac12\le\beta<1$ and $c_b/(B^2\log B)\le1-\beta$ if $\theta\ne0$; let $\pi_1,\pi_2$ be
+$\N$-valued functions with $\pi_2(Y)\le2\sqrt Y$ for $Y\ge1$, and $\eta$ a function with $0\le\eta\le3\log B$, such that
+\begin{equation}\label{eq:pf:sh-div:relasym}
+\bigl|G(\pi_1(Y)+\pi_2(Y)+\eta(Y))-\shdivEm(\theta,\beta,Y)\bigr|\le\rho(C_r,c_r,B,Y)\,\shdivEm(\theta,\beta,Y)\qquad(Y\ge B^{C_0}).
+\end{equation}
+Then for $X\ge B^{C'_0}$: $\shdivEm(\theta,\beta,X)\ge cB^{-5}X/\log X$, and for every $h\le1$ with $\rho(C_r,c_r,B,X)\le h/100$ and
+$B^7\le hX^{1/3}$, $\pi_1(X(1+h))-\pi_1(X)\ge c\,h\,B^{-6}X/\log X$.
+\formallabel{Formalism.HermitianLattices.GlobalBoundRefinements.shortIntervalLowerBound}
+\formallabel{Formalism.HermitianLattices.GlobalBoundRefinements.exceptional_zero_contribution_bound}
+\formallabel{Formalism.HermitianLattices.GL2PrimeSums.Emain_lower_bound}
+\formallabel{Formalism.HermitianLattices.GlobalBoundRefinements.exists_adjusted_exceptional_exponent}
+\formallabel{Formalism.HermitianLattices.GL2PrimeSums.gl2a4_weight}
+\end{lemma}
+
+\begin{proof}
+Take $C'_0=\max(C_0,60,2/c_b)$ and $c=\frac1{100}$, and let $X\ge B^{C'_0}$. Write $u=X^{1/12}$; then $u\ge1024$ (as $X\ge4^{60}$),
+$\sqrt X=u^6$, $X^{1/3}=u^4$ and $\log X\le12u$; put $L=\log X$. Note $\frac{d}{dt}\shdivEm(\theta,\beta,t)=(1-\theta t^{\beta-1})/\log t$.
+
+\emph{Normalising $\beta$.} If $\theta=0$, $\shdivEm$ does not depend on $\beta$ and we replace $\beta$ by $\frac12$. If $\theta\ne0$, then
+$L\ge\frac2{c_b}\log B$ gives $(1-\beta)L\ge c_bL/(B^2\log B)\ge2/B^2$. So in all cases
+$\frac12\le\beta<1$, and $(1-\beta)L\ge2/B^2$ if $\theta=1$.
+
+\emph{Weights.} For $Z\ge1$ such that $(1-\beta)\log Z\ge1/B^2$ when $\theta=1$, there is $W$ with $\frac1{2B^2}\le W\le1$,
+$W\le1-\theta t^{\beta-1}$ for $t\ge Z$ and $1-\theta t^{\beta-1}\le2W$ for $1\le t\le Z^2$
+(take $W=1$ if $\theta\ne1$; if $\theta=1$ take $W=1-Z^{\beta-1}$: then $W\le1-t^{\beta-1}$ for $t\ge Z$, $1-t^{\beta-1}\le1-Z^{2(\beta-1)}=W(1+Z^{\beta-1})\le2W$ for $t\le Z^2$, and $W\ge x/(1+x)\ge1/(2B^2)$ for $x=(1-\beta)\log Z\ge1/B^2$). Integrating
+the derivative, $W(b-a)/\log b\le\shdivEm(b)-\shdivEm(a)$ if $W\le1-\theta t^{\beta-1}$ on $[a,b]$, and
+$\shdivEm(b)-\shdivEm(a)\le V(\shdivLi(b)-\shdivLi(a))$ if $1-\theta t^{\beta-1}\le V$ on $[a,b]$; moreover $0\le\shdivEm(Y)$ for $Y\ge4$ and
+$\shdivEm(4)\le6$, and $\shdivLi(Y)\le3Y/\log Y$ for $Y\ge1296$.
+
+\emph{Main term.} With $Z=\sqrt X$ (so $(1-\beta)\log Z\ge1/B^2$ if $\theta=1$): $\shdivEm(X)\ge\shdivEm(X)-\shdivEm(\sqrt X)\ge W(X-\sqrt X)/L\ge
+WX/(2L)\ge X/(4B^2L)\ge\frac1{100}B^{-5}X/L$.
+
+\emph{Short intervals.} Let $h$ be as in the statement; $h>0$ since $\rho>0$. Put $X'=X(1+h)\le2X\le X^2$, so $\log X'\le2L$, and take
+the weight $W$ for $Z=X$; let $T=WhX/L$ and $\Delta=\pi_1(X')-\pi_1(X)$. Then:
+(i) $\shdivEm(X')-\shdivEm(X)\ge WhX/\log X'\ge T/2$;
+(ii) $\shdivEm(X')\le\shdivEm(4)+2W(\shdivLi(X')-\shdivLi(4))\le6+12WX/L$, so $h\,\shdivEm(X')\le6h+12T$;
+(iii) by \eqref{eq:pf:sh-div:relasym} at $X'$ and at $X$, and since $\rho(\cdot,\cdot,B,Y)$ decreases in $Y$, the value of
+$G(\pi_1+\pi_2+\eta)$ is $\ge(1-\frac h{100})\shdivEm(X')$ at $X'$ and $\le\shdivEm(X)+\frac h{100}\shdivEm(X')$ at $X$;
+(iv) $G\pi_2(X')\le B\cdot2\sqrt{X'}\le3Bu^6$ and $G\eta(X')\le3B\log B\le Bu$;
+(v) from $B^7\le hu^4$ and $L\le12u$: $4Bu^6\le\frac{12}{100}\frac{hX}{2B^2L}\le\frac{12}{100}T$ and $\frac{12}{100}h+Bu\le Bu^6$.
+Writing $G\Delta$ as the difference of the values of $G(\pi_1+\pi_2+\eta)$ at $X'$ and $X$ minus $G(\pi_2+\eta)(X')$ plus
+$G(\pi_2+\eta)(X)\ge0$, (i)--(v) give
+\[
+G\Delta\ge\frac T2-\frac1{50}(6h+12T)-3Bu^6-Bu\ge\frac T2-\frac{24}{100}T-4Bu^6\ge\frac{14}{100}T .
+\]
+Hence $\Delta\ge0$, and as $G\le B$ and $W\ge1/(2B^2)$, $\Delta\ge\frac{14}{100}\frac T B\ge\frac7{100}\frac{hX}{B^3L}\ge\frac1{100}hB^{-6}\frac XL$.
+\end{proof}
+
+\begin{theorem}[Primes in progressions in short intervals]\label{pf:sh-div:apinterval}
+$\sfname{PrimesRel}$ implies that there are $C_0,C_r,c_r,c>0$ such that $\sfname{PrimesAPInterval}(C_0,C_r,c_r,c)$ holds.
+\formallabel{GlobalTheory.Lin.primesAPInterval_of_primesRel}
+\formallabel{Formalism.HermitianLattices.GlobalBoundRefinements.shortIntervalImpliesProgressions_statement}
+\end{theorem}
+
+\begin{proof}
+Let $(c_1,c_2,c_3,C_A,c_S)$ be the constants of $\sfname{PrimesRel}$ and $c_r=\min(c_3,\sqrt{c_3})>0$.
+
+\emph{Step 1: a relative asymptotic with modulus $4m$.} Let $m\ge3$ and $a$ prime to $m$. If there is an exceptional pair
+$(\chi,\beta)$ modulo $m$, put $\theta=\chi(a)$; then $\theta=\pm1$ (as $\chi^2=1$), $\beta\ge1-c_1/\log m\ge\frac12$ (since
+$\log m>1$ and $c_1\le\frac18$), $\beta<1$, and by (P2)
+$c_S/((4m)^2\log4m)\le c_S/(m^2\log m)\le1-\beta$. Otherwise put $\theta=0$, $\beta=\frac12$. In both cases $(\theta,\beta)$ is an
+exceptional datum for $a$. For $Y\ge(4m)^{c_2}\ge m^{c_2}$, (P3) gives
+$|\varphi(m)\pi(Y;m,a)-\shdivEm(\theta,\beta,Y)|\le\rho(C_A,c_r,4m,Y)\shdivEm(\theta,\beta,Y)$, because
+$e^{-c_3\log Y/\log m}\le e^{-c_r\log Y/\log4m}$ and $e^{-\sqrt{c_3\log Y}}\le e^{-c_r\sqrt{\log Y}}$ (and the inequality of (P3)
+forces $\shdivEm(\theta,\beta,Y)\ge0$). This is the hypothesis
+\eqref{eq:pf:sh-div:relasym} of \cref{pf:sh-div:shortint} for $B=4m$, $G=\varphi(m)$ (note $1\le\varphi(m)\le m\le4m$),
+$\pi_1=\pi(\cdot\,;m,a)$, $\pi_2=0$, $\eta=0$, $C_0=c_2$, $(C_r,c_r)=(C_A,c_r)$ and $c_b=c_S$.
+
+\emph{Step 2.} Let $C'_0,c$ be given by \cref{pf:sh-div:shortint} for $(c_2,C_A,c_r,c_S)$. For $m,a,Y,h$ as in
+$\sfname{PrimesAPInterval}$, the lemma (applied with $X=Y$, $B=4m$) gives \eqref{eq:pf:sh-div:apinterval}. Hence
+$\sfname{PrimesAPInterval}(C'_0,C_A,c_r,c)$ holds.
+\end{proof}
+
+\paragraph{Split primes in the host.} Recall (\cref{sec:hosts}) that a host $H$ has a CM field $E$, Galois and abelian over $\Q$,
+containing the imaginary quadratic field $K=\Q(\sqrt{-d})$, with invariants $Q_S$ (a power of $2$ divisible by $16$), primes $q$ and $d$
+($d\equiv7\bmod16$), the conductor $N_H=Q_Sqd$, and a class $\mathrm{cls}(p)$ attached to every prime $p$: $\mathrm{ram2}$ if $p\mid Q_S$,
+$\mathrm{ramQ}$ if $p=q$, $\mathrm{ramD}$ if $p=d$, and otherwise $\mathrm{splitK}$ if the Jacobi symbol $(\frac{-d}{p})$ is $1$
+(followed by two further classes which do not matter here). The host also records the reciprocity law of $E$: for $p\nmid N_H$ and a
+prime $\mathfrak P$ of $E$ above $p$, the inertia group at $\mathfrak P$ is trivial and the arithmetic Frobenius at $\mathfrak P$ is
+the automorphism attached to the residue class of $p$ modulo $N_H$.
+
+\begin{proposition}[Primes $\equiv1$ modulo the conductor split]\label{pf:sh-div:split}
+Let $H$ be a host and $p$ a prime with $p\equiv1\bmod Q_Sqd$. Then $p$ splits completely in $E$ (the number of places of $E$
+above $p$ is $[E:\Q]$) and $\mathrm{cls}(p)=\mathrm{splitK}$.
+\formallabel{GlobalTheory.HostSplit.split_of_one_mod}
+\formallabel{GlobalTheory.HostSplit.ncard_primesOver_of_stabilizer}
+\end{proposition}
+
+\begin{proof}
+For every divisor $m>1$ of $Q_Sqd$ we have $p\equiv1\bmod m$; in particular $p\equiv1\bmod4$ (as $4\mid Q_S$) and $p\equiv1\bmod d$, and
+$p$ divides no divisor of $Q_Sqd$ (otherwise $p\equiv1\bmod p$). Hence $p\nmid N_H$, $p\nmid Q_S$, $p\ne q$ and $p\ne d$.
+
+\emph{Splitting.} Let $\mathfrak P$ be a prime of $\OO_E$ above $p$. By the reciprocity law of the host, the arithmetic Frobenius at
+$\mathfrak P$ is the automorphism attached to $p\equiv1\bmod N_H$, i.e.\ the identity, and the inertia group at $\mathfrak P$ is trivial.
+Every element of the decomposition group of $\mathfrak P$ is the product of an element of the inertia group and a power of a Frobenius
+element (\lref{Formalism.FrobeniusOrbits.Decomp.stab_eq_inertia_mul}), so the decomposition group is trivial, and the number
+of primes above $p$, which is the index of the decomposition group in $\Gal(E/\Q)$, is $[E:\Q]$. Places of $E$ above $p$ correspond to primes of $\OO_E$ above $p$
+(\lref{GlobalTheory.HostSplit.ncard_placesOver}).
+
+\emph{The class.} Since $d$ is odd, $p\equiv1\bmod4$ and $p\equiv1\bmod d$, quadratic reciprocity gives
+$\bigl(\frac{-d}{p}\bigr)=\bigl(\frac{-1}{p}\bigr)\bigl(\frac dp\bigr)=\bigl(\frac pd\bigr)=\bigl(\frac1d\bigr)=1$
+(\lref{GlobalTheory.HostSplit.jacobiSym_neg_eq_one}, for the Jacobi symbol). As $p\nmid Q_S$, $p\ne q$ and $p\ne d$, the
+definition of the class gives $\mathrm{cls}(p)=\mathrm{splitK}$.
+\end{proof}
+
+%==========================================================================================================================
+\subsection{Volumes of unitary groups}\label{sec:pf:sh-div:vol}
+
+Let $E/F$ be a CM extension of number fields with complex conjugation $\sigma$, $M\ge1$ and $J\in M_M(E)$ a non-degenerate hermitian
+matrix. Let $H=\Uni(J)$ be its unitary group over $F$, $H(\A_F)$ its group of adelic points (a locally compact second countable
+group) and $H(F)\subseteq H(\A_F)$ the rational points (a countable discrete subgroup).
+
+\begin{theorem}[Finite volume of the adelic unitary quotient]\label{pf:sh-div:finvol}
+For every Haar measure $\mu$ on $H(\A_F)$ and every measurable fundamental domain $\mathcal F$ for the action of $H(F)$ on
+$H(\A_F)$, $\mu(\mathcal F)<\infty$.
+\formallabel{GlobalTheory.Mem.VolFin.finVol}
+\formallabel{GlobalTheory.Mem.VolFin.stabHat_conj}
+\end{theorem}
+
+This is a special case of the theorem of Borel and Harish-Chandra \cite{BorelHarishChandra1962} on the finiteness of the volume of
+$G(F)\backslash G(\A_F)$ for reductive groups $G$ without non-trivial $F$-rational characters (the abelianisation of $H$ is the
+norm-one torus of $E/F$, which is anisotropic over $F$); see also \cite{Borel1963,PlatonovRapinchuk1994}. The formal statement is
+exactly this special case. The formal proof is the classical reduction to the finiteness of class numbers and to arithmetic
+subgroups of the real points.
+
+\begin{proof}
+Write $H(\A_F)=H_\infty\times H_f$, as topological groups, compatibly with the diagonal embedding of $H(F)$
+(\lref{GlobalTheory.Mem.VolSplit.exists_adelic_split}). Let $L=\OO_E^M$ and let $K\subseteq H_f$ be the stabiliser of the
+closure $\widehat L$ of $L$; it is compact and open (\lref{GlobalTheory.T.completedLattice_stabilizer_compact_open}).
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Finiteness of the class number}: there is a finite set $S\subseteq H_f$ with $H_f=\bigcup_{s\in S}H(F)sK$
+(\lref{GlobalTheory.T.finite_classSet_hermitianUnitary_openLevel}; \cite{Borel1963}).
+\item For $s\in S$ let $\Lambda_s\subseteq E^M$ be the lattice with $\widehat\Lambda_s=s\widehat L$
+(\lref{GlobalTheory.AdLat.exists_lattice_latOf}) and $\Gamma_s\subseteq H(F)$ its stabiliser. \emph{Finite covolume of
+arithmetic subgroups of the real points}: there is a measurable $\Omega_s\subseteq H_\infty$ of finite Haar measure with
+$H_\infty=\Gamma_s\Omega_s$ (\lref{GlobalTheory.T.finite_covolume_latticeStabiliser_unitaryRealPoints}; \cite{BorelHarishChandra1962};
+the formal proof constructs, from a CM type and a diagonalisation of $J$ at the real places, an explicit set of finite measure
+covering a fundamental domain).
+\end{enumerate}
+Let $g=(g_\infty,g_f)\in H(\A_F)$. By (i), $g_f=\gamma sk$ with $\gamma\in H(F)$, $s\in S$, $k\in K$. By (ii),
+$\gamma^{-1}g_\infty=\delta w$ with $\delta\in\Gamma_s$ and $w\in\Omega_s$. Since $\delta$ stabilises $\Lambda_s$, $s^{-1}\delta s$
+stabilises $\widehat L$, i.e.\ lies in $K$. For $\eta=\delta^{-1}\gamma^{-1}\in H(F)$ we
+get $(\eta g)_\infty=w\in\Omega_s$ and $(\eta g)_f=\delta^{-1}sk=s(s^{-1}\delta^{-1}s)k\in sK$. Hence $H(\A_F)=H(F)\cdot\bigcup_{s\in S}\Omega_s\times
+sK$, where the union has finite Haar measure ($K$ is compact). Since $H(F)$ is countable and $\mu$ is left invariant, every measurable
+fundamental domain has measure at most that of the union (\lref{GlobalTheory.Mem.VolFin.measure_lt_top_of_cover}), hence
+finite.
+\end{proof}
+
+\paragraph{The volume ratio.} We use the notation of \cref{sec:pf:stageU}. For a global datum $D$ with host $E$ (with maximal real
+subfield $F$, $f=[F:\Q]$) the development attaches to every hermitian space $W$ over $E$ with a standard lattice a volume $\vol_D(W)$;
+$\sfname{VolTie}(D)$ asserts that for every such $W$ of constant signature, every Haar measure in the normalisation of $D$ and every
+fundamental domain $\mathcal F$ of $\Uni(W)(F)$ in $\Uni(W)(\A_F)$, the measure of $\mathcal F$ is $\vol_D(W)$. The \emph{volume ratio}
+$\sfname{VolumeRatio}_2(D)$ is the statement (VR) of \cref{sec:pf:stageU}: for every hermitian space $W$ of rank $n\ge3$ and signature
+$(P,Q)$ at every complex embedding, and every sign $\pm$ with $P\ge1$ (for $+$) or $Q\ge1$ (for $-$), there are $x\in W$ with
+$\langle x,x\rangle=\pm1$ and a hermitian space $W'$ of signature $(P-1,Q)$ (resp.\ $(P,Q-1)$) with an isometric embedding onto
+$x^\perp$ such that
+\begin{equation}\label{eq:pf:sh-div:vr}
+\frac{\vol_D(W')}{\vol_D(W)}=\Bigl(\frac{(2\pi)^n}{(n-1)!}\Bigr)^{f}(2v)^{f(\frac12-n)}\,L(n,\eta^n)^{-1},
+\end{equation}
+with $v$ and $L(n,\eta^n)$ as in \cref{prop:families:mass}. $\sfname{MassRatioUnderVolume}(D)$ is the implication
+$\sfname{VolTie}(D)\Rightarrow\sfname{VolumeRatio}_2(D)$. Finally $\sfname{SW1b2}(F,E,\sigma,M,J)$ is the one-vector mean value formula of
+\cref{sec:pf:stageU} (item 2 of the proof of \cref{pf:stageU:volratio}): for $M\ge3$, $\beta\in F^\times$, measurable
+$\Phi_\infty\ge0$ on $(E\otimes\R)^M$ and non-negative pure finite test functions $\Phi_f=\bigotimes_v\Phi_v$, with self-dual measures
+and fibre measures $\mu_{\infty,t},\mu_{v,t}$ of the hermitian norm, the local integrals $\int\Phi_v\,d\mu_{v,\beta}$ are multipliable and
+\[
+\int_{H(F)\backslash H(\A_F)}\sum_{x\in E^M\smallsetminus0,\ \langle x,x\rangle=\beta}\Phi(h^{-1}x)\,dh
+=\int\Phi_\infty\,d\mu_{\infty,\beta}\cdot\prod_v\int\Phi_v\,d\mu_{v,\beta}
+\]
+(the left side being the mean over a fundamental domain).
+
+\begin{theorem}[The volume ratio from the one-vector formula]\label{pf:sh-div:volratio}
+Assume the one-vector formula $\sfname{SW1b2}(F,E,\sigma,M,J)$ for every CM extension $E/F$ and every non-degenerate hermitian $J$.
+Then for every global datum $D$, $\sfname{VolTie}(D)$ implies $\sfname{VolumeRatio}_2(D)$; that is, the statement
+$\sfname{MassRatioUnderVolume}(D)$ holds.
+\formallabel{GlobalTheory.VolRatioFromSecondClause.volumeRatio}
+\formallabel{GlobalTheory.VolRatioUnfold.volumeRatio_of_unfolding}
+\end{theorem}
+
+\begin{proof}
+The proof uses six statements of the development, each proved there unconditionally; we state them in the form used.
+\begin{enumerate}[label=(V\arabic*)]
+\item\label{pf:sh-div:V:perp} \emph{Unit vectors with self-dual complements}
+(\lref{GlobalTheory.UnitPerpObj.unitVectorPerp}): for $W$, $(P,Q)$ and the sign as in (VR) there are $x\in W$ with
+$\langle x,x\rangle=\pm1$, a self-dual lattice $L\ni x$ of $W$, and $W'$ of the complementary signature with an isometric
+embedding $\iota$ onto $x^\perp$ such that $\iota$ maps the standard lattice of $W'$ onto $L\cap x^\perp$.
+\item\label{pf:sh-div:V:indep} \emph{Independence of the lattice} (\lref{GlobalTheory.VolIndepClosed.volIndep}): the volume
+of $W$ does not change if its standard lattice is replaced by another self-dual lattice, and is invariant under isometries.
+\item\label{pf:sh-div:V:dens} \emph{Local densities of self-dual lattices}
+(\lref{GlobalTheory.LatticeDensityClosed.selfDualLatticeDensity}): at a finite place $v$ of $F$, for a self-dual lattice $L_v$
+of a non-degenerate hermitian space of rank $M$ over $E_v$ and self-dual measures, $\mathrm{vol}(L_v)=\mathfrak d_v^{-M}$,
+$\mathrm{vol}(\OO_{F_v})=\mathfrak d_v^{-1/2}$ ($\mathfrak d_v$ the local dual index), and for $|\beta|_v=1$ the fibre measure of
+$L_v$ at $\beta$ is an explicit value $\delta(\mathfrak d_v,q_v,\eta_v,M)$ depending on the splitting type $\eta_v$ of $v$ in $E$, locally
+constant in $\beta$.
+\item\label{pf:sh-div:V:euler} \emph{The Euler product of the densities}
+(\lref{GlobalTheory.DensityProductClosed.eulerProductOfDensities}): for $E/F$ unramified at the finite places, the product over
+$v$ of these densities, for $M\ge2$, converges and equals an explicit expression in $|d_F|$ and $L(M,\eta^M)^{-1}$.
+\item\label{pf:sh-div:V:real} \emph{The real places} (\lref{GlobalTheory.RealPlaceMeasuresProof.realPlaceMeasures}): the
+self-dual measures at the real places are explicit, and for the signature $(P,Q)$ there is a non-negative measurable archimedean test
+function $\Phi_\infty$ whose fibre integral at $\pm1$ and whose orbital integral over the quotient of the real unitary group by the
+stabiliser of a vector of norm $\pm1$ (computed through the compact dual) are explicit
+(\lref{GlobalTheory.VolRatioUnfold.arch}).
+\item\label{pf:sh-div:V:unf} \emph{Unfolding} (\lref{GlobalTheory.UnfoldingObj.unfolding}): for $x$ of norm $\beta$ in the
+setting of \ref{pf:sh-div:V:perp}, the mean over $H(F)\backslash H(\A_F)$ of $h\mapsto\sum_{\langle y,y\rangle=\beta}\Phi(h^{-1}y)$, for
+$\Phi=\Phi_\infty\otimes\mathbf 1_{\widehat L}$, is expressed through the volumes of $W$ and $W'$ and the orbital integral of $\Phi_\infty$,
+with the quotient measures of unimodular groups; its formal proof uses that the stabiliser of a self-dual lattice acts transitively
+on the lattice vectors of a given unit length (\lref{GlobalTheory.T.stabSelfDualLattice_transitive_on_length}).
+\end{enumerate}
+Let $D$ satisfy $\sfname{VolTie}(D)$, and let $W,(P,Q)$ and the sign be given. Take $x,L,W',\iota$ from \ref{pf:sh-div:V:perp}; these
+are the $x$, $W'$ and embedding required by (VR). Let $W_1$ be $W$ with the lattice $L$; by \ref{pf:sh-div:V:indep},
+$\vol_D(W)=\vol_D(W_1)$, and $L\cap x^\perp=\iota(L_{W'})$. It remains to prove \eqref{eq:pf:sh-div:vr} for $W_1$ and $W'$
+(\lref{GlobalTheory.VolRatioUnfold.ratio_of_setting}). Apply $\sfname{SW1b2}$ to $W_1$, $\beta=\pm1$, the pure finite test function
+$\Phi_f=\mathbf 1_{\widehat L}=\bigotimes_v\mathbf 1_{L_v}$ and the archimedean function $\Phi_\infty$ of \ref{pf:sh-div:V:real}. On the right
+side, the local integrals at the finite places are the densities of \ref{pf:sh-div:V:dens} (each $L_v$ is self-dual), whose product is
+given by \ref{pf:sh-div:V:euler} and produces $L(n,\eta^n)^{-1}$ and the discriminant factors; the archimedean integral is given by
+\ref{pf:sh-div:V:real}. On the left side, \ref{pf:sh-div:V:unf} expresses the mean through $\vol_D(W_1)$ and $\vol_D(W')$ (these are the
+measures of fundamental domains by $\sfname{VolTie}(D)$) and the orbital integral of $\Phi_\infty$ of \ref{pf:sh-div:V:real}. Comparing
+the two sides and using $[F:\Q]=f$ (the number of real places of $F$) gives \eqref{eq:pf:sh-div:vr}.
+\end{proof}
+
+\begin{remark}\label{pf:sh-div:rem:volratio}
+The only hypothesis is the measurable one-vector mean value formula $\sfname{SW1b2}$; the finiteness of the volumes enters through
+$\sfname{VolTie}(D)$, which is a hypothesis of $\sfname{MassRatioUnderVolume}(D)$. The six statements
+\ref{pf:sh-div:V:perp}--\ref{pf:sh-div:V:unf} are proved in the development without hypotheses; their proofs are not reproduced here.
+\end{remark}
+
+%==========================================================================================================================
+\subsection{Theta series: rationality, integrality and Galois conjugates}\label{sec:pf:sh-div:theta}
+
+\paragraph{Setting.} We use the objects of \cref{sec:pf:liftinj,sec:pf:onto3}. A \emph{lift setting} consists of a global datum
+$D$ (ranks, host $E\supseteq K$, spaces), a family $A$ (with base type $\mu_0$ and base embedding $\sigma_0$ of the coefficient field
+$\mathit{LL}$), a core $T$ (with its moduli data, levels and the base embedding $\sigma_0$), a real datum $R$ over the coefficient field
+of $T$, a face $F$, weight families $\kappa=(\kappa_i)_{i<m}$ and vectors $v_0=(v_0(i,\sigma))$. The \emph{standard hypotheses} on a
+lift setting are: the laws of the core; the level characters of $R$ are standard with base type $\mu_0$; the group, family, model
+and theta-pin conditions of $R$ (relative to $F$); and the tie of $(T,R,\kappa,v_0)$. For an index $i<m$ such that $T$ has the space
+$W_c(i)$ at level $i+1$ and $\sigma_0$, the \emph{frame pin} asserts that the theta values of an orthonormal lattice basis are pinned
+by a phase (\cref{sec:pf:liftinj}), and $\sfname{VStd}(D,i)$ that the space $V_c(i)$ is standard. A \emph{lowest weight vector}
+$u=(u_\rho)$ is a family of vectors of the lowest $K$-types of the real models whose components are the $v_0(i,\sigma_0)_\rho$. For
+such data the development defines (\cite{LeanSource2026}): the theta function $\theta_\omega(s,g,\phi)$ of the Weil representation
+$\omega$ attached to the base characters, for $s$ in the finite adelic group of $V_c(i)$ and $g$ in the adelic group of $W_c(i)$;
+the harmonic vectors $\mathrm{harm}(u,w,f)$ attached to a level datum $f$ and a rational vector $w$; \emph{covers} $C$ of the moduli
+datum of $T$ at level $i+1$ (with a coefficient field $C.F$, an embedding $C.\sigma_2$, a level $C.l_2$ with auxiliary part
+$C.p_d$, integral forms and a notion of rational function, $\mathrm{IsRat}$); and \emph{good} covers (uniformised, pinned at all
+dominant weights, of auxiliary split squarefree level, small, and with field containing the ray class field of conductor
+$M\,C.p_d$, $M$ the level of $T$).
+
+\paragraph{The three series statements.}
+\begin{itemize}
+\item $\sfname{UntwRatS}$ (rationality of untwisted series): for every lift setting with the standard hypotheses, every index $i$
+with frame pin and $\sfname{VStd}(D,i)$, every family tie $(\mathrm{gram}_R,c_{0R},c_{0L})$ and every lowest weight vector $u$, there
+is $\mathrm{ph}\in\C$ with $|\mathrm{ph}|=1$ such that for every good cover $C$, every $s$, every level datum $f$ at level $M\,C.p_d$
+with values in $C.\sigma_2(C.F)$ and every rational vector $w$ (for $c_{0L}(i)$ and $C.\sigma_2(C.F)$), the function
+$g\mapsto\mathrm{ph}\cdot\theta_\omega(s,g,\mathrm{harm}(u,w,f))$ is rational on $C$.
+\item $\sfname{SeriesRatS}$ (the statement (RS) of \cref{sec:pf:onto3}): the same, with the conclusion strengthened to: this
+function is rational, and for every twist $(\delta,\delta_c)$ of conductor $C.p_d$ the products $dd\cdot\mathrm{ph}\,\theta_\omega$ with
+every function $dd$ with the $\mu$-values of $\delta_c$, and the functions $\mathrm{ph}\,\theta_{\omega'}$ for every Weil datum $\omega'$
+of the characters twisted by $\delta_c$, are rational on $C$.
+\item $\sfname{SerInt}$ (integrality): for every lift setting with the standard hypotheses and every index $i$ with
+$\sfname{VStd}(D,i)$ and frame pin, (a) for every lowest weight vector $u$ and every coefficient map $c_0$ (the base change of
+$c_{0L}(i)$ for some family tie) there is a phase $\mathrm{ph}$ such that for every prime $l$, every $s$ and every finitely generated
+$\Z$-lattice $\mathrm{Lat}$ of vectors there is $c\in\N$ with: for every tower cover $C$ at $l$ pinned at the dominant weights and
+with large field, every set $S$ of primes of $C.F$ above $l$, every twist $\xi$ of conductor $C.p_d$, every level vector $\Phi$ with
+$S$-integral values and associated $f$, and every $v\in\mathrm{Lat}$, there is an $S$-integral form $\phi$ on $C$ with
+\[
+\phi(g)=l^c\,\mathrm{ph}\,\xi(\det g)\,\theta(u,s,f,c_0(v))(g)\qquad\text{for all }g;
+\]
+and (b) ($\sfname{DescIntAt}$) every $S$-integral form on a tower cover at $l$ which is pinned at the dominant weight, unramified at
+$S$ and invariant under the level group is an $S$-integral linear combination of integral forms of the base.
+\end{itemize}
+Finally $\sfname{GlobalArtinReciprocity}$ is the existence, for every number field $E$ and algebraic closure $\Omega$, of a
+reciprocity map $\A_E^\times\to\Gal(\Omega/E)^{\mathrm{ab}}$ satisfying the axioms of global class field theory (open quotient map,
+kernel the closure of $E^\times$ times the connected component, local compatibility with inertia), and the \emph{ray class field
+statement} asserts that for every number field $K$ and non-zero ideal $\mathfrak q$ there is an abelian extension $L/K$, unramified
+outside $\mathfrak q$ and generated by the Frobenius elements of the primes prime to $\mathfrak q$, such that an ideal $I$ prime to
+$\mathfrak q$ has trivial Artin symbol if and only if it is principal in the ray modulo $\mathfrak q$.
+
+\begin{theorem}[Rationality and integrality of theta series]\label{pf:sh-div:series}
+Global Artin reciprocity implies $\sfname{SeriesRatS}$ and $\sfname{SerInt}$; in fact $\sfname{SerInt}$ and $\sfname{UntwRatS}$ hold
+unconditionally.
+\formallabel{GlobalTheory.seriesRatS_and_serInt_of_globalArtin}
+\formallabel{GlobalTheory.T.thetaSeriesRationalOnGoodCovers_of_untwisted}
+\formallabel{GlobalTheory.SerStdTwist.seriesRatS_of_untwRatS}
+\formallabel{GlobalTheory.T.thetaSeries_integral_uniform_prime_power}
+\formallabel{GlobalTheory.serInt_outright}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: the ray class field.} Global Artin reciprocity implies the ray class field statement
+(\lref{GlobalTheory.Published.GlobalArtinReciprocity.rayClassFieldSt}).
+
+\emph{Step 2: the key bound.} The common source of rationality and integrality is the following statement
+(\lref{GlobalTheory.LevelSeries.series_bound}). Let $(V,W,\omega,\Lambda_V,\Lambda_W,f_0)$ be a \emph{vacuum pair} (hermitian
+spaces with Weil representation, lattices and a vacuum vector $f_0$, with the standard properties of the theta data) with $W$ of
+odd rank $r$, $\chi$ a character datum of level $M_0\ne0$, and $l$ a prime. For $s$ in the finite adelic group of $V$ there is
+$c\in\N$ such that for every level $l_2$ with $l_2.M=M_0p_d$ ($p_d$ prime to $M_0$ and $l$, $l_2.M$ prime to the bad primes, $l_2$ good
+at $l$), every coefficient field with a good embedding and every compatible dictionary, every prime $\lambda\mid l$ of the
+coefficient field with valuation ring $\OO$, every $\OO$-valued level function $\Phi$ and theta datum $\phi$, and every harmonic
+polynomial $Q$ with coefficients in $\OO$, there are $\beta_k\in\OO$ and holomorphic sections $f_k$ of the automorphic line bundle on
+the moduli space, $\lambda$-integral at all points, with
+\[
+l^c\,\theta_\omega\bigl(s,g,\mathrm{std}(\phi,Q)\bigr)=\sum_k\beta_k\cdot\mathrm{Lie}\cdot c(g)\,\mu(g)\,f_k(g)\qquad\text{for all }g,
+\]
+where $\mathrm{Lie}$ is an explicit positive constant and $c,\mu$ are the dictionary constants. Its formal proof (about $10\,000$ lines)
+bounds the level of the vacuum pair uniformly, moves the series by a central flip to half level and by translates with bounded
+denominators, lets the real rational points act through a harmonic substitution, and identifies the theta series on covers with
+short theta series of forms, whose values are bounded at all points of good reduction
+(\lref{GlobalTheory.T.exists_forms_theta_short_series_identity}, \lref{GlobalTheory.T.exists_centralFlip_thetaTranslate_halfLevel}, \lref{GlobalTheory.T.exists_levelSeries_translate_boundedDenominator}, and \lref{GlobalTheory.T.real_rational_point_acts_harmonic_substitution});
+it is not reproduced here.
+
+\emph{Step 3: untwisted rationality.} $\sfname{UntwRatS}$ holds (\lref{GlobalTheory.T.untwisted_theta_rational_on_good_covers}).
+Under the standard hypotheses, the theta data of $(V_c(i),W_c(i))$ form a vacuum pair (\lref{GlobalTheory.AdTh.RecPair.isPair_record_ofFive})
+with $W_c(i)$ of odd rank $r$ ($k$ and $m$ are even), and the reference character datum has level $M=g_0g_1$, prime to the bad
+primes. The core constants agree with the vacuum identity up to a phase $\mathrm{ph}_1$
+(\lref{GlobalTheory.T.coreConstants_eq_vacuumIdentity_up_to_phase}), and the harmonic map sends the extremal vector to
+$\kappa_a$ times the letters, $|\kappa_a|=1$ (\lref{GlobalTheory.T.harmonicMap_extremalVector_eq_phase_smul_letters}); the phase of
+$\sfname{UntwRatS}$ is $\mathrm{ph}=(\kappa_a\mathrm{ph}_1)^{-1}$. Given a good cover $C$, choose a prime $l>C.p_d$; the cover is a
+dictionary compatible with the frames and its constants are the vacuum identity constants
+(\lref{GlobalTheory.T.uniformisedCover_isDictionary_frameCompatible} and \lref{GlobalTheory.T.vacuumIdentityConstants_cover_of_dominantPins}),
+and Step~2 at $l$ (with $\OO$ the valuation ring at a prime of the coefficient field of $C$ above $l$) expresses
+$l^c\,\mathrm{ph}\,\theta_\omega(s,\cdot,\mathrm{harm}(u,w,f))$ as a combination, with coefficients in the field of $C$, of rational
+sections; this combination is rational on $C$, and so is its product with the element $l^{-c}$ of the field of $C$.
+
+\emph{Step 4: twisting.} The ray class field statement and $\sfname{UntwRatS}$ imply $\sfname{SeriesRatS}$. Let $\mathrm{ph}$ be the
+phase of $\sfname{UntwRatS}$. For a good cover $C$, the untwisted function is rational. For a twist $(\delta,\delta_c)$ and $dd$ with
+the $\mu$-values of $\delta_c$, the product of a rational function on $C$ with such a determinant twist is rational: the values of
+$\delta_c$ lie in the ray class field of conductor $M\,C.p_d$, which is contained in the field of the good cover
+(\lref{GlobalTheory.T.rationalForms_detTwist_mul_rational}, which uses the ray class field statement). For a Weil datum
+$\omega'$ of the twisted characters, $\theta_{\omega'}=c\cdot dd\cdot\theta_\omega$ for a constant $c$ and a function $dd$ with the
+$\mu$-values of $\delta_c$ (\lref{GlobalTheory.WeilTwistSeries.theta_weil_twist}), and a constant multiple of a rational function
+by a constant of the field of $C$ is rational.
+
+\emph{Step 5: integrality.} $\sfname{SerInt}$ holds: (a) follows from Step~2 applied at the prime $l$, with $c$ uniform over the
+lattice $\mathrm{Lat}$ (\lref{GlobalTheory.LevelSeries.serIntAt_record}), and (b) is the unramified descent of integral forms on
+tower covers (\lref{GlobalTheory.T.unramified_descent_integral_forms_tower_cover}: integral forms on a tower cover unramified at
+$S$ and invariant under the level group are combinations of base forms with $S$-integral coefficients, by rational descent of cover
+forms to the base and descent at one place at a time).
+\end{proof}
+
+\paragraph{Galois conjugates of rational theta lifts.}
+For a lift setting, an index $i$ and a phase $\mathrm{ph}$, a vector $y\in\mathit{LL}^{\,n_W(i)}$ is a \emph{rational lift} of $x$ (a vector
+of the family at level $i$ and base type $\mu_0$) if $j_{\sigma_0}(y)=\mathrm{ph}\cdot\theta_G(j_V(x))$, where $\theta_G$ is the global theta
+lift of $R$ at $(i,\mu_0)$ and $j_\sigma$ the embedding of the face at $\sigma$. An embedding $\sigma:\mathit{LL}\to\C$ is \emph{over $K$} if
+it agrees with the base embedding on $K\subseteq E\subseteq\mathit{LL}$. The \emph{conjugation property} $\mathrm{Conj}(\sigma)$ asserts:
+the hook sums at the label of $\sigma$ equal those at the identity; conjugation data exist; and there are a phase function $u$, a
+unitary operator $U$ of the space of the face at $\sigma$, and a central shift $(z,\zeta)$ ($u=1$ if $\sigma=\sigma_0$) such that for every
+conjugation datum the conjugate hypotheses hold and there is $\kappa$ with $|\kappa|=1$ and
+$U(j_\sigma(y))=\kappa\,g_W(\sigma,z)\bigl(\mathrm{th}(j(x))\bigr)$ for all rational lifts $y$ of $x$, i.e.\ the $\sigma$-conjugate of the
+rational lift is, up to a unimodular constant and a unitary operator, the theta lift of the conjugate datum shifted by $z$.
+$\sfname{GalOut}(i,\mathrm{ph})$ is the conjunction of: (G1) every $x$ has exactly one rational lift; (G2) for every family tie and
+every $\sigma$ over $K$, $\mathrm{Conj}(\sigma)$; (G3) if $\sigma$ is not over $K$, then $\bar\sigma$ is over $K$ and
+$\langle j_\sigma y,j_\sigma y'\rangle=\overline{\langle j_{\bar\sigma}y,j_{\bar\sigma}y'\rangle}$ for all $y,y'$.
+
+$\sfname{ConjRatLift5}$ is the statement: for every lift setting with one-map data $O=(O_i)$ at the base type, and every phase
+$\mathrm{ph}$, if the five core conditions hold (standard level characters, group, family, model and theta-pin conditions), the base
+character is standard of sign $-1$, there is a tie $\mathrm{fw}$ with its bar tie, the extension condition and the uniformity of $R$
+hold and the one-map pins hold at every index, then $\sfname{GalOut}(i,\mathrm{ph})$ holds at every index $i$ at which $O_i$ is a
+one-map datum for $(\kappa_i,v_0(i,\sigma_0))$ with phase $\mathrm{ph}$.
+
+\begin{theorem}[Conjugates of rational theta lifts]\label{pf:sh-div:conj}
+$\sfname{ConjRatLift5}$ holds.
+\formallabel{GlobalTheory.T.conjugatesOfRationalThetaLift_from_characterisation}
+\formallabel{GlobalTheory.ConjRatLiftFive.conjRatLift5}
+\end{theorem}
+
+\begin{proof}
+Fix the data and an index $i$ as in the statement. From the core conditions, the tie and the pins one obtains the evaluation
+readings $j_{\mathrm{ev}}$ and $j_{\overline{\mathrm{ev}}}$ of the tie (\lref{GlobalTheory.ConjReading.jEvExists_and_jEvBar}); in
+particular $\mathrm{fw}$ evaluates, and the evaluation at unit vectors is injective
+(\lref{GlobalTheory.EvalAtUnitVectorFinal.evInj_of_isModels_of_tie}). The embedding $j_{\sigma_0}$ of the face at the base
+embedding is injective, since the family of forms at $\sigma_0$ is linearly independent
+(\lref{GlobalTheory.GalOne.inj_of_indep}).
+
+(G1) Choose representatives for the pins at $i$. The base lift construction gives, for every $x$, a vector $y$ with coordinates in
+$\mathit{LL}$ and $j_{\sigma_0}(y)=\mathrm{ph}\cdot\theta_G(j_V(x))$ (\lref{GlobalTheory.ConjRatLiftFive.base_lift5}); it is unique because
+$j_{\sigma_0}$ is injective.
+
+(G2) Let $\sigma$ be over $K$. If $\sigma=\sigma_0$, $\mathrm{Conj}(\sigma_0)$ is deduced from the core conditions, the tie, the
+injectivity of the evaluation, the family tie and the one-map datum at $i$ (\lref{GlobalTheory.ConjRatLiftFive.conjAt_base5}). If
+$\sigma\ne\sigma_0$, $\mathrm{Conj}(\sigma)$ is the main statement \lref{GlobalTheory.ConjRatLiftFive.conjugateRationalLift_at_nonBaseEmbedding},
+which carries most of the formal proof. Its ingredients are: the conjugation of one-map data, which identifies the $\sigma$-conjugate
+of the rational lift with the theta lift of the conjugate datum (\lref{GlobalTheory.ConjRatLiftFive.conj_lift5}, resting on
+\lref{GlobalTheory.ConjRatLiftFive.oneMapConj5}); the conjugate lift obtained from the characterisation clauses
+(\lref{GlobalTheory.T.conjugateLift_of_characterisationClauses}); and the conjugate extremal vectors provided by moved weights
+(\lref{GlobalTheory.MovedWeights.exists_io_conj_ofFive}). Three further statements of the development are used in the formal proof
+of the theorem: the uniqueness of conjugate lifts together with the base datum
+(\lref{GlobalTheory.T.conjugateLift_unique_and_baseDatum}), the conjugate characters and embeddings
+(\lref{GlobalTheory.T.conjugateCharacters_embeddings_of_characterisation}), and the central shifts and phases of the conjugate readings
+(\lref{GlobalTheory.T.centralShift_phase_conjReadings_fiveClauses}).
+
+(G3) If $\sigma$ is not over $K$, then $\bar\sigma$ is over $K$, since $\sigma$ and $\bar\sigma$ induce the two embeddings of the imaginary
+quadratic field $K$ (\lref{GlobalTheory.GalLift.labels_overK}); and the identity of inner products is the third clause of
+\lref{GlobalTheory.T.centralShift_phase_conjReadings_fiveClauses}, applied with the readings $j_{\mathrm{ev}}$,
+$j_{\overline{\mathrm{ev}}}$ and the bar tie, using that $\bar\sigma$ is good exactly when it is over $K$
+(\lref{GlobalTheory.GalLift.overK_iff_good_ofFive}).
+\end{proof}
+
+\begin{remark}\label{pf:sh-div:rem:conj}
+The case $\sigma\ne\sigma_0$ of (G2) carries almost all of the formal proof (about $9\,800$ of its $11\,900$ lines); its ingredients are
+listed above and their proofs are not reproduced here.
+\end{remark}
+
+\paragraph{The class sum span.} For a lift setting and a one-map datum $O$ at index $i$ (with coefficient field $c'$), the
+\emph{cusp forms over $O$} of weight $\kappa_i$ form a $c'.F$-vector space; a \emph{class sum} is a cusp form over $O$ which is the
+theta class sum attached to a point $x$ of $O$ (\cite{LeanSource2026}, \cref{sec:pf:onto3}). $\sfname{ClassSumsSpan}(O,\kappa_i)$ asserts
+that the cusp forms over $O$ of weight $\kappa_i$ lie in the $c'.F$-span of the class sums.
+
+\begin{theorem}[Class sums span the cusp forms]\label{pf:sh-div:classsum}
+Let a lift setting with one-map data $O=(O_i)$ at the base type be given, with $8fr+4\le n_V$ (the rank of the spaces $V$), the core
+conditions $\sfname{Core}(R,F)$, a tie $\mathrm{fw}$ and the extension condition. Then for every index $i$ at which the one-map pins
+hold (and the one-map row condition holds), $\sfname{ClassSumsSpan}(O_i,\kappa_i)$ holds.
+\formallabel{GlobalTheory.ClassSumSpanCore.classSumsSpan_core}
+\formallabel{GlobalTheory.ClassSumSpanCore.classSumsSpan_of_pins_core}
+\end{theorem}
+
+\begin{proof}
+Let $f$ be a cusp form over $O=O_i$ of weight $\kappa_i$. Let $\mathrm{rd}$ be the map sending a form to its unfolded section on the
+moduli datum of the core, and $\mathrm{at}$ the evaluation of such sections along the dictionary of $O$; the composite
+$\mathrm{at}\circ\mathrm{rd}$ is injective on the cusp forms over $O$ (\lref{GlobalTheory.ClassSumSpan.atDict_indep}).
+Hence it suffices to show that $\mathrm{at}(\mathrm{rd}(f))$ lies in the span of the $\mathrm{at}(\mathrm{rd}(g))$, $g$ a class sum.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Raw series.} $\mathrm{rd}(f)$ lies in the span of the \emph{raw series} of the core at the points of a fixed good point $x_1$
+of $O$, moved by unitary transformations of the datum (\lref{GlobalTheory.ClassSumSpan.rdU_mem_span_raw}; the formal proof moves
+the datum by suitable unitary matrices, \lref{GlobalTheory.DatumMove.rawSeries_move_datum}); here the rank condition $8fr+4\le n_V$
+is used.
+\item \emph{Splitting the move.} Each raw series is, after a split move, a non-zero constant $z$ times a function $t$ whose value at
+every dictionary point is a raw value at a point (\lref{GlobalTheory.ClassSumSpan.exists_split_move}).
+\item \emph{Kernel values.} At each dictionary point, the raw value equals a theta kernel value at a finite point, multiplied by
+explicit non-zero constants: the frame constants of the characterisation core, the Lie factor of the weight, the $\mu$-values of the
+dictionary and the phase of the Fock coefficient map of the extremal vector
+(\lref{GlobalTheory.ClassSumSpanCore.kernel_eq_shortVal}; it uses the identification of the one-class theta kernel with the
+classical short theta series, \lref{GlobalTheory.T.thetaKernel_oneClass_eq_classicalShortSeries}, and
+\lref{GlobalTheory.T.fockCoefficientMap_extremal_eq_phase_smul_letters}).
+\item \emph{Rational form lifts.} The theta kernel at a finite point lies in the span of the lifts of rational forms
+(\lref{GlobalTheory.T.thetaKernel_finitePoint_mem_span_rationalFormLifts}), and every such lift is, up to the constant
+$u$ of modulus $1$, a class sum: by the adelic lift identity the lift is the geometric class sum at every tuple
+(\lref{GlobalTheory.T.exists_adelicLift_eq_geometric_classSum_all_tuples}), and the class sum rule provides a cusp form over $O$
+which is a class sum at the corresponding point (\lref{GlobalTheory.ClassSumRule.exists_cusp_isThClsD_core}).
+\end{enumerate}
+Since all constants are non-zero, (1)--(4) give $\mathrm{at}(\mathrm{rd}(f))$ in the span of the $\mathrm{at}(\mathrm{rd}(g))$.
+\end{proof}
+
+\begin{remark}\label{pf:sh-div:rem:classsum}
+The hypothesis that the one-map row condition holds at $i$ is not used, and of the one-map pins only the second component is used.
+\end{remark}
+
+\paragraph{Rational rows.} We use the step statements of \cref{sec:pf:rowprops,sec:pf:stageU}. For properties $p,q$ of column
+witnesses $w$ over a base, $\sfname{StepW}(p,q)$ is the eventual statement (for all large parameters, at every context over the base
+with forced data) that $p(w)$ implies $q(w)$ for every column witness $w$; it is transitive, and it holds whenever $p(w)\Rightarrow q(w)$
+for all contexts and witnesses (\lref{GlobalTheory.Mem.Top.Bl.StepW.of_all}). $\sfname{Pinned}(w)$ is the existence of column pins,
+and $\sfname{Start}(w)$ is $\sfname{Pinned}(w)$ together with the support and coherence conditions. For a property $P$ of data at a
+witness, $\sfname{AtDat}(P)=\sfname{StepW}(\sfname{Pinned},Q_P)$, where $Q_P(w)$ asserts $P$ at every later stage $Z$, every field
+condition, every set of places $\mathrm{Wt}$ and every datum $z$ for which the group is true at $Z$, the group condition at the stage,
+the existence condition of the real datum and the geometric condition hold. $\sfname{RowRatW}=\sfname{StepW}(\sfname{Start},Q')$, where
+$Q'(w)$ asserts the row test $\sfname{RowTest}$ of the complex datum of $z$ under the same hypotheses and, in addition, the
+$\kappa$-definition, the core property, the group condition $\sfname{GIs2}$, $\mathrm{Wt}=W_1$ and the condition that the residue
+characteristics of the places of $\mathrm{Wt}$ lie in the places of $T$.
+
+\begin{proposition}[Rational rows from the row test]\label{pf:sh-div:rowrat}
+$\sfname{AtDat}(\sfname{RowTest})$ implies $\sfname{RowRatW}$.
+\formallabel{GlobalTheory.Mem.LiteralAutomorphy.rowRatW_of_rowTest}
+\end{proposition}
+
+\begin{proof}
+Write $Q_{\mathrm{RT}}$ for $Q_P$ with $P=\sfname{RowTest}$. Since $\sfname{Start}$ contains $\sfname{Pinned}$, we have
+$\sfname{StepW}(\sfname{Start},\sfname{Pinned})$. Composing with $\sfname{AtDat}(\sfname{RowTest})=\sfname{StepW}(\sfname{Pinned},Q_{\mathrm{RT}})$
+gives $\sfname{StepW}(\sfname{Start},Q_{\mathrm{RT}})$. Finally $Q_{\mathrm{RT}}(w)$ implies $Q'(w)$, because $Q'$ asks for the same
+conclusion under more hypotheses; by transitivity, $\sfname{StepW}(\sfname{Start},Q')$, which is $\sfname{RowRatW}$.
+\end{proof}
+
+\paragraph{Symmetric column forms.} For a base $B$ (\cref{sec:pf:open0}), a pre-datum $X$ over it and a column input $I$ with the
+condition $I.\mathrm{Ok}$ and the pins, laws $l$ of the columns of $I$ and later stages $Z$, the record $I.\mathrm{rec}_7(l,Z)$ is a
+global datum $D$; \emph{symmetric tied column forms} for $D$ are the hermitian column data with, for every word $u$, tied symmetric forms
+$C.\mathrm{forms}(u)$, and $\chi\mathrm{Fin}_0$ for such forms asserts that the level character of the step-zero class has finite order
+and takes values in $\sigma_0(\mathit{LL})$.
+
+\begin{proposition}[Symmetric column forms with finite step-zero characters]\label{pf:sh-div:symcol}
+In this situation there are symmetric tied column forms $C$ for $I.\mathrm{rec}_7(l,Z)$ such that $\chi\mathrm{Fin}_0(C.\mathrm{forms}(u))$
+holds for every word $u$.
+\formallabel{GlobalTheory.T.exists_symmetricColumnForms_stepZeroFiniteCharacter}
+\formallabel{GlobalTheory.Mem.Col2.TC.colsTiedSym_chiFin0}
+\formallabel{GlobalTheory.formsTiedSym_chi_zero_finite}
+\end{proposition}
+
+\begin{proof}
+The standard column comparisons of the true columns give symmetric tied column forms $C$
+(\lref{GlobalTheory.T.exists_standardColumnComparisons_trueColumns}). For each word $u$, the step-zero level character of
+$C.\mathrm{forms}(u)$ is the character of a unipotent-type step level at the level primes $g_0,g_1$; such a character has finite
+order, and its values lie in $s(K)$ for every field $K$ with an embedding $s:K\to\C$ which contains primitive $g_i$-th roots of unity
+for $i=0,1$ (\lref{GlobalTheory.T.unipotentTypeLevel_character_finiteOrder_rootsOfUnity}). The coefficient field $\mathit{LL}$ of the
+record contains primitive $g_i$-th (and $(g_i-1)$-th) roots of unity for $i=0,1$
+(\lref{GlobalTheory.T.exists_primitiveRoots_coeffField_trueColumns}); apply this with $K=\mathit{LL}$ and $s=\sigma_0$. (The
+$(g_i-1)$-th roots of unity are not used.)
+\end{proof}
+
+%==========================================================================================================================
+\subsection{Host frames, twisted places, numerical rows and the cut inequality}\label{sec:pf:sh-div:frames}
+
+\paragraph{Contexts and eventual statements.} A \emph{context} $K$ (\cref{sec:pf:baselat1,sec:pf:bundles}) consists of a scale $s$
+(with exponent $\eps$, scale parameter $x$ and $L=x^\eps$), standard constants $C$, real parameters $c_D,c_h$ and a pre-base over which
+it lies; a \emph{stage tuple} $X$ over a pre-base consists of a base and its column, row, divisibility, $S$-, $N$- and $GJ$-stages, and
+determines a global datum $D=X.D$. For a property $P$ of contexts, $\shdivEv(P)$ is the statement: there is $\eps_0>0$ such that for
+all $\eps\le\eps_0$ with $\eps<\frac1{52}$ and all $C_8\ge1$ there is a transported constant $K_0$ such that for all standard constants
+$C$ with $C_{pde}=C_8$ which are large with respect to $K_0$ there is $c_1$ such that for all $c_D\ge c_1$ there is $c_2$ such that for all
+$c_h\ge c_2$ there is $x_0$ such that $P(K)$ holds for every context $K$ with constants $C$, parameters $c_D,c_h$, exponent $\eps$ and
+$x\ge x_0$. If for every $\eps\in(0,\frac1{52})$ there are $y,x_0$ such that $P(K)$ holds whenever $K$ has exponent $\eps$, $c_D,c_h\ge y$ and
+$x\ge x_0$, then $\shdivEv(P)$: take $\eps_0=1$, any $K_0$, $c_1=c_2=y$ and the given $x_0$.
+
+For a global datum $D$ with ranks $m,k,t$, $r$ and $N(m)$, and Harish-Chandra parameters $(b_j,e_j)_{j<m}$, $(v_i)_{i<k-1}$ at each
+$\tau$, with associated sequence $\lambda_n$ ($\lambda_n=v_n$ for $n<k-1$ and $\lambda_n=-b_{n-k+1}$ for $k-1\le n<r$), the \emph{host
+hypothesis} $\sfname{HostHyp}(D)$ asserts: the parameters interlace; $e_j-b_j\ge\frac{t+3}2$ and $b_{j+1}-e_j\ge\frac{t+3}2$; $\lambda_n-\lambda_{n+1}\ge
+100r^4$ for $n+1<r$; the cloud gap $\lambda_{k-2}-\lambda_{k-1}\ge100r^4$; and the node gaps of $D$ are at least $4N(m)^3+2t+6$ and at
+least $256r^4$. A hermitian space is \emph{$F$-diagonal} if its Gram matrix in its frame is diagonal with entries in $F$, and it has a
+\emph{standard lattice} if its lattice is the set of vectors with integral coordinates.
+
+\begin{theorem}[Host hypotheses and frames, eventually]\label{pf:sh-div:hostframes}
+$\shdivEv$ holds for the following property of contexts $K$: for every stage tuple $X$ over the pre-base of $K$, with $D=X.D$,
+\begin{enumerate}[label=(\roman*)]
+\item $\sfname{HostHyp}(D)$, and $F$ is the maximal real subfield of $E$;
+\item for all $i$ the spaces $W_c(i)$ and $V_c(i)$ are $F$-diagonal and $V_c(i)$ is positive definite;
+\item the spaces $Y_j$, $V_j$, $X'$ and $W_j$ ($1\le j\le m$) have standard lattices;
+\item the frames of $V_c(i)$ and of $X'$ are orthonormal and span their lattices over $\OO_E$.
+\end{enumerate}
+\formallabel{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}
+\formallabel{GlobalTheory.Mem.HostFrames.hostHyp_of_gaps}\formallabel{GlobalTheory.Mem.HostFrames.ev_of_large}
+\end{theorem}
+
+\begin{proof}
+By the criterion above it suffices, for $\eps\in(0,\frac1{52})$, to find $y,x_0$. Let $y=402\cdot4+2$ and let $x_0$ be the maximum of
+the thresholds of the following two size statements (\lref{GlobalTheory.Mem.HostFrames.size_le} and \lref{GlobalTheory.Mem.HostFrames.thin_size}):
+for scales with exponent $\eps$ and $x\ge x_0$ and ranks with the rank valuations of the scale, $256\,N(m)^4\le\lceil x^{y'}\rceil$ for all
+$y'\ge y$, and $100r^4+1\le w''(n)$. Let $K$ be a context with $c_D,c_h\ge y$ and $x\ge x_0$, and $X$ a stage tuple over its pre-base. Since
+$X$ lies over the pre-base of $K$, its ranks satisfy the rank valuations of the scale and its Harish-Chandra parameters are prescribed
+by the context (\lref{GlobalTheory.Mem.HostFrames.val_of_over}): for every word $u$ and every $\tau$, $e_j-b_j=b_{j+1}-e_j=h:=\lceil
+x^{c_h}\rceil$ and $v_i=(k-2-i)\cdot4\Delta$ with $\Delta=\lceil x^{c_D}\rceil$; moreover, since $100r^4+1\le w''(n)$, the first node satisfies $b_0\ge100r^4$
+(\lref{GlobalTheory.Mem.HostFrames.first_node_over}). By the size statements, $h\ge256N(m)^4$ and $\Delta\ge256N(m)^4$.
+
+\emph{(i)} We show that these conditions imply $\sfname{HostHyp}(D)$. Note $r\le N(m)$ and $t\le N(m)$. The interlacing and the two gap
+conditions $\ge\frac{t+3}2$ are part of the data of Harish-Chandra parameters. Consecutive $b_j$ differ by $2h$. For the gaps of the
+$\lambda_n$: if $n+1<k-1$, $\lambda_n-\lambda_{n+1}=4\Delta\ge1024N(m)^4\ge100r^4$; if $n+1=k-1$, $\lambda_{k-2}-\lambda_{k-1}=0+b_0\ge100r^4$ (this
+is also the cloud gap); if $n\ge k-1$, $\lambda_n-\lambda_{n+1}=b_{j+1}-b_j=2h\ge100r^4$. The node gaps are differences of consecutive $b_j$,
+i.e.\ $2h\ge512N(m)^4$, which exceeds both $4N(m)^3+2t+6$ and $256r^4$. The statement that $F$ is the maximal real subfield of $E$ is
+part of the data of a stage over a pre-base (\lref{GlobalTheory.Mem.HostFrames.frames_of_over}).
+
+\emph{(ii)--(iv)} Over the pre-base, the spaces $W_c(i),V_c(i),Y_j,V_j,W_j,X'$ have \emph{sign frames}: frames $(e_a)$ with
+$\langle e_a,e_b\rangle=\pm\delta_{ab}$ spanning the lattice; $V_c(i)$ is positive definite and the frames of $V_c(i)$ and $X'$ are
+orthonormal (\lref{GlobalTheory.Mem.HostFrames.frames_of_over}). A space with a sign frame is $F$-diagonal (its Gram matrix is
+diagonal with entries $\pm1$). The spaces of the pre-base are diagonal in the sense of the development, which gives the standard
+lattices (\lref{GlobalTheory.Mem.HostFrames.diagSpaces_of_over} and \lref{GlobalTheory.Mem.HostFrames.stdLat_diag}).
+\end{proof}
+
+\paragraph{Twisted places.} Let $D$ be a global datum with coefficient field $\mathit{LL}$, its subfield $\mathit{LL}_0$, its places
+$w$ with types $\mu(w)$ and base type $\mu_0$, and twisting data $\mathrm{ntw}$: a set of twisted indices $i$ with local rings $\OO_{0,i}$
+and embeddings $\mathrm{emb}_{0,i}:\mathit{LL}_0\to\mathrm{Frac}(\OO_{0,i})$. An index $i$ is a \emph{non-zero index place} if there is a place
+$w'$ of $\mathit{LL}$ with $\mu(w')\ne\mu_0$ such that for $x\in\OO_{\mathit{LL}_0}$, $\mathrm{emb}_{0,i}(x)$ lies in the maximal ideal of
+$\OO_{0,i}$ exactly when $v_{w'}(x)>0$ (i.e.\ $i$ \emph{lies under} $w'$). A \emph{choice} $c$ for $D$ assigns to every place $w$ a
+twisted index $c.\mathrm{tw}(w)$ and a side $c.\mathrm{sd}(w)\in\{\mathrm{true},\mathrm{false}\}$; it is \emph{tied} to $D$
+($\sfname{NChTie}$) if it is compatible with the local data of $D$ \cite{LeanSource2026}.
+
+\begin{proposition}[Twisted place indices]\label{pf:sh-div:twisted}
+Let $c$ be a choice tied to $D$, with $\mathit{LL}_0$ Galois over $\Q$. For every place $w$ with $\mu(w)\ne\mu_0$, the index
+$c.\mathrm{tw}(w)$ is a non-zero index place.
+\formallabel{GlobalTheory.Mem.Top.twistedPlaceIndex_mem_firstPair_of_compatibleChoice}
+\end{proposition}
+
+\begin{proof}
+Let $w'=w$ if $c.\mathrm{sd}(w)$ is true and $w'=\bar w$ (the conjugate place) otherwise. Then $\mu(w')=\mu(w)\ne\mu_0$, since the type is
+invariant under conjugation of places. Since $\mathit{LL}_0$ is Galois and $c$ is tied to $D$, the twisted index $c.\mathrm{tw}(w)$ lies
+under $w'$ (\lref{GlobalTheory.TwistGoodCompare.liesUnder_of_tie}: an element $x$ of $\OO_{\mathit{LL}_0}$ is integral over
+$\OO_{0,i}$, so $\mathrm{emb}_{0,i}(x)$ lies in $\OO_{0,i}$, and the tie identifies its non-units with the $x$ of positive valuation at
+$w'$).
+\end{proof}
+
+\paragraph{Numerical rows.} For a property $P(C,D,L)$ of standard constants $C$, global data $D$ and size data $L$, $\sfname{SzRow}(P)$
+asserts: for all $\eps\in(0,\frac1{52})$ and standard $C$ there is $c_1$ such that for all $c_D\ge c_1$ there is $c_2$ such that for all
+$c_h\ge c_2$ there is $x_0$ such that $P(C,D,L)$ holds for all $D$ and size data $L$ with exponent $\eps$, scale $x\ge x_0$ and the
+valuation conditions $\sfname{Val}(C,c_D,c_h,L)$ (prescribed ranks, constants and Harish-Chandra parameters). $\sfname{SzRow}$ is closed
+under conjunction, and $\sfname{SzRow}(P)$ implies $\sfname{SzRow}(Q)$ if $P\Rightarrow Q$ under $\sfname{Val}$ for standard $C$
+(\lref{GlobalTheory.EX.szRow_and_imp}). The \emph{host arithmetic} $\sfname{HostArith}(H)$ of a host asserts: $g_i=\pi_i\bar\pi_i$ with
+$\pi_i\in\OO_E\cap K$, $g_i\equiv1\bmod Q_Sqd$, $p_{de}$ and $p'_{de}$ split completely in $E$, and all level primes have class
+$\mathrm{splitK}$. The \emph{numerical record} $\sfname{NumAt}(C,L)$ consists of a parameter choice $P$ for $L$ with the constants of $C$
+and $C^n_W(P)=C^n_W$, a second parameter record $T$ with the constants $(C_P,e_P,C_p,C_b,c_{TO},C_{hT},C_{bN})$ of $C$ and $e_P=C.e_P$, the
+size conditions $\sfname{SizesAt}(L)$, the bound $\rho\le\cdots$ on the band, the identities for $C_\Gamma$, $C_c$, $C_t$, the second
+constant, $\Lambda_G\ge x^\eps$, the bound for $b_T$, the top condition $c_{cK}$, $g_j\le e^{9L}$, $p_{de},p'_{de}<X'$, the log-five
+depth, the identity for $L_w$ (in terms of $C_t$), the independence of the cloud parameters from $\tau$, and the windows for
+$n,m,k$. Finally $\sfname{ChTT}(L)$ asserts $\frac12\delta_1n\le|T_T|\le2\delta_1n$ for the set $T_T$ of the host, and
+$\sfname{ChCode}(L,3,C_F)$ asserts $3\Gamma_L^2x^{C_F}\le\#\{\text{words}\}$.
+
+\begin{proposition}[Numerical data of the members]\label{pf:sh-div:szrow}
+$\sfname{SzRow}$ holds for the property: if $\sfname{HostArith}(D.\mathrm{host})$, then a numerical record $\sfname{NumAt}(C,L)$ exists,
+$\sfname{ChTT}(L)$ and $\sfname{ChCode}(L,3,C_F)$.
+\formallabel{GlobalTheory.EX.szRow_numAt}
+\end{proposition}
+
+\begin{proof}
+By closure under conjunction, the following four rows hold jointly:
+\begin{enumerate}[label=(\alph*)]
+\item if $\sfname{HostArith}$, a parameter choice $P$ with the constants of $C$ and $C^n_W(P)=C^n_W$ exists
+(\lref{GlobalTheory.EX.explicitConstants_parameterConditions_large}: the explicit choice of the parameters satisfies all
+parameter conditions at large scale);
+\item for every such $P$ there is a second parameter record $T$ with the prescribed constants and $e_P$
+(\lref{GlobalTheory.EX.szRow_blockLengthParams});
+\item the size conditions $\sfname{SizesAt}(L)$ (\lref{GlobalTheory.EX.szRow_sizesAt});
+\item the band bound $\rho_B\le x^{-2}$, $x^\eps\le\Lambda_G$, $g_j\le e^{9L}$, $p_{de},p'_{de}<X'$, $\sfname{ChTT}(L)$ and
+$\sfname{ChCode}(L,3,C_F)$ (\lref{GlobalTheory.EX.szRow_band_lambda_primes}).
+\end{enumerate}
+By closure under implication it remains to assemble, under $\sfname{Val}(C,c_D,c_h,L)$ and $\sfname{HostArith}$, the record
+$\sfname{NumAt}(C,L)$: its fields are $P$ and $T$ from (a), (b), the sizes from (c), the bounds from (d), and the identities for $C_\Gamma$,
+$C_c$, $C_t$ (with $C_t=401$), the second constant, $b_T$, the log-five depth, the top condition and the windows, which are part of
+$\sfname{Val}$. The identity for $L_w$ follows from the value $L_w=10\lceil405\log x\rceil+2\lceil30/\eps\rceil+22$ given by the host part of
+$\sfname{Val}$ and $C_t=401$; the cloud parameters at $\tau$ and $\tau'$ coincide by the Harish-Chandra part of $\sfname{Val}$.
+\end{proof}
+
+\paragraph{The cut inequality for Weyl modules.} We use the notation of \cref{pf:onto2:weylexp}: for a dominant weight
+$\nu=(\nu_0\ge\dots\ge\nu_{N-1})$, $\nabla_\Z(\nu)\supseteq\Delta_\Z(\nu)$ are the integral dual Weyl and Weyl modules inside the polynomial
+ring $\Z[x_{ab}]$, $\nabla_\Q(\nu)=\nabla_\Z(\nu)\otimes\Q$, and $\shdivex_\ell(\nu)$ is the least $e$ such that $m\ell^e\nabla_\Z(\nu)\subseteq\Delta_\Z(\nu)$ for
+some $m$ prime to $\ell$. The cut inequality $\sfname{ExCut}$ is the statement \eqref{eq:pf:onto2:excut} of \cref{sec:pf:onto2}: for all $N$,
+all $\lambda:\N\to\N$ with $\lambda|_N$ antitone, every prime $\ell$, all $\mathrm{lo}\in\Z$, $w\in\N$ with $\mathrm{lo}\le\lambda(a')+N-1-a'\le
+\mathrm{lo}+w$ for $a'<N$, and every $a\le N$,
+\[
+\shdivex_\ell(\lambda|_N)\le\shdivex_\ell(\lambda|_a)+\shdivex_\ell\bigl(\lambda(a+\cdot)|_{N-a}\bigr)+a(N-a)\lfloor\log_\ell w\rfloor .
+\]
+The space $\nabla_\Q(\nu)$ carries operators $e_{cd}$ ($c,d<N$; the action of the Lie algebra $\mathfrak{gl}_N$ by row derivations), a
+highest weight vector $v_\nu$, and the linear form $\phi$ given by the Fock pairing with $v_\nu$. For $a+b=N$, the \emph{grid projector}
+$\mathrm{grid}_K(T)$ of an endomorphism $T$ is an explicit ordered product, over the rows $i<a$, of row operators built from the
+$\mathrm{ad}(e_{cd})$ and $K$, applied to $T$ \cite{LeanSource2026}.
+
+The proof uses nine statements of the development, each proved there without hypotheses; we state them in the form used.
+\begin{enumerate}[label=(W\arabic*)]
+\item\label{pf:sh-div:W:levi} \emph{Levi projection} (\lref{GlobalTheory.T.dualWeylLeviProjectionDenominators_of_hypotheses}): for
+$\nu$ antitone of length $p+q$ and $c_1,c_2$ with $c_1\nabla_\Z(\nu')\subseteq\Delta_\Z(\nu')$ and $c_2\nabla_\Z(\nu'')\subseteq\Delta_\Z(\nu'')$ for
+the two blocks $\nu'=\nu|_p$, $\nu''=\nu(p+\cdot)|_q$, there is an endomorphism $T$ of $\nabla_\Q(\nu)$ which commutes with the $e_{cd}$ with
+$c,d$ in the same block, maps $\nabla_\Z(\nu)$ into $(c_1c_2)^{-1}\Delta_\Z(\nu)$, kills the weight vectors whose weight has first-block sum
+smaller than that of $\nu$, and satisfies $\phi(Tv_\nu)=\phi(v_\nu)$. (Its proof restricts $\nabla_\Z(\nu)$ to the Levi subgroup
+$\GL_p\times\GL_q$, using the tensor structure of the restriction lattice, the block diagonal form of the restriction of the highest
+weight vector and the row operators.)
+\item\label{pf:sh-div:W:gl} \emph{$\mathfrak{gl}$-structure} (\lref{GlobalTheory.T.dualWeylModuleStructureGl_proof}): the $e_{cd}$ satisfy
+the relations of $\mathfrak{gl}_N$, $\nabla_\Q(\nu)$ is spanned by weight vectors, $\nu$ is dominant for this action, and
+$\nabla_\Z(\nu)$, $\Delta_\Z(\nu)$ are stable under the divided powers of the $e_{cd}$.
+\item\label{pf:sh-div:W:bdd} \emph{Weight spread} (\lref{GlobalTheory.T.dualWeylWeightSpreadBound_proof}): if $\nu_i\le\nu_j+K$ for all
+$i,j$, then $\nabla_\Q(\nu)$ is \emph{$K$-bounded}: every eigenvalue $n\in\Z$ of $e_{aa}-e_{bb}$ on $\nabla_\Q(\nu)$ satisfies $n\le K$.
+\item\label{pf:sh-div:W:adj} \emph{Adjoint action} (\lref{GlobalTheory.T.adjoint_action_endomorphism_weight_bound}): then the operators
+$\mathrm{ad}(e_{cd})$ on endomorphisms also satisfy the $\mathfrak{gl}$-relations and are $2K$-bounded.
+\item\label{pf:sh-div:W:inv} \emph{Grid invariance} (\lref{GlobalTheory.T.grid_invariance_of_rank_one_two}, from invariance in ranks one and
+two): if operators $D_{cd}$ satisfy the $\mathfrak{gl}$-relations and are $2K$-bounded, and $D_{cd}T=0$ whenever $c,d$ lie in the same
+block, then $D_{cd}\,\mathrm{grid}_K(T)=0$ for all $c,d$.
+\item\label{pf:sh-div:W:sc} \emph{Grid scalar} (\lref{GlobalTheory.T.projectorGridScalar_of_projectorScalar}, from the value of the
+projector on a highest weight vector): for $T$ killing the weight vectors of smaller first-block sum and a highest weight vector $v$ of
+weight $\lambda$ with $\lambda_i\le\lambda_j+K$,
+$\phi(\mathrm{grid}_K(T)v)\cdot z=\phi(Tv)$ with $z=\prod_{i<p\le j<p+q}(\lambda_i-\lambda_j+j-i)$.
+\item\label{pf:sh-div:W:schur} \emph{Schur's lemma} (\lref{GlobalTheory.T.dualWeyl_schur_endomorphism}): an endomorphism $S$ of
+$\nabla_\Q(\nu)$ commuting with all $e_{cd}$ and with $\phi(Sv_\nu)=\phi(v_\nu)$ is the identity.
+\item\label{pf:sh-div:W:int} \emph{Grid integrality} (\lref{GlobalTheory.T.projector_grid_denominator_bound}): if two lattices $L,M$ are
+stable under the divided powers, $K+p+q\le w+1$, $\Lambda\in\N$ satisfies $(j+k+1)!\mid\Lambda\,j!\,k!$ for $j+k+1\le w$, and $cT(L)\subseteq M$,
+then $c\Lambda^{pq}\,\mathrm{grid}_K(T)(L)\subseteq M$.
+\item\label{pf:sh-div:W:beta} \emph{Beta denominators} (\lref{GlobalTheory.T.beta_integral_denominator_bound}): for every prime $\ell$
+and $w$ there is $m$ prime to $\ell$ such that $(j+k+1)!\mid m\,\ell^{\lfloor\log_\ell w\rfloor}j!\,k!$ whenever $j+k+1\le w$.
+\end{enumerate}
+
+Two of these statements have short proofs, which we give.
+
+\begin{lemma}[Schur's lemma for $\nabla_\Q(\nu)$, \ref{pf:sh-div:W:schur}]\label{pf:sh-div:schur}
+Let $\nu$ be antitone of length $N$ and $S$ an endomorphism of $\nabla_\Q(\nu)$ commuting with all $e_{ab}$, $a,b<N$, with
+$\phi(Sv_\nu)=\phi(v_\nu)$. Then $S=1$.
+\formallabel{GlobalTheory.T.dualWeyl_schur_endomorphism}
+\formallabel{GlobalTheory.LeviCut.nablaSchur}
+\end{lemma}
+
+\begin{proof}
+For $a<b$ the raising operator $e_{ab}$ kills $v_\nu$ (\lref{Formalism.CohomologicalDescent.LR.der_hw_raise}), so
+$e_{ab}(Sv_\nu)=S(e_{ab}v_\nu)=0$, and hence all divided powers of the row operators $(a,b)$, $a<b$, kill $Sv_\nu$. The vectors of
+$\nabla_\Q(\nu)$ with this property form the line $\Q v_\nu$ (\lref{Formalism.GradedWeylDivisibility.hwLine}), so $Sv_\nu=cv_\nu$.
+Since $\phi(v_\nu)$ is the Fock norm of $v_\nu$, which is positive (\lref{Formalism.CohomologicalDescent.LR.hw_norm_pos}), the
+hypothesis gives $c=1$. Let $M=\ker(S-1)\subseteq\nabla_\Q(\nu)$. Since $S$ commutes with the $e_{ab}$, $M$ is stable under all $e_{ab}$,
+hence under all row divided powers, and it contains $v_\nu$. A subspace of $\nabla_\Q(\nu)$ with these two properties is
+$\nabla_\Q(\nu)$ itself (\lref{Formalism.GradedWeylDivisibility.closedEqNabla}). Hence $S=1$.
+\end{proof}
+
+\begin{lemma}[Beta denominators, \ref{pf:sh-div:W:beta}]\label{pf:sh-div:betaden}
+Let $\Lambda,w\in\N$ be such that every integer $1\le t\le w$ divides $\Lambda$. Then $(j+k+1)!\mid\Lambda\,j!\,k!$ whenever $j+k+1\le w$.
+Consequently, for every prime $\ell$ and every $w$, the integer $m=\prod_{s=1}^{w}s'$, where $s'$ is the prime-to-$\ell$ part of $s$, is prime
+to $\ell$, and $\Lambda=m\,\ell^{\lfloor\log_\ell w\rfloor}$ satisfies $(j+k+1)!\mid\Lambda\,j!\,k!$ for $j+k+1\le w$.
+\formallabel{GlobalTheory.T.beta_integral_denominator_bound}
+\formallabel{GlobalTheory.LeviCut.betaDen}
+\formallabel{GlobalTheory.BetaDenProof.beta_dvd}\formallabel{GlobalTheory.BetaDenProof.dvd_lam_of_le}
+\end{lemma}
+
+\begin{proof}
+We prove by induction on $k$ that $(j+k+1)!\mid\Lambda\,j!\,k!$ for all $j$ with $j+k+1\le w$. For $k=0$ this is $(j+1)!\mid\Lambda\,j!$, which
+holds since $j+1\mid\Lambda$. For the step, let $j+k+2\le w$. By induction (for $j$ and for $j+1$),
+$(j+k+1)!\mid\Lambda\,j!\,k!$ and $(j+k+2)!\mid\Lambda\,(j+1)!\,k!$. The identity
+\[
+\Lambda\,j!\,(k+1)!+\Lambda\,(j+1)!\,k!=(j+k+2)\,\Lambda\,j!\,k!
+\]
+shows that $(j+k+2)!=(j+k+2)(j+k+1)!$ divides the left side, and since it divides the second summand, it divides
+$\Lambda\,j!\,(k+1)!$. (This is the integrality of $\Lambda$ times the beta integral $B(j+1,k+1)=j!\,k!/(j+k+1)!$.)
+For the second assertion: no factor $s'$ is divisible by $\ell$, so neither is $m$; and every $1\le t\le w$ is $t=\ell^{v}t'$ with $t'\mid m$ and
+$\ell^v\le t\le w$, i.e.\ $v\le\lfloor\log_\ell w\rfloor$, so $t\mid\Lambda$.
+\end{proof}
+
+\begin{lemma}[The cut inclusion]\label{pf:sh-div:cutincl}
+Let $\nu$ be antitone of length $p+q$, $c_1,c_2$ as in \ref{pf:sh-div:W:levi}, $K,w$ with $\nu_i\le\nu_j+K$ for all $i,j$ and $K+p+q\le w+1$,
+and $\Lambda$ as in \ref{pf:sh-div:W:int}. Then $c_1c_2\Lambda^{pq}\nabla_\Z(\nu)\subseteq\Delta_\Z(\nu)$.
+\formallabel{GlobalTheory.LeviCut.cut_incl}
+\end{lemma}
+
+\begin{proof}
+Let $T$ be the endomorphism of \ref{pf:sh-div:W:levi} and $S_0=\mathrm{grid}_K(T)$. By \ref{pf:sh-div:W:gl}--\ref{pf:sh-div:W:adj} the operators
+$D_{cd}=\mathrm{ad}(e_{cd})$ satisfy the hypotheses of \ref{pf:sh-div:W:inv}, and $D_{cd}T=e_{cd}T-Te_{cd}=0$ for $c,d$ in the same block;
+hence $S_0$ commutes with all $e_{cd}$. The highest weight vector $v_\nu$ has weight $\nu$, is killed by the raising operators $e_{ij}$
+($i<j$), and $\phi$ vanishes on the image of the lowering operators; so \ref{pf:sh-div:W:sc} gives $\phi(S_0v_\nu)z=\phi(Tv_\nu)=\phi(v_\nu)$ with
+$z=\prod_{i<p\le j<p+q}(\nu_i-\nu_j+j-i)$, a non-zero integer. By \ref{pf:sh-div:W:schur} applied to $zS_0$, $zS_0=1$. Now let
+$x\in\nabla_\Z(\nu)$. By \ref{pf:sh-div:W:int} (with $L=\nabla_\Z(\nu)$, $M=\Delta_\Z(\nu)$, $c=c_1c_2$), $c_1c_2\Lambda^{pq}S_0x\in\Delta_\Z(\nu)$, hence
+$c_1c_2\Lambda^{pq}x=c_1c_2\Lambda^{pq}\,zS_0x=z\cdot(c_1c_2\Lambda^{pq}S_0x)\in\Delta_\Z(\nu)$.
+\end{proof}
+
+\begin{theorem}[The cut inequality]\label{pf:sh-div:excut}
+$\sfname{ExCut}$ holds.
+\formallabel{GlobalTheory.LeviCut.exCut}
+\formallabel{GlobalTheory.LeviCut.ExCut₂}
+\end{theorem}
+
+\begin{proof}
+Let $N,\lambda,\ell,\mathrm{lo},w,a$ be as in $\sfname{ExCut}$ and $b=N-a$, $\nu=\lambda|_N$. The blocks $\lambda|_a$ and $\lambda(a+\cdot)|_b$ are
+antitone, and by the definition of $\shdivex_\ell$ there are $m_1,m_2$ prime to $\ell$ with $m_1\ell^{\shdivex_\ell(\lambda|_a)}\nabla_\Z(\lambda|_a)\subseteq
+\Delta_\Z(\lambda|_a)$ and $m_2\ell^{\shdivex_\ell(\lambda(a+\cdot)|_b)}\nabla_\Z(\lambda(a+\cdot)|_b)\subseteq\Delta_\Z(\lambda(a+\cdot)|_b)$
+(\lref{Formalism.CohomologicalDescent.LA.exact_z_specialization}). By \ref{pf:sh-div:W:beta} there is $m$ prime to $\ell$ such that
+$\Lambda=m\ell^{\lfloor\log_\ell w\rfloor}$ satisfies the divisibility of \ref{pf:sh-div:W:int}. From $\mathrm{lo}\le\lambda(i)+N-1-i\le\mathrm{lo}+w$ we get
+$\lambda(i)+j\le\lambda(j)+w+i$ for $i\le j<N$; with $i=0$, $j=N-1$ and antitonicity this gives $\nu_i\le\nu_j+K$ for all $i,j$, where
+$K=w+1-N$, and $K+N\le w+1$. \Cref{pf:sh-div:cutincl} with $c_1=m_1\ell^{\shdivex_\ell(\lambda|_a)}$, $c_2=m_2\ell^{\shdivex_\ell(\lambda(a+\cdot)|_b)}$
+and $\Lambda$ gives $m'\ell^{e}\nabla_\Z(\nu)\subseteq\Delta_\Z(\nu)$ with $m'=m_1m_2m^{ab}$ prime to $\ell$ and
+$e=\shdivex_\ell(\lambda|_a)+\shdivex_\ell(\lambda(a+\cdot)|_b)+ab\lfloor\log_\ell w\rfloor$. By minimality, $\shdivex_\ell(\nu)\le e$.
+\end{proof}
+
+\begin{remark}\label{pf:sh-div:rem:excut}
+The formal statement $\sfname{ExCut}$ is the special case $\GL_a\times\GL_{N-a}\subseteq\GL_N$ of a sub-additivity of the $\ell$-adic
+exponents of the inclusion $\Delta(\nu)\subseteq\nabla(\nu)$ of integral Weyl modules \cite{Jantzen2003} along Levi subgroups; we do not know
+a published reference for it in this form. Of the nine statements \ref{pf:sh-div:W:levi}--\ref{pf:sh-div:W:beta}, which are proved in the development, only
+\ref{pf:sh-div:W:schur} and \ref{pf:sh-div:W:beta} are proved here (\cref{pf:sh-div:schur,pf:sh-div:betaden}).
+\end{remark}

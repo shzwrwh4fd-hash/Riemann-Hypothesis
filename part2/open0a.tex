@@ -1,0 +1,1913 @@
+\section{Open parameter statements I: the published-input theorem}\label{sec:pf:open0a}
+
+\providecommand{\openzeroaMI}{\mathrm{MI}^{*}_{2}}
+\providecommand{\openzeroaHS}[1]{\|#1\|_{\mathrm{HS}}}
+\providecommand{\openzeroahs}{\operatorname{dev}}
+\providecommand{\openzeroamfL}{\operatorname{mfL}}
+\providecommand{\openzeroakfk}{\operatorname{kfk}}
+\providecommand{\openzeroaeD}{e_{\mathrm{D}}}
+\providecommand{\openzeroacj}{\operatorname{cj}}
+\providecommand{\openzeroaLk}{\mathrm{Lk}}
+\providecommand{\openzeroaEv}{\mathrm{Ev}}
+\providecommand{\openzeroaTrue}{E^{\mathrm{true}}}
+\providecommand{\openzeroaram}{M^{\mathrm{ram}}}
+\providecommand{\openzeroaRow}{\mathcal{R}_0}
+\providecommand{\openzeroaNV}{\mathrm{NV}}
+\providecommand{\openzeroaSC}{\mathrm{SC}}
+
+This section proves the theorem of the formal development \cite{LeanSource2026} which carries the multiplicity
+statement among the twelve open parameter statements of \cref{thm:families:open}: under thirteen classical
+results on unitary groups and a diagonal row hypothesis, the \emph{multiplicity identity} $\openzeroaMI$ holds,
+eventually in the parameters, at every bundle linked to a good point.
+
+\subsection{Introduction}\label{sec:pf:open0a:intro}
+
+\paragraph{The result.}
+A bundle $b$ over a member of a family carries an \emph{indefinite realisation}, and the realisation determines a
+\emph{coefficient complex} $X_b$: Hilbert spaces of theta images of rows, a Hilbert space of automorphic forms
+containing period vectors of columns, and algebraic \emph{column pairings} between columns and rows with values in
+the coefficient field. The identity $\openzeroaMI(X_b)$ (\cref{pf:open0a:def:mistar}) asserts that, after
+normalisation by explicit unit-like constants, the column pairings are inner products
+\[
+\zeta(u,t)\,\iota_0\bigl(\mathrm{Pt}(u,t)(\varphi,F)\bigr)
+=a(u)\,\bigl\langle s_{EE}\bigl(V\,\Theta_t(\cdots F)\bigr),\ P_u\bigl(U(u)\,\iota_0(\varphi)\bigr)\bigr\rangle
+\]
+between the theta image of the row $F$ and the period vector of the column $\varphi$. The main result of the
+section, \cref{pf:open0a:main}, asserts this identity, in the eventual sense of the row language of
+\cref{def:families:rows}, at all bundles linked to good points, for every parameter $p$. It is applied in the proof
+of \cref{thm:families:open}, where the diagonal row hypothesis is supplied by the convergent Siegel--Weil formula and
+the remaining hypothesis of \cref{pf:open0a:main} by the construction of the points.
+
+\paragraph{The argument.}
+The proof has three parts.
+\begin{enumerate}[label=(\roman*)]
+\item \emph{True packages} (\cref{sec:pf:open0a:points}). Eventually, every bundle linked to a good point satisfies
+ten \emph{point conditions}, and together with its bundle witness these make the real package of the bundle
+\emph{true}: a list of family, level and character conditions holds.
+\item \emph{Non-vanishing of periods} (\cref{sec:pf:open0a:punz}). For every word $u$ some ramified vector has a
+non-zero period. This is a dimension count: the kernel of the period map $P_u$ has dimension at most the
+Hilbert--Schmidt defect $\openzeroaHS{K_u-1}^2$ of the normalised Gram operator $K_u$ of $P_u$; the diagonal row
+hypothesis bounds this defect by a small multiple of $\dim C_u$, while the ramified vectors occupy a proportion
+$(1-1/(T_u-1))^f\ge1-f/(T_u-1)$ of $C_u$.
+\item \emph{The multiplicity identity for true packages} (\cref{sec:pf:open0a:mi}). For a true package with
+non-vanishing periods, $\openzeroaMI$ is derived from: surjectivity of the theta maps along chains (Harish-Chandra
+theory, Howe's unramified computation and the doubling method); family conditions along iterated seesaws (strong
+approximation and the theory of discrete series); seesaw transport relations, which transfer linear relations
+between top pairings to linear relations between bottom periods; a central element of the finite adelic group which
+pins the bottom data; and an \emph{anchoring} argument, in which the non-vanishing of periods provides one non-zero
+pairing per word and linear algebra propagates the relations to all pairings.
+\end{enumerate}
+
+\paragraph{What is proved in full.}
+The assembly of the main theorem, the non-vanishing of periods with all its numerical lemmas, the served condition,
+the joint condition from the seesaw transport relations, the central shift, the anchoring and normalisation
+arguments and the final construction of the data of $\openzeroaMI$ are proved in full. The ingredients with long
+formal proofs (the size estimates at linked bundles, the leading reads, the surjectivity along chains, the geometric
+families, the column choices along seesaws, the central pin, the seesaw transport relations, the translated
+evaluations, the pairing form and the bottom relation) are proved in \cref{sec:pf:open0a:deferred} at the level of
+their main steps; the deeper ingredients are stated precisely and cited.
+
+\paragraph{Organisation.}
+\Cref{sec:pf:open0a:setup} recalls the inputs and the row language and states the main theorem.
+\Cref{sec:pf:open0a:reduction} reduces it to four results, which are proved in
+\cref{sec:pf:open0a:punz,sec:pf:open0a:points,sec:pf:open0a:mi}, using the results of
+\cref{sec:pf:open0a:deferred}. \Cref{sec:pf:open0a:remarks} collects remarks on the formal statements.
+
+%==============================================================================
+\subsection{The setting and the main theorem}\label{sec:pf:open0a:setup}
+
+\subsubsection{The thirteen published inputs}
+The theorem assumes thirteen propositions of the development, each the formal statement of a classical theorem;
+they are fields of the package $P$ of \cref{sec:families:theta} and are proved in the development
+(\cref{sec:literature}). We list them with the form in which they are stated and refer to them as (P1)--(P13).
+\begin{enumerate}[label=(P\arabic*),leftmargin=*]
+\item\label{pf:open0a:P1} \emph{Finiteness} ($\sfname{HarishChandraFinite}$): for a datum $D$, a hermitian space
+$V$, an open subgroup $U$ of the finite adelic points of $\Uni(V)$, archimedean frames, finite-dimensional
+continuous representations $\rho_\tau$ of the maximal compact subgroups and a system of eigenvalues $c$, the span of
+the automorphic forms on $\Uni(V)$ of level $U$, $K_\infty$-type $\rho$ and infinitesimal character $c$ is
+finite-dimensional \cite{HarishChandra1968,Borel1969}.
+\item\label{pf:open0a:P2} \emph{Rapid decay} ($\sfname{CuspRapidDecay}$): smooth cuspidal automorphic functions of
+uniform moderate growth on $\Uni(V)(F)\backslash\Uni(V)(\A_F)$ are of rapid decay
+\cite{HarishChandra1968,MoeglinWaldspurger1995}.
+\item\label{pf:open0a:P3} \emph{Discrete series} ($\sfname{DiscreteSeriesCover}$): for $\Uni(p,q)$, $p+q\ge1$, and
+its finite covers there is a family $\pi_\lambda$ of discrete series representations indexed by Harish-Chandra
+parameters $\lambda$, with the expected $K$-types, such that every discrete series representation is unitarily
+equivalent to some $\pi_\lambda$ \cite{HarishChandra1966}.
+\item\label{pf:open0a:P4} \emph{Harish-Chandra modules}: Harish-Chandra modules of irreducible unitary
+representations of $\Uni(p,q)$ and their covers, and analyticity of $K$-finite vectors \cite{HarishChandra1953}.
+\item\label{pf:open0a:P5} \emph{Casselman--Wallach globalisation}: a $(\mathfrak g,K)$-map from the $K$-finite
+vectors of an irreducible unitary representation of $\Uni(p,q)$ into a smooth Fr\'echet representation of moderate
+growth extends uniquely to a continuous intertwiner on smooth vectors, with closed image and control of Sobolev norms
+\cite{Casselman1989,Wallach1992}.
+\item\label{pf:open0a:P6} \emph{Howe's unramified computation} ($\sfname{HoweUnram}$): for an unramified local dual
+pair of unitary groups and a representation of the pair with a vacuum vector $s$ generating the Heisenberg action,
+the vectors fixed by the hyperspecial subgroup of one member lie in the span of the translates of $s$ by the other
+member \cite{Howe1979}.
+\item\label{pf:open0a:P7} \emph{Weil representations}: global Weil representations of unitary dual pairs with
+prescribed splitting characters exist \cite{Kudla1994}.
+\item\label{pf:open0a:P8} \emph{Weil's Siegel formula}: convergence of theta integrals and the identity of
+Siegel--Weil type in Weil's range of absolute convergence \cite{Weil1965}.
+\item\label{pf:open0a:P9} \emph{Siegel--Weil formula}: the Siegel--Weil formula for the doubled space in the
+convergent range \cite{Weil1965,KudlaRallis1988,Ichino2004}.
+\item\label{pf:open0a:P10} \emph{Doubling method}: continuation of Siegel Eisenstein series on $\Uni(V\oplus-V)$
+with singularities of finite order, the basic identity of the doubling zeta integral and its continuation
+\cite{GelbartPiatetskiShapiroRallis1987,PiatetskiShapiroRallis1987}.
+\item\label{pf:open0a:P11} \emph{Unramified doubling integral}: for $\GL_n$ it equals
+$L(s+\frac12,\alpha)L(s+\frac12,\alpha^{-1})$ times the normalising factor \cite{GelbartPiatetskiShapiroRallis1987}.
+\item\label{pf:open0a:P12} \emph{Classification of discrete series}: for each $n$ there are unitary
+square-integrable irreducible models $H(\varepsilon,\lambda)$ for regular integral $\lambda$, with infinitesimal
+character $\lambda$, a unique lowest $K$-type $\lambda+\rho_n-\rho_c$ and all $K$-types of the form
+$\lambda+\rho_n-\rho_c+(\text{sum of positive roots})$, and every irreducible square-integrable unitary
+representation is unitarily equivalent to some $H(\varepsilon\circ s,\mu)$ \cite{HarishChandra1966,Knapp1986}.
+\item\label{pf:open0a:P13} \emph{Strong approximation} for $\mathrm{SU}(J)$, $J$ a non-degenerate hermitian matrix
+of size $\ge2$ over a CM field, with respect to a finite set $S$ of places such that $\mathrm{SU}(J)(F_S)$ is not
+compact \cite{Kneser1966,PlatonovRapinchuk1994}.
+\end{enumerate}
+
+\subsubsection{Points, bundles and eventual statements}
+We use the row language of \cref{def:families:closed,def:families:rows}, which we make precise as far as needed.
+A \emph{context} $K$ fixes a scale $K.s=(x,\varepsilon,\dots)$, a system $K.C$ of family constants and further reals
+$c_D,c_h$. A \emph{point} $\beta$ in the context $K$ is an output of the member construction at scale $K.s$; it
+determines a datum $D_\beta$ and an object $O_\beta$ over $D_\beta$ (size data, theta and twist data). A \emph{slot}
+is a predicate on points. For a datum $D$, an object $O$ over $D$ and $c\in\R$, a \emph{bundle} $b$ over $(D,O,c)$
+consists of a reciprocity record $b.R$, real spectral ties $b.S$ (which contain a Hida setting, i.e.\ an automorphic
+instance of a unitary group with level and archimedean data), a row-side family $b.P$, square-integrable columns
+$b.C$ and a real theta package $b.B$, which contains an indefinite realisation. A \emph{linkage} is a relation
+$\openzeroaLk(K,\beta,c,b)$ between points and bundles over them.
+
+\begin{definition}[Eventual statements]\label{pf:open0a:def:rowE}
+A \emph{parameter tuple} $\kappa=(\varepsilon,C,c_D,c_h,C_5,c_6,C_b)$ consists of a system $C$ of family constants
+and six reals; it is \emph{positive} if $C_5,c_6,C_b>0$. A context $K$ is \emph{of type} $\kappa$ if $K.C=C$,
+$K.c_D=c_D$, $K.c_h=c_h$, $K.s.\varepsilon=\varepsilon$ and the goodness condition of the scale with respect to
+$(C,C_5,c_6,C_b,c_D,c_h)$ holds.
+\begin{enumerate}[label=(\alph*)]
+\item A property $q$ of parameter tuples holds \emph{for large parameters} if there is $\varepsilon_0>0$ such that
+for all reals $\varepsilon,C_8,C_5,c_6,C_b$ with $0<\varepsilon\le\varepsilon_0$, $\varepsilon<1/52$ and $C_8\ge1$
+there is a staged threshold $K_0$ such that for every standard system $C$ of family constants with prescribed constant
+$C_{\mathrm{pde}}=C_8$ which is large with respect to $K_0$ there is $c_1$ such that for every $c_D\ge c_1$ there is $c_2$
+such that $q(\varepsilon,C,c_D,c_h,C_5,c_6,C_b)$ holds for every $c_h\ge c_2$.
+\item A property $p(\kappa,K)$ holds \emph{eventually in contexts} if the following property of $\kappa$ holds for
+large parameters: if $\kappa$ is positive, there is $x_0$ such that $p(\kappa,K)$ holds for every context $K$ of
+type $\kappa$ with $K.s.x\ge x_0$.
+\item For a slot $Q$, a linkage $\openzeroaLk$ and a property $E(\kappa;D,O,c,b)$ of parameter tuples and bundles,
+$\openzeroaEv_{Q,\openzeroaLk}(E)$ is the statement that the following holds eventually in contexts: for every
+point $\beta\in Q$ in context $K$, every $c\in\R$ and every bundle $b$ over $(D_\beta,O_\beta,c)$ with
+$\openzeroaLk(K,\beta,c,b)$, the property $E(\kappa;D_\beta,O_\beta,c,b)$ holds. We then say that $E$ holds
+\emph{eventually at the bundles of} $(Q,\openzeroaLk)$.
+\end{enumerate}
+\formal{GlobalTheory.Fc.ParEv}\ \formal{GlobalTheory.Fc.EvP}\ \formal{GlobalTheory.Fc.RowE}
+\end{definition}
+
+\begin{lemma}[Calculus of eventual statements]\label{pf:open0a:rowEcalc}
+Let $Q$ be a slot and $\openzeroaLk$ a linkage.
+\begin{enumerate}[label=(\alph*)]
+\item If $\openzeroaEv_{Q,\openzeroaLk}(E)$ and $\openzeroaEv_{Q,\openzeroaLk}(E')$, then
+$\openzeroaEv_{Q,\openzeroaLk}(E\wedge E')$.
+\item If $\openzeroaEv_{Q,\openzeroaLk}(E)$, and $E(\kappa;D_\beta,O_\beta,c,b)$ implies
+$E'(\kappa;D_\beta,O_\beta,c,b)$ whenever $K$ is of type $\kappa$, $\beta\in Q$ is a point in context $K$ and
+$\openzeroaLk(K,\beta,c,b)$, then $\openzeroaEv_{Q,\openzeroaLk}(E')$.
+\end{enumerate}
+\formallabel{GlobalTheory.Fc.RowE.and}\ \formallabel{GlobalTheory.Fc.RowE.imp}
+\end{lemma}
+
+\begin{proof}
+(b) is immediate from the definitions: the same thresholds work. For (a) it suffices to show that two properties
+which hold eventually in contexts hold simultaneously eventually in contexts. Given $\varepsilon_0,\varepsilon_0'$,
+take $\min(\varepsilon_0,\varepsilon_0')$; given the staged thresholds $K_0,K_0'$, take their componentwise maximum
+(a system of constants which is large with respect to it is large with respect to both); and take the maxima of the
+two lower bounds $c_1$, of the two lower bounds $c_2$ and of the two lower bounds $x_0$.
+\end{proof}
+
+\subsubsection{Parameters and linkage}
+Let $h_L$ be a proof of $\sfname{RecTExists}$ (\cref{def:rectexists}). A \emph{parameter} $p$ for $h_L$ consists of a
+position, a norm-choice extension, a spectral extension and a geometric predicate (\cref{def:families:rows}); it
+determines a system of slots and the slot $\mathcal G_p$ of \emph{good} points ($\sfname{IsGoodE}(p)$ in
+\cref{def:families:rows}). A \emph{weighted point} $q$ of $p$ in the context $K$ consists of a base, a frame, twisting
+data, column data $w$ at a later stage $Z$, an object $O_q$ over the datum $D_q=w.D(Z)$, and a \emph{witness}, a long
+record of compatibilities which contains the \emph{reading data} of the point. A \emph{bundle witness} for a bundle $b$
+over $(D_q,O_q,c)$ is a record relating $b$ to $q$: a twisted bundle input for $b$, the compatibility of the
+reciprocity record of $b$ with $q$, the identification of the spectral ties of $b$ with the saturation of $q$, the
+identification of column weights and of division data, the selected side of the real record, and the compatibility
+of the column characters.
+
+\begin{definition}[The linkage of a parameter]\label{pf:open0a:def:link}
+For a parameter $p$, a point $\beta$ in context $K$, $c\in\R$ and a bundle $b$ over $(D_\beta,O_\beta,c)$, the
+relation $\openzeroaLk_p(K,\beta,c,b)$ holds if there are a weighted point $q$ of $p$ in context $K$ and a bundle $b'$
+over $(D_q,O_q,c)$ admitting a bundle witness, such that $(D_\beta,O_\beta,b)=(D_q,O_q,b')$ as dependent triples.
+\formal{GlobalTheory.Mem.Top.Bl.BundleLinkage}
+\end{definition}
+
+\subsubsection{The coefficient complex and the multiplicity identity}
+Let $\mathcal{K}$ be a number field with a complex conjugation, $v_0$ an infinite place of $\mathcal{K}$ and
+$\iota_0\colon\mathcal{K}\to\C$ the corresponding embedding. For a finite place $w$ of $\mathcal{K}$ and
+$k\in\mathcal{K}^\times$ let $v_w(k)\in\Z$ be the exponent of $w$ in the fractional ideal $k\OO_{\mathcal{K}}$, and
+$v_w(0)=0$. For $Y\in\GL_a(\C)$ and $y\in\C^a$ put $\|y\|_Y=\|Y^{-1}y\|$ (Euclidean norm). Inner products of Hilbert
+spaces are linear in the second variable.
+
+\begin{definition}[Coefficient complexes]\label{pf:open0a:def:cx}
+A \emph{coefficient complex} $X$ over a base with a set $\mathcal T$ of \emph{tuples}, a base tuple
+$\mu_0\in\mathcal T$, and an ambient assigning $\mathcal{K}$-vector spaces $F_R(t)$ to $t\in\mathcal T$, consists of
+(among further data not used here): finite-dimensional Hilbert spaces $F_C(t)$ with $\iota_0$-semilinear maps
+$j_R(t)\colon F_R(t)\to F_C(t)$; a finite-dimensional Hilbert space $E$ with linear maps $\Theta_t\colon F_C(t)\to E$
+and a subspace $\openzeroaTrue\subseteq E$, the \emph{true part}; and a map $\mu$ from the finite places of
+$\mathcal{K}$ to $\mathcal T$. The \emph{face} of $X$ (attached to the sub-datum $t\mapsto
+j_R(t)^{-1}(\operatorname{im}\Theta_t^*)$) provides: integers $n_V(t)$ (rows at $t$ are vectors
+$F\in\mathcal{K}^{n_V(t)}$); a set $\mathrm{Mem}$ of \emph{members} $u$ with integers $a(u)$ (columns of $u$ are
+vectors $\varphi\in\mathcal{K}^{a(u)}$), \emph{column metrics} $X_c(u,v)\in M_{a(u)}(\C)$ at the infinite places $v$,
+and $\mathcal{K}$-bilinear \emph{column pairings}
+$\mathrm{Pt}(u,t)\colon\mathcal{K}^{a(u)}\times\mathcal{K}^{n_V(t)}\to\mathcal{K}$; and a Hilbert space $H$ with
+linear \emph{period maps} $P_u\colon\C^{a(u)}\to H$.
+\formal{Formalism.IndefR.Cx.CxData}
+\end{definition}
+
+\begin{definition}[The multiplicity identity $\openzeroaMI$]\label{pf:open0a:def:mistar}
+Let $X$ be a coefficient complex, $e_V(t)\colon\mathcal{K}^{n_V(t)}\to F_R(t)$ $\mathcal{K}$-linear maps (the
+\emph{row embeddings}) and $s_{EE}\colon E\to H$ a conjugate-linear map. Then $\openzeroaMI(X,e_V,s_{EE})$ holds if
+there are a linear map $V\colon E\to E$, constants $a(u)\in\C$, matrices $U(u)\in M_{a(u)}(\C)$ and constants
+$\zeta(u,t)\in\C$ ($u\in\mathrm{Mem}$, $t\in\mathcal T$) such that:
+\begin{enumerate}[label=(M\arabic*)]
+\item\label{pf:open0a:M1} $V(\openzeroaTrue)\subseteq\openzeroaTrue$ and $\|Ve\|=\|e\|$ for $e\in\openzeroaTrue$;
+\item\label{pf:open0a:M2} $\|U(u)y\|_{X_c(u,v_0)}=\|y\|_{X_c(u,v_0)}$ for all $u$ and $y\in\C^{a(u)}$;
+\item\label{pf:open0a:M3} $\zeta(u,t)\ne0$ for all $u,t$; $\zeta(u,\mu_0)=1$; and for every $u$, every finite place $w$
+and every $k\in\mathcal{K}$ with $\iota_0(k)=\zeta(u,\mu(w))$ one has $v_w(k)=0$;
+\item\label{pf:open0a:M4} $a(u)\ne0$ for all $u$;
+\item\label{pf:open0a:M5} for all $u,t$, $\varphi\in\mathcal{K}^{a(u)}$ and $F\in\mathcal{K}^{n_V(t)}$,
+\begin{equation}\label{pf:open0a:eq:MI}
+\zeta(u,t)\,\iota_0\bigl(\mathrm{Pt}(u,t)(\varphi,F)\bigr)
+=a(u)\,\bigl\langle s_{EE}\bigl(V\,\Theta_t(j_R(t)(e_V(t)F))\bigr),\ P_u\bigl(U(u)\,\iota_0(\varphi)\bigr)\bigr\rangle ,
+\end{equation}
+where $\iota_0(\varphi)\in\C^{a(u)}$ is taken componentwise.
+\end{enumerate}
+\formal{Formalism.IndefR.Cx.CxData.MIstar2}
+\end{definition}
+
+For a bundle $b$ we write $X_b$ for the coefficient complex of its indefinite realisation, $e_{V,b}$ for the row
+embeddings of the face of the realisation and $s_{EE,b}$ for its conjugate-linear map; the number field is the
+coefficient field $\mathit{LL}$ of the datum, with the embedding $\iota_0$ of the realisation.
+
+\subsubsection{Words, periods and the diagonal row hypothesis}\label{sec:pf:open0a:words}
+Let $D$ be a datum with ranks $k,m,f,r,r_S,\dots$; recall that $m\ge2$, $k\ge m+3\ge5$ and $f=2n$ with $n\ge1$, so
+that $f\ge2$. The spectral data of $D$ attach to every word $u$ a finite-dimensional Hilbert space $C_u$ of
+automorphic forms, a Hilbert space $H$ (independent of $u$), a linear \emph{period map} $P_u\colon C_u\to H$ and a
+real constant $c_0(u)$ (a ratio of volumes and dimensions). The member of $u$ provides a prime $T_u$, the \emph{level
+prime}, the space $M_0(u)$ of forms of level $T_u$ with a linear isomorphism $\iota_u\colon C_u\to M_0(u)$, and the
+\emph{ramified subspace} $\openzeroaram(u)\subseteq M_0(u)$, the common kernel of the norm maps at the places above
+$T_u$. Put
+\[
+d_0(u)=\dim C_u=\dim M_0(u),\qquad d_U(u)=\dim\openzeroaram(u),\qquad K_u=(c_0(u)^2)^{-1/2}\,P_u^*P_u,
+\]
+and let $\openzeroahs(u)=\openzeroaHS{K_u-\mathrm{id}}^2$ be the \emph{diagonal defect} (Hilbert--Schmidt norm). The
+member of $u$ also provides reals $\Gamma_u>1$, $D_*(u)>0$ and an integer $d_u^*\ge1$; with
+\begin{equation}\label{pf:open0a:eq:Tstar}
+X_u=\bigl(D_*(u)/d_u^*\bigr)^{1/(fk)},\qquad T_u^*=X_u\,\Gamma_u^{-2/(fk)}
+\end{equation}
+the level prime lies in the window $T_u^*\le T_u\le(1+\frac1{fk})\,T_u^*$; moreover $D_*(u)=D_*$ for all $u$, where
+$D_*>0$ is the main term of $D$ (\cref{thm:theorem-S}).
+
+\begin{definition}\label{pf:open0a:def:diag}
+Let $D$ be a datum and $u$ a word. Put $\openzeroamfL(L)=m^5fL$, $\openzeroakfk=kf\log k$ and
+$\openzeroaeD(L,C)=8e^{-C\openzeroamfL(L)}+6e^{-\openzeroakfk/2}$ for $L,C\in\R$.
+\begin{itemize}
+\item The \emph{rank identity} at $u$: $d_0(u)=d_u^*\,(T_u^k-1)^f$.
+\item The \emph{two-term bound} $\mathrm{TT}_u(A,x)$: $\openzeroahs(u)\le A\,d_0(u)^2/D_*+x\,d_0(u)$.
+\item The \emph{diagonal bound} $\Delta_u(L,C)$: $\mathrm{TT}_u\bigl(4(e^{C\openzeroamfL(L)}+1),\
+4e^{-\openzeroakfk/2}+2e^{-\openzeroakfk}\bigr)$.
+\item \emph{Smallness} $\mathrm{Sm}_u(L,C)$: $d_0(u)\le D_*\,e^{-2C\openzeroamfL(L)}$.
+\item The \emph{defect bound} $\mathrm{Df}_u(e)$: $\openzeroahs(u)\le e\,d_0(u)$.
+\item The \emph{ramified share} $\mathrm{Rs}_u$: $d_U(u)=d_0(u)\,(1-\frac1{T_u-1})^f$; the \emph{ramified bound}
+$\mathrm{Rb}_u(\delta)$: $d_U(u)>0$ and $(1-\delta)\,d_0(u)\le d_U(u)$.
+\item \emph{Non-vanishing of periods} $\openzeroaNV(D)$: for every word $u$ there is $\varphi\in\openzeroaram(u)$ with
+$P_u(\iota_u^{-1}\varphi)\ne0$.
+\end{itemize}
+\formal{GlobalTheory.Core.Rk.SDiag}\ \formal{GlobalTheory.Core.Rk.DiagS}\ \formal{GlobalTheory.MiTop.PuNZ}
+\end{definition}
+
+The diagonal row hypothesis is formulated with the \emph{standing size conditions}
+$\openzeroaSC(D;L,\mathbf C)$, $\mathbf C=(C',C_l,C_g,c_b,C_u,c_T,C_T)$: the conjunction of the ties of $D$, the
+mid-volume formula for the dimensions of the words, a list of explicit inequalities between the ranks, $L$, the root
+discriminant, the type primes $g_1,g_2$, the Harish-Chandra parameters, the level primes and the constants
+$\mathbf C$ (the \emph{size inequalities}), a list of interlacing and congruence conditions, and the trace frame. Of
+these we use only
+\begin{equation}\label{pf:open0a:eq:HDused}
+L>1,\quad m^4\le f\le k,\quad (ke^L)^8\le g_1,\quad (ke^L)^8\le g_2,\qquad
+T_u\equiv1\ \bmod\ (g_1g_2)^2,\quad d_0(u)>0,
+\end{equation}
+the first four from the size inequalities, the last two from the congruence conditions. A datum is \emph{true} if it
+is the datum $I.\mathrm{rec}(l,Z)$ produced by the member construction from a base, a pre-datum, a construction $I$,
+laws $l$ and later data $Z$, and a \emph{world} over $(I,l,Z)$ exists; it is \emph{true in the strong sense} if
+moreover the Hida setting of some such world satisfies the identity condition of its coordinates.
+
+\begin{definition}[The diagonal row hypothesis]\label{pf:open0a:def:rowdiag}
+For a predicate $E(D,L,C')$, the \emph{diagonal row hypothesis} $(\mathrm{DR}_E)$ is the statement: for all reals
+$C_g,c_b,C_u,c_T,C_T$ with $c_b>0$ and $c_T>0$ there are reals $C\ge1$, $C'_0$, $C_{l,0}$ such that for all
+$C'\ge C'_0$, $C_l\ge C_{l,0}$, every datum $D$, every $L\in\R$ and every word $u$ of $D$: if $D$ is true in the strong
+sense, $E(D,L,C')$ and $\openzeroaSC(D;L,C',C_l,C_g,c_b,C_u,c_T,C_T)$, then $\Delta_u(L,C)$. We use it with
+$E=E_{\mathrm{diag}}$, where $E_{\mathrm{diag}}(D,L,C')$ means: the rank identity holds at every word, and $D$ has size
+data $L_2$ with scale parameter $L_2.L=L$ and constant $C_\Gamma(L_2)$ satisfying $1\le C_\Gamma(L_2)$ and
+$8C_\Gamma(L_2)\le C'$. Every size data $L_2$ of $D$ satisfies
+\begin{equation}\label{pf:open0a:eq:Gam}
+\log\Gamma_u=C_\Gamma(L_2)\,m^5f\,L_2.L\qquad\text{for all words }u.
+\end{equation}
+\formal{GlobalTheory.Core.Rk.RowDiag}
+\end{definition}
+
+\subsubsection{The main theorem}
+
+\begin{theorem}[The published-input theorem]\label{pf:open0a:main}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P13} and $(\mathrm{DR}_{E_{\mathrm{diag}}})$. Let $h_L$ be a proof of
+$\sfname{RecTExists}$ and $p$ a parameter for $h_L$, and assume that for every context $K$ and every weighted point $q$
+of $p$ in context $K$ the reading data of $q$ admit a reading structure. Then $\openzeroaMI(X_b,e_{V,b},s_{EE,b})$ holds
+eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$: eventually in contexts, for every good point $\beta$,
+every $c\in\R$ and every bundle $b$ over $(D_\beta,O_\beta,c)$ linked to $\beta$, the coefficient complex of $b$
+satisfies the multiplicity identity.
+\formallabel{GlobalTheory.T.main_theorem_published_inputs_variant_alt_alt}\
+\formallabel{GlobalTheory.miStarRowClosing_alt_alt}
+\end{theorem}
+
+Here a \emph{reading structure} on the reading data of a weighted point is a record relating the reading maps of the
+point to the ambient spaces of its column data (agreement of the base, moved and twisted readings and of the
+coordinates), together with vanishing conditions at unused tuples, a condition on the length of a Tate--Shafarevich
+group, the laws, canonicity, positivity of the ranks and standardness of the core of the point.
+
+
+%==============================================================================
+\subsection{Reduction to four results}\label{sec:pf:open0a:reduction}
+
+\subsubsection{Real packages}
+Let $D$ be a datum and $\mathrm{ex}$ an extra datum over $D$ (levels, theta and twist data; it is a component of every
+object $O$ over $D$). A \emph{real package} $W$ over $\mathrm{ex}$ consists of a reciprocity record $W.R$, real spectral
+ties $W.S$ over $W.R$ (with a Hida setting), a row-side family $W.P$, column data and period data for every sub-datum
+of the ambient of $W.P$, scale data, a number field with an embedding into $\mathit{LL}$, and an indefinite
+realisation $W.Q$. Its coefficient complex $X_W$, row embeddings $e_{V,W}$ and conjugate-linear map $s_{EE,W}$ are
+those of the realisation $W.Q$. A bundle $b$ over $(D,O,c)$ determines the real package $\mathrm{pk}(b)$ over
+$O.\mathrm{ex}$, with components $b.R$, $b.S$, $b.P$, the column faces and periods of $b.C$, the scale data determined
+by $b.P$, the division data of $b$ and $c$, and the number field and realisation of $b.B$. By construction
+$X_{\mathrm{pk}(b)}=X_b$, $e_{V,\mathrm{pk}(b)}=e_{V,b}$ and $s_{EE,\mathrm{pk}(b)}=s_{EE,b}$.
+
+\begin{definition}[Point conditions; true packages]\label{pf:open0a:def:true}
+\begin{enumerate}[label=(\alph*)]
+\item A bundle $b$ over $(D,O,c)$ satisfies the \emph{point conditions} $\mathcal P(b)$ if: a join of the
+realisation of $b$ with $b.R$ and $b.S$ exists; the decomposition point condition of $b.P$ holds; frames of the
+realisation exist; the realisation extends; the existence condition of its real datum holds; its primitivity rows
+hold and the types of $b.P$ are separated; the finiteness condition of the spectral data of $b.S$ holds; the
+Harish-Chandra parameters of the Hida setting of $b.S$ have gaps $\ge100\,r^4$ between entries of different signs
+(the \emph{gap condition}); the node gap condition of $D$ holds (\cref{sec:pf:open0a:points}); and $r_S\ge1$.
+\item A real package $W$ satisfies the \emph{package conditions} $\mathcal A(W)$ if: it satisfies the \emph{package
+hypotheses} $\mathrm{PH}(W)$, which contain the \emph{bottom hypotheses} $\mathrm{BH}(W)$ and the \emph{level
+hypothesis} $\mathrm{LH}(W)$ (\cref{sec:pf:open0a:mi}); it is \emph{valid} (the construction is admissible, pins
+exist, it is twisted, standard columns exist, the characters $\mu_0$ match those of the construction, and a
+\emph{leading read} exists); it satisfies the \emph{geometric conditions} (the characters $\xi_t$ and the prime sets
+$Q_t$ match those of the construction, and leading reads exist at the identity); the standard twist condition and the
+level condition hold; and a recursion of the realisation exists.
+\item $W$ is \emph{true} if $D=I.\mathrm{rec}(l,Z)$ for a member construction (and $\mathrm{ex}$ lies over this
+datum) and $\mathcal A(W)$ holds.
+\end{enumerate}
+\formal{GlobalTheory.Fam.BundlePointConditions}\ \formal{GlobalTheory.Fam.AllFamilyConditions}\
+\formal{GlobalTheory.Fam.TruePackAlt}
+\end{definition}
+
+\subsubsection{The four results}
+The main theorem follows from four results, proved in \cref{sec:pf:open0a:points,sec:pf:open0a:punz,sec:pf:open0a:mi}.
+
+\begin{proposition}[Point conditions at linked bundles]\label{pf:open0a:points}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P5}. For every $h_L$ and every parameter $p$, the point conditions
+$\mathcal P(b)$ hold eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$.
+\formallabel{GlobalTheory.T.point_lines_of_cusp_rapid_decay}\
+\formallabel{GlobalTheory.Fam.PtRowsAt.good_linked_ptR_of_cuspRapidDecay}
+\end{proposition}
+
+\begin{proposition}[True packages from bundle witnesses]\label{pf:open0a:truepack}
+Let $q$ be a weighted point of $p$ in context $K$ and $b$ a bundle over $(D_q,O_q,c)$ with a bundle witness. If the
+reading data of $q$ admit a reading structure and $\mathcal P(b)$ holds, then the real package $\mathrm{pk}(b)$ is
+true.
+\formallabel{GlobalTheory.T.true_pack_of_bundle_witness}\ \formallabel{GlobalTheory.Fam.truePack_of_bWit_alt}
+\end{proposition}
+
+\begin{proposition}[Non-vanishing of periods]\label{pf:open0a:punz}
+Assume $(\mathrm{DR}_{E_{\mathrm{diag}}})$. Let $h_L$ be a proof of $\sfname{RecTExists}$ and $p$ a parameter. If
+$\mathrm{pk}(b)$ is true eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$, then $\openzeroaNV(D)$ holds
+eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$.
+\formallabel{GlobalTheory.T.puNZ_of_truePack}\ \formallabel{GlobalTheory.MiTop.puNZ_member_alt}
+\end{proposition}
+
+\begin{theorem}[The multiplicity identity for true packages]\label{pf:open0a:mitrue}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P13}. Let $W$ be a real package over an extra datum of a datum $D$. If $W$ is
+true, $r_S\ge1$ and $\openzeroaNV(D)$ holds, then $\openzeroaMI(X_W,e_{V,W},s_{EE,W})$.
+\formallabel{GlobalTheory.T.main_theorem_from_published_results_alt_alt_alt_alt_alt}\
+\formallabel{GlobalTheory.Fam.miAt_of_truePack_alt_alt}
+\end{theorem}
+
+\subsubsection{Proof of the main theorem}
+We first prove the main theorem with the conclusion of \cref{pf:open0a:points} as an additional hypothesis.
+
+\begin{proposition}\label{pf:open0a:mainpt}
+Under the hypotheses of \cref{pf:open0a:main}, if moreover the point conditions hold eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$, then the conclusion of \cref{pf:open0a:main} holds.
+\formallabel{GlobalTheory.T.main_theorem_published_results_final_alt_alt}\
+\formallabel{GlobalTheory.Fam.miStar_row_alt_alt}
+\end{proposition}
+
+\begin{proof}
+Write $\openzeroaEv(E)$ for $\openzeroaEv_{\mathcal G_p,\openzeroaLk_p}(E)$; by hypothesis $\openzeroaEv(\mathcal P)$.
+
+\emph{Step 1: true packages.} We show $\openzeroaEv(b\mapsto\mathrm{pk}(b)\text{ is true})$ by
+\cref{pf:open0a:rowEcalc}(b) applied to $\openzeroaEv(\mathcal P)$. Let $K$ be a context, $\beta$ a good point in
+context $K$, $c\in\R$ and $b$ a bundle over $(D_\beta,O_\beta,c)$ with $\openzeroaLk_p(K,\beta,c,b)$ and
+$\mathcal P(b)$. By \cref{pf:open0a:def:link} there are a weighted point $q$ in context $K$ and a bundle $b'$ over
+$(D_q,O_q,c)$ with a bundle witness, such that $(D_\beta,O_\beta,b)=(D_q,O_q,b')$. By this equality $\mathcal P(b')$
+holds, and $\mathrm{pk}(b)$ is true if and only if $\mathrm{pk}(b')$ is true. The reading data of $q$ admit a reading
+structure by hypothesis, so $\mathrm{pk}(b')$ is true by \cref{pf:open0a:truepack}.
+
+\emph{Step 2: periods.} By Step~1 and \cref{pf:open0a:punz}, $\openzeroaEv(b\mapsto\openzeroaNV(D))$.
+
+\emph{Step 3.} By \cref{pf:open0a:rowEcalc}(a), $\openzeroaEv$ holds for the conjunction of $\mathcal P(b)$, the
+truth of $\mathrm{pk}(b)$ and $\openzeroaNV(D)$. At a bundle where the conjunction holds, $\mathrm{pk}(b)$ is true,
+$r_S\ge1$ (the last point condition) and $\openzeroaNV(D)$ holds, so \cref{pf:open0a:mitrue} gives
+$\openzeroaMI(X_{\mathrm{pk}(b)},e_{V,\mathrm{pk}(b)},s_{EE,\mathrm{pk}(b)})=\openzeroaMI(X_b,e_{V,b},s_{EE,b})$, and
+\cref{pf:open0a:rowEcalc}(b) concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:open0a:main}]
+By \cref{pf:open0a:points} (which uses \ref{pf:open0a:P1}--\ref{pf:open0a:P5}), the additional hypothesis of
+\cref{pf:open0a:mainpt} holds; apply \cref{pf:open0a:mainpt}.
+\end{proof}
+
+
+%==============================================================================
+\subsection{Non-vanishing of periods}\label{sec:pf:open0a:punz}
+
+In this subsection we prove \cref{pf:open0a:punz}. The heart of the argument is a pointwise statement
+(\cref{pf:open0a:punzsdiag}): for a true datum satisfying the standing size conditions, the diagonal bound forces some
+ramified vector of every word to have a non-zero period. We use the notation of \cref{sec:pf:open0a:words}.
+
+\subsubsection{A kernel bound}
+
+\begin{lemma}\label{pf:open0a:kerHS}
+Let $V$ be a finite-dimensional complex inner product space, $K\colon V\to V$ a linear map and $N\subseteq V$ a
+subspace with $K(N)=0$. Then $\dim N\le\openzeroaHS{K-\mathrm{id}}^2$.
+\formallabel{GlobalTheory.T.finrank_ker_le_hilbertSchmidtNormSq_sub_id}
+\end{lemma}
+
+\begin{proof}
+Choose an orthonormal basis $e_1,\dots,e_n$ of $V$ such that $e_1,\dots,e_d$ is an orthonormal basis of $N$,
+$d=\dim N$. Then $\openzeroaHS{K-\mathrm{id}}^2=\sum_{i=1}^n\|(K-\mathrm{id})e_i\|^2\ge\sum_{i=1}^d\|{-e_i}\|^2=d$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:kerPu}
+For every word $u$ of a datum, $\dim\ker P_u\le\openzeroahs(u)$.
+\formallabel{GlobalTheory.Core.Rk.finrank_ker_Pu_le_hsDev}
+\end{lemma}
+
+\begin{proof}
+$K_u$ is a multiple of $P_u^*P_u$ and vanishes on $\ker P_u$; apply \cref{pf:open0a:kerHS} with $V=C_u$.
+\end{proof}
+
+\subsubsection{The ramified share}
+
+\begin{lemma}\label{pf:open0a:ramshare}
+If $D$ is true, then $\mathrm{Rs}_u$ holds for every word $u$: $d_U(u)=d_0(u)\,(1-\frac1{T_u-1})^f$.
+\formallabel{GlobalTheory.Core.Rk.ramShare_of_trueD}\ \formallabel{GlobalTheory.Core.Rk.ramShare_of_freeT}
+\end{lemma}
+
+\begin{proof}
+A world over the member construction of $D$ provides level-zero forms for every word $u$, and these give a \emph{free
+torus structure} on $M_0(u)$ (\lref{Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.freeT_0}): a finite set
+$\mathcal X$ with a free action of the group $\prod_v\F_v^\times$, $v$ running over the places above $T_u$ (each
+residue field $\F_v$ has $T_u$ elements), and a linear isomorphism $M_0(u)\cong\C^{\mathcal X}$ which intertwines the
+torus operators on $M_0(u)$ with the translations of $\mathcal X$. For such a structure one has the identity of
+integers $d_U(u)\,(T_u-1)^f=d_0(u)\,(T_u-2)^f$
+(\lref{Formalism.MainNotions.product_first_zeroth_parts.rank_nat}; the ramified subspace corresponds to the
+functions on $\mathcal X$ whose sums over the orbits of each factor $\F_v^\times$ vanish, and their dimension is
+counted). Since $T_u\ge2$ is prime, $T_u-1>0$, and dividing by $(T_u-1)^f$ gives
+$d_U(u)=d_0(u)\bigl(\frac{T_u-2}{T_u-1}\bigr)^f=d_0(u)\bigl(1-\frac1{T_u-1}\bigr)^f$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:rambig}
+If $\mathrm{Rs}_u$, $d_0(u)>0$ and $T_u>2$, then $\mathrm{Rb}_u(f/(T_u-1))$.
+\formallabel{GlobalTheory.Core.Rk.ramBig_of_ramShare}
+\end{lemma}
+
+\begin{proof}
+Put $a=-1/(T_u-1)$; then $-1<a<0$, so $1+a>0$ and $d_U(u)=d_0(u)(1+a)^f>0$. Bernoulli's inequality
+$(1+a)^f\ge1+fa$, valid for real $a\ge-2$ and integers $f\ge0$, gives $d_U(u)\ge d_0(u)\bigl(1-f/(T_u-1)\bigr)$.
+\end{proof}
+
+\subsubsection{Numerical lemmas}
+
+\begin{lemma}\label{pf:open0a:window}
+Let $u$ be a word of a datum $D$.
+\begin{enumerate}[label=(\alph*)]
+\item If the rank identity holds at $u$, then $d_0(u)\le e\,\Gamma_u^{-2}D_*$.
+\item $\log X_u-2\log\Gamma_u/(fk)\le\log T_u$.
+\item For all $L,C\in\R$: if the rank identity holds at $u$ and $1+2C\openzeroamfL(L)\le2\log\Gamma_u$, then
+$\mathrm{Sm}_u(L,C)$.
+\end{enumerate}
+\formallabel{GlobalTheory.Core.Rk.levelPrime_window}
+\end{lemma}
+
+\begin{proof}
+By \eqref{pf:open0a:eq:Tstar}, $\log T_u^*=\log X_u-2\log\Gamma_u/(fk)$, and (b) follows from $T_u^*\le T_u$. Also
+$(T_u^*)^{fk}=D_*(u)/(d_u^*\Gamma_u^2)$. Since $1+y\le e^y$, $(1+\frac1{fk})^{fk}\le e$, and the upper end of the
+window gives
+\[
+T_u^{fk}\le\Bigl(1+\frac1{fk}\Bigr)^{fk}(T_u^*)^{fk}\le e\,\frac{D_*(u)}{d_u^*\Gamma_u^2}.
+\]
+If the rank identity holds, then, as $T_u^k\ge1$,
+$d_0(u)=d_u^*(T_u^k-1)^f\le d_u^*T_u^{fk}\le e\,\Gamma_u^{-2}D_*(u)=e\,\Gamma_u^{-2}D_*$; this is (a). Under the
+hypotheses of (c), $d_0(u)\le D_*\exp(1-2\log\Gamma_u)\le D_*\exp(-2C\openzeroamfL(L))$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:diagcor}
+Let $u$ be a word of a datum $D$.
+\begin{enumerate}[label=(\alph*)]
+\item If $A\ge0$, $\mathrm{TT}_u(A,x)$ and $d_0(u)\le\kappa D_*$, then $\mathrm{Df}_u(A\kappa+x)$.
+\item If $C\openzeroamfL(L)\ge0$, $\Delta_u(L,C)$ and $\mathrm{Sm}_u(L,C)$, then $\mathrm{Df}_u(\openzeroaeD(L,C))$.
+\end{enumerate}
+\formallabel{GlobalTheory.Core.Rk.diag_corollary}
+\end{lemma}
+
+\begin{proof}
+Recall $D_*>0$. (a) From $d_0(u)\le\kappa D_*$ and $d_0(u)\ge0$ we get $d_0(u)^2/D_*\le\kappa d_0(u)$, hence
+$\openzeroahs(u)\le A\,d_0(u)^2/D_*+x\,d_0(u)\le(A\kappa+x)\,d_0(u)$.
+(b) Put $c=C\openzeroamfL(L)\ge0$. By (a) with $A=4(e^c+1)$, $\kappa=e^{-2c}$ and
+$x=4e^{-\openzeroakfk/2}+2e^{-\openzeroakfk}$ we get $\mathrm{Df}_u(e')$ with
+\[
+e'=4e^{-c}+4e^{-2c}+4e^{-\openzeroakfk/2}+2e^{-\openzeroakfk}\le8e^{-c}+6e^{-\openzeroakfk/2}=\openzeroaeD(L,C),
+\]
+using $e^{-c}\le1$ and $\openzeroakfk=kf\log k\ge0$. As $d_0(u)\ge0$, the defect bound is monotone in $e$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:hdnum}
+If $\openzeroaSC(D;L,\mathbf C)$ holds, then for every word $u$: $\openzeroamfL(L)\ge5$, $T_u\ge4f+1$, $d_0(u)>0$ and
+$fkL\ge5$.
+\formallabel{GlobalTheory.Core.Rk.hd_numbers}
+\end{lemma}
+
+\begin{proof}
+We use \eqref{pf:open0a:eq:HDused}. As $m\ge2$, $f\ge m^4\ge16$ and $k\ge f\ge16$; with $L>1$ this gives
+$\openzeroamfL(L)=m^5fL\ge32\cdot16$ and $fkL\ge256$. As $e^L\ge1$, $k^8\le(ke^L)^8\le g_i$ for $i=1,2$; as $f\le k$
+and $k\ge4$, $4f\le k^2\le k^8$. Hence $4f\le g_1\le g_1g_2\le N:=(g_1g_2)^2$, and $N\ge2$. Write $T_u=qN+r$ with
+$0\le r<N$; the congruence $T_u\equiv1\bmod N$ gives $r=1$, and $q\ne0$ because $T_u\ge2$ is prime. So
+$T_u\ge N+1\ge4f+1$. Finally $d_0(u)>0$ is part of \eqref{pf:open0a:eq:HDused}.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:small}
+For every datum, $\openzeroakfk/2\ge5$; moreover $e^{-5}<1/128$.
+\formallabel{GlobalTheory.Core.Rk.five_le_half_kfk}\ \formallabel{GlobalTheory.Core.Rk.exp_neg_five_lt}
+\end{lemma}
+
+\begin{proof}
+As $k\ge5>e$, $\log k\ge1$; as $f\ge2$, $kf\ge10$; so $kf\log k\ge10$. Since $e>2.7$, $e^5>2.7^5>128$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:twoe}
+If $C\openzeroamfL(L)\ge5$ and $T_u\ge4f+1$, then $2\,\openzeroaeD(L,C)<1-f/(T_u-1)$.
+\formallabel{GlobalTheory.Core.Rk.two_eDiag_lt}
+\end{lemma}
+
+\begin{proof}
+As $T_u-1\ge4f$, $f/(T_u-1)\le\frac14$. By \cref{pf:open0a:small}, $e^{-C\openzeroamfL(L)}\le e^{-5}$ and
+$e^{-\openzeroakfk/2}\le e^{-5}$, so $2\openzeroaeD(L,C)\le28e^{-5}<\frac{28}{128}<\frac34\le1-f/(T_u-1)$.
+\end{proof}
+
+\subsubsection{The pointwise statement}
+
+\begin{lemma}\label{pf:open0a:punzat}
+Let $u$ be a word of a datum $D$ and $e,\delta\in\R$. If $\mathrm{Df}_u(e)$, $\mathrm{Rb}_u(\delta)$, $e<1-\delta$
+and $d_0(u)>0$, then there is $\varphi\in\openzeroaram(u)$ with $P_u(\iota_u^{-1}\varphi)\ne0$.
+\formallabel{GlobalTheory.MiTop.puNZ_at}
+\end{lemma}
+
+\begin{proof}
+Suppose $P_u(\iota_u^{-1}\varphi)=0$ for all $\varphi\in\openzeroaram(u)$. Then $\iota_u^{-1}$ maps
+$\openzeroaram(u)$ injectively into $\ker P_u$, so by \cref{pf:open0a:kerPu} and $\mathrm{Df}_u(e)$,
+$d_U(u)\le\dim\ker P_u\le\openzeroahs(u)\le e\,d_0(u)$. With $\mathrm{Rb}_u(\delta)$ we get
+$(1-\delta)\,d_0(u)\le e\,d_0(u)$, hence $1-\delta\le e$ since $d_0(u)>0$, a contradiction.
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:punzsdiag}
+Let $D$ be a true datum, $L_2$ size data for $D$ with scale parameter $L=L_2.L$, and $\mathbf C=(C',C_l,C_g,c_b,C_u,
+c_T,C_T)$ and $C$ reals with $C\ge1$ and $C+1\le C_\Gamma(L_2)$. Assume $\openzeroaSC(D;L,\mathbf C)$ and, for every
+word $u$, the rank identity at $u$ and $\Delta_u(L,C)$. Then $\openzeroaNV(D)$.
+\formallabel{GlobalTheory.MiTop.puNZ_of_sDiag}
+\end{proposition}
+
+\begin{proof}
+Fix a word $u$. By \cref{pf:open0a:hdnum}, $\openzeroamfL(L)\ge5$, $T_u\ge4f+1$ and $d_0(u)>0$. By
+\eqref{pf:open0a:eq:Gam}, $\log\Gamma_u=C_\Gamma(L_2)\openzeroamfL(L)$, hence
+\begin{gather*}
+2\log\Gamma_u\ge2(C+1)\openzeroamfL(L)=2C\openzeroamfL(L)+2\openzeroamfL(L)\ge1+2C\openzeroamfL(L),\\
+C\openzeroamfL(L)\ge\openzeroamfL(L)\ge5.
+\end{gather*}
+By \cref{pf:open0a:window}(c), $\mathrm{Sm}_u(L,C)$, and by \cref{pf:open0a:diagcor}(b),
+$\mathrm{Df}_u(\openzeroaeD(L,C))$. Since $f\ge1$, $T_u\ge4f+1>2$, so \cref{pf:open0a:ramshare,pf:open0a:rambig} give
+$\mathrm{Rb}_u(f/(T_u-1))$. By \cref{pf:open0a:twoe} and $\openzeroaeD(L,C)\ge0$,
+$\openzeroaeD(L,C)\le2\openzeroaeD(L,C)<1-f/(T_u-1)$, and \cref{pf:open0a:punzat} concludes.
+\end{proof}
+
+\subsubsection{Proof of the non-vanishing of periods}
+Besides $(\mathrm{DR}_{E_{\mathrm{diag}}})$ the proof of \cref{pf:open0a:punz} uses three statements about linked
+bundles. In them $L=O.L.L$ is the scale parameter of the size data $O.L$ of the object $O$, and $C_\Gamma$, $C_{YL}$,
+$C_{Tu}$ are constants of the system $\kappa.C$ of family constants.
+
+\begin{enumerate}[label=(S\arabic*),leftmargin=*]
+\item\label{pf:open0a:S1} (\cref{pf:open0a:sizes}) For all functions
+$F,G,H\colon\R^2\to\R$, the following property of $(D,O)$ holds eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$: there are reals $C',C_l,C_g,C_T$ with $F(C_g,C_T)\le C'$, $G(C_g,C_T)\le C_l$,
+$H(C_g,C_T)\le L$, $\openzeroaSC(D;L,C',C_l,C_g,\frac14,3,\frac12,C_T)$, $1\le C_\Gamma(L_2)\le C'/8$ for some size data
+$L_2$ with scale parameter $L$, the rank identity at every word, the cubic node gap of $D$ (\cref{sec:pf:open0a:points}),
+and $r_S\ge1$.
+\item\label{pf:open0a:S2} (\cref{pf:open0a:hypL}) For all functions $A,B$ of
+systems of family constants, the size inequalities of $D$ at $L$ with the constants
+\begin{gather*}
+C'=\max(A(\kappa.C),8C_\Gamma),\qquad C_l=\max(B(\kappa.C),40),\qquad C_g=C_{YL}+1,\\
+(c_b,C_u,c_T)=(\tfrac14,3,\tfrac12),\qquad C_T=C_{Tu}
+\end{gather*}
+hold eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$.
+\item\label{pf:open0a:S3} For every function $J\colon\R^2\to\R$, the property $J(C_{YL}+1,C_{Tu})\le C_\Gamma$ of
+$\kappa$ holds eventually in contexts (\cref{pf:open0a:evcgam}).
+\end{enumerate}
+
+\begin{lemma}\label{pf:open0a:evcgam}
+Statement \ref{pf:open0a:S3} holds.
+\formallabel{GlobalTheory.MiTop.evP_cGam}
+\end{lemma}
+
+\begin{proof}
+The property does not depend on the context, so it suffices to find, for given $\varepsilon,C_8,\dots$, a staged
+threshold $K_0$ such that every system $C$ of constants which is large with respect to $K_0$ satisfies
+$J(C_{YL}+1,C_{Tu})\le C_\Gamma$. Largeness requires every constant of the list of mid constants of $C$, which
+contains $C_\Gamma$, to be at least the value of the mid component of $K_0$ at the list of outer constants of $C$,
+which contains $C_{YL}$ and $C_{Tu}$. Take for this mid component the function
+$(\text{outer list})\mapsto J(C_{YL}+1,C_{Tu})$ and all other components $0$; take $\varepsilon_0=1$ and all other
+bounds $0$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:trued}
+If a real package $W$ over an extra datum of $D$ is true, then $D$ is true, and in the strong sense.
+\formallabel{GlobalTheory.Fam.trueD_of_truePack_alt}\ \formallabel{GlobalTheory.MiTop.trueE_of_trueD}
+\end{lemma}
+
+\begin{proof}
+By definition $D=I.\mathrm{rec}(l,Z)$. A world over $(I,l,Z)$ is assembled from the admissibility of $I$, the pins
+and the standard columns contained in the validity of $W$, the spectral ties $W.S$, and the finiteness and identity
+conditions contained in the bottom hypotheses. Every world carries the identity condition of its Hida setting, so $D$
+is true in the strong sense.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:open0a:punz}]
+Apply $(\mathrm{DR}_{E_{\mathrm{diag}}})$ with $c_b=\frac14$, $C_u=3$, $c_T=\frac12$: for every pair $(C_g,C_T)$ we
+obtain reals $C(C_g,C_T)\ge1$, $C'_0(C_g,C_T)$ and $C_{l,0}(C_g,C_T)$ as in \cref{pf:open0a:def:rowdiag}. By
+\cref{pf:open0a:rowEcalc}(a) the conjunction of the following properties holds eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$: $\mathrm{pk}(b)$ is true (hypothesis); \ref{pf:open0a:S1} with $F=G=H=0$;
+\ref{pf:open0a:S2} with $A(C)=C'_0(C_{YL}+1,C_{Tu})$ and $B(C)=C_{l,0}(C_{YL}+1,C_{Tu})$; and \ref{pf:open0a:S3} with
+$J=C+1$ (a property which holds eventually in contexts holds in particular eventually at the bundles). Let $K$ be a
+context of type $\kappa$, $\beta$ a good point in context $K$ and $b$ a linked bundle over $(D,O)=(D_\beta,O_\beta)$
+at which the conjunction holds. Put $L=O.L.L$, $C_g=C_{YL}+1$, $C_T=C_{Tu}$, $C=C(C_g,C_T)$,
+$C'=\max(C'_0(C_g,C_T),8C_\Gamma)$ and $C_l=\max(C_{l,0}(C_g,C_T),40)$. Then:
+\begin{itemize}
+\item $D$ is true in the strong sense by \cref{pf:open0a:trued};
+\item the size data $O.L$ of a point in a context of type $\kappa$ have the constant $C_\Gamma(O.L)=C_\Gamma$ of
+$\kappa.C$, so $C+1\le C_\Gamma(O.L)$ by \ref{pf:open0a:S3};
+\item $\openzeroaSC(D;L,C',C_l,C_g,\frac14,3,\frac12,C_T)$ holds: its size inequalities are \ref{pf:open0a:S2}, and its
+other four components (ties, mid-volume formula, interlacing and congruence conditions, trace frame) do not depend on
+the constants and are given by \ref{pf:open0a:S1};
+\item $E_{\mathrm{diag}}(D,L,C')$ holds: the rank identity at every word by \ref{pf:open0a:S1}, and $O.L$ has scale
+parameter $L$, $8C_\Gamma(O.L)\le C'$ and $C_\Gamma(O.L)\ge C+1\ge1$.
+\end{itemize}
+Since $C'\ge C'_0(C_g,C_T)$ and $C_l\ge C_{l,0}(C_g,C_T)$, $(\mathrm{DR}_{E_{\mathrm{diag}}})$ gives $\Delta_u(L,C)$ for
+every word $u$, and \cref{pf:open0a:punzsdiag} with $L_2=O.L$ gives $\openzeroaNV(D)$. \Cref{pf:open0a:rowEcalc}(b)
+concludes.
+\end{proof}
+
+
+%==============================================================================
+\subsection{Point conditions and true packages}\label{sec:pf:open0a:points}
+
+The bundle witness of a linked bundle already contains most of the data from which the point conditions and the truth
+of the real package are read off; the remaining conditions are size conditions which hold eventually. For a datum $D$,
+let $b_1(\tau)<b_2(\tau)<\dots$ be the \emph{nodes} of the Harish-Chandra parameter at the infinite place $\tau$, and
+$N_m=\mathrm{rank}(X')+1$. The \emph{cubic node gap} of $D$ is the condition that consecutive nodes differ by at least
+$4N_m^3+2t+6$; the \emph{node gap condition} is that there is $N\ge N_m$ such that consecutive nodes differ by at
+least $t+2N^3+1$.
+
+\begin{proof}[Proof of \cref{pf:open0a:points}]
+We use the following statements.
+\begin{enumerate}[label=(\alph*)]
+\item Statement \ref{pf:open0a:S1} (\cref{pf:open0a:sizes}).
+\item (\lref{GlobalTheory.Core.Rk.HdNc.hd_nc}) There is $C^{\mathrm{nc}}_{l,0}$ such that whenever
+$C_l\ge C^{\mathrm{nc}}_{l,0}$ and $\openzeroaSC(D;L,C',C_l,\dots)$ holds, every Hida setting of $D$ satisfies the gap
+condition with constant $100\,r^4$. (The formal proof takes $C^{\mathrm{nc}}_{l,0}=1801$ and derives the gap from the
+inequalities between consecutive entries of the parameters contained in the size inequalities.)
+\item (\lref{GlobalTheory.Fam.PtRowsAt.gapHyp_of_hd}) If $C_l\ge1801$ and $\openzeroaSC(D;L,C',C_l,\dots)$, then
+the gap hypothesis of the Poincar\'e amplitude bounds holds for $D$; and
+(\lref{GlobalTheory.Core.Rk.finX_of_gap}) under this hypothesis the spectral data of every system of spectral
+ties over $D$ satisfy the finiteness condition (by the decay of Wu functions in large gap and the finite
+dimensionality of spaces of automorphic forms).
+\item (\lref{GlobalTheory.Core.Rk.GapOfNodes.harishChandraNodesFarApart_of_cubic_node_gap}) The cubic node gap
+implies the node gap condition.
+\item For a weighted point $q$ and a bundle $b'$ with a bundle witness: under \ref{pf:open0a:P1}--\ref{pf:open0a:P5},
+the realisation of $b'$ extends and a join of it with $b'.R$ and $b'.S$ exists
+(\lref{GlobalTheory.Fam.PtRowsAt.seeEx_and_joinSI_nonempty_of_bWit}); and, without further hypotheses, the
+decomposition point condition of $b'.P$, the existence of frames, the existence condition of the real datum, the
+primitivity rows and the separation of types hold; these are read off the witness
+(\lref{GlobalTheory.Fam.PtRowsAt.dcPtG_of_bWit}, \lref{GlobalTheory.Fam.PtRowsAt.framesEx_of_bWit},
+\lref{GlobalTheory.Fam.PtRowsAt.exAt_of_bWit},
+\lref{GlobalTheory.Fam.PtRowsAt.prim_links_and_typesSep3_of_bWit}).
+\end{enumerate}
+Apply (a) with $F=H=0$ and $G\equiv\max(1801,C^{\mathrm{nc}}_{l,0})$, and use \cref{pf:open0a:rowEcalc}(b). At a bundle
+$b$ linked to a good point $\beta$ at which the property of (a) holds, choose $q,b'$ and a bundle witness with
+$(D_\beta,O_\beta,b)=(D_q,O_q,b')$ (\cref{pf:open0a:def:link}). The first six point conditions hold for $b'$ by (e),
+hence for $b$. The constants of (a) satisfy $C_l\ge1801$ and $C_l\ge C^{\mathrm{nc}}_{l,0}$, so (c) gives the
+finiteness condition for the spectral data of $b.S$ and (b) gives the gap condition for the Hida setting of $b.S$;
+(d) gives the node gap condition from the cubic node gap; and $r_S\ge1$ is part of (a).
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:open0a:truepack}]
+We use four statements about the bundle witness.
+\begin{enumerate}[label=(\alph*)]
+\item (\lref{GlobalTheory.Fam.colsStd_of_bWit_alt}) The construction of $q$ is admissible, pins exist, the
+construction is twisted, standard columns exist for the columns of $b.R$, and $\mathrm{pk}(b)$ satisfies the standard
+twist condition.
+\item (\lref{GlobalTheory.T.characters_match_bundle_alt}) The characters of the package match those of the
+construction: the characters $\mu_0$ at the levels $j+1$, $j<m$; the characters $\xi_t$ for every tuple $t$; and the
+prime sets $Q_t$ (they are the images, under the selection map of the construction, of the prime set attached to the
+character of $t$). Moreover $\mathrm{pk}(b)$ satisfies the level condition, a recursion of the realisation exists,
+the realisation is normalised, the row-side family satisfies its admissibility condition, the Hida setting of $b.S$
+satisfies the identity condition, and the column dictionaries satisfy the level matching for every word.
+\item (\cref{pf:open0a:readat}) If the reading data of $q$ admit a reading structure, then for every word $u$ the
+leading read of $\mathrm{pk}(b)$ holds at the identity for some top map.
+\item (\lref{GlobalTheory.Fam.pkHyp_of_real_alt}) A real package over a datum of the member construction
+satisfies the package hypotheses if: a join exists; the level matching holds; the decomposition point condition holds;
+frames exist; the realisation is normalised, extends and admits a recursion; the existence condition of the real
+datum holds; the primitivity rows hold and the types are separated; the row-side family is admissible; the identity
+condition and the gap condition hold for the Hida setting; the finiteness condition and the node gap condition hold;
+and the package is valid and satisfies the geometric conditions.
+\end{enumerate}
+By (a), (b) and (c), $\mathrm{pk}(b)$ is valid and satisfies the geometric conditions. All hypotheses of (d) are now
+available (those not yet mentioned are point conditions of $b$), so $\mathrm{pk}(b)$ satisfies the package hypotheses,
+and with (a) and (b) all components of $\mathcal A(\mathrm{pk}(b))$ hold. Finally $D_q$ is the datum
+$I.\mathrm{rec}(l,Z)$ of the member construction of $q$, so $\mathrm{pk}(b)$ is true.
+\end{proof}
+
+
+%==============================================================================
+\subsection{The multiplicity identity for true packages}\label{sec:pf:open0a:mi}
+
+In this subsection we prove \cref{pf:open0a:mitrue}. Throughout, $W$ is a real package over an extra datum of a datum
+$D$, $X=X_W$ its coefficient complex with face $(n_V,\mathrm{Mem},a,X_c,\mathrm{Pt},H,P)$, $e_V=e_{V,W}$,
+$s_{EE}=s_{EE,W}$, and $\mathcal T$ the set of tuples of the row-side family $W.P$, with base tuple $\mu_0$.
+
+\subsubsection{Reduction}
+
+\begin{proposition}\label{pf:open0a:allTrue}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P13}. Let $D=I.\mathrm{rec}(l,Z)$ be the datum of a member construction and
+$W$ a real package over an extra datum of $D$ with $\mathcal A(W)$, $r_S\ge1$ and $\openzeroaNV(D)$. Then
+$\openzeroaMI(X_W,e_{V,W},s_{EE,W})$.
+\formallabel{GlobalTheory.T.main_theorem_from_published_results_alt_alt_alt_alt}\
+\formallabel{GlobalTheory.Fam.miStar2_of_allTrue_alt_alt}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:open0a:onto}, the surjectivity along chains $\mathrm{Onto}(D)$ holds. By \cref{pf:open0a:famall} (which
+uses \ref{pf:open0a:P2}, \ref{pf:open0a:P3}, \ref{pf:open0a:P4}, \ref{pf:open0a:P13}), the family conditions
+$\mathrm{FC}(W)$ hold. By \cref{pf:open0a:served}, the served condition $\mathrm{SV}(W)$ holds. The package hypotheses
+contain the bottom hypotheses and the level hypothesis, and \cref{pf:open0a:mistarpunz} (which uses \ref{pf:open0a:P2},
+\ref{pf:open0a:P4}, \ref{pf:open0a:P12}) concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:open0a:mitrue}]
+If $W$ is true, then $D=I.\mathrm{rec}(l,Z)$ for a member construction and $\mathcal A(W)$ holds; apply
+\cref{pf:open0a:allTrue}.
+\end{proof}
+
+\subsubsection{Surjectivity along chains}
+A datum $D$ has \emph{chains} $c$ (the iterated theta lifts of \eqref{eq:families:chain}) and, at each level $k\le m$
+of a chain, \emph{localisations} $s$, each with a space $s.\mathrm{CC}(c)$ of cusp forms; a \emph{step} from a
+localisation at level $k$ to one at level $k+1$ carries a theta map back to level $k$, and a theta map
+$\Theta\colon s.\mathrm{CC}(c)\to s_0.\mathrm{CC}(c)$ is \emph{reachable in $k$ steps} from a localisation $s_0$ at
+level $0$ if it is the composite of the theta maps of $k$ admissible steps starting at $s_0$.
+
+\begin{definition}\label{pf:open0a:def:onto}
+$\mathrm{Onto}(D)$: if the node gap condition holds for $D$, then for every admissible chain $c$, every localisation
+$s_0$ at level $0$, every $k\le m$ and every theta map $\Theta$ reachable in $k$ steps from $s_0$, $\Theta$ is
+surjective.
+\formal{GlobalTheory.ChainOnto.OntoAll}
+\end{definition}
+
+\begin{proposition}\label{pf:open0a:onto}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P11}. Then $\mathrm{Onto}(D)$ holds for every datum $D$.
+\formallabel{GlobalTheory.T.ontoAll_of_theta_doubling}\ \formallabel{GlobalTheory.ChainOnto.ontoAll_of_hecke_alt}
+\end{proposition}
+
+\begin{proof}
+The proof combines three statements.
+\begin{enumerate}[label=(\alph*)]
+\item (\lref{GlobalTheory.T.heckeForm_of_doubling}) Under \ref{pf:open0a:P2} and
+\ref{pf:open0a:P7}--\ref{pf:open0a:P11}, every datum satisfies a Rallis inner product formula for the lifts of the
+chain: for a Weil representation of a pair $(A,B)$ in the convergent range, Fock vectors $\Phi_1,\Phi_2$ unramified
+outside a finite set $S_f$ of places, and cusp forms $u_1,u_2$ on $\Uni(A)$ ($u_1$ with Hecke parameter
+$\mathrm{par}$, $u_2$ spherical outside $S_f$) for which the doubling integrand converges, the lifts converge and
+\[
+\bigl\langle\theta(\Phi_1,u_1),\theta(\Phi_2,u_2)\bigr\rangle_{\Uni(B)}
+=\mathrm{vol}\cdot\frac{l}{d^{S_f}(t/2)}\int(\text{Weil coefficient})\cdot(\text{matrix coefficient}),
+\]
+the integral being over the complement of $S_f$, where $l$ is the value at $t/2$ of the partial $L$-function
+$L^{S_f}(s+\frac12,\mathrm{par}\otimes\chi_B)$ and $d^{S_f}$ is the normalising factor of the doubling integral.
+\item (\lref{GlobalTheory.T.thetaChainUpwardLift_heckeParam_transferred}) Under \ref{pf:open0a:P2} and
+\ref{pf:open0a:P6}, the level facts of the chain (\lref{GlobalTheory.T.thetaChain_level_properties}: the level
+groups and level characters of the localisations are compatible with the local stabilisers) imply the
+\emph{parameter transfer}: if a vector of a localisation at level $k$ has Hecke parameter $B$ and its upward lift is
+non-zero, then the lift has the parameter obtained from $B$ by the step (adjoining a segment of length $t$).
+\item (\cref{pf:open0a:ontoclassical}) Under \ref{pf:open0a:P1}--\ref{pf:open0a:P5}, the inner product formula of (a)
+and the parameter transfer of (b) imply $\mathrm{Onto}(D)$.
+\end{enumerate}
+Applying (c) to the outputs of (a) and (b) proves the proposition.
+\end{proof}
+
+\subsubsection{Rows, columns, bottom data and chain data}\label{sec:pf:open0a:objects}
+We now describe the objects in terms of which the family, joint and final conditions are formulated. Let $G$ be the
+group of adelic points of $\Uni(Y_0)$, $Y_0$ the hermitian space of level $0$ of $D$, $G_f\subseteq G$ the subgroup of
+finite adelic points and $Z(G)$ the centre of $G$. The realisation $W.Q$ provides an element $t_S\in G$, an archimedean
+family $\theta$, discrete series models $M$ at the infinite places with the space $M^{\infty}$ of smooth tensors, a
+level set $J\subseteq G$ and a level character $\chi\colon G\to\C$ at the true level, and an additive character $\psi$.
+The spectral ties $W.S$ provide a Hida setting with $L^2$-space $L^2_X$, a closed subspace $H_X\subseteq L^2_X$ of cusp
+forms, an isomorphism $\iota$ of its group with $G$, and for every word $u$ a column space $\mathrm{Cu}(u)$ with period
+functions $\varpi_C\in L^2_X$ for $C\in\mathrm{Cu}(u)$.
+\begin{itemize}
+\item The \emph{base row space} $\openzeroaRow$ is the space of multiplicity maps of type $(\theta,M,J,\chi)$: linear
+maps from $M^{\infty}$ to functions on $G$ with the equivariance properties of that type.
+\item The realisation provides a finite-dimensional Hilbert space $H_E$ with an injective linear map $e_E$ from $H_E$ to
+the multiplicity maps of $M$; for $e\in H_E$, $\mathrm{rf}(e)\colon M^{\infty}\to\C^G$ is the induced linear map,
+the \emph{row form} of $e$. The space $E$ of the coefficient complex $X$ is $H_E$, with scalar multiplication
+conjugated if the twist bit $s\in\{0,1\}$ of $W.P$ is $1$; we write $\openzeroacj(z)=\bar z$ if $s=1$ and
+$\openzeroacj(z)=z$ if $s=0$. Then $\iota_0=\openzeroacj\circ\iota_{\mathit{LL}}$, where $\iota_{\mathit{LL}}$ is the
+given embedding of $\mathit{LL}$. The true part $\openzeroaTrue$ of $E$ consists of the $e$ such that $e_E(e)$ lies in
+the good part of the multiplicity maps at the true level.
+\item For a tuple $t$ and a row $F\in\mathit{LL}^{n_V(t)}$, $\mathrm{rf}(t,F)$ is the row form of the theta image
+$\Theta_t(j_R(t)(e_V(t)F))\in H_E$ of the row.
+\item For $g\in G$, $f\colon G\to\C$, $C\in\mathrm{Cu}(u)$ and $b\in\C$, the \emph{pairing relation}
+$\mathrm{Pair}_u(g,f,C,b)$ means: there is $\phi\in L^2_X$ equal almost everywhere to the translate
+$x\mapsto f(\iota(x)g)$, and $b=\langle\bar\phi,\varpi_C\rangle$.
+\item Let $M_u$ be the column space of the word $u$; it is identified with the ramified subspace by a linear isomorphism
+$e_u\colon M_u\to\openzeroaram(u)$. $C\in\mathrm{Cu}(u)$ is a \emph{column form} of $\varphi\in M_u$
+($\mathrm{CF}_u(C,\varphi)$) if the column dictionary of $u$ maps $C$ to $e_u(\varphi)$.
+\item For $\varphi\in M_u$, a tuple $t$ and a row $F$ of $t$, $\mathrm{pc}_t(\varphi,F)\in\C$ is the column pairing
+of the datum between $\varphi$ and the row $F$, read in the ambient of the tuple $t$; it is linear in $\varphi$.
+\end{itemize}
+
+\begin{definition}[Bottom data]\label{pf:open0a:def:bottom}
+A \emph{bottom datum} $d$ for $(W,u)$ consists of a Bessel datum $d.B$ for the Hida setting, the word $u$, $\psi$ and
+the space $X_0$ of level $0$, elements $d.b,d.k\in G$ and $d.a_0,d.a\in\Uni(X_0)(\A)$. Its \emph{periods} are
+\[
+d.\mathrm{per}(\varphi,T)(y,v)=\mathrm{Bes}_{d.B}\bigl(\mathrm{rd}_0(e_u\varphi)(y),\ R_{d.b}(T(v))\bigr)
+\]
+for $\varphi\in M_u$, linear maps $T\colon M^{\infty}\to\C^G$, reading points $y$ and $v\in M^{\infty}$: the
+Bessel period of the level of $d.B$ (with character $\psi$) between the reading at level $0$ of $e_u\varphi$ at $y$
+and the right translate by $d.b$ of $T(v)$. For $z\in G$, $d$ is \emph{pinned at} $z$ if $d.B$ is adapted to the
+transport weights of $u$, $d.a_0$ is an adelic transport correction, $d.a$ is a finite central element of
+$\Uni(X_0)(\A)$, $d.k\in J$, and $\mathrm{emb}_{d.B}(d.a_0\,d.a)\,d.b=\iota(1,x_u)\,z\,t_S\,d.k$ in $G$, where
+$(1,x_u)$ is the element of the group of the Hida setting attached to $u$.
+\formal{GlobalTheory.MiTop.BottomData}\ \formal{GlobalTheory.MiTop.BottomData.Pin}
+\end{definition}
+
+\begin{definition}[Relations]\label{pf:open0a:def:rel}
+Let $d$ be a bottom datum for $(W,u)$, $z\in G$, $U\colon M_u\to M_u$ linear and $c\colon\mathcal T\to\C$.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{bottom relation} $\mathrm{BR}(z,d)$: there is a linear isometry $R$ of $M_u$ such that for all
+$\varphi,\varphi'\in M_u$, $T,T'\in\openzeroaRow$ and $\alpha,\alpha'\in\C$ with
+$\alpha\,d.\mathrm{per}(\varphi,T)(y,v)+\alpha'\,d.\mathrm{per}(\varphi',T')(y,v)=0$ for all $y,v$, and for all
+$v\in M^{\infty}$, column forms $C$ of $R\varphi$ and $C'$ of $R\varphi'$, and $b,b'$ with
+$\mathrm{Pair}_u(zt_S,T(v),C,b)$ and $\mathrm{Pair}_u(zt_S,T'(v),C',b')$, one has $\alpha b+\alpha'b'=0$.
+\item The relation $\mathrm{Rel}_d(U,c)$: for every $T\in\openzeroaRow$ there is $p\colon M_u\to\C$ such that for all
+$\varphi_0,\varphi\in M_u$, tuples $t$, rows $F$ of $t$ and $\alpha,\alpha'\in\C$ with
+$\alpha\,p(\varphi_0)+\alpha'\,c(t)\,\mathrm{pc}_t(\varphi,F)=0$ one has
+$\alpha\,d.\mathrm{per}(U\varphi_0,T)(y,v)+\alpha'\,d.\mathrm{per}(U\varphi,\mathrm{rf}(t,F))(y,v)=0$ for all $y,v$.
+\item $c$ is a system of \emph{unit coefficients}, $\mathrm{UC}(c)$, if $c(t)\ne0$ for all $t$ and, for every finite
+place $w$ of $\mathit{LL}$ and every $k\in\mathit{LL}$ with $\iota_{\mathit{LL}}(k)=c(\mu(w))/c(\mu_0)$, $v_w(k)=0$.
+\item The \emph{joint condition} $\mathrm{JC}(W)$: there is $z\in G_f\cap Z(G)$ such that for every word $u$ there are a
+bottom datum $d$ pinned at $z$, a linear map $U$ of $M_u$, $r>0$ with $\|U\varphi\|=r\|\varphi\|$ for all $\varphi$, and
+$c\colon\mathcal T\to\C$ with $\mathrm{UC}(c)$ and $\mathrm{Rel}_d(U,c)$.
+\end{enumerate}
+\formal{GlobalTheory.MiTop.BottomRelation}\ \formal{GlobalTheory.MiTop.JointCondition}
+\end{definition}
+
+\paragraph{Family characters and chain data.}
+For a word $u$, a \emph{family character} $f$ for $(W,u)$ consists of a geometric chain datum $f.g$, with base points
+$f.g.b(i)\in G$, a top map, and choices of rows and columns for every tuple $t$. It determines a commuting chain $f.c$,
+with Bessel data $f.c.B(0,n)$ at the bottom, and for every tuple $t$ a \emph{tuple chain} $f_t$. Since $m$ is even we
+put $N=m/2$ and $n=N-1$. We use the following components of $f_t$:
+\begin{itemize}
+\item complex vector spaces $\mathrm{Col}_0(f_t)\supseteq\mathrm{Ram}_0(f_t)$ (columns and ramified columns at level
+$0$) and $\mathrm{Col}_m(f_t)$ (columns at level $m$), a set $\mathrm{CT}(f_t)$ of \emph{top forms}, and the embedding
+$\mathrm c_0^t\colon M_u\to\mathrm{Col}_0(f_t)$;
+\item linear maps $\mathrm{up}^t,\mathrm{col}^t\colon\mathrm{Col}_0(f_t)\to\mathrm{Col}_m(f_t)$ (the lift along the chain
+and the transport of columns) and the \emph{top pairing}
+$\mathrm{tail}^t\colon\mathrm{Col}_m(f_t)\times\mathrm{CT}(f_t)\to\C$;
+\item for $G\in\mathrm{CT}(f_t)$, its \emph{descent} $\mathrm{desc}^t(G)$ to level $0$, a linear map
+$M^{\infty}\to\C^G$, and the \emph{bottom periods} $\mathrm{Per}^t(\psi,G)(y,v)\in\C$ of $\psi\in\mathrm{Col}_0(f_t)$
+against the descent of $G$;
+\item constants $c_{\mathrm{top}}^t$ (at level $N$) and $c_{\mathrm{bot}}^t$; the latter is a product of constants which are
+all non-zero when $f_t$ is admissible (satisfies its structure conditions).
+\end{itemize}
+The \emph{family laws} $\mathrm{Laws}(f)$ are the conjunction of: $f.c$ and all $f_t$ are admissible, the $f_t$ are
+locally finite, and the reality, valuation, last-step, kernel, period and reading laws hold for the family
+$(f_t)_{t\in\mathcal T}$.
+
+\begin{definition}[Link conditions]\label{pf:open0a:def:links}
+Let $f$ be a family character for $(W,u)$ and $d$ a bottom datum. Below, $t$ runs over tuples, $\varphi$ over $M_u$, $F$
+over rows of $t$, $G$ over $\mathrm{CT}(f_t)$, and $\mathrm{lead}(t,F)$ is the leading linear map of the row $F$, a
+possible leading component of top forms.
+\begin{enumerate}[label=(L\arabic*),leftmargin=*]
+\item\label{pf:open0a:L1} \emph{Bottom compatibility}: $\mathrm c_0^t(\varphi)\in\mathrm{Ram}_0(f_t)$ and
+$\mathrm{Per}^t(\mathrm c_0^t\varphi,G)(y,v)=d.\mathrm{per}(\varphi,\mathrm{desc}^t(G))(y,v)$ for all $y,v$.
+\item\label{pf:open0a:L2} \emph{Tail identity}: if $G$ has leading component $\mathrm{lead}(t,F)$, then
+$\mathrm{tail}^t(\mathrm{col}^t(\mathrm c_0^t\varphi),G)=\mathrm{pc}_t(\varphi,F)$.
+\item\label{pf:open0a:L3} \emph{Descent}: for all $t,F$ there is $G$ with leading component $\mathrm{lead}(t,F)$ and
+$\mathrm{desc}^t(G)=\mathrm{rf}(t,F)$.
+\item\label{pf:open0a:L4} \emph{Surjectivity}: for every $T\in\openzeroaRow$ there is $G_0\in\mathrm{CT}(f_{\mu_0})$ with
+$\mathrm{desc}^{\mu_0}(G_0)=T$.
+\item\label{pf:open0a:L5} \emph{Commutation}: there are a linear automorphism $S$ of $M_u$, $r>0$ with
+$\|S\varphi\|=r\|\varphi\|$ for all $\varphi$, and $s_0\in\C^\times$ such that
+$\mathrm{tail}^t(\mathrm{up}^t(\mathrm c_0^t\varphi),G)=s_0\,\mathrm{tail}^t(\mathrm{col}^t(\mathrm c_0^t(S\varphi)),G)$
+for all $t,\varphi,G$.
+\item\label{pf:open0a:L6} \emph{Ratio condition}: for every $t$, $c_{\mathrm{top}}^t\ne0$ and
+$\mathrm{UR}_{\mathcal Q_t}\bigl(c_{\mathrm{top}}^t/c_{\mathrm{bot}}^t,\ c_{\mathrm{top}}^{\mu_0}/c_{\mathrm{bot}}^{\mu_0}\bigr)$,
+where $\mathcal Q_t$ is the set of rational primes contained in some prime of the set $Q_t$ of primes of $E$, and
+$\mathrm{UR}_{\mathcal S}(x,y)$ (``$x/y$ is a root of an $\mathcal S$-unit'') means: $y\ne0$, and there are $n_0\ge1$
+and $\rho\in\Q^\times$ with $(x/y)^{n_0}=\rho$ such that every prime $p$ with $v_p(\rho)\ne0$ lies in $\mathcal S$.
+\end{enumerate}
+The \emph{family conditions} $\mathrm{FC}(W)$: there is $z\in G_f\cap Z(G)$ such that for every word $u$ there are a
+family character $f$ and a bottom datum $d$ pinned at $z$ with $\mathrm{Laws}(f)$ and
+\ref{pf:open0a:L1}--\ref{pf:open0a:L6}. The \emph{served condition} $\mathrm{SV}(W)$: for every finite place $w$ of
+$\mathit{LL}$ and every $p\in\mathcal Q_{\mu(w)}$, $w\nmid p$.
+\formal{GlobalTheory.MiTop.FamilyAllConditions}\ \formal{GlobalTheory.MiTop.FamilyServedCondition}
+\end{definition}
+
+\subsubsection{The family conditions}
+
+\begin{proposition}\label{pf:open0a:famall}
+Assume \ref{pf:open0a:P2}, \ref{pf:open0a:P3}, \ref{pf:open0a:P4} and \ref{pf:open0a:P13}. Let $W$ be a real package
+over an extra datum of $D=I.\mathrm{rec}(l,Z)$ with $\mathcal A(W)$, $r_S\ge1$ and $\mathrm{Onto}(D)$. Then
+$\mathrm{FC}(W)$.
+\formallabel{GlobalTheory.T.true_geometry_family_row_data_alt}\ \formallabel{GlobalTheory.MiTop.famAllQ_of_allTrue_alt}
+\end{proposition}
+
+The proof assembles the following results; those proved in \cref{sec:pf:open0a:deferred} make up most of the formal
+proof of the main theorem. A \emph{geometric family} $a$ for $(W,u)$ consists of a
+geometric chain datum $a.g$, a top map, a non-archimedean local field with a type datum, a commuting vector datum, local
+group data indexed by the type places of $W$, local geometric data at the primes of the sets $Q_t$, a bottom datum
+$a.d$ and constants; together with row and column choices it determines a family character
+$a.\mathrm{fam}(\mathrm{row},\mathrm{col})$. A Bessel datum is \emph{framed} if its vectors are, up to a non-zero
+scalar and powers of $\pm g$ ($g$ the type prime of the Hida setting), the standard vectors of the Hida setting.
+
+\begin{enumerate}[label=(F\arabic*),leftmargin=*]
+\item\label{pf:open0a:F1} (\cref{pf:open0a:botdat}) A central pin: there is $z\in G_f\cap Z(G)$ such that placed framed
+Bessel data extend to bottom data pinned at $z$.
+\item\label{pf:open0a:F2} (\cref{pf:open0a:geoall}) For every word there is an admissible and true geometric family with
+identity transfer matrix and framed bottom Bessel datum.
+\item\label{pf:open0a:F3} (\lref{GlobalTheory.T.exists_pairwise_same_choices_at_geo}) Under \ref{pf:open0a:P2}
+and the package hypotheses: for every geometric chain datum there are row choices $\mathrm{row}(t)$,
+$t\in\mathcal T$, all admissible and pairwise of the same shape.
+\item\label{pf:open0a:F4} (\cref{pf:open0a:colside}) For every system of family constants there are column choices
+satisfying the column condition and the column output condition.
+\item\label{pf:open0a:F5} (\cref{pf:open0a:lawslinks}) If \ref{pf:open0a:F4} holds for every system of constants, some
+column choice gives a family character with its row conditions, the family laws, the chart condition at level $0$,
+\ref{pf:open0a:L2}, \ref{pf:open0a:L5} and \ref{pf:open0a:L6}.
+\item\label{pf:open0a:F6} (\cref{pf:open0a:isfam}) The row conditions imply that the commuting chain is admissible.
+\item\label{pf:open0a:F7} (\cref{pf:open0a:placed}) For an admissible true geometric family the placement conditions
+hold for $(a.\mathrm{fam}(\mathrm{row},\mathrm{col}),a.d.B)$ whenever its commuting chain is admissible.
+\item\label{pf:open0a:F8} (\lref{GlobalTheory.T.linkZero_of_chartZero'}) If $f$ satisfies the chart condition at
+level $0$, the level of $d.B$ equals $f.c.B(0,r_S)$ whenever $2r_S+2=m$, and $d.b=f.g.b(0)$, then
+\ref{pf:open0a:L1} holds.
+\item\label{pf:open0a:F9} (\lref{GlobalTheory.T.linkDown_of_famCh}) Under the package hypotheses, the row conditions
+of $f$ imply \ref{pf:open0a:L3}.
+\item\label{pf:open0a:F10} (\cref{pf:open0a:linkonto}) Under the package hypotheses and $\mathrm{Onto}(D)$, the row
+conditions of $f$ imply \ref{pf:open0a:L4}.
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:open0a:famall}]
+Take $z$ from \ref{pf:open0a:F1} (the package hypotheses are part of $\mathcal A(W)$). Let $u$ be a word. Choose $a$ by
+\ref{pf:open0a:F2}, row choices for $a.g$ by \ref{pf:open0a:F3}, and apply \ref{pf:open0a:F4} for every system $k$ of
+family constants; then \ref{pf:open0a:F5} gives column choices, and we put $f=a.\mathrm{fam}(\mathrm{row},\mathrm{col})$.
+By \ref{pf:open0a:F6}, $f.c$ is admissible, so \ref{pf:open0a:F7} gives the placement conditions for $(f,a.d.B)$; as
+$a.d.B$ is framed, \ref{pf:open0a:F1} gives a bottom datum $d$ pinned at $z$ with $d.B=a.d.B$ and $d.b=f.g.b(0)$. The
+bottom clause of the admissibility of $a$ says that the level of $a.d.B$ equals $f.c.B(0,r_S)$ when $2r_S+2=m$; hence
+\ref{pf:open0a:F8} gives \ref{pf:open0a:L1}. \ref{pf:open0a:F9} and \ref{pf:open0a:F10} give \ref{pf:open0a:L3} and
+\ref{pf:open0a:L4}, and \ref{pf:open0a:F5} gives $\mathrm{Laws}(f)$, \ref{pf:open0a:L2}, \ref{pf:open0a:L5} and
+\ref{pf:open0a:L6}.
+\end{proof}
+
+\subsubsection{The served condition}
+
+\begin{lemma}\label{pf:open0a:served}
+Every real package $W$ satisfies the served condition $\mathrm{SV}(W)$. (The formal statement also assumes the bottom
+hypotheses and the existence of a recursion of the realisation, which are not used.)
+\formallabel{GlobalTheory.MiTop.servedQ_of_bot_alt}\ \formallabel{GlobalTheory.MiTop.served'}
+\end{lemma}
+
+\begin{proof}
+We use the following properties of the character data of the realisation $W.Q$, which are part of its definition.
+For each tuple $t$ there is a Hecke character $\xi_t$ of $E$, with $\xi_{\mu_0}=1$, which is ramified at every prime of
+$Q_t$. Each finite place $w$ of $\mathit{LL}$ has a residue characteristic $\ell(w)$. If $w$ is not twisted, then
+$\mu(w)=\mu_0$. If $w$ is twisted, then $\xi_{\mu(w)}=\delta_{\ell(w)}\psi_w$, where $\psi_w$ is unramified at every
+prime of $E$ above $\ell(w)$, and $\delta_\ell=\delta'$ if $\ell=p_{\mathrm{de}}$ and $\delta_\ell=\delta$ otherwise;
+here $\delta$ (resp.\ $\delta'$) is unramified at every prime not above $p_{\mathrm{de}}$ (resp.\ $p'_{\mathrm{de}}$),
+and $p_{\mathrm{de}}\ne p'_{\mathrm{de}}$ are auxiliary primes of the host.
+
+Let $w$ be a finite place of $\mathit{LL}$, $p$ a prime and $\mathfrak P\in Q_{\mu(w)}$ with $p\in\mathfrak P$, and
+suppose $w\mid p$. Then $\ell(w)=p$, and $p$ is the only rational prime contained in $\mathfrak P$ (two distinct primes
+are coprime). The character $\xi_{\mu(w)}$ is ramified at $\mathfrak P$. If $w$ is not twisted,
+$\xi_{\mu(w)}=\xi_{\mu_0}=1$, a contradiction. If $w$ is twisted, $\psi_w$ is unramified at $\mathfrak P$; and
+$\delta_p$ is unramified at $\mathfrak P$: if $p=p_{\mathrm{de}}$, then $\delta_p=\delta'$ and $\mathfrak P$ lies over
+$p\ne p'_{\mathrm{de}}$; otherwise $\delta_p=\delta$ and $\mathfrak P$ lies over $p\ne p_{\mathrm{de}}$. So
+$\xi_{\mu(w)}=\delta_p\psi_w$ is unramified at $\mathfrak P$, again a contradiction.
+\end{proof}
+
+\subsubsection{Seesaw transport relations and the joint condition}
+The family laws imply the \emph{seesaw transport relations}, which transfer linear relations between top pairings to
+linear relations between bottom periods.
+
+\begin{definition}\label{pf:open0a:def:mainx}
+For a family character $f$, the seesaw transport relations $\mathrm{STR}(f)$ are the statement: for every finite set
+$\mathcal I$, tuples $t_i$, constants $\alpha_i\in\C$, ramified columns $\psi_i\in\mathrm{Ram}_0(f_{t_i})$ and top forms
+$G_i\in\mathrm{CT}(f_{t_i})$ ($i\in\mathcal I$),
+\[
+\sum_{i}\alpha_i\,c_{\mathrm{top}}^{t_i}\,\mathrm{tail}^{t_i}\bigl(\mathrm{up}^{t_i}\psi_i,G_i\bigr)=0
+\ \Longrightarrow\
+\sum_i\alpha_i\,c_{\mathrm{bot}}^{t_i}\,\mathrm{Per}^{t_i}(\psi_i,G_i)(y,v)=0\quad\text{for all }y,v.
+\]
+\formal{GlobalTheory.SeeSaw.MainX}
+\end{definition}
+
+By \cref{pf:open0a:str}, under \ref{pf:open0a:P2} and \ref{pf:open0a:P4} the family laws imply the seesaw transport
+relations.
+
+\begin{lemma}\label{pf:open0a:vw}
+Let $\mathcal{K}$ be a number field, $\sigma\colon\mathcal{K}\to\C$ an embedding, $w$ a finite place of $\mathcal{K}$,
+$\mathcal S$ a set of primes with $w\nmid p$ for all $p\in\mathcal S$, and $x,y\in\C$ with $\mathrm{UR}_{\mathcal S}(x,y)$.
+If $a\in\mathcal{K}$ and $\sigma(a)=x/y$, then $v_w(a)=0$.
+\formallabel{GlobalTheory.Fam.vw_eq_zero_of_unitRatio}\
+\formallabel{GlobalTheory.T.valuation_eq_zero_of_rootOfSUnitRatio}
+\end{lemma}
+
+\begin{proof}
+Let $n_0\ge1$ and $\rho\in\Q^\times$ with $(x/y)^{n_0}=\rho$, all primes dividing the numerator or the denominator of
+$\rho$ lying in $\mathcal S$. Then $\sigma(a^{n_0})=\rho=\sigma(\rho)$, so $a^{n_0}=\rho$ and $a\ne0$. The numerator and
+the denominator of $\rho$ are, up to sign, products of primes $p\in\mathcal S$, which are units at $w$; so they have
+valuation $0$ at $w$, and $n_0\,v_w(a)=v_w(a^{n_0})=v_w(\rho)=0$. As $n_0\ge1$, $v_w(a)=0$.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:rellinks}
+Let $u$ be a word, $f$ a family character for $(W,u)$ and $d$ a bottom datum. Assume that all $f_t$ are admissible,
+$\mathrm{STR}(f)$, \ref{pf:open0a:L1}--\ref{pf:open0a:L6} and $\mathrm{SV}(W)$. Then there are a linear map $U$ of
+$M_u$, $r'>0$ with $\|U\varphi\|=r'\|\varphi\|$ for all $\varphi$, and $c\colon\mathcal T\to\C$ with $\mathrm{UC}(c)$
+and $\mathrm{Rel}_d(U,c)$.
+\formallabel{GlobalTheory.MiTop.rel_of_links_alt}
+\end{lemma}
+
+\begin{proof}
+Let $S,r,s_0$ be as in \ref{pf:open0a:L5}. Recall $c_{\mathrm{bot}}^t\ne0$ for all $t$ (admissibility) and
+$c_{\mathrm{top}}^t\ne0$ (\ref{pf:open0a:L6}). Put
+\[
+U=S^{-1},\qquad r'=r^{-1},\qquad c(t)=c_{\mathrm{top}}^t\,s_0/c_{\mathrm{bot}}^t.
+\]
+Then $\|U\varphi\|=r^{-1}\|S(S^{-1}\varphi)\|=r^{-1}\|\varphi\|$ and $c(t)\ne0$.
+
+\emph{Unit coefficients.} Let $w$ be a finite place of $\mathit{LL}$ and $k\in\mathit{LL}$ with
+$\iota_{\mathit{LL}}(k)=c(\mu(w))/c(\mu_0)=x/y$, where $x=c_{\mathrm{top}}^{\mu(w)}/c_{\mathrm{bot}}^{\mu(w)}$ and
+$y=c_{\mathrm{top}}^{\mu_0}/c_{\mathrm{bot}}^{\mu_0}$. By \ref{pf:open0a:L6} for $t=\mu(w)$,
+$\mathrm{UR}_{\mathcal Q_{\mu(w)}}(x,y)$, and by the served condition $w\nmid p$ for all $p\in\mathcal Q_{\mu(w)}$.
+\Cref{pf:open0a:vw} gives $v_w(k)=0$.
+
+\emph{The relation.} Let $T\in\openzeroaRow$; by \ref{pf:open0a:L4} choose $G_0\in\mathrm{CT}(f_{\mu_0})$ with
+$\mathrm{desc}^{\mu_0}(G_0)=T$, and define for $\varphi_0\in M_u$
+\[
+p(\varphi_0)=\frac{c_{\mathrm{top}}^{\mu_0}}{c_{\mathrm{bot}}^{\mu_0}}\,
+\mathrm{tail}^{\mu_0}\bigl(\mathrm{up}^{\mu_0}(\mathrm c_0^{\mu_0}(S^{-1}\varphi_0)),G_0\bigr).
+\]
+Let $\varphi_0,\varphi,t,F,\alpha,\alpha'$ with $\alpha p(\varphi_0)+\alpha'c(t)\mathrm{pc}_t(\varphi,F)=0$. By
+\ref{pf:open0a:L3} choose $G\in\mathrm{CT}(f_t)$ with leading component $\mathrm{lead}(t,F)$ and
+$\mathrm{desc}^t(G)=\mathrm{rf}(t,F)$. By \ref{pf:open0a:L5} and \ref{pf:open0a:L2},
+\[
+\mathrm{tail}^t\bigl(\mathrm{up}^t(\mathrm c_0^t(S^{-1}\varphi)),G\bigr)
+=s_0\,\mathrm{tail}^t\bigl(\mathrm{col}^t(\mathrm c_0^t\varphi),G\bigr)=s_0\,\mathrm{pc}_t(\varphi,F).
+\]
+Apply $\mathrm{STR}(f)$ to the two-element family consisting of
+$(t,\ \alpha'/c_{\mathrm{bot}}^t,\ \mathrm c_0^t(S^{-1}\varphi),\ G)$ and
+$(\mu_0,\ \alpha/c_{\mathrm{bot}}^{\mu_0},\ \mathrm c_0^{\mu_0}(S^{-1}\varphi_0),\ G_0)$; the columns are ramified by
+\ref{pf:open0a:L1}. The top sum is
+\[
+\frac{\alpha'}{c_{\mathrm{bot}}^t}\,c_{\mathrm{top}}^t\,s_0\,\mathrm{pc}_t(\varphi,F)+\alpha\,p(\varphi_0)
+=\alpha'c(t)\,\mathrm{pc}_t(\varphi,F)+\alpha\,p(\varphi_0)=0,
+\]
+so for all $y,v$,
+\[
+\alpha'\,\mathrm{Per}^t\bigl(\mathrm c_0^t(S^{-1}\varphi),G\bigr)(y,v)
++\alpha\,\mathrm{Per}^{\mu_0}\bigl(\mathrm c_0^{\mu_0}(S^{-1}\varphi_0),G_0\bigr)(y,v)=0.
+\]
+By \ref{pf:open0a:L1}, the first period is $d.\mathrm{per}(U\varphi,\mathrm{desc}^t(G))(y,v)=
+d.\mathrm{per}(U\varphi,\mathrm{rf}(t,F))(y,v)$ and the second is $d.\mathrm{per}(U\varphi_0,T)(y,v)$. This is the
+required relation.
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:joint}
+Assume \ref{pf:open0a:P2} and \ref{pf:open0a:P4}. Then $\mathrm{FC}(W)$ and $\mathrm{SV}(W)$ imply $\mathrm{JC}(W)$.
+\formallabel{GlobalTheory.T.joint_of_famAllQ_of_servedQ}\ \formallabel{GlobalTheory.MiTop.joint_of_famAllQ_alt}
+\end{proposition}
+
+\begin{proof}
+Take $z$ from $\mathrm{FC}(W)$. For a word $u$ let $f,d$ be as there; $d$ is pinned at $z$. The family laws contain the
+admissibility of every $f_t$ and give $\mathrm{STR}(f)$ by \cref{pf:open0a:str}. \Cref{pf:open0a:rellinks} gives
+$U,r',c$, and $(d,U,r',c)$ is as required.
+\end{proof}
+
+
+\subsubsection{The final construction}\label{sec:pf:open0a:final}
+We now produce the data $(V,a,U,\zeta)$ of $\openzeroaMI$. The last two ingredients are an isometry induced by a
+central element, and an anchoring of every word by a non-zero pairing; the anchoring is where the non-vanishing of
+periods enters.
+
+\begin{lemma}[Central shift]\label{pf:open0a:shift}
+Assume the bottom hypotheses for $W$ and let $z\in G_f\cap Z(G)$. There is a linear map $V_0\colon H_E\to H_E$ such
+that (i) $\mathrm{rf}(V_0e)(v)=R_z\bigl(\mathrm{rf}(e)(v)\bigr)$ for all $e,v$, where $R_z$ is right translation by
+$z$; (ii) $\|V_0e\|=\|e\|$ for all $e$; (iii) $V_0$ preserves the true part.
+\formallabel{GlobalTheory.MiTop.exists_isShift_of_center_alt}
+\end{lemma}
+
+\begin{proof}
+The bottom hypotheses contain the statement that the real datum of $W.Q$ is a model: $e_E$ is injective, its image is
+the good part of the multiplicity maps at the trivial level, and it is isometric when the multiplicity maps carry the
+multiplicity inner product $\langle T,T'\rangle_M$ (an integral over a fundamental domain of $\Uni(Y_0)(F)$ in $G$,
+with respect to a Haar measure $\nu_0$). For every level, post-composition with $R_z$ maps the good part at that level
+into itself (\lref{GlobalTheory.MiTop.CentralShift.postOn_rTrL_mem_EEat_of_mem_center}: for central finite $z$,
+right translation by $z$ preserves the good parts of all levels). Hence
+$V_0=e_E^{-1}\circ(T\mapsto R_z\circ T)\circ e_E$ is a well-defined linear map, and (iii) holds. Since the extension of
+$R_z\circ T$ to tensors is $R_z$ composed with that of $T$, (i) holds. As $z$ is central, $g\mapsto gz=zg$ is a left
+translation and preserves $\nu_0$. By \lref{GlobalTheory.isMultiplicityInner_of_unit_twist_shift} (the
+multiplicity inner product is unchanged when both arguments $T,T'$ are replaced by $a\,T(\cdot\,\kappa)$ and
+$a\,T'(\cdot\,\kappa)$, $|a|=1$, for any $\kappa$ whose right translation preserves the Haar measure), applied with $a=1$
+and $\kappa=z^{\pm1}$, $\langle R_z\circ T,R_z\circ T'\rangle_M=\langle T,T'\rangle_M$ for $T,T'$ in the good part.
+Since $e_E$ is isometric, (ii) follows.
+\end{proof}
+
+A \emph{conjugate vector} is a vector $v=(v_\tau)_\tau$ of the discrete series models $M$ for which there are
+conjugate-linear isometries $c_\tau$ from the model at $\tau$ onto the archimedean representation of the Hida setting
+at $\tau$, intertwining the actions (through $\iota$ and $\theta$) and mapping $v_\tau$ to the distinguished vector of
+the Hida setting. We write $\otimes v$ for the corresponding pure tensor in $M^{\infty}$.
+
+\begin{lemma}[Anchor pairs]\label{pf:open0a:anchorpairs}
+Assume \ref{pf:open0a:P2}, \ref{pf:open0a:P12}, the bottom hypotheses for $W$ and $\openzeroaNV(D)$. Let
+$z\in G_f\cap Z(G)$ and let $v$ be a conjugate vector. Then for every word $u$:
+\begin{enumerate}[label=(\alph*)]
+\item every $\varphi\in M_u$ has a column form;
+\item for every $T\in\openzeroaRow$ and $C\in\mathrm{Cu}(u)$ there is $b$ with $\mathrm{Pair}_u(zt_S,T(\otimes v),C,b)$;
+\item there are $\varphi\in M_u$, a column form $C$ of $\varphi$, $T\in\openzeroaRow$ and $b\ne0$ with
+$\mathrm{Pair}_u(zt_S,T(\otimes v),C,b)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.conjugate_vector_central_twist_alt}\ \formallabel{GlobalTheory.MiTop.anchor_pairs_alt}
+\end{lemma}
+
+\begin{proof}
+(a) The column dictionary of $u$ maps $\mathrm{Cu}(u)$ onto $M_0(u)$ (a property of the spectral ties), and
+$e_u(\varphi)\in\openzeroaram(u)\subseteq M_0(u)$.
+
+(b) The bottom hypotheses give that $\theta$ is an archimedean family, that the level $(J,\chi)$ matches at $zt_S$, and
+the gap and identity conditions of the Hida setting (\lref{GlobalTheory.T.bottom_hypothesis_matching_central_alt}:
+these consequences of the bottom hypotheses hold for every central finite $z$). Under these conditions, by
+\cref{pf:open0a:evalall} (which uses \ref{pf:open0a:P2} and \ref{pf:open0a:P12}),
+there is a bijective linear map $j\colon\openzeroaRow\to H_X$ such that $j(T)$ is almost everywhere the complex
+conjugate of $x\mapsto T(\otimes v)(\iota(x)zt_S)$, i.e.\ every cusp form of the Hida setting is the translated
+evaluation of a unique element of the base row space. Then $\mathrm{Pair}_u(zt_S,T(\otimes v),C,b)$ holds with
+$\phi=\overline{j(T)}$ and $b=\langle j(T),\varpi_C\rangle$.
+
+(c) By $\openzeroaNV(D)$ choose $\varphi_r\in\openzeroaram(u)$ with $P_u(x)\ne0$, $x=\iota_u^{-1}\varphi_r$. The spectral
+ties provide $C\in\mathrm{Cu}(u)$ with dictionary image $\iota_u(x)=\varphi_r$, so that $C$ is a column form of
+$e_u^{-1}(\varphi_r)$, and an isometric identification of $H$ with $H_X$ under which $P_u(x)$ corresponds to
+$\varpi_C$; hence $P:=\varpi_C\ne0$. With $j$ as in (b) put $T=j^{-1}(P)$; then
+$b=\langle P,P\rangle\ne0$.
+\end{proof}
+
+\begin{lemma}[Anchoring a word]\label{pf:open0a:anchorword}
+Let $z\in G$, $u$ a word, $d$ a bottom datum for $(W,u)$, $v$ a vector of the models, $U$ a linear map of $M_u$ with
+$\|U\varphi\|=r\|\varphi\|$ for some $r>0$, and $c\colon\mathcal T\to\C$. Assume $\mathrm{BR}(z,d)$,
+$\mathrm{Rel}_d(U,c)$, statement (c) of \cref{pf:open0a:anchorpairs}, and $\mathrm{rf}(t,F)\in\openzeroaRow$ for all
+$t,F$. Then there are a linear isometry $R$ of $M_u$ and $p,b_0\in\C^\times$ such that for all $t$, $\varphi\in M_u$,
+rows $F$, $C\in\mathrm{Cu}(u)$ and $b\in\C$:
+\[
+\mathrm{CF}_u\bigl(C,R(U\varphi)\bigr)\ \text{and}\ \mathrm{Pair}_u\bigl(zt_S,\mathrm{rf}(t,F)(\otimes v),C,b\bigr)
+\ \Longrightarrow\ c(t)\,\mathrm{pc}_t(\varphi,F)\,b_0=p\,b.
+\]
+\formallabel{GlobalTheory.MiTop.AtReal.anchor_word_alt}
+\end{lemma}
+
+\begin{proof}
+Let $R$ be the isometry of $\mathrm{BR}(z,d)$, and choose $\varphi_1$, a column form $C_0$ of $\varphi_1$,
+$T_0\in\openzeroaRow$ and $b_0\ne0$ with $\mathrm{Pair}_u(zt_S,T_0(\otimes v),C_0,b_0)$. Since $r>0$, $U$ is injective,
+hence bijective ($M_u$ is finite-dimensional); choose $\varphi_0$ with $U\varphi_0=R^{-1}\varphi_1$, so that $C_0$ is a
+column form of $R(U\varphi_0)$. Let $p_0\colon M_u\to\C$ be the function given by $\mathrm{Rel}_d(U,c)$ for $T_0$, and
+put $p=p_0(\varphi_0)$.
+
+$p\ne0$: otherwise $1\cdot p_0(\varphi_0)+0=0$, and $\mathrm{Rel}_d(U,c)$ (with $\alpha=1$, $\alpha'=0$, the base tuple
+and the zero row) gives $d.\mathrm{per}(U\varphi_0,T_0)(y,v')=0$ for all $y,v'$. Then $\mathrm{BR}(z,d)$, applied with
+$\varphi=\varphi'=U\varphi_0$, $T=T'=T_0$, $(\alpha,\alpha')=(1,0)$, $C=C'=C_0$ and $b=b'=b_0$, gives $b_0=0$, a
+contradiction.
+
+The identity: let $t,\varphi,F,C,b$ satisfy the hypotheses, and put $\alpha=c(t)\mathrm{pc}_t(\varphi,F)$ and
+$\alpha'=-p$. Then $\alpha\,p_0(\varphi_0)+\alpha'c(t)\mathrm{pc}_t(\varphi,F)=0$, so by $\mathrm{Rel}_d(U,c)$,
+$\alpha\,d.\mathrm{per}(U\varphi_0,T_0)(y,v')+\alpha'\,d.\mathrm{per}(U\varphi,\mathrm{rf}(t,F))(y,v')=0$ for all $y,v'$.
+Since $\mathrm{rf}(t,F)\in\openzeroaRow$, $\mathrm{BR}(z,d)$ (with $\varphi=U\varphi_0$, $\varphi'=U\varphi$, $T=T_0$,
+$T'=\mathrm{rf}(t,F)$, the vector $\otimes v$, the column forms $C_0,C$ and the pairings $b_0,b$) gives
+$\alpha b_0+\alpha'b=0$, i.e.\ $c(t)\,\mathrm{pc}_t(\varphi,F)\,b_0=p\,b$.
+\end{proof}
+
+\begin{lemma}[Normalisation]\label{pf:open0a:anchored}
+Let $X$ be a coefficient complex with face data $n_V$, $\mathrm{Mem}$, $a$, $X_c$, $\mathrm{Pt}$, $H$, $P$, let $e_V$
+and $s_{EE}$ be as in \cref{pf:open0a:def:mistar}, $V\colon E\to E$ linear, $U(u)\in M_{a(u)}(\C)$ and
+$c\colon\mathrm{Mem}\times\mathcal T\to\C$. Assume:
+\begin{enumerate}[label=(\roman*)]
+\item $V$ satisfies \ref{pf:open0a:M1} and the $U(u)$ satisfy \ref{pf:open0a:M2};
+\item for every $u$ there are $p(u),b(u)\in\C^\times$ such that for all $t,\varphi,F$
+\[
+c(u,t)\,\iota_0\bigl(\mathrm{Pt}(u,t)(\varphi,F)\bigr)\,b(u)
+=p(u)\,\bigl\langle s_{EE}\bigl(V\Theta_t(j_R(t)(e_V(t)F))\bigr),P_u\bigl(U(u)\iota_0(\varphi)\bigr)\bigr\rangle;
+\]
+\item $c(u,t)\ne0$ for all $u,t$, and $\iota_0(k)=c(u,\mu(w))/c(u,\mu_0)$ implies $v_w(k)=0$, for all $u$, finite places
+$w$ and $k\in\mathcal{K}$.
+\end{enumerate}
+Then $\openzeroaMI(X,e_V,s_{EE})$ holds, with $a(u)=p(u)/(b(u)c(u,\mu_0))$ and $\zeta(u,t)=c(u,t)/c(u,\mu_0)$.
+\formallabel{GlobalTheory.MiTop.miStar2_of_anchored}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:open0a:M1} and \ref{pf:open0a:M2} are (i). $\zeta(u,t)\ne0$, $\zeta(u,\mu_0)=1$ and the valuation condition of
+\ref{pf:open0a:M3} are (iii); $a(u)\ne0$ as $p(u),b(u),c(u,\mu_0)\ne0$. Dividing the identity (ii) by
+$b(u)\,c(u,\mu_0)$ gives \eqref{pf:open0a:eq:MI}.
+\end{proof}
+
+\begin{theorem}\label{pf:open0a:final}
+Assume \ref{pf:open0a:P2} and \ref{pf:open0a:P12}. Let $W$ satisfy the bottom hypotheses, assume that
+$\Theta_t(j_R(t)(e_V(t)F))\in\openzeroaTrue$ for all tuples $t$ and rows $F$, $\mathrm{JC}(W)$ and $\openzeroaNV(D)$.
+Then $\openzeroaMI(X_W,e_{V,W},s_{EE,W})$.
+\formallabel{GlobalTheory.T.joint_star_product_nonvanishing_alt}\
+\formallabel{GlobalTheory.MiTop.miStar2_at_realisation_alt}
+\end{theorem}
+
+\begin{proof}
+Besides \cref{pf:open0a:shift,pf:open0a:anchorpairs,pf:open0a:anchorword,pf:open0a:anchored} the proof uses the
+following statements; in \ref{pf:open0a:B2}, \ref{pf:open0a:B3} and \ref{pf:open0a:B5} the hypotheses are the bottom
+hypotheses, \ref{pf:open0a:P2} and \ref{pf:open0a:P12}.
+\begin{enumerate}[label=(B\arabic*),leftmargin=*]
+\item\label{pf:open0a:B1} (\lref{GlobalTheory.MiTop.botHyp_match_alt}) The bottom hypotheses imply, besides the
+facts used in \cref{pf:open0a:anchorpairs}, that $\mathrm{rf}(e)\in\openzeroaRow$ whenever $e\in\openzeroaTrue$.
+\item\label{pf:open0a:B2} (\lref{GlobalTheory.Core.Mi.exists_conjVec}) A conjugate vector exists: the
+classification \ref{pf:open0a:P12} identifies the discrete series of the Hida setting with the model $M$ by a
+conjugate-linear intertwiner, using the uniqueness of discrete series with given parameter.
+\item\label{pf:open0a:B3} (\cref{pf:open0a:pairform}; the \emph{pairing form}) For every
+conjugate vector $v$ there is $\kappa\in\C^\times$ such that for all $e\in\openzeroaTrue$, words $u$ with member $m$,
+$x\in\C^{a(m)}$, column forms $C$ of $\mathrm{col}_u(x)$ and $b$ with $\mathrm{Pair}_u(t_S,\mathrm{rf}(e)(\otimes v),C,b)$,
+one has $\bigl\langle s_{EE}(e),P_m(\openzeroacj(x))\bigr\rangle=\openzeroacj(\kappa b)$. Here
+$\mathrm{col}_u(x)=\sum_ix_i\,\jmath_u(\mathbf e_i)$, $\jmath_u\colon\mathit{LL}^{a(m)}\to M_u$ is the column embedding
+of $u$, $\mathbf e_i$ are the unit vectors, and $\openzeroacj$ acts componentwise.
+\item\label{pf:open0a:B4} (\lref{GlobalTheory.MiTop.colCrd_of_real_pack}) For every word $u$, $\mathrm{col}_u$ is
+bijective, $\mathrm{col}_u(\iota_{\mathit{LL}}(x))=\jmath_u(x)$ for $x\in\mathit{LL}^{a(m)}$, and there is $r_u>0$ with
+$\|\openzeroacj(x)\|_{X_c(m,v_0)}=r_u\|\mathrm{col}_u(x)\|$ for all $x$.
+\item\label{pf:open0a:B5} (\cref{pf:open0a:botrel}) For $z\in G_f\cap Z(G)$ and a bottom datum $d$ pinned at $z$,
+$\mathrm{BR}(z,d)$.
+\item\label{pf:open0a:B6} The members of the face are the words: every $m\in\mathrm{Mem}$ is the member $m_u$ of a word
+$u$; and, by the hypothesis at the package contained in the bottom hypotheses, the column pairings of $X_W$ are those
+of the datum: $\iota_{\mathit{LL}}\bigl(\mathrm{Pt}(m_u,t)(\varphi,F)\bigr)=\mathrm{pc}_t(\jmath_u\varphi,F)$.
+\end{enumerate}
+Let $z$ and $(d_u,U_u,r_u',c_u)_u$ be given by $\mathrm{JC}(W)$, $V_0$ by \cref{pf:open0a:shift} for $z$, $v$ by
+\ref{pf:open0a:B2} and $\kappa$ by \ref{pf:open0a:B3}. For every row the vector $e_{t,F}=\Theta_t(j_R(t)(e_V(t)F))$
+lies in $\openzeroaTrue$ by hypothesis, and $\mathrm{rf}(t,F)=\mathrm{rf}(e_{t,F})$, so $\mathrm{rf}(t,F)\in\openzeroaRow$
+by \ref{pf:open0a:B1}. For every word $u$, \ref{pf:open0a:B5} gives $\mathrm{BR}(z,d_u)$, \cref{pf:open0a:anchorpairs}
+gives its statements (a)--(c), and \cref{pf:open0a:anchorword} gives $R_u$, $p_u$ and $b_{0,u}$.
+
+Fix a word $u$ with member $m=m_u$. The map $A_u=r_u'^{-1}R_u\circ U_u$ is a linear isometry of $M_u$. Let
+$U(m)\in M_{a(m)}(\C)$ be the matrix of $y\mapsto\openzeroacj\bigl(\mathrm{col}_u^{-1}(A_u\,\mathrm{col}_u(\openzeroacj
+y))\bigr)$, and put
+\[
+c(m,t)=\openzeroacj(c_u(t)),\qquad p(m)=\openzeroacj(p_u),\qquad b(m)=\openzeroacj\bigl(\kappa\,r_u'^{-1}b_{0,u}\bigr).
+\]
+By \ref{pf:open0a:B4}, $\|U(m)y\|_{X_c(m,v_0)}=r_u\|A_u\,\mathrm{col}_u(\openzeroacj y)\|=r_u\|\mathrm{col}_u(\openzeroacj
+y)\|=\|y\|_{X_c(m,v_0)}$, which is \ref{pf:open0a:M2}. Let $V$ be $V_0$ regarded as a map of $E$; it satisfies
+\ref{pf:open0a:M1} by \cref{pf:open0a:shift}(ii),(iii). Condition (iii) of \cref{pf:open0a:anchored}: $c(m,t)\ne0$ as
+$c_u(t)\ne0$; and if $\iota_0(k)=c(m,\mu(w))/c(m,\mu_0)$, then applying $\openzeroacj$ gives
+$\iota_{\mathit{LL}}(k)=c_u(\mu(w))/c_u(\mu_0)$, so $v_w(k)=0$ as $c_u$ is a system of unit coefficients.
+
+It remains to verify (ii) of \cref{pf:open0a:anchored}. Let $t$ be a tuple, $\varphi\in\mathit{LL}^{a(m)}$ and $F$ a row.
+Put $\psi=\jmath_u(\varphi)\in M_u$, so that $\mathrm{col}_u(\iota_{\mathit{LL}}\varphi)=\psi$ by \ref{pf:open0a:B4}, and
+$x=\mathrm{col}_u^{-1}(A_u\psi)$; then $U(m)\,\iota_0(\varphi)=U(m)\,\openzeroacj(\iota_{\mathit{LL}}\varphi)
+=\openzeroacj(x)$. By \cref{pf:open0a:anchorpairs}(a),(b) choose a column form $C$ of
+$\mathrm{col}_u(x)=A_u\psi=R_u(U_u(r_u'^{-1}\psi))$ and $b$ with $\mathrm{Pair}_u(zt_S,\mathrm{rf}(t,F)(\otimes v),C,b)$.
+Put $e=V_0e_{t,F}\in\openzeroaTrue$. By \cref{pf:open0a:shift}(i), $\mathrm{rf}(e)(\otimes
+v)=R_z\bigl(\mathrm{rf}(t,F)(\otimes v)\bigr)$, and since $z$ is central, $R_z(f)(\iota(x')t_S)=f(\iota(x')t_Sz)
+=f(\iota(x')zt_S)$ for every function $f$ on $G$; hence $\mathrm{Pair}_u(t_S,\mathrm{rf}(e)(\otimes v),C,b)$, and
+\ref{pf:open0a:B3} gives
+\[
+\bigl\langle s_{EE}(Ve_{t,F}),\,P_m\bigl(U(m)\iota_0(\varphi)\bigr)\bigr\rangle=\openzeroacj(\kappa b).
+\]
+\Cref{pf:open0a:anchorword}, applied to $r_u'^{-1}\psi$, gives
+$c_u(t)\,\mathrm{pc}_t(r_u'^{-1}\psi,F)\,b_{0,u}=p_u\,b$; as $\mathrm{pc}_t$ is linear in the column,
+$c_u(t)\,r_u'^{-1}\mathrm{pc}_t(\psi,F)\,b_{0,u}=p_ub$. By \ref{pf:open0a:B6},
+$\iota_{\mathit{LL}}(\mathrm{Pt}(m,t)(\varphi,F))=\mathrm{pc}_t(\psi,F)$, and $\iota_0=\openzeroacj\circ\iota_{\mathit{LL}}$.
+Therefore
+\begin{align*}
+c(m,t)\,\iota_0\bigl(\mathrm{Pt}(m,t)(\varphi,F)\bigr)\,b(m)
+&=\openzeroacj\bigl(\kappa\,c_u(t)\,r_u'^{-1}\,\mathrm{pc}_t(\psi,F)\,b_{0,u}\bigr)
+=\openzeroacj(p_u)\,\openzeroacj(\kappa b)\\
+&=p(m)\,\bigl\langle s_{EE}(Ve_{t,F}),P_m\bigl(U(m)\iota_0(\varphi)\bigr)\bigr\rangle .
+\end{align*}
+\Cref{pf:open0a:anchored} concludes.
+\end{proof}
+
+\begin{theorem}\label{pf:open0a:mistarpunz}
+Assume \ref{pf:open0a:P2}, \ref{pf:open0a:P4} and \ref{pf:open0a:P12}. If $W$ satisfies the bottom hypotheses, the level
+hypothesis, $\mathrm{FC}(W)$ and $\mathrm{SV}(W)$, and $\openzeroaNV(D)$ holds, then $\openzeroaMI(X_W,e_{V,W},s_{EE,W})$.
+\formallabel{GlobalTheory.T.mi_star2_of_pu_nz}\
+\formallabel{GlobalTheory.MiTop.miStar2_of_bot_lev_fam_served_puNZ}
+\end{theorem}
+
+\begin{proof}
+By \lref{GlobalTheory.MiTop.descent_eV_mem_level_alt}, the bottom hypotheses and the level hypothesis imply
+$\Theta_t(j_R(t)(e_V(t)F))\in\openzeroaTrue$ for all $t,F$: the level hypothesis provides a unitary representation of a
+finite group on $E$ compatible with the theta maps, the bijectivity at the principal level and the level types at the
+two levels, and a descent argument shows that the rational rows at the true level span the intersection of the image
+of $\Theta_t^*$ with the good part, so that their theta images lie in the true part. By \cref{pf:open0a:joint},
+$\mathrm{JC}(W)$ holds, and \cref{pf:open0a:final} concludes.
+\end{proof}
+
+%==============================================================================
+\subsection{Proofs of the deferred results}\label{sec:pf:open0a:deferred}
+
+In this subsection we prove the ingredients which were stated and cited in the preceding subsections. The proofs
+are given at the level of their main steps; the deeper ingredients are cited with a statement of what is used.
+
+\subsubsection{Size conditions at linked bundles}
+For a datum $D$ and a word $u$ let $\mathrm{Tr}_u>0$ be the \emph{level trace} of $u$ (the trace attached to the
+level prime $T_u$ in the size inequalities), and for an object $O$ put $b=e^{L}$, $L=O.L.L$. The constants $C_\Gamma$,
+$C_{YL}$, $C_{Tu}$ are those of the system $\kappa.C$.
+
+\begin{lemma}\label{pf:open0a:hypL}
+Statement \ref{pf:open0a:S2} holds: for all functions $A,B$ of systems of family constants, the size inequalities of $D$
+at $L$ with the constants listed there hold eventually at the bundles of $(\mathcal G_p,\openzeroaLk_p)$.
+\formallabel{GlobalTheory.T.degHypL_all_linked_good_members}
+\end{lemma}
+
+\begin{proof}
+We combine three statements.
+\begin{enumerate}[label=(\roman*)]
+\item (\lref{GlobalTheory.T.trace_lower_bound_all_members'}) Eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$, $b^{m/2}\le\mathrm{Tr}_u$ for every word $u$.
+\item (\lref{GlobalTheory.T.trace_upper_bound_all_members'}) Eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$, $\mathrm{Tr}_u\le b^{C_{Tu}m}$ for every word $u$.
+\item (\lref{GlobalTheory.Core.HypAt.evP_hypL}) Eventually in contexts: every point $\beta$ in the context such that
+$b^{m/2}\le\mathrm{Tr}_u\le b^{C_{Tu}m}$ for all words $u$ of $D_\beta$ satisfies the size inequalities of the
+statement. Its proof takes $L=x^{\varepsilon}$, derives the global rows of the size data of a point
+(\lref{GlobalTheory.Diag.PG.Model0.globalRows_of_sizeData}) and the node parameters
+(\lref{GlobalTheory.Diag.PG.NodeParameters.nodes_of_parameters}), and deduces the size inequalities from the global
+rows, the nodes and the trace bounds (\lref{GlobalTheory.T.hypotheses_of_global_rows_and_nodes}), comparing the
+rank numbers with powers of $x^\varepsilon$.
+\end{enumerate}
+By \cref{pf:open0a:rowEcalc}(a) (whose proof applies verbatim to a conjunction of an eventual statement at the
+bundles and a statement eventual in contexts), (i)--(iii) hold simultaneously eventually. At a linked bundle over a
+good point $\beta$ where they hold, (i) and (ii) give the trace bounds required in (iii), and (iii) gives the size
+inequalities.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:sizes}
+Statement \ref{pf:open0a:S1} holds.
+\formallabel{GlobalTheory.T.exists_constants_for_parameters_scale_bundle}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:open0a:rowEcalc}(a) the following eight properties hold simultaneously eventually at the bundles of
+$(\mathcal G_p,\openzeroaLk_p)$: the ties of $D$ (\lref{GlobalTheory.Fam.MemberSizes.ties_at_alt}); the mid-volume
+formula (\lref{GlobalTheory.T.familyMidVolume_at_linked}); the size inequalities of \cref{pf:open0a:hypL} with
+$A(C)=F(C_{YL}+1,C_{Tu})$ and $B(C)=G(C_{YL}+1,C_{Tu})$; the interlacing and congruence conditions
+(\lref{GlobalTheory.T.dataNW_all_linked_good_members}); the trace frame
+(\lref{GlobalTheory.T.type_frame_all_members'}); the rank identity at every word
+(\lref{GlobalTheory.T.rankMu_all_linked_members}); the cubic node gap
+(\lref{GlobalTheory.T.bigGap_of_isGoodE_isLinked}); and $H(C_{YL}+1,C_{Tu})\le L$, $C_\Gamma(O.L)=C_\Gamma$ and
+$C_\Gamma\ge1$ (\lref{GlobalTheory.Fam.MemberSizes.linked_scale_ge_H_and_cgam_eq}). At a bundle where they hold
+take $C_g=C_{YL}+1$, $C_T=C_{Tu}$, $C'=\max(F(C_g,C_T),8C_\Gamma)$ and $C_l=\max(G(C_g,C_T),40)$. Then
+$F(C_g,C_T)\le C'$, $G(C_g,C_T)\le C_l$ and $H(C_g,C_T)\le L$; the standing size conditions hold (their five components
+are among the eight properties); $O.L$ has scale parameter $L$ and $1\le C_\Gamma(O.L)\le C'/8$; the rank identity and
+the cubic node gap hold. Finally the size inequalities contain $C_l\le m$, so $m\ge40$, and $r_S=m/2-1\ge1$.
+\end{proof}
+
+\subsubsection{Leading reads}
+
+\begin{lemma}\label{pf:open0a:readat}
+Let $q$ be a weighted point and $b$ a bundle over $(D_q,O_q,c)$ with a bundle witness, and assume that the reading data
+of $q$ admit a reading structure. Then for every word $u$ there is a top map $j$ such that the leading read of
+$\mathrm{pk}(b)$ holds for $(u,j)$ at the identity: $j$ is admissible for $u$, and for every tuple $t$ the level
+condition holds at the level data of $t$ and the coefficients of every row of $t$ are read by $j$.
+\formallabel{GlobalTheory.T.exists_read_at_packB_of_bWit}
+\end{lemma}
+
+\begin{proof}
+From the bundle witness we obtain the admissibility of the construction, pins, standard columns and the standard twist
+condition (\lref{GlobalTheory.Fam.colsStd_of_bWit_alt}); with these, the forms at the level of the type places
+have Gram matrix $1$ in frame coordinates (\lref{GlobalTheory.T.trueColumn_spaces_standard_in_frameCoords}).
+The standardness of the core contained in the reading structure gives a semilinear \emph{valuation map} from the
+values of the base to the coefficient space of the package, which satisfies the valuation equivalence and the
+package valuation property (\lref{GlobalTheory.T.exists_valEqv_of_bWit_std}), and the witness gives a vanishing
+property of the package at the identity (\lref{GlobalTheory.T.pk_at_vanishing_of_is_uni}). From these,
+\lref{GlobalTheory.TopVal.exists_is_j_pair_val_of_vanishing} gives a top map $j$ which is admissible for $u$,
+together with the values of $j$ on the pairs of each tuple. Now let $t$ be a tuple. The level condition at the
+identity holds: the level data of $t$ are those of the reference tuple
+(\lref{GlobalTheory.T.level_group_reference_tuple_alt}), an element lies in the level group if and only if it
+lies in the twisted class (\lref{GlobalTheory.T.mem_level_iff_twisted_class_alt}), and the level character is $1$
+on the twisted class (\lref{GlobalTheory.T.level_character_twisted_class_alt}); so $1$ lies in the level group
+with character value $1$. Finally, for every row $F$ of $t$ the reading structure provides a one-form $\varphi$ with the
+reading identity at $u$ (\lref{GlobalTheory.T.one_form_exists_heq_alt}), and
+\lref{GlobalTheory.TopVal.reads_pk_alt} turns this identity and the values of $j$ into the reading of the
+coefficients of $F$ by $j$.
+\end{proof}
+
+\subsubsection{Surjectivity along chains}
+
+\begin{proposition}\label{pf:open0a:ontoclassical}
+Assume \ref{pf:open0a:P1}--\ref{pf:open0a:P5}. If a datum $D$ satisfies the Rallis inner product formula of
+\cref{pf:open0a:onto}(a) and the parameter transfer of \cref{pf:open0a:onto}(b), then $\mathrm{Onto}(D)$.
+\formallabel{GlobalTheory.T.thetaLiftChain_onto_cuspForms_of_innerProduct}
+\end{proposition}
+
+\begin{proof}
+The proof establishes a sequence of properties of the chains of $D$, each from the previous ones.
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item The level facts (\lref{GlobalTheory.T.thetaChain_level_properties}) and, by \ref{pf:open0a:P1}, the
+finite dimensionality of the cusp spaces of all localisations
+(\lref{GlobalTheory.T.thetaChainCuspSpaceFiniteDim_of_harishChandra}).
+\item By \ref{pf:open0a:P2}, the Petersson inner products on these spaces exist
+(\lref{GlobalTheory.T.thetaChainInnerProductsExist_of_rapidDecay}); the multiplicity spaces are spanned by Hecke
+eigen-elements (\lref{GlobalTheory.T.multiplicity_space_spanned_by_satake_eigen_elements}); the Hecke parameters
+of distinct eigen-elements are linearly independent
+(\lref{GlobalTheory.T.thetaChain_heckeParameters_linearIndependent}); the Hecke parameter of an element is
+determined by one non-zero value (\lref{GlobalTheory.T.hecke_parameters_of_element_from_one_nonzero_value}); and
+the occurring parameters satisfy the half-rank norm bound
+(\lref{GlobalTheory.T.theta_chain_occurring_params_norm_half_rank_bound}).
+\item The Fock vectors of the chain satisfy the level laws (\lref{GlobalTheory.T.thetaLiftChain_fockVector_levelLaws}),
+and their coefficients vanish off the level (\lref{GlobalTheory.T.thetaChainCoef_vanishes_off_level}).
+\item By \ref{pf:open0a:P3} and \ref{pf:open0a:P4}, the archimedean theta correspondence holds on the towers of real
+data (\lref{GlobalTheory.T.archimedeanThetaCorrespondence_towers_real_data}); hence the archimedean zeta integrals
+do not vanish (\lref{GlobalTheory.T.thetaChain_realZeta_nonvanishing}), and with (2) and (3) the local zeta
+integrals of the chain do not vanish (\lref{GlobalTheory.T.thetaChainLocalZetaNonvanishing_of_real}).
+\item By the inner product formula and (4), the upward lifts of non-zero eigen-elements are non-zero
+(\lref{GlobalTheory.T.thetaLiftUpwards_ne_zero_of_lValue}): the Petersson norm of the lift is a non-zero multiple of
+a non-vanishing $L$-value times the local zeta integrals.
+\item By \ref{pf:open0a:P2}--\ref{pf:open0a:P5}, the upward lifts lie in the cusp spaces
+(\lref{GlobalTheory.T.thetaLiftUpwards_in_cuspSpan}) and have adjoints for the Petersson inner products
+(\lref{GlobalTheory.T.thetaLiftUpwardsAdjoint_of_rapidDecay}).
+\item From (1), (2), (5), (6) and the parameter transfer: at each step the adjoint of the upward lift does not vanish on
+the image of an eigen-element (\lref{GlobalTheory.T.thetaLiftChain_adjoint_nonvanishing_step}); with the
+non-vanishing of the $L$-values of the chain (\lref{GlobalTheory.T.thetaChain_LValues_nonvanishing}) and the
+parameter bound of (2), the same holds for the composite chains (\lref{GlobalTheory.ChainOnto.chainUp_of}).
+\item The cusp space at level $0$ is spanned by eigen-elements with linearly independent parameters, and by (7) the
+composite of the reachable theta maps does not vanish on any of them; hence every reachable theta map is surjective
+(\lref{GlobalTheory.T.thetaLiftChain_surjective_of_adjoint_nonvanishing}). This is $\mathrm{Onto}(D)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:linkonto}
+Assume the package hypotheses for $W$ and $\mathrm{Onto}(D)$. If a family character $f$ for $(W,u)$ satisfies its row
+conditions, then the surjectivity \ref{pf:open0a:L4} holds.
+\formallabel{GlobalTheory.T.linkOnto_of_ontoAll'}
+\end{lemma}
+
+\begin{proof}
+The package defines a \emph{base chain} of $D$ with localisations $Y_k$ ($k\le m$, the stages of the spaces $Y_k$) and a
+localisation $X'$ at level $m$; the package hypotheses give that the base chain and these localisations are admissible
+(\lref{GlobalTheory.T.baseChain_com_z_is_of_pkHyp}, \lref{GlobalTheory.T.baseChain_stageY_is_of_pkHyp_of_lt},
+\lref{GlobalTheory.T.baseChain_stageX_is_of_pkHyp}). Let $T\in\openzeroaRow$. Under the row conditions, the
+descents of the base tuple chain $f_{\mu_0}$ from level $k$ are theta maps reachable in $k$ steps from $Y_0$
+(\lref{GlobalTheory.BaseChain.reach_stageY_dn}), and the transition from $Y_{m-1}$ to $X'$ is an admissible step
+(\lref{GlobalTheory.BaseChain.chainX_is_succ_succ}); so the descent $\mathrm{desc}^{\mu_0}$ is a theta map
+reachable in $m$ steps. The base row space lies in the cusp space of $Y_0$
+(\lref{GlobalTheory.T.mem_stageY_zero_cc_of_mem_zero_set}), and the package hypotheses contain the node gap
+condition. By $\mathrm{Onto}(D)$ the descent is surjective, so $T=\mathrm{desc}^{\mu_0}(G_0)$ for some top form $G_0$.
+\end{proof}
+
+\subsubsection{Geometric families and placement}
+
+\begin{proposition}\label{pf:open0a:geoall}
+Assume \ref{pf:open0a:P3}, \ref{pf:open0a:P4} and \ref{pf:open0a:P13}, and $\mathcal A(W)$ for a real package over an
+extra datum of $D=I.\mathrm{rec}(l,Z)$. Then for every word $u$ there is a geometric family $a$ for $(W,u)$ which is
+admissible and true, whose transfer matrix at level $m$ is the identity, and whose bottom Bessel datum $a.d.B$ is
+framed (statement \ref{pf:open0a:F2}).
+\formallabel{GlobalTheory.T.all_true_family_datum_alt}
+\end{proposition}
+
+\begin{proof}
+By strong approximation \ref{pf:open0a:P13} (\lref{GlobalTheory.T.all_true_family_geometry_alt}) there are a
+\emph{geometric chain} (points $x_j$ with lattices at the levels $j\le m$) and constants $c_0(j)$ such that: the points are
+admissible; the points are pinned (the lattices of $x_j$ are the standard integral lattices); the top element
+$b_T$ is finite; the transfer matrix at level $m$ is the identity; and the line, embedding, orthogonality and local
+conditions of geometric chains hold. The geometric conditions of $W$ give a leading read at level one for $u$. Then
+\lref{GlobalTheory.GeoExists.core_data_of_point} (which uses \ref{pf:open0a:P3}, \ref{pf:open0a:P4}, the package
+hypotheses and the level condition of $W$, the non-vanishing of $T_u$ and the fact that neither the type places nor the
+primes of the sets $Q_t$ lie over $T_u$) completes this chain, the leading read and the column data at the points
+(\lref{GlobalTheory.T.all_true_family_geometry_column_alt}) to a geometric family $a$ which is admissible, whose
+geometric chain is the given one, whose bottom Bessel datum is framed, and which satisfies the remaining condition of
+truth. Truth of $a$ is the conjunction of the pin of the points, this condition and the embedding and $z$-conditions of
+the chain; the transfer matrix is the identity by construction.
+\end{proof}
+
+\begin{lemma}\label{pf:open0a:isfam}
+Assume \ref{pf:open0a:P3}, \ref{pf:open0a:P4} and the package hypotheses for $W$. If a family character $f$ for
+$(W,u)$ satisfies its row conditions, then its commuting chain $f.c$ is admissible; if moreover $f$ satisfies its
+column conditions, then every tuple chain $f_t$ is admissible (statement \ref{pf:open0a:F6}).
+\formallabel{GlobalTheory.T.famCh_is_and_tuples_is_of_colOK}
+\end{lemma}
+
+\begin{proof}
+The admissibility of $f.c$ consists of: the standardness of the additive character and the archimedean family (part of
+the bottom hypotheses); the conditions on the points contained in the row conditions; the co-compactness of
+$\Uni(X')(F)\backslash\Uni(X')(\A)$, which holds as $X'$ is totally positive definite
+(\lref{GlobalTheory.Unf.CoCptOf.coCpt_of_isAniso_or_posDef}); the measure conditions contained in the row
+conditions; and the spanning statements: at each level $j+1<m$ the images of the polynomial intertwiners from the model
+at level $j+1$ span the smooth tensors of the model at level $j$ (\lref{GlobalTheory.T.itSpans_MY_succ}), and
+similarly from $X'$ to the last level (\lref{GlobalTheory.T.itSpans_MY_last_MX}); both use \ref{pf:open0a:P3}
+and \ref{pf:open0a:P4}. For the tuple chains: the row choices provide the forward and backward step data; the step
+vectors are theta functions, so their images are pure tensors of the model; the lifts of cusp forms from level $j+1$
+equal $c_I(j)$ times the theta maps of the chain at every level, including the last
+(\lref{GlobalTheory.T.lift_s_eq_ci_smul_io}, \lref{GlobalTheory.T.lift_s_last_eq_ci_succ_smul_io}); the
+constants $c_I(j)$ are non-zero by the measure conditions; and the kernel, $e$-, stabiliser and support conditions are
+the column conditions.
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:placed}
+Assume $\mathcal A(W)$. Let $a$ be an admissible and true geometric family for $(W,u)$ and let $\mathrm{row},\mathrm{col}$
+be choices for which the commuting chain of $f=a.\mathrm{fam}(\mathrm{row},\mathrm{col})$ is admissible. Then the placement
+conditions hold for $(f,a.d.B)$ (statement \ref{pf:open0a:F7}).
+\formallabel{GlobalTheory.T.placed_p_of_true_geometry}
+\end{proposition}
+
+\begin{proof}
+The placement conditions consist of the local field and type datum, the commuting vector datum, the local group data and
+their indexing by the type places, all taken from $a$, together with: the admissibility of $f.c$ (hypothesis) and of the
+vector datum, its tie with $f$, the shape condition and the pin of the local groups (from the admissibility of $a$); the
+local group reading (from the tie); the \emph{primitivity at the top}; and the \emph{local bottom compatibility}.
+
+Primitivity at the top: it is required at the primes $p$ of $F$ outside a set which, by the tie, consists of the primes
+containing $T_u$; so let $p$ be a prime with $T_u\notin p$. The point of the true chain at the top level is pinned, and the distinguished vector there has
+coordinates $(0,\dots,0,\pi_u)$, where $\pi_u\in\OO_E$ is the element of the construction attached to $u$, with
+$\pi_u\bar\pi_u=T_u$; in particular all its coordinates are integral. A vector with integral coordinates one of which,
+$x_i$, satisfies $x_i\,c=T_u$ for some integral $c$, where $T_u\notin p$, is primitive at $p$ (a common divisor of the
+coordinates divides $T_u$). Applying this with $x_i=\pi_u$ and $c=\bar\pi_u$ gives the primitivity.
+
+Local bottom compatibility: the level of $a.d.B$ and its local data are the bottom data of $a$ (bottom clauses of the
+admissibility); the norm condition holds with scalar $1$ and the constant $-\xi_0^{m/2}$ (bottom clause and norm
+condition of $a$); the local groups are standard; the lattice of the chain equals the base lattice off the twist
+(\lref{GlobalTheory.Fam.lattice_eq_base_off_twist_alt}); and for every element $\kappa$ of the finite adelic
+group at level $0$ the local data and the reduction level at $\kappa$ are those required
+(\lref{GlobalTheory.T.true_geometry_local_data_alt}, \lref{GlobalTheory.T.true_geometry_reduction_level_alt}).
+\end{proof}
+
+\subsubsection{Column choices}
+
+\begin{proposition}\label{pf:open0a:colside}
+Assume \ref{pf:open0a:P3}, \ref{pf:open0a:P4} and $\mathcal A(W)$. Let $a$ be an admissible and true geometric family
+for $(W,u)$ whose transfer matrix at level $m$ is the identity, $\mathrm{row}$ admissible row choices which are pairwise
+of the same shape, and $k$ a system of family constants for $a$. Then there are column choices $\mathrm{col}$, pinned
+tuples $w_0(t)$, rescaled tuples $w(t)$ and families $F_t$ ($t\in\mathcal T$) such that the column condition holds for
+$a.\mathrm{fam}(\mathrm{row},\mathrm{col})$ and the column output condition holds for $(k,w_0,w,F)$ (statement
+\ref{pf:open0a:F4}).
+\formallabel{GlobalTheory.T.true_geometry_family_invariance_alt}
+\end{proposition}
+
+Here the \emph{column condition} asks for constants $c_0$, the pin of the points of $a$, and for every tuple $t$ a
+pinned chart of the columns of $t$ (characters at each level with the twist datum and its reading) and a top element
+with the embedding, level, top and total-constant conditions. The \emph{column output condition} asks, for every tuple
+$t$: the family laws of $F_t$ at the pinned tuple $w_0(t)$, the level identity, the vector identity, the value and
+$e$-conditions at each level, the unit ratio of the total constants, and the vanishing of the zero-level terms.
+
+\begin{proof}
+For every column choice the family $a.\mathrm{fam}(\mathrm{row},\mathrm{col})$ satisfies its row conditions (from the
+admissibility of $a$ and the hypotheses on $\mathrm{row}$), so its commuting chain is admissible by \cref{pf:open0a:isfam}.
+
+\emph{Data.} The following data are provided by results of the development, for the given $a$:
+\begin{enumerate}[label=(\alph*)]
+\item for every tuple $t$, a \emph{quadratic extension datum} $J_t$ which reads the family
+(\lref{GlobalTheory.T.exists_quadratic_extension_reads_of_true}); each $J_t$ has a unique character at level $m$
+(the product of the cardinalities of its character sets at level $m$ is $1$);
+\item constants $C_j$ and, for every $t$, scalars $s_t$, roots of unity $\zeta_t$ and constants $\rho_t$ satisfying the
+\emph{row-pair relation} of the levels (\lref{GlobalTheory.T.true_geometry_row_pair_relation_alt_alt_alt}; this uses
+that the transfer matrix is the identity);
+\item non-zero volume constants $V_j$ ($j<m$) and $V_T$ with the volume identities at each level
+(\lref{GlobalTheory.T.true_geometry_exists_volume_data_alt});
+\item a kernel datum at each level (\lref{GlobalTheory.T.true_geometry_exists_kernel_alt});
+\item finite combinations $d_{t,j,\alpha,\gamma}$ realising the twisted local values of $J_t$ at the levels $j<m$
+(\lref{GlobalTheory.T.true_geometry_twist_local_value_alt});
+\item a joint twist relation $S'_t$ (\lref{GlobalTheory.T.true_geometry_joint_twist_relation_alt}).
+\end{enumerate}
+
+\emph{Construction.} Put, for $t\in\mathcal T$ and $j<m$,
+\begin{gather*}
+c_Q(t,j)=\prod_i\bigl(\mathrm{idx}_i(j+1)\,\mathrm{idx}_i(j+2)\bigr)^{-1},\qquad
+c_K(t,j)=V_j\,C_j\,c_0(j)\,\rho_t(j),\\
+c_P(t)=V_T\sum_\beta s_t(m,\beta),\qquad
+c_V(t,j)=\kappa_j\,k.\mathrm{sc}(t,j)\,k.\mathrm{sc}(t,j+1)\,c_Q(t,j)\,c_G(j)\,c_T(t,j),
+\end{gather*}
+where $\mathrm{idx}_i$ are the indices of the twist data of $J_t$, $c_T(t,j)$ is the monomial value of the type datum of $a$
+at the constants $(k.r_j,k.e_j)$ and the character $\mu_t(j+1)$, $c_G$ is the constant of $k$, and $\kappa_j$ is the
+constant of $k$ attached to $j$ when $j+2(\sigma+1)+2=m$ for some $\sigma$ (and $\kappa_j=1$ otherwise). Let $\mathrm{col}$ be
+the column choice determined by $a$, the data $J$, the kernel datum, the combinations $d$, the relations $S'_t$ evaluated
+at the constants $k.\varepsilon_j$, the scalars $s$ and the constants $c_V,c_K,c_P$; let $F_t$ be the family of the row
+and column choices at $t$, $w_0(t)$ its pinned tuple with the constants $k.\mathrm{sc}(t,\cdot)$ and $c_T(t,\cdot)$, and
+$w(t)$ the rescaling of $w_0(t)$ by $s_t$.
+
+\emph{Verification of the column condition.} The pinned chart of $t$ has weights $C_j\,\mathrm{wt}_t(j,\alpha)\,\zeta_t(j,
+\alpha,\gamma)$: its admissibility and liveness come from (a), its characters from (a) and (d), its rational data from (e)
+and (b), its constants from (c) and (b) (the identity $V_jC_jc_0(j)\rho_t(j)=\dots$ is the volume identity combined with
+the row-pair relation), and its ramification and reading conditions hold by construction. The top element uses the unique
+character $\beta_0$ of (a) and the level element provided by (c), with total constant $s_t(m,\beta_0)\,\mathrm{wt}_t(m,\beta_0)$.
+
+\emph{Verification of the output condition.} The prime sets of $w_0(t)$ are the primes of $F$ below the primes of $Q_t$
+(\lref{GlobalTheory.T.true_geometry_twist_local_data_alt}), and the pins of $F_t$ hold by construction. The column
+conditions of $a.\mathrm{fam}(\mathrm{row},\mathrm{col})$ hold: the vacuum conditions at consecutive levels follow from the
+pins of the points, the kernel datum and (e); the data conditions from the joint twist data
+(\lref{GlobalTheory.T.true_geometry_joint_twist_data_alt}); the stabiliser conditions from the fact that the chain
+kernels preserve the ramified forms of the live charts
+(\lref{GlobalTheory.T.chainKernel_preserves_ramifiedForms_liveCharts}). The $\kappa$-equations of $k$ and $w(t)$ hold
+by the choice of $c_V$. If $x,y$ are roots of unity and $c\ne0$, then $(cx)/(cy)$ is a root of unity, so
+$\mathrm{UR}_{\mathcal S}(cx,cy)$ holds for every $\mathcal S$; this gives the unit ratio of the total constants, since
+$\sum_\beta s_t(m,\beta)=s_t(m,\beta_0)$. The family laws of $F_t$ are \lref{GlobalTheory.T.true_geometry_family_final_alt}
+(about $1.7\cdot10^4$ lines; it derives the seesaw laws at the twist places from a rescaling by roots of unity), the level
+identity is \lref{GlobalTheory.T.true_geometry_quadratic_twist_level_alt}, the vector identity is
+\lref{GlobalTheory.T.true_geometry_joint_twist_identity_alt}, the value and $e$-conditions are
+\lref{GlobalTheory.T.true_geometry_joint_twist_value_alt} and
+\lref{GlobalTheory.T.true_geometry_joint_twist_data_alt}, and the vanishing of the zero-level terms is
+\lref{GlobalTheory.T.true_geometry_joint_twist_bound_alt}.
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:lawslinks}
+Assume \ref{pf:open0a:P3}, \ref{pf:open0a:P4}, \ref{pf:open0a:P13} and $\mathcal A(W)$. Let $a$ be an admissible and true
+geometric family for $(W,u)$ and $\mathrm{row}$ admissible row choices which are pairwise of the same shape, and assume
+that the conclusion of \cref{pf:open0a:colside} holds for every system $k$ of family constants for $a$. Then there are
+column choices $\mathrm{col}$ such that $f=a.\mathrm{fam}(\mathrm{row},\mathrm{col})$ satisfies its row conditions,
+$\mathrm{Laws}(f)$, the chart condition at level $0$, \ref{pf:open0a:L2}, \ref{pf:open0a:L5} and \ref{pf:open0a:L6}
+(statement \ref{pf:open0a:F5}).
+\formallabel{GlobalTheory.T.true_geometry_family_column_data_alt}
+\end{proposition}
+
+\begin{proof}
+\emph{The constants.} Apply the hypothesis to the trivial system of constants to obtain some column choice $\mathrm{col}_0$;
+by \cref{pf:open0a:isfam} the commuting chain $c$ of $a.\mathrm{fam}(\mathrm{row},\mathrm{col}_0)$ (which does not depend
+on the column choice) is admissible. The finite integral laws of the seesaw for the lattice frame pins
+(\lref{GlobalTheory.T.seeSaw_latticeFramePins_finiteIntegralLaws}; about $2.1\cdot10^4$ lines) give units
+$\varepsilon_j$, bilinear operators $\mathrm{op}_j$, exponents $r_j,e_j$ and constants $c_G(j)$ with the corresponding
+integral laws, $\kappa$-relations and admissibility of the vector datum. The non-vanishing of scalars up to roots of unity
+(\lref{GlobalTheory.T.nonzero_scalars_roots_of_unity_alt}) gives non-zero scalars $s_j$ and roots of unity
+$\zeta_t(j)$ with the vector and twist properties. Let $k$ be the system of family constants
+$(\varepsilon,\mathrm{op},r,e,c_G,\ \mathrm{sc}(t,j)=s_j\zeta_t(j))$, and let $(\mathrm{col},w_0,w,F)$ be given by the
+hypothesis for $k$; put $f=a.\mathrm{fam}(\mathrm{row},\mathrm{col})$.
+
+\emph{Consequences of the output condition.} The prime sets of $w(t)$ are the primes below the primes of $Q_t$. The vector
+function condition of $f$ at $w(t)$ with the constants $k.\mathrm{sc}(t,\cdot)$ follows from the property of $\zeta$; the
+tuple chains are admissible by \cref{pf:open0a:isfam}; the Weil conditions and the characters of the local groups hold
+(\lref{GlobalTheory.T.weilOK_of_rank_one_gram'}, using that the bottom lattice has rank one with the prescribed
+Gram matrix); and the quadratic family level identity holds (\lref{GlobalTheory.T.quadratic_family_level_identity_alt}).
+These give the vector forms of $k$ at every $w(t)$.
+
+\emph{The laws.} The class pin data of the tuple chains of $f$ hold (\lref{GlobalTheory.T.cls_pin_d_of_true_family};
+about $8.8\cdot10^3$ lines). $\mathrm{Laws}(f)$ is then the conjunction of: admissibility of $c$ and of the $f_t$; local
+finiteness; the reality equations (\lref{GlobalTheory.T.realEq_of_colOK'}); the valuation and last-step laws (from
+the vector forms and the finite integral laws); the kernel law, obtained from the definite class data
+(\lref{GlobalTheory.T.seeSawKernelLiftCombination_of_definiteClassData}); the period law, the factorisation of the last
+periods (\lref{GlobalTheory.T.seeSawLastPeriodFactorization_of_classData}); and the reading law, from the continuity
+and automorphy of the scalar forms.
+
+\emph{The links.} The chart condition at level $0$ is the zero-level part of the output condition. The tail identity
+\ref{pf:open0a:L2} follows from the leading read of $a$ (\lref{GlobalTheory.MiTop.linkTail_of_topReadAt_alt}), since
+at the base tuple the level-$0$ embedding of a column is its identification with the ramified subspace. The commutation
+\ref{pf:open0a:L5} is the unit-shift relation of the type data
+(\lref{GlobalTheory.T.type_data_unit_shift_relation_alt}), whose hypotheses are: the ramified units at the type
+places, the kernel back-transport of the tuple chains
+(\lref{GlobalTheory.T.seeSawTuple_kernelBack_of_classKernelData}), the tail reading of the last period classes
+(\lref{GlobalTheory.T.lastPeriodClasses_give_tailReading}), and the commutation of the definite lift with the
+level-prime operators (\lref{GlobalTheory.T.definiteLift_comm_levelPrimeOperators}). For the ratio condition
+\ref{pf:open0a:L6}: the scalars of $w(t)$ and $w(\mu_0)$ differ by the root of unity $\zeta_t(j)/\zeta_{\mu_0}(j)$, so their
+quotients are roots of unity and in particular $\mathcal Q_t$-unit ratios; the constants $c_T$ are unit ratios up to roots
+of unity (\lref{GlobalTheory.T.root_of_unity_theta_twist_alt}); the constants $c_Q$ are compared with the products
+$c_I(j)c_I(j+1)$, which are non-zero (\lref{GlobalTheory.T.cI_mul_prod_idx_eq_cI_mu0}); and the total constants
+$c_{\mathrm{top}}^t/c_{\mathrm{bot}}^t$ are unit ratios by the factor-ratio lemma
+(\lref{GlobalTheory.T.seeSaw_totalConstant_ratio_of_factor_ratios}), which also gives $c_{\mathrm{top}}^t\ne0$.
+\end{proof}
+
+\subsubsection{The central pin}
+
+\begin{proposition}\label{pf:open0a:botdat}
+If $W$ satisfies the package hypotheses and $r_S\ge1$, there is $z\in G_f\cap Z(G)$ such that for every word $u$, every
+family character $f$ for $(W,u)$ and every framed Bessel datum $B$ satisfying the placement conditions for $(f,B)$, there
+is a bottom datum $d$ pinned at $z$ with $d.B=B$ and $d.b=f.g.b(0)$ (statement \ref{pf:open0a:F1}).
+\formallabel{GlobalTheory.T.exists_botDat_of_placedP_framed}
+\end{proposition}
+
+\begin{proof}
+For a family character $f$, a Bessel datum $B$ and $a_0,a\in\Uni(X_0)(\A)$ put
+$\tau(f,B,a_0,a)=\iota(1,x_u)^{-1}\,\mathrm{emb}_B(a_0a)\,f.g.b(0)\in G$, the \emph{translation element}. We say that $B$
+is a translate at $(a_0,a)$ if $B$ is adapted, $a_0$ is an adelic transport correction, $a$ is finite and central, and the
+level $(J,\chi)$ matches at $\tau(f,B,a_0,a)$. If there is no triple $(u,f,B)$ with placement conditions and $B$ framed,
+take $z=1$. Otherwise fix such a triple $(u_0,f_0,B_0)$.
+
+(i) By \lref{GlobalTheory.T.exists_isAt_of_placed_framed} (about $7.4\cdot10^3$ lines), every placed framed $B$ is a
+translate at some $(a_0,a)$; let $B_0$ be a translate at $(a_0,a)$.
+
+(ii) The bottom hypotheses give that the level matches at $t_S$. By
+\lref{GlobalTheory.T.matching_translates_bottom_alt} (about $3.5\cdot10^3$ lines; it uses $r_S\ge1$), there are
+$z\in G_f\cap Z(G)$, a finite central $c\in\Uni(X_0)(\A)$ and $k_0\in J$ with
+$\iota(1,x_{u_0})^{-1}\,\mathrm{emb}_{B_0}(c)^{-1}\,\iota(1,x_{u_0})\cdot\tau(f_0,B_0,a_0,a)=z\,t_S\,k_0$. Since $c$ is
+central, $a_0(c^{-1}a)=c^{-1}(a_0a)$, and since $\mathrm{emb}_{B_0}$ is a homomorphism, a direct computation in $G$ gives
+$\tau(f_0,B_0,a_0,c^{-1}a)=z\,t_S\,k_0$; as $c^{-1}a$ is finite and central and the level matches at $z\,t_S\,k_0$
+(matching at $zt_S$ is preserved by right multiplication by elements of $J$), $B_0$ is a translate at $(a_0,c^{-1}a)$.
+
+(iii) Let $(u,f,B)$ be placed and framed. By (i), $B$ is a translate at some $(b_0,b)$. The compatibility of placed Bessel
+data (\lref{GlobalTheory.T.placed_bessel_compatibility_alt}; about $4.5\cdot10^3$ lines; it uses $r_S\ge1$) gives
+$a_1$ such that $B$ is a translate at $(b_0,a_1)$, and $k\in J$ with
+$\tau(f,B,b_0,a_1)=\tau(f_0,B_0,a_0,c^{-1}a)\,k=z\,t_S\,k_0k$. Put $d=(B,f.g.b(0),b_0,a_1,k_0k)$. Then $d.B=B$,
+$d.b=f.g.b(0)$, and $d$ is pinned at $z$: $B$ is adapted (placement conditions), $b_0$ is a transport correction and $a_1$
+is finite and central (translate), $k_0k\in J$ ($J$ is a group), and the identity
+$\mathrm{emb}_B(b_0a_1)\,f.g.b(0)=\iota(1,x_u)\,z\,t_S\,k_0k$ is the equation $\tau(f,B,b_0,a_1)=zt_Sk_0k$.
+\end{proof}
+
+\subsubsection{The seesaw transport relations}
+
+\begin{proposition}\label{pf:open0a:str}
+Under \ref{pf:open0a:P2} and \ref{pf:open0a:P4}, $\mathrm{Laws}(f)$ implies $\mathrm{STR}(f)$ for every family character
+$f$ (more generally, for every family of tuple chains of an admissible commuting chain).
+\formallabel{GlobalTheory.T.seesawTransportRelations_of_familyLaws}
+\end{proposition}
+
+\begin{proof}
+The proof passes through three intermediate relations.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Double lifts.} From the admissibility of the chains, the reality equations, the kernel law and the reading law,
+the double-lift combinations of the tuple chains satisfy their linear relations
+(\lref{GlobalTheory.T.seeSawDoubleLiftCombination_of_laws}); the ingredients are the commutation of the two Weil
+actions of a seesaw, the boundedness of the degree of central eigen-theta Fock vectors, and the summation of lifts.
+\item \emph{Double steps.} By \ref{pf:open0a:P2}, values of rapidly decreasing functions are controlled; by
+\ref{pf:open0a:P4}, the double-step unfolding of Bessel periods (which follows from the descent of Weil data), the
+movement of values and the summation of periods, linear relations between the periods at level $j+2$ imply linear
+relations at level $j$ (\lref{GlobalTheory.T.seeSaw_doubleStep_linearRelations_periods}); this uses the local
+finiteness, the valuation law, (a) and the reading law.
+\item \emph{The last two steps.} By \ref{pf:open0a:P2} and \ref{pf:open0a:P4}, relations between the top pairings transport
+to relations between the periods two levels below (\lref{GlobalTheory.T.seeSaw_lastTwoSteps_transport_linear_relations});
+this uses the last-step law, (a), the period law and the reading law.
+\end{enumerate}
+Finally, the transport relations from level $2(n+1)$ to level $0$ follow by composing (c) with the double steps (b)
+(\lref{GlobalTheory.SeeSaw.mainX_of_stepX_lastX}).
+\end{proof}
+
+\subsubsection{Translated evaluations, the pairing form and the bottom relation}
+
+\begin{lemma}\label{pf:open0a:evalall}
+Assume \ref{pf:open0a:P2} and \ref{pf:open0a:P12}. Let the discrete series models $M$ have the parameters of level $0$, let
+$\theta$ be an archimedean family, let the Hida setting satisfy the gap condition with constant $100\,r^4$ and the identity
+condition, let the level $(J,\chi)$ match at $g\in G$, and let $v$ be a conjugate vector. Then $\|v_\tau\|=1$ for every
+$\tau$, and there is a bijective conjugate-linear map $j\colon\openzeroaRow\to H_X$ such that $j(T)$ is almost everywhere
+the complex conjugate of $x\mapsto T(\otimes v)(\iota(x)g)$.
+\formallabel{GlobalTheory.T.evalAll_and_norm_eq_one_of_conjVec}
+\end{lemma}
+
+\begin{proof}
+The conjugate-linear isometry $c_\tau$ maps $v_\tau$ to the distinguished vector of the Hida setting, a unit vector of the
+lowest $K$-type; hence $\|v_\tau\|=1$ and $v_\tau\ne0$. For $T\in\openzeroaRow$ the translated evaluation
+$x\mapsto T(\otimes v)(\iota(x)g)$ is a square-integrable automorphic function
+(\lref{GlobalTheory.T.translateToSecondModel_cuspFormMap_value_automorphic}; by \ref{pf:open0a:P2}); let $f(T)\in
+L^2_X$ be its class. Its complex conjugate lies in the space $H_X$ of cusp forms
+(\lref{GlobalTheory.T.conj_translated_evaluation_mem_all_rows_space}; by \ref{pf:open0a:P2}). The map
+$j(T)=\overline{f(T)}$ is additive and $j(aT)=\bar a\,j(T)$. It is injective: if $j(T)=0$, the translated evaluation of
+$T(\otimes v)$ vanishes almost everywhere, and since all $v_\tau\ne0$ this forces $T=0$
+(\lref{GlobalTheory.T.cuspFormMap_eq_zero_of_translatedEval_ae_zero}). It is surjective: every $\phi\in L^2_X$ with
+$\bar\phi\in H_X$ is almost everywhere the translated evaluation of $T(\otimes v)$ for some $T\in\openzeroaRow$
+(\lref{GlobalTheory.T.conj_row_eq_translated_evaluation_cusp_form_map}; by \ref{pf:open0a:P12}, through the
+identification of the discrete series of the Hida setting with $M$ given by the conjugate vector).
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:pairform}
+Assume \ref{pf:open0a:P2}, \ref{pf:open0a:P12} and the bottom hypotheses for $W$, and let $v$ be a conjugate vector. Then
+the pairing form statement \ref{pf:open0a:B3} holds for $v$.
+\formallabel{GlobalTheory.T.pairForm_of_conjVec_of_botHyp}
+\end{proposition}
+
+\begin{proof}
+The realisation carries an \emph{evaluation tie}: a vector $v_0$ of the models with $\|v_{0,\tau}\|=1$ for all $\tau$ such
+that, for every $T$ in the good part at the true level, the translated evaluation at $t_S$ of $T(\otimes v_0)$ is almost
+everywhere a function $F$ with $\bar F\in H_X$, and $s_{EE}$ maps the corresponding element of $E$ to $\bar F$
+(\lref{GlobalTheory.MiTop.PairingL2.exists_eval}). We claim that there is $l\ne0$ with
+$\mathrm{rf}(e)(\otimes v_0)=l\,\mathrm{rf}(e)(\otimes v)$ for all $e$ in the true part. If $\otimes v_0=l\otimes v$ for
+some $l\ne0$ this is clear. Otherwise take $l=1$; the identity is trivial when $\mathrm{rf}(e)=0$, and if
+$\mathrm{rf}(e)\ne0$ then $\mathrm{rf}(e)$ is a non-zero element of $\openzeroaRow$ (\ref{pf:open0a:B1}) whose
+evaluation at $\otimes v_0$ is, by the evaluation tie, conjugate to a cusp form, and
+\lref{GlobalTheory.T.unit_vector_rows_conjugate_alt} (by \ref{pf:open0a:P2} and \ref{pf:open0a:P12}: a unit vector
+with this property is a non-zero multiple of the conjugate vector) gives $\otimes v_0=l'\otimes v$ with $l'\ne0$,
+contrary to the assumption. Let $u_S$ and $\kappa_S>0$ be the normalising constants of the realisation ($|u_S|=1$) and put
+$\kappa=\overline{u_S\kappa_S}\,l\ne0$. For $e$, $u$, $m$, $x$, $C$ and $b$ as in \ref{pf:open0a:B3}, the inner product
+$\langle s_{EE}(e),P_m(\openzeroacj(x))\rangle$ is computed through the join of the realisation
+(\lref{GlobalTheory.MiTop.PairingL2.inner_join}) as $\openzeroacj$ of an inner product in $H_X$ between the image of
+$e$ and the period function of the ramified coordinates of $x$; the latter is $\varpi_C$
+(\lref{GlobalTheory.MiTop.PairingL2.pwOf_op_ramCrd_eq_puFun}, using the bottom reading of the pins), and the former is
+$u_S\kappa_S$ times the conjugate of the translated evaluation of $\mathrm{rf}(e)(\otimes v_0)=l\,\mathrm{rf}(e)(\otimes v)$.
+By the definition of $b$ and \lref{GlobalTheory.MiTop.PairingL2.inner_smul_star}, the result is
+$\openzeroacj(\kappa b)$.
+\end{proof}
+
+\begin{proposition}\label{pf:open0a:botrel}
+Assume \ref{pf:open0a:P2}, \ref{pf:open0a:P12} and the bottom hypotheses for $W$. For $z\in G_f\cap Z(G)$ and a bottom
+datum $d$ pinned at $z$, the bottom relation $\mathrm{BR}(z,d)$ holds (statement \ref{pf:open0a:B5}).
+\formallabel{GlobalTheory.T.botRel_of_botHyp_of_pin_central}
+\end{proposition}
+
+\begin{proof}
+Put $g_0=\iota(1,x_u)\,z\,t_S$ and $\mathrm{Bes}=\mathrm{Bes}_{d.B}$. We use:
+\begin{enumerate}[label=(\alph*)]
+\item (\lref{GlobalTheory.T.exists_isometry_colForm_eq_rTrans_of_pin}) a linear isometry $R$ of $M_u$ such that, if
+$C$ is a column form of $R\varphi$ and $C_0$ a column form of $\varphi$, then the Bessel column forms satisfy
+$\mathrm{cf}_{C_0}(\xi)=R_{d.a^{-1}}\,\mathrm{cf}_C(\xi)$ for all $\xi$;
+\item (\lref{GlobalTheory.T.dictionaryColumnScalarForm_eq_traceColumnForm}) vectors $\xi(y)$, indexed by the reading
+points $y$ and spanning the representation space of the Bessel datum, such that the reading at level $0$ of the column with
+dictionary image $C$ is $g\mapsto\mathrm{cf}_C(\xi(y))(g\,d.a_0^{-1})$;
+\item (\lref{GlobalTheory.T.conjugateRow_pairing_poincareSeries_besselPeriods}; about $1.1\cdot10^3$ lines) the
+\emph{period law}: for every column form $C$, every $v$ and every $\phi\in L^2_X$ representing a translated evaluation of a
+row, $\langle\bar\phi,\varpi_C\rangle$ is an integral over the archimedean group of the Hida setting of a fixed kernel $c(y)$
+times Bessel periods of $\mathrm{cf}_C(W_u(y))$ against the corresponding right translates of the row;
+\item the multiplicity maps $T\in\openzeroaRow$ satisfy $T(v)(gk)=\chi(k)\,T(v)(g)$ for $k\in J$, and $\chi(k)\ne0$ on $J$;
+right translation by an archimedean element is realised on $\openzeroaRow$ by an operator $\sigma$ of the smooth tensors
+(\lref{GlobalTheory.RealTransSm.rTrans_eq_map}); and the Bessel periods satisfy
+$\mathrm{Bes}(f(\cdot\,h^{-1}),f')=\mathrm{Bes}(f,R_{\mathrm{emb}(h)}f')$ for $h\in\Uni(X_0)(\A)$.
+\end{enumerate}
+\emph{Step 1.} For $\varphi\in M_u$, a column form $C$ of $R\varphi$, $T\in\openzeroaRow$ and all $y,v$:
+\begin{equation}\label{pf:open0a:eq:L1}
+d.\mathrm{per}(\varphi,T)(y,v)=\chi(d.k)\,\mathrm{Bes}\bigl(\mathrm{cf}_C(\xi(y)),\,R_{g_0}(T(v))\bigr).
+\end{equation}
+Indeed, by (b) and (a) (with $C_0$ the column of $\varphi$ itself) and the centrality of $d.a$, the reading of
+$e_u\varphi$ at $y$ is $g\mapsto\mathrm{cf}_C(\xi(y))(g\,(d.a_0d.a)^{-1})$. By (d), the period of this function against
+$R_{d.b}(T(v))$ equals $\mathrm{Bes}(\mathrm{cf}_C(\xi(y)),R_{\mathrm{emb}(d.a_0d.a)d.b}(T(v)))$; by the pin,
+$\mathrm{emb}(d.a_0d.a)\,d.b=g_0\,d.k$, and $T(v)(g\,g_0\,d.k)=\chi(d.k)\,T(v)(g\,g_0)$.
+
+\emph{Step 2.} Let $\varphi,\varphi',T,T',\alpha,\alpha'$ be as in the definition of $\mathrm{BR}(z,d)$, with
+$\alpha\,d.\mathrm{per}(\varphi,T)+\alpha'\,d.\mathrm{per}(\varphi',T')=0$, and let $C,C'$ be column forms of $R\varphi$,
+$R\varphi'$. By \eqref{pf:open0a:eq:L1} and $\chi(d.k)\ne0$,
+$\alpha\,\mathrm{Bes}(\mathrm{cf}_C(\xi(y)),R_{g_0}T(v))+\alpha'\,\mathrm{Bes}(\mathrm{cf}_{C'}(\xi(y)),R_{g_0}T'(v))=0$ for
+all $y,v$. Since the $\xi(y)$ span and $\mathrm{cf}_C$ and the Bessel periods are linear, the same holds with $\xi(y)$
+replaced by any vector $\xi'$.
+
+\emph{Step 3.} Let $b,b'$ be pairings of $T(v),T'(v)$ at $zt_S$ with $C,C'$. Since the level matches at $zt_S$, the
+translated evaluations are right translates by $g_0$ of rows, the archimedean translations being realised by $\sigma$
+(d); by the period law (c), $\alpha b+\alpha'b'$ is the integral of $c(y)$ times
+$\alpha\,\mathrm{Bes}(\mathrm{cf}_C(W_u(y)),R_{g_0}T(\sigma_yv))+\alpha'\,\mathrm{Bes}(\mathrm{cf}_{C'}(W_u(y)),R_{g_0}T'(\sigma_yv))$,
+which vanishes for every $y$ by Step 2. Hence $\alpha b+\alpha'b'=0$.
+\end{proof}
+
+%==============================================================================
+\subsection{Remarks on the formal statements}\label{sec:pf:open0a:remarks}
+
+\begin{remark}[The hypotheses of the main theorem]\label{pf:open0a:rem:hyps}
+(a) The hypothesis that the reading data of every weighted point admit a reading structure is used only in
+\cref{pf:open0a:truepack}, through the leading reads. In the application in the proof of \cref{thm:families:open} the
+parameter is of extension type, and the hypothesis is supplied by a component of the witness of the point.
+
+(b) The diagonal row hypothesis is used only in \cref{pf:open0a:punz}. In the application it is supplied by the
+convergent Siegel--Weil formula through \lref{GlobalTheory.T.diagonalRow_of_siegelWeil_unitary}, which derives
+$(\mathrm{DR}_{E_{\mathrm{diag}}})$ from the Siegel--Weil formula of \cref{lit:families:sw}.
+
+(c) Each of \ref{pf:open0a:P1}--\ref{pf:open0a:P13} is passed to at least one ingredient: \ref{pf:open0a:P1} and
+\ref{pf:open0a:P5} to the point conditions and to the surjectivity along chains; \ref{pf:open0a:P2}, \ref{pf:open0a:P3}
+and \ref{pf:open0a:P4} moreover to the family conditions, and \ref{pf:open0a:P2}, \ref{pf:open0a:P4} to the final
+construction; \ref{pf:open0a:P6}--\ref{pf:open0a:P11} only to the surjectivity along chains (\cref{pf:open0a:onto});
+\ref{pf:open0a:P12} only to the final construction (\cref{pf:open0a:mistarpunz}); \ref{pf:open0a:P13} only to the family
+conditions (\cref{pf:open0a:famall}). Whether each input is actually used inside the cited ingredients has not been
+checked here.
+\end{remark}
+
+\begin{remark}[Nature of the conclusion]\label{pf:open0a:rem:vacuity}
+The main theorem is an eventual statement about bundles \emph{linked} to good points: it asserts nothing about the
+existence of such bundles, which is the subject of \cref{thm:member-bundles}. Linkage requires a bundle witness, which
+already contains much of the data from which the point conditions and the truth of the real package are read off
+(\cref{sec:pf:open0a:points}). \Cref{pf:open0a:mitrue} is a pointwise statement: it holds for every true real package
+with $r_S\ge1$ and non-vanishing periods, without any size assumption; the only eventual inputs are the size
+conditions used in \cref{pf:open0a:points,pf:open0a:punz}.
+\end{remark}
+
+\begin{remark}[Unused hypotheses and the role of the constants]\label{pf:open0a:rem:unused}
+(a) \Cref{pf:open0a:served} holds for every real package; its formal statement carries the bottom hypotheses and the
+existence of a recursion as hypotheses, which are not used.
+(b) In \cref{pf:open0a:mitrue} the hypothesis $r_S\ge1$ is used only through \ref{pf:open0a:F1}.
+(c) The function arguments $F,G,H$ of \ref{pf:open0a:S1} are instantiated by constants ($0$, except
+$G\equiv\max(1801,C^{\mathrm{nc}}_{l,0})$ in the proof of \cref{pf:open0a:points}); the dependence on $(C_g,C_T)$ is
+exploited only through \ref{pf:open0a:S2}.
+(d) Of the standing size conditions, the proof of \cref{pf:open0a:punzsdiag} uses only the inequalities
+\eqref{pf:open0a:eq:HDused}; the other components are needed to apply the diagonal row hypothesis.
+\end{remark}
+
+\begin{remark}[The non-vanishing argument]\label{pf:open0a:rem:punz}
+The non-vanishing of periods (\cref{pf:open0a:punzsdiag}) is a dimension count: if all ramified vectors of a word had
+vanishing period, the kernel of $P_u$ would have dimension at least $d_U(u)\ge(1-f/(T_u-1))\,d_0(u)\ge\frac34d_0(u)$,
+whereas the diagonal bound gives $\dim\ker P_u\le\openzeroahs(u)\le\openzeroaeD\,d_0(u)$ with $\openzeroaeD<\frac18$.
+It is used in the final construction only once per word, to produce one non-zero pairing
+(\cref{pf:open0a:anchorpairs}(c)); all other pairings are then controlled by linear algebra
+(\cref{pf:open0a:anchorword}).
+\end{remark}

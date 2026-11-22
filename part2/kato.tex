@@ -1,0 +1,2328 @@
+\section{Kato-type vanishing of Selmer groups}\label{sec:pf:kato}
+
+\providecommand{\katoQlb}{\overline{\Q}_\ell}
+\providecommand{\katoHf}{H^1_{f}}
+\providecommand{\katoO}{\mathcal{O}}
+\providecommand{\katoZ}{Z^1}
+\providecommand{\katoB}{B^1}
+\providecommand{\katoht}{\mathrm{ht}}
+\providecommand{\katoadj}{\operatorname{adj}}
+\providecommand{\katoeq}[1]{\equiv_{#1}}
+\providecommand{\katorep}[1]{[#1]}
+\providecommand{\katoN}{\mathrm{N}}
+
+This section proves \cref{thm:kato} and \cref{lem:window:heights}. \Cref{thm:kato} asserts that the
+package $\sfname{HypothesesH'}$ of published results (\cref{sec:window:arch}) implies the proposition
+$\sfname{KatoTwoW}$ of \cref{def:window:kato}: if $W$ is a two-dimensional $\ell$-adic representation of
+$G_\Q$, ordinary at $\ell$ with Hodge--Tate weights $\pm e$, with determinant the quadratic character $\theta$
+of an imaginary quadratic field, irreducible on $G_{K(\mu_{\ell^\infty})}$, and such that $W\otimes\varepsilon^{-e}$
+is attached to a newform of weight $2e+1$, and if a window condition holds, then the Bloch--Kato Selmer groups
+of $W$ and of $W\otimes\theta$ vanish. As explained after \cref{thm:kato}, this is in substance a special case
+of \cite[Thm.~14.2]{Kato2004}. The formal proof \cite{LeanSource2026}, which we follow, does not assume Kato's
+theorem; it re-derives it by Kato's method. It has three layers.
+
+\emph{Reduction} (\cref{pf:kato:sec:reduction,pf:kato:sec:sph}). The representations $W$ of
+$\sfname{KatoTwoW}$, and their twists $W\otimes\theta=W\otimes\det W$, are \emph{admitted}
+(\cref{pf:kato:def:admitted}). A local--global compatibility statement at $\ell$, derived from
+$\sfname{Row0b}$ (\cref{def:row0b}) and quadratic base change, shows that the window condition forces the
+cuspidal representations attached to twists of $W$ to be unramified at $\ell$; this produces an
+$\ell$-ordinary newform of level prime to $\ell$ attached to a twist of $W$ (a \emph{source}). It then
+suffices to prove the vanishing statement \textup{(V)} of \cref{pf:kato:def:sph}: admitted representations with a
+source have vanishing Bloch--Kato Selmer group.
+
+\emph{From an Euler system to vanishing} (\cref{pf:kato:sec:nf,pf:kato:sec:alg,pf:kato:sec:local,pf:kato:sec:global,pf:kato:sec:heights,pf:kato:sec:upgrade}).
+After conjugation, $W$ is in a normal form: integral, unramified outside a finite set $S$, upper triangular
+at a place above $\ell$. An Euler system for $W$ consists of a bottom class $y$, unramified away from $\ell$ and
+non-trivial in the quotient line at $\ell$, together with, for every auxiliary prime $w\equiv1\bmod\ell^n$ and
+every cyclic character $\psi$ of conductor $w$ and order $\ell^n$, a class over the field cut out by $\psi$
+whose corestriction is the Euler factor at $w$ times $y$. A cochain-level version of Kolyvagin's argument,
+using one auxiliary prime at a time, shows that a ``height'' built from $y$ and a strict Selmer class $z$ of
+$W^*=W\otimes\varepsilon(\det W)^{-1}$ vanishes on commutators (\cref{lem:window:heights}); a commutator trick then
+kills the strict Selmer group of $W^*$. Local duality for characters upgrades this to the Greenberg Selmer
+group of $W^*$, the Greenberg--Wiles formula transfers the vanishing to $W$, and Bloch--Kato classes of $W$ are
+Greenberg classes because the quotient character of $W$ at $\ell$ has negative Hodge--Tate weight. This part is
+proved here from the statements of Galois cohomology contained in $\sfname{HypothesesH'}$
+(\cref{pf:kato:hyp:litcoh}); only some auxiliary statements (a bound on the torsion of integral classes, the
+counting argument based on the Greenberg--Wiles formula, and a lemma on homomorphisms from compact subgroups of
+$\GL_2$ to $\Z_\ell$) are cited from the formal development.
+
+\emph{Construction of the Euler system} (\cref{pf:kato:sec:zeta,pf:kato:sec:katozeta}). The Euler system is built from Kato's zeta
+elements: Kummer classes of Siegel units on a tower of modular curves, realised through the Kummer theory of the
+field of modular functions of all levels instead of \'etale cohomology, projected to the part attached to the
+source newform; an explicit reciprocity law computes their Coates--Wiles derivatives along
+$\Q_\ell(\mu_{\ell^\infty})$; and the non-vanishing of the bottom class at $\ell$ is deduced, through Coleman
+power series, from the non-vanishing of an $\ell$-adic $L$-value. We prove the existence statement from its main
+ingredients. Those which are forms of published theorems (of Kato, Shimura, Coleman, Jacquet--Shalika) are quoted from the
+literature, with a precise description of the formal statement and of the differences; their formal proofs (about $120{,}000$ of
+the $143{,}000$ lines of the formal proof) are not reproduced.
+
+The main theorem is restated and proved in \cref{pf:kato:sec:proof} (\cref{pf:kato:main}); the two parts of
+\cref{lem:window:heights} are \cref{pf:kato:heights,pf:kato:strict}.
+
+% ---------------------------------------------------------------------------
+\subsection{Conventions}\label{pf:kato:sec:conv}
+
+Throughout, $\ell$ is a prime and $\katoQlb$ is an algebraic closure of $\Q_\ell$ (not completed), with the
+unique extension $|\cdot|$ of the $\ell$-adic absolute value. A \emph{coefficient ring} is a
+$\Z_\ell$-subalgebra $\katoO\subset\katoQlb$ which is a discrete valuation ring and finite over $\Z_\ell$, i.e.\
+the ring of integers of a finite extension of $\Q_\ell$ in $\katoQlb$; its elements satisfy $|x|\le1$. For
+$a,b\in\katoQlb$ and $n\in\N$ we write
+\[
+  a\katoeq{n}b\quad\Longleftrightarrow\quad|a-b|\le|\ell^n|,
+\]
+and $a\katoeq n b$ for vectors if it holds coordinatewise. By the ultrametric inequality $\katoeq n$ is an
+equivalence relation compatible with sums, and $a\katoeq nb$ implies $ca\katoeq ncb$ when $|c|\le1$. We use
+these two facts without comment. For $x\in\Z/\ell^n$ we let $\katorep x\in\{0,\dots,\ell^n-1\}$ be its
+representative.
+
+$\Omega$ is an algebraic closure of $\Q$ and $G_\Q=\Aut(\Omega/\Q)$, with the Krull topology; for a number
+field $F\subset\Omega$, $G_F\subset G_\Q$ is the subgroup fixing $F$. A \emph{place over} a finite prime $v$ of
+$F$ is a valuation subring $A\subset\Omega$ such that $x\in\OO_F$ has valuation $<1$ at $A$ if and only if
+$x\in v$. Its decomposition group $D_A$ is the stabiliser of $A$ in $G_F$, and its inertia group $I_A$ consists
+of the $\sigma\in D_A$ with $\sigma x-x$ in the maximal ideal of $A$ for all $x\in A$. An element $\sigma$ is a
+\emph{Frobenius at $A$ for $q$} if $\sigma\in D_A$ and $\sigma x-x^q$ lies in the maximal ideal of $A$ for all $x\in A$;
+we write $\katoN v=\#\OO_F/v$, and for $F=\Q$ we identify $v$ with the prime $p$, so $\katoN v=p$. All places
+over a given prime are conjugate under $G_F$, and $D_{gA}=gD_Ag^{-1}$, $I_{gA}=gI_Ag^{-1}$. For a finite set $S$
+of primes, $N_S\subset G_\Q$ is the closure of the normal subgroup generated by the inertia groups of all
+places over primes not in $S$, and $G_S=G_\Q/N_S$.
+
+$\varepsilon\colon G_\Q\to\Z_\ell^\times\subset\katoQlb^\times$ is the $\ell$-adic cyclotomic character, and
+$\varepsilon_r\colon G_\Q\to(\Z/\ell^r)^\times$ its reduction. A homomorphism $\chi$ on $G_\Q$ \emph{kills
+$\mu_M$} if $\chi(s)=1$ for every $s$ fixing the $M$-th roots of unity, i.e.\ if $\chi$ factors through
+$\Gal(\Q(\mu_M)/\Q)$. For $r\colon G_\Q\to\GL_n(\katoQlb)$ and a character $\chi$, $r\otimes\chi$ is
+$s\mapsto\chi(s)r(s)$; for $n=2$ we write $\det W$ for the determinant character of $W$. The representation $W$
+acts on column vectors in $\katoQlb^2$, with coordinates indexed by $0,1$, and $W(s)_{ij}$ denotes its matrix
+entries. A representation $r$ is \emph{irreducible} on a subgroup $H$ if $\katoQlb^n$ has no $r(H)$-stable
+subspace other than $0$ and $\katoQlb^n$; it has the \emph{flag} $(\kappa_0,\kappa_1)$ on $H$ (characters of $H$)
+if some conjugate $gr(s)g^{-1}$, $s\in H$, is upper triangular with diagonal $(\kappa_0(s),\kappa_1(s))$; two
+representations are \emph{isomorphic} if they are conjugate by one matrix. A representation $r$ of $G_\Q$ has
+\emph{level $M$ away from $\ell$} if for every prime $w\ne\ell$ there are a place $B$ over $w$ and characters
+$\chi_0,\chi_1$ killing $\mu_M$ such that some conjugate of $r$ is $\mathrm{diag}(\chi_0,\chi_1)$ on $I_B$.
+
+For a topological group $H$ acting through $\rho$ on a topological module $V$, $\katoZ(H,\rho)$ is the module of
+\emph{continuous} maps $c\colon H\to V$ with $c(st)=c(s)+\rho(s)c(t)$, and $\katoB(H,\rho)$ the module of the
+coboundaries $s\mapsto\rho(s)x-x$, $x\in V$. Cocycles of $G_\Q$ are continuous for the Krull topology and the
+$\ell$-adic topology of $\katoQlb^2$.
+
+\begin{definition}[Bloch--Kato classes]\label{pf:kato:def:bk}
+Let $\rho$ be a representation of $G_F$ on a $\katoQlb$-vector space $V$. A cocycle $c\in\katoZ(G_F,\rho)$ is a
+\emph{Bloch--Kato class} if
+\begin{enumerate}[label=(\roman*)]
+\item for every finite prime $w\nmid\ell$ of $F$ there are a place $A$ over $w$ and $x\in V$ with
+  $c(s)=\rho(s)x-x$ for $s\in I_A$; and
+\item for every embedding $\tau\colon F\to\katoQlb$ there is an embedding $j\colon\Omega\to\katoQlb$ extending
+  $\tau$ such that, on the group $D_j=\{(\sigma,\sigma')\in G_F\times\Aut(\katoQlb/\Q_\ell):\sigma'\circ j=j\circ\sigma\}$,
+  the cocycle $(\sigma,\sigma')\mapsto c(\sigma)$ is \emph{crystalline}: there is $x\in V\otimes_{\Q_\ell}B_{\mathrm{cris}}$
+  with $c(\sigma)\otimes1=(\rho(\sigma)\otimes\sigma')x-x$ for all $(\sigma,\sigma')\in D_j$.
+\end{enumerate}
+We write $\katoHf(F,\rho)=0$ (or $\katoHf(F,W)=0$ when $\rho$ is the action of a matrix representation $W$ on
+column vectors) if every Bloch--Kato class is a coboundary.
+\end{definition}
+
+\begin{remark}\label{pf:kato:rem:bcris}
+Here $B_{\mathrm{cris}}$ is the ring of a period ring package fixed once and for all in the development; it is
+characterized by a list of axioms, not constructed as Fontaine's ring. As noted at the end of
+\cref{sec:window:kato}, the crystalline condition is used only through Bloch--Kato's local dimension formula,
+which is part of the hypothesis package for every structure satisfying these axioms
+(\cref{pf:kato:hyp:litcoh}(BK)); with Fontaine's ring \cite{Fontaine1994}, $\katoHf(F,\rho)=0$ is the
+vanishing of the Bloch--Kato Selmer group \cite{BlochKato1990} with $\katoQlb$-coefficients and no condition
+at the archimedean places. Since $\katoQlb$ is not complete, the statement concerns rational, not integral,
+Selmer groups.
+\end{remark}
+
+\begin{definition}[Newforms and attached representations]\label{pf:kato:def:newform}
+A \emph{newform of weight $k$} is a triple $(M,f,\chi)$ where $M\ge1$, $f$ is a cusp form of weight $k$ for
+$\Gamma_1(M)$ and $\chi$ is a Dirichlet character modulo $M$, such that $f|_k\gamma=\chi(d)f$ for every
+$\gamma=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\Gamma_0(M)$; the $q$-expansion coefficients
+$a_n(f)$ satisfy $a_1(f)=1$ and, for every prime $p\nmid M$ and $n\ge1$,
+$a_{pn}(f)+\chi(p)p^{k-1}a_{n/p}(f)=a_p(f)a_n(f)$ (with $a_{n/p}=0$ if $p\nmid n$); and for every proper
+divisor $M'$ of $M$, every cusp form $g$ of weight $k$ for $\Gamma_1(M')$ with a character $\chi'$ modulo $M'$
+which satisfies the same Hecke relations with the eigenvalues $a_p(f)$ for all but finitely many $p$ is zero.
+Its level is $M$, and $H_p(X)=X^2-a_p(f)X+\chi(p)p^{k-1}$. Let $\iota\colon\katoQlb\to\C$ be a field
+isomorphism and $V\colon G_\Q\to\GL_2(\katoQlb)$ a homomorphism. The newform is \emph{attached to $V$ via
+$\iota$} if $V$ is semisimple and, for all but finitely many primes $p$ and every place $A$ over $p$, $V$ is
+trivial on $I_A$ and, for every Frobenius $\sigma$ at $A$ for $p$, the characteristic polynomial of
+$V(\sigma^{-1})$, transported by $\iota$, is $H_p(X)$.
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{The statement}\label{pf:kato:sec:statement}
+
+\begin{definition}[The data $\sfname{Used}$]\label{pf:kato:def:used}
+Let $\ell$ be a prime, $K\subset\Omega$ a number field, $e,N\in\N$, $\theta,\psi\colon G_\Q\to\katoQlb^\times$
+homomorphisms and $W\colon G_\Q\to\GL_2(\katoQlb)$ a homomorphism. $\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$ is
+the conjunction of:
+\begin{enumerate}[label=(U\arabic*),leftmargin=*]
+\item\label{pf:kato:U1} $\ell\ne2$, $e\ge1$, and $\ell-1\nmid2e$;
+\item\label{pf:kato:U2} $[K:\Q]=2$, $K$ is totally complex, and $\ell\nmid|d_K|\,h_K$;
+\item\label{pf:kato:U3} $N\ge1$, $N$ is even, and $\gcd(|d_K|,N)=1$;
+\item\label{pf:kato:U4} $\ker\theta=G_K$ and $\theta^2=1$;
+\item\label{pf:kato:U5} $\psi$ kills $\mu_N$; $\psi^m=1$ for some $m$ prime to $\ell$; and $\psi^2=1$ on $I_A$ for
+  every place $A$ over $\ell$;
+\item\label{pf:kato:U6} there is a complex conjugation $c$ (i.e.\ $\phi\circ c=\overline{\phi}$ for some embedding
+  $\phi\colon\Omega\to\C$) with $\varepsilon(c)^e\psi(c)=1$;
+\item\label{pf:kato:U7} $W$ is continuous, has level $M=N|d_K|$ away from $\ell$, and has level $M$ and weights
+  $(e,-e)$ at $\ell$: at the prime $\ell$ there are a place $A$ over $\ell$, characters $\chi_0,\chi_1$ killing
+  $\mu_M$ and a flag $(\kappa_0,\kappa_1)$ of $W$ on $D_A$ with $\kappa_0=\varepsilon^e\chi_0$,
+  $\kappa_1=\varepsilon^{-e}\chi_1$ on $I_A$, such that either $\kappa_i\ne\kappa_j\varepsilon$ for all $i,j$ or $W$ is
+  potentially crystalline at $A$;
+\item\label{pf:kato:U8} for some place $A$ over $\ell$ and some $N'\ge1$, every $s\in I_A$ fixing $\mu_{N'}$ has
+  characteristic polynomial $(X-\varepsilon(s)^e)(X-\varepsilon(s)^{-e})$;
+\item\label{pf:kato:U9} $\det W=\theta$;
+\item\label{pf:kato:U10} for every place $A$ over $\ell$ and $s\in I_A$,
+  $\tr W(s)=\varepsilon(s)^e\psi(s)+(\varepsilon(s)^e\psi(s))^{-1}$;
+\item\label{pf:kato:U11} for all $g\in G_\Q$,
+  $\bigl|\tr W(g)-\theta(g)\varepsilon(g)^e\psi(g)-(\varepsilon(g)^e\psi(g))^{-1}\bigr|<1$;
+\item\label{pf:kato:U12} there are a place $A$ over $\ell$, a character $\chi$ killing $\mu_\ell$ and a flag
+  $(\kappa_0,\kappa_1)$ of $W$ on $D_A$ such that $I_A\subset\ker\theta$ and $\kappa_0=\varepsilon^e\chi$,
+  $\kappa_1=\varepsilon^{-e}\chi$ on $I_A$;
+\item\label{pf:kato:U13} $W$ is irreducible on $G_K\cap\ker\varepsilon$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Window witnesses]\label{pf:kato:def:wit}
+Let $F\subset\Omega$ be a CM field, $\iota\colon\katoQlb\to\C$ an isomorphism and $r\colon G_F\to\GL_n(\katoQlb)$.
+At a prime $v\mid\ell$ of $F$, $r$ is \emph{unlinked} if at every place $A$ over $v$ it has a flag $\kappa$ on
+$D_A$ with $\kappa_i\ne\kappa_j\varepsilon$ for all $i,j$, and \emph{potentially unlinked} if at every place $A$
+over $v$ it has a flag $\kappa$ on $D_A$ with $\kappa_i^m\ne(\kappa_j\varepsilon)^m$ for all $i,j$ and $m\ge1$.
+$\mathrm{Win}(\iota,r)$ means: at every $v\mid\ell$, unlinked implies potentially unlinked; and for every
+regular algebraic cuspidal automorphic representation $\pi$ of $\GL_n(\A_F)$ attached to $r$ via $\iota$ there is
+$t\in\R$ such that at every finite prime $v$ which does not divide $\ell$, or at which $r$ is potentially
+unlinked, $\pi_v$ has a supercuspidal support made of characters $\xi$ with
+$\katoN v^{t-1/2}<|\xi(\varpi_v)|<\katoN v^{t+1/2}$. For $r\colon G_\Q\to\GL_n(\katoQlb)$,
+$\sfname{WitAQ}(\iota,r)$ means that $\mathrm{Win}(\iota,r|_{G_{K'}})$ holds for every CM field $K'\subset\Omega$
+of degree $2$ such that $r|_{G_{K'}}$ is irreducible.
+\end{definition}
+
+\begin{definition}[$\sfname{KatoTwoW}$, $\sfname{KatoTwoW}^{\mathrm{sph}}$]\label{pf:kato:def:katotwow}
+$\sfname{KatoTwoW}$ is the proposition: for all $\ell,\Omega,K,e,N,\theta,\psi,W$ with
+$\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$, every isomorphism $\iota\colon\katoQlb\to\C$ and every newform $f$ of
+weight $2e+1$ attached to $W\otimes\varepsilon^{-e}$ via $\iota$, if $\sfname{WitAQ}(\iota,W)$ holds then
+\[
+  \katoHf(\Q,W\otimes1)=0\qquad\text{and}\qquad\katoHf(\Q,W\otimes\theta)=0.
+\]
+$\sfname{KatoTwoW}^{\mathrm{sph}}$ is the same proposition with the hypothesis $\sfname{WitAQ}(\iota,W)$ replaced by the
+spherical condition $\mathrm{Sph}(\iota,e,W)$ of \cref{pf:kato:def:sph}.
+\end{definition}
+
+\begin{remark}[Hypotheses which play no role]\label{pf:kato:rem:unused}
+The proof below uses only the following parts of $\sfname{Used}$: $\ell\ne2$ and $e\ge1$; the continuity of $W$
+and its level away from $\ell$ in \ref{pf:kato:U7}; $N\ge1$; \ref{pf:kato:U4}; the total complexity of $K$;
+\ref{pf:kato:U9}, \ref{pf:kato:U12} and \ref{pf:kato:U13} (see \cref{pf:kato:usedadm}). The conditions
+$\ell-1\nmid2e$, $[K:\Q]=2$, $\ell\nmid d_Kh_K$, $N$ even, $\gcd(d_K,N)=1$, all conditions on $\psi$
+(\ref{pf:kato:U5}, \ref{pf:kato:U6}, \ref{pf:kato:U10}, \ref{pf:kato:U11}), the condition at $\ell$ in
+\ref{pf:kato:U7} and \ref{pf:kato:U8} are not used. In particular the residual congruence \ref{pf:kato:U11}, which is
+how $\sfname{KatoTwoW}$ is used for Eisenstein congruences (\cref{thm:window:countI}), plays no role in its proof.
+The newform $f$ of the statement is used only to show that $W$ is modular (\cref{pf:kato:def:admitted}(f)), and
+the hypothesis $\sfname{WitAQ}$ only to show that the automorphic representations attached to twists of $W$ are
+unramified at $\ell$ (\cref{pf:kato:sphofwit}).
+\end{remark}
+
+The hypothesis package $\sfname{HypothesesH'}$ is described in \cref{sec:window:arch}. We use two parts of it.
+
+\begin{hypothesis}[Automorphic statements]\label{pf:kato:hyp:aut}
+\textup{(H)} is the sub-package of $\sfname{HypothesesH'}$ consisting of statements of published theorems on
+automorphic forms and Galois representations (\cref{sec:literature:aut,sec:literature:cft}). Through the results
+cited below, the proof uses from it: the existence of regular algebraic cuspidal automorphic representations of
+$\GL_2(\A_\Q)$ attached to newforms and to the Galois representations attached to newforms, with Satake parameters
+given by the Hecke polynomials; Galois representations attached to regular algebraic polarized cuspidal
+representations over CM fields, i.e.\ $\sfname{Row0b}$ (\cref{def:row0b}); Artin reciprocity and the
+correspondence between characters of finite order and algebraic Hecke characters; strong multiplicity one; and
+the statements of Galois cohomology listed in \cref{pf:kato:hyp:litcoh}. The semisimplicity of spaces of cusp
+forms, which is used once (in \cref{pf:kato:srcs}), is a further field of $\sfname{HypothesesH'}$.
+\formal{UpperTheory.V.Af.Hypotheses'}
+\end{hypothesis}
+
+\begin{hypothesis}[Galois cohomology]\label{pf:kato:hyp:litcoh}
+Let $\ell$ be odd. The following statements of published theorems are part of \textup{(H)}.
+\begin{enumerate}[label=(\textup{\arabic*}),leftmargin=*]
+\item[(PT)] (Poitou--Tate, \cite{Tate1963,Milne2006,NeukirchSchmidtWingberg2008}.) Let $S$ be a finite set of
+  primes containing $\ell$, $n\ge1$ and $M$ a finite $\Z/\ell^n$-module with a continuous action of $G_S$. Then
+  $\#\Sha^2(G_S,M)=\#\Sha^1(G_S,M^\vee(1))$, where $\Sha^i$ is the kernel of the restriction to the decomposition
+  groups at all $v\in S$ and $M^\vee(1)=\Hom(M,\mu_{\ell^n})$; and for $M=\mu_{\ell^n}$ the local invariant maps
+  $\mathrm{inv}_v\colon H^2(D_v,\mu_{\ell^n})\to\Z/\ell^n$ are isomorphisms whose sum vanishes on the image of
+  $H^2(G_S,\mu_{\ell^n})$.
+\item[(LF, LT, LE)] For finite extensions $K$ of $\Q_p$ and finite $\Z/\ell^n$-modules $M$ of $G_K$: finiteness of
+  $H^i(G_K,M)$, local Tate duality and the local Euler characteristic formula \cite{Tate1963,Milne2006}.
+\item[(GF, GE, UO)] Finiteness of $H^i(G_S,M)$, Tate's global Euler characteristic formula, and the orthogonality
+  of unramified classes under local duality.
+\item[(GW)] The Greenberg--Wiles formula \cite[Prop.~1.6]{Wiles1995}, \cite{DarmonDiamondTaylor1997}
+  for finite $\Z/\ell^n$-modules with local conditions.
+\item[(BK)] For every period ring package satisfying the axioms of \cref{pf:kato:rem:bcris} and every finite
+  extension $K$ of $\Q_\ell$: Bloch--Kato's local dimension formula for $\katoHf$ and its duality
+  \cite[\S3]{BlochKato1990}. In the form used here: if $\kappa$ is a continuous character of $G_{\Q_\ell}$ with
+  integral values in a finite extension of $\Q_\ell$ which agrees with $\varepsilon^{w}$ on an open subgroup of
+  inertia, for some $w<0$, then every crystalline cocycle of $\kappa$ is a coboundary.
+\end{enumerate}
+\formal{GlobalTheory.Mem.LiteralAutomorphy.LitCoh}
+\end{hypothesis}
+
+\begin{theorem}[\cref{thm:kato}]\label{pf:kato:main}
+$\sfname{HypothesesH'}$ implies $\sfname{KatoTwoW}$. That is: assume $\sfname{HypothesesH'}$; let
+$\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$ hold, let $\iota\colon\katoQlb\to\C$ be an isomorphism and $f$ a newform of
+weight $2e+1$ attached to $W\otimes\varepsilon^{-e}$ via $\iota$, and assume $\sfname{WitAQ}(\iota,W)$. Then every
+Bloch--Kato class of $W$, and every Bloch--Kato class of $W\otimes\theta$, is a coboundary.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.katoTwoW_of_printsH}
+\end{theorem}
+
+The proof is given in \cref{pf:kato:sec:proof}.
+
+% ---------------------------------------------------------------------------
+\subsection{Reduction to admitted representations}\label{pf:kato:sec:reduction}
+
+For a homomorphism $W\colon G_\Q\to\GL_2(\katoQlb)$ put
+\[
+  H_0(W)=\ker\varepsilon\cap\ker\det W,\qquad N_0(W)=\ker\varepsilon\cap\ker W,
+\]
+two closed normal subgroups of $G_\Q$ with $N_0(W)\subset H_0(W)$.
+
+\begin{definition}[Admitted representations]\label{pf:kato:def:admitted}
+Let $\iota\colon\katoQlb\to\C$ be an isomorphism and $e\in\N$. A homomorphism $W\colon G_\Q\to\GL_2(\katoQlb)$ is
+\emph{admitted} (for $\iota,e$) if:
+(a) $W$ is continuous; (b) $(\det W)^2=1$; (c) $\det W(c)=-1$ for every complex conjugation $c$; (d) $W$ is
+irreducible on $H_0(W)$; (e) $W$ has level $M$ away from $\ell$ for some $M\ge1$; (f) there are a newform $f$ of
+weight $2e+1$, an integer $M\ge1$ and a character $\varphi$ killing $\mu_M$ such that $f$ is attached to
+$W\otimes\varepsilon^{-e}\varphi$ via $\iota$; (g) there are a place $A$ over $\ell$, a character $\chi$ killing
+$\mu_\ell$ and a flag $(\kappa_0,\kappa_1)$ of $W$ on $D_A$ such that $I_A\subset\ker\det W$ and
+$\kappa_0=\varepsilon^e\chi$, $\kappa_1=\varepsilon^{-e}\chi$ on $I_A$.
+\formal{GlobalTheory.Ord2.admitted}
+\end{definition}
+
+\begin{lemma}\label{pf:kato:usedadm}
+If $\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$ holds and a newform $f$ of weight $2e+1$ is attached to
+$W\otimes\varepsilon^{-e}$ via $\iota$, then $\det W=\theta$ and $W$ is admitted.
+\formallabel{UpperTheory.V.Z.Kato.Used.adm}
+\end{lemma}
+
+\begin{proof}
+$\det W=\theta$ is \ref{pf:kato:U9}, and $\theta^2=1$ by \ref{pf:kato:U4}; this gives (b). Let $c$ be a complex
+conjugation, with $\phi\circ c=\overline\phi$ for an embedding $\phi\colon\Omega\to\C$. As $\theta(c)^2=1$,
+$\theta(c)=\pm1$. If $\theta(c)=1$, then $c\in\ker\theta=G_K$ fixes $K$, so the complex embedding
+$\phi|_K$ satisfies $\overline{\phi|_K}=\phi|_K$ and is real, contradicting the total complexity of $K$; hence
+$\theta(c)=-1$, which is (c). The group $G_K\cap\ker\varepsilon$ is contained in
+$H_0(W)=\ker\varepsilon\cap\ker\theta$, so a subspace stable under $W(H_0(W))$ is stable under
+$W(G_K\cap\ker\varepsilon)$; by \ref{pf:kato:U13}, $W$ is irreducible on $H_0(W)$, which is (d). Continuity and
+the level $N|d_K|\ge1$ away from $\ell$ are part of \ref{pf:kato:U7} (and $N\ge1$, $d_K\ne0$). For (f) take
+$M=1$ and $\varphi=1$. Finally (g) is \ref{pf:kato:U12}, rewritten with $\theta=\det W$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:keropen}
+If $W$ is continuous and $(\det W)^2=1$, then $\ker\det W$ is open in $G_\Q$, and $\det W$ kills $\mu_M$ for
+some $M\ge1$.
+\formallabel{GlobalTheory.Ord2.TwDet.ker_open}
+\end{lemma}
+
+\begin{proof}
+The values of $\det W$ are $\pm1$, and $1\ne-1$ in $\katoQlb$; so $\ker\det W$ is the complement of the closed
+set $(\det W)^{-1}(-1)$. The kernel of a homomorphism to an abelian group contains the commutator subgroup. By
+the Kronecker--Weber theorem in the form of \lref{UpperTheory.V.CF.kwAbs} (every open subgroup of $G_\Q$
+containing the commutator subgroup contains the subgroup fixing $\mu_M$ for some $M\ge1$; see
+\cite[Ch.~14]{Washington1997}), $\det W$ kills some $\mu_M$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:twdet}
+If $W$ is admitted, so is $W\otimes\det W$.
+\formallabel{GlobalTheory.Ord2.admissible_twist_by_det}
+\end{lemma}
+
+\begin{proof}
+Put $\delta=\det W$; by \cref{pf:kato:keropen} it is continuous and kills some $\mu_N$, $N\ge1$. Then
+$W\otimes\delta$ is continuous and $\det(W\otimes\delta)=\delta^2\det W=\det W$, which gives (b), (c) and
+$H_0(W\otimes\delta)=H_0(W)$; on this group $W\otimes\delta=W$, which gives (d). If $W$ is conjugate to
+$\mathrm{diag}(\chi_0,\chi_1)$ on $I_B$ with $\chi_i$ killing $\mu_M$, then $\delta=\chi_0\chi_1$ on $I_B$ and $W\otimes\delta$
+is conjugate to $\mathrm{diag}(\chi_0\chi_0\chi_1,\chi_1\chi_0\chi_1)$ there, which gives (e). If $f$ is attached to
+$W\otimes\varepsilon^{-e}\varphi$ with $\varphi$ killing $\mu_M$, then
+$W\otimes\varepsilon^{-e}\varphi=(W\otimes\delta)\otimes\varepsilon^{-e}(\varphi\delta)$ because $\delta^2=1$, and $\varphi\delta$ kills
+$\mu_{MN}$; this is (f). For (g), the flag $(\kappa_0\delta,\kappa_1\delta)$ of $W\otimes\delta$ on $D_A$ has the same
+restriction to $I_A$ as $(\kappa_0,\kappa_1)$, because $I_A\subset\ker\delta$.
+\end{proof}
+
+\begin{definition}[Spherical condition, sources]\label{pf:kato:def:sph}
+Let $\iota$, $e$ and $W$ be as above.
+\begin{enumerate}[label=(\roman*)]
+\item $W$ is \emph{spherical at $\ell$}, written $\mathrm{Sph}(\iota,e,W)$, if: for every $M\ge1$, every character
+  $\varphi$ killing $\mu_M$, every place $A$ over $\ell$, every flag $\kappa$ of $W\otimes\varphi$ on $D_A$ with
+  $\kappa_0=\varepsilon^e$ and $\kappa_1=\varepsilon^{-e}$ on $I_A$, and every regular algebraic cuspidal automorphic representation
+  $\pi$ of $\GL_2(\A_\Q)$ attached to $W\otimes\varphi$ via $\iota$ (at almost all primes, $\pi$ is unramified with Satake
+  parameters matching the eigenvalues of Frobenius), $\pi$ has Satake parameters at $\ell$, i.e.\ $\pi_\ell$ is
+  unramified.
+\item $W$ \emph{has an ordinary source}, written $\mathrm{Src}(\iota,e,W)$, if: (1) there are a newform $g$ of weight
+  $2e+1$, a character $\chi$ killing $\mu_\ell$, a place $A$ over $\ell$ and a flag $\kappa$ of $W$ on $D_A$ such that
+  $\ell$ does not divide the level of $g$, $|\iota^{-1}(a_\ell(g))|=1$, $g$ is attached to
+  $W\otimes\varepsilon^{-e}(\det W)^{-1}\chi$ via $\iota$, and $\kappa_1\varepsilon^e(\det W)^{-1}\chi=1$ on $I_A$; and (2) for
+  every place $A$ over $\ell$ and every flag $\kappa$ of $W$ on $D_A$ there is $s\in D_A$ with
+  $\kappa_0(s)\ne\varepsilon(s)$.
+\item \textup{(S)} is the proposition: for $\ell\ne2$ and $e\ge1$, every admitted $W$ with
+  $\mathrm{Sph}(\iota,e,W)$ satisfies $\mathrm{Src}(\iota,e,W)$.
+\item \textup{(V)} is the proposition: for every prime $\ell\ne2$, every algebraic closure $\Omega$ of
+  $\Q$, every $\iota$, every $e\ge1$ and every $W$ which is admitted and satisfies $\mathrm{Src}(\iota,e,W)$,
+  $\katoHf(\Q,W)=0$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Z.Kato.SphAt}
+\formallabel{GlobalTheory.Ord2.SrcL}
+\formallabel{GlobalTheory.Ord2.VanishOrdL}
+\end{definition}
+
+In $\mathrm{Src}$, the newform $g$ is $\ell$-ordinary of level prime to $\ell$, and the last condition of (1)
+says that the quotient character of the flag is $\varepsilon^{-e}\det W\chi^{-1}$ on $I_A$. Condition (2) excludes
+an ``exceptional'' sub-character equal to $\varepsilon$.
+
+\begin{lemma}\label{pf:kato:sphtw}
+If $\mathrm{Sph}(\iota,e,W)$ holds and $\theta$ kills $\mu_N$ with $N\ge1$, then $\mathrm{Sph}(\iota,e,W\otimes\theta)$
+holds. \formallabel{sphAt_tw}
+\end{lemma}
+
+\begin{proof}
+For $\varphi$ killing $\mu_M$, $(W\otimes\theta)\otimes\varphi=W\otimes(\varphi\theta)$, and $\varphi\theta$ kills $\mu_{MN}$; apply
+$\mathrm{Sph}(\iota,e,W)$ to $\varphi\theta$.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:twos}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and \textup{(S)}. Then $\sfname{KatoTwoW}^{\mathrm{sph}}$ holds.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.twoS}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:kato:vanishordl} and \cref{pf:kato:zetaur}, \textup{(V)} holds. Let the data of the spherical variant be
+given: the conditions $\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$ hold, $f$ is a newform attached to $W\otimes\varepsilon^{-e}$, and
+$\mathrm{Sph}(\iota,e,W)$ holds. By \cref{pf:kato:usedadm}, $\det W=\theta$ and $W$ is
+admitted; also $\ell\ne2$ and $e\ge1$. Since $W\otimes1=W$, the first vanishing is \textup{(V)} applied to $W$, with
+$\mathrm{Src}(\iota,e,W)$ supplied by \textup{(S)}. For the second, $W\otimes\theta=W\otimes\det W$ is admitted by
+\cref{pf:kato:twdet}; $\det W$ kills some $\mu_M$ (\cref{pf:kato:keropen}), so the representation $W\otimes\det W$ is
+spherical at $\ell$ by \cref{pf:kato:sphtw}; then \textup{(S)} shows that it has an ordinary source, and \textup{(V)} gives
+$\katoHf(\Q,W\otimes\theta)=0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Local--global compatibility at \texorpdfstring{$\ell$}{l} and sources}\label{pf:kato:sec:sph}
+
+This subsection supplies \textup{(S)} and the spherical condition. Its arguments assemble statements about
+automorphic representations proved elsewhere in the development; we state precisely how they are combined.
+For a place $A$ over $\ell$ and a flag $\kappa$ of $r\colon G_F\to\GL_2(\katoQlb)$ on $D_A$ (for $F=\Q$ or a CM
+field $F$), $\kappa$ is \emph{exact} (for $e$) if $\kappa_0=\varepsilon^{e}$ and $\kappa_1=\varepsilon^{-e}$ on $I_A$. For a prime
+power $q$ and a multiset $B$ of Satake parameters, $\mathrm{Fm}(\iota,e,q,A,\kappa,B)$ means: for every
+Frobenius $\sigma\in D_A$ for $q$ there is $b\in\{q^{1/2}\beta:\beta\in B\}$ with
+$q^{e}\,\iota\bigl(\kappa_0(\sigma)\varepsilon(\sigma)^{-e}\bigr)\,b=1$.
+
+\begin{definition}\label{pf:kato:def:locq}
+We consider the following statements.
+\begin{enumerate}[label=(\roman*)]
+\item \textup{(LG)} (local--global compatibility at $\ell$): for $\ell\ne2$, $e\ge1$, every continuous irreducible
+  $V\colon G_\Q\to\GL_2(\katoQlb)$ whose determinant kills some $\mu_M$, every regular algebraic cuspidal $\pi$ of
+  $\GL_2(\A_\Q)$ attached to $V$ via $\iota$, every place $A$ over $\ell$ and every exact flag $\kappa$ of $V$ on $D_A$: if
+  $\sfname{WitAQ}(\iota,V)$ holds or $\pi$ has Satake parameters at $\ell$, then $\pi$ has Satake parameters at $\ell$, and
+  $\mathrm{Fm}(\iota,e,\ell,A,\kappa,B)$ holds for all Satake parameters $B$ of $\pi$ at $\ell$.
+\item \textup{(TW)} (twisting window witnesses): $\sfname{WitAQ}(\iota,W)$ implies $\sfname{WitAQ}(\iota,W\otimes\varphi)$ for
+  every character $\varphi$ killing some $\mu_M$, $M\ge1$.
+\item \textup{(SW)} (window witnesses give sphericity): for $\ell\ne2$, $e\ge1$ and continuous irreducible $W$ whose
+  determinant kills some $\mu_M$, $\sfname{WitAQ}(\iota,W)$ implies $\mathrm{Sph}(\iota,e,W)$.
+\item \textup{(FR)} (Frobenius roots): for $\ell\ne2$, $e\ge1$, continuous irreducible $V$ whose determinant kills some
+  $\mu_M$, a place $A$ over $\ell$, an exact flag $\kappa$ of $V$ on $D_A$, and a newform $g$ of weight $2e+1$
+  attached to $V\otimes\varepsilon^{-e}$ via $\iota$ whose level is prime to $\ell$: for every Frobenius
+  $\sigma\in D_A$ for $\ell$ there is a root $\alpha$ of $H_\ell(X)$ with $\alpha=u$ or $\alpha^{-1}=u$, where
+  $u=\iota(\kappa_0(\sigma)\varepsilon(\sigma)^{-e})$.
+\item \textup{(TN)} (twisted newforms): for $\ell\ne2$, $e\ge1$, admitted $W$ and every character $\varphi$ killing some
+  $\mu_M$, $M\ge1$, some newform of weight $2e+1$ is attached to $(W\otimes\varphi)\otimes\varepsilon^{-e}$ via $\iota$.
+\end{enumerate}
+We write \textup{(QBC)} for quadratic base change for $\GL_2$: for a totally real field $F$, a totally complex quadratic
+extension $E/F$ and a regular algebraic cuspidal $\pi$ of $\GL_2(\A_F)$, either $\pi\cong\pi\otimes\eta_{E/F}$ or $\pi$ has a
+cuspidal base change to $E$ \cite{Langlands1980}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.LocQ}
+\end{definition}
+
+A representation $P$ of $\GL_2$ over a CM field is \emph{plain} at a prime $w$ if every local component of $P$ at $w$ has
+a supercuspidal support consisting of characters, no two of which are linked (i.e.\ differ by $|\cdot|^{\pm1}$).
+
+\begin{theorem}\label{pf:kato:locq}
+The statements \textup{(H)}, $\sfname{Row0b}$ for the local parameter maps of \cref{sec:galois} and \textup{(QBC)} imply
+\textup{(LG)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.locQ_of_alt}
+\end{theorem}
+
+\begin{proof}
+The proof combines the following statements.
+\begin{enumerate}[label=(\alph*)]
+\item (Split base change; \lref{UpperTheory.V.Z.Kato.WeilSphericalRecords.base_change_split_of_printed_quad_bc},
+  from \textup{(QBC)} and \textup{(H)}.) For $V$, $\pi$ as in \textup{(LG)} and a place $A$ over $\ell$, there are an
+  imaginary quadratic field $K'\subset\Omega$ with $V|_{G_{K'}}$ irreducible, a regular algebraic polarized cuspidal
+  $P$ of $\GL_2(\A_{K'})$ attached to $V|_{G_{K'}}$ via $\iota$, and a prime $w\mid\ell$ of $K'$ with $A$ over $w$,
+  $\katoN w=\ell$ and $D_A\subset G_{K'}$, such that for every multiset $B$, $\pi$ has Satake parameters $B$ at $\ell$ if
+  and only if $P$ has Satake parameters $B$ at $w$.
+\item (Compatibility over CM fields;
+  \lref{UpperTheory.V.Z.Kato.WeilSphericalRecords.local_k_of_printed_rec_compat_sph_frob}, from \textup{(H)},
+  $\sfname{Row0b}$ and the local parameter maps.) For a CM field $K'$, a continuous $r\colon G_{K'}\to\GL_2(\katoQlb)$, a
+  regular algebraic polarized cuspidal $P$ attached to $r$, a prime $w\mid\ell$ of $K'$, a place $A$ over $w$ and an exact
+  flag $\kappa$ of $r$ on $D_A$: if $P$ is plain at $w$, then $P$ has Satake parameters at $w$ and
+  $\mathrm{Fm}(\iota,e,\katoN w,A,\kappa,B)$ holds for all of them.
+\item (\cref{pf:kato:potof} below.) A representation with an exact flag at a place over $w$ is potentially unlinked
+  at $w$.
+\item (Plainness.) If $\mathrm{Win}(\iota,r)$ holds, $P$ is regular algebraic and attached to $r$, and $r$ is potentially
+  unlinked at $w\mid\ell$, then $P$ is plain at $w$: by \lref{UpperTheory.V.Z.Win.guard_of} and
+  \lref{UpperTheory.V.Z.Win.plainRec}, the window bound of $\mathrm{Win}(\iota,r)$ at $w$ forces every local component
+  of $P$ at $w$ to be plain, for every local parameter map of \lref{UpperTheory.Zero.LLC.recTExists} (which
+  provides such maps at every place). If $P$ has Satake parameters at $w$, then $P$ is plain at $w$
+  (\lref{UpperTheory.V.Z.Win.plainOf}: unramified and window-bounded local components are plain).
+\end{enumerate}
+Let $V$, $\pi$, $A$, $\kappa$ be as in \textup{(LG)}, and choose $K'$, $P$, $w$ by (a). As $D_A\subset G_{K'}$, the
+restriction of $\kappa$ is an exact flag of $V|_{G_{K'}}$ on the decomposition group of $A$ in $G_{K'}$. If
+$\sfname{WitAQ}(\iota,V)$ holds, then $\mathrm{Win}(\iota,V|_{G_{K'}})$ holds since $V|_{G_{K'}}$ is irreducible,
+$V|_{G_{K'}}$ is potentially unlinked at $w$ by (c), and $P$ is plain at $w$ by (d). If $\pi$ has Satake
+parameters $B$ at $\ell$, then $P$ has Satake parameters $B$ at $w$ by (a), and is plain at $w$ by (d). In both
+cases (b) shows that $P$, hence $\pi$, has Satake parameters at $w$, resp.\ $\ell$, and that
+$\mathrm{Fm}(\iota,e,\ell,A,\kappa,B)$ holds for the restricted flag and all such $B$ (recall $\katoN w=\ell$).
+Since $D_A$ fixes $K'$, a Frobenius at $A$ for $\ell$ in $G_\Q$ is a Frobenius at $A$ in $G_{K'}$, so
+$\mathrm{Fm}$ holds for $\kappa$ itself.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:potof}
+Let $F$ be a number field, $e\ge1$, $r\colon G_F\to\GL_2(\katoQlb)$, $w$ a prime of $F$ above $\ell$, $A$ a place
+over $w$ and $\kappa$ an exact flag of $r$ on $D_A$. Then $r$ is potentially unlinked at $w$.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.potOf}
+\end{lemma}
+
+\begin{proof}
+Let $A'$ be a place over $w$, and $\sigma\in G_F$ with $A'=\sigma A$. If $g$ triangularizes $r$ on $D_A$, then
+$g\,r(\sigma)^{-1}$ triangularizes $r$ on $D_{A'}=\sigma D_A\sigma^{-1}$, with diagonal characters
+$\kappa'_i(s)=\kappa_i(\sigma^{-1}s\sigma)$. Write $e_0=e$, $e_1=-e$, so that $\kappa_i=\varepsilon^{e_i}$ on $I_A$. For all
+$i,j$ the integer $e_i-e_j-1$ lies in $\{-1,2e-1,-2e-1\}$ and is non-zero. Suppose
+$\kappa_i'^m=(\kappa'_j\varepsilon)^m$ for some $m\ge1$. Choose $g_0\in I_A$ with
+$\varepsilon(g_0)^{m(e_i-e_j-1)}\ne1$ ($\varepsilon$ has infinite order on $I_A$). Evaluating at $\sigma g_0\sigma^{-1}\in I_{A'}$,
+and using $\varepsilon(\sigma g_0\sigma^{-1})=\varepsilon(g_0)$, gives $\varepsilon(g_0)^{me_i}=\varepsilon(g_0)^{m(e_j+1)}$, a contradiction.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:sphofwit}
+\textup{(TW)} and \textup{(LG)} imply \textup{(SW)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.sphOfWit}
+\end{theorem}
+
+\begin{proof}
+Let $W$ be continuous and irreducible, with $\det W$ killing $\mu_N$, and assume $\sfname{WitAQ}(\iota,W)$. Let
+$\varphi$ kill $\mu_M$, $A$ be over $\ell$, $\kappa$ an exact flag of $W\otimes\varphi$ on $D_A$ and $\pi$ attached to
+$W\otimes\varphi$. The twist $W\otimes\varphi$ is continuous ($\ker\varphi$ is open), irreducible (twisting preserves stable
+subspaces), and $\det(W\otimes\varphi)=\varphi^2\det W$ kills $\mu_{NM}$. By \textup{(TW)},
+$\sfname{WitAQ}(\iota,W\otimes\varphi)$ holds, and the first alternative of \textup{(LG)} shows that $\pi$ has
+Satake parameters at $\ell$.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:twwit}
+\textup{(H)} implies \textup{(TW)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.twWit_alt}
+\end{theorem}
+
+\begin{proof}
+We use the twisting property of window conditions (\lref{UpperTheory.V.Z.Win.aIsoTwOf_alt}, assuming
+\textup{(H)}): for a CM field $F$, if $\mathrm{Win}(\iota,r)$ holds then $\mathrm{Win}(\iota,r')$ holds for every $r'$
+isomorphic to $r$, and $\mathrm{Win}(\iota,r\otimes\mu)$ holds for every algebraic character $\mu$ of $G_F$ (a character
+corresponding to an algebraic Hecke character). Let $K'$ be imaginary quadratic with $(W\otimes\varphi)|_{G_{K'}}$
+irreducible. Then $W|_{G_{K'}}$ is irreducible, so $\mathrm{Win}(\iota,W|_{G_{K'}})$ holds. The restriction of $\varphi$ to
+$G_{K'}$ has open kernel, hence is algebraic (\lref{UpperTheory.V.Sd.alg_cyclotomic_of_printed_results}: by the
+Artin reciprocity statement of \textup{(H)}, characters of finite order are algebraic), and the twisting property gives
+$\mathrm{Win}(\iota,(W\otimes\varphi)|_{G_{K'}})$.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:frobroot}
+\textup{(H)} and \textup{(LG)} imply \textup{(FR)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.frobRoot_alt}
+\end{theorem}
+
+\begin{proof}
+Let $V,A,\kappa,g,\sigma$ be as in \textup{(FR)}. By
+\lref{GlobalTheory.T.exists_cuspidal_attached_satake_eq_hecke_poly_of_not_dvd} (from \textup{(H)}),
+there is a regular algebraic cuspidal $\pi$ of $\GL_2(\A_\Q)$ attached to $V$ via $\iota$ which has Satake parameters
+$B$ at $\ell$ with $\prod_{b}(X-\ell^{e}b)=H_\ell(X)$, the product over $b\in\{\ell^{1/2}\beta:\beta\in B\}$. The second
+alternative of \textup{(LG)} applies and gives such a $b$ with $\ell^e\,u\,b=1$. Then $\alpha=\ell^eb$ is a root
+of $H_\ell$ and $\alpha^{-1}=u$.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:twnew}
+$\sfname{HypothesesH'}$ implies \textup{(TN)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.twNew_alt}
+\end{theorem}
+
+\begin{proof}
+Let $W$ be admitted and $\varphi$ kill $\mu_M$. By \cref{pf:kato:def:admitted}(f) a newform $f$ of weight $2e+1$ is
+attached to $V=W\otimes\varepsilon^{-e}\varphi'$, with $\varphi'$ killing $\mu_{M'}$. The character $\kappa=\varphi\varphi'^{-1}$
+kills $\mu_{MM'}$. By \lref{UpperTheory.V.Z.Kato.WeilSphericalRecords.TwistNewform.exists_newform_attached_twist_of_kills_mu}
+(from $\sfname{HypothesesH'}$; for a newform of weight $k\ge2$ attached to $V$ and a character $\kappa$ killing some
+$\mu_{N}$, $N\ge1$, some newform of weight $k$ is attached to $V\otimes\kappa$; compare \cite{AtkinLi1978}) a newform
+$g$ of weight $2e+1$ is attached to $V\otimes\kappa=(W\otimes\varphi)\otimes\varepsilon^{-e}$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:unitroot}
+Let $\ell$ be odd, $e\ge1$, $g$ a newform of weight $2e+1$ whose level is prime to $\ell$, and $\alpha\in\C$ a root of $H_\ell(X)$ with
+$|\iota^{-1}(\alpha)|=1$. Then $|\iota^{-1}(a_\ell(g))|=1$, and $\alpha^m\ne1$ for every $m\ge1$.
+\formallabel{GlobalTheory.T.newform_unit_root_not_root_of_unity_odd_weight}
+\end{lemma}
+
+\begin{proof}
+Let $c=\chi(\ell)$, where $\chi$ is the character of $g$; it is a root of unity, as $\chi$ has finite order and $\ell$ is prime to the
+level. As $H_\ell(\alpha)=0$ and $H_\ell(0)=c\ell^{2e}\ne0$, we have $\alpha\ne0$ and $a_\ell(g)=\alpha+c\ell^{2e}/\alpha$. Applying $\iota^{-1}$, the
+second term has norm $|\ell|^{2e}<1=|\iota^{-1}(\alpha)|$, so $|\iota^{-1}(a_\ell(g))|=1$ by the ultrametric inequality. If $\alpha^m=1$, then
+$|\alpha|=1$ in $\C$, and $|a_\ell(g)|\ge\ell^{2e}-1$. But $|a_p(g)|\le p^{k/2}+p^{k/2-1}$ for every prime $p$ not dividing the level of a
+newform of weight $k$ (\lref{GlobalTheory.T.newform_norm_coeff_prime_le_of_not_dvd_level}; this is weaker than Deligne's bound), and
+$\ell^{2e}-1>\ell^{e+1/2}+\ell^{e-1/2}$ for $\ell\ge3$ and $e\ge1$; this is a contradiction.
+\end{proof}
+
+\begin{theorem}\label{pf:kato:srcs}
+$\sfname{HypothesesH'}$, \textup{(TN)} and \textup{(FR)} imply \textup{(S)}.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.srcS_alt}
+\end{theorem}
+
+\begin{proof}
+Let $\ell\ne2$, $e\ge1$, and $W$ admitted with $\mathrm{Sph}(\iota,e,W)$. Choose $N\ge1$ with $\det W$ killing
+$\mu_N$ (\cref{pf:kato:keropen}) and $A,\chi,\kappa$ as in \cref{pf:kato:def:admitted}(g), and put
+$\varphi=(\det W)^{-1}\chi^{-1}$, which kills $\mu_{N\ell}$. By \textup{(TN)} there is a newform $g$ of weight
+$2e+1$ attached to $V\otimes\varepsilon^{-e}$, where $V=W\otimes\varphi$. The representation $V$ is continuous and
+irreducible, has finite level away from $\ell$ (twist the characters of \cref{pf:kato:def:admitted}(e) by $\varphi$),
+its determinant $\varphi^2\det W$ kills $\mu_{N\ell}$, and the flag $\kappa\varphi$ of $V$ on $D_A$ is exact: on $I_A$,
+$\kappa_0\varphi=\varepsilon^e\chi\chi^{-1}=\varepsilon^e$ and $\kappa_1\varphi=\varepsilon^{-e}$, because $I_A\subset\ker\det W$.
+
+By \lref{GlobalTheory.Ord2.SrcForm.exists_rep_alt} (from \textup{(H)}) there is a regular algebraic
+cuspidal $\pi$ attached to $V$ via $\iota$ whose Satake parameters at almost all primes $p$ are the roots of
+$H_p(g)$ (suitably normalised). By $\mathrm{Sph}(\iota,e,W)$, applied to $\varphi$, $A$, $\kappa\varphi$ and $\pi$, the
+representation $\pi$ has Satake parameters at $\ell$; by
+\lref{GlobalTheory.NewLevel.not_dvd_level_of_satake_hecke_poly_cofinite} (from \textup{(H)} and the
+semisimplicity of the space of cusp forms contained in $\sfname{HypothesesH'}$), $\ell$ does not divide the level
+of $g$. Let $\sigma\in D_A$ be a Frobenius for $\ell$. By \textup{(FR)} there is a root $\alpha$ of $H_\ell(X)$ with
+$\alpha^{\pm1}=\iota(u)$, $u=\kappa_0(\sigma)\varphi(\sigma)\varepsilon(\sigma)^{-e}$. Diagonal characters of a flag of a continuous
+representation of the compact group $D_A$ take unit values, so $|u|=1$ and $|\iota^{-1}(\alpha)|=1$. By \cref{pf:kato:unitroot},
+$g$ is $\ell$-ordinary and $\alpha$ is not a root of unity.
+
+Clause (1) of $\mathrm{Src}$ holds with $\chi^{-1}$: $g$ is attached to
+$(W\otimes\varphi)\otimes\varepsilon^{-e}=W\otimes\varepsilon^{-e}(\det W)^{-1}\chi^{-1}$, and on $I_A$,
+$\kappa_1\varepsilon^e(\det W)^{-1}\chi^{-1}=\varepsilon^{-e}\chi\varepsilon^e\chi^{-1}=1$. For clause (2), suppose that some flag $\kappa'$ of
+$W$ on $D_{A'}$, $A'$ over $\ell$, has $\kappa'_0=\varepsilon$. Transporting $\kappa'$ to $D_A$ by an element of $G_\Q$ carrying $A'$
+to $A$, and comparing the diagonal characters of two flags of $W$ on $D_A$, we get $\varepsilon=\kappa_0$ or $\varepsilon=\kappa_1$ on
+$D_A$. Let $m\ge1$ with $\chi^m=1$, and $t\in I_A$ such that $\varepsilon(t)$ is not a root of unity. If $\varepsilon=\kappa_1$, then
+$\varepsilon^{e+1}=\chi$ on $I_A$ and $\varepsilon(t)^{(e+1)m}=1$, a contradiction. If $\varepsilon=\kappa_0$, then $\varepsilon^{e-1}\chi=1$ on $I_A$;
+if $e\ge2$ this gives $\varepsilon(t)^{(e-1)m}=1$, a contradiction, so $e=1$; then $u=\kappa_0(\sigma)\varphi(\sigma)\varepsilon(\sigma)^{-1}=\varphi(\sigma)$
+has finite order, so $\alpha$ would be a root of unity, again a contradiction.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Normal forms, Selmer conditions and Euler systems}\label{pf:kato:sec:nf}
+
+From now on $W\colon G_\Q\to\GL_2(\katoQlb)$ is a homomorphism and $\delta=\det W$. Put
+\[
+  W^*=W\otimes\varepsilon\delta^{-1},\qquad\text{so } W^*(s)=\varepsilon(s)\delta(s)W(s)\text{ if }\delta^2=1;
+\]
+since $W$ has dimension two, $W^*\cong W^\vee(1)$. Let $\omega(x,y)=x_0y_1-x_1y_0$ on $\katoQlb^2$. As
+$\omega(Mx,My)=\det(M)\,\omega(x,y)$ for every $2\times2$ matrix $M$,
+\begin{equation}\label{pf:kato:eq:omega}
+  \omega\bigl(W(s)x,\,W^*(s)y\bigr)=\varepsilon(s)\,\omega(x,y)\qquad(s\in G_\Q,\ x,y\in\katoQlb^2).
+\end{equation}
+For maps $a,b\colon G_\Q\to\katoQlb^2$ and $u\colon G_\Q\to\katoQlb$ define the \emph{cup product} and the
+\emph{height}
+\begin{equation}\label{pf:kato:eq:cupht}
+\begin{gathered}
+  (a\cup b)(s,t)=\omega\bigl(a(s),W^*(s)b(t)\bigr),\\
+  \katoht_{a,b,u}(s)=\det\bigl(W(s)-1\bigr)u(s)-\omega\bigl(\katoadj(W(s)-1)\,a(s),\,b(s)\bigr),
+\end{gathered}
+\end{equation}
+where $\katoadj$ is the adjugate matrix. If $a$ is a cocycle of $W$ and $b$ of $W^*$, then $a\cup b$ is a
+$2$-cocycle with values in $\katoQlb(1)$: $\varepsilon(r)(a\cup b)(s,t)+(a\cup b)(r,st)=(a\cup b)(rs,t)+(a\cup b)(r,s)$, by
+\eqref{pf:kato:eq:omega}.
+
+\begin{definition}[Normal form]\label{pf:kato:def:nf}
+Let $e\in\N$, $S$ a finite set of primes and $A\subset\Omega$ a valuation subring. $W$ is in \emph{normal form} with
+respect to $(e,S,A)$, written $\mathrm{NF}(e,S,A,W)$, if: $\ell\ne2$; $e\ge1$; $W$ is continuous with entries in some coefficient ring; $\ell\in S$; $W$ is trivial on
+$I_B$ for every place $B$ over a prime not in $S$; $\delta^2=1$; $\delta(c)=-1$ for every complex conjugation $c$;
+$W$ is irreducible on $H_0(W)$; $A$ is a place over $\ell$; $W(s)_{10}=0$ for $s\in D_A$; there is $m\ge1$ with
+$W(s)_{00}^m=\varepsilon(s)^{em}$ for $s\in I_A$; and $W(s)_{00}\ne\varepsilon(s)$ for some $s\in D_A$.
+\formallabel{GlobalTheory.Ord2.Nf}
+\end{definition}
+
+Under $\mathrm{NF}$, $W$ and $W^*$ are upper triangular on $D_A$, and $W$ is unramified outside $S$; so are
+$W^*$ and $\varepsilon$ at primes $\ne\ell$, hence $W$, $W^*$ and $\varepsilon$ are trivial on $N_S$.
+
+\begin{definition}[Selmer conditions]\label{pf:kato:def:selmer}
+Let $A$ be a place over $\ell$ and $c\colon G_\Q\to\katoQlb^2$.
+\begin{itemize}
+\item $c$ is \emph{unramified away from $\ell$}, written $\mathrm{Unr}(W,c)$, if for every prime $q\ne\ell$ there are a
+  place $B$ over $q$ and $x\in\katoQlb^2$ with $c(s)=W(s)x-x$ for $s\in I_B$.
+\item $c$ satisfies the \emph{Greenberg condition} at $A$, written $\mathrm{Gr}(W,A,c)$, if there is $x\in\katoQlb$ with
+  $c(s)_1=W(s)_{11}x-x$ for $s\in D_A$.
+\item $c$ is \emph{strict} at $A$, written $\mathrm{Str}(W,A,c)$, if there is $x\in\katoQlb^2$ with $c(s)=W(s)x-x$ for
+  $s\in D_A$.
+\item We write $H^1_{\mathrm{Gr}}(W,A)=0$, resp.\ $H^1_{\mathrm{str}}(W,A)=0$, if every $c\in\katoZ(G_\Q,W)$ with
+  $\mathrm{Unr}(W,c)$ and $\mathrm{Gr}(W,A,c)$, resp.\ $\mathrm{Str}(W,A,c)$, is a coboundary (vanishing of the Greenberg
+  Selmer group \cite{Greenberg1989}, resp.\ of the strict Selmer group).
+\end{itemize}
+\formal{GlobalTheory.Ord2.Unr}
+\formal{GlobalTheory.Ord2.Gr}
+\formal{GlobalTheory.Ord2.Triv}
+\formal{GlobalTheory.Ord2.GrZero}
+\formal{GlobalTheory.Ord2.StrZero}
+\end{definition}
+
+\begin{lemma}\label{pf:kato:placeindep}
+Let $c\in\katoZ(G_\Q,W)$ and let $B,B'$ be places over the same prime. If $c(s)=W(s)x-x$ for $s\in I_B$ (resp.\
+$s\in D_B$), then $c(s)=W(s)x'-x'$ for $s\in I_{B'}$ (resp.\ $s\in D_{B'}$) for some $x'$. In particular the conditions
+$\mathrm{Unr}$ and $\mathrm{Str}$ do not depend on the choice of the places.
+\formallabel{GlobalTheory.T.localConditions_independent_of_place_over}
+\end{lemma}
+
+\begin{proof}
+Write $B'=gB$, so $I_{B'}=gI_Bg^{-1}$. For $s\in I_B$, the cocycle relation and $c(g^{-1})=-W(g)^{-1}c(g)$ give
+$c(gsg^{-1})=c(g)+W(g)(W(s)x-x)-W(gsg^{-1})c(g)=W(gsg^{-1})x'-x'$ with $x'=W(g)x-c(g)$. The same computation applies to
+decomposition groups.
+\end{proof}
+
+\begin{definition}[Congruence cochains]\label{pf:kato:def:congr}
+Let $\katoO$ be a coefficient ring, $n\in\N$ and $H\subset G_\Q$ a subgroup.
+\begin{itemize}
+\item $a\colon G_\Q\to\katoO^2$ is an \emph{$(\katoO,n)$-cocycle of $W$ on $H$} if it is continuous on $H$ and
+  $a(st)\katoeq na(s)+W(s)a(t)$ for $s,t\in H$; it is an \emph{$(\katoO,n)$-coboundary on $H$} if there is
+  $x\in\katoO^2$ with $a(s)\katoeq nW(s)x-x$ for $s\in H$.
+\item A map $\xi\colon G_\Q\times G_\Q\to\katoQlb$ is \emph{$(\katoO,n)$-trivial on $H$} if there is $u\colon
+  G_\Q\to\katoO$, continuous on $H$, with $\xi(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for $s,t\in H$.
+\item $\xi$ is an \emph{$(\katoO,n,S)$-$2$-cocycle} if it is continuous with values in $\katoO$,
+  $\varepsilon(r)\xi(s,t)+\xi(r,st)\katoeq n\xi(rs,t)+\xi(r,s)$ for all $r,s,t$, and $\xi(sa,tb)\katoeq n\xi(s,t)$ for
+  all $s,t$ and $a,b\in N_S$.
+\end{itemize}
+\formal{GlobalTheory.Ord2.Coc1}
+\formal{GlobalTheory.Ord2.Cob1}
+\formal{GlobalTheory.Ord2.Cob2}
+\formal{GlobalTheory.Ord2.Coc2}
+\end{definition}
+
+An $(\katoO,n,S)$-$2$-cocycle defines a class in $H^2(G_S,\katoO/\ell^n(1))$, and $(\katoO,n)$-triviality on $D_B$ is the
+vanishing of its restriction to the decomposition group.
+
+\begin{definition}[Tame relations and Euler systems]\label{pf:kato:def:es}
+Let $\katoO$ be a coefficient ring containing the entries of $W$, $y\colon G_\Q\to\katoO^2$, $n\ge1$, $w$ a prime
+and $\psi\colon G_\Q\to\Z/\ell^n$ a homomorphism. The \emph{tame relation} $\mathcal{T}(\katoO,W,y,n,w,\psi)$ holds if
+there are a continuous
+$Y\colon G_\Q\times\Z/\ell^n\to\katoO^2$, $P\in\katoO$, $u\in\katoQlb$ with $|u|=1$ and $b\in\katoO^2$ such that
+\begin{enumerate}[label=(T\arabic*)]
+\item\label{pf:kato:T1} $Y(st,x)=Y(s,x)+W(s)\,Y(t,x-\psi(s))$ for all $s,t,x$;
+\item\label{pf:kato:T2} $\sum_{x}Y(s,x)=P\,y(s)+W(s)b-b$ for all $s$;
+\item\label{pf:kato:T3} $P\katoeq nu\det(W(\sigma)-1)$ for every place $B$ over $w$ and every Frobenius $\sigma$ at $B$
+  for $w$;
+\item\label{pf:kato:T4} for every prime $q\notin\{w,\ell\}$ there are a place $B$ over $q$ and $t\colon\Z/\ell^n\to\katoO^2$
+  with $Y(s,x)=W(s)t(x)-t(x)$ for $s\in I_B$ and all $x$.
+\end{enumerate}
+$W$ \emph{has an Euler system} at $A$, written $\mathrm{ES}(W,A)$, if there are a coefficient ring $\katoO$
+containing the entries of $W$, a cocycle
+$y\in\katoZ(G_\Q,W)$ with values in $\katoO^2$ such that $\mathrm{Unr}(W,y)$ holds and $\mathrm{Gr}(W,A,y)$ fails,
+and a finite set $S'$ of primes such that $\mathcal{T}(\katoO,W,y,n,w,\psi)$ holds for all $n\ge1$, all primes
+$w\notin S'$ with $\ell^n\mid w-1$, and all surjective $\psi\colon G_\Q\to\Z/\ell^n$ killing $\mu_w$.
+\formallabel{GlobalTheory.Ord2.ES}
+\end{definition}
+
+By Shapiro's lemma, \ref{pf:kato:T1} says that $Y$ is a cocycle of the induced module
+$W\otimes\katoO[\Z/\ell^n]$, i.e.\ a class over the cyclic extension of degree $\ell^n$ cut out by $\psi$; \ref{pf:kato:T2}
+says that its corestriction is $P\cdot y$, and \ref{pf:kato:T3} that $P$ is, up to a unit, the Euler factor
+$\det(1-W(\mathrm{Frob}_w))$ modulo $\ell^n$. This is an Euler system ``of rank one, one prime at a time'' in the
+sense of \cite{Kolyvagin1990,Rubin2000}.
+
+\begin{definition}[Unramified sources and the existence statement]\label{pf:kato:def:zetaur}
+A newform $g$ is an \emph{unramified source} for $W$ at $A$, written $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$, if $g$
+is a newform of weight $2e+1$ whose level is prime to $\ell$,
+$|\iota^{-1}(a_\ell(g))|=1$, and for some character $\chi$ killing $\mu_\ell$, $g$ is attached to
+$W\otimes\varepsilon^{-e}\delta^{-1}\chi$ via $\iota$ and $W(s)_{11}\varepsilon(s)^e\delta(s)^{-1}\chi(s)=1$ for $s\in I_A$.
+The \emph{existence statement} \textup{(Z)} is the proposition: for all $\ell,\Omega,\iota,e,S,A,W,g$, $\mathrm{NF}(e,S,A,W)$ and
+$\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$ imply $\mathrm{ES}(W,A)$.
+\formallabel{GlobalTheory.Ord2.ZetaUr}
+\end{definition}
+
+The rest of this subsection and the next five prove:
+
+\begin{theorem}\label{pf:kato:vanishordl}
+The statements of \cref{pf:kato:hyp:litcoh} and \textup{(Z)} imply \textup{(V)}.
+\formallabel{GlobalTheory.Ord2.vanishOrdL_of_zetaUr}
+\end{theorem}
+
+\begin{theorem}\label{pf:kato:esvanish}
+Assume the statements of \cref{pf:kato:hyp:litcoh}. If $\mathrm{NF}(e,S,A,W)$ and $\mathrm{ES}(W,A)$ hold, then
+$\katoHf(\Q,W)=0$.
+\formallabel{GlobalTheory.Ord2.es_vanish}
+\end{theorem}
+
+\begin{lemma}\label{pf:kato:nf}
+Let $\ell\ne2$, $e\ge1$, $W$ admitted with $\mathrm{Src}(\iota,e,W)$. There are a finite set $S$, a place $A$ over
+$\ell$, a representation $W'$ isomorphic to $W$ and a newform $g$ with $\mathrm{NF}(e,S,A,W')$ and
+$\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W',g)$.
+\formallabel{GlobalTheory.Ord2.exists_nf_srcUr}
+\end{lemma}
+
+\begin{proof}
+Take $g$, $\chi$, $A$, $\kappa$ from clause (1) of $\mathrm{Src}$ and $h_1\in\GL_2(\katoQlb)$ triangularizing $W$ on $D_A$
+with diagonal $(\kappa_0,\kappa_1)$. By \cref{pf:kato:def:admitted}(e), $W$ has level $M\ge1$ away from $\ell$; let $S$ be
+the set of primes dividing $\ell M$. For a prime $q\notin S$ there is a place $B$ over $q$ on whose inertia group
+some conjugate of $W$ is $\mathrm{diag}(\chi_0,\chi_1)$ with $\chi_i$ killing $\mu_M$; as $q\nmid M$, $I_B$ fixes $\mu_M$, so
+$W$ is trivial on $I_B$, hence on all inertia groups over $q$ (they are conjugate).
+
+The continuous representation $r=h_1Wh_1^{-1}$ of the compact group $G_\Q$ has entries in a finite extension $E$ of
+$\Q_\ell$ (\lref{GlobalTheory.CompactRepField.exists_finiteDimensional_entries_mem}), and there is an upper
+triangular $h_2\in\GL_2(\katoQlb)$ such that $h_2rh_2^{-1}$ has entries in the ring of integers $\katoO_E$ of $E$
+(\lref{GlobalTheory.T.exists_upperTriangular_conj_integral_compact}: the image of $r$ stabilises a lattice, which
+can be reached by an upper triangular change of basis). Put $h=h_2h_1$ and $W'=hWh^{-1}$; $\katoO_E$ is a coefficient
+ring. Then $W'\cong W$, $\det W'=\delta$, $W'$ is continuous, integral, trivial on inertia outside $S$, odd with
+$\delta^2=1$, and irreducible on $H_0(W')=H_0(W)$ (conjugation preserves irreducibility). On $D_A$,
+$r$ is upper triangular with diagonal $(\kappa_0,\kappa_1)$, and conjugation by the upper triangular $h_2$ preserves this:
+$W'(s)_{10}=0$, $W'(s)_{00}=\kappa_0(s)$, $W'(s)_{11}=\kappa_1(s)$. For $s\in I_A$, clause (1) of $\mathrm{Src}$ gives
+$\kappa_1\varepsilon^e\delta^{-1}\chi=1$, and $\kappa_0\kappa_1=\delta$; hence $W'(s)_{00}=\varepsilon(s)^e\chi(s)$. As $\chi$ kills $\mu_\ell$,
+$\chi^{\ell-1}=1$, so $W'(s)_{00}^{\ell-1}=\varepsilon(s)^{e(\ell-1)}$ on $I_A$, with $\ell-1\ge1$. Clause (2) of $\mathrm{Src}$,
+applied to $A$ and $\kappa$, gives $s\in D_A$ with $W'(s)_{00}=\kappa_0(s)\ne\varepsilon(s)$. This proves $\mathrm{NF}(e,S,A,W')$.
+Finally $g$ is attached to $W'\otimes\varepsilon^{-e}\delta^{-1}\chi$, which is conjugate to $W\otimes\varepsilon^{-e}\delta^{-1}\chi$
+(attachment depends only on characteristic polynomials and semisimplicity), and
+$W'(s)_{11}\varepsilon(s)^e\delta(s)^{-1}\chi(s)=1$ on $I_A$; this is $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W',g)$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:conj}
+Let $r,r'\colon G_F\to\GL_n(\katoQlb)$ be isomorphic. If $\katoHf(F,r)=0$ then $\katoHf(F,r')=0$.
+\formallabel{UpperTheory.V.X.Kato.conj}
+\end{lemma}
+
+\begin{proof}
+Let $r'=PrP^{-1}$. The bijection $f(x)=P^{-1}x$ satisfies $f(r'(s)x)=r(s)f(x)$; it maps cocycles of $r'$ to cocycles
+of $r$, Bloch--Kato classes to Bloch--Kato classes (both local conditions are transported by $f$, resp.\ $f\otimes1$), and
+$f(c)$ is a coboundary of $r$ if and only if $c$ is a coboundary of $r'$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Algebraic lemmas}\label{pf:kato:sec:alg}
+
+In this subsection $\mathrm{NF}(e,S,A,W)$ holds, $H_0=H_0(W)$ and $N_0=N_0(W)$. On $H_0$ we have $W^*=W$, and on
+$N_0$ we have $W=W^*=1$; in particular a cocycle of $W$ or $W^*$ restricts to a homomorphism on $N_0$.
+
+\begin{lemma}[Values of cocycles]\label{pf:kato:finext}
+Let $K_0\subset\katoQlb$ be a finite extension of $\Q_\ell$ containing the entries of $W$, and $z\in\katoZ(G_\Q,W)$. There is a finite
+extension $E\supset K_0$ of $\Q_\ell$ in $\katoQlb$ such that $z$ has values in $E^2$.
+\formallabel{GlobalTheory.CocInt.values_finExt}
+\end{lemma}
+
+\begin{proof}
+There is a countable family $(K_i)_{i\in I}$ of finite extensions of $\Q_\ell$ in $\katoQlb$ such that every finite subset of $\katoQlb$
+lies in some $K_i$ (\lref{GlobalTheory.CompactRepField.exists_countable_family}). For $i\in I$ let
+$H_i=\{g\in G_\Q:z(g)\in(K_0K_i)^2\}$. By the cocycle relations $z(gh)=z(g)+W(g)z(h)$ and $z(g^{-1})=-W(g^{-1})z(g)$, $H_i$ is a subgroup;
+it is closed, as $z$ is continuous and finite-dimensional $\Q_\ell$-subspaces of $\katoQlb$ are closed; and the $H_i$ cover $G_\Q$. By
+the Baire category theorem for the compact Hausdorff group $G_\Q$, some $H_i$ has non-empty interior, hence is open and of finite
+index. Let $g_1,\dots,g_m$ represent $G_\Q/H_i$ and let $E$ be generated by $K_0K_i$ and the entries of the $z(g_j)$. Every $g\in G_\Q$
+is $g_jh^{-1}$ with $h\in H_i$, and $z(g)=z(g_j)+W(g_j)z(h^{-1})\in E^2$.
+\end{proof}
+
+\begin{lemma}[Integral scaling]\label{pf:kato:scaling}
+Let $\katoO$ be a coefficient ring containing the entries of $W$, $z\in\katoZ(G_\Q,W)$ with $\mathrm{Unr}(W,z)$, and $A$ a
+place over $\ell$. There are a coefficient ring $\katoO'\supset\katoO$ and $k\ge0$ such that: $\ell^kz$ has values in
+$\katoO'^2$; for every prime $q\ne\ell$ and \emph{every} place $B$ over $q$ there is $x\in\katoO'^2$ with
+$\ell^kz(s)=W(s)x-x$ for $s\in I_B$; if $\mathrm{Str}(W,A,z)$ there is $x\in\katoO'^2$ with $\ell^kz(s)=W(s)x-x$ for
+$s\in D_A$; and if $\mathrm{Gr}(W,A,z)$ there is $x\in\katoO'$ with $\ell^kz(s)_1=W(s)_{11}x-x$ for $s\in D_A$. The same holds
+for $W^*$ in place of $W$.
+\formallabel{GlobalTheory.T.galois_cocycle_integral_after_scaling}
+\end{lemma}
+
+\begin{proof}
+For each $q\in S\setminus\{\ell\}$ choose a place $B_q$ and $x_q$ as in $\mathrm{Unr}$, and choose the vectors $x_T$, $x_G$
+given by $\mathrm{Str}$ and $\mathrm{Gr}$ when these hold. For $q\notin S$ take $x_q=0$: there $W$ is trivial on $I_{B_q}$,
+so $z=W(\cdot)x-x=0$ on $I_{B_q}$. By \cref{pf:kato:finext}, $z$ takes values in a finite extension of
+$\Q_\ell$; enlarging it, let $E$ be a finite extension containing the values of
+$z$, the entries of $W$, $\katoO$, and the finitely many vectors chosen, and $\katoO'$ its ring of integers. By
+compactness $z$ is bounded, say by $C$, and so are the chosen vectors. For a place $B=gB_q$ over $q$, \cref{pf:kato:placeindep}
+gives the vector $W(g)x_q-z(g)$, of norm $\le\max(C,|x_q|)$. Choose $k$ with $|\ell^k|\max(C,|x_q|,|x_T|,|x_G|)\le1$; then
+all the scaled vectors lie in $\katoO'^2$. For $W^*$ the same argument applies, since $W^*$ is also continuous,
+integral and unramified outside $S$.
+\end{proof}
+
+\begin{lemma}[Cup products]\label{pf:kato:cup}
+Let $\katoO$ contain the entries of $W$, and $n\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item If $a\in\katoZ(G_\Q,W)$ and $b\in\katoZ(G_\Q,W^*)$ take values in $\katoO^2$ and satisfy $\mathrm{Unr}$, then $a$ and
+  $b$ vanish on $N_S$, and $a\cup b$ is an $(\katoO,n,S)$-$2$-cocycle.
+\item Let $H$ be a subgroup, $a$ an $(\katoO,n)$-cocycle of $W$ on $H$ and $b$ an $(\katoO,n)$-cocycle of $W^*$ on $H$. If $a$
+  or $b$ is an $(\katoO,n)$-coboundary on $H$, then $a\cup b$ is $(\katoO,n)$-trivial on $H$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.cupProductDualTwist_isTwoCocycle_unramified}
+\formallabel{GlobalTheory.T.cup_product_coboundary_mod}
+\end{lemma}
+
+\begin{proof}
+(a) Let $q\notin S$ and $B$ a place over $q$. By $\mathrm{Unr}$ and \cref{pf:kato:placeindep}, $a=W(\cdot)x-x$ on $I_B$, and $W$
+is trivial on $I_B$, so $a$ vanishes on $I_B$. On $\ker W$ the cocycle $a$ is a homomorphism, and
+$\{s\in\ker W:a(s)=0\}$ is a closed subgroup, normal in $G_\Q$: for $s$ in it,
+$a(gsg^{-1})=a(g)+W(g)a(s)-W(gsg^{-1})a(g)=0$. It contains all inertia groups over primes not in $S$, hence $N_S$. The
+same holds for $b$, since $W^*$ is trivial on these inertia groups ($\varepsilon$ is unramified at $q\ne\ell$). The identity
+$\varepsilon(r)(a\cup b)(s,t)+(a\cup b)(r,st)=(a\cup b)(rs,t)+(a\cup b)(r,s)$ holds exactly, by the cocycle relations and
+\eqref{pf:kato:eq:omega}; continuity and integrality are clear ($W^*$ has entries in $\katoO$ as $\delta=\pm1$). For $a',b'\in
+N_S$, $a(sa')=a(s)$, $W^*(sa')=W^*(s)$ and $b(tb')=b(t)$, so $(a\cup b)(sa',tb')=(a\cup b)(s,t)$.
+
+(b) If $a\katoeq nW(\cdot)x-x$ on $H$ with $x\in\katoO^2$, then by \eqref{pf:kato:eq:omega}, for $s,t\in H$,
+\[
+(a\cup b)(s,t)\katoeq n\varepsilon(s)\omega(x,b(t))-\omega\bigl(x,W^*(s)b(t)\bigr)\katoeq n\varepsilon(s)u(t)-u(st)+u(s),\qquad
+u=\omega(x,b(\cdot)),
+\]
+using $W^*(s)b(t)\katoeq nb(st)-b(s)$. If $b\katoeq nW^*(\cdot)x-x$ on $H$, the same computation with
+$u(s)=-\omega\bigl(a(s),W^*(s)x\bigr)$ gives $(a\cup b)(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:commdet}
+There is $\phi\in[H_0,H_0]$ with $\det(W(\phi)-1)\ne0$.
+\formallabel{GlobalTheory.T.exists_commutator_det_nonzero}
+\end{lemma}
+
+\begin{proof}
+We prove more generally: if $k$ is an algebraically closed field, $\rho\colon\Gamma\to\GL_2(k)$ a homomorphism and $H\subset\Gamma$
+a subgroup with $\det\rho=1$ on $H$ and $\rho$ irreducible on $H$, then $\det(\rho(\phi)-1)\ne0$ for some $\phi\in[H,H]$; for $W$
+apply this to $H=H_0$.
+
+First, if $X,Y\in\SL_2(k)$ satisfy $\det(X-1)=\det(Y-1)=\det(XY-1)=0$, then $(X-1)(Y-1)=0$. Indeed $\det(X-1)=\det X-\tr X+1$,
+so $\tr X=\tr Y=\tr XY=2$, and $N=X-1$, $M=Y-1$ have trace and determinant $0$, so $N^2=M^2=0$; moreover
+$\tr(NM)=\tr(XY-1-N-M)=0$. Suppose $NM\ne0$. Then $N,M\ne0$ and $\ker N=\operatorname{im}N=L_N$, $\ker M=\operatorname{im}M=L_M$ are lines. If
+$L_N=L_M$ then $NM=0$; otherwise, for $v\in L_N\setminus0$, $Mv\in L_M\setminus0$ and $NMv\in L_N\setminus0$, so $NMv=cv$
+with $c\ne0$ while $NM$ kills $L_M$; then $\tr(NM)=c\ne0$, a contradiction.
+
+Now suppose $\det(\rho(\phi)-1)=0$ for all $\phi\in[H,H]$. As $[H,H]$ is a group, $(\rho(\phi)-1)(\rho(\psi)-1)=0$ for all
+$\phi,\psi\in[H,H]$. Let $F$ be the space of vectors fixed by $\rho([H,H])$; it is $H$-stable since $[H,H]$ is normal in $H$. For
+every $\psi\in[H,H]$ and $w\in k^2$, $(\rho(\psi)-1)w\in F$. If $F=0$ this forces $\rho(\psi)=1$ for all $\psi$, i.e.\ $F=k^2$; so
+$F\ne0$, and by irreducibility $F=k^2$: $\rho([H,H])=1$ and $\rho(H)$ is commutative. For $g\in H$ an eigenspace of $\rho(g)$ is
+$H$-stable, hence equal to $k^2$; so $\rho(H)$ consists of scalars, and every line is $H$-stable, contradicting
+irreducibility.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:pair}
+Let $y\in\katoZ(G_\Q,W)$ and $z\in\katoZ(G_\Q,W^*)$ be both non-zero on $N_0$. There are $g,h\in N_0$ with
+$\omega(y(h),z(g))\ne\omega(y(g),z(h))$.
+\formallabel{GlobalTheory.T.cocycle_pair_alternating_ne_on_cycloKernel}
+\end{lemma}
+
+\begin{proof}
+For $s\in H_0$ and $g\in N_0$ we have $sgs^{-1}\in N_0$, $y(sgs^{-1})=W(s)y(g)$ and $z(sgs^{-1})=W^*(s)z(g)=W(s)z(g)$
+(cocycle relation, $W(g)=W^*(g)=1$, $W^*=W$ on $H_0$). Suppose $\omega(y(h),z(g))=\omega(y(g),z(h))$ for all $g,h\in N_0$. Let
+$\Sigma\subset\katoQlb^2\times\katoQlb^2$ be the span of the pairs $(y(g),z(g))$, $g\in N_0$; it is stable under
+$(x,x')\mapsto(W(s)x,W(s)x')$ for $s\in H_0$, and by bilinearity $\omega(y(g),\sigma_2)=\omega(\sigma_1,z(g))$ for $g\in N_0$ and
+$\sigma=(\sigma_1,\sigma_2)\in\Sigma$. The space $K'=\{x':(0,x')\in\Sigma\}$ is $H_0$-stable; it is $0$, for otherwise it is everything,
+and choosing $g$ with $y(g)\ne0$ and $x'$ with $\omega(y(g),x')\ne0$ gives $\omega(y(g),x')=\omega(0,z(g))=0$. The first projection
+of $\Sigma$ is $H_0$-stable and non-zero, hence everything. So $\Sigma$ is the graph of a linear map $\varphi$ commuting with
+$W(H_0)$; by irreducibility of $W$ on $H_0$ and Schur's lemma ($\katoQlb$ is algebraically closed), $\varphi=c$ is a scalar.
+Then $z(g)=cy(g)$ on $N_0$, and $c\ne0$ since $z\ne0$ on $N_0$. For $g_0$ with $y(g_0)\ne0$ the hypothesis gives
+$c\,\omega(y(h),y(g_0))=c\,\omega(y(g_0),y(h))$, i.e.\ $2c\,\omega(y(g_0),y(h))=0$, for all $h\in N_0$, hence
+$\omega(y(g_0),\sigma_1)=0$ for all $\sigma\in\Sigma$. As the first projection of $\Sigma$ is everything, $y(g_0)=0$, a contradiction.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:grkill}
+A cocycle $y\in\katoZ(G_\Q,W)$ vanishing on $N_0$ satisfies $\mathrm{Gr}(W,A,y)$.
+\formallabel{GlobalTheory.T.greenbergOrdinary_of_vanishing_on_cycloKernel}
+\end{lemma}
+
+\begin{proof}
+Write $D=D_A$ and, for $s\in D$, $W(s)=\left(\begin{smallmatrix}\alpha(s)&\beta(s)\\0&\gamma(s)\end{smallmatrix}\right)$; then
+$\alpha,\gamma$ are characters of $D$ and $y(st)_1=y(s)_1+\gamma(s)y(t)_1$ for $s\in D$. Let $U$ be the set of $u\in D$ with
+$\alpha(u)=\gamma(u)=\varepsilon(u)=1$; it is a subgroup, and $\beta(uv)=\beta(u)+\beta(v)$, $y(uv)_1=y(u)_1+y(v)_1$ for $u,v\in U$. If
+$u,v\in U$ and $\beta(u)=\beta(v)$, then $W(u)=W(v)$, so $u^{-1}v\in N_0$ and $y(v)=y(u)+W(u)y(u^{-1}v)=y(u)$.
+
+As $\varepsilon$ maps $I_A$ onto $\Z_\ell^\times$ (\lref{GlobalTheory.CycInertia.cycZ_Ine_surjective}), choose $t\in I_A$ with
+$\varepsilon(t)=1+\ell$. Let $m$ be as in $\mathrm{NF}$ and $T=t^{2m}$. Then $\alpha(T)=\varepsilon(t)^{2em}=(1+\ell)^{2em}=:q_0$, an integer
+$>1$, and $\delta(T)=\delta(t)^{2m}=1$, so $\gamma(T)=q_0^{-1}$. For $u\in U$, conjugation gives $TuT^{-1}\in U$ with
+$\beta(TuT^{-1})=\alpha(T)\gamma(T)^{-1}\beta(u)=q_0^2\beta(u)$ and $y(TuT^{-1})_1=\gamma(T)y(u)_1=q_0^{-1}y(u)_1$ (as
+$y(T)_1+\gamma(T)y(T^{-1})_1=y(1)_1=0$). The element $u^{q_0^2}\in U$ has the same $\beta$, so $q_0^{-1}y(u)_1=q_0^2y(u)_1$;
+since $q_0^3\ne1$, $y(u)_1=0$ for all $u\in U$.
+
+For $s\in D$ the element $c=(sT)^{-1}(Ts)$ lies in $U$ (its diagonal entries and its cyclotomic character are $1$). Hence
+$y(Ts)_1=y(sT)_1+\gamma(sT)y(c)_1=y(sT)_1$, i.e.\ $y(T)_1+\gamma(T)y(s)_1=y(s)_1+\gamma(s)y(T)_1$. As $\gamma(T)\ne1$, this gives
+$y(s)_1=\gamma(s)x-x$ with $x=y(T)_1/(\gamma(T)-1)$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:hompadic}
+Let $\Gamma$ be a compact group, $\katoO$ a coefficient ring, $r\colon\Gamma\to\GL_2(\katoO)$ a continuous irreducible representation
+with $(\det r)^2=1$, and $\lambda\colon\Gamma\to\Z_\ell$ a continuous homomorphism with $\ker r\subset\ker\lambda$. Then $\lambda=0$.
+\formallabel{GlobalTheory.T.hom_padicInt_trivial_of_irreducible_compact_rep}
+\end{lemma}
+
+\begin{proof}
+For a $2\times2$ matrix $M$ write $|M|\le c$ if all entries have norm $\le c$, and put $\rho=|\ell|$. We use two statements of the
+formal development: (A) (\lref{GlobalTheory.T.exists_augmentation_combination_eq_id_traceless_irreducible}) as $r$ is
+irreducible, there are $\gamma_1,\dots,\gamma_N\in\Gamma$ and $a_1,\dots,a_N\in\Q_\ell$ with $X=\sum_ia_i\bigl(r(\gamma_i)Xr(\gamma_i)^{-1}-X\bigr)$
+for every matrix $X$ of trace $0$; (B) (\lref{GlobalTheory.T.galoisHom_zl_lipschitz_of_ker_le_linearGroup}) as
+$\ker r\subset\ker\lambda$, there is $C$ such that $|\lambda(x)|\le C|\ell^m|$ whenever $|r(x)-1|\le|\ell^m|$. We also use the elementary
+estimates, valid for $|Z|\le\epsilon\le1$, $|Z'+Z|\le\epsilon^2$, integral $A$ with integral inverse and $m,\beta\in\N$:
+$|(1+Z)^m-1-mZ|\le\epsilon^2$, $|\prod_i(1+Z_i)-1-\sum_iZ_i|\le\epsilon^2$ if all $|Z_i|\le\epsilon$, and
+$|A(1+Z)^\beta A^{-1}(1+Z')^\beta-1-\beta(AZA^{-1}-Z)|\le\epsilon^2$.
+
+Suppose $\lambda(g)\ne0$. As $\GL_2(\katoO/\ell\katoO)$ is finite and $(\det r)^2=1$, there is $k\ge1$ with $\det r(g^k)=1$ and
+$|r(g^k)-1|\le\rho$; put $h_0=g^k$ and $v_0=\lambda(h_0)=k\lambda(g)\ne0$. For $n\ge0$ let $h=h_0^{\ell^n}$; by induction, using the first
+estimate, $\det r(h)=1$ and $Z=r(h)-1$ satisfies $|Z|\le\epsilon=\rho^{n+1}$. As $\det(1+Z)=1$, $t=\tr Z=-\det Z$ has $|t|\le\epsilon^2$, and
+$Z'=r(h^{-1})-1=t-Z$. Choose $s$ with $b_i=\ell^sa_i\in\Z_\ell$ for all $i$, and integers $\beta_i\ge0$ with
+$|\beta_i-b_i|\le\rho^{2n+1}$. Put
+\[
+  P=h^{-\ell^s}\prod_i\gamma_ih^{\beta_i}\gamma_i^{-1}h^{-\beta_i}.
+\]
+Since $\lambda$ takes values in an abelian group, $\lambda(P)=-\ell^{s+n}v_0$, so $|\lambda(P)|=\rho^{s+n}|v_0|$. On the other hand, with
+$D_i=r(\gamma_i)Zr(\gamma_i)^{-1}-Z$ (so $|D_i|\le\epsilon$) and $X=Z-\frac t2$, of trace $0$, (A) gives $\sum_ib_iD_i=\ell^sX$, and the three
+estimates give
+\[
+  r(P)-1\equiv\ell^sZ'+\sum_i\beta_iD_i\equiv\ell^s(Z'+X)=\ell^s\tfrac t2\qquad\text{up to matrices of size}\le\rho^{2n+1},
+\]
+while $|\ell^s\frac t2|\le\epsilon^2/\rho=\rho^{2n+1}$. Hence $|r(P)-1|\le\rho^{2n+1}$, and (B) gives $\rho^{s+n}|v_0|\le C\rho^{2n+1}$ for all
+$n$, i.e.\ $|v_0|\le C\rho^{n+1-s}$. Letting $n\to\infty$, $v_0=0$, a contradiction.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:kereps}
+There is $a\in\ker W$ with $\varepsilon(a)\ne1$.
+\formallabel{GlobalTheory.T.exists_ker_rep_cyclotomic_ne_one_normalForm}
+\end{lemma}
+
+\begin{proof}
+Suppose $\ker W\subset\ker\varepsilon$. Let $\lambda\colon G_\Q\to\Z_\ell$ be the composite of $\varepsilon$ with the homomorphism
+$\Z_\ell^\times\to\Z_\ell$ given by the $\ell$-adic logarithm; it is continuous and $\ker W\subset\ker\lambda$. By \cref{pf:kato:hompadic}, applied to $W$ (irreducible on $G_\Q$, since irreducible
+on $H_0$), $\lambda=0$. But for
+$\ell$ odd $\lambda$ is non-zero, as $\varepsilon(G_\Q)=\Z_\ell^\times$ contains elements whose logarithm is non-zero.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:dualkill}
+A cocycle $z\in\katoZ(G_\Q,W^*)$ vanishing on $N_0$ is a coboundary.
+\formallabel{GlobalTheory.T.tateDual_cocycle_coboundary_of_vanish_on_fixing}
+\end{lemma}
+
+\begin{proof}
+Take $a$ as in \cref{pf:kato:kereps}. Then $\delta(a)=1$, so $W^*(a)=\varepsilon(a)$ is a scalar. For $g\in G_\Q$, the element
+$(ga)^{-1}(ag)$ lies in $N_0$ ($W(a)=1$, and $\varepsilon$ is abelian), so $z(ag)=z(ga)$. Expanding,
+$z(a)+\varepsilon(a)z(g)=z(g)+W^*(g)z(a)$, i.e.\ $z(g)=W^*(g)x-x$ with $x=(\varepsilon(a)-1)^{-1}z(a)$.
+\end{proof}
+
+\begin{lemma}[Heights and commutators]\label{pf:kato:htcomm}
+Let $\katoO$ contain the entries of $W$, $y\in\katoZ(G_\Q,W)$, $z\in\katoZ(G_\Q,W^*)$, $u\colon G_\Q\to\katoQlb$ and $n\in\N$ with
+$(y\cup z)(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for all $s,t$. For $\phi\in H_0$ and $g,h\in N_0$, writing $\katoht=\katoht_{y,z,u}$,
+\[
+  \katoht\bigl(\phi\,[g,h]\bigr)-\katoht(\phi)\katoeq n\det\bigl(W(\phi)-1\bigr)\bigl(\omega(y(h),z(g))-\omega(y(g),z(h))\bigr),
+\]
+where $[g,h]=ghg^{-1}h^{-1}$.
+\formallabel{GlobalTheory.T.height_commutator_invariance}
+\end{lemma}
+
+\begin{proof}
+Put $k=[g,h]\in N_0$. On $N_0$, $y$ and $z$ are homomorphisms, so $y(k)=z(k)=0$; hence $W(\phi k)=W(\phi)$, $y(\phi k)=y(\phi)$,
+$z(\phi k)=z(\phi)$ and $\katoht(\phi k)-\katoht(\phi)=\det(W(\phi)-1)(u(\phi k)-u(\phi))$. Let
+$E(s,t)=(y\cup z)(s,t)-\varepsilon(s)u(t)+u(st)-u(s)$, so $E\katoeq n0$. Using $z(k)=y(k)=0$, $W^*=1$ on $N_0$, $\varepsilon(\phi)=1$ and
+$khg=gh$, a direct computation gives
+\[
+  u(\phi k)-u(\phi)-\bigl(\omega(y(h),z(g))-\omega(y(g),z(h))\bigr)=E(\phi,k)+E(g,h)-E(h,g)-E(k,hg)\katoeq n0.
+\]
+Multiplying by $\det(W(\phi)-1)$, which has norm $\le1$, gives the claim.
+\end{proof}
+
+\begin{lemma}[Depth of a non-coboundary]\label{pf:kato:depth}
+Let $H$ be a set and $k,a\colon H\to\katoQlb$ maps such that $k(s_0)\ne1$ for some $s_0\in H$ and there is no $X\in\katoQlb$ with
+$a(s)=k(s)X-X$ for all $s\in H$. Then there is $r\in\N$ such that for all $n\in\N$ and $x,y\in\katoQlb$ with $|x|\le1$: if
+$|xa(s)-(k(s)y-y)|\le|\ell^n|$ for all $s\in H$, then $|x|\le|\ell|^{\max(n-r,0)}$.
+\formallabel{GlobalTheory.T.exists_annihilatorDepth_of_not_coboundary}
+\end{lemma}
+
+\begin{proof}
+Put $q=|\ell|<1$ and suppose that no $r$ has the property. Then for every $r$ there are $n,x,y$ with $|x|\le1$,
+$|xa(s)-(k(s)y-y)|\le q^n$ on $H$ and $|x|>q^{\max(n-r,0)}$. Then $n\ge r$ (otherwise $|x|>1$), so $x\ne0$, and $X_r=y/x$ satisfies
+$|a(s)-(k(s)X_r-X_r)|\le q^n/|x|<q^r$ for $s\in H$. Let $X=a(s_0)/(k(s_0)-1)$. The case $s=s_0$ gives $|X-X_r|\le q^r/|k(s_0)-1|$, and
+for $s\in H$ the identity $a(s)-(k(s)X-X)=\bigl(a(s)-(k(s)X_r-X_r)\bigr)-(k(s)-1)(X-X_r)$ gives
+$|a(s)-(k(s)X-X)|\le(1+|k(s)-1|/|k(s_0)-1|)\,q^r$. Letting $r\to\infty$, $a(s)=k(s)X-X$ for all $s\in H$, a contradiction.
+\end{proof}
+
+\begin{lemma}[Bounded multipliers]\label{pf:kato:boundedtors}
+Let $\katoO$ be a coefficient ring containing the entries of $W$ and $Y\colon G_\Q\to\katoO^2$ a cocycle of $W$ which is not a
+coboundary. There is $k_0\in\N$ such that for all $n\in\N$ and $a\in\katoO$: if $aY$ is an $(\katoO,n)$-coboundary on $G_\Q$, then
+$a\ell^{k_0}\katoeq n0$.
+\formallabel{GlobalTheory.T.nonzero_class_bounded_torsion}
+\end{lemma}
+
+\begin{proof}
+For $s\in G_\Q$ and $i\in\{0,1\}$ consider the linear form $\varphi_{s,i}(a,x)=aY(s)_i-(W(s)x-x)_i$ on $\katoQlb\times\katoQlb^2$. If
+$\varphi_{s,i}(a,x)=0$ for all $s,i$ and $a\ne0$, then $Y(s)=W(s)(a^{-1}x)-a^{-1}x$ for all $s$, which is excluded. So the common
+kernel of the $\varphi_{s,i}$ is contained in the kernel of the linear form $(a,x)\mapsto a$, which is therefore (the space being
+finite-dimensional) a finite linear combination $a=\sum_jc_j\varphi_{s_j,i_j}(a,x)$. With $C=\sum_j|c_j|$, $|a|\le Cr$ whenever
+$|\varphi_{s,i}(a,x)|\le r$ for all $s,i$. Choose $k_0$ with $C|\ell|^{k_0}\le1$. If $aY(s)\katoeq nW(s)x-x$ for all $s$, then
+$|a|\le C|\ell^n|$, so $|a\ell^{k_0}|\le|\ell^n|$.
+\end{proof}
+
+\begin{lemma}[Divisible chains]\label{pf:kato:divchain}
+Let $X$ be an abelian group in which every element is killed by a power of $\ell$, whose $\ell$-torsion subgroup $X[\ell]$ is finite,
+and such that for every $m$ there is $x\in X$ with $\ell^mx\ne0$. Then there are $x_0,x_1,\ldots\in X$ with $x_0\ne0$ and
+$\ell x_{n+1}=x_n$ for all $n$.
+\formallabel{GlobalTheory.T.exists_divisible_chain_primary_torsion_group}
+\end{lemma}
+
+\begin{proof}
+Call $y\in X$ \emph{infinitely divisible} if $y\in\ell^mX$ for every $m$.
+
+(1) Some nonzero $y\in X[\ell]$ is infinitely divisible. Otherwise choose, for each nonzero $y\in X[\ell]$, an integer $m(y)$ with
+$y\notin\ell^{m(y)}X$, and $M\ge m(y)$ for all $y$ ($X[\ell]$ is finite). Choose $x$ with $\ell^Mx\ne0$ and $k\ge0$ with
+$\ell^{k+M}x\ne0=\ell^{k+1+M}x$. Then $y=\ell^{k+M}x$ is a nonzero element of $X[\ell]$ and $y=\ell^{m(y)}\bigl(\ell^{M-m(y)+k}x\bigr)$, a
+contradiction.
+
+(2) If $y$ is infinitely divisible, then $y=\ell z$ for some infinitely divisible $z$. The set $F=\{z:\ell z=y\}$ is non-empty and is
+a coset of $X[\ell]$, hence finite. Otherwise choose, for each $z\in F$, an integer $m(z)$ with $z\notin\ell^{m(z)}X$, and $M\ge m(z)$
+for all $z\in F$. Write $y=\ell^{M+1}w$; then $z=\ell^Mw$ lies in $F$ and in $\ell^{m(z)}X$, a contradiction.
+
+Let $x_0$ be given by (1), and choose $x_{n+1}$ by (2) applied to $x_n$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Local lemmas}\label{pf:kato:sec:local}
+
+In this subsection $\katoO$ is a coefficient ring, $n\ge1$, and $W$ is continuous with entries in $\katoO$ and
+$\delta^2=1$, so that $W^*$ has entries in $\katoO$.
+
+\begin{lemma}[Unramified cup products]\label{pf:kato:unrcup}
+Let $q\ne\ell$ be a prime and $B$ a place over $q$. Let $a$ be an $(\katoO,n)$-cocycle of $W$ on $D_B$ and $b$ an
+$(\katoO,n)$-cocycle of $W^*$ on $D_B$, both $(\katoO,n)$-coboundaries on $I_B$. Then $a\cup b$ is $(\katoO,n)$-trivial
+on $D_B$.
+\formallabel{GlobalTheory.T.cupProduct_unramifiedClasses_vanishes}
+\end{lemma}
+
+\begin{proof}
+Write $a=a_0+a_1$ with $a_0(s)=W(s)x-x$ and $a_1\katoeq n0$ on $I_B$, and similarly $b=b_0+b_1$. By bilinearity
+$a\cup b=a_0\cup b+a_1\cup b_0+a_1\cup b_1$, and the first two terms are $(\katoO,n)$-trivial on $D_B$ by
+\cref{pf:kato:cup}(b). It remains to treat $\xi=a_1\cup b_1$, where $a_1,b_1$ vanish modulo $\ell^n$ on $I_B$.
+
+Since $I_B$ is normal in $D_B$, for $s\in D_B$ and $i\in I_B$ we have $a_1(si)\katoeq na_1(s)$ and, writing $is=si'$
+with $i'\in I_B$, $W(i)a_1(s)\katoeq na_1(is)=a_1(si')\katoeq na_1(s)$; similarly for $b_1$. Hence
+$\xi(si,t)\katoeq n\xi(s,t)\katoeq n\xi(s,ti)$ for $s,t\in D_B$, $i\in I_B$; also $\varepsilon=1$ on $I_B$ as $q\ne\ell$. By
+continuity of $\xi$ on the compact group $D_B\times D_B$, there is an open subgroup $K\subset D_B$ containing $I_B$ such
+that $\varepsilon\katoeq n1$ on $K$ and $\xi(sk,t)\katoeq n\xi(s,t)\katoeq n\xi(s,tk)$ for $s,t\in D_B$, $k\in K$
+(uniform continuity on a compact group). As $D_B/I_B$ is procyclic, topologically generated by
+the image of a Frobenius element, there are $\phi\in D_B$ and $m\ge1$ with $\phi^m\in K$ and a continuous homomorphism
+$d\colon D_B\to\Z/m\ell^n$ with $\phi^{-\katorep{d(s)}}s\in K$ for all $s\in D_B$, where $\katorep{\cdot}$ is the representative
+in $[0,m\ell^n)$ (take a Frobenius element $\phi$, $m$ the order of its image in
+the finite cyclic group $D_B/K$, and $d$ the composite of $D_B\to D_B/I_B\cong\widehat\Z$, $\phi\mapsto1$, with reduction modulo $m\ell^n$). Define
+$T(0)=\xi(1,1)$ and $T(j+1)=T(j)-\xi(\phi^j,\phi)$. The cocycle relation gives, by induction on $j$,
+\[
+  \xi(\phi^i,\phi^j)\katoeq n\varepsilon(\phi)^iT(j)-T(i+j)+T(i)\qquad(i,j\ge0),
+\]
+and $T(j+m\ell^n)\katoeq nT(j)$: by the $K$-invariance of $\xi$ and $\phi^m\in K$, the increments $T(j+1)-T(j)=-\xi(\phi^j,\phi)$ are
+$m$-periodic modulo $\ell^n$, so $T(j+m\ell^n)-T(j)$ is congruent to $\ell^n$ times an element of $\katoO$.
+Put $u(s)=T(\katorep{d(s)})$ for $s\in D_B$; it is locally constant. For $s=\phi^ik_1$, $t=\phi^jk_2$ with
+$i=\katorep{d(s)}$, $j=\katorep{d(t)}$ and $k_1,k_2\in K$, the invariance of $\xi$ gives $\xi(s,t)\katoeq n\xi(\phi^i,\phi^j)$, and
+$\katorep{d(st)}\equiv i+j$ modulo $m\ell^n$; combining with the two displayed properties of $T$ and $\varepsilon(k_1)\katoeq n1$ gives
+$\xi(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$.
+\end{proof}
+
+\begin{remark}
+The formal statement of \cref{pf:kato:unrcup} takes the statements of \cref{pf:kato:hyp:litcoh} as a hypothesis, but
+its proof does not use them: it only uses that $H^2$ of a procyclic group with torsion coefficients vanishes, in the
+explicit form above.
+\end{remark}
+
+\begin{lemma}\label{pf:kato:epsdec}
+Let $w$ be a prime with $\ell^n\mid w-1$ and $B$ a place over $w$. Then $\varepsilon(s)\katoeq n1$ for all $s\in D_B$, and
+$\varepsilon=1$ on $I_B$.
+\formallabel{GlobalTheory.T.cyclotomicChar_congruent_one_on_decompositionGroup}
+\end{lemma}
+
+\begin{proof}
+As $w\ne\ell$, reduction modulo the maximal ideal of $B$ is injective on $\ell$-power roots of unity, inertia acts
+trivially on them, and an element of $D_B$ acts on the finite group $\mu_{\ell^n}$ as some power of $x\mapsto x^w$, which is
+the identity on $\mu_{\ell^n}$ since $w\equiv1\bmod\ell^n$.
+\end{proof}
+
+\begin{lemma}[Wild inertia]\label{pf:kato:wild}
+Let $B$ be a place of $\Omega$ at which $\ell$ is a unit, $M$ an abelian group killed by $\ell^n$, and $F\colon G_\Q\to M$ a map whose
+restriction to $I_B$ is locally constant and satisfies $F(st)=F(s)+F(t)$ for $s,t\in I_B$. Let $\sigma\in G_\Q$ be \emph{wild} at $B$,
+i.e.\ $\sigma(y)/y-1$ lies in the maximal ideal of $B$ for every $y\in\Omega^\times$. Then $F(\sigma)=0$.
+\formallabel{GlobalTheory.TameConjInv.eq_zero_of_wild}
+\end{lemma}
+
+\begin{proof}
+As $\sigma(y)/y\in B^\times$ for all $y\ne0$, $\sigma(B)=B$, and $\sigma(y)-y=y(\sigma(y)/y-1)$ lies in the maximal ideal for $y\in B$;
+so $\sigma\in I_B$. By additivity $F(1)=0$; as $F$ is locally constant on $I_B$, there is a finite extension $L\subset\Omega$ of $\Q$ with
+$F=0$ on $I_B\cap G_L$. As $G_L$ has finite index in $G_\Q$, $\sigma^N\in G_L$ for some $N\ge1$; write $N=\ell^am$ with $\ell\nmid m$.
+Powers of wild elements are wild (\lref{GlobalTheory.WildInertiaChar.wild_pow}), so $\tau=\sigma^m$ is wild, and $\tau^{\ell^a}$
+fixes $L$. If $\tau$ is wild, $k\in\N$ is a unit at $B$ and $\tau^k$ fixes $x$, then $\tau$ fixes $x$
+(\lref{GlobalTheory.WildInertiaChar.fixed_of_pow_fixed}; indeed, if $d=\tau x-x\ne0$, then
+$0=(\tau^kx-x)/d=\sum_{i<k}\tau^i(d)/d\equiv k$ modulo the maximal ideal). Hence $\tau$ fixes $L$, $\tau\in I_B\cap G_L$, and
+$mF(\sigma)=F(\sigma^m)=0$. Since also $\ell^nF(\sigma)=0$ and $\gcd(m,\ell^n)=1$, $F(\sigma)=0$.
+\end{proof}
+
+\begin{lemma}[Tame inertia]\label{pf:kato:tameconj}
+Let $w$ be a prime with $\ell^n\mid w-1$, $B$ a place over $w$, $M$ an abelian group killed by $\ell^n$ and $f\colon
+G_\Q\to M$ a map whose restriction to $I_B$ is a locally constant homomorphism. Then $f(gsg^{-1})=f(s)$ for
+$g\in D_B$ and $s\in I_B$.
+\formallabel{GlobalTheory.T.inertiaTorsionQuotient_conj_invariant_decomposition}
+\end{lemma}
+
+\begin{proof}
+Let $P_B\subset I_B$ be the wild inertia group (the $\sigma$ with $\sigma(x)/x\equiv1$ modulo the maximal ideal of $B$ for all
+$x\ne0$). We use two standard facts of local class field theory and ramification theory \cite[Ch.~IV]{Serre1979}, in the
+form of the formal lemmas \lref{GlobalTheory.TameInertiaGen.exists_tameGenAt} and
+\lref{GlobalTheory.WeilDeligne.isTameChar_tameL}, and \cref{pf:kato:wild}:
+(i) there is $\gamma\in I_B$ such that $I_B$ is the closure of the subgroup generated by $\gamma$ and $P_B$;
+(ii) let $t\colon G_\Q\to\Z/\ell^n$ be the Kummer character of $w$ (for a compatible system of $\ell$-power roots of $w$,
+reduced modulo $\ell^n$); its restriction to $I_B$ is a locally constant homomorphism, $t(gsg^{-1})=\varepsilon(g)t(s)$ for
+$g\in G_\Q$ and $s\in I_B$, and $t(\tau)=1$ for some $\tau\in I_B$;
+(iii) a locally constant homomorphism from $I_B$ to an abelian group killed by $\ell^n$ vanishes on $P_B$ (\cref{pf:kato:wild};
+$\ell$ is a unit at $B$ as $w\ne\ell$).
+
+Let $F=(f,t)\colon I_B\to M\times\Z/\ell^n$. By (iii) $F$ vanishes on $P_B$; as $F$ is a locally constant homomorphism,
+(i) shows that for every $s\in I_B$ there is $k\in\Z$ with $F(s)=kF(\gamma)$. Applied to $\tau$, this gives $1=k_0t(\gamma)$,
+so $t(\gamma)$ is a unit of $\Z/\ell^n$. Let $g\in D_B$ and $s\in I_B$; then $gsg^{-1}\in I_B$ and, by (ii) and
+\cref{pf:kato:epsdec}, $t(gsg^{-1})=\varepsilon(g)t(s)=t(s)$. Writing $F(s)=k_1F(\gamma)$ and $F(gsg^{-1})=k_2F(\gamma)$, the
+second components give $(k_2-k_1)t(\gamma)=0$, so $\ell^n\mid k_2-k_1$, and $f(gsg^{-1})-f(s)=(k_2-k_1)f(\gamma)=0$.
+\end{proof}
+
+\begin{lemma}[Tame cup products]\label{pf:kato:brtame}
+Let $w$ be a prime with $\ell^n\mid w-1$, $B$ a place over $w$, and $\psi\colon G_\Q\to\Z/\ell^n$ a homomorphism with
+$\psi(\tau)=1$ for some $\tau\in I_B$. Let $h\colon G_\Q\to\katoO$ satisfy $h(st)\katoeq nh(s)+h(t)$ for $s,t\in D_B$ and
+$h\katoeq n0$ on $I_B$. If $(s,t)\mapsto\katorep{\psi(s)}h(t)$ is $(\katoO,n)$-trivial on $D_B$, then $h(\sigma)\katoeq n0$ for every
+$\sigma\in D_B$.
+\formallabel{GlobalTheory.T.tame_cochain_cocycle_extension}
+\end{lemma}
+
+\begin{proof}
+Let $u$ be the cochain with $\katorep{\psi(s)}h(t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for $s,t\in D_B$. For $s,t\in I_B$, $h(t)\katoeq n0$
+and $\varepsilon(s)=1$, so $u(st)\katoeq nu(s)+u(t)$: the reduction of $u$ modulo the ball of radius $|\ell^n|$ is a locally
+constant homomorphism on $I_B$ (to the quotient of the closed unit ball by this ball, which is killed by $\ell^n$). Let
+$\sigma\in D_B$ and $\tau'=\sigma\tau\sigma^{-1}\in I_B$. By \cref{pf:kato:tameconj}, $u(\tau')\katoeq nu(\tau)$. As $\psi$ is a homomorphism
+to an abelian group, $\psi(\tau')=\psi(\tau)=1$, and $\tau'\sigma=\sigma\tau$. The relation at $(\tau',\sigma)$ and at $(\sigma,\tau)$ reads
+\[
+  h(\sigma)\katoeq n\varepsilon(\tau')u(\sigma)-u(\sigma\tau)+u(\tau'),\qquad
+  \katorep{\psi(\sigma)}h(\tau)\katoeq n\varepsilon(\sigma)u(\tau)-u(\sigma\tau)+u(\sigma),
+\]
+and $h(\tau)\katoeq n0$. Subtracting, and using $\varepsilon\katoeq n1$ on $D_B$ (\cref{pf:kato:epsdec}),
+$h(\sigma)\katoeq nu(\tau')-u(\tau)\katoeq n0$.
+\end{proof}
+
+\begin{proposition}[Local height at a Frobenius]\label{pf:kato:locw}
+Let $w$ be a prime with $\ell^n\mid w-1$, $B$ a place over $w$ and $\tau\in D_B$ a Frobenius at $B$ for $w$ with
+$\det W(\tau)=1$; assume $W$ trivial on $I_B$. Let $\psi\colon G_\Q\to\Z/\ell^n$ be a locally constant homomorphism with
+$\psi(t_0)=1$ for some $t_0\in I_B$, and $P\in\katoO$. Let $y\in\katoZ(G_\Q,W)$ and $z\in\katoZ(G_\Q,W^*)$ take values in
+$\katoO^2$ and vanish on $I_B$; let $u\colon G_\Q\to\katoO$ be continuous with $u(sa)\katoeq nu(s)$ for $a\in I_B$ and
+\begin{equation}\label{pf:kato:eq:du}
+  (y\cup z)(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)\qquad(s,t\in G_\Q);
+\end{equation}
+let $d\colon G_\Q\to\katoO^2$ be continuous with
+\begin{equation}\label{pf:kato:eq:dertw}
+  d(st)\katoeq nd(s)+W(s)d(t)+\katorep{\psi(s)}P\,W(s)y(t)\qquad(s,t\in G_\Q),
+\end{equation}
+and assume that $\xi(s,t)=(d\cup z)(s,t)-\katorep{\psi(s)}P\varepsilon(s)u(t)$ is $(\katoO,n)$-trivial on $D_B$. Then
+$P\,\katoht_{y,z,u}(\tau)\katoeq n0$.
+\formallabel{GlobalTheory.T.local_height_frobenius_place}
+\end{proposition}
+
+\begin{proof}
+\emph{Preliminaries.} $D_B$ is the closure of $\{\tau^ki:k\ge0,\ i\in I_B\}$, because $D_B/I_B$ is procyclic,
+topologically generated by the image of $\tau$, and the non-negative powers of a topological generator of a profinite
+group are dense. As $\det W$ is continuous, trivial on $I_B$ and $1$ at $\tau$, it is $1$ on $D_B$; hence $W^*=\varepsilon W$ on
+$D_B$, and $W^*=1$ on $I_B$ since $\varepsilon=1$ there. By \cref{pf:kato:epsdec}, $\varepsilon\katoeq n1$ on $D_B$. Taking $s=t=1$ in
+\eqref{pf:kato:eq:du} gives $u(1)\katoeq n0$ (as $y(1)=0$), so $u\katoeq n0$ on $I_B$.
+
+\emph{Step 1.} Let $\Delta=\det(W(\tau)-1)$ and $b=\katoadj(W(\tau)-1)z(\tau)\in\katoO^2$. We claim
+\begin{equation}\label{pf:kato:eq:step1}
+  \Delta\,z(s)\katoeq nW^*(s)b-b\qquad(s\in D_B).
+\end{equation}
+The map $X(s)=\Delta z(s)-(W^*(s)b-b)$ is a continuous cocycle of $W^*$ on $D_B$, vanishing on $I_B$. Since
+$W(\tau)\katoadj(W(\tau)-1)=\Delta+\katoadj(W(\tau)-1)$, we have $W(\tau)b=\Delta z(\tau)+b$, hence
+$X(\tau)=\Delta z(\tau)+b-\varepsilon(\tau)W(\tau)b=(1-\varepsilon(\tau))W(\tau)b\katoeq n0$. By the cocycle relation and induction,
+$X(\tau^ki)\katoeq n0$ for $k\ge0$, $i\in I_B$, and by continuity $X\katoeq n0$ on $D_B$.
+
+\emph{Step 2.} Put $h(t)=P\bigl(\Delta u(t)+\omega(y(t),W^*(t)b)\bigr)$. For $s,t\in D_B$, using $y(st)=y(s)+W(s)y(t)$,
+\eqref{pf:kato:eq:omega}, \eqref{pf:kato:eq:step1} and \eqref{pf:kato:eq:du},
+\[
+\begin{aligned}
+&\Delta u(st)+\omega\bigl(y(st),W^*(st)b\bigr)\\
+&\quad=\Delta u(st)+\omega\bigl(y(s),W^*(s)(W^*(t)b-b)\bigr)+\omega\bigl(y(s),W^*(s)b\bigr)
+  +\varepsilon(s)\,\omega\bigl(y(t),W^*(t)b\bigr)\\
+&\quad\katoeq n\Delta u(st)+\Delta(y\cup z)(s,t)+\omega\bigl(y(s),W^*(s)b\bigr)+\varepsilon(s)\,\omega\bigl(y(t),W^*(t)b\bigr)\\
+&\quad\katoeq n\bigl(\Delta u(s)+\omega(y(s),W^*(s)b)\bigr)+\varepsilon(s)\bigl(\Delta u(t)+\omega(y(t),W^*(t)b)\bigr),
+\end{aligned}
+\]
+so $h(st)\katoeq nh(s)+h(t)$ (as $\varepsilon(s)\katoeq n1$). For $a\in I_B$, $y(a)=0$ and $u(a)\katoeq n0$, so $h(a)\katoeq n0$.
+
+\emph{Step 3.} Let $u'$ be a cochain with $\xi(s,t)\katoeq n\varepsilon(s)u'(t)-u'(st)+u'(s)$ on $D_B$, and
+$v(s)=-\bigl(\Delta u'(s)+\omega(d(s),W^*(s)b)\bigr)$, continuous on $D_B$. For $s,t\in D_B$, expanding $d(st)$ by
+\eqref{pf:kato:eq:dertw} and using \eqref{pf:kato:eq:omega} and \eqref{pf:kato:eq:step1},
+\[
+\begin{aligned}
+  &\omega\bigl(d(st),W^*(st)b\bigr)-\varepsilon(s)\omega\bigl(d(t),W^*(t)b\bigr)-\omega\bigl(d(s),W^*(s)b\bigr)\\
+  &\qquad\katoeq n\Delta(d\cup z)(s,t)+\katorep{\psi(s)}P\varepsilon(s)\,\omega\bigl(y(t),W^*(t)b\bigr),
+\end{aligned}
+\]
+and therefore
+\[
+\begin{aligned}
+  \varepsilon(s)v(t)-v(st)+v(s)&\katoeq n-\Delta\xi(s,t)+\Delta(d\cup z)(s,t)+\katorep{\psi(s)}P\varepsilon(s)\,\omega\bigl(y(t),W^*(t)b\bigr)\\
+  &=\katorep{\psi(s)}\varepsilon(s)h(t)\katoeq n\katorep{\psi(s)}h(t).
+\end{aligned}
+\]
+So $(s,t)\mapsto\katorep{\psi(s)}h(t)$ is $(\katoO,n)$-trivial on $D_B$.
+
+\emph{Step 4.} By \cref{pf:kato:brtame}, $h(\tau)\katoeq n0$.
+
+\emph{Step 5.} For a $2\times2$ matrix $M$ with $\det M=1$ and vectors $x,x'$,
+$\omega\bigl(x,M\katoadj(M-1)x'\bigr)=-\omega\bigl(\katoadj(M-1)x,x'\bigr)$: indeed $M\katoadj(M-1)=\det(M-1)+\katoadj(M-1)$,
+$\omega(x,Nx')+\omega(Nx,x')=\tr(N)\omega(x,x')$ for every $N$, $\tr\katoadj(N)=\tr N$, and $\det(M-1)+\tr(M-1)=\det M-1=0$.
+With $M=W(\tau)$ and $W^*(\tau)=\varepsilon(\tau)W(\tau)$ this gives
+\[
+  h(\tau)=P\bigl(\Delta u(\tau)-\varepsilon(\tau)\,\omega(\katoadj(W(\tau)-1)y(\tau),z(\tau))\bigr)
+  \katoeq nP\,\katoht_{y,z,u}(\tau),
+\]
+using $\varepsilon(\tau)\katoeq n1$. Hence $P\,\katoht_{y,z,u}(\tau)\katoeq n0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Global lemmas}\label{pf:kato:sec:global}
+
+In this subsection $\ell$ is odd, $\katoO$ is a coefficient ring and $S$ a finite set of primes containing $\ell$.
+
+\begin{lemma}[Gluing]\label{pf:kato:glue}
+Assume (PT) of \cref{pf:kato:hyp:litcoh}. Let $\xi$ be an $(\katoO,n,S)$-$2$-cocycle such that for every $v\in S$ there is a
+place $B_v$ over $v$ on whose decomposition group $\xi$ is $(\katoO,n)$-trivial. Then there is a continuous
+$u\colon G_\Q\to\katoO$ with $u(sa)\katoeq nu(s)$ for $a\in N_S$ and $\xi(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for all
+$s,t\in G_\Q$.
+\formallabel{GlobalTheory.T.local_cochains_glue_global}
+\end{lemma}
+
+\begin{proof}
+For $n=0$ take $u=0$. Let $n\ge1$ and $R=\katoO/\ell^n\katoO$, a finite $\Z/\ell^n$-module on which $G_S$ acts by multiplication
+by $\varepsilon$ modulo $\ell^n$ ($\varepsilon$ is trivial on $N_S$ since $\ell\in S$). Then $G_S$ acts trivially on
+$R^\vee(1)=\Hom(R,\mu_{\ell^n})$, and $\Sha^1(G_S,R^\vee(1))$ consists of continuous homomorphisms $f\colon G_S\to R^\vee(1)$
+vanishing on the decomposition groups at all $v\in S$. Such an $f$, viewed on $G_\Q$, vanishes on $N_S$ and on $D_{B_v}$, hence (being a
+homomorphism to an abelian group, invariant under conjugation) on every inertia group of $G_\Q$; its kernel is an open
+subgroup containing all inertia groups, hence equal to $G_\Q$ by Minkowski's theorem that $\Q$ has no non-trivial unramified
+extension (\lref{UpperTheory.V.CF.minkAbs}, \cite[III.2.18]{Neukirch1999}). So $\Sha^1(G_S,R^\vee(1))=0$ and, by
+(PT), $\Sha^2(G_S,R)=0$. By the defining properties of an $(\katoO,n,S)$-$2$-cocycle, $\xi$ modulo $\ell^n$ descends to a
+continuous $2$-cocycle of $G_S$ with values in $R$, whose restriction to the decomposition groups at all $v\in S$ is trivial;
+hence it is the coboundary of a continuous cochain $G_S\to R$. Lifting this cochain to $\katoO$ through a section of
+$\katoO\to R$ (which is locally constant, $R$ being discrete) and composing with $G_\Q\to G_S$ gives $u$.
+\end{proof}
+
+\begin{lemma}[Reciprocity]\label{pf:kato:rec}
+Assume (PT). Let $\xi$ be an $(\katoO,n,S)$-$2$-cocycle and $v_0\in S$, such that for every $v\in S\setminus\{v_0\}$, $\xi$ is
+$(\katoO,n)$-trivial on $D_{B_v}$ for some place $B_v$ over $v$. Then $\xi$ is $(\katoO,n)$-trivial on $D_B$ for every place $B$
+over $v_0$.
+\formallabel{GlobalTheory.T.integralTwoCocycle_reciprocity_trivial_at_last_place}
+\end{lemma}
+
+\begin{proof}
+For $n=0$ there is nothing to prove. Let $n\ge1$. Choose a basis of $\katoO$ over $\Z_\ell$; the coordinates $\xi_i$ of $\xi$
+modulo $\ell^n$ are continuous $2$-cocycles of $G_S$ with values in $\Z/\ell^n(1)\cong\mu_{\ell^n}$. By (PT),
+$\sum_{v\in S}\mathrm{inv}_v(\mathrm{res}_v\xi_i)=0$, where the restriction at $v$ is taken to the decomposition group of $B_v$
+for $v\ne v_0$ and of $B$ for $v=v_0$. For $v\ne v_0$ the restriction is zero by hypothesis, hence
+$\mathrm{inv}_{v_0}(\mathrm{res}_{v_0}\xi_i)=0$; as $\mathrm{inv}_{v_0}$ is injective, $\mathrm{res}_{v_0}\xi_i=0$ for all $i$, which
+means that $\xi$ is $(\katoO,n)$-trivial on $D_B$.
+\end{proof}
+
+\begin{lemma}[Auxiliary primes]\label{pf:kato:auxprime}
+Let $n\in\N$, $S,S'$ finite sets of primes, $U\subset G_\Q$ an open subgroup and $\sigma\in[\ker\varepsilon,\ker\varepsilon]$. There are a prime
+$w\notin S\cup S'$, a place $B$ over $w$ and a Frobenius $\tau$ at $B$ for $w$ such that $\sigma^{-1}\tau\in U$,
+$\ell^n\mid w-1$, and every $v\in S$ is an $\ell^n$-th power modulo $w$.
+\formallabel{GlobalTheory.T.exists_auxiliary_prime_frobenius_near_commutator}
+\end{lemma}
+
+\begin{proof}
+Let $\zeta\in\Omega$ be a primitive $\ell^n$-th root of unity and, for $v\in S$, $\alpha_v\in\Omega$ with $\alpha_v^{\ell^n}=v$. Every
+$g\in\ker\varepsilon$ fixes $\zeta$ and maps $\alpha_v$ to $\zeta^{k}\alpha_v$ for some $k$; so $\ker\varepsilon$ acts on each $\alpha_v$ through
+an abelian group, and $\sigma\in[\ker\varepsilon,\ker\varepsilon]$ fixes $\zeta$ and all $\alpha_v$. The set $O$ of $\tau$ with $\sigma^{-1}\tau\in U$
+fixing $\zeta$ and all $\alpha_v$ is open and contains $\sigma$. By Chebotarev's density theorem
+\cite{Chebotarev1926}, in the form that Frobenius elements at primes outside a finite set are dense in $G_\Q$
+(\lref{GlobalTheory.Published.chebotarevDegreeOne'}), $O$ contains a Frobenius $\tau$ at a place $B$ over a prime
+$w\notin S\cup S'\cup\{\ell\}$. As $\tau$ fixes $\zeta$ and acts as $x\mapsto x^w$ on the residue field, $\zeta^w=\zeta$, i.e.\
+$\ell^n\mid w-1$. As $\tau$ fixes $\alpha_v$, $\alpha_v^w\equiv\alpha_v$ modulo the maximal ideal of $B$; since $v\ne w$, $\alpha_v$ is a unit
+at $B$, so $\alpha_v^{w-1}\equiv1$ and the residue of $\alpha_v$ lies in $\F_w$; thus $v=\alpha_v^{\ell^n}$ is an $\ell^n$-th power
+modulo $w$.
+\end{proof}
+
+\begin{lemma}[Characters of conductor $w$]\label{pf:kato:primechar}
+Let $n\ge1$ and $w$ a prime with $\ell^n\mid w-1$. There is a surjective homomorphism $\psi\colon G_\Q\to\Z/\ell^n$ killing
+$\mu_w$ such that: for every place $B$ over $w$ there is $\tau\in I_B$ with $\psi(\tau)=1$; and for every prime $v\ne w$ which is
+an $\ell^n$-th power modulo $w$ and every place $B$ over $v$, $\psi$ is trivial on $D_B$.
+\formallabel{GlobalTheory.T.exists_character_primeConductor_degree_prime_pow}
+\end{lemma}
+
+\begin{proof}
+Let $f\colon(\Z/w)^\times\to\Z/\ell^n$ be a surjective homomorphism (it exists as $(\Z/w)^\times$ is cyclic of order divisible by
+$\ell^n$) and $\psi=f\circ c_w$, where $c_w\colon G_\Q\to(\Z/w)^\times$ is the action on $\mu_w$. Then $\psi$ kills $\mu_w$. The
+inertia group of a place over $w$ maps onto $(\Z/w)^\times$ ($\Q(\mu_w)/\Q$ is totally ramified at $w$), so some $\tau\in I_B$ has
+$f(c_w(\tau))=1$; in particular $\psi$ is surjective. If $v\ne w$, the decomposition group of a place over $v$ acts on $\mu_w$
+through the powers of $v$ in $(\Z/w)^\times$; if $v\equiv x^{\ell^n}\bmod w$, then $f(v)=\ell^nf(x)=0$, so $\psi$ is trivial there.
+\end{proof}
+
+\begin{lemma}[Kolyvagin derivative]\label{pf:kato:der}
+Let $W$ be continuous with entries in $\katoO$, trivial on inertia outside $S$, and $y\colon G_\Q\to\katoO^2$. Let $w\notin S$ and
+$\psi\colon G_\Q\to\Z/\ell^n$ a homomorphism killing $\mu_w$ with $\mathcal{T}(\katoO,W,y,n,w,\psi)$, with data $Y,P,u,b$. Put
+\[
+  d(s)=\sum_{x\in\Z/\ell^n}\katorep{x}\,Y(s,x)-\katorep{\psi(s)}\,W(s)b .
+\]
+Then $d$ is continuous with values in $\katoO^2$;
+\eqref{pf:kato:eq:dertw} holds, i.e.\ $d(st)\katoeq nd(s)+W(s)d(t)+\katorep{\psi(s)}P\,W(s)y(t)$ for all $s,t$;
+$d(a)\katoeq n0$ for $a\in N_{S\cup\{w\}}$; and for every $q\in S\setminus\{\ell\}$ there is a place $B$ over $q$ on whose inertia
+group $d$ is an $(\katoO,n)$-coboundary. Moreover $P\katoeq nu\det(W(\sigma)-1)$ for every Frobenius $\sigma$ at a place over $w$.
+\formallabel{GlobalTheory.T.unramified_cocycle_kills_roots}
+\end{lemma}
+
+\begin{proof}
+The last assertion is \ref{pf:kato:T3}. For $x,a\in\Z/\ell^n$ we have $\katorep{x+a}=\katorep x+\katorep a-\ell^nc(x,a)$ with
+$c(x,a)\in\{0,1\}$. By \ref{pf:kato:T1}, reindexing,
+\[
+\textstyle\sum_x\katorep xY(st,x)=\sum_x\katorep xY(s,x)+W(s)\sum_x\katorep{x+\psi(s)}Y(t,x),
+\]
+and by \ref{pf:kato:T2}, $\sum_x\katorep{x+\psi(s)}Y(t,x)=\sum_x\katorep xY(t,x)+\katorep{\psi(s)}\bigl(Py(t)+W(t)b-b\bigr)-\ell^nK$ with
+$K\in\katoO^2$. Also $\katorep{\psi(st)}=\katorep{\psi(s)}+\katorep{\psi(t)}-\ell^nk'$ with $k'\in\{0,1\}$. Substituting into the definition
+of $d(st)$, the terms involving $b$ cancel and
+\[
+d(st)=d(s)+W(s)d(t)+\katorep{\psi(s)}P\,W(s)y(t)+\ell^n\bigl(k'W(st)b-W(s)K\bigr),
+\]
+which gives \eqref{pf:kato:eq:dertw}. Continuity follows from that of $Y$ and $W$ and the local constancy of $\psi$ (its kernel
+is open, as $\psi$ kills $\mu_w$). Let $\mathcal K$ be the set of $s$ with $W(s)=1$, $\psi(s)=0$ and $Y(s,x)=0$ for all $x$; by
+\ref{pf:kato:T1} it is a subgroup, closed, and normal in $G_\Q$ (as in the proof of \cref{pf:kato:cup}(a)). For a prime
+$q\notin S\cup\{w\}$ and $B$ given by \ref{pf:kato:T4}, $W$ is trivial on $I_B$, $\psi$ is trivial on $I_B$ ($I_B$ fixes $\mu_w$) and
+$Y(s,x)=W(s)t(x)-t(x)=0$ on $I_B$; by conjugation $\mathcal K$ contains all inertia groups over such $q$, hence
+$N_{S\cup\{w\}}\subset\mathcal K$, and $d$ vanishes on $\mathcal K$. Finally, for $q\in S\setminus\{\ell\}$ ($q\ne w$) and $B$, $t$ as in
+\ref{pf:kato:T4}, $\psi=0$ on $I_B$ and $d(s)=W(s)x'-x'$ on $I_B$ with $x'=\sum_x\katorep xt(x)\in\katoO^2$.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:xi}
+Let $W$ be continuous with entries in $\katoO$ and $\delta^2=1$, and $S_2$ a finite set of primes with
+$N_{S_2}\subset N_0(W)\cap\ker\psi$, where $\psi\colon G_\Q\to\Z/\ell^n$ is a locally constant homomorphism. Let $P\in\katoO$,
+$y\in\katoZ(G_\Q,W)$, $z\in\katoZ(G_\Q,W^*)$ with values in $\katoO^2$, $u\colon G_\Q\to\katoO$ continuous and
+$d\colon G_\Q\to\katoO^2$ continuous, such that $y$ and $z$ vanish and $d\katoeq n0$ on $N_{S_2}$, $u(sa)\katoeq nu(s)$ for
+$a\in N_{S_2}$, and \eqref{pf:kato:eq:du} and \eqref{pf:kato:eq:dertw} hold. Then
+\[
+  \xi(s,t)=(d\cup z)(s,t)-\katorep{\psi(s)}P\varepsilon(s)u(t)
+\]
+is an $(\katoO,n,S_2)$-$2$-cocycle.
+\formallabel{GlobalTheory.T.cocycle_pairing_locally_constant}
+\end{lemma}
+
+\begin{proof}
+Continuity and integrality are clear. Put $D(r,s)=d(rs)-d(r)-W(r)d(s)\katoeq n\katorep{\psi(r)}PW(r)y(s)$. Using $z(st)=z(s)+W^*(s)z(t)$ and
+\eqref{pf:kato:eq:omega}, a direct computation gives
+\[
+\begin{aligned}
+  \varepsilon(r)(d\cup z)(s,t)+(d\cup z)(r,st)-(d\cup z)(rs,t)-(d\cup z)(r,s)&=-\omega\bigl(D(r,s),W^*(rs)z(t)\bigr)\\
+  &\katoeq n-\katorep{\psi(r)}P\varepsilon(r)\,(y\cup z)(s,t).
+\end{aligned}
+\]
+On the other hand, by $\katorep{\psi(rs)}\equiv\katorep{\psi(r)}+\katorep{\psi(s)}$ modulo $\ell^n$, the same alternating sum of the
+terms $\katorep{\psi(\cdot)}P\varepsilon(\cdot)u(\cdot)$ is congruent to $-\katorep{\psi(r)}P\varepsilon(r)\bigl(\varepsilon(s)u(t)-u(st)+u(s)\bigr)$. By
+\eqref{pf:kato:eq:du} the two expressions agree modulo $\ell^n$, so $\varepsilon(r)\xi(s,t)+\xi(r,st)\katoeq n\xi(rs,t)+\xi(r,s)$. For
+$a,b\in N_{S_2}$: $W(sa)=W(s)$, $\varepsilon(sa)=\varepsilon(s)$, $\psi(sa)=\psi(s)$, $z(tb)=z(t)$, $u(tb)\katoeq nu(t)$, and by
+\eqref{pf:kato:eq:dertw} $d(sa)\katoeq nd(s)+W(s)d(a)\katoeq nd(s)$; hence $\xi(sa,tb)\katoeq n\xi(s,t)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Heights on commutators and the strict dual Selmer group}\label{pf:kato:sec:heights}
+
+The following theorem and corollary are the two parts of \cref{lem:window:heights}. Recall
+$\katoht_{y,z,u}(s)=\det(W(s)-1)u(s)-\omega(\katoadj(W(s)-1)y(s),z(s))$; if $y\cup z$ is the coboundary of $u$ modulo
+$\ell^n$, then $\katoht_{y,z,u}(s)$ is, up to the factor $\det(W(s)-1)$, the value at $s$ of a local pairing of $y$ and $z$
+(Step 5 of \cref{pf:kato:locw}).
+
+\begin{theorem}[\cref{lem:window:heights}, first part]\label{pf:kato:heights}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and $\mathrm{NF}(e,S,A,W)$. Let $\katoO$ be a coefficient ring containing the
+entries of $W$, $n\ge1$, and $S'$ a finite set of primes. Let $y\in\katoZ(G_\Q,W)$ and $z\in\katoZ(G_\Q,W^*)$ take values in
+$\katoO^2$, with $\mathrm{Unr}(W,y)$, and assume that $z$ is an integral coboundary on $I_B$ for every place $B$ over every prime
+$q\ne\ell$ and on $D_A$ (with vectors in $\katoO^2$). Assume $\mathcal{T}(\katoO,W,y,n,w,\psi)$ for all primes $w\notin S'$ with
+$\ell^n\mid w-1$ and all surjective $\psi\colon G_\Q\to\Z/\ell^n$ killing $\mu_w$. Let $u\colon G_\Q\to\katoO$ be continuous, with
+$u(sa)\katoeq nu(s)$ for $a\in N_S$, and $(y\cup z)(s,t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for all $s,t$. Then
+\[
+  \det\bigl(W(\sigma)-1\bigr)\,\katoht_{y,z,u}(\sigma)\katoeq n0\qquad\text{for every }\sigma\in[H_0(W),H_0(W)].
+\]
+\formallabel{GlobalTheory.Ord2.ht_vanish_commutator}
+\end{theorem}
+
+\begin{proof}
+Let $\sigma\in[H_0,H_0]$; then $\sigma\in H_0$, so $\det W(\sigma)=1$, and $\sigma\in[\ker\varepsilon,\ker\varepsilon]$. The function
+$F(s)=\det(W(s)-1)\katoht_{y,z,u}(s)$ is continuous, so there is an open subgroup $U_1$ with $|F(\sigma a)-F(\sigma)|<|\ell^n|$ for
+$a\in U_1$, and an open subgroup $U_2$ with $|\det W(\sigma a)-\det W(\sigma)|<|2|$ for $a\in U_2$.
+
+\emph{Auxiliary prime.} By \cref{pf:kato:auxprime} (with $U=U_1\cap U_2$) there are a prime $w\notin S\cup S'$, a place $B$ over
+$w$ and a Frobenius $\tau$ at $B$ for $w$ with $\sigma^{-1}\tau\in U_1\cap U_2$, $\ell^n\mid w-1$, and every $v\in S$ an $\ell^n$-th power
+modulo $w$. As $\delta^2=1$, $\det W(\tau)=\pm1$; if it were $-1$, then $|{-1}-1|<|2|$, absurd; so $\det W(\tau)=1$.
+
+\emph{Character and derivative.} Let $\psi$ be given by \cref{pf:kato:primechar}; it is surjective, kills $\mu_w$, takes the value $1$
+on an element of $I_B$, and is trivial on the decomposition groups of all places over primes $v\in S$ (these are $\ne w$ and are
+$\ell^n$-th powers modulo $w$). As $w\notin S'$, $\mathcal{T}(\katoO,W,y,n,w,\psi)$ holds, and \cref{pf:kato:der} gives $P$, a unit $u_0$
+and $d$ with \eqref{pf:kato:eq:dertw}, $P\katoeq nu_0\det(W(\tau)-1)$, $d\katoeq n0$ on $N_{S\cup\{w\}}$, and $d$ an $(\katoO,n)$-coboundary
+on the inertia group of some place over each $q\in S\setminus\{\ell\}$.
+
+\emph{Vanishing on $N_S$.} The inertia groups over primes $v\notin S$ lie in $N_0=\ker\varepsilon\cap\ker W$, which is closed and normal;
+so $N_S\subset N_0$. The cocycles $y$ and $z$ vanish on these inertia groups (they are coboundaries there and $W=W^*=1$ there),
+hence on $N_S$ (\cref{pf:kato:cup}(a)). Put $S_2=S\cup\{w\}$. Then $N_{S_2}\subset N_S\subset N_0$, and $N_{S_2}\subset\ker\psi$ because
+$\psi$ is trivial on inertia at primes $\ne w$.
+
+\emph{The $2$-cocycle.} By \cref{pf:kato:xi},
+$\xi(s,t)=(d\cup z)(s,t)-\katorep{\psi(s)}P\varepsilon(s)u(t)$ is an $(\katoO,n,S_2)$-$2$-cocycle. Let $v\in S$ and $B'$ a place over $v$.
+On $D_{B'}$, $\psi=0$, so $\xi=d\cup z$ there, and $d$ is an $(\katoO,n)$-cocycle of $W$ on $D_{B'}$ by \eqref{pf:kato:eq:dertw}. If
+$v=\ell$, take $B'=A$: $z$ is an integral coboundary on $D_A$, so $\xi$ is $(\katoO,n)$-trivial on $D_A$ by \cref{pf:kato:cup}(b). If
+$v\ne\ell$, take for $B'$ the place given by \cref{pf:kato:der}: $d$ and $z$ are $(\katoO,n)$-coboundaries on $I_{B'}$, and
+\cref{pf:kato:unrcup} shows that $\xi$ is $(\katoO,n)$-trivial on $D_{B'}$. By \cref{pf:kato:rec} (for $S_2$ and $v_0=w$), $\xi$ is
+$(\katoO,n)$-trivial on $D_B$.
+
+\emph{Local computation.} As $w\notin S$, $W$ is trivial on $I_B$, and $I_B\subset N_S$, so $y,z$ vanish on $I_B$ and
+$u(sa)\katoeq nu(s)$ for $a\in I_B$. All hypotheses of \cref{pf:kato:locw} hold, and it gives $P\,\katoht_{y,z,u}(\tau)\katoeq n0$. Since
+$P\katoeq nu_0\det(W(\tau)-1)$ with $|u_0|=1$ and $|\katoht_{y,z,u}(\tau)|\le1$, we get
+$\det(W(\tau)-1)\katoht_{y,z,u}(\tau)=u_0^{-1}\bigl(P\katoht(\tau)-(P-u_0\det(W(\tau)-1))\katoht(\tau)\bigr)\katoeq n0$, i.e.\ $F(\tau)\katoeq n0$.
+Finally $\tau=\sigma(\sigma^{-1}\tau)$ with $\sigma^{-1}\tau\in U_1$, so $F(\sigma)\katoeq nF(\tau)\katoeq n0$.
+\end{proof}
+
+\begin{corollary}[\cref{lem:window:heights}, second part]\label{pf:kato:strict}
+Assume the statements of \cref{pf:kato:hyp:litcoh}. If $\mathrm{NF}(e,S,A,W)$ and $\mathrm{ES}(W,A)$ hold, then
+$H^1_{\mathrm{str}}(W^*,A)=0$: every cocycle of $W^*$ which is unramified away from $\ell$ and is a coboundary on $D_A$
+is a coboundary.
+\formallabel{GlobalTheory.Ord2.StrictKill.main}
+\end{corollary}
+
+\begin{proof}
+Let $z\in\katoZ(G_\Q,W^*)$ satisfy $\mathrm{Unr}(W^*,z)$ and $\mathrm{Str}(W^*,A,z)$, and suppose that $z$ is not a coboundary. Let
+$\katoO,y,S'$ be given by $\mathrm{ES}(W,A)$. By \cref{pf:kato:scaling}, applied first to $y$ and then to $z$, there are a coefficient
+ring $\katoO_2\supset\katoO$ and $k_1,k_2$ such that $y'=\ell^{k_1}y$ and $z'=\ell^{k_2}z$ have values in $\katoO_2^2$, $y'$ is an integral
+coboundary on all inertia groups at primes $\ne\ell$, and $z'$ is an integral coboundary on all inertia groups at primes $\ne\ell$ and on
+$D_A$. If $Y,P,u,b$ witness $\mathcal{T}(\katoO,W,y,n,w,\psi)$, then $\ell^{k_1}Y,P,u,\ell^{k_1}b$ witness
+$\mathcal{T}(\katoO_2,W,y',n,w,\psi)$, as one checks directly on \ref{pf:kato:T1}--\ref{pf:kato:T4}.
+
+\emph{Gluing.} For every $n$, $y'\cup z'$ is an $(\katoO_2,n,S)$-$2$-cocycle (\cref{pf:kato:cup}(a)); it is $(\katoO_2,n)$-trivial on $D_A$
+(\cref{pf:kato:cup}(b), as $z'$ is a coboundary there) and on the decomposition group of a place over each $v\in S\setminus\{\ell\}$
+(\cref{pf:kato:unrcup}). By \cref{pf:kato:glue} there is a continuous $u_n\colon G_\Q\to\katoO_2$, with $u_n(sa)\katoeq nu_n(s)$ for
+$a\in N_S$, such that $(y'\cup z')(s,t)\katoeq n\varepsilon(s)u_n(t)-u_n(st)+u_n(s)$.
+
+\emph{Choice of $g,h,\phi$.} If $y'$ vanished on $N_0$, so would $y$, and $y$ would satisfy $\mathrm{Gr}(W,A,y)$ by \cref{pf:kato:grkill},
+contradicting $\mathrm{ES}$. If $z'$ vanished on $N_0$, $z$ would be a coboundary by \cref{pf:kato:dualkill}. By \cref{pf:kato:pair}
+there are $g,h\in N_0$ with $\delta'=\omega(y'(h),z'(g))-\omega(y'(g),z'(h))\ne0$, and by \cref{pf:kato:commdet} there is
+$\phi\in[H_0,H_0]$ with $\Delta=\det(W(\phi)-1)\ne0$. As $N_0\subset H_0$, $\phi[g,h]\in[H_0,H_0]$, and $W(\phi[g,h])=W(\phi)$.
+
+\emph{Conclusion.} Fix $n\ge1$ and write $\katoht=\katoht_{y',z',u_n}$. \Cref{pf:kato:heights} at $\phi$ and at $\phi[g,h]$ gives
+$\Delta\katoht(\phi)\katoeq n0$ and $\Delta\katoht(\phi[g,h])\katoeq n0$, and \cref{pf:kato:htcomm} gives
+$\katoht(\phi[g,h])-\katoht(\phi)\katoeq n\Delta\delta'$. Hence
+\[
+  \Delta^2\delta'=\Delta\bigl(\Delta\delta'-(\katoht(\phi[g,h])-\katoht(\phi))\bigr)+\Delta\katoht(\phi[g,h])-\Delta\katoht(\phi)\katoeq n0,
+\]
+using $|\Delta|\le1$. This holds for every $n$, so $\Delta^2\delta'=0$, a contradiction.
+\end{proof}
+
+\begin{remark}
+In the classical theory \cite{Kolyvagin1990,Rubin2000} one bounds a dual Selmer group by pairing derivative classes with dual
+classes at many auxiliary primes and invoking global duality. Here a single auxiliary prime is used at a time: the height is the
+local pairing at a Frobenius element, the reciprocity law replaces global duality, and the commutator identity of
+\cref{pf:kato:htcomm} turns the vanishing of heights on $[H_0,H_0]$ into a contradiction. Only the non-vanishing of the bottom class
+on $N_0$ is used, which follows from its non-triviality in the Greenberg quotient (\cref{pf:kato:grkill}).
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{From the strict to the Bloch--Kato Selmer group}\label{pf:kato:sec:upgrade}
+
+\begin{lemma}[Local duality modulo $\ell^n$]\label{pf:kato:ltd}
+Assume (LT) of \cref{pf:kato:hyp:litcoh}. Let $A$ be a place over $\ell$, $\katoO$ a coefficient ring, $\theta,\theta'\colon
+D_A\to\katoO^\times$ continuous characters with $\theta\theta'=\varepsilon$ on $D_A$, and $n\ge1$. Let $b\colon D_A\to\katoO$ be continuous
+with $b(st)\katoeq nb(s)+\theta(s)b(t)$ for $s,t\in D_A$, and assume that for every continuous $a\colon D_A\to\katoO$ with
+$a(st)\katoeq na(s)+\theta'(s)a(t)$ there is a continuous $u\colon D_A\to\katoO$ with
+$b(s)\theta'(s)a(t)\katoeq n\varepsilon(s)u(t)-u(st)+u(s)$ for $s,t\in D_A$. Then there is $x\in\katoO$ with $b(s)\katoeq n\theta(s)x-x$
+for all $s\in D_A$.
+\formallabel{GlobalTheory.T.coboundary_of_orthogonal_dualCharacter_modPrimePow}
+\end{lemma}
+
+\begin{proof}
+Let $M=\katoO/\ell^n\katoO$, a finite discrete $\Z/\ell^n$-module on which $D_A$ acts through $\theta'$, and let
+$M^\vee(1)=\Hom(M,\Z/\ell^n)$, on which $s\in D_A$ acts by $(s\varphi)(m)=\varepsilon(s)\varphi(\theta'(s)^{-1}m)$; this is the Tate dual
+of $M$. By (LT) for $D_A\cong G_{\Q_\ell}$, the cup product induces an injective map from $H^1(D_A,M^\vee(1))$ to the group of
+homomorphisms $H^1(D_A,M)\to H^2(D_A,\Z/\ell^n(1))$. There is $\varphi_0\in\Hom(M,\Z/\ell^n)$ such that every element of
+$\Hom(M,\Z/\ell^n)$ is $\varphi_0(x\,\cdot)$ for some $x\in\katoO$, and $\varphi_0(xM)=0$ only if $\ell^n\mid x$
+(\lref{UpperTheory.V.X.So.dualGen}: this holds for the quotient of a discrete valuation ring finite over $\Z_\ell$ by any non-zero
+element). As $\theta\theta'=\varepsilon$,
+\begin{equation}\label{pf:kato:eq:key}
+  \varepsilon(s)\,\varphi_0\bigl(x\theta'(s)^{-1}m\bigr)=\varphi_0\bigl(\theta(s)xm\bigr)\qquad(s\in D_A,\ x\in\katoO,\ m\in M).
+\end{equation}
+Put $\beta(s)=\varphi_0(b(s)\,\cdot)\in M^\vee(1)$. It is continuous, as it depends only on $b(s)$ modulo $\ell^n$, and by the congruence
+for $b$ and \eqref{pf:kato:eq:key}, $\beta(st)=\beta(s)+s\beta(t)$. Let $y$ be a continuous cocycle of $D_A$ in $M$ and $a\colon
+D_A\to\katoO$ the composite of $y$ with a set-theoretic section $M\to\katoO$; it is continuous ($M$ is discrete) and satisfies
+$a(st)\katoeq na(s)+\theta'(s)a(t)$. Let $u$ be given by the hypothesis. Reducing modulo $\ell^n$ and applying $\varphi_0$, the
+cup product $(\beta\cup y)(s,t)=\beta(s)\bigl(sy(t)\bigr)=\varphi_0\bigl(b(s)\theta'(s)y(t)\bigr)$ is the coboundary of the continuous
+cochain $t\mapsto\varphi_0(u(t)\bmod\ell^n)$ with values in $\Z/\ell^n(1)$. Hence the class of $\beta$ pairs trivially with
+$H^1(D_A,M)$, and $\beta$ is a coboundary: $\beta(s)=s\psi-\psi$ for some $\psi\in M^\vee(1)$. Write $\psi=\varphi_0(x\,\cdot)$ with
+$x\in\katoO$. By \eqref{pf:kato:eq:key}, $\varphi_0\bigl((b(s)-\theta(s)x+x)m\bigr)=0$ for all $m\in M$, so
+$\ell^n\mid b(s)-(\theta(s)x-x)$ for all $s\in D_A$.
+\end{proof}
+
+The formal statement of \cref{pf:kato:ltd} also assumes the finiteness statement (LF); the proof does not use it.
+
+\begin{lemma}[Local duality for characters]\label{pf:kato:locdual}
+Assume (LF), (LT), (LE) of \cref{pf:kato:hyp:litcoh}. Let $A$ be a place over $\ell$, $\katoO$ a coefficient ring, and
+$k,k',a,b\colon G_\Q\to\katoQlb$ continuous on $D_A$ with values in $\katoO$ there, such that for $s,t\in D_A$:
+$k(s)k'(s)=\varepsilon(s)$, $k$ and $k'$ are multiplicative, $b(st)=b(s)+k(s)b(t)$ and $a(st)=a(s)+k'(s)a(t)$. Assume $k\ne1$ and $k'\ne1$
+on $D_A$, and that for every $n$ the map $(s,t)\mapsto b(s)k'(s)a(t)$ is $(\katoO,n)$-trivial on $D_A$. Then there is $x\in\katoQlb$ with
+$b(s)=k(s)x-x$ for all $s\in D_A$, or there is $x$ with $a(s)=k'(s)x-x$ for all $s\in D_A$.
+\formallabel{GlobalTheory.T.local_duality_character_orthogonal_classes}
+\end{lemma}
+
+\begin{proof}
+Assume that $a$ is not a coboundary on $D_A$. As $kk'=\varepsilon$ is a unit and $k,k'$ are integral, $k$ and $k'$ are continuous characters
+$\theta,\theta'\colon D_A\to\katoO^\times$ with $\theta\theta'=\varepsilon$; moreover $\theta'\ne1$, and $\theta'\ne\varepsilon$ because $\theta\ne1$. We use three
+statements:
+\begin{enumerate}[label=(\roman*)]
+\item (\cref{pf:kato:depth}, with $H=D_A$ and $k=\theta'$.) There is $r$ such that for all $n$ and all $x,y$ with $|x|\le1$:
+  if $xa(s)\katoeq n\theta'(s)y-y$ for all $s\in D_A$, then $|x|\le|\ell|^{\max(n-r,0)}$.
+\item (\lref{GlobalTheory.T.exists_mul_scalarClass_eq_smul_add_coboundary_modPrimePow}, from (LF), (LT), (LE) and $\theta'\ne1,\varepsilon$,
+  i.e.\ the local Euler characteristic formula for the rank-one module $\katoO(\theta')$.) For every $r$ there is an integer $m>0$ such that
+  for every $n\ge1$: if $a$ satisfies the conclusion of (i) for this $r$, then for every continuous $\katoO$-valued $a'$ with
+  $a'(st)\katoeq na'(s)+\theta'(s)a'(t)$ there are $x,y\in\katoO$ with $ma'(s)\katoeq nxa(s)+\theta'(s)y-y$ on $D_A$.
+\item (\cref{pf:kato:ltd}, from (LT).) If $b'$ is a continuous
+  $\katoO$-valued $(\katoO,n)$-cocycle of $\theta$ on $D_A$ such that $(s,t)\mapsto b'(s)\theta'(s)a'(t)$ is $(\katoO,n)$-trivial for every
+  $(\katoO,n)$-cocycle $a'$ of $\theta'$, then $b'$ is an $(\katoO,n)$-coboundary (local Tate duality).
+\end{enumerate}
+Let $r$ be given by (i), $m$ by (ii), and $n\ge1$. For an $(\katoO,n)$-cocycle $a'$ of $\theta'$, (ii) gives $x,y$ with
+$ma'\katoeq nxa+\theta'y-y$; if $u_n$ trivializes $(s,t)\mapsto b(s)k'(s)a(t)$ modulo $\ell^n$, then
+$s\mapsto xu_n(s)-b(s)\theta'(s)y$ trivializes $(s,t)\mapsto b(s)\theta'(s)\,ma'(t)$ modulo $\ell^n$, by the cocycle relation for $b$.
+By (iii), $mb$ is an $(\katoO,n)$-coboundary: $mb(s)\katoeq n\theta(s)x_n-x_n$. Hence $|b(s)-(k(s)X_n-X_n)|\le|\ell^n|/|m|$ with
+$X_n=x_n/m$, for all $s\in D_A$. Choose $s_0\in D_A$ with $k(s_0)\ne1$; then $X_n\to X=b(s_0)/(k(s_0)-1)$, and $b(s)=k(s)X-X$ for all
+$s\in D_A$, by passing to the limit.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:nontriv}
+If $\mathrm{NF}(e,S,A,W)$ holds, then $W(s)_{11}\ne1$ and $W^*(s')_{00}\ne1$ for some $s,s'\in D_A$.
+\formallabel{GlobalTheory.Ord2.Upgrade.nontriv}
+\end{lemma}
+
+\begin{proof}
+Let $t\in I_A$ with $\varepsilon(t)=1+\ell$, $m$ as in $\mathrm{NF}$ and $T=t^{2m}$. As in the proof of \cref{pf:kato:grkill},
+$W(T)_{00}=q_0=(1+\ell)^{2em}>1$ and $\det W(T)=1$, so $W(T)_{11}=q_0^{-1}\ne1$ and
+$W^*(T)_{00}=\varepsilon(T)\delta(T)W(T)_{00}=(1+\ell)^{2m}q_0\ne1$.
+\end{proof}
+
+\begin{theorem}[Strict to Greenberg]\label{pf:kato:upgrade}
+Assume the statements of \cref{pf:kato:hyp:litcoh}, $\mathrm{NF}(e,S,A,W)$ and $\mathrm{ES}(W,A)$. If
+$H^1_{\mathrm{str}}(W^*,A)=0$, then $H^1_{\mathrm{Gr}}(W^*,A)=0$.
+\formallabel{GlobalTheory.Ord2.Upgrade.upgrade}
+\end{theorem}
+
+\begin{proof}
+Let $z\in\katoZ(G_\Q,W^*)$ with $\mathrm{Unr}(W^*,z)$ and $\mathrm{Gr}(W^*,A,z)$, and let $\katoO,y$ be given by $\mathrm{ES}(W,A)$. By
+\cref{pf:kato:scaling} there are a coefficient ring $\katoO_2$ and $j,k$ such that $y_1=\ell^jy$ and $\ell^kz$ have values in $\katoO_2^2$,
+are integral coboundaries on all inertia groups at primes $\ne\ell$, and $\ell^kz(s)_1=W^*(s)_{11}x-x$ on $D_A$ for some $x\in\katoO_2$. Put
+$z_1=\ell^kz-(W^*(\cdot)v_0-v_0)$ with $v_0=(0,x)$. Since $W^*$ is upper triangular on $D_A$, $z_1(s)_1=0$ for $s\in D_A$, and $z_1$ is
+still an integral coboundary on all inertia groups at primes $\ne\ell$.
+
+For every $n$, $y_1\cup z_1$ is an $(\katoO_2,n,S)$-$2$-cocycle (\cref{pf:kato:cup}(a)), $(\katoO_2,n)$-trivial on the decomposition groups
+over all $v\in S\setminus\{\ell\}$ (\cref{pf:kato:unrcup}), hence on $D_A$ by \cref{pf:kato:rec}. For $s,t\in D_A$, as $z_1(t)_1=0$ and
+$W^*(s)_{10}=0$,
+\[
+  (y_1\cup z_1)(s,t)=y_1(s)_0\bigl(W^*(s)z_1(t)\bigr)_1-y_1(s)_1\bigl(W^*(s)z_1(t)\bigr)_0=b(s)\,k'(s)\,a(t),
+\]
+with $b=-(y_1)_1$, $a=(z_1)_0$, $k=W_{11}$ and $k'=W^*_{00}$ on $D_A$. These satisfy the hypotheses of \cref{pf:kato:locdual}: $k$ and $k'$
+are characters of $D_A$ with $kk'=W_{11}\varepsilon\delta W_{00}=\varepsilon\delta^2=\varepsilon$; $b(st)=b(s)+k(s)b(t)$ and $a(st)=a(s)+k'(s)a(t)$ by
+the upper triangular shape; $k\ne1$ and $k'\ne1$ by \cref{pf:kato:nontriv}. Hence $b$ or $a$ is a coboundary on $D_A$. If $b$ is, then
+$y(s)_1=W(s)_{11}x'-x'$ on $D_A$ for some $x'$, i.e.\ $\mathrm{Gr}(W,A,y)$, contradicting $\mathrm{ES}(W,A)$. So $a(s)=k'(s)x'-x'$ on $D_A$, and
+then $z_1(s)=W^*(s)(x',0)-(x',0)$ on $D_A$: $z_1$ satisfies $\mathrm{Str}(W^*,A,z_1)$ and $\mathrm{Unr}$. As $H^1_{\mathrm{str}}(W^*,A)=0$, $z_1$ is
+a coboundary, and so is $z=\ell^{-k}\bigl(z_1+W^*(\cdot)v_0-v_0\bigr)$.
+\end{proof}
+
+\begin{definition}[Selmer cocycles modulo $\ell^n$]\label{pf:kato:def:seln}
+Assume $\mathrm{NF}(e,S,A,W)$. Let $\katoO$ be a coefficient ring containing the entries of $W$, $n\in\N$ and $V\in\{W,W^*\}$. A map
+$z\colon G_\Q\to\katoO^2$ is a \emph{Selmer cocycle of $V$ modulo $\ell^n$} if it is an $(\katoO,n)$-cocycle of $V$ on $G_\Q$,
+$z\katoeq n0$ on $N_S$, $z$ is an $(\katoO,n)$-coboundary on the inertia group of some place over each $q\in S\setminus\{\ell\}$, and
+$z(s)_1\katoeq nV(s)_{11}x-x$ for all $s\in D_A$ and some $x\in\katoO$. Two of them are \emph{distinct} if their difference is not an
+$(\katoO,n)$-coboundary on $G_\Q$.
+\formal{GlobalTheory.Ord2.GwCount.SelN}
+\end{definition}
+
+For $n\ge1$ let $M_n=(\katoO/\ell^n)^2$ with $G_\Q$ acting through $W$. As $W$ is trivial on $N_S$, $M_n$ is a finite module of
+$G_S=G_\Q/N_S$; as $\ell\in S$, so is $\mu_{\ell^n}$, and $M_n^\vee(1)=\Hom(M_n,\mu_{\ell^n})$. Let $\mathcal L=(\mathcal L_v)_{v\in S}$ be the
+local conditions $\mathcal L_v=\ker\bigl(H^1(D_{B_v},M_n)\to H^1(I_{B_v},M_n)\bigr)$ for $v\ne\ell$ (places $B_v$ over $v$ being fixed), and
+$\mathcal L_\ell$ the classes of cocycles $c$ with $c(s)_1=W(s)_{11}x-x$ on $D_A$ for some $x\in\katoO/\ell^n$ (the Greenberg condition).
+Let $H^1_{\mathcal L}(G_S,M_n)$ be the classes whose restrictions lie in the $\mathcal L_v$, and $H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))$ the
+dual Selmer group defined by the orthogonal complements under local duality.
+
+\begin{theorem}[Greenberg--Wiles inequality]\label{pf:kato:gwineq}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and $\mathrm{NF}(e,S,A,W)$, and let $\katoO$ be a coefficient ring containing the
+entries of $W$. There is $C\in\N$ such that for every $n\ge1$: if there are $N$ pairwise distinct Selmer cocycles of $W$ modulo $\ell^n$,
+then there are $N'$ pairwise distinct Selmer cocycles of $W^*$ modulo $\ell^n$ with $N\le CN'$.
+\formallabel{GlobalTheory.T.greenbergWiles_dualSelmer_lower_bound_mod_prime_pow}
+\end{theorem}
+
+\begin{proof}
+We use four statements of the formal development:
+(a) (\lref{GlobalTheory.T.card_galoisInvariants_ordinaryRankTwo_mod_pow_bounded}) there is $C_0$ with $\#H^0(G_S,M_n)\le C_0$
+for all $n\ge1$;
+(b) (\lref{GlobalTheory.T.card_ordinaryLocalConditionModPrimePow_le_const_mul}, from the local finiteness and Euler
+characteristic statements (LF), (LE)) there is $C_A$ with $\#\mathcal L_\ell\le C_A\cdot\#(\katoO/\ell^n)$ for all $n\ge1$;
+(c) (\lref{GlobalTheory.T.ordinarySelmerModPrimePow_injects_residualSelmer}) a Selmer cocycle of $W$ modulo $\ell^n$ defines a class in
+$H^1_{\mathcal L}(G_S,M_n)$, and distinct Selmer cocycles define distinct classes;
+(d) (\lref{GlobalTheory.T.dualSelmer_classes_give_noncohomologous_cochains}, from local duality) every class of
+$H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))$ is represented by a Selmer cocycle of $W^*$ modulo $\ell^n$, distinct classes by distinct
+Selmer cocycles.
+We also use two standard facts. For $v\in S\setminus\{\ell\}$, $\#\mathcal L_v=\#H^0(D_{B_v},M_n)$: by inflation--restriction $\mathcal L_v\cong
+H^1(D_{B_v}/I_{B_v},X)$ with $X=M_n^{I_{B_v}}$, and as $D_{B_v}/I_{B_v}\cong\widehat\Z$ is topologically generated by a Frobenius element $F$,
+$H^1(D_{B_v}/I_{B_v},X)\cong X/(F-1)X$, which has the same order as $\ker(F-1)=H^0(D_{B_v},M_n)$ since $X$ is finite. Next,
+$\#H^0(G_\R,M_n)=\#(\katoO/\ell^n)$: a complex conjugation $c$ acts by $W(c)$ with $W(c)^2=1$ and $\det W(c)=-1$; as $\ell$ is odd,
+$(1\pm W(c))/2$ are complementary idempotents of $M_2(\katoO)$, each of rank one, so the invariants of $c$ on $M_n$ are free of rank one
+over $\katoO/\ell^n$. Finally $H^1(G_\R,M_n)=0$ as $\ell$ is odd.
+
+Let $C=C_0C_A$ and $n\ge1$. The Greenberg--Wiles formula (GW), with the conditions $\mathcal L_v$ and $\mathcal L_\infty=0$, reads
+\begin{multline*}
+  \#H^1_{\mathcal L}(G_S,M_n)\cdot\#H^0(G_S,M_n^\vee(1))\cdot\prod_{v\in S}\#H^0(D_{B_v},M_n)\cdot\#H^0(G_\R,M_n)\\
+  =\#H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))\cdot\#H^0(G_S,M_n)\cdot\prod_{v\in S}\#\mathcal L_v .
+\end{multline*}
+By the first standard fact the factors for $v\in S\setminus\{\ell\}$ cancel. Using $\#H^0(G_S,M_n^\vee(1))\ge1$, $\#H^0(D_A,M_n)\ge1$, the
+second standard fact, (a) and (b), we get
+$\#H^1_{\mathcal L}(G_S,M_n)\cdot\#(\katoO/\ell^n)\le\#H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))\cdot C_0\cdot C_A\#(\katoO/\ell^n)$, i.e.
+$\#H^1_{\mathcal L}(G_S,M_n)\le C\,\#H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))$. If $y_1,\dots,y_N$ are pairwise distinct Selmer cocycles of $W$
+modulo $\ell^n$, (c) gives $N\le\#H^1_{\mathcal L}(G_S,M_n)$, and (d) gives $N'=\#H^1_{\mathcal L^\perp}(G_S,M_n^\vee(1))$ pairwise
+distinct Selmer cocycles of $W^*$ modulo $\ell^n$; and $N\le CN'$.
+\end{proof}
+
+\begin{lemma}[Finiteness of cocycles modulo $\ell^n$]\label{pf:kato:gwfin}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and $\mathrm{NF}(e,S,A,W)$, and let $\katoO$ be a coefficient ring containing the
+entries of $W$. For every $n$ there is $B_n$ such that every family of pairwise distinct $(\katoO,n)$-cocycles of $W^*$ on $G_\Q$ which are
+$\katoeq n0$ on $N_S$ has at most $B_n$ members.
+\formallabel{GlobalTheory.T.card_dualCocyclesModPrimePow_unramifiedOutsideS_bounded_alt}
+\end{lemma}
+
+\begin{proof}
+$W^*$ is continuous, has entries in $\katoO$, and is trivial on $N_S$, since $W$ and $\varepsilon$ are trivial on the inertia groups at the
+primes outside $S$. Let $M_n^*=(\katoO/\ell^n)^2$ with $G_S$ acting through $W^*$. The group $Z^1(G_S,M_n^*)$ of continuous cocycles is finite
+(\lref{GlobalTheory.Ord2.GwFin.finite_cocycles_restricted_rep}, from the finiteness statement (GF)); put $B_n=\#Z^1(G_S,M_n^*)$. Let
+$z$ be an $(\katoO,n)$-cocycle of $W^*$ with $z\katoeq n0$ on $N_S$. Its reduction $\bar z$ modulo $\ell^n$ is locally constant, satisfies the
+cocycle relation, and $\bar z(sa)=\bar z(s)+W^*(s)\bar z(a)=\bar z(s)$ for $a\in N_S$; so $\bar z\in Z^1(G_S,M_n^*)$. If $\bar z_i=\bar z_j$, then
+$z_i-z_j\katoeq n0$ is an $(\katoO,n)$-coboundary. Hence pairwise distinct cocycles have pairwise distinct reductions, and a family of them
+has at most $B_n$ members.
+\end{proof}
+
+\begin{lemma}[Torsion bound]\label{pf:kato:torsbound}
+Assume $\mathrm{NF}(e,S,A,W)$, let $\katoO$ be a coefficient ring containing the entries of $W$, and assume that for every $n$ there is
+$B_n$ as in \cref{pf:kato:gwfin}. Then for every $m$ there is $B'_m$ such that for all $n$, every family of pairwise distinct Selmer
+cocycles $z_i$ of $W^*$ modulo $\ell^n$ such that each $\ell^mz_i$ is an $(\katoO,n)$-coboundary on $G_\Q$ has at most $B'_m$ members.
+\formallabel{GlobalTheory.T.card_primePowTorsion_selmerClassesModPrimePow_bounded}
+\end{lemma}
+
+\begin{proof}
+Put $B'_m=\max\bigl(\max_{n<m}B_n,\ \#(\katoO/\ell^m)^2\cdot B_m\bigr)$, and let $z_1,\dots,z_N$ be as in the statement. Selmer cocycles modulo
+$\ell^n$ are $(\katoO,n)$-cocycles which are $\katoeq n0$ on $N_S$; so if $n<m$, then $N\le B_n\le B'_m$. Let $n=m+k$, and choose $x_i\in\katoO^2$
+with $\ell^mz_i(s)\katoeq nW^*(s)x_i-x_i$ for all $s$. Put
+\[
+  z'_i(s)=\ell^{-k}\bigl(z_i(s)-\ell^{-m}(W^*(s)x_i-x_i)\bigr).
+\]
+As $\ell^mz_i-(W^*x_i-x_i)\katoeq{m+k}0$, $z'_i$ has values in $\katoO^2$; it is continuous; its cocycle defect
+$z'_i(st)-z'_i(s)-W^*(s)z'_i(t)$ is $\ell^{-k}$ times that of $z_i$, hence $\katoeq m0$; and $z'_i\katoeq m0$ on $N_S$, where $W^*=1$. Suppose
+$N>\#(\katoO/\ell^m)^2\cdot B_m$. Then more than $B_m$ of the $x_i$ have the same reduction modulo $\ell^m$. For two such indices $a\ne b$, if
+$z'_a-z'_b\katoeq mW^*y-y$ for some $y\in\katoO^2$, then, with $u=\ell^{-m}(x_a-x_b)\in\katoO^2$,
+$z_a-z_b=\ell^k(z'_a-z'_b)+W^*u-u\katoeq{m+k}W^*(\ell^ky+u)-(\ell^ky+u)$, contradicting the distinctness of $z_a$ and $z_b$. So these $z'_i$
+form a family of more than $B_m$ pairwise distinct $(\katoO,m)$-cocycles which are $\katoeq m0$ on $N_S$, contradicting the choice of $B_m$.
+Hence $N\le\#(\katoO/\ell^m)^2\cdot B_m\le B'_m$.
+\end{proof}
+
+\begin{theorem}[Dual classes of unbounded order]\label{pf:kato:gwstep1}
+Assume the statements of \cref{pf:kato:hyp:litcoh}, $\mathrm{NF}(e,S,A,W)$ and $H^1_{\mathrm{Gr}}(W,A)\ne0$. There is a coefficient ring
+$\katoO$ containing the entries of $W$ such that for every $m\in\N$ there are $n\in\N$ and a Selmer cocycle $z$ of $W^*$ modulo $\ell^n$ for
+which $\ell^mz$ is not an $(\katoO,n)$-coboundary on $G_\Q$.
+\formallabel{GlobalTheory.T.exists_dualSelmer_classes_unbounded_order}
+\end{theorem}
+
+\begin{proof}
+Let $y$ be a cocycle of $W$ with $\mathrm{Unr}$ and $\mathrm{Gr}$ which is not a coboundary. By \cref{pf:kato:scaling} there are $\katoO$ and $k$
+such that $Y=\ell^ky$ is integral with integral local conditions; $Y$ is not a coboundary, and it vanishes on $N_S$, being a
+homomorphism on $\ker W$ which vanishes on the inertia groups outside $S$
+(\lref{GlobalTheory.T.cocycle_vanishes_on_ker_toGS_of_inertia_coboundary}). We use three statements:
+(a) (\cref{pf:kato:boundedtors}) there is $k_0$ such that, for $a\in\katoO$, if $aY$ is an $(\katoO,n)$-coboundary then $a\ell^{k_0}\katoeq n0$;
+(b) (\cref{pf:kato:gwineq}) there is $C$ such that for all $n\ge1$, if there are $N$ pairwise distinct Selmer cocycles of $W$ modulo $\ell^n$,
+then there are $N'$ pairwise distinct Selmer cocycles of $W^*$ modulo $\ell^n$ with $N\le CN'$;
+(c) (\cref{pf:kato:torsbound} with \cref{pf:kato:gwfin}) for every $m$ there is $B_m$ such that for all $n$, a
+family of pairwise distinct Selmer cocycles $z_i$ of $W^*$ modulo $\ell^n$ such that every $\ell^mz_i$ is an $(\katoO,n)$-coboundary has at
+most $B_m$ members.
+Given $m$, choose $t$ with $\ell^t>CB_m$ and put $n=t+k_0$. The cocycles $jY$, $0\le j<\ell^t$, are Selmer cocycles of $W$ modulo $\ell^n$,
+pairwise distinct: if $(i-j)Y$ were an $(\katoO,n)$-coboundary for some $0\le j<i<\ell^t$, (a) would give $|(i-j)\ell^{k_0}|\le|\ell^{t+k_0}|$, i.e.
+$\ell^t\mid i-j$. By (b) there are $N'\ge\ell^t/C>B_m$ pairwise distinct Selmer cocycles of $W^*$ modulo $\ell^n$, so by (c) one of them,
+$z$, has $\ell^mz$ not an $(\katoO,n)$-coboundary.
+\end{proof}
+
+\begin{theorem}[Passage to the limit]\label{pf:kato:gwstep2}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and $\mathrm{NF}(e,S,A,W)$, and let $\katoO$ be a coefficient ring containing the entries
+of $W$. If for every $m$ there are $n$ and a Selmer cocycle $z$ of $W^*$ modulo $\ell^n$ such that $\ell^mz$ is not an $(\katoO,n)$-coboundary
+on $G_\Q$, then $H^1_{\mathrm{Gr}}(W^*,A)\ne0$.
+\formallabel{GlobalTheory.T.dualSelmer_unbounded_order_nonzero_ordinaryClass}
+\end{theorem}
+
+\begin{proof}
+Let $X$ be the discrete Selmer group of $W^*$: the group of continuous cocycles of $W^*$ with values in $(\katoO\otimes\Q_\ell/\Z_\ell)^2$
+which vanish on $N_S$, are coboundaries on the inertia groups at the places over $q\in S\setminus\{\ell\}$ and satisfy the Greenberg
+condition at $A$, modulo coboundaries; it is an $\ell$-primary torsion group. Note that $\det(W^*(g)-1)\ne0$ for some $g$, by
+\cref{pf:kato:commdet}, since $W^*=W$ on $H_0$. We use four statements of the formal development, applied to $W^*$:
+(a) (\lref{GlobalTheory.T.finite_lTorsion_selmer_rank_two_adjoint}, from the finiteness statements of \cref{pf:kato:hyp:litcoh})
+the $\ell$-torsion of $X$ is finite;
+(b) (\lref{GlobalTheory.T.exists_cocycle_local_conditions}) if $\det(W^*(g)-1)\ne0$ for some $g$ and the hypothesis of the theorem
+holds, then for every $m$ there is $x\in X$ with $\ell^mx\ne0$;
+(c) (\lref{GlobalTheory.T.divisibleOrdinarySelmerChain_exists_integral_representatives}) if $x_0,x_1,\ldots\in X$ satisfy $x_0\ne0$ and
+$\ell x_{k+1}=x_k$, there are $N\in\N$ and maps $a_k\colon G_\Q\to\katoO^2$ such that each $a_k$ is a locally constant $(\katoO,k)$-cocycle of
+$W^*$ on $G_\Q$, $a_{k+1}\katoeq ka_k$, $a_k\katoeq k0$ on $N_S$, $a_k$ is congruent modulo $\ell^k$ to a coboundary on $I_B$ for every
+place $B$ over a prime $q\in S\setminus\{\ell\}$ and satisfies the Greenberg condition at $A$ modulo $\ell^k$ (with vectors in the fraction
+field of $\katoO$), and $a_N$ is not congruent modulo $\ell^N$ to a coboundary on $G_\Q$;
+(d) (\lref{GlobalTheory.T.nonzero_ordinary_class_of_compatible_cocycles_mod_pow}) if $\det(W^*(g)-1)\ne0$ for some $g$, a family as in (c)
+yields a continuous cocycle of $W^*$ with $\mathrm{Unr}$ and $\mathrm{Gr}$ which is not a coboundary (its limit), i.e.\
+$H^1_{\mathrm{Gr}}(W^*,A)\ne0$.
+By (a) and (b), $X$ satisfies the hypotheses of \cref{pf:kato:divchain}, which gives $x_0\ne0$ and $x_k=\ell x_{k+1}$ in $X$; (c) and (d)
+conclude.
+\end{proof}
+
+\begin{theorem}[Greenberg--Wiles comparison]\label{pf:kato:gw}
+Assume the statements of \cref{pf:kato:hyp:litcoh} and $\mathrm{NF}(e,S,A,W)$. Then $H^1_{\mathrm{Gr}}(W^*,A)=0$ implies $H^1_{\mathrm{Gr}}(W,A)=0$.
+\formallabel{GlobalTheory.Ord2.grZero_of_grZero_dual1}
+\end{theorem}
+
+\begin{proof}
+If $H^1_{\mathrm{Gr}}(W,A)\ne0$, \cref{pf:kato:gwstep1} gives a coefficient ring $\katoO$ and Selmer cocycles of $W^*$ of unbounded order,
+and \cref{pf:kato:gwstep2} gives $H^1_{\mathrm{Gr}}(W^*,A)\ne0$.
+\end{proof}
+
+\begin{theorem}[Bloch--Kato classes are Greenberg classes]\label{pf:kato:bkgr}
+Assume (BK) of \cref{pf:kato:hyp:litcoh}. If $\mathrm{NF}(e,S,A,W)$ holds and $z$ is a Bloch--Kato class of $W$, then $\mathrm{Unr}(W,z)$ and
+$\mathrm{Gr}(W,A,z)$ hold.
+\formallabel{GlobalTheory.T.blochKato_cocycle_unramified_and_greenbergOrdinary}
+\end{theorem}
+
+\begin{proof}
+$\mathrm{Unr}(W,z)$ is condition (i) of \cref{pf:kato:def:bk}. By condition (ii) for the embedding $\Q\to\katoQlb$, and after conjugation
+(\lref{GlobalTheory.T.crystallineClass_restrict_decompositionGroup}), there is a continuous homomorphism $\iota_A\colon
+G_{\Q_\ell}=\Aut(\katoQlb/\Q_\ell)\to G_\Q$ with image $D_A$, mapping the inertia group of $G_{\Q_\ell}$ into $I_A$ and compatible with the cyclotomic
+characters, such that $z\circ\iota_A$ is a crystalline cocycle of $W\circ\iota_A$. As $W$ is upper triangular on $D_A$, $\kappa=W_{11}\circ\iota_A$ is a
+character and the projection to the second coordinate is equivariant, so $z_1\circ\iota_A$ is a crystalline cocycle of $\kappa$. On inertia,
+$W_{00}^m=\varepsilon^{em}$ and $(W_{00}W_{11})^2=\delta^2=1$, so $(\kappa\varepsilon^e)^{2m}=1$: $\kappa$ agrees with $\varepsilon^{-e}$ on the kernel of the
+continuous character $\kappa\varepsilon^e$ of finite order on inertia, an open subgroup. As $-e<0$, (BK) shows that $z_1\circ\iota_A$ is a
+coboundary: $z_1(\iota_A(\sigma))=\kappa(\sigma)x-x$. Since $\iota_A$ maps onto $D_A$, $z(s)_1=W(s)_{11}x-x$ for $s\in D_A$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:kato:esvanish}]
+By \cref{pf:kato:strict}, $H^1_{\mathrm{str}}(W^*,A)=0$; by \cref{pf:kato:upgrade}, $H^1_{\mathrm{Gr}}(W^*,A)=0$; by \cref{pf:kato:gw},
+$H^1_{\mathrm{Gr}}(W,A)=0$. A Bloch--Kato class of $W$ satisfies $\mathrm{Unr}$ and $\mathrm{Gr}$ by \cref{pf:kato:bkgr}, hence is a coboundary.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:kato:vanishordl}]
+Let $\ell\ne2$, $e\ge1$, and $W$ admitted with $\mathrm{Src}(\iota,e,W)$. By \cref{pf:kato:nf} there are $S$, $A$, $W'\cong W$ and $g$ with
+$\mathrm{NF}(e,S,A,W')$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W',g)$. By \textup{(Z)}, $\mathrm{ES}(W',A)$ holds; by \cref{pf:kato:esvanish},
+$\katoHf(\Q,W')=0$; by \cref{pf:kato:conj}, $\katoHf(\Q,W)=0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Construction of the Euler system}\label{pf:kato:sec:zeta}
+
+This subsection proves the existence statement \textup{(Z)} of \cref{pf:kato:def:zetaur}; the formal theorem has no
+hypotheses. The construction follows Kato \cite{Kato2004}: zeta elements built from Siegel units \cite{KubertLang1981},
+an explicit reciprocity law in the cyclotomic tower \cite{CoatesWiles1977,Coleman1979}, and the non-vanishing of an
+$L$-value. We first isolate the interface between the two halves of the proof.
+
+Throughout, $W$, $S$, $A$ and $g$ satisfy $\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$. For
+$r\ge0$ we consider families $Z=(Z_r)_{r\ge0}$ of maps $Z_r\colon G_\Q\times(\Z/\ell^r)^\times\to\katoQlb$, and for a power
+series $L=\sum_nL_nT^n$ over $\katoQlb$ we put
+\[
+  L_{<N}(z)=\sum_{n<N}L_n(z-1)^n,\qquad
+  \mathrm{m}_r(L,\xi,x)=\sum_{0\le k<\ell^r}\xi^{\ell^r-(kx\bmod\ell^r)}L_{<\ell^{3r}}(\xi^k),
+\]
+for $z\in\katoQlb$, a primitive $\ell^r$-th root of unity $\xi$ and $x\in\N$; up to the factor $\ell^r$, $\mathrm{m}_r(L,\xi,x)$ is the
+mass of $x+\ell^r\Z_\ell$ for the measure whose Amice transform is $L$. The \emph{$(\varphi,e)$-moments} of $L$ are the sums
+$\sum_{0\le x<\ell^r,\,\ell\nmid x}\varphi(x)x^e\,\mathrm{m}_r(L,\xi,x)$, for a Dirichlet character $\varphi$ modulo $\ell$.
+
+\begin{definition}[Euler system data]\label{pf:kato:def:esdata}
+Let $\katoO$ be a coefficient ring, $y\colon G_\Q\to\katoQlb^2$, $S'$ a finite set of primes, $\nu\colon G_\Q\to\katoQlb^\times$,
+$\chi=(\chi_r)_r$ with $\chi_r\colon(\Z/\ell^r)^\times\to\katoQlb$, and $Z$ as above.
+\begin{enumerate}[label=(\alph*)]
+\item $(\katoO,y,S')$ is an \emph{integral Euler system} for $W$, written $\mathrm{Sys}(W,\katoO,y,S')$, if $W$ and $y$ have
+  entries in $\katoO$, $y\in\katoZ(G_\Q,W)$, $\mathrm{Unr}(W,y)$ holds, and $\mathcal T(\katoO,W,y,n,w,\psi)$ holds for all $n\ge1$,
+  all primes $w\notin S'$ with $\ell^n\mid w-1$ and all surjective $\psi\colon G_\Q\to\Z/\ell^n$ killing $\mu_w$.
+\item $y$ is \emph{non-zero at $A$}, written $\mathrm{Nz}(W,A,y)$, if $\varepsilon(s)=1$, $W(s)_{11}=1$ and $y(s)_1\ne0$ for some
+  $s\in I_A$.
+\item $(\nu,Z)$ is an \emph{Iwasawa family at $A$}, written $\mathrm{Iw}(\katoO,A,\nu,Z)$, if $\nu$ is multiplicative on $D_A$,
+  each $Z_r$ has values in $\katoO$ and satisfies $Z_r(st,x)=Z_r(s,x)+\nu(s)Z_r(t,x\varepsilon_r(s)^{-1})$ for $s,t\in D_A$, and
+  $Z_r(s,x)=\sum_{x'}Z_{r+1}(s,x')$, the sum over $x'\in(\Z/\ell^{r+1})^\times$ reducing to $x$.
+\item $Z$ is \emph{linked} to $y$, written $\mathrm{Sp}(A,e,\chi,Z,y)$, if for every $n$ there is $r_0$ such that for $r\ge r_0$
+  and $s\in I_A$ with $\varepsilon(s)=1$,
+  $y(s)_1\katoeq n\sum_{x\in(\Z/\ell^r)^\times}\katorep{x}^{-e}\chi_r(x)Z_r(s,x)$.
+\item Let $j\colon\Omega\to\katoQlb$ be an embedding, $m_0,c_0\in\N$, and $R=(R_m)$ with $R_m(\psi,z)\in\katoQlb$ for Dirichlet
+  characters $\psi$ modulo $\ell^m$ and $z\in\katoQlb$. $Z$ satisfies the \emph{explicit reciprocity law}
+  $\mathrm{HT}(A,\katoO,Z,j,m_0,c_0,R)$ if there is a sequence $(\zeta_m)$ of primitive $\ell^m$-th roots of unity in $\Omega$ with
+  $\zeta_{m+1}^\ell=\zeta_m$ such that for every $m\ge m_0$ there are finitely many polynomials $P_i\in\Omega[X]$, whose
+  coefficients lie in $A$ and are fixed by $I_A$, and $o_i\in\katoO$, with $P_i(\zeta_m)\ne0$, such that:
+  \begin{itemize}
+  \item (Kummer presentation) the $u_i=P_i(\zeta_m)$ are units of $A$, and for every $s\in I_A$ with $\varepsilon_m(s)=1$ there are
+    $k_i\in\Z/\ell^{m-c_0}$ and $\ell^{m-c_0}$-th roots $u_i^{1/\ell^{m-c_0}}$ with
+    $s(u_i^{1/\ell^{m-c_0}})=\zeta_m^{\ell^{c_0}k_i}u_i^{1/\ell^{m-c_0}}$ and $Z_m(s,1)\katoeq{m-c_0}\sum_io_i\katorep{k_i}$;
+  \item (Coates--Wiles derivatives) for every primitive Dirichlet character $\psi$ modulo $\ell^m$,
+    \[
+      \sum_{b\in(\Z/\ell^m)^\times}\psi(b)\sum_io_i\,j\Bigl(\frac{\zeta_m^bP_i'(\zeta_m^b)}{P_i(\zeta_m^b)}\Bigr)\katoeq{m-c_0}R_m\bigl(\psi,j(\zeta_m)\bigr).
+    \]
+  \end{itemize}
+\item $(W,\katoO,\nu,\chi,Z)$ is \emph{pinned}, written $\mathrm{Pin}(e,A,W,\katoO,\nu,\chi,Z)$, if there are $a,a'\in\katoQlb$ with
+  $|a|=|a'|=1$, $\kappa\ne0$, units $v_m$ with $v_{m+1}\katoeq mv_m$, an embedding $j\colon\Omega\to\katoQlb$ with $|j(x)|\le1$ for
+  $x\in A$, $R$ as in (e), a power series $L$ with coefficients in $\katoO$, a Dirichlet character $\varphi$ modulo $\ell$ and
+  $m_0,c_0,n_0\in\N$ such that: $\nu=1$ on $I_A$ and $\nu(\sigma)=a$ for some Frobenius $\sigma\in D_A$ for $\ell$;
+  $\mathrm{HT}(A,\katoO,Z,j,m_0,c_0,R)$ holds; for $m\ge m_0$, primitive $\psi$ modulo $\ell^m$ and primitive $\ell^m$-th roots of unity
+  $z$,
+  \[
+    R_m(\psi,z)\katoeq{m-c_0}v_m\,\kappa\,a'^m\sum_{b\in(\Z/\ell^m)^\times}\psi(b)\,L_{<\ell^{3m}}(z^b);
+  \]
+  $\chi_r(x)=\varphi(x\bmod\ell)^{-1}$ for $r\ge1$; and there is $r_1$ such that for all $r\ge\max(r_1,1)$ and all primitive
+  $\ell^r$-th roots of unity $\xi$, the $(\varphi,e)$-moment of $L$ is not $\katoeq{n_0+r}0$.
+\end{enumerate}
+\formal{GlobalTheory.KZ.Sys}
+\formal{GlobalTheory.KZ.NzAt}
+\formal{GlobalTheory.KZ.IwSys2}
+\formal{GlobalTheory.KZ.SpLink}
+\formal{GlobalTheory.KZ.HTLawCsOfCoef}
+\formal{GlobalTheory.KZ.Pin7}
+\end{definition}
+
+The left-hand side of the law in (e) is a sum of Gauss sums of Coates--Wiles logarithmic derivatives of the
+Coleman power series of the local units $u_i$ \cite{CoatesWiles1977,Coleman1979}; the pinning says that these are,
+up to units, the Gauss sums of a fixed power series $L$, whose moments (an $\ell$-adic $L$-value) do not vanish.
+
+\begin{definition}[The two halves]\label{pf:kato:def:halves}
+\textup{(Z1)} is the statement: whenever $\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$ hold, there are
+$\katoO,y,S',\nu,\chi,Z$ with $\mathrm{Sys}(W,\katoO,y,S')$, $\mathrm{Iw}(\katoO,A,\nu,Z)$, $\mathrm{Sp}(A,e,\chi,Z,y)$ and
+$\mathrm{Pin}(e,A,W,\katoO,\nu,\chi,Z)$. \textup{(Z2)} is the statement: whenever $\mathrm{NF}(e,S,A,W)$ and
+$\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$ hold, any such data satisfy $\mathrm{Nz}(W,A,y)$.
+\formal{GlobalTheory.KZ.ExistsZetaEulerSystemIwasawaData}
+\formal{GlobalTheory.KZ.ZetaEulerSystemNonvanishing}
+\end{definition}
+
+\begin{lemma}\label{pf:kato:halves}
+\textup{(Z1)} and \textup{(Z2)} imply \textup{(Z)}.
+\formallabel{GlobalTheory.KZ.zetaUr_of_halves2}
+\end{lemma}
+
+\begin{proof}
+The formal lemma holds for every predicate in place of the pinning. Given $\mathrm{NF}(e,S,A,W)$ and
+$\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$, \textup{(Z1)} gives $\katoO,y,S'$ with $\mathrm{Sys}(W,\katoO,y,S')$, and \textup{(Z2)} gives
+$s\in I_A$ with $\varepsilon(s)=1$, $W(s)_{11}=1$ and $y(s)_1\ne0$. If $y$ satisfied the Greenberg condition,
+$y(s)_1=W(s)_{11}x-x=0$, a contradiction. So $y$ is unramified away from $\ell$, does not satisfy the Greenberg condition at
+$A$, and satisfies the tame relations: $\mathrm{ES}(W,A)$ holds.
+\end{proof}
+
+\begin{lemma}\label{pf:kato:quotchar}
+If $\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$ hold, then $W(s)_{11}=1$ for every $s\in I_A$ with $\varepsilon(s)=1$.
+\formallabel{GlobalTheory.T.quotient_char_trivial_inertia_cyclotomic_tower}
+\end{lemma}
+
+\begin{proof}
+Let $s\in I_A$ with $\varepsilon(s)=1$; then $s$ fixes all $\ell$-power roots of unity. Let $\chi$ be the character of
+$\mathrm{Src}^{\mathrm{ur}}$; as $s$ fixes $\mu_\ell$, $\chi(s)=1$. Next, $s$ fixes the square roots of every rational number. It
+suffices to treat a nonzero integer $q=\pm\ell^aq'$ with $\ell\nmid q'$. The fields $\Q(\sqrt{-1})$ and $\Q(\sqrt{q'})$ are unramified
+at the odd prime $\ell$, so their elements are fixed by the inertia element $s$ (recall that $A$ lies over $\ell$), and
+$\sqrt{(-1)^{(\ell-1)/2}\ell}\in\Q(\mu_\ell)$ is fixed by $s$; the square roots of $q$ are products of these numbers and a rational number.
+The character $\delta=\det W$ is continuous with values $\pm1$, so its kernel is a closed subgroup of index at most $2$ whose fixed
+field is $\Q(\sqrt q)$ for some $q\in\Q$; as $s$ fixes this field, $s\in\ker\delta$, i.e.\ $\delta(s)=1$. Finally $\mathrm{Src}^{\mathrm{ur}}$ gives
+$W(s)_{11}\varepsilon(s)^e\delta(s)^{-1}\chi(s)=1$, i.e.\ $W(s)_{11}=1$.
+\end{proof}
+
+\begin{littheorem}[Coleman power series; {\cite{Coleman1979}}, see also {\cite[17.12]{Kato2004}}]\label{pf:kato:lit:coleman}
+Let $K$ be a finite unramified extension of $\Q_\ell$ with ring of integers $\OO_K$ and Frobenius $\phi$, and let $(\zeta_{\ell^m})_{m\ge1}$ be a
+compatible system of primitive $\ell^m$-th roots of unity. For every sequence $u=(u_m)_{m\ge1}$ of units $u_m\in\OO_K[\zeta_{\ell^m}]^\times$
+which is compatible under the norm maps, there is a unique power series $f_u\in\OO_K[[T]]^\times$ with
+$(\phi^{-m}f_u)(\zeta_{\ell^m}-1)=u_m$ for all $m\ge1$, where $\phi$ acts on the coefficients.
+\formallabel{UpperTheory.Kd.C7.pCore}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:coleman}
+The formal statement is (ii) in the proof of \cref{pf:kato:plocu}: from a family $Z$ of cocycles on $I_A$ which is norm compatible,
+Frobenius-equivariant up to a unit $a$, and admits Kummer presentations by polynomials $P_i$ with coefficients fixed by $I_A$, it
+produces a power series $G$ whose Gauss sums agree, up to the smoothing factor $1-d_0\psi^{-1}(d_0)$, units $v_m$ and $a^m$, with the
+Gauss sums of the logarithmic derivatives $\zeta P_i'(\zeta)/P_i(\zeta)$ at the points $\zeta_m^b$, and it transfers the vanishing
+of the $(\varphi,k)$-specialisations of $Z$ to the vanishing of the $(\varphi,k)$-moments of $G$. Thus it combines
+\cref{pf:kato:lit:coleman} with the logarithmic derivative homomorphisms of Coates and Wiles \cite{CoatesWiles1977} and with the
+Kummer pairing on the cyclotomic tower. It differs from the published results in its formulation: the units are given by Kummer
+presentations at a finite level $m$ rather than as a norm-compatible system, all statements are congruences modulo $\ell^{m-c_1}$
+with explicit losses, and the conclusion is stated for Gauss sums and moments of $G$ instead of for the Coleman measure.
+\end{remark}
+
+\begin{theorem}[Transfer of non-vanishing]\label{pf:kato:transfer}
+Let $\ell$ be odd, $\katoO$ a coefficient ring, $G$ and $L$ power series with coefficients in $\katoO$, $a,a',\kappa\in\katoQlb$ with
+$|a|=|a'|=1$ and $\kappa\ne0$, $(v_m)$ and $(v'_m)$ sequences with $|v_m|=|v'_m|=1$, $v_{m+1}\katoeq mv_m$ and $v'_{m+1}\katoeq mv'_m$, $c_0\ge2$
+prime to $\ell$, $m_0\ge2$, $c_1,n_0\in\N$, $\varphi$ a Dirichlet character modulo $\ell$ and $e\ge1$. Assume:
+\begin{enumerate}[label=(\roman*)]
+\item for every $m\ge m_0$ there is a primitive $\ell^m$-th root of unity $z$ such that for every primitive Dirichlet character $\psi$
+  modulo $\ell^m$, with sums over $b\in(\Z/\ell^m)^\times$,
+  \[
+    \bigl(1-c_0\psi^{-1}(c_0)\bigr)v'_m\kappa a'^m\sum_b\psi(b)L_{<\ell^{3m}}(z^b)\katoeq{m-c_1}v_ma^m\sum_b\psi(b)G_{<\ell^{3m}}(z^b);
+  \]
+\item there is $r_1$ such that for all $r\ge\max(r_1,1)$ and all primitive $\ell^r$-th roots of unity $\xi$, the $(\varphi,e)$-moment of $L$
+  at $(r,\xi)$ is not $\katoeq{n_0+r}0$.
+\end{enumerate}
+Then there are $n_1,r_2$ such that for all $r\ge r_2$ and all primitive $\ell^r$-th roots of unity $\xi$, the $(\varphi,e)$-moment of $G$ at
+$(r,\xi)$ is not $\katoeq{n_1+r}0$.
+\formallabel{GlobalTheory.T.nonvanishing_transfer_characterSums_powerSeries}
+\end{theorem}
+
+\begin{proof}
+Write $\mathrm{mom}_r(F,\xi)$ for the $(\varphi,e)$-moment of a power series $F$, put $q=|\ell|$, $y_0=(1+\ell)^e$, and for a Dirichlet
+character $\psi$ modulo $\ell^m$ and $z\in\katoQlb$ let $\tau_m(z,\psi)=\sum_{b\in(\Z/\ell^m)^\times}\psi(b)z^b$. We use four statements of the
+formal development.
+\begin{enumerate}[label=(\Alph*)]
+\item (Mellin transform; \lref{GlobalTheory.KZ.Cmp.mellin_comp}.) Let $\katoO$ contain the $(\ell-1)$-th roots of unity, $F$ a power
+  series over $\katoO$ and $d\in\N$. There is a power series $A$ over $\katoO$ such that: for $r\ge1$ and every primitive $\ell^r$-th root
+  $\xi$, $d^e\varphi(d)\,\mathrm{mom}_r(F,\xi)\katoeq{2r}\ell^rA_{<r}(y_0)$; and for $k\ge1$, every primitive $\ell^{k+1}$-th root $z$ and
+  every primitive $\psi$ modulo $\ell^{k+1}$ with $|\psi^{-1}(b)-b^e\varphi(b)|<1$ whenever $b^{\ell-1}=1$, putting $\zeta=\psi^{-1}(1+\ell)$,
+  \[
+    \psi^{-1}(d)\sum_b\psi(b)F_{<\ell^{3(k+1)}}(z^b)\katoeq{k+1}\tau_{k+1}(z,\psi)\,A_{<\ell^{3k}}(\zeta).
+  \]
+\item (Twisting characters; \lref{GlobalTheory.T.exists_primitive_character_twist}.) For $k\ge1$ and every primitive $\ell^k$-th root
+  $\zeta$ there is a primitive $\psi$ modulo $\ell^{k+1}$ with $|\psi^{-1}(b)-b^e\varphi(b)|<1$ whenever $b^{\ell-1}=1$, and
+  $\psi^{-1}(1+\ell)=\zeta$.
+\item (Gauss sums; \lref{GlobalTheory.T.gaussSumModPrimePower_mul_inv_eq_prime_pow},
+  \lref{GlobalTheory.T.norm_gaussSumModPrimePower_le_half_power}.) For a primitive $\ell^m$-th root $z$ and a primitive $\psi$ modulo
+  $\ell^m$, $\tau_m(z,\psi)\tau_m(z^{-1},\psi^{-1})=\ell^m$ and $|\tau_m(z^{-1},\psi^{-1})|\le q^{\lfloor m/2\rfloor}$.
+\item (Rigidity; \lref{GlobalTheory.T.powerSeries_eq_of_congruent_values_at_primitiveRoots}.) Let $A,B$ be power series over $\katoO$
+  with $B\ne0$, $|u|=1$, $(w_m)$ a sequence with $|w_m|=1$ and $w_{m+1}\katoeq mw_m$, and $c,m'\in\N$. If
+  $A_{<\ell^{3m}}(z)\katoeq{\lfloor m/2\rfloor-c}w_mu^mB_{<\ell^{3m}}(z)$ for all $m\ge m'$ and all primitive $\ell^m$-th roots $z$, then for
+  every $k$ there is $m_1$ such that $A_n\katoeq kw_mB_n$ for all $m\ge m_1$ and all $n$.
+\end{enumerate}
+
+\emph{Step 1.} Choose $N$ with $|\ell^N\kappa|\le1$ and put $p=\ell^N$; enlarge $\katoO$ so that it contains $p\kappa$ and the $(\ell-1)$-th
+roots of unity. Apply (A) to $G$ with $d=1$, giving $A_G$, and to $L$ with $d=1$ and $d=c_0$, giving $A_1$ and $A_2$; put
+$A_L=A_1-c_0A_2$. Since $|c_0|\le1$, (A) gives for $r\ge1$, $k\ge1$ and $z,\psi,\zeta$ as there:
+\begin{gather}
+  \mathrm{mom}_r(G,\xi)\katoeq{2r}\ell^rA_{G,<r}(y_0),\qquad f\,\mathrm{mom}_r(L,\xi)\katoeq{2r}\ell^rA_{L,<r}(y_0),\label{pf:kato:eq:mom}\\
+  \sum_b\psi(b)G_{<\ell^{3(k+1)}}(z^b)\katoeq{k+1}\tau\,A_{G,<\ell^{3k}}(\zeta),\label{pf:kato:eq:gs}\\
+  \bigl(1-c_0\psi^{-1}(c_0)\bigr)\sum_b\psi(b)L_{<\ell^{3(k+1)}}(z^b)\katoeq{k+1}\tau\,A_{L,<\ell^{3k}}(\zeta),\label{pf:kato:eq:gs2}
+\end{gather}
+with $f=1-c_0^{e+1}\varphi(c_0)$ and $\tau=\tau_{k+1}(z,\psi)$. Here $f\ne0$: otherwise the integer $c_0^{e+1}\ge2$ would be a root of
+unity.
+
+\emph{Step 2: a lower bound.} By (ii) and \eqref{pf:kato:eq:mom}, for $r\ge\max(r_1,1)$ we have $|f\,\mathrm{mom}_r(L,\xi)|>|f|q^{n_0+r}$ and
+$|f\,\mathrm{mom}_r(L,\xi)-\ell^rA_{L,<r}(y_0)|\le q^{2r}$; hence, for $r$ large, $|A_{L,<r}(y_0)|\ge|f|q^{n_0}$. So there are $\delta>0$ and $R$
+with $|A_{L,<r}(y_0)|>\delta$ for $r\ge R$.
+
+\emph{Step 3: comparison of values.} Put $u=a'/a$ and $w_k=(v'_{k+1}/v_{k+1})u$; then $|u|=1$, $|w_k|=1$ and $w_{k+1}\katoeq kw_k$. Let
+$k\ge m_0+2c_1$ and let $\zeta$ be a primitive $\ell^k$-th root of unity. Take $z$ as in (i) for $m=k+1$, $\psi$ as in (B) for $\zeta$, and
+$\tau=\tau_{k+1}(z,\psi)$, $\tau'=\tau_{k+1}(z^{-1},\psi^{-1})$. Substituting \eqref{pf:kato:eq:gs} and \eqref{pf:kato:eq:gs2} into (i) and multiplying by
+$p\,\tau'/(v_{k+1}a^{k+1})$, (C) and $|p|,|p\kappa|\le1$ give
+\[
+  p\,A_{G,<\ell^{3k}}(\zeta)\katoeq{\lfloor k/2\rfloor-c_1}w_ku^k\cdot p\kappa\,A_{L,<\ell^{3k}}(\zeta):
+\]
+indeed $\ell^{k+1}=\tau\tau'$, and all error terms, of norm at most $q^{k+1-c_1}$, are multiplied by $|\tau'|/q^{k+1}\le q^{\lfloor(k+1)/2\rfloor-k-1}$, giving the precision $\lfloor(k+1)/2\rfloor-c_1\ge\lfloor k/2\rfloor-c_1$.
+
+\emph{Step 4: rigidity.} The power series $pA_G$ and $p\kappa A_L$ have coefficients in $\katoO$, and $p\kappa A_L\ne0$ since its truncated
+values at $y_0$ do not vanish by Step 2. By Step 3 and (D), with $c=c_1$ and $m'=m_0+2c_1$, for every $k$ there is $m_1$ with
+$(pA_G)_n\katoeq kw_m(p\kappa A_L)_n$ for all $m\ge m_1$ and all $n$. As $|w_m|=1$ and $|y_0-1|\le1$, this gives
+$|(p\kappa A_L)_{<M}(y_0)|\le\max\bigl(|(pA_G)_{<M}(y_0)|,q^k\bigr)$ for every $k$, hence $|p\kappa|\,|A_{L,<M}(y_0)|\le|p|\,|A_{G,<M}(y_0)|$ for
+all $M$.
+
+\emph{Step 5.} For $r\ge R$, Steps 2 and 4 and $|p|\le1$ give $|A_{G,<r}(y_0)|>\delta':=|p\kappa|\delta$. Choose $n_1$ with $q^{n_1}<\delta'$.
+For $r\ge\max(n_1,R,1)$, \eqref{pf:kato:eq:mom} gives $|\mathrm{mom}_r(G,\xi)-\ell^rA_{G,<r}(y_0)|\le q^{2r}<q^r\delta'<|\ell^rA_{G,<r}(y_0)|$, so
+$|\mathrm{mom}_r(G,\xi)|=|\ell^rA_{G,<r}(y_0)|>q^{r}\delta'>q^{n_1+r}$, i.e.\ $\mathrm{mom}_r(G,\xi)$ is not $\katoeq{n_1+r}0$.
+\end{proof}
+
+\begin{theorem}[Non-vanishing of the bottom class]\label{pf:kato:plocu}
+\textup{(Z2)} holds.
+\formallabel{UpperTheory.Kd.C7.pLocu}
+\end{theorem}
+
+\begin{proof}
+We use \cref{pf:kato:quotchar}, the formal statement of \cref{pf:kato:lit:coleman} (\cref{pf:kato:rem:coleman}) and
+\cref{pf:kato:transfer}.
+\begin{enumerate}[label=(\roman*)]
+\item (\cref{pf:kato:quotchar}.) Under $\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$, $W(s)_{11}=1$ for every
+  $s\in I_A$ with $\varepsilon(s)=1$.
+\item (Coleman power series; the formal statement of \cref{pf:kato:lit:coleman}.) Let $\ell$ be odd, $Z$ a family such that on $I_A$ the
+  maps $Z_r$ are $\katoO$-valued, satisfy $Z_r(st,x)=Z_r(s,x)+Z_r(t,x\varepsilon_r(s)^{-1})$ and are norm compatible; assume that
+  $Z_m(\sigma s\sigma^{-1},1)=aZ_m(s,1)$, with $|a|=1$, for every Frobenius $\sigma\in D_A$ for $\ell$ with $\varepsilon(\sigma)=1$ and
+  every $s\in I_A$ with $\varepsilon_m(s)=1$; and that for $m\ge m_0$ the $Z_m$ admit Kummer presentations by polynomials as in
+  \cref{pf:kato:def:esdata}(e) (with some $c_0$). Let $d_0$ be prime to $\ell$. Then there are a power series $G$ with
+  coefficients in $\katoO$, units $v_m$ with $v_{m+1}\katoeq mv_m$, and $c_1,m_1$, such that: for $m\ge m_1$, every such
+  presentation $(P_i,o_i)$ of $Z_m$ and every $\psi$ modulo $\ell^m$,
+  \[
+    \bigl(1-d_0\psi^{-1}(d_0)\bigr)\sum_b\psi(b)\sum_io_i\,j\Bigl(\frac{\zeta_m^bP_i'(\zeta_m^b)}{P_i(\zeta_m^b)}\Bigr)
+    \katoeq{m-c_1}v_ma^m\sum_b\psi(b)\,G_{<\ell^{3m}}\bigl(j(\zeta_m)^b\bigr);
+  \]
+  and for every Dirichlet character $\varphi$ modulo $\ell$ and $k\ge1$: if for every $n$ the specialisations
+  $\sum_x\varphi(x)^{-1}\katorep x^{-k}Z_r(s,x)$ are $\katoeq n0$ for all large $r$ and all $s\in I_A$ with $\varepsilon(s)=1$, then for
+  every $n$ the $(\varphi,k)$-moments of $G$ are $\katoeq{n+r}0$ for all large $r$ and all primitive $\ell^r$-th roots $\xi$.
+\item (Transfer of non-vanishing, \cref{pf:kato:transfer}.)
+\end{enumerate}
+Now let $\katoO,y,S',\nu,\chi,Z$ satisfy $\mathrm{Sys}$, $\mathrm{Iw}$, $\mathrm{Sp}$ and $\mathrm{Pin}$, with the data $a,a',\kappa,v',j,R,L,
+\varphi,m_0,c_0,n_0$ of the pinning, and suppose that $\mathrm{Nz}(W,A,y)$ fails. By (i), $W(s)_{11}=1$ on $I_A\cap\ker\varepsilon$, hence
+$y(s)_1=0$ for all $s\in I_A\cap\ker\varepsilon$. As $\chi_r(x)=\varphi(x)^{-1}$, the link $\mathrm{Sp}$ shows that the
+$(\varphi,e)$-specialisations of $Z$ are $\katoeq n0$ on $I_A\cap\ker\varepsilon$ for all large $r$, for every $n$. Since $\nu=1$ on $I_A$,
+the restriction of $Z$ to $I_A$ satisfies the hypotheses of (ii): the cocycle and norm relations follow from $\mathrm{Iw}$; for a
+Frobenius $\sigma$ with $\varepsilon(\sigma)=1$ and $s\in I_A\cap\ker\varepsilon_m$, the cocycle relation on $D_A$ and $\nu(s)=1$ give
+$Z_m(\sigma s\sigma^{-1},1)=\nu(\sigma)Z_m(s,1)$, and $\nu(\sigma)=\nu(\sigma_0)=a$ for the Frobenius $\sigma_0$ of the pinning, as
+$\sigma_0^{-1}\sigma\in I_A$ and $\nu=1$ on $I_A$; and the Kummer presentations are those of the explicit law. Apply (ii) with
+$d_0=2$: it gives $G$. For $m$ large, combining the congruence of (ii), the explicit law of (e) and the congruence of the
+pinning (multiplied by $1-2\psi^{-1}(2)$, of norm $\le1$) gives hypothesis (i) of \cref{pf:kato:transfer} with $c_0=2$ and $z=j(\zeta_m)$. By (iii)
+and the last condition of the pinning, the $(\varphi,e)$-moments of $G$ are not $\katoeq{n_1+r}0$ for large $r$; by the second
+part of (ii), applied with $k=e$ and $n=n_1$, they are. This contradiction proves $\mathrm{Nz}(W,A,y)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Kato's zeta elements}\label{pf:kato:sec:katozeta}
+
+It remains to prove \textup{(Z1)}. Its formal proof combines the results below. They are forms of theorems of Shimura, of
+Jacquet--Shalika and, above all, of Kato \cite{Kato2004} (see \cite{Scholl1998,Colmez2004} for expositions, and \cite{Fukaya2003} for
+the theory of Coleman power series for symbols). For each of them we quote the published theorem and describe in a remark the formal
+statement and how it differs. The formal statements are theorems of the development without hypotheses, except
+\cref{pf:kato:lit:proj}; they are proved from first principles, and the formal construction never uses the \'etale cohomology of modular
+curves (\cref{pf:kato:rem:towermodule}).
+
+\begin{littheorem}[{\cite[\S\S6.1--6.2, \S\S6.4--6.6]{Shimura1971}}]\label{pf:kato:lit:shimura}
+For $N\ge1$ let $\mathcal F_N$ be the field of modular functions of level $N$ (meromorphic functions on the upper half-plane, invariant
+under $\Gamma(N)$ and meromorphic at the cusps) whose $q$-expansions at $\infty$ have coefficients in $\Q(e^{2\pi i/N})$. Then
+$\mathcal F_1=\Q(j)$, and $\mathcal F_N$ is a Galois extension of $\Q(j)$ with group $\GL_2(\Z/N)/\{\pm1\}$, in which $\SL_2(\Z/N)$ acts through
+$f\mapsto f\circ\gamma$ ($\gamma\in\SL_2(\Z)$) and the matrices $\mathrm{diag}(1,d)$ act on the $q$-expansion coefficients through
+$\Gal(\Q(e^{2\pi i/N})/\Q)$. These actions extend to an action of $\GL_2(\A_{\Q,f})$ on $\bigcup_N\mathcal F_N$ (Shimura's reciprocity law).
+\formallabel{GlobalTheory.T.exists_modular_function_tower_algebraic_coefficients}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:shimura}
+The formal statement asserts: for every algebraic closure $\Omega$ of $\Q$ and every embedding $\Omega\to\C$ there is a \emph{standard
+modular tower}, that is, a field $K_\infty\supset\Omega$ of meromorphic functions on the upper half-plane, each invariant under a principal
+congruence subgroup, with $q$-expansions in $\Omega((q^{\Q}))$, an action of $\GL_2^+(\Q)$ by composition and an action of $G_\Q$ on
+$q$-expansion coefficients satisfying Shimura's reciprocity law, containing the modular invariant $j$, with bounded denominators and a
+saturation property. It is a model of $\Omega\otimes\bigcup_N\mathcal F_N$ in which only the properties used below are retained; the
+adelic action of \cref{pf:kato:lit:shimura} is replaced by the actions of $\GL_2^+(\Q)$ and of $G_\Q$, and the coefficients are
+algebraic numbers instead of elements of $\Q(e^{2\pi i/N})$. The formal development constructs the tower.
+\end{remark}
+
+\begin{corollary}\label{pf:kato:towerex}
+For every algebraic closure $\Omega$ of $\Q$ and every embedding $\Omega\to\C$ there is a modular tower.
+\formallabel{UpperTheory.V.Z.Kato.Joint.towerEx}
+\end{corollary}
+
+\begin{proof}
+Forget the standardness in the formal statement of \cref{pf:kato:lit:shimura}.
+\end{proof}
+
+\begin{remark}[The tower module]\label{pf:kato:rem:towermodule}
+In a modular tower, the Kummer classes of functions which are units up to $\ell^n$-th powers at all places form a module $\mathcal A$;
+homogeneous polynomial maps $\Z_\ell^2\to\mathcal A$ of degree $2e-1$ invariant under $\Gamma_1(N)\cap\Gamma_0(\ell)$ form a module $B_{N,2e-1}$
+with Hecke operators $T_q$, $U_\ell$, $\langle d\rangle$ and an action of $G_\Q$. This module replaces the \'etale cohomology of modular curves
+with coefficients in $\mathrm{Sym}^{2e-1}$ used in \cite{Kato2004}.
+\end{remark}
+
+\begin{littheorem}[{\cite[Thm.~(1.3)]{JacquetShalika1976}}]\label{pf:kato:lit:js}
+Let $\pi$ be an irreducible cuspidal automorphic representation of $\GL_n(\A_F)$, $F$ a number field, with unitary central character.
+Then $L(s,\pi)\ne0$ for $\Re s=1$.
+\formallabel{GlobalTheory.T.odd_chi_and_tendsto_twisted_LSeries_ne_zero_of_prim}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:js}
+The formal statement asserts: let $k$ be odd, $N,M\ge1$, $g=\sum_ng(n)q^n$ a primitive form of weight $k$, level $N$ and character $\chi$,
+$\varphi$ a Dirichlet character modulo $M$, and $w\ge(k+1)/2$. Then $\chi(-1)=-1$, and $\sum_n\varphi(n)g(n)n^{-s}$, which converges absolutely
+for $\Re s>(k+1)/2$, tends to a non-zero limit as $s\to w$ along real $s>w$. The parity statement is elementary: the action of $-1\in\SL_2(\Z)$
+multiplies $g$ by $\chi(-1)$ and by $(-1)^k$. For $w>(k+1)/2$ the limit is the value of an absolutely convergent Euler product. For
+$w=(k+1)/2$ the statement is \cref{pf:kato:lit:js} for the cuspidal representation attached to $g$ twisted by the primitive character
+inducing $\varphi$ (with $s$ shifted by $(k-1)/2$), up to finitely many Euler factors, which do not vanish on $\Re s=(k+1)/2$ by the
+Ramanujan bound \cite{Deligne1974}. The formal proof does not use \cite{JacquetShalika1976}: it proves the non-vanishing by a positivity
+argument for Dirichlet series (\lref{GlobalTheory.T.lseries_ne_zero_re_ge_one_of_positivity}) together with Rankin's mean square
+estimate for the coefficients of cusp forms (\lref{GlobalTheory.T.rankin_mean_square_cuspForm}).
+\end{remark}
+
+\begin{littheorem}[Zeta value formula; {\cite[Thm.~6.6 and \S7]{Kato2004}}, {\cite{Shimura1976}}]\label{pf:kato:lit:eis}
+Let $f$ be a normalised eigenform of weight $k\ge2$ and level $N$. Kato's zeta modular forms, products of two Eisenstein series, have the
+following property: for a Dirichlet character $\chi$ modulo $m$, the sum over $b\in(\Z/m)^\times$ of $\chi(b)$ times the period of the
+projection to $f$ of the $\sigma_b$-conjugate of the zeta modular form of level $m$ equals $(2\pi i)^{k-r-1}$ times the partial $L$-value
+$L(f^*,\chi,r)$ (with the Euler factors at a finite set of primes removed), times explicit elementary factors and a period of $f$. The proof is
+by the Rankin--Selberg method.
+\formallabel{GlobalTheory.T.ordinaryEisensteinEigenfunctional_exists}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:eis}
+The formal statement provides the auxiliary data for the linear form $\lambda$ of \cref{pf:kato:lit:proj}. For $\ell$ odd, $e\ge1$, a
+newform $g$ of weight $2e+1$ with level prime to $\ell$ and $a_\ell(g)$ an $\ell$-adic unit, a character $\psi$ modulo $\ell$ and $N_0\ge1$ prime
+to $\ell$, there are a level $N\ge5$ divisible by $N_0$ and by the level of $g$ and prime to $\ell$, Dirichlet characters $\chi,\theta$
+modulo $N$ with $\chi$ inducing the character of $g$, $\chi(-1)=-1$ and $\theta(-1)=(-1)^e\psi(-1)$, a unit root $\alpha$ of
+$X^2-a_\ell(g)X+\chi(\ell)\ell^{2e}$, an ordinary Hecke eigen-system, a constant $v\ne0$ satisfying a Rankin--Selberg type identity between
+an eigen-functional and a measure built from Eisenstein series, and smoothing integers $c_1,d_1>1$ prime to $6N\ell$ avoiding finitely
+many degenerate values. It differs from \cref{pf:kato:lit:eis} in that periods of modular symbols are replaced by an ordinary
+eigen-functional on $q$-expansions, the $U_\ell$-stabilisation by the unit root $\alpha$ is built in, and only the non-vanishing of the
+relevant constant is asserted; this non-vanishing comes from the formal statement of \cref{pf:kato:lit:js}. The formal proof chooses an
+auxiliary prime $r\ge\ell+7$, passes to the form with coefficients $a_n(g)$ for $n$ prime to $MN_0r$ ($M$ the level of $g$), of level
+$M(MN_0r)^2$ (\lref{GlobalTheory.EisM.depleted_newform_prim}), and constructs the data at that level
+(\lref{GlobalTheory.EisM.chapterM_of_level}).
+\end{remark}
+
+\begin{littheorem}[{\cite{Deligne1971}}, {\cite[6.3 and 8.3]{Kato2004}}]\label{pf:kato:lit:hecke}
+Let $f$ be a newform of weight $k\ge2$, level $N$ and character $\chi$, with coefficient field $F$, and $\lambda$ a place of $F$ over a prime $p$.
+The quotient $V_{F_\lambda}(f)$ of $H^1_{\mathrm{et}}(Y_1(N)\otimes\Qbar,\mathrm{Sym}^{k-2})\otimes F_\lambda$ corresponding to $f$, on which
+the Hecke operators act through the eigenvalues of $f$, is two-dimensional over $F_\lambda$, and for every prime $q\nmid Np$ the arithmetic Frobenius at $q$ acts on it with
+characteristic polynomial $X^2-a_q(f)X+\chi(q)q^{k-1}$, up to the normalisation of the action.
+\formallabel{GlobalTheory.T.heckeProjector_newform_galoisImage}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:hecke}
+The formal statement concerns the tower module of weight $w=k-2$ and level $N$ (\cref{pf:kato:rem:towermodule}) for a newform $g$ of odd
+weight $k\ge3$, level dividing $N$, $5\le N$, $\ell\nmid N$, and a root $\alpha$ of $X^2-a_\ell(g)X+\chi(\ell)\ell^{k-1}$ with
+$\alpha^2\ne\chi(\ell)\ell^{k-1}$ and $\alpha^2\ne\chi(\ell)\ell^{k-2}$; let $\lambda$ be the eigen-system with $T_q\mapsto a_q(g)$, $U_\ell\mapsto\alpha$,
+$\langle d\rangle\mapsto\chi(d)$. Given a continuous irreducible $\rho\colon G_\Q\to\GL_2(E)$ such that Frobenius elements at almost all
+primes $q$ have trace $a_q(g)$ and determinant $q^{w+1}\chi(q)$, it asserts that there are $m\ge0$, Galois- and Hecke-equivariant maps
+$\pi_i$ from the tower module to $E^2$ and $\sigma_i$ back ($1\le i\le m$) with $\pi_i\sigma_j=\delta_{ij}$, and a polynomial $P$ in the admissible
+Hecke operators with $P(\lambda)=1$ which acts on the tower module as $\sum_i\sigma_i\pi_i$, the identity on the $\lambda$-eigenspace. So the
+$\lambda$-part is a direct summand isomorphic to $\rho^m$, cut out by $P$. This replaces \cref{pf:kato:lit:hecke}: the module is different, the
+multiplicity $m$ is not determined, and the eigen-system is $\ell$-stabilised. The formal proof shows the semisimplicity of the Hecke action
+at $\lambda$ on a space of period polynomials (\lref{GlobalTheory.T.semisimple_potentials_at_newform_eigensystem}), transfers it to the
+tower module (\lref{GlobalTheory.T.semisimple_tensor_of_semisimple_potentials}), and identifies the eigenspace with copies of $\rho$
+through the traces of Frobenius elements (\lref{GlobalTheory.T.galois_representation_of_eigensystem}).
+\end{remark}
+
+\begin{littheorem}[{\cite[6.3, 8.3 and Thm.~9.7]{Kato2004}}]\label{pf:kato:lit:proj}
+With the notation of \cref{pf:kato:lit:hecke}, there is a Hecke- and Galois-equivariant projection from the cohomology of modular curves
+onto $V_{F_\lambda}(f)$, and the dual exponential maps of the images of Kato's $p$-adic zeta elements are the projections to $f$ of the zeta
+modular forms of \cref{pf:kato:lit:eis}.
+\formallabel{UpperTheory.V.Z.Kato.Joint.kato_global_admissibility_of_admissible}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:proj}
+The formal statement is an implication. Its hypothesis is the existence of admissible Hecke projections, proved in the formal
+development (\lref{GlobalTheory.T.exists_admissible_hecke_projection_nonvanishing}): from data as in the formal statement of
+\cref{pf:kato:lit:hecke} and an approximate Hecke eigen-functional on $q$-expansions it produces a projection. Its conclusion is: under
+$\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$, for an embedding $j\colon\Omega\to\katoQlb$ defining $A$, a modular
+tower, and data $(N,\chi,\alpha)$ with an eigen-functional as in the formal statement of \cref{pf:kato:lit:eis}, there are a
+$\Z_\ell$-linear map $\mathrm{pr}$ from the tower to $\katoQlb^2$, integral on $B_{N,2e-1}$, equivariant for $G_\Q$ acting through a twist of
+$W$ by a power of $\varepsilon$ and a character of $(\Z/\ell)^\times$, and for the Hecke operators $T_q$ ($q\nmid\ell N$) acting through the
+eigenvalues of $g$, $U_\ell$ through $\alpha$ and the diamond operators through a quadratic character; and a linear form $\lambda$ on
+$q$-expansion sequences recovering the second coordinate of $\mathrm{pr}$ up to convergent unit periods, which on $q$-expansions of
+modular forms of weight $2e+1$, level $N\ell$ and character $\chi$ equals $\kappa\ne0$ times the eigen-functional. The formal proof
+combines the formal form of \cref{pf:kato:lit:hecke}, the ordinary triangular shape of the twist of $W$
+(\lref{GlobalTheory.T.untwisted_representation_ordinary_triangular_shape}) and an eigen-functional built from the Hecke
+polynomial $P$. The conditions on $\mathrm{pr}$ do not require it to be non-zero.
+\end{remark}
+
+\begin{littheorem}[{\cite[Prop.~8.12, Example~13.3, Thm.~12.5(4)]{Kato2004}}]\label{pf:kato:lit:zeta}
+Let $f$ be a newform of weight $k\ge2$, $\lambda$ a place of its coefficient field over an odd prime $p$, $r\in\Z$, and $T=V_{\OO_\lambda}(f)(k-r)$.
+For suitable auxiliary integers $c,d$ and $1\le j\le k-1$, Kato's zeta elements $z_m\in H^1(\Z[\zeta_m,1/p],T)$, for $m$ in the set of
+\cite[13.3]{Kato2004}, form an Euler system for $T$: for $m\mid m'$ the norm map sends $z_{m'}$ to $\prod_q P_q(q^{-1}\sigma_q^{-1})z_m$, where
+$q$ runs over the primes dividing $m'$ but not $m$, $P_q(t)=\det(1-\mathrm{Fr}_q^{-1}t\mid T)$ and $\sigma_q$ is the arithmetic Frobenius of $q$ in
+$\Gal(\Q(\zeta_m)/\Q)$. For an arbitrary Galois-stable lattice $T'$ of $V_{F_\lambda}(f)(k-r)$ the analogous elements lie in $H^1(T')$ if the image
+of $G_{\Q(\zeta_{p^\infty})}$ contains $\SL_2(\Z_p)$.
+\formallabel{UpperTheory.Kd.K4.kato_eulerSystem_integrality}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:zeta}
+The formal statement asserts: under $\mathrm{NF}(e,S,A,W)$ and $\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$, given a modular tower, a
+projection $\mathrm{pr}$ and a weight function $c_w\colon\Z/N\to\katoO$, not identically zero, as in the formal statement of
+\cref{pf:kato:lit:proj}, applying $\mathrm{pr}$ to averaged Kummer classes of products of Siegel units of level $\ell^{r+n}N^2$
+\cite{KubertLang1981} weighted by $c_w$ gives a family $Y=(Y_r)$ of cocycles of $G_\Q$ with values in functions on $(\Z/\ell^r)^\times$ (the
+Shapiro form of cocycles of $G_{\Q(\zeta_{\ell^r})}$), continuous, integral and norm compatible in $r$, and a cocycle $y$ with
+$y\katoeq r\sum_x\katorep x^{-e}\psi(x)Y_r(\cdot,x)$; and for some $m$, $\ell^my$ is an integral Euler system ($\mathrm{Sys}$),
+$(\nu_D,\ell^mY_{\bullet,1})$ is an Iwasawa family at $A$ for the unramified quotient character $\nu_D$, and $\ell^mY_{\bullet,1}$ is linked to
+$\ell^my$ (\cref{pf:kato:def:esdata}). It differs from \cref{pf:kato:lit:zeta} as follows: the classes live in the tower module instead of
+\'etale cohomology; the Euler system relations are asserted only in the cyclotomic $\ell$-power direction and, at an auxiliary prime $w$,
+in the form of the tame relations \ref{pf:kato:T1}--\ref{pf:kato:T4} for the twist by $x^{-e}\psi(x)$; and integrality is obtained by an
+explicit power $\ell^m$, without a hypothesis on the image of Galois.
+\end{remark}
+
+\begin{littheorem}[{\cite[Prop.~2.4 and Prop.~8.12]{Kato2004}}]\label{pf:kato:lit:norm}
+Let $M,N\ge1$, $q$ a prime not dividing $MN$, and $c,d$ integers with $(c,6Mq)=(d,6Nq)=1$. The norm map from $K_2(Y(Mq,Nq))$ to
+$K_2(Y(M,N))$ sends the element ${}_{c,d}z_{Mq,Nq}$ to ${}_{c,d}z_{M,N}$ multiplied by the Euler factor
+$1-T'(q)\bigl(\begin{smallmatrix}1/q&0\\0&1\end{smallmatrix}\bigr)^*+q\bigl(\begin{smallmatrix}1/q&0\\0&1/q\end{smallmatrix}\bigr)^*$
+(see \cite[\S2]{Kato2004} for the normalisation of the dual Hecke operator $T'(q)$), and the $p$-adic zeta elements satisfy the
+corresponding relation.
+\formallabel{UpperTheory.V.Z.Kato.Nb.kato_norm_relation_tame_prime}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:norm}
+The formal statement concerns the twisted Kummer classes of the tower attached to Siegel units: for a prime $p\nmid\ell Ncd$, $p$ times the
+sum over the level-$Np$ classes is congruent modulo $\ell^n$, up to a coboundary for the action twisted by $\varepsilon_r^{-1}$, to
+$pY_0(s,y)-T_pY_0(s,yp^{-1})+p^w\langle p\rangle Y_0(s,yp^{-2})$, where $Y_0$ is the level-$N$ class and $y\in(\Z/\ell^r)^\times$ is the
+cyclotomic variable. It is the tame case of \cref{pf:kato:lit:norm}, with the Frobenius at $p$ acting on the cyclotomic variable, in the
+tower module and modulo $\ell^n$.
+\end{remark}
+
+\begin{littheorem}[Explicit reciprocity law; {\cite[Thm.~9.6, Thm.~9.7, Prop.~10.10]{Kato2004}}]\label{pf:kato:lit:erl}
+With the notation of \cite[8.1]{Kato2004}, let $1\le r\le k-1$ with $r=k-1$ or $r'=k-1$. The dual exponential map sends the image of
+Kato's $p$-adic zeta element ${}_{c,d}z^{(p)}_{1,N,m}(k,r,r',\xi,S)$ in the local Galois cohomology of $\Q(\zeta_m)\otimes\Q_p$ to the zeta
+modular form ${}_{c,d}z_{1,N,m}(k,r,r',\xi,S)\in M_k(X_1(N))\otimes\Q(\zeta_m)$, a product of two Eisenstein series; after projection
+to $f$, the same holds for the zeta elements of $f$.
+\formallabel{UpperTheory.V.Z.Kato.K5.smoothedZetaClass_hodgeTateLaw}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:erl}
+The formal statement asserts: in the situation of the formal statement of \cref{pf:kato:lit:zeta}, with a linear form $\lambda$ as in
+\cref{pf:kato:lit:proj}, for $d_0\ge2$ prime to $\ell$ the smoothed classes $Z_r(s,x)=Y_r(s,x)_1-d_0Y_r(s,xd_0)_1$ satisfy the explicit
+reciprocity law of \cref{pf:kato:def:esdata}(e) with
+$R_m(\psi,z)=(1-d_0\psi^{-1}(d_0))v_m\kappa\bigl(\sum_a\psi(a)z^a\bigr)\psi^{-1}(N)\,\lambda(\mathcal E_{m,\psi})$, where $\kappa\ne0$, the $v_m$ are
+convergent units and $\mathcal E_{m,\psi}$ is the $q$-expansion of a $\psi$-twisted product of Eisenstein series. It is the analogue of
+\cref{pf:kato:lit:erl} in the form of Coates--Wiles and Coleman \cite{CoatesWiles1977,Coleman1979}: instead of the dual exponential
+map and $B_{\mathrm{dR}}$, it describes the restriction to $D_A$ of the zeta classes in the cyclotomic tower by Kummer presentations
+by local units, and the Gauss sums of their logarithmic derivatives by $\lambda$ applied to the $q$-expansions of the zeta modular forms.
+\end{remark}
+
+\begin{littheorem}[Siegel units; {\cite[Prop.~1.3, Prop.~3.11]{Kato2004}}, {\cite[Ch.~2]{KubertLang1981}}]\label{pf:kato:lit:siegel}
+Let $E$ be an elliptic curve over a scheme $S$ and $c$ an integer prime to $6$. There is a unique ${}_c\theta_E\in\OO(E\setminus E[c])^\times$
+with divisor $c^2(0)-E[c]$ which is invariant under the norm maps attached to multiplication by integers prime to $c$. Its pull-backs
+along torsion sections of the universal elliptic curve are the Siegel units ${}_cg_{\alpha,\beta}$, modular units with explicit
+$q$-expansions, and $\mathrm{dlog}\,g_{\alpha,\beta}$ is an Eisenstein series of weight $2$.
+\formallabel{GlobalTheory.T.siegelUnit_edgeClass_kummer_dlog_congruence}
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:kato:rem:siegel}
+The formal statement is the computation at the cusp (on the Tate curve) behind the formal form of \cref{pf:kato:lit:erl}. For $p$ odd
+there is a constant $c_p$ with the following property. Let $a={}_cg$ and $b={}_dg$ be Siegel units of level $Np^L$ in a modular tower
+($c,d>1$ prime to $6Np$), $x$ and $y$ the Kummer characters of $p^n$-th roots of $a$ and $b$, and $\eta$ a locally constant cochain on the
+geometric Galois group whose coboundary is $x\cup y$. Then there is $\xi\colon\Q\to A$ such that, for every $s$ in the
+decomposition group of $A$ fixing $\zeta_{p^L}$ and acting on $\zeta_{p^{L+n}}$ through $t\in\Z/p^n$, and every element $w$ built from
+$(x,y,\eta)$ whose logarithmic $q$-expansion is $\phi$, the coefficients satisfy
+$p^{c_p}\phi_r\equiv s^{-1}(\xi_r)-\xi_r-p^{c_p}\Delta\,t\,\Phi_r$ modulo $p^n$ for all $r\in\Q$. Here $\Phi$ is the $q$-expansion of the product of the
+two smoothed weight-one Eisenstein-type functions attached to $a$ and $b$, and $\Delta=\alpha_1\beta_2-\alpha_2\beta_1$ if the indices of the two
+Siegel units are congruent to $(\alpha_1,N\alpha_2)$ and $(\beta_1,N\beta_2)$ modulo $p^L$. It identifies the cyclotomic Kummer class of the symbol $\{a,b\}$ at the cusp with the product of the logarithmic
+derivatives of $a$ and $b$, up to a coboundary and the factor $p^{c_p}$; compare the proof of \cite[Prop.~10.10]{Kato2004} and
+\cite{Fukaya2003}. The published statements are not formulated modulo $p^n$ with an explicit loss.
+\end{remark}
+
+\begin{theorem}[Existence of the Iwasawa data]\label{pf:kato:gul}
+The formal forms of \cref{pf:kato:lit:zeta} and \cref{pf:kato:lit:erl}, together with the existence of admissible Hecke projections
+(\lref{GlobalTheory.T.exists_admissible_hecke_projection_nonvanishing}), imply \textup{(Z1)}.
+\formallabel{UpperTheory.V.Z.Kato.Joint.kato_global_unit_law_of_smoothed_classes}
+\end{theorem}
+
+\begin{proof}
+The formal proof (\lref{UpperTheory.V.Z.Kato.Joint.glue2}) proceeds as follows. Let $\mathrm{NF}(e,S,A,W)$ and
+$\mathrm{Src}^{\mathrm{ur}}(\iota,e,A,W,g)$ hold, with character $\chi_g$ killing $\mu_\ell$. Choose a character $\psi$ modulo $\ell$
+with $\chi_g(s)=\iota^{-1}\psi(\varepsilon(s)\bmod\ell)$ (\lref{UpperTheory.V.Z.Kato.Joint.psiEx}) and an embedding
+$j\colon\Omega\to\katoQlb$ defining $A$ (\lref{UpperTheory.V.Z.Kato.Joint.jEx}). Apply the formal form of \cref{pf:kato:lit:eis}
+to $g$, $\psi$ and $N_0=1$, take a tower by \cref{pf:kato:towerex}, and put $c_w(x)=\iota^{-1}(\hat\theta(x)/2)$, where $\hat\theta$ is a
+finite Fourier transform of $\theta$. The formal form of \cref{pf:kato:lit:proj} gives $\mathrm{pr}$ and $\lambda$, and that of
+\cref{pf:kato:lit:zeta} gives $Y$, $y$ and $m$. Apply the formal form of \cref{pf:kato:lit:erl} with $d_0=\ell+1$. An explicit computation
+of the right-hand side (\lref{UpperTheory.V.Z.Kato.Joint.rhsEq}, \lref{UpperTheory.V.Z.Kato.Joint.avgEq},
+\lref{UpperTheory.V.Z.Kato.Joint.meas3}) identifies $\lambda(\mathcal E_{m,\psi})$ with Gauss sums of a power series $L$ attached to an
+Eisenstein measure, which gives the congruence of the pinning, with $\nu=\nu_D$ (trivial on $I_A$, and of norm one at a Frobenius element).
+The non-vanishing of the moments of $L$ (\lref{UpperTheory.V.Z.Kato.Joint.pinOf}) follows from $v\ne0$ and from the non-vanishing of
+$\sum_i\iota(\beta_i)\psi^{-1}(t_i)t_i^e$, where the $t_i$ and $\beta_i$ are the smoothing integers and coefficients built from $c_1,d_1,\ell+1$;
+this sum equals $1-(\ell+1)^{e+1}\ne0$ times a sum which is non-zero by the choice of $c_1,d_1$
+(\lref{UpperTheory.V.Z.Kato.Joint.smNz}). Finally the smoothing is compatible with the other properties: if $\mathrm{Sys}$,
+$\mathrm{Iw}$ and $\mathrm{Sp}$ hold for $(y,Z)$, they hold for $\bigl((1-d_0^{e+1})y,\,Z_r(s,x)-d_0Z_r(s,xd_0)\bigr)$ when $d_0\equiv1\bmod\ell$
+(\lref{UpperTheory.V.Z.Kato.Joint.smSys}). This gives data as in \textup{(Z1)}.
+\end{proof}
+
+\begin{theorem}[Existence of the Euler system]\label{pf:kato:zetaur}
+\textup{(Z)} holds.
+\formallabel{UpperTheory.V.Z.Kato.Final.zetaUr}
+\end{theorem}
+
+\begin{proof}
+The formal forms of \cref{pf:kato:lit:zeta} and \cref{pf:kato:lit:erl} are theorems of the development, and admissible Hecke projections
+exist by \lref{GlobalTheory.T.exists_admissible_hecke_projection_nonvanishing}; so \textup{(Z1)} holds by \cref{pf:kato:gul}.
+\textup{(Z2)} holds by \cref{pf:kato:plocu}, and \cref{pf:kato:halves} gives \textup{(Z)}.
+\end{proof}
+
+\begin{remark}
+The non-triviality of the Euler system does not come from the projection $\mathrm{pr}$, which is not required to be non-zero, but from the
+explicit reciprocity law and the non-vanishing of the moments of $L$ (\cref{pf:kato:plocu}), as in \cite{Kato2004}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the main theorem}\label{pf:kato:sec:proof}
+
+\begin{theorem}\label{pf:kato:main2}
+$\sfname{HypothesesH'}$, $\sfname{Row0b}$ for the local parameter maps of \cref{sec:galois}, and \textup{(QBC)} imply
+$\sfname{KatoTwoW}$.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.katoTwoW_of_printsH_of_rT_of_quadBC2}
+\end{theorem}
+
+\begin{proof}
+Fix the data of $\sfname{KatoTwoW}$: $\sfname{Used}(\ell,K,e,N,\theta,\psi,W)$, $\iota$, a newform $f$ attached to $W\otimes\varepsilon^{-e}$,
+and $\sfname{WitAQ}(\iota,W)$. By \cref{pf:kato:locq}, \textup{(LG)} holds. By \cref{pf:kato:usedadm}, $\det W=\theta$ and $W$ is admitted.
+By \cref{pf:kato:twnew}, \textup{(TN)} holds; by \cref{pf:kato:frobroot}, \textup{(FR)} holds; hence \textup{(S)} holds by
+\cref{pf:kato:srcs}. By \cref{pf:kato:twos}, $\sfname{KatoTwoW}^{\mathrm{sph}}$ holds, and it remains to check $\mathrm{Sph}(\iota,e,W)$. By
+\cref{pf:kato:twwit}, \textup{(TW)} holds, so \textup{(SW)} holds by \cref{pf:kato:sphofwit}. Its hypotheses are satisfied: $W$ is
+continuous; $W$ is irreducible, since it is irreducible on $H_0(W)$ (\lref{GlobalTheory.Ord2.IrrTransfer.isIrr_of_range}: a
+representation whose image contains the image of an irreducible representation is irreducible); $\det W$ kills some $\mu_M$
+(\cref{pf:kato:keropen}); and $\sfname{WitAQ}(\iota,W)$ holds. So $\mathrm{Sph}(\iota,e,W)$ holds.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:kato:main}]
+Apply \cref{pf:kato:main2}, with $\sfname{Row0b}$ taken from the statement on Galois representations contained in
+$\sfname{HypothesesH'}$ (\lref{UpperTheory.Gal.SV.rowOf'}: that statement is $\sfname{Row0b}$ for the local parameter maps of
+\cref{sec:galois}) and with \textup{(QBC)} given by \lref{UpperTheory.ConvolutionTheory.R2.quadBC2}, a theorem proved
+elsewhere in the development by a theta lifting argument (it shows: for $F$ totally real, $E/F$ totally complex quadratic and
+$\pi$ regular algebraic cuspidal on $\GL_2(\A_F)$, either $\pi\cong\pi\otimes\eta_{E/F}$ or $\pi$ has a cuspidal base change to $E$).
+\end{proof}
+
+\begin{remark}[On the formal statement]\label{pf:kato:rem:final}
+(1) As noted in \cref{pf:kato:rem:unused}, many conditions of $\sfname{Used}$ are not used; the proof shows the vanishing for every
+admitted $W$ for which $\sfname{WitAQ}(\iota,W)$ holds and the twists of $W$ have the stated automorphic properties. (2) The
+conclusion concerns Selmer groups with $\katoQlb$-coefficients and the crystalline condition of \cref{pf:kato:rem:bcris}; it is
+the vanishing of rational Selmer groups, not finiteness or a bound for integral ones (compare \cref{sec:window:kato}). (3) The
+only inputs from the literature are the statements of $\sfname{HypothesesH'}$; Kato's theorem itself is not assumed, and the
+Euler system, the explicit reciprocity law and the Euler-system argument are proved in the development. (4) The Euler-system
+argument of \cref{pf:kato:sec:heights} uses one auxiliary prime at a time and is not a transcription of a published proof.
+\end{remark}

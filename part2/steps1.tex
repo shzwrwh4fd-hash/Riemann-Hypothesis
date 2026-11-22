@@ -1,0 +1,2454 @@
+\section{Geometric steps I: Hodge--Tate, \'etale and crystalline steps}\label{sec:pf:steps1}
+
+% ---------------------------------------------------------------------------
+% local macros (prefix stepsI)
+\providecommand{\stepsIBcris}{B_{\mathrm{cris}}}
+\providecommand{\stepsIBdR}{B_{\mathrm{dR}}}
+\providecommand{\stepsIBst}{B_{\mathrm{st}}}
+\providecommand{\stepsIAcris}{A_{\mathrm{cris}}}
+\providecommand{\stepsIDcris}{D_{\mathrm{cris}}}
+\providecommand{\stepsIDst}{D_{\mathrm{st}}}
+\providecommand{\stepsIDdR}{D_{\mathrm{dR}}}
+\providecommand{\stepsIH}{\mathrm{H}}
+\providecommand{\stepsIHQ}{\mathrm{H}_{\mathbb{Q}}}
+\providecommand{\stepsIHl}{\mathrm{H}_{\ell}}
+\providecommand{\stepsIHtot}{\mathrm{H}_{\mathrm{tot}}}
+\providecommand{\stepsIHdg}{\mathrm{Hdg}}
+\providecommand{\stepsIPiece}{\mathrm{Piece}}
+\providecommand{\stepsIhop}{\mathrm{hop}}
+\providecommand{\stepsICl}{\mathbb{C}_\ell}
+\providecommand{\stepsIHk}{P^{\mathrm{Hk}}}
+\providecommand{\stepsIrt}{P^{\mathrm{rt}}}
+\providecommand{\stepsINw}{\mathrm{N}w}
+\providecommand{\stepsIOw}{\mathcal{O}_{(w)}}
+\providecommand{\stepsISpc}{\mathsf{Spc}}
+\providecommand{\stepsISch}{\mathsf{Sch}}
+\providecommand{\stepsISh}{\mathsf{Sh}}
+\providecommand{\stepsIBGL}{\mathrm{BGL}}
+\providecommand{\stepsIPGL}{\mathrm{P}}
+\providecommand{\stepsItw}{\mathbb{Z}/q(i)}
+\providecommand{\stepsIsch}{\mathrm{sch}}
+\providecommand{\stepsIsp}{\mathrm{sp}}
+\providecommand{\stepsIchar}{\chi_{\mathrm{cyc}}}
+% ---------------------------------------------------------------------------
+
+This section proves eight results of the formal development \cite{LeanSource2026}. Three of them
+are \emph{step lemmas} about $\ell$-adic Galois representations cut out by Hecke eigensystems from
+the \'etale cohomology of smooth projective varieties over number fields; together with the other
+step lemmas they are assembled in \lref{UpperTheory.Gal.Int.Geo.steps_holds} (which states that all
+step lemmas hold) into the geometric realization theorem (\cref{thm:geoone}). They are:
+\begin{itemize}[nosep]
+\item $\sfname{CrysStep}$ (\cref{pf:steps1:crys}): at a place $w\mid\ell$ where the tower has a
+  smooth projective integral model, the representation is crystalline;
+\item $\sfname{JumpStep}$ (\cref{pf:steps1:jump}): at such a place, every degree $b$ in which the
+  Hecke eigensystem occurs in Hodge cohomology $\stepsIH^c(Z,\Omega^b)$ is a jump of the Hodge
+  filtration (a Hodge--Tate weight) of the representation;
+\item $\sfname{PhiStep}$ (\cref{pf:steps1:phi}): if moreover the model carries correspondences
+  satisfying a pointwise congruence relation, the eigenvalues of a geometric Frobenius on the
+  Weil--Deligne representation are roots of the Hecke polynomial.
+\end{itemize}
+The other five results are foundational inputs that the development proves rather than assumes:
+the proper base change theorem (\cref{pf:steps1:E2}), the projective bundle formula for vector
+bundles over simplicial presheaves (\cref{pf:steps1:D1}), the finiteness of \'etale cohomology of
+proper varieties, derived from the other properties of \'etale cohomology used by the development
+(\cref{pf:steps1:E4}), the vanishing of $\stepsIH^1$ of the generic fibre of a strictly henselian
+local ring of the relative affine line over an absolutely integrally closed base
+(\cref{pf:steps1:genfib}), and the existence of the comparison pairings used in the formal proof of
+the crystalline comparison theorem (\cref{pf:steps1:pseam}).
+
+Several of these results are classical theorems: proper base change \cite{ArtinGrothendieckVerdier1972},
+the projective bundle formula \cite{Grothendieck1958,Grothendieck1977}, finiteness
+\cite{ArtinGrothendieckVerdier1972,Deligne1977}, the crystalline and Hodge--Tate comparison theorems
+\cite{Faltings1988,Faltings1989,FontaineMessing1987,Tsuji1999,BhattMorrowScholze2018}. For these we
+state precisely the form in which the development proves them, deduce that form from the literature,
+and indicate the route of the formal proof in remarks. What is specific to the development is
+converted: the deduction of the three step lemmas from the comparison theorems (in particular the
+Hodge--Tate spectral step \cref{pf:steps1:loce}, which transports Hecke eigenclasses in Hodge
+cohomology to Hodge--Tate eigenvectors of the Galois representation), the reduction of the generic
+fibre statement to Kummer theory and to the local acyclicity of the relative affine line, the origin
+case of the triviality of torsors (\cref{pf:steps1:origin}), the algebraic proof that top powers of
+hyperplane classes do not vanish (\cref{pf:steps1:powK}), the injectivity and bijectivity of the
+Hodge--Tate pairing of the development (\cref{pf:steps1:htinj,pf:steps1:htbij}), the crystalline
+congruence relation (\cref{pf:steps1:finall,pf:steps1:top,pf:steps1:wzero}), and the precise shape of
+the intermediate statements. Long technical lemmas internal to the development are cited by their
+formal labels and deferred.
+
+\emph{Organisation.} \Cref{sec:pf:steps1:conv} fixes conventions: \'etale cohomology as defined in
+the development, Hecke towers and their integral models, and the local conditions at places above
+$\ell$. \Cref{sec:pf:steps1:etale} treats the \'etale results, \cref{sec:pf:steps1:cris} the
+crystalline comparison inputs and $\sfname{CrysStep}$, \cref{sec:pf:steps1:jump} $\sfname{JumpStep}$, including
+the Hodge--Tate comparison of the development (\cref{sec:pf:steps1:htdev}), and \cref{sec:pf:steps1:phi}
+$\sfname{PhiStep}$ with the crystalline congruence relation.
+
+% ===========================================================================
+\subsection{Conventions}\label{sec:pf:steps1:conv}
+
+\subsubsection{\'Etale cohomology in the development}\label{sec:pf:steps1:conv:et}
+
+\begin{definition}[Spaces and cohomology]\label{pf:steps1:def:coh}
+Let $\stepsISch$ be the category of schemes (in a fixed universe) with the big \'etale topology, and
+let $\stepsISpc$ be the category of simplicial presheaves of sets on $\stepsISch$, called
+\emph{spaces}. A scheme $X$ defines the constant simplicial presheaf $\stepsIsch(X)$ on the
+representable presheaf $h_X$, and a ring $A$ defines $\stepsIsp(A)=\stepsIsch(\Spec A)$. For a
+commutative ring $R$ let $\stepsISh_R$ be the category of \'etale sheaves of $R$-modules on
+$\stepsISch$. For a space $E$ let $C_R(E)$ be the chain complex of the simplicial sheaf $R[E]$ of
+free $R$-modules on $E$, and for $F\in\stepsISh_R$ fix an injective resolution $I(F)$. Then
+\[
+ \stepsIH^n(E,F)=\Hom_{K(\stepsISh_R)}\bigl(C_R(E),\,I(F)[n]\bigr)\qquad(n\in\Z)
+\]
+is the group of homotopy classes of degree-$n$ cochain maps; it is contravariant in $E$ (pull-back
+$f^*$) and covariant in $F$. A map $f\colon E\to E'$ is an \emph{$F$-equivalence} if
+$f^*\colon\stepsIH^n(E',F)\to\stepsIH^n(E,F)$ is bijective for all $n$.
+\formal{GlobalTheory.EtC.Spc} \formal{GlobalTheory.EtC.H} \formal{GlobalTheory.EtC.Eqv}
+\end{definition}
+
+\begin{definition}[Tate twists]\label{pf:steps1:def:tw}
+Let $q\ge1$ and $i\in\Z$. For a ring $A$ let $\mathrm{Prim}_q(A)$ be the set of roots of the
+cyclotomic polynomial $\Phi_q$ in $A$ if $q\in A^\times$, and $\emptyset$ otherwise. The sheaf
+$\stepsItw$ is the \'etale sheafification of the presheaf
+$U\mapsto(\Z/q)[\mathrm{Prim}_q(\Gamma(U,\OO_U))]/\langle[\zeta^a]-a^i[\zeta]:a\in(\Z/q)^\times\rangle$,
+and $\stepsIH^n(E,\stepsItw)$ denotes the cohomology with coefficients in it, as a sheaf of
+$\Z/q$-modules. A space $E$ is \emph{$q$-invertible} if $q\in\Gamma(U,\OO_U)^\times$ for every scheme
+$U$ with $E_0(U)\ne\emptyset$. The development defines cup products
+$\stepsIH^n(E,\Z/q(i))\times\stepsIH^m(E,\Z/q(j))\to\stepsIH^{n+m}(E,\Z/q(i+j))$, a unit class, and, for
+a line bundle $L\colon E\to\stepsIBGL_1$ (\cref{pf:steps1:def:bgl}), a first Chern class
+$c_1(L)\in\stepsIH^2(E,\Z/q(1))$, chosen by Hilbert's $\varepsilon$ among the classes represented by
+cocycles whose components in simplicial degrees $0,1,2$ are given by Kummer classes of $q$-th roots of
+the transition functions of $L$; $c_1(L)^k$ denotes the $k$-th cup power.
+\formal{GlobalTheory.EtC.tw} \formal{GlobalTheory.EtC.Ht} \formal{GlobalTheory.EtC.Inv}
+\formal{GlobalTheory.EtC.cup} \formal{GlobalTheory.EtC.c1}
+\end{definition}
+
+\begin{lemma}[Comparison with classical \'etale cohomology]\label{pf:steps1:compare}
+Let $X$ be a scheme and $F\in\stepsISh_{\Z/q}$. Then $\stepsIH^n(\stepsIsch(X),F)$ is canonically
+isomorphic to the \'etale cohomology $\stepsIH^n(X_{\mathrm{et}},F|_{X_{\mathrm{et}}})$ of the
+restriction of $F$ to the small \'etale site of $X$, compatibly with pull-backs. If
+$q\in\Gamma(X,\OO_X)^\times$, then $\stepsItw|_{X_{\mathrm{et}}}\cong\mu_q^{\otimes i}$.
+\end{lemma}
+
+\begin{proof}
+The complex $C(\stepsIsch(X))$ is the chain complex of a constant simplicial sheaf, hence
+quasi-isomorphic to $(\Z/q)[h_X]$ placed in degree $0$; so $\stepsIH^n(\stepsIsch(X),F)
+=\mathrm{Ext}^n((\Z/q)[h_X],F)$, which is the cohomology of the localized site
+$(\stepsISch/X)_{\mathrm{et}}$. Restriction from the big to the small \'etale site of $X$ preserves
+injectives and induces isomorphisms on cohomology \cite[Tag~0757, Lemma~0758]{Stacks2024}. For the
+second statement: \'etale locally on $X$ there is a primitive $q$-th root of unity $\zeta$; then on each
+connected component $\mathrm{Prim}_q=\{\zeta^a:a\in(\Z/q)^\times\}$, the quotient is free of rank one on
+$[\zeta]$ with $[\zeta^a]=a^i[\zeta]$, and $[\zeta]\mapsto\zeta^{\otimes i}$ (for $i<0$: the dual basis
+vector) defines an isomorphism with $\mu_q^{\otimes i}$ independent of $\zeta$; these isomorphisms glue.
+\end{proof}
+
+By \cref{pf:steps1:compare}, statements about $\stepsIH^n(\stepsIsch(X),\Z/q(i))$ with $q$
+invertible on $X$ are statements about the usual groups $\stepsIH^n(X_{\mathrm{et}},\mu_q^{\otimes i})$,
+and this is how the classical theorems below are applied. We write $\stepsIH^n(X,\Z/q(i))$ for
+$\stepsIH^n(\stepsIsch(X),\Z/q(i))$.
+
+\begin{definition}[$\ell$-adic cohomology]\label{pf:steps1:def:ladic}
+For a prime $\ell$ and a space $E$, $\stepsIHl^n(E)(i)$ is the $\Zl$-module of compatible families
+$(x_a)_{a\ge1}$, $x_a\in\stepsIH^n(E,\Z/\ell^a(i))$, under the reduction maps (the naive inverse
+limit), and $\stepsIHQ^n(E)(i)=\stepsIHl^n(E)(i)\otimes_{\Zl}\Ql$. For a $k$-scheme $Z$ and a field
+extension $\Omega/k$, $\stepsIHtot(Z_\Omega)=\bigoplus_n\stepsIHQ^n(Z_\Omega)(0)$, with the action of
+$\Aut_k(\Omega)$ by pull-back along the induced automorphisms of $Z_\Omega$.
+\formal{GlobalTheory.EtC.Hl} \formal{GlobalTheory.EtC.HQ}
+\end{definition}
+
+\begin{definition}[Models]\label{pf:steps1:def:model}
+Let $K\subset\Qlbar$ be a finite extension of $\Ql$ with ring of integers $\OO_K$. A \emph{model} $M$
+is a scheme $M.X$ with a morphism $M.X\to\Spec\OO_K$; $M_K$ is its generic fibre,
+$V_n(M)=\stepsIHQ^n((M_K)_{\Qlbar})(0)$ with its action of $G_K=\Gal(\Qlbar/K)$, and
+$T_n(M)=\stepsIHl^n((M_K)_{\Qlbar})(0)$. The model is \emph{good} if it is projective over $\OO_K$ and
+strictly semistable with respect to some uniformizer, and \emph{smooth good} if it is good and smooth
+over $\OO_K$. It is \emph{connected of dimension $d$} if $M_K$ is connected and smooth of relative
+dimension $d$. For a basis $b$ of $V_n(M)$, $\mathrm{mat}_n(b)\colon G_K\to\GL_a(\Ql)$ is the matrix of
+the Galois action. \formal{CrystallineSemistableComparison.Model}
+\formal{CrystallineSemistableComparison.Model.mat}
+\end{definition}
+
+\subsubsection{Hecke towers and their integral models}\label{sec:pf:steps1:conv:towers}
+
+\begin{definition}[Hecke towers, pieces]\label{pf:steps1:def:tower}
+A \emph{Hecke tower} $H$ over a field $k$ consists of an index set $\Gamma$, a $k$-scheme
+$q\colon Z\to\Spec k$, and for each $g\in\Gamma$ a scheme $Y_g$ with $s_g,t_g\colon Y_g\to Z$ and
+$q s_g=qt_g$. It is \emph{nice} if $q$ is smooth and projective and every $s_g$ is finite \'etale with a
+constant number of lifts of geometric points. For a field embedding $\tau\colon k\to K$,
+$\mathrm{bc}_\tau H$ is the base change. For an extension $\Omega/k$, the Hecke operator
+$\stepsIhop(g)$ on $\stepsIHtot(Z_\Omega)$ is \emph{some} linear map which is an \emph{operator of the
+correspondence} $(s_g,t_g)_\Omega$, i.e.\ for which there are a finite \'etale Galois cover $c\colon W\to
+Z_\Omega$ and sections $\sigma_1,\dots,\sigma_J\colon W\to Y_{g,\Omega}$ splitting $s_g$ over $c$ with
+$c^*\stepsIhop(g)(x)=\sum_j(t_g\sigma_j)^*x$; it is chosen by Hilbert's $\varepsilon$, and is $0$ if there
+is none. For a field $L\supseteq\Ql$ and $\theta\colon\Gamma\to L$, the \emph{$\theta$-piece} is the joint
+eigenspace
+\[
+ \stepsIPiece_\theta(H,\Omega,L)=\bigcap_{g\in\Gamma}\ker\bigl(\stepsIhop(g)_L-\theta(g)\bigr)
+ \subseteq L\otimes_{\Ql}\stepsIHtot(Z_\Omega).
+\]
+A homomorphism $\rho_0\colon\Aut_k(\Omega)\to\GL_d(L)$ is a \emph{matrix of the $\theta$-piece} if some
+basis $b_1,\dots,b_d$ of the piece satisfies $\sigma^*b_j=\sum_i\rho_0(\sigma)_{ij}b_i$ (the action being
+$L$-linear). For $\rho_0,\rho\colon\Gamma'\to\GL_d(L)$, $\rho$ is \emph{graded of} $\rho_0$ if for some
+$c\colon\{1,\dots,d\}\to\N$ every $\rho_0(g)$ is block upper triangular for $c$ (entries $(i,j)$ with
+$c(j)<c(i)$ vanish) and $\rho(g)_{ij}=\rho_0(g)_{ij}$ if $c(i)=c(j)$, $=0$ otherwise. For a number field
+$E$ with algebraic closure $\Omega$, $G_E=\Aut_E(\Omega)$, and $\rho\colon G_E\to\GL_d(\Qlbar)$, $\rho$ is
+\emph{attached to the $\theta$-piece} if it is graded of a matrix of the $\theta$-piece.
+\formal{GlobalTheory.GalV.HTower} \formal{UpperTheory.Gal.Int.Geo.Nice}
+\formal{UpperTheory.Gal.Int.Geo.bcAlong} \formal{GlobalTheory.GalV.hop} \formal{GlobalTheory.GalV.IsCorrOp}
+\formal{UpperTheory.Gal.Int.Geo.piece} \formal{UpperTheory.Gal.Int.Geo.IsMat}
+\formal{UpperTheory.Gal.Int.Geo.IsGr} \formal{UpperTheory.Gal.Int.Geo.IsPiece}
+\end{definition}
+
+\begin{definition}[Hodge eigenclasses]\label{pf:steps1:def:hodge}
+For $q\colon Z\to\Spec k$ let $\stepsIH^b(Z,\Omega^a)$ be the sheaf cohomology of the sheaf of relative
+$a$-forms, with pull-backs and, along finite \'etale maps, traces. For a tower $H$ over $k$ and
+$\theta\colon\Gamma\to k$, a class $x\in\stepsIH^b(Z,\Omega^a)$ is a \emph{$\theta$-eigenclass} if every
+$s_g$ is finite \'etale and $\mathrm{tr}_{s_g}(t_g^*x)=\theta(g)x$ for all $g$; $\theta$ \emph{occurs in Hodge
+degree $a$} for $H$ if some $\stepsIH^b(Z,\Omega^a)$ contains a nonzero $\theta$-eigenclass.
+\formal{GlobalTheory.HodgeCoh.hodgeH} \formal{UpperTheory.Gal.Int.Geo.IsHEig}
+\formal{UpperTheory.Gal.Int.Geo.HOcc} \formal{UpperTheory.Gal.Int.Geo.HodgeAt}
+\end{definition}
+
+\begin{definition}[Covers]\label{pf:steps1:def:cover}
+Let $H$ be a tower over $k$, $\theta\colon\Gamma\to L$ and $O\to k$ a ring map. A \emph{cover} $C$ of
+$(H,\theta)$ over $O$ consists of a smooth projective $O$-scheme $u\colon Y\to\Spec O$ of some relative
+dimension, a morphism $\pi\colon Z\to Y$ over $\Spec k\to\Spec O$ such that the induced
+$\pi_k\colon Z\to Y_k$ is finite \'etale, and a finite group $\Delta$ acting on $Z$ by automorphisms
+$a_\delta$ over $Y_k$ such that $\coprod_{\delta}Z\to Z\times_{Y_k}Z$ is an isomorphism and each $a_\delta$ is
+$t_g$ for some $g$ with $s_g$ an isomorphism and $\theta(g)=1$. $C$ is \emph{onto} if $\pi_k$ is
+surjective. For $s,t\colon T\to Y$ and $m\in\N$, $g$ \emph{lies under $(s,t)$ with multiplicity $m$} if
+$m>0$ and there is $\kappa\colon Y_g\to T$ with $s\kappa=\pi s_g$, $t\kappa=\pi t_g$ and
+$Y_g\to Z\times_YT$ finite \'etale of degree $m$. $C$ is \emph{good} if every $g$ lies under some finite
+\'etale correspondence $(s,t)$ of constant degree on $Y$ over $O$. For a finite place $w$ of a number field
+$E$, $\stepsIOw$ is the localization of $\OO_E$ at $w$ (not its completion) and $\stepsINw=\#\OO_E/w$.
+\formal{UpperTheory.Gal.Int.Geo.Cover} \formal{UpperTheory.Gal.Int.Geo.Cover.Onto}
+\formal{UpperTheory.Gal.Int.Geo.Cover.Lies} \formal{UpperTheory.Gal.Int.Geo.Cover.Good}
+\formal{UpperTheory.Gal.Int.Geo.GoodAt}
+\end{definition}
+
+\begin{definition}[Congruence data]\label{pf:steps1:def:cong}
+For a prime $p$ and a scheme $Y$, a \emph{$p$-correspondence} $T$ on $Y$ is a pair
+$\alpha,\beta\colon T_Z\to Y$ with $\alpha$ finite, \'etale over $Y[1/p]$, and with exactly $d_T$ lifts of
+every geometric point of $Y[1/p]$. For $\varpi\in\Gamma(Y,\OO_Y)$ and $p$-correspondences
+$T_0,\dots,T_n$, the \emph{pointwise congruence relation for $(q,n,\varpi)$} holds if for every valuation
+ring $V$ with algebraically closed fraction field and $p\ne0$ in $V$, every $y\colon\Spec V\to Y$ whose
+closed point maps to a generic point of $\{\varpi=0\}$, every endomorphism $\phi$ of the residue field
+$\kappa_V$ with $\phi(a)=a^q$, and all enumerations $(z_{j,i})_i$ of the lifts of $y$ along $\alpha_{T_j}$,
+the identity of multisets of $\kappa_V$-points of $Y$
+\[
+ \sum_{j\ \mathrm{even}}q^{\binom j2}\bigl\{\phi^{n-j}(\bar v_{j,i})\bigr\}_i
+ =\sum_{j\ \mathrm{odd}}q^{\binom j2}\bigl\{\phi^{n-j}(\bar v_{j,i})\bigr\}_i
+\]
+holds, where $\bar v_{j,i}$ is the reduction of $\beta_{T_j}\circ z_{j,i}$; this is the congruence relation
+\[
+ \textstyle\sum_j(-1)^jq^{\binom j2}\,\Fr^{n-j}\circ T_j=0
+\]
+read pointwise at generic points of the special fibre. A
+cover $C$ over $O$ has a \emph{congruence datum} $(p,f,n,\vartheta)$ if there are an irreducible
+$\varpi\in O$, $p$-correspondences $T_0,\dots,T_n$ on $Y$ over $O$ satisfying the pointwise congruence
+relation for $(p^f,n,u^*\varpi)$, indices $\gamma_j\in\Gamma$ and integers $m_j$ such that $\gamma_j$ lies
+under $(\alpha_{T_j},\beta_{T_j})$ with multiplicity $m_j$ and $\theta(\gamma_j)=m_j\vartheta_j$. We say that
+$(H,\theta)$ has a \emph{congruence datum at $w$ with parameters $(n,\vartheta)$} if some onto cover over
+$\stepsIOw$ has a congruence datum $(p,f,n,\vartheta)$ with $p\in w$ prime and $\stepsINw=p^f$.
+\formal{UpperTheory.Gal.crystallineComparison.Corr} \formal{UpperTheory.Gal.crystallineComparison.PtId}
+\formal{UpperTheory.Gal.Int.Geo.Cover.Cong} \formal{UpperTheory.Gal.Int.Geo.CongAt}
+\end{definition}
+
+\begin{definition}[Hecke polynomials]\label{pf:steps1:def:heckepol}
+For $q,n\in\N$, $\vartheta\colon\N\to R$ and a multiset $S$,
+$\stepsIHk_{q,n,\vartheta}(X)=\sum_{j=0}^n(-1)^jq^{\binom j2}\vartheta_jX^{n-j}$ and
+$\stepsIrt_S(X)=\prod_{s\in S}(X-s)$. For $\iota\colon\Qlbar\xrightarrow\sim\C$, a place $w$ and a multiset
+$R\subset\C$, \emph{$R$ is the root multiset of the Hecke polynomial of $\vartheta$ at $w$} if
+$\vartheta_0\ne0$ and $\iota(\stepsIHk_{\stepsINw,n,\vartheta})=\iota(\vartheta_0)\stepsIrt_R$.
+\formal{UpperTheory.Gal.crystallineComparison.heckePol} \formal{UpperTheory.Gal.crystallineComparison.rootPol}
+\formal{UpperTheory.Gal.Int.Geo.HasRoots}
+\end{definition}
+
+\subsubsection{Local conditions above $\ell$}\label{sec:pf:steps1:conv:loc}
+
+\begin{definition}[Period packages and bridges]\label{pf:steps1:def:package}
+A \emph{period package} $P$ for $\ell$ consists of rings $P.B$ and $P.B_{\mathrm{dR}}$ with actions of
+$G_{\Ql}$, a Frobenius $\varphi$ on $P.B$, an embedding $P.B\to P.B_{\mathrm{dR}}$, a filtration on
+$P.B_{\mathrm{dR}}$ and Fontaine's period data; it is \emph{tied} if there are ring isomorphisms
+$P.B\cong\stepsIBcris$ and $P.B_{\mathrm{dR}}\cong\stepsIBdR$ with the period rings constructed in the
+development, compatible with the structure maps from $\Zl$. For a number field $E$ with algebraic
+closure $\Omega$, a subgroup $G_w\subseteq G_E$ and a topological ring $O$, a \emph{bridge} $B_w$ consists of
+a finite extension $K_w\subset\Qlbar$ of $\Ql$, an embedding $j\colon\Omega\to\Qlbar$ with $j(E)\subset K_w$
+dense, a topological isomorphism $e\colon G_w\cong G_{K_w}$ compatible with $j$, and a finite extension
+$LL\supseteq K_w$ containing all conjugates of $K_w$. If $G_w$ is the decomposition group $D_A$ of a
+valuation ring $A\subset\Omega$ over $w$, $B_w$ \emph{induces} $A$ if $A=\{x:|j(x)|\le1\}$; then $w\mid\ell$.
+We write $\tau_w\colon E\to K_w$ for the embedding induced by $j$.
+\formal{Formalism.BasicNotions.LocPrime} \formal{Formalism.BasicNotions.LocTied}
+\formal{Formalism.BasicNotions.LocBridge} \formal{GlobalTheory.Pst.Induces}
+\end{definition}
+
+\begin{definition}[Crystalline representations, jumps, Weil--Deligne]\label{pf:steps1:def:crys}
+Let $r\colon G_w\to\GL_a(\Qlbar)$. Then $r$ is \emph{crystalline for $(P,B_w)$} if $r$ is the extension of
+scalars of a representation $r'$ with values in $\GL_a(LL')$ for a finite extension $LL'\supseteq LL$ (a
+\emph{model} of $r$), and the $LL'$-linear representation $V$ of $G_{K_w}$ defined by $r'\circ e^{-1}$
+satisfies $\dim_{LL'}\stepsIDcris(V)=[K_{w,0}:\Ql]\dim_{LL'}V$, where $\stepsIDcris(V)=(V\otimes_{\Ql}P.B)^{G_{K_w}}$
+and $K_{w,0}$ is the maximal unramified subextension. For $\tau\colon E\to\Qlbar$, a multiset $J\subset\Z$ is
+a \emph{jump multiset of $r$ at $\tau$} if for some model $V$ is de Rham and, for an embedding
+$\tau'\colon K_w\to LL'$ inducing $\tau$, $J$ is the multiset of jumps of the Hodge filtration on the
+$\tau'$-part of $\stepsIDdR(V)$. Finally $\mathrm{WD}(r)$ is the Frobenius-semisimplified Weil--Deligne
+representation over $\C$ (via $\iota$) of the Weil group $W_A\subseteq D_A$ attached to $r$ by Fontaine's
+construction if $r$ is potentially semistable, and the trivial one otherwise; $\deg\colon W_A\to\Z$ is the
+degree (elements of degree $-1$ are geometric Frobenius elements).
+\formal{GlobalTheory.Pst.IsCrysAt} \formal{GlobalTheory.Pst.IsJumpsAt} \formal{GlobalTheory.Pst.wdAt}
+\end{definition}
+
+\begin{definition}[Conditions at $w$]\label{pf:steps1:def:conds}
+Let $\rho\colon G_E\to\GL_d(\Qlbar)$ and $w$ a finite place. Write ``$\forall^{\mathrm t}$'' for ``for every
+tied period package $P$, every valuation ring $A\subset\Omega$ over $w$ and every bridge $B_w$ for $D_A$
+inducing $A$''. Then: $\rho$ is \emph{crystalline at $w$} if $\forall^{\mathrm t}$, $\rho|_{D_A}$ is crystalline for
+$(P,B_w)$; $\rho$ satisfies the \emph{Frobenius condition with roots $R$ at $w$} (for a multiset $R\subset\C$)
+if $\forall^{\mathrm t}$, $\rho|_{D_A}$ is crystalline for $(P,B_w)$ and there are $g\in W_A$ with $\deg g=-1$ and
+$m\in\N$ such that the characteristic polynomial of $g$ on $\mathrm{WD}(\rho|_{D_A})$ divides $(\stepsIrt_R)^m$;
+and, for a predicate $Q$ on $\Hom(E,\C)\times\Z$, $\rho$ satisfies the \emph{jump condition at $w$ for $Q$} if
+$\forall^{\mathrm t}$, for all $\tau\colon E\to\Qlbar$, finite $LL'$ and $\tau'\colon K_w\to LL'$ inducing $\tau$, there is
+a jump multiset $J$ of $\rho|_{D_A}$ at $\tau$ with $j\in J$ whenever $Q(\iota\tau,j)$.
+\formal{UpperTheory.Gal.Int.Div.CrysAt} \formal{UpperTheory.Gal.Int.Geo.PhiK} \formal{UpperTheory.Gal.Int.Geo.JOcc}
+\end{definition}
+
+\begin{definition}[The three step propositions]\label{pf:steps1:def:steps}
+Let $E$ be a number field with algebraic closure $\Omega$, $\ell$ a prime, $\iota\colon\Qlbar\cong\C$, $H$ a nice
+tower over $E$, $\theta\colon\Gamma\to\Qlbar$, $\rho\colon G_E\to\GL_d(\Qlbar)$ continuous and attached to the
+$\theta$-piece, and $w\mid\ell$ a finite place. The propositions assert, for all such data:
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item $\sfname{CrysStep}$: if $(H,\theta)$ has an onto cover over $\stepsIOw$, then $\rho$ is crystalline at $w$;
+\item $\sfname{JumpStep}$: if $(H,\theta)$ has an onto good cover over $\stepsIOw$, then $\rho$ satisfies the jump
+  condition at $w$ for the predicate ``$j=b\ge0$ and $\iota\theta$ occurs in Hodge degree $b$ for
+  $\mathrm{bc}_{\iota\tau}H$'';
+\item $\sfname{PhiStep}$: if $(H,\theta)$ has a congruence datum at $w$ with parameters $(n,\vartheta)$ and $R$ is the
+  root multiset of the Hecke polynomial of $\vartheta$ at $w$, then $\rho$ satisfies the Frobenius condition with
+  roots $R$ at $w$.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.CrysStep} \formal{UpperTheory.Gal.Int.Geo.JumpStep}
+\formal{UpperTheory.Gal.Int.Geo.PhiStep}
+\end{definition}
+
+% ===========================================================================
+\subsection{\'Etale foundations}\label{sec:pf:steps1:etale}
+
+\begin{definition}[The propositions A1--E4]\label{pf:steps1:def:axioms}
+The development organises the properties of \'etale cohomology it uses as the following list of
+propositions about the groups of \cref{pf:steps1:def:coh}. Throughout, $q\ge1$, $i\in\Z$, and $F$ denotes an
+arbitrary sheaf of modules.
+\begin{description}[nosep,leftmargin=2.6em,style=sameline]
+\item[A1] Quasi-isomorphisms of complexes of sheaves induce bijections on $\Hom_{K}(-,I(F)[n])$.
+\item[A2] For $f\colon Y\to X$ smooth and surjective, the augmented \v{C}ech nerve
+  $\check C(f)\to\stepsIsch(X)$ is an $F$-equivalence.
+\item[A3] A map of spaces which is an $F$-equivalence in each simplicial degree is an $F$-equivalence.
+\item[A4] (Mayer--Vietoris) If $p\colon E\to E'$ maps a cover of $E$ by two subobjects (whose free sheaves
+  are jointly surjective in each degree) to such a cover of $E'$, and restricts to $F$-equivalences on the
+  pieces and on their intersection, then $p$ is an $F$-equivalence.
+\item[A5] Every class in $\stepsIH^n(\stepsIsch(X),F)$, $n>0$, vanishes on some \'etale surjective $Y\to X$.
+\item[A7] Short exact sequences of sheaves give long exact cohomology sequences.
+\item[A8] Restriction of scalars along a ring map induces bijections on cohomology.
+\item[A9] $\stepsIH^n(E,F)=0$ for $n<0$, and $\stepsIH^0(\stepsIsch(X),F)=F(X)$ naturally.
+\item[A10] A map of sheaves bijective on sections over all $U$ with $E_0(U)\neq\emptyset$ induces
+  bijections on $\stepsIH^n(E,-)$.
+\item[A11] The reduction maps $\Z/Q(i)\to\Z/q(i)$, $q\mid Q$, are transitive and compatible with cup
+  products, units and $c_1$.
+\item[B1] For a filtered colimit $A=\varinjlim A_j$ of rings with $q\in A^\times$,
+  $\stepsIH^n(\stepsIsp A,\stepsItw)=\varinjlim_j\stepsIH^n(\stepsIsp A_j,\stepsItw)$.
+\item[B2] If $A$ is strictly henselian local, $\stepsIH^n(\stepsIsp A,F)=0$ for $n>0$.
+\item[B3] If $f\colon Y\to X$ is a quasi-compact quasi-separated morphism over a quasi-compact
+  quasi-separated $X\to S$ with $q$ invertible on $S$, and the base change of $f$ to $\Spec A$ is a
+  $\stepsItw$-equivalence for every strictly henselian local ring $A$ over $S$, then $f$ is a
+  $\stepsItw$-equivalence.
+\item[B4] If $f\colon Y\to X$ is integral and surjective and $q$ is invertible on $X$, the augmented \v{C}ech
+  nerve of $f$ is a $\stepsItw$-equivalence.
+\item[B5] If $A$ is an absolutely integrally closed domain (every monic polynomial of positive degree has a
+  root) with $q\in A^\times$, then $\stepsIH^n(\stepsIsp A,\stepsItw)=0$ for $n>0$.
+\item[B7] For a field $K$ with $q\in K^\times$, $\stepsIH^n(\stepsIsp K,\stepsItw)$ is isomorphic to the continuous
+  Galois cohomology of $\mu_q^{\otimes i}$.
+\item[C1] If $k$ is algebraically closed and $K/k(t)$ algebraic with $q\in K^\times$, then
+  $\stepsIH^n(\stepsIsp K,\stepsItw)=0$ for $n\ge2$.
+\item[C2] If $B$ is a Dedekind domain of finite type over an algebraically closed field $k$ with $q\in k^\times$,
+  then $\stepsIH^n(\stepsIsp B,\stepsItw)=0$ for $n\ge2$.
+\item[C3] If $T$ is an absolutely integrally closed local domain with $q\in T^\times$ and $B$ is an \'etale
+  $T[x]$-algebra, then $\Spec(\mathrm{Frac}(T)\otimes_TB)\to\Spec B$ is a $\stepsItw$-equivalence.
+\item[C4] (Homotopy invariance) $\Spec A[x]\to\Spec A$ is a $\stepsItw$-equivalence if $q\in A^\times$.
+\item[C5] If $A$ is strictly henselian with $q\in A^\times$, then $\stepsIH^n(\stepsIsp A[t,t^{-1}],\stepsItw)=0$
+  for $n\ge2$ and $\stepsIH^1\cong\Z/q$.
+\item[D1] The projective bundle formula (\cref{pf:steps1:D1}).
+\item[D2] Existence of power-sum Chern classes (\cref{pf:steps1:D2}).
+\item[D3] Existence of slant products with group homology classes (\cref{pf:steps1:D2}).
+\item[E1] (Affine analogue of proper base change) For a henselian pair $(A,I)$ with $q\in A^\times$,
+  $\Spec(A/I)\to\Spec A$ is a $\stepsItw$-equivalence.
+\item[E2] Proper base change (\cref{pf:steps1:E2}).
+\item[E3] If $T$ is an absolutely integrally closed local domain with $q\in T^\times$ and $X\to\Spec T$ is
+  smooth, then the generic fibre $X_{\mathrm{Frac}(T)}\to X$ is a $\stepsItw$-equivalence.
+\item[E4] Finiteness (\cref{pf:steps1:E4}).
+\end{description}
+\formal{GlobalTheory.EtC.A1}\,\dots\,\formal{GlobalTheory.EtC.E4}
+\end{definition}
+
+With the exception of D1, D2, D3, E2 and E4, these propositions are proved in other parts of the
+development. E1 is \lref{UpperTheory.Et.affine_proper_base_change}, which states E1 (it is Gabber's
+affine analogue of the proper base change theorem \cite{Gabber1994}), and E3 is
+\lref{UpperTheory.Et.etale_base_change_of_duality}, which states E3; \cref{pf:steps1:genfib} below is a
+key input of the proof of E3.
+
+\subsubsection{Proper base change}
+
+\begin{theorem}[Proper base change; E2]\label{pf:steps1:E2}
+Let $q\ge1$, let $A$ be a strictly henselian local ring with $q\in A^\times$, let $p\colon X\to\Spec A$ be
+proper, and let $i\in\Z$. Then the inclusion of the closed fibre $X_0=X\times_{\Spec A}\Spec(A/\mathfrak m_A)\to X$
+is a $\stepsItw$-equivalence: restriction $\stepsIH^n(X,\Z/q(i))\to\stepsIH^n(X_0,\Z/q(i))$ is bijective for
+every $n\in\Z$. In particular E2 follows from the propositions A1--A5, A7--A10, B1--B5 and E1.
+\formallabel{UpperTheory.Et.proper_base_change}
+\formallabel{UpperTheory.Et.E2.main}
+\end{theorem}
+
+\begin{proof}
+For $n<0$ both groups vanish (A9). For $n\ge0$, by \cref{pf:steps1:compare} the map is the restriction map
+$\stepsIH^n(X_{\mathrm{et}},\mu_q^{\otimes i})\to\stepsIH^n(X_{0,\mathrm{et}},\mu_q^{\otimes i})$ of classical \'etale
+cohomology, which is bijective by the proper base change theorem in the form
+\cite[Exp.~XII, Cor.~5.5(iii)]{ArtinGrothendieckVerdier1972}: for $S$ the spectrum of a henselian local ring,
+$f\colon X\to S$ proper and $F$ a torsion abelian sheaf, $\stepsIH^n(X,F)\to\stepsIH^n(X_0,F|_{X_0})$ is bijective for
+all $n$. Apply it to the torsion sheaf $\mu_q^{\otimes i}$. Since the conclusion holds unconditionally, the implication
+in the last sentence holds as well.
+\end{proof}
+
+\begin{remark}[The formal proof of E2]\label{pf:steps1:E2rem}
+The development does not quote the classical theorem. Its proof of the implication in \cref{pf:steps1:E2} derives E2
+from A1--A5, A7--A10, B1--B5 and E1: it reduces to projective morphisms by Chow's lemma, proves the statement for
+towers built from finite morphisms and relative affine lines, using the cohomology of the punctured affine line over
+a strictly henselian base, and compares with the closed fibre. The hypothesis $q\in A^\times$ is not needed in
+\cite[Exp.~XII]{ArtinGrothendieckVerdier1972}; it is part of the formal statement.
+\end{remark}
+
+\subsubsection{The projective bundle formula}
+
+\begin{definition}[Vector bundles on spaces]\label{pf:steps1:def:bgl}
+For $N\ge0$ let $\stepsIBGL_N$ be the space $U\mapsto$ nerve of the one-object category
+$\GL_N(\Gamma(U,\OO_U))$; a map $V\colon E\to\stepsIBGL_N$ is a \emph{rank-$N$ vector bundle on $E$} (its
+components on $1$-simplices are transition matrices), and $V$ is \emph{trivial} if all transition matrices
+are $1$. Let $\stepsIPGL_N$ be the space $U\mapsto$ nerve of the category whose objects are the unimodular
+vectors $v\in\Gamma(U,\OO_U)^N$ (generating the unit ideal) and whose morphisms $v\to v'$ are the pairs
+$(g,\lambda)\in\GL_N\times\mathbb G_m$ with $gv=\lambda v'$; it carries the maps
+$\mathrm{pr}\colon\stepsIPGL_N\to\stepsIBGL_N$, $(g,\lambda)\mapsto g$, and $\mathrm{line}\colon\stepsIPGL_N\to\stepsIBGL_1$,
+$(g,\lambda)\mapsto\lambda$. For $V\colon E\to\stepsIBGL_N$ the \emph{projective bundle} is
+$\mathbb P(V)=E\times_{\stepsIBGL_N}\stepsIPGL_N$, with projection $\pi_V$ to $E$ and tautological line bundle
+$\OO_V=\mathrm{line}\circ\mathrm{pr}_2$.
+\formal{GlobalTheory.EtC.glCat} \formal{GlobalTheory.EtC.PGL} \formal{GlobalTheory.EtC.PGL.pr}
+\formal{GlobalTheory.EtC.PGL.line}
+\end{definition}
+
+For a space $E$, a vector bundle $V$ and $n,i\in\Z$ consider the map
+\begin{equation}\label{pf:steps1:eq:pbf}
+ \bigoplus_{j=0}^{N-1}\stepsIH^{n-2j}(E,\Z/q(i-j))\longrightarrow\stepsIH^n(\mathbb P(V),\Z/q(i)),\qquad
+ (a_j)_j\longmapsto\sum_{j=0}^{N-1}\pi_V^*(a_j)\cup c_1(\OO_V)^j .
+\end{equation}
+
+\begin{lemma}[Discrete spaces carry only trivial bundles]\label{pf:steps1:disc}
+If $E$ is constant as a simplicial object, every vector bundle $V\colon E\to\stepsIBGL_N$ is trivial.
+\formallabel{GlobalTheory.EtC.disc_eq_trivV}
+\end{lemma}
+
+\begin{proof}
+All $1$-simplices of a constant simplicial object are degenerate, and a map of simplicial objects sends
+degenerate simplices to degenerate simplices, i.e.\ to identity morphisms of $\GL_N$.
+\end{proof}
+
+\begin{lemma}[Projective spaces over schemes]\label{pf:steps1:pbfsch}
+Let $U$ be a scheme with $q\in\Gamma(U,\OO_U)^\times$. For every $V\colon\stepsIsch(U)\to\stepsIBGL_N$ the map
+\eqref{pf:steps1:eq:pbf} is bijective for all $n,i$.
+\formallabel{GlobalTheory.T.etaleCohomology_projectiveBundle_formula}
+\formallabel{UpperTheory.Cb.etaleCohomology_projectiveBundle_formula}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:steps1:disc} $V$ is trivial, so $\mathbb P(V)$ is the nerve of the action groupoid of
+$\mathbb G_m$ on the scheme $\mathbb A^N_U\smallsetminus0$ of unimodular vectors, i.e.\ the \v{C}ech nerve of the
+smooth surjective $\mathbb G_m$-torsor $\mathbb A^N_U\smallsetminus0\to\mathbb P^{N-1}_U$; by A2 (a theorem of the
+development, \lref{GlobalTheory.T.etC_a2}, stating A2) its cohomology is that of $\mathbb P^{N-1}_U$, and
+$\OO_V$ is the tautological line bundle. By \cref{pf:steps1:compare} the groups and maps in \eqref{pf:steps1:eq:pbf} are
+then those of classical \'etale cohomology with coefficients $\mu_q^{\otimes i}$, and the map is bijective by the
+projective bundle theorem \cite[Exp.~VII, Th.~2.2.1]{Grothendieck1977}: for a locally free $\OO_U$-module $\mathcal E$ of
+rank $N$ and $q$ invertible on $U$, $\bigoplus_{j<N}\stepsIH^{n-2j}(U,\mu_q^{\otimes(i-j)})\to
+\stepsIH^n(\mathbb P(\mathcal E),\mu_q^{\otimes i})$, $(a_j)\mapsto\sum_j\pi^*a_j\cup\xi^j$, is an isomorphism, $\xi$ being
+the first Chern class of the tautological line bundle. The sign convention for $c_1$ does not matter, since the powers of
+$-\xi$ form a basis as well. The development proves the lemma by a self-contained computation instead.
+\end{proof}
+
+\begin{lemma}[Discrete spaces]\label{pf:steps1:pbfdisc}
+Let $E$ be the constant space on a presheaf $F$, and assume that $E$ is $q$-invertible. Then
+\eqref{pf:steps1:eq:pbf} is bijective for every vector bundle $V$ on $E$ and all $n,i$.
+\formallabel{GlobalTheory.EtC.pbf_disc}
+\formallabel{GlobalTheory.T.projectiveBundleFormula_discrete_space}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:steps1:disc} $V$ is trivial. There are a bounded below complex $J$ of injective sheaves of
+$\Z/q$-modules and cochain maps $\psi_j\colon I(\Z/q(i-j))[-2j]\to J$ such that, for every such $F$, $J$
+computes the cohomology of $\mathbb P(V)$ and \eqref{pf:steps1:eq:pbf} is, up to a bijection, the map induced by
+$\sum_j\psi_j$ (\lref{GlobalTheory.T.exists_injective_cochainModel_trivialProjectiveBundle}, deferred). By
+\cref{pf:steps1:pbfsch} the map induced by $\sum_j\psi_j$ is bijective on the cohomology of $\stepsIsch(U)$ for
+every scheme $U$ on which $q$ is invertible. A cochain map between bounded below complexes of injective
+sheaves of $\Z/q$-modules which induces bijections on the cohomology of all such representable presheaves
+induces bijections on the cohomology of every $q$-invertible constant space
+(\lref{GlobalTheory.T.injectiveComplexMap_quasiIso_of_unit_schemes}, deferred). This proves the lemma.
+\end{proof}
+
+\begin{lemma}[Reduction to discrete spaces]\label{pf:steps1:pbfred}
+If \eqref{pf:steps1:eq:pbf} is bijective for all vector bundles on all $q$-invertible constant spaces, then it is
+bijective for all vector bundles on all $q$-invertible spaces.
+\formallabel{GlobalTheory.PBFg.pbf_of_disc}
+\formallabel{GlobalTheory.T.projectiveBundleFormula_of_discrete_spaces}
+\formallabel{GlobalTheory.PBFc.pbf_of_model}
+\end{lemma}
+
+\begin{proof}
+Let $E$ be $q$-invertible and $V$ a vector bundle on $E$. Up to an isomorphism inducing bijections on
+cohomology, $\mathbb P(V)$ is the diagonal of a bisimplicial space whose $p$-th column is the trivial projective
+bundle over the constant space $E_p$, and by the Eilenberg--Zilber (Alexander--Whitney) comparison its
+cohomology is that of the total complex of the associated double complex. Choose cocycles $z_j$ representing the
+$j$-th powers of the first Chern class of the tautological line bundle on a universal space; their pull-backs
+represent $c_1(\OO_V)^j$ on $\mathbb P(V)$ and, on each column, the corresponding powers for the trivial projective
+bundle. Cup product with the $z_j$ defines a morphism of column-filtered double complexes inducing
+\eqref{pf:steps1:eq:pbf} on total cohomology and, on the $p$-th column, the map \eqref{pf:steps1:eq:pbf} of the
+constant space $E_p$, which is bijective by hypothesis. A morphism of first-quadrant column-filtered double
+complexes which is bijective on the cohomology of every column is bijective on total cohomology. The
+construction of the bisimplicial model and of the $z_j$, and the filtration argument, are carried out in the
+deferred lemmas \lref{GlobalTheory.T.twisted_cocycle_classes_pullback_cup},
+\lref{GlobalTheory.T.twisted_cocycle_simplicial_levels_cup} and
+\lref{GlobalTheory.ColFilt.bijective_total_of_terms}.
+\end{proof}
+
+\begin{theorem}[Projective bundle formula; D1]\label{pf:steps1:D1}
+Let $q\ge1$, $E$ a $q$-invertible space, $N\ge0$ and $V\colon E\to\stepsIBGL_N$. For all $n,i\in\Z$ the map
+\eqref{pf:steps1:eq:pbf} is bijective.
+\formallabel{GlobalTheory.EtC.projectiveBundleFormula_vectorBundle_any_space}
+\formallabel{GlobalTheory.EtC.projectiveBundleFormula_of_unitOnEtalePoints}
+\end{theorem}
+
+\begin{proof}
+Combine \cref{pf:steps1:pbfdisc,pf:steps1:pbfred}.
+\end{proof}
+
+For schemes this is the classical projective bundle formula of \'etale cohomology
+\cite{Grothendieck1958}, \cite[Exp.~VII]{Grothendieck1977}; the formal statement allows arbitrary spaces (for
+instance \v{C}ech nerves of covers, on which a map to $\stepsIBGL_N$ is a descent datum for a vector bundle).
+
+\begin{theorem}[Power-sum Chern classes and slant products; D2, D3]\label{pf:steps1:D2}
+\textup{(D2)} For $q\ge1$ and $k\ge1$ there is a rule assigning to every vector bundle $V\colon E\to\stepsIBGL_N$ a class
+$s_k(V)\in\stepsIH^{2k}(E,\Z/q(k))$ which is natural under pull-back along maps into $q$-invertible spaces, additive
+under block sums on $q$-invertible spaces, and satisfies $s_k(L)=c_1(L)^k$ for line bundles $L$ on $q$-invertible
+spaces.
+
+\textup{(D3)} For every ring $R$, group $\Gamma$, scheme $X$ and $m\ge0$, every $m$-cycle $c$ of the group homology of
+$\Gamma$ with coefficients in $R$ is represented by a ``slant'' cochain map lowering degrees by $m$ from the chains of
+$\stepsIsch(X)$ to the chains of $\mathrm B\Gamma\times\stepsIsch(X)$, and the slant maps
+$\mathrm{H}_m(\Gamma,R)\otimes\stepsIH^{m+n}(\mathrm B\Gamma\times\stepsIsch(X),F)\to\stepsIH^n(\stepsIsch(X),F)$ used by the
+development are given by composition with such cochain maps.
+
+In particular \textup{(D2)} follows from the propositions A1--A5, A7--A11, B1--B5, B7, C1--C5 and D1.
+\formallabel{UpperTheory.Et.etale_duality_trace_isomorphism}
+\formallabel{UpperTheory.Et.integerApproximationCount_holds}
+\formallabel{UpperTheory.Et.D2.a0}
+\end{theorem}
+
+\begin{proof}
+(D2) is Grothendieck's theory of Chern classes \cite{Grothendieck1958}, in its \'etale form
+\cite[Exp.~VII, \S3]{Grothendieck1977}. For a rank-$N$ bundle $V$ on a $q$-invertible space $E$, the classes $c_j(V)\in
+\stepsIH^{2j}(E,\Z/q(j))$ are defined by the relation $\sum_{j=0}^N\pi_V^*c_j(V)\cup c_1(\OO_V)^{N-j}=0$, $c_0=1$, in the
+cohomology of $\mathbb P(V)$, which determines them by the projective bundle formula \cref{pf:steps1:D1}; they are natural
+because \eqref{pf:steps1:eq:pbf} and $c_1$ are natural, and $c_1(L)$ is the first Chern class for $N=1$. The Whitney formula
+$c(V\oplus W)=c(V)c(W)$ for block sums is proved by the splitting principle: pull-back to the flag bundle of $V$ (an
+iterated projective bundle, to which \cref{pf:steps1:D1} applies at each stage) is injective, and there $V$ acquires a
+filtration with line bundle quotients; the argument of \cite[\S\S3--4]{Grothendieck1958} goes through verbatim, using only the
+projective bundle formula for these iterated projective bundles, the naturality and multiplicativity of cup products and
+of $c_1$, and the Mayer--Vietoris property A4. Then $s_k$ is the $k$-th Newton polynomial in
+the $c_j$, so it is additive under block sums, natural, and $s_k(L)=c_1(L)^k$. Since this holds unconditionally, the
+implication in the last sentence of the theorem holds. The development proves (D3) from A1--D2
+(\lref{UpperTheory.Et.D3.a0}, deferred), by an explicit construction of the slant cochain maps.
+\end{proof}
+
+\subsubsection{Finiteness}
+
+\begin{theorem}[Finiteness from the axioms; E4]\label{pf:steps1:E4}
+Assume the propositions A1--A5, A7--A11, B1--B5, B7, C1--C5, D1--D3 and E1--E3. Then E4 holds: for $q\ge1$, an
+algebraically closed field $k$ with $q\in k^\times$, a proper $k$-scheme $X$ and $n,i\in\Z$, the group
+$\stepsIH^n(X,\Z/q(i))$ is finite.
+\formallabel{UpperTheory.Et.e4}
+\formallabel{UpperTheory.Et.EtaleTopology.top}
+\end{theorem}
+
+\begin{proof}
+The conclusion holds unconditionally: for $n<0$ the group is zero by A9, and for $n\ge0$, by
+\cref{pf:steps1:compare}, it is $\stepsIH^n(X_{\mathrm{et}},\mu_q^{\otimes i})$, which is finite by the finiteness
+theorem for proper schemes over a separably closed field \cite[Exp.~XIV, Cor.~1.2]{ArtinGrothendieckVerdier1972},
+$\mu_q^{\otimes i}$ being a constructible torsion sheaf. Hence the implication holds. One of the two formal statements
+attached to the theorem has, besides A1--E3, the \'etale descent of Picard groups as a further hypothesis; it is implied
+by the other.
+\end{proof}
+
+\begin{remark}[The formal proof of E4]\label{pf:steps1:E4rem}
+The formal proof genuinely derives E4 from the hypotheses, together with the \'etale descent of Picard groups,
+\lref{GlobalTheory.T.etale_descent_picard_group}. It is an induction on the degree $n$ and on the Krull dimension of
+$X$: zero-dimensional schemes are treated directly; an integral $X$
+of positive dimension is related, by proper surjective maps and a fibration in curves over an algebraically closed
+extension field, to schemes of smaller dimension and to curves; for curves the cohomology is controlled by Kummer
+theory (finiteness of units modulo $q$-th powers and of the $q$-torsion of Picard groups), classes of degree $1$ and
+$2$ on curves are killed by finite covers, and the comparison uses the descent spectral sequence of a proper
+surjective map and the constancy of the cohomology of geometric fibres. Since the conclusion is classical, these
+$133$ intermediate steps of the formal proof are not converted here.
+\end{remark}
+
+\begin{corollary}[Finiteness]\label{pf:steps1:E4cor}
+E4 holds. \formallabel{UpperTheory.Et.etale_finiteness_of_duality}
+\end{corollary}
+
+\begin{proof}
+Apply \cref{pf:steps1:E4} to the propositions A1--E3, which are theorems of the development: D1 is
+\cref{pf:steps1:D1}, D2 and D3 are \cref{pf:steps1:D2}, E2 is \cref{pf:steps1:E2}, E1 and E3 are the results cited
+above, and A1--A5, A7--A11, B1--B5, B7, C1--C5 are, in this order,
+\lref{GlobalTheory.T.quasiIso_hypercohomology_bijective},
+\lref{GlobalTheory.T.etC_a2}, \lref{GlobalTheory.T.levelwiseEquivalence_isEquivalence},
+\lref{GlobalTheory.T.mayerVietoris_equivalence_of_cover},
+\lref{GlobalTheory.T.positiveDegreeClasses_die_on_etaleCover},
+\lref{GlobalTheory.T.etaleCohomology_coefficient_longExactSequence},
+\lref{GlobalTheory.T.etaleCohomology_coefficientRing_invariance},
+\lref{GlobalTheory.T.etaleCohomology_negative_vanishing_degree_zero},
+\lref{GlobalTheory.T.etaleCohomology_bijective_of_support_bijective},
+\lref{GlobalTheory.EtC.RedCoef.a11},
+\lref{GlobalTheory.T.etaleCohomology_twisted_filtered_colimit_continuity},
+\lref{GlobalTheory.T.strictlyHenselianLocalRing_acyclic_every_sheaf},
+\lref{GlobalTheory.T.etC_b3}, \lref{GlobalTheory.T.integralSurjection_cechDescent_tateTwist},
+\lref{GlobalTheory.T.absolutelyIntegrallyClosed_domain_tateTwistAcyclic},
+\lref{GlobalTheory.T.etaleCohomology_field_eq_galoisCohomology},
+\lref{GlobalTheory.T.etale_cohomology_vanishing_algebraic_over_ratFunc},
+\lref{GlobalTheory.T.smooth_affine_curve_etale_cohomologicalDimension_le_one},
+\lref{GlobalTheory.T.etale_cohomology_ind_etale_base_change},
+\lref{GlobalTheory.T.homotopy_invariance_etale_alt} and
+\lref{GlobalTheory.T.etale_cohomology_locally_acyclic}, each of which states the corresponding proposition of
+\cref{pf:steps1:def:axioms}.
+\end{proof}
+
+\begin{lemma}[Finiteness of $\ell$-adic cohomology]\label{pf:steps1:vfin}
+Let $\ell$ be a prime, $k$ an algebraically closed field with $\ell\in k^\times$, $X$ a proper $k$-scheme and
+$n,i\in\Z$. Then $\stepsIHl^n(X)(i)$ is a finitely generated $\Zl$-module and $\stepsIHQ^n(X)(i)$ is a
+finite-dimensional $\Ql$-vector space.
+\formallabel{UpperTheory.Gal.G3.vFin_holds} \formallabel{LateralTheory.EWeil.AdicKerPf.AdicKer_of}
+\end{lemma}
+
+\begin{proof}
+Write $M_a=\stepsIH^n(X,\Z/\ell^a(i))$; these groups are finite by \cref{pf:steps1:E4cor}, and
+$M=\stepsIHl^n(X)(i)=\varprojlim_aM_a$. The short exact sequences
+$0\to\Z/\ell^a(i)\xrightarrow{\ell}\Z/\ell^{a+1}(i)\to\Z/\ell(i)\to0$ give exact sequences
+$M_a\xrightarrow{\ell_*}M_{a+1}\to M_1$ (A7; the Bockstein sequences of the development,
+\lref{LateralTheory.Fin.AdicFin.etale_bockstein_sequence_adic_finiteness}, deferred), and the composite of
+reduction $M_{a+1}\to M_a$ with $\ell_*$ is multiplication by $\ell$. If $x=(x_a)\in M$ has $x_1=0$, the finite
+nonempty sets $Y_a=\{y\in M_a:\ell_*y=x_{a+1}\}$ form an inverse system under reduction, so they have a compatible
+family $y=(y_a)$, and then $x_{a+1}=\ell_*(\mathrm{red}\,y_{a+1})=\ell y_{a+1}$, i.e.\ $x=\ell y$. Hence $M/\ell M$
+embeds into the finite group $M_1$. Moreover $\bigcap_k\ell^kM=0$, since $\ell^k$ kills $M_a$ for $a\le k$. As $M$ is
+a profinite $\Zl$-module with $M/\ell M$ finite, it is finitely generated (topological Nakayama); in the
+development this last step is \lref{LateralTheory.EWeil.AdicFinPf.AdicFin_of}, which states that such limits
+are finitely generated. Finite dimensionality of $\stepsIHQ^n=\stepsIHl^n\otimes\Ql$ follows.
+\end{proof}
+
+\subsubsection{The generic fibre of a strictly henselian local ring of the affine line}
+
+A ring $T$ is \emph{absolutely integrally closed} if every monic polynomial of positive degree over $T$ has a root
+in $T$. An absolutely integrally closed local domain is integrally closed, has an algebraically closed fraction
+field, and is strictly henselian.
+
+\begin{theorem}[$\stepsIH^1$ of generic fibres]\label{pf:steps1:genfib}
+Let $q\ge1$, let $T$ be an absolutely integrally closed local domain with $q\in T^\times$, and let $A$ be a
+$T[x]$-algebra (compatibly a $T$-algebra) which is a henselian local ring with separably closed residue field and in
+which every element lies in the image of some $T[x]$-algebra map $E\to A$ from an \'etale $T[x]$-algebra $E$. Then
+for every $i\in\Z$
+\[
+ \stepsIH^1\bigl(\stepsIsp(\mathrm{Frac}(T)\otimes_TA),\,\Z/q(i)\bigr)=0 .
+\]
+\formallabel{GlobalTheory.T.subsingleton_ht_one_genericFibre_of_sh_etale_cover}
+\formallabel{GlobalTheory.LocAcycDegOne.tateTwistCohomology_genericFibre_henselLine_subsingleton}
+\end{theorem}
+
+The hypothesis on $A$ is satisfied by every strict henselisation of $T[x]$ at a prime ideal, and also by its
+quotients. For a strict henselisation the theorem is the degree-one case of the local acyclicity of the smooth
+morphism $\mathbb A^1_T\to\Spec T$ \cite[Exp.~XV, Th.~2.1]{ArtinGrothendieckVerdier1972}, read at the generic
+geometric point of $\Spec T$. The proof of the development reduces the theorem to Kummer theory and to the
+triviality of $\Z/q$-torsors (\cref{pf:steps1:torsor}). Fix $q,T,A$ as in the theorem, put $K=\mathrm{Frac}(T)$,
+$S=T\smallsetminus\{0\}$ and $B=K\otimes_TA=S^{-1}A$.
+
+\begin{lemma}[Roots of unity]\label{pf:steps1:zeta}
+There is $\zeta\in T$ with $\Phi_q(\zeta)=0$; it satisfies $\zeta^q=1$, and $1-\zeta^k\in T^\times$ for $0<k<q$. In
+particular every $T$-algebra contains a root of $\Phi_q$.
+\formallabel{GlobalTheory.LocAcycDegOne.exists_cyclotomic_root}
+\formallabel{GlobalTheory.exists_pow_eq_one_isUnit_one_sub_pow}
+\end{lemma}
+
+\begin{proof}
+$\Phi_q$ is monic of degree $\varphi(q)>0$, so it has a root $\zeta\in T$. As $q\in T^\times$, $\zeta$ is a primitive
+$q$-th root of unity in the domain $T$, so $X^q-1=\prod_{k=0}^{q-1}(X-\zeta^k)$; dividing by $X-1$ and evaluating at
+$1$ gives $\prod_{k=1}^{q-1}(1-\zeta^k)=q\in T^\times$, whence each factor is a unit.
+\end{proof}
+
+\begin{lemma}[Presentation by a strict henselisation]\label{pf:steps1:shpres}
+There are a henselian local ring $O$ with separably closed residue field which is a $T[x]$-algebra and the directed
+union of $T[x]$-subalgebras $O_\alpha$, each isomorphic to the localization of an \'etale $T[x]$-algebra at a prime
+ideal, and a surjective $T[x]$-algebra map $\pi\colon O\to A$.
+\formallabel{GlobalTheory.T.surj_of_strictHenselisation_polynomial_alt}
+\formallabel{GlobalTheory.surj_of_strictHenselisation_polynomial}
+\end{lemma}
+
+\begin{proof}
+Let $\mathfrak P\subset T[x]$ be the preimage of the maximal ideal of $A$ and $O$ the strict henselisation of $T[x]$
+at $\mathfrak P$ with respect to the separable closure of $\kappa(\mathfrak P)$ in the residue field of $A$; it is the
+directed union of the local rings of \'etale $T[x]$-algebras at primes above $\mathfrak P$. Since $A$ is henselian
+local with separably closed residue field, the universal property of the strict henselisation gives a local
+$T[x]$-algebra map $\pi\colon O\to A$. Every $a\in A$ lies in the image of some $\phi\colon E\to A$ with $E$ \'etale over
+$T[x]$; the prime $\phi^{-1}(\mathfrak m_A)$ makes $E$ an \'etale neighbourhood of $\mathfrak P$ whose residue field
+embeds into that of $A$, so $\phi$ factors through $O$, and $a\in\pi(O)$.
+\end{proof}
+
+Fix $O$ and $\pi$ as in \cref{pf:steps1:shpres} and put $L=S^{-1}O$; then $\pi$ induces a surjection $L\to B$. Since
+$T$ is a normal domain, each $O_\alpha$ is a normal domain, hence so is $O$.
+
+\begin{lemma}[Primes of the generic fibre]\label{pf:steps1:primes}
+Every nonzero prime ideal $\mathfrak q$ of $L$ is maximal, and every element of $L$ is congruent modulo $\mathfrak q$
+to an element $c/d$ of $K$ ($c,d\in T$, $d\ne0$). In particular $L/\mathfrak q\cong K$.
+\formallabel{GlobalTheory.T.exists_ne_zero_polynomial_mem_prime_localization}
+\formallabel{GlobalTheory.T.prime_tensor_polynomial_isMaximal_of_mem_image}
+\end{lemma}
+
+\begin{proof}
+$L$ is the directed union of the rings $S^{-1}O_\alpha$, which are localizations of \'etale $K[x]$-algebras at
+primes; in particular $L$ is a domain. Let $\mathfrak q\ne0$ and $0\neq y\in\mathfrak q$, say $y\in S^{-1}O_\alpha$.
+The prime $\mathfrak q_\alpha=\mathfrak q\cap S^{-1}O_\alpha$ is nonzero; since the fibres of an \'etale map are
+discrete, the primes $0\subsetneq\mathfrak q_\alpha$ of the domain $S^{-1}O_\alpha$ cannot both lie over
+$0\subset K[x]$, so $\mathfrak q\cap K[x]$ is a nonzero prime, i.e.\ $(x-a)$ for some $a\in K$ ($K$ is algebraically
+closed). Then $L/\mathfrak q$ is a directed union of domains which are localizations of \'etale algebras over
+$K[x]/(x-a)=K$, i.e.\ finite separable field extensions of $K$, hence equal to $K$. So $\mathfrak q$ is maximal with
+residue field $K$, and every element is congruent to the image of an element of $K$.
+\end{proof}
+
+\begin{lemma}[Units]\label{pf:steps1:units}
+Every unit of $B$ is a $q$-th power.
+\formallabel{GlobalTheory.LocAcycDegOne.unitsL}
+\formallabel{GlobalTheory.T.henselian_directed_union_subalgebras}
+\formallabel{GlobalTheory.QUnits.tensorFractionRing_units_pow_surj}
+\formallabel{GlobalTheory.LocAcycUnits.units_localization_pow_surj}
+\formallabel{GlobalTheory.T.exists_root_of_unit_zero_dimensional}
+\end{lemma}
+
+\begin{proof}
+First let $\ker(L\to B)=0$, so $B\cong L$. Every unit $u$ of $L$ has the form $u=(c/d)\,w$ with $c,d\in S$ and
+$w\in O^\times$, by \lref{GlobalTheory.T.units_localization_strictHenselian_eq_const_mul_unit} (deferred), which
+states exactly this: units of the generic fibre of $O$ are constants times units of $O$. The elements $c,d$ have
+$q$-th roots in $T$ (roots of $X^q-c$ and $X^q-d$), and $w$ has a $q$-th root in $O$ because $O$ is henselian with
+separably closed residue field and $X^q-w$ is separable modulo $\mathfrak m_O$ ($q$ and $w$ are units). Hence $u$ is a
+$q$-th power.
+
+Now let $J=\ker(L\to B)\ne0$. Every prime of $L$ containing $J$ is nonzero, hence maximal by
+\cref{pf:steps1:primes}, so $B\cong L/J$ is zero-dimensional. Let $u\in B^\times$, lift it to $w_0\in L$, and let
+$\mathfrak m$ be a maximal ideal of $L/J$, with preimage $\mathfrak q$ in $L$. By \cref{pf:steps1:primes},
+$dw_0\equiv c\pmod{\mathfrak q}$ for some $c,d\in T$, $d\ne0$. Let $r\in T$ with $r^q=cd^{q-1}$; then
+$(r/d)^q-w_0=c/d-w_0=-d^{-1}(dw_0-c)\in\mathfrak q$. So $u$ is a $q$-th power modulo every maximal ideal of the
+zero-dimensional ring $B$, in which $q$ is invertible; hence it is a $q$-th power. Indeed, modulo the nilradical the
+ring is von Neumann regular, where roots defined on the members of a finite cover of the spectrum by clopen sets can
+be patched with orthogonal idempotents; the root then lifts along the nil ideal by Hensel's lemma, since $X^q-u$ has
+invertible derivative at any root.
+\end{proof}
+
+\begin{lemma}[Kummer step]\label{pf:steps1:kummer}
+Let $R$ be a ring, $q\ge1$ with $q\in R^\times$, and $\zeta\in R$ with $\zeta^q=1$ and $1-\zeta^k\in R^\times$ for
+$0<k<q$. Suppose that every $\Z/q$-torsor over $R$ has a section, where a \emph{$\Z/q$-torsor} is a finite projective
+faithfully flat $R$-algebra $D$ with an action of $\Z/q$ by $R$-algebra automorphisms such that
+$D\otimes_RD\to\prod_{g\in\Z/q}D$, $x\otimes y\mapsto(x\,g(y))_g$, is bijective, and a section is an $R$-algebra map
+$D\to R$. Then $\Pic(R)$ has no nontrivial $q$-torsion.
+\formallabel{GlobalTheory.T.picard_torsion_trivial_of_torsors_have_sections}
+\formallabel{GlobalTheory.KummerStep.kummer_step}
+\formallabel{GlobalTheory.T.kummerAlgebra_finite_projective_faithfullyFlat}
+\formallabel{GlobalTheory.T.kummerAlgebra_zmod_torsor_bijective}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal L$ be an invertible $R$-module with $\mathcal L^{\otimes q}\cong R$, and let $\phi\colon\mathcal
+L^{\otimes q}\to R$ be an isomorphism, viewed as a $q$-linear form; for every prime $\mathfrak p$ there is
+$e\in\mathcal L$ with $\phi(e,\dots,e)\notin\mathfrak p$. Let $D=\bigoplus_{k=0}^{q-1}\mathcal L^{\otimes k}$ with the
+multiplication given by the tensor product and $\phi$ (the Kummer algebra), and let the generator of $\Z/q$ act on
+$\mathcal L^{\otimes k}$ by $\zeta^k$. Locally on $\Spec R$, where $\mathcal L=Re$ is free, $D\cong R[y]/(y^q-u)$ with
+$u=\phi(e,\dots,e)\in R^\times$ and the generator acting by $y\mapsto\zeta y$; this is finite free of rank $q$ and
+faithfully flat, and the torsor map is bijective because $y^q-u$ splits over $D$ as $\prod_k(Y-\zeta^ky)$ with
+$\zeta^ky-\zeta^{k'}y$ a unit for $k\ne k'$ (here $q\in R^\times$ and $1-\zeta^k\in R^\times$ are used). Hence $D$ is a
+$\Z/q$-torsor. A section $s\colon D\to R$ restricts to an $R$-linear map $\mathcal L\to R$ which is an isomorphism,
+since locally $s(y)^q=u$ is a unit. So $[\mathcal L]=1$ in $\Pic(R)$.
+\end{proof}
+
+\begin{lemma}[Torsors over the generic fibre]\label{pf:steps1:torsor}
+Let $T$ be an absolutely integrally closed domain, $\mathfrak P$ a prime of $T[x]$, $O$ a strict henselisation of
+$T[x]$ at $\mathfrak P$, $q\ge1$ with $q\in T^\times$, and $L=(T\smallsetminus0)^{-1}O$. Then every $\Z/q$-torsor over
+$L$ (in the sense of \cref{pf:steps1:kummer}) has a section.
+\formallabel{GlobalTheory.LocAcyc.torsor_trivial}
+\end{lemma}
+
+\begin{proof}
+A $\Z/q$-torsor over $L$ in this sense is a finite \'etale Galois covering of $\Spec L$ with group $\Z/q$. Let
+$\mathfrak p=\mathfrak P\cap T$; the localization $T_{\mathfrak p}$ is again absolutely integrally closed, hence
+strictly henselian, and $O$ is a $T_{\mathfrak p}$-algebra, so $\Spec L=\Spec(O\otimes_{T_{\mathfrak p}}K)$ is the
+geometric fibre, over the generic point of $\Spec T_{\mathfrak p}$ (with algebraically closed residue field $K$), of
+the strict localization of $\mathbb A^1_T$ at a geometric point over $\mathfrak P$. The smooth morphism
+$\mathbb A^1_T\to\Spec T$ is locally $1$-aspherical for the set of primes invertible on $\mathbb A^1_T$
+\cite[Exp.~XV, Th.~2.1]{ArtinGrothendieckVerdier1972}; as $q\in T^\times$, all prime factors of $q$ belong to this set,
+so $\stepsIH^1(\Spec L,\Z/q)=0$: every such covering is trivial, and in particular has a section.
+\end{proof}
+
+\begin{remark}[The formal proof of \cref{pf:steps1:torsor}]\label{pf:steps1:torsorrem}
+The development proves \cref{pf:steps1:torsor} without quoting \cite{ArtinGrothendieckVerdier1972}, along the classical
+route of \cite[Exp.~XV, \S\S2--3]{ArtinGrothendieckVerdier1972}. The case where $\mathfrak P$ is the origin
+$(\mathfrak m_T,x)$ is \cref{pf:steps1:origin} below; general primes are reduced to closed points of the closed fibre and
+to the origin. We convert the proof of the origin case, which carries the argument; the reduction of the general case to
+it is not needed here, \cref{pf:steps1:torsor} being classical.
+\end{remark}
+
+\begin{lemma}[Points over strictly henselian rings]\label{pf:steps1:ptsh}
+Let $A$ be a domain, $R$ a local $A$-algebra, $j\colon R\to O$ a ring map to a strictly henselian local ring, $\beta\colon
+O\to B$ and $\psi\colon L_R=(A\smallsetminus0)^{-1}R\to B$ ring maps with $\psi|_R=\beta j$, and $D$ a finite $L_R$-algebra
+such that the integral closure $C$ of $R$ in $D$ is a nonzero finite \'etale $R$-algebra. Then there is a ring map
+$\sigma\colon D\to B$ with $\sigma|_{L_R}=\psi$.
+\formallabel{GlobalTheory.T.exists_point_closureFiniteEtale_strictHenselian}
+\formallabel{GlobalTheory.KeyOriginNoeth.exists_point_of_closureFiniteEtale}
+\end{lemma}
+
+\begin{proof}
+The $O$-algebra $C\otimes_RO$ is nonzero (it is faithfully flat over $O$, $C$ being finite \'etale and nonzero over the
+local ring $R$) and finite \'etale over the strictly henselian ring $O$, hence a finite product of copies of $O$: by
+\cite[Tag~04GL]{Stacks2024} it is a product of quotients of $O$, which are flat over $O$ and hence equal to $O$, and of an
+algebra with no prime over the maximal ideal, which vanishes because it is finite over $O$. A projection gives an
+$R$-algebra map $\gamma\colon C\to O$. Every $d\in D$ is integral over
+$L_R$, so $ad\in C$ for some $a\in A\smallsetminus0$; hence $D=(A\smallsetminus0)^{-1}C$. The images of the elements of
+$A\smallsetminus0$ under $\beta\gamma$ are their images under $\psi$, which are units of $B$; so $\beta\gamma$ extends to
+$\sigma\colon D\to B$, and $\sigma|_{L_R}=\psi$ because both restrict to $\beta j$ on $R$.
+\end{proof}
+
+\begin{lemma}[The origin case]\label{pf:steps1:origin}
+Let $T$ be an absolutely integrally closed local domain, $q\ge1$ with $q\in T^\times$, $\mathfrak P_0=\mathfrak m_T[x]+xT[x]$ the
+origin of $T[x]$, $O$ a strict henselisation of $T[x]$ at $\mathfrak P_0$, and $L=(T\smallsetminus0)^{-1}O$. Then every
+$\Z/q$-torsor over $L$ has a section.
+\formallabel{GlobalTheory.KeyOriginCut.keyOrigin}
+\formallabel{GlobalTheory.T.torsor_point_over_strictHenselisation_noetherianNormal}
+\formallabel{GlobalTheory.KeyOriginNoeth.torsor_point_of_essFiniteType}
+\end{lemma}
+
+\begin{proof}
+For a ring $R$ over $T[x]$ write $L(R)=(T\smallsetminus0)^{-1}R$, and similarly $L_A(R)=(A\smallsetminus0)^{-1}R$ for a subring
+$A\subseteq T$. Let $D$ be a $\Z/q$-torsor over $L$.
+
+\emph{Step 1: an \'etale neighbourhood.} The ring $O$ is the filtered colimit of the local rings $E_Q$ of \'etale
+$T[x]$-algebras $E$ at primes $Q$ over $\mathfrak P_0$. Since $D$, its $\Z/q$-action and the inverse of the torsor
+isomorphism are given by finitely many elements and relations, there are such $(E,Q)$ with a map $j\colon E_Q\to O$ over
+$T[x]$ and a $\Z/q$-torsor $D_1$ over $L(E_Q)$ such that every ring map $D_1\to L$ over $L(j)$ yields a section of $D$
+(\lref{GlobalTheory.T.strict_henselisation_prime_eq}, deferred: a routine limit argument).
+
+\emph{Step 2: a noetherian model.} The ring $T$ is the directed union of its finitely generated subrings. Descending
+$(E,Q,j,D_1)$ to one of them and replacing it by the localization at the contraction of $\mathfrak m_T$ of its integral
+closure (which lies in $T$, as $T$ is integrally closed, and is finite over the subring, rings of finite type over $\Z$
+being Nagata), one obtains a noetherian integrally closed local domain $A$, essentially of finite type over $\Z$, with a
+local injection $A\to T$ and $q\in A^\times$, an \'etale $A[x]$-algebra $E_A$ with a prime $Q_A$ over the origin of $A[x]$,
+a map $j_A\colon(E_A)_{Q_A}\to O$ compatible with $A[x]\to T[x]\to O$, a map $\psi_A\colon L_A((E_A)_{Q_A})\to L$ extending
+$j_A$, and a torsor $D_A$ over $L_A((E_A)_{Q_A})$ such that every ring map $D_A\to L$ over $\psi_A$ yields a ring map
+$D_1\to L$ over $L(j)$ (\lref{GlobalTheory.T.exists_noetherian_model_torsor_origin}, deferred).
+
+\emph{Step 3: removing ramification.} After enlarging $A$ (to a noetherian integrally closed local domain $A'\subseteq T$
+essentially of finite type over $\Z$) and passing to a smaller \'etale neighbourhood, the data become \emph{good}: the
+neighbourhood $R'=(E_{A'})_{Q_{A'}}$ has a retraction $\rho'\colon R'\to A'$ over $A'$ with kernel generated by $x$, and the
+integral closure $C'$ of $R'$ in the new torsor $D_{A'}$ is \'etale over $R'$ at every prime whose contraction to $A'$ has
+height at most one, and admits a ring map $C'\to\mathrm{Frac}(A')$ compatible with $\rho'$; moreover there are maps
+$\beta\colon L_A((E_A)_{Q_A})\to L_{A'}(R')$ and $h\colon D_A\to D_{A'}$ over $\beta$ with $\psi_{A'}\beta=\psi_A$
+(\lref{GlobalTheory.T.strictHenselisation_enlarge_good_at_origin}, deferred). This is where Abhyankar's lemma enters:
+the ramification of the torsor along the height-one primes of the base is tame, since $q$ is invertible, and is killed
+by adjoining roots of local parameters \cite[Exp.~X, 3.6]{Grothendieck1971}, which exist in $T$ because $T$ is absolutely
+integrally closed.
+
+\emph{Step 4: purity.} For good data the integral closure $C'$ is a nonzero finite \'etale $R'$-algebra
+(\lref{GlobalTheory.T.integralClosure_finiteEtale_originKeyLemma_essFiniteType}, deferred): \'etaleness in codimension
+at most one over the base and along the zero section propagates to all of $\Spec R'$, by purity of the branch locus as in
+\cite[Exp.~XV, \S2]{ArtinGrothendieckVerdier1972}.
+
+\emph{Step 5: conclusion.} The ring $O$ is strictly henselian, so \cref{pf:steps1:ptsh}, applied to $A'$, $R'$, the map
+$j_{A'}\colon R'\to O$, the localization $O\to L$, $\psi_{A'}$ and $D_{A'}$, gives $\sigma'\colon D_{A'}\to L$ over
+$\psi_{A'}$. Then $\sigma'h\colon D_A\to L$ lies over $\psi_{A'}\beta=\psi_A$; Step 2 gives a ring map $D_1\to L$ over
+$L(j)$, and Step 1 a section of $D$.
+\end{proof}
+
+\begin{lemma}[Picard groups]\label{pf:steps1:pic}
+$\Pic(B)$ has no nontrivial $q$-torsion.
+\formallabel{GlobalTheory.LocAcycDegOne.picL}
+\formallabel{GlobalTheory.T.pic_generic_fibre_quotient_strictHenselisation_no_torsion_alt}
+\formallabel{GlobalTheory.pic_generic_fibre_quotient_strictHenselisation_no_torsion}
+\formallabel{GlobalTheory.pic_localization_strictHenselisation_no_torsion}
+\formallabel{GlobalTheory.StrictHensUnion.isStrictHenselisation_of_directed_union}
+\end{lemma}
+
+\begin{proof}
+If $\ker(L\to B)=0$, then $B\cong L$. The ring $O$ is a strict henselisation of $T[x]$ at some prime: it is henselian
+with separably closed residue field, and the directed union of localizations of \'etale $T[x]$-algebras. Moreover
+$q\in L^\times$, the image of $\zeta$ from \cref{pf:steps1:zeta} satisfies the hypothesis of \cref{pf:steps1:kummer},
+and every $\Z/q$-torsor over $L$ has a section by \cref{pf:steps1:torsor}. So \cref{pf:steps1:kummer} applies.
+
+If $\ker(L\to B)\ne0$, then all prime ideals of $B$ are maximal: two primes $\mathfrak q\subseteq\mathfrak q'$ of $L$
+containing the kernel are nonzero, hence maximal by \cref{pf:steps1:primes}, hence equal. A ring all of whose prime
+ideals are maximal has trivial Picard group: an invertible module is locally free of rank one, and over a
+zero-dimensional ring a module which is free of rank one at every point is free, by patching local generators with
+idempotents on the Boolean spectrum of the reduced ring and lifting along the nilradical.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:steps1:genfib}]
+The element $q$ is invertible in $B$, and $B$ contains a root of $\Phi_q$ (\cref{pf:steps1:zeta}). By
+\lref{GlobalTheory.T.tateTwistCohomology_spec_twist_independent} (for a ring $A$ with $q\in A^\times$ containing a
+root of $\Phi_q$, the groups $\stepsIH^n(\stepsIsp A,\Z/q(i))$ and $\stepsIH^n(\stepsIsp A,\Z/q(j))$ are isomorphic for
+all $n,i,j$) it suffices to treat $i=1$. By \lref{GlobalTheory.T.kummer_etale_vanishing} (if $q\in B^\times$, every
+unit of $B$ is a $q$-th power and $\Pic(B)$ has no nontrivial $q$-torsion, then $\stepsIH^1(\stepsIsp B,\Z/q(1))=0$; this
+is the Kummer sequence), the theorem follows from \cref{pf:steps1:units,pf:steps1:pic}.
+\end{proof}
+
+% ===========================================================================
+\subsection{The crystalline comparison theorem and $\sfname{CrysStep}$}\label{sec:pf:steps1:cris}
+
+\subsubsection{The comparison theorem in the form used}
+
+\begin{definition}[Admissibility]\label{pf:steps1:def:adm}
+Let $\stepsIBdR$ be Fontaine's field of de Rham periods as constructed in the development and $t\in\stepsIBdR$ the
+period of $\Z_\ell(1)$; let $B_{\mathrm{cr}}\subseteq\stepsIBdR$ be the subring generated by the image of
+$\stepsIAcris$, $\ell^{-1}$ and $t^{-1}$ (this is Fontaine's ring $\stepsIBcris=\stepsIAcris[1/t]$
+\cite{Fontaine1994}). For a subring $S\subseteq\stepsIBdR$, a map $r\colon G_K\to M_d(\Ql)$ is
+\emph{$S$-admissible} if there are $P,Q\in M_d(S)$ with $PQ=1$ and $r(\sigma)\,\sigma(P)=P$ for all $\sigma\in G_K$,
+i.e.\ the columns of $P$ are the coordinates of a $G_K$-invariant $S$-basis of $\Ql^d\otimes S$. For a period package
+$P$, \emph{$P$-admissibility} is the analogous notion with $S$ the image of $P.B$ in $P.B_{\mathrm{dR}}$.
+\formal{CrystallineSemistableComparison.Bcr} \formal{DeRhamPotentiallySemistable.DRPst.IsAdm}
+\formal{UpperTheory.Gal.Seam.IsAdmP}
+\end{definition}
+
+\begin{theorem}[Comparison package for smooth good models]\label{pf:steps1:cst}
+Let $K\subset\Qlbar$ be finite over $\Ql$, and let $\stepsIBdR^+\subset\stepsIBdR$ be the valuation ring.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item \textup{(Crystalline comparison)} For every smooth good model $M$ over $\OO_K$, every $n$ and every basis $b$ of
+  $V_n(M)$, the matrix representation $\mathrm{mat}_n(b)$ is $B_{\mathrm{cr}}$-admissible.
+\item \textup{(de Rham comparison)} There are biadditive pairings $c_{M,n}\colon V_n(M)\times\stepsIH^n_{\mathrm{dR}}(M_K/K)^\vee
+  \to\stepsIBdR$, for all models $M$ over $\OO_K$ and all $n$, $\Ql$-linear in the first and $K$-linear in the second
+  variable, natural for morphisms between smooth good models, such that for every smooth good $M$: $V_n(M)$ and
+  $\stepsIH^n_{\mathrm{dR}}(M_K/K)$ are finite-dimensional and $\mathrm{Fil}^{n+1}\stepsIH^n_{\mathrm{dR}}=0$;
+  $c(\sigma v,\phi)=\sigma(c(v,\phi))$ for $\sigma\in G_K$; for a basis $b_1,\dots,b_a$ of $V_n(M)$ and $z\in\stepsIBdR^a$,
+  $\sum_iz_ic(b_i,\phi)=0$ for all $\phi$ implies $z=0$; $t^rc(v,\phi)\in\stepsIBdR^+$ whenever $\phi$ kills
+  $\mathrm{Fil}^{r+1}$; and if $t^r\sum_iz_ic(b_i,\phi)\in\stepsIBdR^+$ for all $r$ and all $\phi$ killing
+  $\mathrm{Fil}^{r+1}$, then $z\in(\stepsIBdR^+)^a$.
+\item \textup{(Frobenius compatibility)} Let $r$ be a \emph{residue datum} of $K$: a perfect field $k$ of characteristic
+  $\ell$, a surjection $\rho\colon\OO_K\to k$ and a ring map $s$ from $k$ to the tilt of $\OO_{\stepsICl}$ with
+  $|s(\rho(x))^\sharp-x|<1$ for $x\in\OO_K$; put $K_0=W(k)[1/\ell]$, and let $D_n(M)$ be the $K_0$-vector space with
+  Frobenius $\varphi_D$ attached to $M$ and $r$ by the development ($K_0\otimes_{W(k)}$ the inverse limit of a system of
+  degree-$n$ cohomology groups over the truncated Witt vectors of $k$). There are biadditive pairings
+  $c_{M,n}\colon V_n(M)\times D_n(M)^\vee\to\stepsIBcris$, $\Ql$-linear in the first and $K_0$-linear in the second variable,
+  natural for morphisms between smooth good models, such that for every smooth good $M$: $V_n(M)$ and $D_n(M)$ are
+  finite-dimensional, $c$ is $G_K$-equivariant, the independence statement of \textup{(ii)} holds with $\stepsIBcris$ in
+  place of $\stepsIBdR$, and $c(v,f)=\sum_s\varphi\bigl(c(v,e_s^*)\bigr)\,f(\varphi_De_s)$ for every $K_0$-basis $(e_s)$ of
+  $D_n(M)$ with coordinate functionals $(e_s^*)$.
+\end{enumerate}
+\formallabel{UpperTheory.Ru.crystallineComparison.smoothModel_crystalline}
+\formallabel{UpperTheory.Gal.Seam.cstSmooth}
+\formallabel{CrystallineSemistableComparison.Close.cstSmooth_of_side}
+\formallabel{CrystallineSemistableComparison.Out.cstSmooth_of_side}
+\end{theorem}
+
+\begin{proof}
+(i) By the crystalline comparison theorem $C_{\mathrm{cris}}$ \cite{FontaineMessing1987,Faltings1989}, \cite{Tsuji1999}
+(see also \cite{BhattMorrowScholze2018}), for a proper smooth $\OO_K$-scheme the $G_K$-representation
+$\stepsIHQ^n((M_K)_{\Qlbar})(0)$ is crystalline: $\stepsIDcris(V_n(M))=(V_n(M)\otimes\stepsIBcris)^{G_K}$ has $K_0$-dimension
+$\dim V_n(M)$, and a $K_0$-basis of it is a $G_K$-invariant $\stepsIBcris$-basis of $V_n(M)\otimes\stepsIBcris$
+\cite[Exp.~III]{Fontaine1994rss}. Its coordinate matrix in the basis $b$ is the required $P$.
+
+Classically, (ii) expresses the de Rham comparison theorem \cite{Faltings1988,Scholze2013phodge} with its strict
+compatibility with filtrations, and (iii) the compatibility of $C_{\mathrm{cris}}$ with Frobenius, $D_n(M)$ playing the role
+of the rational crystalline cohomology of the special fibre. In the development, (i)--(iii) are obtained together: the
+three statements are derived by \lref{CrystallineSemistableComparison.cstSmooth_of_side} from the \'etale-side
+properties of smooth good models, and these properties hold by \lref{UpperTheory.Gal.Seam.HT.etSideS} (see also
+\lref{UpperTheory.Gal.KunnethLefschetz.Top.etSide_sm_holds}). The formal statements attached to the theorem are (i),
+the conjunction of (i)--(iii), and (twice) the implication from the \'etale-side properties to (i)--(iii). Only (i) is used
+in this section.
+\end{proof}
+
+\subsubsection{The comparison pairings of the formal proof}\label{sec:pf:steps1:pseam}
+
+The formal proof of \cref{pf:steps1:cst} constructs comparison maps between $\ell$-adic cohomology and cohomology
+theories with coefficients in $\stepsIAcris$ attached to models carrying a line bundle; one of its packages is the
+following existence statement.
+
+\begin{definition}[Line data and comparison data]\label{pf:steps1:def:linedata}
+A \emph{line datum} on a scheme $X$ is a smooth surjective $f\colon Y\to X$ with a rule $u$ assigning to any two
+$V$-points $a,b$ of $Y$ with $fa=fb$ a unit of $\Gamma(V,\OO_V)$, naturally in $V$ (transition functions of a line bundle
+along $f$); it is \emph{tautological} if it is the line datum of $\OO(1)$ for some closed immersion of $X$ into a
+projective space over the base, along the standard affine cover. For a model $M$ and a predicate $\mathrm{Amp}$ on line
+data, the development attaches to $M$ and a line datum $D$ with $\mathrm{Amp}(M,D)$ graded $\stepsIAcris$-modules with
+$G_K$-action $\mathcal A(M)$, $\mathcal H(M,D)$, $\mathcal H'(M,D)$ (the $\stepsIAcris$-valued cohomologies of the formal
+proof), a Frobenius on $\mathcal A$ and $\mathcal H'$, pull-backs, cup products, and a predicate ``is a first Chern class
+of $D$'' in degree $2$; we call this the \emph{comparison data} of $\mathrm{Amp}$.
+\formal{CrystallineSemistableComparison.E.LineData}
+\formal{CrystallineSemistableComparison.Pb.IsTautologicalLine}
+\formal{CrystallineSemistableComparison.dat} \formal{CrystallineSemistableComparison.Model.HA}
+\end{definition}
+
+\begin{definition}[de Rham and crystalline pairings]\label{pf:steps1:def:pmap}
+A \emph{de Rham pairing} for the comparison data of $\mathrm{Amp}$ on smooth good models consists of additive pairings
+$\kappa_j\colon\mathcal H^j(M,D)\times\stepsIH^j_{\mathrm{dR}}(M_K/K)^\vee\to\stepsIBdR$ and $K$-bilinear cup products on de
+Rham cohomology, such that for smooth good $M$: $\stepsIH^j_{\mathrm{dR}}(M_K/K)$ is finite-dimensional with
+$\mathrm{Fil}^{j+1}=0$, and $\mathrm{Fil}^{d+1}=0$ if $M$ is connected of dimension $d$; cup products respect the Hodge
+filtration; $\kappa$ is $\stepsIAcris$-semilinear in the first and $K$-linear in the second variable, $G_K$-equivariant,
+natural for morphisms of models, compatible with the filtrations (if $x$ lies in the $n$-th filtration step and $\phi$
+kills $\mathrm{Fil}^{r+1}$, then $t^r\kappa(x,\phi)\in t^n\mathcal P$, where $\mathcal P\subset\stepsIBdR$ is the subring of
+the period data) and multiplicative ($\kappa(x\cup y,\phi)=\sum_{s,s'}\kappa(x,b_s^\vee)\kappa(y,b_{s'}'^\vee)
+\phi(b_s\cup b'_{s'})$ for bases $b,b'$); and if $M$ is connected of dimension $d$, there are a first Chern class $x$
+of $D$ in $\mathcal H^2$, its $d$-th cup power $z$ and $\phi$ with $\kappa(z,\phi)$ a unit of $\mathcal P$. For a
+residue datum $r$ of $K$ (\cref{pf:steps1:cst}(iii)), a \emph{crystalline pairing} consists of an integer $h$ and pairings
+$\psi_j\colon\mathcal H'^j(M,D)\times D_j(M)^\vee\to C$ with values in the crystalline period ring $C$ of $r$, where
+$D_j(M)$ is the $K_0$-space of \cref{pf:steps1:cst}(iii), with finiteness, semilinearity
+(through $\varphi^h$ on $\stepsIAcris$), $G_K$-equivariance, compatibility with Frobenius and with pull-backs, and a
+factorisation property expressing $\varphi^h$-iterates through $\psi$.
+\formal{CrystallineSemistableComparison.PMap} \formal{CrystallineSemistableComparison.Res}
+\formal{CrystallineSemistableComparison.FMap}
+\end{definition}
+
+\begin{theorem}[Existence of comparison pairings]\label{pf:steps1:pseam}
+For every prime $\ell$ and finite extension $K\subset\Qlbar$ of $\Ql$ there is a predicate $\mathrm{Amp}$ on pairs (model
+$M$ over $\OO_K$, line datum $D$ on $M.X$) such that: every $D$ with $\mathrm{Amp}(M,D)$ has \'etale structure map; every
+smooth good model admits some $D$ with $\mathrm{Amp}(M,D)$; there is a de Rham pairing for the comparison data of
+$\mathrm{Amp}$ on smooth good models; and for every residue datum $r$ of $K$ there is a crystalline pairing for these
+data (with the pull-backs on $\mathcal H'$ of the development).
+\formallabel{CrystallineSemistableComparison.Pb.pSeam}
+\formallabel{CrystallineSemistableComparison.Pb.pmap}
+\formallabel{CrystallineSemistableComparison.Pb.fmap}
+\formallabel{CrystallineSemistableComparison.Pb.kap_pow}
+\end{theorem}
+
+The decisive property is the last condition on de Rham pairings: the top power of the first Chern class of an ample line
+bundle pairs to a unit. It comes from the following classical fact.
+
+\begin{proposition}[Top powers of hyperplane classes]\label{pf:steps1:powK}
+Let $K$ be a field of characteristic $0$, $X\to\Spec K$ connected and smooth of relative dimension $d$, $D$ a tautological
+line datum on $X$ and $c\in\stepsIH^2_{\mathrm{dR}}(X/K)$ a de Rham first Chern class of $D$. Then $c^d\ne0$ in
+$\stepsIH^{2d}_{\mathrm{dR}}(X/K)$.
+\formallabel{CrystallineSemistableComparison.Pb.powK_ne_zero}
+\formallabel{CrystallineSemistableComparison.Pb.powK_ne_zero_main}
+\formallabel{CrystallineSemistableComparison.Pb.powK_ne_zero_of}
+\end{proposition}
+
+Here $\stepsIH^*_{\mathrm{dR}}(X/K)$ is the de Rham cohomology of the development (hypercohomology of the de Rham complex in its
+\v{C}ech formalism, with its Hodge filtration), and a de Rham first Chern class of $D$ is a class represented, on covers
+trivializing $D$, by the logarithmic derivatives of the transition functions. The proof is algebraic and reduces the statement
+to a residue computation on a torus. For units $t_0,\dots,t_n$ of a ring $R$ over $K$ and derivations $\partial_0,\dots,\partial_n$
+of $R$ over $K$ with $\partial_kt_j=\delta_{kj}$, and for nonempty $S\subseteq\{0,\dots,n+1\}$, let $\mathcal T(S)\subseteq R$ be
+the $K$-subalgebra generated by the monomials $t^m=\prod_kt_k^{m_k}$ with $m_k\ge0$ whenever $k+1\notin S$ and $\sum_km_k\le0$ if
+$0\notin S$. (With $t_k=y_{k+1}/y_0$ for homogeneous coordinates $y_0,\dots,y_{n+1}$, these are the monomials regular where
+$y_i\ne0$ for $i\in S$.) For a subalgebra $B$ and an injective $\kappa\colon\{1,\dots,m\}\to\{0,\dots,n\}$ let
+$\mathrm{Jac}_\kappa(B)$ be the additive subgroup generated by the elements $b\det(\partial_{\kappa(k)}b_l)_{k,l}$ with $b,b_l\in B$:
+the coefficients, with respect to $dt_{\kappa(1)}\wedge\dots\wedge dt_{\kappa(m)}$, of the forms $b\,db_1\wedge\dots\wedge db_m$.
+
+\begin{lemma}[Logarithmic derivatives of ratios]\label{pf:steps1:dlogratios}
+In this situation let $g_0=t_0^{-1}$ and $g_l=t_{l-1}t_l^{-1}$ for $1\le l\le n$. Then
+$(\prod_lg_l)^{-1}\det(\partial_kg_l)_{k,l}=\pm(\prod_kt_k)^{-1}$.
+\formallabel{CrystallineSemistableComparison.Pb.dlog_ratios}
+\end{lemma}
+
+\begin{proof}
+Dividing the $l$-th column by $g_l$, the left side is $\det(\partial_kg_l/g_l)$. Now $\partial_kg_0/g_0=-\delta_{k0}t_0^{-1}$ and
+$\partial_kg_l/g_l=\delta_{k,l-1}t_{l-1}^{-1}-\delta_{kl}t_l^{-1}$ for $l\ge1$, so the matrix is $\mathrm{diag}(t_k^{-1})$ times the
+matrix with $-1$ on the diagonal, $1$ just above it and $0$ elsewhere, whose determinant is $(-1)^{n+1}$.
+\end{proof}
+
+\begin{lemma}[Residues]\label{pf:steps1:resid}
+Let $K$ be a field of characteristic $0$, $R$ a domain over $K$, $t_0,\dots,t_n\in R^\times$ algebraically independent over $K$,
+$\partial_k$ derivations with $\partial_kt_j=\delta_{kj}$, and $B(S)\subseteq R$ ($\emptyset\ne S\subseteq\{0,\dots,n+1\}$)
+finitely generated $K$-subalgebras with $\mathcal T(S)\subseteq B(S)$, $B(S)$ integral over $\mathcal T(S)$,
+$B(S\smallsetminus\{j\})\subseteq B(S)$ for $S$ the full set, and $R\subseteq\mathrm{Frac}(B(\{0,\dots,n+1\}))$. Then there are no
+$\omega_i\in\mathrm{Jac}_{\mathrm{id}}(B(\{0,\dots,n+1\}\smallsetminus\{i\}))$ and
+$\eta_k\in\mathrm{Jac}_{\kappa_k}(B(\{0,\dots,n+1\}))$, $\kappa_k$ the increasing enumeration of $\{0,\dots,n\}\smallsetminus\{k\}$,
+with
+\[
+ \Bigl(\prod_kt_k\Bigr)^{-1}=\sum_{i=0}^{n+1}\omega_i+\sum_{k=0}^n(-1)^k\partial_k\eta_k .
+\]
+\formallabel{CrystallineSemistableComparison.Pb.resid_alg}
+\end{lemma}
+
+\begin{proof}
+Write $\mathcal T=\mathcal T(\{0,\dots,n+1\})=K[t^{\pm1}]$, $F=K(t)\subseteq L=\mathrm{Frac}(R)$. As $R\subseteq\mathrm{Frac}(B(\{0,
+\dots,n+1\}))$ and the latter ring is generated by finitely many elements integral over $\mathcal T$, $L/F$ is finite, and separable
+since $\mathrm{char}K=0$; let $\Tr\colon L\to F$ be the trace. Let $\mathrm{res}\colon\mathcal T\to K$ be the coefficient of
+$(t_0\cdots t_n)^{-1}$; it vanishes on $\partial_k(\mathcal T)$, since $\partial_kt^m=m_kt^{m-e_k}$. We use three facts. (a) If
+$\Tr(y)\in\mathcal T$, then $\Tr(\partial_ky)=\partial_k\Tr(y)$: $\partial_k$ extends uniquely to the separable extension $L$ of $F$,
+and the trace commutes with it (\lref{CrystallineSemistableComparison.Pb.trace_deriv}, a routine verification). (b) For every
+chart $S$ for which $\mathcal T(S)$ is a localization of a polynomial ring $K[u_0,\dots,u_n]$ with $\mathrm{Frac}(\mathcal T(S))=F$,
+every finitely generated $B'\supseteq\mathcal T(S)$ integral over $\mathcal T(S)$ with $R\subseteq\mathrm{Frac}(B')$, and every
+injective $\kappa$, the traces of the elements of $B'$-Jacobians with respect to the derivations dual to the $u_j$ lie in
+$\mathcal T(S)$ (\lref{CrystallineSemistableComparison.Pb.trace_chart}, deferred; this is where integrality is used).
+(c) Each $B(\{0,\dots,n+1\}\smallsetminus\{i\})$ is contained in such a $B'$ for $S=\{0,\dots,n+1\}\smallsetminus\{i\}$
+(\lref{CrystallineSemistableComparison.Pb.chart_ext}, deferred).
+
+Apply $\Tr$ and then $\mathrm{res}$ to the relation. The left side gives $[L:F]\,\mathrm{res}((\prod t_k)^{-1})=[L:F]\ne0$. For
+$k\le n$, $\Tr(\eta_k)\in\mathcal T$ by (b) with $S$ the full set and $u=t$, so $\mathrm{res}(\Tr(\partial_k\eta_k))=
+\mathrm{res}(\partial_k\Tr\eta_k)=0$ by (a). For $i\ge1$, take $u=t$ with $t_{i-1}$ as a polynomial variable: by (b), (c),
+$\Tr(\omega_i)\in\mathcal T(\{0,\dots,n+1\}\smallsetminus\{i\})$, whose monomials have nonnegative exponent of $t_{i-1}$, so
+$\mathrm{res}(\Tr\omega_i)=0$. For $i=0$ use the coordinates at infinity $u_0=t_0^{-1}$, $u_k=t_kt_0^{-1}$ ($k\ge1$), for which
+$\mathcal T(\{1,\dots,n+1\})=K[u_0,u_1^{\pm1},\dots,u_n^{\pm1}]$; the Jacobian of the change of coordinates is
+$\det(\partial u_j/\partial t_k)=-t_0^{-(n+2)}$, so $\Tr(\omega_0)=-t_0^{-(n+2)}a$ with $a\in K[u_0,u_k^{\pm1}]$ by (b), (c). A monomial
+$u_0^\alpha\prod_{k\ge1}u_k^{\beta_k}$ ($\alpha\ge0$) times $t_0^{-(n+2)}$ equals $t_0^{-(n+2)-\alpha-\sum\beta_k}\prod_{k\ge1}t_k^{\beta_k}$, which is
+$(t_0\cdots t_n)^{-1}$ only if $\beta_k=-1$ for all $k$ and $\alpha=-1$; so $\mathrm{res}(\Tr\omega_0)=0$. Hence the right side gives
+$0$, a contradiction.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:steps1:powK}]
+If $d=0$, $c^0=1\ne0$ because $X\ne\emptyset$. Let $d=n+1\ge1$ and suppose $c^{n+1}=0$; let $\iota\colon X\to\mathbb P^N_K$ be the
+closed immersion underlying $D$.
+
+\emph{Step 1: coordinates} (\lref{CrystallineSemistableComparison.Pb.geo_setup}, deferred). There are $e\ge1$ and homogeneous
+polynomials $y_0,\dots,y_{n+1}$ of degree $e$ such that the opens $U_k=X\cap\{y_k\ne0\}$ cover $X$ and all intersections
+$U_S=\bigcap_{k\in S}U_k$ are affine, and a nonempty open $V\subseteq U_{\{0,\dots,n+1\}}$ with $R=\Gamma(V,\OO)$ a domain, on which
+$t_k=y_{k+1}/y_0$ ($0\le k\le n$) are units, algebraically independent over $K$, with derivations $\partial_k$ of $R$ dual to them, such
+that the subalgebras $B(S)\subseteq R$, images of the injective restriction maps $\Gamma(U_S,\OO)\to R$, satisfy the hypotheses of
+\cref{pf:steps1:resid}. (The $y_k$ are chosen by Noether normalization of the homogeneous coordinate ring, so that
+$(y_0:\dots:y_{n+1})$ is finite over $\mathbb P^{n+1}_K$ and $\Gamma(U_S,\OO)$ is integral over $\mathcal T(S)$.)
+
+\emph{Step 2: the relation} (\lref{CrystallineSemistableComparison.Pb.firstChern_local_exact},
+\lref{CrystallineSemistableComparison.Pb.cech_top_rel}, \lref{CrystallineSemistableComparison.Pb.cone_transfer}, deferred).
+On the cover $(U_k)$, $c$ is represented by the \v{C}ech cocycle of logarithmic derivatives $d\log(y_k/y_{k'})$, which is locally
+exact; computing $c^{n+1}$ in the filtered \v{C}ech complex of the cover, and using that the graded pieces of the Hodge filtration
+have no higher cohomology on the affine pieces in the relevant degrees, the vanishing of $c^{n+1}$ means that the \v{C}ech
+$(n+1)$-cocycle $d\log(y_0/y_1)\wedge d\log(y_1/y_2)\wedge\dots\wedge d\log(y_n/y_{n+1})$ on $U_{\{0,\dots,n+1\}}$ is the sum of a
+\v{C}ech coboundary of $(n+1)$-forms on the $U_{\{0,\dots,n+1\}\smallsetminus\{j\}}$ and the differential of an $n$-form on
+$U_{\{0,\dots,n+1\}}$. Restricted to $V$, with $g_l$ as in \cref{pf:steps1:dlogratios}, this gives $x_j\in
+\mathrm{Jac}_{\mathrm{id}}(B(\{0,\dots,n+1\}\smallsetminus\{j\}))$ and $\eta_k\in\mathrm{Jac}_{\kappa_k}(B(\{0,\dots,n+1\}))$ with
+$(\prod_lg_l)^{-1}\det(\partial_kg_l)=\sum_jx_j+\sum_k(-1)^k\partial_k\eta_k$.
+
+\emph{Step 3.} By \cref{pf:steps1:dlogratios} the left side is $\pm(\prod t_k)^{-1}$; replacing $(x,\eta)$ by $(-x,-\eta)$ if
+necessary, we get a relation excluded by \cref{pf:steps1:resid}. Hence $c^{n+1}\ne0$.
+\end{proof}
+
+\begin{remark}[A classical argument]\label{pf:steps1:powKrem}
+For the classical algebraic de Rham cohomology the statement also follows from Hodge theory: $X$ is projective, $X$ and $c$ descend
+to a finitely generated subfield of $K$, which embeds into $\C$; by Grothendieck's comparison theorem \cite{Grothendieck1966},
+$\stepsIH^*_{\mathrm{dR}}(X/\C)\cong\stepsIH^*(X(\C),\C)$ compatibly with cup products, $c$ corresponds to a nonzero multiple of
+the class of the Fubini--Study form $\omega$, and $\int\omega^d>0$ on every connected component of $X(\C)$. Applying it to the
+development's de Rham cohomology would require identifying the latter, with its Chern classes, with the classical theory; the
+algebraic proof above avoids this.
+\end{remark}
+
+\begin{proof}[Proof of \cref{pf:steps1:pseam}]
+Let $\mathrm{Amp}(M,D)$ mean that $D$ is tautological for $M.X\to\Spec\OO_K$. Tautological line data are defined along the
+standard affine cover, so their structure maps are \'etale (\lref{CrystallineSemistableComparison.Pb.isO1_etale},
+stating this), and every projective model, in particular every smooth good model, carries one
+(\lref{CrystallineSemistableComparison.Pb.isO1_exists}, stating this).
+
+\emph{De Rham pairing.} The development constructs a family of pairings $\kappa$ with the linearity, equivariance,
+naturality, filtration and multiplicativity properties, together with the compatibility $\kappa(x,\phi)=\phi(c)$ whenever
+$x$ is a first Chern class of $D$ in $\mathcal H^2$ and $c$ a de Rham first Chern class of $D$
+(\lref{CrystallineSemistableComparison.Pb.crystalline_deRham_firstChern_exists}, deferred). Finiteness of de Rham
+cohomology, $\mathrm{Fil}^{j+1}\stepsIH^j_{\mathrm{dR}}=0$ and $\mathrm{Fil}^{d+1}=0$ in dimension $d$ are
+\lref{CrystallineSemistableComparison.Pb.m_fin} and \lref{CrystallineSemistableComparison.Pb.m_top}
+(deferred), and the cup product on de Rham cohomology respects the filtration. For the last property let $M$ be connected
+of dimension $d$ and $D$ tautological. There are a first Chern class $x\in\mathcal H^2(M,D)$ of $D$
+(\lref{CrystallineSemistableComparison.Pb.firstChern_acris_family_exists}, deferred) and a de Rham first Chern class
+$c$ of the induced tautological datum on $M_K$ (\lref{CrystallineSemistableComparison.Pb.isFirstChernDeRham_exists},
+deferred). Let $z$ be the $d$-th cup power of $x$. By multiplicativity and the compatibility above,
+$\kappa(z,\phi)=\phi(c^d)$ for all $\phi$. By \cref{pf:steps1:powK}, $c^d\ne0$, so there is a linear form $\phi$ with
+$\phi(c^d)=1$, and $\kappa(z,\phi)=1$ is a unit.
+
+\emph{Crystalline pairings.} Given $r$, a Teichm\"uller congruence of some level $N$ holds
+(\lref{CrystallineSemistableComparison.Pb.teich}, deferred), a Frobenius factorisation of level $N$ exists
+(\lref{CrystallineSemistableComparison.Pb.fac_ex}, stating this), and from these the crystalline pairing is
+constructed (\lref{CrystallineSemistableComparison.Pb.fmap_of}, deferred).
+\end{proof}
+
+\subsubsection{Proof of $\sfname{CrysStep}$}
+
+We use the following results proved elsewhere in the development.
+\begin{enumerate}[label=(\alph*),nosep]
+\item \emph{Base change preserves niceness} (\lref{UpperTheory.Gal.Seam.niceBc}).
+\item \emph{The local tower lemma} (\lref{UpperTheory.Gal.Seam.locTower_holds}): let $k$ be a field of
+  characteristic $0$ with algebraic closure $\Omega$, $\tau\colon k\to K$, $\Omega'$ algebraically closed over $K$ and
+  $j\colon\Omega\to\Omega'$ extending $\tau$; if $\rho_0$ is a matrix of the $\theta$-piece of a nice tower $H$ for
+  $\Aut_k(\Omega)$, there is a matrix $\rho_1$ of the $\theta$-piece of $\mathrm{bc}_\tau H$ for $\Aut_K(\Omega')$ with
+  $\rho_1(\sigma')=\rho_0(\sigma)$ whenever $\sigma'\circ j=j\circ\sigma$.
+\item \emph{Base change of covers} (\lref{UpperTheory.Gal.Seam.bcCover}): a cover over $O$ base-changes along
+  compatible maps $O\to O'$, $k\to K$ to a cover over $O'$ of the base-changed tower, preserving ``onto'', ``good'' and the
+  relations ``lies under''.
+\item \emph{The integral embedding} (\lref{UpperTheory.Gal.Seam.intMap}): an inducing bridge gives a ring map
+  $\stepsIOw\to\OO_{K_w}$ compatible with $\tau_w$ and mapping irreducible elements to irreducible elements.
+\item \emph{Smooth projective models are good} (\lref{UpperTheory.Gal.Seam.goodOf}).
+\item \emph{The piece embedding} (\lref{UpperTheory.Gal.Seam.pieceIn_holds}): for an onto cover $C$ over $\OO_K$ of a
+  nice tower over $K$, with model $M_C=(Y\to\Spec\OO_K)$, the pull-back $\stepsIHtot((M_C)_{K,\Qlbar})\to\stepsIHtot(Z_{\Qlbar})$
+  along $Z\to Y_K$ is injective (after extension of scalars to $\Qlbar$) and $G_K$-equivariant, and the $\theta$-piece lies
+  in its image.
+\item \emph{Vanishing in negative degrees} (\lref{UpperTheory.Gal.Seam.negVan}).
+\item \emph{Admissibility transfer} (\lref{UpperTheory.Gal.Seam.isAdmP_of_isAdm}, with the tie data
+  \lref{UpperTheory.Lit.Cmp.locTied6}): for a tied package $P$, $B_{\mathrm{cr}}$-admissibility implies
+  $P$-admissibility; and \lref{UpperTheory.Gal.Seam.isCrys_of_isAdmP}: if $r\colon G_K\to\GL_d(\Ql)$ is
+  $P$-admissible, its extension of scalars to any finite $LL\supseteq\Ql$ is crystalline for $P$.
+\item \emph{Subquotients} (\lref{GlobalTheory.Per.CrysSubQuot.crys_sub_quot} and
+  \lref{GlobalTheory.TateDualCrys.isCrys_of_isSubOfSums}): for a tied package, subrepresentations and quotients of
+  crystalline representations are crystalline, and a representation embedding into a direct sum of crystalline ones is
+  crystalline.
+\end{enumerate}
+
+\begin{lemma}[Embedding of the piece into the cohomology of a model]\label{pf:steps1:matin}
+Let $K$ be finite over $\Ql$, $H$ a nice tower over $K$, $\theta\colon\Gamma\to\Qlbar$, $C$ an onto cover of $(H,\theta)$ over
+$\OO_K$ with model $M_C$, and $\rho_1\colon G_K\to\GL_d(\Qlbar)$ a matrix of the $\theta$-piece. Then there are $N$, bases
+$b_n$ of $V_n(M_C)$ $(0\le n<N)$ and a matrix $\mathcal M$ defining an injective map
+$\Qlbar^d\to\bigoplus_n\Qlbar^{\dim V_n}$ such that $\bigl(\bigoplus_{n<N}\mathrm{mat}_n(b_n)(\sigma)\bigr)\mathcal M=\mathcal
+M\rho_1(\sigma)$ for all $\sigma\in G_K$.
+\formallabel{UpperTheory.Gal.Seam.matIn_holds} \formallabel{UpperTheory.Gal.Seam.matInS}
+\end{lemma}
+
+\begin{proof}
+$M_C$ is proper over $\OO_K$, so its geometric generic fibre is proper over $\Qlbar$, and each $V_n(M_C)$ is
+finite-dimensional by \cref{pf:steps1:vfin}; $V_n=0$ for $n<0$ by (g). By (f) the pull-back $\Pi$ from
+$\Qlbar\otimes\bigoplus_nV_n(M_C)$ to $\Qlbar\otimes\stepsIHtot(Z_{\Qlbar})$ is injective and equivariant, and the basis vectors
+$e_1,\dots,e_d$ of the piece defining $\rho_1$ lie in its image. Their preimages involve only finitely many degrees, say
+$n<N$. Writing the preimages in the bases $b_n$ gives the columns of $\mathcal M$; injectivity of $\Pi$ and linear
+independence of the $e_j$ give injectivity of $\mathcal M$, and equivariance of $\Pi$ together with
+$\sigma^*e_j=\sum_i\rho_1(\sigma)_{ij}e_i$ gives the intertwining relation.
+\end{proof}
+
+\begin{lemma}[Subrepresentations of admissible representations]\label{pf:steps1:subadm}
+Let $P$ be a tied period package, $B_w$ a bridge for $G_w\subseteq G_E$, $R_n\colon G_{K_w}\to\GL_{a_n}(\Ql)$ $(n<N)$
+$P$-admissible homomorphisms, $r\colon G_w\to\GL_d(\Qlbar)$ a homomorphism and $\mathcal M$ an injective matrix with
+$\bigl(\bigoplus_nR_n(e(g))\bigr)\mathcal M=\mathcal Mr(g)$ for $g\in G_w$. Then $r$ is crystalline for $(P,B_w)$.
+\formallabel{UpperTheory.Gal.Seam.subAdm} \formallabel{UpperTheory.Gal.Seam.isAdmP_block}
+\formallabel{GlobalTheory.CrysSubRep.isCrysAt_of_sub}
+\end{lemma}
+
+\begin{proof}
+The block sum $R=\bigoplus_nR_n$ is $P$-admissible: take block diagonal matrices. Hence the scalar extension of $R$ to the
+field $LL$ of the bridge is crystalline by (h). Let $L\supseteq LL$ be the finite extension generated by the entries of
+$\mathcal M$, and $\mathcal N$ a left inverse of $\mathcal M$ over $L$. Then $r(g)=\mathcal NR(e(g))\mathcal M$ has entries in
+$L$, so $r$ has a model $r'$ over $L$; via $\mathcal M$, $r'$ is a subrepresentation of the $L$-linear crystalline
+representation $R_L$, hence crystalline by (i).
+\end{proof}
+
+\begin{lemma}[Graded representations]\label{pf:steps1:grcrys}
+Let $P$ be tied. If $r$ is graded of $r_0$ and $r_0$ is crystalline for $(P,B_w)$, then so is $r$.
+\formallabel{UpperTheory.Gal.Seam.grCrys} \formallabel{UpperTheory.Gal.Seam.isCrys_gr}
+\end{lemma}
+
+\begin{proof}
+Let $c$ be the grading function and $r_0'$ a crystalline model of $r_0$ over $L$. The entries of $r$ are entries of $r_0$
+or $0$, so $r$ has a model $r'$ over $L$, and $r'$ is graded of $r_0'$. For $v\in\N$ let $U_v=\{x:x_j=0\text{ if
+}c(j)>v\}$ and $W_v=\{x:x_j=0\text{ if }c(j)\ne v\}$. Block triangularity shows that $U_v$ is $r_0'$-stable and that the
+coordinate projection $U_v\to W_v$ intertwines $r_0'|_{U_v}$ with $r'|_{W_v}$ and is surjective. Hence $r'|_{W_v}$ is a
+quotient of a subrepresentation of a crystalline representation, so it is crystalline by (i), and
+$r'=\bigoplus_vr'|_{W_v}$ is crystalline.
+\end{proof}
+
+\begin{theorem}[$\sfname{CrysStep}$]\label{pf:steps1:crys}
+Let $E$ be a number field with algebraic closure $\Omega$, $\ell$ a prime, $H$ a nice tower over $E$,
+$\theta\colon\Gamma\to\Qlbar$, $\rho\colon G_E\to\GL_d(\Qlbar)$ continuous and attached to the $\theta$-piece, and $w\mid\ell$ a
+finite place such that $(H,\theta)$ has an onto cover over $\stepsIOw$. Then $\rho$ is crystalline at $w$.
+\formallabel{UpperTheory.Gal.Seam.crysStep_holds} \formallabel{UpperTheory.Gal.Seam.crysStep}
+\formallabel{UpperTheory.Gal.Seam.crysStep_of}
+\end{theorem}
+
+\begin{proof}
+Let $\rho_0$ be a matrix of the $\theta$-piece of which $\rho$ is graded, $C$ the onto cover over $\stepsIOw$, $P$ a tied
+package, $A$ a place of $\Omega$ over $w$ and $B_w$ an inducing bridge; put $K=K_w$.
+\begin{enumerate}[label=(\arabic*),nosep]
+\item By (d) there is $\phi\colon\stepsIOw\to\OO_K$ compatible with $\tau_w$; by (a), $\mathrm{bc}_{\tau_w}H$ is nice; by (c),
+  $C$ base-changes to an onto cover $C'$ of $(\mathrm{bc}_{\tau_w}H,\theta)$ over $\OO_K$, with model $M_{C'}$.
+\item By (b), with $j\colon\Omega\to\Qlbar$, there is a matrix $\rho_1$ of the $\theta$-piece of $\mathrm{bc}_{\tau_w}H$ for $G_K$
+  with $\rho_1(e(g))=\rho_0(g)$ for $g\in D_A$, since $e(g)\circ j=j\circ g$.
+\item By \cref{pf:steps1:matin} there are bases $b_n$ of $V_n(M_{C'})$ ($n<N$) and an injective $\mathcal M$ with
+  $(\bigoplus_n\mathrm{mat}_n(b_n)(\sigma))\mathcal M=\mathcal M\rho_1(\sigma)$.
+\item By (e), $M_{C'}$ is a smooth good model; by \cref{pf:steps1:cst} each $\mathrm{mat}_n(b_n)$ is
+  $B_{\mathrm{cr}}$-admissible, hence $P$-admissible by (h), since $P$ is tied.
+\item By (2)--(4) and \cref{pf:steps1:subadm} (with $r=\rho_0|_{D_A}$), $\rho_0|_{D_A}$ is crystalline for $(P,B_w)$.
+\item Restriction to $D_A$ preserves gradings, so \cref{pf:steps1:grcrys} shows that $\rho|_{D_A}$ is crystalline for $(P,B_w)$.
+\end{enumerate}
+As $P,A,B_w$ were arbitrary, $\rho$ is crystalline at $w$.
+\end{proof}
+
+\begin{remark}
+$\sfname{CrysStep}$ needs only an onto cover, not a good one: crystallinity does not involve the Hecke correspondences on the
+model, only a smooth projective model through whose cohomology the piece factors. The hypotheses that $\rho$ is continuous and
+that $w\mid\ell$ are not used in the proof; at places $w\nmid\ell$ no bridge induces a place over $w$, so the conclusion is
+vacuous there.
+\end{remark}
+
+% ===========================================================================
+\subsection{The Hodge--Tate step}\label{sec:pf:steps1:jump}
+
+In this subsection $\sfname{JumpStep}$ is deduced from the Hodge--Tate comparison theorem. The idea is the
+following. Over a finite extension $K$ of $\Ql$, a smooth projective model of the tower gives a
+Hodge--Tate decomposition $V_n\otimes\stepsICl\cong\bigoplus_a\stepsIH^{n-a}(\Omega^a)\otimes_K\stepsICl(-a)$ which is
+natural in morphisms of models. Applied to finite \'etale Galois covers splitting the Hecke correspondences,
+naturality shows that the decomposition intertwines the Hecke operators on \'etale cohomology with the Hecke
+operators (trace after pull-back) on Hodge cohomology (\cref{pf:steps1:loce}). Hence a Hecke eigenclass in
+$\stepsIH^b(\Omega^a)$ produces an eigenvector of the Galois representation on which $G_K$ acts through
+$\stepsIchar^{-a}$, so that $a$ is a Hodge--Tate weight. Since the tower over $E$ only has an integral model
+after passing to the quotient $Y=Z/\Delta$ of the cover, the argument is run on the ``low tower'' formed by
+$Y$ and the correspondences lying under the Hecke correspondences, and transported back.
+
+Throughout, $K\subset\Qlbar$ is a finite extension of $\Ql$, $\stepsICl$ the completion of $\Qlbar$, $G_K$ acts
+on $\stepsICl$, and $\stepsIchar$ is the $\ell$-adic cyclotomic character.
+
+\begin{definition}[Hodge--Tate occurrence]\label{pf:steps1:def:htocc}
+Let $\rho\colon G_K\to M_d(\Qlbar)$ be a map and $a\in\Z$. We say that $a$ \emph{occurs as a Hodge--Tate
+weight of} $\rho$, and write $a\in\mathrm{HT}(\rho)$, if there are a finite set $S\subset\Qlbar$ and a nonzero
+$z\in\stepsICl^d$ such that $\rho(\sigma)\,\sigma(z)=\stepsIchar(\sigma)^{-a}z$ for every $\sigma\in G_K$ fixing
+$S$ pointwise. \formal{PositivityTheory.AutomorphicGaloisHodgeTate.G8.HTOcc}
+\end{definition}
+
+Thus $a\in\mathrm{HT}(\rho)$ if $\stepsICl(-a)$ occurs in the semilinear representation $\stepsICl^d$ of an
+open subgroup of $G_K$; with this convention the cohomology $V_n$ of a smooth projective variety has its
+Hodge--Tate weights in $[0,n]$.
+
+\begin{definition}[Frames and Hodge--Tate matrices]\label{pf:steps1:def:frame}
+Let $q\colon X\to\Spec K$ be a $K$-scheme and $n\ge0$. A \emph{frame} $F$ of $(X,n)$ consists of a
+$\Ql$-basis $b_1,\dots,b_d$ of $V_n(X)=\stepsIHQ^n(X_{\Qlbar})(0)$ and, for $0\le a\le n$, $K$-bases of
+$\stepsIH^{n-a}(X,\Omega^a)$ of sizes $e_a$; let $\mathrm{Col}(F)$ be the set of pairs $(a,i)$, $i\le e_a$. A
+matrix $\Phi\in M_{d\times\mathrm{Col}(F)}(\stepsICl)$ is \emph{Hodge--Tate} for $F$ if it is invertible and
+\[
+ \rho_F(\sigma)\,\sigma(\Phi)=\Phi\cdot\mathrm{diag}\bigl(\stepsIchar(\sigma)^{-a}\bigr)_{(a,i)\in\mathrm{Col}(F)}
+ \qquad(\sigma\in G_K),
+\]
+where $\rho_F(\sigma)$ is the matrix of the Galois action on $V_n(X)$ in the basis $b$. For a $K$-morphism
+$f\colon X'\to X$ and frames $F,F'$, $\mathrm{et}(f)$ is the matrix of $f^*\colon V_n(X)\to V_n(X')$ and
+$\mathrm{hdg}(f)$ the block diagonal matrix of $f^*$ on $\bigoplus_a\stepsIH^{n-a}(\Omega^a)$, both viewed in
+$\stepsICl$. \formal{GlobalTheory.HTLink.Frame} \formal{GlobalTheory.HTLink.Frame.IsHT}
+\end{definition}
+
+If $\Phi$ is Hodge--Tate, the $\stepsICl$-linear map $\Phi\colon\bigoplus_a\stepsIH^{n-a}(X,\Omega^a)\otimes_K\stepsICl
+\to V_n(X)\otimes\stepsICl$ given by the matrix is an isomorphism, and for every $y$ in the $a$-th summand with
+coordinates fixed by $\sigma$, $\sigma(\Phi y)=\stepsIchar(\sigma)^{-a}\Phi y$.
+
+\begin{theorem}[Hodge--Tate comparison in the form used]\label{pf:steps1:htspec}
+Let $\ell$ be a prime, $K\subset\Qlbar$ finite over $\Ql$ and $n\ge0$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item For every smooth good model $M$ over $\OO_K$ of pure relative dimension there is a frame $F$ of
+  $(M_K,n)$ with $\sum_ae_a=d$, i.e.\ $\dim_{\Ql}V_n(M)=\sum_{a=0}^n\dim_K\stepsIH^{n-a}(M_K,\Omega^a)$.
+\item There is a choice $\Phi(M,F)$, for all such $M$ and all frames $F$ of $(M_K,n)$, of Hodge--Tate matrices
+  for $F$ which is natural: for every morphism of models $u\colon M'\to M$ over $\OO_K$ and frames $F,F'$,
+  $\mathrm{et}(u)\,\Phi(M,F)=\Phi(M',F')\,\mathrm{hdg}(u)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Seam.HT.htSpecGood}
+\end{theorem}
+
+\begin{proof}
+This is the Hodge--Tate decomposition for smooth proper varieties with good reduction \cite{Faltings1988}
+(see also \cite{Scholze2013phodge}): there is a functorial $G_K$-equivariant isomorphism
+$V_n(M)\otimes_{\Ql}\stepsICl\cong\bigoplus_a\stepsIH^{n-a}(M_K,\Omega^a)\otimes_K\stepsICl(-a)$. Taking
+$\Phi(M,F)$ to be its matrix in the bases of $F$ gives (ii), and comparing dimensions gives (i).
+\end{proof}
+
+\begin{remark}[The formal proof]\label{pf:steps1:htspecrem}
+The development proves \cref{pf:steps1:htspec} from scratch, in about $26{,}000$ lines, by the route of
+\cref{sec:pf:steps1:htdev} below: it constructs a Hodge--Tate pairing and shows that it is injective
+(\cref{pf:steps1:htinj}), upgrades it to a bijection by a K\"unneth and diagonal-class argument on self-products together
+with a dimension count (\cref{pf:steps1:htbij}), and turns it into natural period matrices using the natural
+identification of its Hodge cohomology with sheaf cohomology (\cref{pf:steps1:cech};
+\lref{UpperTheory.Gal.Seam.Spec.htSpecGood_of}, deferred, chooses the frames and verifies the naturality of the
+resulting matrices).
+\end{remark}
+
+\subsubsection{The Hodge--Tate comparison of the development}\label{sec:pf:steps1:htdev}
+
+We prove the formal Hodge--Tate statements on which the formal proof of \cref{pf:steps1:htspec} rests. The construction of
+the pairing is the comparison theorem itself, and we cite the literature for it; the injectivity and the bijectivity are
+deduced in the development by arguments of its own, which we give in full. Throughout, $K\subset\Qlbar$ is finite over
+$\Ql$. For a scheme $X$ over a field $k$ and $a,n\ge0$ let $\stepsIHdg^{a,n}(X)$ be the Hodge cohomology used by the
+development: the degree-$n$ cohomology, in the \v{C}ech formalism of the development, of the $a$-th graded piece
+$\Omega^a_{X/k}[-a]$ of the de Rham complex; by \cref{pf:steps1:cech} below, $\stepsIHdg^{a,a+j}(X)\cong
+\stepsIH^j(X,\Omega^a_{X/k})$ for smooth proper $X$. It carries pull-backs, $k$-bilinear cup products
+$\stepsIHdg^{a,i}\times\stepsIHdg^{a',j}\to\stepsIHdg^{a+a',i+j}$ and a unit $1\in\stepsIHdg^{0,0}$. For a model $M$ we
+write $\stepsIHdg^{a,n}(M)=\stepsIHdg^{a,n}(M_K)$. Classes $x\in T_i(M)$, $y\in T_j(M)$ have cup products $z\in
+T_{i+j}(M)$ (levelwise cup products of compatible families).
+
+\begin{definition}[Hodge--Tate pairings]\label{pf:steps1:def:htpre}
+A \emph{Hodge--Tate pairing} $P$ for $K$ consists of biadditive maps
+$h=h_M^{a,n}\colon V_n(M)\times\stepsIHdg^{a,n}(M)^\vee\to\stepsICl$, for all models $M$ and $a,n\ge0$, which are
+$\Ql$-linear in the first and $K$-linear in the second variable, such that for all smooth good models $M$, $N$:
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item $\stepsIHdg^{a,n}(M)$ is finite-dimensional, and zero if $n<a$;
+\item $\stepsIchar(\sigma)^a\,h(\sigma v,\phi)=\sigma\bigl(h(v,\phi)\bigr)$ for $\sigma\in G_K$;
+\item $h_M(u^*v,\phi)=h_N(v,\phi\circ u^*)$ for every morphism $u\colon M.X\to N.X$ over $\OO_K$;
+\item if $z\in T_{i+j}(M)$ is a cup product of $x\in T_i(M)$ and $y\in T_j(M)$, then for all bases $(e_{a,s})_s$ of
+  $\stepsIHdg^{a,i}(M)$ and $(e'_{a,s'})_{s'}$ of $\stepsIHdg^{a,j}(M)$, with dual bases $(e^*_{a,s})$, $(e'^*_{a,s'})$,
+  \begin{equation}\label{pf:steps1:eq:htcup}
+   h^{c,i+j}(z,\phi)=\sum_{a+a'=c}\ \sum_{s,s'}h^{a,i}(x,e^*_{a,s})\,h^{a',j}(y,e'^*_{a',s'})\,\phi(e_{a,s}\cup e'_{a',s'});
+  \end{equation}
+\item $h^{0,0}(1,\phi)=\phi(1)$ for the unit class $1\in T_0(M)$;
+\item for every line datum $D$ on $M.X$ with \'etale structure map whose trivializing opens cover $M.X$, $D$ has \'etale first
+  Chern classes $v\in T_2(M)$ (for every choice of roots of unity), its generic fibre has a unique logarithmic first Chern
+  class $c\in\stepsIHdg^{1,2}(M)$, and $h^{1,2}(v,\phi)=\phi(c)$, $h^{a,2}(v,\cdot)=0$ for $a\ne1$.
+\end{enumerate}
+Let $M$ be smooth good. $P$ is \emph{injective in degree $n$} for $M$ if for every basis $(b_k)$ of $V_n(M)$ and every
+$z\in\stepsICl^{\dim V_n}$ with $\sum_kz_kh^{a,n}(b_k,\phi)=0$ for all $a$ and $\phi$ one has $z=0$; for $M$ connected of
+dimension $d$, $P$ is \emph{injective in top degree} if the same holds with $n=2d$ and only $a=d$; and $P$ is
+\emph{surjective in degree $n$} if for all bases $(e_{a,s})_s$ of $\stepsIHdg^{a,n}(M)$ and all $z_{a,s}\in\stepsICl$ with
+$\sum_{a\le n}\sum_sz_{a,s}h^{a,n}(v,e^*_{a,s})=0$ for every $v\in V_n(M)$, all $z_{a,s}$ vanish.
+\formal{CrystallineSemistableComparison.HT.HTPre} \formal{CrystallineSemistableComparison.HT.HTPre.Inj}
+\formal{CrystallineSemistableComparison.HT.HTPre.Top} \formal{CrystallineSemistableComparison.Onto.Surj}
+\end{definition}
+
+Thus injectivity in degree $n$ means that $v\mapsto\sum_{a,s}h(v,e^*_{a,s})e_{a,s}$ is an injective map
+$V_n(M)\otimes\stepsICl\to\bigoplus_a\stepsIHdg^{a,n}(M)\otimes_K\stepsICl$, and surjectivity that this map is
+surjective. For the classical comparison isomorphism of \cite{Faltings1988} both hold.
+
+\begin{lemma}[\v{C}ech comparison]\label{pf:steps1:cech}
+Let $k$ be a field of characteristic $0$. There are $k$-linear isomorphisms
+$e_X\colon\stepsIHdg^{a,a+j}(X)\to\stepsIH^j(X,\Omega^a_{X/k})$, for all smooth proper $k$-schemes $X$ and all $a,j\ge0$, such
+that $e_X(u^*x)=u^*e_Y(x)$ for every $k$-morphism $u\colon X\to Y$.
+\formallabel{CrystallineSemistableComparison.Om.Nt2F.hodge_iso_natural_cech}
+\end{lemma}
+
+\begin{proof}
+For every finite cover $\mathcal U$ of $X$ by affine opens whose finite intersections are affine, the development
+identifies $\stepsIHdg^{a,a+j}(X)$ with the $j$-th cohomology of the \v{C}ech complex $\check C^\bullet(\mathcal U,\Omega^a)$,
+compatibly with pull-backs along morphisms $u$ and refinements $\mathcal U\to u^{-1}\mathcal W$
+(\lref{CrystallineSemistableComparison.Om.GlobPf2.glob_iso}, deferred; this is internal to the \v{C}ech formalism of the
+development, whose graded pieces are built from differential forms on affine pieces). Since $X$ is noetherian and
+separated and $\Omega^a$ is quasi-coherent, the natural map $\check\stepsIH^j(\mathcal U,\Omega^a)\to\stepsIH^j(X,\Omega^a)$ is
+an isomorphism \cite[III.4.5]{Hartshorne1977}; these maps are compatible with refinements and with pull-backs along
+morphisms $u$ for which $\mathcal U$ refines $u^{-1}\mathcal W$ \cite[III.4.4]{Hartshorne1977}. Composing gives $e_X$, and
+it is independent of the cover because any two covers have a common refinement.
+\end{proof}
+
+\begin{lemma}[Top powers in Hodge cohomology]\label{pf:steps1:ktop}
+Let $X$ be a connected smooth scheme of relative dimension $d$ over a field $k$ of characteristic $0$, $D$ a tautological
+line datum on $X$ and $c\in\stepsIHdg^{1,2}(X)$ a logarithmic first Chern class of $D$. Then $c^d\ne0$ in
+$\stepsIHdg^{d,2d}(X)$.
+\formallabel{CrystallineSemistableComparison.HT.kTop}
+\end{lemma}
+
+\begin{proof}
+Let $c'$ be a de Rham first Chern class of $D$ (\lref{CrystallineSemistableComparison.Pb.isFirstChernDeRham_exists},
+deferred). Choose a cover of $X$ by $d+1$ affine opens trivializing $D$; on it both $c$ and $c'$ are represented by the
+same \v{C}ech cocycle, formed by the logarithmic derivatives of the transition functions of $D$, so $c^d$ and $c'^d$ are
+represented by the same cocycle of $d$-forms on the $(d+1)$-fold intersection. In total degree $2d$ the de Rham cohomology
+of $X$ computed on this cover is a quotient of the \v{C}ech cohomology $\check\stepsIH^d(\Omega^d)$, the other terms of the
+double complex vanishing for degree reasons, and $c'^d$ is the image of $c^d$. As $c'^d\ne0$ by \cref{pf:steps1:powK}, $c^d\ne0$.
+\end{proof}
+
+\begin{theorem}[Hodge--Tate pairings are injective]\label{pf:steps1:htinj}
+There is a Hodge--Tate pairing $P$ for $K$, and every Hodge--Tate pairing is injective in every degree for every smooth good
+model and injective in top degree for every smooth good model connected of some dimension.
+\formallabel{UpperTheory.Gal.Seam.HT.hodgeTate_comparison_smooth_projective}
+\formallabel{CrystallineSemistableComparison.HT.hodgeTate_of_etale_side}
+\formallabel{CrystallineSemistableComparison.HT.ht_of}
+\formallabel{CrystallineSemistableComparison.HT.inj_of}
+\end{theorem}
+
+\begin{proof}
+\emph{Existence.} The Hodge--Tate decomposition of the \'etale cohomology of smooth proper varieties over $K$, with its
+functoriality and its compatibility with cup products and Chern classes \cite{Faltings1988} (see also
+\cite{Scholze2013phodge}), provides a pairing with properties (ii)--(vi) of \cref{pf:steps1:def:htpre} (the logarithmic
+first Chern class of (vi) is the Hodge component of $c_1$; the sign convention may be adjusted by multiplying $h^{a,n}$ by
+$(-1)^a$, which preserves (ii)--(v)); (i) is the finiteness of coherent cohomology of proper schemes and the vanishing of
+$\stepsIH^{n-a}$ for $n<a$. The development constructs such a pairing from its own comparison maps
+(\lref{CrystallineSemistableComparison.HT.pre_of}, deferred, which assembles it from lifts of \'etale classes through
+the Hodge--Tate filtration of the period ring, \lref{CrystallineSemistableComparison.HT.half1}, and from maps of graded
+pieces to Hodge cohomology, \lref{CrystallineSemistableComparison.HT.half2}, both deferred).
+
+Now let $P$ be any Hodge--Tate pairing. We use the \'etale side for smooth good models
+(\lref{UpperTheory.Gal.Seam.HT.etSideS}): cup products exist, $V_n(M)$ is finite-dimensional, every smooth good model has
+finitely many smooth good models $u_\alpha\colon M_\alpha\to M$, each connected of some dimension, such that
+$v\in V_n(M)$ vanishes if all $u_\alpha^*v$ vanish, and \emph{Poincar\'e duality} holds for $M$ connected of dimension $d$:
+$V_i(M)=0$ for $i>2d$, and for $i+j=2d$ there are $g_1,\dots,g_r$ spanning $V_{2d}(M)$, permuted by $G_K$ up to nonzero
+scalars (for all $s,s'$ there are $\sigma\in G_K$ and $\zeta\in\Ql^\times$ with $\sigma g_s=\zeta g_{s'}$), such that the
+linear forms $f$ on $V_i(M)$ for which there are $s$ and $y\in T_j(M)$ with $x\cup y=f(x)\,g_s$ for all $x\in T_i(M)$ span
+the dual of $V_i(M)$.
+
+\emph{Step 1: a nonzero top value.} Let $M$ be connected of dimension $d$. There are $v\in V_{2d}(M)$ and $\phi$ with
+$h^{d,2d}(v,\phi)\ne0$. Indeed, $M.X$ carries a tautological line datum $D$ with \'etale structure map whose trivializing opens
+cover $M.X$ (\lref{CrystallineSemistableComparison.Pb.isO1_exists},
+\lref{CrystallineSemistableComparison.Pb.isO1_etale}); let $v_1\in T_2(M)$ and $c\in\stepsIHdg^{1,2}(M)$ be as in (vi).
+By induction on $k$, using \eqref{pf:steps1:eq:htcup} and (v), a $k$-fold cup power $w_k\in T_{2k}(M)$ of $v_1$ satisfies
+$h^{k,2k}(w_k,\phi)=\phi(c^k)$ and $h^{a,2k}(w_k,\cdot)=0$ for $a\ne k$: in \eqref{pf:steps1:eq:htcup} for $w_{k+1}=w_k\cup v_1$ only
+the terms with $a=k$, $a'=1$ survive, and they sum to $\phi(c^k\cup c)$. By \cref{pf:steps1:ktop}, $c^d\ne0$, so
+$\phi(c^d)=1$ for some $\phi$, and $v=w_d$ works.
+
+\emph{Step 2: duality.} Let $M$ be connected of dimension $d$, $n+j=2d$, $(b_k)$ a basis of $V_n(M)$ and $z\in\stepsICl^{\dim V_n}$
+such that $\sum_kz_kh^{p,n}(b_k,\psi)=0$ for all $\psi$ and all $p$ with $d-p\le j$. Then $z=0$. Take $v,\phi$ as in Step 1 and
+write $v$ as a combination of the $g_s$; then $h^{d,2d}(g_{s_0},\phi)\ne0$ for some $s_0$, and by (ii) and the transitivity of the
+Galois action on the $g_s$ up to scalars, $h^{d,2d}(g_s,\phi)\ne0$ for all $s$. Let $f$, $s$, $y$ be as in Poincar\'e duality.
+By \eqref{pf:steps1:eq:htcup} applied to $b_k\cup y=f(b_k)g_s$,
+\[
+ \Bigl(\sum_kz_kf(b_k)\Bigr)h^{d,2d}(g_s,\phi)=\sum_{p+q=d}\ \sum_{t,t'}\Bigl(\sum_kz_kh^{p,n}(b_k,e^*_{p,t})\Bigr)h^{q,j}(y,e'^*_{q,t'})\,
+ \phi(e_{p,t}\cup e'_{q,t'})=0,
+\]
+because the inner sums vanish for $q\le j$, while $\stepsIHdg^{q,j}(M)=0$ for $q>j$ by (i). Hence $\sum_kz_kf(b_k)=0$ for a
+spanning set of linear forms $f$ on $V_n(M)$, and $z=0$ since $(b_k)$ is a basis.
+
+\emph{Step 3: conclusion.} For $M$ connected of dimension $d$, injectivity in degree $n$ is trivial for $n>2d$ ($V_n(M)=0$) and
+follows from Step 2 with $j=2d-n$ otherwise; injectivity in top degree is Step 2 with $n=2d$, $j=0$, where the only
+condition needed is the one for $p=d$. For a general smooth good $M$, let $z$ satisfy the hypothesis of injectivity in degree
+$n$ and put $x=\sum_kz_kb_k\in V_n(M)\otimes\stepsICl$. By (iii), $\sum_kz_kh_{M_\alpha}(u_\alpha^*b_k,\phi')=
+\sum_kz_kh_M(b_k,\phi'\circ u_\alpha^*)=0$ for all $\alpha$ and $\phi'$, so expanding $u_\alpha^*b_k$ in a basis of
+$V_n(M_\alpha)$ and using injectivity for the connected model $M_\alpha$ gives $u_\alpha^*x=0$ for all $\alpha$; as the
+$u_\alpha^*$ jointly detect $V_n(M)$, also after the flat extension of scalars to $\stepsICl$, $x=0$, i.e.\ $z=0$.
+\end{proof}
+
+\begin{lemma}[Dimension count]\label{pf:steps1:rank}
+Let $P$ be a Hodge--Tate pairing, $M$ a smooth good model and $n\ge0$ such that $V_n(M)$ is finite-dimensional and $P$ is
+injective and surjective in degree $n$ for $M$. Then $\dim_{\Ql}V_n(M)=\sum_{a=0}^n\dim_K\stepsIHdg^{a,n}(M)$.
+\formallabel{CrystallineSemistableComparison.Onto.rank_equality}
+\end{lemma}
+
+\begin{proof}
+Choose bases $(b_k)$ of $V_n(M)$ and $(e_{a,s})_s$ of $\stepsIHdg^{a,n}(M)$, $a\le n$, and consider the matrix
+$H=(h^{a,n}(b_k,e^*_{a,s}))_{k,(a,s)}$ over $\stepsICl$. Since every $\phi$ is a $K$-combination of the $e^*_{a,s}$ (and
+$\stepsIHdg^{a,n}=0$ for $a>n$), a relation $\sum_kz_kH_{k,(a,s)}=0$ for all $(a,s)$ gives $\sum_kz_kh^{a,n}(b_k,\phi)=0$ for all
+$a,\phi$, hence $z=0$ by injectivity: the rows of $H$ are linearly independent. Since $h$ is $\Ql$-linear in $v$, a relation
+$\sum_{a,s}z_{a,s}H_{k,(a,s)}=0$ for all $k$ gives the hypothesis of surjectivity, hence $z=0$: the columns are linearly
+independent. So $H$ is square.
+\end{proof}
+
+\begin{lemma}[Retracts]\label{pf:steps1:retract}
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item Every smooth good model $M$ of relative dimension $d$ is a retract of a smooth good model $N$ of relative dimension
+  $d+2$: there are morphisms $p\colon N.X\to M.X$ and $s\colon M.X\to N.X$ over $\OO_K$ with $ps=\mathrm{id}$.
+\item If $M$ is a retract of $N$ as in \textup{(i)} and a Hodge--Tate pairing $P$ is surjective in degree $n$ for $N$, then it is
+  surjective in degree $n$ for $M$.
+\end{enumerate}
+\formallabel{CrystallineSemistableComparison.Onto.retract_pf}
+\formallabel{CrystallineSemistableComparison.Onto.ontoLow_pf}
+\end{lemma}
+
+\begin{proof}
+(i) Take $N.X=M.X\times_{\OO_K}\mathbb P^2_{\OO_K}$ with $p$ the projection and $s=(\mathrm{id},x_0)$ for an $\OO_K$-point $x_0$ of
+$\mathbb P^2$. It is smooth of relative dimension $d+2$, projective (products of projective morphisms are projective), and
+strictly semistable for the same uniformizer, as every smooth $\OO_K$-scheme is.
+
+(ii) Let $(e_{a,t})_t$ be bases of $\stepsIHdg^{a,n}(M)$ and $z_{a,t}$ with $\sum_{a,t}z_{a,t}h_M(v,e^*_{a,t})=0$ for all $v\in V_n(M)$.
+Let $\Lambda=\sum_{a,t}z_{a,t}\,e^*_{a,t}\circ s^*$, a $\stepsICl$-valued functional on $\bigoplus_a\stepsIHdg^{a,n}(N)$ (via
+$K\subset\stepsICl$). By (iii) of \cref{pf:steps1:def:htpre}, $\sum_{a,t}z_{a,t}h_N(w,e^*_{a,t}\circ s^*)=
+\sum_{a,t}z_{a,t}h_M(s^*w,e^*_{a,t})=0$ for all $w\in V_n(N)$. Expanding $e^*_{a,t}\circ s^*$ in the dual basis of a basis
+of $\stepsIHdg^{a,n}(N)$ and using $K$-linearity of $h$ in the second variable, surjectivity for $N$ shows $\Lambda=0$.
+Composing with $p^*$ and using $s^*p^*=(ps)^*=\mathrm{id}$ gives $\sum_{a,t}z_{a,t}e^*_{a,t}=0$, so all $z_{a,t}$ vanish.
+\end{proof}
+
+The surjectivity is proved with the class of the diagonal. We collect the inputs.
+
+\begin{lemma}[Inputs for the diagonal argument]\label{pf:steps1:diaginputs}
+Let $M$ be a smooth good model of relative dimension $d+1$ with $d\ge1$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item \textup{(The blown-up square)} There are a smooth good model $Q$ with $Q.X=M.X\times_{\OO_K}M.X$, projections $p_1,p_2$ and
+  diagonal $\Delta$, a smooth good model $Y$ with a morphism $\pi\colon Y.X\to Q.X$ over $\OO_K$, and a line datum $E$ on $Y.X$
+  with \'etale structure map whose trivializing opens cover $Y.X$, such that on generic fibres $\pi$ is the blow-up of $Q_K$
+  along $\Delta(M_K)$ with exceptional line datum $E_K$: $\pi$ is an isomorphism over the complement $U$ of the diagonal, $E$
+  has a section which is invertible over $\pi^{-1}U$, and over finitely many affine opens covering the diagonal $\pi$ is given by
+  the standard blow-up charts of codimension $d+1$, the section being the standard local equation.
+\item \textup{(The diagonal class)} For every \'etale first Chern class $v\in T_2(Y)$ of $E$ there are $c\in T_{2d+2}(Q)$ and
+  $w\in T_{2d}(Y)$ such that $\pi^*c$ and the cup product $v\cup w$ have the same image in $V_{2d+2}(Y)$, and finitely many
+  $a_0(s)\in T_{2d+2}(M)$ with linearly independent images in $V_{2d+2}(M)$, $b_0(s)\in T_0(M)$ with $\sum_sb_0(s)=N\cdot1$
+  in $V_0(M)$ for some $N\in\Ql^\times$, and $a(s)\in T_{i(s)}(M)$, $b(s)\in T_{j(s)}(M)$ with $i(s)+j(s)=2d+2$ and
+  $j(s)\ge1$, such that in $V_{2d+2}(Q)$
+  \begin{equation}\label{pf:steps1:eq:diagdec}
+   c=\sum_sp_1^*a_0(s)\cup p_2^*b_0(s)+\sum_sp_1^*a(s)\cup p_2^*b(s).
+  \end{equation}
+\item \textup{(Finiteness)} $V_n(N)$ is finite-dimensional for every smooth good model $N$ and every $n$.
+\item \textup{(Hodge cohomology)} For schemes over a field $k$ of characteristic $0$: cup products on $\stepsIHdg$ are bilinear,
+  associative, unital, graded commutative ($x\cup y=(-1)^{ij}y\cup x$ for $x\in\stepsIHdg^{a,i}$, $y\in\stepsIHdg^{a',j}$) and
+  compatible with pull-backs. \emph{Slant products:} if $X$, $X'$ are smooth and proper over $k$, $R=X\times_kX'$ with projections
+  $p_1,p_2$, and $\phi\in\stepsIHdg^{a,i}(X)^\vee$, then for all $a',j$ there is a $k$-linear map
+  $\mathrm{sl}\colon\stepsIHdg^{a+a',i+j}(R)\to\stepsIHdg^{a',j}(X')$ with $\mathrm{sl}(p_1^*u\cup p_2^*u')=\phi(u)u'$ for
+  $u\in\stepsIHdg^{a,i}(X)$, $u'\in\stepsIHdg^{a',j}(X')$, and $\mathrm{sl}(p_1^*u\cup p_2^*u')=0$ for $u\in\stepsIHdg^{b,i'}(X)$,
+  $u'\in\stepsIHdg^{b',j'}(X')$ with $b+b'=a+a'$, $i'+j'=i+j$ and $(b,i')\ne(a,i)$. \emph{Vanishing on blow-ups:} if $Z$ is smooth
+  and proper over $k$ and $\pi\colon Y'\to Z$ is a blow-up along a closed immersion $\iota\colon W\to Z$ with exceptional line
+  datum $E'$ as in \textup{(i)}, of positive codimension, $e$ is a logarithmic first Chern class of $E'$, $c'\in
+  \stepsIHdg^{a,n}(Z)$ satisfies $\pi^*c'=0$ or $\pi^*c'=e\cup w'$ for some $w'$, and $y\in\stepsIHdg^{a',n'}(Z)$ satisfies
+  $\iota^*y=0$, then $c'\cup y=0$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.KunnethLefschetz.Top.diagEt3_holds}
+\formallabel{UpperTheory.Gal.KunnethLefschetz.Top.etFin_holds}
+\end{lemma}
+
+\begin{proof}
+(i) is \lref{UpperTheory.Gal.KunnethLefschetz.G.sqEx3} (deferred; it constructs the blow-up of $M.X\times_{\OO_K}M.X$ along
+the diagonal, which is smooth and projective over $\OO_K$ since the diagonal is a smooth closed subscheme, by explicit
+charts). (ii) and (iii) are derived in the development from the \'etale propositions C2--C5 and D1, which hold
+(\lref{UpperTheory.Gal.KunnethLefschetz.core_holds}, stating this), by
+\lref{UpperTheory.Gal.KunnethLefschetz.Core.diagEt3} and \lref{UpperTheory.Gal.KunnethLefschetz.Core.etFin};
+classically $c$ is the cycle class of the diagonal, which pulls back along $\pi$ to a multiple of the class of the exceptional
+divisor, and \eqref{pf:steps1:eq:diagdec} is its K\"unneth decomposition. (iv) is derived from
+\lref{CrystallineSemistableComparison.Onto.parts} (deferred), which establishes thirty-one properties of Hodge cohomology
+of smooth schemes over fields of characteristic $0$ (Mayer--Vietoris and descent along covers, the structure of differential
+forms on affine pieces, logarithmic derivatives, K\"unneth formulas, cup products, first Chern classes and blow-up charts);
+classically, the slant product is $\phi\otimes\mathrm{id}$ on the K\"unneth decomposition of the coherent cohomology of
+$\Omega^\bullet_R$, and the vanishing on blow-ups reflects that $e$ is supported on the exceptional divisor, which maps to $W$.
+\end{proof}
+
+From now on let $M$, $Q$, $Y$, $\pi$, $E$ be as in \cref{pf:steps1:diaginputs}(i), let $v\in T_2(Y)$ be an \'etale first Chern
+class of $E$ (it exists by (vi) of \cref{pf:steps1:def:htpre}), $e\in\stepsIHdg^{1,2}(Y)$ the logarithmic first Chern class of
+$E_K$, and $c$, $w$, $a_0$, $b_0$, $a$, $b$, $N$ as in \cref{pf:steps1:diaginputs}(ii). We fix a Hodge--Tate pairing
+$P$; its maps are written $h_M$, $h_Q$, $h_Y$.
+
+\begin{lemma}[Classes vanishing on the diagonal]\label{pf:steps1:kill}
+For all $A,a',n'\ge0$, every $y\in\stepsIHdg^{a',n'}(Q)$ with $\Delta^*y=0$ and every linear form $\Theta$ on
+$\stepsIHdg^{A+a',2d+2+n'}(Q)$, $h_Q^{A,2d+2}\bigl(c,\Theta(\,\cdot\cup y)\bigr)=0$.
+\formallabel{CrystallineSemistableComparison.Onto.stepA}
+\formallabel{CrystallineSemistableComparison.Onto.mkDat}
+\end{lemma}
+
+\begin{proof}
+Let $\Theta'=\Theta(\,\cdot\cup y)$, a linear form on $\stepsIHdg^{A,2d+2}(Q)$. By the vanishing on blow-ups, $\Theta'(C)=0$ whenever
+$\pi^*C=0$ or $\pi^*C=e\cup w'$ for some $w'$. Hence there is a linear form $\phi$ on $\stepsIHdg^{A,2d+2}(Y)$ with
+$\Theta'=\phi\circ\pi^*$ which vanishes on $e\cup\stepsIHdg^{A-1,2d}(Y)$: define $\phi$ on $\pi^*\stepsIHdg^{A,2d+2}(Q)+
+e\cup\stepsIHdg^{A-1,2d}(Y)$ by $\phi(\pi^*C+e\cup w')=\Theta'(C)$, which is well defined by what was just said, and extend it
+linearly. By (iii) of \cref{pf:steps1:def:htpre} and \cref{pf:steps1:diaginputs}(ii), $h_Q(c,\Theta')=h_Y(\pi^*c,\phi)=
+h_Y(v\cup w,\phi)$, and by \eqref{pf:steps1:eq:htcup} and (vi) only the terms with $a=1$ survive:
+$h_Y(v\cup w,\phi)=\sum_{s'}h_Y^{A-1,2d}(w,e'^*_{s'})\,\phi(e\cup e'_{s'})=0$.
+\end{proof}
+
+For $x\in\stepsIHdg^{a',n}(M)$, $\alpha\ge0$ and $\phi'\in\stepsIHdg^{\alpha,2d+2}(M)^\vee$ put, for $X\in T_i(M)$,
+\[
+ \kappa(X)=(-1)^{n}\,h_M^{\alpha-a',i}\bigl(X,\phi'(\,\cdot\cup x)\bigr)\quad\text{if }a'\le\alpha\text{ and }i+n=2d+2,
+ \qquad\kappa(X)=0\text{ otherwise},
+\]
+and for $\psi\in\stepsIHdg^{\beta,n}(M)^\vee$ let $G_x(\psi)\in\stepsIHdg^{0,0}(M)^\vee$ be $u\mapsto\psi(u\cup x)$ if $\beta=a'$ and $0$
+otherwise.
+
+\begin{lemma}[The diagonal identity]\label{pf:steps1:eid}
+For all $x$, $\alpha$, $\phi'$ as above, all $\beta$ and all $\psi\in\stepsIHdg^{\beta,n}(M)^\vee$,
+\begin{equation}\label{pf:steps1:eq:eid}
+\begin{aligned}
+ &\sum_s[n=0]\,\kappa(a_0(s))\,h_M^{\beta,n}(b_0(s),\psi)+\sum_s[j(s)=n]\,\kappa(a(s))\,h_M^{\beta,n}(b(s),\psi)\\
+ &\qquad=\sum_sh_M^{\alpha,2d+2}(a_0(s),\phi')\,h_M^{0,0}\bigl(b_0(s),G_x(\psi)\bigr),
+\end{aligned}
+\end{equation}
+where $[\,\cdot\,]$ is $1$ if the condition holds and $0$ otherwise.
+\formallabel{CrystallineSemistableComparison.Onto.eid}
+\end{lemma}
+
+\begin{proof}
+If $a'>\alpha+\beta$, every $\kappa$ and $G_x(\psi)$ vanish and both sides are $0$. Otherwise let $A=\alpha+\beta-a'$, let
+$\mathrm{sl}\colon\stepsIHdg^{A+a',2d+2+n}(Q)\to\stepsIHdg^{\beta,n}(M)$ be the slant product with $\phi'$
+(\cref{pf:steps1:diaginputs}(iv)) and $\Theta=\psi\circ\mathrm{sl}$. The class $y=p_1^*x-p_2^*x$ satisfies
+$\Delta^*y=x-x=0$, so by \cref{pf:steps1:kill}
+\[
+ h_Q\bigl(c,\Theta(\,\cdot\cup p_1^*x)\bigr)=h_Q\bigl(c,\Theta(\,\cdot\cup p_2^*x)\bigr).
+\]
+We expand $c$ by \eqref{pf:steps1:eq:diagdec} and compute the terms. Let $X\in T_i(M)$, $Y'\in T_j(M)$ with $i+j=2d+2$. By
+\eqref{pf:steps1:eq:htcup} on $Q$ and (iii) for $p_1,p_2$,
+\[
+ h_Q\bigl(p_1^*X\cup p_2^*Y',\Theta''\bigr)=\sum_{b+b'=A}\ \sum_{t,t'}h_M^{b,i}(X,e^*_{b,t})\,h_M^{b',j}(Y',e'^*_{b',t'})\,
+ \Theta''\bigl(p_1^*e_{b,t}\cup p_2^*e'_{b',t'}\bigr)
+\]
+for every linear form $\Theta''$. For $\Theta''=\Theta(\,\cdot\cup p_1^*x)$, associativity and graded commutativity give
+$p_1^*u\cup p_2^*u'\cup p_1^*x=(-1)^{jn}p_1^*(u\cup x)\cup p_2^*u'$, so by the properties of $\mathrm{sl}$ the term is nonzero only
+if $u\cup x$ has bidegree $(\alpha,2d+2)$, i.e.\ $b=\alpha-a'$ and $j=n$; summing, with $K$-linearity of $h$ in the second
+variable, gives $[j=n]\,\kappa(X)\,h_M^{\beta,n}(Y',\psi)$. For $\Theta''=\Theta(\,\cdot\cup p_2^*x)$, $p_1^*u\cup p_2^*u'\cup
+p_2^*x=p_1^*u\cup p_2^*(u'\cup x)$, and the term is nonzero only if $u$ has bidegree $(\alpha,2d+2)$, i.e.\ $i=2d+2$ and $j=0$;
+for $j=0$ the sum is $h_M^{\alpha,2d+2}(X,\phi')\,h_M^{0,0}(Y',G_x(\psi))$, and for $j\ge1$ it is $0$. Inserting these values for
+the terms of \eqref{pf:steps1:eq:diagdec} gives \eqref{pf:steps1:eq:eid}.
+\end{proof}
+
+\begin{proposition}[Surjectivity from top-degree injectivity]\label{pf:steps1:onto}
+Assume the conclusions of \cref{pf:steps1:diaginputs}. Let $P$ be a Hodge--Tate pairing and $M$ a smooth good model of relative
+dimension $d+1$ with $d\ge1$ such that $P$ is injective in degree $2d+2$ for $M$. Then $P$ is surjective in every degree for $M$.
+\formallabel{CrystallineSemistableComparison.Onto.ontoOf3_pf}
+\formallabel{CrystallineSemistableComparison.Onto.core}
+\formallabel{CrystallineSemistableComparison.Onto.surj_of_core}
+\end{proposition}
+
+\begin{proof}
+Fix $n$. For $v\in V_n(M)$ let $g_v$ be the family of linear forms $(\beta,\psi)\mapsto h_M^{\beta,n}(v,\psi)$, and let $S$ be
+the $\stepsICl$-span of the $g_v$ in the space of all families $(\beta,\psi)\mapsto\stepsICl$. For $x\in\stepsIHdg^{a',n}(M)$
+let $t_x$ be the family $(\beta,\psi)\mapsto N\psi(x)$ for $\beta=a'$ and $0$ for $\beta\ne a'$.
+
+\emph{Claim: $t_x\in S$.} For every $\alpha$ and $\phi'$ the left side of \eqref{pf:steps1:eq:eid}, as a function of
+$(\beta,\psi)$, is a combination of the $g_{b_0(s)}$ and $g_{b(s)}$, so the right side $R_{\phi'}$ lies in $S$. Let $\Phi$ map
+$(c_s)\in\stepsICl^{m_0}$ to the family $(\beta,\psi)\mapsto\sum_sc_s\,h_M^{0,0}(b_0(s),G_x(\psi))$; then
+$R_{\phi'}=\Phi(\mathrm{vec}(\phi'))$ with $\mathrm{vec}(\phi')=(h_M^{\alpha,2d+2}(a_0(s),\phi'))_s$. The vector $(1,\dots,1)$ lies
+in the span of the vectors $\mathrm{vec}(\phi')$: otherwise some $(z_s)$ satisfies $\sum_sz_sh_M^{\alpha,2d+2}(a_0(s),\phi')=0$ for
+all $\alpha,\phi'$ and $\sum_sz_s\ne0$; extending the linearly independent $a_0(s)$ to a basis of the finite-dimensional
+$V_{2d+2}(M)$ and the coefficients by $0$, injectivity in degree $2d+2$ gives $z=0$, a contradiction. Hence
+$\Phi(1,\dots,1)\in S$, and by (v) of \cref{pf:steps1:def:htpre} and $\sum_sb_0(s)=N\cdot1$,
+$\Phi(1,\dots,1)(\beta,\psi)=h_M^{0,0}(N\cdot1,G_x(\psi))=N\,G_x(\psi)(1)=t_x(\beta,\psi)$.
+
+\emph{Surjectivity.} Let $(e_{a,t})_t$ be bases of $\stepsIHdg^{a,n}(M)$ and $z_{a,t}$ with $\sum_{a\le n}\sum_tz_{a,t}
+h_M^{a,n}(v,e^*_{a,t})=0$ for all $v$. The linear map $L(g)=\sum_{a\le n}\sum_tz_{a,t}\,g(a,e^*_{a,t})$ vanishes on every $g_v$,
+hence on $S$, hence on $t_x$ for $x=e_{a',t_0}$; but $L(t_x)=N\,z_{a',t_0}$. As $N\ne0$, $z_{a',t_0}=0$.
+\end{proof}
+
+\begin{theorem}[Hodge--Tate bijectivity]\label{pf:steps1:htbij}
+There is a Hodge--Tate pairing $P$ for $K$ such that for every smooth good model $M$: $P$ is injective in every degree; if $M$ is
+connected of dimension $d$, $P$ is injective in top degree; and if $M$ is smooth of pure relative dimension $d$, then for every
+$n$, $P$ is surjective in degree $n$ and $\dim_{\Ql}V_n(M)=\sum_{a=0}^n\dim_K\stepsIHdg^{a,n}(M)$.
+\formallabel{UpperTheory.Gal.Seam.HT.htBij}
+\formallabel{CrystallineSemistableComparison.Onto.htBij_of}
+\formallabel{CrystallineSemistableComparison.Onto.htBij_of_parts}
+\formallabel{CrystallineSemistableComparison.Onto.ontoAll_of}
+\end{theorem}
+
+\begin{proof}
+Let $P$ be as in \cref{pf:steps1:htinj}; it is injective in every degree for every smooth good model, and injective in top
+degree for connected ones. Let $M$ be smooth of relative dimension $d$. By \cref{pf:steps1:retract}(i), $M$ is a retract of a
+smooth good model $N$ of relative dimension $d+2=(d+1)+1$ with $d+1\ge1$; $P$ is injective in degree $2(d+2)$ for $N$, so it is
+surjective in every degree for $N$ by \cref{pf:steps1:onto}, and hence for $M$ by \cref{pf:steps1:retract}(ii). The dimension
+formula follows from \cref{pf:steps1:rank}, $V_n(M)$ being finite-dimensional by \cref{pf:steps1:diaginputs}(iii).
+\end{proof}
+
+\subsubsection{Hecke operators and the Hodge--Tate decomposition}
+
+For a tower $H$ over $K$ and $g\in\Gamma$ with $s_g$ finite \'etale, the \emph{Hodge operator} of $g$ is
+$\mathrm{tr}_{s_g}\circ t_g^*$ on $\stepsIH^b(Z,\Omega^a)$.
+
+\begin{definition}[Hodge--Tate data for a tower]\label{pf:steps1:def:htcover}
+Let $H$ be a tower over $K$ with $Z$ proper, $(g_j)_{j\in J}$ a family of indices and $n\ge0$. \emph{Hodge--Tate
+data in degree $n$} consist of a frame $F$ of $(Z,n)$ with a Hodge--Tate matrix $\Phi$, and, for every $j\in J$,
+a finite \'etale Galois cover $c\colon W\to Z$ (with finite group $G$) and sections $\sigma_1,\dots,\sigma_r$
+splitting $s_{g_j}$ over $c$, a frame $F'$ of $(W,n)$ and a matrix $\Phi'$ such that
+$\mathrm{et}(c)\,\Phi=\Phi'\,\mathrm{hdg}(c)$ and $\mathrm{et}(t_{g_j}\sigma_i)\,\Phi=\Phi'\,\mathrm{hdg}(t_{g_j}\sigma_i)$
+for all $i$. \formal{PositivityTheory.AutomorphicGaloisHodgeTate.G8.HTCover}
+\end{definition}
+
+\begin{lemma}[Traces and splittings]\label{pf:steps1:trsplit}
+Let $s\colon Y\to Z$ be a finite \'etale morphism of schemes, $c\colon W\to Z$ a morphism, and $(\sigma_j)_{j\in J}$ a finite
+family of morphisms $\sigma_j\colon W\to Y$ with $s\sigma_j=c$. The family \emph{splits $s$ over $c$} if the induced morphism
+$\coprod_{j\in J}W\to Y\times_ZW$ is an isomorphism.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item \textup{(Algebra)} An \'etale ring map $D\to E$ such that every ring map from $D$ to an algebraically closed field has
+  exactly one extension to $E$ is bijective. If $A\to A'$ is \'etale, $C$ is an $A$-algebra and $\tau_j\colon A'\to C$
+  ($j\in J$) are $A$-algebra maps such that for all ring maps $x\colon C\to\Omega$, $y\colon A'\to\Omega$ to an
+  algebraically closed field which agree on $A$ there is exactly one $j$ with $x\tau_j=y$, then $C\otimes_AA'\to C^J$,
+  $c\otimes b\mapsto(c\,\tau_j(b))_j$, is bijective. If moreover $A'$ is finite over $A$ and such a bijection exists, the image
+  in $C$ of the trace $\Tr_{A'/A}(b)$ is $\sum_j\tau_j(b)$ for every $b\in A'$.
+\item \textup{(Functions)} If $(\sigma_j)$ splits $s$ over $c$, then $c^*(\Tr_s b)=\sum_j\sigma_j^*b$ in $\OO(c^{-1}V)$ for every
+  affine open $V\subseteq Z$ and every $b\in\OO(s^{-1}V)$.
+\item \textup{(Hodge cohomology)} Let $k$ be a field, $a,b\ge0$, and let $s$, $c$, $\sigma_j$ be morphisms of $k$-schemes. Let
+  $\mathrm{tr}_s\colon\stepsIH^b(Y,\Omega^a)\to\stepsIH^b(Z,\Omega^a)$ be the map induced by the trace of differential forms
+  along $s$. If $(\sigma_j)$ splits $s$ over $c$, then $c^*\circ\mathrm{tr}_s=\sum_j\sigma_j^*$.
+\item \textup{(Splittings)} If $(\sigma_j)$ splits $s$ over $c$, then $(\sigma_jg)$ splits $s$ over $cg$ for every $g\colon W'\to
+  W$. For a cartesian square with $s'\colon Y'=Y\times_ZZ'\to Z'$, $v\colon Y'\to Y$ and $g\colon Z'\to Z$, a family
+  $(\sigma_j\colon W\to Y')$ over $c\colon W\to Z'$ splits $s'$ over $c$ if and only if $(v\sigma_j)$ splits $s$ over $gc$.
+  Consequently, base change along any morphism of base schemes carries finite \'etale morphisms to finite \'etale morphisms
+  and splittings to splittings.
+\item \textup{(\'Etale cohomology)} Let $\ell$ be a prime and $B$ a scheme with $\ell\in\Gamma(B,\OO_B)^\times$. For schemes and
+  morphisms over $B$, pull-back along a finite \'etale Galois cover is injective on each $\stepsIHQ^n(-)(i)$ and on
+  $\stepsIHtot$, and every finite \'etale $s$ has a trace map $\mathrm{tr}_s$ on these groups with
+  $c^*\circ\mathrm{tr}_s=\sum_j\sigma_j^*$ whenever $(\sigma_j)$ splits $s$ over $c$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.G3.algIsoPts_holds}
+\formallabel{UpperTheory.Gal.G3.algSplit_holds}
+\formallabel{UpperTheory.Gal.G3.algTr_holds}
+\formallabel{UpperTheory.Gal.G3.hodgeFun_holds}
+\formallabel{UpperTheory.Gal.G3.hodgeTr_holds}
+\formallabel{UpperTheory.Gal.G3.traceSplit_holds}
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.splitsBasic}
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.bcSplits}
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.etnGood}
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.etGood}
+\end{lemma}
+
+\begin{proof}
+We use the following results of the development: an \'etale morphism of schemes inducing a bijection on geometric points is
+an isomorphism (\lref{UpperTheory.Gal.G3.pIsoPts}); a family splits $s$ over $c$ if and only if for every algebraically
+closed field $\Omega$ and all geometric points $x$ of $W$, $y$ of $Y$ with $sy=cx$ there is exactly one $j$ with
+$\sigma_jx=y$ (\lref{UpperTheory.Gal.G3.pPtsOfSplits} and \lref{UpperTheory.Gal.G3.pSplitsPts}; the morphism
+$\coprod_JW\to Y\times_ZW$ is \'etale, so it is an isomorphism exactly when it is bijective on geometric points).
+
+(i) The first assertion is the case of $\Spec E\to\Spec D$ of the fact just quoted
+(\lref{UpperTheory.Gal.G3.pAlgIsoPts}). For the second, $C\otimes_AA'$ and $C^J$ are \'etale $C$-algebras, so the
+$C$-algebra map between them is \'etale; a ring map $C\otimes_AA'\to\Omega$ is a pair $(x,y)$ as in the statement, and its
+extensions to $C^J$ correspond to the indices $j$ with $x\tau_j=y$, of which there is exactly one; so the first assertion
+applies (\lref{UpperTheory.Gal.G3.pAlgSplit}). For the third, $A'$ is finite projective over $A$, the trace commutes
+with the base change $A\to C$, and the trace of the $C$-algebra $C^J$ at $(\tau_j(b))_j$ is $\sum_j\tau_j(b)$
+(\lref{UpperTheory.Gal.G3.pAlgTr}).
+
+(ii) Let $A=\OO(V)$ and $A'=\OO(s^{-1}V)$, which is finite \'etale over $A$, and let $V'\subseteq c^{-1}V$ be an affine open,
+$C=\OO(V')$. The maps $\tau_j=\sigma_j^*\colon A'\to C$ satisfy the hypothesis of (i) by the characterization of splittings
+by geometric points, so the restriction of $c^*(\Tr_sb)$ to $V'$ is $\sum_j\sigma_j^*b|_{V'}$. As the affine opens $V'$ cover
+$c^{-1}V$, the identity holds in $\OO(c^{-1}V)$ (\lref{UpperTheory.Gal.G3.pHodgeFun}).
+
+(iii) By \lref{UpperTheory.Gal.G3.pHodgeTr} (if the trace of functions along a finite \'etale $s$ is compatible with
+splittings in the sense of (ii), then so is the trace on $\stepsIH^b(-,\Omega^a)$: on an affine open a form on $s^{-1}V$ is a
+sum of forms $b\,s^*\eta$, whose trace is $\Tr_s(b)\eta$, and the identity passes to cohomology), (iii) follows from (ii).
+
+(iv) By the characterization of splittings by geometric points, the first assertion holds because geometric points of $W'$
+map to geometric points of $W$, and the second because geometric points of $Y'$ over a geometric point of $Z'$ are the
+geometric points of $Y$ over its image in $Z$ (\lref{UpperTheory.Gal.G3.pSplitsBasic}). Finite \'etale morphisms are
+stable under base change, and the base change of a splitting is a splitting by the second assertion
+(\lref{UpperTheory.Gal.G3.pBcSplits}).
+
+(v) Finite \'etale morphisms of constant degree $d$ are stable under base change, composites have degree the product, and a
+finite \'etale Galois cover with group $G$ has constant degree $\#G$ (\lref{UpperTheory.Gal.G3.pFEtBasic}); the trace
+on $\ell$-adic cohomology along finite \'etale morphisms satisfies the splitting identity
+(\lref{UpperTheory.Gal.G3.pEtTr}). For a Galois cover $c$ of degree $\#G$, $\mathrm{tr}_c\circ c^*$ is multiplication by
+$\#G$, which is invertible in $\Ql$, so $c^*$ is injective; this gives the assertion in each degree and twist
+(\lref{UpperTheory.Gal.G3.pEtnGood}), and the assertion for $\stepsIHtot$ follows by taking direct sums of the traces
+(\lref{UpperTheory.Gal.G3.pEtGood}).
+\end{proof}
+
+\begin{lemma}[Inputs on Hodge and \'etale cohomology]\label{pf:steps1:inputs}
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item \textup{(Base change of Hodge cohomology)} For a field extension $\phi\colon k\to k'$ and a cartesian square
+  $X'=X\times_kk'$, there are $\phi$-semilinear maps $\stepsIH^b(X,\Omega^a)\to\stepsIH^b(X',\Omega^a)$ compatible
+  with pull-backs and with traces along finite \'etale maps, carrying bases to bases when $X$ is proper.
+\item \textup{(Operators on \'etale cohomology)} Let $H$ be a tower over $K$ with $Z$ proper, $g\in\Gamma$ with $s_g$
+  finite \'etale, and $c\colon W\to Z$ a finite \'etale Galois cover with sections $\sigma_i$ splitting $s_g$; assume
+  that $(s_g,t_g)_{\Qlbar}$ has some operator. Then for every $n$, $c^*$ is injective on $V_n$, and there is an
+  endomorphism $T$ of $V_n(Z)$ which is the degree-$n$ component of $\stepsIhop(g)$ and satisfies
+  $c^*\circ T=\sum_i(t_g\sigma_i)^*$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.G3.hodgeBC_holds}
+\formallabel{UpperTheory.Gal.G3.coverOp_holds}
+\end{lemma}
+
+\begin{proof}
+(i) is flat base change for the coherent cohomology of the sheaves $\Omega^a$, which commute with base
+change \cite[III.9.3]{Hartshorne1977}; compatibility with pull-backs and traces is a routine verification
+with \v{C}ech cocycles.
+(ii): $c$ is finite \'etale and surjective, so $c^*$ is injective by \cref{pf:steps1:trsplit}(v). The sum
+$\sum_i(t_g\sigma_i)^*x$ is invariant under the Galois group of $c$ (which permutes the
+splitting sections), hence by Galois descent for the finite \'etale Galois cover $c$ it is of the form $c^*(T'x)$ for a
+unique $T'x$; the map $T'$ so defined is an operator of the correspondence $(s_g,t_g)$. By definition $\stepsIhop(g)$ is
+also an operator of this correspondence, and any two operators of the same correspondence coincide
+(\lref{UpperTheory.Gal.G3.corrUniq_holds}, deferred). The base change of the splitting data from $K$ to $\Qlbar$ is
+routine.
+\end{proof}
+
+\begin{proposition}[The Hodge--Tate spectral step]\label{pf:steps1:loce}
+Let $\iota_{\C}\colon\Qlbar\xrightarrow\sim\C$, let $H$ be a nice tower over $K$, $H'$ its base change to $\C$
+along $\iota_{\C}|_K$, $\theta\colon\Gamma\to\Qlbar$ and $a\in\N$. Assume that every $(s_g,t_g)_{\Qlbar}$ has an
+operator on \'etale cohomology, that $H$ has Hodge--Tate data in every degree (for $J=\Gamma$), and that
+$\iota_{\C}\theta$ occurs in Hodge degree $a$ for $H'$. Then $a\in\mathrm{HT}(\rho)$ for every matrix $\rho$ of the
+$\theta$-piece of $H$ for $G_K$.
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.locE_of}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.occE}
+\formallabel{CrystallineSemistableComparison.Jump.corr_ht}
+\end{proposition}
+
+\begin{proof}
+Let $x'\in\stepsIH^b(Z_\C,\Omega^a)$ be a nonzero class with $\mathrm{tr}_{s_g}t_g^*x'=\iota_{\C}(\theta(g))x'$ for all $g$, and
+put $n=a+b$. Let $F,\Phi$ and, for each $g$, $(W,c,\sigma_i,F',\Phi')$ be Hodge--Tate data in degree $n$, and view
+$\Phi$ as the isomorphism $\bigoplus_r\stepsIH^{n-r}(Z,\Omega^r)\otimes_K\stepsICl\to V_n(Z)\otimes\stepsICl$.
+
+\emph{Step 1: intertwining.} Fix $g$, let $T_g$ be the endomorphism of $V_n(Z)$ given by
+\cref{pf:steps1:inputs}(ii) and $M_g=\bigoplus_r\mathrm{tr}_{s_g}t_g^*$ on Hodge cohomology. Then
+$T_g\circ\Phi=\Phi\circ M_g$. Indeed, by \cref{pf:steps1:inputs}(ii), naturality of the Hodge--Tate data,
+\cref{pf:steps1:trsplit}(iii) and again naturality,
+\[
+ c^*T_g\Phi=\sum_i(t_g\sigma_i)^*\Phi=\sum_i\Phi'(t_g\sigma_i)^*=\Phi'c^*\mathrm{tr}_{s_g}t_g^*=c^*\Phi M_g ,
+\]
+and $c^*$ is injective on $V_n\otimes\stepsICl$.
+
+\emph{Step 2: the Hodge eigenvector over $\Qlbar$.} By \cref{pf:steps1:inputs}(i) the basis of
+$\stepsIH^b(Z,\Omega^a)$ in $F$ is carried to a basis of $\stepsIH^b(Z_\C,\Omega^a)$, compatibly with the Hodge
+operators. Let $y'\in\C^{e_a}$ be the coordinates of $x'$; then $(M_g)_ay'=\iota_{\C}(\theta(g))y'$, where $(M_g)_a$
+has entries in $K$. Applying $\iota_{\C}^{-1}$ gives $0\ne y\in\Qlbar^{e_a}$ with $(M_g)_ay=\theta(g)y$ for all $g$.
+Let $Y\in\bigoplus_r\Qlbar^{e_r}$ be $y$ placed in the summand $r=a$.
+
+\emph{Step 3: the Galois eigenvector.} Put $v=\Phi Y\in V_n(Z)\otimes\stepsICl$. Then $v\ne0$ ($\Phi$ is invertible),
+$\stepsIhop(g)v=T_gv=\Phi M_gY=\theta(g)v$ for all $g$ by Step 1, so $v$ lies in the $\theta$-piece tensored with
+$\stepsICl$ (joint eigenspaces commute with the flat extension $\Qlbar\to\stepsICl$); and for $\sigma\in G_K$ fixing the
+finite set $S$ of coordinates of $y$, the Hodge--Tate property gives
+$\sigma(v)=\sigma(\Phi)\,Y=\rho_F(\sigma)^{-1}\Phi\,\mathrm{diag}(\stepsIchar(\sigma)^{-r})Y=\stepsIchar(\sigma)^{-a}\rho_F(\sigma)^{-1}v$,
+i.e.\ the semilinear action $v\mapsto\rho_F(\sigma)\sigma(v)$ of $\sigma$ on $V_n(Z)\otimes\stepsICl$ multiplies $v$ by
+$\stepsIchar(\sigma)^{-a}$. Let $z\in\stepsICl^{d}$ be the coordinates of $v$ (viewed in $\stepsIHtot\otimes\stepsICl$) in the basis of
+the piece defining $\rho$. The action of $\sigma$ on that basis is given by $\rho(\sigma)$; if $\sigma$ also fixes the finitely many
+coordinates of the basis vectors with respect to a $\Ql$-basis of the cohomology groups involved, the semilinear action reads
+$z\mapsto\rho(\sigma)\sigma(z)$ in these coordinates. Enlarging $S$ by these coordinates we get $\rho(\sigma)\sigma(z)
+=\stepsIchar(\sigma)^{-a}z$ for $\sigma$ fixing $S$, with $z\ne0$. Hence $a\in\mathrm{HT}(\rho)$. The last step is a statement of
+linear algebra about matrices satisfying the relations of Steps 1--3, which the formal development proves as such.
+\end{proof}
+
+\subsubsection{Moving Hodge--Tate weights}
+
+\begin{lemma}[Moving occurrences]\label{pf:steps1:occmove}
+Let $a\in\Z$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item If $\rho_1\colon G_K\to M_{d_1}(\Qlbar)$, $\rho_0\colon G_K\to M_{d_0}(\Qlbar)$ and $A\in M_{d_0\times d_1}(\Qlbar)$ is
+  injective with $\rho_0(\sigma)A=A\rho_1(\sigma)$, then $a\in\mathrm{HT}(\rho_1)$ implies $a\in\mathrm{HT}(\rho_0)$.
+\item If $\rho$ is graded of $\rho_0$ (for the same grading function at every $\sigma$), then $a\in\mathrm{HT}(\rho_0)$
+  implies $a\in\mathrm{HT}(\rho)$.
+\end{enumerate}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.OccMove_holds}
+\end{lemma}
+
+\begin{proof}
+(i) If $z$ and $S$ witness $a\in\mathrm{HT}(\rho_1)$, then $Az\ne0$ and, for $\sigma$ fixing $S$ and the entries of $A$,
+$\rho_0(\sigma)\sigma(Az)=\rho_0(\sigma)A\sigma(z)=A\rho_1(\sigma)\sigma(z)=\stepsIchar(\sigma)^{-a}Az$.
+(ii) Let $c$ be the grading function, $z\ne0$ with $\rho_0(\sigma)\sigma(z)=\stepsIchar(\sigma)^{-a}z$ for $\sigma$ fixing $S$, let
+$v=\max\{c(j):z_j\ne0\}$, and let $z'$ be the vector with $z'_j=z_j$ if $c(j)=v$ and $0$ otherwise. For $c(i)=v$,
+$(\rho_0(\sigma)\sigma(z))_i=\sum_{c(j)=v}\rho_0(\sigma)_{ij}\sigma(z_j)$, because $z_j=0$ for $c(j)>v$ and
+$\rho_0(\sigma)_{ij}=0$ for $c(j)<c(i)$; this equals $(\rho(\sigma)\sigma(z'))_i$. For $c(i)\ne v$ both
+$(\rho(\sigma)\sigma(z'))_i$ and $z'_i$ vanish. Hence $\rho(\sigma)\sigma(z')=\stepsIchar(\sigma)^{-a}z'$ with $z'\ne0$.
+\end{proof}
+
+\begin{lemma}[Hodge--Tate weights are jumps]\label{pf:steps1:jumps}
+Let $P$ be a tied period package, $B_w$ a bridge for $G_w\subseteq G_E$ and $r\colon G_w\to\GL_d(\Qlbar)$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item If $r$ is crystalline for $(P,B_w)$, then for every $\tau\colon E\to\Qlbar$ and every $\tau'\colon K_w\to LL'$
+  inducing $\tau$ there is a jump multiset of $r$ at $\tau$.
+\item For such $\tau,\tau'$ there are $\gamma\in G_{\Ql}$ and a bridge $B'_w$ for $G_w$ with $j'=\gamma\circ j$,
+  $e'(g)=\gamma e(g)\gamma^{-1}$ and $j'|_E=\tau$ (a \emph{conjugate bridge}).
+\item If $B'_w$ is conjugate to $B_w$ by $\gamma$, $a\in\mathrm{HT}(r\circ e'^{-1})$ and $J$ is a jump multiset of $r$ at
+  $j'|_E$ (for the bridge $B_w$), then $a\in J$.
+\end{enumerate}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.jumpsEx_holds}
+\formallabel{UpperTheory.Gal.G3.jConjBridge} \formallabel{UpperTheory.Gal.G3.jJumpOfHT2}
+\end{lemma}
+
+\begin{proof}
+(i) A crystalline representation is de Rham \cite[Exp.~III]{Fontaine1994rss}, and the Hodge filtration on the
+$\tau'$-part of $\stepsIDdR$ has a multiset of jumps. (ii) Extend $\tau'$, an embedding of $K_w$ over $\Ql$, to an
+automorphism $\gamma$ of $\Qlbar$; since $\tau(x)=\tau'(j(x))$ for $x\in E$, the bridge transported by $\gamma$ has the
+required properties. (iii) Transport by $\gamma$ identifies $r\circ e'^{-1}$ with the conjugate of the
+$G_{K_w}$-representation, $K_w$ replaced by $\gamma(K_w)$; this does not change the jump multisets (conjugation invariance
+of the multiplicities of jumps, \lref{GlobalTheory.Pst.BridgeInd.multV_conj}). For a de Rham representation $V$ there is a basis of
+$V\otimes\stepsICl$ on which an open subgroup acts diagonally through powers $\stepsIchar^{-k}$, with the exponents $k$
+running through the jump multiset of the relevant embedding with multiplicities
+(\lref{GlobalTheory.T.deRham_exists_hodgeTate_eigenbasis}, the Hodge--Tate decomposition of a de Rham
+representation \cite{Fontaine1994}). A nonzero vector on which an open subgroup acts through $\stepsIchar^{-a}$ has a
+nonzero component in the $\stepsIchar^{-a}$-isotypic part, which is spanned by the basis vectors with $k=a$ (the
+characters $\stepsIchar^{-k}$, $k\in\Z$, are distinct on every open subgroup); so $a$ is a jump.
+\end{proof}
+
+\subsubsection{The low tower}
+
+\begin{definition}[The low tower]\label{pf:steps1:def:low}
+Let $C$ be a good cover of $(H,\theta)$ over $O$ (\cref{pf:steps1:def:cover}). \emph{Low data} $D$ for $C$ choose,
+for every $g\in\Gamma$, a finite \'etale correspondence $(s'_g,t'_g)$ of constant degree on $Y$ over $O$ under which
+$g$ lies with multiplicity $m_g$. The \emph{low tower} $H_D$ over $k$ has the same index set, $Z_{\mathrm{low}}=Y_k$,
+and correspondences the base changes of $(s'_g,t'_g)$ to $k$.
+\formal{PositivityTheory.AutomorphicGaloisHodgeTate.G8.LowData}
+\formal{PositivityTheory.AutomorphicGaloisHodgeTate.G8.low}
+\end{definition}
+
+\begin{lemma}[Properties of the low tower]\label{pf:steps1:low}
+Let $C$ be an onto good cover of a nice tower $(H,\theta)$ over $O$ and $D$ low data.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item $H_D$ is nice.
+\item \textup{(Hodge descent)} Let $\phi\colon k\to F$ and $\psi\colon L\to F$ be maps to a field $F$ of characteristic $0$.
+  If $\psi\theta$ occurs in Hodge degree $a$ for $\mathrm{bc}_\phi H$, then $g\mapsto\psi(\theta(g)/m_g)$ occurs in Hodge degree $a$
+  for $\mathrm{bc}_\phi H_D$.
+\item \textup{(Pieces)} Let $k=E$ be a number field and $L=\Qlbar$. If $\rho_1$ is a matrix of the $(\theta/m)$-piece of $H_D$
+  and $\rho_0$ a matrix of the $\theta$-piece of $H$, both for $G_E$, there is an injective $A$ over $\Qlbar$ with
+  $\rho_0(\sigma)A=A\rho_1(\sigma)$ for all $\sigma$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.G3.jLowNice} \formallabel{UpperTheory.Gal.G3.lowHodge_holds}
+\formallabel{UpperTheory.Gal.G3.jLowHodge} \formallabel{UpperTheory.Gal.G3.lowPiece_holds}
+\formallabel{UpperTheory.Gal.G3.jLowPiece}
+\end{lemma}
+
+\begin{proof}
+Let $\pi_k\colon Z\to Y_k$ be the finite \'etale Galois covering of the cover, with group $\Delta$.
+
+(i) $Y_k$ is smooth and projective over $k$ (base change of $Y$), and the base change of a finite \'etale map with a
+constant number of geometric lifts has the same property (\lref{UpperTheory.Gal.G3.fEtBasic_holds}).
+
+(ii) We use two facts valid for any cohomology theory with pull-backs and traces along finite \'etale maps and with
+coefficients in a field of characteristic $0$, in particular for Hodge cohomology after base change along $\phi$
+(\lref{UpperTheory.Gal.G3.coverInv_holds}, \lref{UpperTheory.Gal.G3.liesOp_holds}): $\pi_k^*$ is injective,
+and a class on $Z$ fixed by $\mathrm{tr}_{s_g}t_g^*$ for every $g$ with $s_g$ an isomorphism and $\theta(g)=1$ (the deck
+transformations of the cover) is a pull-back along $\pi_k$ (Galois descent); and if $g$ lies under $(s',t')$ with
+multiplicity $m$, then $\mathrm{tr}_{s_g}t_g^*\pi_k^*=m\,\pi_k^*\,\mathrm{tr}_{s'}t'^*$ (a projection formula for the finite
+\'etale map $Y_g\to Z\times_YT$ of degree $m$). Let $x\ne0$ be a $\psi\theta$-eigenclass in some $\stepsIH^b(Z_F,\Omega^a)$.
+For a deck transformation $g$, $\mathrm{tr}_{s_g}t_g^*x=\psi(\theta(g))x=x$, so $x=\pi_k^*z$ with $z\ne0$. For every $g$,
+$m_g\pi_k^*(\mathrm{tr}_{s'_g}t'^*_gz)=\mathrm{tr}_{s_g}t_g^*x=\psi(\theta(g))\pi_k^*z$, and since $m_g\ne0$ in $F$ and $\pi_k^*$ is
+injective, $\mathrm{tr}_{s'_g}t'^*_gz=\psi(\theta(g)/m_g)z$.
+
+(iii) Let $\Pi=\pi_k^*\colon\stepsIHtot(Y_{\Omega})\to\stepsIHtot(Z_{\Omega})$. On \'etale cohomology, $\stepsIhop_H(g)\circ\Pi
+=m_g\,\Pi\circ\stepsIhop_{H_D}(g)$ (\lref{UpperTheory.Gal.G3.hopLies_holds}, the \'etale analogue of the projection
+formula in (ii)), and $\Pi\otimes\Qlbar$ is injective (\lref{UpperTheory.Gal.G3.pieceLe_holds}). Hence $\Pi$ maps the
+$(\theta/m)$-piece of $H_D$ injectively into the $\theta$-piece of $H$, and it commutes with the Galois actions (pull-back
+along a morphism defined over $E$). Expressing the images of the basis vectors defining $\rho_1$ in the basis defining
+$\rho_0$ gives $A$.
+\end{proof}
+
+\begin{remark}
+In (iii) it is the $(\theta/m)$-piece of the \emph{low} tower that embeds into the $\theta$-piece of $H$. This is the direction
+needed below: Hodge--Tate occurrences are established for the low tower, which has a smooth projective model, and moved to
+$H$ by \cref{pf:steps1:occmove}(i).
+\end{remark}
+
+\begin{lemma}[Hodge--Tate data for the local low tower]\label{pf:steps1:coverlow}
+Assume the conclusion of \cref{pf:steps1:htspec}. Let $E$ be a number field, $w$ a finite place, $C$ a cover of
+$(H,\theta)$ over $\stepsIOw$ with low data $D$, and $\tau_K\colon E\to K$ an embedding into a finite extension $K$ of $\Ql$
+with $|\tau_K(x)|\le1$ for $x\in\stepsIOw$. Then $\mathrm{bc}_{\tau_K}H_D$ has Hodge--Tate data in every degree.
+\formallabel{UpperTheory.Gal.G3.coverLow_of_cov}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.coverOf}
+\formallabel{UpperTheory.Gal.G3.lowCov_holds}
+\end{lemma}
+
+\begin{proof}
+The map $\tau_K$ extends to $\stepsIOw\to\OO_K$. The base change $M_Z=Y\otimes_{\stepsIOw}\OO_K$ is a smooth projective model of
+$Z_{\mathrm{low}}\otimes K$, hence a smooth good model (\lref{UpperTheory.Gal.Seam.goodOf}), of pure relative dimension.
+For each $g$, the map $s'_g$ is finite \'etale over all of $Y$, so it has a Galois closure: a finite \'etale Galois cover
+$W\to Y$ with sections splitting $s'_g$ (\lref{UpperTheory.Gal.G3.galClosD_holds}); its base change $M_W$ to $\OO_K$ is again
+a smooth good model, and the cover, the sections and the compositions $t'_g\sigma_i$ are morphisms of models. The base change
+of all these data to $K$ consists of Hodge--Tate cover data for the tower $\mathrm{bc}_{\tau_K}H_D$, defined over models
+(\lref{UpperTheory.Gal.G3.jLowCov}, deferred for the routine verifications on base change of Galois covers). Now choose by
+\cref{pf:steps1:htspec}(i) frames $F_Z,F_W$ with $\sum e_a=d$ and put $\Phi=\Phi(M_Z,F_Z)$, $\Phi'=\Phi(M_W,F_W)$; these are
+Hodge--Tate, and the relations required in \cref{pf:steps1:def:htcover} are instances of the naturality in
+\cref{pf:steps1:htspec}(ii) for the morphisms of models $M_W\to M_Z$ inducing $c$ and $t'_g\sigma_i$.
+\end{proof}
+
+\begin{lemma}[Base change of towers and of matrices]\label{pf:steps1:localmat}
+Let $H$ be a nice tower over a number field $E$, $\theta\colon\Gamma\to\Qlbar$, and $B_w$ a bridge, with $\tau_K\colon E\to
+K_w$ the embedding induced by $j$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item There is a matrix of the $\theta$-piece of $H$ for $G_E$.
+\item $\mathrm{bc}_{\tau_K}H$ is nice, every one of its correspondences has an operator on \'etale cohomology over $\Qlbar$, and
+  for every matrix $\rho$ of the $\theta$-piece of $H$, $\sigma\mapsto\rho(e^{-1}(\sigma))$ is the matrix (in the sense of
+  \cref{pf:steps1:def:tower}, without the homomorphism property) of the $\theta$-piece of $\mathrm{bc}_{\tau_K}H$ for $G_{K_w}$.
+\item For a further field map $K\to F$ the base change of $\mathrm{bc}_{\tau_K}H$ to $F$ is (isomorphic to) the base change of $H$
+  along the composite, compatibly with the correspondences.
+\item If $B_w$ induces a place over $w$, then $|\gamma(j(x))|\le1$ for $x\in\stepsIOw$ and $\gamma\in G_{\Ql}$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.G3.matEx_of} \formallabel{UpperTheory.Gal.G3.jLocalMat}
+\formallabel{UpperTheory.Gal.G3.jBCTower} \formallabel{UpperTheory.Gal.G3.jBridgeInt}
+\end{lemma}
+
+\begin{proof}
+(i) follows from the existence of semisimple representations on pieces,
+\lref{UpperTheory.Gal.Int.Geo.repEx_holds} (for every nice tower there are $d$ and a continuous semisimple $\rho$ attached
+to the $\theta$-piece; its underlying matrix of the piece is the required matrix). (ii) Niceness is preserved by base change
+(\lref{UpperTheory.Gal.Seam.niceBc}); operators exist by \lref{UpperTheory.Gal.Seam.hopEx_holds} (for nice towers
+over a field and an algebraically closed field of characteristic $0$, $\stepsIhop(g)$ is an operator of $(s_g,t_g)$); and the
+statement on matrices is the local tower lemma \lref{UpperTheory.Gal.Seam.locTower_holds} applied to $j\colon\Omega\to\Qlbar$,
+composed with $e$. (iii) is the transitivity of fibre products. (iv) Elements of $\stepsIOw$ have $|j(x)|\le1$ because $B_w$
+induces a place over $w$, and $G_{\Ql}$ preserves absolute values on $\Qlbar$.
+\end{proof}
+
+\subsubsection{Proof of $\sfname{JumpStep}$}
+
+\begin{theorem}[The core of $\sfname{JumpStep}$]\label{pf:steps1:jumpcore}
+Let $E$, $\Omega$, $\ell$, $\iota$ be as in \cref{sec:pf:steps1:conv:loc}, $H$ a nice tower over $E$, $\theta\colon\Gamma\to\Qlbar$,
+$\rho_0$ a matrix of the $\theta$-piece and $\rho$ graded of $\rho_0$, and $w$ a finite place such that $(H,\theta)$ has an onto good
+cover over $\stepsIOw$. Let $P$ be a tied period package, $A$ a place over $w$, $B_w$ an inducing bridge, and assume that
+$\rho|_{D_A}$ is crystalline for $(P,B_w)$. Then for every $\tau\colon E\to\Qlbar$ and $\tau'$ inducing $\tau$ there is a jump
+multiset $J$ of $\rho|_{D_A}$ at $\tau$ containing every $b\in\N$ such that $\iota\theta$ occurs in Hodge degree $b$ for
+$\mathrm{bc}_{\iota\tau}H$. \formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.jumpCore_of}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.occ_low}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:steps1:jumps}(i) there is a jump multiset $J$ of $\rho|_{D_A}$ at $\tau$; we show that it contains every such $b$.
+Fix $b$. By \cref{pf:steps1:jumps}(ii) choose a bridge $B'_w$ conjugate to $B_w$ by some $\gamma$ with $j'|_E=\tau$, and let
+$\tau_K\colon E\to K'=K'_w$ be the embedding induced by $j'$; then $\iota\tau=\iota\circ\tau_K$ (viewing $K'\subset\Qlbar$).
+Let $C$ be the onto good cover, $D$ low data for $C$ and $H_D$ the low tower; it is nice (\cref{pf:steps1:low}(i)), and by
+\cref{pf:steps1:localmat}(i) it has a matrix $\rho_1$ of its $(\theta/m)$-piece for $G_E$.
+
+By \cref{pf:steps1:low}(ii) (with $\phi=\iota\tau$, $\psi=\iota$, $F=\C$), $\iota(\theta/m)$ occurs in Hodge degree $b$ for
+$\mathrm{bc}_{\iota\tau}H_D=\mathrm{bc}_{\iota}(\mathrm{bc}_{\tau_K}H_D)$. We apply \cref{pf:steps1:loce} to the nice tower
+$\mathrm{bc}_{\tau_K}H_D$ over $K'$ (\cref{pf:steps1:localmat}(ii),(iii)) with $\iota_{\C}=\iota$: its correspondences have
+operators (\cref{pf:steps1:localmat}(ii)); it has Hodge--Tate data in every degree by \cref{pf:steps1:coverlow}, which applies
+because $|\tau_K(x)|=|\gamma(j(x))|\le1$ for $x\in\stepsIOw$ (\cref{pf:steps1:localmat}(iv)); and the matrix
+$\sigma\mapsto\rho_1(e'^{-1}(\sigma))$ of its $(\theta/m)$-piece is provided by \cref{pf:steps1:localmat}(ii). Hence
+$b\in\mathrm{HT}(\rho_1\circ e'^{-1})$.
+
+By \cref{pf:steps1:low}(iii) there is an injective $A$ with $\rho_0(\sigma)A=A\rho_1(\sigma)$, so $b\in\mathrm{HT}(\rho_0\circ e'^{-1})$
+by \cref{pf:steps1:occmove}(i), and $b\in\mathrm{HT}(\rho\circ e'^{-1})$ by \cref{pf:steps1:occmove}(ii), the grading being preserved by
+restriction. Finally \cref{pf:steps1:jumps}(iii) (with $r=\rho|_{D_A}$ and the jump multiset $J$ at $j'|_E=\tau$) gives $b\in J$.
+\end{proof}
+
+\begin{theorem}[$\sfname{JumpStep}$]\label{pf:steps1:jump}
+Let $E$, $\Omega$, $\ell$, $\iota$ be as in \cref{sec:pf:steps1:conv:loc}, $H$ a nice tower over $E$, $\theta\colon\Gamma\to\Qlbar$,
+$\rho\colon G_E\to\GL_d(\Qlbar)$ continuous and attached to the $\theta$-piece, and $w\mid\ell$ a finite place at which $(H,\theta)$
+has an onto good cover over $\stepsIOw$. Then $\rho$ satisfies the jump condition at $w$ for the Hodge occurrences of $\iota\theta$:
+for every tied package $P$, place $A$ over $w$, inducing bridge $B_w$, $\tau\colon E\to\Qlbar$ and $\tau'$ inducing $\tau$, there is a
+jump multiset $J$ of $\rho|_{D_A}$ at $\tau$ containing every $b\ge0$ such that $\iota\theta$ occurs in Hodge degree $b$ for
+$\mathrm{bc}_{\iota\tau}H$. \formallabel{UpperTheory.Gal.Int.Geo.jumpStep_holds}
+\formallabel{UpperTheory.Gal.G3.jumpStep_of}
+\formallabel{PositivityTheory.AutomorphicGaloisHodgeTate.G8.jumpStep_of}
+\end{theorem}
+
+\begin{proof}
+Let $\rho_0$ be a matrix of the piece of which $\rho$ is graded. By $\sfname{CrysStep}$ (\cref{pf:steps1:crys}), applied with the
+onto cover, $\rho|_{D_A}$ is crystalline for $(P,B_w)$; \cref{pf:steps1:jumpcore} then gives the multiset $J$. The inputs of
+\cref{pf:steps1:jumpcore} are \cref{pf:steps1:htspec} (in \cref{pf:steps1:coverlow}) and the existence of matrices of pieces
+(\cref{pf:steps1:localmat}(i)).
+\end{proof}
+
+\begin{remark}
+$\sfname{JumpStep}$ asserts membership of the Hodge degrees in a jump multiset, not equality of multiplicities, and it concerns all
+period packages tied to the concrete period rings. As in \cref{pf:steps1:crys}, neither the continuity of $\rho$ nor the hypothesis
+$w\mid\ell$ is used in the proof; at places $w\nmid\ell$ no bridge induces a place over $w$, so the conclusion is vacuous there.
+\end{remark}
+
+% ===========================================================================
+\subsection{The crystalline Frobenius step}\label{sec:pf:steps1:phi}
+
+$\sfname{PhiStep}$ is the analogue above $\ell$ of the Eichler--Shimura relation: when the integral model of the tower
+carries correspondences $T_0,\dots,T_n$ satisfying the pointwise congruence relation, the linearized crystalline
+Frobenius $\Phi=\varphi^f$ on $\stepsIDcris$ of the cohomology of the model satisfies
+$\sum_j(-1)^jq^{\binom j2}T_j\Phi^{n-j}=0$ (\cref{pf:steps1:finall}); on the image of the Hecke eigen-piece, where
+$T_j$ acts by the scalar $\vartheta_j$, this says that the Hecke polynomial $\stepsIHk_{q,n,\vartheta}$ kills $\Phi$, and
+the Weil--Deligne representation, on which geometric Frobenius acts through $\Phi$, has its eigenvalues among the
+roots. The classical counterpart is the compatibility of the crystalline comparison isomorphism with Frobenius and
+with correspondences \cite{Faltings1989,FaltingsChai1990}; the formal proof establishes the relation directly from the
+comparison maps of the development.
+
+\begin{definition}[Invariants, annihilation and nilpotence]\label{pf:steps1:def:annd}
+Let $G$ be a group, $B$ a $\Ql$-vector space with $\Ql$-linear operators $\sigma_g$ ($g\in G$) and $\psi$, and $\rho$ a
+representation of $G$ on a vector space $V$ over a field $L\supseteq\Ql$. Put $D(\rho)=(V\otimes_{\Ql}B)^G$, the
+invariants for $\rho(g)\otimes\sigma_g$. For $q,n\in\N$ and endomorphisms $T_j$ of $V$, the \emph{annihilation
+relation} $\mathrm{Ann}(q,n,T)$ holds if $\sum_{j=0}^n(-1)^jq^{\binom j2}(T_j\otimes\psi^{n-j})(x)=0$ for all $x\in
+D(\rho)$; for a polynomial $Q\in L[X]$, $Q$ is \emph{nilpotent on $D(\rho)$} if $Q(1\otimes\psi)^N$ vanishes on $D(\rho)$
+for some $N$. For a period package $P$, $K=K_w$ and $f\ge1$ we use these notions with $B=P.B$, the Galois action of
+$P$ and $\psi=\varphi^f$, and with Fontaine's semistable period ring $\stepsIBst$ of $P$ and $\psi=\varphi^f$.
+\formal{UpperTheory.Gal.crystallineComparison.Dinv} \formal{UpperTheory.Gal.crystallineComparison.AnnD}
+\formal{UpperTheory.Gal.crystallineComparison.NilD}
+\end{definition}
+
+For a crystalline representation and $B=P.B\cong\stepsIBcris$, $D(\rho)=\stepsIDcris(V)$ and $1\otimes\varphi^f$ is the
+linearized crystalline Frobenius, $f$ being the residue degree.
+
+\subsubsection{The crystalline congruence relation}
+
+\begin{definition}[Operators of correspondences; period ring presentations]\label{pf:steps1:def:ishk}
+Let $M$ be a smooth good model over $\OO_K$, $T=(\alpha,\beta)$ an $\ell$-correspondence on $M.X$ with $\beta$ and
+$\alpha$ over the same point of $\Spec\OO_K$, and $j\ge0$. An endomorphism $A$ of $V_j(M)$ is \emph{the operator of
+$T$} if for every model $W$ with $w\colon W.X\to M.X$ over $\OO_K$ and every $d_T$-tuple of lifts $z_i\colon W.X\to
+T_Z$ of $w$ along $\alpha$ which split $\alpha$ over every scheme on which $\ell$ is invertible, one has
+$w^*\circ A=\sum_i(\beta z_i)^*$ on $V_j$. A \emph{presentation of $\stepsIBcris$} is a $\Ql$-algebra $C$ with a ring map
+$c\colon\stepsIAcris\to C$ such that $c(t)$ is a unit, every $x\in C$ has $c(t)^rx\in c(\stepsIAcris)$ for some $r$, and
+$c(a)=0$ iff $t^ra=0$ for some $r$, together with a Frobenius and a $G_K$-action on $C$ compatible with $c$.
+\formal{UpperTheory.Ru.crystallineComparison.IsHk} \formal{UpperTheory.Ru.crystallineComparison.PB}
+\end{definition}
+
+The proof of the congruence relation compares the Frobenius of the period ring with the Frobenius of the special fibre, acting
+on points with values in an auxiliary class of algebras. Fix a compatible system $\ell^\flat$ of $\ell$-power roots of $\ell$ in
+$\OO_{\stepsICl}$, viewed in the tilt $\OO^\flat$ of $\OO_{\stepsICl}$.
+
+\begin{definition}[Test algebras and point functors]\label{pf:steps1:def:test}
+A \emph{test algebra} is a perfect ring $A$ of characteristic $\ell$ with a ring map $\OO^\flat\to A$ such that $A$ is complete and
+torsion free for $\pi=$ the image of $\ell^\flat$, absolutely integrally closed, and such that for $f,g\in A$ with $\pi^N\in(f,g)$ there
+is an idempotent $\epsilon$ with $\epsilon f\in(g)$ and $(1-\epsilon)g\in(f)$. Put $A^\sharp=W(A)/(\xi)$, an $\OO_{\stepsICl}$-algebra
+($\xi$ the standard generator of the kernel of $\theta$), and $\bar A=A/\pi$. For a scheme $X$ over a ring $O$ and ring maps
+$\kappa\colon O\to\OO_{\stepsICl}$ and $g\colon O\to\OO^\flat/\pi$, the \emph{point functors} $\mathrm{PX}(X,\kappa)$ and
+$\mathrm{PQ}(X,g)$ send $A$ to the sets of morphisms $\Spec A^\sharp\to X$ over $\kappa$, resp.\ $\Spec\bar A\to X$ over $g$. A
+transformation $F$ of $\mathrm{PQ}(X,g)$ is a \emph{Frobenius of level $f$} if $F(y)=y\circ\Spec(x\mapsto x^{\ell^f})$, and
+$\rho\colon\mathrm{PX}(X,\kappa)\to\mathrm{PQ}(X,g)$ is a \emph{reduction of level $m$} if $\rho(y)=y\circ\Spec\psi$ for every map
+$\psi\colon A^\sharp\to\bar A$ with $\psi(\theta(x))=x_0^{\ell^m}$. A finite family of maps $A\to B_s$ of test algebras is a
+\emph{decomposition} if $A\to\prod_sB_s$ is bijective. For functors $Q$, $P$ from test algebras to sets, transformations
+$u_i\colon Q\to P$ and integers $a_i$, we say that $\sum_ia_i[u_i]=0$ \emph{locally} if for every test algebra $A$ and $y\in Q(A)$
+there is a decomposition $(A\to B_s)_s$ such that for every $s$ either $B_s=0$ or $\sum_ia_i[u_i(y|_{B_s})]=0$ in the free abelian
+group on $P(B_s)$. The development attaches to every such functor $P$ cohomology groups $\mathrm{MH}^j_\nu(P)$ (degree $j$, level
+$\nu\ge1$) with coefficients in the level-$\nu$ crystalline period rings $A\mapsto A_{\mathrm{cris},\nu}$ of the test algebras,
+with pull-backs along transformations and a Frobenius
+$\varphi_H$ commuting with them; for a model $M$, the \'etale comparison family $e$ of the development
+(\lref{CrystallineSemistableComparison.E.etMap}) maps $T_j(M)$ to $\mathrm{MH}^j_\nu(\mathrm{PX}(M.X))$, compatibly with
+Frobenius, pull-backs and the Galois action, and for $v_k\in T_j(M)$, $c_k\in\stepsIAcris$ we write
+$\mathrm{ev}_\nu(v,c)=\sum_kc_k\,e_\nu(v_k)$ and $\mathrm{vec}_r(v,c)=\sum_kv_k\otimes c(c_k)c(t)^{-r}\in V_j(M)\otimes C$.
+\formal{CrystallineSemistableComparison.PAlg} \formal{CrystallineSemistableComparison.PAlg.IsTest}
+\formal{CrystallineSemistableComparison.PX} \formal{UpperTheory.Ru.crystallineComparison.PQ}
+\formal{UpperTheory.Ru.crystallineComparison.IsFr} \formal{UpperTheory.Ru.crystallineComparison.IsRd}
+\formal{UpperTheory.Ru.crystallineComparison.TZero} \formal{UpperTheory.Ru.crystallineComparison.evE}
+\formal{UpperTheory.Ru.crystallineComparison.vec}
+\end{definition}
+
+\begin{lemma}[Lattice expansions]\label{pf:steps1:latexp}
+Let $M$ be a model, $j\ge0$ and $(C,\varphi)$ a presentation of $\stepsIBcris$.
+\begin{enumerate}[label=\textup{(\roman*)},nosep]
+\item Every $x\in V_j(M)\otimes C$ equals $\mathrm{vec}_r(v,c)$ for some finite families $v_k\in T_j(M)$, $c_k\in\stepsIAcris$ and
+  some $r\ge0$.
+\item Let $T_0,\dots,T_n$ be $\ell$-correspondences on $M.X$ with operators $A_i$ on $V_j(M)$, $\pi_W\colon W\to M.X$ a morphism of
+  models and $s_{i,k}$ ($k<d_{T_i}$) lifts of $\pi_W$ along $\alpha_{T_i}$ splitting $\alpha_{T_i}$ over every scheme on which $\ell$
+  is invertible, and $v_k\in T_j(M)$. Then there are $s,b\ge0$ and $w_{i,k}\in T_j(M)$ with $w_{i,k}=\ell^sA_i(v_k)$ in $V_j(M)$ and
+  $\ell^b\pi_W^*w_{i,k}=\ell^{s+b}\sum_{k'}(\beta_{T_i}s_{i,k'})^*v_k$ in $T_j(W)$.
+\item In the situation of \textup{(ii)}, let $\kappa\ne0$ be an integer, $\sigma_i\in\Z$, $c_k\in\stepsIAcris$, $r,f,N\ge0$. If
+  $\mathrm{vec}_0\bigl((w_{i,k})_{i,k},(\kappa\sigma_i\ell^{fir}\varphi^{f(n-i+N)}(c_k))_{i,k}\bigr)=0$, then
+  $\sum_i\sigma_i(A_i\otimes\varphi^{f(n-i+N)})(\mathrm{vec}_r(v,c))=0$.
+\end{enumerate}
+\formallabel{UpperTheory.exists_crystalline_lattice_expansion}
+\formallabel{UpperTheory.hecke_correspondence_product}
+\formallabel{UpperTheory.crystalline_expansion_relation_of_scaled_endomorphisms}
+\end{lemma}
+
+\begin{proof}
+(i) $V_j(M)=T_j(M)\otimes\Q$, and every element of $C$ has the form $c(a)c(t)^{-r}$ (because $c(t)^ry\in c(\stepsIAcris)$ for some
+$r$); so every pure tensor, and every finite sum of pure tensors after passing to a common $r$, is of the stated form.
+(ii) Since $V_j(M)=T_j(M)\otimes\Q$, there is $s$ with $\ell^sA_i(v_k)$ integral for all $i,k$; let $w_{i,k}$ be integral lifts.
+By the definition of the operator, $\pi_W^*A_i(v_k)=\sum_{k'}(\beta_{T_i}s_{i,k'})^*v_k$ in $V_j(W)$, so
+$\pi_W^*w_{i,k}-\ell^s\sum_{k'}(\beta_{T_i}s_{i,k'})^*v_k$ is $\ell$-power torsion in $T_j(W)$, hence killed by some $\ell^b$, uniformly in the
+finitely many $(i,k)$.
+(iii) Since $\varphi(t)=\ell t$, $(A_i\otimes\varphi^{f(n-i+N)})(v_k\otimes c(c_k)c(t)^{-r})=\ell^{-f(n-i+N)r}A_i(v_k)\otimes
+c(\varphi^{f(n-i+N)}c_k)c(t)^{-r}$. Hence the left side of the conclusion equals
+$(\kappa\ell^{s+f(n+N)r})^{-1}c(t)^{-r}\,\mathrm{vec}_0((w_{i,k}),(\kappa\sigma_i\ell^{fir}\varphi^{f(n-i+N)}(c_k)))=0$.
+\end{proof}
+
+\begin{lemma}[The congruence relation on test points]\label{pf:steps1:wzero}
+Let $O$ be a discrete valuation ring with uniformizer $\varpi$ in which $\ell\ne0$ is not a unit, $Y$ a smooth quasi-compact
+$O$-scheme covered by finitely many affine opens with affine pairwise intersections, $f>0$, and $T_0,\dots,T_n$ $\ell$-correspondences
+on $Y$ over $O$ satisfying the pointwise congruence relation for $(\ell^f,n,\varpi)$. Let $\kappa\colon O\to\OO_{\stepsICl}$, $g\colon
+O\to\OO^\flat/\pi$ with $g(\varpi)=0$ and $g(x)^{\ell^f}=g(x)$ for all $x$, $F$ a Frobenius of level $f$ on $\mathrm{PQ}(Y,g)$, $\rho$ a
+reduction of some level $m$, and $\pi_W\colon W\to Y$ with sections $s_{j,i}$ of $\alpha_{T_j}$ over $\pi_W$ splitting every
+$\alpha_{T_j}$ universally over schemes on which $\ell$ is invertible. Then there is $N$ such that, with $\sigma_j=(-1)^j(\ell^f)^{\binom j2}$,
+\[
+ \sum_{j,i}\sigma_j\,\bigl[\beta_{T_j}s_{j,i}\circ\rho\circ F^{n-j+N}\bigr]=0\quad\text{locally}
+\]
+as transformations $\mathrm{PX}(W,\kappa)\to\mathrm{PQ}(Y,g)$.
+\formallabel{UpperTheory.Ru.crystallineComparison.wZero}
+\end{lemma}
+
+\begin{proof}
+Let $\mu=\sum_{j\text{ even}}(\ell^f)^{\binom j2}d_{T_j}$, the total multiplicity of either side of the pointwise relation, and choose
+$N$ with $(\mu+1)^\mu\le\ell^{fN}$. Let $A$ be a test algebra and $y\in\mathrm{PX}(W,\kappa)(A)$.
+
+\emph{Charts.} Choose finitely many pairs of affine opens $U_\alpha,V_\alpha$ of $Y$ with $\alpha_{T_j}^{-1}U_\alpha\subseteq
+\beta_{T_j}^{-1}V_\alpha$ for all $j$, the $U_\alpha$ covering $Y$. \'Etale surjective maps to $\Spec A^\sharp$ have sections and
+idempotents of $A^\sharp$ lift uniquely to $A$ (\lref{UpperTheory.Ru.crystallineComparison.testFacts}, deferred), so there is a
+decomposition of $A$ after which the image of $\pi_Wy$ on each factor lies in one $U_\alpha$.
+
+\emph{Norms.} Fix a factor, mapping into $U=U_\alpha$, and generators $x_1,\dots,x_r$ of $\Gamma(V_\alpha)$ over $O$. For each $j$, $i$ let
+$p_{j,i}$ be the point $\beta_{T_j}s_{j,i}\circ\rho(y)$ composed with the $\ell^{f(n-j)}$-power Frobenius, i.e.\ the tuple of the
+$\ell^{f(n-j)}$-th powers of the images of the $x_k$ in $\bar A$. The pointwise congruence relation, which concerns points over
+valuation rings at generic points of the special fibre, implies the \emph{norm identity}: the products of the generic linear forms
+$X_0-\sum_kp_k X_k$ over the even multiset $\{p_{j,i}\}$ ($j$ even, multiplicity $(\ell^f)^{\binom j2}$) and over the odd multiset
+coincide, for points with values in any ring in which $\ell$ is a nonzerodivisor, reduced modulo $\varpi$
+(\lref{UpperTheory.Ru.crystallineComparison.normOfPt'}, deferred; it is a specialization argument on charts).
+
+\emph{Equality after Frobenius.} If two multisets of $\mu$ points with values in $\bar A$ have the same norm form, then after
+raising all coordinates to the power $\ell^{fN}$, $(\mu+1)^\mu\le\ell^{fN}$, the two multisets coincide on each factor of a
+decomposition of $A$ (\lref{UpperTheory.Ru.crystallineComparison.wzLocal}, deferred; the test-algebra axioms provide the
+idempotents separating the factors on which the coordinates of the points agree). Since $F^{N}$ raises coordinates to the power
+$\ell^{fN}$ and points of the affine $V_\alpha$ are determined by the values of the $x_k$, the multisets of points
+$\beta_{T_j}s_{j,i}\circ\rho\circ F^{n-j+N}(y)$, $j$ even, and $j$ odd, counted with multiplicities $(\ell^f)^{\binom j2}$, coincide on
+each factor, which is the asserted identity in the free abelian group. Decompositions of decompositions are decompositions
+(\lref{UpperTheory.Ru.crystallineComparison.partsEx}, deferred), so the pieces combine.
+\end{proof}
+
+\begin{theorem}[The congruence relation from two comparison properties]\label{pf:steps1:top}
+Let $K\subset\Qlbar$ be finite over $\Ql$, $\varpi$ a uniformizer of $\OO_K$, $f>0$, $M$ a model with $M.X$ smooth and quasi-compact
+over $\OO_K$ and covered by finitely many affine opens with affine pairwise intersections, $n,j\ge0$, $T_0,\dots,T_n$
+$\ell$-correspondences on $M.X$ over $\OO_K$ satisfying the pointwise congruence relation for $(\ell^f,n,\varpi)$, $A_i$ the operator
+of $T_i$ on $V_j(M)$, and $(C,\varphi)$ a presentation of $\stepsIBcris$. Assume:
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item \textup{(Injectivity)} if $t^u\,\mathrm{ev}_\nu(v,c)=0$ for all levels $\nu$, then $\mathrm{vec}_0(v,c)=0$;
+\item \textup{(Absolute invariance)} there are $m,N_1\ge0$, $g\colon\OO_K\to\OO^\flat/\pi$ with $g(\varpi)=0$ and $g(x)^{\ell^f}=g(x)$, a
+  Frobenius $F$ of level $f$ on $\mathrm{PQ}(M.X,g)$ and a reduction $\rho$ of level $m$, such that for every $G_K$-invariant
+  $\mathrm{vec}_r(v,c)$ there are $a,u\ge0$ and classes $X_\nu\in\mathrm{MH}^j_\nu(\mathrm{PQ}(M.X,g))$ with $\varphi_H^f(X_\nu)=F^*X_\nu$
+  and $\ell^at^u\,\mathrm{ev}_\nu(v,\varphi^{fN_1}(c))=t^{u+r}\rho^*X_\nu$ for all $\nu$.
+\end{enumerate}
+Then there is $N$ with $\sum_{i=0}^n(-1)^i(\ell^f)^{\binom i2}(A_i\otimes\varphi^{f(n-i+N)})(x)=0$ for every $G_K$-invariant
+$x\in V_j(M)\otimes C$.
+\formallabel{UpperTheory.Ru.crystallineComparison.top}
+\formallabel{UpperTheory.Ru.crystallineComparison.levZero}
+\end{theorem}
+
+\begin{proof}
+Let $m,N_1,g,F,\rho$ be as in (b) and $\sigma_i=(-1)^i(\ell^f)^{\binom i2}$. There is a model $W$ with $\pi_W\colon W.X\to M.X$ and
+sections $s_{i,k}$ of $\alpha_{T_i}$ over $\pi_W$ splitting all $\alpha_{T_i}$ universally over schemes on which $\ell$ is invertible
+(\lref{UpperTheory.Ru.crystallineComparison.wEx}, deferred; $W$ is a scheme of ordered splittings). By \cref{pf:steps1:wzero}
+there is $N_0$ with $\sum_{i,k}\sigma_i[\beta_{T_i}s_{i,k}\circ\rho\circ F^{n-i+N_0}]=0$ locally. Put $N=N_0+N_1$. We use three facts
+of the development. (1) If $\sum_ia_i[u_i]=0$ locally, then $\sum_ia_iu_i^*=0$ on $\mathrm{MH}$; together with $\varphi_H^f=F^*$ on the
+classes $X_\nu$ and the compatibility of $\rho^*$ with $\varphi_H$, this gives
+$\sum_{i,k}\sigma_i(\beta_{T_i}s_{i,k})^*\varphi_H^{f(n-i+N_0)}\rho^*X_\nu=0$ (\lref{UpperTheory.Ru.crystallineComparison.siteAnn},
+deferred). (2) The permutations of the sheets $s_{i,\cdot}$ induce transformations of $\mathrm{PX}(W)$ over $\mathrm{PX}(M.X)$ acting,
+locally, transitively on the fibres (\lref{UpperTheory.Ru.crystallineComparison.wTrans}, deferred), so a class on
+$\mathrm{PX}(M.X)$ whose pull-back to $\mathrm{PX}(W)$ vanishes is killed by $C_0=\prod_i(d_{T_i})!$
+(\lref{UpperTheory.Ru.crystallineComparison.avgMH}, deferred). (3) The classes $e_\nu(v_k)$ are fixed by $\varphi_H$, which is
+semilinear with respect to $\varphi$ on the coefficients, so $\mathrm{ev}_\nu(v,\varphi(c))=\varphi_H(\mathrm{ev}_\nu(v,c))$; and
+$\varphi(t)=\ell t$.
+
+Let $x$ be invariant. By \cref{pf:steps1:latexp}(i), $x=\mathrm{vec}_r(v,c)$; let $a,u,X_\nu$ be as in (b), and $s,b,w_{i,k}$ as in
+\cref{pf:steps1:latexp}(ii) for $W$ and the $s_{i,k}$. Applying $\varphi_H^{f(n-i+N_0)}$ to the identity in (b) and using (3) gives
+\[
+ \ell^{a+f(n-i+N_0)u}\,t^u\,\mathrm{ev}_\nu\bigl(v,\varphi^{f(n-i+N)}(c)\bigr)=\ell^{f(n-i+N_0)(u+r)}\,t^{u+r}\,
+ \varphi_H^{f(n-i+N_0)}\rho^*X_\nu .
+\]
+Multiply by $\sigma_i\ell^{fi(u+r)}$, which makes the power of $\ell$ on the right side equal to $\ell^{f(n+N_0)(u+r)}$ for all $i$ and
+the scalar on the left side equal to $\ell^{a+f(n+N_0)u}\sigma_i\ell^{fir}$, pull back along the sheets $\beta_{T_i}s_{i,k'}$, and sum
+over $i$ and $k'$. By (1) the right sides add up to zero. Since $e$ commutes with pull-backs, \cref{pf:steps1:latexp}(ii) gives
+$\pi_W^*\mathrm{ev}_\nu(w_{i,\cdot},\ell^b\gamma)=\ell^{s+b}\sum_{k'}(\beta_{T_i}s_{i,k'})^*\mathrm{ev}_\nu(v,\gamma)$ for all coefficient
+families $\gamma$; hence the pull-back to $W$ of $t^u\,\mathrm{ev}_\nu(w,c')$ vanishes, where $c'_{i,k}=\ell^{a+f(n+N_0)u+b}\sigma_i
+\ell^{fir}\varphi^{f(n-i+N)}(c_k)$. By (2), $t^u\,\mathrm{ev}_\nu(w,C_0c')=0$ for all $\nu$, so by (a) $\mathrm{vec}_0(w,C_0c')=0$, and
+\cref{pf:steps1:latexp}(iii) with $\kappa=C_0\ell^{a+f(n+N_0)u+b}\ne0$ gives the relation for $x$.
+\end{proof}
+
+\begin{theorem}[Crystalline congruence relation]\label{pf:steps1:finall}
+Let $K\subset\Qlbar$ be finite over $\Ql$ with residue field of order $\ell^f$, $f>0$, and uniformizer $\varpi$; let $M$
+be a smooth good model, $n,j\ge0$, and $T_0,\dots,T_n$ $\ell$-correspondences on $M.X$ over $\OO_K$ satisfying the
+pointwise congruence relation for $(\ell^f,n,\varpi)$ (\cref{pf:steps1:def:cong}, with $\varpi$ pulled back to $M.X$); let
+$A_i$ be the operator of $T_i$ on
+$V_j(M)$. Then for every presentation $(C,\varphi)$ of $\stepsIBcris$ there is $N\ge0$ such that
+\[
+ \sum_{i=0}^n(-1)^i(\ell^f)^{\binom i2}\bigl(A_i\otimes\varphi^{f(n-i+N)}\bigr)(x)=0
+ \qquad\text{for every $G_K$-invariant }x\in V_j(M)\otimes_{\Ql}C .
+\]
+\formallabel{UpperTheory.Ru.crystallineComparison.finAll}
+\formallabel{UpperTheory.Ru.crystallineComparison.finAll_of}
+\formallabel{UpperTheory.Ru.crystallineComparison.final}
+\end{theorem}
+
+\begin{proof}
+A residue datum $(k,\rho_0,s_0)$ for $K$ (\cref{pf:steps1:cst}(iii)) exists by \lref{CrystallineSemistableComparison.resEx}
+(every finite extension of $\Ql$ in $\Qlbar$ has one), and since $\#k=\ell^f$ every $x\in k$ satisfies $x^{\ell^f}=x$. The
+comparison maps of the development have the properties collected in \lref{UpperTheory.Ru.crystallineComparison.cIn}
+(deferred): the tautological line data and the $P$-map of \cref{pf:steps1:pseam}, a Frobenius factorisation of some level $N'$ with
+$f\mid N'$ and the corresponding Teichm\"uller congruence, the \'etale side of smooth good models, the laws of the comparison data, a
+comparison map of ``B-type'', and pinning conditions for every smooth good model and degree. (One of the formal statements attached
+to the theorem has these properties as hypotheses.) We verify the hypotheses of \cref{pf:steps1:top}.
+
+The model $M.X$ is projective over $\OO_K$, hence quasi-compact and separated, so it is covered by finitely many affine opens with
+affine pairwise intersections. Let $e$ be the \'etale comparison family of the development,
+which is good (\lref{CrystallineSemistableComparison.E.etMap}). Its restriction to the comparison data is pinned
+(\lref{UpperTheory.Ru.crystallineComparison.ePin}, deferred, a repackaging), and the presentation $C$ embeds into the period ring
+of the development by an injective map compatible with $c$, with $\Ql$ and with the Galois action
+(\lref{UpperTheory.Ru.crystallineComparison.pbIota}, deferred). Hypothesis (a) of \cref{pf:steps1:top} then follows from the
+pinning conditions and the B-type map (\lref{UpperTheory.Ru.crystallineComparison.injOf}, deferred), and hypothesis (b) from the
+Frobenius factorisation, the Teichm\"uller congruence and the residue datum, which provide $g$ (a Teichm\"uller lift of the residue
+map, with $g(\varpi)=0$), $F$ and $\rho$, together with the invariance of $x$ under $G_K$
+(\lref{UpperTheory.Ru.crystallineComparison.absInvOf} and \lref{UpperTheory.Ru.crystallineComparison.pbInv}, deferred).
+\cref{pf:steps1:top} gives the assertion.
+\end{proof}
+
+\begin{corollary}[Annihilation for tied packages]\label{pf:steps1:annmodel}
+In the situation of \cref{pf:steps1:finall}, let $P$ be a tied period package, $\rho$ a representation of $G_K$ on $V_0$ and
+$i\colon V_j(M)\xrightarrow\sim V_0$ an isomorphism intertwining the Galois actions, and let $T'_a=iA_ai^{-1}$. Then
+$\mathrm{Ann}(\ell^f,n,T')$ holds for $\rho$ with $B=P.B$ and $\psi=\varphi^f$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.annModel}
+\formallabel{UpperTheory.Gal.crystallineComparison.Br.annDrop}
+\end{corollary}
+
+\begin{proof}
+Since $P$ is tied, $P.B$ with its Frobenius and Galois action is isomorphic to a presentation $(C,\varphi)$ of $\stepsIBcris$
+with injective Frobenius (\lref{UpperTheory.Gal.crystallineComparison.Br.pBTied}, deferred: the isomorphism
+$P.B\cong\stepsIBcris$ of the tie, composed with the presentation $\stepsIBcris=\stepsIAcris[1/t]$). By
+\cref{pf:steps1:finall} there is $N$ with $(1\otimes\varphi^{fN})\bigl(\sum_a(-1)^a(\ell^f)^{\binom a2}(A_a\otimes\varphi^{f(n-a)})x\bigr)
+=0$ for invariant $x$; as $1\otimes\varphi^{fN}$ is injective on $V_j\otimes C$ ($V_j$ is a free $\Ql$-module), the inner sum
+vanishes. Transporting along $i$ and the isomorphism $P.B\cong C$ gives the claim.
+\end{proof}
+
+\subsubsection{The geometric side}
+
+\begin{lemma}[Direct sums]\label{pf:steps1:annpi}
+Let $P$ be a period package and $V_1,\dots,V_r$ finite-dimensional $\Ql$-representations of $G_{K}$ with endomorphisms
+$T^{(i)}_j$. If every $V_i$ is crystalline for $P$, so is $\bigoplus_iV_i$; if $\mathrm{Ann}(q,n,T^{(i)})$ holds for every $i$
+(for $(P.B,\varphi^f)$), then $\mathrm{Ann}(q,n,\bigoplus_iT^{(i)})$ holds for $\bigoplus_iV_i$.
+\formallabel{UpperTheory.Ru.crystallineComparison.annPi}
+\end{lemma}
+
+\begin{proof}
+The functor $V\mapsto D(V)=(V\otimes P.B)^{G_K}$ commutes with finite direct sums, compatibly with the operators $T_j\otimes1$ and
+$1\otimes\varphi^f$; the dimension condition defining crystallinity and the annihilation relation are therefore checked summand by
+summand.
+\end{proof}
+
+\begin{definition}[Crystalline embeddings with annihilator]\label{pf:steps1:def:incrys}
+Let $P$ be a period package, $B_w$ a bridge for $G_w$, $f,q,n\in\N$, $\vartheta\colon\N\to\Qlbar$ and
+$r_0\colon G_w\to\GL_a(\Qlbar)$. We say that $r_0$ has a \emph{crystalline embedding with annihilator
+$(f,q,n,\vartheta)$} if there are a finite-dimensional $\Ql$-representation $V$ of $G_{K_w}$ which is crystalline for
+$P$, endomorphisms $T_j$ of $V$ with $\mathrm{Ann}(q,n,T)$ for $(P.B,\varphi^f)$, and an injective $\Qlbar$-linear
+$b\colon\Qlbar^a\to\Qlbar\otimes V$ with $b(r_0(g)x)=\rho_V(e(g))b(x)$ and $T_jb(x)=\vartheta_jb(x)$ for $j\le n$.
+\formal{UpperTheory.Ru.crystallineComparison.InCrys}
+\end{definition}
+
+\begin{proposition}[The geometric side]\label{pf:steps1:geoside}
+Let $H$ be a nice tower over a number field $E$, $\theta\colon\Gamma\to\Qlbar$, $\rho_0$ a matrix of the $\theta$-piece,
+$w\mid\ell$, and suppose that $(H,\theta)$ has a congruence datum at $w$ with parameters $(n,\vartheta)$
+(\cref{pf:steps1:def:cong}). Let $f_w$ be the residue degree of $w$. Then for every tied package $P$, place $A$ over $w$ and
+inducing bridge $B_w$, $\rho_0|_{D_A}$ has a crystalline embedding with annihilator $(f_w,\stepsINw,n,\vartheta)$.
+\formallabel{UpperTheory.Gal.Int.Geo.geoSide_of}
+\formallabel{UpperTheory.Ru.crystallineComparison.geoLoc}
+\formallabel{UpperTheory.Ru.crystallineComparison.congBC}
+\end{proposition}
+
+\begin{proof}
+\emph{Base change of the congruence datum.} Let $C$ be the onto cover over $\stepsIOw$ with correspondences $T_0,\dots,T_n$,
+indices $\gamma_j$, multiplicities $m_j$, irreducible $\varpi$, prime $p\in w$ and $\stepsINw=p^f$. Then $p=\ell$, since
+$\ell\in w$ and two distinct primes generate the unit ideal; so $f=f_w$. By the integral embedding
+\lref{UpperTheory.Gal.Seam.intMap} (an inducing bridge gives a ring map $\stepsIOw\to\OO_{K_w}$ compatible with $\tau_w$ and
+preserving irreducible elements) we get $\phi\colon\stepsIOw\to\OO_{K_w}$ mapping $\varpi$ to a uniformizer, and the residue field
+of $\OO_{K_w}$, which is that of the completion of $E$ at $w$, has $\ell^{f_w}$ elements.
+The cover base-changes to an onto cover $C'$ over $\OO_{K_w}$ of $\mathrm{bc}_{\tau_w}H$ (\lref{UpperTheory.Gal.Seam.bcCover}),
+the correspondences base-change to $\ell$-correspondences $T'_j$ on its model, still lying under the $\gamma_j$ with
+multiplicities $m_j$, and the pointwise congruence relation is preserved, because $\phi(\varpi)$ divides $x^{\ell^f}-x$ for all
+$x\in\OO_{K_w}$ and generic points of the special fibre base-change to generic points
+(\lref{UpperTheory.Ru.crystallineComparison.ptIdBC}, deferred).
+
+\emph{The local statement.} By the local tower lemma (\lref{UpperTheory.Gal.Seam.locTower_holds}) there is a matrix $\rho_1$
+of the $\theta$-piece of $\mathrm{bc}_{\tau_w}H$ for $G_{K_w}$ with $\rho_1(e(g))=\rho_0(g)$, $g\in D_A$. Let $M$ be the model of
+$C'$; it is smooth good (\lref{UpperTheory.Gal.Seam.goodOf}), and its $V_i(M)$ are finite-dimensional. For each $j$ let
+$A_j$ be the operator of $T'_j$ on $V_i(M)$; it exists and satisfies $\stepsIhop(\gamma_j)\circ\pi^*=m_j\,\pi^*\circ A_j$ on
+$V_i(M)$, where $\pi^*$ is pull-back to the tower (\lref{UpperTheory.Gal.crystallineComparison.Br.heckeCl}, deferred). The
+piece is contained in the image of the injective equivariant map $\pi^*$ (\lref{UpperTheory.Gal.Seam.pieceIn_holds}), and,
+as in the proof of \cref{pf:steps1:matin}, a basis of the piece has preimages in $\bigoplus_{i<N}\Qlbar\otimes V_i(M)$ for some
+$N$; this defines an injective $b$ intertwining $\rho_1$ with the Galois action on $V=\bigoplus_{i<N}V_i(M)$ (written in bases).
+Each $V_i(M)$ is crystalline for $P$ (\cref{pf:steps1:cst} and the admissibility transfer of \cref{sec:pf:steps1:cris}), and
+satisfies $\mathrm{Ann}(\ell^{f},n,A)$ by \cref{pf:steps1:annmodel}; both properties pass to the direct sum $V$ with
+$T_j=\bigoplus_iA_j$ by \cref{pf:steps1:annpi}. Finally, for $x$ in
+the preimage of the piece, $m_j\pi^*(A_jx)=\stepsIhop(\gamma_j)\pi^*x=\theta(\gamma_j)\pi^*x=m_j\vartheta_j\pi^*x$, and $m_j\ne0$,
+$\pi^*$ injective give $A_jx=\vartheta_jx$; hence $T_jb=\vartheta_jb$. Composing with $e$ gives the statement for $\rho_0|_{D_A}$.
+\end{proof}
+
+\subsubsection{From the geometric side to the Weil--Deligne representation}
+
+\begin{proposition}[Graded pieces]\label{pf:steps1:joinq}
+Let $P$ be a tied package, $B_w$ a bridge, $r_0,r\colon G_w\to\GL_a(\Qlbar)$ with $r$ continuous and graded of $r_0$, and suppose $r_0$
+has a crystalline embedding with annihilator $(f,q,n,\vartheta)$. Then there are a finite extension $L\supseteq LL$ of
+$\Ql$, a model $r'$ of $r$ over $L$ which is crystalline for $P$, and $\vartheta'\colon\N\to L$ with $\vartheta'_j=\vartheta_j$
+for $j\le n$, such that $\stepsIHk_{q,n,\vartheta'}$ is nilpotent on $D(r')$ for the semistable period ring and $\psi=\varphi^f$.
+\formallabel{UpperTheory.Ru.crystallineComparison.joinQ}
+\formallabel{UpperTheory.Ru.crystallineComparison.JQ.nil_scalar}
+\end{proposition}
+
+\begin{proof}
+Let $V,T_j,b$ be as in \cref{pf:steps1:def:incrys}, choose a basis of $V$, and let $\mathcal M\in M_{d\times a}(\Qlbar)$ be the
+injective matrix of $b$, so that $R(e(g))\mathcal M=\mathcal Mr_0(g)$ for the matrices $R$ of $V$ and
+$\mathrm{mat}(T_j)\mathcal M=\vartheta_j\mathcal M$ for $j\le n$. Let $L$ be the finite extension of $LL$ generated by the
+entries of $\mathcal M$ and $\vartheta_0,\dots,\vartheta_n$, and $\mathcal N$ a left inverse of $\mathcal M$ over $L$. Then
+$r_0(g)=\mathcal NR(e(g))\mathcal M$ has entries in $L$, and so does $r$; let $s_0,s$ be the models over $L$, and $U=L^a$
+with $s_0$. Via $\mathcal M$, $U$ is an $L$-subrepresentation of $L\otimes V$ on which $T_j$ acts by $\vartheta_j$.
+
+$V$ is crystalline, i.e.\ admissible for $P.B$; hence admissible for $\stepsIBst$ and $\mathrm{Ann}(q,n,T)$ holds for
+$\stepsIBst$ (\lref{UpperTheory.Gal.crystallineComparison.stOfCr_holds}: crystalline representations are semistable and the
+relation transfers along $\stepsIBcris\subset\stepsIBst$). Admissibility passes to $L\otimes V$ and to its subrepresentation $U$
+(\lref{UpperTheory.Gal.crystallineComparison.admissible_sequence_exact}: subrepresentations and quotients of admissible
+representations are admissible, by the dimension bound for invariants). Since $s$ is graded of $s_0$, the representation $W$
+given by $s$ is, by the argument of \cref{pf:steps1:grcrys}, the direct sum of subquotients $C_v$ of $U$; these are admissible,
+hence so is $W$, i.e.\ $r'=s$ is crystalline. On $D(U)\subseteq D(L\otimes V)$ the relation $\mathrm{Ann}(q,n,T)$ becomes
+$\stepsIHk_{q,n,\vartheta'}(1\otimes\varphi^f)=0$, because $T_j=\vartheta_j$ on $U$; it follows that
+$\stepsIHk_{q,n,\vartheta'}(1\otimes\varphi^f)$ is nilpotent on $D$ of every subquotient of $U$
+(\lref{UpperTheory.Gal.crystallineComparison.joinAbs_holds}, deferred), and therefore on $D(W)=\bigoplus_vD(C_v)$, with the
+maximum of the exponents. The continuity of $r$ is not used.
+\end{proof}
+
+\begin{proposition}[Frobenius eigenvalues]\label{pf:steps1:niltophi}
+Let $P$ be tied, $\iota\colon\Qlbar\cong\C$, $A$ a place over $w$, $B_w$ an inducing bridge, $r\colon D_A\to\GL_a(\Qlbar)$ with a
+crystalline model $r'$ over $L$, and $Q\in L[X]$ nilpotent on $D(r')$ for $(\stepsIBst,\varphi^{f_w})$. If
+$\iota(Q)=u\,\stepsIrt_S$ with $u\in\C^\times$ and $S$ a multiset, then $r$ is crystalline for $(P,B_w)$, and there are $g\in W_A$
+of degree $-1$ and $m\in\N$ such that the characteristic polynomial of $g$ on $\mathrm{WD}(r)$ divides $(\stepsIrt_S)^m$.
+\formallabel{UpperTheory.Ru.crystallineComparison.nilToPhi}
+\formallabel{UpperTheory.Gal.crystallineComparison.phiKNil_of}
+\formallabel{UpperTheory.Gal.crystallineComparison.dvdOfNil_of}
+\end{proposition}
+
+\begin{proof}
+Crystalline representations are semistable and hence potentially semistable
+(\lref{GlobalTheory.CrysSst.isSst_of_isCrys}, \lref{GlobalTheory.GalCut.IwaTwist.isPst_of_isSst}). Let $g$ be the
+inverse of a Frobenius element, so $\deg g=-1$. In Fontaine's construction the element $g$ acts on $D_{\mathrm{pst}}$, which
+contains $\stepsIDst$, through the linearized Frobenius $\varphi^{f_w}$ (degree $-1$), so the nilpotence of $Q(\varphi^{f_w})$ on
+$\stepsIDst$ gives the nilpotence of $Q$ evaluated at the operator of $g$
+(\lref{UpperTheory.Gal.crystallineComparison.nilWeil_of}, deferred). This persists after extension of scalars to $\C$ by
+$\iota$ (\lref{UpperTheory.Gal.crystallineComparison.nilRho_of}, deferred), and the characteristic polynomial of $g$ on
+$\mathrm{WD}(r)$ equals that of $g$ on the Weil--Deligne representation of the model
+(\lref{UpperTheory.Gal.crystallineComparison.wdModel_of}). Finally, if an endomorphism $X$ of a finite-dimensional vector space
+over an algebraically closed field satisfies that $u\prod_{s\in S}(X-s)$ is nilpotent with $u\ne0$, then every eigenvalue of $X$ lies
+in $S$, so its characteristic polynomial $\prod(X-\lambda_i)$ divides $(\stepsIrt_S)^m$ with $m$ the dimension.
+\end{proof}
+
+\begin{theorem}[$\sfname{PhiStep}$]\label{pf:steps1:phi}
+Let $E,\Omega,\ell,\iota$ be as in \cref{sec:pf:steps1:conv:loc}, $H$ a nice tower over $E$, $\theta\colon\Gamma\to\Qlbar$,
+$\rho\colon G_E\to\GL_d(\Qlbar)$ continuous and attached to the $\theta$-piece, $w\mid\ell$, and suppose that $(H,\theta)$ has a congruence
+datum at $w$ with parameters $(n,\vartheta)$ and that $\iota(\stepsIHk_{\stepsINw,n,\vartheta})=\iota(\vartheta_0)\stepsIrt_R$ with
+$\vartheta_0\ne0$. Then $\rho$ satisfies the Frobenius condition with roots $R$ at $w$: for every tied package $P$, place $A$ over $w$
+and inducing bridge $B_w$, $\rho|_{D_A}$ is crystalline for $(P,B_w)$, and there are $g\in W_A$ of degree $-1$ and $m\in\N$ such that
+the characteristic polynomial of $g$ on $\mathrm{WD}(\rho|_{D_A})$ divides $(\stepsIrt_R)^m$.
+\formallabel{UpperTheory.Ru.crystallineComparison.phiStep}
+\formallabel{UpperTheory.Ru.crystallineComparison.phiStep_of}
+\end{theorem}
+
+\begin{proof}
+Let $\rho_0$ be a matrix of the piece with $\rho$ graded of $\rho_0$. By \cref{pf:steps1:geoside}, $\rho_0|_{D_A}$ has a crystalline embedding
+with annihilator $(f_w,\stepsINw,n,\vartheta)$. Restriction to $D_A$ preserves the grading, so \cref{pf:steps1:joinq} gives $L$, a
+crystalline model $r'$ of $\rho|_{D_A}$ over $L$ and $\vartheta'$ with $\vartheta'_j=\vartheta_j$ ($j\le n$) such that
+$Q=\stepsIHk_{\stepsINw,n,\vartheta'}$ is nilpotent on $D(r')$. Since $Q$ depends only on $\vartheta'_0,\dots,\vartheta'_n$,
+$\iota(Q)=\iota(\stepsIHk_{\stepsINw,n,\vartheta})=\iota(\vartheta_0)\stepsIrt_R$ with $\iota(\vartheta_0)\ne0$, and
+\cref{pf:steps1:niltophi} gives the conclusion.
+\end{proof}
+
+\begin{remark}
+The conclusion of $\sfname{PhiStep}$ is weaker than an equality of characteristic polynomials: it only places the eigenvalues of one
+element of degree $-1$ among the roots of the Hecke polynomial. As in \cref{pf:steps1:crys}, the continuity of $\rho$ is not used in the
+proof (it is a hypothesis of \cref{pf:steps1:joinq} that its proof does not use), and at places $w\nmid\ell$ the Frobenius condition
+holds because no bridge induces a place over $w$.
+\end{remark}

@@ -1,0 +1,2133 @@
+\section{Kodaira--Spencer I: Harris--Taylor families and Hodge data}\label{sec:pf:ks1}
+
+\providecommand{\ksoneAfp}{\A_f^{p}}
+\providecommand{\ksoneH}[3]{H^{#3}(#1,\Omega^{#2})}
+\providecommand{\ksoneSp}{\operatorname{Sp}}
+\providecommand{\ksonefs}{\textstyle\sum\nolimits^{\mathrm f}}
+
+\subsection{Introduction}\label{pf:ks1:intro}
+
+This section contains the proofs of two results which are used, together with a fixed point
+formula and the holomorphic Lefschetz formula, in the proof of the geometric package
+\lref{UpperTheory.Gal.Int.Geo.kodaira_spencer_of_weight_one}. The name of the section refers to
+the Kodaira--Spencer computation of the relative dimension of the moduli spaces (\cref{pf:ks1:sec-smooth}) and to
+the Kuga--Sato towers whose Hodge cohomology is studied in the second half.
+
+The first result (\cref{pf:ks1:thm-models}) is the existence of integral models of unitary
+PEL moduli problems of the type considered by Kottwitz \cite{Kottwitz1992} and Harris--Taylor
+\cite{HarrisTaylor2001}: for every Harris--Taylor datum $D$ at a prime $p$, every Noetherian ring $R$
+carrying base data for $D$ (in particular every integer prime to $p$ is a unit in $R$) and every
+level $N\ge3$ prime to $p$, the moduli problem of abelian schemes with $D$-structure and level-$N$
+structure is represented by a quasi-projective $R$-scheme which is smooth of relative dimension
+$a(n-1)$. This is classical; we give the precise formal statement, the architecture of its formal
+proof, and complete proofs of its steps following the formal proof: the choice of the auxiliary level,
+the reduction to relative representability over a Siegel moduli space, the representability of actions and
+level maps, the closedness of Kottwitz's condition, the descent of the auxiliary level, and the deformation
+theory which gives smoothness and the relative dimension. The representability of Siegel moduli spaces and
+Grothendieck--Messing theory are cited from the literature.
+
+The second result (\cref{pf:ks1:thm-hodge}) is new in its formulation. It says that the
+holomorphic Lefschetz formula (\cref{pf:ks1:def-hlf}) and a fixed point formula for twisted Hecke
+correspondences on Kuga--Sato varieties (\cref{pf:ks1:def-fixk}, proved in
+\lref{UpperTheory.Gal.FixZ.FixK_holds}) imply the proposition $\sfname{KSHodge}$
+(\cref{pf:ks1:def-kshodge}): if a system $\theta$ of Hecke eigenvalues occurs in algebraic modular
+forms of weight $\lambda$ on the definite inner forms of a unitary similitude group of signature
+$(1,n-1)$ (detected by traces of good test functions), then for a suitable exponent $k$ depending
+only on $\lambda$, and for each Hodge exponent $h_i$ of $\lambda$, the eigensystem $\sigma\circ\theta$
+occurs in the coherent cohomology $\ksoneH{Z}{h_i}{b}$ of the $k$-fold Kuga--Sato variety $Z$ over the
+corresponding unitary Shimura variety, for some $b$ and every $\sigma\in\Aut(\C)$. The argument has five
+steps.
+\begin{enumerate}[label=(\roman*)]
+\item (Geometric side.) For a Hecke operator $T_h$ composed with the pull-back by a fibrewise
+  multiplication $[\alpha]$, $\alpha\in\OO_F^k$, the alternating trace on Hodge cohomology is computed by
+  the holomorphic Lefschetz formula, and the fixed point formula identifies the result with a weighted
+  sum $\Sigma(c_\alpha;\dots)$ over complex multiplication points (\cref{pf:ks1:prop-geostep}).
+\item (Counting identities.) Such weighted sums are equal to sums over conjugacy classes of definite
+  similitude pairs of root sums of the weight (\cref{pf:ks1:prop-h1}, a comparison in the style of
+  Kottwitz \cite{Kottwitz1992}); and sums over definite pairs are traces of Hecke operators on algebraic
+  modular forms in the sense of Gross \cite{Gross1999} (\cref{pf:ks1:prop-h2}, the trace formula for a group
+  which is compact at infinity).
+\item (Lefschetz weights.) A finite linear combination $\sum_\alpha c_\alpha[\alpha]$, in the spirit of
+  Scholl's projectors \cite{Scholl1990}, turns the local Lefschetz weights into the Schur polynomial of
+  $\lambda$ times $\sum_iy^{h_i}$ (\cref{pf:ks1:prop-rootw}); this rests on an interpolation
+  argument and on two identities for Schur polynomials (\cref{pf:ks1:sec-schur}).
+\item (Hodge traces.) Combining (i)--(iii), the alternating trace of a good Hecke operator composed with
+  $\sum_\alpha c_\alpha[\alpha]^*$ on $\bigoplus_{a,b}\ksoneH{Z}{a}{b}$, as a polynomial in the
+  variable $y$ marking the degree $a$, equals the definite trace times $\sum_iy^{h_i}$
+  (\cref{pf:ks1:prop-hodgetr}).
+\item (Eigenvectors.) Comparing coefficients of $y^{h_i}$ and an elementary lemma on commuting operators give
+  simultaneous eigenvectors in $\ksoneH{Z}{h_i}{b}$ (\cref{pf:ks1:prop-hodgeeig}); base change and Galois
+  conjugation give $\sfname{KSHodge}$ (\cref{pf:ks1:prop-kshodge}).
+\end{enumerate}
+
+\paragraph{Organisation.} \Cref{pf:ks1:sec-data,pf:ks1:sec-rep,pf:ks1:sec-repsteps,pf:ks1:sec-smooth,pf:ks1:sec-deform} treat the integral models.
+\Cref{pf:ks1:sec-towers} recalls Hecke towers and their Hodge cohomology and states the Lefschetz
+formula. \Cref{pf:ks1:sec-groups} introduces the group-theoretic objects (forms, fixed point sums,
+pairs, definite traces) and states $\sfname{FixK}$, $\sfname{KSHodge}$ and \cref{pf:ks1:thm-hodge}.
+\Cref{pf:ks1:sec-counting} proves the two counting identities, \cref{pf:ks1:sec-schur} the identities for
+Lefschetz weights, and \cref{pf:ks1:sec-proof} assembles the proof of \cref{pf:ks1:thm-hodge}.
+\Cref{pf:ks1:sec-remarks} records peculiarities of the formal statements.
+
+\paragraph{Conventions.}
+Rings are commutative unless they are explicitly algebras such as $C$ or $O$ below; $\ksoneSp R$ denotes $\Spec R$.
+For a function $u$ on a set $X$ we write $\ksonefs_{x\in X}u(x)$ for the sum of $u$ over its support if
+the support is finite, and $0$ otherwise; this is the convention of the formal development (Mathlib's
+\texttt{finsum}) and it is used in several definitions below, which is why finiteness statements appear
+as separate hypotheses or lemmas. Similarly $|S|$ denotes the cardinality of a finite set $S$ and
+$|S|:=0$ if $S$ is infinite, and $0^{-1}:=0$. For subgroups $H,K$ of a group, $[K:H\cap K]$ denotes the index,
+taken to be $0$ if it is infinite. For a subgroup $K$ of a group $H$ and
+$g\in H$, $\mathbf 1_{KgK}$ is the indicator function of the double coset $KgK$, and the convolution of
+$K$-invariant functions is $(\phi_1*\phi_2)(g)=\ksonefs_{x\in H/K}\phi_1(x)\phi_2(x^{-1}g)$.
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Harris--Taylor data and their moduli problem}\label{pf:ks1:sec-data}
+
+The following definitions are those of the formal development; they are faithful versions of the
+PEL data and moduli problems of \cite[\S5]{Kottwitz1992} and \cite[Ch.~III]{HarrisTaylor2001}.
+
+\begin{definition}[Harris--Taylor datum]\label{pf:ks1:def-datum}
+Let $p$ be a prime. A \emph{Harris--Taylor datum} $D$ for $p$ consists of:
+\begin{enumerate}[label=(D\arabic*)]
+\item a CM field $F$, with complex conjugation $c\mapsto\bar c$ on $F$ and on $\OO_F$;
+\item $\omega\in\OO_F$ and integers $\mathrm{tr},\mathrm{nm}$ with $\omega+\bar\omega=\mathrm{tr}$,
+  $\omega\bar\omega=\mathrm{nm}$, $\mathrm{tr}^2-4\,\mathrm{nm}<0$, $p\nmid\mathrm{tr}^2-4\,\mathrm{nm}$,
+  and $p\mid r^2-\mathrm{tr}\,r+\mathrm{nm}$ for some $r\in\Z$;
+\item a ring $O$ which is an $\OO_F$-algebra, free of rank $m^2[F:\Q]$ as a $\Z$-module for some $m\ge1$,
+  such that every central element of $O$ has a nonzero integral multiple in the image of $\OO_F$; a ring
+  anti-automorphism $b\mapsto b^*$ of $O$ with $b^{**}=b$ restricting to complex conjugation on $\OO_F$; and an
+  isomorphism of $\OO_F$-algebras $O\otimes\Z_p\cong M_m(\OO_F\otimes\Z_p)$;
+\item an $O$-module $\Lambda$, free of rank $mn[F:\Q]$ over $\Z$ for some $n\ge1$, with an alternating
+  form $E_\Lambda:\Lambda\times\Lambda\to\Z$ which is nondegenerate, satisfies $E_\Lambda(bx,y)=E_\Lambda(x,b^*y)$
+  for $b\in O$, and is \emph{perfect up to an integer prime to $p$}: there is $e\ge0$ prime to $p$ such
+  that every linear form $\Lambda\to\Z$ multiplied by $e$ is of the form $E_\Lambda(x,-)$;
+\item an integer $a\ge0$, a root $\rho_c\in\C$ of $X^2-\mathrm{tr}\,X+\mathrm{nm}$ and distinct embeddings
+  $\tau_0,\dots,\tau_{a-1}:F\to\C$ with $\tau_i(\omega)=\rho_c$;
+\item (Kottwitz's determinant condition) an $\R$-linear endomorphism $J$ of $\Lambda_\R=\R\otimes\Lambda$
+  with $J^2=-1$, $E_\Lambda(Jx,Jy)=E_\Lambda(x,y)$, $E_\Lambda(Jx,x)>0$ for $x\neq0$, commuting with $O$, such
+  that for every $c\in\OO_F$ the multiplication $A_c$ by $c$ on $\Lambda_\R$ satisfies
+  $\tr_\R(A_c)=2\Re S(c)$ and $\tr_\R(JA_c)=-2\Im S(c)$, where
+  \[ S(c)=m\Bigl(\sum_{i<a}\tau_i(c)+n\!\!\sum_{\tau(\omega)=\bar\rho_c}\!\!\tau(c)-\sum_{i<a}\overline{\tau_i(c)}\Bigr).\]
+\end{enumerate}
+$D$ is of \emph{compact type} if $2a<[F:\Q]$, or $O\otimes\Q$ is a division algebra and $n<2m$.
+\end{definition}
+
+Condition (D6) says that $\tr_\C(c\mid(\Lambda_\R,J))=S(c)$: an embedding $\tau$ of $F$ occurs in the
+complex vector space $(\Lambda_\R,J)$ with multiplicity $m$ if $\tau\in\{\tau_i\}$, $m(n-1)$ if
+$\tau\in\{\bar\tau_i\}$, $mn$ if $\tau(\omega)=\bar\rho_c$ and $\tau\notin\{\bar\tau_i\}$, and $0$ otherwise.
+The associated unitary group has signature $(1,n-1)$ at the places $\tau_i$ and is definite at the other
+places; for $a=1$ and $O$ a maximal order of a division algebra this is the setting of
+\cite{HarrisTaylor2001}.
+
+\begin{definition}[Base data]\label{pf:ks1:def-base}
+Let $D$ be a datum for $p$ and $R$ a ring. A \emph{base} $b$ for $D$ over $R$ consists of $\rho\in R$ with
+$\rho^2-\mathrm{tr}\,\rho+\mathrm{nm}=0$ and ring homomorphisms $t_i:\OO_F\to R$ ($i<a$) with $t_i(\omega)=\rho$,
+such that every integer prime to $p$ is a unit of $R$; for $i\neq j$ the elements $t_i(x)-t_j(x)$,
+$x\in\OO_F$, generate the unit ideal; and for $i\neq j$ and every homomorphism $\beta:R\to k$ to a field of
+characteristic $p$ the kernels of $\beta\circ t_i$ and $\beta\circ t_j$ are distinct.
+\end{definition}
+
+\begin{definition}[Objects and models]\label{pf:ks1:def-obj}
+Let $b$ be a base for $D$ over $R$, $N\ge1$, and $s:S\to\ksoneSp R$ a scheme over $R$. An \emph{object of level
+$N$} over $S$ consists of:
+\begin{enumerate}[label=(O\arabic*)]
+\item an abelian scheme $A\to S$ (a commutative group scheme over $S$ which is smooth and proper with
+  geometrically connected fibres), with an action $\iota:O\to\End_S(A)$;
+\item a line bundle $P$ on $A\times_SA$, rigidified along $0\times A$ and $A\times0$, with an isomorphism
+  $P\cong\mathrm{sw}^*P$ ($\mathrm{sw}$ the swap), whose restriction to the diagonal is relatively ample; such
+  that for some integer $e$ prime to $p$ the kernel of the associated polarisation is killed by $e$ (if
+  $x\in A(T)$ and the restriction of $P$ to $\{x\}\times A_T$ is trivial, then $ex=0$); and such that
+  $(\iota(c)\times1)^*P\cong(1\times\iota(c^*))^*P$ for $c\in O$ (the Rosati involution induces $*$);
+\item (Kottwitz's condition) for every ring map $\beta:R\to R'$ and $x:\ksoneSp R'\to S$ over $\beta$, every
+  tangent vector of $A_x$ on which $\omega$ acts by $\beta(\rho)$ is a sum $\sum_{i<a}w_i$ of tangent vectors on
+  which $\OO_F$ acts through $\beta\circ t_i$; and for every geometric point $x:\ksoneSp k\to S$ over
+  $\beta:R\to k$ and every $i<a$, the space of tangent vectors of $A_x$ on which $\OO_F$ acts through
+  $\beta\circ t_i$ has dimension $m$;
+\item an additive $O$-linear map $\eta:\Lambda\to A(S)$ with $\eta(N\Lambda)=0$ such that at every geometric
+  point $x$ there are a compatible system of primitive roots of unity $\zeta_r\in k$ and maps
+  $\mathrm{ev}_r:\Lambda\to A_x(k)$ ($r$ prime to $p$) which are additive, $O$-linear, with kernel $r\Lambda$
+  and image $A_x[r](k)$, compatible in towers, with Weil pairing $e_r(\mathrm{ev}_rx,\mathrm{ev}_ry)=
+  \zeta_r^{2E_\Lambda(x,y)}$ for the polarisation of the restriction of $P$ to the diagonal, and with
+  $\eta_x=\mathrm{ev}_N$.
+\end{enumerate}
+A morphism of objects over $f:S'\to S$ is a cartesian square of group schemes $A'\to A$ over $f$
+compatible with the $O$-actions, with $P$ (up to isomorphism of line bundles) and with $\eta$. A
+\emph{representing family} of level $N$ is a scheme $X$ with $s:X\to\ksoneSp R$ and an object $u$ over $X$
+such that for every object $o$ over every $S\to\ksoneSp R$ there is a unique $f:S\to X$ over $R$ admitting a
+morphism $o\to u$ over $f$. A \emph{model} of level $N$ is a representing family such that $s$ is
+quasi-projective and smooth of relative dimension $a(n-1)$.
+\end{definition}
+
+Here quasi-projective means: $s$ factors as an immersion followed by the projection of some
+$\mathbb P^M_R$; smooth of relative dimension $d$ means smooth with $\Omega_{X/R}$ locally free of rank $d$.
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Existence of quasi-projective representing families}\label{pf:ks1:sec-rep}
+
+\begin{theorem}[Integral models of Harris--Taylor type]\label{pf:ks1:thm-models}
+Let $p$ be a prime, $D$ a Harris--Taylor datum for $p$, $R$ a Noetherian ring, $b$ a base for $D$ over $R$
+and $N\ge3$ an integer prime to $p$. Then a model of level $N$ for $b$ exists.
+\formallabel{GlobalTheory.UPel.HT.model_nonempty}
+\end{theorem}
+
+The theorem is the combination of \cref{pf:ks1:prop-repfam} (a quasi-projective representing family
+exists) and \cref{pf:ks1:thm-smooth} (every quasi-projective representing family is smooth of relative
+dimension $a(n-1)$); its proof is given at the end of \cref{pf:ks1:sec-smooth}. For $a=1$, $O$ a maximal
+order of a division algebra and $R$ a localisation of the ring of integers of the reflex field, this is
+the theorem of Kottwitz \cite[\S5]{Kottwitz1992} used in \cite[Ch.~III]{HarrisTaylor2001}; see also
+\cite[Ch.~1--2]{Lan2013}. The base ring is here an arbitrary Noetherian ring with base data.
+
+The auxiliary objects for the Siegel moduli problem are as follows. For $M\ge1$ let
+$\Z[\zeta_M,1/M]\subset\C$ be the subring generated by $\zeta_M=e^{2\pi i/M}$ and $1/M$. For $h\ge1$ and a
+scheme $S$ over $\Z[\zeta_M,1/M]$, a \emph{pre-Siegel object} of genus $h$ and level $M$ over $S$ is an abelian
+scheme $A/S$ with a rigidified symmetric line bundle $P$ on $A\times_SA$ as in (O2), together with a map
+$\mathrm{lev}:(\Z/M)^{2h}\to A[M](S)$ which is additive and, at every geometric point, an isomorphism onto
+$A[M]$ under which the Weil pairing of the polarisation of $P|_\Delta$ becomes $\zeta_M^{2\omega_{\mathrm{std}}}$,
+$\omega_{\mathrm{std}}$ the standard symplectic form. Its polarisation kernel is \emph{killed by $d$} if
+$P|_{\Delta}$ is relatively ample and the kernel of the polarisation is killed by $d$. Morphisms are cartesian
+squares compatible with $P$ and $\mathrm{lev}$.
+
+\begin{theorem}[Siegel moduli schemes]\label{pf:ks1:thm-siegel}
+Let $h\ge1$, $M\ge3$ odd and $d>0$ with $\gcd(M,d)=1$. The functor which assigns to a scheme $S$ over
+$\Z[\zeta_M,1/M]$ on which $d$ is invertible the isomorphism classes of pre-Siegel objects of genus $h$ and
+level $M$ whose polarisation kernel is killed by $d$ is represented by a quasi-projective
+$\Z[\zeta_M,1/M]$-scheme on which $d$ is invertible.
+\formallabel{GlobalTheory.T.siegelKernelBoundedRepresentable_of_coprime}
+\end{theorem}
+
+\begin{proof}
+This is Mumford's theorem \cite[Ch.~7]{MumfordFogartyKirwan1994} for principally polarised
+abelian schemes with level structure, combined with Zarhin's trick \cite{Zarhin1977}
+($(A\times A^\vee)^4$ carries a principal polarisation) to pass to polarisations whose kernel is killed by $d$.
+\end{proof}
+
+\begin{remark}\label{pf:ks1:rem-siegel}
+The formal proof of \cref{pf:ks1:thm-siegel} (about $37\,000$ lines) does not use geometric invariant
+theory. It starts from a smooth family of principally polarised abelian schemes with level structure over
+$\Z[\zeta_M,1/M]$, provided by a literature-labelled statement on integral toroidal compactifications of
+Siegel moduli \cite{FaltingsChai1990}; it proves that this family is universal by deformation theory
+(classification over algebraically closed fields, lifting to Artinian, complete Noetherian local, Noetherian
+local and Noetherian bases, and gluing); and it treats non-principal polarisations by Zarhin's trick and an
+open-locus argument for images of idempotents.
+\end{remark}
+
+\begin{proposition}[Relative representability over Siegel spaces]\label{pf:ks1:prop-relrep}
+Let $b$ be a base for $D$ over $R$, $N\ge3$ prime to $p$, $e$ prime to $p$, $h,M\ge1$, $B$ a ring with
+$\zeta\in B$, and $S$ a locally Noetherian scheme with morphisms $s_1:S\to\ksoneSp B$ and $t:S\to\ksoneSp R$.
+Let $c=(A_c,P_c,\mathrm{lev}_c)$ be a pre-Siegel object over $S$ whose polarisation kernel is killed by $e$.
+Then there are a finite morphism $\pi:Z\to S$ and an object $u$ of level $N$ over $Z$ (for $\pi\circ t$)
+together with a cartesian square $A_u\to A_c$ over $\pi$ identifying $P_u$ with the pull-back of $P_c$, such
+that: for every $g:T\to S$ and every object $o$ of level $N$ over $T$ (for $g\circ t$) together with a
+cartesian square $A_o\to A_c$ over $g$ identifying $P_o$ with the pull-back of $P_c$, there is a unique
+$z:T\to Z$ with $\pi z=g$ admitting a morphism $o\to u$ over $z$ compatible with the given squares.
+\formallabel{GlobalTheory.T.harrisTaylor_structures_relatively_representable}
+\end{proposition}
+
+\begin{proof}
+The proof has three steps.
+
+(1) The functor of pairs $(\iota,\eta)$, where $\iota$ is an action of $O$ on the pull-back of $A_c$ satisfying the
+Rosati condition for the pull-back of $P_c$ (the Rosati involution induces $*$), and $\eta:\Lambda\to A[N]$ is additive,
+$O$-linear and kills $N\Lambda$, is represented by a finite $S$-scheme $E$, which is locally Noetherian
+(\cref{pf:ks1:prop-actlev}). The input for the $O$-actions is the classical fact that actions of an order compatible
+with a polarisation are parametrised by a finite unramified scheme (\cref{pf:ks1:thm-actrep}; cf.\ \cite[\S5]{Kottwitz1992}).
+
+(2) Inside $E$, the locus where Kottwitz's condition (O3) holds at all points and the Tate condition (O4) holds
+at all geometric points is closed: there is a closed immersion $j:Z\to E$ such that a morphism $T\to E$ factors
+through $Z$ if and only if the pulled-back data satisfy (O3) and (O4) pointwise
+(\cref{pf:ks1:prop-lieclosed}; closedness of Kottwitz's condition is classical \cite[\S5]{Kottwitz1992}).
+
+(3) Over $Z$, the universal data form an object $u$ of level $N$ whose abelian scheme is the pull-back of
+$A_c$ along $\pi:=$ (the composite $Z\to E\to S$), which is finite
+(\lref{GlobalTheory.T.exists_harrisTaylorObject_over_lieTate_locus}). Given $g$ and $o$ as in the
+statement, the $O$-action and the level map of $o$ transported to the pull-back of $A_c$ define, by (1), a
+unique $z_0:T\to E$ over $g$ with an identification of the data; by the pointwise characterisation in (2)
+(conditions (O3), (O4) for $o$ are equivalent to the same conditions for the pulled-back data,
+\lref{GlobalTheory.T.harrisTaylorLie_tate_conditions_iff_pullbacks}), $z_0$ factors uniquely as $j\circ z$; and
+the identifications assemble to a morphism $o\to u$ over $z$
+(\lref{GlobalTheory.T.exists_harrisTaylorObjectMap_of_common_pullback}). Uniqueness of $z$ follows from the
+uniqueness in (1) and the fact that $j$ is a monomorphism.
+\end{proof}
+
+\begin{proposition}[Auxiliary symplectic level]\label{pf:ks1:prop-aux}
+Let $b$ be a base for $D$ over a Noetherian ring $R$, let $N\ge3$ and $M\ge3$ be prime to $p$ with $M$ odd,
+let $e$ be prime to $p$ with $\gcd(M,e)=1$ and $e\Lambda^\vee\subseteq E_\Lambda(\Lambda)$, and let
+$h=\rank_\Z\Lambda/2$. Assume the conclusion of \cref{pf:ks1:thm-siegel} for $(h,M,e)$. Then there are a
+quasi-projective $R$-scheme $X$ with a morphism $s_1:X\to\ksoneSp\Z[\zeta_M,1/M]$, an object $u$ of level $N$
+over $X$ and a symplectic level-$M$ structure $\mathrm{lev}$ on $A_u$ (with respect to $\zeta_M$ via $s_1$)
+which are universal: for every $S$ with $t:S\to\ksoneSp R$, $t_1:S\to\ksoneSp\Z[\zeta_M,1/M]$, every object
+$o$ of level $N$ over $S$ and every symplectic level-$M$ structure $l$ on $A_o$, there is a unique
+$f:S\to X$ compatible with $t,t_1$ admitting a morphism $o\to u$ over $f$ carrying $l$ to $\mathrm{lev}$.
+\formallabel{GlobalTheory.T.harrisTaylor_auxiliary_symplectic_level_representable}
+\end{proposition}
+
+\begin{proof}
+Let $(X_0,c)$ represent the Siegel functor of \cref{pf:ks1:thm-siegel}. Since $M$ is prime to $p$ it is a
+unit in $R$, so $X_0':=X_0\times_{\ksoneSp\Z}\ksoneSp R$ is quasi-projective over $R$
+(\lref{GlobalTheory.T.isQuasiProjective_of_finite_over_cyclotomicAway_pullback}) and in particular locally
+Noetherian. Apply \cref{pf:ks1:prop-relrep} to the pull-back of $c$ to $X_0'$: we obtain a finite
+$\pi:X\to X_0'$ and an object $u$ over $X$; the level structure $\mathrm{lev}$ is the pull-back of
+$\mathrm{lev}_c$. As $X$ is finite over the quasi-projective $R$-scheme $X_0'$, it is quasi-projective over $R$
+(\lref{GlobalTheory.T.isQuasiProjective_of_finite_over_cyclotomicAway_pullback}). Given $(o,l)$ over $S$, the
+pre-Siegel object $(A_o,P_o,l)$ has polarisation kernel killed by $e$
+(\lref{GlobalTheory.T.harrisTaylor_siegelObject_polarisationKernel_killed}: this uses
+$e\Lambda^\vee\subseteq E_\Lambda(\Lambda)$ and the Tate condition (O4)), and $e$ is a unit on $S$ since it is
+prime to $p$. Hence it is classified by a unique $f_0:S\to X_0$, and the pair $(f_0,t)$ is a morphism
+$S\to X_0'$ along which $(A_o,P_o,l)$ is the pull-back of $c$. By \cref{pf:ks1:prop-relrep} there is a
+unique $f:S\to X$ over $(f_0,t)$ with a morphism $o\to u$ compatible with the identifications; compatibility
+with the level structures is automatic since $\mathrm{lev}$ is pulled back from $c$. Conversely every $f$ with
+the stated properties lies over $(f_0,t)$ by the uniqueness of $f_0$, so $f$ is unique.
+\end{proof}
+
+\begin{proposition}[Descent of the auxiliary level]\label{pf:ks1:prop-descent}
+Under the hypotheses of \cref{pf:ks1:prop-aux}, if the conclusion of \cref{pf:ks1:prop-aux} holds, then
+there is a representing family of level $N$ for $b$ whose structure morphism is quasi-projective.
+\formallabel{GlobalTheory.T.exists_representingFamily_of_auxiliaryRepresentation}
+\end{proposition}
+
+\begin{proof}
+Let $(X,s,s_1,u,\mathrm{lev})$ be as in \cref{pf:ks1:prop-aux} and let $\Gamma_M$ be the finite group of
+symplectic similitudes of $((\Z/M)^{2h},\omega_{\mathrm{std}})$. By the universal property, $\Gamma_M$ acts on
+$X$ over $R$ by changing the level structure: there are morphisms $\varrho(a):X\to X$, $a\in\Gamma_M$, with
+$\varrho(1)=\mathrm{id}$, $\varrho(ac)=\varrho(c)\circ\varrho(a)$, $s\varrho(a)=s$, and morphisms of objects $u\to u$ over
+$\varrho(a)$ (\lref{GlobalTheory.T.exists_symplecticSimilitude_action_on_levelFamily}; the similitude
+factor of $a$ acts on $\zeta_M$ through the Galois group of $\Q(\zeta_M)/\Q$, which is why $s_1$ is not
+preserved). The following three properties hold.
+\begin{enumerate}[label=(\alph*)]
+\item The action is free on geometric points: if $\varrho(a)\circ y=y$ for a geometric point $y$ of $X$, then $a=1$
+  (\lref{GlobalTheory.T.harrisTaylor_similitude_fixing_point_eq_one}; the morphism $u\to u$ over
+  $\varrho(a)$ restricts at $y$ to an endomorphism of the fibre which, by the uniqueness of morphisms of objects of
+  level $N\ge3$, is the identity; since it carries the level-$M$ structure twisted by $a$ to the original one, $a$
+  fixes every element of $(\Z/M)^{2h}$).
+\item Every object $o$ over $S$ acquires a symplectic level-$M$ structure on a Galois cover $S_1\to S$ with group
+  $\Gamma_M$ (in the sense of \cref{pf:ks1:sec-repsteps}), and the resulting classifying map $S_1\to X$ is
+  $\Gamma_M$-equivariant (\cref{pf:ks1:prop-galcover}).
+\item Two classifying maps $x,x':T\to X$ of the same object (with different level-$M$ structures) differ
+  locally on $T$ by an element of $\Gamma_M$: every point of $T$ has an open neighbourhood $V$ and $a\in\Gamma_M$
+  with $\varrho(a)\circ x|_V=x'|_V$ (\lref{GlobalTheory.T.exists_local_symplecticSimilitude_classifyingMaps}).
+\end{enumerate}
+A finite group acting freely on a quasi-projective $R$-scheme, together with (b) and (c), yields a quotient
+$X\to X/\Gamma_M$ which is a quasi-projective representing family of level $N$: the quotient exists and is
+quasi-projective, $X\to X/\Gamma_M$ is a finite \'etale Galois cover, the object $u$ descends to $X/\Gamma_M$ along
+it, and (b), (c) show that $X/\Gamma_M$ represents objects of level $N$
+(\cref{pf:ks1:prop-quot}).
+\end{proof}
+
+\begin{proposition}\label{pf:ks1:prop-repfam}
+Let $D$, $R$, $b$, $N$ be as in \cref{pf:ks1:thm-models}. There is a representing family of level $N$ for
+$b$ whose structure morphism is quasi-projective.
+\formallabel{GlobalTheory.T.exists_quasiProjective_harrisTaylor_family}
+\formallabel{GlobalTheory.UPel.HT.exists_repFam_qproj}
+\end{proposition}
+
+\begin{proof}
+Let $e$ be as in (D4). Then $e>0$, since $\gcd(0,p)=p\neq1$. Choose a prime $M\ge p+e+3$; then $M\ge3$, $M$ is
+odd, and $M$ is prime to $p$ and to $e$. Put $h=\rank_\Z\Lambda/2$. We have $\rank_\Z\Lambda\ge2$: it is positive
+by (D4), and if it were $1$ the alternating form $E_\Lambda$ would vanish on a basis vector, hence vanish, contradicting
+nondegeneracy; so $h\ge1$. Now
+\cref{pf:ks1:thm-siegel} applies to $(h,M,e)$, \cref{pf:ks1:prop-aux} then gives a quasi-projective
+representing family with auxiliary level $M$, and \cref{pf:ks1:prop-descent} removes the auxiliary level.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------------------------
+\subsection{The representability steps}\label{pf:ks1:sec-repsteps}
+
+This subsection proves the results used in the proofs of \cref{pf:ks1:prop-relrep,pf:ks1:prop-descent}. We use the following
+terminology. Let $A\to S$ be an abelian scheme, $O$ a ring with an additive map $b\mapsto\bar b$ and $Q$ a line bundle on $A\times_SA$. An
+action $\iota:O\to\End_S(A)$ (a ring homomorphism) is \emph{adjoint for $Q$} if $(\iota(b)\times1)^*Q\cong(1\times\iota(\bar b))^*Q$ for every
+$b\in O$; for the ring $O$ of a datum, $\bar b=b^*$ and the bundle $P$ of (O2) this is the \emph{Rosati condition}. For a finite group $\Gamma$, a
+\emph{Galois cover with group $\Gamma$} is a finite, \'etale and surjective morphism $\pi_1:S_1\to S$ with morphisms $\varrho_1(a):S_1\to S_1$
+($a\in\Gamma$) such that $\varrho_1(1)=\mathrm{id}$, $\varrho_1(ac)=\varrho_1(c)\circ\varrho_1(a)$ and $\pi_1\circ\varrho_1(a)=\pi_1$, and such that
+for any two geometric points $y,y'$ of $S_1$ with $\pi_1y=\pi_1y'$ there is a unique $a\in\Gamma$ with $\varrho_1(a)\circ y=y'$.
+
+\begin{theorem}[Adjoint actions form a finite unramified scheme]\label{pf:ks1:thm-actrep}
+Let $S$ be a locally Noetherian scheme, $A\to S$ an abelian scheme and $Q$ a line bundle on $A\times_SA$ which is rigidified along
+$0\times A$ and $A\times0$, satisfies $Q\cong\mathrm{sw}^*Q$, and whose restriction $\Delta^*Q$ to the diagonal is relatively ample. Let $O$
+be a ring with an additive map $b\mapsto\bar b$, let $e_1,\dots,e_r$ generate $O$ as an abelian group, and let $W\in M_r(\Z)$ and $d>0$ be
+such that $W+W^{\mathsf T}$ is positive definite and $\sum_{i,j}W_{ij}\,\bar e_ie_j=d$ in $O$. Then there are a finite and formally unramified
+morphism $\pi_H:H\to S$ and an action $\iota_H$ of $O$ on $A_H=A\times_SH$ adjoint for the pull-back of $Q$ which are universal: for every
+$g:T\to S$ and every action $\iota$ of $O$ on $A_T$ adjoint for the pull-back of $Q$ there is a unique $h:T\to H$ with $\pi_Hh=g$ and
+$\iota=h^*\iota_H$.
+\formallabel{GlobalTheory.T.adjointActions_order_finite_unramified_scheme}
+\formallabel{GlobalTheory.EndLoc.actRep_finite_unramified}
+\formallabel{GlobalTheory.ActFin.exists_actRep_finite}
+\formallabel{GlobalTheory.EndLoc.formallyUnramified_actRep}
+\end{theorem}
+
+In the formal statement the actions are right actions, $\iota(ab)=\iota(b)\circ\iota(a)$, and the relation reads $\sum_{i,j}W_{ij}e_j\bar e_i=d$;
+this is the statement above for the opposite ring, and it is applied in this form in \cref{pf:ks1:prop-actlev}.
+
+\begin{proof}
+Put $L=(\Delta^*Q)^{\otimes d}$ on $A$ and, on the abelian scheme $A^r=A\times_S\dots\times_SA$,
+$M=\bigotimes_{i,j}\bigl((\mathrm{pr}_i,\mathrm{pr}_j)^*Q\bigr)^{\otimes W_{ij}}$. Both line bundles are rigidified and relatively ample; for
+$M$ this uses that $W+W^{\mathsf T}$ is positive definite (\lref{GlobalTheory.ActFin.formLB_props}: $M$ is a rigidified, relatively ample
+line bundle on $A^r$). Since $Q$ is rigidified along both axes, the theorem of the cube makes it biadditive: for homomorphisms
+$u,u',w:A_T\to A_T$ we have $(u+u',w)^*Q\cong(u,w)^*Q\otimes(u',w)^*Q$, and similarly in the second variable.
+
+(a) The functor of homomorphisms $\Phi:A_T\to A^r_T$ with $\Phi^*M\cong L$ is represented by a finite $S$-scheme $R_0$ with a universal
+homomorphism $\Phi_0$ (\lref{GlobalTheory.T.exists_finite_unramified_representing_polarizedHoms}: for abelian schemes $A$, $B$ over a
+locally Noetherian base with rigidified relatively ample line bundles $L$, $M$, the homomorphisms $\Phi$ with $\Phi^*M\cong L$ are represented
+by a finite and formally unramified scheme). Let $f_k=\mathrm{pr}_k\circ\Phi_0\in\End(A_{R_0})$.
+
+(b) For $c\in\Z^r$ and endomorphisms $g_1,\dots,g_r$ of a commutative group scheme write $g(c)=\sum_kc_kg_k$. Choose vectors
+$N_1,\dots,N_s\in\Z^r$ generating the kernel of $\Z^r\to O$, $c\mapsto\sum_kc_ke_k$ (possible since $\Z^r$ is Noetherian), $c^{(0)}\in\Z^r$ with
+$\sum_kc^{(0)}_ke_k=1$, and vectors $c^{(ij)}$, $\bar c^{(i)}$ with $e_ie_j=\sum_kc^{(ij)}_ke_k$ and $\bar e_i=\sum_k\bar c^{(i)}_ke_k$. Then there is an
+action $\iota$ with $\iota(e_k)=g_k$ for all $k$ if and only if $g(N_l)=0$ for all $l$, $g(c^{(0)})=1$ and $g_ig_j=g(c^{(ij)})$ for all $i,j$: the first condition says that $\sum_kc_ke_k\mapsto g(c)$ is a
+well-defined additive map, and the other two that it is unital and multiplicative on generators, hence everywhere, composition being
+biadditive.
+
+(c) Each condition of (b) for $g_k=f_k$ is an equality of two homomorphisms of abelian schemes over $R_0$, and the locus where two
+homomorphisms agree is a closed subscheme (\lref{GlobalTheory.T.abelianScheme_homAgreeLocus_closedSubscheme}: for homomorphisms $u,w$
+of abelian schemes over a locally Noetherian base there is a closed subscheme through which $T\to S$ factors if and only if $u_T=w_T$). For
+each $i$ the condition $(f_i\times1)^*Q\cong(1\times f(\bar c^{(i)}))^*Q$ also defines a closed subscheme
+(\lref{GlobalTheory.T.exists_closedSubscheme_pullback_adjoint_endomorphism_pair}: for endomorphisms $u,u'$ the locus where
+$(u\times1)^*Q\cong(1\times u')^*Q$ is closed). Let $H\subseteq R_0$ be the intersection of these finitely many closed subschemes. Over $H$, (b)
+gives an action $\iota_H$ with $\iota_H(e_k)=f_k|_H$. It is adjoint for $Q$: for the generators $e_i$ this holds by construction, as
+$\iota_H(\bar e_i)=f(\bar c^{(i)})|_H$, and the set of $b$ for which it holds is a subgroup, because $b\mapsto\bar b$ is additive and $Q$ is
+biadditive.
+
+(d) Let $\iota$ be an action on $A_T$ adjoint for $Q$ and put $\Phi=(\iota(e_1),\dots,\iota(e_r)):A_T\to A_T^r$. Then $\Phi^*M\cong L$
+(\lref{GlobalTheory.T.formBundle_pullback_adjointAction_eq_diagonalPower}). Indeed,
+$\Phi^*M=\bigotimes_{i,j}((\iota(e_i),\iota(e_j))^*Q)^{\otimes W_{ij}}$; pulling back the adjointness isomorphism for $e_i$ along $(1,\iota(e_j))$
+gives $(\iota(e_i),\iota(e_j))^*Q\cong(1,\iota(\bar e_ie_j))^*Q$; and by biadditivity the tensor product is
+$(1,\iota(\sum_{i,j}W_{ij}\bar e_ie_j))^*Q=(1,d)^*Q\cong(\Delta^*Q)^{\otimes d}$. Hence $\Phi$ is classified by a unique $h_0:T\to R_0$ over $S$. As
+$\iota$ satisfies the relations of (b) and is adjoint for $Q$, $h_0$ factors through $H$, and $\iota=h^*\iota_H$ for the factorisation $h$.
+Conversely, if $\iota=h'^*\iota_H$, then $\Phi$ is the pull-back of $\Phi_0$ along $T\to H\to R_0$, so this composite is $h_0$, and $h'=h$
+because $H\to R_0$ is a monomorphism.
+
+(e) $\pi_H$ is finite, as the composite of a closed immersion and the finite morphism $R_0\to S$. It is formally unramified; this holds for
+every universal pair $(H,\iota_H)$ as in the statement. Let $B$ be a ring, $J\subseteq B$ an ideal with $J^2=0$, and $h_1,h_2:\ksoneSp B\to H$
+morphisms with $\pi_Hh_1=\pi_Hh_2$ which agree on $\ksoneSp B/J$. The actions $h_1^*\iota_H$ and $h_2^*\iota_H$ on the same abelian scheme over
+$B$ agree over $B/J$; since homomorphisms of abelian schemes which agree modulo a nilpotent ideal are equal
+(\lref{GlobalTheory.NilRigidity.eq_of_pullback_quotient_eq}, rigidity), they are equal, and the universal property gives $h_1=h_2$.
+\end{proof}
+
+\begin{proposition}[Actions and level maps over Siegel pull-backs]\label{pf:ks1:prop-actlev}
+Let $b$, $N$, $e$, $h$, $M$, $B$, $\zeta$, $S$, $s_1$, $t$ and $c=(A_c,P_c,\mathrm{lev}_c)$ be as in \cref{pf:ks1:prop-relrep}, except that $N\ge3$ is
+not required. There are a finite morphism $\pi_E:E\to S$ with $E$ locally Noetherian, an action $\iota_E$ of $O$ on $A_E=A_c\times_SE$ satisfying
+the Rosati condition for the pull-back of $P_c$, and an additive $O$-linear map $\eta_E:\Lambda\to A_E(E)$ with $\eta_E(N\Lambda)=0$ which are
+universal: for every $g:T\to S$, every action $\iota$ of $O$ on $A_T=A_c\times_ST$ satisfying the Rosati condition and every additive $O$-linear
+$\eta:\Lambda\to A_T(T)$ with $\eta(N\Lambda)=0$ there is a unique $z:T\to E$ with $\pi_Ez=g$ and $(\iota,\eta)=z^*(\iota_E,\eta_E)$.
+\formallabel{GlobalTheory.T.exists_rep_adjointAction_level_siegelPullback}
+\formallabel{GlobalTheory.UPel.HT.exists_finite_rep_rosati_level}
+\formallabel{GlobalTheory.UPel.HT.exists_finite_rep_oActN_rosati}
+\end{proposition}
+
+\begin{proof}
+(a) There are generators $e_1,\dots,e_r$ of the abelian group $O$, a matrix $W\in M_r(\Z)$ with $W+W^{\mathsf T}$ positive definite and an
+integer $d>0$ with $\sum_{i,j}W_{ij}e_i^*e_j=d$ (\lref{GlobalTheory.T.exists_spanning_posDef_relation_harrisTaylorOrder}: such data exist for
+the ring $O$ of every Harris--Taylor datum).
+
+(b) The rigidifications and the symmetry of $P_c$ and the relative ampleness of its restriction to the diagonal are part of the data of a
+pre-Siegel object, so \cref{pf:ks1:thm-actrep}, applied to $A_c$, $Q=P_c$, the ring $O$ with $\bar b=b^*$ and the data of (a), gives a finite
+$\pi_H:H\to S$ with an action $\iota_H$ on $A_H$ satisfying the Rosati condition which is universal among such actions. Being finite over $S$,
+$H$ is locally Noetherian.
+
+(c) Every integer prime to $p$ is a unit in $R$, hence on $H$; in particular $N$ is. For an abelian scheme with an action of $O$ over a base on
+which $N$ is invertible, the functor of additive $O$-linear maps $\eta:\Lambda\to A(T)$ with $\eta(N\Lambda)=0$ is represented by a finite scheme
+over the base (\lref{GlobalTheory.T.exists_finite_representing_linearLevels_abelianScheme}; such maps take values in the finite \'etale group
+scheme $A[N]$, additive maps $\Lambda\to A[N]$ are parametrised by a finite \'etale scheme, and $O$-linearity, which it suffices to check on
+products of basis elements of $O$ and $\Lambda$, cuts out a closed subscheme). Applied to $(A_H,\iota_H)$ this gives a finite $E\to H$ with a
+universal $\eta_E$.
+
+(d) The composite $\pi_E:E\to H\to S$ is finite, $E$ is locally Noetherian, and $\iota_E=\iota_H|_E$ satisfies the Rosati condition, which is
+stable under pull-back. Given $(g,\iota,\eta)$, (b) gives a unique $z_1:T\to H$ over $S$ with $\iota=z_1^*\iota_H$, and (c), applied to $\eta$,
+which is $O$-linear for $z_1^*\iota_H$, gives a unique $z:T\to E$ over $z_1$ with $\eta=z^*\eta_E$. If $z'$ is another morphism with the stated
+properties, its composite with $E\to H$ has the property of (b), hence equals $z_1$, and $z'=z$ by the uniqueness in (c).
+\end{proof}
+
+\begin{lemma}[Kottwitz's condition is closed]\label{pf:ks1:lem-lieher}
+Let $b$ be a base for $D$ over $R$, $S$ a scheme with $s:S\to\ksoneSp R$, $A\to S$ a smooth commutative group scheme and $\iota$ an action of
+$O$ on $A$. For a ring $R'$ and $x:\ksoneSp R'\to S$ lying over $\beta:R\to R'$, say that $x$ satisfies $\mathcal K$ if the splitting and
+dimension conditions of (O3) hold for $(A,\iota)$ at $x$ and at all its base changes $\ksoneSp R''\to\ksoneSp R'\to S$. Then there is a closed
+immersion $i:Z_1\to S$ such that $x$ factors through $i$ if and only if $x$ satisfies $\mathcal K$.
+\formallabel{GlobalTheory.UPel.HT.lieHer_closed}
+\end{lemma}
+
+\begin{proof}
+The property $\mathcal K$ is stable under base change by definition. It is local on $\ksoneSp R'$: if $r_1,\dots,r_l$ generate the unit ideal of
+$R'$ and $\mathcal K$ holds after each localisation $R'\to R'_{r_k}$, then it holds for $x$. For the splitting condition this follows from
+\lref{GlobalTheory.T.harrisTaylor_lie_condition_of_basicOpen_cover} (the splitting condition can be checked on a cover by basic open
+subsets), applied to all base changes $R'\to R''$ and the images of the $r_k$; the dimension condition concerns geometric points
+$R'\to k$, and each of them factors through some $R'_{r_k}$, since some $r_k$ has nonzero image in $k$. Finally, $\mathcal K$ is locally cut out
+by an ideal: every point of $S$ has an affine open neighbourhood $U$ with an ideal $J\subseteq\Gamma(U,\OO_S)$ such that the point
+$\ksoneSp R'\to U$ given by $f:\Gamma(U,\OO_S)\to R'$ satisfies $\mathcal K$ if and only if $f(J)=0$
+(\lref{GlobalTheory.T.kottwitzLieCondition_locally_cut_out_by_ideal}; on an affine open subset on which $\Lie A$ is free, (O3) is a condition
+on the matrices of the action of $\OO_F$, and both the splitting condition and the dimension condition are equivalent to the vanishing of an
+ideal). A property of points with these three features is represented by a closed subscheme
+(\lref{GlobalTheory.T.isClosed_of_local_ideal_point_property}: the closed subschemes defined locally by the ideals $J$ represent the property
+on each affine open and therefore glue).
+\end{proof}
+
+\begin{proposition}[Closedness of Kottwitz's condition and of the Tate condition]\label{pf:ks1:prop-lieclosed}
+Let $b$, $N\ge3$, $e$, $h$, $M$, $B$, $\zeta$, $S$, $s_1$, $t$ and $c$ be as in \cref{pf:ks1:prop-relrep}, let $X$ be a locally Noetherian scheme with
+$\pi_X:X\to S$, let $\iota_X$ be an action of $O$ on $A_X=A_c\times_SX$ satisfying the Rosati condition for the pull-back of $P_c$, and let
+$\eta_X:\Lambda\to A_X(X)$ be additive and $O$-linear with $\eta_X(N\Lambda)=0$. Then there is a closed immersion $j:Z\to X$ such that a morphism
+$g:T\to X$ factors through $j$ if and only if the data pulled back along $g$ satisfy Kottwitz's condition (O3) (with respect to $t\pi_Xg$) and
+satisfy the Tate condition (O4) at every geometric point of $T$.
+\formallabel{GlobalTheory.T.harrisTaylor_lie_tate_loci_closed_siegelPullback}
+\formallabel{GlobalTheory.UPel.HT.lieGeom_locus_closed}
+\end{proposition}
+
+\begin{proof}
+The abelian scheme $A_X$ is smooth over $X$, so \cref{pf:ks1:lem-lieher} applies to $(A_X,\iota_X)$ and $t\pi_X$ and gives a closed immersion
+$i:Z_1\to X$ representing $\mathcal K$. The data $(A_X,\iota_X,P,\eta_X)$, with $P$ the pull-back of $P_c$, satisfy all conditions of an object of level
+$N$ except possibly (O3) and (O4), and (O4) at a geometric point depends only on these data
+(\lref{GlobalTheory.T.exists_harrisTaylorPreObject_of_siegelPullback}). Since $X$ is locally Noetherian and $N\ge3$ is prime to $p$, there is
+an open and closed subset $U\subseteq X$ such that a geometric point of $X$ satisfies (O4) if and only if its image lies in $U$
+(\lref{GlobalTheory.UPel.HT.PreEta.exists_clopen_geomAt}). Let $Z=Z_1\cap U$, a closed subscheme of $X$. A morphism $g:T\to X$ factors through
+$Z$ if and only if it factors through $Z_1$ and has image in $U$. It factors through $Z_1$ if and only if every point $\ksoneSp R'\to T$ does (a
+morphism factors through a closed subscheme if and only if all its affine points do), i.e.\ if and only if the pulled-back data satisfy (O3). It
+has image in $U$ if and only if (O4) holds at every geometric point of $T$, since every point of $T$ is the image of a geometric point.
+\end{proof}
+
+\begin{proposition}[Level structures on Galois covers]\label{pf:ks1:prop-galcover}
+Let $b$, $N$, $M$, $e$ and $h$ be as in \cref{pf:ks1:prop-aux}, and let $(X,s,s_1,u,\mathrm{lev})$ satisfy the conclusion of \cref{pf:ks1:prop-aux}.
+For $a\in\Gamma_M$ let $\nu(a)\in\N$ represent its multiplier and $\sigma_a$ the endomorphism of $\Z[\zeta_M,1/M]$ with
+$\sigma_a(\zeta_M)=\zeta_M^{\nu(a)}$. Let $\varrho(a):X\to X$ ($a\in\Gamma_M$) be morphisms with $s\varrho(a)=s$,
+$s_1\varrho(a)=\ksoneSp(\sigma_a)\circ s_1$ and a morphism $u\to u$ over $\varrho(a)$ carrying the level structure $\mathrm{lev}\circ a$ to
+$\mathrm{lev}$. Then for every object $o$ of level $N$ over a scheme $S$ (for $t:S\to\ksoneSp R$) there are a Galois cover $\pi_1:S_1\to S$ with
+group $\Gamma_M$, a morphism $y:S_1\to X$ with $sy=t\pi_1$ and $y\circ\varrho_1(a)=\varrho(a)\circ y$ for all $a$, and an object $o'$ over $S_1$ with
+morphisms $o'\to o$ over $\pi_1$ and $o'\to u$ over $y$.
+\formallabel{GlobalTheory.T.symplectic_level_over_cyclotomic}
+\formallabel{GlobalTheory.HTSympCover.exists_galoisCover}
+\formallabel{GlobalTheory.HTSympCover.exists_galoisCover_of_geom}
+\end{proposition}
+
+\begin{proof}
+Since $h\ge1$, the multiplier of $a$ is determined by $a$; hence $\nu(1)\equiv1$ and $\nu(ac)\equiv\nu(a)\nu(c)$ modulo $M$, and since an
+endomorphism of $\Z[\zeta_M,1/M]$ is determined by the image of $\zeta_M$, $\sigma_1=\mathrm{id}$ and $\sigma_a\sigma_c=\sigma_{ac}$.
+
+(1) There are a finite \'etale $S$-scheme $Y$, a morphism $t_1:Y\to\ksoneSp\Z[\zeta_M,1/M]$ and a symplectic level-$M$ structure $\mathrm{lu}$ on
+$A_o\times_SY$ with respect to $t_1$ which are universal: for every $S$-scheme $T$ with $t_1':T\to\ksoneSp\Z[\zeta_M,1/M]$, the symplectic
+level-$M$ structures on $A_o\times_ST$ with respect to $t_1'$ are exactly the pull-backs of $\mathrm{lu}$ along $S$-morphisms $f:T\to Y$ with
+$t_1f=t_1'$, and $f$ is unique (\lref{GlobalTheory.T.exists_finiteEtale_symplecticLevel_scheme}; $M$ is invertible on $S$, so that $A_o[M]$
+is finite \'etale).
+
+(2) If $l$ is a symplectic level structure with respect to $t_1'$, then $l\circ a$ is one with respect to $\ksoneSp(\sigma_a)\circ t_1'$, since the
+Weil pairing is multiplied by the multiplier of $a$ (\lref{GlobalTheory.T.symplecticLevel_twist_by_similitude}). By (1) there is a unique
+$\varrho_1(a):Y\to Y$ over $S$ with $t_1\varrho_1(a)=\ksoneSp(\sigma_a)\circ t_1$ and $\varrho_1(a)^*\mathrm{lu}=\mathrm{lu}\circ a$. The uniqueness in (1)
+gives $\varrho_1(1)=\mathrm{id}$ and $\varrho_1(ac)=\varrho_1(c)\circ\varrho_1(a)$.
+
+(3) The morphism $\pi_1:Y\to S$ is a Galois cover with group $\Gamma_M$. It is finite and \'etale by (1). It is surjective: every point of $S$ is the
+image of a geometric point $x:\ksoneSp k\to S$, and the fibre $A_{o,x}$ has a symplectic level-$M$ structure
+(\lref{GlobalTheory.T.exists_symplectic_level_geometric_point_harrisTaylor}: by the Tate condition (O4), $A_{o,x}[M](k)$ is isomorphic to
+$\Lambda/M\Lambda$ with the pairing induced by $E_\Lambda$, which is perfect because $e\Lambda^\vee\subseteq E_\Lambda(\Lambda)$ and $\gcd(M,e)=1$;
+such a module has a symplectic basis, and $k$ contains a primitive $M$-th root of unity), which by (1) gives a point of $Y$ over $x$. Two
+geometric points $y,y'$ of $Y$ over the same geometric point of $S$ correspond to two symplectic level structures on the same fibre, and these
+differ by a unique $a\in\Gamma_M$, compatibly with the roots of unity
+(\lref{GlobalTheory.T.existsUnique_similitude_between_symplecticLevels}); by (1) and (2) this means that $\varrho_1(a)\circ y=y'$ for a unique
+$a$.
+
+(4) Let $S_1=Y$, let $o'$ be the pull-back of $o$ to $S_1$ and $\mathrm{lv}'$ the level structure on $A_{o'}$ given by $\mathrm{lu}$. By the universal
+property of $(X,u,\mathrm{lev})$ there is $y:S_1\to X$ with $sy=t\pi_1$, $s_1y=t_1$ and a morphism $o'\to u$ over $y$ carrying $\mathrm{lv}'$ to
+$\mathrm{lev}$. Both $y\circ\varrho_1(a)$ and $\varrho(a)\circ y$ classify the object $o'$ with the level structure $\mathrm{lv}'\circ a$ (with respect
+to $\ksoneSp(\sigma_a)\circ t_1$), so they are equal by the uniqueness in \cref{pf:ks1:prop-aux}
+(\lref{GlobalTheory.T.classifyingMap_symplecticLevel_equivariant}).
+\end{proof}
+
+\begin{proposition}[Quotients by free actions]\label{pf:ks1:prop-quot}
+Let $R$ be a Noetherian ring, $b$ a base for $D$ over $R$, $N\ge3$ prime to $p$, $X$ a quasi-projective $R$-scheme and $u$ an object of level $N$
+over $X$. Let a finite group $\Gamma$ act on $X$ over $R$ by morphisms $\varrho(a)$ with $\varrho(1)=\mathrm{id}$ and
+$\varrho(ac)=\varrho(c)\circ\varrho(a)$, and assume that for every $a$ there is a morphism $u\to u$ over $\varrho(a)$, and:
+\begin{enumerate}[label=(\alph*)]
+\item if $y$ is a geometric point of $X$ and $\varrho(a)\circ y=y$, then $a=1$;
+\item for every object $o$ of level $N$ over a scheme $S$ there are a Galois cover $\pi_1:S_1\to S$ with group $\Gamma$, a morphism $y:S_1\to X$
+  over $R$ with $y\circ\varrho_1(a)=\varrho(a)\circ y$, and an object $o'$ over $S_1$ with morphisms $o'\to o$ over $\pi_1$ and $o'\to u$ over $y$;
+\item if $x,x':T\to X$ are morphisms over $R$ admitting morphisms $o\to u$ from the same object $o$ over $T$, then every point of $T$ has an open
+  neighbourhood $V$ with $\varrho(a)\circ x|_V=x'|_V$ for some $a\in\Gamma$.
+\end{enumerate}
+Then there is a representing family of level $N$ for $b$ whose structure morphism is quasi-projective.
+\formallabel{GlobalTheory.HTQuot.exists_repFam_of_levelCover}
+\end{proposition}
+
+\begin{proof}
+(1) Since $X$ is quasi-projective over the Noetherian ring $R$, every orbit of $\Gamma$ lies in an affine open subset, and the quotient
+$\pi:X\to Y=X/\Gamma$ exists; it is obtained by gluing the spectra of the rings of invariants of $\Gamma$-stable affine open subsets, and by (a)
+it is a Galois cover with group $\Gamma$ (\lref{GlobalTheory.ZM.exists_isGaloisCover_of_isQProjOver_noetherian}; cf.\
+\cite[Exp.~V, \S1]{Grothendieck1971}). The scheme $Y$ is quasi-projective over $R$
+(\lref{GlobalTheory.GaloisQuotientRing.isQProjOver_of_isGaloisCover}: the base of a Galois cover whose total space is quasi-projective over
+$R$ is quasi-projective over $R$).
+
+(2) The morphisms $u\to u$ over $\varrho(a)$ are descent data for $u$ along $\pi$, and $u$ descends: there are an object $u_Y$ of level $N$ over $Y$
+and a morphism $u\to u_Y$ over $\pi$ (\lref{GlobalTheory.HTQuot.obj_descends_galoisCover}: the abelian scheme, the action, the line bundle and
+the level map descend along a Galois cover, and so do the conditions (O2)--(O4)).
+
+(3) Let $o$ be an object of level $N$ over $S$ (for $t:S\to\ksoneSp R$) and let $(S_1,\pi_1,y,o')$ be as in (b). The morphism $\pi y$ is invariant:
+$\pi y\varrho_1(a)=\pi\varrho(a)y=\pi y$. Hence it factors uniquely as $f\pi_1$ with $f:S\to Y$, as $S$ is the quotient of $S_1$ by $\Gamma$; and
+$f$ lies over $R$ since $\pi_1$ is an epimorphism. Composing $o'\to u\to u_Y$ gives a morphism $o'\to u_Y$ over $f\pi_1$, which together with
+$o'\to o$ over $\pi_1$ descends to a morphism $o\to u_Y$ over $f$ (\lref{GlobalTheory.T.harrisTaylor_moduliMap_descends_galoisCover}: a
+morphism from the pull-back of $o$ to a Galois cover of $S$ into $u_Y$ descends to a morphism from $o$).
+
+Uniqueness: let $f':S\to Y$ over $R$ admit a morphism $o\to u_Y$. Let $T=S_1\times_YX$ be the fibre product of $f'\pi_1$ and $\pi$, with
+projections $q_1$, $q_2$, and let $o_T$ be the pull-back of $o'$ to $T$. Both $yq_1$ and $q_2$ admit morphisms $o_T\to u$: the first through
+$o'\to u$, the second because the morphism $o_T\to o\to u_Y$ lies over $f'\pi_1q_1=\pi q_2$ and $u\to u_Y$ is a cartesian square over $\pi$. By (c),
+every point of $T$ has a neighbourhood on which $q_2=\varrho(a)\circ y\circ q_1$ for some $a$, hence $\pi q_2=\pi yq_1$, i.e.\ $f'\pi_1q_1=f\pi_1q_1$.
+As $q_1$ is a base change of the finite \'etale surjective $\pi$, it is an epimorphism, so $f'\pi_1=f\pi_1$ and $f'=f$.
+
+Hence $(Y,u_Y)$ is a representing family of level $N$, and its structure morphism is quasi-projective by (1).
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Smoothness and relative dimension}\label{pf:ks1:sec-smooth}
+
+\begin{theorem}[Smoothness]\label{pf:ks1:thm-smooth}
+Let $D$, $R$, $b$, $N$ be as in \cref{pf:ks1:thm-models} and let $(X,s,u)$ be a representing family of level
+$N$ for $b$ with $s$ quasi-projective. Then $s$ is smooth of relative dimension $a(n-1)$.
+\formallabel{GlobalTheory.T.smoothOfRelativeDimension_repFam_of_isQProjOver}
+\formallabel{GlobalTheory.UPel.HT.RepFam.smoothOfRelativeDimension}
+\end{theorem}
+
+The proof uses four results of the formal development, each of which is a form of a classical statement.
+
+\begin{enumerate}[label=(S\arabic*)]
+\item\label{pf:ks1:S1} (Infinitesimal lifting criterion; \lref{GlobalTheory.T.smooth_of_artinian_squareZero_lifting_noetherian_base},
+  cf.\ \cite[\S17]{Grothendieck1967}.) Let $B$ be a Noetherian ring and $s:X\to\ksoneSp B$ locally of finite type.
+  Assume that for every local Artinian ring $C$, every surjection $\pi:C\to C_0$ with $(\ker\pi)^2=0$, every
+  $t:\ksoneSp C\to\ksoneSp B$ and every $x_0:\ksoneSp C_0\to X$ with $sx_0=t\circ\ksoneSp\pi$ there is
+  $x:\ksoneSp C\to X$ with $x\circ\ksoneSp\pi=x_0$ and $sx=t$. Then $s$ is smooth.
+\item\label{pf:ks1:S2} (Lifting of objects; \cref{pf:ks1:thm-sqzero}.)
+  Let $N\ge3$ be prime to $p$, $C$ a local Artinian ring, $\pi:C\to C_0$ a surjection with $(\ker\pi)^2=0$ and
+  $\beta:R\to C$. Every object of level $N$ over $\ksoneSp C_0$ (for $\pi\beta$) is the pull-back along
+  $\ksoneSp\pi$ of an object of level $N$ over $\ksoneSp C$ (for $\beta$).
+\item\label{pf:ks1:S3} (Dimension from a universal tangent; \lref{GlobalTheory.T.smoothOfRelativeDimension_of_universal_firstOrder_tangent}.)
+  Let $s:X\to\ksoneSp B$ be smooth and $d\ge0$. Assume that for every algebraically closed field $k$ and every
+  $x:\ksoneSp k\to X$ there is $u:\ksoneSp(k\oplus k^d)\to X$ (with $k\oplus k^d$ the square-zero extension)
+  restricting to $x$ and lying over $s x$, such that every $v:\ksoneSp k[\varepsilon]\to X$ restricting to $x$
+  and lying over $sx$ is $u\circ\ksoneSp(\mathrm{id}+c)$ for a unique $k$-linear $c:k^d\to k$. Then $s$ is smooth
+  of relative dimension $d$.
+\item\label{pf:ks1:S4} (Universal first-order deformations; \cref{pf:ks1:prop-univtan}.)
+  If $(X,s,u)$ is as in \cref{pf:ks1:thm-smooth} and $s$ is smooth, the hypothesis of \ref{pf:ks1:S3} holds
+  with $d=a(n-1)$.
+\end{enumerate}
+
+Statements \ref{pf:ks1:S2} and \ref{pf:ks1:S4} are proved in \cref{pf:ks1:sec-deform} with Grothendieck--Messing theory
+\cite{Messing1972}: a lift of an abelian scheme over a square-zero thickening is determined by a lift of its Hodge filtration, the
+$O$-action and the polarisation lift if and only if the lifted filtration is $O$-stable and isotropic, and Kottwitz's condition
+becomes a splitting condition modulo the lifted filtration. The linear-algebra core of \ref{pf:ks1:S2} is the existence of
+$O$-stable Lagrangian lifts satisfying this splitting condition (\cref{pf:ks1:prop-laglift}). For \ref{pf:ks1:S4}, the first-order
+deformations of an object at a geometric point are described by deformations of the Hodge filtration which are $O$-linear,
+symmetric for the polarisation pairing (for which the Hodge filtration is Lagrangian, \cref{pf:ks1:prop-fillagr}) and compatible
+with Kottwitz's condition, and these Kodaira--Spencer directions form a space of dimension $a(n-1)$ (\cref{pf:ks1:prop-ksdim}). In
+characteristic $0$ with $m=1$ this is the familiar count: the $\tau_i$-part of $\Lie A$ is a line, the $\tau_i$-part of the Hodge
+filtration has dimension $n-1$, symmetric deformations are determined by their $\tau_i$-components, and the parts for the other
+embeddings do not contribute since there the Hodge filtration or $\Lie A$ vanishes; in general the formal proof works with the
+eigenspaces of $\omega$, which are separated because $\mathrm{tr}^2-4\,\mathrm{nm}$ is a unit, and uses that the $t_i$ are pairwise
+distinct modulo every prime of characteristic $p$ (\cref{pf:ks1:def-base}). These are the classical arguments of
+\cite[\S5]{Kottwitz1992} and \cite[Ch.~2]{Lan2013}.
+
+\begin{proof}[Proof of \cref{pf:ks1:thm-smooth}]
+A quasi-projective morphism is the composite of an immersion and the projection of a projective space, hence
+locally of finite type. We verify the hypothesis of \ref{pf:ks1:S1} with $B=R$. Let $C,\pi,t,x_0$ be given and
+write $t=\ksoneSp\beta$ for $\beta:R\to C$. The pull-back of the universal object $u$ along $x_0$ is an object
+$o_0$ of level $N$ over $\ksoneSp C_0$ (for $\pi\beta$)
+(\lref{GlobalTheory.T.exists_harrisTaylorObjectPullback}). By \ref{pf:ks1:S2} there is an object $o'$ over
+$\ksoneSp C$ (for $\beta$) with a morphism $o_0\to o'$ over $\ksoneSp\pi$. By the universal property there is
+$x:\ksoneSp C\to X$ over $R$ with a morphism $o'\to u$ over $x$. Composing, $o_0\to u$ is a morphism over
+$x\circ\ksoneSp\pi$; since $x_0$ is the unique morphism over $R$ admitting a morphism $o_0\to u$, we get
+$x\circ\ksoneSp\pi=x_0$. Hence $s$ is smooth, and \ref{pf:ks1:S4} and \ref{pf:ks1:S3} show that it is smooth of
+relative dimension $a(n-1)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:ks1:thm-models}]
+By \cref{pf:ks1:prop-repfam} there is a representing family $(X,s,u)$ with $s$ quasi-projective; by
+\cref{pf:ks1:thm-smooth} it is smooth of relative dimension $a(n-1)$; hence it is a model.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Deformation theory}\label{pf:ks1:sec-deform}
+
+This subsection proves \ref{pf:ks1:S2} and \ref{pf:ks1:S4}. For an abelian scheme $A$ over a ring $C_0$ let $H^{\mathrm{dR}}_1(A)$ be its first de
+Rham homology, the $C_0$-linear dual of the module of primitive classes in $H^1_{\mathrm{dR}}(A/C_0)$, and let $\mathrm{Fil}(A)\subseteq
+H^{\mathrm{dR}}_1(A)$ be the Hodge filtration, the annihilator of the invariant differentials, so that $H^{\mathrm{dR}}_1(A)/\mathrm{Fil}(A)=\Lie A$.
+Endomorphisms of $A$ act on $H^{\mathrm{dR}}_1(A)$ and preserve $\mathrm{Fil}(A)$. For abelian schemes $A$, $B$ and a line bundle $P$ on $A\times B$,
+a bilinear form $\varphi$ on $H^{\mathrm{dR}}_1(A)\times H^{\mathrm{dR}}_1(B)$ is \emph{induced by $P$} if the de Rham Chern class of $P$ is
+$\sum_k\mathrm{pr}_1^*a_k\cup\mathrm{pr}_2^*b_k$ with primitive classes $a_k$, $b_k$ and $\varphi(x,y)=\sum_kx(a_k)\,y(b_k)$.
+
+Let $\pi:C\to C_0$ be a surjection of rings with $I=\ker\pi$ and $I^2=0$, and give $I$ the trivial divided powers. For an abelian scheme $A_0$
+over $C_0$ let $\mathbb D(A_0)_C$ be the value of its crystal on the thickening $\ksoneSp C_0\to\ksoneSp C$. It is functorial in $A_0$, satisfies
+$\mathbb D(A_0)_C\otimes_CC_0=H^{\mathrm{dR}}_1(A_0)$, and for an abelian scheme $A$ over $C$ lifting $A_0$ it is identified with $H^{\mathrm{dR}}_1(A)$;
+the image $E_A$ of $\mathrm{Fil}(A)$ is a direct summand lifting $\mathrm{Fil}(A_0)$, the \emph{Hodge filtration of the lift}. By
+Grothendieck--Messing theory \cite{Messing1972}, lifts of $A_0$ correspond to direct summands of $\mathbb D(A_0)_C$ lifting $\mathrm{Fil}(A_0)$, and an
+endomorphism of $A_0$ lifts to $A$ if and only if it preserves $E_A$. For $C=k[\varepsilon]$ and $C_0=k$ a field, $\mathbb D(A_0)_{k[\varepsilon]}=
+H^{\mathrm{dR}}_1(A_0)\otimes_kk[\varepsilon]$, and a linear map $f$ of $H^{\mathrm{dR}}_1(A_0)$ to itself is a \emph{Kodaira--Spencer class} of a lift $A$ if
+$x+\varepsilon f(x)\in E_A$ for every $x\in\mathrm{Fil}(A_0)$; similarly, for the square-zero extension $k\oplus k^d$ a $d$-tuple $(f_1,\dots,f_d)$ is a
+Kodaira--Spencer class if $x+\sum_j\varepsilon_jf_j(x)\in E_A$ for $x\in\mathrm{Fil}(A_0)$, $\varepsilon_j$ the basis vectors of $k^d$. If $f$ is a
+Kodaira--Spencer class of a first-order lift, then the Kodaira--Spencer classes of that lift are exactly the maps $f'$ with
+$f'(x)-f(x)\in\mathrm{Fil}(A_0)$ for $x\in\mathrm{Fil}(A_0)$ (\lref{GlobalTheory.T.hodgeFiltration_lift_determines_mod_fil}). A \emph{deformation}
+of an object $o_0$ over $\ksoneSp k$ to $k[\varepsilon]$ (or $k\oplus k^d$) is an object $o$ over it with a morphism $o_0\to o$ over the closed point;
+its Kodaira--Spencer classes are those of its abelian scheme.
+
+\begin{proposition}[The Hodge filtration is Lagrangian]\label{pf:ks1:prop-fillagr}
+Let $b$ be a base for $D$ over $R$, $C_0$ a ring with $\ksoneSp C_0\to\ksoneSp R$, and $o_0$ an object of level $N$ over $\ksoneSp C_0$ whose abelian
+scheme $A_0$ has a relative dimension. Let $\varphi$ be a bilinear form on $H=H^{\mathrm{dR}}_1(A_0)$ induced by $P_{o_0}$. Then
+$\varphi(\mathrm{Fil},\mathrm{Fil})=0$, and every $x\in H$ with $\varphi(x,\mathrm{Fil})=0$ lies in $\mathrm{Fil}=\mathrm{Fil}(A_0)$.
+\formallabel{GlobalTheory.HTLagr.fil_lagrangian}
+\end{proposition}
+
+\begin{proof}
+The first assertion holds for every line bundle $P$ on a product $A\times B$ of abelian schemes of the same relative dimension and every form
+induced by $P$ (\lref{GlobalTheory.PtExt.HodgeOrth.fil_orthogonal}: such a form vanishes on $\mathrm{Fil}(A)\times\mathrm{Fil}(B)$). In its formal
+proof the elements of the Hodge filtrations are represented by \v{C}ech cocycles for an open cover trivialising $P$, and the cup product of such
+cocycles with the Chern cocycle of $P$ is shown to be a coboundary.
+
+For the second assertion we may assume $C_0\neq0$. Let $e$ be an integer prime to $p$ which kills the polarisation kernel as in (O2); it is a unit
+of $R$, hence of $C_0$. Put $P'=\mathrm{sw}^*P_{o_0}$. Then $P'$ is trivial on $A_0\times0$, since $P_{o_0}$ is rigidified along $0\times A_0$; the
+form $\varphi'(x,y)=-\varphi(y,x)$ is induced by $P'$ (\lref{GlobalTheory.SymmPoincare.isCorrForm_swap}: interchanging the factors replaces the
+induced form by its negative transpose); and every point $v$ of $A_0$ with values in $C_0[\varepsilon]$ such that $P'$ is trivial on $A_0\times v$ is
+killed by $e$, by the condition on the polarisation kernel in (O2). Under these conditions every element of $H^{\mathrm{dR}}_1(A_0)$ which is
+orthogonal to $\mathrm{Fil}$ for $\varphi'$ (in the first variable) lies in $\mathrm{Fil}$ (\lref{GlobalTheory.HTLagr.mem_fil_of_orth_of_ker}: for a
+line bundle on $A\times B$ which is trivial on $A\times0$ and such that every first-order point $v$ of $B$ with trivial restriction to $A\times v$
+is killed by a unit $e$, every $y\in H^{\mathrm{dR}}_1(B)$ with $\varphi'(\mathrm{Fil}(A),y)=0$ lies in $\mathrm{Fil}(B)$). The idea of that statement:
+the image of $y$ in $\Lie B=H^{\mathrm{dR}}_1(B)/\mathrm{Fil}(B)$ is a first-order point $v$ of $B$; orthogonality to $\mathrm{Fil}(A)$ means that a
+cocycle describing the restriction of the line bundle to $A\times v$ is a coboundary, so this restriction is trivial; hence $ev=0$, so $v=0$ as
+$e$ is a unit, i.e.\ $y\in\mathrm{Fil}(B)$. Since $\varphi'(z,x)=-\varphi(x,z)=0$ for $z\in\mathrm{Fil}$, we obtain $x\in\mathrm{Fil}$.
+\end{proof}
+
+\begin{proposition}[Lagrangian lifts]\label{pf:ks1:prop-laglift}
+Let $b$ be a base for $D$ over $R$, $C$ a local Artinian ring with $\beta:R\to C$, $I\subseteq C$ an ideal with $I^2=0$, and $H$ a finite projective
+$C$-module with a ring homomorphism $O\to\End_C(H)$, $b\mapsto(x\mapsto bx)$, such that $H$ is projective over $C\otimes\OO_F$. Let $\varphi$ be a
+perfect $C$-bilinear form on $H$ with $\varphi(x,y)=-\varphi(y,x)$ and $\varphi(bx,y)=\varphi(x,b^*y)$ for $b\in O$. Let $F\subseteq H$ be an $O$-stable submodule with
+$IH\subseteq F$ and $\varphi(F,F)\subseteq I$, such that every $x$ with $\varphi(x,F)\subseteq I$ lies in $F$, such that $F=E'+IH$ for a direct
+summand $E'$ of $H$, and such that the \emph{splitting condition modulo $F$} holds:
+\begin{itemize}
+\item[$(*)_F$] for every $d\in H$ with $\omega d-\beta(\rho)d\in F$ there are $w_0,\dots,w_{a-1}\in H$ with $cw_i-\beta(t_i(c))w_i\in F$ for all
+  $c\in\OO_F$ and $i<a$, and $d-\sum_iw_i\in F$.
+\end{itemize}
+Then there is an $O$-stable direct summand $E\subseteq H$ with $E+IH=F$ and $\varphi(E,E)=0$ which satisfies $(*)_E$.
+\formallabel{GlobalTheory.T.exists_lagrangian_lift_lie_squareZero_harrisTaylor}
+\formallabel{GlobalTheory.HTSummand.exists_lagrangian_lift_lie}
+\end{proposition}
+
+\begin{proof}
+Write $\rho$ for $\beta(\rho)$ and $\rho'=\mathrm{tr}-\rho$.
+
+(1) Eigenspaces of $\omega$. In $C$ we have $(\rho-\rho')^2=(2\rho-\mathrm{tr})^2=\mathrm{tr}^2-4\,\mathrm{nm}$, as $\rho^2=\mathrm{tr}\,\rho-\mathrm{nm}$; this
+integer is prime to $p$ by (D2), hence a unit of $R$ and of $C$. As $\omega^2-\mathrm{tr}\,\omega+\mathrm{nm}=0$, $\rho+\rho'=\mathrm{tr}$ and
+$\rho\rho'=\mathrm{nm}$, the endomorphism $\omega$ of $H$ satisfies $(\omega-\rho)(\omega-\rho')=0$. Hence $e=(\rho-\rho')^{-1}(\omega-\rho')$ is an
+idempotent, $H=H_\rho\oplus H_{\rho'}$ with $H_\rho=eH=\ker(\omega-\rho)$ and $H_{\rho'}=(1-e)H=\ker(\omega-\rho')$, and $\omega-\rho$ acts on
+$H_{\rho'}$ by the unit $\rho'-\rho$. Since $\omega$ is central in $O$, $e$ commutes with $O$; so every $O$-stable submodule $V$ satisfies
+$V=(V\cap H_\rho)\oplus(V\cap H_{\rho'})$, and $IH\cap H_\rho=IH_\rho$. Since $\omega^*=\bar\omega=\mathrm{tr}-\omega$ by (D3), for $x,y\in H_\rho$ we
+get $\rho\varphi(x,y)=\varphi(\omega x,y)=\varphi(x,(\mathrm{tr}-\omega)y)=\rho'\varphi(x,y)$, so $\varphi(x,y)=0$; likewise $H_{\rho'}$ is isotropic.
+As $\varphi$ is perfect, $y\mapsto\varphi(\cdot,y)|_{H_\rho}$ is an isomorphism $H_{\rho'}\to\Hom_C(H_\rho,C)$: it is injective because a
+$y\in H_{\rho'}$ with $\varphi(H_\rho,y)=0$ satisfies $\varphi(H,y)=0$, $H_{\rho'}$ being isotropic; and it is surjective because every linear form
+on $H_\rho$, extended by $0$ on $H_{\rho'}$, is of the form $\varphi(\cdot,y)$, and then also of the form $\varphi(\cdot,(1-e)y)$ on $H_\rho$.
+
+(2) The $\rho$-part. Every $d\in H_\rho$ satisfies $\omega d-\rho d=0$, so it satisfies the conclusion of $(*)_F$. There is an $O$-stable submodule
+$G\subseteq H_\rho$ with a complement $G_1$ in $H_\rho$ such that $G+IH_\rho=F\cap H_\rho$ and every $d\in H_\rho$ is of the form $\sum_iw_i+g$ with
+$g\in G$ and $cw_i-\beta(t_i(c))w_i\in G$ for all $c$ and $i$ (\lref{GlobalTheory.T.exists_liftSummand_lie_residueCharZero} if $p$ is a unit
+in $C$, and \lref{GlobalTheory.T.exists_lieCondition_summand_residueCharP} otherwise: an $O$-stable direct summand of $H_\rho$ lifting $F\cap
+H_\rho$ modulo $I$ and satisfying the splitting condition exists; in residue characteristic $0$ it is constructed with separability idempotents of
+$O\otimes\Q$, in residue characteristic $p$ with the isomorphism $O\otimes\Z_p\cong M_m(\OO_F\otimes\Z_p)$ of (D3) and Morita equivalence, using that
+$H$ is projective over $C\otimes\OO_F$).
+
+(3) Lagrangian completion. Let $G'=\{y\in H_{\rho'}:\varphi(G,y)=0\}$ and $E=G\oplus G'$. Then $E$ is totally isotropic, since $H_\rho$ and $H_{\rho'}$
+are isotropic and $\varphi(G,G')=0=\varphi(G',G)$. It is $O$-stable: for $y\in G'$, $b\in O$ and $x\in G$ we have $by\in H_{\rho'}$ and
+$\varphi(x,by)=\varphi(b^*x,y)=0$, as $b^{**}=b$ and $b^*x\in G$. It is a direct summand: under $H_{\rho'}\cong\Hom_C(H_\rho,C)$ the submodule $G'$
+corresponds to the forms vanishing on $G$, so $H_{\rho'}=G'\oplus G_1'$ with $G_1'$ corresponding to the forms vanishing on $G_1$, and
+$H=E\oplus(G_1\oplus G_1')$. Finally $E+IH=F$. Since $F$ and $IH$ are $O$-stable and $F\cap H_\rho=G+IH_\rho$, it suffices to show that
+$F\cap H_{\rho'}=G'+IH_{\rho'}$. The two conditions on $F$ say that $F=\{x:\varphi(x,F)\subseteq I\}$. For $y\in H_{\rho'}$ we have
+$\varphi(F\cap H_{\rho'},y)=0$ and $\varphi(IH_\rho,y)\subseteq I$, so $y\in F$ if and only if $\varphi(G,y)\subseteq I$. This shows $G'+IH_{\rho'}\subseteq
+F$. Conversely, let $y\in F\cap H_{\rho'}$, so that $\lambda=\varphi(\cdot,y)$ maps $G$ into $I$. Extending $\lambda|_G$ by $0$ on $G_1$ gives
+$\tilde\lambda\in\Hom_C(H_\rho,I)=I\cdot\Hom_C(H_\rho,C)$ (as $H_\rho$ is finite projective), so $\tilde\lambda=\varphi(\cdot,z)|_{H_\rho}$ for some
+$z\in IH_{\rho'}$ by (1). Then $y-z\in G'$, and $y\in G'+IH_{\rho'}$.
+
+(4) The splitting condition modulo $E$. Let $d\in H$ with $\omega d-\rho d\in E$, and write $d=ed+k$ with $k=(1-e)d\in H_{\rho'}$. As $E$ is stable
+under $e$, $(1-e)(\omega-\rho)d=(\omega-\rho)k=(\rho'-\rho)k$ lies in $E$, hence $k\in E$. By (2), $ed=\sum_iw_i+g$ with $g\in G$ and
+$cw_i-\beta(t_i(c))w_i\in G\subseteq E$. Hence $d-\sum_iw_i=g+k\in E$.
+\end{proof}
+
+\begin{lemma}[Lifting the Hodge filtration]\label{pf:ks1:lem-hodgelift}
+Let $b$ be a base for $D$ over $R$, $C$ a local Artinian ring with $\beta:R\to C$, $\pi:C\to C_0$ a surjection with $I=\ker\pi$, $I^2=0$, and $o_0$
+an object of level $N$ over $\ksoneSp C_0$ (for $\pi\beta$) with abelian scheme $A_0$. Let $H=\mathbb D(A_0)_C$, with the action of $O$ induced by
+$\iota_{o_0}$. There is an $O$-stable direct summand $E\subseteq H$ whose image in $H\otimes_CC_0=H^{\mathrm{dR}}_1(A_0)$ is $\mathrm{Fil}(A_0)$, which
+is totally isotropic for every form on $H$ induced by $P_{o_0}$, and which satisfies the splitting condition $(*)_E$ of
+\cref{pf:ks1:prop-laglift}.
+\formallabel{GlobalTheory.T.harrisTaylor_exists_isotropic_stable_summand}
+\formallabel{GlobalTheory.HTSummand.exists_summand}
+\end{lemma}
+
+\begin{proof}
+(1) Let $\mathrm{red}:H\to H^{\mathrm{dR}}_1(A_0)$ be the reduction map. The module $H$ is finite projective over $C$, $\mathrm{red}$ is surjective,
+$O$-equivariant and has kernel $IH$, and there is a direct summand $E'\subseteq H$ with $\mathrm{red}(E')=\mathrm{Fil}(A_0)$
+(\lref{GlobalTheory.CrysRed.exists_crysRed}). The module $H$ is projective over $C\otimes\OO_F$
+(\lref{GlobalTheory.T.crystal_projective_over_tensor_ringOfIntegers}). There is a unique form $\varphi_0$ on $H$ induced by $P_{o_0}$; it
+satisfies $\varphi_0(bx,y)=\varphi_0(x,b^*y)$, and $\pi(\varphi_0(x,y))=\varphi'(\mathrm{red}\,x,\mathrm{red}\,y)$ for a form $\varphi'$ on
+$H^{\mathrm{dR}}_1(A_0)$ induced by $P_{o_0}$ (\lref{GlobalTheory.HTDefLift.exists_crysForm}); and $\varphi_0$ is skew-symmetric and perfect
+(\lref{GlobalTheory.HTPerf.skew_bijective}).
+
+(2) Let $F=\mathrm{red}^{-1}(\mathrm{Fil}(A_0))$. Then $IH\subseteq F$; $F$ is $O$-stable, as $\mathrm{Fil}(A_0)$ is stable under endomorphisms; and
+$F=E'+IH$. Since $C_0$ is local, $A_0$ has a relative dimension, and \cref{pf:ks1:prop-fillagr} gives $\varphi_0(F,F)\subseteq I$. If
+$\varphi_0(x,F)\subseteq I$, then $\varphi'(\mathrm{red}\,x,\mathrm{Fil}(A_0))=0$ because $\mathrm{red}(F)=\mathrm{Fil}(A_0)$, so
+$\mathrm{red}\,x\in\mathrm{Fil}(A_0)$ by \cref{pf:ks1:prop-fillagr} and $x\in F$. Condition (O3) for $o_0$ says that the
+splitting condition holds in $H^{\mathrm{dR}}_1(A_0)$ modulo $\mathrm{Fil}(A_0)$ (\lref{GlobalTheory.HTSummand.lie_mod_fil}: Kottwitz's condition
+for $o_0$, transported through $\Lie A_0=H^{\mathrm{dR}}_1(A_0)/\mathrm{Fil}(A_0)$); lifting the elements $w_i$ along the surjection $\mathrm{red}$ gives
+$(*)_F$.
+
+(3) \Cref{pf:ks1:prop-laglift} gives an $O$-stable direct summand $E$ with $E+IH=F$, hence $\mathrm{red}(E)=\mathrm{Fil}(A_0)$, with
+$\varphi_0(E,E)=0$ and $(*)_E$. By the uniqueness in (1), $E$ is isotropic for every form induced by $P_{o_0}$.
+\end{proof}
+
+\begin{theorem}[Square-zero lifts of objects]\label{pf:ks1:thm-sqzero}
+Let $b$ be a base for $D$ over $R$, $N$ prime to $p$, $C$ a local Artinian ring, $\pi:C\to C_0$ a surjective ring homomorphism with $(\ker\pi)^2=0$
+and $\beta:R\to C$. For every object $o_0$ of level $N$ over $\ksoneSp C_0$ (for $\pi\beta$) there are an object $o$ of level $N$ over $\ksoneSp C$
+(for $\beta$) and a morphism $o_0\to o$ over $\ksoneSp\pi$.
+\formallabel{GlobalTheory.T.harrisTaylor_formally_smooth_squareZero_lift}
+\formallabel{GlobalTheory.UPel.HT.obj_lift_sqZero}
+\formallabel{GlobalTheory.T.harrisTaylor_exists_lift_squareZero_artinian}
+\formallabel{GlobalTheory.UPel.HT.exists_sqZero_lift}
+\end{theorem}
+
+The first two formal statements also assume $N\ge3$.
+
+\begin{proof}
+Let $E\subseteq\mathbb D(A_{o_0})_C$ be as in \cref{pf:ks1:lem-hodgelift}.
+
+(a) By Grothendieck--Messing theory there are an abelian scheme $A$ over $C$ lifting $A_{o_0}$, with Hodge filtration $E$, and an action $\iota$ of $O$
+on $A$ lifting $\iota_{o_0}$ (\lref{GlobalTheory.HTDeform.exists_lift_oAct}: for an $O$-stable direct summand lifting
+the Hodge filtration there is such a lift, and the action lifts because $E$ is $O$-stable).
+
+(b) As $E$ is isotropic, the polarisation bundle lifts: there are a line bundle $P$ on $A\times_CA$ whose pull-back to $A_{o_0}\times A_{o_0}$ is
+$P_{o_0}$ and which satisfies the conditions of (O2) (rigidifications, symmetry, relative ampleness of the restriction to the diagonal, polarisation
+kernel killed by an integer prime to $p$, Rosati condition) (\lref{GlobalTheory.T.harrisTaylor_exists_polarisation_bundle_lift}).
+
+(c) The level map $\eta_{o_0}$ lifts to an additive $O$-linear map $\eta:\Lambda\to A(C)$ with $\eta(N\Lambda)=0$ which satisfies the Tate condition (O4)
+for $P$ (\lref{GlobalTheory.T.harrisTaylor_primeToP_level_lift_squareZero}; $N$ is invertible in $C$).
+
+(d) Kottwitz's condition (O3) for $(A,\iota)$: since $\Lie A=\mathbb D(A_{o_0})_C/E$ and $(*)_E$ holds, the splitting part of (O3) holds at all points of
+$\ksoneSp C$ (\lref{GlobalTheory.T.harrisTaylor_lift_lie_of_hodge_summand_lie}); the dimension part concerns geometric points, which factor
+through $\ksoneSp C_0$ as $(\ker\pi)^2=0$, and there it holds for $o_0$ (\lref{GlobalTheory.HTLiftLie.lieMult_of_sqZeroLift}).
+
+Hence $o=(A,\iota,P,\eta)$ is an object of level $N$ over $\ksoneSp C$, and the closed immersion $A_{o_0}\to A$, which is compatible with the actions,
+the line bundles and the level maps, is a morphism $o_0\to o$ over $\ksoneSp\pi$.
+\end{proof}
+
+\begin{definition}[Kodaira--Spencer directions]\label{pf:ks1:def-ksdir}
+Let $k$ be a field, $H$ a finite-dimensional $k$-vector space with a ring homomorphism $O\to\End_k(H)$, $\varphi$ a bilinear form on $H$, and
+$\mathrm{Fil},Z\subseteq H$ subspaces. A $k$-linear map $f:H\to H$ is a \emph{Kodaira--Spencer direction} for $(\varphi,\mathrm{Fil},Z)$ if
+$f(bx)-bf(x)\in\mathrm{Fil}$ for all $b\in O$ and $x\in\mathrm{Fil}$, if $f(Z)\subseteq\mathrm{Fil}$, and if $\varphi(fx,y)+\varphi(x,fy)=0$ for all
+$x,y\in\mathrm{Fil}$. The Kodaira--Spencer directions for $(\varphi,\mathrm{Fil},Z)$ \emph{have dimension $d$} if there are directions $f_1,\dots,f_d$
+such that for every direction $g$ there is a unique $c\in k^d$ with $g(x)-\sum_ic_if_i(x)\in\mathrm{Fil}$ for all $x\in\mathrm{Fil}$.
+\formallabel{GlobalTheory.UPel.Sm.KSDim}
+\end{definition}
+
+Equivalently, the image of the space of directions in $\Hom_k(\mathrm{Fil},H/\mathrm{Fil})$ has dimension $d$.
+
+\begin{lemma}[Reduction to an eigenspace]\label{pf:ks1:lem-ksreduce}
+Let $k$, $H$, $O$ be as in \cref{pf:ks1:def-ksdir}, let $\varphi$ be a nondegenerate form on $H$ with $\varphi(x,y)=-\varphi(y,x)$ and $b\mapsto b^\sharp$ a surjective map
+$O\to O$ with $\varphi(bx,y)=\varphi(x,b^\sharp y)$, and let $\mathrm{Fil}\subseteq H$ be an $O$-stable isotropic subspace with
+$2\dim\mathrm{Fil}=\dim H$. Let $w\in O$ act on $H$ commuting with $O$, with $(w-r)(w-r')=0$ on $H$ for some $r\neq r'$ in $k$ and
+$\varphi(wx,y)=\varphi(x,(r+r'-w)y)$, and let $Z\subseteq(w-r')H$. If the Kodaira--Spencer directions for $(0,\mathrm{Fil}+(w-r)H,Z)$ have dimension
+$d$, then so do the directions for $(\varphi,\mathrm{Fil},Z)$.
+\formallabel{GlobalTheory.T.kodairaSpencer_skew_dim_semisimple_two_roots}
+\formallabel{GlobalTheory.UPel.Sm.KSCount.ksDim_of_eigen_reduce}
+\end{lemma}
+
+\begin{proof}
+Let $e=(r-r')^{-1}(w-r')$. It is an idempotent commuting with $O$, and $H=H_r\oplus H_{r'}$ with $H_r=eH=\ker(w-r)=(w-r')H$ and
+$H_{r'}=(1-e)H=\ker(w-r')=(w-r)H$. As in step (1) of the proof of \cref{pf:ks1:prop-laglift}, $H_r$ and $H_{r'}$ are isotropic and $\varphi$
+identifies $H_{r'}$ with the dual of $H_r$. Since $\mathrm{Fil}$ is $O$-stable, it is $e$-stable: $\mathrm{Fil}=\mathrm{Fil}_r\oplus\mathrm{Fil}_{r'}$
+with $\mathrm{Fil}_r=\mathrm{Fil}\cap H_r$ and $\mathrm{Fil}_{r'}=\mathrm{Fil}\cap H_{r'}$. As $\mathrm{Fil}$ is isotropic of half dimension and
+$\varphi$ is nondegenerate, $\mathrm{Fil}$ is its own orthogonal, whence $\mathrm{Fil}_{r'}=\{y\in H_{r'}:\varphi(\mathrm{Fil}_r,y)=0\}$. Put
+$\mathrm{Fil}'=\mathrm{Fil}+H_{r'}=\mathrm{Fil}_r\oplus H_{r'}$. Directions for $(\varphi,\mathrm{Fil},Z)$ will be called $\varphi$-directions, and
+directions for $(0,\mathrm{Fil}',Z)$ will be called $0$-directions.
+
+(a) If $g$ is a $\varphi$-direction and $x\in\mathrm{Fil}_r$, then $(1-e)g(x)\in\mathrm{Fil}$: indeed $g(wx)-wg(x)=(r-w)g(x)\in\mathrm{Fil}$, and
+applying $1-e$, which preserves $\mathrm{Fil}$, gives $(r-r')(1-e)g(x)\in\mathrm{Fil}$. Likewise $eg(y)\in\mathrm{Fil}$ for $y\in\mathrm{Fil}_{r'}$.
+(b) If $f$ is a $0$-direction and $y\in H_{r'}$, then $f(y)\in\mathrm{Fil}'$: $f(wy)-wf(y)=(r'-w)f(y)\in\mathrm{Fil}'$, and applying $e$ gives
+$(r'-r)ef(y)\in\mathrm{Fil}_r$.
+
+(c) For a $0$-direction $f$ define $\tilde f:H\to H$ by $\tilde f=ef$ on $H_r$ and, on $H_{r'}$, as the linear map $H_{r'}\to H_{r'}$ with
+$\varphi(x,\tilde fy)=-\varphi(efx,y)$ for $x\in H_r$. Then $\varphi(\tilde fx,y)+\varphi(x,\tilde fy)=0$ for all $x,y\in H$, as one checks on the
+components, using that $H_r$, $H_{r'}$ are isotropic and preserved by $\tilde f$. Moreover $\tilde f$ is a $\varphi$-direction. For $x\in\mathrm{Fil}_r$
+and $b\in O$, $\tilde f(bx)-b\tilde f(x)=e(f(bx)-bf(x))\in e\,\mathrm{Fil}'=\mathrm{Fil}_r$. For $y\in\mathrm{Fil}_{r'}$, $b\in O$ and $x\in\mathrm{Fil}_r$,
+choose $b'$ with $b'^\sharp=b$; then $\varphi(x,\tilde f(by)-b\tilde f(y))=\varphi(\tilde f(b'x)-b'\tilde f(x),y)=0$, since
+$\tilde f(b'x)-b'\tilde f(x)\in\mathrm{Fil}_r$ and $\mathrm{Fil}$ is isotropic; as $\tilde f(by)-b\tilde f(y)\in H_{r'}$, it lies in $\mathrm{Fil}_{r'}$.
+Finally $\tilde f(Z)=ef(Z)\subseteq e\,\mathrm{Fil}'=\mathrm{Fil}_r$, because $Z\subseteq H_r$.
+
+(d) Let $f_1,\dots,f_d$ be $0$-directions as in the hypothesis. We show that $\tilde f_1,\dots,\tilde f_d$ have the required property. Let $g$ be a
+$\varphi$-direction. Then $g'=ege$ is a $0$-direction: for $x=x_r+x_{r'}\in\mathrm{Fil}'$ and $b\in O$,
+$g'(bx)-bg'(x)=e(g(bx_r)-bg(x_r))\in e\,\mathrm{Fil}=\mathrm{Fil}_r$, and $g'(Z)=eg(Z)\subseteq\mathrm{Fil}_r$. Hence there is $c\in k^d$ with
+$g'(x)-\sum_ic_if_i(x)\in\mathrm{Fil}'$ for $x\in\mathrm{Fil}'$. For $x\in\mathrm{Fil}_r$,
+$g(x)-\sum_ic_i\tilde f_i(x)=(1-e)g(x)+e\bigl(g'(x)-\sum_ic_if_i(x)\bigr)\in\mathrm{Fil}$ by (a). For $y\in\mathrm{Fil}_{r'}$ put
+$z=g(y)-\sum_ic_i\tilde f_i(y)$. Then $ez=eg(y)\in\mathrm{Fil}$ by (a), and for $x\in\mathrm{Fil}_r$,
+$\varphi(x,(1-e)z)=\varphi(x,z)=-\varphi\bigl(g(x)-\sum_ic_i\tilde f_i(x),y\bigr)=0$, by the symmetry conditions and the isotropy of $\mathrm{Fil}$; so
+$(1-e)z\in\mathrm{Fil}_{r'}$ and $z\in\mathrm{Fil}$. Thus $g(x)-\sum_ic_i\tilde f_i(x)\in\mathrm{Fil}$ for all $x\in\mathrm{Fil}$. For uniqueness let
+$\sum_ic_i\tilde f_i(x)\in\mathrm{Fil}$ for all $x\in\mathrm{Fil}$. For $x\in\mathrm{Fil}_r$ this gives $e\sum_ic_if_i(x)\in\mathrm{Fil}_r$, hence
+$\sum_ic_if_i(x)\in\mathrm{Fil}'$; for $y\in H_{r'}$, $\sum_ic_if_i(y)\in\mathrm{Fil}'$ by (b). So the $0$-direction $\sum_ic_if_i$ is represented both by
+$c$ and by $0$, and $c=0$ by the uniqueness in the hypothesis.
+\end{proof}
+
+\begin{proposition}[Dimension of the Kodaira--Spencer directions]\label{pf:ks1:prop-ksdim}
+Let $b$ be a base for $D$ over $R$, $N\ge3$ prime to $p$, $k$ an algebraically closed field with $\beta:R\to k$, and $o_0$ an object of level $N$ over
+$\ksoneSp k$. Let $H=H^{\mathrm{dR}}_1(A_{o_0})$ with the action of $O$ induced by $\iota_{o_0}$, $\varphi$ a form on $H$ induced by $P_{o_0}$, and
+$\mathrm{Fil}=\mathrm{Fil}(A_{o_0})$. Write $\rho$ for $\beta(\rho)$, put $\rho'=\mathrm{tr}-\rho$ and $H_\rho=(\omega-\rho')H$, and let $Z\subseteq H$
+be the span of the elements $\sum_l\lambda_lc_ly$ with $y\in H_\rho$, $c_l\in\OO_F$ and $\lambda_l\in k$ such that $\sum_l\lambda_l\beta(t_i(c_l))=0$
+for every $i<a$. Then the Kodaira--Spencer directions for $(\varphi,\mathrm{Fil},Z)$ have dimension $a(n-1)$.
+\formallabel{GlobalTheory.T.harrisTaylor_kodairaSpencer_directions_dim}
+\formallabel{GlobalTheory.HTCount.ksDim_at_point}
+\end{proposition}
+
+\begin{proof}
+(1) The space $H$ is finite-dimensional, $2\dim\mathrm{Fil}=\dim H$, $\varphi$ is skew-symmetric and $\mathrm{Fil}$ is isotropic
+(\lref{GlobalTheory.T.harrisTaylor_pairing_skew_hodge_lagrangian}); $\varphi$ is nondegenerate
+(\lref{GlobalTheory.T.harrisTaylor_polarisation_pairing_nondegenerate}); and $\varphi(bx,y)=\varphi(x,b^*y)$ by the Rosati condition
+(\lref{GlobalTheory.T.harrisTaylor_crystal_action_adjoint}). The subspace $\mathrm{Fil}$ is $O$-stable, and $b\mapsto b^*$ is surjective since
+$b^{**}=b$.
+
+(2) As in step (1) of the proof of \cref{pf:ks1:prop-laglift}, $(\omega-\rho)(\omega-\rho')=0$ on $H$, and $\rho\neq\rho'$ in $k$, because
+$(\rho-\rho')^2=\mathrm{tr}^2-4\,\mathrm{nm}$ is the image of an integer prime to $p$, which is a unit of $R$. The element $\omega$ is central in $O$, and
+$\varphi(\omega x,y)=\varphi(x,(\rho+\rho'-\omega)y)$ since $\omega^*=\mathrm{tr}-\omega$. Each $c_l$ commutes with $\omega-\rho'$, so
+$Z\subseteq(\omega-\rho')H$.
+
+(3) By (1), (2) and \cref{pf:ks1:lem-ksreduce} with $w=\omega$, $r=\rho$ and $r'=\rho'$, it suffices that the Kodaira--Spencer directions for
+$(0,\mathrm{Fil}+(\omega-\rho)H,Z)$ have dimension $a(n-1)$. This is \lref{GlobalTheory.T.harrisTaylor_rho_part_deformation_dim} (the
+$O$-linear deformations of $\mathrm{Fil}+(\omega-\rho)H$ which vanish on $Z$ form a space of dimension $a(n-1)$); its formal proof identifies
+$H/(\mathrm{Fil}+(\omega-\rho)H)$ with the part of $\Lie A_{o_0}$ on which $\omega$ acts by $\rho$, uses Kottwitz's condition (O3) and a Morita
+equivalence for the action of $O$, and counts dimensions.
+\end{proof}
+
+\begin{lemma}[First-order deformations]\label{pf:ks1:lem-fodef}
+Let $b$, $N$, $k$, $o_0$, $H$ and $\mathrm{Fil}$ be as in \cref{pf:ks1:prop-ksdim} and $d=a(n-1)$. There are linear maps $f_1,\dots,f_d:H\to H$ such
+that each $f_j$ is a Kodaira--Spencer class of some deformation of $o_0$ to $k[\varepsilon]$, and every deformation of $o_0$ to $k[\varepsilon]$ has
+$\sum_jc_jf_j$ as a Kodaira--Spencer class for a unique $c\in k^d$.
+\formallabel{GlobalTheory.T.harrisTaylor_firstOrder_deformations_basis_count}
+\formallabel{GlobalTheory.HTCount.count}
+\end{lemma}
+
+\begin{proof}
+Choose a form $\varphi$ on $H$ induced by $P_{o_0}$ (\lref{GlobalTheory.T.harrisTaylor_exists_deRham_pairing}), let $Z$ be as in
+\cref{pf:ks1:prop-ksdim}, and let $f_1,\dots,f_d$ be Kodaira--Spencer directions for $(\varphi,\mathrm{Fil},Z)$ as in the conclusion of
+\cref{pf:ks1:prop-ksdim}. Every Kodaira--Spencer direction is a Kodaira--Spencer class of some deformation of $o_0$ to $k[\varepsilon]$
+(\lref{GlobalTheory.T.harrisTaylor_realise_kodairaSpencer_direction}), and every deformation of $o_0$ to $k[\varepsilon]$ has a Kodaira--Spencer
+class which is a Kodaira--Spencer direction (\lref{GlobalTheory.T.harrisTaylor_firstOrder_hodge_eq_kodairaSpencer_graph}); both statements
+are Grothendieck--Messing theory, the three conditions of \cref{pf:ks1:def-ksdir} corresponding to the lifting of the action, of the polarisation
+and to Kottwitz's condition. Let $o'$ be a deformation and $g$ a class of $o'$ which is a direction. By \cref{pf:ks1:prop-ksdim} there is a unique $c$
+with $g(x)-\sum_jc_jf_j(x)\in\mathrm{Fil}$ for $x\in\mathrm{Fil}$. Since the classes of $o'$ are exactly the maps congruent to $g$ modulo $\mathrm{Fil}$
+on $\mathrm{Fil}$, $\sum_jc_jf_j$ is a class of $o'$, and any $c'$ for which $\sum_jc'_jf_j$ is a class of $o'$ satisfies the same congruence, hence
+$c'=c$.
+\end{proof}
+
+\begin{lemma}[Universal first-order deformations]\label{pf:ks1:lem-univdef}
+Let $b$ be a base for $D$ over $R$, $N\ge3$ prime to $p$, $k$ an algebraically closed field with $\ksoneSp k\to\ksoneSp R$, $o_0$ an object of level
+$N$ over $\ksoneSp k$, and $d=a(n-1)$. For a $k$-linear map $c:k^d\to k$ let $\mathrm{id}+c:k\oplus k^d\to k[\varepsilon]$, $(x,v)\mapsto
+x+c(v)\varepsilon$. There is a deformation $o$ of $o_0$ to $k\oplus k^d$ such that for every deformation $o'$ of $o_0$ to $k[\varepsilon]$ there is a
+unique $c$ for which there exists a morphism $o'\to o$ over $\ksoneSp(\mathrm{id}+c)$.
+\formallabel{GlobalTheory.T.exists_universal_firstOrder_deformation_harrisTaylor}
+\formallabel{GlobalTheory.HTUniv.main}
+\end{lemma}
+
+\begin{proof}
+Let $f_1,\dots,f_d$ be as in \cref{pf:ks1:lem-fodef}. Deformations of $o_0$ to $k[\varepsilon]$ with Kodaira--Spencer classes $f_1,\dots,f_d$ can be
+glued: there is a deformation $o$ of $o_0$ to $k\oplus k^d$ with Kodaira--Spencer class $(f_1,\dots,f_d)$
+(\lref{GlobalTheory.T.harrisTaylor_exists_glued_firstOrder_deformation}). We use two further facts: if a deformation $o$ to $k\oplus k^d$ has
+class $(f_j)_j$ and $o'\to o$ is a morphism over $\ksoneSp(\mathrm{id}+c)$ from a deformation $o'$ to $k[\varepsilon]$, then $\sum_jc(\varepsilon_j)f_j$
+is a class of $o'$ (\lref{GlobalTheory.T.harrisTaylor_hodgeFiltration_naturality}, naturality of the Hodge filtration); and two deformations of
+$o_0$ to $k[\varepsilon]$ with a common Kodaira--Spencer class are isomorphic as deformations
+(\lref{GlobalTheory.T.harrisTaylor_firstOrder_iso_of_same_hodge_filtration}, Grothendieck--Messing theory).
+
+Let $o'$ be a deformation to $k[\varepsilon]$, let $c_0\in k^d$ be such that $\sum_jc_{0,j}f_j$ is a class of $o'$ (\cref{pf:ks1:lem-fodef}), and
+$c(v)=\sum_jc_{0,j}v_j$. The pull-back $o_c$ of $o$ along $\ksoneSp(\mathrm{id}+c)$ is a deformation of $o_0$ (the composite of the closed point with
+$\mathrm{id}+c$ is the closed point of $k\oplus k^d$) with a morphism $o_c\to o$ over $\ksoneSp(\mathrm{id}+c)$, so it has the class
+$\sum_jc(\varepsilon_j)f_j=\sum_jc_{0,j}f_j$. Hence $o'\cong o_c$, and composing gives a morphism $o'\to o$ over $\ksoneSp(\mathrm{id}+c)$. If
+$o'\to o$ is a morphism over $\ksoneSp(\mathrm{id}+c')$, then $\sum_jc'(\varepsilon_j)f_j$ is a class of $o'$, so $c'(\varepsilon_j)=c_{0,j}$ for all $j$
+by the uniqueness in \cref{pf:ks1:lem-fodef}, i.e.\ $c'=c$.
+\end{proof}
+
+\begin{proposition}[Universal tangents of representing families]\label{pf:ks1:prop-univtan}
+Let $R$ be a Noetherian ring, $b$ a base for $D$ over $R$, $N\ge3$ prime to $p$, and $(X,s,u)$ a representing family of level $N$ with $s$
+quasi-projective and smooth. Let $k$ be an algebraically closed field, $x:\ksoneSp k\to X$ and $d=a(n-1)$. There is $u_x:\ksoneSp(k\oplus k^d)\to X$
+which restricts to $x$ on the closed point and lies over $sx$, such that every $v:\ksoneSp k[\varepsilon]\to X$ which restricts to $x$ and lies over
+$sx$ is $u_x\circ\ksoneSp(\mathrm{id}+c)$ for a unique $k$-linear $c:k^d\to k$.
+\formallabel{GlobalTheory.T.exists_universal_tangent_harrisTaylor_representingFamily}
+\formallabel{GlobalTheory.UPel.HT.RepTangent.exists_univ_tangent}
+\end{proposition}
+
+\begin{proof}
+Let $o_0$ be the pull-back of $u$ along $x$, an object over $\ksoneSp k$ with a morphism $o_0\to u$ over $x$
+(\lref{GlobalTheory.T.exists_harrisTaylorObject_pullback_along}), and let $o$ be the deformation of \cref{pf:ks1:lem-univdef}. By the universal
+property, $o$ is classified by $u_x:\ksoneSp(k\oplus k^d)\to X$ over $R$, with a morphism $o\to u$ over $u_x$; $u_x$ lies over $sx$. Its restriction
+to the closed point classifies $o_0$ (compose $o_0\to o\to u$), as does $x$, so the two agree by uniqueness. Let $v$ be as in the statement and
+$o'=v^*u$. Since $v$ restricts to $x$, the morphism $o_0\to u$ over $x$ and the cartesian morphism $o'\to u$ over $v$ give a morphism $o_0\to o'$
+over the closed point, so $o'$ is a deformation of $o_0$. By \cref{pf:ks1:lem-univdef} there is a unique $c$ with a morphism $o'\to o$ over
+$\ksoneSp(\mathrm{id}+c)$. Then $v$ and $u_x\circ\ksoneSp(\mathrm{id}+c)$ both lie over $R$ and admit morphisms from $o'$ to $u$, so they are equal by
+the uniqueness in the universal property. Conversely, if $v=u_x\circ\ksoneSp(\mathrm{id}+c')$, then the morphism $o'\to u$ over $v$ factors
+through the cartesian morphism $o\to u$ over $u_x$, which gives a morphism $o'\to o$ over $\ksoneSp(\mathrm{id}+c')$, and $c'=c$ by the uniqueness in
+\cref{pf:ks1:lem-univdef}.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Hecke towers and their Hodge cohomology}\label{pf:ks1:sec-towers}
+
+\paragraph{Hodge cohomology.} For a scheme $s:Z\to\ksoneSp k$ over a field $k$ let $\Omega^a_{Z/k}$ be the
+sheaf of $a$-forms and $\ksoneH{Z}{a}{b}$ its sheaf cohomology. For $f:Z'\to Z$ over $k$ there is a pull-back
+$f^*:\ksoneH{Z}{a}{b}\to\ksoneH{Z'}{a}{b}$, functorial in $f$, and for $f$ finite \'etale a trace
+$f_*:\ksoneH{Z'}{a}{b}\to\ksoneH{Z}{a}{b}$ induced by the trace of differential forms (these are definitions of
+the formal development \cite{LeanSource2026}). If $k$ has characteristic $0$, then (i) $f^*$ is injective when $f$ is a
+finite \'etale Galois cover, and (ii) $f_*$ is a trace in the following sense: for every $c:W\to Z$ and every finite
+family of sections $\sigma_j:W\to Z'$ of $f$ over $c$ which split $f$ over $W$ (that is, $W\times_ZZ'$ is the disjoint
+union of the images of the $\sigma_j$), one has $c^*f_*x=\sum_j\sigma_j^*x$
+(\lref{UpperTheory.Gal.G3.pHodgeTr}, \lref{UpperTheory.Gal.G3.pHodgeGood}, and \lref{UpperTheory.Gal.G3.pHodgeInj}).
+
+\paragraph{Correspondences.} Let $Z\xleftarrow{s}Y\xrightarrow{t}Z'$ be morphisms over $k$ with $s$ finite \'etale.
+A linear map $A:\ksoneH{Z'}{a}{b}\to\ksoneH{Z}{a}{b}$ is \emph{the operator of $(s,t)$} if there are a finite \'etale
+Galois cover $c:W\to Z$ and sections $\sigma_j:W\to Y$ of $s$ over $c$ splitting $s$ over $W$ with
+$c^*(Ax)=\sum_j(t\sigma_j)^*x$ for all $x$. By (i) and (ii), if $(s,t)$ has an operator $A$, then
+$A=s_*\circ t^*$ (\lref{UpperTheory.Gal.G3.pOpTr}).
+
+\begin{definition}[Towers]\label{pf:ks1:def-tower}
+Let $B$ be a scheme and $\Gamma$ a group. A \emph{tower} $\mathcal X$ over $B$ for $\Gamma$ consists of an index set $I$,
+subgroups $K_i\subseteq\Gamma$ ($i\in I$) and a submonoid $\Delta\subseteq\Gamma$ containing every $K_i$, schemes
+$q_i:Z_i\to B$, and for $h\in\Delta$ with $hK_ih^{-1}\subseteq K_j$ (we say that $h$ is \emph{admissible} for
+$(i,j)$) morphisms $\mathrm{tr}(i,j,h):Z_i\to Z_j$ over $B$, such that: for every $j$ and every finite set of pairs
+$(i,g)\in I\times\Gamma$ there is $m$ with $K_m\subseteq K_j$ normalised by $K_j$ and $gK_mg^{-1}\subseteq K_i$
+for all the pairs; all indices $[K_j:K_i\cap K_j]$ are finite; $\mathrm{tr}(i,i,k)=\mathrm{id}$ for $k\in K_i$ and
+$\mathrm{tr}(j,l,h')\mathrm{tr}(i,j,h)=\mathrm{tr}(i,l,h'h)$; $\mathrm{tr}(i,j,1)$ is finite, \'etale and surjective;
+if $K_i$ is normalised by $K_j$, two geometric points of $Z_i$ with the same image under $\mathrm{tr}(i,j,1)$ differ by
+some $\mathrm{tr}(i,i,k)$, $k\in K_j$; and if $K_i\subseteq K_j$ and $k\in K_j$ fixes a geometric point of $Z_i$ then
+$k\in K_i$.
+\end{definition}
+
+A function $f:\Gamma\to\C$ is a \emph{Hecke function at level $j$} if it is bi-$K_j$-invariant, $g^{-1}\in\Delta$
+whenever $f(g)\neq0$, and $f$ is supported on finitely many cosets $gK_j$. For such $f$ and a good cohomology
+theory such as Hodge cohomology over a field of characteristic $0$, the \emph{Hecke operator} $T(f)$ on
+$\ksoneH{Z_j}{a}{b}$ is the endomorphism characterised by
+\begin{equation}\label{pf:ks1:eq-hecke}
+\mathrm{tr}(m,j,1)^*\,T(f)x=\ksonefs_{y\in\Gamma/K_j}f(y)\,\mathrm{tr}(m,j,y^{-1})^*x
+\end{equation}
+for every $m$ with $K_m\subseteq K_j$ such that $g^{-1}$ is admissible for $(m,j)$ whenever $f(g)\neq0$; it is
+unique by (i), and the formal definition sets $T(f)=0$ if no such endomorphism exists. For $h\in\Gamma$ put
+$\mathrm{lev}(K,h)=K\cap h^{-1}Kh$.
+
+\begin{lemma}[Double cosets as correspondences]\label{pf:ks1:lem-hopop}
+Let $\mathcal X$ be a tower, $k$ a field of characteristic $0$ and $a,b\ge0$. Let $i,j\in I$ and $h\in\Delta$ be such that
+$1$ and $h$ are admissible for $(i,j)$. Then $\delta:=[\mathrm{lev}(K_j,h):K_i]$ is finite and nonzero, and
+$\delta\cdot T(\mathbf 1_{K_jh^{-1}K_j})$ is the operator of the correspondence
+$(\mathrm{tr}(i,j,1),\mathrm{tr}(i,j,h))$ on $\ksoneH{Z_j}{a}{b}$. Consequently
+$T(\mathbf 1_{K_jh^{-1}K_j})=\delta^{-1}\,\mathrm{tr}(i,j,1)_*\,\mathrm{tr}(i,j,h)^*$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.Tw.hopOp}
+\formallabel{UpperTheory.Gal.G3.pHopOp}
+\end{lemma}
+
+\begin{proof}
+Admissibility gives $K_i\subseteq\mathrm{lev}(K_j,h)\subseteq K_j$, and $[K_j:K_i]$ is finite and nonzero, so $\delta$ is
+finite and nonzero. Choose $m$ with $K_m\subseteq K_i$ normalised by $K_j$. Then $\mathrm{tr}(m,j,1)$ is a finite \'etale Galois
+cover with group $K_j/K_m$ acting through the $\mathrm{tr}(m,m,k)$ (\lref{UpperTheory.Gal.G3.pTwGal}), and the maps
+$\sigma_c=\mathrm{tr}(m,i,c^{-1})$, $c\in K_j/K_i$, are sections of $\mathrm{tr}(i,j,1)$ over $\mathrm{tr}(m,j,1)$ which split it
+(\lref{UpperTheory.Gal.G3.pTwSplit}). The function $\mathbf 1_{K_jh^{-1}K_j}$ is a Hecke function and its operator
+satisfies \eqref{pf:ks1:eq-hecke} (\lref{UpperTheory.Gal.G3.pFnRing} and \lref{UpperTheory.Gal.G3.pHopEx}). Moreover
+$\mathrm{tr}(i,j,h)\sigma_c=\mathrm{tr}(m,j,hc^{-1})$. If $c,c'\in K_j$, then $ch^{-1}K_j=c'h^{-1}K_j$ if and only if
+$c'^{-1}c\in\mathrm{lev}(K_j,h)$; hence as $c$ runs through $K_j/K_i$ the cosets $ch^{-1}K_j$ run through the left cosets
+$yK_j\subseteq K_jh^{-1}K_j$, each exactly $\delta$ times. Since $\mathrm{tr}(m,j,(yk)^{-1})=\mathrm{tr}(j,j,k^{-1})\mathrm{tr}(m,j,y^{-1})=
+\mathrm{tr}(m,j,y^{-1})$ for $k\in K_j$, \eqref{pf:ks1:eq-hecke} gives
+$\mathrm{tr}(m,j,1)^*(\delta\,T(\mathbf 1_{K_jh^{-1}K_j})x)=\sum_c(\mathrm{tr}(i,j,h)\sigma_c)^*x$, which is the defining property of
+the operator of the correspondence. The last assertion follows from \lref{UpperTheory.Gal.G3.pOpTr}.
+\end{proof}
+
+\paragraph{Kuga--Sato towers.} Let $D$ be a datum, $G$ a unitary similitude group and $L$ a link between them (see
+\cref{pf:ks1:sec-groups}; $L$ identifies $F_D$ with $F_G$ and realises $G$ as the group of $O$-linear similitudes of
+$(\Lambda_\Q,E_\Lambda)$). Let $R$ be a field of characteristic $0$, $g_b$ a base for $D$ over $R$ in the
+characteristic-$0$ sense (no condition at $p$) and $k\ge0$. A \emph{Kuga--Sato tower} $T$ for $(L,g_b,k)$ is a tower over
+$\ksoneSp R$ for $\Gamma=G(\ksoneAfp)$ whose index set is the set of levels $N\ge3$ prime to $p$, with $K_N$ the principal
+congruence subgroup of level $N$ and $\Delta$ the monoid of integral elements, together with fine moduli schemes $M_N$ of
+level $N$ over $R$ with universal abelian scheme $\mathcal A_N\to M_N$ and isomorphisms
+$Z_N\cong\mathcal A_N^k=\mathcal A_N\times_{M_N}\dots\times_{M_N}\mathcal A_N$ over $R$, under which the transition maps are the
+$k$-th fibre powers of Hecke isogenies. For $\alpha=(\alpha_1,\dots,\alpha_k)\in\OO_F^k$ let $[\alpha]:Z_N\to Z_N$ be the
+endomorphism acting by $\alpha_s$ on the $s$-th factor. A \emph{Hecke datum} of level $N$ is $g=(K_g,h_g,M_g)$ with
+$K_N\subseteq K_g\subseteq K_1$, $h_g$ integral, $N\mid M_g$ and $h_g\kappa K_{M_g}(h_g\kappa)^{-1}\subseteq K_N$ for
+$\kappa\in K_g$; its Hecke function is $f_g(y)=\#\{\kappa\in K_g/(K_{M_g}\cap K_g):h_g\kappa y\in K_N\}$. For a family
+$(g_j)_{j\in J}$ of Hecke data, $\mathcal H_T(N,g)$ is the Hecke tower with base $Z_N$, correspondences
+$Z_N\xleftarrow{s_j}Y_j\xrightarrow{t_j}Z_N$ where $Y_j=\coprod_{\kappa\in K_{g_j}/(K_{M_{g_j}}\cap K_{g_j})}Z_{M_{g_j}}$,
+$s_j$ is $\mathrm{tr}(M_{g_j},N,1)$ on each copy and $t_j$ is $\mathrm{tr}(M_{g_j},N,h_{g_j}\kappa)$ on the copy indexed by
+$\kappa$. For a Hecke tower $H=(Z,(Y_j,s_j,t_j)_j)$ over $k$, $\theta:J\to k$ and $a\ge0$, \emph{Hodge occurrence} $\mathrm{HO}(H,\theta,a)$ means:
+there are $b$ and $0\neq x\in\ksoneH{Z}{a}{b}$ such that every $s_j$ is finite \'etale and $(s_j)_*t_j^*x=\theta_jx$ for all
+$j$. For a field embedding $\tau:k\to K$, $\mathrm{bc}_\tau(H)$ denotes the base change.
+
+\begin{definition}[Holomorphic Lefschetz formula]\label{pf:ks1:def-hlf}
+$\sfname{HLF}$ is the following statement. Let $s:Z\to\ksoneSp\C$ be projective and smooth of relative dimension $d$,
+$Y\to\ksoneSp\C$ a scheme and $c_1,c_2:Y\to Z$ finite \'etale morphisms over $\C$. Let $\mathcal F$ be the finite set
+of $y\in Y(\C)$ with $c_1(y)=c_2(y)$ and let $A_y\in M_d(\C)$ ($y\in\mathcal F$) be \emph{tangent matrices}: in local
+coordinates $z_1,\dots,z_d$ of $Z$ at $c_1(y)$, the differentials $d(z_l\circ c_1)$ form a basis of the cotangent space of $Y$
+at $y$ and $d(z_j\circ c_2)=\sum_l(A_y)_{jl}\,d(z_l\circ c_1)$; assume $\det(1-A_y)\neq0$. Then for every $a$ the spaces
+$\ksoneH{Z}{a}{b}$ are finite-dimensional and
+\begin{equation}\label{pf:ks1:eq-hlf}
+\sum_{b=0}^{d}(-1)^b\tr\bigl((c_1)_*c_2^*\mid\ksoneH{Z}{a}{b}\bigr)=\sum_{y\in\mathcal F}\frac{[X^a]\det(1+XA_y)}{\det(1-A_y)}.
+\end{equation}
+\end{definition}
+
+This is the holomorphic Lefschetz formula of Atiyah--Bott \cite{AtiyahBott1968} for finite \'etale correspondences with
+transversal fixed points, in the form of \cref{thm:galois:hlf} (note $\tr\bigwedge^aA_y=[X^a]\det(1+XA_y)$); in the formal development it is proved
+by \lref{UpperTheory.Gal.Int.Geo.weight_one_geometric_realization}, which establishes exactly this statement. For $d\ge0$, $A\in M_d(\C)$ and $y\in\C$ we put
+$\mathrm{lef}(A,y)=\det(1-yA)/\det(1-A)$, and for $s:Z\to\ksoneSp\C$ and a family $u=(u_{a,b})$ of endomorphisms of the
+$\ksoneH{Z}{a}{b}$,
+\begin{equation}\label{pf:ks1:eq-alttr}
+\mathcal L_d(u)(y)=\sum_{a=0}^d(-y)^a\sum_{b=0}^d(-1)^b\tr(u_{a,b}\mid\ksoneH{Z}{a}{b}).
+\end{equation}
+
+\begin{lemma}\label{pf:ks1:lem-lefsum}
+For $A\in M_d(\C)$ with $\det(1-A)\neq0$ and $y\in\C$,
+$\sum_{a=0}^d(-y)^a\,[X^a]\det(1+XA)/\det(1-A)=\mathrm{lef}(A,y)$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.lefSum_of}
+\end{lemma}
+
+\begin{proof}
+$\det(1+XA)$ is a polynomial of degree at most $d$ in $X$, and its value at $X=-y$ is $\det(1-yA)$.
+\end{proof}
+
+\begin{lemma}\label{pf:ks1:lem-hodgefin}
+$\sfname{HLF}$ implies: if $s:Z\to\ksoneSp\C$ is projective and smooth of some relative dimension, then every
+$\ksoneH{Z}{a}{b}$ is finite-dimensional.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.hodgeFin_of}
+\end{lemma}
+
+\begin{proof}
+Apply $\sfname{HLF}$ with $Y=\emptyset$ (so $\mathcal F=\emptyset$); the finite-dimensionality is part of its conclusion.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Unitary similitude groups, fixed point sums and definite traces}\label{pf:ks1:sec-groups}
+
+\begin{definition}[Unitary similitude groups]\label{pf:ks1:def-htgroup}
+Let $p$ be a prime. A \emph{unitary similitude group of Harris--Taylor type} $G$ for $p$ consists of: a CM field $F$;
+an imaginary quadratic subfield $K_q\subseteq F$ with an embedding $u:K_q\to\Q_p$; an integer $n\ge1$; a central
+simple $F$-algebra $C$ of dimension $n^2$ with an involution $x\mapsto x^*$ of the second kind (a ring
+anti-automorphism of order $2$ inducing complex conjugation on $F$); for each infinite place $v$ of $F$ a homomorphism
+$\psi_v:C\to M_n(\C)$ which is the scalar embedding given by $v$ on $F$, and an invertible hermitian matrix
+$\mathrm{gr}_v$ with $\psi_v(x^*)=\mathrm{gr}_v^{-1}\psi_v(x)^\dagger\mathrm{gr}_v$, of signature $(1,n-1)$ or $(0,n)$;
+embeddings $\epsilon_i:F\to\Qbar_p$ ($i<m$) lying over $u$ and representing each $\Q_p$-conjugacy class of such
+embeddings exactly once, with homomorphisms $\rho_i:C\to M_n(F_{w_i})$ extending $\epsilon_i$, where
+$F_{w_i}=\Q_p(\epsilon_i(F))$; and embeddings of $\Qbar$ into $\Qbar_p$ and into $\C$. We write $a_G$ for the number of
+infinite places of signature $(1,n-1)$.
+\end{definition}
+
+Put $G(\ksoneAfp)=\{(g,\nu)\in(\ksoneAfp\otimes_\Q C)^\times\times(\ksoneAfp)^\times: gg^*=\nu\}$,
+$G_p=\Q_p^\times\times\prod_{i<m}\GL_n(F_{w_i})$ and $K_p=\Z_p^\times\times\prod_{i<m}\GL_n(\OO_{F_{w_i}})$, and let
+$\mathbf 1_{K_p}$ be the indicator function of $K_p$. A \emph{level} is a compact open subgroup of $G(\ksoneAfp)$. We
+write $(C^\times\times\Q^\times)\to G_p$, $(y,s)\mapsto(s,(\rho_i(y))_i)$. A function $f$ on $G(\ksoneAfp)$ is a \emph{test
+function} for a level $K$ if $f(k^{-1}gk)=f(g)$ for $k\in K$ and $f$ is supported on finitely many double cosets $KgK$;
+a function $f'$ on $G_p$ is a test function for a subgroup $K'$ commensurable with $K_p$ if it is invariant under
+conjugation by $K'$ and supported on finitely many double cosets $K_pgK_p$. An element $g\in G(\ksoneAfp)$ is
+\emph{regular} if for some prime $\ell\neq p$ the centraliser of its component in $\Q_\ell\otimes C$ is commutative. An element
+$x\in C$ is \emph{regular irreducible} if its minimal polynomial $\chi_x$ over $F$ has degree $n$ and is separable and
+irreducible.
+
+A \emph{link} $L$ between a datum $D$ and $G$ identifies $F_D\cong F_G$, $n_G=n_D$, realises $C$ as the centraliser of $O$ in
+$\End_\Q(\Lambda_\Q)$ compatibly with the involutions, matches the places of signature $(1,n-1)$ with the embeddings
+$\tau_i$ of $D$, and fixes compatible embeddings at $p$ and an orientation. Through $L$ the group $G(\ksoneAfp)$ acts on
+$\ksoneAfp\otimes\Lambda$; $K_N$ denotes the principal congruence subgroup of level $N$ (the $g$ such that $g$ and $g^{-1}$
+are $\equiv1$ modulo $N$ on $\hat\Z^p\otimes\Lambda$), and $h$ is \emph{integral} if it preserves $\hat\Z^p\otimes\Lambda$.
+
+\begin{definition}[Forms and fixed point sums]\label{pf:ks1:def-forms}
+Let $G$ be as above.
+\begin{enumerate}
+\item A \emph{form} is $\beta\in C^\times$ with $\beta^*=\beta$ for which there are $x\in(\ksoneAfp\otimes C)^\times$,
+  $t\in(\ksoneAfp)^\times$ with $x\beta x^*=t$ and $z\in(\R\otimes C)^\times$ with $z\beta z^*=1$. Forms $\beta,\beta'$ are
+  \emph{equivalent} if $\beta'=s\,y\beta y^*$ with $y\in C^\times$ and $s\in\Q_{>0}$; $\mathrm{Cl}_{\mathrm{form}}$ is the set of classes.
+\item For a form $\beta$ let $\Gamma_\beta=\{(y,s)\in C^\times\times\Q^\times: y\beta y^*=s\beta,\ s>0\}$. For a choice of
+  $(x,t)$ as in (1) let $\iota_f:\Gamma_\beta\to G(\ksoneAfp)$, $(y,s)\mapsto(xyx^{-1},s)$, and $\iota_p:\Gamma_\beta\to G_p$
+  the map above; let $\iota_v(y)=\psi_v(y)$. Put $\mathrm{herm}_v(\beta)=\mathrm{gr}_v\psi_v(\beta^{-1})$ and
+  $\mathcal P_\beta=\{z\in\C^n:\Re(z^\dagger\mathrm{herm}_v(\beta)z)>0\}$.
+\item Let $K$ be a level and $K'\subseteq G_p$ a subgroup. $\mathcal X_\beta$ is the quotient of
+  $(G(\ksoneAfp)\times G_p)\times\mathcal P_\beta$ by the relation $(g,z)\sim((\iota_f(y),\iota_p(y))\,g\,k,\ c\,\iota_v(y)z)$
+  for $y\in\Gamma_\beta$, $k\in K\times K'$, $c\in\C^\times$. For a representative $(g,z)$ the \emph{stabiliser} is the set of
+  $y\in\Gamma_\beta$ with $g_f^{-1}\iota_f(y)g_f\in K$, $g_p^{-1}\iota_p(y)g_p\in K'$ and $\iota_v(y)z\in\C z$.
+\item For $c:F[X]\times\C\to\C$, a function $f$ on $G(\ksoneAfp)$ and $f'$ on $G_p$, put
+  \[\Sigma_\beta(c;K,f;K',f')=\ksonefs_{q\in\mathcal X_\beta}\frac{1}{|\mathrm{Stab}(g,z)|}\ksonefs_{y}
+  f(g_f^{-1}\iota_f(y)g_f)\,f'(g_p^{-1}\iota_p(y)g_p)\,c\bigl(\chi_y,\mu_z(y)\bigr),\]
+  where $(g,z)$ is a chosen representative of $q$, $y$ runs over the elements of $\Gamma_\beta$ with $\iota_v(y)z=\mu_z(y)z$
+  for some (necessarily unique) $\mu_z(y)\in\C$, and $\chi_y$ is the minimal polynomial of $y$ over $F$; and
+  \[\Sigma(c;K,f;K',f')=\ksonefs_{[\beta]\in\mathrm{Cl}_{\mathrm{form}}}\Sigma_\beta(c;K,f;K',f')\]
+  with chosen representatives $\beta$ and chosen $(x,t)$. The \emph{finiteness condition} $\mathrm{Fin}(K,f)$ means that, for $K'=K_p$, the set of triples
+  $([\beta],q,y)$ with $y$ as above and
+  \[f(g_f^{-1}\iota_f(y)g_f)\,\mathbf 1_{K_p}(g_p^{-1}\iota_p(y)g_p)\neq0\]
+  is finite.
+\end{enumerate}
+Here $v$ is a fixed infinite place; in all applications it is the unique place of signature $(1,n-1)$.
+\end{definition}
+
+When $v$ has signature $(1,n-1)$ and $\beta$ is a form, $\mathcal P_\beta/\C^\times$ is a complex ball and
+$\mathcal X_\beta$ is the set of complex points of the corresponding component of a unitary Shimura variety; $y$ runs
+over the elements fixing the point, $\mu_z(y)$ is the eigenvalue of $y$ on the fixed line, and $\Sigma$ is a weighted
+count of fixed points of Hecke correspondences. These interpretations are not used in the proofs below.
+
+\begin{definition}[Pairs and terms]\label{pf:ks1:def-pairs}
+\begin{enumerate}
+\item A \emph{pair} is $P=(\beta,\gamma,c)$ with $\beta$ a form, $\gamma\in C^\times$, $c\in\Q^\times$, $\gamma\beta\gamma^*=c\beta$,
+  and $\chi_P:=\chi_\gamma$ of degree $n$ and separable. A \emph{definite pair} is the same with the condition at infinity
+  replaced by: for every infinite place $w$ the hermitian form $z\mapsto z^\dagger\mathrm{herm}_w(\beta)z$ is positive
+  definite if $w$ has signature $(1,n-1)$ and negative definite otherwise. Pairs $P,P'$ are equivalent if
+  $\beta'=s\,y\beta y^*$ and $\gamma'=y\gamma y^{-1}$ with $y\in C^\times$, $s\in\Q_{>0}$; $\mathrm{Cl}_{\mathrm{pair}}$ and $\mathrm{Cl}^{\mathrm{def}}_{\mathrm{pair}}$
+  are the sets of classes of pairs and of definite pairs. A \emph{definite form} is $\beta$ as in a definite pair;
+  $\mathrm{Cl}^{\mathrm{def}}_{\mathrm{form}}$ is the set of classes of definite forms.
+\item A pair is \emph{marked} by $\mu\in\C$ if for some place $w$ of signature $(1,n-1)$ there is $z\in\C^n$ with
+  $\psi_w(\gamma)z=\mu z$ and $\Re(z^\dagger\mathrm{herm}_w(\beta)z)>0$.
+\item For a (definite) pair $P$ let $\mathrm{Cent}_P=\{(y,s)\in\Gamma_\beta: y\gamma=\gamma y\}$, embedded into
+  $G(\ksoneAfp)\times G_p$ by $(\iota_f,\iota_p)$ (with the $p$-component conjugated by a chosen $z_p\in G_p$). The
+  \emph{term} of $P$ is the orbital sum
+  \[\mathrm{T}_P(K,f;K',f')=\ksonefs_{q}\frac{1}{|\mathrm{stab}(q)|}\,f(q_f^{-1}\gamma_fq_f)\,f'(q_p^{-1}\delta q_p),\]
+  where $q$ runs over $\mathrm{Cent}_P\backslash(G(\ksoneAfp)\times G_p)/(K\times K')$ with chosen representatives,
+  $\mathrm{stab}(q)=\{y\in\mathrm{Cent}_P:\ q^{-1}yq\in K\times K'\}$, $\gamma_f=\iota_f(\gamma,c)$ and $\delta=z_p^{-1}\iota_p(\gamma,c)z_p$.
+\item For $c:F[X]\times\C\to\C$ put
+  $\Sigma^{\mathrm{mk}}(c;K,f;K',f')=\ksonefs_{[P]\in\mathrm{Cl}_{\mathrm{pair}}}c(\chi_P,\mu_P)\,\mathrm T_P(K,f;K',f')$, the summand being $0$
+  unless $P$ is marked, $\mu_P$ a chosen marking; for $\mathrm{wt}:F[X]\to\C$ and a root selection $\mathrm{sel}$ (a map
+  $F[X]\to\C$ such that $\mathrm{sel}(Q)$ is a root of $Q$ at every place of signature $(1,n-1)$, for $Q$ monic of degree $n$)
+  put $\Sigma^{\mathrm{mk}}_{\mathrm{sel}}(\mathrm{wt})=\ksonefs_{[P]}\mathrm{wt}(\chi_P)\,\mathrm T_P$ over the classes
+  with $\chi_P$ irreducible and $P$ marked by $\mathrm{sel}(\chi_P)$; and
+  $\Sigma^{\mathrm{def}}(\mathrm{wt};K,f;K',f')=\ksonefs_{[P]\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{pair}},\ \chi_P\text{ irreducible}}\mathrm{wt}(\chi_P)\,\mathrm T_P(K,f;K',f')$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Algebraic modular forms and definite traces]\label{pf:ks1:def-dtrace}
+Let $\iota:\Gamma\to H$ be a homomorphism of groups, $K\subseteq H$ a subgroup, $\xi$ a representation of $\Gamma$ on a
+complex vector space $V$, and $F:H\to\C$. The space of \emph{forms} is
+$\mathcal M(\iota,K,\xi)=\{\phi:H\to V:\ \phi(\iota(\gamma)h)=\xi(\gamma)\phi(h),\ \phi(hk)=\phi(h)\}$, and
+$\mathrm{htr}(\iota,K,\xi,F)$ is the trace of an endomorphism $T$ of $\mathcal M$ with
+$(T\phi)(g)=\ksonefs_{h\in H/K}F(h)\phi(gh)$, if such an endomorphism exists (with a chosen one), and $0$ otherwise. For a
+definite form $\beta$, a finite-dimensional representation $\xi$ of $C^\times\times\Q^\times$, a level $K$, $K'\subseteq G_p$
+and $f,f'$, put $\mathrm{tr}_\beta(\xi;K,f;K',f')=\mathrm{htr}((\iota_f,\iota_p),K\times K',\xi|_{\Gamma_\beta},f\otimes f')$
+and $\mathrm{Tr}^{\mathrm{def}}(\xi;K,f;K',f')=\ksonefs_{[\beta]\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{form}}}\mathrm{tr}_\beta(\xi;K,f;K',f')$.
+\end{definition}
+
+These are the algebraic modular forms of Gross \cite{Gross1999} on the definite inner forms $\Gamma_\beta$, with values in
+$\xi$; $\mathrm{Tr}^{\mathrm{def}}$ is the trace of the Hecke operator of $f\otimes f'$ summed over the classes of definite forms.
+
+\begin{definition}[Weights, good functions and the spectral condition]\label{pf:ks1:def-spec}
+Let $D$, $G$, $L$ be as above and $\lambda:\Hom(F,\C)\to\N^n$.
+\begin{enumerate}
+\item For a monic $Q\in F[X]$ with $Q(0)\neq0$ let $Q^\flat=Q(0)^{-1}X^{\deg Q}Q(1/X)$ (the monic polynomial with inverse
+  roots), and for $Q\in F_G[X]$ let ${Q}^\vee=(Q\circ e^{-1})^\flat\in F_D[X]$, $e:F_D\cong F_G$ the identification
+  of $L$. For $\chi\in F[X]$ of degree $n$ let
+  $\mathrm{S}_\lambda(\chi)=\prod_{\tau:F\to\C}s_{\lambda(\tau)}(r_{\tau,1},\dots,r_{\tau,n})$, where
+  $r_{\tau,1},\dots,r_{\tau,n}$ are the roots of $\tau(\chi)$ with multiplicity and $s_\mu$ is the Schur polynomial given by
+  the Jacobi--Trudi determinant $\det(h_{\mu_i-i+j})$ (it is symmetric, so the order of the roots is irrelevant).
+\item A finite-dimensional representation $\xi$ of $C^\times\times\Q^\times$ has \emph{weight $\lambda$} if
+  $\tr\xi(y)=\mathrm{S}_\lambda({\chi_y}^\vee)$ for every definite form $\beta$ and every $(y,s)\in\Gamma_\beta$
+  with $\chi_y$ of degree $n$ and separable.
+\item A function $f$ on $G(\ksoneAfp)$ is \emph{good} for a level $K$ if: $f$ is supported on regular elements;
+  $\mathrm T_P(K,f;K_p,\mathbf 1_{K_p})=0$ for every marked pair $P$ with $\chi_P$ reducible; and for every definite form $\beta$
+  (with any choice of $(x,t)$) and every $y\in\Gamma_\beta$ which is not regular irreducible, the orbital integral
+  \[\mathrm{orb}_K(y)=\ksonefs_{q\in Z(y)\backslash(G(\ksoneAfp)\times G_p)/(K\times K_p)}\mathrm{vol}\bigl(Z(y)\cap qKq^{-1}\bigr)^{-1}
+  (f\otimes\mathbf 1_{K_p})(q^{-1}yq)\]
+  vanishes; here $Z(y)$ is the centraliser of $(\iota_f(y),\iota_p(y))$ in $G(\ksoneAfp)\times G_p$, $K$ stands for
+  $K\times K_p$, and $\mathrm{vol}(U)=[U:U\cap U_0]/[U_0:U_0\cap U]$ with $U_0=Z(y)\cap K$.
+\item For $\psi:J\to(G(\ksoneAfp)\to\C)$, a word $w=(j_1,\dots,j_r)$ in $J$ and $f$ put
+  $\psi_w*f=\psi_{j_1}*(\psi_{j_2}*\cdots(\psi_{j_r}*f))$ (convolution for $K$), and for a noncommutative polynomial
+  $s=\sum_ws_w\,w$ put $s(\psi)*f=\sum_ws_w\,\psi_w*f$ and $s(\theta)=\sum_ws_w\prod_{j\in w}\theta_j$ for $\theta:J\to\C$.
+  The \emph{spectral condition} $\mathcal S(L,\lambda,K,\psi,\theta,f)$ means: $\psi_j*\psi_{j'}*\psi_w*f=\psi_{j'}*\psi_j*\psi_w*f$ for all $j,j',w$; and
+  there is a finite-dimensional $\xi$ of weight $\lambda$ such that for every $s$ with $s(\theta)\neq0$ there is $a$ such that
+  $(as)(\psi)*f$ is good for $K$ and $\mathrm{Tr}^{\mathrm{def}}(\xi;K,(as)(\psi)*f;K_p,\mathbf 1_{K_p})\neq0$.
+\end{enumerate}
+\end{definition}
+
+In words: \emph{the eigensystem $\theta$ of the operators $\psi_j$ occurs in algebraic modular forms of weight $\lambda$ on the
+definite inner forms, and this is detected by traces of good test functions}.
+
+\begin{definition}[Hodge exponents and Lefschetz weights]\label{pf:ks1:def-hexp}
+Let $F$ be a number field, $t_0:F\to\C$ with $\bar t_0\neq t_0$, $\varepsilon:\Hom(F,\C)\to\N$ and
+$\lambda:\Hom(F,\C)\to\N^n$; write $|\lambda(\tau)|=\sum_j\lambda(\tau)_j$ and $\Sigma_\varepsilon=\sum_{\tau\neq t_0,\bar t_0}
+\varepsilon(\tau)|\lambda(\tau)|$. A vector $h\in\N^n$ is a \emph{Hodge exponent vector} for $(t_0,\varepsilon,\lambda)$ if
+either $\lambda(\bar t_0)$ is constant equal to some $m$ and $h_i=(n-1)m+\Sigma_\varepsilon+\lambda(t_0)_i+(n-1-i)$ for all
+$0\le i<n$, or $\lambda(t_0)$ is constant equal to some $m$ and $h_i=m+\Sigma_\varepsilon+\sum_{j\neq i}\lambda(\bar t_0)_j+i$ for all
+$i$. For $\chi\in F[X]$, $\mu\in\C$, $x\in F$ and $y\in\C$, with $r$ running over the roots of $t_0(\chi)$ (resp.\ $\tau(\chi)$)
+with multiplicity and one copy of $\mu$ removed where indicated, put
+\begin{align*}
+\mathrm{ball}(\chi,\mu,y)&=\prod_{r\neq\mu}\frac{r-y\mu}{r-\mu},\\
+\mathrm{fib}(x,\chi,\mu,y)&=\Bigl[(1-t_0(x)y\mu)\prod_{r\neq\mu}(1-t_0(x)r)\Bigr]\Bigl[(1-\overline{t_0(x)}\,\bar\mu)
+  \prod_{r\neq\mu}(1-\overline{t_0(x)}\,y\bar r)\Bigr]\\
+  &\qquad\times\prod_{\tau\neq t_0,\bar t_0}\ \prod_{r}(1-\tau(x)y^{\varepsilon(\tau)}r),\\
+\mathrm{loc}(\alpha,\chi,\mu,y)&=\mathrm{ball}(\chi,\mu,y)\prod_{s=1}^k\mathrm{fib}(\alpha_s,\chi,\mu,y)\qquad(\alpha\in\OO_F^k).
+\end{align*}
+For a datum $D$ put $\varepsilon_D(\tau)=1$ if $\tau(\omega)=\bar\rho_c$ and $0$ otherwise. For a link $L$, $i_0<a$ and an infinite
+place $v$ of $F_G$ put $\mathrm{mk}(\mu)=\mu^{-1}$ if $v(e(\omega))=\rho_c$ and $\mathrm{mk}(\mu)=\bar\mu^{-1}$ otherwise, and
+\[c_W(\alpha,y)(Q,\mu)=\mathrm{loc}\bigl(\alpha,{Q}^\vee,\mathrm{mk}(\mu),y\bigr)\quad\text{with }t_0=\tau_{i_0},\ \varepsilon=\varepsilon_D.\]
+For $\sigma\in\Aut(\C)$ let $(\sigma\lambda)(\tau)=\lambda(\sigma^{-1}\circ\tau)$.
+\end{definition}
+
+These are the Hodge degrees and the local holomorphic Lefschetz terms at complex multiplication points of the $k$-fold
+Kuga--Sato variety over a unitary Shimura variety of signature $(1,n-1)$; the formal proofs use only the formulas.
+
+\begin{definition}[$\sfname{FixK}$]\label{pf:ks1:def-fixk}
+For a datum $D$ and a group $G$ let $\mathrm{SC}(D,G)$ mean: $a=1$, $m=1$, $a_G=1$, $n$ is odd and $D$ is of compact type. A
+complex base $g_b$ is \emph{standard} if $\rho=\rho_c$ and $t_i=\tau_i|_{\OO_F}$. $\sfname{FixK}$ is the statement: let
+$\mathrm{SC}(D,G)$ hold, $L$ a link, $g_b$ a standard complex base, $i_0<a$, $v$ the place of signature $(1,n-1)$, $k\ge0$, $T$
+a Kuga--Sato tower for $(L,g_b,k)$, $N\mid N'$ levels with $Z_N$ smooth of relative dimension $d$, $h\in G(\ksoneAfp)$ such
+that $1$ and $h$ are admissible for $(N',N)$ and $\mathbf 1_{K_Nh^{-1}K_N}$ is supported on regular elements, and
+$\alpha\in\OO_F^k$ with every $\alpha_s$ nonzero and divisible by $2$. Then $\mathrm{Fin}(K_N,\mathbf 1_{K_Nh^{-1}K_N})$
+holds, $c_2:=[\alpha]\circ\mathrm{tr}(N',N,h)$ is finite \'etale, and with $c_1=\mathrm{tr}(N',N,1)$ there are a finite
+set $\mathcal F$ and tangent matrices $A_x$ as in \cref{pf:ks1:def-hlf} for $(c_1,c_2)$ on $Z_{N'}$, with
+$\det(1-A_x)\neq0$ and
+\begin{equation}\label{pf:ks1:eq-fixk}
+\sum_{x\in\mathcal F}\mathrm{lef}(A_x,y)=[\mathrm{lev}(K_N,h):K_{N'}]\cdot\Sigma\bigl(c_W(\alpha,y);K_N,\mathbf 1_{K_Nh^{-1}K_N};K_p,\mathbf 1_{K_p}\bigr)
+\qquad(y\in\C).
+\end{equation}
+\end{definition}
+
+$\sfname{FixK}$ is proved in \lref{UpperTheory.Gal.FixZ.FixK_holds}.
+
+\begin{definition}[$\sfname{KSHodge}$]\label{pf:ks1:def-kshodge}
+$\sfname{KSHodge}$ is the statement: for every prime $p$, datum $D$, group $G$ and link $L$ with $\mathrm{SC}(D,G)$, and every
+$\lambda:\Hom(F,\C)\to\N^n$ with each $\lambda(\tau)$ non-increasing, there is $k\ge0$ such that the following holds. Let $R$ be a
+field of characteristic $0$, $g_b$ a base over $R$, $T$ a Kuga--Sato tower for $(L,g_b,k)$, $N$ a level, $(g_j)_{j\in J}$ Hecke data
+of level $N$, $\theta:J\to\C$, and $f$ a function in the Hecke algebra of $K_N$ supported on elements with integral inverse, with
+$\mathcal S(L,\lambda,K_N,(f_{g_j})_j,\theta,f)$. Let $\tau:R\to\C$ with $\tau(\rho)=\rho_c$ and $\tau\circ t_i=\tau_i$ on $\OO_F$,
+let $\sigma\in\Aut(\C)$, $i_0<a$, and $h$ a Hodge exponent vector for $(\tau_{i_0},\varepsilon_D,\sigma\lambda)$. Then
+$\mathrm{HO}(\mathrm{bc}_\tau(\mathcal H_T(N,g)),\sigma\circ\theta,h_i)$ holds for every $i$.
+\end{definition}
+
+\begin{theorem}[Hodge occurrence]\label{pf:ks1:thm-hodge}
+$\sfname{HLF}$ and $\sfname{FixK}$ imply $\sfname{KSHodge}$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.ksHodge_of_geo}
+\end{theorem}
+
+The proof is given in \cref{pf:ks1:sec-proof}. In the formal development \cref{pf:ks1:thm-hodge} is applied with
+$\sfname{HLF}$ proved in \lref{UpperTheory.Gal.Int.Geo.weight_one_geometric_realization} and $\sfname{FixK}$ proved in
+\lref{UpperTheory.Gal.FixZ.FixK_holds}, inside \lref{UpperTheory.Gal.Int.Geo.kodaira_spencer_of_weight_one}.
+
+
+% ---------------------------------------------------------------------------------------------
+\subsection{The two counting identities}\label{pf:ks1:sec-counting}
+
+Throughout this subsection $G$ is a unitary similitude group with $a_G=1$ and $v$ is its unique infinite place of
+signature $(1,n-1)$.
+
+\begin{lemma}[Unfolding orbit sums]\label{pf:ks1:lem-unfold}
+Let a group $\Gamma$ act on a set $Y$ and let $\Phi:Y\times\Gamma\to\C$ satisfy $\Phi(\eta y,\eta\gamma\eta^{-1})=\Phi(y,\gamma)$.
+Assume that $\Phi(y,\cdot)$ has finite support for every $y$ and that only finitely many orbits $o\in\Gamma\backslash Y$ have
+$\Phi(y_o,\cdot)\neq0$, where $y_o$ is a chosen representative. Then
+\[\ksonefs_{o\in\Gamma\backslash Y}\frac{1}{|\Gamma_{y_o}|}\ksonefs_{\gamma\in\Gamma}\Phi(y_o,\gamma)=
+\ksonefs_{[\gamma]}\ \ksonefs_{o'\in Z(\gamma)\backslash Y}\frac{1}{|\Gamma_{y_{o'}}\cap Z(\gamma)|}\Phi(y_{o'},\gamma),\]
+where $[\gamma]$ runs over the conjugacy classes of $\Gamma$ with chosen representatives $\gamma$, $Z(\gamma)$ is the centraliser,
+$\Gamma_y$ the stabiliser, and $|S|^{-1}=0$ for infinite $S$.
+\formallabel{GlobalTheory.T.orbit_sum_conj_classes}
+\end{lemma}
+
+\begin{proof}
+Let $\Gamma$ act on $Y\times\Gamma$ by $\eta\cdot(y,\gamma)=(\eta y,\eta\gamma\eta^{-1})$; $\Phi$ is invariant, and both sides
+are sums over the orbits of this action, grouped by the orbit of $y$ (left side) or by the class of $\gamma$ (right side),
+of the quantity $|\Gamma_{(y,\gamma)}|^{-1}\Phi(y,\gamma)=|\Gamma_y\cap Z(\gamma)|^{-1}\Phi(y,\gamma)$. Indeed, the orbits lying over
+the class $[\gamma]$ are in bijection with $Z(\gamma)\backslash Y$, which gives the right side. The orbits lying over the
+orbit $\Gamma y$ are in bijection with the $\Gamma_y$-conjugacy classes in $\Gamma$; if $\Phi(y,\gamma)\neq0$ then the
+$\Gamma_y$-conjugacy class of $\gamma$ lies in the finite support of $\Phi(y,\cdot)$, so $\Gamma_y\cap Z(\gamma)$ has finite
+index in $\Gamma_y$, and the orbit--stabiliser formula gives
+$\sum_{\gamma'\in\Gamma_y\cdot\gamma}\Phi(y,\gamma')=[\Gamma_y:\Gamma_y\cap Z(\gamma)]\,\Phi(y,\gamma)$. Dividing by $|\Gamma_y|$ (both
+sides vanish if $\Gamma_y$ is infinite, since then $\Gamma_y\cap Z(\gamma)$ is infinite) and summing over the
+$\Gamma_y$-classes gives $|\Gamma_y|^{-1}\sum_{\gamma}\Phi(y,\gamma)$, which is the left side. All sums are finite by the hypotheses.
+\end{proof}
+
+\begin{lemma}[Positive eigenlines]\label{pf:ks1:lem-markuniq}
+Let $\beta$ be a form, $\gamma\in C^\times$ and $c\in\Q^\times$ with $\gamma\beta\gamma^*=c\beta$, and let $z,z'\in\C^n$ be eigenvectors of
+$\psi_v(\gamma)$, with eigenvalues $\mu,\mu'$, which are positive for $\mathrm{herm}_v(\beta)$.
+\begin{enumerate}
+\item $\mu=\mu'$; in particular a pair is marked by at most one $\mu$.
+\item If $\chi_\gamma$ has degree $n$ and is separable, then $z'\in\C z$.
+\end{enumerate}
+\formallabel{GlobalTheory.LKMid.Pair.mark_unique}
+\formallabel{GlobalTheory.T.separable_formGroup_element_fixes_unique_positive_line}
+\end{lemma}
+
+\begin{proof}
+Since $\beta$ is trivial at $\R$, the hermitian form $\langle z,w\rangle=z^\dagger\mathrm{herm}_v(\beta)w$ is equivalent to $\mathrm{gr}_v$, so it has signature
+$(1,n-1)$. From $\gamma\beta\gamma^*=c\beta$ one gets $\langle\psi_v(\gamma)z,\psi_v(\gamma)w\rangle=c\langle z,w\rangle$; hence $|\mu|^2=c=|\mu'|^2$ and
+$\bar\mu\mu'\langle z,z'\rangle=c\langle z,z'\rangle$. (1) If $\mu\neq\mu'$, then $\bar\mu\mu'\neq\bar\mu\mu=c$ (as $\mu\neq0$), so $\langle z,z'\rangle=0$; but the
+orthogonal complement of a positive vector for a form of signature $(1,n-1)$ is negative definite, contradicting $\langle z',z'\rangle>0$. A marking of
+a pair is the eigenvalue of a positive eigenvector at the unique place $v$ of signature $(1,n-1)$, so it is unique. (2) Every root of $v(\chi_\gamma)$ is an
+eigenvalue of $\psi_v(\gamma)$ (\lref{GlobalTheory.LKCx.PolyArch.roots_eig_any}: every root of $v(\chi_\gamma)$ is an eigenvalue of $\psi_v(\gamma)$);
+as $v(\chi_\gamma)$ has $n$ distinct roots, $\psi_v(\gamma)\in M_n(\C)$ has $n$ distinct eigenvalues and its eigenspaces are lines. By (1), $z$ and $z'$ lie
+in the same eigenspace.
+\end{proof}
+
+\begin{lemma}[Finitely many contributing points]\label{pf:ks1:lem-finpts}
+Let $K$ be a level, $f$ a test function for $K$ supported on regular elements, $K'\subseteq G_p$ commensurable with $K_p$ and $f'$ a test function
+for $K'$. Let $\beta$ be a form with chosen $(x,t)$. Then the set of points $q\in\mathcal X_\beta$, with chosen representative $(g,z)$, for which some
+$y\in\Gamma_\beta$ satisfies $\iota_v(y)z\in\C z$ and $f(g_f^{-1}\iota_f(y)g_f)\,f'(g_p^{-1}\iota_p(y)g_p)\neq0$ is finite.
+\formallabel{GlobalTheory.LKCx.CxReg.finite_pts_reg}
+\end{lemma}
+
+\begin{proof}
+Say that $y\in\Gamma_\beta$ \emph{contributes at} $q$ if it satisfies the two conditions of the statement for the representative of $q$. If $y$
+contributes at some point, then $\iota_f(y)$ is conjugate to an element of the support of $f$, hence regular, and $y$ fixes the line of a vector of
+$\mathcal P_\beta$; therefore $\chi_y$ has degree $n$ and is separable (\lref{GlobalTheory.LKCx.CxReg.sep_of_regAf}: regular elements of
+$\Gamma_\beta$ fixing a positive line have separable minimal polynomial of degree $n$). We use three finiteness statements.
+(a) The minimal polynomials of the elements contributing at some point form a finite set
+(\lref{GlobalTheory.T.orbital_term_real_trivialisation}).
+(b) For every polynomial $P$ there is a finite set $Y_P\subseteq\Gamma_\beta$ such that every $y$ with $\chi_y=P$ contributing at some point is
+$\Gamma_\beta$-conjugate to an element of $Y_P$ (\lref{GlobalTheory.T.orbital_integral_test_function_first}).
+(c) For every $y_0\in\Gamma_\beta$ only finitely many points $q$ admit a conjugate $\gamma y_0\gamma^{-1}$, $\gamma\in\Gamma_\beta$, contributing at $q$
+(\lref{GlobalTheory.T.orbital_integral_test_function_second}).
+Statements (b) and (c) take the separability shown above as a hypothesis. If $y$ contributes at $q$, then $\chi_y$ is one of the finitely many
+polynomials $P$ of (a), $y=\gamma y_0\gamma^{-1}$ with $y_0\in Y_P$ by (b), and $q$ lies in the finite set of (c) for $y_0$. Hence the set in question
+is contained in a finite union of finite sets.
+\end{proof}
+
+\begin{proposition}[Fixed points and marked pairs]\label{pf:ks1:prop-cxcount}
+Let $c:F[X]\times\C\to\C$, $K$ a level, $f$ a test function for $K$ supported on regular elements, $K'\subseteq G_p$ commensurable
+with $K_p$ and $f'$ a test function for $K'$. Then
+$\Sigma(c;K,f;K',f')=\Sigma^{\mathrm{mk}}(c;K,f;K',f')$.
+\formallabel{UpperTheory.Cb.complex_count_regular_marked_points}
+\end{proposition}
+
+\begin{proof}
+Fix a class $[\beta]\in\mathrm{Cl}_{\mathrm{form}}$ with its chosen representative $\beta$ and $(x,t)$. For $y\in\Gamma_\beta$ put
+\[\mathrm{PS}(y)=\ksonefs_{q\in Z(y)\backslash(G(\ksoneAfp)\times G_p)/(K\times K')}\frac{1}{|\mathrm{stab}_{Z(y)}(q)|}\,
+f(q_f^{-1}\iota_f(y)q_f)\,f'(q_p^{-1}\iota_p(y)q_p),\]
+where $Z(y)\subseteq\Gamma_\beta$ is the centraliser acting through $(\iota_f,\iota_p)$, and let $w(y)=c(\chi_y,\mu(y))\,\mathrm{PS}(y)$ if
+$y$ fixes some line $\C z$ with $z\in\mathcal P_\beta$, $\mu(y)$ being its eigenvalue, and $w(y)=0$ otherwise. We show that both
+sides equal $\ksonefs_{[\beta]}\ksonefs_{[y]}w(y)$, the inner sum over conjugacy classes of $\Gamma_\beta$.
+
+(a) The group $\Gamma_\beta$ acts on $Y=(G(\ksoneAfp)\times G_p)/(K\times K')\times\mathcal P_\beta/\C^\times$ by left translation
+through $(\iota_f,\iota_p)$ and through $\iota_v$; $\mathcal X_\beta=\Gamma_\beta\backslash Y$, the stabiliser of a point is the set
+$\mathrm{Stab}$ of \cref{pf:ks1:def-forms}, and $\Sigma_\beta$ is the left side of \cref{pf:ks1:lem-unfold} for the function
+$\Phi((gK,[z]),y)=f(g_f^{-1}\iota_f(y)g_f)f'(g_p^{-1}\iota_p(y)g_p)c(\chi_y,\mu_z(y))$ (zero unless $y$ fixes $[z]$), which is
+invariant under simultaneous conjugation since $\chi$ and eigenvalues are conjugation invariant and $f,f'$ are invariant under
+conjugation by $K$, $K'$ (\lref{UpperTheory.Cb.Mark.cxSumAtM_orbit}). The finiteness hypotheses of \cref{pf:ks1:lem-unfold}
+hold: for fixed $(g,z)$ only finitely many $y$ fixing $[z]$ have $f(\dots)f'(\dots)\neq0$
+(\lref{GlobalTheory.FinFix.finite_fix_core}; an integrality argument at the finite places and a boundedness argument at the
+infinite places), and only finitely many points of $\mathcal X_\beta$
+contribute (\cref{pf:ks1:lem-finpts}). By \cref{pf:ks1:lem-unfold},
+$\Sigma_\beta=\ksonefs_{[y]}\ksonefs_{o\in Z(y)\backslash Y}|\mathrm{Stab}(y_o)\cap Z(y)|^{-1}\Phi(y_o,y)$. Fix $y$ and suppose some
+$\Phi(\cdot,y)$ is nonzero. Then $\iota_f(y)$ is conjugate to an element of the support of $f$, hence regular, and $y$ fixes a positive
+line; therefore $\chi_y$ has degree $n$ and is separable (\lref{GlobalTheory.LKCx.CxReg.sep_of_regAf}), and then $y$ fixes
+exactly one line in $\mathcal P_\beta/\C^\times$ (\cref{pf:ks1:lem-markuniq}(2)).
+Hence the $Z(y)$-orbits on $\{(gK,[z]):\Phi((gK,[z]),y)\neq0\}$ are the $Z(y)$-orbits of cosets $gK$, with $[z]$ the unique fixed line,
+the stabilisers agree, and the inner sum is $c(\chi_y,\mu(y))\,\mathrm{PS}(y)=w(y)$
+(\lref{GlobalTheory.T.conjugacyClassPart_eq_weight_mul_kottwitzPointSum}: for $y$ with a unique fixed positive line, the sum over
+$Z(y)$-orbits of pairs (coset, fixed line) is the weight times the point sum of $y$).
+Summing over $[\beta]$ gives $\Sigma=\ksonefs_{[\beta]}\ksonefs_{[y]}w(y)$.
+
+(b) Let $P=(\beta',\gamma,c')$ be a marked pair. Then $c'>0$ ($|\mu|^2=c'$ as in the proof of \cref{pf:ks1:lem-markuniq}) and
+$\beta'$ is a form; if $\beta$ is the chosen representative of its class, $\beta'=s\,g\beta g^*$, then
+$y_P:=(g^{-1}\gamma g,c')\in\Gamma_\beta$, as $(g^{-1}\gamma g)\beta(g^{-1}\gamma g)^*=g^{-1}\gamma(s^{-1}\beta')\gamma^*g^{-*}=c'\beta$. The
+conjugacy class of $y_P$ in $\Gamma_\beta$ depends only on the class of $P$, and the map $[P]\mapsto([\beta'],[y_P])$ is injective: if
+$\eta y_P\eta^{-1}=y_{P'}$ with $\eta\in\Gamma_\beta$, $\beta'=s\,g\beta g^*$ and $\beta''=s'\,g'\beta g'^*$ for $P'=(\beta'',\gamma',c')$, then
+$u=g'\eta g^{-1}$ satisfies $\gamma'=u\gamma u^{-1}$ and $\beta''=r\,u\beta'u^*$ for some $r\in\Q_{>0}$, so $P'$ is equivalent to $P$. Its image contains every class $[y]$ with $w(y)\neq0$ (if
+$w(y)\neq0$ then, as in (a), $\chi_y$ has degree $n$ and is separable, so $(\beta,y,s)$ is a pair, marked by $\mu(y)$); moreover
+$c(\chi_P,\mu_P)\,\mathrm T_P=w(y_P)$: the marking of $P$ is the eigenvalue on the positive fixed
+line by \cref{pf:ks1:lem-markuniq}, and the term of $P$ is the point sum of its centraliser
+(\lref{UpperTheory.Cb.Mark.clsW_regroup_of_conj_invariant}). Only finitely many marked classes have nonzero term
+(\lref{GlobalTheory.T.finite_markedPairClasses_degreeOne_term_ne_zero}). Regrouping the finite sum $\Sigma^{\mathrm{mk}}$ along
+this map gives $\Sigma^{\mathrm{mk}}=\ksonefs_{[\beta]}\ksonefs_{[y]}w(y)$.
+\end{proof}
+
+\begin{lemma}[Signs and local norms]\label{pf:ks1:lem-normsign}
+Let $L$ be a number field with an automorphism $\sigma\neq\mathrm{id}$ such that $\phi\circ\sigma=\overline{\phi}$ for every embedding $\phi:L\to\C$, let
+$S$ be a set of embeddings $L\to\C$ stable under complex conjugation with $4\mid|S|$, and let $p$ be a prime. Then there is $a\in L^\times$ with
+$\sigma(a)=a$, $\phi(a)<0$ for $\phi\in S$, $\phi(a)>0$ for $\phi\notin S$, and $a=u\,\sigma(u)$ for some $u\in(\ksoneAfp\otimes L)^\times$.
+\formallabel{GlobalTheory.T.exists_totallyReal_even_neg_places_local_norm}
+\formallabel{GlobalTheory.NormSign.exists_neg_even_norm_away}
+\end{lemma}
+
+\begin{proof}
+No embedding of $L$ is real: if $\phi$ were real, then $\phi\circ\sigma=\phi$ and $\sigma=\mathrm{id}$. We argue by induction on $|S|/4$. If $S=\emptyset$, take
+$a=1$. Otherwise choose $\varepsilon\in S$ and $\varepsilon'\in S\smallsetminus\{\varepsilon,\bar\varepsilon\}$ (possible since $|S|\ge4$); then
+$S'=S\smallsetminus\{\varepsilon,\bar\varepsilon,\varepsilon',\bar\varepsilon'\}$ is stable under conjugation and $|S'|=|S|-4$. By induction there is $b$ for $S'$.
+There is $c\in L^\times$ with $\sigma(c)=c$, negative at $\varepsilon$ and $\varepsilon'$ (hence at their conjugates, as $c$ is fixed by $\sigma$), positive at all
+other embeddings, and $c=u_c\sigma(u_c)$ with $u_c\in(\ksoneAfp\otimes L)^\times$
+(\lref{GlobalTheory.T.exists_realSubfield_negative_twoPlaces_normEverywhere}: such elements exist for any two embeddings which are neither equal
+nor conjugate). Then $a=bc$ has the required signs, is fixed by $\sigma$, and $a=(u_bu_c)\sigma(u_bu_c)$.
+\end{proof}
+
+\begin{lemma}[Moving definite pairs to marked pairs]\label{pf:ks1:lem-move}
+Assume $n$ odd. Let $Q_0\in F[X]$ be irreducible and let $\mu$ be a root of $v(Q_0)$. There is $A\in F[X]$ with the following
+properties.
+\begin{enumerate}[label=(\roman*)]
+\item For every definite pair $(\beta,\gamma,c)$ with $\chi_\gamma=Q_0$, the triple $(A(\gamma)\beta,\gamma,c)$ is a pair marked by $\mu$.
+\item Every pair $P$ with $\chi_P=Q_0$ which is marked by $\mu$ is of the form $(A(\gamma)\beta,\gamma,c)$ for a definite pair $(\beta,\gamma,c)$.
+\end{enumerate}
+In both cases there is $U\in(\ksoneAfp\otimes C)^\times$ commuting with $\gamma$ with $U\beta U^*=A(\gamma)\beta$.
+\formallabel{GlobalTheory.T.exists_polynomial_move_definiteSimilitudePair_marked}
+\formallabel{GlobalTheory.LKDef.move_definite}
+\end{lemma}
+
+\begin{proof}
+If there is neither a definite pair nor a pair marked by $\mu$ with polynomial $Q_0$, put $A=1$. Otherwise $Q_0$ is the
+polynomial of such a pair, hence monic of degree $n$ and separable, and all complex roots of $Q_0$ (under all embeddings of $F$) have absolute value $c^{1/2}$, $c\in\Q_{>0}$ the similitude factor
+of such a pair: for a definite pair this is the argument of \cref{pf:ks1:lem-roots}(1) at every infinite place, the form being definite there; for a
+pair marked by $\mu$ the form is definite at the places other than $v$, and at $v$ the orthogonal complement of the positive eigenline is a negative
+definite subspace stable under $\psi_v(\gamma)$, on which the same argument applies
+(\lref{GlobalTheory.LKMid.MarkEll.mark_ell}: the roots of the polynomial of a marked pair have absolute value
+$c^{1/2}$ under every embedding). Let $L=F[X]/(Q_0)$, a number field of degree $n$ over $F$; since
+$|z|^2=c$ for every root $z$, complex conjugation of $F$ extends to an involution $\sigma$ of $L$ with $\sigma(X)=c/X$ which induces complex
+conjugation under every embedding $L\to\C$ (\lref{GlobalTheory.T.cmField_conj_extends_of_adjoin_absSq}). Let $\varepsilon:L\to\C$ be the
+embedding over $v$ with $\varepsilon(X)=\mu$, and let $S$ be the set of embeddings $\phi:L\to\C$ such that either $\phi$ restricts to $v$ on $F$
+and $\phi\neq\varepsilon$, or $\phi$ restricts to $\bar v$ and $\phi\neq\bar\varepsilon$. Then $|S|=2(n-1)$, which is divisible by $4$ because
+$n$ is odd (this is the only place where $n$ odd is used). Let $a\in L^\times$ and $u\in(\ksoneAfp\otimes L)^\times$ with $a=u\,\sigma(u)$ be given by \cref{pf:ks1:lem-normsign} for $(L,\sigma,S,p)$, and
+let $A\in F[X]$ represent $a$. We show that $A$ has the stated properties.
+
+Let $Q=(\beta,\gamma,c)$ be a definite pair with $\chi_Q=Q_0$, and let $j:L\to C$ be the $F$-embedding with $j(X)=\gamma$, so
+$j(a)=A(\gamma)$. The element $j(a)\beta$ is again hermitian and $\gamma$ is a similitude of it with factor $c$, because $j(a)$ commutes with $\gamma$
+and $\beta j(y)^*=j(\sigma y)\beta$ for $y\in L$. At the infinite places, the sign conditions on $a$ turn the definite form $\beta$ into a form
+which is trivial at $\R$ and has, at $v$, a positive vector which is an eigenvector of $\psi_v(\gamma)$ with eigenvalue $\varepsilon(X)=\mu$
+(\lref{GlobalTheory.LKDef.DMove.dreal_move}: after diagonalising $\gamma$ at each infinite place, multiplication by $j(a)$ multiplies the
+diagonal entries of the hermitian form by the values $\phi(a)$). At the finite places away from $p$, the element $u$ gives
+$U\in(\ksoneAfp\otimes C)^\times$ commuting with $j(L)$, hence with $\gamma$, and with $U\beta U^*=j(a)\beta$
+(\lref{GlobalTheory.T.exists_adelicUnit_carrying_form_to_normMultiple}: a norm $a=u\sigma(u)$ from $\ksoneAfp\otimes L$ yields such a
+$U$); in particular $j(a)\beta$ is trivial at the finite places away from $p$, since $\beta$ is. Thus $(A(\gamma)\beta,\gamma,c)$ is a pair marked by
+$\mu$, which proves (i). Statement (ii) is proved in the same way, starting from $P$ and putting $\beta=j(a)^{-1}\beta_P$, with the inverse sign computation
+(\lref{GlobalTheory.LKDef.DMove.real_back}: if $P$ is marked by $\mu$, then the hermitian form attached to $j(a)^{-1}\beta_P$ by
+$\mathrm{herm}_w$ is positive definite at $v$ and negative definite at the other infinite places).
+\end{proof}
+
+\begin{proposition}[Marked pairs and definite pairs]\label{pf:ks1:prop-move}
+Assume $n$ odd. Let $\mathrm{sel}$ be a root selection. There is a bijection $[P]\mapsto[Q]$ from the set of classes of pairs $P$
+with $\chi_P$ irreducible and marked by $\mathrm{sel}(\chi_P)$ onto the set of classes of definite pairs $Q$ with $\chi_Q$ irreducible,
+such that $\chi_Q=\chi_P$ and $\mathrm T_Q=\mathrm T_P$ (for every $K,f$ with $f$ invariant under conjugation by $K$, every $r>0$ and every
+$K',\varphi$ with $\varphi$ invariant under twisted conjugation by $K'$; we only use $r=1$). Consequently, for every
+$\mathrm{wt}:F[X]\to\C$, $\Sigma^{\mathrm{mk}}_{\mathrm{sel}}(\mathrm{wt};K,f;K',f')=\Sigma^{\mathrm{def}}(\mathrm{wt};K,f;K',f')$.
+\formallabel{GlobalTheory.LKDef.cls_equiv_dcls_irr}
+\formallabel{GlobalTheory.LKDef.marked_field_pairs_sum_eq_definite_pairs_sum}
+\end{proposition}
+
+\begin{proof}
+For a monic irreducible $Q_0\in F[X]$ of degree $n$ let $A=A_{Q_0}$ be the polynomial of \cref{pf:ks1:lem-move} for $Q_0$ and
+$\mu=\mathrm{sel}(Q_0)$, and let $U$ be as there. If $(\beta',\gamma')=(s\,y\beta y^*,y\gamma y^{-1})$, then $A(\gamma')\beta'=s\,y(A(\gamma)\beta)y^*$, because
+$A(y\gamma y^{-1})=yA(\gamma)y^{-1}$; hence (i) and (ii) of \cref{pf:ks1:lem-move} are compatible with the equivalence relations and define mutually inverse maps on classes.
+Equivalent pairs with irreducible polynomial have the same polynomial, so $\chi$ is preserved. Finally $\mathrm T_P$ depends on $\beta$ only through the
+embedding $\iota_f$ of the centraliser, and $U$ identifies the embeddings for $P$ and $Q$ compatibly with $\gamma$, so $\mathrm T_P=\mathrm T_Q$
+(\lref{GlobalTheory.T.kottwitzTerm_eq_definitePair_of_local_isometry}: terms of pairs with the same $(\gamma,c)$ whose forms are related by an adelic
+unit away from $p$ commuting with $\gamma$ coincide). The last assertion follows by transporting the (finitely supported) sum along the bijection.
+\end{proof}
+
+\begin{proposition}[Fixed point sums and definite pairs]\label{pf:ks1:prop-h1}
+Assume $n$ odd. Let $c:F[X]\times\C\to\C$, $K$ a level, $f$ a test function for $K$ supported on regular elements, $K'$ and $f'$ as in
+\cref{pf:ks1:prop-cxcount}, and assume $\mathrm T_P(K,f;K',f')=0$ for every marked pair with reducible $\chi_P$. Then
+\[\Sigma(c;K,f;K',f')=\Sigma^{\mathrm{def}}(\mathrm{rs}(c);K,f;K',f'),\qquad \mathrm{rs}(c)(Q)=\sum_{\mu}c(Q,\mu),\]
+the sum over the roots $\mu$ of $v(Q)$ with multiplicity.
+\formallabel{UpperTheory.Gal.Cnt.weighted_count_definite_unitary}
+\formallabel{GlobalTheory.RootSumWeights.markWeightedFixedPoint_definitePair_odd_of_counts}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:ks1:prop-cxcount}, $\Sigma(c)=\Sigma^{\mathrm{mk}}(c)$. Choose maps $\mathrm{sel}_0,\dots,\mathrm{sel}_{n-1}:F[X]\to\C$ such that
+for every monic $Q$ of degree $n$ the roots of $v(Q)$, with multiplicity, are $\mathrm{sel}_0(Q),\dots,\mathrm{sel}_{n-1}(Q)$; each
+$\mathrm{sel}_j$ is a root selection since $v$ is the only place of signature $(1,n-1)$. Let $P$ be a marked pair with $\chi_P$
+irreducible. Its marking $\mu_P$ is a root of $v(\chi_P)$ and is unique (\cref{pf:ks1:lem-markuniq}); as $\chi_P$ is separable, there is
+exactly one $j$ with $\mathrm{sel}_j(\chi_P)=\mu_P$, and $P$ is marked by $\mathrm{sel}_j(\chi_P)$ for that $j$ only. Marked pairs with
+reducible $\chi_P$ contribute $0$ by hypothesis. Hence, the sums being finite
+(\lref{GlobalTheory.RootSumWeights.finitely_many_marked_classes_term_degree_one}),
+\[\Sigma^{\mathrm{mk}}(c)=\sum_{j<n}\Sigma^{\mathrm{mk}}_{\mathrm{sel}_j}\bigl(Q\mapsto c(Q,\mathrm{sel}_j(Q))\bigr)=
+\sum_{j<n}\Sigma^{\mathrm{def}}\bigl(Q\mapsto c(Q,\mathrm{sel}_j(Q))\bigr)=\Sigma^{\mathrm{def}}(\mathrm{rs}(c)),\]
+by \cref{pf:ks1:prop-move} (test functions for $K$ and $K'$ satisfy its invariance hypotheses) and since
+$\sum_jc(Q,\mathrm{sel}_j(Q))=\mathrm{rs}(c)(Q)$ for the monic polynomials $\chi_Q$ of degree $n$; the finiteness of the set of definite
+classes with nonzero summand, needed to exchange the sums, follows from that of marked classes via the bijection of
+\cref{pf:ks1:prop-move}.
+\end{proof}
+
+\begin{lemma}[Trace formula for finite double coset spaces]\label{pf:ks1:lem-finitetrace}
+Let $\iota:\Gamma\to H$ be an injective homomorphism, $K\subseteq H$ a subgroup, $\xi$ a finite-dimensional representation of $\Gamma$
+and $F:H\to\C$ bi-$K$-invariant with support in finitely many cosets $hK$. Assume $\iota(\Gamma)\backslash H/K$ is finite and
+$\Gamma_x=\iota^{-1}(xKx^{-1})$ is finite for every $x\in H$. Then
+\[\mathrm{htr}(\iota,K,\xi,F)=\ksonefs_{[\gamma]}\tr\xi(\gamma)\ksonefs_{q\in\iota(Z(\gamma))\backslash H/K}
+\frac{1}{|\iota(Z(\gamma))\cap qKq^{-1}|}F(q^{-1}\iota(\gamma)q).\]
+\formallabel{GlobalTheory.HeckeTrace.heckeTrace_eq_orbital}
+\end{lemma}
+
+\begin{proof}
+Let $x_1,\dots,x_r$ represent $\iota(\Gamma)\backslash H/K$ and $\Gamma_i=\Gamma_{x_i}$. A form $\phi$ is determined by the vectors
+$\phi(x_i)$, which lie in $V^{\Gamma_i}$, and every choice of such vectors defines a form; so $\mathcal M\cong\bigoplus_iV^{\Gamma_i}$ is
+finite-dimensional. The formula $(T\phi)(g)=\sum_{h\in H/K}F(h)\phi(gh)$ is a finite sum, independent of representatives, and defines
+an endomorphism of $\mathcal M$ (right $K$-invariance follows from the left $K$-invariance of $F$ by reindexing $h\mapsto kh$); so
+$\mathrm{htr}=\tr T$. The diagonal block of $T$ at $x_i$ is $v\mapsto\sum_hF(h)\xi(\gamma_h)v$, the sum over $hK$ with
+$x_ih\in\iota(\gamma_h)x_iK$; such $\gamma_h$ form a coset $\gamma_h\Gamma_i$, and $h\mapsto\gamma$ identifies the pairs
+$(hK,\gamma\in\gamma_h\Gamma_i)$ with the $\gamma\in\Gamma$, $hK=x_i^{-1}\iota(\gamma)x_iK$. With the projector
+$e_i=|\Gamma_i|^{-1}\sum_{\delta\in\Gamma_i}\xi(\delta)$ onto $V^{\Gamma_i}$ the block is therefore
+$|\Gamma_i|^{-1}\sum_{\gamma\in\Gamma}F(x_i^{-1}\iota(\gamma)x_i)\xi(\gamma)e_i$, and its trace is
+$|\Gamma_i|^{-1}\sum_\gamma F(x_i^{-1}\iota(\gamma)x_i)\tr\xi(\gamma)$, because $F(x_i^{-1}\iota(\gamma\delta)x_i)=F(x_i^{-1}\iota(\gamma)x_i)$
+for $\delta\in\Gamma_i$. Thus $\mathrm{htr}=\sum_{x}|\Gamma_x|^{-1}\sum_{\gamma}F(x^{-1}\iota(\gamma)x)\tr\xi(\gamma)$, the sum over
+$x\in\iota(\Gamma)\backslash H/K$. Apply \cref{pf:ks1:lem-unfold} to $\Gamma$ acting on $H/K$ through $\iota$ and
+$\Phi(xK,\gamma)=F(x^{-1}\iota(\gamma)x)\tr\xi(\gamma)$, which is invariant, has finite support in $\gamma$ (the support of $F$ meets
+finitely many cosets, each giving a coset of the finite group $\Gamma_x$) and finitely many relevant orbits; the stabiliser of $xK$ is
+$\Gamma_x$, and $Z(\gamma)$ corresponds to $\iota(Z(\gamma))$ since $\iota$ is injective.
+\end{proof}
+
+For a definite form $\beta$ (with its chosen $(x,t)$), a level $K$, a subgroup $K'\subseteq G_p$, functions $f$ on $G(\ksoneAfp)$ and $f'$ on $G_p$,
+and $y\in\Gamma_\beta$, put
+\[\mathrm{CS}_\beta(y)=\ksonefs_{q}\frac{1}{|\mathrm{stab}(q)\cap Z(y)|}\,f(q_f^{-1}\iota_f(y)q_f)\,f'(q_p^{-1}\iota_p(y)q_p),\]
+the sum over $q\in\iota(Z(y))\backslash(G(\ksoneAfp)\times G_p)/(K\times K')$ with chosen representatives, where $\iota=(\iota_f,\iota_p)$, $Z(y)$ is the
+centraliser of $y$ in $\Gamma_\beta$ and $\mathrm{stab}(q)=\{y'\in\Gamma_\beta:q^{-1}\iota(y')q\in K\times K'\}$.
+
+\begin{lemma}[Finitely many definite classes contribute]\label{pf:ks1:lem-dfin}
+Let $K$ be a level, $f$ a bi-$K$-invariant test function for $K$, $K'\subseteq G_p$ commensurable with $K_p$ and $f'$ a bi-$K'$-invariant test
+function for $K'$. Then only finitely many classes in $\mathrm{Cl}^{\mathrm{def}}_{\mathrm{pair}}$ have a chosen representative $Q$ with $\chi_Q$
+irreducible and $\mathrm T_Q(K,f;K',f')\neq0$.
+\formallabel{GlobalTheory.T.bi_invariant_conjugacy_classes_finite}
+\formallabel{GlobalTheory.LKDef.FinPairs.finite_classes_irr_term_ne_zero}
+\end{lemma}
+
+\begin{proof}
+The polynomials $\chi_Q$ of definite pairs $Q$ with $\chi_Q$ irreducible and $\mathrm T_Q\neq0$ form a finite set
+(\lref{GlobalTheory.T.finite_minpoly_definitePairs_term_ne_zero}), and for each polynomial $P_0$ only finitely many classes have a chosen
+representative $Q$ with $\chi_Q=P_0$ irreducible and $\mathrm T_Q\neq0$ (\lref{GlobalTheory.T.finite_definitePair_classes_fixed_minpoly_degree_one}).
+The set in question is contained in the union of these finite sets over the finitely many $P_0$.
+\end{proof}
+
+\begin{lemma}[Regrouping definite pairs]\label{pf:ks1:lem-regroup}
+Let $\mathrm{wt}:F[X]\to\C$ and let $K,f,K',f'$ be as in \cref{pf:ks1:lem-dfin}. Then
+\[\Sigma^{\mathrm{def}}(\mathrm{wt};K,f;K',f')=\ksonefs_{[\beta]\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{form}}}\ \ksonefs_{[y]}\mathrm{wt}(\chi_y)\,\mathrm{CS}_\beta(y),\]
+the inner sum over the conjugacy classes of $\Gamma_\beta$ whose chosen representative $y$ is regular irreducible.
+\formallabel{GlobalTheory.T.bi_invariant_test_function_sum}
+\formallabel{GlobalTheory.LKDef.Regroup.regroup}
+\formallabel{GlobalTheory.LKDef.Regroup.regroup_of}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal I$ be the set of pairs $([\beta],[y])$ with $[\beta]\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{form}}$, with chosen representative $\beta$,
+and $[y]$ a conjugacy class of $\Gamma_\beta$ whose chosen representative $y=(y,s)$ is regular irreducible. Then $(\beta,y,s)$ is a definite pair;
+let $\kappa([\beta],[y])\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{pair}}$ be its class.
+
+(a) $\kappa$ is injective. Let $\kappa([\beta_1],[y_1])=\kappa([\beta_2],[y_2])$, so $\beta_2=r\,u\beta_1u^*$ and $y_2=uy_1u^{-1}$ with $u\in C^\times$ and
+$r\in\Q_{>0}$. Then $s_2\beta_2=y_2\beta_2y_2^*=r\,u(y_1\beta_1y_1^*)u^*=s_1\beta_2$, so $s_2=s_1$. The forms $\beta_1$, $\beta_2$ are
+equivalent chosen representatives, so $\beta_1=\beta_2=:\beta$, and $(u,r^{-1})\in\Gamma_\beta$ conjugates $(y_1,s_1)$ to $(y_2,s_2)$; so $[y_1]=[y_2]$.
+
+(b) The image of $\kappa$ contains every class of definite pairs with irreducible polynomial. Let $Q=(\beta',\gamma,c)$ be a definite pair with
+$\chi_\gamma$ irreducible. First, $c>0$: the relation $\psi_w(x^*)=\mathrm{gr}_w^{-1}\psi_w(x)^\dagger\mathrm{gr}_w$ gives
+$\mathrm{herm}_w(g\beta'g^*)=\psi_w(g^{-1})^\dagger\,\mathrm{herm}_w(\beta')\,\psi_w(g^{-1})$ for $g\in C^\times$, while
+$\mathrm{herm}_w(c\beta')=c^{-1}\mathrm{herm}_w(\beta')$; for $g=\gamma$ and an infinite place $w$, at which $\mathrm{herm}_w(\beta')$ is definite,
+this forces $c>0$. Let $\beta$ be the chosen representative of the class of $\beta'$, $\beta'=r\,u\beta u^*$. Then $y=(u^{-1}\gamma u,c)\in\Gamma_\beta$,
+as $u^{-1}\gamma u\,\beta\,(u^{-1}\gamma u)^*=r^{-1}u^{-1}\gamma\beta'\gamma^*u^{-*}=c\beta$, and $y$ is regular irreducible. If $y_0=\eta y\eta^{-1}$, with
+$\eta=(h,r')\in\Gamma_\beta$, is the chosen representative of $[y]$, then $\beta'=rr'\,w\beta w^*$ and $\gamma=wy_0w^{-1}$ for $w=uh^{-1}$, so $(\beta,y_0,c)$
+is equivalent to $Q$ and $[Q]=\kappa([\beta],[y])$.
+
+(c) For $([\beta],[y])\in\mathcal I$ the summand of $\Sigma^{\mathrm{def}}$ at $\kappa([\beta],[y])$ is $\mathrm{wt}(\chi_y)\,\mathrm{CS}_\beta(y)$: the
+polynomial is $\chi_y$, the term of a definite pair does not change under equivalence (as $f$, $f'$ are invariant under conjugation by $K$, $K'$),
+and the term of $(\beta,y,s)$ is $\mathrm{CS}_\beta(y)$ (\lref{GlobalTheory.T.definitePair_term_eq_centraliser_orbit_sum}: the term of a definite
+pair $(\beta,y,s)$ equals the centraliser orbit sum of $y$ in $\Gamma_\beta$).
+
+By \cref{pf:ks1:lem-dfin} the summand of $\Sigma^{\mathrm{def}}$ has finite support, which lies in the image of $\kappa$ by (b). By (a) and (c) the
+finite sum can be reindexed along $\kappa$, which gives the sum of $\mathrm{wt}(\chi_y)\mathrm{CS}_\beta(y)$ over $\mathcal I$, a sum with finite
+support; grouping it by $[\beta]$ gives the right-hand side.
+\end{proof}
+
+\begin{lemma}[Hecke traces on definite forms]\label{pf:ks1:lem-dtrace}
+Let $\xi$ be a finite-dimensional representation of $C^\times\times\Q^\times$ and let $K,f,K',f'$ be as in \cref{pf:ks1:lem-dfin}. For every definite form
+$\beta$ (with its chosen $(x,t)$),
+\[\mathrm{tr}_\beta(\xi;K,f;K',f')=\ksonefs_{[y]}\tr\xi(y)\,\mathrm{CS}_\beta(y),\]
+the sum over all conjugacy classes of $\Gamma_\beta$, with chosen representatives $y$.
+\formallabel{GlobalTheory.T.heckeTrace_definiteForm_eq_sum_conjClasses}
+\formallabel{GlobalTheory.HeckeTrace.dform_trace_eq}
+\end{lemma}
+
+\begin{proof}
+Apply \cref{pf:ks1:lem-finitetrace} to $\Gamma=\Gamma_\beta$, $H=G(\ksoneAfp)\times G_p$, $\iota=(\iota_f,\iota_p)$, the subgroup $K\times K'$ and
+$F=f\otimes f'$. The homomorphism $\iota$ is injective, since already $(y,s)\mapsto(xyx^{-1},s)$ is. The function $F$ is bi-$(K\times K')$-invariant
+because $f$ and $f'$ are bi-invariant. The finiteness hypotheses hold: $F$ is supported on finitely many cosets $h(K\times K')$
+(\lref{GlobalTheory.T.heckeTestProduct_support_finite_leftCosets}), the double coset space $\iota(\Gamma_\beta)\backslash H/(K\times K')$ is finite
+(\lref{GlobalTheory.T.finite_doubleCoset_definiteHermitianForm_level}, finiteness of the class number of the definite group), and the groups
+$\iota^{-1}(h(K\times K')h^{-1})$ are finite (\lref{GlobalTheory.T.definiteForm_stabilizer_finite_away_from_p}). The inner sums of
+\cref{pf:ks1:lem-finitetrace} are the sums $\mathrm{CS}_\beta(y)$ (\lref{GlobalTheory.HeckeTrace.orbital_eq_centSum}: both are the same sum over
+$\iota(Z(y))\backslash H/(K\times K')$).
+\end{proof}
+
+\begin{proposition}[Definite pairs and definite traces]\label{pf:ks1:prop-h2}
+Let $\xi$ be a finite-dimensional representation of $C^\times\times\Q^\times$ and $\mathrm{wt}:F[X]\to\C$ such that
+$\tr\xi(y)=\mathrm{wt}(\chi_y)$ for every definite form $\beta$ and every $(y,s)\in\Gamma_\beta$ with $\chi_y$ of degree $n$ and
+separable. Let $K$ be a level, $f$ a bi-$K$-invariant test function for $K$, $K'$ commensurable with $K_p$, $f'$ a bi-$K'$-invariant
+test function for $K'$, and assume that the orbital integral of $f\otimes f'$ (for $K\times K'$) at $(\iota_f(y),\iota_p(y))$ vanishes
+for every definite form $\beta$ and every $y\in\Gamma_\beta$ which is not regular irreducible. Then
+$\Sigma^{\mathrm{def}}(\mathrm{wt};K,f;K',f')=\mathrm{Tr}^{\mathrm{def}}(\xi;K,f;K',f')$.
+\formallabel{UpperTheory.Gal.Cnt.trace_definite_forms_identity}
+\formallabel{GlobalTheory.LKDef.trace_definite_forms_identity}
+\end{proposition}
+
+\begin{proof}
+Let $\mathrm{CS}_\beta(y)$ be the sums defined before \cref{pf:ks1:lem-dfin}.
+\begin{enumerate}
+\item $\Sigma^{\mathrm{def}}(\mathrm{wt})=\ksonefs_{[\beta]\in\mathrm{Cl}^{\mathrm{def}}_{\mathrm{form}}}\ksonefs_{[y]}\mathrm{wt}(\chi_y)\,\mathrm{CS}_\beta(y)$, the inner sum
+  over the conjugacy classes of $\Gamma_\beta$ consisting of regular irreducible elements, by \cref{pf:ks1:lem-regroup}.
+\item $\mathrm{tr}_\beta(\xi;K,f;K',f')=\ksonefs_{[y]}\tr\xi(y)\,\mathrm{CS}_\beta(y)$, the sum over all conjugacy classes of $\Gamma_\beta$, by
+  \cref{pf:ks1:lem-dtrace}.
+\item If $y$ is not regular irreducible, $\mathrm{CS}_\beta(y)=0$: $\mathrm{CS}_\beta(y)$ is a rational multiple of the orbital integral of
+  $f\otimes f'$ at $(\iota_f(y),\iota_p(y))$, which vanishes by hypothesis
+  (\lref{GlobalTheory.T.centSum_eq_zero_of_orbitalIntegral_eq_zero}).
+\item If $y$ is regular irreducible, then $\chi_y$ has degree $n$ and is separable, so $\tr\xi(y)=\mathrm{wt}(\chi_y)$.
+\end{enumerate}
+By (2)--(4), $\mathrm{tr}_\beta=\ksonefs_{[y]\ \mathrm{reg.\ irr.}}\mathrm{wt}(\chi_y)\mathrm{CS}_\beta(y)$; summing over $[\beta]$ and comparing
+with (1) gives the assertion.
+\end{proof}
+
+\begin{remark}\label{pf:ks1:rem-counting}
+\Cref{pf:ks1:prop-h1} is a formal counterpart of the comparison, going back to Kottwitz \cite{Kottwitz1990,Kottwitz1992}, between
+fixed points of Hecke correspondences on unitary Shimura varieties and orbital integrals on an inner form which is definite at
+infinity; \cref{pf:ks1:prop-h2} is the trace formula for a group which is compact at infinity, i.e.\ for the algebraic modular forms of
+\cite{Gross1999}. Both are proved in the development from scratch, for the specific sums of \cref{pf:ks1:def-forms,pf:ks1:def-pairs}.
+\end{remark}
+
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Lefschetz weights and Schur polynomials}\label{pf:ks1:sec-schur}
+
+Let $R$ be a commutative $\Q$-algebra. For $g\in R^n$, $y\in R$ and $i<n$ let $g^{(i,y)}$ be $g$ with $g_i$ replaced by $yg_i$, and
+$g^{[i,y]}$ be $g$ with $g_k$ replaced by $yg_k$ for all $k\neq i$. Put $V(g)=\prod_{i<j}(g_i-g_j)$ and
+$\det\nolimits_1(x,g)=\prod_j(1-xg_j)$. For $\mu\in\N^n$, $s_\mu$ is the Jacobi--Trudi determinant $\det(h_{\mu_i-i+j})$ of complete
+symmetric polynomials (indices from $0$). We use the following standard facts \cite[Ch.~I, \S3]{Macdonald1995}, all proved in the
+development: $s_\mu$ is symmetric (\lref{GroundTheory.Heights₂.Heights.RestTerms.Schur.schur_isSymmetric}); $s_0=1$ and
+$s_{\mu+(m,\dots,m)}(g)=(\prod_kg_k)^m s_\mu(g)$ (\lref{UpperTheory.Gal.Schur.SchurDet_holds}); $s_\mu(yg)=y^{|\mu|}s_\mu(g)$ with
+$|\mu|=\sum\mu_k$ (\lref{UpperTheory.Gal.Schur.schurHomog}); and the bialternant formula
+\begin{equation}\label{pf:ks1:eq-bialt}
+s_\mu(g)\,V(g)=\det\bigl(g_j^{\,\mu_i+n-1-i}\bigr)_{i,j<n}
+\end{equation}
+(\lref{UpperTheory.Gal.Schur.tie}). For a finite set $I$, $t_0\neq t_1\in I$, $\varepsilon:I\to\N$, a family $g=(g_t)_{t\in I}$ of
+vectors in $R^n$, $y\in R$ and $i<n$ define the \emph{twisted family} $\mathrm{tw}_i(g)$ by $\mathrm{tw}_i(g)_{t_0}=g_{t_0}^{(i,y)}$,
+$\mathrm{tw}_i(g)_{t_1}=g_{t_1}^{[i,y]}$ and $\mathrm{tw}_i(g)_t=y^{\varepsilon(t)}g_t$ otherwise.
+
+\begin{lemma}[Determinants with scaled columns]\label{pf:ks1:lem-mixdet}
+Let $M\in M_n(R)$ and $d,d'\in R^n$, and for $i<n$ let $M^{(i)}$ be the matrix whose $i$-th column is $\mathrm{diag}(d)M_{\cdot i}$ and whose
+$j$-th column is $\mathrm{diag}(d')M_{\cdot j}$ for $j\neq i$. Then $\sum_i\det M^{(i)}=\bigl(\sum_ad_a\prod_{b\neq a}d'_b\bigr)\det M$.
+\formallabel{UpperTheory.Gal.Schur.mixDet}
+\end{lemma}
+
+\begin{proof}
+By the Leibniz formula, $\sum_i\det M^{(i)}=\sum_\sigma\mathrm{sgn}(\sigma)\prod_xM_{\sigma(x),x}\cdot\sum_id_{\sigma(i)}\prod_{x\neq i}d'_{\sigma(x)}$, and
+the inner sum equals $\sum_ad_a\prod_{b\neq a}d'_b$ for every permutation $\sigma$ (put $a=\sigma(i)$).
+\end{proof}
+
+\begin{lemma}[Two Schur identities]\label{pf:ks1:lem-schury}
+Let $g\in R^n$ be such that $g_k-g_i$ is a unit for $k\neq i$, let $\mu\in\N^n$ and $y\in R$. Then
+\begin{align}
+\sum_{i<n}s_\mu(g^{(i,y)})\prod_{k\neq i}\frac{g_k-yg_i}{g_k-g_i}&=s_\mu(g)\sum_{i<n}y^{\mu_i+n-1-i},\label{pf:ks1:eq-schury}\\
+\sum_{i<n}s_\mu(g^{[i,y]})\prod_{k\neq i}\frac{g_i-yg_k}{g_i-g_k}&=s_\mu(g)\sum_{i<n}y^{\sum_{k\neq i}\mu_k+i}.\label{pf:ks1:eq-schuryoff}
+\end{align}
+\formallabel{UpperTheory.Gal.Schur.SchurY_holds}
+\formallabel{UpperTheory.Gal.Schur.SchurYOff_holds}
+\end{lemma}
+
+\begin{proof}
+Let $\ell_i=\mu_i+n-1-i$, $M(g)=(g_j^{\ell_i})_{i,j}$ and $d=(y^{\ell_i})_i$. Replacing $g_j$ by $yg_j$ multiplies the $j$-th column of
+$M(g)$ by $\mathrm{diag}(d)$; so $M(g^{(i,y)})=M(g)^{\{i\}}$ and $M(g^{[i,y]})=M(g)^{\{i\}^c}$ in the notation of
+\cref{pf:ks1:lem-mixdet}. Comparing the factors of $V$ which involve the index $i$ gives
+\[V(g^{(i,y)})=V(g)\prod_{k\neq i}\frac{g_k-yg_i}{g_k-g_i},\qquad
+V(g^{[i,y]})=y^{\binom{n-1}2}\,V(g)\prod_{k\neq i}\frac{g_i-yg_k}{g_i-g_k}.\] By \eqref{pf:ks1:eq-bialt} and \cref{pf:ks1:lem-mixdet},
+$\sum_is_\mu(g^{(i,y)})V(g^{(i,y)})=\sum_i\det M(g)^{\{i\}}=(\sum_ky^{\ell_k})\,s_\mu(g)V(g)$; dividing by the unit $V(g)$ gives
+\eqref{pf:ks1:eq-schury}. For \eqref{pf:ks1:eq-schuryoff} we first work in $R[Y]$ with $y=Y$. There
+$\sum_is_\mu(g^{[i,Y]})V(g^{[i,Y]})=e_{n-1}(d)\,s_\mu(g)V(g)$ and
+$e_{n-1}(d)=\sum_iY^{\sum_{k\neq i}\ell_k}=Y^{\binom{n-1}2}\sum_iY^{\sum_{k\neq i}\mu_k+i}$, since
+$\sum_{k\neq i}(n-1-k)=\binom n2-(n-1-i)=\binom{n-1}2+i$. Dividing by $V(g)$ and cancelling the non-zero-divisor
+$Y^{\binom{n-1}2}$ of $R[Y]$ gives \eqref{pf:ks1:eq-schuryoff} in $R[Y]$; evaluating at $Y=y$ gives it in $R$.
+\end{proof}
+
+\begin{lemma}[Twisted families]\label{pf:ks1:lem-fibre}
+Let $I$, $t_0\neq t_1$, $\varepsilon$, $g$, $y$ be as above, $\lambda:I\to\N^n$, $m\in\N$, and put
+$\Sigma_\varepsilon=\sum_{t\neq t_0,t_1}\varepsilon(t)|\lambda(t)|$.
+\begin{enumerate}
+\item If $\lambda(t_1)=(m,\dots,m)$ and the $g_{t_0,k}-g_{t_0,i}$ ($k\neq i$) are units, then
+\[\sum_i\Bigl(\prod_ts_{\lambda(t)}(\mathrm{tw}_i(g)_t)\Bigr)\prod_{k\neq i}\frac{g_{t_0,k}-yg_{t_0,i}}{g_{t_0,k}-g_{t_0,i}}
+=\prod_ts_{\lambda(t)}(g_t)\cdot y^{(n-1)m+\Sigma_\varepsilon}\sum_iy^{\lambda(t_0)_i+n-1-i}.\]
+\item If $\lambda(t_0)=(m,\dots,m)$ and the $g_{t_1,k}-g_{t_1,i}$ ($k\neq i$) are units, then
+\[\sum_i\Bigl(\prod_ts_{\lambda(t)}(\mathrm{tw}_i(g)_t)\Bigr)\prod_{k\neq i}\frac{g_{t_1,i}-yg_{t_1,k}}{g_{t_1,i}-g_{t_1,k}}
+=\prod_ts_{\lambda(t)}(g_t)\cdot y^{m+\Sigma_\varepsilon}\sum_iy^{\sum_{k\neq i}\lambda(t_1)_k+i}.\]
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Schur.Fibre_holds}
+\formallabel{UpperTheory.Gal.Schur.FibreOff_holds}
+\end{lemma}
+
+\begin{proof}
+For $t\neq t_0,t_1$, homogeneity gives $s_{\lambda(t)}(y^{\varepsilon(t)}g_t)=y^{\varepsilon(t)|\lambda(t)|}s_{\lambda(t)}(g_t)$. In case (1),
+\[s_{\lambda(t_1)}(g_{t_1}^{[i,y]})=\Bigl(\prod_kg^{[i,y]}_{t_1,k}\Bigr)^m=y^{(n-1)m}s_{\lambda(t_1)}(g_{t_1}),\]
+so the $i$-th summand is $y^{(n-1)m+\Sigma_\varepsilon}\prod_{t\neq t_0}s_{\lambda(t)}(g_t)$ times the $i$-th summand of
+\eqref{pf:ks1:eq-schury} for $g_{t_0}$ and $\lambda(t_0)$, and \cref{pf:ks1:lem-schury} gives the claim. Case (2) is the same with
+$s_{\lambda(t_0)}(g_{t_0}^{(i,y)})=y^ms_{\lambda(t_0)}(g_{t_0})$ and \eqref{pf:ks1:eq-schuryoff} for $g_{t_1}$.
+\end{proof}
+
+A subset $S\subseteq K^\sigma$ ($K$ a field, $\sigma$ finite) is \emph{Zariski dense} if the only polynomial in $K[X_s:s\in\sigma]$
+vanishing on $S$ is $0$.
+
+\begin{lemma}[Dense cosets]\label{pf:ks1:lem-dense}
+Let $O$ be a ring, $K$ a field of characteristic $0$, $I$ a finite set and $(\tau_t)_{t\in I}$ pairwise distinct ring homomorphisms
+$O\to K$. Let $N\in O$ with $\tau_t(N)\neq0$ for all $t$, $k\ge0$, $a\in O^k$ and $0\neq Q\in K[X_{t,s}:t\in I,s<k]$. Then the set of
+points $x(\alpha)=(\tau_t(\alpha_s))_{t,s}$ with $\alpha\in O^k$, $\alpha\equiv a\bmod N$ and $Q(x(\alpha))\neq0$ is Zariski dense.
+\formallabel{UpperTheory.Gal.Schur.DenseCoset_holds}
+\end{lemma}
+
+\begin{proof}
+The vectors $(\tau_t(x))_t$, $x\in O$, span $K^I$: otherwise a nonzero linear form $\sum_tc_t\tau_t$ would vanish on $O$, contradicting the
+linear independence of distinct monoid homomorphisms $(O,\cdot)\to(K,\cdot)$ (Dedekind--Artin). Choose $x_1,\dots,x_r\in O$
+($r=|I|$) such that the vectors $(\tau_t(x_j))_t$ form a basis. Let $\Phi$ vanish at all $x(\alpha)$ with $\alpha\equiv a\bmod N$. For
+$n=(n_{j,s})\in\Z^{r\times k}$ put $\alpha_s=a_s+N\sum_jn_{j,s}x_j$; then $\tau_t(\alpha_s)=\tau_t(a_s)+\tau_t(N)\sum_jn_{j,s}\tau_t(x_j)$, so
+$\Phi\circ L$ vanishes on $\Z^{r\times k}$ for the invertible affine map $L:K^{r\times k}\to K^{I\times k}$ given by these formulas. A polynomial
+over a field of characteristic $0$ vanishing on $\Z^{r\times k}$ is zero, hence $\Phi=0$: the coset is Zariski dense. Finally if $\Phi$
+vanishes at the points of the coset with $Q(x(\alpha))\neq0$, then $\Phi Q$ vanishes on the whole coset, so $\Phi Q=0$ and $\Phi=0$.
+\end{proof}
+
+\begin{lemma}[Interpolation]\label{pf:ks1:lem-interp}
+Let $O$, $K$, $I$, $(\tau_t)$ be as in \cref{pf:ks1:lem-dense}, $n\ge0$, and $P_t\in K[X_1,\dots,X_n]$ symmetric ($t\in I$). There is $k_0$
+such that for every $k\ge k_0$, every $N\in O$ with all $\tau_t(N)\neq0$, every $a\in O^k$ and every $0\neq Q\in K[X_{t,s}]$, there is a
+finitely supported $c:O^k\to K$, supported on $\alpha$ with $\alpha\equiv a\bmod N$ and $Q(x(\alpha))\neq0$, such that for every commutative
+$K$-algebra $R$ and all $g=(g_t)_{t\in I}$, $g_t\in R^n$,
+\begin{equation}\label{pf:ks1:eq-interp}
+\sum_\alpha c_\alpha\prod_{t\in I}\prod_{s<k}\det\nolimits_1(\tau_t(\alpha_s),g_t)=\prod_{t\in I}P_t(g_t).
+\end{equation}
+\formallabel{UpperTheory.Gal.Schur.Interp_holds}
+\formallabel{UpperTheory.Gal.Schur.interp_of}
+\end{lemma}
+
+\begin{proof}
+(1) Every symmetric $P$ is a polynomial in the elementary symmetric polynomials $e_1,\dots,e_n$; writing each monomial as a product of
+exactly $k$ factors $e_{m_1}\cdots e_{m_k}$ with $m_s\in\{0,\dots,n\}$ ($e_0=1$), which is possible as soon as $k$ is at least the degree,
+we get, for all $k\ge k_0(P)$, $P=\sum_{m\in\{0..n\}^k}w(m)\prod_se_{m_s}$. Taking
+$k_0=\max_tk_0(P_t)$ and multiplying over $t$, for $k\ge k_0$ there is $w:\{0..n\}^{I\times k}\to K$ with
+$\prod_tP_t(g_t)=\sum_mw(m)\prod_{t,s}(-1)^{m_{t,s}}e_{m_{t,s}}(g_t)$ for all $R$ and $g$
+(the signs are absorbed into $w$).
+
+(2) Since $\det_1(x,g)=\sum_{j=0}^n(-x)^je_j(g)$, for $x\in K^{I\times k}$ we have
+$\prod_{t,s}\det_1(x_{t,s},g_t)=\sum_mx^m\prod_{t,s}(-1)^{m_{t,s}}e_{m_{t,s}}(g_t)$, with $x^m=\prod_{t,s}x_{t,s}^{m_{t,s}}$.
+
+(3) Let $S$ be the set of $\alpha$ in the statement; by \cref{pf:ks1:lem-dense} the points $x(\alpha)$, $\alpha\in S$, are Zariski dense. Then the
+vectors $(x(\alpha)^m)_m\in K^{\{0..n\}^{I\times k}}$, $\alpha\in S$, span: a linear form $(u_m)\mapsto\sum_m\varphi_mu_m$ vanishing on them
+gives the polynomial $\sum_m\varphi_mX^m$ (distinct exponent vectors give distinct monomials) vanishing on a dense set, so $\varphi=0$. Choose a finitely supported $c$ on $S$ with $\sum_\alpha c_\alpha x(\alpha)^m=w(m)$ for all $m$.
+
+(4) By (2), (3) and (1), the left side of \eqref{pf:ks1:eq-interp} is
+$\sum_m\bigl(\sum_\alpha c_\alpha x(\alpha)^m\bigr)\prod_{t,s}(-1)^{m_{t,s}}e_{m_{t,s}}(g_t)=\prod_tP_t(g_t)$.
+\end{proof}
+
+\begin{proposition}[Interpolation of Schur polynomials]\label{pf:ks1:prop-fibresum}
+Let $E$ be a number field, $K$ a field of characteristic $0$ and $\lambda:\Hom(E,K)\to\N^n$. There is $k_0$ such that for every $k\ge k_0$,
+every nonzero $N\in\OO_E$ and every finite $B\subseteq K$ there is a finitely supported $c:\OO_E^k\to K$, supported on $\alpha$ with
+$\alpha_s\neq0$, $N\mid\alpha_s$ and $1-\tau(\alpha_s)b\neq0$ for all $s$, $\tau$ and $b\in B$, with the following property. For every
+commutative $K$-algebra $R$, $t_0\neq t_1$ in $\Hom(E,K)$, $\varepsilon$, $m$, $g:\Hom(E,K)\to R^n$ and $y\in R$, the identities of
+\cref{pf:ks1:lem-fibre} hold with $\prod_ts_{\lambda(t)}(\mathrm{tw}_i(g)_t)$ replaced by
+$\sum_\alpha c_\alpha\prod_t\prod_s\det_1(t(\alpha_s),\mathrm{tw}_i(g)_t)$.
+\formallabel{UpperTheory.Gal.Schur.FibreSum_holds}
+\formallabel{UpperTheory.Gal.Schur.InterpNF_holds}
+\end{proposition}
+
+\begin{proof}
+First we find $c$ with \eqref{pf:ks1:eq-interp} for $P_\tau=s_{\lambda(\tau)}$. If
+$\Hom(E,K)=\emptyset$, take $c$ the indicator of $(N,\dots,N)$: both sides of \eqref{pf:ks1:eq-interp} are empty products. Otherwise apply
+\cref{pf:ks1:lem-interp} with $O=\OO_E$, $I=\Hom(E,K)$, $\tau_t=t|_{\OO_E}$ (pairwise distinct since $\OO_E$ generates $E$), $P_t=s_{\lambda(t)}$,
+$a=0$ and $Q=\prod_{t,s}X_{t,s}\prod_{b\in B}(1-X_{t,s}b)$, which is nonzero; for $\alpha$ in the support, $Q(x(\alpha))\neq0$ gives
+$t(\alpha_s)\neq0$ (so $\alpha_s\neq0$) and $1-t(\alpha_s)b\neq0$, and $\alpha_s\equiv0\bmod N$. Now, exchanging the finite sums over $\alpha$ and $i$,
+$\sum_\alpha c_\alpha\sum_i\prod_t\prod_s\det_1(t(\alpha_s),\mathrm{tw}_i(g)_t)C_i=\sum_i\prod_ts_{\lambda(t)}(\mathrm{tw}_i(g)_t)C_i$ for any
+$C_i\in R$, by \eqref{pf:ks1:eq-interp} applied to the family $\mathrm{tw}_i(g)$; \cref{pf:ks1:lem-fibre} concludes.
+\end{proof}
+
+\begin{proposition}[Root sums of Lefschetz weights]\label{pf:ks1:prop-rootw}
+Let $F$ be a number field, $t_0:F\to\C$ with $\bar t_0\neq t_0$, $\varepsilon:\Hom(F,\C)\to\N$, $\lambda:\Hom(F,\C)\to\N^n$, and $h$ a Hodge
+exponent vector for $(t_0,\varepsilon,\lambda)$. There is $k_0$ such that for every $k\ge k_0$ there is a finitely supported
+$c:\OO_F^k\to\C$, supported on $\alpha$ with every $\alpha_s$ nonzero and divisible by $2$, such that for every separable $\chi\in F[X]$ of degree
+$n$ with $\chi(0)\neq0$ whose roots under $t_0$ all have the same absolute value, and every $y\in\C$,
+\begin{equation}\label{pf:ks1:eq-rootw}
+\sum_\alpha c_\alpha\sum_{\mu}\mathrm{loc}(\alpha,\chi,\mu,y)=\mathrm{S}_\lambda(\chi)\sum_{i<n}y^{h_i},
+\end{equation}
+the inner sum over the roots $\mu$ of $t_0(\chi)$ with multiplicity.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.RootW_holds}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.rootW_of}
+\formallabel{UpperTheory.Gal.W2.RootSumW_holds}
+\formallabel{UpperTheory.Gal.W2.RootSumWOff_holds}
+\end{proposition}
+
+\begin{proof}
+Let $c$ be given by \cref{pf:ks1:prop-fibresum} for $E=F$, $K=\C$, $N=2$, $B=\emptyset$. Let $\chi$ be as in the statement and, for every $\tau$, let
+$r_\tau=(r_{\tau,1},\dots,r_{\tau,n})$ list the roots of $\tau(\chi)$ with multiplicity (there are $n$ of them since $\C$ is
+algebraically closed); they are pairwise distinct, and $\mathrm{S}_\lambda(\chi)=\prod_\tau s_{\lambda(\tau)}(r_\tau)$ (\lref{UpperTheory.Gal.LocalSmoothExtension.schWEq_of}).
+Note $\bar t_0(x)=\overline{t_0(x)}$ and the roots of $\bar t_0(\chi)$ are the conjugates of those of $t_0(\chi)$.
+
+\emph{First case: $\lambda(\bar t_0)=(m,\dots,m)$.} Put $t_1=\bar t_0$, $g_{t_1}=\bar r_{t_0}$
+and $g_\tau=r_\tau$ for $\tau\neq t_1$. Since $g_{t_1}$ is a permutation of $r_{t_1}$ and Schur polynomials are symmetric,
+$\prod_\tau s_{\lambda(\tau)}(g_\tau)=\mathrm{S}_\lambda(\chi)$. For the root $\mu=r_{t_0,i}$ we have
+$\mathrm{ball}(\chi,\mu,y)=\prod_{k\neq i}(g_{t_0,k}-yg_{t_0,i})/(g_{t_0,k}-g_{t_0,i})$, and comparing factors,
+$\mathrm{fib}(\alpha_s,\chi,\mu,y)=\prod_\tau\det_1(\tau(\alpha_s),\mathrm{tw}_i(g)_\tau)$: for $\tau=t_0$ the factor is
+$(1-t_0(\alpha_s)y\mu)\prod_{k\neq i}(1-t_0(\alpha_s)r_{t_0,k})$, for $\tau=\bar t_0$ it is
+$(1-\overline{t_0(\alpha_s)}\bar\mu)\prod_{k\neq i}(1-\overline{t_0(\alpha_s)}y\bar r_{t_0,k})$, and for the other $\tau$ it is
+$\prod_r(1-\tau(\alpha_s)y^{\varepsilon(\tau)}r)$. Hence the left side of \eqref{pf:ks1:eq-rootw} is the left side of
+\cref{pf:ks1:prop-fibresum}(1), and equals $\mathrm{S}_\lambda(\chi)\,y^{(n-1)m+\Sigma_\varepsilon}\sum_iy^{\lambda(t_0)_i+n-1-i}=
+\mathrm{S}_\lambda(\chi)\sum_iy^{h_i}$ by the first case of the definition of $h$.
+
+\emph{Second case: $\lambda(t_0)=(m,\dots,m)$.} Put $t_1=\bar t_0$, $g_{t_0}=\bar r_{t_1}$ and
+$g_\tau=r_\tau$ for $\tau\neq t_0$; then $g_{t_0}$ lists the roots of $t_0(\chi)$, $g_{t_1,k}=\overline{g_{t_0,k}}$, and by hypothesis
+$g_{t_0,k}g_{t_1,k}=q$ for a constant $q$, which is nonzero as $\chi(0)\neq0$. For $\mu=g_{t_0,i}$, substituting $g_{t_0,k}=q/g_{t_1,k}$,
+\[\mathrm{ball}(\chi,\mu,y)=\prod_{k\neq i}\frac{q/g_{t_1,k}-yq/g_{t_1,i}}{q/g_{t_1,k}-q/g_{t_1,i}}=\prod_{k\neq i}\frac{g_{t_1,i}-yg_{t_1,k}}{g_{t_1,i}-g_{t_1,k}},\]
+and $\mathrm{fib}(\alpha_s,\chi,\mu,y)=\prod_\tau\det_1(\tau(\alpha_s),\mathrm{tw}_i(g)_\tau)$ as in the
+first case. Moreover $s_{\lambda(t_0)}(g_{t_0})=(\prod_kg_{t_0,k})^m=s_{\lambda(t_0)}(r_{t_0})$ since both products are the product of the roots of
+$t_0(\chi)$; so $\prod_\tau s_{\lambda(\tau)}(g_\tau)=\mathrm{S}_\lambda(\chi)$. \Cref{pf:ks1:prop-fibresum}(2) and the second case of the definition of
+$h$ give \eqref{pf:ks1:eq-rootw}.
+\end{proof}
+
+\begin{lemma}[Roots at the place of signature $(1,n-1)$]\label{pf:ks1:lem-roots}
+Let $a=1$, $a_G=1$ and let $v$ be the place of signature $(1,n-1)$.
+\begin{enumerate}
+\item For a definite pair $P=(\beta,\gamma,c_P)$, $\chi_P(0)\neq0$ and every root $\mu$ of $v(\chi_P)$ satisfies $|\mu|^2=c_P$.
+\item For $Q\in F_G[X]$ with $Q(0)\neq0$, the map $\mathrm{mk}$ carries the roots of $v(Q)$, with multiplicity, to the roots of
+  $\tau_{i_0}(Q^\vee)$, with multiplicity.
+\item If $Q\in F[X]$ has $Q(0)\neq0$, then $Q^\flat$ has the same degree, a nonzero constant term, and is separable if $Q$ is.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.dPairPol_of}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.markRoots_of}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.InvPolProps_holds}
+\end{lemma}
+
+\begin{proof}
+(1) $\gamma$ is a unit, so $\chi_P(0)\neq0$. A root $\mu$ of $v(\chi_P)$ is an eigenvalue of $\psi_v(\gamma)$
+(\lref{GlobalTheory.LKCx.PolyArch.roots_eig_any}: every root of $v(\chi_\gamma)$ is an eigenvalue of $\psi_v(\gamma)$); let $z\neq0$ be an eigenvector.
+From $\gamma\beta\gamma^*=c_P\beta$ one gets $\langle\psi_v(\gamma)z,\psi_v(\gamma)z\rangle=c_P\langle z,z\rangle$ for the hermitian form
+$\langle z,w\rangle=z^\dagger\mathrm{herm}_v(\beta)w$, which is definite, so $\langle z,z\rangle\neq0$ and $|\mu|^2=c_P$.
+(2) By the link, $v$ is the place of an embedding $\phi:F_G\to\C$ with $\phi\circ e=\tau_{i_0}$, so the roots of $\tau_{i_0}(Q^\vee)$ are the inverses of the
+roots of $\phi(Q)$ (\lref{UpperTheory.Gal.LocalSmoothExtension.InvRoots_holds}: the roots of $\tau(Q^\flat)$ are the inverses of those of $\tau(Q)$). If
+$v$ is given by $\phi$, then $v(e(\omega))=\rho_c$ and $\mathrm{mk}(\mu)=\mu^{-1}$. Otherwise $v$ is given by $\bar\phi$, $v(e(\omega))=\bar\rho_c\neq\rho_c$
+($\rho_c$ is not real since $\mathrm{tr}^2-4\,\mathrm{nm}<0$), the roots of $v(Q)$ are the conjugates of those of $\phi(Q)$, and $\mathrm{mk}(\mu)=\bar\mu^{-1}$.
+(3) $Q^\flat$ is $Q(0)^{-1}$ times the reversed polynomial; reversal preserves the degree when $Q(0)\neq0$, its constant term is the leading coefficient
+of $Q$, and its roots in an algebraic closure are the inverses of those of $Q$, so it is separable if $Q$ is.
+\end{proof}
+
+\begin{proposition}[The group side]\label{pf:ks1:prop-grouptop}
+Let $D$, $G$, $L$ be as in \cref{pf:ks1:sec-groups}, $\lambda:\Hom(F,\C)\to\N^n$, $i_0<a$ and $h$ a Hodge exponent vector for
+$(\tau_{i_0},\varepsilon_D,\lambda)$. There is $k_0$ such that for every $k\ge k_0$ there is a finitely supported $c:\OO_F^k\to\C$, supported on
+$\alpha$ with every $\alpha_s$ nonzero and even, with the following property. If $a=1$, $a_G=1$, $n$ is odd, $v$ is the place of signature
+$(1,n-1)$, $\xi$ has weight $\lambda$, $K$ is a level and $f$ is in the Hecke algebra of $K$ and good for $K$, then for all $y\in\C$
+\begin{equation}\label{pf:ks1:eq-grouptop}
+\Sigma\Bigl(\sum_\alpha c_\alpha\,c_W(\alpha,y);K,f;K_p,\mathbf 1_{K_p}\Bigr)=\mathrm{Tr}^{\mathrm{def}}(\xi;K,f;K_p,\mathbf 1_{K_p})\sum_{i<n}y^{h_i}.
+\end{equation}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.GroupTop_of}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.groupTop_of}
+\end{proposition}
+
+\begin{proof}
+Since $F$ is a CM field, $\tau_{i_0}$ is not real, so $\bar\tau_{i_0}\neq\tau_{i_0}$; let $k_0$ and $c$ be given by \cref{pf:ks1:prop-rootw} for
+$t_0=\tau_{i_0}$, $\varepsilon=\varepsilon_D$. Assume the hypotheses of the second part. A function in the Hecke algebra of $K$ is a bi-$K$-invariant
+test function for $K$, and $\mathbf 1_{K_p}$ is a bi-$K_p$-invariant test function for $K_p$. By goodness, $f$ is supported on regular elements
+and the terms of marked pairs with reducible polynomial vanish, so \cref{pf:ks1:prop-h1} applies:
+$\Sigma(\sum_\alpha c_\alpha c_W(\alpha,y))=\Sigma^{\mathrm{def}}(\mathrm{rs}(\sum_\alpha c_\alpha c_W(\alpha,y)))$. We claim that for every definite pair
+$P$,
+\begin{equation}\label{pf:ks1:eq-key}
+\mathrm{rs}\Bigl(\sum_\alpha c_\alpha c_W(\alpha,y)\Bigr)(\chi_P)=\mathrm{S}_\lambda(\chi_P^\vee)\sum_iy^{h_i}.
+\end{equation}
+Let $\chi=\chi_P^\vee$. By \cref{pf:ks1:lem-roots}, $\chi$ has degree $n$, is separable, $\chi(0)\neq0$, and its roots under $\tau_{i_0}$ are the
+$\mathrm{mk}(\mu)$, $\mu$ running over the roots of $v(\chi_P)$, so they all have absolute value $c_P^{-1/2}$. Hence \cref{pf:ks1:prop-rootw} applies
+to $\chi$ and
+\begin{align*}
+\mathrm{rs}\Bigl(\sum_\alpha c_\alpha c_W(\alpha,y)\Bigr)(\chi_P)&=\sum_\alpha c_\alpha\sum_{\mu}\mathrm{loc}(\alpha,\chi,\mathrm{mk}(\mu),y)\\
+&=\sum_\alpha c_\alpha\sum_{\mu'}\mathrm{loc}(\alpha,\chi,\mu',y)=\mathrm{S}_\lambda(\chi)\sum_iy^{h_i},
+\end{align*}
+with $\mu$ running over the roots of $v(\chi_P)$ and $\mu'$ over those of $\tau_{i_0}(\chi)$. This proves \eqref{pf:ks1:eq-key}. Since
+$\Sigma^{\mathrm{def}}$ is a sum of $\mathrm{wt}(\chi_P)$ times terms, \eqref{pf:ks1:eq-key} gives
+$\Sigma^{\mathrm{def}}(\mathrm{rs}(\dots))=\Sigma^{\mathrm{def}}(\mathrm{wt})\sum_iy^{h_i}$ with $\mathrm{wt}(Q)=\mathrm{S}_\lambda(Q^\vee)$. Finally,
+since $\xi$ has weight $\lambda$, $\tr\xi(y')=\mathrm{wt}(\chi_{y'})$ for the relevant $y'$, and the orbital integrals of $f\otimes\mathbf 1_{K_p}$ at
+elements which are not regular irreducible vanish by goodness; so \cref{pf:ks1:prop-h2} gives $\Sigma^{\mathrm{def}}(\mathrm{wt})=\mathrm{Tr}^{\mathrm{def}}(\xi;K,f;K_p,
+\mathbf 1_{K_p})$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Proof of the Hodge occurrence theorem}\label{pf:ks1:sec-proof}
+
+In this subsection $D$, $G$, $L$ satisfy the standing conditions $\mathrm{SC}(D,G)$ of \cref{pf:ks1:def-fixk}, and $T(f)$ denotes the
+Hecke operator \eqref{pf:ks1:eq-hecke} of a Hecke function $f$ on the Hodge cohomology of a Kuga--Sato tower over $\C$. For a finitely
+supported $c:\OO_F^k\to\C$ put $C_c=\sum_\alpha c_\alpha[\alpha]^*$.
+
+\begin{lemma}[Projectivity and smoothness]\label{pf:ks1:lem-ksproj}
+Let $g_b$ be a complex base, $T$ a Kuga--Sato tower for $(L,g_b,k)$ and $N$ a level. Then $Z_N\to\ksoneSp\C$ is projective and smooth of
+some relative dimension.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.KSProj_holds}
+\end{lemma}
+
+\begin{proof}
+$Z_N$ is isomorphic over $\C$ to $\mathcal A_N^k\to M_N\to\ksoneSp\C$. The complex base defines a base for $D$ over $\C$ (the conditions at $p$
+are automatic in characteristic $0$), so by \cref{pf:ks1:thm-models} there is a model of level $N$ over $\C$, and $M_N$ is an open and closed
+subscheme of it (\lref{GlobalTheory.T.exists_open_closed_immersion_genModel_to_fibre}: the characteristic-$0$ fine moduli scheme is open
+and closed in the corresponding fibre of the model). Since $D$ is of compact type, the model is projective
+(\lref{GlobalTheory.UPel.HT.Model.isProjOver_of_compactB}: models of compact type over Noetherian domains of characteristic $0$ are
+projective), hence so is $M_N$, and so is the fibre power $\mathcal A_N^k$ of the polarised abelian scheme $\mathcal A_N$
+(\lref{GlobalTheory.KS.isProjOver_pow}: fibre powers of a polarised abelian scheme over a projective base are projective). For
+smoothness, choose a prime $p'\nmid N$ at which the characteristic-$0$ datum underlying $D$ is a Harris--Taylor datum
+(\lref{GlobalTheory.GoodPrime.exists_datum}); by \cref{pf:ks1:thm-models} for $p'$ and $R=\C$ the corresponding model is smooth, so its
+open and closed subscheme $M_N$ is smooth; $\mathcal A_N\to M_N$ is smooth, and fibre powers of smooth morphisms of constant relative dimension
+are smooth (\lref{GlobalTheory.FibPow.smoothOfRelativeDimension_pow}: the $k$-th fibre power of a smooth morphism of relative dimension $e$ is
+smooth of relative dimension $ke$).
+\end{proof}
+
+\begin{proposition}[Geometric side]\label{pf:ks1:prop-geostep}
+Assume $\sfname{HLF}$ and $\sfname{FixK}$. Let $g_b$ be a standard complex base, $i_0<a$, $v$ the place of signature $(1,n-1)$, $T$ a Kuga--Sato
+tower for $(L,g_b,k)$, $N$ a level with $Z_N$ smooth of relative dimension $d$, $h$ an integral element such that $\mathbf 1_{K_Nh^{-1}K_N}$ is
+supported on regular elements, and $\alpha\in\OO_F^k$ with every $\alpha_s$ nonzero and even. Then the finiteness condition
+$\mathrm{Fin}(K_N,\mathbf 1_{K_Nh^{-1}K_N})$ holds and for all $y\in\C$
+\[\mathcal L_d\bigl(T(\mathbf 1_{K_Nh^{-1}K_N})\circ[\alpha]^*\bigr)(y)=\Sigma\bigl(c_W(\alpha,y);K_N,\mathbf 1_{K_Nh^{-1}K_N};K_p,\mathbf 1_{K_p}\bigr).\]
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.geoStep_of}
+\end{proposition}
+
+\begin{proof}
+By the tower axiom on deep levels applied to $(N,h)$ there is a level $N_1$ with $K_{N_1}\subseteq K_N$ and $hK_{N_1}h^{-1}\subseteq K_N$. Put
+$N'=NN_1$; it is $\ge3$ and prime to $p$, $N\mid N'$, and $K_{N'}\subseteq K_{N_1}$ since principal congruence subgroups decrease along
+divisibility. Hence $1$ and $h$ are admissible for $(N',N)$. Let $c_1=\mathrm{tr}(N',N,1)$, which is finite \'etale, and
+$c_2=[\alpha]\circ\mathrm{tr}(N',N,h)$. $\sfname{FixK}$ gives the finiteness condition, the finite \'etaleness of $c_2$, the fixed point set
+$\mathcal F$, tangent matrices $A_x$ with $\det(1-A_x)\neq0$, and \eqref{pf:ks1:eq-fixk}. By \cref{pf:ks1:lem-ksproj}, $Z_N$ is projective, so
+$\sfname{HLF}$ applies to $(c_1,c_2)$ and gives, for every $a$,
+$\sum_b(-1)^b\tr((c_1)_*c_2^*\mid\ksoneH{Z_N}{a}{b})=\sum_{x\in\mathcal F}[X^a]\det(1+XA_x)/\det(1-A_x)$. By \cref{pf:ks1:lem-hopop},
+$T(\mathbf 1_{K_Nh^{-1}K_N})=\delta^{-1}(c_1)_*\mathrm{tr}(N',N,h)^*$ with $\delta=[\mathrm{lev}(K_N,h):K_{N'}]\neq0$, so by functoriality of pull-backs
+$T(\mathbf 1_{K_Nh^{-1}K_N})\circ[\alpha]^*=\delta^{-1}(c_1)_*c_2^*$ on every $\ksoneH{Z_N}{a}{b}$. Multiplying by $(-y)^a$, summing over $a\le d$ and
+using \cref{pf:ks1:lem-lefsum},
+\[\mathcal L_d\bigl(T(\mathbf 1_{K_Nh^{-1}K_N})\circ[\alpha]^*\bigr)(y)=\delta^{-1}\sum_{x\in\mathcal F}\mathrm{lef}(A_x,y),\]
+and \eqref{pf:ks1:eq-fixk} gives the assertion.
+\end{proof}
+
+\begin{proposition}[Hodge traces]\label{pf:ks1:prop-hodgetr}
+Assume $\sfname{HLF}$ and $\sfname{FixK}$. Let $\lambda:\Hom(F,\C)\to\N^n$, $i_0<a$ and $h$ a Hodge exponent vector for
+$(\tau_{i_0},\varepsilon_D,\lambda)$. There is $k_0$ such that for every $k\ge k_0$ there is a finitely supported $c:\OO_F^k\to\C$ with the
+following property: for every standard complex base $g_b$, Kuga--Sato tower $T$ for $(L,g_b,k)$, level $N$ with $Z_N$ smooth of relative dimension
+$d$, representation $\xi$ of weight $\lambda$, and Hecke function $f$ at level $N$ which is good for $K_N$,
+\[\mathcal L_d\bigl(T(f)\circ C_c\bigr)(y)=\mathrm{Tr}^{\mathrm{def}}(\xi;K_N,f;K_p,\mathbf 1_{K_p})\sum_{i<n}y^{h_i}\qquad(y\in\C).\]
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.hodgeTr_of}
+\end{proposition}
+
+\begin{proof}
+Let $k_0$ and $c$ be given by \cref{pf:ks1:prop-grouptop}. Let $v$ be the place of signature $(1,n-1)$; $K_N$ is a level
+(\lref{GlobalTheory.LKGeo.KNLevel.exists_level_eq_KN}: principal congruence subgroups are compact open). The function $f$ is bi-$K_N$-invariant
+with finitely many cosets in its support, so it is a finite linear combination $f=\sum_lc_l\mathbf 1_{K_Nh_l^{-1}K_N}$ of the indicator functions of the
+double cosets in its support, with $h_l$ integral because $g^{-1}$ is integral for $g$ in the support. Since $f$ is supported on regular elements, so is
+each $\mathbf 1_{K_Nh_l^{-1}K_N}$, and \cref{pf:ks1:prop-geostep} applies to every $h_l$ and every $\alpha$ in the support of $c$; with $\alpha=(2,\dots,2)$
+it gives the finiteness conditions $\mathrm{Fin}(K_N,\mathbf 1_{K_Nh_l^{-1}K_N})$. The Hecke operator is linear in $f$ (\eqref{pf:ks1:eq-hecke} is linear
+and the operator is unique), and $\mathcal L_d$ is linear in its argument; hence
+\begin{align*}
+\mathcal L_d(T(f)\circ C_c)(y)&=\sum_lc_l\sum_\alpha c_\alpha\,\mathcal L_d\bigl(T(\mathbf 1_{K_Nh_l^{-1}K_N})\circ[\alpha]^*\bigr)(y)\\
+&=\sum_lc_l\sum_\alpha c_\alpha\,\Sigma\bigl(c_W(\alpha,y);K_N,\mathbf 1_{K_Nh_l^{-1}K_N}\bigr).
+\end{align*}
+Under the finiteness conditions all the sums defining $\Sigma(\,\cdot\,;K_N,\mathbf 1_{K_Nh_l^{-1}K_N})$ and $\Sigma(\,\cdot\,;K_N,f)$ run over subsets of one
+finite set of triples, so $\Sigma$ is linear in the weight and in the test function
+(\lref{UpperTheory.Gal.LocalSmoothExtension.CxLin_holds}), and the right side equals $\Sigma(\sum_\alpha c_\alpha c_W(\alpha,y);K_N,f)$. Now $f$ is in
+the Hecke algebra of $K_N$ and good, so \cref{pf:ks1:prop-grouptop} gives the assertion.
+\end{proof}
+
+\begin{lemma}\label{pf:ks1:lem-hexp}
+Let $t_0$, $\varepsilon$ be as in \cref{pf:ks1:def-hexp}.
+\begin{enumerate}
+\item If every $\lambda(\tau)$ is non-increasing, every Hodge exponent vector for $(t_0,\varepsilon,\lambda)$ is injective.
+\item For every finite set $I$, maps $t:I\to\Hom(F,\C)$ and every function $\kappa$ of $(\lambda',i,h)$ with values in $\N$, there is $k$ with
+  $\kappa(\sigma\lambda,i,h)\le k$ for all $\sigma\in\Aut(\C)$, $i\in I$ and Hodge exponent vectors $h$ for $(t(i),\varepsilon,\sigma\lambda)$.
+\item If $\sum_{a=0}^d(-y)^at_a=c\sum_{i<n}y^{h_i}$ for all $y\in\C$, with $c\neq0$ and $h$ injective, then $t_{h_i}\neq0$ (and $h_i\le d$) for all $i$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.hExpInj_of}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.unifBound_of}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.coeffOcc_of}
+\end{lemma}
+
+\begin{proof}
+(1) For $i<k$: in the first case $h_i-h_k=\lambda(t_0)_i-\lambda(t_0)_k+(k-i)>0$; in the second case $h_i-h_k=\lambda(\bar t_0)_k-\lambda(\bar t_0)_i+(i-k)<0$.
+(2) $\sigma\lambda=\lambda\circ\pi$ for the map $\pi=\sigma^{-1}\circ(\cdot)$ of the finite set $\Hom(F,\C)$ to itself, so $\sigma\lambda$ takes finitely many
+values; for fixed $\lambda'$ and $i$ there are finitely many Hodge exponent vectors (the two formulas). Take the maximum of $\kappa$ over this finite
+set. (3) Both sides are polynomials in $y$ which agree on $\C$; the coefficient of $y^{h_i}$ on the right is $c\neq0$ since $h$ is injective, and on the
+left it is $(-1)^{h_i}t_{h_i}$ if $h_i\le d$ and $0$ otherwise.
+\end{proof}
+
+\begin{lemma}[Common eigenvectors]\label{pf:ks1:lem-eigof}
+Let $B$ be a finite set, $W_b$ ($b\in B$) finite-dimensional complex vector spaces, and $T_{b,j}$ ($j\in J$), $u_b$ endomorphisms of $W_b$ such that
+$T_{b,j}T_{b,j'}T_{b,w}u_b=T_{b,j'}T_{b,j}T_{b,w}u_b$ for all $j,j'$ and all words $w$ (where $T_{b,w}=T_{b,j_1}\cdots T_{b,j_r}$). For every
+$\theta:J\to\C$ there is a noncommutative polynomial $s$ with $s(\theta)=1$ such that for every $b$ with $s(T_b)u_b\neq0$ there is $0\neq x\in W_b$
+with $T_{b,j}x=\theta_jx$ for all $j$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.EigOf_holds}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.eigOf_of}
+\end{lemma}
+
+\begin{proof}
+Let $U_b\subseteq W_b$ be the span of the images of the $T_{b,w}u_b$. It is stable under every $T_{b,j}$, and by hypothesis the restrictions
+$S_{b,j}=T_{b,j}|_{U_b}$ commute. The elements $S_j=(S_{b,j})_b$ of the finite-dimensional algebra $\prod_b\End(U_b)$ commute, so there is a
+noncommutative polynomial $s$ with $s(\theta)=1$, $s(S)$ idempotent and $(S_j-\theta_j)^Ms(S)=0$ for all $j$ and some $M$
+(\lref{UpperTheory.Gal.CertificateRingHomMap.pProjOne_holds}: such ``certificate'' polynomials exist for commuting elements of a finite-dimensional
+algebra). If $s(T_b)u_bz\neq0$, then $y=s(S_b)(u_bz)\in U_b$ is nonzero and lies in the generalised $\theta_j$-eigenspace of every $S_{b,j}$. The
+intersection of these generalised eigenspaces is a nonzero subspace stable under the commuting $S_{b,j}$, hence contains a common eigenvector $x$; its
+eigenvalue for $S_{b,j}$ is $\theta_j$, since $x$ lies in the generalised $\theta_j$-eigenspace.
+\end{proof}
+
+\begin{proposition}[Hodge eigenvectors]\label{pf:ks1:prop-hodgeeig}
+Assume $\sfname{HLF}$ and $\sfname{FixK}$. Let $\lambda:\Hom(F,\C)\to\N^n$ with each $\lambda(\tau)$ non-increasing. There is $k$ such that for every
+standard complex base $g_b$, Kuga--Sato tower $T$ for $(L,g_b,k)$, level $N$, $\sigma\in\Aut(\C)$, $i_0<a$, Hodge exponent vector $h$ for
+$(\tau_{i_0},\varepsilon_D,\sigma\lambda)$, family $\psi=(\psi_j)_{j\in J}$ of Hecke functions at level $N$, $\theta:J\to\C$ and Hecke function $f$ at level $N$
+satisfying the spectral condition $\mathcal S(L,\sigma\lambda,K_N,\psi,\theta,f)$, and every $i<n$, there are $b$ and $0\neq x\in\ksoneH{Z_N}{h_i}{b}$ with
+$T(\psi_j)x=\theta_jx$ for all $j$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.hodgeEig_of}
+\end{proposition}
+
+\begin{proof}
+For $(\lambda',i_0,h)$ with $h$ a Hodge exponent vector for $(\tau_{i_0},\varepsilon_D,\lambda')$ let $\kappa(\lambda',i_0,h)$ be the $k_0$ of
+\cref{pf:ks1:prop-hodgetr}; by \cref{pf:ks1:lem-hexp}(2) there is $k$ with $\kappa(\sigma\lambda,i_0,h)\le k$ for all $\sigma,i_0,h$. Fix the data and let
+$c$ be given by \cref{pf:ks1:prop-hodgetr} for $(\sigma\lambda,i_0,h)$ and this $k$. By \cref{pf:ks1:lem-ksproj}, $Z_N$ is projective and smooth of some relative
+dimension $d$, and by \cref{pf:ks1:lem-hodgefin} the spaces $W_b=\ksoneH{Z_N}{h_i}{b}$ are finite-dimensional. The Hecke operators are multiplicative
+for convolution: $T(\psi_w*f)=T(\psi_{j_1})\cdots T(\psi_{j_r})T(f)$ and $T(s(\psi)*f)=s(T(\psi))T(f)$, all the functions involved being Hecke functions
+(\lref{UpperTheory.Gal.LocalSmoothExtension.HopWord_holds} and \lref{UpperTheory.Gal.G3.pFnRing}: Hecke functions are stable under sums and convolution, and
+the Hecke operator of a convolution is the composite). The first part of the spectral condition therefore gives the commutation hypothesis of
+\cref{pf:ks1:lem-eigof} for $T_{b,j}=T(\psi_j)|_{W_b}$, $u_b=T(f)|_{W_b}$, $b\le d$; let $s$ be the resulting polynomial. As $s(\theta)=1\neq0$, the second part
+of the spectral condition gives $\xi$ of weight $\sigma\lambda$ and $a$ such that $f'=(as)(\psi)*f$ is good for $K_N$ and
+$\mathrm{Tr}^{\mathrm{def}}(\xi;K_N,f';K_p,\mathbf 1_{K_p})\neq0$. By \cref{pf:ks1:prop-hodgetr},
+$\mathcal L_d(T(f')\circ C_c)(y)=\mathrm{Tr}^{\mathrm{def}}(\xi;K_N,f')\sum_iy^{h_i}$ for all $y$. Since $\sigma\lambda$ is non-increasing, $h$ is injective
+(\cref{pf:ks1:lem-hexp}(1)), and \cref{pf:ks1:lem-hexp}(3) gives $\sum_b(-1)^b\tr(T(f')\circ C_c\mid W_b)\neq0$. Hence $T(f')\neq0$ on some $W_b$, $b\le d$.
+As $T(f')=a(T(\psi))\,s(T(\psi))\,T(f)$, also $s(T_b)u_b\neq0$, and \cref{pf:ks1:lem-eigof} gives $x$.
+\end{proof}
+
+\begin{proposition}[Hodge occurrence]\label{pf:ks1:prop-kshodge}
+The conclusion of \cref{pf:ks1:prop-hodgeeig} implies $\sfname{KSHodge}$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.kSHodge_of}
+\end{proposition}
+
+\begin{proof}
+Let $\lambda$ be given, with each $\lambda(\tau)$ non-increasing, and let $k$ be given by \cref{pf:ks1:prop-hodgeeig}. Let $R$, $g_b$, $T$, $N$, $(g_j)$,
+$\theta$, $f$, $\tau$, $\sigma$, $i_0$, $h$, $i$ be as in \cref{pf:ks1:def-kshodge}. Let $g_b'$ be the standard complex base $(\rho_c,(\tau_i)_i)$ (comaximality is
+vacuous since $a=1$). We use four facts, proved in the development by routine verifications:
+(a) the base change $T'$ of $T$ along $\tau$ is a Kuga--Sato tower for $(L,g_b',k)$ with the same levels, since $\tau(\rho)=\rho_c$ and $\tau\circ t_i=\tau_i$
+(\lref{UpperTheory.Gal.LocalSmoothExtension.KSBc_holds}: Kuga--Sato towers are stable under base change of the field, with the base changed accordingly);
+(b) for $\sigma\in\Aut(\C)$, $\mathcal S(L,\lambda,K,\psi,\theta,f)$ implies $\mathcal S(L,\sigma\lambda,K,\sigma\psi,\sigma\theta,\sigma f)$
+(\lref{UpperTheory.Gal.LocalSmoothExtension.SpecConj_holds}: the $\sigma$-conjugate $\xi^\sigma$ of a representation of weight $\lambda$ has weight $\sigma\lambda$
+since $\sigma(\mathrm{S}_\lambda(\chi))=\mathrm{S}_{\sigma\lambda}(\chi)$, traces of Hecke operators on forms satisfy
+$\mathrm{Tr}^{\mathrm{def}}(\xi^\sigma;\sigma F)=\sigma(\mathrm{Tr}^{\mathrm{def}}(\xi;F))$, goodness is preserved and convolution commutes with $\sigma$);
+(c) each $f_{g_j}$ is a Hecke function at level $N$, each $s_j$ is finite \'etale, and $T(f_{g_j})$ is the operator of the correspondence $(s_j,t_j)$
+(\lref{UpperTheory.Gal.LocalSmoothExtension.MemOp_holds}: Hecke data define Hecke functions whose operators are the correspondences of the Hecke tower);
+(d) a nonzero $x\in\ksoneH{Z'_N}{a}{b}$ with $T(f_{g_j})x=\vartheta_jx$ for all $j$ gives $\mathrm{HO}(\mathrm{bc}_\tau\mathcal H_T(N,g),\vartheta,a)$
+(\lref{UpperTheory.Gal.LocalSmoothExtension.OccOf_holds}: by (c) and \lref{UpperTheory.Gal.G3.pOpTr}, $T(f_{g_j})=(s_j)_*t_j^*$ after base change).
+The $f_{g_j}$ take integral values, so $\sigma\circ f_{g_j}=f_{g_j}$, and (b) gives $\mathcal S(L,\sigma\lambda,K_N,(f_{g_j}),\sigma\theta,\sigma f)$. The functions $f$ and
+$\sigma f$ are in the Hecke algebra of $K_N$ and their supports consist of elements with integral inverse, so they are Hecke functions at level $N$ (the
+monoid of the tower is the monoid of integral elements). \Cref{pf:ks1:prop-hodgeeig} applied to $T'$, $N$, $\sigma$, $i_0$, $h$, $\psi=(f_{g_j})$, $\sigma\theta$ and
+$\sigma f$ gives $b$ and $0\neq x\in\ksoneH{Z'_N}{h_i}{b}$ with $T(f_{g_j})x=\sigma(\theta_j)x$, and (d) gives
+$\mathrm{HO}(\mathrm{bc}_\tau\mathcal H_T(N,g),\sigma\circ\theta,h_i)$.
+\end{proof}
+
+\begin{proposition}[Assembly]\label{pf:ks1:prop-assembly}
+$\sfname{HLF}$, \cref{pf:ks1:lem-ksproj}, $\sfname{FixK}$ and the identities of \cref{pf:ks1:prop-h1,pf:ks1:prop-h2} imply the conclusions of
+\cref{pf:ks1:prop-hodgetr,pf:ks1:prop-hodgeeig} and $\sfname{KSHodge}$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.hodgeTrace_of_lefschetz_and_groupSide}
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.ksHodge_of_inputs}
+\end{proposition}
+
+\begin{proof}
+\Cref{pf:ks1:prop-grouptop} uses \cref{pf:ks1:prop-h1,pf:ks1:prop-h2}; \cref{pf:ks1:prop-geostep} uses $\sfname{HLF}$, $\sfname{FixK}$ and
+\cref{pf:ks1:lem-ksproj}; \cref{pf:ks1:prop-hodgetr} combines them; \cref{pf:ks1:prop-hodgeeig} uses in addition $\sfname{HLF}$ through
+\cref{pf:ks1:lem-hodgefin}; and \cref{pf:ks1:prop-kshodge} concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:ks1:thm-hodge}]
+Apply \cref{pf:ks1:prop-assembly}: \cref{pf:ks1:lem-ksproj,pf:ks1:prop-h1,pf:ks1:prop-h2} are proved above.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:ks1:sec-remarks}
+
+\begin{remark}[Conventions for sums, traces and operators]\label{pf:ks1:rem-conventions}
+Several definitions use conventions of the formal development: a sum $\ksonefs$ with infinite support is $0$; $|S|^{-1}=0$ for an infinite set $S$; the trace
+$\mathrm{htr}$ of \cref{pf:ks1:def-dtrace} is $0$ if no endomorphism with the stated formula exists; the Hecke operator $T(f)$ of \eqref{pf:ks1:eq-hecke} is $0$ if
+no endomorphism with the stated property exists; and $\mathrm{S}_\lambda(\chi)$ is $0$ if the roots of $\chi$ cannot be listed (which does not happen for $\chi$ of degree
+$n$). Consequently the fixed point sums $\Sigma$, the definite traces $\mathrm{Tr}^{\mathrm{def}}$ and the sums over pairs are defined for all test functions, and the
+identities of \cref{pf:ks1:sec-counting,pf:ks1:sec-proof} need the finiteness statements cited there (and the finiteness condition $\mathrm{Fin}$ in
+$\sfname{FixK}$) to be meaningful. The sums also depend on choices of representatives (of classes of forms, of points, of pairs) and of trivialisations
+$(x,t)$; the statements hold for the choices made in the definitions.
+\end{remark}
+
+\begin{remark}[Shape of the Hodge occurrence statement]\label{pf:ks1:rem-kshodge}
+(1) \Cref{pf:ks1:thm-hodge} is an implication: $\sfname{HLF}$ and $\sfname{FixK}$ are hypotheses, proved in
+\lref{UpperTheory.Gal.Int.Geo.weight_one_geometric_realization} and \lref{UpperTheory.Gal.FixZ.FixK_holds}. (2) In $\sfname{KSHodge}$ the exponent $k$
+depends only on $(p,D,G,L,\lambda)$, not on the tower, the level, the Hecke data, the test function, $\tau$ or $\sigma$. (3) The spectral condition is assumed
+for $\lambda$, while the conclusion concerns the Hodge exponent vectors of every conjugate $\sigma\lambda$ and the conjugate eigensystem $\sigma\circ\theta$. (4) The
+standing conditions require $a=m=a_G=1$, $n$ odd and compact type; in the proofs above $n$ odd enters only through
+\cref{pf:ks1:lem-move} and compact type through \lref{GlobalTheory.UPel.HT.Model.isProjOver_of_compactB}.
+The monotonicity of the $\lambda(\tau)$ is used only to make the Hodge exponents distinct. (5) If $\lambda$ is constant both at $t_0$ and at $\bar t_0$, both
+alternatives of \cref{pf:ks1:def-hexp} apply and give two (possibly different) Hodge exponent vectors; the conclusion holds for each of them.
+\end{remark}
+
+\begin{remark}[The hypotheses on test functions]\label{pf:ks1:rem-good}
+Goodness (\cref{pf:ks1:def-spec}) contains, besides regularity of the support, the vanishing of the terms of marked pairs with reducible characteristic
+polynomial and of the orbital integrals at elements of the definite groups which are not regular irreducible. These are assumptions on the test function,
+and they enter the spectral condition only through the functions $(as)(\psi)*f$. Similarly a representation of weight $\lambda$ is only constrained on
+elements whose minimal polynomial has degree $n$ and is separable.
+\end{remark}
+
+\begin{remark}[Integral models]\label{pf:ks1:rem-models}
+\Cref{pf:ks1:thm-models} makes no compactness assumption and allows any Noetherian base ring with base data; smoothness of relative dimension $a(n-1)$ is part
+of the definition of a model. Kottwitz's condition is formulated through the traces in (D6) and, for objects, as the splitting and rank conditions (O3).
+In (O4) and in the Siegel level structures the Weil pairing of the polarisation of the restriction of $P$ to the diagonal is compared with
+$\zeta^{2E_\Lambda}$; the factor $2$ accounts for the fact that, for the pull-back $P=(1\times\lambda)^*\mathcal P$ of the Poincar\'e bundle by a
+polarisation $\lambda$, the restriction of $P$ to the diagonal defines the polarisation $2\lambda$ \cite{Mumford1970}.
+\end{remark}

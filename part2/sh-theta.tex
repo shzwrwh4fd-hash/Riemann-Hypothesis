@@ -1,0 +1,1608 @@
+\section{Shared results IV: theta pairs, towers and twisted operators}\label{sec:pf:sh-theta}
+
+\providecommand{\shthetaLL}{\mathit{LL}}
+\providecommand{\shthetaemb}{\iota}
+\providecommand{\shthetaGBig}{\mathsf{GBig}}
+\providecommand{\shthetaPol}{\mathcal{P}}
+\providecommand{\shthetaloc}{\mathrm{loc}}
+\providecommand{\shthetatw}{\mathrm{tw}}
+\providecommand{\shthetafd}{\mathcal{F}}
+\providecommand{\shthetaRow}{\mathsf{Row}}
+\providecommand{\shthetaLinked}{\mathsf{Linked}}
+\providecommand{\shthetaGood}{\mathsf{Good}}
+\providecommand{\shthetadeg}{\deg}
+\providecommand{\shthetaht}{\operatorname{ht}}
+\providecommand{\shthetaSB}{\mathcal{S}}
+
+This section proves nineteen results of the formal development \cite{LeanSource2026} which are used by several sections of
+Part~II: assembly theorems on linked rows and on the local Galois representations of a datum, the Witt-tower formula for the
+constants of seesaw squares, the three square statements on theta integrals, the cuspidality of theta lifts along a grid, and
+four statements on doubling integrals, zeta integrals and level vectors. Each result is stated precisely, in the notation of the
+sections which use it, and proved: the assemblies and the arguments which they contain (an induction along a Witt tower,
+the factorisation of theta integrals through a common quotient, a decomposition of irreducible modules into archimedean and finite
+parts, Weil's convergence argument on Siegel sets, the passage from the doubling identity to the Rallis inner product formula, the
+computation of a level index) are given in full, and the deeper results of the formal development on which they rest are stated
+and cited.
+
+\paragraph{The results and where they are used.}
+\begin{itemize}
+\item \Cref{sec:pf:sh-theta:rows}: rows give linked rows (\cref{pf:sh-theta:linkedrow}; used in \cref{sec:pf:open0,sec:pf:rows});
+the class-sum divisibility row (\cref{pf:sh-theta:classsum}; \cref{pf:open0:geo}); the jump statement, the bounds for canonical hub
+data and the admissibility conditions of the first kind at the places above a prime which is not a type prime
+(\cref{pf:sh-theta:jump,pf:sh-theta:hub,pf:sh-theta:setpt}; \cref{pf:linkN-adm:sizes,pf:linkN-adm:split} and \cref{sec:pf:linkN-sel}).
+\item \Cref{sec:pf:sh-theta:squares}: convergence of theta integrals (\cref{pf:sh-theta:weilconv}), local matching for squares
+(\cref{pf:sh-theta:sqlmthm}), the agreement of matched theta integrals and the row property $\sfname{SumOKK}$
+(\cref{pf:sh-theta:sqcor}), and the cuspidality of lifts along grids (\cref{pf:sh-theta:cusp}); used in
+\cref{pf:rowprops:main,pf:fit:sqtop,pf:fit:sumsize} and \cref{sec:pf:stageU}.
+\item \Cref{sec:pf:sh-theta:tower}: the Witt-tower formula $\sfname{Tower}$ and the existence of bottom triples with constants
+$\sfname{TriEx}$ (\cref{pf:sh-theta:towerthm,pf:sh-theta:triex}; \cref{pf:fit:sqtop,pf:rowprops:main}).
+\item \Cref{sec:pf:sh-theta:doubling}: the unramified doubling integral at inert places (\cref{pf:sh-theta:inert};
+\cref{pf:liftinj:euler}), the Rallis inner product formula (\cref{pf:sh-theta:heckeform}; \cref{pf:bundles:thm:chain} and
+\cref{pf:fs:stepUp}), and the place models, the finite zeta integral of a theta lift and the formula for the level index times the
+norm of the level vector (\cref{pf:sh-theta:placemodels,pf:sh-theta:finzeta,pf:sh-theta:levelindex}; \cref{pf:onto3:adelc}).
+\end{itemize}
+
+\paragraph{The main argument: the Witt tower.}
+The constant of a seesaw square compares two theta integrals, over the unitary groups of the nodes $(i+1,j+1)$ and $(i,j)$ of a
+grid. To compute its dependence on the type $t$, both spaces of the square are replaced by a \emph{theta triple} of stage
+$(p,q)$, and hyperbolic planes are removed one at a time: first from the smaller space ($q\to q-1$), then from the larger one
+($p\to p-1$), until totally definite spaces are reached. The theta integrals of every stage triple factor through one common
+quotient of the space of polynomials (\cref{pf:sh-theta:five}\ref{pf:sh-theta:T2}); this makes the constants of a triple
+well defined up to one scalar, and each step multiplies them by a Hecke $L$-value $L(e+1)$ or $L(e)$ and by an explicit factor
+which is a ``step multiple'', a quotient of Gauss sums and of divisors of conductors. The induction (\cref{pf:sh-theta:descent})
+and the comparison with the bottom triple then give the formula of $\sfname{Tower}$.
+
+\paragraph{Conventions.}
+We freely use the notation of the citing sections: grids, Weil data, real matches and square constants
+(\cref{sec:pf:rowprops:setting}), the uniformity $\shthetaGBig$ (\cref{pf:fit:uniform}), hub data and admissibility
+(\cref{pf:linkN-adm:global}), rows and linked rows (\cref{sec:pf:rows}), doubling pairs (\cref{pf:liftinj:ERdef}) and lift data
+(\cref{pf:onto3:adelcdef}). $F=\sfname{ThetaLocalInputs}$ is the bundle of classical results of \cref{sec:families:theta}, and
+``Theorem~K'' is the conjunction of $\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ (\cref{def:families:K,thm:theorem-K}).
+Results of the formal development which are not proved here are cited by their formal names, with a statement of what is used;
+the formal objects are large records, and we describe their components only as far as they are used.
+
+% ---------------------------------------------------------------------------
+\subsection{Linked rows and the third-place series}\label{sec:pf:sh-theta:rows}
+
+This subsection proves five results used in the proofs of the open parameter statements and of the Galois link: the
+passage from rows to linked rows (used in \cref{sec:pf:open0,sec:pf:rows}), the class-sum divisibility row
+(\cref{pf:open0:geo}), and three results on the local Galois representations of a datum at the places above a twisted
+prime (\cref{pf:linkN-adm:sizes,pf:linkN-adm:split} and \cref{sec:pf:linkN-sel}): the jump statement, the bounds for
+canonical hub data and the seventeen admissibility conditions of the first kind. All five are assemblies of results of the
+formal development, which we cite; we state them precisely and give the assembly.
+
+\subsubsection{Linked rows}
+
+We use the rows $\shthetaRow(Q,\mathrm{Lk},H)$, the slots, the parameters $p$ with slot system $p.s$, good slot
+$\shthetaGood_p$ and bundle linkage $\mathrm{Lk}_p$, and the linked rows $\shthetaLinked(p,r)$ of
+\cref{pf:rows:defrow,pf:rows:deflinked}.
+
+\begin{lemma}[Rows are linked rows]\label{pf:sh-theta:linkedrow}
+Let $p$ be a parameter and $H$ a property of classes with raw selections. If $\shthetaRow(\shthetaGood_p,\mathrm{Lk}_p,H)$,
+then $\shthetaLinked\bigl(p,(S,\mathrm{Lk})\mapsto\shthetaRow(S,\mathrm{Lk},H)\bigr)$.
+\formallabel{GlobalTheory.Fc.RL.LinkedAt.of_row}
+\end{lemma}
+
+\begin{proof}
+Take the auxiliary slot $R=\mathrm{True}$. The base condition ``built cores satisfy $R$'' holds trivially, eventually in the
+scale and for all twisting data (\lref{GlobalTheory.Fc.largeBaseProperty_true}: all exceptional sets empty and all
+thresholds $0$), and a row for the slot $\shthetaGood_p$ is a row for the smaller slot $\shthetaGood_p\wedge\mathrm{True}$
+(\lref{GlobalTheory.Fc.Row.strengthen}).
+\end{proof}
+
+\subsubsection{Class-sum divisibility}
+
+We use the parameters $p(N,S,\Gamma)$ of \cref{sec:pf:open0} (with a norm-choice extension $N$ over the recursion statement
+$h_L=\sfname{RecTExists}$, an $S$-extension $S$ and a geometric predicate $\Gamma$), the law extension $N_{\mathrm{law}}$, the
+bundles $b$ over $(D,O,c)$ with their comparisons $t$ and parts $b.\mathrm{part}(t)$, and the divisor row
+$\mathsf{hDivG}$ (\cref{pf:open0:tab}).
+
+\begin{theorem}[Class-sum divisibility on linked rows]\label{pf:sh-theta:classsum}
+Assume the existence of ray class fields ($\sfname{RayField}$). Let $p=p(N,S,\Gamma)$ be a parameter such that every value of
+$N$ at a point admits a value of $N_{\mathrm{law}}$, and assume $\shthetaLinked(p,\mathsf{hDivG})$. Then
+$\shthetaLinked\bigl(p,(S',\mathrm{Lk})\mapsto\shthetaRow(S',\mathrm{Lk},\mathrm{All}(B))\bigr)$, where $B(b)$ asserts: for every
+comparison $t$ of $b$, the part $b.\mathrm{part}(t)$ has $\iota$-point summands, its point has the class-sum pin and satisfies the
+compatibility conditions and the additional point condition of the definite side, and the datum $D$ is tied to the size data of
+$O$ ($\sfname{RecTied}$).
+\formallabel{GlobalTheory.T.class_sum_divisor_all_alt}
+\formallabel{GlobalTheory.GeoTies.linked_ties_alt}
+\end{theorem}
+
+\begin{proof}
+\emph{Exponents.} Since the values of $N$ admit values of the law extension, $N$ has the exponent property of the layers
+(\lref{GlobalTheory.ExpTiesOfLayer.hasExp_of_layer_alt}); let $\nu$ be the resulting \emph{extension reading} of the row
+position $R_X$ (with the $S$- and $\Gamma$-components of $p$).
+
+\emph{The tie row.} By \lref{GlobalTheory.PlugPt.rowE_part_ties_alt} (from $\sfname{RayField}$ and $h_L$; it contains the
+weighted side estimates of the ray field core slot, about $2\,100$ Lean lines), eventually at all bundles linked to the pinned
+points of the reading $\nu$, for the slot $\shthetaGood_p\wedge\mathrm{RayPosition}$: the point of the bundle satisfies the
+ties $\sfname{TiesB}$, the datum is tied to its size data, and the point satisfies the additional condition $\sfname{More}$. If a
+bundle $b$ is linked to a bundle point $\beta$ by $\mathrm{Lk}_p$ (that is, $b$ has a witness over a weighted point $q$), then
+every part $b.\mathrm{part}(t)$ is linked to the pinned point of the reading at $q$
+(\lref{GlobalTheory.T.exponent_reading_of_hasExp_bundle}). Hence the property ``for all $t$: $\sfname{TiesB}$,
+$\sfname{RecTied}$ and $\sfname{More}$ at the part'' holds eventually at all bundles linked by $\mathrm{Lk}_p$ for this slot, and
+gives a linked row for it with the auxiliary slot $\mathrm{RayPosition}$, whose base condition holds by
+\lref{GlobalTheory.Plug.largeBaseProperty_rayProperty} (from $\sfname{RayField}$).
+
+\emph{Combination.} Combine this linked row with $\shthetaLinked(p,\mathsf{hDivG})$ (\lref{GlobalTheory.Fc.RowL.and}). Let $b$
+be a bundle selected by a selection of the combined row; it is built, i.e.\ equal to a bundle with a witness over a weighted
+point $q$, and the twist conditions hold at its point (\lref{GlobalTheory.Fc.Ind.pt_realised_and_pb_eq} and the twisting
+of the point). For a comparison $t$: the divisor condition of $b$ gives the divisibility statement used by
+\lref{GlobalTheory.T.class_sum_divisibility_of_extensionWithLaw} (via \lref{GlobalTheory.Fc.FourBoundsAtBundles.p_div_of_div3g}),
+which yields the $\iota$-point summands and the class-sum pin of the part; and $\sfname{TiesB}$, the tie of the datum to its size
+data and the realisation of the point give the compatibility conditions
+(\lref{GlobalTheory.PlugPt.ties_of_tiesB_alt}). With $\sfname{RecTied}$ and $\sfname{More}$ this is $B(b)$. Conclude by the
+implication rule for rows (\lref{GlobalTheory.Fc.Row.imp}), keeping the auxiliary slot.
+\end{proof}
+
+\subsubsection{The jump statement}
+
+Let $D$ be a datum and $L$ size data with scale $b=b_L$, positive constants $S_c$ and $\eta=\eta_{\mathrm{sz}}$, and the widths
+$w''(L)$ of \cref{pf:linkN-adm:global}. For $1\le j\le m$ and every embedding type $\rho$ the development defines, from the
+Harish-Chandra parameters of $D$ at $\rho$, finite sets of rational numbers: the \emph{cloud} $J^{\mathrm{cl}}_{j,\rho}$, the
+\emph{low} set $J^{\mathrm{low}}_{j,\rho}$, the \emph{block} set $J^{\mathrm{bl}}$, the set of all jumps $J_{j,\rho}$ and their
+twisted and dual versions, together with the centre $c_0=c_0(D)$, the size $\mathrm{sz}_{j,\rho}$ and the bound $h_J(L)$
+\cite{LeanSource2026}.
+
+\begin{definition}[Admissible parameters and jump conditions]\label{pf:sh-theta:jumpdef}
+The parameters of $L$ are \emph{admissible} ($\sfname{AdmJAlt}(L)$) if: (a) for good families at local indices whose prime is not a
+type prime, the local Galois representations are crystalline at the places above the prime, with Hodge--Tate jumps equal to the
+level-zero Hodge--Tate weights of the local automorphic data; (b) crystalline is equivalent to de Rham with unramified
+Weil--Deligne representation; (c) at the type primes the representations are de Rham with jumps equal to the local Hodge--Tate
+weights, and good families have distinct absolutely irreducible constituents; (d) the \emph{dictionary}: for a sign $\epsilon$,
+the local Hodge--Tate weights are $\mathrm{sg}\cdot p+c_\tau$ for the parameters $p$ of the datum (with $\mathrm{sg}=\pm1$ according to the
+type) and the jump of the rank-one character is $-\mathrm{sg}\cdot\mathrm{sz}-c_0+c_\tau$; (e) the \emph{reading}: the multiplicities
+of the jumps of the twisted, dual and derived local lattices are read off from those of the local representations; (f)
+$\eta+t+S_c<w''$, $3w''\le b$, $b_T+b'/x\le b$ for all $T$, and $t\le\eta$. The \emph{jump conditions} ($\sfname{JumpConditions}(L)$)
+are, for all $1\le j\le m$ and $\rho$:
+\begin{enumerate}[label=(J\arabic*),leftmargin=*]
+\item\label{pf:sh-theta:J1} for some sign $\epsilon$ the Hodge--Tate jumps of the local modules are given by the jump sets;
+\item\label{pf:sh-theta:J2} $\mathrm{sz}\le q-c_0\le\mathrm{sz}+S_c$ on the cloud, $(t+3)/2\le|q-c_0|\le\eta$ on the low set, $|q-c_0|\le c_0$ on
+the block set, and the cloud, low and full sets have $k-1$, $m$ and $n_V$ elements;
+\item\label{pf:sh-theta:J3} low elements lie in $[c_0-\eta,-2]\cup[t+1,c_0+\eta]$, $-1$ and $t$ are not jumps, cloud elements exceed
+$t+1$, and $0$ is neither a cloud nor a low element;
+\item\label{pf:sh-theta:J4} the low set has $m-j$ negative and $j$ positive elements, and the twisted sets have the corresponding
+sign counts $j$, $m-j$, $m-j$ and $k-1+j$;
+\item\label{pf:sh-theta:J5} $|q|\le b+S_c+\eta+1+c_0\le h_J$ for all jumps $q$, and $b\le h_J\le2b$;
+\item\label{pf:sh-theta:J6} the dual cloud elements have absolute value in $[\mathrm{sz}-\frac{t+1}2,\mathrm{sz}+\frac{t+1}2+S_c]$, the
+dual low elements lie in $[-\eta-\frac{t+1}2,\eta-\frac{t+1}2]$, $0$ is not a dual jump, and the negative dual jumps number $m-j$,
+resp.\ $k-1+j$;
+\item\label{pf:sh-theta:J7} if $\rho$ is a thick place, the dual cloud elements have absolute value in
+$[b-\frac{t+1}2,b-\frac{t+1}2+\eta+t+2+S_c]$, and dual low and block elements have absolute value at most $\eta+t+2$.
+\end{enumerate}
+$\sfname{JumpClosed}(D)$ asserts $\sfname{AdmJAlt}(L)\Rightarrow\sfname{JumpConditions}(L)$ for all size data $L$ of $D$.
+\formal{Formalism.MainNotions.AdmissibleParameterJ.AdmJAlt}\formal{Formalism.MainNotions.AdmissibleParameterJ.JumpConditions}
+\formal{Formalism.MainNotions.AdmissibleParameterJ.JumpClosed}
+\end{definition}
+
+\begin{theorem}[The jump statement]\label{pf:sh-theta:jump}
+$\sfname{JumpClosed}(D)$ holds for every datum $D$.
+\formallabel{GlobalTheory.JumpStatement.holds_all_alt}
+\formallabel{GlobalTheory.JumpSets.stmtJ_holds_alt}
+\end{theorem}
+
+\begin{proof}
+Let $L$ have admissible parameters. By (f), the \emph{real place facts} hold for all $1\le j\le m$ and $\rho$
+(\lref{GlobalTheory.JumpSets.jFacts_of}): the cloud parameters $v_a$ are non-negative, at most $S_c$ and strictly
+decreasing, the block parameters $b_i$ are strictly increasing, $\mathrm{sz}_{j,\rho}-b_i\ge(t+3)/2$ for $i<j$ and $\le-(t+3)/2$ for
+$i\ge j$, $|\mathrm{sz}_{j,\rho}-b_i|\le\eta$, $\eta+t+S_c<\mathrm{sz}_{j,\rho}\le b+\eta+1$, $b\le\mathrm{sz}_{j,\rho}$ at thick places,
+$\eta+t+S_c\le b$ and $t\le\eta$. (For the inequality $\eta+t+S_c\le b$: by (f), $\eta+t+S_c<w''$ and $3w''\le b$, and $w''>0$.)
+Then (J1) follows from (a)--(f) by the dictionary and the reading
+(\lref{GlobalTheory.JumpSets.jumpLemma_a_of_admissible_alt_alt}), and (J2)--(J7) follow from the real place facts by counting
+and comparing the explicit elements of the jump sets: (J2), (J3), (J4), (J5), (J6) and (J7) are, in this order,
+\lref{GlobalTheory.JumpSets.jumpSetBound_of_realPlaceFacts}, \lref{GlobalTheory.JumpSets.jumpSetCloud_of_realPlaceFacts}, \lref{GlobalTheory.JumpSets.jumpSetDistinct_of_realPlaceFacts}, \lref{GlobalTheory.JumpSets.jumpSetEta_of_realPlaceFacts}, \lref{GlobalTheory.JumpSets.jumpSetFinal_of_realPlaceFacts}, and \lref{GlobalTheory.JumpSets.jumpSetGap_of_realPlaceFacts}
+(the proof of (J5) uses in addition $\eta+t+S_c\le b$, $t\ge1$, $S_c>0$ and $\eta>0$).
+\end{proof}
+
+\subsubsection{Canonical hub data}
+
+We use the hub data, their adaptation $\sfname{DataAD}$ to $L$ and the row constants, the setup conditions and the admissibility
+conditions of \cref{pf:linkN-adm:def-hub,pf:linkN-adm:def-setup,pf:linkN-adm:def-adm}, and write $\mathcal G=\{g_0,g_1\}$ for the
+type primes. For a local index $\iota$ let $\mathrm{RestPt}(\iota,\pi)$ denote the \emph{rest point conditions} (good family,
+$\rho_{\iota,\pi}$ is the representation of $\pi$, semisimplicity, continuity, the tame shape, the cyclotomic inertia image and the
+non-genericity conditions of the formal definition).
+
+\begin{theorem}[Bounds for canonical hub data]\label{pf:sh-theta:hub}
+Assume Fontaine's $B_{\mathrm{cris}}$, local finiteness and Chebotarev's theorem. Let $D$ be a datum with size data $L$, local
+Hodge--Tate data $\mathrm{HW}$, Fontaine data $F$, row constants $R$, a norm choice $C$, hub data $X$ which are canonical for
+$(L,\mathrm{HW},R)$, $c\ge120$ and $C_T\in\N$ with $C_T\le b_L$, and assume a parameter choice, $\Lambda\ge1$, admissible parameters,
+polynomially bounded parameters, and the following properties of $D$ (fields of the norm-choice facts): admissible sums,
+provision $41$, the conclusions $42$, $G_5$ and $Z$, residual irreducibility in rank $r$, the $\OO$-splitting, the coefficient
+duties, the norm-choice tie, good triples, the same-twist condition, the block character parameters, unramifiedness of $\mu$ and
+the depth-zero condition. Then:
+\begin{enumerate}[label=(H\arabic*),leftmargin=*]
+\item the families of $X$ are good, and the rest point conditions hold at all $\pi\in Z^{\mathrm{good}}_\iota$ for $\ell_\iota\in\{q,d\}$
+and for $\ell_\iota\notin\mathcal G$;
+\item the Fontaine degrees of the quotients at the distinguished primes, and the adaptation $\sfname{DataAD}$ of $X$;
+\item at every twisted $\iota$ with $\ell_\iota\notin\mathcal G$ in the range of $X.\mathrm{exc}$, the block bound
+$c_B(\iota)\le c\,tnn_V\Lambda$, and, if $\ell_\iota$ is split, the column bound $c_0(\iota,u)\le c\,nn_V\Lambda$ for every column $u$;
+\item Hodge--Tate bounds $(M_0,h_0)$ for the wall condition $\sfname{JointCond\_H0Wall}$, and for every $\iota$ in the range of
+$X.\mathrm{exc}$ and every $\pi$ Hodge--Tate bounds for the tame bound condition with $X.c_B(\iota)$;
+\item at every twisted split $\iota$ in the range with $\ell_\iota\notin\mathcal G$: the declaration of $X$ is valid for every
+choice of embedding types given by (J1); the places of $E$ above $\ell_\iota$ are unramified over $\Q$; the ambient type
+conditions at the conjugate places; for every $\pi\in Z^{\mathrm{good}}_\iota$ the column point data (unramified triviality of
+$H^1_f$, the twisted dual, $T_2$, Wach and filtration conditions, finiteness of $H^1_f$ up to torsion of finite rank, the condition
+$\mathrm{adm}_{51}$, and the decomposition invariants condition with Hodge--Tate bounds); the local fields $K_w$ lie in the maximal
+unramified extension; and the localised duals are crystalline for good coefficient extensions;
+\item the signature choice condition for $(X.\rho,C)$;
+\item at twisted $\iota$ with $\ell_\iota=g_k$ a type prime: good families, $\rho$ the representation of $\pi$ with semisimple
+twist for $\pi\in Z_\iota$, and $s,S,\mathrm{sg},U$ with $\eta_X+t+1<s$, $C_T((s+S)(n_V+1)^2+(n_V+1)^3)<g_k$, the sign condition and
+the host jump condition;
+\item $\eta_X\le2\eta_{\mathrm{sz}}$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.split_bound_of_params_alt}
+\formallabel{GlobalTheory.HubX.Assembly.main_alt_alt}
+\end{theorem}
+
+\begin{proof}
+The jump conditions hold by \cref{pf:sh-theta:jump} (applied through \lref{GlobalTheory.T.jump_closed_forall_d7}).
+The families of $X$ are good (a field of canonical hub data), and the rest point conditions at $q,d$ and off $\mathcal G$ are
+\lref{GlobalTheory.restPt_atQD_alt} and \lref{GlobalTheory.restPt_of_ptFam_aux41_oSplit} (from $B_{\mathrm{cris}}$, provision
+41 and the $\OO$-splitting). The Fontaine degrees are \lref{GlobalTheory.T.fontaine_quotient_degrees_of_ptFam}; adaptation is a
+field of canonical hub data. (H3) is \lref{GlobalTheory.HubX.blockAndTorsionExponentBounds_canonicalHubData} (the canonical
+exponents are explicit, and $c\ge120$). (H4): \lref{GlobalTheory.HubX.jointCond_H0Wall_of_canon_alt} and the range bound
+\lref{GlobalTheory.T.joint_conditions_range_bound_alt} (from $B_{\mathrm{cris}}$, local finiteness, the jump conditions for all
+size data with admissible parameters, polynomially bounded parameters, provision 41, the $\OO$-splitting and the exponent bound
+$c_B\ge c_{B,\mathrm{num}}$ of canonical data). (H5): the split row prime and the split declaration
+(\lref{GlobalTheory.HubX.SplitDecl.splitRowPrime_of} and \lref{GlobalTheory.HubX.SplitDecl.main}), the ambient type at conjugate places
+(\lref{GlobalTheory.T.ambientType_conjugatePlace_at_splitPrime}), unramified crystallinity at the range prime
+(\lref{GlobalTheory.HubX.unrCrysAtRangePrime_alt}), the column point data
+(\lref{GlobalTheory.T.unramifiedTrivialH1f_of_decl}, \lref{GlobalTheory.T.ambT2_of_deRham_family}, \lref{GlobalTheory.T.admissibleAtGoodPoints_of_coefRing_taken_at_live}, and \lref{GlobalTheory.HubX.jointCondH0all_canon_alt}
+and the range bound). (H6) is \lref{GlobalTheory.JointSix.main} (from Chebotarev's theorem, the norm-choice tie, good triples,
+the same-twist condition, the good point row \lref{GlobalTheory.Proof.LocalGlobalAssembly.main} and residual absolute
+irreducibility). (H7) and (H8) are \lref{UpperTheory.GalS.hubX_typePrime_conditions_alt} (from the parameter choice, the jump
+conditions, polynomially bounded parameters, conclusion $G_5$, the absence of a local-global condition
+\lref{UpperTheory.GalS.noLgc_alt}, the depth-zero condition and $C_T\le b_L$).
+\end{proof}
+
+\subsubsection{Admissibility conditions of the first kind}
+
+\begin{theorem}[Admissibility of the first kind off the type primes]\label{pf:sh-theta:setpt}
+Assume $\sfname{Hypotheses}_2$. Let $D$ be a datum with size data $L$, a parameter choice, a norm choice $\mathrm{nch}$, local
+Hodge--Tate, Fontaine and comparison data, hub data $X$ and $C_2\in\R$ satisfying the setup conditions
+(\cref{pf:linkN-adm:def-setup}). Then for every local index $\iota$ whose prime $\ell_\iota$ is not a type prime and every
+$\pi\in Z^{\mathrm{good}}_\iota$, the seventeen admissibility conditions of the first kind of \cref{pf:linkN-adm:def-adm} hold at
+$(\iota,X.r_\iota,X.\rho_\iota,\pi)$.
+\formallabel{GlobalTheory.T.set_pt_of_setup_not_twisted}
+\formallabel{GlobalTheory.SetPtOff.main_alt_alt}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:sh-theta:hub}, applied with the row constants $\mathcal K(C_2)$, $c=120$ and $C_T=0$ (its hypotheses are fields of the
+setup and of $\sfname{Hypotheses}_2$, and $\Lambda\ge1$), the rest point conditions hold at $(\iota,\pi)$. The class of $\pi$ is
+represented in $Z_\iota$, and the jump conditions hold (\cref{pf:sh-theta:jump}). The rest point conditions give the semisimple
+decomposition $r_{\iota,\pi}\otimes K_\iota\cong(\rho_{\iota,\pi}\oplus\bigoplus_c\chi_{\iota,c})\otimes K_\iota$
+(\lref{Formalism.MainNotions.N.semisimple_decomposition_of}). The seventeen conditions are then: (G1)
+\lref{Formalism.MainNotions.N.galois_condition_one_of_alt}; (G2) \lref{GlobalTheory.GTwoTheta.main_alt_alt} (from
+$B_{\mathrm{cris}}$ and the jump conditions); (G3) \lref{Formalism.MainNotions.N.galois_condition_three_of_alt_alt} (with the
+Burnside statement \lref{GlobalTheory.SetPtOff.litBurnside_all}); unramifiedness outside $\ell$, $S_\iota$, $Q_\iota$
+(\lref{Formalism.MainNotions.N.admG4_of_goodR}); the tame shape (\lref{Formalism.MainNotions.N.galois_condition_five_of});
+the tame generator conditions (\lref{GlobalTheory.TameDesign.main}); the eigenvector criterion
+(\lref{Formalism.MainNotions.N.galois_condition_six_of}); local Tate duality for $H^2$ and the Bloch--Kato conditions
+(\lref{GlobalTheory.T.blochKato_localCondition_all_localizations}); continuity and semisimplicity
+(\lref{Formalism.MainNotions.N.continuous_family_of} and \lref{Formalism.MainNotions.N.semisimple_family_of}); the decomposition (above);
+the cyclotomic inertia image (a rest point condition); compatibility of local coefficients
+(\lref{GlobalTheory.T.completion_comparison_admissible_every_place_over}); the inclusion
+$K_\lambda\subseteq\Q_\ell(\mu_{\lcm(\ell,N)})$ (a rest point condition); Fontaine's properties
+(\lref{GlobalTheory.FontaineAdm.fontaineProperties_all_places}); the integral $H^2$-duality
+(\lref{GlobalTheory.T.integral_tate_H2_top}); and the bound by $v_\ell(h_E)$ for unramified homomorphisms
+(\lref{GlobalTheory.T.unramifiedClassFieldBound_of_artin}, from Artin reciprocity).
+\end{proof}
+
+\begin{remark}\label{pf:sh-theta:setptrem}
+The formal name of \cref{pf:sh-theta:setpt} speaks of places which are ``not twisted'', but its hypothesis is that the prime
+$\ell_\iota$ is not one of the two type primes; no twisting condition is imposed on $\iota$.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Theta integrals of squares: convergence, local matching and cuspidality}\label{sec:pf:sh-theta:squares}
+
+This subsection proves the three \emph{square statements} used in \cref{pf:rowprops:main} and in the proof of
+\cref{pf:fit:sqtop} (convergence of theta integrals, the local matching of the two Fock spaces of a square, and the
+agreement of matched theta integrals), and the cuspidality of theta lifts along the arrows of a grid. We use the notation
+of \cref{def:pf:rowprops:weil}: for hermitian spaces $M,X$ over the CM field $E$ of a datum, a sign $\eps$, a standard
+additive character $\psi$ and archimedean data $\theta$, a \emph{Weil representation} $\omega$ of the pair $(\eps M,X)$
+with splitting characters $(\chi,\chi')$ is a representation of $\Uni(M)(\A)\times\Uni(X)(\A)$ on the space of
+\emph{theta functions} on the adelic symplectic space $(\eps M)\otimes X$, i.e.\ of continuous functions $\Phi$ which are
+quasi-periodic under the rational points ($\Phi(\gamma+w)=\psi(-\langle\gamma,w\rangle)\Phi(w)$) and invariant under
+Heisenberg translations by an open subgroup of the finite part; the \emph{theta kernel} is
+$\theta(g,h;\Phi)=(\omega(g,h)\Phi)(0)$. The height $\shthetaht(h)\ge1$ of $h\in\Uni(X)(\A)$ is the product of the
+archimedean and the finite local heights.
+
+\subsubsection{Convergence}
+
+The statement $\sfname{SiegelSetUnitary}$ is the reduction theory of unitary groups in the following form
+\cite{Borel1969,MoeglinWaldspurger1995}: for a CM extension $E/F$, a non-degenerate hermitian matrix $J$ of size $n$ and a
+\emph{Witt frame} $(X_f,Y_f)$ of rank $r$ (bases of complementary maximal isotropic subspaces with ${}^t\bar X_fJY_f=1$ and
+anisotropic orthogonal complement), there are a compact subgroup $K$, a compact subset $\Omega$ of the minimal parabolic
+subgroup and $c>0$ such that, with the \emph{cone} $\mathrm{cone}(c)=\{t\in\R_{>0}^r:\ ct_{i+1}\le t_i,\ c\le t_r\}$ and the
+torus elements $a_t$ (acting by $t_i$ on $X_f$, $t_i^{-1}$ on $Y_f$ and trivially on the complement at the real places), the
+\emph{Siegel set} $\mathfrak S=\{pa_tk:\ p\in\Omega,\ t\in\mathrm{cone}(c),\ k\in K\}$ is closed, every element of the adelic group
+is $\gamma s$ with $\gamma$ rational and $s\in\mathfrak S$, the conjugates $a_t^{-1}pa_t$ ($p\in\Omega$, $t\in\mathrm{cone}(c)$)
+lie in a fixed compact set $C_0$, and for every Haar measure $\mu$ there is $C_1$ with
+\[
+\int_{\mathfrak S}f\,d\mu\le C_1\int_{\mathrm{cone}(c)}H(t)\,\bigl(\delta(t)\textstyle\prod_it_i\bigr)^{-1}\,dt,\qquad
+\delta(t)=\prod_{i=1}^rt_i^{2[F:\Q](n-2i+1)},
+\]
+for all measurable $f,H\ge0$ with $f(pa_tk)\le H(t)$; it also contains a comparison of heights and the rapid decay of cusp
+forms on $\mathfrak S$, which are not used here.
+
+\begin{theorem}[Convergence of theta integrals]\label{pf:sh-theta:weilconv}
+Assume $\sfname{SiegelSetUnitary}$. Let $\omega$ be a Weil representation of $(\eps M,X)$, $p\in\N$ such that the form of
+$M$ has signature $(\rank M-p,p)$ at some real place and $\rank X<2(\rank M-p)$, $\nu$ a Haar measure on $\Uni(M)(\A)$
+with a fundamental domain $\shthetafd$ for $\Uni(M)(F)$, and $\Phi$ a theta function. Then there are $N\in\N$ and $C\in\R$
+such that for every $h\in\Uni(X)(\A)$ the function $g\mapsto\theta(g,h;\Phi)$ is integrable on $\shthetafd$ and
+\[
+\int_{\shthetafd}|\theta(g,h;\Phi)|\,d\nu(g)\le C\,\shthetaht(h)^N .
+\]
+That is, $\sfname{SquareSt.WeilConvergence}$ holds; in particular $\sfname{SiegelSetUnitary}$ and $F$ imply
+$\sfname{SquareSt.WeilConvergence}$.
+\formallabel{GlobalTheory.WeilConv.twisted_weil_representation_convergence}
+\formallabel{GlobalTheory.WeilConv.weilConvergence_of_siegelSet}
+\end{theorem}
+
+This is Weil's convergence criterion for theta integrals \cite{Weil1965} in the unitary case, with a polynomial bound in the
+height. The hypothesis $F$ of the first formal name is not used. The proof rests on a bound for the theta kernel on Siegel
+sets, which in turn rests on a bound at torus elements.
+
+\begin{lemma}[Theta values at torus elements]\label{pf:sh-theta:torus}
+In the situation of \cref{pf:sh-theta:weilconv}, let $(X_f,Y_f)$ be a Witt frame of $M$ of rank $r$, $c>0$, $K_0$ a compact
+neighbourhood of $0$ in the symplectic space $(\eps M)\otimes X$, and $\mu$ a measure of covolume one with a fundamental domain for
+its rational points, defining Sobolev seminorms $\mathrm{sob}_k$. There are $k,A\in\N$ and $C\ge0$ such that for every $n\ge1$, every
+theta function $\Psi$ invariant under the Heisenberg translations by $nu$, $u\in K_0$ with zero archimedean part, every
+$t\in\mathrm{cone}(c)$ and every torus element $a_t$,
+\[
+|(\omega(a_t,1)\Psi)(0)|\le C\,n^A\,\mathrm{sob}_k(\Psi)\prod_{i=1}^rt_i^{[F:\Q]\rank X}.
+\]
+\formallabel{GlobalTheory.T.thetaValue_siegelTorusElement_le_sobolevSeminorm}
+\formallabel{GlobalTheory.SiegelTorusTheta.torus_bound}
+\end{lemma}
+
+\begin{proof}
+Use the mixed model attached to the Witt decomposition of $\eps M$ defined by the frame. (1) There are a hermitian space $S_0$ (the
+anisotropic kernel) and a hyperbolic decomposition $d$ of $\eps M$ such that every torus element $a_t$ is the Levi element $d(\alpha)$
+of some $\alpha\in\GL_r(\A_E)$ with trivial finite part and archimedean components $\mathrm{diag}(t_1,\dots,t_r)$
+(\lref{GlobalTheory.T.wittFrame_torus_eq_levi_element}). (2) For a theta function $f$ and a Levi element, with a suitable
+covolume-one measure on $\mathrm{Mat}_{\rank X\times r}(\A_E)$,
+\[
+|(\omega(d(\alpha),1)f)(0)|\le|\alpha|^{\rank X}_{1/2}\sum_{\xi\in\mathrm{Mat}_{\rank X\times r}(E)}\bigl|\mathrm{mix}(f)(\xi\alpha)(0)\bigr|,
+\]
+where $\mathrm{mix}(f)$ is the mixed-model transform of $f$ attached to $d$ and $|\alpha|^{n}_{1/2}$ an explicit modulus factor
+(\lref{GlobalTheory.T.leviThetaValue_le_det_mul_rational_sum}); and for $\alpha$ as in (1),
+$|\alpha|^{\rank X}_{1/2}=\prod_it_i^{[F:\Q]\rank X}$ (\lref{GlobalTheory.T.halfPowerDetAbs_realDiagonal_torus}). (3) There
+are $k,A,C$ such that for $\Psi,n$ as in the statement, $t\in\mathrm{cone}(c)$ and $\alpha$ as in (1), the sum in (2) is at most
+$C\,n^A\,\mathrm{sob}_k(\Psi)$ (\lref{GlobalTheory.T.torus_mixedCoordinate_sum_le_sobolev_seminorm}). Combining (1)--(3) gives
+the claim.
+\end{proof}
+
+\begin{lemma}[Theta kernels on Siegel sets]\label{pf:sh-theta:siegelbound}
+In the situation of \cref{pf:sh-theta:weilconv}, let $(X_f,Y_f)$ be a Witt frame of $M$ of rank $r$, $\Omega,C_0$ compact,
+$K$ a compact subgroup and $c>0$, with $a_t^{-1}pa_t\in C_0$ for $p\in\Omega$, $t\in\mathrm{cone}(c)$. Then there are $N$ and
+$C$ such that for all $h$, $p\in\Omega$, $t\in\mathrm{cone}(c)$ and $k\in K$
+\[
+|\theta(pa_tk,h;\Phi)|\le C\,\shthetaht(h)^N\prod_{i=1}^rt_i^{[F:\Q]\rank X}.
+\]
+\formallabel{GlobalTheory.T.thetaKernel_siegelSet_le_torusPower_height}
+\formallabel{GlobalTheory.SiegelThetaBound.theta_le_torus_height}
+\end{lemma}
+
+\begin{proof}
+Put $C_1=C_0K$, a compact set. We use three results.
+(a) The level of the translates grows polynomially: there are a compact neighbourhood $K_0$ of $0$ in the symplectic space and
+$m\in\R$, $e\in\N$ such that for all $y\in C_1$ and $h$ there is an integer $1\le n\le m\,\shthetaht(h)^e$ for which
+$\omega(y,h)\Phi$ is invariant under the Heisenberg translations by $nu$, $u\in K_0$ with zero archimedean part
+(\lref{GlobalTheory.T.weilTheta_level_polynomial_in_height}).
+(b) Fix a measure $\mu$ of covolume one with a fundamental domain for the rational points of the symplectic space
+(\lref{GlobalTheory.Size.exists_isCovolOne}), and let $k,A,C_2$ be as in \cref{pf:sh-theta:torus} for $K_0$ and $\mu$.
+(c) There are $N_2$ and $C_3\ge0$ with $\mathrm{sob}_k(\omega(y,h)\Phi)\le C_3\shthetaht(h)^{N_2}$ for $y\in C_1$
+(\lref{GlobalTheory.T.sobolevSeminorm_weilTheta_polynomial_in_height}).
+
+Let $h$, $p\in\Omega$, $t\in\mathrm{cone}(c)$ and $k\in K$, and put $y=a_t^{-1}pa_tk\in C_1$ and $\Psi=\omega(y,h)\Phi$, a theta
+function. Since $(pa_tk,h)=(a_t,1)(y,h)$, $\theta(pa_tk,h;\Phi)=(\omega(a_t,1)\Psi)(0)$. With $n$ as in (a), (b) and (c) give
+\[
+|\theta(pa_tk,h;\Phi)|\le C_2(m\,\shthetaht(h)^e)^AC_3\shthetaht(h)^{N_2}\prod_it_i^{[F:\Q]\rank X},
+\]
+using $n\le|m|\shthetaht(h)^e$ and $\shthetaht(h)\ge1$. This is the claim with $N=eA+N_2$ and $C=C_2|m|^AC_3$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-theta:weilconv}]
+Let $\tau$ be a real place at which $M$ has signature $(\rank M-p,p)$. Choose a Witt frame $(X_f,Y_f)$ of $M$, of some rank
+$r$ (Witt decomposition of hermitian spaces, \cite{Scharlau1985}; \lref{GlobalTheory.SiegelSet.exists_isWittFrame}); since an isotropic subspace has dimension at most the number of
+negative eigenvalues at $\tau$, $r\le p$ (\lref{GlobalTheory.T.hermitianWittIndex_le_negative_signature}). Let
+$K,\Omega,c,C_0$ and $\mathfrak S$ be as in $\sfname{SiegelSetUnitary}$ for this frame, $C_1$ the constant of its integral
+bound for $\nu$, and $N,C$ as in \cref{pf:sh-theta:siegelbound}. Fix $h$. The function $g\mapsto\theta(g,h;\Phi)$ is
+continuous (continuity of the Weil representation) and left invariant under $\Uni(M)(F)$ (automorphy of theta functions).
+Since $\mathfrak S$ meets every $\Uni(M)(F)$-orbit, the integral of a non-negative invariant measurable function over the
+fundamental domain is at most its integral over $\mathfrak S$
+(\lref{GlobalTheory.T.lintegral_fundamentalDomain_le_of_meets_all_orbits}). Hence, with the bound of
+\cref{pf:sh-theta:siegelbound} for $f=|\theta(\cdot,h;\Phi)|$ and $H(t)=\max(C,0)\shthetaht(h)^N\prod_it_i^{[F:\Q]\rank X}$,
+\[
+\int_{\shthetafd}|\theta(g,h;\Phi)|\,d\nu\le\int_{\mathfrak S}|\theta(g,h;\Phi)|\,d\nu
+\le C_1\max(C,0)\,\shthetaht(h)^N\,I,
+\]
+where $I=\int_{\mathrm{cone}(c)}\prod_it_i^{[F:\Q]\rank X}\bigl(\delta(t)\prod_it_i\bigr)^{-1}dt$.
+Since $\rank X<2(\rank M-p)\le2(\rank M-r)$, the integral $I$ is finite
+(\lref{GlobalTheory.T.lintegral_siegelCone_inv_modulus_lt_top_weil}: on the cone the exponent of each $t_i$ in the
+integrand is negative enough). This gives integrability and the bound with the constant $C_1\max(C,0)I$, independent of $h$.
+\end{proof}
+
+\subsubsection{Local matching for squares}
+
+For the square statements, a \emph{triple} $(W,W_1,X)$ of hermitian spaces with unitary characters $(\alpha,\beta)$ satisfies
+the rank, signature, infinity-type and ramification conditions of the formal definition (in particular
+$\rank X=\rank W+\rank W_1$ is even), and \emph{real frames} $A,A_1,B$ of $W,W_1,X$ (signs and frames diagonalising the forms
+at the real places) are fixed. For a sign $\eps$ and frames $A$ of $M$, $B$ of $X$, a \emph{finite vacuum function} $f$ is a
+theta function which is a Fock vacuum at every real place (for the Cartan involutions of the frames), and for a polynomial
+$P$ in the Fock variables $\mathrm{fock}(f,P)$ is the pure tensor of $f$ with the Fock vector of $P$; the span of these is the
+\emph{algebraic Fock space} $\mathcal A_\eps(A,B)$. A \emph{matching datum} for $(\alpha,\beta)$ consists of Weil
+representations $\omega_A$ of $(-W,X)$ with characters $(\beta,\beta/\alpha)$ and $\omega_B$ of $(W_1,X)$ with characters
+$(\alpha,\alpha/\beta)$, an irreducible module $\Pi$ for $\Uni(X)(\A_{\mathrm f})$ and the Lie algebras of $\Uni(X)$ at the
+real places (with actions $r_{\mathrm f}$, $r_{\mathrm l}$), and \emph{coinvariant maps} $p:\mathcal A_+(A,B)\to\Pi$,
+$p':\mathcal A_-(A_1,B)\to\Pi$: surjective linear maps invariant under $\Uni(W)(\A_{\mathrm f})$, resp.\
+$\Uni(W_1)(\A_{\mathrm f})$, killed by the derivatives along the Lie algebras of these groups, and equivariant for
+$\Uni(X)(\A_{\mathrm f})$ and its Lie algebras. Thus $\Pi$ is a common irreducible quotient of the coinvariants of the two
+algebraic Fock spaces.
+
+\begin{definition}[Square local matching]\label{pf:sh-theta:sqlm}
+$\sfname{SquareSt.LocalMatching}$ asserts: for every datum, standard $\psi$, archimedean data $\theta$, hermitian spaces
+$W,W_1,X$ with real frames $A,A_1,B$ and functions $a,b$ from the real places to $\Q$, there are a vector space $\Pi_\R$ and
+surjective linear maps $q$, $q'$ from the polynomial Fock spaces of $(W,X)$ and $(W_1,X)$ onto $\Pi_\R$ such that for all
+$(\alpha,\beta)$ forming a triple with infinity exponents $a(\tau)$ and $b(\tau)$: matching data exist, and for every matching
+datum there are a vector space $\Pi_{\mathrm f}$, linear maps $r,r'$ from the spaces of functions on the two symplectic
+spaces to $\Pi_{\mathrm f}$, each surjective already on the finite vacuum functions, and an isomorphism
+$e:\Pi_\R\otimes\Pi_{\mathrm f}\to\Pi$ with
+\[
+p(\mathrm{fock}(f,P))=e\bigl(q(P)\otimes r(f)\bigr),\qquad p'(\mathrm{fock}(f',P'))=e\bigl(q'(P')\otimes r'(f')\bigr)
+\]
+for all finite vacuum functions $f,f'$ and polynomials $P,P'$.
+\formal{GlobalTheory.SquareSt.LocalMatching}\formal{GlobalTheory.SquareComm.IsMatch}\formal{GlobalTheory.SquareComm.IsTriple}
+\end{definition}
+
+The archimedean factor $(\Pi_\R,q,q')$ depends only on the spaces, frames and infinity exponents, not on the characters.
+The proof is an algebraic decomposition of $\Pi$ into an archimedean and a finite part, which we prove first.
+
+\begin{lemma}[Product form]\label{pf:sh-theta:productform}
+Let $(\rho_i)_{i\in I}$ be endomorphisms of a complex vector space $\Pi_\R$ and $(\sigma_i)_{i\in I}$ endomorphisms of a complex
+vector space $\Pi$. Assume that $\Pi_\R$ is irreducible (its only subspaces stable under all $\rho_i$ are $0$ and $\Pi_\R$) and
+that every endomorphism commuting with all $\rho_i$ is a scalar. Call a linear map $\phi:\Pi_\R\to\Pi$ an \emph{intertwiner}
+if $\phi\rho_i=\sigma_i\phi$ for all $i$. Let $q:Q\to\Pi_\R$ and $q':Q'\to\Pi_\R$ be surjective linear maps,
+$\beta:V\to\Hom(Q,\Pi)$ and $\beta':V'\to\Hom(Q',\Pi)$ linear maps and $S\subseteq V$, $S'\subseteq V'$ subspaces such that
+\begin{enumerate}[label=(\roman*)]
+\item for every $f\in S$ there is an intertwiner $\phi$ with $\beta(f)=\phi\circ q$, and for every $f'\in S'$ an intertwiner
+$\phi'$ with $\beta'(f')=\phi'\circ q'$;
+\item the elements $\beta(f)(x)$, $f\in S$, $x\in Q$, span $\Pi$, and so do the elements $\beta'(f')(x')$.
+\end{enumerate}
+Then there are a vector space $\Pi_{\mathrm f}$, linear maps $r:V\to\Pi_{\mathrm f}$ and $r':V'\to\Pi_{\mathrm f}$ with
+$r(S)=r'(S')=\Pi_{\mathrm f}$, and an isomorphism $e:\Pi_\R\otimes\Pi_{\mathrm f}\to\Pi$ such that
+$\beta(f)(x)=e(q(x)\otimes r(f))$ for $f\in S$ and $\beta'(f')(x')=e(q'(x')\otimes r'(f'))$ for $f'\in S'$.
+\formallabel{GlobalTheory.SquareLM.productForm}
+\formallabel{GlobalTheory.ProductForm.eval_injective}
+\formallabel{GlobalTheory.ProductForm.factorSpace_le}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: linearly independent intertwiners are independent over $\Pi_\R$.} Let $(\phi_k)_{k\in\kappa}$ be linearly
+independent intertwiners and $(x_k)$ a finitely supported family in $\Pi_\R$ with $\sum_k\phi_k(x_k)=0$; we show $x=0$. Suppose
+not, and choose such an $x\ne0$ with support $s$ of minimal size, and $k_0\in s$. Let $R$ be the space of families $d$ supported in
+$s$ with $\sum_k\phi_k(d_k)=0$. It is stable under $d\mapsto(\rho_id_k)_k$, because the $\phi_k$ are intertwiners. The projection
+$\pi:R\to\Pi_\R$, $d\mapsto d_{k_0}$, is injective: if $d_{k_0}=0$ then $d$ has smaller support, so $d=0$ by minimality. Its image
+is stable under all $\rho_i$ and contains $x_{k_0}\ne0$, so it is $\Pi_\R$; thus $\pi$ is bijective. For $k\in s$ the map
+$T_k=(d\mapsto d_k)\circ\pi^{-1}$ commutes with all $\rho_i$, hence $T_k=a_k\cdot1$, and $a_{k_0}=1$ since $T_{k_0}=1$. For every
+$y\in\Pi_\R$ the family $\pi^{-1}(y)=(a_ky)_k$ lies in $R$, so $\bigl(\sum_ka_k\phi_k\bigr)(y)=0$. Hence $\sum_{k\in s}a_k\phi_k=0$
+with $a_{k_0}=1$, contradicting linear independence.
+
+\emph{Step 2: the evaluation map.} Let $F_S$ be the set of intertwiners $\phi$ with $\beta(f)=\phi\circ q$ for some $f\in S$; it is
+a subspace ($\beta$ is linear), and similarly $F_{S'}$. For a subspace $F$ of intertwiners, the evaluation map
+$\mathrm{ev}:\Pi_\R\otimes F\to\Pi$, $y\otimes\phi\mapsto\phi(y)$, is injective: writing an element as $\sum_ky_k\otimes b_k$ for a
+basis $(b_k)$ of $F$, this is Step~1. If $F\supseteq F_S$, $\mathrm{ev}$ is surjective: $\beta(f)(x)=\phi(q(x))=\mathrm{ev}(q(x)\otimes\phi)$
+for $f\in S$, and these elements span $\Pi$ by (ii).
+
+\emph{Step 3: $F_S=F_{S'}$.} Let $\phi\in F_S$ and suppose $\phi\notin F_{S'}$. Then $\phi\ne0$; choose $y$ with $\phi(y)\ne0$. By Step 2
+for $F_{S'}$ (surjectivity), $\phi(y)=\sum_kb_k(y_k)$ for a basis $(b_k)$ of $F_{S'}$ and some $y_k$. The family consisting of $\phi$
+and the $b_k$ is linearly independent ($\phi\notin F_{S'}$), and $\phi(y)-\sum_kb_k(y_k)=0$; by Step 1, $y=0$, a contradiction. So
+$F_S\subseteq F_{S'}$, and by symmetry $F_S=F_{S'}=:F$.
+
+\emph{Step 4: the maps $r,r'$.} For $f\in S$ the intertwiner $\phi_f$ with $\beta(f)=\phi_f\circ q$ is unique because $q$ is
+surjective; hence $f\mapsto\phi_f$ is a linear map $S\to F$, which we extend to a linear map $r:V\to F$. In the same way we obtain
+$r':V'\to F$ with $\beta'(f')=r'(f')\circ q'$ for $f'\in S'$ (using $F_{S'}=F$). Put $\Pi_{\mathrm f}=F$ and $e=\mathrm{ev}$, an
+isomorphism by Step 2. Then $\beta(f)(x)=r(f)(q(x))=e(q(x)\otimes r(f))$, and similarly for $\beta'$. Every $\phi\in F=F_S$ equals
+$\phi_f=r(f)$ for some $f\in S$, and every $\phi\in F=F_{S'}$ equals $r'(f')$ for some $f'\in S'$.
+\end{proof}
+
+\begin{theorem}[Local matching for squares]\label{pf:sh-theta:sqlmthm}
+Howe duality at the real place, $F$ and Theorem~K imply $\sfname{SquareSt.LocalMatching}$.
+\formallabel{GlobalTheory.SquareLM.twisted_square_local_matching}
+\end{theorem}
+
+\begin{proof}
+Fix the data $W,W_1,X,A,A_1,B,a,b$. Under the hypotheses, the \emph{real quotient} exists
+(\lref{GlobalTheory.T.twisted_quotient_real}, about $3\,300$ Lean lines, from the Howe condition on the coinvariants of the
+Fock spaces at the real places, a semisimplicity argument and the comparison of simple quotients): there are a vector space
+$\Pi_\R$ of countable dimension with an action $\rho$ of the Lie algebras of $\Uni(X)$ at the real places under which it is
+irreducible, and surjective linear maps $q,q'$ from the polynomial Fock spaces of $(W,X)$ and $(W_1,X)$ onto $\Pi_\R$, such that
+for every triple $(\alpha,\beta)$ with infinity exponents $a,b$ and every matching datum, and every finite vacuum function $f$ of
+the first kind (resp.\ $f'$ of the second kind), there is a linear map $\phi:\Pi_\R\to\Pi$ intertwining $\rho$ with $r_{\mathrm l}$
+such that $p(\mathrm{fock}(f,P))=\phi(q(P))$ for all $P$ (resp.\ $p'(\mathrm{fock}(f',P'))=\phi(q'(P'))$). By Dixmier's lemma
+(\lref{GlobalTheory.dixmier_commutant_scalar}: an endomorphism of a module of countable dimension over $\C$ which is
+irreducible under a family of endomorphisms and commutes with them is a scalar; cf.\ \cite{Dixmier1974}) the commutant of $\rho$
+consists of scalars. Matching data exist for every triple (\lref{GlobalTheory.T.twist_triple_matches}).
+
+Given a matching datum, the finite vacuum functions form subspaces $S$, $S'$ and $\mathrm{fock}(f,P)$ is linear in $f$ on them
+(the quasi-periodicity, level and Fock vacuum conditions are linear, and the pure tensor is linear in its finite component), so
+$\beta(f)(P)=p(\mathrm{fock}(f,P))$ and $\beta'(f')(P')=p'(\mathrm{fock}(f',P'))$
+are bilinear. Condition (i) of \cref{pf:sh-theta:productform} is the factorisation through the real quotient, and (ii) holds
+because $p$ maps the algebraic Fock space, spanned by the $\mathrm{fock}(f,P)$, onto $\Pi$ (and similarly for $p'$).
+\Cref{pf:sh-theta:productform}, with $I$ the set of pairs (real place, Lie algebra element) and $\sigma=r_{\mathrm l}$, gives
+$\Pi_{\mathrm f}$, $r,r'$ on $S,S'$ and $e$; extending $r,r'$ linearly to all functions gives the statement.
+\end{proof}
+
+\begin{corollary}[Square statements]\label{pf:sh-theta:sqcor}
+\begin{enumerate}[label=(\alph*)]
+\item Howe duality at the real place, $F$ and Theorem~K imply $\sfname{SquareSt.LocalMatching}$.
+\item $F$ and Theorem~K imply $\sfname{SquareSt.ThetaIntegralsAgree}$: for every triple, all Haar measures with fundamental
+domains and every matching datum there is $c\ne0$ such that every $\Phi'$ in the algebraic Fock space of the second kind is
+congruent, modulo the span of the $\omega_B(u,1)\Psi-\Psi$ ($u$ finite), to some $\Phi_0$ whose theta integral converges with
+moderate growth and satisfies $\int\theta(g,\cdot;\Phi)\,dg=c\int\theta(g',\cdot;\Phi_0)\,dg'$ for every $\Phi$ of the first kind with
+$p(\Phi)=p'(\Phi_0)$.
+\item $F$ implies $\sfname{SumOKK}$ (\cref{def:pf:rowprops:five}).
+\end{enumerate}
+\formallabel{GlobalTheory.T.twisted_local_factors_match}
+\formallabel{GlobalTheory.T.twisted_square_theta_integrals_eq}
+\formallabel{GlobalTheory.T.sumOKK_of_theta_local_inputs}
+\end{corollary}
+
+\begin{proof}
+(a) is \cref{pf:sh-theta:sqlmthm}. (b) is \lref{GlobalTheory.SquareAgree.twisted_theta_integrals_agree}, which states exactly
+this. (c) is \lref{GlobalTheory.RowClaim.rowSum_of_hypotheses_alt}, which derives $\sfname{SumOKK}$ from $F$.
+\end{proof}
+
+\subsubsection{Cuspidality of the lifts along a grid}
+
+Let $D$ be a datum, $R$ a realisation, $G$ a grid pre-datum over $R$ (\cref{def:pf:rowprops:grid}) and $\theta$ the archimedean
+data. The nodes of $G$ carry discrete series models; for a node $N$ let $\mathrm{Cusp}(N)$ be its \emph{cuspidal multiplicity
+space}: the vector-valued cusp forms $F$ which assign to each smooth vector $v$ of the model of $N$ an automorphic form $F(v)$ on
+$\Uni(V_N)$. An arrow $a:N\to N'$ of the grid carries a Weil representation and, for every polynomial $P$, an intertwiner
+$\mathrm{It}_a(P)$ from smooth vectors of the model of $N$ to those of $N'$. The arrow \emph{lifts cusp forms} for a finite vacuum
+function $f$ if for every $F\in\mathrm{Cusp}(N)$ there is $F'\in\mathrm{Cusp}(N')$ such that for all $P$, all smooth vectors $v$ and all
+$h$, the integral of $g\mapsto K_a(\mathrm{fock}(f,P);h,g)F(v)(g)$ over a fundamental domain converges and equals
+$F'(\mathrm{It}_a(P)v)(h)$; for the upward arrows of the column $\mathrm c_i\to\mathrm c_{i+1}$ the kernel is the complex
+conjugate of the kernel of the downward arrow.
+
+\begin{definition}[Cuspidal lifts]\label{pf:sh-theta:liftscusp}
+$\sfname{LiftsCuspidal}$ asserts: for every datum $D$ with $r>1800$ whose consecutive Harish-Chandra parameters differ by more
+than $2N(D)^3$ at every real place, every realisation $R$ satisfying the row base conditions (level characters at the base type,
+archimedean data, the measures of the models) and every grid pre-datum $G$ over $R$ satisfying its standing conditions, all
+arrows of $G$ (horizontal $(i,j)\to(i+1,j)$, vertical $(i,j+1)\to(i,j)$, the two arrows between $\mathrm c_i$ and $\mathrm c_{i+1}$,
+and $\mathrm t_j\to\mathrm t_{j+1}$, in range) lift cusp forms for every finite vacuum function.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.CuspAlongSmoothLifts.LiftsCuspidal}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.CuspAlongSmoothLifts.CuspAlong}
+\end{definition}
+
+\begin{theorem}[Theta lifts along a grid preserve cuspidality]\label{pf:sh-theta:cusp}
+$F$ implies $\sfname{LiftsCuspidal}$.
+\formallabel{GlobalTheory.PairLift.thetaPairLift_cuspidal_of_hypotheses}
+\formallabel{GlobalTheory.T.twisted_thetaLift_cuspidal}
+\formallabel{GlobalTheory.PairLift.liftsCuspidal_of_functoriality}
+\formallabel{GlobalTheory.PairLift.liftsCuspidal}
+\formallabel{GlobalTheory.PairLift.cuspAlong_of_pairLifts}
+\end{theorem}
+
+The mechanism is Rallis' tower principle \cite{Rallis1984}: the theta lift of a cusp form is cuspidal as soon as its lifts to all
+lower members of the Witt tower vanish; here the vanishing of the lower lifts is first proved on Fock vectors, from the
+archimedean inputs.
+
+\begin{proof}
+Only four components of $F$ are used: the discrete series cover, Harish-Chandra modules, rapid decay of cusp forms and
+Casselman--Wallach globalisation. From the first two there is a family $X$ of real discrete series data (a ``chosen series'')
+together with the archimedean Rallis properties of its theta correspondence
+(\lref{GlobalTheory.T.exists_real_discreteSeries_data_theta_properties}), and from all four, for every datum $D$, the analytic
+inputs of the pair lifts at $(D,X)$: the models are discrete series of the cover, vacuum characters, Lie and compact actions on
+Fock spaces, density of Fock vectors, the rapid decay properties of the lifts, constant terms along towers and extensions of
+$(\mathfrak g,K)$-modules
+(\lref{GlobalTheory.T.thetaPairAnalyticHypotheses_of_discreteSeries}). With these inputs the following chain holds:
+lower-tower lifts vanish on Fock vectors (\lref{GlobalTheory.T.lowerTowerLifts_vanish_on_fock}), hence on all theta
+functions (\lref{GlobalTheory.T.lowerTowerLiftsVanish_of_vanish_on_fock}); hence theta lifts of cusp forms are cuspidal
+(\lref{GlobalTheory.T.thetaLifts_cuspidal_of_lower_tower_lifts_vanish}); hence the \emph{pair lift statement} holds
+(\lref{GlobalTheory.T.pairThetaLift_factors_through_intertwiner}): for spaces $V,W$ with discrete series models $M,M'$ whose
+parameters are related by the theta rule of $X$ at all real places, a Weil representation with the corresponding infinity
+exponents, a vacuum vector and the intertwiners $\mathrm{It}$ of the Fock vectors, the theta lift with any finite vacuum function
+carries $\mathrm{Cusp}$ of $M'$ to $\mathrm{Cusp}$ of $M$ compatibly with $\mathrm{It}$.
+
+It remains to apply the pair lift statement to the five kinds of arrows. For an arrow from $S$ to $T$ the parameters of the models
+at the two ends, after passing to the contragredient where the arrow reverses the roles, are related by the theta rule of $X$ when
+$D$ satisfies the size conditions (\lref{GlobalTheory.T.contragredientThetaParams_addBlockArrow}, \lref{GlobalTheory.T.contragredientThetaParams_removeBlockArrow}, \lref{GlobalTheory.T.contragredientThetaParams_columnArrows}, and \lref{GlobalTheory.T.contragredientThetaParams_lastRowArrows}).
+The model of a negated space, or the complex conjugate model, is transported to a discrete series model with the same smooth
+vectors (\lref{GlobalTheory.T.exists_negatedSpace_discreteSeriesModelTransport} and \lref{GlobalTheory.T.discrete_series_model_conjugate_transfer}),
+and Fock vectors for frames with the same Cartan involutions correspond bijectively
+(\lref{GlobalTheory.T.fockVector_frameChange_same_cartan}). For arrows lifting towards the source of the pair, this gives
+the lift directly (\lref{GlobalTheory.PairLift.lifts_toSource}); for arrows towards the target, one passes to the conjugate
+Weil datum of the exchanged pair and the adjoint Fock vectors (\lref{GlobalTheory.PairLift.lifts_toTarget}), and for the
+upward column arrow the intertwiner is the adjoint of the real theta intertwiner of the downward arrow
+(\lref{GlobalTheory.T.realThetaIntertwiner_adjoint_isRealThetaIntertwiner}). The infinity exponents of the characters
+$\chi_{m-i}$, $\mu_t(j+1)$ and $\eta$ are those of the grid. This proves $\sfname{LiftsCuspidal}$; the second formal name of the
+theorem restates it (\cref{pf:sh-theta:rem:wrappers}).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The Witt tower of a square}\label{sec:pf:sh-theta:tower}
+
+This subsection proves the Witt-tower norm formula $\sfname{Tower}$ and the existence statement $\sfname{TriEx}$ for bottom
+triples, which are items \ref{pf:fit:S:Tower} and \ref{pf:fit:S:TriEx} of the square statements of \cref{pf:fit:sqtop}
+and are used in the proof of \cref{pf:rowprops:main}. The constant of a seesaw square of a grid compares two
+theta integrals; it is computed by descending a Witt tower: hyperbolic planes are removed one at a time from the two spaces
+of the square until totally definite spaces are reached, and each removal multiplies the constant by a Hecke $L$-value
+and by an explicit arithmetic factor. The descent itself (\cref{pf:sh-theta:descent}) and the final computation are
+proved here in full. The analytic and arithmetic inputs (the five statements of \cref{pf:sh-theta:five}) are reduced
+to the seesaw identities, regularisation statements and local computations of the formal development, which are cited.
+
+\subsubsection{Ranks, units and step multiples}
+
+We use the grids of \cref{def:pf:rowprops:grid}, their Weil data (\cref{def:pf:rowprops:weil}), real matches and square
+constants (\cref{def:pf:rowprops:square}) and the uniformity $\shthetaGBig$ of \cref{pf:fit:uniform}. Throughout, $D$ is a
+global datum with ranks $k,m,t$ and $r=k+m-1$ (so $k,m$ are even, $t$ is odd, $m\ge2$, $m+3\le k$ and $3m<t$), $E$ is
+its CM field and $\shthetaLL$ its coefficient field with the fixed embedding $\shthetaemb:\shthetaLL\to\C$; $T$ is the set
+of types of the level characters, with base type $\mu_0$.
+
+\begin{definition}[Ranks of a square]\label{pf:sh-theta:ranks}
+Put $s=r+6$ and $r_{ij}=r+jt+is$ for $i,j\ge0$ (the rank of the node $(i,j)$ of a grid). For a square $(i,j)$,
+$0\le i,j<m$, put
+\[
+p_j=\Bigl\lfloor\frac{m-j-1}2\Bigr\rfloor,\quad q_j=\Bigl\lfloor\frac{m-j}2\Bigr\rfloor,\quad
+e_T=\frac{r_{i+1,j+1}-r_{ij}}2,\quad h=\frac{r_{i+1,j+1}+r_{ij}}2,
+\]
+$b=r_{i+1,j+1}-2p_j$, $b'=r_{ij}-2q_j$, $e_0=(b-b')/2$ and $h_0=(b+b')/2$.
+\formal{GlobalTheory.ChiGrid.rankV}\formal{GlobalTheory.SqTop.eTop}\formal{GlobalTheory.FunObj.SqNum.halfRank}
+\formal{GlobalTheory.FunObj.SqNum.botBig}\formal{GlobalTheory.FunObj.SqNum.botSmall}\formal{GlobalTheory.SqTop.e0}
+\end{definition}
+
+Since $r$, $s$ and $t$ are odd, $r_{i+1,j+1}-r_{ij}=t+s$ and $r_{i+1,j+1}+r_{ij}$ are even, so $e_T=(t+s)/2$ and
+$h=r_{ij}+e_T$ are integers. As $m\le r\le r_{ij}$, one has $b+2p_j=r_{i+1,j+1}$, $b'+2q_j=r_{ij}$ and
+$2h=r_{i+1,j+1}+r_{ij}$ (\lref{GlobalTheory.FunObj.SqNum.ranks_exact}). Moreover $p_j\le m<t\le e_T$ and
+$e_T+q_j\le e_T+m\le e_T+r_{ij}=h$; we use these two inequalities below.
+
+For a type $t$ let $\shthetaloc(t)$ be the finite set of places of $E$ attached to $t$ by the grid (the places over $S_0$
+and the places of the twist $t$, \cref{def:pf:rowprops:square}), $\shthetatw(t)\subseteq\shthetaloc(t)$ the subset of
+those not lying over $S_0$, and $Q(t)=\prod_{w\in\shthetatw(t)}\Nm w$. For $v\in S_0$ let $c(v)=1$ if $v=v_0$ and
+$c(v)=2$ otherwise.
+
+\begin{definition}[Away-units and step multiples]\label{pf:sh-theta:units}
+Let $n\in\N$. An element $x\in\shthetaLL$ is an \emph{$n$-unit} if $x\,n^k=a$ for some $k\ge0$ and some
+$a\in\OO_{\shthetaLL}$ dividing a power of $n$. For a type $t$ and $u,u_0\in\C$, $u$ is a \emph{step multiple} of $u_0$
+(at $t$) if there are a $Q(t)$-unit $b$ and elements $g_v,g'_v\in\OO_{\shthetaLL}$ dividing $(\Nm v)^{c(v)}$ for
+$v\in S_0$ such that
+\[
+u=\shthetaemb\Bigl(b\prod_{v\in S_0}\frac{g_v}{g'_v}\Bigr)\,u_0 .
+\]
+\formal{GlobalTheory.Square.IsAwayUnit}\formal{GlobalTheory.Square.StepRatio}\formal{GlobalTheory.SqTop.Qn}
+\end{definition}
+
+\begin{lemma}\label{pf:sh-theta:unitlemma}
+Let $n\in\N$ and $t$ a type.
+\begin{enumerate}[label=(\alph*)]
+\item Products of $n$-units are $n$-units, and the inverse of a non-zero $n$-unit is an $n$-unit.
+\item Every $u\in\C$ is a step multiple of itself. If $u$ is a step multiple of $u_0\ne0$, then $u/u_0$ is a step
+multiple of $1$.
+\item If $u_0$ is a step multiple of $u$, $u_0\ne0$, $C\in\C$ and $\zeta$ is a $Q(t)$-unit, then $C\,\shthetaemb(\zeta)\,u$
+is a step multiple of $C\,u_0$.
+\end{enumerate}
+\formallabel{GlobalTheory.Square.IsAwayUnit.mul}
+\formallabel{GlobalTheory.SqTower.isAwayUnit_inv}
+\formallabel{GlobalTheory.SqTower.stepRatio_div}
+\formallabel{GlobalTheory.SqStepBig.stepRatio_swap}
+\end{lemma}
+
+\begin{proof}
+(a) If $xn^k=a$ and $x'n^{k'}=a'$ with $a\mid n^l$, $a'\mid n^{l'}$, then $xx'n^{k+k'}=aa'$ and $aa'\mid n^{l+l'}$. If
+$x\ne0$, $xn^k=a$ and $n^l=ab$ with $b\in\OO_{\shthetaLL}$, then $x^{-1}n^l=n^kb$, and $n^kb$ divides $n^{k+l}$ because
+$a\cdot n^kb=n^{k+l}$.
+(b) Take $b=1$ and $g_v=g'_v=1$. If $u=\shthetaemb(b\prod g_v/g'_v)u_0$ with $u_0\ne0$, then
+$u/u_0=\shthetaemb(b\prod g_v/g'_v)\cdot1$.
+(c) Write $u_0=\shthetaemb(y)u$ with $y=b\prod_vg_v/g'_v$. As $u_0\ne0$, $y\ne0$, so $b\ne0$ and all $g_v\ne0$. Then
+$C\shthetaemb(\zeta)u=\shthetaemb(\zeta b^{-1}\prod_vg'_v/g_v)\,Cu_0$, and $\zeta b^{-1}$ is a $Q(t)$-unit by (a);
+the roles of $g_v$ and $g'_v$ are exchanged.
+\end{proof}
+
+\subsubsection{Theta triples, constants and factorisations}
+
+Let $A$ be a hermitian space over $E$. A \emph{rigging} of $A$ consists of a lattice $\Lambda_A$, a frame
+$\beta_A\in\GL_{\rank A}(\A_{E,\mathrm f})$, and at every real place $\tau$ a Cartan involution $s_{A,\tau}$ of the form
+of $A$ with an orthonormal basis $B_{A,\tau}$; it is \emph{valid} if $\Lambda_A$ is self-dual with frame $\beta_A$ and
+the Cartan data are compatible with the form, and \emph{standard} if the Gram matrix of $A$ is the identity,
+$\Lambda_A=\OO_E^{\rank A}$ and $s_{A,\tau}=B_{A,\tau}=1$. For hermitian spaces $A,W$ let $\shthetaPol(W,A)$ be the
+space of polynomials in the Fock variables of the pair $(A,W)$ (\cref{def:pf:rowprops:weil}).
+
+\begin{definition}[Theta triples]\label{pf:sh-theta:triple}
+Let $T$ be a set. A \emph{theta triple} $X$ over $T$ consists of hermitian spaces $A,A',W$ with riggings; for every
+$t\in T$ representations $\omega_t$ of $\Uni(A)(\A)\times\Uni(W)(\A)$ and $\omega'_t$ of
+$\Uni(A')(\A)\times\Uni(W)(\A)$ on spaces of functions on $\mathrm{Mat}_{\rank A\times\rank W}(\A_E)$, resp.\
+$\mathrm{Mat}_{\rank A'\times\rank W}(\A_E)$; vacuum vectors $\mathrm{vac},\mathrm{vac}'$; an element $e_t$ of the
+adeles, exponents $c_t(w)\in\N$ at the places $w$ of $E$ and finite Schwartz functions $f_t,f'_t$; and Haar measures
+$m,m'$ with fundamental domains $\shthetafd,\shthetafd'$ for $\Uni(A)(F)$, $\Uni(A')(F)$. For $P\in\shthetaPol(W,A)$,
+$P'\in\shthetaPol(W,A')$, $t\in T$ and $h\in\Uni(W)(\A)$ the \emph{theta kernels} are
+\[
+K_t(P;h)(g)=\theta\bigl(\omega_t(g,h)\,\Phi_t(P)\bigr),\qquad K'_t(P';h)(g')=\theta\bigl(\omega'_t(g',h)\,\Phi'_t(P')\bigr),
+\]
+where $\Phi_t(P)$ is the pure tensor of $f_t$ with the Fock vector of $P$ built from the archimedean riggings of $-A$ and
+$W$, and $\Phi'_t(P')$ the analogous tensor for $(A',W)$; the \emph{theta integrals} are the functions
+\[
+I_t(P)(h)=\int_{\shthetafd}K_t(P;h)\,dm,\qquad I'_t(P')(h)=\int_{\shthetafd'}K'_t(P';h)\,dm'
+\]
+on $\Uni(W)(\A)$. Let $\alpha,\beta:T\to\{\text{unitary characters of }\A_E^\times\}$, $\nu:T\to\{\text{Hecke
+characters of }E\}$ and $S:T\to\{\text{finite sets of places of }E\}$. The triple is \emph{of type
+$(\alpha,\beta,\nu,S)$} if $\rank A+\rank A'=\rank W$; the three riggings are valid; for every $t$, $\omega_t$ is a Weil
+representation of the pair $(-A,W)$ with splitting characters $(\beta_t,\beta_t/\alpha_t)$ and $\omega'_t$ one of
+$(A',W)$ with splitting characters $(\alpha_t,\alpha_t/\beta_t)$; the vacuum vectors are vacuum vectors of the
+riggings; $e_t$ is an idempotent sum for the places of $S(t)$; $c_t(w)$ is the conductor exponent of $\nu(t)$ at $w\in
+S(t)$; $f_t$ and $f'_t$ are the theta functions at $e_t$ of the vacuum vectors and of the two explicit unit-character
+sections attached to $\alpha_t/\beta_t$ and the ideal $\prod_{w\in S(t)}w^{c_t(w)}$; and $m,m'$ are Haar measures with
+fundamental domains.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.Tri}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.Tri.Is}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.Rig.Is}
+\end{definition}
+
+\begin{definition}[Constants and factorisations]\label{pf:sh-theta:const}
+Let $X$ be a theta triple over $T$ (with fixed $\psi,\theta$).
+\begin{enumerate}[label=(\alph*)]
+\item A function $c:T\to\C$ is a \emph{constant} of $X$ if $c$ is not identically zero and there are
+$P\in\shthetaPol(W,A)$, $P'\in\shthetaPol(W,A')$ such that for every $t$: the kernels $K_t(P;h)$ and $K'_t(P';h)$ are
+integrable on the fundamental domains for every $h$, $I'_t(P')\ne0$, and $I_t(P)=c(t)\,I'_t(P')$.
+\item A \emph{factorisation} of $X$ with multiplier $\lambda:T\to\C$ consists of a complex vector space $\Pi$, linear maps
+$p:\shthetaPol(W,A)\to\Pi$ (surjective) and $p':\shthetaPol(W,A')\to\Pi$, and injective linear maps $J_t$ from $\Pi$ to
+the functions on $\Uni(W)(\A)$, such that $\lambda(t)\ne0$ for all $t$; all kernels $K_t(P;h)$ are integrable;
+$I_t(P)=\lambda(t)J_t(p(P))$ for all $t,P$; $I'_t(P')=J_t(p'(P'))$ whenever the kernels $K'_t(P';h)$ are integrable for all
+$h$; and there is $P'$ with $p'(P')\ne0$ whose kernels $K'_t(P';h)$ are integrable for all $t,h$.
+\end{enumerate}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.Tri.IsConst}\formal{GlobalTheory.ConstRatio.Factor}
+\end{definition}
+
+So a factorisation says that the theta integrals of both members of the triple factor through one common quotient
+$\Pi$ of the space of polynomials, on which the integrals of the second member are realised by the same injective maps
+$J_t$ as those of the first member, up to the scalars $\lambda(t)$.
+
+\begin{lemma}[Constants of a factorised triple]\label{pf:sh-theta:factor}
+Let $X$ be a theta triple with a factorisation with multiplier $\lambda$.
+\begin{enumerate}[label=(\alph*)]
+\item If $T$ is non-empty, $\lambda$ is a constant of $X$.
+\item If $c$ is a constant of $X$, there is $\kappa\ne0$ with $c(t)=\kappa\lambda(t)$ for all $t$.
+\end{enumerate}
+\formallabel{GlobalTheory.ConstRatio.Factor.isConst}
+\formallabel{GlobalTheory.ConstRatio.Factor.eq_mul}
+\end{lemma}
+
+\begin{proof}
+(a) Let $P'$ be as in the last condition of the factorisation and choose $P$ with $p(P)=p'(P')$ ($p$ is surjective). For
+every $t$ the kernels of $P$ and $P'$ are integrable, and
+$I_t(P)=\lambda(t)J_t(p(P))=\lambda(t)J_t(p'(P'))=\lambda(t)I'_t(P')$. If $I'_t(P')=0$, then $J_t(p'(P'))=0$, so $p'(P')=0$
+by injectivity of $J_t$, a contradiction; hence $I'_t(P')\ne0$. Finally $\lambda$ does not vanish, and $T\ne\emptyset$.
+
+(b) Let $P,P'$ be the polynomials of the constant $c$ and $t_1$ a type with $c(t_1)\ne0$. For every $t$,
+$J_t(\lambda(t)p(P))=I_t(P)=c(t)I'_t(P')=J_t(c(t)p'(P'))$, the kernels of $P'$ being integrable; by injectivity
+$\lambda(t)p(P)=c(t)p'(P')$. Moreover $p'(P')\ne0$, since otherwise $I'_{t_1}(P')=J_{t_1}(0)=0$. Hence
+$p(P)=\lambda(t)^{-1}c(t)\,p'(P')$ for every $t$, and comparing with $t=t_1$ gives
+$\lambda(t)^{-1}c(t)=\lambda(t_1)^{-1}c(t_1)=:\kappa$, which is non-zero.
+\end{proof}
+
+\begin{definition}[Stage triples and bottom triples]\label{pf:sh-theta:stage}
+Let $G$ be a grid datum with Weil datum $W$ (with character $\psi$ and archimedean data $\theta$), $(i,j)$ a square
+and $p,q\in\N$. Put $\eps=r_{ij}\bmod 2$,
+\[
+\alpha_t=\mu_t(j+1)\,\eta^{\eps},\qquad\beta=\chi_{m-i}\,\eta^{\eps},\qquad
+\nu_H(t,i,j)=\mu_{0,j}\,\xi_t\,\chi_{m-i}^{-1},
+\]
+where $\mu_t(j+1)$, $\eta$, $\xi_t$ and $\mu_{0,j}$ are the characters of the level characters and $\chi_{m-i}$ that of
+the grid. A theta triple $X$ with spaces $(A,A',W')$ is a \emph{stage-$(p,q)$ triple} of the square if $p\le p_j$,
+$q\le q_j$,
+\[
+\rank A+2p_j=r_{i+1,j+1}+2p,\qquad\rank A'+2q_j=r_{ij}+2q,
+\]
+the forms of $A$, $A'$ and $W'$ have exactly $p$, $q$ and $p+q$ negative eigenvalues at every real place, and $X$ is of
+type $(\alpha,\beta,\nu_H(\cdot,i,j),\shthetaloc)$. It is a \emph{bottom triple} if $\rank A=b$, $\rank A'=b'$, its three
+riggings are standard, and it is of the same type.
+\formal{GlobalTheory.SqTower.IsStageC}\formal{GlobalTheory.ConstRatio.NegIdx}\formal{GlobalTheory.RowTest.IsBottomTri}
+\formal{GlobalTheory.FunObj.SqNum.nuH}
+\end{definition}
+
+Stage $(p_j,q_j)$ has the ranks $r_{i+1,j+1}$ and $r_{ij}$ of the nodes of the square, and passing from stage
+$(p,q+1)$ to $(p,q)$, or from $(p+1,0)$ to $(p,0)$, lowers the rank of $A'$, resp.\ of $A$, and that of $W'$ by $2$: one
+hyperbolic plane is removed.
+
+\begin{lemma}\label{pf:sh-theta:botstage}
+Every bottom triple of a square is a stage-$(0,0)$ triple of it.
+\formallabel{GlobalTheory.SqTower.IsBottomTri.isStageC}
+\end{lemma}
+
+\begin{proof}
+The Gram matrices of its spaces are the identity, so the forms are positive definite at every real place: $0$, $0$ and $0$
+negative eigenvalues. Its ranks are $b$ and $b'$, and $b+2p_j=r_{i+1,j+1}$, $b'+2q_j=r_{ij}$; and $0\le p_j$, $0\le q_j$. The type
+is the same.
+\end{proof}
+
+\begin{definition}[Regularised constants; tied real matches]\label{pf:sh-theta:reg}
+In the notation of \cref{def:pf:rowprops:square}, a number $c_0$ is a \emph{regularised constant} of the square $(i,j)$
+at the type $t$ for a real match $\varrho$ if for every volume datum $M$ of level $t$, every matched pair
+$(\Theta,\Theta')$ and all $g,g_1$ there is a finite combination $z$ with $\shthetadeg z\ne0$ such that the two route
+kernels are integrable and
+$\shthetadeg z\int K^{\mathrm{big}}_\Theta(g,g_1)\,d\nu=c_0\int z\cdot K^{\mathrm{sm}}_{\Theta'}(g,g_1)\,d\nu$. The real
+match is \emph{tied} if for all squares, types and grid frames, and for every local matching datum of the square
+(\cref{def:families:K}), the images in the common quotient of the finite theta data of matched pairs of route tensors
+are proportional, with a factor independent of the pair.
+\formal{GlobalTheory.SqTower.RegConst}\formal{GlobalTheory.FunObj.RealMatch.Tied}
+\end{definition}
+
+\subsubsection{The five tower statements}
+
+In the following statements ``at large scale'' means: the statement $\shthetaGBig(Q)$ of \cref{pf:fit:uniform} holds for
+the property $Q(G,\mu_0,C,x,b)$ which asserts the displayed conclusion for every Weil datum $W$ of $G$ with standard
+character $\psi$ and every grid choice $S$ satisfying the field condition $\sfname{NumbersIn}$ at $\mu_0$ (the values of
+the characters of the grid, the eighth roots of unity and the roots of unity of order $\Nm w^{\mathrm{depth}(w)}$,
+$w\in\shthetaloc(t)$, lie in $\shthetaemb(\shthetaLL)$), and every square $(i,j)$. A finite conjunction of statements at
+large scale holds at large scale (take the maxima of the thresholds), and a statement implied by one at large scale holds
+at large scale. We write $F$ for
+$\sfname{ThetaLocalInputs}$ (\cref{sec:families:theta}) and ``Theorem~K'' for the conjunction of
+$\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ (\cref{def:families:K}). For a Hecke character $\nu$, an
+\emph{$L$-function of $\nu$} is an entire function which equals the Euler product of the Hecke $L$-function of $\nu$ on
+$\Re s>1$; it is unique by the identity theorem. $L^{S_0}(\nu,s)$ denotes the partial $L$-function without the Euler
+factors at $S_0$, and $L_t$ an $L$-function of $\nu_H(t,i,j)$.
+
+\begin{proposition}[The five tower statements]\label{pf:sh-theta:five}
+Assume $F$ and Theorem~K. Then the following hold at large scale.
+\begin{enumerate}[label=\textup{(T\arabic*)},leftmargin=*]
+\item\label{pf:sh-theta:T1} \emph{(Top stage.)} For every real match $\varrho$ there are a stage-$(p_j,q_j)$ triple $X$, a
+constant $c$ of $X$ and $\kappa:T\to\C$ such that for every $t$, $\kappa(t)\ne0$ and $\kappa(t)=\shthetaemb(\zeta_t)\kappa(\mu_0)$
+for a $Q(t)$-unit $\zeta_t$, and every square constant $c'$ of a non-zero square at $(i,j,t)$ equals $\kappa(t)c(t)$.
+\item\label{pf:sh-theta:T2} \emph{(Factorisation.)} Every stage-$(p,q)$ triple has a factorisation.
+\item\label{pf:sh-theta:T3} \emph{(Small-rank step.)} Let $X$ be a stage-$(p,q+1)$ triple with a factorisation with multiplier
+$\lambda$, with $\rank A=\rank A'+2e$, and let $L_t$ be $L$-functions of $\nu_H(t,i,j)$. Then there are a stage-$(p,q)$
+triple $Y$ with a constant $c$ and $y:T\to\C$ such that for all $t$: $y(t)\ne0$,
+$\lambda(t)L_t(e+1)=y(t)c(t)$, and $y(t)$ is a step multiple of $y(\mu_0)$.
+\item\label{pf:sh-theta:T4} \emph{(Large-rank step.)} Let $X$ be a stage-$(p+1,0)$ triple with a factorisation with multiplier
+$\lambda$, with $\rank A=\rank A'+2e$, and let $L_t$ be as in (T3). Then there are a stage-$(p,0)$ triple $Y$ with a
+constant $c$ and $y:T\to\C$ such that for all $t$: $y(t)\ne0$, $\lambda(t)=y(t)L_t(e)c(t)$, and $y(t)$ is a step multiple
+of $y(\mu_0)$.
+\item\label{pf:sh-theta:T5} \emph{(Bottom.)} If $X$ is a bottom triple and $Y$ a stage-$(0,0)$ triple with a constant $c$,
+there is $v:T\to\C$ such that $t\mapsto v(t)c(t)$ is a constant of $X$, and for every $t$, $v(t)\ne0$ and
+$v(t)=\shthetaemb(\zeta_t)v(\mu_0)$ for a $Q(t)$-unit $\zeta_t$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.witt_tower_top_stage_theta_norm_formula}
+\formallabel{GlobalTheory.SqTower.theta_tower_top_stage_norm_eq}
+\formallabel{GlobalTheory.T.exists_factor_of_isStageC}
+\formallabel{GlobalTheory.StageFactor.theta_tower_stage_norm_factorization}
+\formallabel{GlobalTheory.T.witt_tower_norm_step_of_small_rank}
+\formallabel{GlobalTheory.SqStep.theta_tower_norm_step_small_rank}
+\formallabel{GlobalTheory.T.witt_tower_norm_step_of_large_rank}
+\formallabel{GlobalTheory.SqStepBig.theta_tower_norm_step_large_rank}
+\formallabel{GlobalTheory.T.witt_tower_constant_ratio_eq_bottom}
+\formallabel{GlobalTheory.SqTower.theta_tower_bottom_constant_ratio}
+\end{proposition}
+
+The five statements rest on the following results of the formal development, which are cited (all of them hold at large
+scale under $F$ and Theorem~K, except where stated otherwise).
+\begin{enumerate}[label=(\roman*),leftmargin=*]
+\item\label{pf:sh-theta:c:grid} For every Weil datum there is a stage-$(p_j,q_j)$ triple on the spaces
+$(V_{i+1,j+1},V_{ij},V_{i,j+1}\oplus V_{i+1,j})$ of the square whose riggings are the lattices and Cartan involutions of
+the grid (\lref{GlobalTheory.T.exists_grid_of_square_tower}; this needs only $F$).
+\item\label{pf:sh-theta:c:tied} For every real match $\varrho$ there is a tied real match $\varrho_0$ with the same vacuum
+vectors, and every square has a regularised constant for $\varrho_0$ at every type
+(\lref{GlobalTheory.T.exists_tied_theta_pair}).
+\item\label{pf:sh-theta:c:real} If $\varrho,\varrho_0$ have the same vacuum vectors, there is $l\ne0$ such that for every type
+$t$, every square constant $c'$ for $\varrho$ and every regularised constant $c_0$ for $\varrho_0$ at $(i,j,t)$ one has
+$c_0\ne0$ and $c'=l\,c_0$ (\lref{GlobalTheory.T.theta_real_places_separation}; separation at the real places).
+\item\label{pf:sh-theta:c:reg} If $\varrho$ is tied and $X$ is the triple of \ref{pf:sh-theta:c:grid} with a factorisation with
+multiplier $\lambda$, there is $\kappa$ with $\kappa(t)\ne0$, $\kappa(t)=\shthetaemb(\zeta_t)\kappa(\mu_0)$ for $Q(t)$-units
+$\zeta_t$, such that every regularised constant at $(i,j,t)$ for $\varrho$ equals $\kappa(t)\lambda(t)$
+(\lref{GlobalTheory.T.regConst_eq_away_unit_mul_factor}; the comparison of regularised constants, about $6\,000$ Lean
+lines).
+\item\label{pf:sh-theta:c:stage} \emph{(Stage dictionary.)} For every stage triple $X$ there are real frames of $A,A',W'$ and
+functions $a,b$ on the real places such that for every $t$: $(A,A',W')$ with the characters $(\alpha_t,\beta)$ is a triple in the
+sense of \cref{sec:pf:sh-theta:squares} with infinity exponents $a,b$; $f_t$ and $f'_t$ are finite vacuum functions; and
+$K_t(P;h)(g)=\theta(g,h;\mathrm{fock}(f_t,P))$, $K'_t(P';h)(g')=\theta(g',h;\mathrm{fock}(f'_t,P'))$
+(\lref{GlobalTheory.T.towerStage_thetaDictionary_exists} and \lref{GlobalTheory.T.towerStage_seesawDictionary_tripleConditions}).
+Moreover there is $P'$ whose kernels $K'_t(P';h)$ are integrable for all $t,h$ with $I'_t(P')\ne0$ for all $t$
+(\lref{GlobalTheory.T.theta_small_rank_stage_holds}; non-vanishing of the small-rank integrals, about $4\,700$ lines).
+\item\label{pf:sh-theta:c:ktype} \emph{(Factorisation through the archimedean quotient.)} For a triple with real frames and infinity
+exponents $a,b$ there are a vector space $\Pi_\R$ and a linear map $q$ from the polynomials to $\Pi_\R$ such that for every Weil
+representation of the first pair with the characters of the triple and every finite vacuum function $f$ there are a vector space
+$\Pi_{\mathrm f}$, $y\in\Pi_{\mathrm f}$ and a linear map $J$ from $\Pi_\R\otimes\Pi_{\mathrm f}$ to the functions on $\Uni(W')(\A)$,
+zero or injective, with $\int\theta(g,\cdot;\mathrm{fock}(f,P))\,dg=J(q(P)\otimes y)$ for all $P$
+(\lref{GlobalTheory.T.thetaIntegral_factors_through_kType}).
+\item\label{pf:sh-theta:c:match} \emph{(Matching data.)} For a triple and Weil representations of its two pairs with the
+characters of the triple, matching data with these Weil representations exist
+(\lref{GlobalTheory.T.triple_weil_transfer_matching}). For a stage triple, a matching datum at $t$ whose coinvariant maps are
+product maps as in \cref{pf:sh-theta:sqlm} satisfies $r(f_t)=\kappa\,r'(f'_t)$ for some $\kappa\ne0$
+(\lref{GlobalTheory.T.theta_finiteData_match_each_stage}). For every matching datum there is $c\ne0$ such that
+$\int\theta(g,\cdot;\Phi)\,dg=c\int\theta(g',\cdot;\Phi')\,dg'$ whenever $\Phi$, $\Phi'$ lie in the algebraic Fock spaces, the kernels
+of $\Phi'$ are integrable and $p(\Phi)=p'(\Phi')$ (\lref{GlobalTheory.T.thetaIntegrals_agree_of_convergence}).
+\item\label{pf:sh-theta:c:seesaw} \emph{(Seesaw reduction.)} In the situation of (T3) there are a stage-$(p,q)$ triple $Y$ with a
+constant $c$ which vanishes nowhere and, for every $t$, a base datum fitting $(G,W,i,j,t)$, units $e_1,e_2,s\in\Z^\times$ and
+fractional ideals $\mathfrak b,\mathfrak c$ of $E$ such that the step factors $\phi_t=\mathrm{stepFac}(t;-e)$ and
+$\phi_{\mu_0}=\mathrm{stepFac}(\mu_0;-e)$ are non-zero, $L^{S_0}(\nu_t,e+1)\ne0\ne L^{S_0}(\nu_{\mu_0},e+1)$, and
+\[
+\lambda(t)L^{S_0}(\nu_t,e+1)\,\phi_t\,c(\mu_0)=\lambda(\mu_0)L^{S_0}(\nu_{\mu_0},e+1)\,\phi_{\mu_0}\,c(t)
+\]
+(\lref{GlobalTheory.T.seesaw_first_reduction_level}). Here $\nu_t=\alpha_t/\beta$, and the \emph{step factor} of the
+step relations of Theorem~K (\cref{def:families:K}) is
+$\mathrm{stepFac}(t;z)=\nu_t(\mathfrak b)^{e_1}\nu_t(\mathfrak c)^{e_2}\prod_{v}\nu_{t,v}(s)\,\epsilon(\psi_v,\nu_{t,v},z)$,
+the product over the places $v$ of $F$ in $S_0$ or below a twist place of $t$, $\nu_{t,v}$ being the local component and
+$\epsilon$ the local epsilon factor.
+\item\label{pf:sh-theta:c:big} \emph{(Step identity.)} In the situation of (T4) there are a stage-$(p,0)$ triple $Y$ with a
+constant $c$ and, for every $t$, base data, units, ideals, $C\in\C$ and a $Q(t)$-unit $\zeta$ with
+$\lambda(t)=C\,\shthetaemb(\zeta)\,\phi_t\,L^{S_0}(\nu_t,e)\,c(t)$ and
+$\lambda(\mu_0)=C\,\phi_{\mu_0}\,L^{S_0}(\nu_{\mu_0},e)\,c(\mu_0)$, where now $\phi_t=\mathrm{stepFac}(t;1-e)$
+(\lref{GlobalTheory.SqStepBig.theta_tower_step_norm_identity}).
+\item\label{pf:sh-theta:c:gauss} \emph{(Arithmetic of the step factors.)} If a base datum fits $(G,W,i,j,t)$ and the step
+factor $\phi_t$ (for any shift) is non-zero, then $\phi_{\mu_0}$ is a step multiple of $\phi_t$
+(\lref{GlobalTheory.T.thetaStepFactor_ratio_unit_gaussSumQuotient}; a quotient of Gauss sums is a unit away from
+$Q(t)$; this holds at large scale without hypotheses).
+\item\label{pf:sh-theta:c:bottom} \emph{(Bottom transport.)} For a bottom triple $X$ with spaces $(A,A',W')$ and a stage-$(0,0)$
+triple $Y$: there is a stage-$(0,0)$ triple $Y'$ on the spaces of $X$ having every constant of $Y$
+(\lref{GlobalTheory.T.definiteBottom_stage_transport_same_constants}); if $Y$ is on the spaces of $X$, there are a
+stage-$(0,0)$ triple $Z$ with the lattices of $X$ and $v_1$ with $v_1(t)\ne0$, $v_1(t)=\shthetaemb(\zeta_t)v_1(\mu_0)$ for
+$Q(t)$-units $\zeta_t$, such that $v_1c$ is a constant of $Z$ for every constant $c$ of $Y$
+(\lref{GlobalTheory.T.definiteBottom_lattice_change_constants_awayUnit}); if moreover $Y$ has the lattices of $X$, the
+same holds with $Z$ having the lattices and the frames of $X$
+(\lref{GlobalTheory.T.definiteBottom_framesChange_stageZero}); and if $Y$ has the lattices and frames of $X$, then for
+every constant $c$ of $Y$ there is $\kappa\ne0$ such that $\kappa c$ is a constant of $X$
+(\lref{GlobalTheory.T.definiteBottom_tower_constants_differ_by_factor}). These four statements hold for all data, without
+hypotheses.
+\end{enumerate}
+
+The partial $L$-values occurring in \ref{pf:sh-theta:c:seesaw} and \ref{pf:sh-theta:c:big} are values of $L$-functions of
+$\nu_H(t,i,j)$:
+
+\begin{lemma}[Partial $L$-values of a square]\label{pf:sh-theta:partialL}
+The following holds at large scale, with all thresholds equal to $0$ and without hypotheses: for every type $t$, every integer
+$s\ge2$ and every $L$-function $\Lambda$ of $\nu_H(t,i,j)$, one has $L^{S_0}(\nu_t,s)=\Lambda(s)$, where $\nu_t=\alpha_t/\beta$.
+\formallabel{GlobalTheory.T.partialHeckeLFunction_square_eq_primitive}
+\formallabel{GlobalTheory.SqStep.charL_chs_eq}
+\end{lemma}
+
+\begin{proof}
+As $\alpha_t$ and $\beta$ contain the same power of $\eta$, $\nu_t=\mu_t(j+1)\,\chi_{m-i}^{-1}$. By the defining properties of the
+level characters at the base type and of the characters of the grid, this idele class character and the Hecke character
+$\nu_H(t,i,j)$ have the same local components (\lref{GlobalTheory.FunObj.SqNum.chrEq_nu}). Consequently $L^{S_0}(\nu_t,\cdot)$, the product of the local factors
+$(1-\nu_t(\varpi_w)\Nm w^{-s})^{-1}$ at the places $w$ of $E$ not above $S_0$ at which $\nu_t$ is unramified, is the Hecke
+$L$-function of $\nu_H(t,i,j)$ with the Euler factors at the places above $S_0$ removed
+(\lref{GlobalTheory.LFun.charL_eq_of_chrEq}). The Hecke character $\nu_H(t,i,j)$ is ramified at every place of $E$ above a
+place of $S_0$ (\lref{GlobalTheory.SqStep.nuH_not_unrAt_above}), so its Euler factors at these places are equal to $1$, and
+removing them does not change the product. Since $\Re s=s>1$, the full Euler product converges unconditionally to $\Lambda(s)$,
+by the definition of an $L$-function of $\nu_H(t,i,j)$; hence so does the partial one
+(\lref{GlobalTheory.SqStep.heckeL_eq_of_ram}: if a Hecke character is ramified at every place of a set $S$, its
+$L$-function without the factors at $S$ equals its $L$-function on $\Re s>1$).
+\end{proof}
+
+\begin{lemma}[Theta integrals of stage triples]\label{pf:sh-theta:stageint}
+Assume $F$ and Theorem~K. At large scale, every stage-$(p,q)$ triple $X$ satisfies:
+\begin{enumerate}[label=(\alph*)]
+\item all kernels $K_t(P;h)$ are integrable on the fundamental domain;
+\item there are a linear map $\sigma$ from the polynomials of $(A',W')$ to those of $(A,W')$ and $\lambda:T\to\C^\times$ with
+$I_t(\sigma P')=\lambda(t)I'_t(P')$ whenever the kernels $K'_t(P';h)$ are integrable for all $h$;
+\item if $I_t(P)=0$ for some $t$, then $I_{t'}(P)=0$ for all $t'$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.theta_integral_stage_convergent}
+\formallabel{GlobalTheory.StageConv.theta_stage_converges}
+\formallabel{GlobalTheory.T.theta_stage_liftable}
+\formallabel{GlobalTheory.StageLift.theta_stage_lift_exists}
+\formallabel{GlobalTheory.T.theta_stage_kernel_characterization}
+\formallabel{GlobalTheory.StageKer.theta_stage_kernel_eq}
+\end{lemma}
+
+\begin{proof}
+(a) The bundle $F$ contains $\sfname{SiegelSetUnitary}$, so \cref{pf:sh-theta:weilconv} applies to the Weil representation
+$\omega_t$ of $(-A,W')$, to the theta function $\Phi_t(P)$ (a pure tensor of the theta function $f_t$ with a Fock vector, hence a
+theta function), and to the number $p$ of negative eigenvalues of $A$, provided $\rank W'<2(\rank A-p)$. By the stage conditions
+and $\rank W'=\rank A+\rank A'$,
+\[
+2(\rank A-p)-\rank W'=\rank A-2p-\rank A'=t+s-2p_j+2(q_j-q)\ge t+s-(m-1)>0,
+\]
+since $2p_j\le m-1$, $q\le q_j$ and $s=r+6>m$.
+
+(b) Let the frames and exponents of the dictionary \ref{pf:sh-theta:c:stage} be fixed, and let $(\Pi_\R,q,q')$ be the archimedean
+factor of the square local matching (\cref{pf:sh-theta:sqcor}(a)) for these data; $q$ is surjective, so it has a linear right
+inverse $g$. Put $\sigma=g\circ q'$. Fix $t$. By \ref{pf:sh-theta:c:match} there is a matching datum with the Weil representations
+$\omega_t,\omega'_t$ of $X$, and by the square local matching its coinvariant maps are product maps $p(\mathrm{fock}(f,P))=
+e(q(P)\otimes r(f))$, $p'(\mathrm{fock}(f',P'))=e(q'(P')\otimes r'(f'))$; by \ref{pf:sh-theta:c:match} again $r(f_t)=\kappa\,r'(f'_t)$ with
+$\kappa\ne0$, and there is $c\ne0$ with the agreement property. Then, as $q(g(q'(P')))=q'(P')$,
+\[
+p\bigl(\mathrm{fock}(f_t,\sigma P')\bigr)=e\bigl(q'(P')\otimes\kappa\,r'(f'_t)\bigr)=p'\bigl(\kappa\,\mathrm{fock}(f'_t,P')\bigr).
+\]
+If the kernels of $P'$ are integrable, so are those of $\kappa\,\mathrm{fock}(f'_t,P')$, and the agreement property gives
+$I_t(\sigma P')=c\kappa\,I'_t(P')$, using the dictionary to identify the kernels. Put $\lambda(t)=c\kappa\ne0$.
+
+(c) Let $(\Pi_\R,q)$ be as in \ref{pf:sh-theta:c:ktype} for the triple at the frames of the dictionary; for each $t$ we get
+$\Pi_{\mathrm f}$, $y$ and $J$ with $I_t(P)=J(q(P)\otimes y)$ for all $P$. Let $P'_0$ be the polynomial of \ref{pf:sh-theta:c:stage}
+and $\sigma,\lambda$ as in (b); then $I_t(\sigma P'_0)=\lambda(t)I'_t(P'_0)\ne0$. Hence $J\ne0$, so $J$ is injective, and $y\ne0$.
+Therefore $I_t(P)=0$ if and only if $q(P)\otimes y=0$, if and only if $q(P)=0$, a condition independent of $t$.
+\end{proof}
+
+\begin{lemma}[A factorisation from its parts]\label{pf:sh-theta:parts}
+Let $X$ be a theta triple over $T$ and assume: all kernels $K_t(P;h)$ are integrable; if $I_t(P)=0$ for some $t$ then
+$I_{t'}(P)=0$ for all $t'$; there are a linear map $\sigma:\shthetaPol(W,A')\to\shthetaPol(W,A)$ and $\lambda:T\to\C^\times$ with
+$I_t(\sigma P')=\lambda(t)I'_t(P')$ whenever the kernels $K'_t(P';h)$ are integrable for all $h$; and there is $P'_0$ whose kernels
+are integrable for all $t,h$ with $I'_t(P'_0)\ne0$ for all $t$. Then $X$ has a factorisation with multiplier $\lambda$.
+\formallabel{GlobalTheory.StageFactor.factor_of_parts}
+\end{lemma}
+
+\begin{proof}
+If $T$ is empty, $\Pi=\C$ with $p=p'$ the constant coefficient (and $P'=1$) is a factorisation. Otherwise fix $t_0\in T$ and let $K$
+be the kernel of the linear map $P\mapsto I_{t_0}(P)$ (linear by the integrability of all kernels and linearity of the integral). By
+the second hypothesis, $K$ is the kernel of $P\mapsto I_t(P)$ for every $t$. Put $\Pi=\shthetaPol(W,A)/K$, let $p$ be the quotient
+map, $p'=p\circ\sigma$, and $J_t=\lambda(t)^{-1}\bar I_t$, where $\bar I_t:\Pi\to\{\text{functions}\}$ is induced by $I_t$; $\bar
+I_t$, hence $J_t$, is injective. Then $I_t(P)=\lambda(t)J_t(p(P))$, and if the kernels of $P'$ are integrable,
+$J_t(p'(P'))=\lambda(t)^{-1}I_t(\sigma P')=I'_t(P')$. Finally $p'(P'_0)\ne0$: otherwise $\sigma P'_0\in K$, so
+$0=I_{t_0}(\sigma P'_0)=\lambda(t_0)I'_{t_0}(P'_0)$, contradicting $\lambda(t_0)\ne0\ne I'_{t_0}(P'_0)$.
+\end{proof}
+
+\begin{lemma}[Comparison of square constants with the top stage]\label{pf:sh-theta:compare}
+Assume $F$ and Theorem~K. At large scale, for every real match $\varrho$ and every triple $X$ as in \ref{pf:sh-theta:c:grid} with a
+factorisation with multiplier $\lambda$, there is $\kappa:T\to\C$ with $\kappa(t)\ne0$ and $\kappa(t)=\shthetaemb(\zeta_t)\kappa(\mu_0)$
+for $Q(t)$-units $\zeta_t$, such that every square constant $c'$ at $(i,j,t)$ for $\varrho$ equals $\kappa(t)\lambda(t)$.
+\formallabel{GlobalTheory.T.theta_square_norm_comparison}
+\formallabel{GlobalTheory.SqCompare.theta_square_comparison}
+\end{lemma}
+
+\begin{proof}
+Let $\varrho_0$ be the tied real match of \ref{pf:sh-theta:c:tied}, $l\ne0$ the number of \ref{pf:sh-theta:c:real} for
+$(\varrho,\varrho_0)$ and $\kappa_0$ the function of \ref{pf:sh-theta:c:reg} for $\varrho_0$, and put $\kappa=l\kappa_0$. Then
+$\kappa(t)=l\kappa_0(t)\ne0$ and $\kappa(t)=\shthetaemb(\zeta_t)\kappa(\mu_0)$. If $c'$ is a square constant at $(i,j,t)$, let $c_0$ be a
+regularised constant for $\varrho_0$ at $(i,j,t)$ \ref{pf:sh-theta:c:tied}; then $c'=lc_0$ by \ref{pf:sh-theta:c:real} and
+$c_0=\kappa_0(t)\lambda(t)$ by \ref{pf:sh-theta:c:reg}, so $c'=\kappa(t)\lambda(t)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-theta:five}]
+Each statement is a combination of finitely many statements at large scale, so it suffices to verify the implications for
+fixed data.
+
+(T2) Let $X$ be a stage-$(p,q)$ triple. \Cref{pf:sh-theta:stageint} and the last statement of \ref{pf:sh-theta:c:stage} are the
+hypotheses of \cref{pf:sh-theta:parts}, which gives the factorisation.
+
+(T1) Let $X$ be the stage-$(p_j,q_j)$ triple of \ref{pf:sh-theta:c:grid} and $\lambda$ the multiplier of a factorisation
+(T2); by \cref{pf:sh-theta:factor}(a) ($\mu_0\in T$) $c=\lambda$ is a constant of $X$, and \cref{pf:sh-theta:compare} gives
+$\kappa$. The non-vanishing of the square is not used.
+
+(T3) Let $Y$, $c$, $\phi_t$ be as in \ref{pf:sh-theta:c:seesaw}. The stage conditions for $X$ give
+$\rank A=r_{i+1,j+1}-2(p_j-p)$ and $\rank A'=r_{ij}-2(q_j-q-1)$ with $q+1\le q_j$, hence
+$2e=t+s-2(p_j-p)+2(q_j-q-1)\ge t+s-2p_j>0$, as $2p_j\le m<t$; so $e\ge1$, $e+1\ge2$, and
+$L^{S_0}(\nu_t,e+1)=L_t(e+1)$ for all $t$ by \cref{pf:sh-theta:partialL}. Put $y(t)=\lambda(t)L_t(e+1)/c(t)$. Then
+$\lambda(t)L_t(e+1)=y(t)c(t)$, and $y(t)\ne0$ because $\lambda(t)\ne0$, $c(t)\ne0$ and $L_t(e+1)=L^{S_0}(\nu_t,e+1)\ne0$ by
+\ref{pf:sh-theta:c:seesaw}. By
+\ref{pf:sh-theta:c:gauss}, $\phi_{\mu_0}=\shthetaemb(\gamma)\phi_t$ with $\gamma=b\prod_vg_v/g'_v$ as in
+\cref{pf:sh-theta:units}. Substituting in the identity of \ref{pf:sh-theta:c:seesaw} and cancelling $\phi_t\ne0$ gives
+$\lambda(t)L_t(e+1)c(\mu_0)=\shthetaemb(\gamma)\lambda(\mu_0)L_{\mu_0}(e+1)c(t)$; dividing by $c(t)c(\mu_0)$ gives
+$y(t)=\shthetaemb(\gamma)y(\mu_0)$.
+
+(T4) Let $Y$, $c$, $C$, $\zeta$, $\phi_t$ be as in \ref{pf:sh-theta:c:big}. The stage conditions give $e\ge2$: here
+$2e=t+s-2(p_j-p-1)+2q_j\ge t+s-2p_j\ge4$, so $L^{S_0}(\nu_t,e)=L_t(e)$ for all
+$t$ by \cref{pf:sh-theta:partialL}. Since $\lambda(t)\ne0$, the identity of \ref{pf:sh-theta:c:big} shows $C\ne0$,
+$\phi_t\ne0$ and $L_t(e)c(t)\ne0$ for every $t$. Put $y(t)=\lambda(t)/(L_t(e)c(t))$, so $y(t)\ne0$ and
+$\lambda(t)=y(t)L_t(e)c(t)$. By \ref{pf:sh-theta:c:big}, $y(t)=C\shthetaemb(\zeta)\phi_t$ and $y(\mu_0)=C\phi_{\mu_0}$; by
+\ref{pf:sh-theta:c:gauss} $\phi_{\mu_0}$ is a step multiple of $\phi_t$, and $\phi_{\mu_0}\ne0$. By
+\cref{pf:sh-theta:unitlemma}(c), $y(t)=C\shthetaemb(\zeta)\phi_t$ is a step multiple of $C\phi_{\mu_0}=y(\mu_0)$.
+
+(T5) Apply the four statements of \ref{pf:sh-theta:c:bottom} in turn: $Y'$ on the spaces of $X$ has the constant $c$; then
+$Z_1$ with the lattices of $X$ has the constant $v_1c$; then $Z_2$ with the lattices and frames of $X$ has the constant
+$v_2v_1c$; finally $X$ has the constant $\kappa v_2v_1c$ for some $\kappa\ne0$. Put $v=\kappa v_2v_1$. Then $v(t)\ne0$ and
+$v(t)=\shthetaemb(\zeta_{2,t}\zeta_{1,t})v(\mu_0)$, and $\zeta_{2,t}\zeta_{1,t}$ is a $Q(t)$-unit by
+\cref{pf:sh-theta:unitlemma}(a). The hypotheses $F$ and Theorem~K are not used for (T5).
+\end{proof}
+
+\subsubsection{The descent}
+
+\begin{lemma}[Descent along the tower]\label{pf:sh-theta:descent}
+Fix data at which \ref{pf:sh-theta:T2}, \ref{pf:sh-theta:T3} and \ref{pf:sh-theta:T4} hold, a square $(i,j)$ and
+$L$-functions $L_t$ of $\nu_H(t,i,j)$ for all $t$. Let $X$ be a stage-$(p,q)$ triple with a constant $c$ and
+$\rank A=\rank A'+2e$ with $p\le e$. Then there are a stage-$(0,0)$ triple $Y$ with a constant $c_Y$, functions
+$u_k:T\to\C$ ($k\in\N$) with $u_k(t)\ne0$ and $u_k(t)$ a step multiple of $u_k(\mu_0)$, and $\kappa\ne0$, such that for all
+$t$
+\begin{equation}\label{eq:pf:sh-theta:descent}
+c(t)\prod_{k<q}L_t(e+k+1)=\kappa\Bigl(\prod_{k<p+q}u_k(t)\Bigr)c_Y(t)\prod_{k<p}L_t(e+q-k).
+\end{equation}
+\formallabel{GlobalTheory.SqTower.descent}
+\end{lemma}
+
+\begin{proof}
+Induction on $q$, and for $q=0$ induction on $p$.
+
+\emph{$q=0$, $p=0$.} Take $Y=X$, $c_Y=c$, $u_k=1$ and $\kappa=1$; both sides of \eqref{eq:pf:sh-theta:descent} equal $c(t)$,
+and $1$ is a step multiple of itself.
+
+\emph{$q=0$, $p\to p+1$.} Let $X$ be a stage-$(p+1,0)$ triple with constant $c$, $\rank A=\rank A'+2e$ and $p+1\le e$. By
+(T2) $X$ has a factorisation with some multiplier $\lambda$, and $c=\kappa_1\lambda$ with $\kappa_1\ne0$ by
+\cref{pf:sh-theta:factor}(b). By (T4) there are a stage-$(p,0)$ triple $Y_1$ with constant $c_1$ and $y$ with
+$y(t)\ne0$, $y(t)$ a step multiple of $y(\mu_0)$, and $\lambda(t)=y(t)L_t(e)c_1(t)$. Comparing the stage conditions of $X$ and
+$Y_1$ (the ranks of $A$ and $A'$ are $r_{i+1,j+1}-2(p_j-p-1)$, $r_{ij}-2q_j$ for $X$ and $r_{i+1,j+1}-2(p_j-p)$,
+$r_{ij}-2q_j$ for $Y_1$), the spaces of $Y_1$ satisfy $\rank B=\rank B'+2(e-1)$, and $p\le e-1$. The induction hypothesis
+for $(Y_1,c_1,e-1)$ gives $Y$, $c_Y$, $u$ and $\kappa$ with
+$c_1(t)=\kappa\prod_{k<p}u_k(t)\,c_Y(t)\prod_{k<p}L_t(e-1-k)$. Put $u'_0=y$, $u'_{k+1}=u_k$ and $\kappa'=\kappa_1\kappa$.
+Then
+\begin{align*}
+c(t)&=\kappa_1y(t)L_t(e)c_1(t)=\kappa'\prod_{k<p+1}u'_k(t)\,c_Y(t)\,L_t(e)\prod_{k<p}L_t(e-(k+1))\\
+&=\kappa'\prod_{k<p+1}u'_k(t)\,c_Y(t)\prod_{k<p+1}L_t(e-k),
+\end{align*}
+which is \eqref{eq:pf:sh-theta:descent} for $(p+1,0)$.
+
+\emph{$q\to q+1$.} Let $X$ be a stage-$(p,q+1)$ triple with constant $c$, $\rank A=\rank A'+2e$, $p\le e$. As before
+$c=\kappa_1\lambda$ for the multiplier $\lambda$ of a factorisation (T2). By (T3) there are a stage-$(p,q)$ triple $Y_1$
+with constant $c_1$ and $y$ with $y(t)\ne0$, $y(t)$ a step multiple of $y(\mu_0)$ and $\lambda(t)L_t(e+1)=y(t)c_1(t)$. Now
+$\rank A'$ drops by $2$ and $\rank A$ is unchanged, so $\rank B=\rank B'+2(e+1)$, and $p\le e+1$. The induction hypothesis
+for $(Y_1,c_1,e+1)$ gives
+$c_1(t)\prod_{k<q}L_t(e+k+2)=\kappa\prod_{k<p+q}u_k(t)\,c_Y(t)\prod_{k<p}L_t(e+1+q-k)$. With $u'$ and $\kappa'$ as before,
+\begin{align*}
+c(t)\prod_{k<q+1}L_t(e+k+1)&=\kappa_1\lambda(t)L_t(e+1)\prod_{k<q}L_t(e+k+2)=\kappa_1y(t)c_1(t)\prod_{k<q}L_t(e+k+2)\\
+&=\kappa'\prod_{k<p+q+1}u'_k(t)\,c_Y(t)\prod_{k<p}L_t(e+(q+1)-k),
+\end{align*}
+which is \eqref{eq:pf:sh-theta:descent} for $(p,q+1)$.
+\end{proof}
+
+\subsubsection{The tower formula and bottom triples}
+
+Recall (\cref{pf:fit:S:LNe}) that $\sfname{LNe}$ asserts at large scale: for every square $(i,j)$ and type $t$ there is an
+$L$-function $\Lambda$ of $\nu_H(t,i,j)$ with $\Lambda(s)\ne0$ for all integers $1-e_0\le s\le h$, and for every
+$c\in\{\mathrm{none},\mathrm{false},\mathrm{true}\}$ an $L$-function of the character $\mathrm{fam}(G,\mu_0,i,j,c)$ which does
+not vanish at the integers $s\ge1$.
+
+\begin{theorem}[The Witt-tower formula; \ref{pf:fit:S:Tower}]\label{pf:sh-theta:towerthm}
+Assume $F$, Theorem~K and $\sfname{LNe}$. Then $\sfname{Tower}$ holds: at large scale, for every Weil datum $W$ with standard
+character, grid choice $S$ satisfying $\sfname{NumbersIn}$ at $\mu_0$, real match $\varrho$, square $(i,j)$ and type $t$,
+every bottom triple $X$ with a constant $c_0$, all square constants $c$ at $(i,j,t)$ and $c_\circ$ at $(i,j,\mu_0)$ of
+non-zero squares, and all $L$-functions $\Lambda$ of $\nu_H(t,i,j)$ and $\Lambda_\circ$ of $\nu_H(\mu_0,i,j)$, there are
+$u_1,\dots,u_{p_j+q_j}\in\C$, each a step multiple of $1$ at $t$, and a $Q(t)$-unit $\zeta$ such that
+\begin{equation}\label{eq:pf:sh-theta:tower}
+\frac c{c_\circ}\prod_{k<q_j}\frac{\Lambda(e_T+k+1)}{\Lambda_\circ(e_T+k+1)}
+=\shthetaemb(\zeta)\Bigl(\prod_ku_k\Bigr)\frac{c_0(t)}{c_0(\mu_0)}\prod_{k<p_j}\frac{\Lambda(e_T+q_j-k)}{\Lambda_\circ(e_T+q_j-k)}.
+\end{equation}
+\formallabel{GlobalTheory.SqTower.tower_alt_bis}
+\end{theorem}
+
+\begin{proof}
+At large scale the five statements of \cref{pf:sh-theta:five} and $\sfname{LNe}$ hold simultaneously; fix such data and
+$W,S,\varrho,(i,j),t,X,c_0,c,c_\circ,\Lambda,\Lambda_\circ$ as in the statement.
+
+\emph{$L$-values.} By $\sfname{LNe}$ choose for every type $t'$ an $L$-function $L_{t'}$ of $\nu_H(t',i,j)$ which does not vanish
+at the integers in $[1-e_0,h]$. By uniqueness, $\Lambda=L_t$ and $\Lambda_\circ=L_{\mu_0}$. Since $p_j\le e_T$ and
+$e_T+q_j\le h$, all arguments $e_T+k+1$ ($k<q_j$) and $e_T+q_j-k$ ($k<p_j$) lie in $[1,h]$, so the two products of values of
+$L_{\mu_0}$ in \eqref{eq:pf:sh-theta:tower} are non-zero.
+
+\emph{Top stage.} By (T1) there are a stage-$(p_j,q_j)$ triple $X_1$ with a constant $c_1$ and $\kappa_T$ with
+$\kappa_T(t')\ne0$, $\kappa_T(t')=\shthetaemb(\zeta_{T,t'})\kappa_T(\mu_0)$, such that $c=\kappa_T(t)c_1(t)$ and
+$c_\circ=\kappa_T(\mu_0)c_1(\mu_0)$. By (T2) and \cref{pf:sh-theta:factor}(b), $c_1=\kappa'\lambda_1$ with $\kappa'\ne0$ and
+$\lambda_1$ the multiplier of a factorisation, so $c_1(t')\ne0$ for all $t'$. The stage conditions give $\rank A_1=r_{i+1,j+1}$
+and $\rank A_1'=r_{ij}$, i.e.\ $\rank A_1=\rank A'_1+2e_T$.
+
+\emph{Descent.} \Cref{pf:sh-theta:descent} for $(X_1,c_1)$ with $(p,q,e)=(p_j,q_j,e_T)$ (note $p_j\le e_T$) gives a
+stage-$(0,0)$ triple $Y$ with a constant $c_Y$, $u_k$ and $\kappa\ne0$ with
+\begin{equation}\label{eq:pf:sh-theta:top}
+c_1(t')\prod_{k<q_j}L_{t'}(e_T+k+1)=\kappa\prod_{k<p_j+q_j}u_k(t')\;c_Y(t')\prod_{k<p_j}L_{t'}(e_T+q_j-k)\qquad(t'\in T).
+\end{equation}
+
+\emph{Bottom.} By (T5) for $X$ and $Y$ there is $v$ such that $vc_Y$ is a constant of $X$, with $v(t')\ne0$ and
+$v(t)=\shthetaemb(\zeta_v)v(\mu_0)$ for a $Q(t)$-unit $\zeta_v$. By (T2) the bottom triple $X$, which is a stage-$(0,0)$ triple,
+has a factorisation with some multiplier $\lambda_0$, and by \cref{pf:sh-theta:factor}(b) $c_0=a\lambda_0$ and
+$vc_Y=b_0\lambda_0$ with $a,b_0\ne0$; hence $c_0(t')=(a/b_0)\,v(t')c_Y(t')$ for all $t'$.
+
+\emph{Non-vanishing at $\mu_0$.} The left side of \eqref{eq:pf:sh-theta:top} at $t'=\mu_0$ is non-zero, so $c_Y(\mu_0)\ne0$;
+also $u_k(\mu_0)\ne0$ and $v(\mu_0)\ne0$, so $c_0(\mu_0)\ne0$.
+
+\emph{Conclusion.} Put $u'_k=u_k(t)/u_k(\mu_0)$, a step multiple of $1$ by \cref{pf:sh-theta:unitlemma}(b), and
+$\zeta=\zeta_{T,t}\zeta_v^{-1}$, a $Q(t)$-unit by \cref{pf:sh-theta:unitlemma}(a) ($\zeta_v\ne0$ since $v(t)\ne0$). Using
+$c/c_\circ=\kappa_T(t)c_1(t)/(\kappa_T(\mu_0)c_1(\mu_0))=\shthetaemb(\zeta_{T,t})\,c_1(t)/c_1(\mu_0)$ and
+\eqref{eq:pf:sh-theta:top} at $t$ and $\mu_0$,
+\[
+\frac c{c_\circ}\prod_{k<q_j}\frac{L_t(e_T+k+1)}{L_{\mu_0}(e_T+k+1)}
+=\shthetaemb(\zeta_{T,t})\prod_k\frac{u_k(t)}{u_k(\mu_0)}\cdot\frac{c_Y(t)}{c_Y(\mu_0)}
+\prod_{k<p_j}\frac{L_t(e_T+q_j-k)}{L_{\mu_0}(e_T+q_j-k)},
+\]
+and $c_Y(t)/c_Y(\mu_0)=\shthetaemb(\zeta_v)^{-1}c_0(t)/c_0(\mu_0)$ by the bottom step. This is \eqref{eq:pf:sh-theta:tower}.
+\end{proof}
+
+\begin{remark}\label{pf:sh-theta:towerrem}
+Of $\sfname{LNe}$ only two consequences are used: the existence of $L$-functions of $\nu_H(t',i,j)$ for all types $t'$,
+and the non-vanishing of the $L$-function of $\nu_H(\mu_0,i,j)$ at the integers $1\le s\le h$ at the base type. The
+non-vanishing of the squares enters only through (T1), whose proof does not use it.
+\end{remark}
+
+The second statement, \ref{pf:fit:S:TriEx}, asserts the existence of bottom triples with constants.
+
+\begin{theorem}[Bottom triples with constants; \ref{pf:fit:S:TriEx}]\label{pf:sh-theta:triex}
+Assume Howe duality at the real place ($\sfname{HoweDualityReal}$), $F$, Theorem~K and $\sfname{LNe}$. Then $\sfname{TriEx}$
+holds: at large scale, for every Weil datum $W$ with standard character and every square $(i,j)$ there are a bottom triple
+$X$ and a constant $c_0$ of $X$.
+\formallabel{GlobalTheory.SqTop.triEx_holds_alt}
+\end{theorem}
+
+\begin{proof}
+We use three results proved elsewhere. Bottom triples exist for every Weil datum and square
+(\lref{GlobalTheory.RowTest.exists_bottomTri}: the standard riggings, Weil representations with the required
+splitting characters, vacuum vectors and the theta functions of the unit-character sections are constructed explicitly), and
+their kernels are integrable, the spaces being definite (\lref{GlobalTheory.RowTest.IsBottomTri.integrable}). Under the
+hypotheses, at large scale, for every bottom triple $X$ there are a vector space $\Pi$, a surjective linear map $p$, a linear
+map $p'$ with $p'(P'_1)\ne0$ for some $P'_1$, and linear maps $J_t$ each of which is zero or injective, such that for every $t$
+there is $\lambda_t$ with $I_t(P)=\lambda_tJ_t(p(P))$ for all $P$, and $I'_t(P')=J_t(p'(P'))$ for all $P'$
+(\lref{GlobalTheory.T.bottom_theta_norm_eq_prod_local_factors}); and for every $t$ some $I_t(P)$ and some $I'_t(P')$ are
+non-zero functions (\lref{GlobalTheory.T.first_occurrence_theta_lift_ne_zero}: the bottom theta lifts are non-zero).
+
+Let $X$ be a bottom triple. For every $t$, $J_t$ is injective: if $J_t=0$, then $I'_t(P')=0$ for all $P'$, which is
+excluded. And $\lambda_t\ne0$: otherwise $I_t(P)=0$ for all $P$. All kernels are integrable, so $(\Pi,p,p',J)$ is a
+factorisation of $X$ with multiplier $t\mapsto\lambda_t$ (with the polynomial $P'_1$), and $T\ni\mu_0$ is non-empty; by
+\cref{pf:sh-theta:factor}(a), $c_0=\lambda$ is a constant of $X$. The thresholds are the maxima of those of the two cited
+statements.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Doubling integrals, zeta integrals and level indices}\label{sec:pf:sh-theta:doubling}
+
+This subsection proves the inputs on doubling integrals used in \cref{pf:liftinj:euler} (the unramified doubling
+integral at inert places), \cref{pf:bundles:thm:chain} and \cref{pf:fs:stepUp} (the Rallis inner product formula), and in
+\cref{pf:onto3:adelc} (the place models, the finite zeta integral of a theta lift and the product of the level index with
+the norm of the level vector).
+
+\subsubsection{The unramified doubling integral at an inert place}
+
+Let $L$ be a complete discretely valued field with uniformiser $\varpi$ and $\sigma$ an involution of $L$ such that
+$L/L^\sigma$ is unramified quadratic: $\sigma$ preserves the valuation, $\sigma\varpi=\varpi$, some integral $x$ has
+$\sigma x-x$ a unit, and the residue field of $L$ has $q^2$ elements with $q\ge2$. Let $G_n=\Uni(n)$ be the unitary group of
+the antidiagonal hermitian form on $L^n$, $K_n$ its subgroup of integral points, $G_n^\square$ the unitary group of the doubled
+form on $L^{2n}$, with Siegel parabolic subgroup $P^\square=M^\square N^\square$ ($a(p)\in L^\times$ the determinant of the
+Levi component) and maximal compact subgroup $K^\square$, and $\iota(g)=\iota(g,1)$ the doubling embedding of $G_n$. For an
+unramified character $\chi$ of $L^\times$ and $s\in\C$, a \emph{spherical section} is a function $\Phi$ on $G^\square_n$ with
+$\Phi(pk)=\chi(a(p))\,q^{-2\ord(a(p))(s+n/2)}$ for $p\in P^\square$, $k\in K^\square$. For $\alpha\in(\C^\times)^{\lfloor n/2\rfloor}$
+a \emph{zonal spherical function} with parameters $\alpha$ is a bi-$K_n$-invariant function $w$ with $w(1)=1$ on which the
+spherical Hecke algebra acts through the Satake transform at $\alpha$. Put
+\[
+X=\chi(\varpi)q^{-(2s+n)},\qquad y=\chi(\varpi)q^{-(2s+1)},
+\]
+\[
+Z_n(X,y,\alpha)=\prod_{j=0}^{n-1}\bigl(1-(-q)^jX\bigr)\prod_{i}\frac1{(1-y\alpha_i)(1-y\alpha_i^{-1})}\cdot(1-y)^{-[n\text{ odd}]}.
+\]
+
+\begin{theorem}[Unramified doubling integral at an inert place]\label{pf:sh-theta:inert}
+In this situation let $\mu$ be the Haar measure of $G_n$ with $\mu(K_n)=1$.
+\begin{enumerate}[label=(\alph*)]
+\item If $|y|<1$ and $|y\alpha_i^{\pm1}|<1$ for all $i$, then $g\mapsto\Phi(\iota(g))w(g)$ is integrable and
+\[
+\int_{G_n}\Phi(\iota(g))\,w(g)\,d\mu(g)=Z_n(X,y,\alpha);
+\]
+if moreover $\chi(\varpi)=(-1)^m$, this equals $L(s+\frac12,\mathrm{BC}(\alpha)\otimes\chi)/d_{n,m}(s)$, where
+$L(z,\mathrm{BC}(\alpha)\otimes\chi)=\prod_i(1-\chi(\varpi)\alpha_iq^{-2z})^{-1}(1-\chi(\varpi)\alpha_i^{-1}q^{-2z})^{-1}
+(1-\chi(\varpi)q^{-2z})^{-[n\text{ odd}]}$ is the Euler factor of the base change parameters and
+$d_{n,m}(s)=\prod_{i=0}^{n-1}\bigl(1-(-1)^{m+i}q^{-(2s+n-i)}\bigr)^{-1}$.
+\item If $n\le1$, the integral converges and equals $1$.
+\end{enumerate}
+\formallabel{GlobalTheory.InertZeta.unramDoublingInert}
+\end{theorem}
+
+The restatement \lref{GlobalTheory.T.unramifiedDoublingIntegral_inert_place} of this theorem, with the same hypotheses and
+conclusion, is the form in which it is applied in \cref{sec:pf:stageU}.
+
+This is the unramified computation of the doubling zeta integral of Piatetski-Shapiro and Rallis
+\cite{PiatetskiShapiroRallis1987,GelbartPiatetskiShapiroRallis1987} at an inert place (see also \cite{LapidRallis2005} for the
+normalising factors); it is carried out in the formal development by an explicit count of lattices.
+
+\begin{proof}
+\emph{The section on $\iota(G_n)$.} Every $g\in G_n$ has an elementary divisor \emph{length} $\ell(g)\in\N$: write
+$(U+Vg)C=1$ with $U,V,C,gC$ integral and let $\ell(g)$ be the least $k$ with $v(\det C)=-k$ for such a fraction
+(\lref{GlobalTheory.T.matrixLengthExists_of_elementaryDivisors}: a fraction realising $\ell(g)$ exists, by elementary
+divisors). For such a fraction, the doubled lattice has a primitive isotropic frame completing $(Cx,gCx)$
+(\lref{GlobalTheory.T.doubledLattice_primitive_isotropic_frame_completion}: there is $k\in K^\square$ with
+$k(x,x)=(Cx,gCx)$ for all $x$), and evaluating the section with this decomposition gives $\Phi(\iota(g))=X^{\ell(g)}$
+(\lref{GlobalTheory.InertZeta.section_eq}). The length is
+bi-$K_n$-invariant (\lref{GlobalTheory.InertZeta.len_mat_mul}) and vanishes on $K_n$
+(\lref{GlobalTheory.InertZeta.len_of_mem}).
+
+\emph{Reduction to a coset sum.} The integrand $X^{\ell(g)}w(g)$ is right $K_n$-invariant and $K_n$ is open compact of volume
+$1$; hence the integral exists and equals $Z$ as soon as $\sum_{x\in G_n/K_n}X^{\ell(x)}w(x)$ converges to $Z$
+(\lref{GlobalTheory.T.integral_right_invariant_eq_sum_open_subgroup_cosets}).
+
+(b) If $n\le1$, $G_n=K_n$ (\lref{GlobalTheory.T.unitary_rank_le_one_integral_points}), so the sum has the single term
+$X^0w(1)=1$.
+
+(a) By the Satake theory for unramified unitary groups there is a spherical vector $\varphi$ of the unramified principal series
+with parameters $\alpha$, normalised by $\varphi(1)=1$ (\lref{Formalism.UG.Final.SphericalExistsU}). The \emph{generating
+series} of the length,
+\[
+\sum_{x\in G_n/K_n}X^{\ell(x)}\varphi(x)=Z_n(X,y,\alpha)\qquad(\text{with }yq=Xq^n,\ |y|<1,\ |y\alpha_i^{\pm1}|<1),
+\]
+is \lref{GlobalTheory.InertZeta.hasSum_spherical}; it is proved by induction on $\lfloor n/2\rfloor$ through the Iwasawa
+decomposition with respect to the parabolic subgroup stabilising an isotropic line, from eleven local statements proved in the
+formal development for this purpose: existence of fractions, the lengths of elements $mu$ with $m$ in the Levi subgroup and $u$
+in the unipotent radical in terms of a smallness condition, a count of the cosets of the radical satisfying it, a corner lemma,
+a generating function for counts of the shape $c\,q^{2N\lfloor j/2\rfloor+j}$, surjectivity and disjointness of the Iwasawa cells,
+existence of Levi elements, transitivity of spherical induction, $G_n=K_n$ for $n\le1$, and the geometric summation over the
+Levi variable (\lref{GlobalTheory.T.leviRadicalProductLength_of_lattice_steps}, \lref{GlobalTheory.T.smallRadicalCosetCount_of_heisenberg}, \lref{GlobalTheory.T.small_corner_of_heisenberg_duality}, \lref{GlobalTheory.T.length_count_generating_series_formula}, \lref{GlobalTheory.T.unitaryIwasawaCosetSurj_of_leviElementExists}, \lref{GlobalTheory.T.unitary_iwasawa_cells_disjoint}, \lref{GlobalTheory.T.exists_unitary_block_diagonal_levi_element}, \lref{GlobalTheory.T.sphericalInductionTransitivity_of_leviExists}, and \lref{GlobalTheory.T.unitary_levi_summation_geometric_series}).
+The functions $\varphi$ and $w$ are both bi-$K_n$-invariant (for $\varphi$, after averaging over $K_n$) and have the same Hecke
+eigenvalues (\lref{Formalism.UG.Final.SatakeInert}); since $X^{\ell}$ is bi-$K_n$-invariant, the coset sums of $X^\ell\varphi$
+and of $X^\ell w$ agree (\lref{GlobalTheory.T.biInvariant_replace_same_double_coset_sums}). With $yq=Xq^n$ (which holds for
+the values above) this gives the first formula. For the second, if $\chi(\varpi)=(-1)^m$ then
+$1-(-q)^jX=1-(-1)^{m+j}q^{-(2s+n-j)}$, so the first product is $d_{n,m}(s)^{-1}$, and the remaining factors are the Euler factor
+at $z=s+\frac12$, since $\chi(\varpi)q^{-2z}=y$.
+\end{proof}
+
+\subsubsection{The Rallis inner product formula}
+
+We use the doubling pairs, the integrand $I_s$ and the unramified Euler product (ER) of \cref{pf:liftinj:ERdef}, and the Rallis
+inner product formula of \cref{pf:bundles:def:rallis}, which is the statement $\sfname{HeckeForm}(D)$. Write
+$s_0=(\dim B-\dim A)/2=t/2$ and, for a doubling pair and cusp forms $u_1,u_2$ on $\Uni(A)$, $Z(s)=\int I_s(g)\,dg$ and
+$Z_{S}(s)=\int_{\mathcal O_S}I_s(g)\,dg$, the integral over the elements integral outside $S$. The \emph{global form}
+$\sfname{GlobalForm}(D)$ asserts: for every self-dual lattice $L$ of $A$, every doubling pair with $B$ of Witt index $0$ or
+$<t$, Haar measures and Fock test vectors $\Phi_1,\Phi_2$ and $u_1,u_2\in\mathcal A_0(A)$, the theta lifts $\theta_{\Phi_i}(u_i)$
+converge and are square integrable, $I_s$ is integrable for $\Re s>\dim A/2$, and $Z$ has a holomorphic value $z$ at $s_0$ with
+$\mathrm{pet}(\theta_{\Phi_1}(u_1),\theta_{\Phi_2}(u_2))=\vol(B)\,z$ (the Siegel--Weil formula and the doubling identity).
+
+\begin{lemma}[From the global form and the Euler product to the inner product formula]\label{pf:sh-theta:ipf}
+For every global datum $D$, $\sfname{GlobalForm}(D)$ and (ER) for $D$ imply $\sfname{HeckeForm}(D)$.
+\formallabel{GlobalTheory.T.heckeInnerProductFormula_of_doublingEuler}
+\formallabel{GlobalTheory.Core.Rk.IP.heckeForm_of_global_euler}
+\end{lemma}
+
+\begin{proof}
+Fix the data of \cref{pf:bundles:def:rallis}: in particular $s_1<s_0$ such that $I_{s_1}$ is integrable on $\mathcal O_S$. By
+$\sfname{GlobalForm}$ the lifts converge and there is a holomorphic value $z$ of $Z$ at $s_0$ with $\mathrm{pet}=\vol(B)z$. On
+$\mathcal O_S$ the height $\mathrm{ht}_L$ is continuous with values in $(0,1]$ (\lref{GlobalTheory.T.doubledLatticeHeightFun_properties}),
+and $I_s=c_\omega r\,\mathrm{ht}_L^{s-s_0}$ is a \emph{flat family}: since $|\mathrm{ht}_L^{s-s_0}|\le\mathrm{ht}_L^{s_1-s_0}$ for
+$\Re s\ge s_1$, the integrals $Z_S(s)$ converge absolutely for $\Re s\ge s_1$ and define a holomorphic function on $\Re s>s_1$
+(\lref{GlobalTheory.T.flatFamilyZeta_convergence_holomorphy}). In particular, as $s_1<s_0$, $c_\omega r=I_{s_0}$ is integrable on
+$\mathcal O_S$. By (ER), for $\Re s>\dim A+1$ (where $I_s$ is integrable by $\sfname{GlobalForm}$),
+\[
+Z(s)=\frac{L^S(s+\frac12,\mathrm{par}\times\chi_B)}{d^S(s)}\,Z_S(s).
+\]
+The function $d^S$ is analytic and non-vanishing on $\Re s>0$ (\lref{GlobalTheory.T.partialNormalizingFactorProduct_analytic_ne_zero}),
+$Z_S$ is holomorphic on $\Re s>s_1$, and $l$ is a holomorphic value of $L^S(s+\frac12)$ at $s_0$. Since both sides agree on a
+half-plane, their holomorphic values at $s_0$ agree: $z=\frac{l}{d^S(s_0)}Z_S(s_0)$
+(\lref{GlobalTheory.T.holomorphicContinuationValue_eq_div_mul}, the identity theorem). Hence
+$\mathrm{pet}=\vol(B)\frac{l}{d^S(t/2)}\int_{\mathcal O_S}c_\omega(g)r(g)\,dg$, which is the formula of \cref{pf:bundles:def:rallis}.
+\end{proof}
+
+\begin{theorem}[Rallis inner product formula]\label{pf:sh-theta:heckeform}
+The existence of Weil representations for unitary dual pairs, rapid decay of cusp forms, the Weil--Siegel formula, the
+Siegel--Weil formula in the convergent range, the local zeta integrals of the doubling method and the unramified doubling
+computation for $\GL_n$ ($\sfname{UnramifiedDoublingGL}$) imply $\sfname{HeckeForm}(D)$ for every global datum $D$.
+\formallabel{GlobalTheory.Core.Rk.IP.heckeForm_of_doubling'}
+\end{theorem}
+
+\begin{proof}
+\emph{Global form.} The first five hypotheses imply $\sfname{GlobalForm}(D)$
+(\lref{GlobalTheory.T.globalForm_of_siegel_weil}): the Siegel--Weil formula for the Fock doubled pair (from the Weil--Siegel
+formula and \cite{Ichino2004}) gives $\sfname{GlobalForm}$ at the frame lattice
+(\lref{GlobalTheory.T.globalFormAt_frameLat_of_siegelWeil}), and it is transferred to every self-dual lattice
+(\lref{GlobalTheory.T.global_doubling_zeta_form_selfDual_lattice_transfer}).
+
+\emph{Euler product.} At the split places the local unramified zeta integrals are computed from $\sfname{UnramifiedDoublingGL}$
+(\lref{GlobalTheory.T.unramifiedDoublingIntegral_splitPlace_adelic}) and the spherical parameters are bounded
+(\lref{GlobalTheory.T.sphericalParameterBound_split_place}); at the non-split places both follow from
+\cref{pf:sh-theta:inert} (\lref{GlobalTheory.T.sphericalParameterBound_nonsplit_places} and \lref{GlobalTheory.T.unramified_doubling_integral_inert_adelic}).
+Combining the two kinds of places gives the local statements at all places outside $S$
+(\lref{GlobalTheory.Core.Rk.IP.paramBoundOn_all_of_split_inert} and \lref{GlobalTheory.Core.Rk.IP.localZetaOn_all_of_split_inert}). With
+the spherical factorisation of the doubling integrand, which follows from the existence of Weil representations
+(\lref{GlobalTheory.T.doublingSphericalFactorization_of_weilDualPair}), and rapid decay, these give (ER) for $D$
+(\lref{GlobalTheory.T.doubling_eulerProduct_farRight}). \Cref{pf:sh-theta:ipf} concludes.
+\end{proof}
+
+\subsubsection{Place models}
+
+Let $D$ be a datum. For hermitian spaces $S,T$, a Weil representation $\omega$ of $(S,T)$, Cartan data at the real places,
+self-dual lattices $\Lambda_S,\Lambda_T$ and a \emph{base vector} $f_0$ (the theta function which is the lattice vacuum at the
+finite places and the Fock vacuum at the real places), a family $x=(x_v)$ indexed by the places is \emph{restricted} if each $x_v$
+is a local theta vector at $v$ and $x_v=f_0$ for almost all $v$, and a theta function $f$ is the \emph{pure tensor} of $x$ if its
+inner products with all translates are the products of the local ones. The inner product of theta functions is the $L^2$-product
+on a fundamental domain of covolume one for the rational points.
+
+\begin{definition}[Place models]\label{pf:sh-theta:pm}
+$\sfname{PlaceModels}(D)$ is the conjunction of the following twelve statements, for all data as above:
+\begin{enumerate}[label=(P\arabic*),leftmargin=*]
+\item\label{pf:sh-theta:P1} (unitarity) theta functions form a vector space, the inner product is defined, non-degenerate,
+independent of the covolume-one measure, preserved by Heisenberg translations and by $\omega$, and $p\mapsto\|\omega(p)f_1-f_2\|$
+is continuous;
+\item\label{pf:sh-theta:P2} (restricted tensor product) local theta vectors are preserved by the local Heisenberg group and the
+local unitary groups; every restricted family has a unique pure tensor; the span of pure tensors is dense; Heisenberg
+translations and $\omega$ act on pure tensors place by place;
+\item\label{pf:sh-theta:P3} (matrix coefficients) for pure tensors $f_1,f_2$ of $x_1,x_2$, the matrix coefficient
+$\langle\omega(g,h)f_1,f_2\rangle$ is the product over all places $v$ of the local matrix coefficients
+$\langle\omega_v(g_v,h_v)x_{1,v},x_{2,v}\rangle$, finitely many of which are different from $1$;
+\item\label{pf:sh-theta:P4} (split places) at a split finite place $v$, a Schr\"odinger model for the first half of the
+symplectic space: a bijection from the space of Schwartz--Bruhat functions on the matrix space over $F_v$ onto the space of
+local theta vectors, which multiplies inner products by the volume of the image of the half lattice, and on which the Levi
+group acts linearly up to the splitting characters;
+\item\label{pf:sh-theta:P5} the same for the second (adjoint) half;
+\item\label{pf:sh-theta:P6} (split lattices) at split places the images of the half lattices are the boxes
+$\{y:\ v(y_{ij})\le v(a)\}$ for an extremal element $a$ of the host;
+\item\label{pf:sh-theta:P7} (vacua) at the non-split places where the characters are unramified, the stabilisers of the lattices
+fix the lattice vacuum;
+\item\label{pf:sh-theta:P8} the same at the split places;
+\item\label{pf:sh-theta:P9} (Fock model) at every real place, for Fock vacua $f$ and polynomials $P,Q$: the Fock pure tensors are
+theta functions, $\langle\mathrm{fock}(f,P),\mathrm{fock}(f,Q)\rangle=\langle P,Q\rangle_{\mathrm{Fock}}\|f\|^2$, the maximal compact
+subgroups act by determinant characters composed with a linear substitution of the variables, and the non-compact part of the Lie
+algebras acts by second order operators (creation and annihilation pairs);
+\item\label{pf:sh-theta:P10} (Fock vectors are pure tensors) $\mathrm{fock}(f,\prod_\tau P_\tau)$ is the pure tensor of the family
+obtained from that of $f$ by replacing the archimedean components with the local Fock vectors;
+\item\label{pf:sh-theta:P11} (definite theta lifts) the theta vectors of the definite theta lifts are pure tensors of restricted
+families which equal the base vector outside the level and twist places, and whose components at these places are given, in the
+Schr\"odinger model of the adjoint half, by local newform functions: of principal level at the level places, of full level at
+the twist places;
+\item\label{pf:sh-theta:P12} (chain steps) similarly, the step vectors of theta chains are pure tensors of restricted families
+which equal the base vector outside the level and twist places, with components given, in the Schr\"odinger model of the first
+half, by the local newform functions of the local levels of the step at the level places and by an explicit function at the twist
+places.
+\end{enumerate}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.RestrictedTensorSplitting.PlaceModels}
+\end{definition}
+
+\begin{theorem}[Place models]\label{pf:sh-theta:placemodels}
+$\sfname{PlaceModels}(D)$ holds for every global datum $D$.
+\formallabel{GlobalTheory.PlaceTensor.placeModels}
+\end{theorem}
+
+\begin{proof}
+We indicate the source of each component. \ref{pf:sh-theta:P1}: from the existence of a covolume-one measure, the hermitian
+properties of the theta inner product, the Heisenberg laws, the unitarity of $\omega$ and the continuity of
+$p\mapsto\|\omega(p)f_1-f_2\|$ (\lref{GlobalTheory.PlaceTensor.unitary}).
+\ref{pf:sh-theta:P2}: \lref{GlobalTheory.PlaceTensor.restrictedTensor}, from the stability of local factors, the existence and
+uniqueness of pure tensors of restricted families, the placewise action, and the density of the span of Heisenberg translates of
+the base vector (\lref{GlobalTheory.T.heisenberg_translates_span_dense_thetaFunctions}).
+\ref{pf:sh-theta:P3}: the placewise action and the product formula for inner products of pure tensors
+(\lref{GlobalTheory.PlaceTensor.coeffProduct}). \ref{pf:sh-theta:P4} and \ref{pf:sh-theta:P5}: the matrix coordinates on the
+two halves at a split place and the Schr\"odinger model
+(\lref{GlobalTheory.PlaceTensor.splitModel} and \lref{GlobalTheory.PlaceTensor.splitModelAdj}).
+\ref{pf:sh-theta:P6}: \lref{GlobalTheory.T.splitPlace_thetaLattice_halves_selfDual_frames}. \ref{pf:sh-theta:P7} and
+\ref{pf:sh-theta:P8}:
+\lref{GlobalTheory.T.inert_place_stabilizers_fix_weil_lattice_vacuum} and \lref{GlobalTheory.T.splitPlace_latticeStabilisers_fix_weilVacuum}.
+\ref{pf:sh-theta:P9}: \lref{GlobalTheory.PlaceTensor.fockModel}: the character of the maximal compact subgroup on the Fock
+vacuum, the Fock inner product, the action of the maximal compact subgroup by substitution and of the non-compact part by
+quadratic operators, the last because the matrix coefficients of the vacuum are even
+(\lref{GlobalTheory.T.fockVacuum_matrixCoefficient_even}; a function with an even matrix coefficient has derivative $0$ at
+$0$). \ref{pf:sh-theta:P10}: \lref{GlobalTheory.T.fockVectors_pureTensors}. \ref{pf:sh-theta:P11}:
+\lref{GlobalTheory.T.definiteThetaLift_localVector}. \ref{pf:sh-theta:P12}:
+\lref{GlobalTheory.T.thetaChainStepVector_localPureTensor}.
+\end{proof}
+
+\subsubsection{The finite zeta integral of a theta lift}
+
+We use the lift data of \cref{pf:onto3:adelcdef}: for $i<m$, a type $t$, an embedding $\sigma$, a local level $P$ (subgroups
+$H_v$ of $\GL_r(k_v)$ with characters at the level places $v$), conjugate characters $c_\mu,c_\eta$, a Weil representation $\omega$
+of $(V_c(i),W_c(i))$ ($\rank V_c(i)=n_V=r+t$, $\rank W_c(i)=r$), orthonormal bases, the \emph{level vector} $f$ (a theta function
+which is the lattice vacuum outside the level and twist places and given by the local level data there) and coefficient data. Let
+$S_t$ be the finite set of places of $F$ below the level places and the twist places of $t$. For an eigenvalue datum $\mathrm{ev}$ let
+the \emph{type part} be the space of cusp forms in the multiplicity space of $W_c(i)$ of level $P$ with eigenvalues $\mathrm{ev}$
+outside $S_t$.
+
+\begin{theorem}[Finite zeta integral]\label{pf:sh-theta:finzeta}
+Assume rapid decay of cusp forms and the unramified doubling computation for $\GL_n$. Let $R$ be a real datum and $F$ a face, and
+take lift data,
+a covolume-one measure on the symplectic space and an eigenvalue datum $\mathrm{ev}$ with non-zero type part. Then there is a family
+$B$ of Satake parameters of rank $r$ outside $S_t$ for $\mathrm{ev}$, with $|\beta|\le\Nm w^{(r-1)/2}$ for $\beta\in B(w)$, such that
+the partial $L$-series of $B$ twisted by $c_\mu^{-1}$ converges at $(1+t)/2$, and for all $U_1$ in the type part, $U_2$ in the cusp
+multiplicity space and smooth vectors $v_1,v_2$,
+\[
+\sum_{y\in G_{\mathrm f}/K}\langle\omega(1,y)f,f\rangle\,\overline{\mathrm{pet}\bigl(y\cdot U_1(v_1),U_2(v_2)\bigr)}
+=|H|\,\|f\|^2\,\frac{L^{S_t}\bigl(\frac{1+t}2,B\otimes c_\mu\bigr)}{d_{\mathrm{off}}}\,\overline{\mathrm{pet}\bigl(U_1(v_1),U_2(v_2)\bigr)},
+\]
+the sum over the cosets of the level subgroup $K$ of $\Uni(W_c(i))(\A_{\mathrm f})$ (an unconditionally convergent sum), where $|H|$ is the order of
+the level group and $d_{\mathrm{off}}$ the normalising factor at $S_t$. That is, $\sfname{FiniteZetaL}(R,F)$ holds.
+\formallabel{GlobalTheory.T.finiteZetaIntegral_thetaLift_eq_partialLValue}
+\formallabel{GlobalTheory.FinZeta.finiteZetaL}
+\end{theorem}
+
+\begin{proof}
+The level vector is a theta function, the vacuum off the level places
+(\lref{GlobalTheory.T.levelVector_finiteDatum_isTheta_vacuum_off}), and transforms under the level subgroup by the level
+character (\lref{GlobalTheory.T.finiteLevelDatumVector_transforms_by_levelCharacter}). The level of the datum is hyperspecial
+outside $S_t$ and determined by its components at $S_t$ (\lref{GlobalTheory.T.datumLevel_hyperspecial_off_finite_places}), the
+index of the principal level in the lift level is $|H|$ (\lref{GlobalTheory.T.principalLevel_relIndex_liftLevel_eq_card}), the
+characters are unramified outside $S_t$ (\lref{GlobalTheory.T.conjugatedThetaCharacters_restriction_ramification}), and
+$\langle\omega(1,g)f,f\rangle=0$ for $g$ outside the saturation of the level, because the support of the translate is moved off that
+of $f$ (\lref{GlobalTheory.T.thetaTranslate_orthogonal_of_support_moved_off} and \lref{GlobalTheory.T.mem_level_of_levelDatum_ne_zero_translate}).
+A non-zero element of the type part has a non-zero value at some vector; rapid decay bounds the values, and an eigenfunction with
+eigenvalues $\mathrm{ev}$ yields Satake parameters $B$ with $|\beta|\le\Nm w^{(r-1)/2}$
+(\lref{GlobalTheory.T.exists_satake_parameters_bounded_eigenfunction}); the parameters are then those of every element of the
+type part. Since $r+5\le t$, the twisted partial $L$-series converges at $(1+t)/2$, whose real part exceeds $(r-1)/2+1$. If
+$U_1(v_1)=0$ both sides vanish. Otherwise the identity is \lref{GlobalTheory.FinZeta.zeta_sum}: under these conditions (vacuum
+off $S_t$, the transformation law, the vanishing off the saturation, the bounded parameters and the convergence) the coset sum
+factors into local unramified zeta sums -- computed at the inert places by \cref{pf:sh-theta:inert} and at the split places by
+$\sfname{UnramifiedDoublingGL}$ -- whose Euler product is the partial $L$-value divided by the normalising factor, times
+$|H|\,\|f\|^2$ (about $1\,900$ Lean lines).
+\end{proof}
+
+\subsubsection{Level index and norm of the level vector}
+
+We first record an elementary count.
+
+\begin{lemma}[A parabolic index over a finite field]\label{pf:sh-theta:glindex}
+Let $k$ be a finite field with $q$ elements. Then $|\GL_n(k)|=q^{n^2}\prod_{i=1}^n(1-q^{-i})$ for every $n\in\N$, and if
+$n=r+t$,
+\[
+\frac{|\GL_n(k)|}{|\GL_t(k)|\,q^{rt}}\;q^{-(r^2+rt)}=\prod_{i=t+1}^{n}\bigl(1-q^{-i}\bigr).
+\]
+\formallabel{GlobalTheory.T.card_GL_div_parabolic_index_finiteField}
+\formallabel{GlobalTheory.Twist.GLIndexLoc.index_loc}
+\formallabel{GlobalTheory.Twist.GLIndexLoc.card_GL_real_eq}
+\end{lemma}
+
+\begin{proof}
+An invertible $n\times n$ matrix is a sequence of $n$ columns such that the $(i+1)$-st column is not in the span of the first
+$i$, which has $q^i$ elements. Hence
+$|\GL_n(k)|=\prod_{i=0}^{n-1}(q^n-q^i)=q^{n^2}\prod_{i=0}^{n-1}(1-q^{i-n})=q^{n^2}\prod_{i=1}^{n}(1-q^{-i})$. Since $q\ge2$, all
+factors $1-q^{-i}$ ($i\ge1$) are non-zero. Using the formula for $n$ and $t$, the left-hand side of the claim is
+\[
+q^{\,n^2-t^2-rt-r^2-rt}\,\frac{\prod_{i=1}^{n}(1-q^{-i})}{\prod_{i=1}^{t}(1-q^{-i})}=\prod_{i=t+1}^{n}(1-q^{-i}),
+\]
+because $n^2=(r+t)^2=t^2+2rt+r^2$.
+\end{proof}
+
+For a place $v$ of $F$ let $\epsilon_v=1$ if $v$ splits in $E$ and $\epsilon_v=-1$ otherwise, and
+\[
+d_v=\prod_{i=t+1}^{n_V}\bigl(1-\epsilon_v^i\Nm v^{-i}\bigr)^{-1}.
+\]
+For the lift data above let $K_{\mathrm{lev}}$ be the level subgroup of $\Uni(V_c(i))(\A_{\mathrm f})$ attached to $(t,P)$ and $K_\Lambda$
+the stabiliser of the lattice of $V_c(i)$.
+
+\begin{theorem}[Level index times norm]\label{pf:sh-theta:levelindex}
+Assume the single-block local integral statement $\sfname{LocalIntegralSingleBlock}$ and $\sfname{PlaceModels}(D)$. Then for all lift
+data, $K_{\mathrm{lev}}\subseteq K_\Lambda$, and for every measure of covolume one on the symplectic space
+\[
+[K_\Lambda:K_{\mathrm{lev}}]\cdot\|f\|^2=\prod_{v\in S_t}d_v^{-1}.
+\]
+That is, $\sfname{LevelIndexNormC}(R,F)$ holds.
+\formallabel{GlobalTheory.T.thetaLevelIndex_mul_schwartzNorm_formula}
+\formallabel{GlobalTheory.LevelIndex.levelIndexNormC}
+\end{theorem}
+
+\begin{proof}
+The inclusion holds because the frame of $V_c(i)$ is a base frame of its lattice
+(\lref{GlobalTheory.T.level_le_stabilizer_selfDual_lattice_frame}). Let $P_g$ be the set of level places and $Q(t)$ that of the
+twist places (places of $E$), and write $k_w$ for the residue field at $w$ and $q_w=|k_w|$. We use three computations:
+\begin{align}
+[K_\Lambda:K_{\mathrm{lev}}]&=\prod_{w\in P_g}\frac{|\GL_{n_V}(k_w)|}{|H_w|\,|\GL_t(k_w)|\,q_w^{rt}}
+\prod_{w\in Q(t)}\frac{|\GL_{n_V}(k_w)|}{|\GL_r(k_w)|\,|\GL_t(k_w)|\,q_w^{rt}},\label{eq:pf:sh-theta:index}\\
+\|f\|^2&=\prod_{w\in P_g}|H_w|\,q_w^{-(r^2+rt)}\prod_{w\in Q(t)}|\GL_r(k_w)|\,q_w^{-(r^2+rt)},\label{eq:pf:sh-theta:norm}
+\end{align}
+(\lref{GlobalTheory.T.relIndex_level_selfDual_stabilizer_eq_prod_local}: a computation of the index place by place at the places
+of $P_g\cup Q(t)$; \lref{GlobalTheory.T.levelVector_squareNorm_eq_prod_localVolumes}: from the place models and the single-block
+local integral), and: $P_g$ and $Q(t)$ are disjoint, $w\mapsto w\cap\OO_F$ is
+injective on $P_g\cup Q(t)$ with image $S_t$, and every $w$ in it lies over a split place $v$ with $q_w=\Nm v$
+(\lref{GlobalTheory.T.levelAndTwistPlaces_split_distinct}). Multiplying \eqref{eq:pf:sh-theta:index} and
+\eqref{eq:pf:sh-theta:norm}, the factors $|H_w|$ and $|\GL_r(k_w)|$ cancel, and every $w\in P_g\cup Q(t)$ contributes
+\[
+\frac{|\GL_{n_V}(k_w)|}{|\GL_t(k_w)|\,q_w^{rt}}\,q_w^{-(r^2+rt)}=\prod_{i=t+1}^{n_V}\bigl(1-q_w^{-i}\bigr)
+\]
+by \cref{pf:sh-theta:glindex}. As $v=w\cap\OO_F$ is split, $\epsilon_v=1$ and this is $d_v^{-1}$. Reindexing the product by
+$S_t$ gives the claim.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:sh-theta:remarks}
+
+\begin{remark}[Unused hypotheses]\label{pf:sh-theta:rem:unused}
+\begin{enumerate}[label=(\alph*)]
+\item The hypothesis $F=\sfname{ThetaLocalInputs}$ of the first formal name of \cref{pf:sh-theta:weilconv} is not used; only
+$\sfname{SiegelSetUnitary}$ is.
+\item The hypothesis $\sfname{BernsteinZelevinskyFiniteness}$ of \cref{pf:sh-theta:finzeta} (the second of its three formal
+hypotheses) is not used.
+\item Of the bundle $F$, the proof of \cref{pf:sh-theta:cusp} uses only the discrete series cover, Harish-Chandra modules, rapid
+decay of cusp forms and Casselman--Wallach globalisation.
+\item Statement (T5) of \cref{pf:sh-theta:five} is formally stated under $F$ and Theorem~K, but these hypotheses are not used: the
+statement holds for all data, with all thresholds equal to $0$.
+\item In (T1), and hence in the proof of \cref{pf:sh-theta:towerthm}, the non-vanishing of the squares is not used: every square
+constant equals $\kappa(t)c(t)$. Of $\sfname{LNe}$ only the consequences listed in \cref{pf:sh-theta:towerrem} are used.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Restatements]\label{pf:sh-theta:rem:wrappers}
+The three formal names of \cref{pf:sh-theta:sqcor} and the second formal name of \cref{pf:sh-theta:cusp} are restatements, with the
+same hypotheses and conclusions, of \cref{pf:sh-theta:sqlmthm}, \lref{GlobalTheory.SquareAgree.twisted_theta_integrals_agree},
+\lref{GlobalTheory.RowClaim.rowSum_of_hypotheses_alt} and \cref{pf:sh-theta:cusp}; similarly the first formal names of
+\cref{pf:sh-theta:jump,pf:sh-theta:hub,pf:sh-theta:setpt,pf:sh-theta:classsum} restate the second ones.
+\end{remark}
+
+\begin{remark}[On the form of the statements]\label{pf:sh-theta:rem:form}
+\begin{enumerate}[label=(\alph*)]
+\item In $\sfname{Tower}$ the numbers $u_k$ are \emph{step multiples of $1$}, i.e.\ of the form $\shthetaemb(b\prod_vg_v/g'_v)$ with
+$b$ a $Q(t)$-unit and $g_v,g'_v$ divisors of $\Nm v^{c(v)}$, $v\in S_0$; they need not be units at the places of $S_0$. An
+element $x$ of $\shthetaLL$ is an $n$-unit if $xn^k$ is an integer dividing a power of $n$; the definition does not require
+$x\ne0$ (for $n\ge1$ it excludes $x=0$).
+\item $\sfname{LiftsCuspidal}$ is a statement about data with $r>1800$ and Harish-Chandra parameters at distance more than
+$2N(D)^3$; this size condition is part of the statement.
+\item In the application of \cref{pf:sh-theta:hub} in the proof of \cref{pf:sh-theta:setpt}, the constant $C_T$ is $0$, so that the
+inequality of (H7) only says $0<g_k$, and only the rest point conditions of (H1) are used.
+\item \Cref{pf:sh-theta:inert,pf:sh-theta:placemodels} have no hypotheses from the literature.
+\item The formal name of \cref{pf:sh-theta:setpt} refers to places which are ``not twisted'' (\cref{pf:sh-theta:setptrem}).
+\end{enumerate}
+\end{remark}

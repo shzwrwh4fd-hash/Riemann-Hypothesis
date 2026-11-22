@@ -1,0 +1,77 @@
+\section{The formal verification}\label{sec:verification}
+
+\subsection{The formal statements}
+The five theorems of the file \texttt{Main.lean} of \cite{LeanSource2026} are stated with Mathlib's
+definitions only. They are:
+\begin{itemize}
+\item \texttt{riemannHypothesis}, which proves Mathlib's \texttt{RiemannHypothesis}: for all $s$ with
+$\zeta(s)=0$, $s\notin\{-2(n+1):n\in\N\}$ and $s\ne1$, one has $\Re s=\frac12$;
+\item \texttt{riemannZeta\_eq\_zero\_re}, the same statement written out;
+\item \texttt{LFunction\_ne\_zero\_of\_half\_lt\_re}, which is \cref{thm:main-grh};
+\item \texttt{LFunction\_eq\_zero\_re} and \texttt{LFunction\_eq\_zero\_re\_of\_isPrimitive}, which form
+\cref{cor:main-strip}.
+\end{itemize}
+The statements, with \texttt{sorry} in place of the proofs, form a \emph{challenge file} importing only
+Mathlib. The checker \emph{Comparator} verifies that the theorems proved in the development have
+exactly these statements.
+
+\subsection{Checks}
+The following checks were carried out by Sutherland and are documented, with logs and hashes, in
+\cite{Sutherland2026}. The toolchain is Lean v4.33.1 and Mathlib v4.33.1 (commit \texttt{0df444a3}).
+\begin{enumerate}[label=(\arabic*)]
+\item All $175\,187$ modules compile without errors.
+\item \verb|#print axioms| reports only \texttt{propext}, \texttt{Classical.choice} and
+\texttt{Quot.sound} for each of the five theorems. No axioms are declared outside Lean's core library.
+\item The Mathlib files used are byte-for-byte identical to the official cache.
+\item An independent rebuild with \texttt{lake build Main} was run in a sandbox with no network access
+and a read-only source tree, on a separate machine. It succeeded, and the exported proof it produced
+is byte-for-byte identical to the published export (about $61.6$ GB). Of its $175\,187$ compiled
+files, $175\,186$ are identical to those of the original build. The remaining file differs only in the
+name of a bound variable in an automatically generated equation lemma, an effect of parallel
+elaboration in Lean v4.33.1; that lemma does not occur in the exported proof.
+\item The Lean kernel replays every module (\texttt{leanchecker}) without rejections.
+\item The independently written kernels \emph{nanoda} (in Rust) and \emph{con-leche} accept the full
+exported proof. The latter accepted $1\,468\,418$ declarations in its verified mode.
+\item The \texttt{--compare} modes of con-leche and its Rust port con-ron independently confirm that all
+five theorems match the challenge statements.
+\item \emph{lean4lean} accepts every compiled module. Five modules need an increased step limit for
+\texttt{decide +kernel} computations.
+\end{enumerate}
+At the time of writing (22 November 2026), a run of the Lean default and paranoid kernels on the full
+exported proof was still in progress. So were the kernel stages of an end-to-end
+\texttt{lake comparator} run (Lean v4.36.0), whose statement comparison and axiom check had already
+passed. These kernel runs are single-threaded and take many hours \cite{Sutherland2026}.
+
+\subsection{Arithmetic consequences}\label{sec:verification:arith}
+As a check that does not depend on Mathlib's definition of $\zeta$, the formal proof was combined in
+\cite{Sutherland2026} with an independent formalization \cite{Robin1984Lean} of the criteria of Robin
+\cite{Robin1984} and Lagarias \cite{Lagarias2002}. The combined development proves, without hypotheses,
+that $\sigma(n)<e^{\gamma}n\log\log n$ for every $n>5040$ and that $\sigma(n)\le H_n+e^{H_n}\log H_n$
+for every $n\ge1$. Both theorems depend only on the three standard axioms. The combined exported proof
+is accepted by nanoda and con-leche, and the \texttt{--compare} modes of con-leche and con-ron confirm
+both statements against a challenge file that imports only Mathlib. The formalization
+\cite{Robin1984Lean} of the criteria was also checked on its own: con-leche accepts it, and two complete
+runs of Comparator, using nanoda and the Lean kernels, accept its equivalences with the Riemann
+Hypothesis.
+
+\subsection{Provenance}
+The source is the archive \texttt{lean.tar.gz} published in fourteen parts \cite{LeanSource2026}
+($239\,275\,554$ bytes), with SHA-256 checksum
+\begin{center}\small\texttt{9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc}.\end{center}
+A mirror is identical to it apart from added checker configuration files. The announcement
+\cite{Announcement2026} describes the history of the argument.
+
+\subsection{Structure of the formal proof}
+The development has $175\,187$ files and $17.5$ million lines, with about $1.07$ million declarations.
+Every module is imported, directly or indirectly, by \texttt{Main}. About $720\,000$ declarations, with
+$11.0$ million lines, are used in the proofs of the main theorems.
+
+The largest parts are the following, measured by the declarations used only through them:
+\begin{itemize}
+\item the hypothesis package (\cref{thm:hyps-nonempty}): about $3.9$ million lines;
+\item the Galois representations of \cref{thm:row0b}: about $0.8$ million lines;
+\item the covolume bounds of \cref{thm:covol}: about $0.85$ million lines;
+\item the window bound (\cref{thm:vwin}): about $0.6$ million lines.
+\end{itemize}
+The analytic part of the argument (\cref{sec:landau,sec:hosts}) is formalized in a few tens of thousands
+of lines.

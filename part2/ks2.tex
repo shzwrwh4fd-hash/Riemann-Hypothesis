@@ -1,0 +1,2785 @@
+\section{Kodaira--Spencer II: fixed points and assembly}\label{sec:pf:ks2}
+
+\providecommand{\kstwoG}{G(\A_f^{p})}
+\providecommand{\kstwoKS}{\mathcal{A}}
+\providecommand{\kstwoOF}{\OO_{F}}
+\providecommand{\kstwoLaHat}{\hat\Lambda^{p}}
+\providecommand{\kstwoGp}{G_{p}}
+\providecommand{\kstwoKp}{K_{p}}
+\providecommand{\kstwoBall}{\mathrm{ball}}
+\providecommand{\kstwoFib}{\mathrm{fib}}
+\providecommand{\kstwoloc}{\mathrm{loc}}
+
+% ---------------------------------------------------------------------------
+\subsection{Introduction}\label{pf:ks2:intro}
+
+This section proves \cref{pf:ks2:main}: \emph{the holomorphic Lefschetz formula for finite
+\'etale correspondences (in the form of \cref{thm:galois:hlf}) implies the proposition
+$\sfname{KSAll}$ of \cref{pf:ks2:def:ksall}.} This implication is one of the three inputs of the
+proof of the geometric realization theorem \cref{thm:geoone}.
+
+$\sfname{KSAll}$ is a package of six statements about \emph{Kuga--Sato towers}: towers of fibre
+powers $\kstwoKS_N^k$ of the universal abelian schemes over the fine moduli schemes $M_N$ of
+abelian varieties of Harris--Taylor type (PEL type, unitary of signature $(1,n-1)$ at one
+archimedean place and definite at the others), equipped with the Hecke correspondences of double
+cosets. The six statements say that standard bases exist ($\sfname{StdEx}$), that Kuga--Sato
+towers exist ($\sfname{KSEx}$), that the associated Hecke towers are smooth, projective and have
+finite \'etale correspondences ($\sfname{KSNice}$), that they have good reduction at places
+where the Hecke data are unramified ($\sfname{KSGood}$), that they satisfy a pointwise
+Eichler--Shimura congruence relation at such places ($\sfname{KSCong}$), and that a Hecke
+eigensystem which occurs in algebraic modular forms on the definite inner forms occurs in the
+Hodge cohomology $H^b(\kstwoKS_N^k,\Omega^{h})$ in prescribed degrees $h$ ($\sfname{KSHodge}$).
+The letters ``KS'' in the formal names refer to Kuga--Sato varieties, not to Kodaira--Spencer
+maps.
+
+The last statement is proved in \lref{UpperTheory.Gal.LocalSmoothExtension.ksHodge_of_geo}
+from the holomorphic Lefschetz formula and from the explicit description of the fixed points of
+twisted Hecke correspondences on Kuga--Sato varieties, the proposition $\sfname{FixK}$
+(\cref{pf:ks2:def:fixk}). The proof of $\sfname{FixK}$ is the main geometric content of this
+section (\cref{pf:ks2:sec:fix}): the fixed points of a Hecke correspondence composed with fibrewise
+multiplications are CM points; they are parametrized, through the complex uniformization of $M_N$,
+by pairs consisting of a point of a double coset space of a definite-at-infinity similitude group
+and a rational element fixing it; and their local Lefschetz contributions are computed from the
+eigenvalues of the CM endomorphism on the tangent spaces of the base and of the fibres. The
+weighted fixed-point count is thereby expressed as a finite sum of orbital type over the classes of
+hermitian forms. The remaining five statements are deduced in
+\cref{pf:ks2:sec:std,pf:ks2:sec:min,pf:ks2:sec:cong,pf:ks2:sec:good} from an integral input
+($\sfname{MIn}$, \cref{pf:ks2:min}): integral models, their properness in the compact case,
+\'etale-level models at auxiliary primes, and the pointwise congruence relation on Kuga--Sato
+varieties over them, whose combinatorial heart (a count of subspaces of a vector space over a
+finite field containing, or not containing, a distinguished line) is proved in full in
+\cref{pf:ks2:sec:cong}.
+
+\paragraph{What is proved in full, and what is cited.}
+The top layers of all arguments are proved here: the assembly of $\sfname{KSAll}$, the
+statements $\sfname{StdEx}$ and $\sfname{KSNice}$, the construction of Kuga--Sato towers from
+Hecke witnesses, the reduction of the congruence relation to the combinatorial identity and the
+identity itself, the deduction of $\sfname{KSGood}$ and $\sfname{KSCong}$ from sites, covers and
+lying-over statements, and, for $\sfname{FixK}$, the reduction to the fine moduli schemes, the
+change of level, the assembly of the fixed-point formula from the complex uniformization, and the
+computation of the local contribution over a fixed point of the base. We also prove the top
+layers of a number of intermediate results: the splitting and Galois properties of tower maps,
+the comparison of generic models with generic fibres of models, normal $T_j$-correspondences,
+quotients by subgroup schemes, the reading of Hecke correspondences at ordinary points and the
+resulting embedding criterion, the extension of level-forgetting witnesses to \'etale-level
+models, the $p$-adic and real dictionaries and the period coordinates, the extension of objects
+over discrete valuation rings, and the classification of complex points of models. Deeper lemmas of
+the formal proof (the analytic theory of complex tori, generic ordinariness of the special fibre,
+existence of \'etale-level models and of the lying-over maps, the local inputs of the period
+coordinates) are cited by cross-reference
+to the formal development, with their content stated as we use it. Some of them are classical theorems formalized in
+the development; for those we also give literature references
+(\cref{pf:ks2:sec:classical}).
+
+\paragraph{Organization.}
+\Cref{pf:ks2:sec:setting} recalls the objects and states $\sfname{KSAll}$;
+\cref{pf:ks2:sec:main} proves the main theorem modulo the components;
+\cref{pf:ks2:sec:std} treats standard bases and the existence and niceness of Kuga--Sato towers;
+\cref{pf:ks2:sec:min} the integral input; \cref{pf:ks2:sec:cong} the congruence relation;
+\cref{pf:ks2:sec:good} good reduction and congruences on the towers; \cref{pf:ks2:sec:fix} the
+fixed-point theorem $\sfname{FixK}$; \cref{pf:ks2:sec:classical} lists the classical inputs; and
+\cref{pf:ks2:sec:remarks} collects remarks on the formal statements.
+
+% ---------------------------------------------------------------------------
+\subsection{The setting}\label{pf:ks2:sec:setting}
+
+All schemes are schemes in the usual sense; $\mathrm{Sp}\,R=\Spec R$. For a morphism $f$ and an
+integer $d\ge0$ we say that $f$ is \emph{finite \'etale of degree $d$} if $f$ is finite and
+\'etale and every geometric point $x\colon\Spec\Omega\to X$ ($\Omega$ algebraically closed) of the
+target has exactly $d$ lifts $y\colon\Spec\Omega\to Y$ with $f\circ y=x$.
+
+\subsubsection{PEL data of Harris--Taylor type}
+
+\begin{definition}[Data, groups and links]\label{pf:ks2:def:datum}
+Let $p$ be a prime.
+\begin{enumerate}
+\item A \emph{datum} $D$ for $p$ consists of: a CM field
+  $F$ with complex conjugation $c$; an element $\omega\in\kstwoOF$ and integers $\mathrm{tr},\mathrm{nm}$
+  with $\omega+c(\omega)=\mathrm{tr}$, $\omega c(\omega)=\mathrm{nm}$, $\mathrm{tr}^2-4\mathrm{nm}<0$,
+  $p\nmid\mathrm{tr}^2-4\mathrm{nm}$ and $p\mid r^2-\mathrm{tr}\,r+\mathrm{nm}$ for some $r\in\Z$
+  (so $\Q(\omega)$ is imaginary quadratic and $p$ splits in it); an $\kstwoOF$-algebra $O$, free
+  of rank $m^2[F:\Q]$ over $\Z$ ($m\ge1$), with centre $\kstwoOF$ up to nonzero integer multiples,
+  an involution ${}^*$ inducing $c$ on $\kstwoOF$, and an isomorphism
+  $O\otimes\Z_p\cong M_m(\kstwoOF\otimes\Z_p)$; an $O$-module $\Lambda$, free of rank
+  $mn[F:\Q]$ over $\Z$ ($n\ge1$), with a nondegenerate alternating form $E_\Lambda$ satisfying
+  $E_\Lambda(bx,y)=E_\Lambda(x,b^*y)$ and perfect up to an integer prime to $p$; an integer $a$, a root
+  $\rho_c\in\C$ of $X^2-\mathrm{tr}X+\mathrm{nm}$ and distinct embeddings
+  $\tau_1,\dots,\tau_a\colon F\to\C$ with $\tau_i(\omega)=\rho_c$; and a complex structure on
+  $\Lambda\otimes\R$ compatible with $E$ and $O$ satisfying Kottwitz's determinant condition.
+  Put $g=mn[F:\Q]/2$. $D$ is of \emph{compact type} if $2a<[F:\Q]$, or $O\otimes\Q$ is a division
+  algebra and $n<2m$.
+\item An \emph{HT-group} $G$ for $p$ consists of a CM
+  field (again denoted $F$) with an imaginary quadratic subfield, a central simple $F$-algebra $C$
+  of dimension $n^2$ with an involution of the second kind, archimedean splittings
+  $\psi_v\colon C\otimes_{F,v}\C\cong M_n(\C)$ under which the involution becomes adjunction for
+  a hermitian Gram matrix $H_v$, and local data at $p$. Its group of prime-to-$p$ finite adelic
+  points is
+  \[
+   \kstwoG=\{(g,\nu)\in(\A_f^p\otimes_\Q C)^\times\times(\A_f^p)^\times:\ g^*g=\nu\},
+  \]
+  where $\A_f^p$ is the ring of finite adeles of $\Q$ away
+  from $p$. The integer $G.a$ is the number of archimedean places $v$ at which $H_v$ is
+  indefinite. We write $\kstwoGp$ for the $p$-adic group $\GL_1(\Q_p)\times\prod_{i<m}\GL_n(K_i)$
+  attached to $G$ (with the local fields $K_i$ of the data of
+  $G$) and $\kstwoKp=\Z_p^\times\times\prod_i\GL_n(\OO_{K_i})$ for its standard maximal compact
+  subgroup.
+\item A \emph{link} $L$ between $D$ and $G$ identifies the CM
+  fields, sets $n_G=n_D$, realizes $C$ as the centralizer of $O$ in $\End_\Q(\Lambda\otimes\Q)$
+  compatibly with the involutions, and matches the archimedean and $p$-adic data. Through $L$ the
+  group $\kstwoG$ acts on $\A_f^p\otimes\Lambda$ (we write $h\cdot v$); put
+  $\kstwoLaHat=\hat\Z^p\otimes\Lambda$. An element $h$ is \emph{integral} if $h\cdot\kstwoLaHat\subseteq\kstwoLaHat$. For
+  $N\ge1$, $K_N\subseteq\kstwoG$ is the group of $g$ such
+  that $g$ and $g^{-1}$ act trivially on $\kstwoLaHat/N\kstwoLaHat$. For $h\in\kstwoG$ and levels
+  $N',N$, $h$ is \emph{admissible from $N'$ to $N$} if $hK_{N'}h^{-1}\subseteq K_N$.
+\item The \emph{standing conditions} $\mathrm{Sc}(D,G)$ are:
+  $a_D=1$, $m=1$, $G.a=1$, $n$ odd, and $D$ of compact type.
+\end{enumerate}
+A \emph{level} is an integer $N\ge3$ prime to $p$.
+\formal{GlobalTheory.UPel.HT.Datum}\formal{GlobalTheory.UPel.HT.Datum.g}\formal{GlobalTheory.UPel.HT.Datum.CompactB}\formal{GlobalTheory.LKTrip.HTGroup}\formal{GlobalTheory.LKTrip.HTGroup.GAf}\formal{GlobalTheory.LKRes.GHT}\formal{GlobalTheory.LKRes.KHT}\formal{GlobalTheory.LKGeo.Link}\formal{UpperTheory.Gal.Int.Geo.Integ}\formal{GlobalTheory.LKGeo.Link.KN}\formal{UpperTheory.Gal.G3.AdmK}\formal{UpperTheory.Gal.Int.Geo.Sc}\formal{UpperTheory.Gal.Int.Geo.Lv}
+\end{definition}
+
+\begin{definition}[Bases]\label{pf:ks2:def:base}
+Let $D$ be a datum for $p$ and $R$ a commutative ring.
+\begin{enumerate}
+\item A \emph{base} $b$ of $D$ over $R$ consists of an
+  element $\rho\in R$ with $\rho^2-\mathrm{tr}\rho+\mathrm{nm}=0$ and ring maps
+  $t_1,\dots,t_a\colon\kstwoOF\to R$ with $t_i(\omega)=\rho$, such that every integer prime to
+  $p$ is a unit in $R$, the $t_i$ are pairwise comaximal (the elements $t_i(x)-t_j(x)$ generate
+  the unit ideal for $i\ne j$), and for $i\neq j$ and every ring map $\beta$ from $R$ to a field of
+  characteristic $p$ the kernels of $\beta\circ t_i$ and $\beta\circ t_j$ differ.
+\item If $R$ is a $\Q$-algebra, a \emph{characteristic-zero base} is the same without the two conditions involving $p$.
+\item For a number field $E$ and a ring isomorphism $e\colon F\to E$, a characteristic-zero base
+  $g_b$ over $E$ is \emph{standard for $e$} if
+  $\rho=e(\omega)$ and $t_i(x)=e(x)$ for all $i$ and $x\in\kstwoOF$. Over $\C$, $g_b$ is
+  \emph{standard} if $\rho=\rho_c$ and
+  $t_i=\tau_i|_{\kstwoOF}$.
+\end{enumerate}
+\formal{GlobalTheory.UPel.HT.Base}\formal{GlobalTheory.UPel.HT.Gen.GBase}\formal{UpperTheory.Gal.Int.Geo.IsStd}\formal{UpperTheory.Gal.LocalSmoothExtension.StdC}
+\end{definition}
+
+\begin{definition}[Moduli problems and models]\label{pf:ks2:def:model}
+Let $b$ be a base over $R$ and $N\ge1$. For an $R$-scheme $s\colon S\to\Spec R$, an
+\emph{object of level $N$ over $S$} consists of an abelian
+scheme $A/S$ with an action of $O$, a symmetric line bundle on $A\times_SA$, rigidified along both
+zero sections, relatively ample on the diagonal, whose polarization has kernel killed by an
+integer prime to $p$ and whose Rosati involution induces ${}^*$ on $O$, Kottwitz's condition on
+$\Lie A$ with respect to $t_1,\dots,t_a$, and an $O$-linear level-$N$ structure
+$\eta\colon\Lambda\to A(S)$ which at every geometric point is the reduction of a prime-to-$p$
+trivialization of the Tate modules compatible with $O$ and with the Weil pairing up to a unit.
+Morphisms of objects over a morphism $f\colon S'\to S$ are cartesian squares respecting all
+structures. A \emph{model of level $N$} is a quasi-projective $R$-scheme $M$, smooth of relative
+dimension $a(n-1)$, with an object $\mathcal A$ over $M$ which is universal: every object over
+every $R$-scheme $S$ is the pullback of $\mathcal A$ along a unique morphism $S\to M$. For a
+characteristic-zero base $g_b$ the analogous notions are \emph{generic objects} and \emph{generic models}; the definition of a generic model requires only the
+universal property (no quasi-projectivity or smoothness).
+\formal{GlobalTheory.UPel.HT.Obj}\formal{GlobalTheory.UPel.HT.ObjMap}\formal{GlobalTheory.UPel.HT.Model}\formal{GlobalTheory.UPel.HT.Gen.GObj}\formal{GlobalTheory.UPel.HT.Gen.GenModel}
+\end{definition}
+
+\begin{definition}[Hecke isogenies and witnesses]\label{pf:ks2:def:wit}
+Let $g_b$ be a characteristic-zero base over $R$, $h\in\kstwoG$, and let $o',o$ be generic
+objects over the same $S$, of levels $N',N$. A homomorphism $\psi\colon A_{o'}\to A_o$ is a
+\emph{Hecke isogeny for $h$} if it is $O$-linear, has an
+$O$-linear quasi-inverse $\psi'$ with $\psi'\psi=d$ and $\psi\psi'=d$ for an integer $d$ prime to
+$p$, pulls the polarization bundle of $o$ back to the $c$-th power of that of $o'$ for an integer
+$c$ prime to $p$ such that the similitude factor of $h$ is $c$ times a unit of $\hat\Z^p$, and at
+every geometric point maps the level structures according to the action of $h$: for $n$ prime to
+$p$ and $x,y\in\Lambda$, $\psi$ maps the image of $x$ in the $n$-torsion to the image of $y$ iff
+$h\cdot x\equiv y\bmod n\kstwoLaHat$. For generic models $M',M$ of levels $N',N$, a \emph{Hecke
+witness} for $h$ is a pair $(\pi,\Phi)$ of a morphism
+$\pi\colon M'\to M$ over $R$ and a morphism $\Phi\colon\mathcal A'\to\mathcal A$ of universal
+abelian schemes covering $\pi$ which factors as a Hecke isogeny for $h$ from $\mathcal A'$ to a
+generic object $o$ over $M'$, followed by a morphism of objects $o\to\mathcal A$ over $\pi$.
+\formal{UpperTheory.Gal.Int.Geo.IsTrans}\formal{UpperTheory.Gal.G3.Wit}
+\end{definition}
+
+\subsubsection{Kuga--Sato towers and Hecke towers}
+
+\begin{definition}[Towers]\label{pf:ks2:def:tower}
+Let $B$ be a scheme and $\Gamma$ a group. A \emph{tower} over $B$ for $\Gamma$ consists of an index set $I$, subgroups $K_i\subseteq\Gamma$
+and a submonoid $\Delta\supseteq\bigcup K_i$, $B$-schemes $q_i\colon Z_i\to B$, and morphisms
+$\mathrm{tr}(i,j,h)\colon Z_i\to Z_j$ over $B$ for $h\in\Delta$ with $hK_ih^{-1}\subseteq K_j$,
+such that: (i) for every $j$ and every finite set of pairs $(i,x)$ there is $m$ with
+$K_m\subseteq K_j$ normalized by $K_j$ and $xK_mx^{-1}\subseteq K_i$ for all the pairs;
+(ii) all relative indices $[K_j:K_i\cap K_j]$ are finite; (iii) $\mathrm{tr}(i,i,k)=\mathrm{id}$ for
+$k\in K_i$ and $\mathrm{tr}(j,m,h')\circ\mathrm{tr}(i,j,h)=\mathrm{tr}(i,m,h'h)$; (iv) every
+$\mathrm{tr}(i,j,1)$ is finite, \'etale and surjective; (v) if $K_i$ is normalized by $K_j$, two
+geometric points of $Z_i$ with the same image under $\mathrm{tr}(i,j,1)$ differ by
+$\mathrm{tr}(i,i,k)$ for some $k\in K_j$; (vi) if $K_i\subseteq K_j$, $k\in K_j$ and
+$\mathrm{tr}(i,i,k)$ fixes a geometric point, then $k\in K_i$.
+\formal{UpperTheory.Gal.G3.Tower}
+\end{definition}
+
+\begin{definition}[Kuga--Sato towers]\label{pf:ks2:def:ks}
+Let $D,G,L$ be as above, $R$ a field of characteristic $0$, $g_b$ a characteristic-zero base over
+$R$ and $k\in\N$. A \emph{Kuga--Sato tower} for $(L,g_b,k)$
+is a tower $T$ over $\Spec R$ for $\kstwoG$, indexed by the levels $N$, with $K_N$ the principal
+congruence subgroups and $\Delta$ the monoid of integral elements, together with generic models
+$M_N$ of level $N$ with universal abelian schemes $\kstwoKS_N\to M_N$, and isomorphisms
+$Z_N\cong\kstwoKS_N^k=\kstwoKS_N\times_{M_N}\dots\times_{M_N}\kstwoKS_N$ ($k$ factors) over
+$\Spec R$, such that every transition map $\mathrm{tr}(N',N,h)$ corresponds to the $k$-th fibre
+power $\Phi^{k}$ of the second component of a Hecke witness $(\pi,\Phi)$ for $h$ from $M_{N'}$
+to $M_N$.
+\formal{UpperTheory.Gal.Int.Geo.KS}
+\end{definition}
+
+\begin{definition}[Hecke data and Hecke towers]\label{pf:ks2:def:heckedata}
+Let $N$ be a level.
+\begin{enumerate}
+\item A \emph{Hecke datum of level $N$} is a triple
+  $(K_g,h_g,M_g)$ of a subgroup $K_N\subseteq K_g\subseteq K_1$, an integral element $h_g$, and a
+  level $M_g$ divisible by $N$ such that $h_gxK_{M_g}x^{-1}h_g^{-1}\subseteq K_N$ for all
+  $x\in K_g$.
+\item A \emph{Hecke tower} over a field $k$ consists of an
+  index set $\Gamma$, a $k$-scheme $q\colon Z\to\Spec k$ and correspondences
+  $Z\xleftarrow{s_\gamma}Y_\gamma\xrightarrow{t_\gamma}Z$ over $\Spec k$. It is \emph{nice} if $q$ is smooth and projective (a closed immersion into
+  some $\mathbb P^N_k$ over $k$ followed by the projection) and every $s_\gamma$ is finite \'etale
+  of some degree.
+\item For a Kuga--Sato tower $T$ and a family $(g_j)_{j\in J}$ of Hecke data of level $N$, the
+  Hecke tower $T.\mathrm{tower}(N,g)$ has $\Gamma=J$,
+  $Z=Z_N$, $Y_j=\coprod_{c\in K_{g_j}/(K_N\cap K_{g_j})}Z_{M_{g_j}}$, $s_j$ equal to
+  $\mathrm{tr}(M_{g_j},N,1)$ on every copy, and $t_j$ equal to $\mathrm{tr}(M_{g_j},N,h_{g_j}x_c)$
+  on the copy indexed by $c$, where $x_c\in K_{g_j}$ is a chosen representative of $c$.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.Mem}\formal{GlobalTheory.GalV.HTower}\formal{UpperTheory.Gal.Int.Geo.Nice}\formal{UpperTheory.Gal.Int.Geo.KS.tower}
+\end{definition}
+
+\subsubsection{Integral structures}
+
+\begin{definition}[Covers, lying over, good covers]\label{pf:ks2:def:cover}
+Let $H$ be a Hecke tower over a field $k$, $\theta\colon\Gamma\to A$ a map to a field, and $O\to
+k$ a ring map. A \emph{cover} consists of a smooth
+projective $p_Y\colon Y\to\Spec O$ of some relative dimension and a morphism $\pi\colon Z\to Y$
+compatible with $q$ and $\Spec k\to\Spec O$, such that the induced morphism $Z\to Y\times_O k$ is
+finite \'etale and Galois for a finite group $\Delta$ acting on $Z$ (the action map
+$\coprod_{\Delta}Z\to Z\times_{Y_k}Z$ is an isomorphism), each $\delta\in\Delta$ being realized by
+a correspondence $\gamma$ of $H$ with $s_\gamma$ an isomorphism, $t_\gamma=\delta\circ s_\gamma$
+and $\theta(\gamma)=1$. For a correspondence $Y\xleftarrow{s}T\xrightarrow{t}Y$ and $m\ge1$,
+$\gamma$ \emph{lies over} $(s,t)$ with multiplicity $m$
+if there is $\kappa\colon Y_\gamma\to T$ with $s\kappa=\pi s_\gamma$ and $t\kappa=\pi t_\gamma$
+such that the induced morphism $Y_\gamma\to Z\times_YT$ is finite \'etale of degree $m$. The cover
+is \emph{good} if every $\gamma$ lies over some
+correspondence $(s,t)$ on $Y$ over $O$ with $s$ finite \'etale of some degree.
+\formal{UpperTheory.Gal.Int.Geo.Cover}\formal{UpperTheory.Gal.Int.Geo.Cover.Lies}\formal{UpperTheory.Gal.Int.Geo.Cover.Good}
+\end{definition}
+
+\begin{definition}[Pointwise congruence relation]\label{pf:ks2:def:ptid}
+Let $\ell,q,n\in\N$, $Y$ a scheme and $\varpi\in\Gamma(Y,\OO_Y)$.
+\begin{enumerate}
+\item A \emph{correspondence of $Y$ away from $\ell$}
+  is $Y\xleftarrow{p}Z\xrightarrow{r}Y$ with $p$ finite, \'etale over $Y[1/\ell]$, and with a
+  constant number $d$ of geometric points in the fibres of $p$ over geometric points where
+  $\ell$ is invertible.
+\item A point $x\in Y$ is a \emph{generic point of $\{\varpi=0\}$} if $\varpi(x)=0$ and $x$ has no proper
+  generization in $\{\varpi=0\}$.
+\item For a set $P$, a map $\phi\colon P\to P$, finite index sets $I_0,\dots,I_n$ and maps
+  $v_j\colon I_j\to P$, the \emph{alternating identity} $\mathrm{Alt}(q,n,\phi,v)$ is the equality of multisets
+  \begin{equation}\label{pf:ks2:eq:altid}
+  \sum_{j\ \mathrm{even}}q^{\binom j2}\bigl\{\phi^{\,n-j}(v_j(i)):i\in I_j\bigr\}
+  =\sum_{j\ \mathrm{odd}}q^{\binom j2}\bigl\{\phi^{\,n-j}(v_j(i)):i\in I_j\bigr\}.
+  \end{equation}
+\item For correspondences $T_0,\dots,T_n$ of $Y$ away from $\ell$, the \emph{pointwise congruence
+  relation} $\mathrm{PC}(\ell,q,n,\varpi,T)$ holds if: for every valuation ring $V$ with
+  algebraically closed fraction field and $\ell\ne0$ in $V$, every $y\colon\Spec V\to Y$ mapping
+  the closed point to a generic point of $\{\varpi=0\}$, the $q$-power Frobenius $\phi$ of the
+  residue field $\kappa$ of $V$, and every enumeration of the sections $z$ of $T_j$ over $y$
+  (lifts $z\colon\Spec V\to Z_j$ of $y$), the identity $\mathrm{Alt}$ holds for the residue
+  points $\bar z=r_j\circ z|_{\Spec\kappa}\in Y(\kappa)$, with $\phi$ acting on $Y(\kappa)$ by
+  precomposition.
+\end{enumerate}
+\formal{UpperTheory.Gal.crystallineComparison.Corr}\formal{UpperTheory.Gal.crystallineComparison.GenPt}\formal{UpperTheory.Gal.crystallineComparison.AltId}\formal{UpperTheory.Gal.crystallineComparison.PtId}
+\end{definition}
+
+\begin{definition}[Good reduction and congruence at a place]\label{pf:ks2:def:goodatw}
+Let $E$ be a number field, $w$ a finite place with valuation ring $O_w$, $H$ a Hecke tower over
+$E$ and $\theta\colon\Gamma\to A$.
+\begin{enumerate}
+\item $(H,\theta)$ has \emph{good reduction at $w$}, written $\mathcal{G}(H,\theta,w)$, if there is a
+  good cover of $(H,\theta)$ over $O_w$.
+\item For $n\in\N$ and $\vartheta\colon\N\to A$, $(H,\theta)$ satisfies the \emph{congruence relation
+  at $w$ with coefficients $\vartheta$}, written $\mathcal{C}(H,\theta,w,n,\vartheta)$, if there are a
+  cover $(Y,\pi)$ over $O_w$, a prime
+  $q\in w$ with $\Nm w=q^f$, a uniformizer $\varpi$ of $O_w$, correspondences $T_0,\dots,T_n$ of
+  $Y$ away from $q$ over $O_w$ with $\mathrm{PC}(q,q^f,n,\varpi,T)$, and elements
+  $\gamma_0,\dots,\gamma_n\in\Gamma$ and integers $m_j\ge1$ such that $\gamma_j$ lies over $T_j$
+  with multiplicity $m_j$ and $\theta(\gamma_j)=m_j\vartheta_j$.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.GoodAtW}\formal{UpperTheory.Gal.Int.Geo.CongAtW}\formal{UpperTheory.Gal.Int.Geo.Cover.Cong}
+\end{definition}
+
+\begin{definition}[Group-theoretic conditions at a prime]\label{pf:ks2:def:goodgrp}
+Let $D,G,L$ be as above, $N$ a level, $(g_j)_{j\in J}$ Hecke data of level $N$ and
+$\theta\colon J\to A$. For a prime $q$ and $r\in\Z$ put $\mathfrak u=(q,\omega-r)\subseteq\kstwoOF$.
+\begin{enumerate}
+\item $(q,r,\mathfrak w)$ is \emph{admissible}, written $\mathrm{Adm}(q,r,\mathfrak w)$, if $q\ne p$ is a
+  prime, $q\nmid\mathrm{tr}^2-4\mathrm{nm}$, $q\mid r^2-\mathrm{tr}\,r+\mathrm{nm}$, $E_\Lambda$ is
+  perfect up to an integer prime to $q$, and $\mathfrak w\supseteq\mathfrak u$ is a maximal ideal.
+  An \emph{auxiliary level} for $(q,r,\mathfrak w)$ is a pair $(N_0,\mathfrak a)$ with $N_0\ge3$ prime
+  to $pq$, $\mathfrak a+\mathfrak w=\kstwoOF$ and $\mathfrak a\supseteq\mathfrak u^e$ for some $e$; an
+  \emph{auxiliary ideal} is an ideal of the form $N_0\mathfrak a$ for an auxiliary level.
+\item For an ideal $\mathfrak b$, $K(\mathfrak b)\subseteq\kstwoG$, the \emph{level group of $\mathfrak b$},
+  consists of the $g\in K_1$ acting trivially modulo $\mathfrak b$, i.e.\ with $g\cdot v-v\in\mathfrak
+  b\kstwoLaHat$ for $v\in\kstwoLaHat$.
+\item $(g,\theta)$ satisfies the \emph{deck condition} for $K$
+  if for every $x\in K$ some $j$ has $K_{g_j}=K_N$, $M_{g_j}=N$, $h_{g_j}=x$ and $\theta_j=1$.
+\item $h$ is a \emph{$T_i$-element at $\mathfrak w$} if
+  $h$ is trivial modulo every $n$ prime to $q$ and modulo every ideal $\mathfrak a$ prime to
+  $\mathfrak w$ containing a power of $\mathfrak u$, maps $\kstwoLaHat$ into itself with
+  $h\kstwoLaHat+\mathfrak w\kstwoLaHat$ of index $\Nm\mathfrak w^{\,i}$ in $\kstwoLaHat$ and
+  $\Nm\mathfrak w^{\,i}\kstwoLaHat\subseteq h\kstwoLaHat$, kills $\mathfrak w$ modulo an element
+  $s\notin\mathfrak w$ (precisely: for $x\in\mathfrak w$, $sx\kstwoLaHat\subseteq h\kstwoLaHat$),
+  and has similitude factor $\Nm\mathfrak w^{\,i}$ times a unit.
+\item The Hecke data are \emph{unramified at $\mathfrak w$}, written $\mathcal{U}(g,\theta,\mathfrak w)$,
+  if there are $q,r$ with $\mathrm{Adm}(q,r,\mathfrak w)$ and an auxiliary level $(N_0,\mathfrak a)$ such
+  that $K_0=K(N_0\mathfrak a)$ contains $K_N$, $N\in N_0\mathfrak a$, the deck condition holds for $K_0$,
+  and for every $j$ there are $\kappa\in\N$, an auxiliary level $(N_0\kappa,\mathfrak a')$ with
+  $\mathfrak a'\subseteq\mathfrak a$, integral elements $h_1,h_2$ with $h_{g_j}=h_1h_2$, and a level
+  $N_1$, such that, with $K_0'=K(N_0\kappa\mathfrak a')$: $K_{M_{g_j}}\subseteq K_0'$, $M_{g_j}\in
+  N_0\kappa\mathfrak a'$, every $u\in K_0$ is $xu'$ with $x\in K_{g_j}\cap K_0$ and $u'\in K_0'$,
+  $\kappa\kstwoLaHat\subseteq h_2\kstwoLaHat$, $N_1\in N_0\mathfrak a'$, $h_2xK_{M_{g_j}}(h_2x)^{-1}\subseteq
+  K_{N_1}$ for $x\in K_{g_j}$, $h_1K_{N_1}h_1^{-1}\subseteq K_N$, and either $h_1=1$ or $h_1$ is a
+  $T_i$-element at a maximal ideal $\mathfrak w'\supseteq\mathfrak u$ with $\mathfrak a'\subseteq\mathfrak
+  a\mathfrak w'$, $i\le n$ and $\Nm\mathfrak w'^{\,i}\mid N_1$.
+\item The Hecke data \emph{contain the operators $T_i$ at $\mathfrak w$ with eigenvalues $\vartheta$},
+  written $\mathcal{H}(g,\theta,\mathfrak w,\vartheta)$, if
+  there are $q,r$ with $\mathrm{Adm}(q,r,\mathfrak w)$, an auxiliary ideal $\mathfrak n$ with
+  $K_0=K(\mathfrak n)\supseteq K_N$ and
+  $N\in\mathfrak n$, the deck condition for $K_0$, and for every $0\le i\le n$ an index $j$ with
+  $K_{g_j}=K_0$, $h_{g_j}$ a $T_i$-element at $\mathfrak w$, $\Nm\mathfrak w^{\,i}\mid M_{g_j}$,
+  $[K_0:\Gamma_j]$ equal to the number of $i$-dimensional subspaces of
+  $(\kstwoOF/\mathfrak w)^n$, and $\theta_j=[\Gamma_j:\Gamma_j\cap K_{M_{g_j}}]\,\vartheta_i$, where
+  $\Gamma_j=K_0\cap h_{g_j}^{-1}K_0h_{g_j}$.
+\item A place $w$ of a number field $E$ \emph{corresponds} to $\mathfrak w$ under $e\colon F\cong
+  E$ if $x\in\mathfrak w\iff e(x)\in w$ for
+  $x\in\kstwoOF$.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.uId}\formal{UpperTheory.Gal.Int.Geo.AtPrime}\formal{UpperTheory.Gal.Int.Geo.IsLev}\formal{UpperTheory.Gal.Int.Geo.CongId}\formal{UpperTheory.Gal.Int.Geo.Deck}\formal{UpperTheory.Gal.Int.Geo.IsTjElt}\formal{UpperTheory.Gal.Int.Geo.GoodGrp}\formal{UpperTheory.Gal.Int.Geo.LevAt}\formal{UpperTheory.Gal.Int.Geo.CongGrp}\formal{UpperTheory.Gal.Int.Geo.LevOK}\formal{UpperTheory.Gal.Int.Geo.IsPl}
+\end{definition}
+
+\subsubsection{The statement}
+
+\begin{definition}[$\sfname{KSAll}$]\label{pf:ks2:def:ksall}
+$\sfname{KSAll}$ is the conjunction of the following
+statements, in which $p$ is a prime and $D,G,L$ are as in \cref{pf:ks2:def:datum}.
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{StdEx}$: if $a_D=1$, then for every number
+  field $E$ and every ring isomorphism $e\colon F\to E$ there is a characteristic-zero base over $E$
+  which is standard for $e$.
+\item $\sfname{KSEx}$: if $\mathrm{Sc}(D,G)$, then for every
+  field $R$ of characteristic $0$, every characteristic-zero base $g_b$ over $R$ and every $k$,
+  a Kuga--Sato tower for $(L,g_b,k)$ exists.
+\item $\sfname{KSNice}$: if $\mathrm{Sc}(D,G)$, then
+  $T.\mathrm{tower}(N,g)$ is nice for every Kuga--Sato tower $T$ over a characteristic-zero field,
+  every level $N$ and every family $g$ of Hecke data of level $N$.
+\item $\sfname{KSGood}$: if $\mathrm{Sc}(D,G)$, $E$ is a
+  number field, $g_b$ is standard for $e\colon F\cong E$, $T$ is a Kuga--Sato tower for
+  $(L,g_b,k)$, $N$ a level, $g$ a family of Hecke data with values $\theta$ in a field, $w$ a place
+  of $E$ corresponding to $\mathfrak w$, and $\mathcal{U}(g,\theta,\mathfrak w)$, then
+  $\mathcal{G}(T.\mathrm{tower}(N,g),\theta,w)$.
+\item $\sfname{KSCong}$: in the same situation,
+  $\mathcal{H}(g,\theta,\mathfrak w,\vartheta)$ implies
+  $\mathcal{C}(T.\mathrm{tower}(N,g),\theta,w,n,\vartheta)$.
+\item $\sfname{KSHodge}$: the Hodge occurrence statement
+  recalled in \lref{UpperTheory.Gal.LocalSmoothExtension.ksHodge_of_geo}: for every
+  $\mathrm{Sc}(D,G)$ and every antitone weight $\lambda$ there is $k$ such that, for all Kuga--Sato
+  towers $T$ for $(L,g_b,k)$ over characteristic-zero fields, eigensystems $\theta$ of Hecke data
+  satisfying the spectral condition of loc.\ cit., ring maps $\tau$ from the base field to $\C$
+  with $\tau(\rho)=\rho_c$ and $\tau\circ t_i=\tau_i$, $\sigma\in\Aut(\C)$ and Hodge exponent vectors
+  $h$ of $\sigma\lambda$, the eigensystem $\sigma\circ\theta$ occurs in the Hodge cohomology of the
+  base change of $T.\mathrm{tower}(N,g)$ along $\tau$ in each degree $h_i$.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.KSAll}\formal{UpperTheory.Gal.Int.Geo.StdEx}\formal{UpperTheory.Gal.Int.Geo.KSEx}\formal{UpperTheory.Gal.Int.Geo.KSNice}\formal{UpperTheory.Gal.Int.Geo.KSGood}\formal{UpperTheory.Gal.Int.Geo.KSCong}\formal{UpperTheory.Gal.Int.Geo.KSHodge}
+\end{definition}
+
+The holomorphic Lefschetz formula enters through the proposition $\sfname{HLF}$: the statement of
+\cref{thm:galois:hlf} for a smooth projective $Z$ of relative dimension $\delta$ over $\C$,
+finite \'etale $c_1,c_2\colon Y\rightrightarrows Z$, a finite set $\mathcal F$ which is exactly the
+set of complex points $y$ with $c_1(y)=c_2(y)$, and matrices $A_y$ given by the tangent data of
+\cref{pf:ks2:def:istan} below with $\det(1-A_y)\ne0$.
+
+% ---------------------------------------------------------------------------
+\subsection{The main theorem}\label{pf:ks2:sec:main}
+
+\begin{theorem}\label{pf:ks2:main}
+$\sfname{HLF}\Rightarrow\sfname{KSAll}$: the holomorphic Lefschetz formula for finite \'etale
+correspondences implies $\sfname{KSAll}$.
+\formallabel{UpperTheory.Gal.Int.Geo.kodaira_spencer_of_weight_one}
+\end{theorem}
+
+\begin{proof}
+Assume the holomorphic Lefschetz formula. The six components of $\sfname{KSAll}$ are:
+$\sfname{StdEx}$ by \cref{pf:ks2:stdex}; $\sfname{KSEx}$ by \cref{pf:ks2:ksex}; $\sfname{KSNice}$
+by \cref{pf:ks2:ksnice}; $\sfname{KSGood}$ by \cref{pf:ks2:ksgood}; $\sfname{KSCong}$ by
+\cref{pf:ks2:kscong}; and $\sfname{KSHodge}$ by
+\lref{UpperTheory.Gal.LocalSmoothExtension.ksHodge_of_geo}, which states that
+$\sfname{HLF}$ and $\sfname{FixK}$ together imply $\sfname{KSHodge}$,
+applied to the assumption and to \cref{pf:ks2:fixk}. Only the last component uses the
+assumption.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Standard bases, Kuga--Sato towers and niceness}\label{pf:ks2:sec:std}
+
+\begin{proposition}\label{pf:ks2:stdex}
+$\sfname{StdEx}$ holds.
+\formallabel{UpperTheory.standard_datum_exists}
+\end{proposition}
+
+\begin{proof}
+Let $a_D=1$ and $e\colon F\to E$ an isomorphism. Put $\varphi=e|_{\kstwoOF}$, $\rho=\varphi(\omega)$
+and $t_1=\varphi$. Applying $\varphi$ to $\omega^2-\mathrm{tr}\,\omega+\mathrm{nm}=
+\omega^2-(\omega+c\omega)\omega+\omega\,c\omega=0$ shows that $\rho$ is a root of
+$X^2-\mathrm{tr}X+\mathrm{nm}$; $t_1(\omega)=\rho$; and comaximality is vacuous because there is
+only one index. This base is standard for $e$ by construction.
+\end{proof}
+
+In the formal proof this proposition is derived from the integral input $\sfname{MIn}$ of
+\cref{pf:ks2:min} by a lemma which does not use that hypothesis (\cref{pf:ks2:rem:unused}).
+
+\subsubsection{Generic models}
+
+We first record two facts on fibre powers and the comparison of generic models with generic fibres
+of models.
+
+\begin{lemma}[Smoothness of fibre powers]\label{pf:ks2:powsmooth}
+Let $A\to X$ be a morphism of schemes which is smooth of relative dimension $g$, and $k\in\N$. Then
+the $k$-fold fibre power $A^k=A\times_X\dots\times_XA\to X$ is smooth of relative dimension $kg$.
+\formallabel{GlobalTheory.FibPow.smoothOfRelativeDimension_pow}
+\end{lemma}
+
+\begin{proof}
+Induction on $k$. For $k=0$, $A^0=X$, and the identity is smooth of relative dimension $0$. For
+$k\ge0$, $A^{k+1}=A^k\times_XA$, and the projection $A^{k+1}\to A^k$ is the base change of $A\to X$
+along $A^k\to X$, hence smooth of relative dimension $g$. Its composite with $A^k\to X$, which is
+smooth of relative dimension $kg$ by induction, is smooth of relative dimension $kg+g$, since
+relative dimensions add under composition of smooth morphisms. (In the formal proof this is
+\lref{GlobalTheory.smoothOfRelativeDimension_powObj} for the iterated fibre product, transported
+along its canonical isomorphism with the fibre power.)
+\end{proof}
+
+\begin{lemma}[Projectivity of fibre powers]\label{pf:ks2:powproj}
+Let $R$ be a Noetherian ring, $X\to\Spec R$ projective, $A\to X$ an abelian scheme and $L$ a line
+bundle on $A$ which is relatively ample over $X$. Then for every $k\in\N$ the composite
+$A^k\to X\to\Spec R$ is projective.
+\formallabel{GlobalTheory.KS.isProjOver_pow}
+\end{lemma}
+
+\begin{proof}
+Over a Noetherian ring, a morphism to $\Spec R$ is projective if and only if it is proper and its
+source carries an ample line bundle
+(\lref{GlobalTheory.isProjOver_iff_isProper_and_exists_isAmpleLB}). So $X\to\Spec R$ is proper
+and $X$ carries an ample line bundle. Let $\mathrm{pr}_1,\dots,\mathrm{pr}_k\colon A^k\to A$ be the
+projections. The external tensor product $\bigotimes_i\mathrm{pr}_i^*L$ is relatively ample over $X$
+(\lref{GlobalTheory.relAmple_boxLB}: external tensor products of relatively ample line bundles on
+the factors of a fibre power are relatively ample). Hence $A^k$ carries an ample line bundle
+(\lref{GlobalTheory.RelAmpleQProj.isProper_and_exists_isAmpleLB}: a scheme with a relatively ample
+line bundle over a proper base with an ample line bundle carries an ample line bundle). The morphism
+$A^k\to X$ is proper, as an iterated fibre product of copies of the proper morphism $A\to X$ (proper
+morphisms are stable under base change and composition), so $A^k\to\Spec R$ is proper. By the
+criterion above it is projective.
+\end{proof}
+
+\begin{proposition}[Generic models and generic fibres]\label{pf:ks2:genmodel}
+Let $R$ be a Noetherian ring with a base $b$ of $D$, $\varphi\colon R\to R'$ a ring map to a
+$\Q$-algebra, and $g_b$ a characteristic-zero base of $D$ over $R'$ with $\rho=\varphi(\rho_b)$ and
+$t_i=\varphi\circ t_{b,i}$ for all $i$. Let $N$ be a level, $M$ a model of level $N$ over $R$ and $X$
+a generic model of level $N$ over $R'$, and put $M_{R'}=M\times_{\Spec R}\Spec R'$ with projections
+$\mathrm{pr}_1,\mathrm{pr}_2$. Then there is a morphism $j\colon X\to M_{R'}$ which is an open and a
+closed immersion, satisfies $\mathrm{pr}_2\circ j=s_X$ (the structure map of $X$), and under which
+the universal generic object $\mathcal A_X$ of $X$ is the pullback of the universal object
+$\mathcal A_M$ of $M$ along $\mathrm{pr}_1\circ j$.
+\formallabel{GlobalTheory.UPel.HT.GenCmp.genModel_eq_genericFibre}
+\formallabel{GlobalTheory.T.exists_open_closed_immersion_genModel_to_fibre}
+\end{proposition}
+
+\begin{proof}
+We show that $j$ can be chosen to be an isomorphism. Two remarks on the moduli problems come
+first. (a) Let $S$ be an $R'$-scheme, viewed as an $R$-scheme through $\varphi$. Since
+$\rho=\varphi(\rho_b)$ and $t_i=\varphi\circ t_{b,i}$, objects of level $N$ for $b$ over $S$ are the
+same as objects for $g_b$, viewed as a base over the $\Q$-algebra $R'$. Such an object is a generic
+object, because at every geometric point it admits a trivialization of the full Tate module,
+compatible with $O$ and with the Weil pairing up to a unit, which induces its level structure
+(\lref{GlobalTheory.UPel.HT.GenCmp.geomFull}: in characteristic $0$ the $p$-adic Tate module,
+with its $O$-action and Weil pairing, is isomorphic to $\Lambda\otimes\Z_p$ as well). (b)
+Conversely, a generic object over $S$ is an object for $b$, the only additional condition being
+that the kernel of its polarization is killed by an integer prime to $p$
+(\lref{GlobalTheory.UPel.HT.GenCmp.genericObject_kernelCondition}: the trivialization of the
+full Tate module identifies the Weil pairing with $E_\Lambda$ up to a unit, and $E_\Lambda$ is perfect
+up to an integer prime to $p$).
+
+Let $o_S$ be the pullback of $\mathcal A_M$ along $\mathrm{pr}_1$ (objects pull back along arbitrary
+morphisms, all their structures and conditions being stable under base change). By (a) it is a generic object over the
+$R'$-scheme $M_{R'}$, so the universal property of $X$ gives a unique $f\colon M_{R'}\to X$ over $R'$
+with a morphism of objects $o_S\to\mathcal A_X$ over $f$. By (b), $\mathcal A_X$ is an object for $b$
+over $X$, so the universal property of $M$ gives a unique $g\colon X\to M$ over $R$ with a morphism
+$\mathcal A_X\to\mathcal A_M$ over $g$. Let $j=(g,s_X)\colon X\to M_{R'}$. Then
+$\mathrm{pr}_2\circ j=s_X$ and $\mathrm{pr}_1\circ j=g$, so $\mathcal A_X$ is the pullback of
+$\mathcal A_M$ along $\mathrm{pr}_1\circ j$.
+
+We show that $f$ is inverse to $j$. First, composing $o_S\to\mathcal A_X$ over $f$ with $\mathcal
+A_X\to\mathcal A_M$ over $g$ gives a morphism $o_S\to\mathcal A_M$ over $g\circ f$, and the defining
+morphism $o_S\to\mathcal A_M$ lies over $\mathrm{pr}_1$; by the uniqueness in the universal property
+of $M$, $g\circ f=\mathrm{pr}_1$. Second, since $o_S$ is the pullback of $\mathcal A_M$ along
+$\mathrm{pr}_1$ and $\mathrm{pr}_1\circ j=g$, the morphism $\mathcal A_X\to\mathcal A_M$ over $g$
+factors through a morphism $\mathcal A_X\to o_S$ over $j$; composed with $o_S\to\mathcal A_X$ it
+gives a morphism $\mathcal A_X\to\mathcal A_X$ over $f\circ j$, and the identity is one over
+$\mathrm{id}_X$; by the uniqueness in the universal property of $X$, $f\circ j=\mathrm{id}_X$. Third,
+$\mathrm{pr}_1\circ j\circ f=g\circ f=\mathrm{pr}_1$ and $\mathrm{pr}_2\circ j\circ f=s_X\circ
+f=\mathrm{pr}_2$ ($f$ lies over $R'$), so $j\circ f=\mathrm{id}$. Hence $j$ is an isomorphism, in
+particular an open and a closed immersion.
+\end{proof}
+
+\begin{lemma}\label{pf:ks2:gensm}
+Let $R$ be a field of characteristic $0$, $g_b$ a characteristic-zero base of $D$ over $R$, $N$ a
+level and $M_N$ a generic model of level $N$. Then $M_N\to\Spec R$ is smooth, separated and
+quasi-compact, and projective if $D$ is of compact type. For every $k$, the fibre power
+$\kstwoKS_N^k\to\Spec R$ of the universal abelian scheme is smooth and separated, and projective
+if $D$ is of compact type.
+\formallabel{UpperTheory.Gal.G3.pGenSm}\formallabel{UpperTheory.Gal.G3.pPowSm}
+\end{lemma}
+
+\begin{proof}
+Since $R$ is a $\Q$-algebra, $g_b$ is also a base of $D$ over $R$ in the sense of
+\cref{pf:ks2:def:base}(1) (integers prime to $p$ are units, and there is no ring map from $R$ to
+a field of characteristic $p$). By \lref{GlobalTheory.UPel.HT.model_nonempty} (models of
+level $N$ exist over Noetherian rings with a base) there is a model $M$ of level $N$ over $R$; by
+\cref{pf:ks2:genmodel} (applied with $\varphi=\mathrm{id}_R$) there is a morphism
+$j\colon M_N\to M$ over $R$ which is an open and a closed immersion. As $M$ is quasi-projective and
+smooth over $R$, $M_N$ is smooth, separated and quasi-compact; if $D$ is of compact type, $M$ is
+projective over $R$ by \cref{pf:ks2:proj}, hence so is the closed subscheme $M_N$. The abelian
+scheme $\kstwoKS_N\to M_N$ is smooth and proper, so its $k$-fold fibre power is smooth and proper
+over $M_N$ (\cref{pf:ks2:powsmooth}, and stability of properness under base change and
+composition), hence smooth and separated over $R$. In the compact case the universal object carries
+a relatively ample line bundle (the restriction of the polarization bundle to the diagonal), and
+\cref{pf:ks2:powproj}, applied to the projective morphism $M_N\to\Spec R$, gives projectivity of
+$\kstwoKS_N^k$ over $R$.
+\end{proof}
+
+\subsubsection{Existence of Kuga--Sato towers}
+
+The construction of the towers rests on the following properties of Hecke witnesses
+(\cref{pf:ks2:def:wit}). Throughout, $R$ is a field of characteristic $0$, $g_b$ a
+characteristic-zero base over $R$, and for every level $N$ a generic model $M_N$ is fixed.
+
+\begin{lemma}[Principal congruence subgroups]\label{pf:ks2:kn}
+Let $N\ge1$. (1) Every $k\in K_1$ normalizes $K_N$. (2) For every $h\in\kstwoG$ there is an integer
+$c$ prime to $p$ with $hK_{Nc}h^{-1}\subseteq K_N$. (3) For $M,N>0$ the index $[K_N:K_N\cap K_M]$ is
+finite.
+\formallabel{UpperTheory.Gal.G3.pKNBasic}
+\end{lemma}
+
+\begin{proof}
+Recall that $u\in K_N$ iff $(u-1)\kstwoLaHat\subseteq N\kstwoLaHat$ and $(u^{-1}-1)\kstwoLaHat\subseteq
+N\kstwoLaHat$. (1) For $k\in K_1$, $k$ and $k^{-1}$ preserve $\kstwoLaHat$, so
+$(kuk^{-1}-1)\kstwoLaHat=k(u-1)k^{-1}\kstwoLaHat\subseteq k(u-1)\kstwoLaHat\subseteq kN\kstwoLaHat=
+N\kstwoLaHat$, and similarly for $(kuk^{-1})^{-1}=ku^{-1}k^{-1}$. (2) Since $\kstwoLaHat$ is open and
+compact in $\A_f^p\otimes\Lambda$, there are integers $j,j'\ge1$ prime to $p$ with
+$jh\kstwoLaHat\subseteq\kstwoLaHat$ and $j'h^{-1}\kstwoLaHat\subseteq\kstwoLaHat$. Put $c=jj'$. For $u\in
+K_{Nc}$: $(huh^{-1}-1)\kstwoLaHat=h(u-1)h^{-1}\kstwoLaHat\subseteq h(u-1)j'^{-1}\kstwoLaHat\subseteq
+hNj\kstwoLaHat\subseteq N\kstwoLaHat$, and the same for $u^{-1}$. (3) $K_{NM}\subseteq K_N\cap K_M$, and
+$K_{NM}$ has finite index in $K_1\supseteq K_N$, being the kernel of the action of $K_1$ on the finite
+set $\kstwoLaHat/NM\kstwoLaHat$.
+\end{proof}
+
+\begin{lemma}[Hecke witnesses]\label{pf:ks2:wit}
+Let $N',N$ be levels and $h\in\kstwoG$.
+\begin{enumerate}
+\item\label{pf:ks2:wit:kn} (\cref{pf:ks2:kn}) Every $k\in K_1$ normalizes
+  $K_N$; for every $h$ there is $c$ prime to $p$ with $hK_{Nc}h^{-1}\subseteq K_N$; and all
+  relative indices between the $K_N$ are finite.
+\item\label{pf:ks2:wit:ex} (\lref{UpperTheory.Gal.G3.witEx_holds}) If $h$ is integral and
+  admissible from $N'$ to $N$, a Hecke witness $(\pi,\Phi)$ for $h$ from $M_{N'}$ to $M_N$ exists.
+\item\label{pf:ks2:wit:uniq} (\lref{UpperTheory.Gal.G3.witUniq_holds}) Under the same
+  hypotheses it is unique.
+\item\label{pf:ks2:wit:comp} (\lref{UpperTheory.Gal.G3.witComp_holds}) For $u\in K_{N'}$,
+  $(\mathrm{id},\mathrm{id})$ is a witness for $u$ from $M_{N'}$ to itself; and if $(\pi,\Phi)$ is a
+  witness for $h$ from $M_{N_1}$ to $M_{N_2}$ and $(\pi',\Phi')$ one for an integral $h'$,
+  admissible from $N_2$ to $N_3$, from $M_{N_2}$ to $M_{N_3}$, then $(\pi'\pi,\Phi'\Phi)$ is a
+  witness for $h'h$.
+\item\label{pf:ks2:wit:cart} (\lref{UpperTheory.Gal.G3.witCart_holds}) If $u\in K_1$, the
+  square formed by $\Phi$, $\pi$ and the two structure maps of the universal abelian schemes is
+  cartesian.
+\item\label{pf:ks2:wit:one} (\lref{UpperTheory.Gal.G3.witOne_holds}) If $1$ is admissible from
+  $N'$ to $N$ (i.e.\ $K_{N'}\subseteq K_N$), the map $\pi$ of a witness for $1$ is finite, \'etale
+  and surjective.
+\item\label{pf:ks2:wit:trans} (\lref{UpperTheory.Gal.G3.witTrans_holds}) If $(\pi,\Phi)$ is a
+  witness for $1$ and two geometric points $x,y$ of $M_{N'}$ have $\pi x=\pi y$, then there is
+  $u\in K_N$ such that the witness $(\pi_u,\Phi_u)$ for $u$ from $M_{N'}$ to itself satisfies
+  $\pi_u x=y$ and $\Phi\Phi_u=\Phi$ on the fibre over $x$.
+\item\label{pf:ks2:wit:free} (\lref{UpperTheory.Gal.G3.witFree_holds}) If $K_{N'}\subseteq
+  K_N$, $u\in K_N$, and the map $\pi$ of the witness for $u$ from $M_{N'}$ to itself fixes a
+  geometric point, then $u\in K_{N'}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (1) is \cref{pf:ks2:kn}; the other parts are the cited formal results, whose arguments we
+indicate. (2): by \lref{UpperTheory.Gal.G3.witDeep_holds} there are a level $M$ divisible by
+$N'$, with $h$ admissible from $M$ to $N$, and a witness for $h$ from $M_M$ to $M_N$ (it rests on
+\lref{UpperTheory.Gal.G3.transDeep_holds}: for integral $h$ there is an integer $c$ prime to
+$p$ such that every generic object of level $N_1c$ over a locally Noetherian base admits a Hecke
+isogeny for $h$ to a generic object of level $N_1$); the level-forgetting witness $M_M\to M_{N'}$ is
+finite, \'etale and surjective (\lref{UpperTheory.Gal.G3.witForget_holds}); the morphism of
+moduli schemes descends along it (\lref{UpperTheory.Gal.G3.descMap_holds}), and the Hecke
+isogeny property descends along finite \'etale surjective base changes and can be cancelled against
+a Hecke isogeny for $1$ (\lref{UpperTheory.Gal.G3.transDesc_holds},
+\lref{UpperTheory.Gal.G3.transCancel_holds}). (3): $M_N$ is separated and $M_{N'}$ is reduced
+(\cref{pf:ks2:gensm}), so two morphisms $M_{N'}\to M_N$ agree if they agree on geometric points; at a
+geometric point both witnesses give Hecke isogenies for $h$ out of the same object, which coincide;
+the same argument applies to $\Phi$ on the reduced scheme $\kstwoKS_{N'}$. (4) composes Hecke
+isogenies. (5): a Hecke isogeny for $u\in K_1$ is an isomorphism. (6): with $M=NN'$, the composite
+of the level-forgetting witness $M_M\to M_{N'}$ (finite, \'etale and surjective) with $\pi$ is, by (3)
+and (4), the level-forgetting witness $M_M\to M_N$, which is finite, \'etale and surjective; hence so
+is $\pi$, as $\pi$ is separated and locally of finite type. (7) and (8) are statements about
+geometric points: two level-$N'$ objects with the same image at level $N$ differ by an element of
+$K_N$ acting on the level structure, and a point fixed by the action of $u$ carries an automorphism
+inducing $u$ on the level-$N'$ structure, which forces $u\in K_{N'}$.\end{proof}
+
+\begin{proposition}\label{pf:ks2:ksex}
+$\sfname{KSEx}$ holds: for $\mathrm{Sc}(D,G)$, every field $R$ of characteristic $0$, every
+characteristic-zero base $g_b$ over $R$ and every $k\in\N$, a Kuga--Sato tower for
+$(L,g_b,k)$ exists.
+\formallabel{UpperTheory.Gal.G3.kSEx_holds}
+\end{proposition}
+
+\begin{proof}
+For every level $N$ choose a generic model $M_N$ of level $N$. It exists: $g_b$ is a base over $R$, so a model $M$ of
+level $N$ exists by \lref{GlobalTheory.UPel.HT.model_nonempty}, and $M$ with its universal
+object, viewed as generic, is a generic model.
+For integral
+$h$ admissible from $N'$ to $N$ let $(\pi_{N',N,h},\Phi_{N',N,h})$ be the Hecke witness of
+\cref{pf:ks2:wit}\ref{pf:ks2:wit:ex}. Define the tower $T$: the
+index set is the set of levels, $K_N$ the principal congruence subgroups, $\Delta$ the integral
+elements, $Z_N=\kstwoKS_N^k$ with its structure map to $\Spec R$, and
+$\mathrm{tr}(N',N,h)=\Phi_{N',N,h}^{k}$, the $k$-th fibre power of $\Phi_{N',N,h}$ over
+$\pi_{N',N,h}$. We verify the axioms of \cref{pf:ks2:def:tower}.
+
+$K_N\subseteq\Delta$ since elements of $K_N$ preserve $\kstwoLaHat$. Axiom (i): given $j=N$ and
+finitely many pairs $(N_i,x_i)$, choose by \cref{pf:ks2:wit}\ref{pf:ks2:wit:kn} integers $c_i$
+prime to $p$ with $x_iK_{N_ic_i}x_i^{-1}\subseteq K_{N_i}$ and put $m=N\prod_iN_ic_i$; then
+$K_m\subseteq K_N$, $K_m$ is normalized by $K_1\supseteq K_N$, and $x_iK_mx_i^{-1}\subseteq
+K_{N_i}$ because $K_m\subseteq K_{N_ic_i}$.
+Axiom (ii) is the finiteness of relative indices. The maps $\mathrm{tr}$ lie over $\Spec R$
+because $\pi$ does. Axiom (iii): for $u\in K_N$, both $(\pi_{N,N,u},\Phi_{N,N,u})$ and
+$(\mathrm{id},\mathrm{id})$ are witnesses for $u$, so they coincide by uniqueness, and the fibre
+power of the identity is the identity; for composable $h,h'$, the composite of the witnesses for
+$h$ and $h'$ is a witness for $h'h$ (\cref{pf:ks2:wit}\ref{pf:ks2:wit:comp}), hence equals the
+chosen one, and fibre powers are compatible with composition. Axiom (iv): by
+\cref{pf:ks2:wit}\ref{pf:ks2:wit:cart} the square formed by $\Phi_{N',N,1}$ and $\pi_{N',N,1}$ is
+cartesian, hence so is the square formed by its $k$-th fibre power; so $\mathrm{tr}(N',N,1)$ is a base change of
+$\pi_{N',N,1}$, which is finite, \'etale and surjective by \cref{pf:ks2:wit}\ref{pf:ks2:wit:one},
+and these properties are stable under base change. Axiom (v): if two geometric points $x,y$ of
+$\kstwoKS_{N'}^k$ have the same image, their images $\bar x,\bar y$ in $M_{N'}$ have the same image
+in $M_N$; \cref{pf:ks2:wit}\ref{pf:ks2:wit:trans} gives $u\in K_N$ with $\pi_{N',N',u}\bar x=\bar y$
+and $\Phi_{N',N,1}\circ\Phi_{N',N',u}=\Phi_{N',N,1}$ on the fibre over $\bar x$; as the square of
+$\Phi^k_{N',N,1}$ is cartesian, $y$ and $\mathrm{tr}(N',N',u)(x)$ are two points over $\bar y$
+with the same image, hence equal. Axiom (vi) follows from
+\cref{pf:ks2:wit}\ref{pf:ks2:wit:free} applied to the image of the fixed point in $M_{N'}$.
+Finally the structure of a Kuga--Sato tower is given by the identity isomorphisms
+$Z_N=\kstwoKS_N^k$, and the compatibility of $\mathrm{tr}(N',N,h)$ with a Hecke witness holds by
+construction.
+\end{proof}
+
+\subsubsection{Niceness}
+
+\begin{lemma}\label{pf:ks2:twfet}
+Let $X$ be a tower over $B$ for $\Gamma$ (\cref{pf:ks2:def:tower}) and $K_i\subseteq K_j$. Then
+$\mathrm{tr}(i,j,1)\colon Z_i\to Z_j$ is finite \'etale of degree $[K_j:K_i]$.
+\formallabel{UpperTheory.Gal.G3.pTwFEt}
+\end{lemma}
+
+\begin{proof}
+Finiteness and \'etaleness are axiom (iv); we count geometric fibres. First assume that $K_i$ is
+normalized by $K_j$. Let $x$ be a geometric point of $Z_j$; by surjectivity it has a lift $y$.
+By axiom (v) every lift is $\mathrm{tr}(i,i,k)(y)$ for some $k\in K_j$, and by axiom (iii) these
+are lifts; $\mathrm{tr}(i,i,k)(y)=\mathrm{tr}(i,i,k')(y)$ iff $\mathrm{tr}(i,i,k'^{-1}k)$ fixes
+$y$ iff $k'^{-1}k\in K_i$ by axiom (vi). Hence the fibre is in bijection with $K_j/K_i$. In
+general, axiom (i) gives $m$ with $K_m\subseteq K_i$
+and $K_m$ normalized by $K_j$, hence also by $K_i$. Since
+$\mathrm{tr}(m,j,1)=\mathrm{tr}(i,j,1)\circ\mathrm{tr}(m,i,1)$, the fibre of $\mathrm{tr}(m,j,1)$
+over $x$ is the disjoint union, over the lifts $y$ of $x$ to $Z_i$, of the fibres of
+$\mathrm{tr}(m,i,1)$ over $y$. By the normal case,
+$[K_j:K_m]=\#\{y\}\cdot[K_i:K_m]$, and $[K_j:K_m]=[K_j:K_i][K_i:K_m]$ with $[K_i:K_m]\neq0$; so
+the number of lifts is $[K_j:K_i]$.
+\end{proof}
+
+\begin{definition}[Splittings and Galois covers]\label{pf:ks2:def:splits}
+Let $s\colon Y\to Z$ and $c\colon W\to Z$ be morphisms of schemes and $(\sigma_x)_{x\in J}$ a family
+of morphisms $W\to Y$ with $s\circ\sigma_x=c$. The family \emph{splits $s$ over $c$} if the morphism
+$\coprod_{x\in J}W\to Y\times_ZW$ which is $(\sigma_x,\mathrm{id}_W)$ on the copy indexed by $x$ is an
+isomorphism. For a group $\Gamma$ and a map $a\colon\Gamma\to\End(W)$, a morphism $c\colon W\to X$ is
+\emph{Galois with group $\Gamma$ acting by $a$} if $c$ is finite, \'etale and surjective,
+$a(1)=\mathrm{id}_W$, $a(gh)=a(h)\circ a(g)$ for $g,h\in\Gamma$, and the family $(a(g))_{g\in\Gamma}$
+splits $c$ over $c$.
+\formal{GlobalTheory.GalV.Splits}\formal{GlobalTheory.GalV.IsGalois}
+\end{definition}
+
+The \emph{splitting criterion} is the following statement: if $s\colon Y\to Z$ is finite and \'etale,
+$c\colon W\to Z$ is a morphism and $(\sigma_x)_{x\in J}$ is a finite family of morphisms $W\to Y$ with
+$s\circ\sigma_x=c$ such that, for every algebraically closed field $\Omega$ and all $w\in W(\Omega)$,
+$y\in Y(\Omega)$ with $s(y)=c(w)$, there is exactly one $x\in J$ with $\sigma_x(w)=y$, then
+$(\sigma_x)$ splits $s$ over $c$. It is proved in the formal development
+(\lref{UpperTheory.Gal.G3.splitsPts_holds}: the morphism in question is a morphism of finite
+\'etale $W$-schemes which is bijective on geometric points, hence an isomorphism).
+
+\begin{lemma}[Splitting of tower maps]\label{pf:ks2:twsplit}
+Assume the splitting criterion. Let $X$ be a tower over $B$ for $\Gamma$, and let $m,i,j$ be indices
+with $K_m\subseteq K_i\subseteq K_j$ and $K_m$ normalized by $K_j$. Let $J$ be a finite set and
+$r\colon J\to K_j$ a map with $r_xK_mr_x^{-1}\subseteq K_i$ for all $x$, such that for every $k\in
+K_j$ there is exactly one $x\in J$ with $kr_x^{-1}\in K_i$. Then the family
+$(\mathrm{tr}(m,i,r_x))_{x\in J}$ splits $\mathrm{tr}(i,j,1)$ over $\mathrm{tr}(m,j,1)$.
+\formallabel{UpperTheory.Gal.G3.pTwSplit}
+\end{lemma}
+
+\begin{proof}
+All the transition maps used below are defined, because $K_m$ is normalized by $K_j\supseteq K_i$.
+By axiom (iii) of \cref{pf:ks2:def:tower} and $r_x\in K_j$,
+$\mathrm{tr}(i,j,1)\circ\mathrm{tr}(m,i,r_x)=\mathrm{tr}(m,j,r_x)=\mathrm{tr}(j,j,r_x)\circ
+\mathrm{tr}(m,j,1)=\mathrm{tr}(m,j,1)$. The map $\mathrm{tr}(i,j,1)$ is finite and \'etale by axiom
+(iv). We verify the hypothesis of the splitting criterion. Let $w$ and $y$ be geometric points of
+$Z_m$ and $Z_i$ (over the same algebraically closed field) with
+$\mathrm{tr}(i,j,1)(y)=\mathrm{tr}(m,j,1)(w)$.
+
+\emph{Existence.} The map $\mathrm{tr}(m,i,1)$ is finite and surjective, so
+$y=\mathrm{tr}(m,i,1)(z)$ for a geometric point $z$ of $Z_m$. Then
+$\mathrm{tr}(m,j,1)(z)=\mathrm{tr}(i,j,1)(y)=\mathrm{tr}(m,j,1)(w)$, and by axiom (v) (for $K_m$,
+which is normalized by $K_j$) $z=\mathrm{tr}(m,m,k)(w)$ for some $k\in K_j$. Let $x_0$ be the index
+with $kr_{x_0}^{-1}\in K_i$. Since $\mathrm{tr}(i,i,u)$ is the identity for $u\in K_i$,
+\begin{align*}
+y&=\mathrm{tr}(m,i,1)\,\mathrm{tr}(m,m,k)(w)=\mathrm{tr}(m,i,k)(w)\\
+&=\mathrm{tr}(i,i,kr_{x_0}^{-1})\,\mathrm{tr}(m,i,r_{x_0})(w)=\mathrm{tr}(m,i,r_{x_0})(w).
+\end{align*}
+
+\emph{Uniqueness.} Suppose that $\mathrm{tr}(m,i,r_{x_1})(w)=\mathrm{tr}(m,i,r_{x_2})(w)$. Then the
+geometric points $\mathrm{tr}(m,m,r_{x_1})(w)$ and $\mathrm{tr}(m,m,r_{x_2})(w)$ of $Z_m$ have the same
+image under $\mathrm{tr}(m,i,1)$, and $K_m$ is normalized by $K_i$; by axiom (v) there is $k\in K_i$
+with $\mathrm{tr}(m,m,r_{x_2})(w)=\mathrm{tr}(m,m,kr_{x_1})(w)$. Applying $\mathrm{tr}(m,m,r_{x_2}^{-1})$
+shows that $\mathrm{tr}(m,m,u)$ fixes $w$ for $u=r_{x_2}^{-1}kr_{x_1}\in K_j$, so $u\in K_m$ by axiom
+(vi). The element $k'=kr_{x_1}=r_{x_2}u$ of $K_j$ satisfies $k'r_{x_1}^{-1}=k\in K_i$ and
+$k'r_{x_2}^{-1}=r_{x_2}ur_{x_2}^{-1}\in r_{x_2}K_mr_{x_2}^{-1}\subseteq K_i$. By the uniqueness in the
+hypothesis on $r$, $x_1=x_2$.
+
+The splitting criterion now shows that $(\mathrm{tr}(m,i,r_x))_x$ splits $\mathrm{tr}(i,j,1)$ over
+$\mathrm{tr}(m,j,1)$.
+\end{proof}
+
+\begin{lemma}[Galois property of tower maps]\label{pf:ks2:twgal}
+Assume that the conclusion of \cref{pf:ks2:twsplit} holds for all towers (by that lemma, this
+follows from the splitting criterion). Let $X$ be a tower and $m,j$ indices with $K_m\subseteq K_j$
+and $K_m$ normalized by $K_j$. Then there are a finite group $\Gamma$ and a map $r\colon\Gamma\to K_j$
+with $r_cK_mr_c^{-1}\subseteq K_m$ for all $c$, such that for every $k\in K_j$ there is exactly one
+$c\in\Gamma$ with $kr_c^{-1}\in K_m$, and $\mathrm{tr}(m,j,1)$ is Galois with group $\Gamma$ acting by
+$c\mapsto\mathrm{tr}(m,m,r_c)$.
+\formallabel{UpperTheory.Gal.G3.pTwGal}
+\end{lemma}
+
+\begin{proof}
+$K_m$ is a normal subgroup of $K_j$; let $\Gamma=K_j/K_m$, which is finite by axiom (ii). Choose a
+representative $\bar c\in K_j$ of every $c\in\Gamma$ and put $r_c=\bar c^{-1}$; then
+$r_cK_mr_c^{-1}=K_m$. For $k\in K_j$, $kr_c^{-1}=k\bar c$ lies in $K_m$ if and only if $c$ is the class
+of $k^{-1}$, so $c$ exists and is unique. Put $a(c)=\mathrm{tr}(m,m,r_c)$. The map $\mathrm{tr}(m,j,1)$
+is finite, \'etale and surjective by axiom (iv). Since $\mathrm{tr}(m,m,u)=\mathrm{id}$ for $u\in K_m$,
+axiom (iii) shows that $\mathrm{tr}(m,m,h)$ depends only on the coset $K_mh$ for $h\in K_j$. Hence
+$a(1)=\mathrm{id}$, as $\bar1\in K_m$; and for $c,d\in\Gamma$ we have $\overline{cd}\in\bar c\bar dK_m$,
+so $r_{cd}\in K_mr_dr_c$ and $a(cd)=\mathrm{tr}(m,m,r_dr_c)=a(d)\circ a(c)$. Finally, the conclusion
+of \cref{pf:ks2:twsplit} for $i=m$, $J=\Gamma$ and this $r$ (whose hypotheses were just verified)
+states that $(a(c))_{c\in\Gamma}$ splits $\mathrm{tr}(m,j,1)$ over itself. So $\mathrm{tr}(m,j,1)$ is
+Galois with group $\Gamma$ acting by $a$.
+\end{proof}
+
+\begin{lemma}\label{pf:ks2:sigmafet}
+If $s\colon Y\to Z$ is finite \'etale of degree $d$ and $I$ is a finite set, the map
+$\coprod_{i\in I}Y\to Z$ equal to $s$ on every copy is finite \'etale of degree $\#I\cdot d$.
+\formallabel{UpperTheory.Gal.G3.pSigmaFEt}
+\end{lemma}
+
+\begin{proof}
+The map factors as the codiagonal $\coprod_IY\to Y$, which is finite, followed by $s$; so it is
+finite. \'Etaleness is local on the source and holds on each copy. A geometric point of $Z$ has $d$
+lifts to each copy, hence $\#I\cdot d$ lifts in total.
+\end{proof}
+
+\begin{proposition}\label{pf:ks2:ksnice}
+$\sfname{KSNice}$ holds.
+\formallabel{UpperTheory.Gal.G3.kSNice_holds}
+\end{proposition}
+
+\begin{proof}
+Let $T$ be a Kuga--Sato tower over a characteristic-zero field $R$ under $\mathrm{Sc}(D,G)$, $N$ a
+level and $(g_j)$ Hecke data of level $N$. The structure map
+$Z_N\to\Spec R$ is identified with $\kstwoKS_N^k\to\Spec R$, which is smooth, and projective because
+$D$ is of compact type (part of $\mathrm{Sc}$), by \cref{pf:ks2:gensm}. For $j\in J$, the map
+$s_j\colon\coprod_{c}Z_{M_{g_j}}\to Z_N$ is $\mathrm{tr}(M_{g_j},N,1)$ on each of the
+$r_j=[K_{g_j}:K_N]$ copies (the index set $K_{g_j}/(K_N\cap K_{g_j})$ has $r_j$ elements, finite
+because $[K_1:K_N]=[K_1:K_{g_j}][K_{g_j}:K_N]$ is finite). Since $K_{M_{g_j}}\subseteq K_N$
+(as $N\mid M_{g_j}$), \cref{pf:ks2:twfet} shows that $\mathrm{tr}(M_{g_j},N,1)$ is finite \'etale of
+degree $d_j=[K_N:K_{M_{g_j}}]$. By \cref{pf:ks2:sigmafet}, $s_j$ is
+finite \'etale of degree $r_jd_j$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The integral input}\label{pf:ks2:sec:min}
+
+\subsubsection{\'Etale-level models}
+
+Let $D$ be a datum for $p$, $\mathfrak a\subseteq\kstwoOF$ a nonzero ideal and $r\in\N$. Put
+$\Lambda_{\mathfrak a,r}=\Lambda/\mathfrak a^r\Lambda$ and
+let $\Aut_O(\Lambda_{\mathfrak a,r})$ be its group of $O$-linear automorphisms. For an object $o$ over $S$, an \emph{\'etale level
+structure of type $(\mathfrak a,r)$} is an $O$-linear
+homomorphism $\lambda\colon\Lambda\to A_o(S)$ vanishing on $\mathfrak a^r\Lambda$ such that at every
+geometric point the induced map $\Lambda_{\mathfrak a,r}\to A_o[\mathfrak a^r]$ is injective and
+surjective onto the points killed by $\mathfrak a^r$. An \emph{\'etale-level model} of level
+$(N,\mathfrak a,r)$ is a scheme $Y\to\Spec R$ with an
+object of level $N$ and an \'etale level structure of type $(\mathfrak a,r)$ which represent
+pairs (object, \'etale level structure). A maximal ideal $\mathfrak w_0$ is an \emph{\'etale place}
+of $b$ if $p\in\mathfrak w_0$, each
+$t_i(\mathfrak w_0)$ generates the unit ideal of $R$, and for all ring maps $\beta\colon R\to k$ and
+$\varphi\colon\kstwoOF\to k$ to a field of characteristic $p$ with $\ker\varphi=\mathfrak w_0$ one has
+$\varphi(\omega)=\beta(\rho)$; the ideal $\mathfrak a$ is \emph{\'etale} for $b$ if it is nonzero and every maximal ideal
+containing it is an \'etale place of $b$.
+
+\begin{theorem}[The integral input]\label{pf:ks2:min}
+The proposition $\sfname{MIn}$ holds, i.e.\ the
+following seven statements hold for every prime $p$ and datum $D$ for $p$.
+\begin{enumerate}
+\item (Existence of models.) For every Noetherian ring $R$ with a base $b$ and every level $N$,
+  a model of level $N$ exists.
+\item (Projectivity.) If moreover $R$ is a domain of characteristic $0$ and $D$ is of
+  compact type, every model of level $N$ is projective over $R$.
+\item (Generic models.) If $R$ is Noetherian with a base $b$, $\varphi\colon R\to R'$ is a ring
+  map to a $\Q$-algebra and $g_b$ is a characteristic-zero base over $R'$ with $\rho=\varphi(\rho_b)$
+  and $t_i=\varphi\circ t_{b,i}$, then for every model $M$ of level $N$ over $R$ and every generic
+  model $X$ of level $N$ over $R'$ there is a morphism $X\to M\times_RR'$ over $R'$ which is an
+  open and a closed immersion and under which the universal generic object is the pullback of the
+  universal object of $M$.
+\item (\'Etale-level models.) For a Noetherian ring $R$ with a base $b$, a level $N$, an \'etale ideal
+  $\mathfrak a$, $r\in\N$ and a model $M$ of level $N$, there are an \'etale-level model $Y$ of
+  level $(N,\mathfrak a,r)$, a morphism $\pi\colon Y\to M$ under which the universal object of $Y$
+  is the pullback of that of $M$, and an action of $\Aut_O(\Lambda_{\mathfrak a,r})$ on $Y$ making
+  $\pi$ a finite \'etale surjective Galois cover with group $\Aut_O(\Lambda_{\mathfrak a,r})$
+  (the group acts over $M$, and two geometric points with
+  the same image differ by a unique group element).
+\item (\'Etale ideals.) Let $O$ be a discrete valuation ring of characteristic $0$ with $p$ in its
+  maximal ideal, $b$ a base over $O$ with $a_D=1$, $r\in\Z$ and $\mathfrak w\supseteq(p,\omega-r)$ a
+  maximal ideal with $t_i(\mathfrak w)$ contained in the maximal ideal of $O$. Then an ideal
+  $\mathfrak a$ with $\mathfrak a+\mathfrak w=\kstwoOF$ is \'etale for $b$ iff it contains a power
+  of $(p,\omega-r)$.
+\item (Congruence relation.) The congruence relation of \cref{pf:ks2:congks}.
+\item (Degrees of $T_j$-correspondences.) The $T_j$-correspondences of \cref{pf:ks2:def:tj} are, after any base
+  change along $Y\to M$, finite, \'etale after inverting $p$, and have, over every geometric point
+  where $p$ is invertible, exactly as many geometric points as there are $j$-dimensional subspaces
+  of $(\kstwoOF/\mathfrak w)^n$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.CovMain.mIn}
+\end{theorem}
+
+\begin{proof}
+(1) is \lref{GlobalTheory.UPel.HT.model_nonempty}, which states that models of every level
+$N\ge3$ prime to $p$ exist over every Noetherian ring with a base. (2) is \cref{pf:ks2:proj}. (3) is
+\cref{pf:ks2:genmodel}. (4) is
+\cref{pf:ks2:finmodel}, whose hypothesis is
+\lref{UpperTheory.Gal.FiniteEtaleModels.finCover_holds}. (5) is
+\lref{UpperTheory.Gal.FiniteEtaleModels.placeOf_holds}. (6) is
+\cref{pf:ks2:congks}. (7) is \lref{UpperTheory.Gal.crystallineComparison.Mod.corrBC_holds},
+applied to \cref{pf:ks2:quotobj} (existence of
+quotients of objects by finite \'etale $O$-stable subgroup schemes killed by $\mathfrak w$ as
+$T_j$-isogenies); it computes the number of geometric points in the fibres through the bijection
+between sections of the $T_j$-correspondence and $j$-dimensional $\kstwoOF/\mathfrak w$-subspaces
+of the $\mathfrak w$-torsion, which is free of rank $n$ in characteristic $0$.
+\end{proof}
+
+\begin{proposition}\label{pf:ks2:proj}
+Let $R$ be a Noetherian domain of characteristic $0$ with a base $b$, $N$ a level, $D$ of compact
+type and $M$ a model of level $N$. Then $M$ is projective over $R$.
+\formallabel{GlobalTheory.UPel.HT.Model.isProjOver_of_compactB}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.T.harrisTaylor_integralModel_isProper_of_compact}, $M\to\Spec R$ is
+proper (this is the classical properness of compact PEL moduli spaces, see
+\cref{pf:ks2:classical:proper}). A quasi-projective morphism which is proper is projective: the
+immersion into $\mathbb P^N_R$ is then a closed immersion, since a proper morphism to a separated
+scheme has closed image and a proper immersion is closed.
+\end{proof}
+
+\begin{proposition}\label{pf:ks2:finmodel}
+Assume the following relative statement: for every Noetherian ring $R$ with a base, every level $N$,
+every \'etale ideal $\mathfrak a$, every $r$, and every object $o$ of level $N$ over a locally
+Noetherian $R$-scheme $S$, there are a finite \'etale Galois cover $\pi\colon Y\to S$ with group
+$\Aut_O(\Lambda_{\mathfrak a,r})$, an object $o'$ over $Y$ with a morphism $o'\to o$ over $\pi$, and an
+\'etale level structure $\lambda$ on $o'$ of type $(\mathfrak a,r)$, such that for every $t\colon
+T\to S$, every object $o_1$ over $T$ with a morphism $o_1\to o$ over $t$, and every \'etale level
+structure on $o_1$, there is a unique $f\colon T\to Y$ over $S$ carrying $(o',\lambda)$ to $o_1$ with
+its level structure. Then statement (4) of \cref{pf:ks2:min} holds: \'etale-level models exist.
+\formallabel{UpperTheory.Gal.FiniteEtaleModels.finModel_holds}
+\end{proposition}
+
+\begin{proof}
+Let $M$ be a model of level $N$ over $R$ and $\mathfrak a$ \'etale for $b$. $M$ is smooth of finite
+type over $R$, hence locally Noetherian. Apply the hypothesis to the universal object
+$\mathcal A_M$ over $S=M$, obtaining $\pi\colon Y\to M$, $o'$ and $\lambda$. Then $Y$ represents
+pairs: given an object $o_1$ over an
+$R$-scheme $T$ with an \'etale level structure, the universal property of $M$ gives a unique
+$c\colon T\to M$ with a morphism $o_1\to\mathcal A_M$ over $c$, and the relative universal property
+gives a unique $f\colon T\to Y$ over $c$; uniqueness of $f$ over $R$ follows because any $f'$
+compatible with the structures has $\pi f'$ compatible with the object (morphisms of objects
+compose), hence $\pi f'=c$ by the uniqueness in $M$, and then $f'=f$. So $(Y,o',\lambda)$ is an
+\'etale-level model and $\pi$ has the required properties.
+\end{proof}
+
+The hypothesis of \cref{pf:ks2:finmodel} is proved in the development: it is
+\lref{UpperTheory.Gal.FiniteEtaleModels.finCover_holds}.
+
+% ---------------------------------------------------------------------------
+\subsection{The congruence relation on Kuga--Sato varieties}\label{pf:ks2:sec:cong}
+
+\subsubsection{Statement}
+
+\begin{definition}[$T_j$-isogenies and $T_j$-correspondences]\label{pf:ks2:def:tj}
+Let $b$ be a base over $R$, $r\in\Z$, $\mathfrak w\supseteq\mathfrak u=(p,\omega-r)$ a maximal ideal of
+$\kstwoOF$, $0\le j\le n$ and $c$ a power of $p$.
+\begin{enumerate}
+\item A homomorphism $\psi\colon A_o\to A_{o'}$ between objects of the same level over $S$ is a
+  \emph{$p$-isogeny of degree $c$} if it is $O$-linear,
+  compatible with the level structures, pulls the polarization bundle of $o'$ back to the $c$-th
+  power of that of $o$, and has a quasi-inverse $\psi'$ with $\psi'\psi=c$ and $\psi\psi'=c$. It is
+  \emph{of type $T_j$ at $\mathfrak w$} if at every geometric
+  point of characteristic $0$ every point of $\ker\psi$ killed by a power of $\mathfrak u$ is killed
+  by $\mathfrak w$, and the number of points of $\ker\psi$ killed by $\mathfrak w$ is
+  $\Nm\mathfrak w^{\,mj}$.
+\item For a model $M$ of level $N$ over $R$, a \emph{$T_j$-correspondence of degree $c$} is $M\xleftarrow{s}Y_j\xrightarrow{t}M$
+  with $s$ finite and \'etale over $M[1/p]$, together with objects $o,o'$ over $Y_j$ mapping to the
+  universal object over $s$ and over $t$, and a $p$-isogeny $\psi\colon A_o\to A_{o'}$ of degree $c$
+  of type $T_j$ at $\mathfrak w$, which is universal among such isogenies over schemes where $p$ is
+  invertible.
+\item For an \'etale-level model $Y\to M$ (with a morphism of universal objects over $\pi$) and a
+  $T_j$-correspondence $T$ on $M$, a \emph{lift of $T$ to $Y$} is a correspondence
+  $Y\xleftarrow{s}Z\xrightarrow{t}Y$ with $s$ the base change of $T.s$ along $\pi$, $\pi t$
+  factoring through $T.t$, and a $T_j$-isogeny over $Z$ compatible with that of $T$ and carrying
+  the \'etale level structure along. Its $k$-th Kuga--Sato power is the correspondence
+  $\kstwoKS_Y^k\leftarrow\kstwoKS_Z^k\to\kstwoKS_Y^k$ given by the fibre power of the pullback map and
+  of the isogeny.
+\end{enumerate}
+\formal{GlobalTheory.UPel.HT.ES.uIdeal}\formal{GlobalTheory.UPel.HT.ES.IsPIsog}\formal{GlobalTheory.UPel.HT.ES.IsTj}\formal{UpperTheory.Gal.crystallineComparison.Mod.TjD}\formal{UpperTheory.Gal.crystallineComparison.Mod.Univ}\formal{UpperTheory.Gal.crystallineComparison.Mod.TjE}
+\end{definition}
+
+The local hypotheses are collected in $\mathrm{Std}(f,b,N,r,\mathfrak w)$: $O$ is a discrete valuation ring with
+$p$ in its maximal ideal and residue field of order $p^f$, $N$ is a level, $m=a=1$,
+$(p,\omega-r)\subseteq\mathfrak w$, $\Nm\mathfrak w=p^f$, and $t_1(\mathfrak w)$ lies in the maximal
+ideal of $O$.
+
+\begin{theorem}[Congruence relation]\label{pf:ks2:congks}
+Let $O$ be a discrete valuation domain of characteristic $0$, $b$ a base over $O$, and assume
+$\mathrm{Std}(f,b,N,r,\mathfrak w)$ with $\mathfrak w$ maximal. Let $M$ be a model of level $N$,
+$\varpi$ a uniformizer of $O$, $\mathfrak a$ an ideal with $\mathfrak a+\mathfrak w=\kstwoOF$
+containing a power of $(p,\omega-r)$, $Y$ an \'etale-level model of level $(N,\mathfrak a,\rho)$
+with a flat morphism $\pi\colon Y\to M$ compatible with the universal objects, and $k\in\N$. Then
+there are $T_j$-correspondences $T_0,\dots,T_n$ on $M$ of degrees $p^{fj}$, lifts $L_j$ of $T_j$ to
+$Y$, and integers $d_j$ such that the $k$-th Kuga--Sato powers of the $L_j$ are correspondences of
+$\kstwoKS_Y^k$ away from $p$ of degree $d_j$, lying over $\Spec O$, and
+$\mathrm{PC}(p,p^f,n,\varpi,(L_j^{(k)})_j)$ holds on $\kstwoKS_Y^k$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.congKS_link}
+\end{theorem}
+
+\begin{proof}
+The theorem follows from four statements:
+\begin{enumerate}[label=(\roman*)]
+\item (existence of flat $T_j$-correspondences,
+  \lref{UpperTheory.Gal.crystallineComparison.Mod.tjExF_holds}) for every
+  $0\le j\le n$ a $T_j$-correspondence $T_j$ of degree $p^{fj}$ on $M$ with $T_j.s$ flat over $O$
+  exists; it is assembled from two statements: a correspondence $M\leftarrow Y_j\to M$ with both legs
+  finite, $Y_j$ with integrally closed local rings and flat over $O$, carrying a universal
+  $T_j$-isogeny of degree $p^{fj}$ (\cref{pf:ks2:esnorm}),
+  and a correspondence of the same kind whose legs factor through finite \'etale maps to $M[1/p]$
+  (\lref{UpperTheory.Gal.crystallineComparison.Mod.esGen_link}), the latter resting on the
+  representability of $T_j$-isogenies (\cref{pf:ks2:classical:tj});
+\item (lifts, \lref{UpperTheory.Gal.crystallineComparison.Mod.tjEEx_holds}) every such
+  $T_j$ has a lift $L_j$ to $Y$;
+\item (ordinary reading, \cref{pf:ks2:ordkse}) the $k$-th Kuga--Sato powers of the lifts are
+  correspondences away from $p$ of the degrees $d_j=\#\mathrm{Gr}_j((\kstwoOF/\mathfrak w)^n)$,
+  lying over $\Spec O$, which satisfy the \emph{ordinary reading} $\mathrm{Ord}$ of
+  \cref{pf:ks2:def:ordread} at the generic points of the special fibre;
+\item (combinatorics, \cref{pf:ks2:ptidoford}) the ordinary reading implies the pointwise
+  identity $\mathrm{PC}$.
+\end{enumerate}
+Choosing $T_j$ by (i), $L_j$ by (ii), the integers $d_j$ and the properties of the Kuga--Sato
+powers by (iii), and applying (iv) gives the theorem.
+\end{proof}
+
+\subsubsection{The combinatorial identity}
+
+\begin{definition}[Ordinary reading]\label{pf:ks2:def:ordread}
+Let $q,n\in\N$, $\phi\colon P\to P$ a map of sets and $v_j\colon I_j\to P$ ($0\le j\le n$) maps from
+finite sets. An \emph{ordinary reading} of $v$
+consists of a finite field $k$ with $q$ elements, an $n$-dimensional $k$-vector space $H$, a line
+$C\subseteq H$, a map $A$ from the set of subspaces of $H/C$ to $P$, and bijections $e_j$ from
+$I_j$ to the set $\mathrm{Gr}_j(H)$ of $j$-dimensional subspaces of $H$, such that for all $j$ and
+$i\in I_j$, with $W=e_j(i)$ and $\bar W$ its image in $H/C$:
+\[
+ v_j(i)=\phi\bigl(A(\bar W)\bigr)\ \text{if } C\subseteq W,\qquad v_j(i)=A(\bar W)\ \text{if }
+ C\not\subseteq W.
+\]
+For correspondences $T_0,\dots,T_n$ of $Y$ away from $\ell$ and $\varpi\in\Gamma(Y,\OO_Y)$,
+$\mathrm{Ord}(\ell,q,n,\varpi,T)$ means:
+in the situation of \cref{pf:ks2:def:ptid}(4) (a valuation ring $V$, a point $y$ over a generic point
+of $\{\varpi=0\}$, the $q$-Frobenius $\phi$ of the residue field), the maps $z\mapsto\bar z$ from the
+sections of $T_j$ over $y$ to $Y(\kappa)$ admit an ordinary reading with respect to $\phi$.
+\formal{UpperTheory.Gal.crystallineComparison.OrdRead}\formal{UpperTheory.Gal.crystallineComparison.OrdPt}
+\end{definition}
+
+\begin{lemma}[Subspaces and a line]\label{pf:ks2:countin}
+Let $k$ be a field, $H$ a finite-dimensional $k$-vector space, $C\subseteq H$ a line and
+$\pi\colon H\to H/C$ the projection.
+\begin{enumerate}
+\item $W\mapsto\pi(W)$ is a bijection from the subspaces containing $C$ onto the subspaces of $H/C$,
+  and $\dim W=\dim\pi(W)+1$ for $W\supseteq C$;
+\item if $C\not\subseteq W$, then $\dim W=\dim\pi(W)$;
+\item if $k$ is finite with $q$ elements and $E\subseteq H/C$ is a subspace, the number of subspaces
+  $W$ with $C\not\subseteq W$ and $\pi(W)=E$ is $q^{\dim E}$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.crystallineComparison.countIn_of}\formallabel{UpperTheory.Gal.crystallineComparison.countOut_of}
+\end{lemma}
+
+\begin{proof}
+(1) is the correspondence theorem: the inverse is $E\mapsto\pi^{-1}(E)$, and $\ker(\pi|_W)=C$ for
+$W\supseteq C$. (2): $\ker(\pi|_W)=W\cap C=0$ since $C$ is a line not contained in $W$. (3): Let
+$\tilde E=\pi^{-1}(E)$, of dimension $\dim E+1$. A subspace $W$ with $C\not\subseteq W$ and
+$\pi(W)=E$ satisfies $W\subseteq\tilde E$, $W\cap C=0$ and $\dim W=\dim E$ by (2), i.e.\ $W$ is a
+complement of $C$ in $\tilde E$; conversely every complement $W$ of $C$ in $\tilde E$ has
+$\pi(W)=E$ and $C\not\subseteq W$. Fix one complement $W_0$; then $\pi|_{W_0}\colon W_0\to E$ is an
+isomorphism, and the complements of $C$ in $\tilde E=W_0\oplus C$ are exactly the graphs
+$\{w+\varphi(w):w\in W_0\}$ of the linear maps $\varphi\colon W_0\to C$, distinct maps giving distinct
+graphs. Their number is $\#\Hom_k(W_0,C)=q^{\dim E}$.
+\end{proof}
+
+\begin{lemma}[Decomposition]\label{pf:ks2:orddecomp}
+Let $(k,H,C,A,e)$ be an ordinary reading of $v$ as in \cref{pf:ks2:def:ordread}, and for $i\ge0$
+let $\mathcal A_i$ be the multiset $\{A(E):E\subseteq H/C,\ \dim E=i\}$. Then $\mathcal A_n=0$,
+$\{v_0(i):i\in I_0\}=\mathcal A_0$, and for $0\le j<n$
+\begin{equation}\label{pf:ks2:eq:decomp}
+\{v_{j+1}(i):i\in I_{j+1}\}=\phi(\mathcal A_j)+q^{\,j+1}\mathcal A_{j+1},
+\end{equation}
+where $\phi(\cdot)$ is applied elementwise and $q^{j+1}\mathcal A$ is the multiset $\mathcal A$
+repeated $q^{j+1}$ times.
+\formallabel{UpperTheory.Gal.crystallineComparison.ordDecomp_of}
+\end{lemma}
+
+\begin{proof}
+(The formal statement takes the two counting statements of \cref{pf:ks2:countin} as hypotheses.)
+$\dim H/C=n-1$, so $H/C$ has no $n$-dimensional subspace and $\mathcal A_n=0$. Transporting along
+the bijections $e_j$, the multiset $\{v_j(i)\}$ is the sum over $W\in\mathrm{Gr}_j(H)$ of
+$\{\phi(A(\pi W))\}$ for $W\supseteq C$ and of $\{A(\pi W)\}$ for $W\not\supseteq C$. For $j=0$ the
+only subspace is $W=0\not\supseteq C$, with $\pi W=0$, giving $\mathcal A_0$. For $j+1$, by
+\cref{pf:ks2:countin}(1) the subspaces $W\supseteq C$ of dimension $j+1$ correspond bijectively to the
+$E=\pi W$ of dimension $j$, contributing $\phi(\mathcal A_j)$; by (2) and (3) the subspaces
+$W\not\supseteq C$ of dimension $j+1$ have $\pi W$ of dimension $j+1$, and each $E$ of dimension $j+1$
+arises from exactly $q^{j+1}$ of them, contributing $q^{j+1}\mathcal A_{j+1}$.
+\end{proof}
+
+\begin{lemma}[Telescoping]\label{pf:ks2:telescope}
+Let $\phi\colon P\to P$, let $\mathcal T_0,\dots,\mathcal T_n$ and $\mathcal A_0,\mathcal A_1,\dots$ be
+finite multisets on $P$ with $\mathcal A_n=0$, $\mathcal T_0=\mathcal A_0$ and $\mathcal
+T_{j+1}=\phi(\mathcal A_j)+q^{j+1}\mathcal A_{j+1}$ for $0\le j<n$. Then
+\[
+\sum_{j\ \mathrm{even}}q^{\binom j2}\phi^{\,n-j}(\mathcal T_j)=\sum_{j\ \mathrm{odd}}q^{\binom
+j2}\phi^{\,n-j}(\mathcal T_j)\qquad(0\le j\le n).
+\]
+\formallabel{UpperTheory.Gal.crystallineComparison.telescope_of}
+\end{lemma}
+
+\begin{proof}
+Put $\mathcal A_{-1}=0$ and $X_i=q^{\binom{i+1}2}\phi^{\,n-i}(\mathcal A_i)$ for $-1\le i\le n$; thus
+$X_{-1}=X_n=0$. Since $\binom j2+j=\binom{j+1}2$ and $\phi$ commutes with repetition, the hypotheses
+give, for $0\le j\le n$ (for $j=0$ use $\mathcal T_0=\mathcal A_0=\phi(\mathcal A_{-1})+q^0\mathcal
+A_0$),
+\[
+q^{\binom j2}\phi^{\,n-j}(\mathcal T_j)=q^{\binom j2}\phi^{\,n-j+1}(\mathcal A_{j-1})+q^{\binom
+j2+j}\phi^{\,n-j}(\mathcal A_j)=X_{j-1}+X_j .
+\]
+Each $X_i$ with $0\le i\le n-1$ occurs exactly twice in $\sum_{j=0}^n(X_{j-1}+X_j)$, namely for $j=i$
+and $j=i+1$, which have opposite parities; $X_{-1}$ and $X_n$ vanish. Hence both sides of the
+claimed identity equal $\sum_{i=0}^{n-1}X_i$.
+\end{proof}
+
+\begin{proposition}\label{pf:ks2:ordcount}
+An ordinary reading of $v$ implies $\mathrm{Alt}(q,n,\phi,v)$, i.e.\ \eqref{pf:ks2:eq:altid}.
+\formallabel{UpperTheory.Gal.crystallineComparison.ordCount_holds}
+\end{proposition}
+
+\begin{proof}
+Apply \cref{pf:ks2:telescope} to $\mathcal T_j=\{v_j(i):i\in I_j\}$ and the multisets $\mathcal A_i$
+of \cref{pf:ks2:orddecomp}; the hypotheses of the former are the conclusions of the latter, and the
+conclusion is \eqref{pf:ks2:eq:altid}.
+\end{proof}
+
+\begin{corollary}\label{pf:ks2:ptidoford}
+For all $\ell,q,n$, $Y$, $\varpi$ and correspondences $T_0,\dots,T_n$ of $Y$ away from $\ell$,
+$\mathrm{Ord}(\ell,q,n,\varpi,T)$ implies $\mathrm{PC}(\ell,q,n,\varpi,T)$.
+\formallabel{UpperTheory.Gal.crystallineComparison.ptIdOfOrd_holds}
+\end{corollary}
+
+\begin{proof}
+In the situation of $\mathrm{PC}$ we are given bijections $z_j\colon I_j\to\{\text{sections of }
+T_j\text{ over }y\}$. $\mathrm{Ord}$ provides an ordinary reading $(k,H,C,A,e)$ of the maps
+$z\mapsto\bar z$ on the sets of sections; composing $e_j$ with $z_j$ gives an ordinary reading of
+$i\mapsto\overline{z_j(i)}$, and \cref{pf:ks2:ordcount} gives $\mathrm{Alt}$.
+\end{proof}
+
+\subsubsection{The ordinary reading on Kuga--Sato varieties}
+
+\begin{proposition}\label{pf:ks2:ordkse}
+In the situation of \cref{pf:ks2:congks}, let $T_0,\dots,T_n$ be $T_j$-correspondences of degrees
+$p^{fj}$ on $M$ and $L_j$ lifts to $Y$ (with $\pi$ flat). Then, with
+$d_j=\#\mathrm{Gr}_j((\kstwoOF/\mathfrak w)^n)$, the $k$-th Kuga--Sato powers $L_j^{(k)}$ are
+correspondences of $\kstwoKS_Y^k$ away from $p$ of degree $d_j$, both legs of $L_j^{(k)}$ have the same
+composite to $\Spec O$, and $\mathrm{Ord}(p,p^f,n,\varpi,(L_j^{(k)}))$ holds.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.ordKSE_holds}
+\end{proposition}
+
+\begin{proof}
+The formal statement of this proposition takes generic ordinariness and the existence of
+quotients by finite \'etale subgroup schemes as hypotheses; they are supplied by
+\cref{pf:ks2:classical:ord} and \cref{pf:ks2:quotobj}. The proof combines
+four facts.
+First, $L_j^{(k)}$ is the base change of $T_j.s$ along $\kstwoKS_Y^k\to M$, so the finiteness,
+\'etaleness over $M[1/p]$ and the degree count follow from
+\cref{pf:ks2:min}(7). Second, both legs of $L_j$ have the same composite to $\Spec O$ because
+those of $T_j$ do. Third, a morphism into $\kstwoKS_Y^k$ is determined by its image in $M$ together
+with its compositions with the $k$ projections to $\kstwoKS_Y$ and the \'etale level sections,
+followed by the map to $\mathcal A_M$; and $L_j^{(k)}$ acts on these
+coordinates through the isogeny of $T_j$.
+Fourth, these are the hypotheses of the embedding criterion \cref{pf:ks2:ordemb} below, applied to
+the flat composite $h\colon\kstwoKS_Y^k\to Y\to M$ ($\pi$ is flat and $\kstwoKS_Y^k\to Y$ is smooth),
+the family of sections of the third fact, and the correspondences $C_j=L_j^{(k)}$ with their maps to
+the sources of the $T_j$; it gives $\mathrm{Ord}(p,p^f,n,\varpi,(L_j^{(k)}))$.
+\end{proof}
+
+\subsubsection{Normal $T_j$-correspondences, quotients and the reading at ordinary points}
+\label{pf:ks2:sec:ordproofs}
+
+For a $T_j$-correspondence $T$ on $M$ (\cref{pf:ks2:def:tj}) and a morphism $y\colon S\to Y_j$, the
+isogeny of $T$, pulled back along $y$, maps a point $a\colon S\to\mathcal A_M$ of $\mathcal A_M$ over
+$s\circ y$ to a point $\psi_y(a)$ of $\mathcal A_M$ over $t\circ y$; we say that $T$ \emph{acts on
+points} in this way.
+
+\begin{proposition}[Normal $T_j$-correspondences]\label{pf:ks2:esnorm}
+Let $R$ be a discrete valuation ring of characteristic $0$ with $p$ in its maximal ideal, $b$ a base
+of $D$ over $R$ with $m=1$, $N$ a level, $r\in\Z$, $\mathfrak w\supseteq(p,\omega-r)$ a maximal ideal
+of $\kstwoOF$, $0\le j\le n$, and $c=p^e$ with $e>0$ if $j>0$. For every model $M$ of level $N$ over
+$R$ there are a scheme $Y$, finite morphisms $s,t\colon Y\to M$ with the same composite to $\Spec R$,
+objects $o,o'$ of level $N$ over $Y$ with morphisms to $\mathcal A_M$ over $s$ and over $t$, and a
+$p$-isogeny $\psi\colon A_o\to A_{o'}$ of degree $c$ and of type $T_j$ at $\mathfrak w$, such that
+$Y$ is flat over $R$, all local rings of $Y$ are integrally closed, and $\psi$ is universal among
+such isogenies over schemes on which $p$ is invertible (as in \cref{pf:ks2:def:tj}(2)).
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.esNorm_link}
+\end{proposition}
+
+\begin{proof}
+By \lref{UpperTheory.Gal.crystallineComparison.Mod.esGen_link} the corresponding data exist over
+the open subscheme $M[1/p]$ where $p$ is invertible: there are a scheme $Y_0$, morphisms
+$s_0,t_0\colon Y_0\to M$ with the same composite to $\Spec R$ which factor through finite \'etale
+morphisms $Y_0\to M[1/p]$, objects $o_0,o_0'$ over $Y_0$ with morphisms to $\mathcal A_M$ over $s_0$
+and $t_0$, and a universal $p$-isogeny $\psi_0\colon A_{o_0}\to A_{o_0'}$ of degree $c$ and type $T_j$
+(they come from the representability of $T_j$-isogenies, \cref{pf:ks2:classical:tj}, applied to the
+universal object over $M[1/p]$). We extend these data over $M$.
+\begin{enumerate}
+\item (Normalization.) By \lref{GlobalTheory.UPel.HT.ES.NormCover.exists_finite_normal_model}
+  there are a locally Noetherian scheme $Y$, a finite morphism $s\colon Y\to M$ and a dominant open
+  immersion $i\colon Y_0\to Y$ with $s\circ i=s_0$, such that $Y$ is flat over $R$, its local rings
+  are integrally closed, and every morphism to $Y$ from a scheme on which $p$ is invertible factors
+  through $i$ (the normalization of $M$ in $Y_0$).
+\item (The second leg.) By \lref{GlobalTheory.ExtT.exists_finite_extension} there is a finite
+  morphism $t\colon Y\to M$ with $t\circ i=t_0$ and with the same composite to $\Spec R$ as $s$ (the
+  target of $\psi_0$ extends over every discrete valuation ring mapping to $Y$, because an abelian
+  variety isogenous to one with good reduction has good reduction).
+\item (Local rings.) $Y$ is reduced
+  (\lref{GlobalTheory.UPel.HT.ES.isReduced_normalModel_of_generic}), so every local ring $A$ of
+  $Y$ is a reduced Noetherian local ring which is integrally closed in its total ring of fractions
+  $Q(A)$. The ring $Q(A)$ is the product of the fields of fractions of $A/\mathfrak q$ over the
+  finitely many minimal primes $\mathfrak q$; its idempotents are integral over $A$, hence lie in the
+  local ring $A$, so they are $0$ and $1$. Thus $A$ has a single minimal prime, which is $0$ as $A$ is
+  reduced: $A$ is a domain.
+\item (Objects.) Let $o,o'$ be the pullbacks of $\mathcal A_M$ along $s$ and $t$. As $s\circ
+  i=s_0$ and $t\circ i=t_0$, the
+  morphisms $o_0\to\mathcal A_M$ and $o_0'\to\mathcal A_M$ factor through morphisms $o_0\to o$ and
+  $o_0'\to o'$ over $i$.
+\item (The isogeny.) By \lref{GlobalTheory.UPel.HT.ES.PIsogExt.exists_isPIsog_extend} (over a
+  locally Noetherian scheme whose local rings are integrally closed domains, a $p$-isogeny between
+  the restrictions of two objects to a dense open subscheme extends to a $p$-isogeny of the same
+  degree) there is a $p$-isogeny $\psi\colon A_o\to A_{o'}$ of degree $c$ restricting to $\psi_0$.
+\item (Type and universality.) The type-$T_j$ condition only concerns geometric points of
+  characteristic $0$; these factor through $Y_0$ by (1), and there $\psi$ restricts to $\psi_0$, for
+  which the condition holds. Likewise universality only concerns schemes on which $p$ is invertible,
+  whose morphisms to $Y$ factor uniquely through the open immersion $i$; so it follows from the
+  universality of $\psi_0$.
+\end{enumerate}
+\end{proof}
+
+\begin{proposition}[Quotients by subgroup schemes]\label{pf:ks2:quotobj}
+Let $R$ be a ring with a base $b$ of $D$, $m=1$, $N$ a level, $r\in\Z$, $\mathfrak w\supseteq
+\mathfrak u=(p,\omega-r)$ a maximal ideal, $0\le j\le n$ and $c=p^e$ with $e>0$ if $j>0$. Let $S$ be
+a locally Noetherian $R$-scheme on which $p$ is invertible, $o$ an object of level $N$ over $S$, and
+$K\subseteq A_o$ a closed subgroup scheme which is finite and \'etale of degree $\Nm\mathfrak w^{\,j}$
+over $S$, stable under $O$ and killed by $\mathfrak w$. Then there are an object $o'$ of level $N$
+over $S$ and a $p$-isogeny $\psi\colon A_o\to A_{o'}$ of degree $c$ and type $T_j$ at $\mathfrak w$
+such that a point $x$ of $A_o$ (over any $S$-scheme) lies in $K$ if and only if $\psi(x)=0$ and $x$
+is killed by a power of $\mathfrak u$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.quotObj_link}
+\end{proposition}
+
+\begin{proof}
+By \lref{UpperTheory.exists_noetherian_base_link} we may assume that $R$ is Noetherian and that
+$p$ is a unit in $R$ (the structure map of $S$ factors through such a ring carrying a base of $D$, and
+objects over $S$ for the two bases correspond). By \cref{pf:ks2:classical:tj} there are a finite
+\'etale $S$-scheme $Y$ and a $p$-isogeny $\psi_Y$ of degree $c$ and type $T_j$ out of the pullback of
+$o$ to $Y$, universal among such isogenies out of pullbacks of $o$. For a morphism $\sigma\colon
+S'\to Y$ let $K_\sigma$ be the group of points of $A_o$ over $S'$ killed by $\sigma^*\psi_Y$ and by a
+power of $\mathfrak u$.
+\begin{enumerate}
+\item By \lref{UpperTheory.exists_clopen_subgroup_locus} there is an open and closed subscheme
+  $W\subseteq Y$ such that $K_\sigma$ is the pullback of $K$ whenever $\sigma$ factors through $W$, and
+  a geometric point of $Y$ lies in $W$ if and only if this holds at it (both subgroups are finite and
+  \'etale, and the locus where two finite \'etale subgroup schemes agree is open and closed).
+\item Over every geometric point $x$ of $S$ there is a geometric point of $W$: the quotient of
+  $A_{o,x}$ by $K_x$, with its induced structures, is a $p$-isogeny of degree $c$ and type $T_j$ with
+  $K_x$ as the $\mathfrak u$-part of its kernel
+  (\lref{UpperTheory.repData_geometric_points_of_subData}); by universality it is the fibre of
+  $\psi_Y$ at a geometric point of $Y$ over $x$, which lies in $W$ by (1).
+\item There is at most one: two geometric points of $W$ over $x$ carry $p$-isogenies of degree $c$
+  and type $T_j$ out of $A_{o,x}$ with the same $\mathfrak u$-part $K_x$ of the kernel, which are
+  isomorphic, so the two points coincide
+  (\lref{UpperTheory.subData_points_correspond_repData}).
+\item Hence $W\to S$ is finite and \'etale with exactly one geometric point over every geometric
+  point, i.e.\ an isomorphism; its inverse is a section $\sigma\colon S\to Y$ with image in $W$
+  (\lref{UpperTheory.exists_section_of_etale_clopen_geomPoint_unique}).
+\item Pulling $\psi_Y$ back along $\sigma$ gives an object $o'$ and a $p$-isogeny $\psi\colon
+  A_o\to A_{o'}$ of degree $c$ and type $T_j$
+  (\lref{UpperTheory.exists_isPIsog_isTj_of_section_repData}); as $\sigma$ factors through $W$,
+  $K_\sigma$ is $K$, which is the assertion.
+\end{enumerate}
+\end{proof}
+
+The next four lemmas are elementary.
+
+\begin{lemma}\label{pf:ks2:resclosed}
+Let $V$ be a valuation ring whose fraction field is algebraically closed. Then the residue field of
+$V$ is algebraically closed.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.resClosed_holds}
+\end{lemma}
+
+\begin{proof}
+Let $\bar f$ be a monic polynomial of positive degree over the residue field $\kappa$, and $f\in V[X]$
+a monic lift. Over the fraction field, $f=\prod_i(X-a_i)$. Each $a_i$ is integral over $V$, hence lies
+in $V$, since valuation rings are integrally closed. Reducing, $\bar f=\prod_i(X-\bar a_i)$ has a root
+in $\kappa$.
+\end{proof}
+
+\begin{lemma}\label{pf:ks2:gendown}
+Let $O$ be a discrete valuation ring with uniformizer $\varpi$, $s\colon X\to\Spec O$ a morphism and
+$h\colon Y\to X$ a flat morphism. If $y\in Y$ is a generic point of $\{\varpi=0\}$ (for $\varpi$ pulled
+back to $Y$), then $h(y)$ lies over the closed point of $\Spec O$ and has no proper generization lying
+over the closed point.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.genDown_holds}
+\end{lemma}
+
+\begin{proof}
+Since $\varpi$ vanishes at $y$, the image of $y$ in $\Spec O$ lies in $V(\varpi)$, the closed point.
+Let $z'\in X$ lie over the closed point and generize $h(y)$. Flat morphisms satisfy going down, so
+there is a generization $y'$ of $y$ with $h(y')=z'$. Then $y'$ lies over the closed point, i.e.\
+$\varpi(y')=0$, and $y'=y$ because $y$ has no proper generization in $\{\varpi=0\}$; hence $z'=h(y)$.
+\end{proof}
+
+\begin{lemma}[Reduction of a subspace]\label{pf:ks2:redpts}
+Let $k$ be a finite field, $H$ a finite-dimensional $k$-vector space, $C\subseteq H$ a subspace with
+projection $\pi\colon H\to H/C$, and $\rho\colon H\to P$ a map to a set with $\rho(a)=\rho(b)$ iff
+$a-b\in C$. Then for every subspace $D\subseteq H$, $\#\rho(D)=(\#k)^{\dim\pi(D)}$, and
+$\rho(D)=\rho(D')$ for every subspace $D'$ with $\pi(D')=\pi(D)$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.redPts_holds}
+\end{lemma}
+
+\begin{proof}
+By hypothesis $\rho=\iota\circ\pi$ for an injective map $\iota\colon H/C\to P$. Hence
+$\rho(D)=\iota(\pi(D))$ is in bijection with the $k$-vector space $\pi(D)$, which has
+$(\#k)^{\dim\pi(D)}$ elements, and it depends only on $\pi(D)$.
+\end{proof}
+
+\begin{lemma}[Constructing ordinary readings]\label{pf:ks2:ordreadof}
+Let $q,n\in\N$, $\phi\colon P\to P$ and $v_j\colon I_j\to P$ ($0\le j\le n$). Let $k$ be a field with
+$q$ elements, $H$ an $n$-dimensional $k$-vector space, $C\subseteq H$ a line with projection
+$\pi\colon H\to H/C$, and $e_j\colon I_j\to\mathrm{Gr}_j(H)$ bijections such that:
+\begin{enumerate}[label=(\alph*)]
+\item if $i,i'\in I_j$, $C\not\subseteq e_j(i)$, $C\not\subseteq e_j(i')$ and $\pi e_j(i)=\pi
+  e_j(i')$, then $v_j(i)=v_j(i')$;
+\item if $i\in I_{j+1}$, $i'\in I_j$, $C\subseteq e_{j+1}(i)$, $C\not\subseteq e_j(i')$ and $\pi
+  e_{j+1}(i)=\pi e_j(i')$, then $v_{j+1}(i)=\phi(v_j(i'))$.
+\end{enumerate}
+Then $v$ admits an ordinary reading (\cref{pf:ks2:def:ordread}) with these $k,H,C,e$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.ordReadOf_holds}
+\end{lemma}
+
+\begin{proof}
+Let $E\subseteq H/C$ be a subspace and $d=\dim E\le n-1$. By \cref{pf:ks2:countin}(3) there is a
+subspace $W'$ with $C\not\subseteq W'$ and $\pi(W')=E$, and $\dim W'=d$ by \cref{pf:ks2:countin}(2);
+put $A(E)=v_d(e_d^{-1}(W'))$, which does not depend on the choice of $W'$ by (a). Let $i\in I_j$ and
+$W=e_j(i)$. If $C\not\subseteq W$, then $W$ is an admissible choice for $E=\pi(W)$, so
+$v_j(i)=A(\pi W)$. If $C\subseteq W$, then $\dim\pi(W)=j-1$ by \cref{pf:ks2:countin}(1), and
+$A(\pi W)=v_{j-1}(i')$ for some $i'\in I_{j-1}$ with $C\not\subseteq e_{j-1}(i')$ and $\pi
+e_{j-1}(i')=\pi W$; by (b), $v_j(i)=\phi(v_{j-1}(i'))=\phi(A(\pi W))$. These are the defining
+identities of an ordinary reading.
+\end{proof}
+
+\begin{proposition}[The reading at ordinary points]\label{pf:ks2:ew}
+Assume the conclusion of \cref{pf:ks2:quotobj}. Let $O$ be a discrete valuation domain of
+characteristic $0$ and assume $\mathrm{Std}(f,b,N,r,\mathfrak w)$ with $\mathfrak w$ maximal; let $M$
+be a model of level $N$ over $O$, $T_j$ ($0\le j\le n$) $T_j$-correspondences of degree $p^{fj}$ on
+$M$, and $k=\kstwoOF/\mathfrak w$. Let $V$ be a valuation ring with algebraically closed fraction
+field and algebraically closed residue field $\kappa$, with $p\ne0$ in $V$, let $x\colon\Spec V\to
+M$ map the closed point over the closed point of $\Spec O$, assume that the geometric point $\bar
+x=x|_{\Spec\kappa}$ is $\mathfrak w$-ordinary, and let $\phi$ be the $p^f$-power Frobenius of
+$\kappa$. Then there are an $n$-dimensional $k$-vector space $H$, a line $C\subseteq H$ with
+projection $\pi\colon H\to H/C$, and for every $j$ a bijection $e_j$ from the set of sections of
+$T_j$ over $x$ (the $z\colon\Spec V\to Y_j$ with $s\circ z=x$) onto $\mathrm{Gr}_j(H)$, such that,
+writing $\bar z=z|_{\Spec\kappa}$:
+\begin{enumerate}[label=(\alph*)]
+\item if $z,z'$ are sections of $T_j$ with $C\not\subseteq e_j(z)$, $C\not\subseteq e_j(z')$ and
+  $\pi e_j(z)=\pi e_j(z')$, then $t(\bar z)=t(\bar z')$ and $\psi_{\bar z}(a)=\psi_{\bar z'}(a)$ for
+  all points $a$ of $\mathcal A_M$ over $\bar x$;
+\item if $z$ is a section of $T_{j+1}$ and $z'$ one of $T_j$ with $C\subseteq e_{j+1}(z)$,
+  $C\not\subseteq e_j(z')$ and $\pi e_{j+1}(z)=\pi e_j(z')$, then $t(\bar z)=t(\bar
+  z')\circ\Spec\phi$ and $\psi_{\bar z}(a)=\psi_{\bar z'}(a)\circ\Spec\phi$ for all points $a$ of
+  $\mathcal A_M$ over $\bar x$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.eW_holds}
+\end{proposition}
+
+\begin{proof}
+Let $H$ be the set of points of $\mathcal A_M$ over $x$ killed by $\mathfrak w$, a module over
+$\kstwoOF$ killed by $\mathfrak w$, i.e.\ a $k$-vector space, of dimension $n$
+(\lref{UpperTheory.Gal.crystallineComparison.Mod.rankN_holds}: as $p\ne0$ in $V$ and $m=1$, the
+$\mathfrak w$-torsion of the abelian variety over the fraction field is free of rank $n$ over $k$, and
+it extends over $V$ by properness). Let $\rho\colon H\to\mathcal A_M(\bar x)$ be the reduction to the
+closed point. As $\bar x$ is $\mathfrak w$-ordinary, there is a line $C\subseteq H$ with
+$\rho(a)=\rho(a')$ iff $a-a'\in C$
+(\lref{UpperTheory.Gal.crystallineComparison.Mod.lineC_holds}: the kernel of reduction on $H$
+has $\#k$ elements, since the $\mathfrak w$-torsion of the fibre at $\bar x$ has $\Nm\mathfrak
+w^{\,n-1}$ points). Using the existence of quotients (\cref{pf:ks2:quotobj}) and the universality of
+$T_j$, \lref{UpperTheory.Gal.crystallineComparison.Mod.secEquiv_holds} gives bijections $e_j$
+from the sections of $T_j$ over $x$ onto $\mathrm{Gr}_j(H)$ such that $a\in e_j(z)$ iff the point $a$
+is killed by the isogeny of $T_j$ at $z$ (the $\mathfrak u$-part of the kernel of a $T_j$-isogeny over
+the characteristic-$0$ point is a $j$-dimensional subspace of $H$, and every such subspace arises
+from exactly one section).
+
+Let $o_1$ be the pullback of $\mathcal A_M$ along $\bar x$, an object over $\kappa$ whose points are
+the points of $\mathcal A_M$ over $\bar x$. For a section $z$ of $T_j$ over $x$, the isogeny of $T_j$
+at $\bar z$ pulls back to an isogeny $\psi_z$ out of $A_{o_1}$; let $U(z)$ be the subgroup
+scheme of points of $\ker\psi_z$ killed by a power of $\mathfrak u$. By
+\lref{UpperTheory.Gal.crystallineComparison.Mod.kerRead_holds}, $U(z)$ is finite of order
+$p^{fj}$, and its $\kappa$-points are the reductions of the points of $e_j(z)$:
+$U(z)(\kappa)=\rho(e_j(z))$. By \cref{pf:ks2:redpts}, $U(z)(\kappa)$ has $p^{f\dim\pi e_j(z)}$
+elements and depends only on $\pi e_j(z)$.
+
+(a) Here $\dim\pi e_j(z)=\dim\pi e_j(z')=j$ (\cref{pf:ks2:countin}(2)), so $U(z)$ and $U(z')$ have the
+same $p^{fj}$ points, as many as their order. By
+\lref{UpperTheory.Gal.crystallineComparison.Mod.caseE_holds} (two isogenies of the type of $T_j$
+out of the same abelian variety over an algebraically closed field, whose $\mathfrak u$-parts of the
+kernels have the same points, as many as their order, have the same target point and act in the
+same way on points), $t(\bar z)=t(\bar z')$ and $\psi_{\bar z}=\psi_{\bar z'}$ on points.
+
+(b) Here $U(z')$ has $p^{fj}$ points, as many as its order, while $U(z)$ has order $p^{f(j+1)}$ and the
+same points as $U(z')$, because $\pi e_{j+1}(z)=\pi e_j(z')$. By
+\lref{UpperTheory.Gal.crystallineComparison.Mod.caseW_holds} (in this situation, in residue
+characteristic $p$, the target of $\psi_z$ is the $p^f$-Frobenius twist of the target of
+$\psi_{z'}$, compatibly with the maps on points), $t(\bar z)=t(\bar z')\circ\Spec\phi$ and
+$\psi_{\bar z}(a)=\psi_{\bar z'}(a)\circ\Spec\phi$.
+\end{proof}
+
+\begin{proposition}[An embedding criterion for the ordinary reading]\label{pf:ks2:ordemb}
+Assume generic ordinariness (\cref{pf:ks2:classical:ord}) and the conclusion of
+\cref{pf:ks2:quotobj}. Let $O$, $b$, $N$, $r$, $\mathfrak w$, $M$ and the $T_j$ be as in
+\cref{pf:ks2:ew}, and let $\varpi$ be a uniformizer of $O$. Let $h\colon Y\to M$ be flat and
+$(a_i)_{i\in I}$ a family of morphisms $a_i\colon Y\to\mathcal A_M$ lifting $h$ such that any two
+morphisms $u,u'\colon X'\to Y$ with $hu=hu'$ and $a_iu=a_iu'$ for all $i$ are equal. Let
+$C_j=(Y\xleftarrow{p_j}Z_j\xrightarrow{r_j}Y)$ ($0\le j\le n$) be correspondences of $Y$ away from
+$p$ with morphisms $g_j\colon Z_j\to Y_j$ such that the square formed by $p_j$, $g_j$, $h$ and $s$ is
+cartesian, $h\circ r_j=t\circ g_j$, and $a_i\circ r_j=\psi_{g_j}(a_i\circ p_j)$ for all $i$. Then
+$\mathrm{Ord}(p,p^f,n,\varpi,C)$ holds, $\varpi$ being viewed as a function on $Y$.
+\formallabel{UpperTheory.Gal.crystallineComparison.Mod.ordEmb_holds}
+\end{proposition}
+
+\begin{proof}
+Let $V$, $y\colon\Spec V\to Y$ (with closed point over a generic point of $\{\varpi=0\}$), the
+residue field $\kappa$ and the $p^f$-Frobenius $\phi$ be as in the definition of $\mathrm{Ord}$
+(\cref{pf:ks2:def:ordread}). By \cref{pf:ks2:resclosed}, $\kappa$ is algebraically closed. Put
+$x=h\circ y$. By \cref{pf:ks2:gendown}, the closed point of $x$ lies over the closed point of $\Spec
+O$ and has no proper generization in the special fibre of $M$. The ideal $\mathfrak w$ is the
+inverse image of the maximal ideal of $O$ under $t_1$ (it is contained in it by $\mathrm{Std}$, and
+it is maximal), so generic ordinariness shows that $\bar x$ is $\mathfrak w$-ordinary. Let $H$, $C$,
+$\pi$ and $e_j$ be as in \cref{pf:ks2:ew} for $x$.
+
+Sections of $C_j$ over $y$ correspond bijectively to sections of $T_j$ over $x$ through $z\mapsto
+g_j\circ z$, as the square is cartesian. For such $z$ and $i\in I$ the hypotheses give, after
+restriction to the closed point,
+\[
+a_i\circ r_j\circ\bar z=\psi_{g_j\bar z}(a_i\circ\bar y),\qquad h\circ r_j\circ\bar z=t\circ
+g_j\circ\bar z .
+\]
+We apply \cref{pf:ks2:ordreadof} to the maps $z\mapsto r_j\circ\bar z$ from the sections of $C_j$
+over $y$ to $Y(\kappa)$, with the bijections $z\mapsto e_j(g_j\circ z)$ and with $\phi$ acting on
+$Y(\kappa)$ by precomposition with $\Spec\phi$. For (a) of that lemma, let $z,z'$ be sections of
+$C_j$ whose subspaces do not contain $C$ and have the same image in $H/C$. By \cref{pf:ks2:ew}(a),
+$t(g_j\bar z)=t(g_j\bar z')$ and $\psi_{g_j\bar z}=\psi_{g_j\bar z'}$ on points over $\bar x$; by the
+displayed identities, $r_j\bar z$ and $r_j\bar z'$ have the same composites with $h$ and with all
+$a_i$, so they are equal by the separation hypothesis. For (b), \cref{pf:ks2:ew}(b) shows in the same
+way that $r_{j+1}\bar z$ and $(r_j\bar z')\circ\Spec\phi$ have the same composites with $h$ and with
+all $a_i$, hence are equal. \Cref{pf:ks2:ordreadof} gives an ordinary reading, which is the
+assertion of $\mathrm{Ord}(p,p^f,n,\varpi,C)$ at $y$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Good reduction and congruences on Kuga--Sato towers}\label{pf:ks2:sec:good}
+
+Throughout this subsection $\mathrm{Sc}(D,G)$ holds, $E$ is a number field, $e\colon F\cong E$, $g_b$ is
+a characteristic-zero base over $E$ standard for $e$, $T$ is a Kuga--Sato tower for $(L,g_b,k)$, $N$
+is a level, $(g_j)_{j\in J}$ is a family of Hecke data of level $N$ with values
+$\theta\colon J\to A$ in a field, $w$ is a place of $E$ corresponding to the maximal ideal
+$\mathfrak w$ of $\kstwoOF$, and $O_w$ is the valuation ring of $w$.
+
+\subsubsection{Sites, class maps and covers}
+
+\begin{definition}[Sites]\label{pf:ks2:def:site}
+Let $q\ne p$ be a prime, $r\in\Z$ and $\mathfrak n$ an ideal of $\kstwoOF$. A \emph{site} at
+$(w,q,r,\mathfrak w,\mathfrak n)$ consists of:
+$\mathrm{Adm}(q,r,\mathfrak w)$; an isomorphism $O\otimes\Z_q\cong M_m(\kstwoOF\otimes\Z_q)$
+(which makes $D$ a datum $D_q$ for the prime $q$); an
+integer $f$ and a base $b$ of $D_q$ over $O_w$ matching $g_b$ under $O_w\to E$; a level $N_0$ prime
+to $pq$ and an ideal $\mathfrak a$ with $\mathfrak n=N_0\mathfrak a$, $\mathfrak a+\mathfrak
+w=\kstwoOF$ and $\mathfrak a\supseteq\mathfrak u^e$ for some $e$; the conditions
+$\mathrm{Std}(f,b,N_0,r,\mathfrak w)$, $q\in w$ and $\Nm w=q^f$; a model $M$ of level $N_0$ of $D_q$
+over $O_w$; an \'etale-level model $Y$ of level $(N_0,\mathfrak a,1)$ with a finite \'etale morphism
+$\pi\colon Y\to M$ compatible with the universal objects; and, for every $k$, projectivity and
+smoothness of some relative dimension of $\kstwoKS_Y^k\to\Spec O_w$.
+\formal{UpperTheory.Gal.Int.Geo.Site}\formal{UpperTheory.Gal.Int.Geo.datAt}
+\end{definition}
+
+The following statements are proved in the formal development; we use them as stated.
+\begin{enumerate}[label=(S\arabic*)]
+\item\label{pf:ks2:S:site} (existence of sites, \lref{UpperTheory.Gal.Int.Geo.CovMain.siteEx_of})
+  If $w$ corresponds to $\mathfrak w$, $\mathrm{Adm}(q,r,\mathfrak w)$ holds and $\mathfrak n$ is
+  an auxiliary ideal, a site at
+  $(w,q,r,\mathfrak w,\mathfrak n)$ exists. It is built from $\sfname{MIn}$: $D_q$ is a datum for $q$
+  because $q$ splits in $\Q(\omega)$, $m=1$ and $E_\Lambda$ is perfect at $q$ up to a unit; $M$ and $Y$ come
+  from \cref{pf:ks2:min}(1),(4), \'etaleness of $\mathfrak a$ from (5), and projectivity from (2)
+  and the projectivity of Kuga--Sato powers.
+\item\label{pf:ks2:S:num} (numbering, \lref{UpperTheory.Gal.Int.Geo.CovMain.numEx_of}) If
+  $N\in\mathfrak n$, there are $c\in\N$ and $a\in\kstwoOF$ with $N=N_0c$ and
+  $(a,N)\mathfrak a=(N)$; this property is stable under
+  replacing $(N,c,a)$ by $(Nt,ct,ta)$.
+\item\label{pf:ks2:S:cls} (class maps, \lref{UpperTheory.Gal.Int.Geo.CovMain.clsEx_of}) For
+  such $(N,c,a)$ and every generic object $o$ of level $N$ over an $E$-scheme $X$ there is a
+  \emph{class map}: a morphism $j\colon X\to Y$ over $\Spec O_w$ together with a morphism $\gamma$ of
+  abelian schemes over $j$ which identifies $A_o$, with its $O$-action and polarization, with the
+  pullback of the universal abelian scheme of $Y$, and carries $\eta_o(cy)$ to the level-$N_0$
+  structure and $\eta_o(ay)$ to the \'etale level sections of $Y$ ($y\in\Lambda$); it is unique.
+\item\label{pf:ks2:S:cover} (covers, \lref{UpperTheory.Gal.Int.Geo.CovMain.ksCover_holds})
+  Let $K_0$ be the level group of $\mathfrak n$, $K_N\subseteq K_0$, $C$ the class map of the
+  universal generic object of $M_N$, and assume the deck condition for $K_0$. Then the $k$-th fibre
+  power of $C$ composed with $Z_N\cong\kstwoKS_N^k$, $\pi_C\colon Z_N\to\kstwoKS_Y^k$, is the map of a
+  cover of $(T.\mathrm{tower}(N,g),\theta)$ over $O_w$ with $\Delta=K_0/K_N$.
+\item\label{pf:ks2:S:lies} (lying over $T_i$, \lref{UpperTheory.Gal.Int.Geo.CovMain.tjLies_of})
+  In the situation of \ref{pf:ks2:S:cover}, let $j\in J$ and $i\le n$ with $K_{g_j}=K_0$, $h_{g_j}$ a
+  $T_i$-element at $\mathfrak w$, $\Nm\mathfrak w^{\,i}\mid M_{g_j}$, and $[K_0:\Gamma_j]=\#\mathrm{Gr}_i
+  ((\kstwoOF/\mathfrak w)^n)$ with $\Gamma_j=K_0\cap h_{g_j}^{-1}K_0h_{g_j}$. Then for every
+  $T_i$-correspondence $T_i$ of degree $q^{fi}$ on $M$ and every lift $L_i$ to $Y$, the index
+  $m_j=[\Gamma_j:\Gamma_j\cap K_{M_{g_j}}]$ is positive and the correspondence $j$ of
+  $T.\mathrm{tower}(N,g)$ lies over the $k$-th Kuga--Sato power of $L_i$ with multiplicity $m_j$.
+\end{enumerate}
+
+\subsubsection{Congruences}
+
+\begin{theorem}\label{pf:ks2:kscong}
+$\sfname{KSCong}$ holds. That is, in the situation above, if the Hecke data contain the operators
+$T_i$ at $\mathfrak w$ with eigenvalues $\vartheta$, i.e.\ $\mathcal{H}(g,\theta,\mathfrak w,\vartheta)$,
+then $T.\mathrm{tower}(N,g)$ satisfies the congruence relation at $w$ with coefficients $\vartheta$,
+i.e.\ $\mathcal{C}(T.\mathrm{tower}(N,g),\theta,w,n,\vartheta)$.
+\formallabel{UpperTheory.Gal.Int.Geo.CovMain.ksCong_holds}
+\end{theorem}
+
+\begin{proof}
+By $\mathcal{H}$ choose $q,r$ with $\mathrm{Adm}(q,r,\mathfrak w)$, an auxiliary ideal
+$\mathfrak n$ with level group $K_0\supseteq K_N$ and $N\in\mathfrak n$, such that the deck condition
+holds for $K_0$, and for every $i\le n$ an index $\gamma_i\in J$ with the properties listed in
+\cref{pf:ks2:def:goodgrp}(6). By \ref{pf:ks2:S:site} choose a site at $(w,q,r,\mathfrak w,\mathfrak n)$,
+with $f$, $b$, $M$, $Y$, $\pi$. By \ref{pf:ks2:S:num} write $N=N_0c$ with $a$ as there, by
+\ref{pf:ks2:S:cls} take the class map $C$ of the universal generic object of $M_N$, and by
+\ref{pf:ks2:S:cover} the cover $(\kstwoKS_Y^k,\pi_C)$ of $(T.\mathrm{tower}(N,g),\theta)$ over $O_w$.
+Choose a uniformizer $\varpi$ of $O_w$. The congruence relation \cref{pf:ks2:congks}, applied to the
+datum $D_q$ for the prime $q$, the discrete valuation ring $O_w$ (of characteristic $0$, with $q$ in
+its maximal ideal), the base $b$, the model $M$, the ideal $\mathfrak a$ and the flat (indeed
+\'etale) morphism $\pi$, gives $T_i$-correspondences $T_i$ of degrees $q^{fi}$ on $M$, lifts $L_i$
+to $Y$ and integers $d_i$ such that the $k$-th Kuga--Sato powers $L_i^{(k)}$ are correspondences of
+$\kstwoKS_Y^k$ away from $q$, both of whose legs have the same composite to $\Spec O_w$, satisfying
+$\mathrm{PC}(q,q^f,n,\varpi,(L_i^{(k)})_i)$. For each $i$, \ref{pf:ks2:S:lies} applied to $\gamma_i$,
+$T_i$ and $L_i$ shows that $\gamma_i$ lies over $L_i^{(k)}$ with multiplicity
+$m_i=[\Gamma_{\gamma_i}:\Gamma_{\gamma_i}\cap K_{M_{g_{\gamma_i}}}]>0$, and $\mathcal{H}$ gives
+$\theta(\gamma_i)=m_i\vartheta_i$. Together with $q\in w$ and $\Nm w=q^f$ this is
+$\mathcal{C}(T.\mathrm{tower}(N,g),\theta,w,n,\vartheta)$
+(\cref{pf:ks2:def:goodatw}(2)).
+\end{proof}
+
+\subsubsection{Good reduction}
+
+For good reduction one needs, besides the cover at the level $N_0\mathfrak a$, maps between the
+Kuga--Sato powers of \'etale-level models at two auxiliary levels which extend the level-forgetting
+maps and the Hecke translations of the generic fibre. The formal proof uses the following
+statements, all proved in the development.
+\begin{enumerate}[label=(G\arabic*)]
+\item\label{pf:ks2:G:ext} (extension data, \lref{UpperTheory.Gal.FiniteEtaleModels.extEx}) For a
+  site and an auxiliary level $(N_1,\mathfrak b)$ (\cref{pf:ks2:def:goodgrp}(1)),
+  an \emph{extension datum} exists: a model of level $N_1$ and an
+  \'etale-level model of level $(N_1,\mathfrak b,1)$ for the base $b$ of the site, with a finite
+  \'etale morphism between them compatible with the universal objects, such that all Kuga--Sato
+  powers of the \'etale-level model are projective and smooth over $O_w$.
+\item\label{pf:ks2:G:quot} (quotients, \lref{UpperTheory.Gal.FiniteEtaleModels.quotOf}) The map
+  $\pi_C\colon Z_M\to\kstwoKS_Y^k$ attached to a class map at level $M$ exhibits $\kstwoKS_Y^k$ as the
+  quotient of the tower at level $M$ by $K_0$: it
+  lies over $\Spec E\to\Spec O_w$, $K_M\subseteq K_0$ with finite index, $\pi_C$ is invariant under
+  the action of $K_0$ on $Z_M$, two geometric points with the same image differ by an element of
+  $K_0$, an element of $K_0$ fixing a geometric point lies in $K_M$, and every geometric point of
+  $\kstwoKS_Y^k$ over the generic point of $\Spec O_w$ is in the image.
+\item\label{pf:ks2:G:steps} (extension of witnesses; \cref{pf:ks2:stepf} below,
+  \lref{UpperTheory.Gal.FiniteEtaleModels.stepA},
+  \lref{UpperTheory.Gal.FiniteEtaleModels.stepB}) For extension data $X_1,X_2$ at auxiliary
+  levels $N_0\kappa\mathfrak b_1$ and $N_0\mathfrak b_2$ with $\mathfrak b_1\subseteq\mathfrak b_2$, and
+  class maps at levels $M_1,M_2$: a Hecke witness for $1$ from $M_{M_1}$ to $M_{M_2}$ extends to a
+  finite \'etale morphism between the \'etale-level models of $X_1$ and $X_2$ with cartesian square of
+  universal abelian schemes (case $h=1$); a Hecke witness for an integral $h$ with
+  $\kappa\kstwoLaHat\subseteq h\kstwoLaHat$ extends to a morphism between them
+  (prime-to-$q$ case); and, when $\mathfrak b_1\subseteq\mathfrak b_2\mathfrak w'$ for a prime
+  $\mathfrak w'\supseteq\mathfrak u$ and $h$ is a $T_i$-element at $\mathfrak w'$ with
+  $\Nm\mathfrak w'^{\,i}\mid M_1$, a Hecke witness for $h$ extends as well ($T_i$ case).
+\item\label{pf:ks2:G:deg} (degrees, \lref{UpperTheory.Gal.FiniteEtaleModels.degGen_holds},
+  \lref{UpperTheory.Gal.FiniteEtaleModels.fEtExt_holds}) If $\pi'\circ s$ exhibits
+  $Y$ as the quotient by $K_0$ and $\pi'$ exhibits $Y'$ as the quotient by $K_0'\subseteq K_0$, then
+  $s$ has $[K_0:K_0']$ geometric points over every geometric point of the generic fibre; and a finite
+  \'etale morphism to a flat $O$-scheme with constant degree $d$ over the generic fibre is finite
+  \'etale of degree $d$ (over $O$, $O$ a domain).
+\item\label{pf:ks2:G:lies} (a lying-over criterion, \lref{UpperTheory.Gal.FiniteEtaleModels.liesAbs_holds})
+  Let $(Y,\pi)$ be a cover of $(T.\mathrm{tower}(N,g),\theta)$ over $O$, $j\in J$, $K_0'\subseteq K_0$
+  with $K_N\subseteq K_0$, and let $\pi'\colon Z_{M_{g_j}}\to Y'$ and a finite \'etale $s\colon Y'\to Y$
+  of some degree be such that $\pi'\circ s$ and $\pi'$ exhibit $Y$ and $Y'$ as quotients by $K_0$
+  and $K_0'$, $\pi\circ\mathrm{tr}(M_{g_j},N,1)=s\circ\pi'$, every $u\in K_0$ can be written $u=xu'$
+  with $x\in K_{g_j}\cap K_0$ and $u'\in K_0'$, and for every $x\in K_{g_j}$ there is $t\colon Y'\to Y$
+  over $O$ with $t\circ\pi'=\pi\circ\mathrm{tr}(M_{g_j},N,h_{g_j}x)$. Then $j$ lies over some
+  correspondence $(s',t')$ of $Y$ over $O$ with $s'$ finite \'etale.
+\end{enumerate}
+
+The case $h=1$ of \ref{pf:ks2:G:steps} is the following proposition.
+
+\begin{proposition}[Extension of level-forgetting witnesses]\label{pf:ks2:stepf}
+Let a site at $(w,q,r,\mathfrak w,\mathfrak n)$ with level $N_0$ be given, let $\kappa\in\N$, and let
+$X_1$, $X_2$ be extension data (\ref{pf:ks2:G:ext}) at the auxiliary levels $(N_0\kappa,\mathfrak
+b_1)$ and $(N_0,\mathfrak b_2)$ with $\mathfrak b_1\subseteq\mathfrak b_2$; write $Y_1,Y_2$ for their
+\'etale-level models, with structure maps $s_1,s_2$ to $\Spec O_w$ and universal objects $\mathcal
+B_1,\mathcal B_2$. Let $M_1,M_2$ be levels with $M_2\mid M_1$, $(c_1,a_1)$ and $(c_2,a_2)$ numberings
+of $M_1$ and $M_2$ with respect to $X_1$ and $X_2$ (\ref{pf:ks2:S:num}), $(j_1,\gamma_1)$ and
+$(j_2,\gamma_2)$ the class maps of the universal generic objects of $M_{M_1}$ and $M_{M_2}$ into $Y_1$
+and $Y_2$ with these numberings (\ref{pf:ks2:S:cls}), and $(\pi,\Phi)$ a Hecke witness for $1$ from
+$M_{M_1}$ to $M_{M_2}$, with $\Phi=\varphi\circ\psi$ for a Hecke isogeny $\psi$ and a morphism of
+objects $\varphi$. Then there are a finite \'etale morphism $d\colon Y_1\to Y_2$ with $s_2\circ
+d=s_1$ and a morphism $\delta$ from the abelian scheme of $\mathcal B_1$ to that of $\mathcal B_2$ over
+$d$, with cartesian square, such that $d\circ j_1=j_2\circ\pi$ and
+$\delta\circ\gamma_1=\gamma_2\circ\varphi\circ\psi$.
+\formallabel{UpperTheory.Gal.FiniteEtaleModels.O.stepF}
+\end{proposition}
+
+\begin{proof}
+By \ref{pf:ks2:S:num}, $M_1=N_0\kappa c_1$ and $M_2=N_0c_2$ with $(a_1,M_1)\mathfrak b_1=(M_1)$ and
+$(a_2,M_2)\mathfrak b_2=(M_2)$; write $M_1=M_2t$ with $t\in\N$. Let $\eta$ denote level structures.
+\begin{enumerate}
+\item By \lref{UpperTheory.Gal.FiniteEtaleModels.O.epsEx} (elementary ideal arithmetic in the
+  Dedekind domain $\kstwoOF$) there is $\varepsilon\in\kstwoOF$ with $M_1\mid\varepsilon a_1-ta_2$ and
+  $((\varepsilon)+\mathfrak b_1)\mathfrak b_2=\mathfrak b_1$.
+\item By \lref{UpperTheory.Gal.FiniteEtaleModels.O.downEx} there are a finite \'etale morphism
+  $d\colon Y_1\to Y_2$ with $s_2\circ d=s_1$ and a morphism of objects $\delta$, over $d$, from
+  $\mathcal B_1$ with its level structure restricted to level $N_0$ to $\mathcal B_2$, which carries
+  the \'etale level sections $\lambda_1(\varepsilon y)$ of $Y_1$ to the \'etale level sections
+  $\lambda_2(y)$ of $Y_2$ ($y\in\Lambda$). (By the identity in (1), multiplication by $\varepsilon$
+  turns an \'etale level structure of type $(\mathfrak b_1,1)$ into one of type $(\mathfrak b_2,1)$, and
+  $Y_2$ classifies the resulting pair; finiteness and \'etaleness come from the finite \'etale maps
+  from $Y_1,Y_2$ to the models of the extension data and from the level-forgetting map between these
+  models, which is finite, \'etale and surjective,
+  \lref{GlobalTheory.T.harrisTaylor_levelForgetting_finite_etale_surjective}.)
+\item Composing $(j_1,\gamma_1)$ with $(d,\delta)$ gives a pair $(d\circ j_1,\delta\circ\gamma_1)$ of
+  the type of a class map of the universal generic object of $M_{M_1}$ into $Y_2$ with the numbering
+  $(c_1\kappa,ta_2)$. Indeed, $\gamma_1$ carries $\eta(c_1\kappa y)$ to the level-$N_0$ structure of
+  $\mathcal B_1$, which $\delta$ carries to that of $\mathcal B_2$; and $\eta(ta_2y)=\eta(\varepsilon
+  a_1y)$ because $M_1\mid\varepsilon a_1-ta_2$ and $\eta$ kills $M_1\Lambda$, while $\gamma_1$ carries
+  $\eta(a_1\varepsilon y)$ to $\lambda_1(\varepsilon y)$, which $\delta$ carries to $\lambda_2(y)$.
+\item Composing the witness with $(j_2,\gamma_2)$ gives a second such pair $(j_2\circ\pi,
+  \gamma_2\circ\varphi\circ\psi)$: the Hecke isogeny $\psi$ for $1$ is an isomorphism compatible with
+  the polarizations (\lref{UpperTheory.trace_unit_of_pullback_multiplier}); it carries
+  $\eta(c_1\kappa y)$ to $\eta(c_2y)$ and $\eta(ta_2y)$ to $\eta(a_2y)$
+  (\lref{UpperTheory.trace_eta_identity}: a Hecke isogeny for $h$ from level $N'u$ to level
+  $N'u'$ carries $\eta(uy)$ to $\eta(u'y')$ whenever $h\cdot y\equiv y'\bmod N'\kstwoLaHat$); and
+  $\gamma_2\circ\varphi$ carries these to the level-$N_0$ structure of $\mathcal B_2$ and to
+  $\lambda_2(y)$.
+\item The numbering $(c_1\kappa,ta_2)$ of $M_1$ with respect to $X_2$ is admissible:
+  $M_1=N_0c_1\kappa$, and $(ta_2,M_1)\mathfrak b_2=t\,(a_2,M_2)\mathfrak b_2=(tM_2)=(M_1)$.
+\item By the uniqueness of class maps (\ref{pf:ks2:S:cls}) the two pairs coincide: $d\circ
+  j_1=j_2\circ\pi$ and $\delta\circ\gamma_1=\gamma_2\circ\varphi\circ\psi$.
+\end{enumerate}
+The morphism $\delta$ lies over $d$ with cartesian square, being a morphism of objects, and $d$ is
+finite and \'etale; together with (6) this is the assertion.
+\end{proof}
+
+\begin{theorem}\label{pf:ks2:ksgood}
+$\sfname{KSGood}$ holds. That is, in the situation above, if the Hecke data are unramified at
+$\mathfrak w$, i.e.\ $\mathcal{U}(g,\theta,\mathfrak w)$, then $T.\mathrm{tower}(N,g)$ has good
+reduction at $w$, i.e.\ $\mathcal{G}(T.\mathrm{tower}(N,g),\theta,w)$.
+\formallabel{UpperTheory.Gal.FiniteEtaleModels.ksGood_holds}
+\end{theorem}
+
+\begin{proof}
+By $\mathcal{U}$ choose $q,r,N_0,\mathfrak a,K_0$ as in \cref{pf:ks2:def:goodgrp}(5). By
+\ref{pf:ks2:S:site} (with $\mathfrak n=N_0\mathfrak a$) there is a site, by \ref{pf:ks2:G:ext} an
+extension datum $X_0$ at the level $N_0\mathfrak a$, by \ref{pf:ks2:S:num} a decomposition
+$N=N_0c_0$ with $a_0$, by \ref{pf:ks2:S:cls} a class map $C_0$ for $M_N$, and by \ref{pf:ks2:S:cover}
+a cover $(Y,\pi)=(\kstwoKS_{X_0}^k,\pi_{C_0})$ of $(T.\mathrm{tower}(N,g),\theta)$ over $O_w$. We show that
+it is good. Let $j\in J$; $\mathcal{U}$ provides an integer $\kappa$, an auxiliary level
+$N_0\kappa\mathfrak a'$ with $\mathfrak a'\subseteq\mathfrak a$ and level group $K_0'\supseteq
+K_{M_{g_j}}$, $M_{g_j}\in N_0\kappa\mathfrak a'$, a decomposition $K_0=(K_{g_j}\cap K_0)K_0'$, and a
+factorization $h_{g_j}=h_1h_2$ with the properties of \cref{pf:ks2:def:goodgrp}(5). By
+\ref{pf:ks2:G:ext}, \ref{pf:ks2:S:num} and \ref{pf:ks2:S:cls} we get an extension datum $X_1$ at
+$N_0\kappa\mathfrak a'$ and a class map $C_1$ for $M_{M_{g_j}}$; put $Y'=\kstwoKS_{X_1}^k$ and
+$\pi'=\pi_{C_1}$.
+\begin{enumerate}[label=(\alph*)]
+\item (Level forgetting.) By \ref{pf:ks2:G:steps} (case $h=1$), the Hecke witness for $1$ from
+  $M_{M_{g_j}}$ to $M_N$ extends to a finite \'etale morphism of \'etale-level models with cartesian
+  square of universal abelian schemes; its $k$-th fibre power $s\colon Y'\to Y$ satisfies
+  $\pi\circ\mathrm{tr}(M_{g_j},N,1)=s\circ\pi'$ (compatibility of class maps with witnesses,
+  and of fibre powers with composition and cartesian squares). By \ref{pf:ks2:G:quot} $\pi'\circ s$ and $\pi'$ exhibit $Y$
+  and $Y'$ as quotients by $K_0$ and $K_0'$, so by \ref{pf:ks2:G:deg} $s$ is finite \'etale of degree
+  $[K_0:K_0']$ over $O_w$ ($Y$ is flat over $O_w$, being smooth).
+\item (Translations.) For $x\in K_{g_j}$, the element $h_{g_j}x=h_1(h_2x)$ is integral; by
+  \ref{pf:ks2:G:steps} (prime-to-$q$ case for the factor $h_2x$, which satisfies
+  $\kappa\kstwoLaHat\subseteq h_2x\kstwoLaHat$ because $x\in K_{g_j}$ preserves $\kstwoLaHat$, and $T_i$
+  case for $h_1$ when it is a $T_i$-element,
+  nothing being needed when $h_1=1$), the Hecke witness for $h_{g_j}x$ extends to a morphism of
+  Kuga--Sato powers $t\colon Y'\to Y$ over $O_w$ with $t\circ\pi'=\pi\circ\mathrm{tr}(M_{g_j},N,h_{g_j}x)$.
+\end{enumerate}
+Now \ref{pf:ks2:G:lies} applies and shows that $j$ lies over a correspondence $(s',t')$ on $Y$ over
+$O_w$ with $s'$ finite \'etale. As $j$ was arbitrary, the cover is good, i.e.\
+$\mathcal{G}(T.\mathrm{tower}(N,g),\theta,w)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Fixed points of twisted Hecke correspondences}\label{pf:ks2:sec:fix}
+
+Throughout this subsection the ground field is $\C$, $D,G,L$ satisfy $\mathrm{Sc}(D,G)$ (so $a=m=1$
+and there is a unique embedding $t_0=\tau_1\colon F\to\C$), the base $g_b$ over $\C$ is standard,
+and $v$ is the archimedean place of $F$ at which the Gram matrix $H_v$ has exactly one positive
+eigenvalue.
+
+\subsubsection{Tangent data}
+
+\begin{definition}[Tangent matrices]\label{pf:ks2:def:istan}
+Let $s\colon Z\to\Spec\C$, $s'\colon Y\to\Spec\C$, $c_1,c_2\colon Y\to Z$ with $sc_1=sc_2=s'$, let
+$y\in Y(\C)$ with $c_1(y)=c_2(y)$, $\delta\in\N$ and $A\in M_\delta(\C)$. Then
+$\mathrm{Tan}(\delta,c_1,c_2,y,A)$ means: there are affine opens
+$U\subseteq Z$ and $V\subseteq c_1^{-1}U\cap c_2^{-1}U$ with $y\in V$, functions
+$t_1,\dots,t_\delta\in\Gamma(U,\OO_Z)$ and a $\C$-linear map
+$\varphi\colon\Omega_{\Gamma(V,\OO_Y)/\C}\to\C^\delta$ with $\varphi(b\eta)=b(y)\varphi(\eta)$ and
+$\ker\varphi=\mathfrak m_y\Omega_{\Gamma(V,\OO_Y)/\C}$, such that $\varphi(d\,c_1^*t_l)=e_l$ and
+$\varphi(d\,c_2^*t_j)=(A_{jl})_l$ for all $j,l$. The \emph{Lefschetz term} of $A$ is
+$\mathrm{lef}(A)(t)=\det(1-tA)/\det(1-A)$.
+\formal{GlobalTheory.W1.IsTan}\formal{UpperTheory.Gal.W2.lefTerm}
+\end{definition}
+
+Thus $c_1^*t_1,\dots,c_1^*t_\delta$ are local coordinates at $y$ and $A$ is the cotangent matrix of
+the local self-map ``$c_2\circ c_1^{-1}$'' at $y$.
+
+\subsubsection{Forms, points and orbital sums}
+
+\begin{definition}[Forms and their groups]\label{pf:ks2:def:forms}
+Let $x\mapsto x^*$ be the involution of $C$.
+\begin{enumerate}
+\item A \emph{form} is $\beta\in C^\times$ with $\beta^*=\beta$ such
+  that $x\beta x^*=t$ for some $x\in(\A_f^p\otimes C)^\times$ and $t\in(\A_f^p)^\times$, and
+  $z\beta z^*=1$ for some $z\in(\R\otimes C)^\times$. Two forms are
+  \emph{equivalent} if $\beta'=s\,y\beta y^*$ with $y\in C^\times$ and $s\in\Q_{>0}$; $\mathfrak{C}$
+  denotes the set of classes. We fix a representative $\beta$ of
+  every class and a trivialization $(x,t)$ for it.
+\item $\Gamma_\beta=\{(y,s)\in C^\times\times\Q^\times:\ y\beta y^*=s\beta,\ s>0\}$. It maps to $\kstwoG$ by $y\mapsto xyx^{-1}$
+  (denoted $y\mapsto y_f$), to $\kstwoGp$ by localization at $p$
+  ($y\mapsto y_p$), and to $\GL_n(\C)$ by $\psi_v$
+  ($y\mapsto y_v$).
+\item $\mathcal{P}_\beta$ is the set of $z\in\C^n$ with $\Re(z^*H_v\psi_v(\beta^{-1})z)>0$, and $\mathcal{D}_\beta=(\kstwoG\times\kstwoGp)\times\mathcal{P}_\beta$.
+  For subgroups $K\subseteq\kstwoG$ and $K'\subseteq\kstwoGp$, $\mathcal{X}_\beta(K,K')$ is the quotient of $\mathcal{D}_\beta$ by the equivalence
+  relation $((g,g_p),z)\sim((y_fgk,y_pg_pk'),c\,y_vz)$ ($y\in\Gamma_\beta$, $k\in K$, $k'\in K'$,
+  $c\in\C^\times$), and
+  $\mathcal{X}(K,K')=\coprod_{[\beta]\in\mathfrak{C}}\mathcal{X}_\beta(K,K')$.
+\item For $a=((g,g_p),z)\in\mathcal{D}_\beta$ and $y\in\Gamma_\beta$, $y$ \emph{fixes the line of $a$}
+  if $y_vz=\lambda z$ for some $\lambda\in\C$; then
+  $\lambda=\mathrm{eig}(y,a)$, and $\lambda\ne0$. For a
+  subset $S\subseteq\kstwoG$, $y$ \emph{sees $a$ through $S$} if $y$
+  fixes the line of $a$, $g^{-1}y_fg\in S$ and $g_p^{-1}y_pg_p\in\kstwoKp$. The stabilizer
+  $\mathrm{Stab}(a)$ is the set of $y$ seeing $a$ through $K$.
+\item $g\in\kstwoG$ is \emph{regular} if at some place $w\ne p$
+  the centralizer of the $w$-component of $g$ in $\Q_w\otimes C$ is commutative.
+\end{enumerate}
+\formal{GlobalTheory.LKCx.Form}\formal{GlobalTheory.LKMid.Triv}\formal{GlobalTheory.LKCx.FCls}\formal{GlobalTheory.LKCx.grp}\formal{GlobalTheory.LKCx.toAfF}\formal{GlobalTheory.LKCx.toP1}\formal{GlobalTheory.LKCx.toV}\formal{GlobalTheory.LKCx.PosV}\formal{GlobalTheory.LKCx.Pts}\formal{GlobalTheory.LKCx.Same}\formal{GlobalTheory.LKCx.AllPts}\formal{GlobalTheory.LKCx.FixL}\formal{GlobalTheory.RootSumWeights.eigL}\formal{UpperTheory.Gal.W2.Sees}\formal{GlobalTheory.LKCx.Stab}\formal{GlobalTheory.LKCx.RegAf}
+\end{definition}
+
+\begin{definition}[Weights]\label{pf:ks2:def:weights}
+For a polynomial $\chi\in F[X]$ and $\tau\colon F\to\C$ let $R_\tau(\chi)$ be the multiset of roots
+of $\tau(\chi)$. For $\varepsilon\colon\Hom(F,\C)\to\{0,1\}$,
+$x\in F$, $y,\mu\in\C$ put, with $R=R_{t_0}(\chi)\smallsetminus\{\mu\}$ (one copy of $\mu$
+removed) and bars denoting complex conjugation,
+\begin{align*}
+\kstwoBall(y,\chi,\mu)&=\prod_{r\in R}\frac{r-y\mu}{r-\mu},\\
+\kstwoFib(x;y,\chi,\mu)&=\Bigl[(1-t_0(x)y\mu)\prod_{r\in R}(1-t_0(x)r)\Bigr]
+\Bigl[(1-\overline{t_0(x)}\,\bar\mu)\prod_{r\in R}(1-\overline{t_0(x)}\,y\,\bar r)\Bigr]\\
+&\qquad\times\prod_{\tau\ne t_0,\bar t_0}\ \prod_{r\in R_\tau(\chi)}(1-\tau(x)y^{\varepsilon(\tau)}r),
+\end{align*}
+and, for $\alpha\in\kstwoOF^k$,
+$\kstwoloc(\alpha;y,\chi,\mu)=\kstwoBall(y,\chi,\mu)\prod_{s=1}^k\kstwoFib(\alpha_s;y,\chi,\mu)$.
+Let $\varepsilon_D(\tau)=0$ if $\tau(\omega)=\rho_c$ and $1$ otherwise,
+and for $P\in F[X]$ with $P(0)\ne0$ let $P^\vee=P(0)^{-1}X^{\deg P}P(1/X)$ (the reversed polynomial). The \emph{fixed-point weight} is
+\begin{equation}\label{pf:ks2:eq:cw}
+c_W(\alpha,y)(P,\lambda)=\kstwoloc\bigl(\alpha;\,y,\,P^\vee,\,\kappa(\lambda)^{-1}\bigr),\qquad
+\kappa(\lambda)=\begin{cases}\lambda&\text{if }v\text{ induces }t_0\text{ (via }L),\\ \bar\lambda&\text{otherwise,}\end{cases}
+\end{equation}
+where $\varepsilon=\varepsilon_D$ (it equals the weight of the statement of $\sfname{FixK}$ by
+\lref{UpperTheory.Gal.FixZ.wtEq_of}, a direct comparison of definitions using that the two
+roots of $X^2-\mathrm{tr}X+\mathrm{nm}$ are $\rho_c\ne\bar\rho_c$).
+\formal{UpperTheory.Gal.W2.rts}\formal{UpperTheory.Gal.W2.ballW}\formal{UpperTheory.Gal.W2.fibW}\formal{UpperTheory.Gal.W2.locW}\formal{UpperTheory.Gal.W2.epsD}\formal{UpperTheory.Gal.W2.invPoly}\formal{UpperTheory.Gal.W2.wtFix}\formal{UpperTheory.Gal.LocalSmoothExtension.cW}
+\end{definition}
+
+\begin{definition}[Orbital sums]\label{pf:ks2:def:orbital}
+For $c\colon F[X]\times\C\to\C$, $K\subseteq\kstwoG$ and $f\colon\kstwoG\to\C$ put
+\begin{multline}\label{pf:ks2:eq:cxtotal}
+\Sigma(c;K,f)=\sum_{[\beta]\in\mathfrak{C}}\ \sum_{q\in\mathcal{X}_\beta(K,\kstwoKp)}
+\frac1{\#\mathrm{Stab}(a_q)}\\
+\times\sum_{\substack{y\in\Gamma_\beta\\ y\text{ fixes the line of }a_q}}
+f(g_q^{-1}y_fg_q)\,\one_{\kstwoKp}(g_{p,q}^{-1}y_pg_{p,q})\,c\bigl(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a_q)\bigr),
+\end{multline}
+where $a_q=((g_q,g_{p,q}),z_q)$ is a chosen representative of $q$, $\mathrm{minpoly}_F(y)$ is the
+minimal polynomial of $y\in C$ over $F$, and all sums are \emph{finite sums in Mathlib's sense}:
+a sum over an infinite support is $0$. $\mathrm{Fin}(K,f)$ means that the set of triples $([\beta],q,y)$
+with $y$ fixing the line of $a_q$, $f(g_q^{-1}y_fg_q)\ne0$ and $g_{p,q}^{-1}y_pg_{p,q}\in\kstwoKp$ is
+finite.
+\formal{GlobalTheory.RootSumWeights.cxTotalM}\formal{GlobalTheory.RootSumWeights.cxSumAtM}\formal{UpperTheory.Gal.LocalSmoothExtension.CxFin}
+\end{definition}
+
+\subsubsection{The statement}
+
+For a Kuga--Sato tower $T$ over $\C$ and $\alpha\in\kstwoOF^k$ let
+$[\alpha]\colon Z_N\to Z_N$ be the endomorphism acting on the $s$-th factor of $\kstwoKS_N^k$ by
+$\alpha_s\in\kstwoOF\subseteq O$; for $N\mid N'$
+and $h$ admissible from $N'$ to $N$ put $c_1=\mathrm{tr}(N',N,1)$ and
+$c_2=[\alpha]\circ\mathrm{tr}(N',N,h)$.
+Let $\Gamma_h=K_N\cap h^{-1}K_Nh$.
+
+\begin{definition}[$\sfname{FixK}$]\label{pf:ks2:def:fixk}
+$\sfname{FixK}$ is the statement: for every
+Kuga--Sato tower $T$ over $\C$ for $(L,g_b,k)$ (with $\mathrm{Sc}(D,G)$, $g_b$ standard, $v$ as
+above), levels $N\mid N'$, $\delta\in\N$ such that $Z_N\to\Spec\C$ is smooth of relative dimension
+$\delta$, $h\in\kstwoG$ integral and admissible from $N'$ to $N$ (with $1$ admissible from $N'$ to $N$)
+such that every element of $K_Nh^{-1}K_N$ is regular, and every $\alpha\in\kstwoOF^k$ with all
+$\alpha_s$ nonzero and divisible by $2$:
+\begin{enumerate}
+\item $\mathrm{Fin}(K_N,\one_{K_Nh^{-1}K_N})$;
+\item $c_2$ is finite and \'etale;
+\item there are a finite set $\mathcal F\subseteq Z_{N'}(\C)$, equal to the set of $x$ with
+  $c_1(x)=c_2(x)$, and matrices $A_x\in M_\delta(\C)$ with $\mathrm{Tan}(\delta,c_1,c_2,x,A_x)$ and
+  $\det(1-A_x)\ne0$ for $x\in\mathcal F$, such that for all $y\in\C$
+\begin{equation}\label{pf:ks2:eq:fixk}
+\sum_{x\in\mathcal F}\frac{\det(1-yA_x)}{\det(1-A_x)}=[\Gamma_h:\Gamma_h\cap K_{N'}]\cdot
+\Sigma\bigl(c_W(\alpha,y);K_N,\one_{K_Nh^{-1}K_N}\bigr).
+\end{equation}
+\end{enumerate}
+\formal{UpperTheory.Gal.LocalSmoothExtension.FixK}
+\end{definition}
+
+\begin{theorem}\label{pf:ks2:fixk}
+$\sfname{FixK}$ holds.
+\formallabel{UpperTheory.Gal.FixZ.FixK_holds}
+\end{theorem}
+
+The proof occupies the rest of this subsection; it is completed after \cref{pf:ks2:fixz}.
+
+\subsubsection{Legs and the reduction to moduli schemes}
+
+For generic models $X'$, $X$ of levels $N'$, $N$ over $\C$, a \emph{leg} for $h$ is a morphism $c_q\colon X'\to X$ over $\C$ with a generic object
+$o$ over $X'$, a Hecke isogeny $\psi$ for $h$ from the universal object of $X'$ to $o$, and a
+morphism of objects $o\to\mathcal A_X$ over $c_q$; its \emph{total map} is the composite
+$c_{\mathrm{tot}}\colon\mathcal A_{X'}\to\mathcal A_X$, its $k$-th power is the fibre power
+$c^{(k)}\colon\mathcal A_{X'}^k\to\mathcal A_X^k$ over $c_q$, and the \emph{twisted power} is
+$c^{(k)}_\alpha=[\alpha]\circ c^{(k)}$.
+
+\begin{proposition}[Fixed points on moduli schemes]\label{pf:ks2:hfp}
+Assume $a=m=1$, let $X,X'$ be generic models over $\C$ of levels $N\mid N'$ with $h$ admissible from
+$N'$ to $N$, let $c_1$ be a leg for $1$ and $c_2$ a leg for $h$
+from $X'$ to $X$, assume that every $g$ with $hg\in K_N$ is regular, let $\alpha\in\kstwoOF^k$ with all
+$\alpha_s$ divisible by $2$, and assume that $c_1^{(k)}$ is \'etale. Then:
+\begin{enumerate}
+\item $\mathcal A_X^k\to\Spec\C$ is smooth of relative dimension $\delta=n-1+kg$;
+\item there are a finite set $\mathcal F$ of complex points of $\mathcal A_{X'}^k$, equal to the set of
+  fixed points of $(c_1^{(k)},c^{(k)}_{2,\alpha})$, and tangent matrices $A_x$ with $\det(1-A_x)\ne0$;
+\item the set of $([\beta],q)\in\mathcal{X}(K_{N'},\kstwoKp)$ such that some $y$ sees $a_q$ through
+  $h^{-1}K_N=\{g:hg\in K_N\}$ is finite;
+\item if $y$ sees $a$ through $K_N$, then $y=1$;
+\item for all $t\in\C$,
+$\sum_{x\in\mathcal F}\mathrm{lef}(A_x)(t)=\Sigma\bigl(c_W(\alpha,t);K_{N'},\one_{h^{-1}K_N}\bigr)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.W2.fixedPoints_int_base_holds}
+\end{proposition}
+
+The proof is given in \cref{pf:ks2:sec:fixproof}. We first change the level.
+
+\begin{proposition}[Change of level]\label{pf:ks2:levelchange}
+Let $K'\subseteq K$ be subgroups of $\kstwoG$ with $[K:K']$ finite and $K'\subseteq\Gamma_h=K\cap
+h^{-1}Kh$, let $c$ be arbitrary, and assume: no $y\ne1$ sees any $a$ through $K$, and the set of
+$([\beta],q)\in\mathcal{X}(K',\kstwoKp)$ such that some $y$ sees $a_q$ through $h^{-1}K$ is finite.
+Then
+\[
+\Sigma(c;K',\one_{h^{-1}K})=[\Gamma_h:K']\cdot\Sigma(c;K,\one_{Kh^{-1}K}).
+\]
+\formallabel{UpperTheory.Gal.W2.LevelChange_holds}
+\end{proposition}
+
+\begin{proof}
+It suffices to prove the identity for each class $[\beta]$ separately.
+Fix $\beta$ and write $\Gamma=\Gamma_\beta$. We use the following invariance
+(\lref{UpperTheory.Gal.W2.EigSame_holds}, a consequence of the definitions): if $a'=\gamma a k$
+with $\gamma\in\Gamma$ and $k\in K''\times\kstwoKp$ (and a scalar on the $\C^n$-component), then
+$y\mapsto\gamma y\gamma^{-1}$ is a bijection carrying the elements seeing $a$ through an
+$K''$-conjugation invariant set $S$ to those seeing $a'$ through $S$, and preserving
+$\mathrm{minpoly}_F(y)$ and $\mathrm{eig}(y,a)$. The sets $h^{-1}K$ and $Kh^{-1}K$ are invariant under
+conjugation by $K'$, resp.\ $K$: for $u\in K'\subseteq K\cap h^{-1}Kh$, $u^{-1}gu\in h^{-1}K$ iff
+$(huh^{-1})^{-1}(hg)u\in K$ iff $hg\in K$. So for $a\in\mathcal{D}_\beta$ and $S\in\{h^{-1}K,Kh^{-1}K\}$
+the quantity
+\[
+\Phi_S(a)=\sum_{y\text{ sees }a\text{ through }S}c\bigl(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a)\bigr)
+\]
+depends only on the class of $a$ at level $K'$, resp.\ $K$.
+
+\emph{Stabilizers.} By hypothesis every stabilizer at level $K$ is trivial; since $K'\subseteq K$,
+stabilizers at level $K'$ are trivial too. Hence all factors $1/\#\mathrm{Stab}$ in
+\eqref{pf:ks2:eq:cxtotal} equal $1$.
+
+\emph{Fibres of $\mathcal{X}_\beta(K',\kstwoKp)\to\mathcal{X}_\beta(K,\kstwoKp)$.} The fibre over the
+class of $a=((g,g_p),z)$ consists of the classes of $a_k=((gk,g_p),z)$, $k\in K$, and $a_k\sim a_{k'}$
+at level $K'$ iff $k\in k'K'$: if $(\gamma_fgk,\gamma_pg_p,c\gamma_vz)=(gk'u,g_pu_p,z)$ with $u\in K'$,
+$u_p\in\kstwoKp$, then $\gamma$ sees $a$ through $K$, so $\gamma=1$ and $k=k'u$. Thus the fibre is in
+bijection with $K/K'$.
+
+\emph{Unfolding.} For $a=((g,g_p),z)$ and $y$ fixing the line of $a$ with $g_p^{-1}y_pg_p\in\kstwoKp$, put
+$u=g^{-1}y_fg$. Then $y$ sees $a_k$ through $h^{-1}K$ iff $u\in kh^{-1}Kk^{-1}=kh^{-1}K$. The cosets
+$kh^{-1}K$ ($k\in K$) depend only on $k\Gamma_h$, are pairwise distinct for distinct $k\Gamma_h$
+($kh^{-1}K=k'h^{-1}K$ iff $k'^{-1}k\in h^{-1}Kh$), and their union is $Kh^{-1}K$. Hence
+\[
+\#\{k\in K/K':\ u\in kh^{-1}K\}=[\Gamma_h:K']\cdot\#\{k\in K/\Gamma_h:\ u\in kh^{-1}K\}
+=[\Gamma_h:K']\cdot\one_{Kh^{-1}K}(u).
+\]
+Summing $c(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a))$ over $y$ (note that $\mathrm{eig}(y,a_k)=\mathrm{eig}(y,a)$
+and the line and $p$-conditions do not involve $k$) gives
+$\sum_{k\in K/K'}\Phi_{h^{-1}K}(a_k)=[\Gamma_h:K']\,\Phi_{Kh^{-1}K}(a)$, and summing over the classes
+of level $K$ gives the identity, provided all sums involved are finite. For a given $a_k$ at most one
+$y$ sees it through $h^{-1}K$: if $y,y'$ do, then $y^{-1}y'$ sees $a_k$ through
+$(h^{-1}K)^{-1}h^{-1}K=K$ hence $y=y'$. Therefore the inner sums
+on the left are finite, the outer sum on the left has finite support by hypothesis, and the identity
+just proved shows that the supports on the right are finite as well; with finite supports the
+finite sums of Mathlib are ordinary sums and the rearrangements above are legitimate.
+\end{proof}
+
+\begin{corollary}\label{pf:ks2:fixz}
+In the situation of \cref{pf:ks2:hfp}, the conclusions (1) and (2) hold, and for all $t\in\C$
+\[
+\sum_{x\in\mathcal F}\mathrm{lef}(A_x)(t)=[\Gamma_h:K_{N'}]\cdot\Sigma\bigl(c_W(\alpha,t);K_N,\one_{K_Nh^{-1}K_N}\bigr).
+\]
+\formallabel{UpperTheory.Gal.W2.FixZ_holds}
+\end{corollary}
+
+\begin{proof}
+Since $N\mid N'$ we have $K_{N'}\subseteq K_N$, and admissibility
+of $h$ gives $hK_{N'}h^{-1}\subseteq K_N$, so $K_{N'}\subseteq\Gamma_h$; $[K_N:K_{N'}]$ is finite. By
+\cref{pf:ks2:hfp}(4) no $y\ne1$ sees any point through $K_N$, and by \cref{pf:ks2:hfp}(3) the finiteness
+hypothesis of \cref{pf:ks2:levelchange} holds. Apply \cref{pf:ks2:levelchange} with $K=K_N$, $K'=K_{N'}$
+and $c=c_W(\alpha,t)$ to the right-hand side of \cref{pf:ks2:hfp}(5).
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:ks2:fixk}]
+The proof uses, besides \cref{pf:ks2:hfp} and
+\cref{pf:ks2:fixz}, the following facts about a Kuga--Sato tower $T$ over $\C$:
+\begin{enumerate}[label=(B\arabic*)]
+\item\label{pf:ks2:B:tr} every transition map $\mathrm{tr}(N',N,h)$ is finite and \'etale
+  (\lref{UpperTheory.Gal.FixZ.translation_finite_etale_of_isogeny_data}; it is deduced from the
+  description of $\mathrm{tr}(N',N,h)$ as the fibre power of the total map of a Hecke witness, the
+  uniqueness of witnesses, the finite \'etaleness of isogenies of abelian schemes whose degree is
+  invertible on the base, and \cref{pf:ks2:gensm});
+\item\label{pf:ks2:B:al} $[\alpha]$ is finite and \'etale if all $\alpha_s\ne0$
+  (\lref{UpperTheory.Gal.FixZ.alFEt_of}: multiplication by a nonzero element of $\kstwoOF$ is an
+  isogeny of degree invertible in $\C$);
+\item\label{pf:ks2:B:leg} for $h$ admissible from $N'$ to $N$ there is a leg $c$ for $h$ from
+  $M_{N'}$ to $M_N$ with $\mathrm{tr}(N',N,h)=c^{(k)}$ and $[\alpha]\circ\mathrm{tr}(N',N,h)=c^{(k)}_\alpha$
+  under $Z\cong\kstwoKS^k$ (\lref{UpperTheory.Gal.FixZ.legOf_of}, from the definition of a
+  Kuga--Sato tower);
+\item\label{pf:ks2:B:tan} isomorphisms of schemes over $\C$ compatible with two pairs of maps transport
+  fixed points and tangent matrices (\lref{UpperTheory.Gal.FixZ.tanIso_of}); a nonempty scheme smooth
+  of relative dimensions $d$ and $d'$ over $\C$ has $d=d'$ (\lref{UpperTheory.Gal.FixZ.dimUniq_of});
+\item\label{pf:ks2:B:cx} if $K'\subseteq K$, $hK'h^{-1}\subseteq K$, the finiteness of \cref{pf:ks2:hfp}(3)
+  holds at level $K'$ and stabilizers at level $K$ are trivial, then $\mathrm{Fin}(K,\one_{Kh^{-1}K})$
+  (\lref{UpperTheory.Gal.FixZ.cxFinOf_of}: if $y$ is counted for the point of $a=((g,g_p),z)$ at
+  level $K$, write $g^{-1}y_fg=k_1h^{-1}k_2$ with $k_i\in K$; then $y$ sees $((gk_1,g_p),z)$ through
+  $h^{-1}K$, and the resulting map from the counted triples to the points of level $K'$ seen through
+  $h^{-1}K$ is injective, by the triviality of stabilizers and the argument of the proof of
+  \cref{pf:ks2:levelchange}).
+\end{enumerate}
+Let the data of $\sfname{FixK}$ be given. Since $a=1$, $\tau_i=t_0$ for the unique $i$. By \ref{pf:ks2:B:leg}
+choose legs $c_1$ for $1$ and $c_2$ for $h$ from $M_{N'}$ to $M_N$. If $hg\in K_N$ then
+$g\in h^{-1}K_N\subseteq K_Nh^{-1}K_N$, so $g$ is regular. The map $c_1^{(k)}$ corresponds to
+$\mathrm{tr}(N',N,1)$, which is \'etale. Hence \cref{pf:ks2:hfp} and \cref{pf:ks2:fixz} apply (with the
+divisibility of the $\alpha_s$ by $2$).
+
+(1) follows from \ref{pf:ks2:B:cx}, using \cref{pf:ks2:hfp}(3),(4). (2): $c_2=[\alpha]\circ
+\mathrm{tr}(N',N,h)$ is a composite of finite \'etale maps by \ref{pf:ks2:B:tr},\ref{pf:ks2:B:al}. (3): If
+$Z_N$ is empty, then $Z_{N'}$ has no complex point (its image under $c_1$ would be a point of $Z_N$), the
+set $\mathcal F$ of \cref{pf:ks2:fixz} is empty, so the right-hand side of \cref{pf:ks2:fixz} vanishes,
+and $\mathcal F=\emptyset$ works. Otherwise, $Z_N\cong\kstwoKS_N^k$ is smooth of relative dimension
+$n-1+kg$ by \cref{pf:ks2:hfp}(1), so $\delta=n-1+kg$ by \ref{pf:ks2:B:tan}. Transport the set $\mathcal F$
+and the matrices $A_x$ of \cref{pf:ks2:fixz} along the isomorphisms $Z_{N'}\cong\kstwoKS_{N'}^k$ and
+$Z_N\cong\kstwoKS_N^k$ by \ref{pf:ks2:B:tan}; they have the required properties. Finally the right-hand side
+of \cref{pf:ks2:fixz} is that of \eqref{pf:ks2:eq:fixk}: $[\Gamma_h:K_{N'}]=[\Gamma_h:\Gamma_h\cap
+K_{N'}]$, the weight $c_W$ of \eqref{pf:ks2:eq:cw} equals the weight of the formal statement
+(\lref{UpperTheory.Gal.FixZ.wtEq_of}), and the indicator of the double coset is the same function in
+both formulations.
+\end{proof}
+
+\subsubsection{Proof of the fixed-point formula on moduli schemes}\label{pf:ks2:sec:fixproof}
+
+The complex uniformization is formulated with the following notions.
+
+\begin{definition}[Marked period lattices]\label{pf:ks2:def:periods}
+Let $N\ge1$ and let $\rho\colon O\to M_g(\C)$ be a ring map.
+\begin{enumerate}
+\item A \emph{polarized $O$-lattice} is a free $\Z$-module $D'$ of finite rank with an action of $O$
+  and a nondegenerate alternating form $E_{D'}$ with $E_{D'}(cx,y)=E_{D'}(x,c^*y)$; a \emph{marking}
+  is a map $t\colon\Lambda\to D'$. A \emph{marked isometry} $w\colon(D',t)\to(D'',t'')$ is an
+  $O$-linear isomorphism $D'\to D''$ preserving the forms with $w(t(\lambda))\equiv t''(\lambda)\bmod
+  ND''$ for $\lambda\in\Lambda$.
+\item $(D',t)$ lies in the class $\mathrm{Cls}_N$ if (i) for every $k\ge1$ prime to $p$ there are an
+  additive map $f_k\colon\Lambda\to D'$ and an integer $\nu_k$ prime to $k$, with $f_N=t$ and
+  $f_{kl}\equiv f_k$, $\nu_{kl}\equiv\nu_k$ modulo $k$, such that $f_k$ induces an $O$-linear
+  isomorphism $\Lambda/k\Lambda\to D'/kD'$ and $E_{D'}(f_kx,f_ky)\equiv\nu_kE_\Lambda(x,y)\bmod k$; and
+  (ii) $E_{D'}=2E_1$ with $E_1$ perfect up to an integer prime to $p$.
+\item A \emph{period} of $D'$ is an injective additive map $P\colon D'\to\C^g$ with
+  $P(cx)=\rho(c)P(x)$ for $c\in O$, whose image is discrete and spans $\C^g$ over $\R$, such that
+  $\Im H(Px,Py)=E_{D'}(x,y)$ for some positive definite hermitian form $H$ on $\C^g$.
+\item Let $\mathcal A$ be an abelian scheme over $S$ with an action of $O$, a polarization and a level
+  structure $\eta\colon\Lambda\to\mathcal A(S)$ (for instance an object of level $N$), $y\in
+  S(\C)$, and $e\colon\C^g\to\mathcal A_y(\C)$ an \emph{exponential}: a surjective holomorphic
+  homomorphism whose derivative at $0$ identifies $\C^g$ with the tangent space at the origin. A
+  marked lattice $(D',t)$ with a period $P$ \emph{uniformizes $\mathcal A$ at $y$ via $e$} if $\ker
+  e=P(D')$, $e(\rho(c)z)=c\cdot e(z)$ for $c\in O$, the Weil pairing of $e(P(x)/k)$ and $e(P(x')/k)$
+  is $\exp(-2\pi iE_{D'}(x,x')/k)$ for all $k\ge1$, and $\eta(\lambda)=e(P(t(\lambda))/N)$ for
+  $\lambda\in\Lambda$.
+\end{enumerate}
+\formal{GlobalTheory.PELU.PLat}\formal{GlobalTheory.PELU.IsMarkedIsom}\formal{GlobalTheory.PELU.Genus}\formal{GlobalTheory.UPel.HT.HalfPerf}\formal{GlobalTheory.UPel.HT.Datum.Cls}\formal{GlobalTheory.PELU.IsPeriod}\formal{GlobalTheory.PELU.IsExp}\formal{GlobalTheory.PELU.UnifAt}
+\end{definition}
+
+We use the following statements, all proved in the formal development. Here $X$ is a
+generic model over $\C$ of a level $N$, and the data are as in \cref{pf:ks2:hfp}.
+\begin{enumerate}[label=(U\arabic*)]
+\item\label{pf:ks2:U:rho} (\lref{UpperTheory.Gal.W2.RhoSig_holds}) There is a ring map
+  $\rho\colon O\to M_g(\C)$ \emph{of signature $(t_0,\varepsilon_D)$}: $\kstwoOF\to O$ is onto (as $m=1$), $\rho$ is compatible with
+  the involutions, every embedding of $F$ is non-real, and
+  $\tr\rho(c)=\sum_\tau\mu(\tau)\tau(c)$ for $c\in\kstwoOF$, with $\mu(t_0)=1$, $\mu(\bar t_0)=n-1$ and
+  $\mu(\tau)=n\varepsilon_D(\tau)$ otherwise; also
+  $\varepsilon_D(\tau)+\varepsilon_D(\bar\tau)=1$ for $\tau\ne t_0,\bar t_0$.
+\item\label{pf:ks2:U:unif} (\lref{UpperTheory.Gal.W2.GUnif_holds}, \emph{complex uniformization})
+  $X$ is smooth of relative dimension $n-1$, quasi-compact and separated, the universal abelian scheme
+  is smooth of relative dimension $g$, and its complex points are uniformized by marked period
+  lattices (\cref{pf:ks2:def:periods}): there are finitely many marked polarized $O$-lattices
+  $(\Lambda_i,t_i)$ in $\mathrm{Cls}_N$, pairwise not marked-isometric, such that every marked lattice
+  in $\mathrm{Cls}_N$ which has a period is marked-isometric to one of them, and for every period $P$
+  of $\Lambda_i$ a complex point $u_i(P)$ of $X$ and an exponential
+  $\exp_{i,P}\colon\C^g\to\mathcal A_{u_i(P)}$ via which $(\Lambda_i,t_i,P)$ uniformizes the universal
+  object at $u_i(P)$, such that every complex point is some $u_i(P)$, $u_i(P)=u_j(P')$ forces $i=j$,
+  and $u_i(P)=u_i(P')$ if and only if $P'\circ w=h\circ P$ for a marked self-isometry $w$ of
+  $(\Lambda_i,t_i)$ and a $\C$-linear automorphism $h$ of $\C^g$; in particular the fibre of
+  $\mathcal A$ at $u_i(P)$ is $\C^g/P(\Lambda_i)$ via $\exp_{i,P}$.
+\item\label{pf:ks2:U:dic} (\cref{pf:ks2:pdic,pf:ks2:rdic} below) For every form $\beta$ there are a
+  $p$-adic dictionary and a real dictionary (\cref{pf:ks2:def:coord}): a $\Gamma_\beta$-equivariant
+  bijection between $\kstwoGp/\kstwoKp$ and the lattices in $\Lambda\otimes\Q$ that are self-dual at
+  $p$ for a positive multiple of the form attached to $\beta$, and a $\Gamma_\beta$-equivariant
+  correspondence between periods of $\Lambda\otimes\Q$ for $\beta$ and lines $\C z$,
+  $z\in\mathcal{P}_\beta$, under which an element $y$ acting on the periods by a matrix $H$ and on $z$
+  by the eigenvalue $\lambda$ has $\kappa(\lambda)$ as an eigenvalue of $H$ on the $t_0$-isotypic part
+  of $\C^g$.
+\item\label{pf:ks2:U:unifg} (\cref{pf:ks2:unifg} below) There is a bijection
+  $\Phi\colon X(\C)\to\mathcal{X}(K_N,\kstwoKp)$ such that for every complex point $x$ there are
+  $([\beta],a)$ with $\Phi(x)=([\beta],[a])$, an index $i$, a period $P$ of $\Lambda_i$ with $x=u_i(P)$,
+  and an embedding $j\colon\Lambda_i\to\Lambda\otimes\Q$ such that $(P,j,a)$ are coordinates
+  (\cref{pf:ks2:def:coord}: compatible with the two dictionaries and the level structure).
+\item\label{pf:ks2:U:stab} (\lref{UpperTheory.Gal.W2.StabTriv_holds}) If $N\ge3$ is prime to $p$,
+  every $y$ seeing some $a$ through $K_N$ equals $1$.
+\item\label{pf:ks2:U:fwd} (\lref{UpperTheory.Gal.W2.FixFwd_holds}) If $x=u_i(P)\in X'(\C)$ with
+  coordinates $(P,j,a)$ satisfies $c_{1,q}(x)=c_{2,q}(x)$, then some $y\in\Gamma_\beta$ sees $a$ through
+  $h^{-1}K_N$.
+\item\label{pf:ks2:U:loc} (\cref{pf:ks2:fixloc} below) The local contribution over a fixed point of the
+  base.
+\item\label{pf:ks2:U:tan} (\lref{UpperTheory.Gal.W2.TanExists_holds}) If $Z\to\Spec\C$ is smooth of
+  relative dimension $d$ and $c_1$ is \'etale, every complex fixed point of $(c_1,c_2)$ has a tangent
+  matrix in $M_d(\C)$ (the pullbacks of local coordinates along the \'etale map $c_1$ are local
+  coordinates).
+\item\label{pf:ks2:U:fin} (\lref{UpperTheory.Gal.W2.FixFinite_holds}) If $Z$ is separated, $Y$ is
+  quasi-compact and locally of finite type over $\C$, and every complex fixed point of $(c_1,c_2)$ has a
+  tangent matrix $A$ with $\det(1-A)\ne0$, then the set of complex fixed points is finite (transversal
+  fixed points are isolated, and the fixed locus is closed in the quasi-compact $Y$).
+\item\label{pf:ks2:U:pow} (\lref{UpperTheory.Gal.W2.PowSm_holds}, \lref{UpperTheory.Gal.W2.PwOver_holds})
+  The $k$-th fibre power of an abelian scheme of relative dimension $g$ over a smooth, quasi-compact,
+  separated $\C$-scheme of relative dimension $d$ is smooth of relative dimension $d+kg$, quasi-compact,
+  separated and locally of finite type; the powers $c^{(k)}$, $c^{(k)}_\alpha$ of a leg lie over $c_q$ and
+  act on the factors through $c_{\mathrm{tot}}$, followed by $\alpha_s$ for $c^{(k)}_\alpha$.
+\item\label{pf:ks2:U:eig} (\lref{UpperTheory.Gal.W2.EigSame_holds}) If $a,a'$ represent the same
+  point at level $K$ and $S$ is invariant under conjugation by $K$, there is a bijection $E$ of
+  $\Gamma_\beta$ with $\epsilon(1)=1$ such that $y$ sees $a$ through $S$ iff $\epsilon(y)$ sees $a'$ through $S$, and then
+  $\mathrm{minpoly}_F(\epsilon(y))=\mathrm{minpoly}_F(y)$ and $\mathrm{eig}(\epsilon(y),a')=\mathrm{eig}(y,a)$.
+\end{enumerate}
+
+\begin{lemma}[Summation over points]\label{pf:ks2:sumpts}
+Let $K\subseteq\kstwoG$, let $S\subseteq\kstwoG$ be invariant under conjugation by $K$, and assume that
+no $y\ne1$ sees any $a$ through $K$ and that at most one $y$ sees a given $a$ through $S$. Let
+$\Phi\colon\mathcal T\to\mathcal{X}(K,\kstwoKp)$ be a bijection, $\mathcal B\subseteq\mathcal T$ finite
+and $w\colon\mathcal T\to\C$, and assume that for every $x\in\mathcal T$ there is $a$ with
+$\Phi(x)=([\beta],[a])$ such that $x\in\mathcal B$ iff some $y$ sees $a$ through $S$, and
+$w(x)=c(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a))$ for such $y$. Then
+$\sum_{x\in\mathcal B}w(x)=\Sigma(c;K,\one_S)$.
+\formallabel{UpperTheory.Gal.W2.SumPts_holds}
+\end{lemma}
+
+\begin{proof}
+For a point $s=([\beta],q)$ let $\sigma(s)$ be its term in
+\eqref{pf:ks2:eq:cxtotal} with $f=\one_S$; since stabilizers are trivial, $\sigma(s)$ is the sum of
+$c(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a_q))$ over the $y$ seeing the chosen representative $a_q$
+through $S$. For $x\in\mathcal T$ let $a$ be as in the hypothesis; $a$ and $a_q$ represent the same
+point, so by \ref{pf:ks2:U:eig} the elements seeing $a_q$ through $S$ correspond bijectively to those
+seeing $a$, with the same values of $c$. Hence $\sigma(\Phi(x))=w(x)$ if $x\in\mathcal B$ (there is
+exactly one such $y$) and $\sigma(\Phi(x))=0$ otherwise. So $\sigma$ has finite support contained in
+$\Phi(\mathcal B)$, and $\Sigma(c;K,\one_S)=\sum_s\sigma(s)=\sum_{x\in\mathcal B}w(x)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:ks2:hfp}]
+Choose $\rho$ by
+\ref{pf:ks2:U:rho} and apply \ref{pf:ks2:U:unif} to $X$ and $X'$; fix a uniformization of $X'$. By
+\ref{pf:ks2:U:pow}, $\mathcal A_X^k\to\Spec\C$ is smooth of relative dimension $\delta=n-1+kg$, which is
+(1), and $\mathcal A_{X'}^k$ is quasi-compact and locally of finite type, $\mathcal A_X^k$ separated.
+Since $c_1^{(k)}$ is \'etale, \ref{pf:ks2:U:tan} gives a tangent matrix $A_x$ at every fixed point $x$; we
+fix such a choice. Choose dictionaries for every form (\ref{pf:ks2:U:dic}) and let $\Phi$ be the bijection
+of \ref{pf:ks2:U:unifg} for $X'$. For a complex point $x$ of $\mathcal A_{X'}^k$ let $\pi(x)\in X'(\C)$ be
+its image. By \ref{pf:ks2:U:pow}, if $x$ is a fixed point of $(c_1^{(k)},c_{2,\alpha}^{(k)})$, then
+$\pi(x)$ is a fixed point of $(c_{1,q},c_{2,q})$.
+
+\emph{Step 1: local data.} Let $x'=u_i(P)\in X'(\C)$ have coordinates $(P,j,a)$, $a\in\mathcal{D}_\beta$. If
+$x'$ is a fixed point of $(c_{1,q},c_{2,q})$, \ref{pf:ks2:U:fwd} gives $y$ seeing $a$ through $h^{-1}K_N$.
+Conversely, if $y$ sees $a$ through $h^{-1}K_N$, \cref{pf:ks2:fixloc} applies: the set $\mathcal F_{x'}$ of
+fixed points of $(c_1^{(k)},c_{2,\alpha}^{(k)})$ over $x'$ is finite and nonempty, every fixed point $x$ over
+$x'$ has $\det(1-A_x)\ne0$, and
+$\sum_{x\in\mathcal F_{x'}}\mathrm{lef}(A_x)(t)=c_W(\alpha,t)(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a))$.
+
+\emph{Step 2: finiteness, (2).} Every fixed point $x$ lies over a fixed point $\pi(x)=u_i(P)$ of the base,
+so Step 1 gives $\det(1-A_x)\ne0$. By \ref{pf:ks2:U:fin} the set $\mathcal F$ of fixed points is finite.
+This proves (2).
+
+\emph{Step 3: stabilizers, (4).} (4) is \ref{pf:ks2:U:stab} for the level $N$; the same statement for
+$N'$ shows that stabilizers at level $K_{N'}$ are trivial. If $y,y'$ see $a$ through $h^{-1}K_N$, then
+$y^{-1}y'$ fixes the line of $a$, satisfies the condition at $p$, and $g^{-1}(y^{-1}y')_fg=(g^{-1}y_fg)^{-1}
+(g^{-1}y'_fg)\in K_N^{-1}hh^{-1}K_N=K_N$; so $y=y'$ by (4).
+
+\emph{Step 4: (3).} Let $\mathcal B=\pi(\mathcal F)\subseteq X'(\C)$, a finite set. By Step 1, a point
+$x'\in X'(\C)$ with coordinates $(P,j,a)$ lies in $\mathcal B$ iff some $y$ sees $a$ through $h^{-1}K_N$
+($\Rightarrow$ by \ref{pf:ks2:U:fwd}, $\Leftarrow$ because $\mathcal F_{x'}\ne\emptyset$). If
+$([\beta],q)\in\mathcal{X}(K_{N'},\kstwoKp)$ and some $y$ sees $a_q$ through $h^{-1}K_N$, let
+$x'=\Phi^{-1}([\beta],q)$ with coordinates $(P,j,a)$; $a$ and $a_q$ represent the same point, and
+$h^{-1}K_N$ is invariant under conjugation by $K_{N'}$ (proof of \cref{pf:ks2:levelchange}), so by
+\ref{pf:ks2:U:eig} some element sees $a$, and $x'\in\mathcal B$. Hence the set in (3) is contained in
+$\Phi(\mathcal B)$, which is finite.
+
+\emph{Step 5: (5).} Group the fixed points according to their image: $\sum_{x\in\mathcal
+F}\mathrm{lef}(A_x)(t)=\sum_{x'\in\mathcal B}w(x')$ with $w(x')=\sum_{x\in\mathcal F,\ \pi(x)=x'}\mathrm{lef}
+(A_x)(t)$. For $x'\in\mathcal B$ with coordinates $(P,j,a)$ and $y$ seeing $a$ through $h^{-1}K_N$, the
+inner set is $\mathcal F_{x'}$, so $w(x')=c_W(\alpha,t)(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a))$ by Step 1.
+Now \cref{pf:ks2:sumpts}, applied with $K=K_{N'}$, $S=h^{-1}K_N$, $\mathcal T=X'(\C)$, $\Phi$, $\mathcal B$,
+$w$ and $c=c_W(\alpha,t)$ (its hypotheses hold by Steps 3 and 4), gives
+$\sum_{x'\in\mathcal B}w(x')=\Sigma(c_W(\alpha,t);K_{N'},\one_{h^{-1}K_N})$.
+\end{proof}
+
+\subsubsection{The local contribution}
+
+We keep the notation of \ref{pf:ks2:U:unif}: $\Lambda_i$ is a marked polarized lattice with alternating form $E_i$, $P$ a period
+with positive definite hermitian matrix $M_0$, and for $z=(z_1,\dots,z_k)\in(\C^g)^k$ we write
+$\mathrm{pt}_P(z)$ for the complex point of $\mathcal A_{X'}^k$ over $u_i(P)$ with coordinates
+$\exp_{i,P}(z_s)$. Let $\mathfrak{t}_{M_0}$ be the space of matrices $C\in M_g(\C)$ such that $C^{\mathsf
+T}M_0$ is symmetric and satisfies $C^{\mathsf T}M_0\,\overline{\rho(\bar b)}=\rho(b)^{*}C^{\mathsf T}M_0$
+for $b\in O$; it is the space of first
+order deformations $P\mapsto(1+C)P$ of the period, i.e.\ the tangent space of $X'$ at $u_i(P)$ in period
+coordinates.
+
+\begin{proposition}[Local contribution]\label{pf:ks2:fixloc}
+In the situation of \cref{pf:ks2:hfp}, let $x'=u_i(P)\in X'(\C)$ have coordinates $(P,j,a)$ with
+$a\in\mathcal{D}_\beta$, and let $y\in\Gamma_\beta$ see $a$ through $h^{-1}K_N$. Then the set $\mathcal F_{x'}$
+of complex points $x$ of $\mathcal A_{X'}^k$ over $x'$ with $c_1^{(k)}(x)=c_{2,\alpha}^{(k)}(x)$ is finite and
+nonempty, and for every choice of matrices $A_x$ with $\mathrm{Tan}(n-1+kg,c_1^{(k)},c_{2,\alpha}^{(k)},
+x,A_x)$ ($x\in\mathcal F_{x'}$) one has $\det(1-A_x)\ne0$ and
+\[
+\sum_{x\in\mathcal F_{x'}}\frac{\det(1-tA_x)}{\det(1-A_x)}=c_W(\alpha,t)\bigl(\mathrm{minpoly}_F(y),\mathrm{eig}(y,a)\bigr)
+\qquad(t\in\C).
+\]
+\formallabel{UpperTheory.Gal.W2.FixLoc_holds}
+\end{proposition}
+
+The proof rests on three lemmas: a count of fixed points on complex tori, the computation of the
+local terms in period coordinates (\cref{pf:ks2:locsum}), and the computation of the eigenvalues
+(\cref{pf:ks2:eigtop}).
+
+\begin{lemma}[Fixed points on a complex torus]\label{pf:ks2:torus}
+Let $W$ be a finite-dimensional complex vector space, $\Lambda\subseteq W$ a lattice (discrete, spanning
+$W$ over $\R$) and $\Theta\colon W\to W$ a $\C$-linear map with $\Theta\Lambda\subseteq\Lambda$ and
+$\det(1-\Theta)\ne0$. Then $\{z\in W:\Theta z-z\in\Lambda\}/\Lambda$ is finite of cardinality
+$\det(1-\Theta)\,\overline{\det(1-\Theta)}=|\det(1-\Theta)|^2$.
+\formallabel{UpperTheory.Gal.W2.TorusCount_holds}
+\end{lemma}
+
+\begin{proof}
+$\Phi=1-\Theta$ is a $\C$-linear automorphism of $W$ with $\Phi\Lambda\subseteq\Lambda$. The set in
+question is $\Phi^{-1}(\Lambda)/\Lambda$, and $\Phi$ induces an isomorphism $\Phi^{-1}(\Lambda)/\Lambda\cong
+\Lambda/\Phi\Lambda$. The index of $\Phi\Lambda$ in $\Lambda$ is $|\det_\Z(\Phi|_\Lambda)|=|\det_\R\Phi|$, and
+for a $\C$-linear map $\det_\R\Phi=\det_\C\Phi\cdot\overline{\det_\C\Phi}$ (in a complex basis, the real
+matrix is conjugate over $\C$ to $\mathrm{diag}(\Phi,\bar\Phi)$).
+\end{proof}
+
+\begin{lemma}[Determinants from characteristic polynomials]\label{pf:ks2:detchar}
+If $A\in M_d(\C)$, $T$ and $\Theta$ are endomorphisms of finite-dimensional complex vector spaces and
+$\mathrm{charpoly}(A)=\mathrm{charpoly}(T)\,\mathrm{charpoly}(\Theta)$, then
+$\det(1-tA)=\det(1-tT)\det(1-t\Theta)$ for all $t\in\C$.
+\formallabel{UpperTheory.Gal.W2.DetOfCharpoly_holds}
+\end{lemma}
+
+\begin{proof}
+$\det(1-tA)=\prod_\lambda(1-t\lambda)$ over the roots $\lambda$ of $\mathrm{charpoly}(A)$ with
+multiplicity, and the multiset of roots of a product is the sum of the multisets.
+\end{proof}
+
+\begin{lemma}[Local sum]\label{pf:ks2:locsum}
+In the situation of \cref{pf:ks2:fixloc}, let $\gamma$ be an $O$-linear endomorphism of $\Lambda_i$ and
+$H\in M_g(\C)$ with $P\circ\gamma=H\circ P$ and $E_i(\gamma\cdot,\gamma\cdot)=mE_i$ for some integer $m>0$,
+let $\mathrm{co}\colon\C^{n-1}\to\mathfrak{t}_{M_0}$ be a linear isomorphism, $T$ the endomorphism of
+$\C^{n-1}$ with $\mathrm{co}(Tb)=H\,\mathrm{co}(b)\,(H^{*})^{-1}$, and $\Theta$ the endomorphism
+$z\mapsto(H\rho(\alpha_s)z_s)_s$ of $(\C^g)^k$. Assume:
+\begin{enumerate}[label=(\alph*)]
+\item for all periods $P_1,P_2$ of $\Lambda_i$ with $P_2\circ\gamma=P_1$ and all $z\in(\C^g)^k$,
+  $c_{2,\alpha}^{(k)}(\mathrm{pt}_{P_1}(z))=c_1^{(k)}(\mathrm{pt}_{P_2}(\rho(\alpha)z))$, where
+  $\rho(\alpha)z=(\rho(\alpha_s)z_s)_s$;
+\item $c_1^{(k)}(\mathrm{pt}_P(z))=c_1^{(k)}(\mathrm{pt}_P(z'))$ implies $\mathrm{pt}_P(z)=\mathrm{pt}_P(z')$;
+\item $\det(1-T)\ne0$ and $\det(1-\Theta)\ne0$.
+\end{enumerate}
+Then $\mathcal F_{x'}$ is finite and nonempty, and for all tangent matrices $A_x$ as in
+\cref{pf:ks2:fixloc}: $\det(1-A_x)=\det(1-T)\det(1-\Theta)\ne0$ and
+\[
+\sum_{x\in\mathcal F_{x'}}\frac{\det(1-tA_x)}{\det(1-A_x)}=\frac{\det(1-tT)}{\det(1-T)}\,
+\det(1-t\Theta)\,\overline{\det(1-\Theta)}.
+\]
+\formallabel{UpperTheory.Gal.W2.LocSum_holds}
+\end{lemma}
+
+\begin{proof}
+Let $\Lambda^k=P(\Lambda_i)^k\subseteq(\C^g)^k$, a lattice
+(\lref{UpperTheory.Gal.W2.PiLattice_holds}). By the description of the fibre
+(\lref{UpperTheory.Gal.W2.PtFibre_holds}), the complex points of $\mathcal A_{X'}^k$ over $x'$ are
+exactly the $\mathrm{pt}_P(z)$, and $\mathrm{pt}_P(z)=\mathrm{pt}_P(z')$ iff $z-z'\in\Lambda^k$. $\Theta$
+preserves $\Lambda^k$, because $H\rho(\alpha_s)P(u)=P(\gamma(\alpha_su))$. Applying (a) along the
+deformation $P\mapsto(1+C)P$ of the period and evaluating at $C=0$
+(\lref{UpperTheory.Gal.W2.CorrChart_holds}) gives
+$c_{2,\alpha}^{(k)}(\mathrm{pt}_P(z))=c_1^{(k)}(\mathrm{pt}_P(\Theta z))$ for all $z$. Together with (b),
+$\mathrm{pt}_P(z)$ is a fixed point iff $\mathrm{pt}_P(\Theta z)=\mathrm{pt}_P(z)$ iff $\Theta z-z\in\Lambda^k$.
+By \cref{pf:ks2:torus} the fixed points over $x'$ are therefore in bijection with a set of cardinality
+$|\det(1-\Theta)|^2$; in particular $\mathcal F_{x'}$ is finite, and nonempty since $\mathrm{pt}_P(0)$ is a
+fixed point. At every fixed point $x=\mathrm{pt}_P(z_0)$ any tangent matrix satisfies
+$\mathrm{charpoly}(A_x)=\mathrm{charpoly}(T)\,\mathrm{charpoly}(\Theta)$
+(\lref{UpperTheory.Gal.W2.LocTan_holds}, which computes the tangent matrix at a fixed point
+over $x'$ in period coordinates on the base and linear coordinates on the fibres, using (a) for
+periods near $P$). By \cref{pf:ks2:detchar},
+$\det(1-tA_x)=\det(1-tT)\det(1-t\Theta)$ for all $t$, in particular $\det(1-A_x)\ne0$ by (c). All local
+terms are equal, so the sum is
+\[
+|\det(1-\Theta)|^2\cdot\frac{\det(1-tT)\det(1-t\Theta)}{\det(1-T)\det(1-\Theta)}
+=\frac{\det(1-tT)}{\det(1-T)}\det(1-t\Theta)\overline{\det(1-\Theta)}.\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[Eigenvalues]\label{pf:ks2:eigtop}
+Let $\rho$ be of signature $(t_0,\varepsilon)$, $P$ a period of a polarized lattice $\Lambda'$ with hermitian
+matrix $M_0$, $\gamma$ and $H$ as in \cref{pf:ks2:locsum}, and $\chi\in F[X]$ monic of degree $n$ and
+separable such that a polynomial $q\in\kstwoOF[X]$ satisfies $q(\gamma)=0$ iff $\chi$ divides $q$ in $F[X]$. Let $\mathrm{co}$, $T$ be as in \cref{pf:ks2:locsum} (they
+exist by \lref{UpperTheory.Gal.W2.CspDim_holds} and \lref{UpperTheory.Gal.W2.AdExists_holds}, which
+show that $\det H\ne0$, $H$ commutes with $\rho(O)$ and $C\mapsto HC(H^*)^{-1}$ preserves $\mathfrak{t}_{M_0}$),
+and $\alpha\in(2\kstwoOF)^k$. Call $\mu\in\C$ a \emph{mark} of $H$ if $H$ has
+an eigenvector with eigenvalue $\mu$ on which $\rho(c)$ acts by $t_0(c)$ for all $c\in\kstwoOF$. Then $H$ has a
+mark, and for every mark $\mu$: $\mu\in R_{t_0}(\chi)$, $\det(1-T)\ne0$, $\det(1-\Theta)\ne0$, and for all
+$t\in\C$
+\begin{equation}\label{pf:ks2:eq:eigtop}
+\frac{\det(1-tT)}{\det(1-T)}\,\det(1-t\Theta)\,\overline{\det(1-\Theta)}=\kstwoloc(\alpha;t,\chi,\mu).
+\end{equation}
+\formallabel{UpperTheory.Gal.W2.EigTop_holds}
+\end{lemma}
+
+\begin{proof}
+Since $\chi$ is separable, $H$ and $\rho(\kstwoOF)$ are
+simultaneously diagonalizable (\lref{UpperTheory.Gal.W2.DiagExists_holds}): there are a basis
+$e_1,\dots,e_g$ of $\C^g$, embeddings $\sigma_i$ and complex numbers $\lambda_i$ with $\rho(c)e_i=\sigma_i(c)e_i$ and
+$He_i=\lambda_ie_i$. For an embedding $\tau$ let $\mathrm{ev}(\tau)$ be the multiset of $\lambda_i$ with
+$\sigma_i=\tau$. Then:
+\begin{itemize}
+\item $\#\mathrm{ev}(\tau)=\mu(\tau)$ (the multiplicity of \ref{pf:ks2:U:rho}), by comparing traces
+  (\lref{UpperTheory.Gal.W2.TypeCount_holds});
+\item $R_\tau(\chi)=\mathrm{ev}(\tau)+\overline{\mathrm{ev}(\bar\tau)}$ for every $\tau$
+  (\lref{UpperTheory.Gal.W2.RootsFull_holds});
+\item $\mu$ is a mark iff $\mathrm{ev}(t_0)=\{\mu\}$ (\lref{UpperTheory.Gal.W2.MarkDiag_holds});
+\item $\dim\mathfrak{t}_{M_0}=n-1$ and $\det(1-tT)=\prod_{r\in\mathrm{ev}(\bar t_0)}(1-t\mu/\bar r)$
+  (\lref{UpperTheory.Gal.W2.BallChar_holds});
+\item $\det(1-t\Theta)=\prod_{s=1}^k\prod_{i=1}^g(1-\sigma_i(\alpha_s)\,t\,\lambda_i)$
+  (\lref{UpperTheory.Gal.W2.FibDet_holds});
+\item $1-\sigma_i(2x)\lambda_i\ne0$ for $x\in\kstwoOF$ (\lref{UpperTheory.Gal.W2.EvIntegral_holds}; indeed
+  $H$ represents the lattice endomorphism $\gamma$, so $\lambda_i$ is a root of the characteristic polynomial
+  of $\gamma$ on $\Lambda'$, a monic polynomial with integer coefficients, hence an algebraic integer, and
+  $\sigma_i(2x)\lambda_i$ lies in $2\overline{\Z}$, which does not contain $1$);
+\item $\prod_i(1-\sigma_i(x)t\lambda_i)\cdot\overline{\prod_i(1-\sigma_i(x)\lambda_i)}=\kstwoFib(x;t,\chi,\mu)$ when
+  $\mathrm{ev}(t_0)=\{\mu\}$ (\lref{UpperTheory.Gal.W2.FibW_holds}).
+\end{itemize}
+As $\mu(t_0)=1$, $\mathrm{ev}(t_0)$ is a single element, which is a mark; and a mark $\mu$ satisfies
+$\mathrm{ev}(t_0)=\{\mu\}$, so $\mu\in R_{t_0}(\chi)=\{\mu\}+\overline{\mathrm{ev}(\bar t_0)}$. Since $\chi$ is
+separable, $\mu\ne\bar r$ for $r\in\mathrm{ev}(\bar t_0)$, so $\det(1-T)\ne0$, and
+$\det(1-tT)/\det(1-T)=\prod_{r}(\bar r-t\mu)/(\bar r-\mu)=\kstwoBall(t,\chi,\mu)$ because
+$R_{t_0}(\chi)\smallsetminus\{\mu\}=\overline{\mathrm{ev}(\bar t_0)}$. Since the $\alpha_s$ are even,
+$\det(1-\Theta)\ne0$. Finally $\det(1-t\Theta)\overline{\det(1-\Theta)}=\prod_s\kstwoFib(\alpha_s;t,\chi,\mu)$
+by the last two items, and \eqref{pf:ks2:eq:eigtop} follows. (The last item is the bookkeeping identity
+behind the definition of $\kstwoFib$: on the $t_0$-line $H\rho(x)$ acts by $t_0(x)\mu$; on the
+$\bar t_0$-part by $\overline{t_0(x)}\lambda$ with $\bar\lambda$ running over $R_{t_0}(\chi)\smallsetminus\{\mu\}$;
+on the $\tau$-part, $\tau\ne t_0,\bar t_0$, by $\tau(x)r$ with $r\in R_\tau(\chi)$ if $\varepsilon(\tau)=1$ and
+not at all if $\varepsilon(\tau)=0$; conjugating the second factor exchanges $\tau$ and $\bar\tau$.)
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:ks2:fixloc}]
+Let $\lambda=\mathrm{eig}(y,a)$; $\lambda\ne0$ since $y_v$ is
+invertible and $z\ne0$, and $y^{-1}$ fixes the line of $a$ with eigenvalue $\lambda^{-1}$.
+\begin{enumerate}
+\item By \lref{UpperTheory.Gal.W2.SheetOf_holds} the uniformization gives period coordinates around
+  $u_i(P)$ (a \emph{sheet}), in which $\mathrm{pt}_P$ is defined.
+\item By \lref{UpperTheory.Gal.W2.FixGa_holds}, since $y$ sees $a$, there are an $O$-linear
+  endomorphism $\gamma$ of $\Lambda_i$ with $j(\gamma u)=y^{-1}\cdot j(u)$ and a matrix $H$ with
+  $P\circ\gamma=H\circ P$ and $E_i(\gamma\cdot,\gamma\cdot)=mE_i$ ($m>0$), such that $Q(y^{-1}w)=HQ(w)$ for the
+  periods $Q$ of $\Lambda\otimes\Q$ extending $P$ through $j$. By the real dictionary
+  (\ref{pf:ks2:U:dic}) applied to $y^{-1}$, $\kappa(\lambda^{-1})=\kappa(\lambda)^{-1}$ is a mark of $H$.
+\item By \lref{UpperTheory.Gal.W2.MinBridge_holds}, the minimal polynomial of $\gamma$ in the sense of
+  \cref{pf:ks2:eigtop} is $\mathrm{minpoly}_F(y^{-1})$ (transported to $F_D$ by $L$), which equals
+  $\mathrm{minpoly}_F(y)^\vee$, of the same degree and separable if $\mathrm{minpoly}_F(y)$ is
+  (\lref{UpperTheory.Gal.W2.InvMin_holds}: the roots of $\mathrm{minpoly}(u^{-1})$ are the inverses of
+  those of $\mathrm{minpoly}(u)$). Since $g^{-1}y_fg\in h^{-1}K_N$ is regular and $y$ fixes a line,
+  $\mathrm{minpoly}_F(y)$ has degree $n$ and is separable (\lref{UpperTheory.Gal.W2.RegSep_holds}).
+\item By \cref{pf:ks2:eigtop} with $\chi=\mathrm{minpoly}_F(y)^\vee$ and the mark $\mu=\kappa(\lambda)^{-1}$:
+  $\det(1-T)\ne0$, $\det(1-\Theta)\ne0$ and \eqref{pf:ks2:eq:eigtop} holds.
+\item The correspondence acts in period coordinates as required in \cref{pf:ks2:locsum}(a)
+  (\lref{UpperTheory.Gal.W2.PowCorr_holds} together with \lref{UpperTheory.Gal.W2.FixEq_holds}, and
+  \lref{UpperTheory.Gal.W2.CorrChart_holds} at the base point), and $c_1^{(k)}$ is injective on the fibre
+  over $x'$ (\cref{pf:ks2:locsum}(b)): by \lref{UpperTheory.Gal.W2.OneAt_holds}, $c_{1,\mathrm{tot}}$ maps
+  the fibre at $u_i(P)$ to the fibre at $c_{1,q}(u_i(P))=u_i(P)$ at level $N$ compatibly with $\exp_{i,P}$, so
+  $c_{1,\mathrm{tot}}(\exp_{i,P}z)=c_{1,\mathrm{tot}}(\exp_{i,P}z')$ forces $z-z'\in P(\Lambda_i)$.
+\end{enumerate}
+\Cref{pf:ks2:locsum} now gives finiteness and nonemptiness of $\mathcal F_{x'}$, $\det(1-A_x)\ne0$, and
+\[
+\sum_{x\in\mathcal F_{x'}}\mathrm{lef}(A_x)(t)=\kstwoloc\bigl(\alpha;t,\mathrm{minpoly}_F(y)^\vee,\kappa(\lambda)^{-1}\bigr)
+=c_W(\alpha,t)\bigl(\mathrm{minpoly}_F(y),\lambda\bigr)
+\]
+by \eqref{pf:ks2:eq:eigtop} and the definition \eqref{pf:ks2:eq:cw}.
+\end{proof}
+
+This completes the proof of \cref{pf:ks2:hfp}, hence of \cref{pf:ks2:fixz} and \cref{pf:ks2:fixk}.
+
+\subsubsection{Period coordinates}\label{pf:ks2:sec:coord}
+
+We prove the statements \ref{pf:ks2:U:dic} and \ref{pf:ks2:U:unifg}. Throughout, $a=m=1$, $v$ is the
+archimedean place of $F$ at which $H_v$ has exactly one positive eigenvalue (signature $(1,n-1)$),
+$t_0$ is the embedding of the datum, and $\rho$ is of signature $(t_0,\varepsilon_D)$
+(\ref{pf:ks2:U:rho}). Put $V_\Q=\Lambda\otimes\Q$; the algebra $C$ acts on $V_\Q$ through the link
+$L$, and $y\in\Gamma_\beta$ acts by $w\mapsto y\cdot w$. For a form $\beta$ let
+$E_\beta(u,w)=E_\Lambda(\beta^{-1}u,w)$, and for an archimedean place $v'$ let $h^\beta_{v'}(x,x')=
+x'^*H_{v'}\psi_{v'}(\beta^{-1})x$ on $\C^n$, a hermitian form, linear in the first variable, with
+$\mathcal P_\beta=\{z:h^\beta_v(z,z)>0\}$. Recall the trivializations $(x_\beta,t_\beta)$ of the fixed
+representatives $\beta$ of the classes of forms (\cref{pf:ks2:def:forms}).
+
+\begin{definition}[Dictionaries and coordinates]\label{pf:ks2:def:coord}
+Let $\beta$ be a form.
+\begin{enumerate}
+\item A \emph{$p$-lattice} is an $O$-stable subgroup $M\subseteq V_\Q$ for which there is a finite set
+  $S$ spanning $V_\Q$ over $\Q$ such that $M$ consists of the $w$ with $mw\in\Z S$ for some integer
+  $m$ prime to $p$. For $s\in\Q$, $M$ is \emph{self-dual at $p$ for $sE_\beta$} if $M$ consists of the
+  $w\in V_\Q$ such that $sE_\beta(w,u)$ has denominator prime to $p$ for all $u\in M$.
+\item A \emph{$p$-adic dictionary} for $\beta$ is a map $g\mapsto M_g$ from $\kstwoGp$ to the set of
+  $p$-lattices such that every $M_g$ is self-dual at $p$ for $sE_\beta$ for some rational $s>0$;
+  $M_{y_pg}=y\cdot M_g$ for $y\in\Gamma_\beta$; $M_g=M_{g'}$ if and only if $g^{-1}g'\in\kstwoKp$; and
+  every $p$-lattice which is self-dual at $p$ for $sE_\beta$ for some rational $s>0$ is some $M_g$.
+\item A \emph{period of $V_\Q$} (for $\beta$ and $\rho$) is an additive map $Q\colon V_\Q\to\C^g$ with
+  $Q(c\cdot w)=\rho(c)Q(w)$ for $c\in O$, whose image spans $\C^g$ over $\R$, such that
+  $\Im H(Qu,Qw)=E_\beta(u,w)$ for some positive definite hermitian form $H$ on $\C^g$.
+\item A \emph{real dictionary} for $\beta$ is a relation $Q\sim z$ between periods $Q$ of $V_\Q$ and
+  vectors $z\in\C^n$ such that: (line) every period is related to some $z\in\mathcal P_\beta$; (per)
+  every $z\in\mathcal P_\beta$ is related to some period; (uniq) if $Q\sim z$ and $Q'\sim z'$ with
+  $z,z'\in\mathcal P_\beta$, then $Q'=h\circ Q$ for a $\C$-linear automorphism $h$ of $\C^g$ if and
+  only if $z'\in\C^\times z$; (equiv) if $y\in\Gamma_\beta$, $Q'(y\cdot w)=Q(w)$ for all $w$ and
+  $Q\sim z$, then $Q'\sim y_vz$; (mark) if $Q\sim z$ with $z\in\mathcal P_\beta$, $y\in\Gamma_\beta$,
+  $Q(y\cdot w)=HQ(w)$ for all $w$ and a matrix $H$, and $y_vz=\lambda z$, then $H$ has an eigenvector
+  $u\ne0$ with eigenvalue $\kappa(\lambda)$ (\cref{pf:ks2:def:weights}) such that $\rho(c)u=t_0(c)u$
+  for all $c\in\kstwoOF$.
+\item Let dictionaries $(M^\beta,\sim_\beta)$ be given for the fixed representatives $\beta$, and let
+  $N\ge1$. For a polarized $O$-lattice $D'$ with marking $t$ (\cref{pf:ks2:def:periods}), a period $P$
+  of $D'$, an additive map $j\colon D'\to V_\Q$ and $a=((g,g_p),z)\in\mathcal D_\beta$, the triple
+  $(P,j,a)$ is a system of \emph{coordinates} if: (place) $j$ is injective and $O$-linear, every
+  $w\in V_\Q$ has a nonzero integer multiple in $j(D')$, and $E_{D'}(u,u')=sE_\beta(ju,ju')$ for some
+  rational $s>0$; (adelic) for $w\in V_\Q$, some $p^rw$ lies in $j(D')$ if and only if
+  $g^{-1}x_\beta\cdot w\in\kstwoLaHat$, and $g^{-1}x_\beta\cdot j(t(\lambda))\equiv\lambda\bmod
+  N\kstwoLaHat$ for $\lambda\in\Lambda$; ($p$-adic) the $w$ with $mw\in j(D')$ for some $m$ prime to
+  $p$ form the lattice $M^\beta_{g_p}$; (real) $P=Q\circ j$ for a period $Q$ of $V_\Q$ with
+  $Q\sim_\beta z$.
+\end{enumerate}
+\formal{UpperTheory.Gal.W2.IsPLat}\formal{UpperTheory.Gal.W2.PerfAt}\formal{UpperTheory.Gal.W2.formB}\formal{UpperTheory.Gal.W2.PDic}\formal{UpperTheory.Gal.W2.IsPerQ}\formal{UpperTheory.Gal.W2.RDic}\formal{UpperTheory.Gal.W2.IsMark}\formal{UpperTheory.Gal.W2.kap}\formal{UpperTheory.Gal.W2.IsPlace}\formal{UpperTheory.Gal.W2.IsCoordA}\formal{UpperTheory.Gal.W2.IsLocP}\formal{UpperTheory.Gal.W2.IsCoord}
+\end{definition}
+
+\begin{proposition}[$p$-adic dictionaries]\label{pf:ks2:pdic}
+Assume $a=m=1$. For every form $\beta$ there is a $p$-adic dictionary.
+\formallabel{UpperTheory.Gal.W2.PDicEx_holds}
+\end{proposition}
+
+\begin{proof}
+Let $V_p=\prod_wF_w^n$, the product over the local fields $F_w$ of the data of $G$ at $p$, with its
+standard $\Q_p$-valued pairing $\langle\cdot,\cdot\rangle$ and its integral elements
+$\prod_w\OO_{F_w}^n$. As $m=1$, $\kstwoGp$ is identified with $\Q_p^\times\times\prod_w\GL_n(F_w)$,
+and $\kstwoKp$ with the set of $g=(g_1,(g_w))$ such that $|g_1|_p=1$ and the matrices $g_w$ and
+$g_w^{-1}$ are integral (this is the definition of $\kstwoKp$, transported along the
+identification). By
+\lref{UpperTheory.Gal.W2.PFrameEx_holds} there is a \emph{$p$-adic frame} for $\beta$: a pair of
+additive maps $T,T'\colon V_\Q\to V_p$, equivariant for the action of $C$ (through its local
+components, and twisted by $\beta$ and the involution for $T'$), with
+$E_\beta(u,x)=\langle T'x,Tu\rangle-\langle T'u,Tx\rangle$, such that $(T,T')$ has dense image and the
+integral points of $(T,T')$ are, up to a fixed power of $p$, the localization at $p$ of a lattice. For
+$g\in\kstwoGp$ let
+\[
+M_g=\{x\in V_\Q:\ g^{-1}T(x)\text{ is integral and }|g_1^{-1}\langle T'(x),gz\rangle|_p\le1\text{ for
+all integral }z\in V_p\}.
+\]
+The following properties are proved in the formal development: each $M_g$ is a $p$-lattice
+(\lref{UpperTheory.Gal.W2.PkLat_holds}); if $s\in\Q$ and $|sg_1|_p=1$, then $M_g$ is self-dual at
+$p$ for $sE_\beta$ (\lref{UpperTheory.Gal.W2.PkPerf_holds}); $y\cdot M_g=M_{y_pg}$ for
+$y\in\Gamma_\beta$ (\lref{UpperTheory.Gal.W2.PkEquiv_holds}); $M_g=M_{g'}$ if and only if
+$g^{-1}g'=(u_1,(u_w))$ has $|u_1|_p=1$ and integral $u_w$, $u_w^{-1}$
+(\lref{UpperTheory.Gal.W2.PkInj_holds}); and every $p$-lattice which is self-dual at $p$ for some
+$sE_\beta$ with $s>0$ is some $M_g$ (\lref{UpperTheory.Gal.W2.PkOnto_holds}).
+
+We check that $g\mapsto M_g$ is a $p$-adic dictionary. Self-duality: given $g$, let $\nu$ be the
+$p$-adic valuation of $g_1$ and $s=p^{-\nu}>0$; then $|sg_1|_p=p^{\nu}p^{-\nu}=1$, so $M_g$ is self-dual
+at $p$ for $sE_\beta$. Equivariance and surjectivity are two of the listed properties. Injectivity
+modulo $\kstwoKp$: $M_g=M_{g'}$ if and only if $g^{-1}g'$ satisfies the integrality condition of
+\lref{UpperTheory.Gal.W2.PkInj_holds}, which by the description of $\kstwoKp$ means
+$g^{-1}g'\in\kstwoKp$.
+\end{proof}
+
+\begin{lemma}[Positive complex structures]\label{pf:ks2:jline}
+Let $h(x,y)=y^*Mx$ be the hermitian form of a hermitian matrix $M\in M_n(\C)$, let $\epsilon=\pm1$,
+and let $J\in M_n(\C)$ be \emph{positive for $(h,\epsilon)$}: $J^2=-1$, $J^*MJ=M$ (i.e.\ $J$ preserves
+$h$), and $\Re(-\epsilon i\,h(Jx,x))>0$ for $x\ne0$. Then:
+\begin{enumerate}
+\item every $z\ne0$ with $Jz=\epsilon iz$ satisfies $h(z,z)>0$;
+\item if $h$ is negative definite, then $J=-\epsilon i$;
+\item if $h(z_0,z_0)>0$ for some $z_0$, then $Jz=\epsilon iz$ for some $z\ne0$;
+\item if $h(z,z)>0$, $h$ is negative definite on $z^\perp=\{x:h(x,z)=0\}$ and $Jz=\epsilon iz$, then
+  $Jx=\epsilon i\bigl(2\frac{h(x,z)}{h(z,z)}z-x\bigr)$ for all $x$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.W2.JLine_holds}
+\end{lemma}
+
+\begin{proof}
+(1) $h(Jz,z)=\epsilon i\,h(z,z)$, so $0<\Re(-\epsilon i\,h(Jz,z))=\Re(\epsilon^2h(z,z))=h(z,z)$. Since
+$(J-\epsilon i)(J+\epsilon i)=J^2+1=0$, the image of $J+\epsilon i$ lies in $\ker(J-\epsilon i)$; so if
+$J$ has no eigenvector with eigenvalue $\epsilon i$, then $J=-\epsilon i$. (2) By (1), an eigenvector
+with eigenvalue $\epsilon i$ would be a positive vector; so there is none, and $J=-\epsilon i$. (3)
+Otherwise $J=-\epsilon i$, and then $0<\Re(-\epsilon i\,h(Jx,x))=\Re(\epsilon^2i^2h(x,x))=-h(x,x)$ for
+$x\ne0$, so $h$ would be negative definite. (4) As $h(z,z)\ne0$, $\C^n=\C z\oplus z^\perp$. Since
+$z=-\epsilon iJz$ and $J$ preserves $h$, for $y\in z^\perp$ we get $h(Jy,z)=h(Jy,-\epsilon
+iJz)=\epsilon i\,h(y,z)=0$; so $J$ preserves $z^\perp$, and its restriction is positive for the
+restriction of $(h,\epsilon)$, which is negative definite. The argument of (2) on $z^\perp$ gives
+$Jy=-\epsilon iy$ for $y\in z^\perp$. Writing $x=cz+y$ with $c=h(x,z)/h(z,z)$ and $y\in z^\perp$,
+$Jx=\epsilon icz-\epsilon iy=\epsilon i(2cz-x)$.
+\end{proof}
+
+\begin{proposition}[Real dictionaries]\label{pf:ks2:rdic}
+Assume $a=m=1$, and let $v,t_0,\rho$ be as above. For every form $\beta$ there is a real dictionary.
+\formallabel{UpperTheory.Gal.W2.RDicEx_holds}
+\end{proposition}
+
+\begin{proof}
+Let $\mathrm{Arch}=\prod_{v'}\C^n$, the product over the archimedean places $v'$ of $F$; for $v'$ let
+$\epsilon_{v'}=1$ if $v'$ maps $\omega$ (via $L$) to $\rho_c$, and $\epsilon_{v'}=-1$ otherwise; and
+write $e_v(z)\in\mathrm{Arch}$ for the vector with component $z$ at $v$ and $0$ elsewhere. Positivity
+of complex structures is meant as in \cref{pf:ks2:jline}. We use the following
+statements, proved in the formal development.
+\begin{enumerate}[label=(R\arabic*)]
+\item\label{pf:ks2:R:arch} (\lref{UpperTheory.Gal.W2.ArchEx_holds}) There is an \emph{archimedean
+  frame}: an additive map $\theta\colon V_\Q\to\mathrm{Arch}$ with $\theta(c\cdot
+  w)_{v'}=\psi_{v'}(c)\theta(w)_{v'}$ for $c\in C$, whose image spans $\mathrm{Arch}$ over $\R$, with
+  $\dim_\R\mathrm{Arch}=\dim_\Q V_\Q=2g$, such that $E_\Lambda$ is a positive linear combination of the
+  forms $(u,w)\mapsto\Re(-\epsilon_{v'}i\,w_{v'}^*H_{v'}u_{v'})$ evaluated at $\theta(u),\theta(w)$.
+\item\label{pf:ks2:R:sig} (\lref{UpperTheory.Gal.W2.SigB_holds}) The forms $h^\beta_{v'}$ are
+  hermitian; at $v$, $h^\beta_v$ has a positive vector and is negative definite on the orthogonal
+  complement of every positive vector; at every place $v'$ at which $H_{v'}$ does not have exactly one
+  positive eigenvalue, $h^\beta_{v'}$ is negative definite.
+\item\label{pf:ks2:R:ext} (\lref{UpperTheory.Gal.W2.PerExt_holds}) Every period $Q$ of $V_\Q$ is
+  $R\circ\theta$ for an $\R$-linear isomorphism $R\colon\mathrm{Arch}\to\C^g$.
+\item\label{pf:ks2:R:J} (\lref{UpperTheory.Gal.W2.JStruct_holds}) For such $Q$ and $R$ there are
+  matrices $J_{v'}$, positive for $(h^\beta_{v'},\epsilon_{v'})$, with $R(Jx)=iR(x)$ for
+  $x\in\mathrm{Arch}$, where $J$ acts on $\mathrm{Arch}$ by $J_{v'}$ on the component $v'$.
+\item\label{pf:ks2:R:line} (\cref{pf:ks2:jline}) Let $J$ be positive for $(h,\epsilon)$. Then (i) every
+  $z\ne0$ with $Jz=\epsilon iz$ has $h(z,z)>0$; (ii) if $h$ is negative definite, $J=-\epsilon i$; (iii)
+  if $h$ has a positive vector, some $z\ne0$ has $Jz=\epsilon iz$; (iv) if $h(z,z)>0$, $h$ is negative
+  definite on $z^\perp$ and $Jz=\epsilon iz$, then $Jx=\epsilon i\bigl(2\frac{h(x,z)}{h(z,z)}z-x\bigr)$
+  for all $x$.
+\item\label{pf:ks2:R:per} (\lref{UpperTheory.Gal.W2.RPer_holds}) For every $z\in\mathcal P_\beta$
+  there are a period $Q$ and an $\R$-linear $R$ with $Q=R\circ\theta$ and
+  $R(e_v(iz))=\epsilon_viR(e_v(z))$.
+\item\label{pf:ks2:R:place} (\lref{UpperTheory.Gal.W2.PlaceT_holds}) $v$ is the only place at which
+  $H_{v'}$ has exactly one positive eigenvalue; and either $\epsilon_v=1$ and $v$ induces $t_0$ (via
+  $L$), or $\epsilon_v=-1$ and $v$ induces $\bar t_0\ne t_0$.
+\end{enumerate}
+Define $Q\sim z$ if $Q=R\circ\theta$ for an $\R$-linear map $R\colon\mathrm{Arch}\to\C^g$ with
+$R(e_v(iz))=\epsilon_viR(e_v(z))$. If $Q$ is a period, such an $R$ is the isomorphism of
+\ref{pf:ks2:R:ext} (it is determined by $Q$, as $\theta(V_\Q)$ spans $\mathrm{Arch}$); with $J$ as in
+\ref{pf:ks2:R:J}, $R(Je_v(z))=iR(e_v(z))$, so $Q\sim z$ if and only if $J_vz=\epsilon_viz$ (as
+$\epsilon_v^2=1$ and $R$ is injective). We verify the five conditions.
+
+(line) Let $Q$ be a period, with $R$ and $J$. By \ref{pf:ks2:R:sig} $h^\beta_v$ has a positive vector,
+so by \ref{pf:ks2:R:line}(iii) there is $z\ne0$ with $J_vz=\epsilon_viz$; it is positive by
+\ref{pf:ks2:R:line}(i), so $z\in\mathcal P_\beta$ and $Q\sim z$.
+
+(per) This is \ref{pf:ks2:R:per}.
+
+(uniq) Let $Q\sim z$ and $Q'\sim z'$, with $R,J$ and $R',J'$. If $Q'=h\circ Q$ with $h$ $\C$-linear,
+then $R'=h\circ R$ (both sides agree on $\theta(V_\Q)$), hence $J'=J$. As $J_vz=\epsilon_viz$, $z$ is
+positive and $h^\beta_v$ is negative definite on $z^\perp$ (\ref{pf:ks2:R:sig}),
+\ref{pf:ks2:R:line}(iv) gives $J_vx=\epsilon_vi(2\frac{h(x,z)}{h(z,z)}z-x)$ for all $x$, with
+$h=h^\beta_v$. Applied to $x=z'$, for which $J_vz'=J'_vz'=\epsilon_viz'$, this yields
+$z'=\frac{h(z',z)}{h(z,z)}z$, and the coefficient is nonzero as $z'\ne0$. Conversely, let $z'=cz$ with
+$c\ne0$; then $J'_vz=\epsilon_viz$. By \ref{pf:ks2:R:line}(iv), $J_v$ and $J'_v$ are both given by the
+formula in terms of $z$, hence equal; for $v'\ne v$, $h^\beta_{v'}$ is negative definite by
+\ref{pf:ks2:R:sig} and \ref{pf:ks2:R:place}, so $J_{v'}=-\epsilon_{v'}i=J'_{v'}$ by
+\ref{pf:ks2:R:line}(ii). Thus $J=J'$, and $h=R'\circ R^{-1}$ commutes with multiplication by $i$, i.e.\
+is $\C$-linear, with $Q'=h\circ Q$.
+
+(equiv) Let $y\in\Gamma_\beta$ act on $\mathrm{Arch}$ by $y_\infty=(\psi_{v'}(y))_{v'}$, so that
+$\theta(y\cdot w)=y_\infty\theta(w)$. If $Q'(y\cdot w)=Q(w)$ for all $w$ and $Q=R\circ\theta$, then
+$Q'=R'\circ\theta$ with $R'=R\circ y_\infty^{-1}$, and
+$R'(e_v(iy_vz))=R(e_v(iz))=\epsilon_viR(e_v(z))=\epsilon_viR'(e_v(y_vz))$; so $Q'\sim y_vz$.
+
+(mark) Let $Q\sim z$ with $z\in\mathcal P_\beta$, $Q(y\cdot w)=HQ(w)$ and $y_vz=\lambda z$, and put
+$u=R(e_v(z))$, which is nonzero. The $\R$-linear maps $H\circ R$ and $R\circ y_\infty$ agree on
+$\theta(V_\Q)$, hence everywhere, so
+\[
+Hu=R(e_v(\lambda z))=\Re(\lambda)R(e_v(z))+\Im(\lambda)R(e_v(iz))=(\Re\lambda+\epsilon_vi\Im\lambda)u .
+\]
+Similarly, for $c\in\kstwoOF$ we have $\rho(c)\circ R=R\circ c_\infty$, and $c$ acts on the component
+$v$ by the scalar $v(c)$, so $\rho(c)u=(\Re v(c)+\epsilon_vi\Im v(c))u$. By \ref{pf:ks2:R:place},
+$\Re\lambda+\epsilon_vi\Im\lambda=\kappa(\lambda)$ and $\Re v(c)+\epsilon_vi\Im v(c)=t_0(c)$. So $u$
+is an eigenvector of $H$ with eigenvalue $\kappa(\lambda)$ on which $\kstwoOF$ acts through $t_0$.
+\end{proof}
+
+\begin{proposition}[Period coordinates]\label{pf:ks2:unifg}
+Assume $a=m=1$, let $v,t_0,\rho$ be as above, fix a $p$-adic and a real dictionary for every form, and
+let $N\ge1$ be prime to $p$. Let $\mathcal A\to X$ be a family over $\C$ with a uniformization by
+marked period lattices $(\Lambda_i,t_i)$ in $\mathrm{Cls}_N$ and points $u_i(P)$ as in
+\ref{pf:ks2:U:unif}. Then there is a bijection $\Phi\colon X(\C)\to\mathcal X(K_N,\kstwoKp)$ such that
+for every complex point $x$ there are a class $[\beta]$, an element $a\in\mathcal D_\beta$, an index
+$i$, a period $P$ of $\Lambda_i$ and an additive map $j\colon\Lambda_i\to V_\Q$ with
+$\Phi(x)=([\beta],[a])$, $x=u_i(P)$ and $(P,j,a)$ coordinates.
+\formallabel{UpperTheory.Gal.W2.UnifG_holds}
+\end{proposition}
+
+\begin{proof}
+We use four statements proved in the formal development. (Existence) Every marked lattice $(D',t)$
+in $\mathrm{Cls}_N$ with a period $P$ admits coordinates $(P,j,a)$ for some class $[\beta]$,
+$a\in\mathcal D_\beta$ and $j$ (\lref{UpperTheory.Gal.W2.CoordEx_holds}). (Occurrence) For every
+form $\beta$ and $a\in\mathcal D_\beta$ there are a marked lattice $(D',t)$ in $\mathrm{Cls}_N$, a
+period $P$ of $D'$ and a map $j$ such that $(P,j,a)$ are coordinates
+(\lref{UpperTheory.Gal.W2.CoordOcc_holds}). (Comparison) If $(P,j,a)$ and $(P'',j'',a'')$ are
+coordinates for $(D',t)$ and $(D'',t'')$ in $\mathrm{Cls}_N$, with $a\in\mathcal D_\beta$ and
+$a''\in\mathcal D_{\beta''}$, then $([\beta],[a])=([\beta''],[a''])$ in $\mathcal X(K_N,\kstwoKp)$ if
+and only if there are a marked isometry $w\colon(D'',t'')\to(D',t)$ and a $\C$-linear automorphism $h$
+of $\C^g$ with $P\circ w=h\circ P''$ (\lref{UpperTheory.Gal.W2.CoordIso_holds}). (Transport) If
+$w\colon(D'',t'')\to(D',t)$ is a marked isometry and $(P,j,a)$ are coordinates for $(D',t)$, then
+$(P\circ w,j\circ w,a)$ are coordinates for $(D'',t'')$ (\lref{UpperTheory.Gal.W2.CoordMove_holds}).
+
+For a complex point $x$ choose $i$ and a period $P$ of $\Lambda_i$ with $x=u_i(P)$, then by (Existence)
+coordinates $(P,j,a)$ with $a\in\mathcal D_\beta$, and put $\Phi(x)=([\beta],[a])$. The asserted
+properties of $\Phi(x)$ hold by construction.
+
+$\Phi$ is injective: let $\Phi(x)=\Phi(x')$, where $x=u_i(P)$ and $x'=u_{i'}(P')$. By (Comparison)
+there are a marked isometry $w\colon\Lambda_{i'}\to\Lambda_i$ and $h$ with $P\circ w=h\circ P'$. As
+distinct indices are not marked-isometric, $i=i'$; then $P'\circ w^{-1}=h^{-1}\circ P$ with $w^{-1}$ a
+marked self-isometry, so $u_i(P)=u_i(P')$ by \ref{pf:ks2:U:unif}, i.e.\ $x=x'$.
+
+$\Phi$ is surjective: let $([\beta],[a])\in\mathcal X(K_N,\kstwoKp)$ with $\beta$ the fixed
+representative. By (Occurrence) there are $(D',t)$ in $\mathrm{Cls}_N$, a period $P'$ and $j'$ with
+$(P',j',a)$ coordinates. By \ref{pf:ks2:U:unif}, $(D',t)$ is marked-isometric to some
+$(\Lambda_{i_0},t_{i_0})$, say by $w\colon D'\to\Lambda_{i_0}$. Then $P_0=P'\circ w^{-1}$ is a period of
+$\Lambda_{i_0}$ and $(P_0,j'\circ w^{-1},a)$ are coordinates by (Transport). Let $x=u_{i_0}(P_0)$, and let
+$\Phi(x)=([\beta_x],[a_x])$ be defined through $x=u_{i_x}(P_x)$ and coordinates $(P_x,j_x,a_x)$. As
+$u_{i_0}(P_0)=u_{i_x}(P_x)$, \ref{pf:ks2:U:unif} gives $i_x=i_0$, a marked self-isometry $w'$ of
+$\Lambda_{i_0}$ and $h'$ with $P_x\circ w'=h'\circ P_0$; by (Comparison),
+$([\beta],[a])=([\beta_x],[a_x])=\Phi(x)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Classical inputs}\label{pf:ks2:sec:classical}
+
+The following statements are classical; they are proved in the formal development, and we cite
+the literature for them rather than reproducing their (long) formal proofs. They are stated in the
+form in which they are used above. For two of them we also give the top layer of the formal proof:
+the extension of objects over discrete valuation rings (\cref{pf:ks2:extobj}) and the
+classification of complex points of models (\cref{pf:ks2:finecx}).
+
+\begin{littheorem}[Properness in the compact case; Kottwitz, Lan]\label{pf:ks2:classical:proper}
+Let $R$ be a Noetherian domain of characteristic $0$ with a base $b$ of a datum $D$ of compact
+type, $N\ge1$, and $M$ a model of level $N$ over $R$. Then $M\to\Spec R$ is proper.
+\formallabel{GlobalTheory.T.harrisTaylor_integralModel_isProper_of_compact}
+\end{littheorem}
+
+For PEL moduli problems of this kind the properness of the moduli space when the associated group
+is anisotropic modulo its centre is classical \cite{Kottwitz1992}; see \cite{Lan2013} for a general
+treatment. The formal proof checks the valuative criterion for complete discrete valuation rings
+with fraction field of characteristic $0$; potential good reduction of the abelian varieties
+parametrized by $M$ comes from Grothendieck's semistable reduction theorem
+\cite[Exp.~IX]{Grothendieck1972}, a nontrivial toric part of the reduction being excluded by the
+compact-type condition together with Kottwitz's condition; then all the additional structures
+extend (\cref{pf:ks2:extobj}).
+
+\begin{proposition}[Extension of objects over discrete valuation rings]\label{pf:ks2:extobj}
+Let $R$ be a ring with a base $b$ of $D$, $N\ge1$, $W$ a discrete valuation ring with fraction field
+$L$ and $R\to W$ a ring map. Let $o$ be an object of level $N$ over $\Spec L$, $G$ an abelian scheme
+over $\Spec W$, and $\phi\colon A_o\to G$ a homomorphism identifying $A_o$ with the generic fibre of
+$G$. Then there are an object $o'$ of level $N$ over $\Spec W$ with abelian scheme $G$ and a morphism of
+objects $o\to o'$ over $\Spec L\to\Spec W$.
+\formallabel{GlobalTheory.HTObjExt.extends_obj}
+\end{proposition}
+
+\begin{proof}
+The morphism $o\to o'$ will be $\phi$; we extend the remaining structures of $o$ to $G$, each
+uniquely determined by its restriction to the generic fibre.
+\begin{enumerate}
+\item ($O$-action.) Endomorphisms of the generic fibre of an abelian scheme over a discrete
+  valuation ring extend uniquely, so the action of $O$ extends to an action on $G$ compatible with
+  $\phi$ (\lref{GlobalTheory.T.exists_ring_action_extension_compatible}).
+\item (Polarization bundle.) The bundle $\mathcal P$ of $o$ on $A_o\times_LA_o$, trivial along both
+  axes, extends to a line bundle $\mathcal P'$ on $G\times_WG$, trivial along both axes, with an
+  isomorphism $\mathcal P'_L\cong\mathcal P$
+  (\lref{GlobalTheory.AxisTrivExt.exists_extension_square_of_axes_trivial}). Isomorphisms between
+  line bundles on $G\times_WG$ which are trivial along the zero sections extend from the generic fibre
+  (\lref{GlobalTheory.T.lineBundleIso_pullback_extend_DVR}); this gives the rigidifications, the
+  symmetry of $\mathcal P'$ and the Rosati condition from those of $\mathcal P$.
+\item (Ampleness.) The restriction of $\mathcal P'$ to the diagonal is relatively ample over $W$,
+  because that of $\mathcal P$ is ample
+  (\lref{GlobalTheory.T.relAmple_diagonal_extendedBundle_of_generic}).
+\item (Kernel of the polarization.) If the kernel of the polarization of $o$ is killed by an integer
+  $e$ prime to $p$, so is that of $\mathcal P'$
+  (\lref{GlobalTheory.T.polarisation_kernel_killed_over_dvr_of_generic}).
+\item (Level structure.) As $G$ is proper over $W$, restriction to the generic fibre is a group
+  isomorphism from the sections of $G$ over $W$ onto those of $A_o$ over $L$
+  (\lref{GlobalTheory.T.properGroupScheme_dvr_sections_mulEquiv_generic}, the valuative
+  criterion). So $\eta$ extends uniquely to $\eta'\colon\Lambda\to G(W)$, which is additive,
+  $O$-linear and kills $N\Lambda$ because $\eta$ is.
+\item (Kottwitz's condition.) The determinant condition on $\Lie G$ holds because it holds on the
+  generic fibre (\lref{GlobalTheory.T.harrisTaylor_lie_condition_extends_abelianScheme_dvr}); here
+  one uses that the discriminant $\mathrm{tr}^2-4\mathrm{nm}$, being prime to $p$, is a unit in $W$.
+\item (Tate condition.) At every geometric point of $\Spec W$, $\eta'$ is the reduction of a
+  prime-to-$p$ trivialization of the Tate module compatible with $O$ and with the Weil pairing up to a
+  unit (\lref{GlobalTheory.T.tateSimilitude_geometric_points_of_generic_dvr}: integers prime to
+  $p$ are units in $R$, hence in $W$, so the torsion of $G$ of order prime to $p$ is finite \'etale over
+  $W$, and trivializations at geometric points of the special fibre are obtained from those of the
+  generic fibre by specialization).
+\end{enumerate}
+These data form an object $o'$ over $\Spec W$, and $\phi$, with the induced map on $A_o\times_LA_o$, is
+a morphism of objects $o\to o'$.
+\end{proof}
+
+\begin{littheorem}[Isogenies of type $T_j$]\label{pf:ks2:classical:tj}
+Let $R$ be Noetherian with a base $b$, $N$ a level, $p$ invertible in $R$, $m=1$, $\mathfrak w\supseteq
+(p,\omega-r)$ maximal, $0\le j\le n$ and $c=p^e$ with $e>0$ if $j>0$. For every object $o$ of level
+$N$ over a locally Noetherian $R$-scheme $S$ there is a finite \'etale $S$-scheme $Y$ carrying a
+$p$-isogeny of degree $c$ and type $T_j$ at $\mathfrak w$ out of the pullback of $o$, which is
+universal: every such isogeny out of the pullback of $o$ along $x\colon T\to S$ is the pullback
+along a unique $T\to Y$ over $x$.
+\formallabel{GlobalTheory.T.harrisTaylor_typeTj_isogenies_representable}
+\end{littheorem}
+
+Where $p$ is invertible, isogenies of degree a power of $p$ out of $A_o$ correspond to their kernels,
+which are finite \'etale subgroup schemes of the $p$-power torsion of the required type, and
+quotients of abelian varieties by finite subgroup schemes exist \cite{Mumford1970}; the
+representability of such kernels by a finite \'etale scheme is standard.
+
+\begin{littheorem}[Generic ordinariness; Wedhorn]\label{pf:ks2:classical:ord}
+Let $R$ be a discrete valuation domain of characteristic $0$ with $p$ in its maximal ideal, $b$ a
+base over $R$ with $m=1$, $N$ a level, $\mathfrak w$ the inverse image of the maximal ideal of $R$
+under some $t_i$, and $M$ a model of level $N$ over $R$. If $z\in M$ lies over the closed point of
+$\Spec R$ and has no proper generization in the special fibre, then every geometric point $y$ of $M$
+with image $z$ is \emph{$\mathfrak w$-ordinary}: the group of $\mathfrak w$-torsion points of the abelian
+variety at $y$ has exactly $\Nm\mathfrak w^{\,n-1}$ elements.
+\formallabel{UpperTheory.Gal.Ord.ordGen}
+\end{littheorem}
+
+This is a form of the density of the ordinary locus in the special fibre of PEL-type Shimura
+varieties with good reduction at primes split in the reflex field \cite{Wedhorn1999}. The formal
+proof works with the action of Frobenius on the de Rham cohomology of the special fibre and the
+Hodge filtration, and uses the following classical fact.
+
+\begin{littheorem}[Characteristic polynomials on de Rham homology]\label{pf:ks2:classical:charpoly}
+Let $A$ be an abelian variety over an algebraically closed field $k$, $f$ an endomorphism of $A$, and
+$\ell\ne\mathrm{char}\,k$ a prime. Let $(L,\varphi)$ be a free $\Z$-module of finite rank with an
+endomorphism, together with compatible surjections $L\to A[\ell^j](k)$ with kernel $\ell^jL$
+intertwining $\varphi$ and $f$ (a model of the Tate module $T_\ell A$ with the action of $f$). If the
+first de Rham homology of $A$ is finite-dimensional over $k$, then the characteristic polynomial of
+$f$ on it is the image in $k[X]$ of the characteristic polynomial of $\varphi$.
+\formallabel{GlobalTheory.T.charpoly_deRhamHomology_endomorphism_eq_map_ladic}
+\end{littheorem}
+
+The characteristic polynomial of $f$ on $T_\ell A$ has integer coefficients independent of $\ell$
+\cite{Mumford1970}; in characteristic $0$ the statement follows from the comparison of de Rham and
+Betti cohomology, and in characteristic $p$ from the relation between de Rham cohomology and
+Dieudonn\'e modules \cite{Oda1969} (compare \cite{KatzMessing1974}).
+
+\begin{littheorem}[Complex uniformization]\label{pf:ks2:classical:unif}
+Assume $a=m=1$, let $t_0$ be the embedding of the datum, $\rho$ as in \ref{pf:ks2:U:rho}, $g_b$ a
+standard base over $\C$, $N$ a level and $X$ a generic model of level $N$ over $\C$. Then $X$ is smooth
+of relative dimension $n-1$, quasi-compact and separated over $\C$, the universal abelian scheme is
+smooth of relative dimension $g$, and the complex points of $X$ and of the universal abelian scheme are
+uniformized by marked period lattices as described in \ref{pf:ks2:U:unif}.
+\formallabel{UpperTheory.Gal.W2.GUnif_holds}
+\end{littheorem}
+
+This is the classical description of the complex points of PEL moduli spaces by lattices with
+additional structure \cite{Shimura1971,Kottwitz1992}; the formal proof
+(\cref{pf:ks2:finecx} below, which classifies the complex points of a model by marked period
+lattices, and \lref{GlobalTheory.T.complexUniformisation_of_markedPeriods_family}, which
+constructs the period coordinates in families) proceeds through the analytic theory of complex tori.
+
+\begin{proposition}[Complex points of models]\label{pf:ks2:finecx}
+Let $R$ be a ring with a base $b$ of $D$, $N\ge1$ prime to $p$, $\sigma\colon R\to\C$ a ring map and
+$\rho\colon O\to M_g(\C)$ a ring map such that $b$ is \emph{of type $(\sigma,\rho)$}:
+\[
+\tr\rho(c)=m\Bigl(\sum_i\sigma(t_i(c))+n\sum_{\tau(\omega)\ne\sigma(\rho_b)}\tau(c)
+-\sum_i\overline{\sigma(t_i(c))}\Bigr)\qquad(c\in\kstwoOF),
+\]
+the middle sum over the embeddings $\tau\colon F\to\C$ with $\tau(\omega)\ne\sigma(\rho_b)$. Let $M$
+be a model of level $N$ over $R$, with universal object $\mathcal A$. Then, in the sense of
+\cref{pf:ks2:def:periods}:
+\begin{enumerate}
+\item for every complex point $y$ of $M$ over $\sigma$ there are $(D',t)$ in $\mathrm{Cls}_N$, a period
+  $P$ of $D'$ and an exponential $e$ such that $(D',t,P)$ uniformizes $\mathcal A$ at $y$ via $e$;
+\item for every $(D',t)$ in $\mathrm{Cls}_N$ and every period $P$ of $D'$ there are a complex point $y$
+  of $M$ over $\sigma$ and an exponential $e$ such that $(D',t,P)$ uniformizes $\mathcal A$ at $y$ via
+  $e$;
+\item if $(D',t,P)$ uniformizes $\mathcal A$ at $y$ and $(D'',t'',P'')$ at $y'$ (via some
+  exponentials), and there are a marked isometry $w\colon(D',t)\to(D'',t'')$ and a $\C$-linear
+  automorphism $h$ of $\C^g$ with $P''\circ w=h\circ P$, then $y=y'$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.complexPoints_classify_markedPeriods}
+\end{proposition}
+
+\begin{proof}
+For a complex point $y$ over $\sigma$, an object $o$ over $\Spec\C$ (via $\sigma$) and a morphism of
+objects $o\to\mathcal A$ over $y$, the uniformization conditions for $\mathcal A$ at $y$ and for $o$
+at the identity point are equivalent, for the same $(D',t,P)$: all conditions only involve the fibre,
+which the morphism identifies with $A_o$ compatibly with the $O$-action, the polarization and the
+level structure.
+
+(1) Pull $\mathcal A$ back along $y$ to an object $o$ over $\C$. By
+\lref{GlobalTheory.T.exists_complexUniformisation_harrisTaylor} (an object of level $N$ over
+$\C$ for a base of type $(\sigma,\rho)$ is uniformized by a marked period lattice in
+$\mathrm{Cls}_N$: the lattice of periods $H_1(A_o(\C),\Z)$ with the Riemann form of the polarization,
+the period map, and the marking given by the level structure) $o$ is uniformized at the identity by
+some $(D',t,P)$, hence so is $\mathcal A$ at $y$.
+
+(2) By \lref{GlobalTheory.T.exists_harrisTaylor_object_of_period} (the complex torus
+$\C^g/P(D')$, with $O$ acting through $\rho$, the polarization given by the Riemann form $E_{D'}$ and
+the level structure $\lambda\mapsto P(t(\lambda))/N$, is an object of level $N$ over $\C$, uniformized
+by $(D',t,P)$) there is an object $o$ over $\C$ uniformized at the identity by $(D',t,P)$. The
+universal property of $M$ gives $y\colon\Spec\C\to M$ over $\sigma$ with a morphism $o\to\mathcal A$
+over $y$, so $\mathcal A$ is uniformized by $(D',t,P)$ at $y$.
+
+(3) Pull $\mathcal A$ back along $y$ and $y'$ to objects $o_1,o_2$ over $\C$, uniformized at the
+identity by $(D',t,P)$ and $(D'',t'',P'')$. By
+\lref{GlobalTheory.T.nonempty_moduliMap_of_marked_period_isometry} (the $\C$-linear map $h$,
+which carries $P(D')$ onto $P''(D'')$, descends to an isomorphism of complex tori respecting the
+$O$-actions, the polarizations and the level structures) there is a morphism of objects $o_1\to o_2$
+over $\mathrm{id}_{\Spec\C}$. Composing it with $o_2\to\mathcal A$ over $y'$ gives a morphism
+$o_1\to\mathcal A$ over $y'$, and $o_1\to\mathcal A$ over $y$ is another; by the uniqueness in the
+universal property of $M$, $y=y'$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:ks2:sec:remarks}
+
+\begin{remark}[Names]\label{pf:ks2:rem:names}
+In the formal names of the main theorem and of $\sfname{KSAll}$, ``KS'' and ``Kodaira--Spencer''
+refer to Kuga--Sato varieties: no Kodaira--Spencer map occurs in this section. The words ``weight
+one'' in the name of the main theorem do not refer to modular forms of weight one; the hypothesis of
+the theorem is the holomorphic Lefschetz formula.
+\end{remark}
+
+\begin{remark}[An unused hypothesis]\label{pf:ks2:rem:unused}
+In the formal proof, $\sfname{StdEx}$ is obtained from a lemma whose hypothesis is the integral input
+$\sfname{MIn}$ of \cref{pf:ks2:min}; this hypothesis is not used, and the lemma is
+\cref{pf:ks2:stdex}.
+\formal{UpperTheory.Gal.Int.Geo.CovMain.stdEx_of}
+\end{remark}
+
+\begin{remark}[Hypotheses of $\sfname{FixK}$]\label{pf:ks2:rem:fixk}
+(1) The hypothesis that $1$ is admissible from $N'$ to $N$ follows from $N\mid N'$.
+(2) The divisibility of the $\alpha_s$ by $2$ is used only to guarantee that the endomorphism
+$\Theta$ of the fibres has $\det(1-\Theta)\ne0$, i.e.\ that the fixed points in the fibres are
+transversal (\cref{pf:ks2:eigtop}); their nonvanishing is used only for the finiteness and
+\'etaleness of $c_2$. The moduli version \cref{pf:ks2:hfp} does not require $\alpha_s\ne0$.
+(3) The integer $\delta$ is arbitrary in the statement; the proof shows $\delta=n-1+kg$ when $Z_N$ is
+nonempty.
+(4) The weight $c_W$ in the formal statement of $\sfname{FixK}$ is defined with the conjugation
+convention attached to the embedding of $\omega$ at $v$, and the weight used in the proof with the
+convention attached to the comparison of $v$ with $t_0$; they agree under $\mathrm{Sc}(D,G)$
+(\lref{UpperTheory.Gal.FixZ.wtEq_of}, which states that the two weight functions coincide when
+$a=1$ and $v$ has signature $(1,n-1)$).
+\end{remark}
+
+\begin{remark}[Finite sums]\label{pf:ks2:rem:finsum}
+The orbital sums \eqref{pf:ks2:eq:cxtotal} are finite sums in the sense of Mathlib, which assign the
+value $0$ to a sum with infinite support. The finiteness statements \cref{pf:ks2:def:fixk}(1) and
+\cref{pf:ks2:hfp}(3) show that, in the situations where they are used, the supports are finite and
+the sums are ordinary finite sums.
+\end{remark}
+
+\begin{remark}[Pointwise congruence]\label{pf:ks2:rem:ptid}
+The congruence relation \cref{pf:ks2:congks} is an equality of multisets of residue points over the
+generic points of the special fibre, for every valuation ring with algebraically closed fraction field;
+it is not stated as an identity of correspondences or of cycles. Ordinariness is defined by counting
+$\mathfrak w$-torsion points ($\Nm\mathfrak w^{\,n-1}$ of them), and the line $C$ of the ordinary reading is
+the set of $\mathfrak w$-torsion points of the generic fibre reducing to the origin.
+\end{remark}
+
+\begin{remark}[Generic models]\label{pf:ks2:rem:generic}
+A generic model is required only to be a fine moduli scheme; its smoothness, quasi-compactness,
+separatedness and (in the compact case) projectivity are proved in \cref{pf:ks2:gensm} by comparison
+with an integral model.
+\end{remark}
+

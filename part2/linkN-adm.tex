@@ -1,0 +1,2203 @@
+\section{The Galois link I: admissibility at inert places}\label{sec:pf:linkN-adm}
+
+\providecommand{\linkNadmcol}{\operatorname{col}}
+\providecommand{\linkNadmZf}{Z^1_{f}}
+\providecommand{\linkNadmHf}{H^1_{f}}
+\providecommand{\linkNadmIm}{\operatorname{Im}_f}
+\providecommand{\linkNadmlen}{\operatorname{len}}
+\providecommand{\linkNadmerr}{\operatorname{err}}
+\providecommand{\linkNadmvcc}{v_{cc}}
+\providecommand{\linkNadmsP}{s_{\Pi}}
+\providecommand{\linkNadmVV}{\mathrm{VV}}
+\providecommand{\linkNadmlog}{\log}
+
+\subsection{Introduction}\label{pf:linkN-adm:intro}
+
+This section proves the two inequalities called \emph{mid} and \emph{bb} in the table of local bounds of
+the Galois link (\cref{thm:linkN}, step~2 of the outline of its proof, and the local bound
+\eqref{eq:families:bd}). Let $D$ be a datum with size data $L$, let $\iota$ be a twisted local index of $D$ whose
+prime $\ell=\ell_\iota$ is not one of the two type primes and lies in the \emph{middle range} (it is neither
+small nor $3$, nor one of the primes $q,d$ of the host, and it is at most the threshold $\ell^*(L)$ unless it
+belongs to the exceptional set $\mathrm{exc}$ of the hub data). Then for every good eigensystem $\pi$ at $\iota$
+\begin{align}
+\linkNadmvcc(\iota,\pi)&\le \linkNadmsP(\iota,\rho_\iota,\pi)+\sum_{\lambda\mid\ell}\linkNadmlen_0(\iota,\pi,\lambda)
++\linkNadmVV(\ell)+v_\ell(h_E)+\linkNadmerr(\iota,\pi)+\ell^{-2},\label{pf:linkN-adm:eq-mid}\\
+\linkNadmerr(\iota,\pi)&\le 7200\,f\,n\,t^2\,n_V\,\Lambda^2,\label{pf:linkN-adm:eq-bb}
+\end{align}
+where $\linkNadmlen_0$ and $\linkNadmerr$ are the local lengths and the error term recorded in the \emph{hub data}
+attached to $D$, $\Lambda$ is the logarithmic scale of $L$, and $f,n,t,n_V$ are ranks of $D$
+(\cref{pf:linkN-adm:main}). The hypotheses are the package $\sfname{Hypotheses}_2$ of results from the
+literature (\cref{sec:families:galois}), a setup condition on the hub data, a lifting corollary with constant $C_2$
+(``Corollary A''), and the \emph{joint hub conditions}, which describe the Hodge--Tate weights of the local
+Galois representations at the places above $\ell$ by \emph{words}.
+
+\paragraph{Idea of the proof.}
+The inequality \eqref{pf:linkN-adm:eq-mid} is the conclusion of an \emph{integrality-from-metric theorem}
+proved elsewhere (\lref{GlobalTheory.T.integralityFromMetric_of_designConditionAll}) once a list of local
+conditions, collectively called \emph{admissibility}, holds at $(\iota,\pi)$; the error term $\linkNadmerr$ is
+the part of its right-hand side that does not come from the places above $\ell$. At primes split in the host
+field the admissibility conditions are collected from the setup. At inert primes the new conditions are the
+\emph{row conditions}: at every place $\lambda\mid\ell$ of the CM field $E$, every surjective map $F\colon T_1\to T_2$
+between suitable crystalline lattices of the decomposition group has a cokernel on Bloch--Kato finite cohomology
+of length at most $\linkNadmlen_0(\iota,\pi,\lambda)$ times the absolute ramification index of the coefficients.
+These are local statements in $\ell$-adic Hodge theory. Depending on the word attached to $T_1$ they come from
+three local lifting theorems:
+\begin{itemize}
+\item \emph{long Frobenius orbits} (row~B): Corollary~A, a hypothesis of the main theorem;
+\item \emph{a word with a non-thick letter} (row~C): the local lifting theorem~B (\cref{pf:linkN-adm:thmB});
+\item \emph{a word all of whose letters are thick} (row~D): the theorem on ramified coefficient chains,
+  theorem~C (\cref{pf:linkN-adm:thmC}).
+\end{itemize}
+Theorems~B and~C are proved from Bloch--Kato's local theory \cite{BlochKato1990}, local Tate duality and the
+Euler characteristic formula \cite{Tate1963,Serre1997}, through Wach-type $(\varphi,\Gamma)$-modules
+\cite{Wach1996,Berger2004} and Herr cocycles \cite{Herr1998}; their common core is a \emph{counting principle}:
+the length of the cokernel is bounded by (number of generators)$\times$(an exponent killing them), and the
+exponents are bounded explicitly in terms of the Hodge--Tate data. The inequality \eqref{pf:linkN-adm:eq-bb} is
+an explicit estimate of the error term.
+
+\paragraph{Organisation.}
+\Cref{pf:linkN-adm:local} fixes the local notions (lattices, finite cocycles, the cokernel length $\linkNadmcol$)
+and proves two counting lemmas. \Cref{pf:linkN-adm:global} introduces the global notation, the hub data and the
+two inequalities, and states the main theorem; its proof is given in \cref{pf:linkN-adm:proofmain} from the
+star inequality (\cref{pf:linkN-adm:star}), the bound for the error term (\cref{pf:linkN-adm:bbmain}), the split step
+(\cref{pf:linkN-adm:split}) and the inert step (\cref{pf:linkN-adm:inert}). The inert step uses the row bounds
+of \cref{pf:linkN-adm:rows}, which rest on theorems~B and~C, proved in \cref{pf:linkN-adm:thmBsec} and
+\cref{pf:linkN-adm:thmCsec}; the admissibility of their local inputs is proved in \cref{pf:linkN-adm:admsec}.
+\Cref{pf:linkN-adm:remarks} collects remarks on the formal statements. the part of the formal proof treated here
+comprises about $69\,500$ Lean lines \cite{LeanSource2026}. Its deepest parts (the arc lifting theorems for arcs of length
+two and three, the relay, splitting and universal statements for Wach modules, and the local lemmas of the ramified
+coefficient chains, together about $55\,000$ lines) are reduced to precisely stated results of the formal development,
+which are cited and not reproved.
+
+% ---------------------------------------------------------------------------
+\subsection{Local lattices and the cokernel length}\label{pf:linkN-adm:local}
+
+\paragraph{Period data.}
+Fix a prime $p$ and finite extensions $K_0\subseteq K$ of $\Q_p$, $K_0$ unramified. The development axiomatizes
+the period rings: a \emph{period datum} $\mathrm{PD}$ for $G=G_K$ consists of a $K_0$-algebra $B$ with a
+$G$-action, an injective Frobenius $\varphi$ semilinear over the Frobenius $\sigma$ of $K_0$ and commuting with
+$G$, a filtered $K$-algebra $B_{\mathrm{dR}}$ with a $G$-action and a $G$-equivariant injection $B\to B_{\mathrm{dR}}$,
+a character $\chi\colon G\to\Q_p^\times$ and an element $t\in B^\times$ with $g(t)=\chi(g)t$, $\varphi(t)=pt$,
+$t\in\mathrm{Fil}^1\setminus\mathrm{Fil}^2$, such that $B^G=K_0$, $B_{\mathrm{dR}}^G=K$, and the fundamental exact
+sequence holds in the form $\{b\in B:\varphi(b)=b,\ b\in\mathrm{Fil}^0\}=\Q_p$. These are the properties of
+Fontaine's rings $B_{\mathrm{cris}}$, $B_{\mathrm{dR}}$ \cite{Fontaine1982,Fontaine1994}, and the instances used
+below are Fontaine's rings (\cref{sec:families:galois}). Let $L_C$ be a finite extension of $\Q_p$ (the
+\emph{coefficient field}) with ring of integers $\OO_C$ and $V$ a finite-dimensional continuous $L_C$-linear
+representation of $G$. Then $D_{\mathrm{cris}}(V)=(V\otimes_{\Q_p}B)^G$; $V$ is \emph{crystalline} if
+$\dim_{L_C}D_{\mathrm{cris}}(V)=[K_0:\Q_p]\dim_{L_C}V$. For an embedding $\tau\colon K\to L_C$ and $a\in\Z$ let
+$\mathrm{Fil}^a_\tau(V)$ be the $\tau$-part of $(V\otimes B_{\mathrm{dR}})^G\cap(V\otimes\mathrm{Fil}^a)$; $a$ is a
+\emph{jump} (a Hodge--Tate weight) of $V$ at $\tau$ if $\mathrm{Fil}^{a+1}_\tau\ne\mathrm{Fil}^a_\tau$, and
+$\mathrm{mult}_\tau(V,a)=\dim\mathrm{Fil}^a_\tau-\dim\mathrm{Fil}^{a+1}_\tau$ is its multiplicity.
+
+\begin{definition}[Lattices and the cokernel length]\label{pf:linkN-adm:def-col}
+A \emph{lattice} of $V$ is a $G$-stable finitely generated free $\OO_C$-submodule $T$ spanning $V$; a \emph{lattice
+map} $F\colon T_1\to T_2$ is a continuous $G$-equivariant $L_C$-linear map $V_1\to V_2$ with $F(T_1)\subseteq T_2$;
+it is \emph{onto} if $F(T_1)=T_2$. Let $Z^1(T)$ be the continuous $1$-cocycles $G\to V$ with values in $T$,
+$B^1(T)=\{g\mapsto gx-x:x\in T\}$, and $\linkNadmZf(T)\subseteq Z^1(T)$ the \emph{finite} cocycles: those $c$ for
+which there is $y\in V\otimes B$ with $c(g)\otimes1=gy-y$ for all $g$ (the Bloch--Kato condition
+\cite{BlochKato1990}). Put $H^1(T)=Z^1(T)/B^1(T)$ and let $\linkNadmHf(T)$ be the image of $\linkNadmZf(T)$. For
+a lattice map $F$ put
+\[
+\linkNadmIm(F)=F_*\linkNadmZf(T_1)+B^1(T_2),\qquad
+\linkNadmcol(F)=\linkNadmlen_{\OO_C}\bigl(\linkNadmZf(T_2)/(\linkNadmIm(F)\cap\linkNadmZf(T_2))\bigr)\in\N\cup\{\infty\}.
+\]
+For $x\in\R$ we write $\linkNadmcol(F)\preceq x$ if $\linkNadmcol(F)$ is finite and
+$\linkNadmcol(F)\le x\cdot e_C$, where $e_C=\linkNadmlen_{\OO_C}(\OO_C/p)$ is the absolute ramification index of
+$L_C$. For $e\in\N$, $F$ \emph{lifts with exponent} $e$ if $p^e\linkNadmZf(T_2)\subseteq\linkNadmIm(F)$.
+\formal{Formalism.WeaklyAdmissibleFiltrations.LatHom.col}
+\formal{Formalism.MainNotions.TruncatedSeriesCountingBounds.ColLeR}
+\formal{Formalism.WeaklyAdmissibleFiltrations.LatHom.LiftF}
+\end{definition}
+
+Thus $\linkNadmcol(F)$ is the length of the cokernel of $F_*\colon\linkNadmHf(T_1)\to\linkNadmHf(T_2)$, computed
+on cocycles. If $\linkNadmcol(F)\preceq x$ and $x\le y$ then $\linkNadmcol(F)\preceq y$; we use this monotonicity
+without comment. We use the following standard facts on modules over a discrete valuation ring $\OO$ (see e.g.\
+\cite{Matsumura1989}): length is additive in short exact sequences; $\linkNadmlen(\OO/a)$ is finite for $a\ne0$; a
+module generated by $g$ elements and killed by $a^e$ is a quotient of $(\OO/a^e)^g$ and so has length at most
+$g\,e\,\linkNadmlen(\OO/a)$; and a submodule of a module generated by $g$ elements is generated by at most $g$ elements.
+
+\begin{lemma}[Two-step count]\label{pf:linkN-adm:twostep}
+Let $\OO$ be a discrete valuation ring, $a\in\OO\setminus\{0\}$, $M$ an $\OO$-module, $N\subseteq M$ a submodule,
+$s,Z\subseteq M$ finite sets with $M=\OO s+N$, and $e,e'\in\N$ such that $a^eM\subseteq\OO Z+N$ and
+$a^{e'}Z\subseteq N$. Then $\linkNadmlen(M/N)\le(|s|e+|Z|e')\linkNadmlen(\OO/a)$.
+\end{lemma}
+
+\begin{proof}
+This is \lref{Formalism.TruncatedSeriesCounting.TruncatedSeriesCountingBounds.length_quotient_le_of_two_step}.
+The module $M/(\OO Z+N)$ is generated by the images of $s$ and killed by $a^e$, and $(\OO Z+N)/N$ is generated by
+the images of $Z$ and killed by $a^{e'}$; add the two lengths.
+\end{proof}
+
+\begin{lemma}[Counting principle]\label{pf:linkN-adm:colexp}
+Let $\OO_C$ be a discrete valuation ring with $p\ne0$ in $\OO_C$, $F\colon T_1\to T_2$ a lattice map, $g_1,e,e'\in\N$
+and $Z\subseteq\linkNadmZf(T_2)$ a finite set. Assume that $\linkNadmHf(T_2)$ is generated by at most $g_1$
+elements, that $p^e\linkNadmZf(T_2)\subseteq\linkNadmIm(F)+\OO_CZ$, and that $F$
+lifts with exponent $e'$. Then $\linkNadmcol(F)\preceq g_1e+|Z|e'$.
+\formallabel{Formalism.MainNotions.N.Ln17.colLeR_of_exponent}
+\end{lemma}
+
+\begin{proof}
+Choose a set $s$ of at most $g_1$ finite cocycles whose classes generate $\linkNadmHf(T_2)$, and put
+$M=\linkNadmZf(T_2)$, $N=\linkNadmIm(F)\cap M$. Since $B^1(T_2)\subseteq\linkNadmIm(F)$, every $c\in M$ differs
+from an $\OO_C$-combination of $s$ by a coboundary lying in $N$; hence $M=\OO_Cs+N$. If $c\in M$, write
+$p^ec=i+z$ with $i\in\linkNadmIm(F)$ and $z\in\OO_CZ\subseteq M$; then $i\in N$, so $p^eM\subseteq\OO_CZ+N$.
+Finally $p^{e'}Z\subseteq p^{e'}M\subseteq N$ because $F$ lifts with exponent $e'$. \Cref{pf:linkN-adm:twostep}
+with $a=p$ gives $\linkNadmcol(F)\le(g_1e+|Z|e')\,e_C$, which is finite since $p\ne0$.
+\end{proof}
+
+\begin{lemma}[Filtration count]\label{pf:linkN-adm:filtration}
+Let $\OO$ be a discrete valuation ring, $a\in\OO\setminus\{0\}$, $k_0=\linkNadmlen(\OO/a)$, $M$ a free $\OO$-module of
+finite rank, $P\subseteq M$ a submodule, $M=\mathrm{Fl}_0\supseteq\mathrm{Fl}_1\supseteq\dots\supseteq\mathrm{Fl}_k$ a
+chain of submodules and $\mathrm{gen}\subseteq\{0,\dots,k-1\}$. Let $m,e,e',L\in\N$ and assume:
+(i) for $i\in\mathrm{gen}$, $\mathrm{Fl}_i$ is spanned modulo $\mathrm{Fl}_{i+1}$ by at most $m$ elements of
+$\mathrm{Fl}_i$; (ii) $a^{e'}M\subseteq P$; (iii) for $i\notin\mathrm{gen}$,
+$\linkNadmlen(\mathrm{Fl}_i/(\mathrm{Fl}_{i+1}+P)\cap\mathrm{Fl}_i)\le L$; (iv) $a^e\mathrm{Fl}_k\subseteq P$. Then
+\[
+\linkNadmlen(M/P)\le \rank(M)\,e\,k_0+|\mathrm{gen}|\,m\,e'k_0+(k-|\mathrm{gen}|)\,L .
+\]
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.length_le_of_filtration}
+\end{lemma}
+
+\begin{proof}
+By additivity of length along the chain $M=\mathrm{Fl}_0+P\supseteq\mathrm{Fl}_1+P\supseteq\dots\supseteq
+\mathrm{Fl}_k+P\supseteq P$,
+\[
+\linkNadmlen(M/P)\le\sum_{i<k}\linkNadmlen\bigl(\mathrm{Fl}_i/(\mathrm{Fl}_{i+1}+P)\cap\mathrm{Fl}_i\bigr)
++\linkNadmlen\bigl(\mathrm{Fl}_k/(P\cap\mathrm{Fl}_k)\bigr),
+\]
+because $(\mathrm{Fl}_i+P)/(\mathrm{Fl}_{i+1}+P)$ is a quotient of $\mathrm{Fl}_i/(\mathrm{Fl}_{i+1}+P)\cap
+\mathrm{Fl}_i$ and $(\mathrm{Fl}_k+P)/P\cong\mathrm{Fl}_k/(P\cap\mathrm{Fl}_k)$. The last term is at most
+$\rank(M)\,e\,k_0$, since $\mathrm{Fl}_k$ is a submodule of a free module of rank $\rank(M)$ over a principal ideal
+domain, hence generated by $\rank(M)$ elements, and is killed by $a^e$ modulo $P$. For $i\in\mathrm{gen}$ the $i$-th
+term is at most $m\,e'k_0$, since by (i) the quotient is generated by $m$ elements and by (ii) it is killed by $a^{e'}$;
+for $i\notin\mathrm{gen}$ it is at most $L$ by (iii). Summing gives the claim.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The global setting and the main theorem}\label{pf:linkN-adm:global}
+
+\paragraph{The datum.}
+We use the notation of \cref{sec:families:galois} for the Galois side of a datum $D$. Its ranks include
+positive integers $f,n,m,k,r,t$ with $m\le k\le r$, $k\ge5$ and $r+5\le t$, and $n_V=r+t$. The host provides a CM field $E$ with
+$[E:\Q]=2f$ and class number $h_E$, a finite set $\mathrm{small}$ of small primes containing $2$, primes $q,d$,
+two \emph{type primes} $g_0,g_1$ with $\mathcal G=\{g_0,g_1\}$, and a \emph{split bound}; every odd prime $p$ at most
+the split bound satisfies $\bigl(\frac{-d}{p}\bigr)=1$. Each prime $\ell\notin\mathrm{small}\cup\{q,d\}$ is either
+\emph{split} or \emph{inert} (\lref{Formalism.MainNotions.TwistedPlaces.split_or_inert}); an inert prime
+satisfies $\bigl(\frac{-d}{\ell}\bigr)\ne1$. A local index $\iota$ carries a prime $\ell=\ell_\iota$, a discrete
+valuation ring $\OO_\iota$ finite over $\Z_\ell$ with fraction field $K_\iota$, finite sets
+$Z^{\mathrm{good}}_\iota\subseteq Z_\iota\subseteq X_\iota$ of eigensystems, the congruence lengths
+$\linkNadmvcc(\iota,\pi)\in\Q_{\ge0}$, finite sets $S_\iota,Q_\iota$ of places of $E$ with elements
+$\zeta_\iota(v)\in\OO_\iota$ ($v\in Q_\iota$), a local level $s_0(\iota)$ and
+$\delta_\iota=\sum_{0<k<t}(s_0(\iota)+v_\ell(k))$. It is \emph{twisted} if its place $w_\iota$ is twisted. Lengths of
+$\OO_\iota$-modules are normalized: $\linkNadmlen(M)=\linkNadmlen_{\OO_\iota}(M)/\linkNadmlen_{\OO_\iota}(\OO_\iota/\ell)$.
+Galois families are maps $r_\iota\colon X_\iota\to\Hom(G_E,\GL_{n_V}(\OO_\iota))$ and $\rho_\iota\colon
+X_\iota\to\Hom(G_E,\GL_r(\OO_\iota))$; $\linkNadmsP(\iota,\rho_\iota,\pi)$ is the normalized length of the Selmer
+group of $\rho_{\iota,\pi}$ of \cref{sec:families:galois}. For a prime $\ell$, $\mathrm{sh}(\ell,e)$ is the
+$\Z_\ell$-length of $\Sha^1(G_{E,S_\ell},\Q_\ell/\Z_\ell(-e))$ ($0$ if it is infinite) and $\linkNadmVV(\ell)=\sum_{0<e<t}
+\mathrm{sh}(\ell,e)$; condition (Sha) means that all these groups with $0<e<t$ are finite, for every prime $\ell$.
+
+For a place $\lambda\mid\ell$ of $E$ let $n_\lambda=e_\lambda f_\lambda$ be its local degree, so
+$\sum_{\lambda\mid\ell}n_\lambda=2f$ (\lref{Formalism.MainNotions.TwistedPlaces.sum_nLam_le}), let $K_\lambda$
+be the completion and $G_\lambda$ the decomposition group. A \emph{coefficient extension} at $\lambda$ is a finite
+extension $L_C$ of $\Q_\ell$ containing the local coefficient field of the datum at $\lambda$ (which contains all
+conjugates of $K_\lambda$); it is \emph{good} if it contains the roots of unity of order dividing $\lcm(\ell,N)$, $N$ the
+conductor of the host. If $\ell\ne2$ and $K_\lambda/\Q_\ell$ is unramified, a good $L_C$ contains all conjugates of
+$K_\lambda(\mu_\ell)$; we call such $L_C$ \emph{admissible}. The
+localizations at $\lambda$, with coefficients in $L_C$, of the twisted duals
+$\rho^\vee_{\iota,\pi}(\chi_{\iota,1}\varepsilon_\ell)$ and $r^\vee_{\iota,x}(\chi_{\iota,1}\varepsilon_\ell)$
+($\varepsilon_\ell$ the cyclotomic character, $\chi_{\iota,1}$ a character of the datum) are denoted $T^\vee_\pi$ and
+$r^\vee_x$; the localization of the twist $r_{\iota,x}\chi_{\iota,1}^{-1}$ is denoted $r^{\mathrm{tw}}_x$. The datum
+provides period data $\mathrm{PD}_\lambda$ for $G_\lambda$ and, for every admissible $L_C$, a \emph{Wach structure}
+$W_{\lambda,C}$: the $(\varphi,\Gamma)$-module theory with coefficients in $\OO_C$ in the sense of
+\cite{Wach1996,Berger2004}, axiomatized (\cref{pf:linkN-adm:wach}). Its \emph{letters} are the
+$n_\lambda=[K_\lambda:\Q_\ell]$ embeddings of $K_\lambda$ into $L_C$, indexed by $\Z/n_\lambda$ compatibly with
+Frobenius; an embedding $\tau$ \emph{lies over} the letter $a$ if it is the $a$-th one.
+
+\paragraph{Size data.}
+Size data $L$ of $D$ provide a scale $x>1$, $b_L=e^\Lambda$ with $\Lambda\ge1$
+(\lref{Formalism.MainNotions.TwistedPlaces.L_ge_one}), and positive reals $S_c,\eta_{\mathrm{sz}}$. Put
+\[
+h_B=b_L+S_c+\eta_{\mathrm{sz}}+t+2,\qquad \eta_3=\eta_{\mathrm{sz}}+t+2,\qquad G_P=w_P+S_c+\eta_3,
+\]
+where $w_P=w_P(L)$ is an explicit width, of the form $w_B+(t+1)/2$ with $w_B\ge0$ a maximum of non-negative
+quantities, so $w_P\ge0$; let $\ell_A(L)$, $\ell^*(L)$ be the thresholds of $L$ and $j_A(\ell)=\max(1,\lceil
+\log_{\ell-1}\ell_A\rceil)$. The \emph{parameter bound} (PB) is the inequality $S_c+\eta_{\mathrm{sz}}+t+2\le b_L$; it
+gives $h_B\le2b_L=2e^\Lambda$.
+
+\paragraph{The middle range.}
+For a finite set $\mathrm{exc}$ of primes, $\ell$ is in the \emph{middle range} if
+$\ell\notin\mathrm{small}\cup\{3,q,d\}$ and ($\ell\le\ell^*(L)$ or $\ell\in\mathrm{exc}$). Then $\ell\ge5$ is odd and
+$s_0(\iota)=1$ (\lref{UpperTheory.Small.localLevel_eq_one_of_not_mem_smallPrimes}), so
+$\delta_\iota\le t+v_\ell(t!)\le2t$.
+
+\begin{definition}[Hub data and rows]\label{pf:linkN-adm:def-hub}
+\emph{Hub data} $X$ for $D$ consist of families $r=(r_\iota)$, $\rho=(\rho_\iota)$, local lengths
+$\linkNadmlen_0(\iota,\pi,\lambda)\in\R$, error terms $\linkNadmerr(\iota,\pi)\in\R$, for each $\iota$ a
+\emph{declaration} (a partition of the places above $\ell_\iota$ into \emph{rows} and \emph{columns}), row lengths
+$\linkNadmlen_{\mathrm{row}}(\iota,\lambda)\in\Q$, exponents $e'(\iota,\lambda),c_B(\iota),e_S(\iota),c_0(\iota,\lambda)\in\N$,
+a predicate $\mathrm{band}(\iota,\lambda)$ and a finite set $\mathrm{exc}$ of primes. For a local index $\iota$ with
+declaration $(\mathrm{row},\mathrm{col})$ put
+\begin{align*}
+\linkNadmerr_{\mathrm{dec}}(\iota)&=t\sum_{w\in\mathrm{row}}(n_w+2)\,c_B(\iota)+4n_V(|\mathrm{col}|+1)\,\delta_\iota
++t\,|\mathrm{col}|\,h_0(\iota,\mathrm{col}),\\
+\linkNadmerr_{\mathrm{pl}}(\iota,\pi)&=\sum_{u\in\mathrm{col}}\bigl(n_u m\,\delta_\iota+2\delta_\iota+h^W_0(\iota,u,\pi)
++r\,c_0(\iota,u)\bigr)+\linkNadmerr_{\mathrm{dec}}(\iota),
+\end{align*}
+where $h_0(\iota,\mathrm{col})$ is the maximum over $u\in\mathrm{col}$ and $0<e<t$ of the normalized length of the
+$G_u$-invariants of $K_\iota/\OO_\iota$ twisted by $\varepsilon_\ell^{-e}$, and $h^W_0(\iota,u,\pi)$ is the normalized
+length of the $G_u$-invariants of $(K_\iota/\OO_\iota)^r$ with the action of $\rho_{\iota,\pi}\chi_{\iota,1}^{-1}$. A prime
+$\ell$ is of \emph{row~B} if $\ell<\ell_A(L)$ and the order of the image of $\ell$ in $(\Z/2^{e+2}\Z)^\times/\{\pm1\}$
+exceeds $4L_w$ ($e$, $L_w$ data of $D$); otherwise of \emph{rows~C/D}. With
+\[
+\mathrm{core}_B(\ell,\lambda)=(n_\lambda+1)\,r\,\Bigl(\frac{h_B}{(\ell-1)^{j_A(\ell)+1}}+(G_P+1)(j_A(\ell)+1)+\Lambda\Bigr)
+\]
+let $\linkNadmlen_B(\ell,\lambda)$ be a rational number strictly between $3C_2\,\mathrm{core}_B$ and
+$(3C_2+1)\mathrm{core}_B$ when $3C_2\,\mathrm{core}_B<(3C_2+1)\mathrm{core}_B$, and $0$ otherwise. For a proposition
+$\beta$ put
+$[\beta]\in\{0,1\}$, $\mathrm{core}_E(\ell)=1+h_B/\ell+\log_\ell h_B$ and
+\begin{multline}\label{pf:linkN-adm:eq-bdCD}
+\mathrm{bd}_{CD}(\beta,\ell,\lambda;K_1,K_2,K_3)=K_1\frac{(n_\lambda+1)rh_B}{\ell^2}\\
++K_2(n_\lambda+1)r\Bigl(\frac{w_P+\eta_3}{\ell}+S_c+\Lambda+\eta_3[\beta]\Bigr)+K_3\,n_\lambda m\,\mathrm{core}_E(\ell);
+\end{multline}
+$\linkNadmlen_{CD}(\ell,\lambda)$ is a rational number strictly between $\mathrm{bd}_{CD}(\beta;K_1,K_2,K_3)$ and
+$\mathrm{bd}_{CD}(\beta;K_1,K_2+1,K_3)$ with $\beta=\mathrm{band}(\iota,\lambda)$ (chosen once and for all; $0$ if the
+interval is empty).
+The hub data are \emph{adapted} to $L$ and constants $(C_2,C_B,K_1,K_2,K_3,C_A)$ if for every $\iota$:
+\begin{itemize}
+\item if $\ell_\iota$ is inert: there are no columns; $\linkNadmlen_{\mathrm{row}}(\iota,\cdot)$ is $\linkNadmlen_B$ in
+  row~B and $\linkNadmlen_{CD}$ otherwise; $\linkNadmlen_0(\iota,\pi,\lambda)=\linkNadmlen_{\mathrm{row}}(\iota,\lambda)$
+  and $\linkNadmerr(\iota,\pi)=\linkNadmerr_{\mathrm{dec}}(\iota)$;
+\item if $\ell_\iota$ is split: $e_S(\iota)=e_A(\ell)=\lceil C_A(1+2\lfloor h_B\rfloor/\ell+1+\log_\ell(2\lfloor
+  h_B\rfloor+1))\rceil$, $\linkNadmlen_0(\iota,\pi,\lambda)=(2n_\lambda m+1)e_S(\iota)$ on columns and $0$ on rows,
+  and $\linkNadmerr(\iota,\pi)=\linkNadmerr_{\mathrm{pl}}(\iota,\pi)$;
+\item $\mathrm{band}(\iota,\lambda)$ is the band predicate of \cref{pf:linkN-adm:def-words}.
+\end{itemize}
+The constants used are the \emph{row constants} $\mathcal K(C_2)=(C_2,C_B,C_C,C_A)=(C_2,320,25,23)$, for which
+$K_1=C_B+48=368$, $K_2=6C_B+12+6C_C=2082$, $K_3=3C_AC_B+12C_A+9=22365$.
+\formal{Formalism.MainNotions.N.KillingConditions.HubData}
+\formal{Formalism.MainNotions.N.KillingConditions.DataAD}
+\formal{GlobalTheory.NLink.rowC}
+\end{definition}
+
+\begin{definition}[The two inequalities]\label{pf:linkN-adm:def-star}
+Let $X$ be hub data. $X$ satisfies the \emph{star inequality} if for every twisted local index $\iota$ with
+$\ell=\ell_\iota\notin\mathcal G$ in the middle range for $\mathrm{exc}=X.\mathrm{exc}$, and every $\pi\in
+Z^{\mathrm{good}}_\iota$, inequality \eqref{pf:linkN-adm:eq-mid} holds, with $\rho_\iota=X.\rho_\iota$,
+$\linkNadmlen_0=X.\linkNadmlen_0$ and $\linkNadmerr=X.\linkNadmerr$. $X$ satisfies the \emph{error bound with constant
+$C_5$} if for the same $\iota,\pi$, $\linkNadmerr(\iota,\pi)\le C_5fnt^2n_V\Lambda^2$.
+\formal{Formalism.MainNotions.N.KillingConditions.StarAD}
+\formal{Formalism.MainNotions.N.KillingConditions.BBLe}
+\end{definition}
+
+\begin{definition}[Words]\label{pf:linkN-adm:def-words}
+Let $\lambda\mid\ell$ be a place with $K_\lambda/\Q_\ell$ unramified of degree $n_\lambda$, and $L_C$ an admissible
+coefficient extension. A \emph{word} on the letters $\Z/n_\lambda$ consists of integers $b,w,S,\eta,m\ge0$, a \emph{type}
+$\mathrm{up}\colon\Z/n_\lambda\to\{\mathrm{true},\mathrm{false}\}$ and functions
+$\mathrm{sz},M^-,M^+\colon\Z/n_\lambda\to\N$. The \emph{window} of the letter $a$ is
+\[
+\mathrm{win}(a)=\begin{cases}[\mathrm{sz}_a,\mathrm{sz}_a+S]\cup[-\eta,\eta]&\text{if }\mathrm{up}(a),\\
+[-\mathrm{sz}_a-S,-\mathrm{sz}_a]\cup[-\eta,\eta]&\text{otherwise;}\end{cases}
+\]
+$a$ is \emph{thick} if $b\le\mathrm{sz}_a\le b+\eta$. A lattice $T$ has its jumps \emph{in the windows} if for every
+letter $a$ and every $\tau$ over $a$ all jumps of $T$ at $\tau$ lie in $\mathrm{win}(a)$, and \emph{within $(M^-,M^+)$} if
+they lie in $[-M^-_a,M^+_a]$. The low count of a lattice $T$ at $a$ is $\sum_{\tau\text{ over }a}\sum_{|x|\le\eta}
+\mathrm{mult}_\tau(T,x)$. The word is \emph{based} at $(\iota,\pi,\lambda,C)$ if
+$K_\lambda$ is unramified of degree $n_\lambda$, $L_C$ contains all conjugates of $K_\lambda$, $\OO_C$ is a discrete
+valuation ring with fraction field $L_C$, and:
+(a) every lattice $T_1$ of a subrepresentation of a finite direct sum of copies of the $r^\vee_x$ ($x\in X_\iota$) is
+crystalline with jumps in the windows and within $(M^-,M^+)$; (b) every lattice $T_2$ of $T^\vee_\pi$ is crystalline with
+low count at most $m$ at every letter; (c) every letter is thick or has $\mathrm{sz}_a\le w$; (d) $b+\eta+S\le h_B$,
+$w\le w_P$, $S\le S_c$, $\eta\le\eta_3$ and $m$ equals the rank $m$ of $D$. Further conditions on a word:
+\begin{itemize}
+\item[(B$_{C_2}$)] $j_A(\ell)+1\le n_\lambda$, $C_2(j_A(\ell)+1)(w+S+\eta+1)\le b$, and the thick letters
+  form \emph{clusters} of span $j=j_A(\ell)$: for each thick $t_0$, either none of $t_0-1,\dots,t_0-j$ is thick, or there
+  is $d\in[1,j]$ with $t_0-d$ thick and no other thick letter among $t_0-1,\dots,t_0-d-j$;
+\item[(Box)] $M^-_a+M^+_a\le2h_B$; for a non-thick letter, $|\mathrm{sz}_a-s|\le(t+1)/2$ for some $s$ in
+  an explicit interval $[w''(L),w_B(L)]$; and $b_L-(t+1)/2\le b\le b_L-(t+1)/2+1$;
+\item[(NT)] (a word with a non-thick letter) $\eta<\mathrm{sz}_a$ for all $a$, $20w\le b$, $20\eta\le b$, $20S\le b$,
+  some letter is not thick, and the type alternates ($\mathrm{up}(a+1)\ne\mathrm{up}(a)$) with no three consecutive
+  thick letters;
+\item[(AT$_d$)] (an all-thick word of parity $d$) $n_\lambda$ is even, $\mathrm{up}(a)$ holds iff $a+d$ is odd, all
+  letters are thick, $2a_R(\ell,H)+\eta+1\le\mathrm{sz}_a$ and $H_0/2\le\mathrm{sz}_a$ for all $a$, where
+  $H_0=\max_a\mathrm{sz}_a+S$, $H=H_0+\eta$ and $a_R$ is defined in \eqref{pf:linkN-adm:eq-aR};
+\item[(Mult)] $L_C$ contains a primitive $\ell$-th root of unity, and every lattice $T_2$ of $T^\vee_\pi$
+  satisfies $\sum_{|x|\le\eta}\mathrm{mult}_\tau(T_2,x)\le m$ for every embedding $\tau$.
+\end{itemize}
+The \emph{band} condition of a word with constant $C_B$ is: some non-thick letter $a$ has a thick neighbour and
+$|\ell\,\mathrm{sz}_a-b|\le C_B(\ell\eta+\ell S+b/\ell+\mathrm{sz}_a+\ell\log_\ell(2h))$, where $h=b+\eta+S$ if some
+letter is thick and $h=w+S$ otherwise. The \emph{band predicate} $\mathrm{band}(\iota,\lambda)$ holds if $\ell\ge11$ and
+some $\pi\in Z^{\mathrm{good}}_\iota$, admissible $L_C$ and word based at $(\iota,\pi,\lambda,C)$ satisfying (Box) and
+(NT) satisfy the band condition with $C_B=320$.
+\formal{Formalism.MainNotions.N.WordBase}
+\formal{Formalism.MainNotions.N.WordsB}
+\formal{Formalism.MainNotions.N.WordBox}
+\formal{Formalism.MainNotions.N.WordsNT}
+\formal{Formalism.MainNotions.N.WordsAT}
+\formal{Formalism.MainNotions.N.WordBaseC}
+\formal{Formalism.MainNotions.N.bandOf}
+\end{definition}
+
+\begin{definition}[Joint hub conditions; Corollary A]\label{pf:linkN-adm:def-joint}
+The \emph{joint hub conditions} for the row constants $\mathcal K(C_2)$ state: for every
+twisted $\iota$ with $\ell=\ell_\iota$ inert, every $\pi\in Z^{\mathrm{good}}_\iota$ and every $\lambda\mid\ell$, $K_\lambda$
+is unramified over $\Q_\ell$ and, for every admissible $L_C$,
+\begin{itemize}
+\item in row~B: there is a word based at $(\iota,\pi,\lambda,C)$ satisfying (B$_{C_2}$);
+\item in rows~C/D: there is a word based at $(\iota,\pi,\lambda,C)$ satisfying (Box) and either (NT), or (Mult) and
+  (AT$_d$) for some $d$.
+\end{itemize}
+\emph{Corollary A with constant $C$} states: for every prime $\ell\ge11$, unramified $K$ with $n$ letters, coefficients
+$L_C$ satisfying the standard conditions (they split $K$, $\OO_C$ is a discrete valuation ring with fraction field $L_C$),
+crystalline lattices $T_1,T_2$ and an onto lattice map $F\colon T_1\to T_2$, and every word $(b,w,S,\eta,\mathrm{up},
+\mathrm{sz})$ with $1\le j$, $j+1\le n$, jumps of $T_1$ in the windows, every letter thick or of size at most $w$,
+$C(j+1)(w+S+\eta+1)\le b$, and the thick letters in clusters of span $j$, one has
+\begin{equation}\label{pf:linkN-adm:eq-corA}
+\linkNadmcol(F)\preceq C(n+1)\,\rank T_2\,\Bigl(\frac{h_{\mathrm{cor}}}{(\ell-1)^{j+1}}+(w+S+\eta+1)(j+1)
++\log_\ell h_{\mathrm{cor}}\Bigr),
+\end{equation}
+with $h_{\mathrm{cor}}=b+\eta+S$ if some letter is thick and $h_{\mathrm{cor}}=w+S+\eta$ otherwise.
+\formal{Formalism.MainNotions.N.KillingConditions.JointParametersHubConditions}
+\formal{Formalism.MainNotions.N.LocalRepresentationBoundCondition}
+\formal{Formalism.MainNotions.N.LocalRepresentationCongruenceCondition}
+\formal{Formalism.MainNotions.WachCoordinates.Conclusion2}
+\end{definition}
+
+\begin{definition}[The setup conditions]\label{pf:linkN-adm:def-setup}
+Let $\mathrm{nch}$ be a norm choice for $D$ and $C_2\in\R$. The hub data $X$ satisfy the \emph{setup conditions} if: the
+norm-choice facts hold for $\mathrm{nch}$; $X$ is the \emph{canonical} hub data for the row constants $\mathcal K(C_2)$ (its
+families are good and continuous, it is adapted in the sense of \cref{pf:linkN-adm:def-hub}, and its declarations at
+split primes and its exponents $c_B,c_0$ are the canonical ones); the parameters are admissible; (PB) holds;
+$\Lambda\ge8$; the split bound is at least $60$; the \emph{killing condition} holds; and (Sha) holds. The killing
+condition states: for twisted $\iota$ and $\pi\in Z^{\mathrm{good}}_\iota$ the Selmer group of $X.\rho_{\iota,\pi}$ is
+finite with $\linkNadmsP(\iota,X.\rho_\iota,\pi)\le\nu_\ell+\ell^{-2}$, and
+\begin{equation}\label{pf:linkN-adm:eq-kill}
+t\sum_{v\in Q_\iota}\linkNadmlen\bigl(\OO_\iota/(\zeta_\iota(v)-1)\bigr)\le\ell^{-2}.
+\end{equation}
+\formal{GlobalTheory.NLink.SetupAlt}
+\formal{Formalism.MainNotions.N.KillingConditions.KillAt}
+\end{definition}
+
+\begin{theorem}[The middle-range bounds]\label{pf:linkN-adm:main}
+Assume $\sfname{Hypotheses}_2$. Let $D$ be a datum with size data $L$, parameter choice, norm choice
+$\mathrm{nch}$, local Hodge--Tate, Fontaine and comparison data, hub data $X$ and $C_2\in\R$ such that the setup
+conditions hold, $C_2\ge1$, Corollary A holds with constant $C_2$, and the joint hub conditions hold for the row constants
+$\mathcal K(C_2)$. Then $X$ satisfies the star inequality and the error bound with constant $7200$: for every twisted local
+index $\iota$ with $\ell_\iota\notin\mathcal G$ in the middle range and every $\pi\in Z^{\mathrm{good}}_\iota$,
+\eqref{pf:linkN-adm:eq-mid} and \eqref{pf:linkN-adm:eq-bb} hold.
+\formallabel{GlobalTheory.T.star_ad_and_bb_le_of_joint_cond}
+\formallabel{GlobalTheory.NLink.rowsAD_in_setting_alt}
+\end{theorem}
+
+The proof is given in \cref{pf:linkN-adm:proofmain}. The theorem supplies the fields \emph{mid} and \emph{bb} of the
+conclusion of the table of local bounds in the proof of \cref{thm:linkN}; there $C_2$ is the constant of
+``Theorem~E and Corollary~A'' and the joint hub conditions come from Fontaine's theory.
+
+% ---------------------------------------------------------------------------
+\subsection{Admissibility and the star inequality}\label{pf:linkN-adm:starsec}
+
+\paragraph{Row and lift bounds.}
+Let $\iota$ be a local index, $\lambda\mid\ell_\iota$ and $L_C$ a coefficient extension at $\lambda$. For $x\in\R$, the
+\emph{row bound} $\mathrm{Row}_{\lambda,C}(x)$ for $(r_\iota,\rho_\iota,\pi)$ is the statement: for every lattice $T_2$ of
+$T^\vee_\pi$, every lattice $T_1$ of a subrepresentation of a finite direct sum of copies of the $r^\vee_x$ ($x\in
+X_\iota$), and every onto lattice map $F\colon T_1\to T_2$ of $G_\lambda$-representations, $\linkNadmcol(F)\preceq x$
+(\cref{pf:linkN-adm:def-col}, with $\mathrm{PD}=\mathrm{PD}_\lambda$). Note $\rank T_2=r$. The \emph{lift bound}
+$\mathrm{Lift}_{\lambda,C}(e')$ is the statement: every onto lattice map between lattices of subquotients of finite direct
+sums of copies of the $r^{\mathrm{tw}}_x$ lifts with exponent $e'$.
+
+\begin{definition}[Admissibility at an inert point]\label{pf:linkN-adm:def-adm}
+Let $\iota$ be a local index, $r_\iota,\rho_\iota$ families, $\pi\in X_\iota$, $(\mathrm{row},\mathrm{col})$ a declaration
+at $\iota$, $\linkNadmlen_{\mathrm{row}}\colon\{\lambda\mid\ell\}\to\Q$, $e'\colon\{\lambda\mid\ell\}\to\N$ and
+$c_B\in\N$. The point is \emph{admissible} if twenty conditions hold. Seventeen of
+them concern the global and local Galois representations only: (G1) the coefficients of the characteristic
+polynomials of the $r_{\iota,x}$ lie in the Hecke algebra; (G2) the \emph{gain condition}: a gain bound for the twisted
+localizations at the places above $\ell$, and their crystallinity; (G3) absolute irreducibility and the residual shape
+of $r_{\iota,x}$ relative to $\rho_{\iota,\pi}$; unramifiedness outside $\ell$, $S_\iota$ and $Q_\iota$; the tame shape at
+$S_\iota\cup Q_\iota$; the tame generator conditions (in particular $\zeta_\iota(v)\ne1$ for $v\in Q_\iota$); an
+eigenvector criterion for membership in $Z_\iota$; local Tate duality for $H^2$, the Bloch--Kato dimension formula and
+Bloch--Kato duality at good coefficients; continuity; semisimplicity; the decomposition $r_{\iota,\pi}\otimes K_\iota\cong
+(\rho_{\iota,\pi}\oplus\bigoplus_{c=1}^t\chi_{\iota,c})\otimes K_\iota$; a cyclotomic inertia image; compatibility of local
+coefficients; that each $K_\lambda$ lies in $\Q_\ell(\mu_{\lcm(\ell,N)})$; Fontaine's properties of crystalline
+representations at the places above $\ell$; an integral $H^2$-duality; and the bound $\linkNadmlen\le v_\ell(h_E)$ for
+the module of everywhere unramified homomorphisms $G_E\to K_\iota/\OO_\iota$. The other three are:
+\begin{itemize}
+\item[(TB)] the \emph{Bloch--Kato condition with exponent $c_B$}: at every $\lambda\mid\ell$ and good
+  $L_C$, for the crystalline lattices with jumps among those of $r^{\mathrm{tw}}_\pi$, multiplication by $p^{c_B}$ makes the
+  relevant extension cocycles with values in $L_C(\varepsilon^{-e})/\OO_C(\varepsilon^{-e})$, $0\le e<t$, finite, and
+  the finite divisible cocycles of these twists are coboundaries ($e>0$), resp.\ unramified up to coboundaries ($e=0$),
+  with colength at most $([K_\lambda:\Q_\ell]+1)c_Be_C$ for those that become finite after multiplication by
+  $p^{c_B}$;
+\item[(Row)] for every row place $\lambda$ and good $L_C$: $\mathrm{Row}_{\lambda,C}(\linkNadmlen_{\mathrm{row}}(\lambda))$;
+\item[(Lift)] for every column place $\lambda$ and good $L_C$: $\mathrm{Lift}_{\lambda,C}(e'(\lambda))$.
+\end{itemize}
+\formal{Formalism.MainNotions.TruncatedSeriesCountingIdentities.admitted}
+\formal{Formalism.MainNotions.TruncatedSeriesCountingIdentities.admTB}
+\formal{Formalism.MainNotions.TruncatedSeriesCountingIdentities.LengthBoundAtPlaces}
+\formal{Formalism.MainNotions.N.RowAt}
+\end{definition}
+
+We use two results proved elsewhere. The first is the \emph{integrality-from-metric theorem}: under
+$\sfname{Hypotheses}_2$ and a design condition contained in the norm-choice facts,
+\lref{GlobalTheory.T.integralityFromMetric_of_designConditionAll} proves that for every local index $\iota$, good
+families $r_\iota$, $\rho_\iota$, $\pi$, declaration and admissible data as in \cref{pf:linkN-adm:def-adm}: if
+$\ell\notin\mathcal G$, $\pi\in Z_\iota$, the Selmer group of $\rho_{\iota,\pi}$ is finite and the groups
+$\Sha^1(G_{E,S_\ell},\Q_\ell/\Z_\ell(-e))$, $0<e<t$, are finite, then
+\begin{multline}\label{pf:linkN-adm:eq-ifm}
+\linkNadmvcc(\iota,\pi)\le\sum_{\lambda\mid\ell}\linkNadmlen_W(\lambda)+\linkNadmsP(\iota,\rho_\iota,\pi)
++\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)\\
++t\sum_{w\in\mathrm{row}}(n_w+2)c_B+4n_V(|\mathrm{col}|+1)\delta_\iota+t|\mathrm{col}|\,h_0(\iota,\mathrm{col})
++t\sum_{v\in Q_\iota}\linkNadmlen\bigl(\OO_\iota/(\zeta_\iota(v)-1)\bigr),
+\end{multline}
+where $\linkNadmlen_W(\lambda)=\linkNadmlen_{\mathrm{row}}(\lambda)$ on rows and is an explicit column length on columns.
+The second is the \emph{split-case bound} \lref{GlobalTheory.T.splitCase_bound_at_point_of_admitted_items_alt}:
+under global Artin reciprocity, local Tate duality and the Euler characteristic formula, let a point satisfy the
+thirty-five \emph{split admissibility conditions} (\lref{Formalism.MainNotions.EmbeddingTypes.admitted}: they contain
+the conditions above except (Row), in a split form, and add column conditions with an exponent $e'$ and constants
+$c_0(\lambda)$) and, if $\ell\notin\mathcal G$ and $\pi\in Z_\iota$, the gain condition (G2). If $\ell$ is split,
+all places of $E$ above $\ell$ are unramified over $\Q$, $\ell\notin\mathcal G$, the declaration is valid for the chosen
+embedding types, $\pi\in Z_\iota$, the Selmer group of $\rho_{\iota,\pi}$ and the groups $\Sha^1(G_{E,S_\ell},\Q_\ell/\Z_\ell(-e))$
+($0<e<t$) are finite and $\zeta_\iota(v)\ne1$ for $v\in Q_\iota$, then
+\begin{multline}\label{pf:linkN-adm:eq-split}
+\linkNadmvcc(\iota,\pi)\le\sum_{u\in\mathrm{col}}\bigl(e'+n_um(e'+\delta_\iota)+2\delta_\iota+h^W_0(\iota,u,\pi)
++n_ume'+r\,c_0(u)\bigr)\\
++\linkNadmsP(\iota,\rho_\iota,\pi)+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)
++t\sum_{w\in\mathrm{row}}(n_w+2)c_B+4n_V(|\mathrm{col}|+1)\delta_\iota\\
++t|\mathrm{col}|\,h_0(\iota,\mathrm{col})+t\sum_{v\in Q_\iota}\linkNadmlen\bigl(\OO_\iota/(\zeta_\iota(v)-1)\bigr).
+\end{multline}
+
+For hub data $X$ and a local index $\iota$, the \emph{point of $X$ at $(\iota,\pi)$} consists of $\iota$, $\pi$ and the
+data of $X$ at $\iota$: the families $X.r_\iota,X.\rho_\iota$, the declaration, the row lengths
+$X.\linkNadmlen_{\mathrm{row}}(\iota,\cdot)$ and the exponents $X.e'(\iota,\cdot)$, $X.c_B(\iota)$. The \emph{step
+conditions} are: (a) for every twisted $\iota$ with $\ell_\iota\notin\mathcal G$ in the middle range and inert, and every
+$\pi\in Z^{\mathrm{good}}_\iota$, the point of $X$ at $(\iota,\pi)$ is admissible; (b) for every such $\iota$ with
+$\ell_\iota$ split there is a choice of embedding types for which the declaration is valid, all places above $\ell_\iota$
+are unramified in $E/\Q$, and every $\pi\in Z^{\mathrm{good}}_\iota$ satisfies the split admissibility conditions with
+$e'=X.e_S(\iota)$ and $c_0=X.c_0(\iota,\cdot)$; (c) the families $X.r_\iota$ are good.
+
+\begin{proposition}[The star inequality]\label{pf:linkN-adm:star}
+Let $X$ be hub data adapted to $L$ and some constants, satisfying the step conditions. Assume the conclusion of the
+integrality-from-metric theorem \eqref{pf:linkN-adm:eq-ifm} for $D$, the split-case bound \eqref{pf:linkN-adm:eq-split}
+for $D$, the gain condition (G2) at every $\pi\in Z^{\mathrm{good}}_\iota$ with $\ell_\iota\notin\mathcal G$,
+the killing condition for $X.\rho$ and (Sha). Then $X$ satisfies the star inequality.
+\formallabel{GlobalTheory.T.starInequality_rowsAD_of_global_theorems}
+\formallabel{GlobalTheory.NLink.starAD_of_global}
+\end{proposition}
+
+\begin{proof}
+Fix a twisted $\iota$ with $\ell=\ell_\iota\notin\mathcal G$ in the middle range and $\pi\in Z^{\mathrm{good}}_\iota$. Then
+$\ell\notin\mathrm{small}\cup\{3,q,d\}$, so $\ell$ is odd, and $\ell\ne g_0,g_1$; $\pi\in Z_\iota$ since
+$Z^{\mathrm{good}}_\iota\subseteq Z_\iota$. By the killing condition the Selmer group of $X.\rho_{\iota,\pi}$ is finite and
+\eqref{pf:linkN-adm:eq-kill} holds; by (Sha) the groups $\Sha^1(G_{E,S_\ell},\Q_\ell/\Z_\ell(-e))$,
+$0<e<t$, are finite, and $\linkNadmVV(\ell)=\sum_{0<e<t}\mathrm{sh}(\ell,e)$. The prime $\ell$ is split or inert.
+
+\emph{Split case.} By (b) of the step conditions choose embedding types with a valid declaration and unramified places;
+the point satisfies the split admissibility conditions, and the tame generator conditions among them give
+$\zeta_\iota(v)\ne1$ for $v\in Q_\iota$. The split-case bound \eqref{pf:linkN-adm:eq-split} applies with $e'=e_S(\iota)$.
+Since the rows and columns partition the places above $\ell$ and $X$ is adapted,
+$\sum_{\lambda\mid\ell}\linkNadmlen_0(\iota,\pi,\lambda)=\sum_{u\in\mathrm{col}}(2n_um+1)e_S(\iota)$. Splitting the column sum
+in \eqref{pf:linkN-adm:eq-split} as $\sum_{u}(2n_um+1)e_S+\sum_u(n_um\delta_\iota+2\delta_\iota+h^W_0+rc_0(u))$ and using
+$\linkNadmerr(\iota,\pi)=\linkNadmerr_{\mathrm{pl}}(\iota,\pi)$, the right-hand side of \eqref{pf:linkN-adm:eq-split} equals
+\[
+\sum_{\lambda\mid\ell}\linkNadmlen_0(\iota,\pi,\lambda)+\linkNadmsP+\linkNadmVV(\ell)+v_\ell(h_E)+\linkNadmerr(\iota,\pi)
++t\sum_{v\in Q_\iota}\linkNadmlen(\OO_\iota/(\zeta_\iota(v)-1)),
+\]
+and \eqref{pf:linkN-adm:eq-kill} bounds the last term by $\ell^{-2}$.
+
+\emph{Inert case.} By (a) of the step conditions the point is admissible, and the families are good by (c); so
+\eqref{pf:linkN-adm:eq-ifm} applies. As $X$ is adapted, there are no columns, so every place above $\ell$ is a row,
+$\linkNadmlen_W(\lambda)=\linkNadmlen_{\mathrm{row}}(\iota,\lambda)=\linkNadmlen_0(\iota,\pi,\lambda)$, and the terms with
+$|\mathrm{col}|$ in \eqref{pf:linkN-adm:eq-ifm} reduce to $4n_V\delta_\iota$; hence the second line of
+\eqref{pf:linkN-adm:eq-ifm} is $\linkNadmerr_{\mathrm{dec}}(\iota)=\linkNadmerr(\iota,\pi)$ plus the $Q_\iota$-term, which is at
+most $\ell^{-2}$ by \eqref{pf:linkN-adm:eq-kill}. This is \eqref{pf:linkN-adm:eq-mid}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The size of the error term}\label{pf:linkN-adm:bbsec}
+
+\begin{definition}[Invariant bounds]\label{pf:linkN-adm:def-inv}
+For $c\in\R$, hub data $X$ satisfy the \emph{invariant bounds with constant $c$} if for every twisted $\iota$ with
+$\ell_\iota\notin\mathcal G$ in the middle range: $c_B(\iota)\le c\,tnn_V\Lambda$, $h_0(\iota,\mathrm{col})\le ct$, and, if
+$\ell_\iota$ is split, for every column $u$: $c_0(\iota,u)\le c\,nn_V\Lambda$ and $h^W_0(\iota,u,\pi)\le c\,rnn_V\Lambda$ for
+$\pi\in Z^{\mathrm{good}}_\iota$.
+\formal{Formalism.MainNotions.N.KillingConditions.InvariantsBoundsWithCoarseColumnConstant}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN-adm:blk}
+Let $\iota$ be a local index with $\ell_\iota\notin\mathrm{small}$, $(\mathrm{row},\mathrm{col})$ a declaration at $\iota$,
+$c\ge1$, $c_B\le c\,tnn_V\Lambda$ and $h_0(\iota,\mathrm{col})\le ct$. Then $\linkNadmerr_{\mathrm{dec}}(\iota)\le
+32\,c\,fnt^2n_V\Lambda$. If moreover $c_0(u)\le c\,nn_V\Lambda$ and $h^W_0(\iota,u,\pi)\le c\,rnn_V\Lambda$ for every column
+$u$, then $\linkNadmerr_{\mathrm{pl}}(\iota,\pi)\le48\,c\,fnt^2n_V\Lambda$.
+\formallabel{GlobalTheory.NLink.BBSize.blockBoundDeclaration_le_middleRange}
+\formallabel{GlobalTheory.NLink.BBSize.blockBoundAtZero_le_middleRange}
+\end{lemma}
+
+\begin{proof}
+We use $f,t,n,n_V,\Lambda\ge1$, $\delta_\iota\le2t$, $m\le r\le t$, $\sum_{w\mid\ell}n_w\le2f$, and $|S|\le\sum_{w\in S}n_w$
+for every set $S$ of places above $\ell$ (as $n_w\ge1$). Put $A=\sum_{w\in\mathrm{row}}(n_w+2)\le2f+2\cdot2f=6f$ and
+$k=|\mathrm{col}|\le2f$. Then
+\begin{align*}
+tAc_B&\le t\cdot6f\cdot ctnn_V\Lambda=6\,cfnt^2n_V\Lambda,\\
+4n_V(k+1)\delta_\iota&\le4n_V\cdot3f\cdot2t\le24\,cfnt^2n_V\Lambda,\\
+tk\,h_0(\iota,\mathrm{col})&\le t\cdot2f\cdot ct\le2\,cfnt^2n_V\Lambda,
+\end{align*}
+and the sum is $32\,cfnt^2n_V\Lambda$. For the second bound, $\sum_{u\in\mathrm{col}}(n_um\delta_\iota+2\delta_\iota+h^W_0+rc_0(u))
+\le A'm\delta_\iota+k(2\delta_\iota+2crnn_V\Lambda)$ with $A'=\sum_{u\in\mathrm{col}}n_u\le2f$; and $A'm\delta_\iota\le
+2f\cdot t\cdot2t$, $2k\delta_\iota\le2f\cdot4t$, $2kcrnn_V\Lambda\le4cfnt\,n_V\Lambda$, which add up to at most
+$16\,cfnt^2n_V\Lambda$. Adding the first bound gives $48$.
+\end{proof}
+
+\begin{proposition}\label{pf:linkN-adm:bbmain}
+Let $c\ge1$ and let $X$ be adapted hub data satisfying the invariant bounds with constant $c$. Then $X$ satisfies the error
+bound with constant $60c$.
+\formallabel{GlobalTheory.T.nonPlacePart_localBound_le_middleRange}
+\formallabel{GlobalTheory.NLink.BBSize.main}
+\end{proposition}
+
+\begin{proof}
+Let $\iota,\pi$ be as in the definition of the error bound. As $\ell\notin\mathrm{small}\cup\{q,d\}$, $\ell$ is split or
+inert. In the
+inert case $\linkNadmerr(\iota,\pi)=\linkNadmerr_{\mathrm{dec}}(\iota)\le32cfnt^2n_V\Lambda$, in the split case
+$\linkNadmerr(\iota,\pi)=\linkNadmerr_{\mathrm{pl}}(\iota,\pi)\le48cfnt^2n_V\Lambda$ (\cref{pf:linkN-adm:blk}). Since
+$\Lambda\ge1$, both are at most $60\,cfnt^2n_V\Lambda^2$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-adm:h0}
+Let $\iota$ be a local index with $\ell=\ell_\iota\notin\mathrm{small}\cup\{q,d\}$ and $\mathrm{col}$ a set of places above
+$\ell$. Then $h_0(\iota,\mathrm{col})\le2t$.
+\formallabel{GlobalTheory.T.maxLength_localInvariants_twisted_fractionModInteger_le}
+\formallabel{GlobalTheory.InvariantsKO.main}
+\end{lemma}
+
+\begin{proof}
+Let $u\in\mathrm{col}$ and $0<e<t$. Since $s_0(\iota)=1$, the inertia group at $u$ contains an element $g$ with
+$\varepsilon_\ell(g)=1+\ell$ (\lref{GlobalTheory.PtCore.EpsAll.exists_generator}). As $\ell$ is odd,
+$a=\varepsilon_\ell(g)^e-1$ has valuation $(1+v_\ell(e))v(\ell)$ in $\OO_\iota$, and $a\ne0$. The invariants of
+$(K_\iota/\OO_\iota)(\varepsilon_\ell^{-e})$ are killed by $\varepsilon_\ell(g)^{-e}-1$, a unit multiple of $a$, so they lie in
+$a^{-1}\OO_\iota/\OO_\iota$, of normalized length $1+v_\ell(e)\le e+1\le t\le2t$. Taking the maximum gives the claim (and
+$h_0=0$ if $\mathrm{col}=\emptyset$).
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-adm:h0W}
+Let $\iota$ be a local index, $u\mid\ell_\iota$, and let $T$ be the standard lattice $\OO^r$ of the localization at $u$ of
+$\rho_{\iota,\pi}\chi_{\iota,1}^{-1}$, with the coefficients of the datum at $u$. If $\ell^c$ kills the $G_u$-invariants
+of $V/T$, then $h^W_0(\iota,u,\pi)\le rc$.
+\formallabel{GlobalTheory.T.lenUnit_invariants_twistedLattice_le_of_killingExponent}
+\formallabel{GlobalTheory.LengthH0Bound.main}
+\end{lemma}
+
+\begin{proof}
+Transporting along the inclusion of $\OO_\iota$ into the local coefficient ring, the $G_u$-invariants of
+$(K_\iota/\OO_\iota)^r$ are killed by $\ell^c$; hence they lie in $(\ell^{-c}\OO_\iota/\OO_\iota)^r$, whose normalized length is
+$rc$.
+\end{proof}
+
+\begin{proposition}\label{pf:linkN-adm:sizes}
+Assume $\sfname{Hypotheses}_2$ and the setup conditions. Then $X$ satisfies the invariant bounds with constant $120$.
+\formallabel{GlobalTheory.T.invariantsBoundNonsplit_of_setup}
+\formallabel{GlobalTheory.NSizes.main_alt_alt}
+\end{proposition}
+
+\begin{proof}
+The bounds for canonical hub data \lref{GlobalTheory.T.split_bound_of_params_alt}, applied with constant $120$ (their
+hypotheses are fields of the norm-choice facts, Fontaine's $B_{\mathrm{cris}}$, local finiteness and Chebotarev's theorem),
+give $c_B(\iota)\le120\,tnn_V\Lambda$ and, at split $\ell$, $c_0(\iota,u)\le120\,nn_V\Lambda$ for every column $u$; they
+also give, for every column $u$ and $\pi\in Z^{\mathrm{good}}_\iota$, Hodge--Tate bounds $(M_0,h_0)$ and a non-jump
+condition for the lattice $T$ of \cref{pf:linkN-adm:h0W}, for which the crystalline Wach module exists
+(\lref{GlobalTheory.T.crystallineLatticeWachModuleExists_proof}), and an exponent $c'\le c_0(\iota,u)$ attached to
+them. By the torsion exponent theorem \lref{GlobalTheory.T.torsion_exponent_kills_invariants_of_good} (from
+Bloch--Kato, local duality and the Euler characteristic formula; it states that $\ell^{c'}$ kills the invariants of $V/T$
+under these conditions), $\ell^{c_0(\iota,u)}$ kills the $G_u$-invariants of $V/T$, and \cref{pf:linkN-adm:h0W} gives
+$h^W_0\le r\,c_0(\iota,u)\le120\,rnn_V\Lambda$. Finally $h_0(\iota,\mathrm{col})\le2t\le120t$ by \cref{pf:linkN-adm:h0}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The split step}\label{pf:linkN-adm:splitsec}
+
+\begin{proposition}[The split step]\label{pf:linkN-adm:split}
+Assume $\sfname{Hypotheses}_2$ and the setup conditions. Let $\iota$ be twisted with
+$\ell=\ell_\iota\notin\mathcal G$ in the middle range and split. Then there is a choice of embedding types for which the
+declaration of $X$ at $\iota$ is valid, every place of $E$ above $\ell$ is unramified over $\Q$, and every $\pi\in
+Z^{\mathrm{good}}_\iota$ satisfies the thirty-five split admissibility conditions with $e'=X.e_S(\iota)$, $c_0=X.c_0(\iota,
+\cdot)$ and $c_B=X.c_B(\iota)$.
+\formallabel{GlobalTheory.T.unramified_places_declared'}
+\formallabel{GlobalTheory.NLink.splitPrime_hyps_alt}
+\end{proposition}
+
+\begin{proof}
+The proof collects the conditions. The jump statement \lref{GlobalTheory.JumpStatement.holds_all_alt} provides
+the embedding types (it bounds the Hodge--Tate weights of the local representations of the datum); the bounds for
+canonical hub data \lref{GlobalTheory.T.split_bound_of_params_alt} provide the valid declaration, the unramifiedness
+of the places above $\ell$, the type condition, the column point data (unramified and dual-place conditions, the twisted
+dual, the Wach and filtration conditions and finiteness of $H^1_f$) and the block condition;
+\lref{GlobalTheory.T.set_pt_of_setup_not_twisted} provides the seventeen conditions of the first kind of
+\cref{pf:linkN-adm:def-adm}; \lref{GlobalTheory.T.admG2_of_setup_jumps} and \lref{GlobalTheory.T.admG5_of_setup}
+provide the split forms of the gain and tame-shape conditions; the Bloch--Kato annihilator and Tate finiteness conditions
+come from \lref{GlobalTheory.T.blochKatoAnnihilator_all_of_tateDuality_eulerChar} and
+\lref{GlobalTheory.T.tateFinitenessAll_of_localTateDuality}; the condition (TB) is proved as in the inert step
+(\cref{pf:linkN-adm:TB}). Three column conditions are proved in the region of this section:
+\begin{itemize}
+\item the lift exponent conditions at columns and at their conjugate places
+  (\lref{GlobalTheory.T.liftExponentColumn_and_dualPlaces}): the jumps of the localized $r^{\mathrm{tw}}_x$ and
+  $r^\vee_x$ lie in $[-\lfloor h_B\rfloor,\lfloor h_B\rfloor]$ by the jump statement, and the lifting theorem in case~A
+  with constant $C_A=23$ (part of \lref{GlobalTheory.T.localConstants_from_admitted_local_Galois_statements})
+  bounds the lifting exponent by $e_A(\ell)=e_S(\iota)$;
+\item the column invariant bound (\lref{GlobalTheory.T.h0_column_length_bound_of_setup}): the invariants of the
+  twisted dual lattice are killed by $\ell^{c_0(\iota,u)}$, by the torsion exponent theorem as in
+  \cref{pf:linkN-adm:sizes};
+\item the ambient conditions (\lref{GlobalTheory.T.ambSub_ambCont_h0_of_setup}): subrepresentations of sums of the
+  $r^{\mathrm{tw}}_x$ are crystalline with jumps among those of $r^{\mathrm{tw}}_\pi$ (the twists have equal Hodge--Tate
+  multiplicities by the gain condition, and Fontaine's properties apply), the localized families are continuous, and
+  the column $H^0$ vanishes.
+\end{itemize}
+The remaining conditions (characteristic polynomial relations) come from
+\lref{GlobalTheory.charpoly_span_and_hom_relations_of_admissible}, which derives them from the first condition (G1).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Row bounds at inert primes}\label{pf:linkN-adm:rows}
+
+Throughout this subsection $\iota$ is a local index with $\ell=\ell_\iota\ge11$, $\lambda\mid\ell$ a place of $E$ with
+$K_\lambda/\Q_\ell$ unramified, $L_C$ an admissible coefficient extension and $W=W_{\lambda,C}$; the number of letters is
+$n_\lambda$ (as $K_\lambda$ is unramified, $[K_0:\Q_\ell]=[K_\lambda:\Q_\ell]=n_\lambda$), and $W$ is in \emph{case~A}:
+$K_0=K_\lambda$ because $K_\lambda$ is unramified, the level of the Wach structure attached to admissible coefficients is $1$,
+and $\ell\ne2$. The row bounds $\mathrm{Row}_{\lambda,C}(x)$ are those of \cref{pf:linkN-adm:starsec}.
+
+\begin{lemma}\label{pf:linkN-adm:rowat}
+If $\mathrm{Row}_{\lambda,C}(x)$ holds and $x\le y\in\Q$, then $\mathrm{Row}_{\lambda,C}(y)$ holds.
+\formallabel{GlobalTheory.T.rowBound_at_place_of_latticeColengthBound}
+\formallabel{GlobalTheory.RowAtOfColLen.main}
+\end{lemma}
+
+\begin{proof}
+Monotonicity of $\preceq$. (In the formal development the hypothesis is formulated for the lattices of the local
+situation at $\lambda$ and the conclusion for arbitrary representations given by the same matrices; the two
+formulations quantify over the same lattices and maps.)
+\end{proof}
+
+\paragraph{Elementary inequalities.} For $\ell\ge11$ we have $\log\ell\ge1$, hence $\log_\ell y\le\log y\le y-1<y$ for
+$y\ge1$ and $\log_\ell y\le y$ for all $y>0$. Consequently, for $j\in\N$ and $H\ge0$,
+\begin{equation}\label{pf:linkN-adm:eq-logsplit}
+\log_\ell H\le\frac{H}{(\ell-1)^{j+1}}+(j+1),
+\end{equation}
+since $\log_\ell H=\log_\ell\bigl(H/(\ell-1)^{j+1}\bigr)+(j+1)\log_\ell(\ell-1)$ for $H>0$, and $\log_\ell(\ell-1)\le1$
+(for $H=0$ the left side is $0$ by convention).
+
+\begin{lemma}\label{pf:linkN-adm:bracket}
+Let $\ell\ge11$, $j\in\N$, and $H,G_0,G,h,\Lambda'\ge0$ with $G_0\le G$ and ($H\le h$ or $H\le G_0$). Then
+\[
+\frac{H}{(\ell-1)^{j+1}}+(G_0+1)(j+1)+\log_\ell H\le3\Bigl(\frac{h}{(\ell-1)^{j+1}}+(G+1)(j+1)+\Lambda'\Bigr).
+\]
+\formallabel{GlobalTheory.RowBLong.bracket_le}
+\end{lemma}
+
+\begin{proof}
+Write $q=(\ell-1)^{j+1}\ge1$. By \eqref{pf:linkN-adm:eq-logsplit} the left side is at most $2H/q+(G_0+1)(j+1)+(j+1)$. If
+$H\le h$ this is at most $2h/q+2(G+1)(j+1)$. If $H\le G_0$, then $H/q\le G_0$ and the left side is at most
+$2G_0+(j+1)+(G_0+1)(j+1)\le3(G_0+1)(j+1)\le3(G+1)(j+1)$. In both cases the claim follows.
+\end{proof}
+
+\begin{proposition}[Row~B]\label{pf:linkN-adm:rowB}
+Let $C_2\ge1$ and assume Corollary A with constant $C_2$, (PB), $\ell\ge11$, and
+the row~B condition of the joint hub conditions at $(\iota,\pi)$. Then for every declaration at $\iota$, every row place
+$\lambda$ and every good $L_C$, $\mathrm{Row}_{\lambda,C}(\linkNadmlen_B(\ell,\lambda))$ holds; that is, condition (Row)
+holds with $\linkNadmlen_{\mathrm{row}}=\linkNadmlen_B(\ell,\cdot)$.
+\formallabel{GlobalTheory.T.longOrbits_rowColength_inertLocalisation}
+\formallabel{GlobalTheory.RowBLong.main}
+\formallabel{GlobalTheory.Survey.InertPlacesGoodSet.rowL_of_wordsB}
+\end{proposition}
+
+\begin{proof}
+By the joint condition $K_\lambda$ is unramified; a good $L_C$ is admissible, and there is a word based at
+$(\iota,\pi,\lambda,C)$ satisfying (B$_{C_2}$); put $j=j_A(\ell)$. Let $T_1,T_2,F$ be as in the definition of
+$\mathrm{Row}_{\lambda,C}$. By the word, $T_1$ and $T_2$ are crystalline, the jumps of $T_1$ lie in the windows, every letter is
+thick or has size at most $w$, and the hypotheses $1\le j$, $j+1\le n_\lambda$, $C_2(j+1)(w+S+\eta+1)\le b$ and the
+cluster condition hold. Corollary A \eqref{pf:linkN-adm:eq-corA} gives
+\[
+\linkNadmcol(F)\preceq C_2(n_\lambda+1)\,r\Bigl(\frac{h_{\mathrm{cor}}}{(\ell-1)^{j+1}}+(w+S+\eta+1)(j+1)
++\log_\ell h_{\mathrm{cor}}\Bigr).
+\]
+Apply \cref{pf:linkN-adm:bracket} with $H=h_{\mathrm{cor}}$, $G_0=w+S+\eta\le w_P+S_c+\eta_3=G_P$, $h=h_B$ and
+$\Lambda'=\Lambda$: if some letter is thick, $h_{\mathrm{cor}}=b+\eta+S\le h_B$ by the word; otherwise
+$h_{\mathrm{cor}}=G_0$. Hence $\linkNadmcol(F)\preceq3C_2\,\mathrm{core}_B(\ell,\lambda)$, that is $\mathrm{Row}_{\lambda,C}(3C_2
+\mathrm{core}_B)$. If $\mathrm{core}_B>0$ then $3C_2\mathrm{core}_B<\linkNadmlen_B(\ell,\lambda)$; otherwise
+$3C_2\mathrm{core}_B\le0=\linkNadmlen_B(\ell,\lambda)$. \Cref{pf:linkN-adm:rowat} concludes.
+\end{proof}
+
+\paragraph{Two local inputs.}
+The rows~C/D use theorems~B and~C below with the constants $C=320$ and $C=25$, and the following consequence of the
+local constants \lref{GlobalTheory.T.localConstants_from_admitted_local_Galois_statements} (which, under
+Bloch--Kato's theory, local Tate duality and the Euler characteristic formula, proves the local lifting theory with
+constants $(10,23,32,32)$): \emph{in case~A, if $T_1$ is crystalline with jumps within $(M^-,M^+)$ at every letter, then}
+\begin{equation}\label{pf:linkN-adm:eq-ePA}
+e_{PA}\bigl(\ell,M_{\max},H_{\max},J\bigr)\le23\Bigl(1+\frac{H_{\max}}{\ell}+1+\log_\ell(H_{\max}+1)\Bigr),
+\end{equation}
+where $M_{\max}=\max_aM^-_a$, $H_{\max}=\max_a(M^-_a+M^+_a)$, $J$ is the set of jumps of $T_1$ in $[-M_{\max},\max_aM^+_a]$, and
+$e_{PA}(\ell,M,H,J)=2\lfloor H\ell/(\ell-1)^2+3+\log_\ell(H+1)\rfloor+\sum_{j\in J'}v_\ell(j)+a+v_\ell(a!)$ with
+$a=\lfloor M/(\ell-1)\rfloor+1$ and $J'=\{j+k:j\in J,\ 1\le k\le M,\ j+k\ne0\}\cup[1,M]$. The number $e_{PA}$ is the
+exponent of the lifting theorem in case~A: an onto map $F\colon T_1\to T_2$ of crystalline lattices lifts with exponent
+$e_{PA}$. For a word we write $e_{\mathrm{lift}}=e_{PA}(\ell,M_{\max},H_{\max},J)$.
+
+\begin{lemma}\label{pf:linkN-adm:numNT}
+Let $\ell\ge11$ and let $n,r,m,h,w,\eta,S,\mathrm{lg},\beta_0,\beta,e',h_B,w_P,\eta_3,S_c,\Lambda,c_E$ be reals with
+$n,r,m,w,\eta,S,h\ge0$, $h\le h_B$, $w\le w_P$, $\eta\le\eta_3$, $S\le S_c$, $\mathrm{lg}\le3+\Lambda$, $\Lambda\ge1$,
+$\beta_0\le\beta$, $\beta\ge0$, $e'\le69c_E$ and $c_E\ge0$. Then
+\begin{multline*}
+320(n+1)r\Bigl(\frac{h}{\ell^2}+\frac{w+\eta}{\ell}+S+1+\mathrm{lg}+\eta\beta_0\Bigr)+320\,nm\,e'\\
+\le368(n+1)r\frac{h_B}{\ell^2}+2082(n+1)r\Bigl(\frac{w_P+\eta_3}{\ell}+S_c+\Lambda+\eta_3\beta\Bigr)+22365\,nm\,c_E.
+\end{multline*}
+\formallabel{GlobalTheory.NLink.RowNT.bound_real}
+\end{lemma}
+
+\begin{proof}
+We have $h/\ell^2\le h_B/\ell^2$, $(w+\eta)/\ell\le(w_P+\eta_3)/\ell$, $\eta\beta_0\le\eta_3\beta$ (if $\beta_0<0$ the
+left side is $\le0$), and $S+1+\mathrm{lg}\le S_c+4+\Lambda\le S_c+5\Lambda$. Hence the bracket on the left is at most
+$h_B/\ell^2+6\bigl((w_P+\eta_3)/\ell+S_c+\Lambda+\eta_3\beta\bigr)$. Multiply by $320(n+1)r\ge0$ and use $320\le368$,
+$6\cdot320=1920\le2082$, and $320\cdot69=22080\le22365$ for the last term.
+\end{proof}
+
+\begin{proposition}[Row~C: words with a non-thick letter]\label{pf:linkN-adm:rowNT}
+Assume theorem~B with constant $320$ (\cref{pf:linkN-adm:thmB}), the bound \eqref{pf:linkN-adm:eq-ePA},
+(PB), $\ell\ge11$ and $\pi\in Z^{\mathrm{good}}_\iota$. If a word based at
+$(\iota,\pi,\lambda,C)$ satisfies (Box) and (NT), then
+$\mathrm{Row}_{\lambda,C}\bigl(\mathrm{bd}_{CD}(\mathrm{band}(\iota,\lambda),\ell,\lambda;368,2082,22365)\bigr)$ holds.
+\formallabel{GlobalTheory.T.rowBounds_of_nonThick_letter}
+\formallabel{GlobalTheory.NLink.RowNT.main}
+\formallabel{GlobalTheory.Survey.InertPlacesGoodSet.setting_of_wordsNT}
+\formallabel{GlobalTheory.NLink.RowNT.lift_shape_le}
+\formallabel{GlobalTheory.NLink.RowNT.logb_le_of_le_four_exp}
+\end{proposition}
+
+\begin{proof}
+Let $T_1,T_2,F$ be as in the definition of $\mathrm{Row}_{\lambda,C}$. The word provides the \emph{setting for theorem~B} of \cref{pf:linkN-adm:thmB} for
+$(W,T_1,T_2,F)$ and the word's parameters: case~A, crystallinity of $T_1,T_2$ and ontoness of $F$, $\eta<\mathrm{sz}_a$,
+the jumps of $T_1$ in the windows and within $(M^-,M^+)$, the low counts of $T_2$ at most $m$, and $\mathrm{sz}_a\le w$ at
+non-thick letters. Together with $20w,20\eta,20S\le b$, a non-thick letter, and the alternation of the type, part~(a)
+of theorem~B gives
+\[
+\linkNadmcol(F)\preceq320(n_\lambda+1)r\Bigl(\frac{h}{\ell^2}+\frac{w+\eta}{\ell}+S+1+\mathrm{lg}+\eta\beta_0\Bigr)
++320\,n_\lambda m\,e_{\mathrm{lift}},
+\]
+with $h$ the height of the word, $\mathrm{lg}=\log_\ell(2h)$ and $\beta_0\in\{0,1\}$ the band indicator of the word.
+We check the hypotheses of \cref{pf:linkN-adm:numNT} with $\beta=[\mathrm{band}(\iota,\lambda)]$ and
+$c_E=\mathrm{core}_E(\ell)=1+h_B/\ell+\log_\ell h_B$.
+(i) $h\le h_B$: if a letter is thick, $h=b+\eta+S\le h_B$; otherwise $h=w+S\le b+\eta+S\le h_B$ as $20w\le b$.
+(ii) $\mathrm{lg}\le3+\Lambda$: $2h\le2h_B\le4e^\Lambda$, so $\log_\ell(2h)\le\log(4e^\Lambda)\le3+\Lambda$.
+(iii) $\beta_0\le\beta$: if the band condition of the word holds, the word itself witnesses $\mathrm{band}(\iota,\lambda)$
+(as $\ell\ge11$ and $\pi\in Z^{\mathrm{good}}_\iota$).
+(iv) $e_{\mathrm{lift}}\le69\,c_E$: by \eqref{pf:linkN-adm:eq-ePA} and $H_{\max}\le2h_B$ (from (Box)),
+$e_{\mathrm{lift}}\le23(1+2h_B/\ell+1+\log_\ell(3h_B))\le23(3+2h_B/\ell+\log_\ell h_B)\le69c_E$, using $h_B\ge1$ and
+$\log_\ell3\le1$.
+The remaining hypotheses are part of the word ($w\le w_P$, $\eta\le\eta_3$, $S\le S_c$) and $\Lambda\ge1$. The right side
+of \cref{pf:linkN-adm:numNT} is $\mathrm{bd}_{CD}(\beta,\ell,\lambda;368,2082,22365)$ by \eqref{pf:linkN-adm:eq-bdCD}, with
+$n=n_\lambda$ and the rank $r$ of $T_2$ and the rank $m$ of $D$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-adm:numAT}
+Let $\ell\ge11$ and let $n,r,m,S,\eta,H,H',e,e',h_B,\eta_3,w_P,S_c,\Lambda,\mathrm{flt}$ be reals with $n,r,m,S,\eta,H,H'\ge0$,
+$S\le S_c$, $\eta\le\eta_3\le h_B$, $H\le h_B+\eta_3$, $1\le h_B\le2e^\Lambda$, $\Lambda\ge1$, $w_P\ge0$,
+$(w_P+\eta_3)/\ell+S_c+\Lambda\le\mathrm{flt}$, $H'\le H$,
+\[
+e\le\frac{32H}{\ell^2}+4S+\frac{10\eta}{\ell-1}+25\bigl(\log_\ell(2H)+1\bigr),\qquad
+e'\le23\Bigl(1+\frac{H'}{\ell}+1+\log_\ell(H'+1)\Bigr).
+\]
+Then, with $c_D=(H+1)/(\ell-1)+1$ and $c_E=1+h_B/\ell+\log_\ell h_B$,
+\[
+(n+1)re+4nme'+\tfrac32n\bigl(rS+2mc_D\bigr)\le368(n+1)r\frac{h_B}{\ell^2}+2082(n+1)r\,\mathrm{flt}+22365\,nm\,c_E.
+\]
+\formallabel{GlobalTheory.RowsThick.colBd_le_row}
+\end{lemma}
+
+\begin{proof}
+Since $2H\le2(h_B+\eta_3)\le4h_B\le8e^\Lambda$ and $\log8\le7$, $\log_\ell(2H)\le7+\Lambda$. Since $H'+1\le H+1\le3h_B$ and
+$3\le\ell$, $\log_\ell(H'+1)\le1+\log_\ell h_B$. Next $32H/\ell^2\le32h_B/\ell^2+3\eta_3/\ell$ (as $\eta_3/\ell^2\le
+\eta_3/(11\ell)$) and $10\eta/(\ell-1)\le11\eta_3/\ell$ (as $\ell\ge11$). Hence, with $E_1=h_B/\ell^2$,
+$e\le32E_1+14\eta_3/\ell+4S_c+25(8+\Lambda)\le32E_1+225\,\mathrm{flt}$, using $200\le200\Lambda$. Also $H'/\ell\le2h_B/\ell$
+gives $e'\le23(3+2h_B/\ell+\log_\ell h_B)\le69c_E$, and $(H+1)/(\ell-1)\le3h_B/(\ell-1)\le4h_B/\ell$ gives $c_D\le4c_E$.
+Finally $nrS\le(n+1)r\,\mathrm{flt}$. Therefore the left side is at most
+\[
+(n+1)r(32E_1+225\,\mathrm{flt})+276\,nmc_E+\tfrac32(n+1)r\,\mathrm{flt}+12\,nmc_E,
+\]
+which is at most the right side.
+\end{proof}
+
+\begin{proposition}[Row~D: words all of whose letters are thick]\label{pf:linkN-adm:rowAT}
+Assume theorem~C with constant $25$ (\cref{pf:linkN-adm:thmC}), the bound \eqref{pf:linkN-adm:eq-ePA},
+(PB) and $\ell\ge11$. If a word based at $(\iota,\pi,\lambda,C)$ satisfies
+(Box), (Mult) and (AT$_d$), then for every proposition $\beta$,
+$\mathrm{Row}_{\lambda,C}\bigl(\mathrm{bd}_{CD}(\beta,\ell,\lambda;368,2082,22365)\bigr)$ holds.
+\formallabel{GlobalTheory.T.rowBounds_of_all_letters_thick}
+\formallabel{GlobalTheory.RowsThick.rowL_of_allThick}
+\formallabel{GlobalTheory.Survey.InertPlacesGoodSet.setCS_of_wordsAT}
+\end{proposition}
+
+\begin{proof}
+Let $T_1,T_2,F$ be as in the definition of $\mathrm{Row}_{\lambda,C}$. The word provides a setting of parity $d$ for theorem~C (\cref{pf:linkN-adm:def-setC}) for
+$(W,d,T_1,T_2,F,\mathrm{sz},S,\eta,m)$: case~A, $\ell\ge11$, $n_\lambda$ even, $\OO_C$ a discrete valuation ring with fraction
+field $L_C$, a primitive $\ell$-th root of unity in $L_C$, crystallinity and ontoness, the multiplicity bound
+$\sum_{|x|\le\eta}\mathrm{mult}_\tau(T_2,x)\le m$, and the two size conditions; and the jumps of $T_1$ lie in the windows
+of theorem~C, because by (AT$_d$) the type is $\mathrm{up}(a)\Leftrightarrow a+d$ odd, so the word's window at $a$
+is $[-\mathrm{sz}_a-S,-\mathrm{sz}_a]\cup[-\eta,\eta]$ if $a+d$ is even and $[\mathrm{sz}_a,\mathrm{sz}_a+S]\cup[-\eta,\eta]$
+otherwise. Theorem~C gives $e\in\N$ with $e\le e_{\mathrm{Bd}}$ and
+\[
+\linkNadmcol(F)\preceq(n_\lambda+1)re+4n_\lambda m\,e''+\tfrac32n_\lambda\bigl(rS+2mc_D(\ell,H)\bigr),
+\]
+where $H=H_0+\eta$, $H_0=\max_a\mathrm{sz}_a+S$, $e''$ is the lifting exponent $e_{PA}$ for the windows of theorem~C, and
+$e_{\mathrm{Bd}}$ is the bound of \cref{pf:linkN-adm:numAT}. Since the jumps of $T_1$ lie within the windows,
+\eqref{pf:linkN-adm:eq-ePA} bounds $e''$ with $H'=H_{\max}\le H_0+\eta=H$. As all letters are thick,
+$\max_a\mathrm{sz}_a\le b+\eta$, so $H\le b+\eta+S+\eta\le h_B+\eta_3$ by the word; moreover $\eta_3\le h_B$, $h_B\ge1$,
+$h_B\le2e^\Lambda$, $\Lambda\ge1$, $w_P\ge0$, and $\mathrm{flt}=(w_P+\eta_3)/\ell+S_c+\Lambda+\eta_3[\beta]$ satisfies the
+hypothesis of \cref{pf:linkN-adm:numAT}. That lemma, with $n=n_\lambda$ and $r,m$ the ranks, gives the claim.
+\end{proof}
+
+\begin{proposition}[Rows~C and~D]\label{pf:linkN-adm:rowCD}
+Assume theorem~B with constant $320$, theorem~C with constant $25$, the local constants (so that
+\eqref{pf:linkN-adm:eq-ePA} holds), (PB), $\ell\ge11$, $\pi\in
+Z^{\mathrm{good}}_\iota$, and the rows~C/D condition of the joint hub conditions at $(\iota,\pi)$. Then for every declaration
+at $\iota$, every row place $\lambda$ and every good $L_C$, $\mathrm{Row}_{\lambda,C}(\linkNadmlen_{CD}(\ell,\lambda))$
+holds, where
+$\linkNadmlen_{CD}$ is formed with the band predicate and $(K_1,K_2,K_3)=(368,2082,22365)$.
+\formallabel{GlobalTheory.T.rowsCD_rowCondition_localBounds}
+\formallabel{GlobalTheory.NLink.lengthBoundAtPlaces_of_jointCond}
+\formallabel{GlobalTheory.NLink.RowsCD.bdCD_lt}
+\end{proposition}
+
+\begin{proof}
+By the joint condition $K_\lambda$ is unramified, a good $L_C$ is admissible, and there is a word based at
+$(\iota,\pi,\lambda,C)$ satisfying (Box) and either (NT) or (Mult) and
+(AT$_d$). By \cref{pf:linkN-adm:rowNT}, resp.\ \cref{pf:linkN-adm:rowAT} with
+$\beta=\mathrm{band}(\iota,\lambda)$, $\mathrm{Row}_{\lambda,C}(\mathrm{bd}_{CD}(\beta;368,2082,22365))$ holds. The coefficient of
+$K_2$ in \eqref{pf:linkN-adm:eq-bdCD} is $(n_\lambda+1)r(\dots)>0$, since $r\ge k\ge5$ and $(w_P+\eta_3)/\ell+S_c+\Lambda>0$;
+hence $\mathrm{bd}_{CD}(\beta;K_1,K_2,K_3)<\mathrm{bd}_{CD}(\beta;K_1,K_2+1,K_3)$ and $\linkNadmlen_{CD}(\ell,\lambda)$ lies
+strictly between them. \Cref{pf:linkN-adm:rowat} concludes.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The inert step}\label{pf:linkN-adm:inertsec}
+
+\begin{lemma}\label{pf:linkN-adm:eleven}
+If $\ell$ is a prime, inert for $D$, and the split bound is at least $10$, then $\ell\ge11$.
+\formallabel{GlobalTheory.Survey.InertPlacesGoodSet.eleven_le}
+\end{lemma}
+
+\begin{proof}
+An inert prime is not small, so $\ell\ne2$, and $\bigl(\frac{-d}{\ell}\bigr)\ne1$. If $\ell\le10$, then $\ell$ is an odd
+prime at most the split bound, so $\bigl(\frac{-d}{\ell}\bigr)=1$ by the host axioms; a contradiction.
+\end{proof}
+
+\begin{lemma}[The Bloch--Kato condition (TB)]\label{pf:linkN-adm:TB}
+Let $\iota$, $r_\iota$, $\pi$, $M_0,h_0,c_B\in\N$. Assume: the local theorems ``TB'' and ``TBe'' for all primes, unramified
+fields and admissible coefficients; the existence of Wach modules for crystalline
+lattices with jumps in $[-M_0,h_0]$; the condition (CrysOn) that crystalline lattices are crystalline on the subgroup of $G_\lambda$ on which the cyclotomic character is $\equiv1\bmod\ell^s$ ($s$ the level of the Wach structure); Fontaine's properties at
+the places above $\ell_\iota$; and the \emph{joint tame condition} with $(M_0,h_0,c_B)$: $\ell\ne2$, and at every
+$\lambda\mid\ell$ the inertia subgroup of the datum is the inertia group of $K_\lambda$, $K_\lambda\subseteq
+K_0(\mu_\ell)$, and for every admissible $L_C$ and every crystalline lattice $Y$ whose jumps are among those of
+$r^{\mathrm{tw}}_\pi$, the jump set of $Y$ lies in $[-M_0,h_0]$ and the constants $c_{TB}(Y,M_0,h_0,e)$, $e<t$, are at
+most $c_B$. Then condition (TB) holds at $(\iota,r_\iota,\pi,c_B)$.
+\formallabel{GlobalTheory.T.localBlochKatoCondition_of_wachModules}
+\formallabel{GlobalTheory.TBLocal.main}
+\end{lemma}
+
+\begin{proof}
+Let $\lambda\mid\ell$ and $L_C$ good; then $L_C$ is admissible. For the first part of (TB), let $Y$, the invariant
+functional $p$ with $p(e_0)=1$, $0\le e<t$, the lattice of $L_C(\varepsilon^{-e})$ and the map $\varphi$ be given. The kernel
+$Y'=Y\cap\ker p$ is a lattice of a subrepresentation, crystalline with jumps among those of $Y$ by Fontaine's
+properties; the joint tame condition applies to $Y'$, the Wach hypothesis provides its Wach module, and
+(CrysOn) applies to $Y$. Then \lref{GlobalTheory.TBLocal.tb_part1} (the local theorem TB applied to
+these data) shows that $p^{c_B}$ times the cocycle $g\mapsto\varphi(ge_0-e_0)$ is finite.
+For the second part, \lref{GlobalTheory.TBLocal.tbe_clauses} derives the three clauses for each $e<t$ from the local
+theorem TBe and the equality of inertia groups.
+\end{proof}
+
+\begin{theorem}[The inert step]\label{pf:linkN-adm:inert}
+Under the hypotheses of \cref{pf:linkN-adm:main}, let $\iota$ be twisted with $\ell=\ell_\iota\notin\mathcal G$ in the middle
+range and inert, and $\pi\in Z^{\mathrm{good}}_\iota$. Then the point of $X$ at $(\iota,\pi)$ is admissible.
+\formallabel{GlobalTheory.T.adm_at_inert_of_range}
+\formallabel{GlobalTheory.NLink.InertStep.main_alt_alt}
+\end{theorem}
+
+\begin{proof}
+\emph{The seventeen conditions of the first kind} are given by
+\lref{GlobalTheory.T.set_pt_of_setup_not_twisted}, which proves them from $\sfname{Hypotheses}_2$ and the setup for
+every $\iota$ with $\ell_\iota\notin\mathcal G$ and every $\pi\in Z^{\mathrm{good}}_\iota$.
+
+\emph{Condition (TB).} The closing statement for the canonical hub data,
+\lref{GlobalTheory.closingFamilyX_alt_alt} (from Fontaine's $B_{\mathrm{cris}}$, local finiteness, the jump statement
+\lref{GlobalTheory.JumpStatement.holds_all_alt}, the admissible parameters and the facts of the setup, and
+$c_B(\iota)$ being at least the canonical value), gives $M_0,h_0$ for which the joint tame condition holds with
+$(M_0,h_0,c_B(\iota))$ at $\iota$ in the middle range. The local theorems TB and TBe are
+\lref{GlobalTheory.T.theorem_tb_of_local_blochKato_duality_euler} (from Bloch--Kato, local duality and the Euler
+characteristic), the existence of Wach modules is \lref{GlobalTheory.T.crystallineLatticeWachModuleExists_proof},
+(CrysOn) is \lref{GlobalTheory.crysOnCond_all}, and Fontaine's properties are among the conditions of
+the first kind. \Cref{pf:linkN-adm:TB} gives (TB).
+
+\emph{Condition (Row).} The split bound is at least $60$, so $\ell\ge11$ by \cref{pf:linkN-adm:eleven}. Since $X$ is
+adapted, $X.\linkNadmlen_{\mathrm{row}}(\iota,\cdot)$ is $\linkNadmlen_B(\ell,\cdot)$ if $\ell$ is of row~B and
+$\linkNadmlen_{CD}(\ell,\cdot)$ otherwise, the latter formed with the band predicate $X.\mathrm{band}(\iota,\cdot)$ and
+$\mathcal K(C_2)$. In row~B, \cref{pf:linkN-adm:rowB} applies (with Corollary A, $C_2\ge1$, the parameter bound of the
+setup and the row~B joint condition). In rows~C/D, \cref{pf:linkN-adm:rowCD} applies, with theorem~B for $C=320$
+(\cref{pf:linkN-adm:thmB}), theorem~C (\cref{pf:linkN-adm:thmC}), the local constants
+\lref{GlobalTheory.T.localConstants_from_admitted_local_Galois_statements}, and the rows~C/D joint condition.
+
+\emph{Condition (Lift)} is vacuous: since $X$ is adapted and $\ell$ is inert, the declaration has no columns.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the main theorem}\label{pf:linkN-adm:proofmain}
+
+\begin{proof}[Proof of \cref{pf:linkN-adm:main}]
+Let the data be as in the theorem. By the setup, $X$ is adapted to $L$ and $\mathcal K(C_2)$, its families are good, and
+the killing condition and (Sha) hold. The step conditions hold: part (a) is the inert step
+(\cref{pf:linkN-adm:inert}), part (b) the split step (\cref{pf:linkN-adm:split}), part (c) a field of the setup. The
+integrality-from-metric theorem \eqref{pf:linkN-adm:eq-ifm} for $D$ is
+\lref{GlobalTheory.T.integralityFromMetric_of_designConditionAll}, applied with global Artin reciprocity, Bloch--Kato's
+local theory, local Tate duality and the Euler characteristic formula (fields of $\sfname{Hypotheses}_2$) and the design
+condition among the norm-choice facts. The split-case bound \eqref{pf:linkN-adm:eq-split} is
+\lref{GlobalTheory.T.splitCase_bound_at_point_of_admitted_items_alt}, applied with Artin reciprocity, local duality and
+the Euler characteristic formula. The gain condition (G2) at the points $(\iota,\pi)$ with $\ell_\iota\notin\mathcal G$ and
+$\pi\in Z^{\mathrm{good}}_\iota$ is one of the conditions of \lref{GlobalTheory.T.set_pt_of_setup_not_twisted}. Hence
+\cref{pf:linkN-adm:star} gives the star inequality for $X$. By \cref{pf:linkN-adm:sizes} the hub data satisfy the invariant bounds
+with constant $120$, so \cref{pf:linkN-adm:bbmain} gives the error bound with constant $60\cdot120=7200$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The local lifting theorem B}\label{pf:linkN-adm:thmBsec}
+
+\begin{remark}[Wach structures]\label{pf:linkN-adm:wach}
+For a prime $p$, a finite extension $K/\Q_p$ whose maximal unramified subfield $K_0$ has degree $n$, a coefficient
+field $L_C$ and a level $s\ge1$, the local Hodge--Tate data of the datum provide a \emph{Wach structure} $W$. It consists
+of: the ring $A=\OO_C[[X]]^{\Z/n}$ (one factor for each letter) with the Frobenius $\varphi$ acting by $X\mapsto
+Xq_0(X)$, $Xq_0(X)=(1+X)^p-1$, on each factor and shifting the letters; a quotient $\Gamma$ of $G_K$ acting on $A$
+compatibly with $\varphi$, with $\gamma(X)\equiv\chi(\gamma)X\bmod X^2$; an $A$-algebra $\mathcal E$ in which $X$ is
+invertible, $p$-adically complete and dense; for every lattice $T$ an \'etale $(\varphi,\Gamma)$-module $D(T)$ over
+$\mathcal E$, free of rank $\rank T$, functorial in $T$, and a finitely generated $\Gamma$-stable $A$-submodule $N(T)$ with
+$(\gamma-1)N(T)\subseteq XN(T)$, stable under $\varphi$ up to powers of $q=\varphi^{s-1}(q_0)$, which is a basis of $D(T)$
+when $T$ is crystalline (the \emph{Wach module}, \cite{Wach1996,Berger2004}); maps from Herr cocycles of $D(T)$ to lattice
+cohomology \cite{Herr1998}; a comparison map $N(T)\to D_{\mathrm{cris}}(V)$; and level maps to $V\otimes B_{\mathrm{dR}}$
+attached to $p$-power roots of unity. All these are data of the main theorem with stated axioms; theorems~B and~C use
+them only through these axioms and the admissibility inputs of \cref{pf:linkN-adm:admsec}. \emph{Case~A} means
+$K=K_0$, $s=1$ and $p\ne2$.
+\end{remark}
+
+For a word $(b,w,S,\eta,m,\mathrm{up},\mathrm{sz},M^-,M^+)$ on the letters of $W$ (\cref{pf:linkN-adm:def-words}), its
+\emph{height} is $h=b+\eta+S$ if some letter is thick and $h=w+S$ otherwise, and we put
+\begin{equation}\label{pf:linkN-adm:eq-Sg}
+\mathrm{lg}=\log_\ell(2h),\qquad \mathrm{Sg}=\frac h{\ell^2}+\frac{w+S+\eta}{\ell}+\mathrm{lg}+1 .
+\end{equation}
+Lattices $T_1,T_2$, a lattice map $F$ and a word form a \emph{setting for theorem~B} if: $W$ is in case~A; $T_1,T_2$ are crystalline
+and $F$ is onto; $\eta<\mathrm{sz}_a$ for all letters; the jumps of $T_1$ lie in the windows and within $(M^-,M^+)$; the low
+count of $T_2$ at every letter is at most $m$; and $\mathrm{sz}_a\le w$ at every non-thick letter.
+
+\begin{theorem}[Theorem~B]\label{pf:linkN-adm:thmB}
+Assume Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula. Let $D$ be a datum with
+local Hodge--Tate, Fontaine and comparison data, and $C\ge320$. Let $\ell\ge11$ be a prime, $K/\Q_\ell$ finite and
+unramified with $n=[K:\Q_\ell]$ letters, $L_C$ admissible for $K$, $W$ the Wach structure, and let $T_1,T_2$, $F$ and a word
+form a setting for theorem~B with $20w\le b$, $20\eta\le b$, $20S\le b$ and some letter not thick. Let $\beta\in\{0,1\}$ be the band
+indicator of the word with constant $C$, $r=\rank T_2$ and $e'=e_{\mathrm{lift}}$ the lifting exponent of the word. Then:
+\begin{enumerate}[label=(\alph*)]
+\item if the type alternates and no three consecutive letters are thick,
+\[
+\linkNadmcol(F)\preceq C(n+1)r\Bigl(\frac h{\ell^2}+\frac{w+\eta}{\ell}+S+1+\mathrm{lg}+\eta\beta\Bigr)+C\,nm\,e';
+\]
+\item for every $R\ge1$, if the type is constant and no $R$ consecutive letters are thick,
+\[
+\linkNadmcol(F)\preceq C(n+1)r\Bigl(\frac h{\ell^2}+\frac{w+\eta}{\ell}+R^2(S+1+\mathrm{lg})+\eta\beta\Bigr)+C\,nm\,R^2e'.
+\]
+\end{enumerate}
+\formallabel{GlobalTheory.T.localLiftingTheoremB_of_blochKato_tateDuality_eulerChar}
+\formallabel{GlobalTheory.theoremB_closing}
+\end{theorem}
+
+\paragraph{Reduction to the admissible inputs.}
+Let $\mathcal A_B$ denote the admissibility package of theorem~B with the constants $(10,23,32,32,8)$; its components are
+listed in \cref{pf:linkN-adm:def-AB}. The \emph{jump inputs} $\mathcal J$ are the one-place Fontaine inequality (Fontaine's
+inequality $\dim_{L_C}D_{\mathrm{cris}}(V)\le[K_0:\Q_\ell]\dim_{L_C}V$ at every place), the exactness of jumps (the statement
+(cj) of \cref{pf:linkN-adm:def-cores} at every place) and the global letter condition (\cref{pf:linkN-adm:def-letter}).
+Among the components of $\mathcal A_B$ used below are:
+\begin{itemize}
+\item[(gen)] the \emph{generator bound}: if $K$ is unramified and $T_2$ is crystalline, $\linkNadmHf(T_2)$ is generated by
+  at most $([K:\Q_\ell]+1)\rank T_2$ classes (an integral analogue of the bound $\dim\linkNadmHf(V)\le([K:\Q_\ell]+1)\dim V$
+  given by the dimension formula of \cite{BlochKato1990});
+\item[(lift)] \emph{the lifting theorem in case~A}: if $T_1,T_2$ are crystalline, $F$ is onto and the jumps of $T_1$ lie
+  within $(M^-,M^+)$, then $F$ lifts with exponent $e_{PA}(\ell,M_{\max},H_{\max},J)$;
+\item[(cores)] the seventeen statements of the bounds package $\mathcal B$, which together with the jump inputs give the
+  core local statements at every place in case~A with $\ell\ge11$ (\cref{pf:linkN-adm:cores}).
+\end{itemize}
+
+\begin{proposition}[Reduction of theorem~B]\label{pf:linkN-adm:thmBred}
+Let $C\ge320$ and assume the jump inputs. Then $\mathcal A_B$ implies the conclusion of \cref{pf:linkN-adm:thmB} with
+constant $C$, for all primes $\ell$, unramified $K$ and admissible $L_C$.
+\formallabel{GlobalTheory.T.theoremB_of_localFilteredHypotheses}
+\formallabel{GlobalTheory.theoremB_of_admitted_inputs}
+\formallabel{Formalism.MainNotions.N.Ln17.frobenius_statement_of_fontaine}
+\formallabel{Formalism.MainNotions.N.Ln17.stmt_holds}
+\formallabel{Formalism.MainNotions.N.Ln17.frobenius_statement_of_inputs}
+\end{proposition}
+
+\begin{proof}
+Extract from $\mathcal A_B$ the seventeen statements of the bounds package $\mathcal B$ (\cref{pf:linkN-adm:cores}) used in
+\cref{pf:linkN-adm:thmBat} and apply that proposition,
+with the jump inputs, at every prime $\ell$, unramified $K$ and admissible $L_C$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:linkN-adm:thmB}]
+The package $\mathcal A_B$ is proved from Bloch--Kato's local theory, local duality and the Euler characteristic formula in
+\cref{pf:linkN-adm:admB}. The jump inputs are
+\lref{GlobalTheory.FontaineIneq.one_place_admissible_of_gap_constant_le} (the one-place Fontaine inequality for all
+fields and coefficients), \lref{GlobalTheory.jumps_exact_adm} (exactness of the Hodge--Tate jumps in short exact
+sequences of crystalline lattices) and the global letter condition, which \cref{pf:linkN-adm:letter} derives from the norm
+bound for $\Delta$-invariant lattices proved in \lref{GlobalTheory.T.wachLattice_laterClauses_hold}. Apply
+\cref{pf:linkN-adm:thmBred}.
+\end{proof}
+
+The rest of this subsection proves the one-place statement. It bounds $\linkNadmcol(F)$ by the counting principle
+(\cref{pf:linkN-adm:colexp}): the number of generators of $\linkNadmHf(T_2)$ is at most $(n+1)r$, and the exponents come from
+a decomposition of the letters into \emph{arcs}.
+
+\begin{proposition}[Theorem~B at one place]\label{pf:linkN-adm:thmBat}
+Assume the bounds package $\mathcal B$ and the jump inputs. Then the conclusion of
+\cref{pf:linkN-adm:thmB} holds for every $C\ge320$ at every prime $\ell$, unramified $K$ and admissible $L_C$.
+\formallabel{Formalism.MainNotions.N.Ln17.thmB_at}
+\end{proposition}
+
+\begin{proof}
+As $\OO_C$ is a discrete valuation ring and $\ell\ne0$ in $\OO_C$, the counting principle applies. By (gen) applied to $T_2$,
+$\linkNadmHf(T_2)$ is generated by at most $(n+1)r$ classes; by (lift), $F$ lifts with exponent $e'$. The height satisfies
+$\mathrm{lg}\ge0$, and \eqref{pf:linkN-adm:eq-Sg} gives
+\begin{equation}\label{pf:linkN-adm:eq-Sgle}
+\mathrm{Sg}\le X_0:=\frac h{\ell^2}+\frac{w+\eta}{\ell}+S+1+\mathrm{lg},
+\end{equation}
+since $S/\ell\le S$.
+
+(a) Assume the type alternates and no three consecutive letters are thick.
+\emph{First case: some letter is thick and $b/4<40\,\mathrm{Sg}$.} By \cref{pf:linkN-adm:thick}, $F$ lifts with an exponent
+$e_0\le160\,\mathrm{Sg}$. The counting principle with $Z=\emptyset$ and $e=e_0$ gives $\linkNadmcol(F)\preceq(n+1)re_0$,
+and $e_0\le160X_0\le C(X_0+\eta\beta)$ as $C\ge320$; the term $Cnme'$ is non-negative.
+\emph{Second case: no letter is thick, or $40\,\mathrm{Sg}\le b/4$.} By \cref{pf:linkN-adm:sumalt} there are $e\in\N$ and a
+finite set $Z$ of finite cocycles with $e\le55\,\mathrm{Sg}+13S+\eta\beta$, $|Z|\le4nm$ and
+$\ell^e\linkNadmZf(T_2)\subseteq\linkNadmIm(F)+\OO_CZ$. The counting principle gives $\linkNadmcol(F)\preceq(n+1)re+|Z|e'$.
+Now $e\le55X_0+13S+\eta\beta\le69(X_0+\eta\beta)\le C(X_0+\eta\beta)$ and $|Z|\le4nm\le Cnm$.
+
+(b) Assume the type is constant and no $R$ consecutive letters are thick. By \cref{pf:linkN-adm:sumalt} there are $e$ and
+$Z$ with $e\le18\,\mathrm{Sg}+3R^2(S+1+\mathrm{lg})+1$, $|Z|\le(R+1)nm$ and the same exponent property. Put
+$Y=h/\ell^2+(w+\eta)/\ell+R^2(S+1+\mathrm{lg})+\eta\beta\ge1$. Since $\mathrm{Sg}\le X_0\le Y$, $e\le21Y+1\le22Y\le CY$; and
+$R+1\le2R^2\le CR^2$. The counting principle gives $\linkNadmcol(F)\preceq(n+1)re+|Z|e'\le C(n+1)rY+CnmR^2e'$.
+\end{proof}
+
+\begin{definition}[Arcs]\label{pf:linkN-adm:def-arcs}
+An \emph{arc datum} $\mathcal A$ (for $n$ letters) consists of $G_0,S,\eta,h,j\in\N$, a \emph{type} for every letter (thin,
+$\mathrm{up}(b)$ or $\mathrm{down}(b)$ with $b\in\N$), a set of \emph{cuts} and a \emph{length} $\mathrm{len}(c)$ for every
+cut. The \emph{window} of a type is $[-G_0,G_0]$ for thin, $[b,b+S]\cup[-\eta,\eta]$ for $\mathrm{up}(b)$ and
+$[-b-S,-b]\cup[-\eta,\eta]$ for $\mathrm{down}(b)$. The datum is \emph{valid} if there is a cut, $j\ge1$, every cut $c$
+satisfies $j\le\mathrm{len}(c)\le n$, $c-\mathrm{len}(c)$ is a cut and no $c-d$ with $1\le d<\mathrm{len}(c)$ is a cut,
+$1\le h$, $G_0\le h$, and conditions relating the sizes of the types to $S,\eta,h,G_0$ and to the letters following the
+cuts hold. Attached to $\mathcal A$ and the prime $\ell$ are $M=\lfloor2h/(\ell-1)\rfloor+1$ and the \emph{shift}
+$\sigma(\mathcal A)=\lceil(2G_0+M/\ell^{j-1})\ell/(\ell-1)^2+1\rceil$. Attached to a cut $c$ of length $L$ are: the exponents
+$H_s$ ($s<L$), equal to $G_0$ if the letter $c-s$ is thin or $L-s\le j$, and to $h$ otherwise; the finite set $J_c\subseteq\Z$,
+the union of $[-2G_0,G_0]$ (if some letter $c-s$, $s<L$, is thin) and of the intervals $[-b-S,-b)$, resp.\ $[b,b+S)$, for
+the letters $c-s$, $s<L$, of type $\mathrm{up}(b)$, resp.\ $\mathrm{down}(b)$; the number
+$\kappa_c=L+\sum_{i\in J_c\setminus\{0\}}(L+1+v_\ell(i))$; and the number $\mathrm{ro}(c)\le L$ of $s<L$ for which the
+letter $c-s$ is not thin.
+
+Let a word with some non-thick letter be given. A letter $c$ is a \emph{cut} if $c+1$ is not thick. The \emph{length}
+$\mathrm{len}(c)$ of a cut is the least $d\ge1$ such that $c-d+1$ is not thick; the \emph{arc} of $c$ consists of the letters
+$c-\mathrm{len}(c)+1,\dots,c$ (a non-thick letter followed by $\mathrm{len}(c)-1$ thick letters), and the arcs partition the
+letters. The \emph{arc datum of the word} has these cuts and lengths, $G_0=w+S$, the parameters $S,\eta$ of the word, $h$ its
+height, $j=1$, and at the letter $a$ the type $\mathrm{up}(\mathrm{sz}_a)$ if $\mathrm{up}(a)$ holds and
+$\mathrm{down}(\mathrm{sz}_a)$ otherwise.
+\formal{Formalism.MainNotions.N.Ln17.arcOf}
+\formal{Formalism.MainNotions.ArcLiftingSetup.ArcP.OK}
+\formal{Formalism.MainNotions.ArcLiftingSetup.ArcP.σ}
+\formal{Formalism.MainNotions.ArcLiftingSetup.ArcP.JS}
+\formal{Formalism.MainNotions.N.Ln17.kapC}
+\end{definition}
+
+\paragraph{Wach coordinates.}
+The arc results are statements about elements of the modules $D(T)$ of a Wach structure, expressed in coordinates
+attached to the arcs. We fix the notation.
+
+\begin{definition}[Wach coordinates at a cut]\label{pf:linkN-adm:def-wc}
+Let $W$ be a Wach structure in case~A (\cref{pf:linkN-adm:wach}), with $p\ge5$, ring $A=\OO_C[[X]]^{\Z/n}$, idempotents
+$e_i\in A$ of the letters, generator $\gamma_0$ of $\Gamma$ acting as $\gamma$ on every $D(T)$, and ring $E_W$ (the ring
+$\mathcal E$ of $W$, on which $\gamma_0$ acts by $\gamma_E$). Let $A^\Delta\subseteq A$ be the subring of elements fixed by
+the torsion part $\Delta$ of $\Gamma$, $\pi_0\in A^\Delta$ the uniformiser of $W$, $q=\pi_0+p$, $q_s=\varphi^s(q)$ for
+$s\in\N$, and $\mathcal P\subseteq A$ the multiplicative monoid generated by the $q_s$. For a lattice $T$ let $N^\Delta(T)$
+be the $\Delta$-invariant part of the Wach module $N(T)$ and, for a letter $c$, $N_c(T)=\{y\in N^\Delta(T):e_cy=y\}$; for
+$f\in A$ put $fN_c(T)=\{fy:y\in N_c(T)\}$.
+\begin{enumerate}[label=(\alph*)]
+\item $I_c(T)$ is the set of $w\in D(T)$ with $e_cw=w$, $w$ fixed by $\Delta$, and $(\gamma-1)w\in\pi_0N_c(T)$.
+\item For a letter $c'$ and $e\in\N$, $P_{c',e}(T)\subseteq D(T)$ is the additive group generated by the elements
+  $a\varphi^e(x)$ with $a\in A^\Delta$ and $x\in N_{c'}(T)$.
+\item A \emph{horizontal family} $(b,\mathrm{sol})$ at $c'$ consists of a \emph{$\Delta$-frame} $b=(b_1,\dots,b_d)$ in
+  $N_{c'}(T)$ (every element of $N_{c'}(T)$ is uniquely $\sum_ma_mb_m$ with $a_m\in e_{c'}A^\Delta$) and sequences
+  $\mathrm{sol}_k=(\mathrm{sol}_{k,r})_{r\ge0}$ in $L_C^d$, $\mathrm{sol}_{k,0}$ the $k$-th unit vector, such that for
+  all $R,\kappa\in\N$ for which the vectors $p^\kappa\mathrm{sol}_{k,r}$ ($r<R$) are integral, the element
+  $H=\sum_{r<R}\pi_0^r\sum_mp^\kappa\mathrm{sol}_{k,r,m}b_m$ satisfies $\gamma H-H\in\pi_0^RN_{c'}(T)$.
+\item Let $\mathcal A$ be a valid arc datum (\cref{pf:linkN-adm:def-arcs}) and $c$ a cut of length $L$; put $c'=c-L$,
+  $\Lambda_c=\prod_{s<L}q_s^{H_s}\in\mathcal P$ with the exponents $H_s\in\{G_0,h\}$ fixed by the types,
+  $M=\lfloor2h/(\ell-1)\rfloor+1$ and $\sigma=\sigma(\mathcal A)$. For a horizontal family at $c'$, an element $x\in D(T)$
+  \emph{has coefficients} $f=(f_k)\in E_W^d$ if there are $\kappa,\kappa'\in\N$, elements $a_k\in A^\Delta$ with
+  $\Lambda_cf_k=a_k$ in $E_W$, and truncations $H_k$ as in (c) of the horizontal sections (with $R=M$ and the multiplier
+  $p^\kappa$), such that $p^{\kappa'}\bigl(p^\kappa\Lambda_cx-\sum_ka_k\varphi^L(H_k)\bigr)\in\pi_0\Lambda_c^2P_{c',L}(T)$.
+\item The \emph{class relation} at $c$: $w\in D(T)$ and $x\in H^1(T)$ are related, written $w\mapsto_cx$, if there is
+  a \emph{transport term} $\tau$ for $w$ (an element of $\pi_0P_{c,j}(T)$ built from a solution of the $\gamma$-equation for
+  $(\gamma-1)w$ in a $\Delta$-frame at $c$, as in the formal definition) such that $x$ is the image under the class map of
+  $W$ of a $\Delta$-Herr cocycle $(p^\sigma\varphi^j(w)-\tau,z)$ with $z\in\pi_0^MN^\Delta(T)$.
+\item Let $F\colon T_1\to T_2$ be a lattice map and $(b,\mathrm{sol})$ a horizontal family of $T_2$ at $c'$. A vector
+  $g\in E_W^d$ \emph{lifts with exponent} $e$ if there are $w_1\in I_c(T_1)$ with $\Lambda'w_1\in N_c(T_1)$ for some
+  $\Lambda'\in\mathcal P$, and $z\in\pi_0N_c(T_2)$, such that $\Lambda_cF(w_1)\in P_{c',L}(T_2)$ and $F(w_1)-z$ has the
+  coefficients $(p^eg_k)_k$. $F$ has the \emph{arc lifting property} for $(b,\mathrm{sol},k_0,f)$ ($f\in E_W$) at $c$ with
+  exponent $e$ if the vector $(\delta_{k,k_0}f)_k$ lifts with exponent $e$.
+\item $F$ \emph{kills at the letter} $i$ with $a\in A$ if $ay\in F(N_i'(T_1))$ for every $\Delta$-invariant $y$ in the
+  letter-$i$ part $N_i'(T_2)$ of $N(T_2)$.
+\item A lattice $T$ satisfies the \emph{window condition} for $\mathcal A$ if it is crystalline and its jumps at the
+  embeddings over every letter $i$ lie in the window of the type of $i$.
+\end{enumerate}
+The formal development also defines a \emph{filtration condition} on an index $k_0$ of a horizontal family (the
+vector $\varphi^L\mathrm{cmp}(b_{k_0})$ lies in the $\varphi^s$-images of suitable steps of the Hodge filtration on
+$D_{\mathrm{cris}}$ at the letters $c-s$ of type up), a condition (Id) on an element $f\in E_W$ (membership in fractional
+ideals of $E_W$ determined by the types of the arc), and a \emph{pole condition} on an element $w$ relative to a
+horizontal family (its coefficients are combinations of elements of such ideals with poles bounded by the types). We use
+these only as hypotheses that are passed on.
+\formal{Formalism.MainNotions.ArcLiftingSetup.InI}
+\formal{Formalism.MainNotions.ArcLiftingSetup.Pp}
+\formal{Formalism.MainNotions.ArcLiftingSetup.IsHor}
+\formal{Formalism.MainNotions.ArcLiftingSetup.RepVV}
+\formal{Formalism.MainNotions.ArcLiftingSetup.IsRho}
+\formal{Formalism.MainNotions.N.Ln17.PCutBoundRho.LV}
+\formal{Formalism.MainNotions.N.FrobeniusPowerSeries.LiftsAt}
+\formal{Formalism.MainNotions.LiftingTheory.KillsΔ}
+\formal{Formalism.MainNotions.ArcLiftingSetup.Win}
+\end{definition}
+
+\begin{definition}[The core local statements]\label{pf:linkN-adm:def-cores}
+Let $W$ be as in \cref{pf:linkN-adm:def-wc}, $C_R\in\R$, and $\mathrm{Pt}$ a predicate on triples (letter, element of
+$L_C$, embedding $K\to L_C$), the \emph{pole points}. The \emph{core local statements} at $W$ are the following. Except
+for (C0), (r2), (ext) and the jump statements, each one concerns $W$ in case~A and is quantified over valid arc data
+$\mathcal A$, cuts $c$ and lattices with the window condition; we describe them briefly.
+\begin{itemize}
+\item[(C0)] $p\ge5$, and $\OO_C\to L_C$ is injective with image $\{x:v(x)\ge0\}$.
+\item[(wr)] The \emph{reduction statement} with constant $C_R$: let $F\colon T_1\to T_2$ be an onto map of crystalline
+  lattices such that the jumps of $T_1$ at the embeddings over every letter $i$ lie in $[-M_i,h_i]$; put $H_k=M_k+h_k$,
+  $H_{\max}=\max_kH_k$ and $c_H=\lceil1+\log_\ell(H_{\max}+1)\rceil$. Then for every letter $i$ there are
+  $s_i,r_i\in\N$ with
+  \[
+  s_i\le\sum_{a\ge0}\bigl(H_{i+a+1}+c_H+3\bigr)(\ell-1)^{-a},\qquad r_i\le\frac{s_i\ell}{(\ell-1)^2}+c_H,
+  \]
+  such that $F$ kills at $i$ with $p^{r_i}$; the statement contains further bounds of the same kind.
+\item[(H), (Tr)] Two statements of the local lifting theory: (H) describes $\gamma$ on $\pi_0^rN_i(T)$ through a unit
+  $u_1\in\OO_C$ with $v(u_1^r-1)=1+v_p(r)$ and bounds the coefficients of solutions of the $\gamma$-equation in a
+  $\Delta$-frame; (Tr) gives decompositions of the elements $\varphi^k(q)$ and of the powers of $\varphi^j(\pi_0)$.
+\item[(dc)] $D_{\mathrm{cris}}$ is exact and strict on short exact sequences of crystalline representations.
+\item[(relay)] The \emph{relay statement}: for every crystalline $T$ with the window condition, the elements of
+  $P_{c,j}(T)$ are mapped into $\pi_0^MN_{c+j}(T)$ by $\mathrm{JJ}=\pi_0^M\prod_{k<j}q_k^{2G_0}$ and into $N_{c+j}(T)$ by
+  $\prod_{s<j}q_s^{G_0}$; every $w\in I_c(T)$ has a transport term, unique modulo $\mathrm{JJ}\cdot P_{c,j}(T)$; the class
+  relation $\mapsto_c$ is the graph of an additive map on $I_c(T)$ which vanishes on $I_c(T)\cap\pi_0N_c(T)$ and takes
+  values in $\linkNadmHf(T)$ on the elements $w$ with $\Lambda'w\in N_c(T)$ for some $\Lambda'\in\mathcal P$; and it is
+  natural: if $w\mapsto_cx$ then $F(w)\mapsto_cF_*x$ for every lattice map $F$ between lattices with the window condition.
+\item[(arc)] The \emph{arc statement}: for $j\le e\le L$, with $a=c'+e$ and $\Lambda=\Lambda_{a,e}$ the analogue of
+  $\Lambda_c$ for $(a,e)$: $\varphi^{e-j}(\mathrm{JJ})\in\pi_0\Lambda^2A^\Delta$; $\Lambda P_{c',e}(T)\subseteq N_a(T)$ and
+  $\Lambda N_a(T)\subseteq P_{c',e}(T)$; and for every horizontal family at $c'$: the vectors $\varphi^e\mathrm{cmp}(b_k)$
+  form a basis of the part of $D_{\mathrm{cris}}$ at the embedding of the letter $a$; every $x$ with $\Lambda x\in
+  P_{c',e}(T)$ is such that $p^\sigma x$ has coefficients in $\Lambda^{-1}e_aA^\Delta$, and conversely every such coefficient
+  vector $f$ is the vector of coefficients of $p^\sigma x$ for some $x$ with $\Lambda x\in P_{c',e}(T)$; the analogous
+  statements for $N_a(T)$ with a \emph{lattice condition} (Lat) on the coefficients; and the \emph{frame property}: if
+  $\Lambda x\in P_{c',e}(T)$ and $x$ has coefficients $0$, then $x\in\pi_0\Lambda P_{c',e}(T)$.
+\item[(arc$'$)] If $F$ is onto between crystalline lattices and kills at a letter $c'$ with $p^r$, then for every $e$ and
+  $x_2\in N_{c'}(T_2)$ there is $x_1\in N_{c'}(T_1)$ with $F(\varphi^e\mathrm{cmp}\,x_1)=p^r\varphi^e\mathrm{cmp}\,x_2$
+  in $V_2\otimes B$, where $\mathrm{cmp}$ is the comparison map of $W$.
+\item[(split)] The \emph{splitting statement}: if $Y$ is a crystalline extension of the unit lattice $\mathbf 1$ by $T_2$
+  attached to a cocycle $\xi$ of $T_2$ and the projection $Y\to\mathbf 1$ kills at every cut with $p^r$, there are
+  $w_c\in I_c(T_2)$ with $\Lambda_cw_c\in P_{c',L}(T_2)$ satisfying the pole condition, and classes $x_c$ with
+  $w_c\mapsto_cx_c$, such that $p^{r+2\sigma}[\xi]=\pm\sum_cx_c$.
+\item[(univ), (nn)] The \emph{universal statements}: (univ) provides, for $T_2$ with the window condition and low counts
+  at most $m$ at the letters of type up or down, and for a cut $c$, a horizontal family of $T_2$ at $c'$ with the
+  properties (U0)--(U3) listed in the proof of \cref{pf:linkN-adm:arclen}; (nn) is a related statement on constant
+  coefficient vectors.
+\item[(sat), (sat$'$)] Saturation: if $f,f'$ are products of the $q_s$, $f'x\in N^\Delta(T)$ (resp.\ $f'x\in P_{c,e}(T)$)
+  and $p^kx\in fN^\Delta(T)$ (resp.\ $p^kx\in fP_{c,e}(T)$) for some $k$, then $x\in fN^\Delta(T)$ (resp.\
+  $x\in fP_{c,e}(T)$).
+\item[(kill1), (kill2)] The \emph{killer statements} for the polynomials
+  \[
+  P_{L,J}(X)=\prod_{i\in J\setminus\{0\}}\bigl(X^{p^L}-\chi(\gamma_0)^{ip^L}\bigr)\cdot\sum_{k<p^L}X^k\in\OO_C[X]
+  \qquad(L\in\N,\ J\subseteq\Z\text{ finite}):
+  \]
+  (kill1) $v(P_{L,J}(1))=L+\sum_{i\in J\setminus\{0\}}(L+1+v_p(i))$, together with the action of $P_{L,J}(\gamma_E)$ on
+  fractional ideals of $E_W$; (kill2) $P_{L,J}(\gamma)w-P_{L,J}(1)w\in\pi_0N_c(T)$ whenever $T$ is crystalline, $e_cw=w$
+  and $(\gamma-1)w\in\pi_0N_c(T)$.
+\item[(r2)] The \emph{content divisibility statement}, a statement on power series over discrete valuation rings.
+\item[(P)] The clauses (P2), (P3), (P4) (with the pole points $\mathrm{Pt}$), (P5) and (P9) of the theory of
+  $\Delta$-invariant Wach lattices; for instance (P2) states that $N(T)$ is $\Gamma$-stable with $(\gamma-1)N(T)\subseteq
+  XN(T)$ for crystalline $T$, and (P9) gives the ring relations of $\pi_0$ and the structure of $N(T)$ over the letters.
+\item[(pt)] For every letter $i$ and embedding $\tau$ over $i$ there is a primitive $p$-th root of unity $\zeta$ with
+  $\mathrm{Pt}(i,\zeta,\tau)$; and $\gamma(\pi_0)\in\pi_0A^\Delta$.
+\item[(ext)] Every finite cocycle of a crystalline lattice $T$ is attached to a crystalline extension of $\mathbf 1$ by $T$.
+\item[(cj), (jq), (jy)] In a short exact sequence of crystalline lattices the jumps of the middle term are those of the
+  two others; if $F\colon T_1\to T_2$ is onto between crystalline lattices, every jump of $T_2$ is a jump of $T_1$; every
+  jump of a crystalline extension of $\mathbf 1$ by a crystalline $T_2$ is $0$ or a jump of $T_2$.
+\item[(c4)] The letter condition at $W$ (\cref{pf:linkN-adm:def-letter}).
+\item[(sec), (gl), (hf), (fl)] Statements on coefficients relative to horizontal families: compatibility with lattice
+  maps (sec), lifting of coefficient vectors along $\gamma$ (gl), existence of a horizontal family at every letter for
+  every lattice with the window condition (hf), and low steps of the filtration (fl).
+\end{itemize}
+\formal{Formalism.MainNotions.N.Ln17.CoresW}
+\formal{Formalism.MainNotions.LiftingTheory.coreWR}
+\formal{Formalism.MainNotions.ArcLiftingSetup.RelayCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.ArcCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.ArcLCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.SplitCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.UnivCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.KillerLevCore}
+\formal{Formalism.MainNotions.ArcLiftingSetup.KillerModCore}
+\end{definition}
+
+\paragraph{The killing exponent and the arc setup.}
+
+\begin{lemma}[Killing exponent at a cut]\label{pf:linkN-adm:killcut}
+Let $W$ be in case~A with $\ell\ge11$ and (wr). Let $\Phi\colon T\to T'$ be an onto map of crystalline lattices such that
+the jumps of $T$ over every letter $i$ lie in $[-M_i,h_i]$, and let $h,w,S,\eta\in\N$ with $\eta+1\le h$ and
+$M_i+h_i\le h+\eta$ for all $i$. Put
+\[
+r_B=\frac{2(w+S+\eta)}\ell+\frac{2h}{\ell^2}+2\log_\ell(2h)+3 .
+\]
+If $c$ is a letter with $M_{c+1}+h_{c+1}\le w+S+\eta$, then $\Phi$ kills at $c$ with $p^{\lfloor r_B\rfloor}$. Moreover
+$r_B\le3\bigl(h/\ell^2+(w+S+\eta)/\ell+\log_\ell(2h)+1\bigr)$.
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.kill_cut}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.rr_le}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.tsum_three}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.cW_le}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.killsΔ_mono}
+\end{lemma}
+
+\begin{proof}
+Let $s=s_c$, $r=r_c$ be given by (wr), $H_1=H_{c+1}\le w+S+\eta$, $H=H_{\max}\le h+\eta$ and $c_H$ as in (wr). Put
+$x_0=H_1+c_H+3$, $X=H+c_H+3$ and $u=(\ell-1)^{-1}<1$. The terms of the series in (wr) are nonnegative, the term for
+$a=0$ is at most $x_0$ and the others at most $X$, so comparison with a geometric series gives
+\[
+s\le x_0+Xu+\frac{Xu^2}{1-u}=x_0+\frac X{\ell-1}+\frac X{(\ell-1)(\ell-2)}=x_0+\frac X{\ell-2}.
+\]
+Since $H+1\le h+\eta+1\le2h$ and $\lceil y\rceil<y+1$, we have $c_H\le2+\lambda$ with $\lambda=\log_\ell(2h)\ge0$. Put
+$P=\ell/(\ell-1)^2$ and $Q=\ell/((\ell-1)^2(\ell-2))$. For $\ell\ge11$ one has $P+Q=\ell/((\ell-1)(\ell-2))\le\min(2/\ell,1/8)$
+and $Q\le2/\ell^2$ (direct verifications). From $r\le sP+c_H$,
+\[
+r\le(w+S+\eta)P+(h+\eta)Q+(c_H+3)(P+Q)+c_H\le\frac{2(w+S+\eta)}\ell+\frac{2h}{\ell^2}+\frac{9c_H+3}8,
+\]
+using $\eta Q\le(w+S+\eta)Q$; and $(9c_H+3)/8\le(21+9\lambda)/8\le2\lambda+3$. Hence $r\le r_B$, and as $r\in\N$,
+$r\le\lfloor r_B\rfloor$. If $\Phi$ kills at $c$ with $p^r$ it kills with $p^{r'}$ for every $r'\ge r$, since the image
+$\Phi(N_c'(T))$ is an $\OO_C$-module. The last inequality holds termwise, as $\lambda\ge0$.
+\end{proof}
+
+\begin{proposition}[Arc setup]\label{pf:linkN-adm:arcsetup}
+Let $W$ be in case~A, let $T_1,T_2$, $F$ and a word $(b,w,S,\eta,m,\mathrm{up},\mathrm{sz},M^-,M^+)$ form a setting for
+theorem~B with $\ell\ge11$, $20w,20\eta,20S\le b$ and some letter not thick, and let $\mathcal A$ be the arc datum of the
+word. Assume (wr) for some $C_R$, (dc), (cj), and that every jump of $T_2$ is a jump of $T_1$. Then: $\mathcal A$ is valid;
+$T_1$ and $T_2$ satisfy the window condition; $\sum_c\mathrm{len}(c)=n$; $\mathrm{len}(c)\le3$ for all cuts if the type
+alternates and no three consecutive letters are thick; $\mathrm{len}(c)\le R$ for all cuts if $R\ge1$, the type is
+constant and no $R$ consecutive letters are thick; $\sigma(\mathcal A)\le3\,\mathrm{Sg}$; and there is $r_r\in\N$ with
+$r_r\le3\,\mathrm{Sg}$ such that $F$ kills at every cut with $p^{r_r}$ and, for every crystalline extension $Y$ of the unit
+lattice by $T_2$ attached to a cocycle of $T_2$, $Y$ satisfies the window condition and the projection $Y\to\mathbf 1$
+kills at every cut with $p^{r_r}$.
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.arc_setup_theorem}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.arcSetup_of}
+\end{proposition}
+
+\begin{proof}
+The validity of $\mathcal A$, the sum of the lengths, the two length bounds and the bound for $\sigma(\mathcal A)$ are
+\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.SetupA.arcBasic_core}, a combinatorial analysis of the arcs of a
+word together with a numerical estimate of $\sigma$ (it uses only the setting). The hypothesis (dc) is not used.
+
+\emph{Windows.} The type of the letter $i$ is $\mathrm{up}(\mathrm{sz}_i)$ or $\mathrm{down}(\mathrm{sz}_i)$, with window
+$[\mathrm{sz}_i,\mathrm{sz}_i+S]\cup[-\eta,\eta]$, resp.\ $[-\mathrm{sz}_i-S,-\mathrm{sz}_i]\cup[-\eta,\eta]$. The setting
+says that the jumps of $T_1$ lie in these windows and that $T_1,T_2$ are crystalline; the jumps of $T_2$ are jumps of
+$T_1$. So $T_1$ and $T_2$ satisfy the window condition.
+
+\emph{Killing.} Let $h$ be the height of the word. Put $M'_i=\eta$, $h'_i=\mathrm{sz}_i+S$ if $\mathrm{up}(i)$, and
+$M'_i=\mathrm{sz}_i+S$, $h'_i=\eta$ otherwise. As $\eta<\mathrm{sz}_i$, every window is contained in $[-M'_i,h'_i]$, so the
+jumps of every lattice with the window condition over the letter $i$ lie in $[-M'_i,h'_i]$. Next
+$M'_i+h'_i=\mathrm{sz}_i+S+\eta\le h+\eta$: for a thick letter $\mathrm{sz}_i\le b+\eta$ and $h=b+\eta+S$, and for a
+non-thick letter $\mathrm{sz}_i\le w$ and $h\ge w+S$. A non-thick letter $i$ gives $\eta+1\le\mathrm{sz}_i\le w\le h$. If
+$c$ is a cut, $c+1$ is not thick, so $M'_{c+1}+h'_{c+1}\le w+S+\eta$. Let $r_r=\lfloor r_B\rfloor$ with $r_B$ as in
+\cref{pf:linkN-adm:killcut} for $(h,w,S,\eta)$. Since $r_B\ge0$ and the right-hand side of the last inequality of that
+lemma is $3\,\mathrm{Sg}$, we get $r_r\le3\,\mathrm{Sg}$, and the lemma applied to $F$ shows that $F$ kills at every cut
+with $p^{r_r}$.
+
+\emph{Extensions.} Let $Y$ be a crystalline extension of $\mathbf 1$ by $T_2$, with projection $\pi\colon Y\to\mathbf 1$.
+The unit lattice is crystalline with the single jump $0$ (\lref{Formalism.MainNotions.LiftingTheory.lone_HOne0}, which
+states this for the unit lattice of $W$). By (cj) every jump of $Y$ is a jump of $T_2$ or $0$, and $0$ lies in every window;
+so $Y$ satisfies the window condition. Since $\pi$ is onto between crystalline lattices and the jumps of $Y$ lie in
+$[-M'_i,h'_i]$, \cref{pf:linkN-adm:killcut} applies to $\pi$ with the same data and shows that $\pi$ kills at every cut
+with $p^{r_r}$.
+\end{proof}
+
+\paragraph{Arc lifting.}
+In the next two propositions $W$ is in case~A, $T_1,T_2$, $F$ and a word form a setting for theorem~B with $\ell\ge11$,
+$20w,20\eta,20S\le b$ and some letter not thick, $\mathcal A$ is the arc datum of the word, $T_1$ and $T_2$ satisfy the
+window condition, and $r_r\in\N$ satisfies $r_r\le3\,\mathrm{Sg}$ and $F$ kills at every cut with $p^{r_r}$. We assume the
+core local statements at $W$ (only some of them are used in each proof). For a cut $c$ we consider a horizontal family
+$(b,\mathrm{sol})$ of $T_2$ at $c'=c-\mathrm{len}(c)$, an index $k_0$ satisfying the filtration condition, and $f\in E_W$
+satisfying (Id).
+
+\begin{proposition}[Arcs of a single type]\label{pf:linkN-adm:single}
+Let $c$ be a cut such that $\mathrm{up}(c-s)=\mathrm{up}(c)$ for all $s<\mathrm{len}(c)$. Then $F$ has the arc lifting
+property for $(b,\mathrm{sol},k_0,f)$ at $c$ with some exponent $e_1\le6\,\mathrm{Sg}+1$.
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.arc_single_type_bound}
+\end{proposition}
+
+\begin{proof}
+Take $e_1=r_r+\sigma(\mathcal A)\le3\,\mathrm{Sg}+3\,\mathrm{Sg}$ (\cref{pf:linkN-adm:arcsetup}). Every letter of the arc
+datum of a word has type up or down. Let $L=\mathrm{len}(c)$.
+
+If $\mathrm{up}(c)$ holds, all letters of the arc have type up. The lifting lemma for arcs of type up
+(\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.liftsAt_thick_letter_type}: under the core local statements, if
+$F$ is onto and kills at every cut with $p^{r}$, then for a horizontal family at $c'$, an index with the filtration
+condition and $f$ satisfying the ideal conditions of (Id), the arc lifting property holds with exponent
+$r+\sigma(\mathcal A)$) gives the claim.
+
+Otherwise all letters of the arc have type down, and the denominator of the ideal condition in (Id) is $1$. The letter
+$c'$ is a cut, since $\mathcal A$ is valid. By (hf) there is a horizontal family $(b^1,\mathrm{sol}^1)$ of $T_1$ at $c'$. By
+(arc$'$), applied to the killing at the cut $c'$ and to $b_{k_0}\in N_{c'}(T_2)$, there is $x_1\in N_{c'}(T_1)$ with
+$F(\varphi^L\mathrm{cmp}\,x_1)=p^{r_r}\varphi^L\mathrm{cmp}\,b_{k_0}$. Write $x_1=\sum_ma_mb^1_m$ with $a_m\in e_{c'}A^\Delta$;
+the comparison map is additive and satisfies $\mathrm{cmp}(ay)=a(0)\,\mathrm{cmp}(y)$ for $y$ at the letter $c'$, where
+$a(0)\in\OO_C$ is the constant coefficient of the component of $a$ at $c'$. With $c_1=(a_m(0))_m\in\OO_C^{d_1}$ we obtain
+$F\bigl(\sum_mc_{1,m}\varphi^L\mathrm{cmp}\,b^1_m\bigr)=p^{r_r}\varphi^L\mathrm{cmp}\,b_{k_0}$. The lifting lemma for arcs
+with a constant vector (\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.liftsAt_thin_letter_type}: under the core
+local statements, given horizontal families of $T_1$ and $T_2$ at $c'$, a set $S_i$ of up letters of the arc, a vector
+$c_1$ satisfying the filtration conditions at $S_i$ with $F(\sum_mc_{1,m}\varphi^L\mathrm{cmp}\,b^1_m)=
+p^{s_0}\varphi^L\mathrm{cmp}\,b_{k_0}$, and $f$ in the fractional ideals determined by $S_i$ and the down letters, the arc
+lifting property holds with exponent $s_0+\sigma(\mathcal A)$), applied with $S_i=\emptyset$ and $s_0=r_r$, gives the
+claim; its conditions on $f$ are those of (Id), and the condition at up letters is vacuous.
+\end{proof}
+
+\begin{proposition}[Arc lifting for alternating types]\label{pf:linkN-adm:arcalt}
+Let $C_b\ge2$ and let $\beta$ be the band indicator of the word with constant $C_b$. Assume that the type alternates and no
+three consecutive letters are thick, and let $c$ be a cut with $\mathrm{len}(c)\le2$ or $40\,\mathrm{Sg}\le b/4$. Then $F$
+has the arc lifting property for $(b,\mathrm{sol},k_0,f)$ at $c$ with some exponent $e_1\le40\,\mathrm{Sg}+\eta\beta$.
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.arc_proposition_alternative}
+\end{proposition}
+
+\begin{proof}
+We have $\mathrm{Sg}\ge1$ (all terms of \eqref{pf:linkN-adm:eq-Sg} are nonnegative, with $\log_\ell0=0$) and
+$\eta\beta\ge0$. By \cref{pf:linkN-adm:arcsetup}, $1\le\mathrm{len}(c)\le3$.
+\begin{itemize}
+\item If $\mathrm{len}(c)=1$, the arc consists of $c$ alone and \cref{pf:linkN-adm:single} gives $e_1\le6\,\mathrm{Sg}+1$.
+\item If $\mathrm{len}(c)=2$, then $\mathrm{up}(c-1)\ne\mathrm{up}(c)$ because the type alternates, and the arc theorem for
+  length two (\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.arc_length_one_two_theorem}: under these hypotheses,
+  for an arc of length $2$ with letters of different types, the arc lifting property holds with an exponent at most
+  $15\,\mathrm{Sg}+1+\eta\beta$) applies.
+\item If $\mathrm{len}(c)=3$, then $40\,\mathrm{Sg}\le b/4$. If $\mathrm{up}(c-2)$ fails, the arc theorem for length three
+  (\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.arc_length_three_theorem}: for an arc of length $3$ whose first
+  letter has type down, with $40\,\mathrm{Sg}\le b/4$, the exponent can be taken at most $22\,\mathrm{Sg}+1+\eta\beta$)
+  applies; if it holds, the companion result
+  (\lref{Formalism.MainNotions.N.FrobeniusPowerSeries.exists_liftsAt_of_arc_len_three_of_up}: the same for a first
+  letter of type up, with exponent at most $34\,\mathrm{Sg}+1+\eta\beta$) applies.
+\end{itemize}
+In all cases $e_1\le34\,\mathrm{Sg}+1+\eta\beta\le40\,\mathrm{Sg}+\eta\beta$.
+\end{proof}
+
+\paragraph{The arc length bound.}
+For a cut $c$ of a valid arc datum let $J_c\subseteq\Z$ be the finite set attached to $c$ by the types
+(\cref{pf:linkN-adm:def-arcs}), so that $\kappa_c=L+\sum_{i\in J_c\setminus\{0\}}(L+1+v_\ell(i))$ with $L=\mathrm{len}(c)$, and
+let $P_c=P_{L,J_c}$ be the killer polynomial of (kill1). Thus (kill1) says $v(P_c(1))=\kappa_c$.
+
+\begin{lemma}[Transfer of lifts]\label{pf:linkN-adm:transfer}
+Let $W$ be in case~A with $p\ge5$, (relay) and (arc); let $\mathcal A$ be valid, $c$ a cut of length $L$, $F\colon T_1\to T_2$
+a lattice map between lattices with the window condition, and $(b,\mathrm{sol})$ a horizontal family of $T_2$ at $c'$. If
+$g\in E_W^d$ lifts with exponent $e\ge\sigma(\mathcal A)$, and $u\in I_c(T_2)$ with $\Lambda_cu\in P_{c',L}(T_2)$ has the
+coefficients $(p^\sigma g_k)_k$ and $u\mapsto_cx_2$, then there is $x_1\in\linkNadmHf(T_1)$ with
+$F_*x_1=p^{e-\sigma}x_2$.
+\formallabel{Formalism.MainNotions.N.Ln17.PCutBoundGal.LV_galois}
+\end{lemma}
+
+\begin{proof}
+Let $w_1$, $\Lambda'$ and $z$ witness the lift and put $X=F(w_1)-z-p^{e-\sigma}u$. Its coefficients are
+$p^eg_k-p^{e-\sigma}p^\sigma g_k=0$ (coefficients are additive and compatible with multiplication by integers), and
+$\Lambda_cX\in P_{c',L}(T_2)$, since $\Lambda_cF(w_1)$ and $\Lambda_cu$ lie there, and $z\in\pi_0N_c(T_2)\subseteq N_c(T_2)$
+gives $\Lambda_cz\in P_{c',L}(T_2)$ by (arc). By the frame property, $X\in\pi_0\Lambda_cP_{c',L}(T_2)\subseteq\pi_0N_c(T_2)$, using
+$\Lambda_cP_{c',L}\subseteq N_c$ from (arc). Hence $F(w_1)-p^{e-\sigma}u=z+X\in\pi_0N_c(T_2)$; it lies in $I_c(T_2)$
+(as $F(w_1)$ and $u$ do), so its class is $0$ by (relay). By (relay) $w_1\mapsto_cx_1$ for some $x_1$, which is finite
+since $\Lambda'w_1\in N_c(T_1)$; by naturality $F(w_1)\mapsto_cF_*x_1$. By additivity $p^{e-\sigma}u\mapsto_c p^{e-\sigma}x_2$,
+and the uniqueness of classes gives $F_*x_1=p^{e-\sigma}x_2$.
+\end{proof}
+
+\begin{proposition}[Arc length bound]\label{pf:linkN-adm:arclen}
+Let $W$ be in case~A with (C0), (relay), (arc), (nn), (univ), (kill1), (kill2), (P2), (P9) and $\gamma(\pi_0)\in\pi_0A^\Delta$.
+Let $\mathcal A$ be a valid arc datum, $F\colon T_1\to T_2$ an onto map of crystalline lattices with the window condition,
+$m\in\N$ such that the low counts of $T_2$ at the letters of type up or down are at most $m$, $c$ a cut of length $L$, and
+$e_1\ge\sigma(\mathcal A)$. Assume that $F$ has the arc lifting property at $c$ with exponent $e_1$ for every horizontal
+family $(b,\mathrm{sol})$ of $T_2$ at $c'$, every index $k_0$ satisfying the filtration condition and every $f$ satisfying
+(Id). Then there is a set $Z_c\subseteq\linkNadmHf(T_2)$ of at most $m\,\mathrm{ro}(c)(L+1)$ elements such that for every
+$w\in I_c(T_2)$ with $\Lambda_cw\in P_{c',L}(T_2)$ which satisfies the pole condition for every horizontal family at $c'$,
+and every $x$ with $w\mapsto_cx$,
+\[
+p^{\sigma+\kappa_c+e_1}x\in F_*\linkNadmHf(T_1)+\OO_CZ_c .
+\]
+\formallabel{Formalism.MainNotions.N.Ln17.arc_length_bound_theorem}
+\end{proposition}
+
+\begin{proof}
+Write $\Lambda=\Lambda_c$, $\sigma=\sigma(\mathcal A)$, $\kappa=\kappa_c$, $\Pi=P_{c',L}(T_2)$, $N_c=N_c(T_2)$ and
+$\rho\colon I_c(T_2)\to H^1(T_2)$ for the map with graph $\mapsto_c$ given by (relay). It is additive, vanishes on
+$I_c(T_2)\cap\pi_0N_c$, and is $\OO_C$-linear: apply the naturality in (relay) to the lattice map $T_2\to T_2$ given by
+multiplication by $o\in\OO_C$, which induces multiplication by $o$ on $D(T_2)$ and on $H^1(T_2)$. Recall that $\gamma$
+commutes with $e_c$ and with $\Delta$, and maps $N^\Delta(T_2)$ into itself by (P2). Hence $\pi_0N_c\subseteq I_c(T_2)$: for
+$z=\pi_0y$ with $y\in N_c$, $z$ is fixed by $e_c$ and $\Delta$ (as $\pi_0\in A^\Delta$), and writing
+$\gamma(\pi_0)=\pi_0u$ with $u\in A^\Delta$ we get $(\gamma-1)z=\pi_0(u\gamma y-y)\in\pi_0N_c$. Similarly $I_c(T_2)$ is stable
+under $\gamma$ (if $(\gamma-1)w=\pi_0y$ then $(\gamma-1)\gamma w=\pi_0u\gamma y$), hence under all polynomials in $\gamma$
+with coefficients in $\OO_C$.
+By (arc) with $e=L$ we have $\Lambda\Pi\subseteq N_c$, $\Lambda N_c\subseteq\Pi$, and the frame property. Combining them:
+\begin{itemize}
+\item[(F)] \emph{if $X\in D(T_2)$ satisfies $\Lambda X\in\Pi$ and has coefficients $0$, then $X\in\pi_0N_c$}, and so
+  $\rho(X)=0$ when $X\in I_c(T_2)$.
+\end{itemize}
+The hypothesis (nn) is not used. \emph{The universal data.} By (univ) for $T_2$, $m$ and $c$ there are a horizontal family $(b,\mathrm{sol})$ of $T_2$ at
+$c'$, a set $R$ of at most $m\,\mathrm{ro}(c)$ indices, and vectors $J_1,\dots,J_g\in E_W^d$ with $g\le m\,\mathrm{ro}(c)(L+1)$,
+such that:
+\begin{itemize}
+\item[(U0)] every index $k\notin R$ satisfies the filtration condition;
+\item[(U1)] for every $w\in I_c(T_2)$ with $\Lambda w\in\Pi$ satisfying the pole condition there is $f\in E_W^d$ with
+  entries in $\Lambda^{-1}e_cA^\Delta$ such that $p^\sigma w$ has the coefficients $f$, the elements $P_c(\gamma_E)f_k$
+  ($k\notin R$) satisfy (Id), and the vectors $f''=(P_c(\gamma_E)f_k)_{k\notin R}$ and $f^R=(P_c(\gamma_E)f_k)_{k\in R}$
+  (extended by $0$) satisfy the \emph{invariance condition} ($(\gamma_E-1)g=\pi_0g'$ with $g'$ satisfying the lattice
+  condition of (arc));
+\item[(U2)] the $J_i$ have entries in $\Lambda^{-1}e_cA^\Delta$, vanish outside $R$ and satisfy the invariance condition;
+  and every vector with these three properties is $\sum_io_iJ_i+\pi_0g'$ with $o_i\in\OO_C$ and $g'$ satisfying the
+  lattice condition;
+\item[(U3)] every vector $g$ with entries in $\Lambda^{-1}e_cA^\Delta$ satisfying the invariance condition is realised:
+  there is $u\in I_c(T_2)$ with $\Lambda u\in\Pi$ which has the coefficients $(p^\sigma g_k)_k$.
+\end{itemize}
+Moreover, by (arc), every $g'$ satisfying the lattice condition is realised by some $x_0\in N_c$ with coefficients
+$(p^\sigma g'_k)_k$.
+
+\emph{The set $Z_c$.} For each $i$ choose $u_i$ for $J_i$ by (U3) and put $x_i=\rho(u_i)$. Since $\Lambda u_i\in\Pi$, we have
+$\Lambda^2u_i\in N_c$ with $\Lambda^2\in\mathcal P$, so $x_i\in\linkNadmHf(T_2)$ by (relay). Let $Z_c=\{x_1,\dots,x_g\}$.
+
+\emph{The bound.} Let $w$, $x$ be as in the statement, and $f$ as in (U1). For $k\notin R$ the hypothesis, applied to the
+index $k$ (which satisfies the filtration condition by (U0)) and to $P_c(\gamma_E)f_k$, shows that the vector with the
+single entry $P_c(\gamma_E)f_k$ at $k$ lifts with exponent $e_1$; adding the witnesses, $f''$ lifts with exponent $e_1$. The
+entries of $f''$ and $f^R$ lie in $\Lambda^{-1}e_cA^\Delta$
+(\lref{Formalism.MainNotions.N.Ln17.PCutBoundGal.InFr_aeval}: this set is stable under polynomials in $\gamma_E$). By
+(U3) choose $u''$ and $u^R$ for $f''$ and $f^R$, and put $x''=\rho(u'')$. By \cref{pf:linkN-adm:transfer} there is
+$x_1\in\linkNadmHf(T_1)$ with $F_*x_1=p^{e_1-\sigma}x''$.
+
+By (U2), $f^R=\sum_io_iJ_i+\pi_0g'$ with $g'$ satisfying the lattice condition; let $x_0\in N_c$ realise $g'$. The element
+$X=u^R-\sum_io_iu_i-\pi_0x_0$ has coefficients $p^\sigma f^R-\sum_io_ip^\sigma J_i-p^\sigma\pi_0g'=0$, and $\Lambda X\in\Pi$
+(note $\Lambda\pi_0x_0=\pi_0\Lambda x_0\in\Pi$). By (F), $\rho(X)=0$; as $\pi_0x_0\in\pi_0N_c$, also $\rho(\pi_0x_0)=0$, so
+$\rho(u^R)=\sum_io_ix_i$.
+
+Let $w'=p^\sigma w$, so that $\rho(w')=p^\sigma x$. The element $P_c(\gamma)w'$ lies in $I_c(T_2)$, satisfies
+$\Lambda P_c(\gamma)w'\in\Pi$ (\lref{Formalism.MainNotions.N.Ln17.PCutBoundGal.InFPΛ_aeval}: the condition $\Lambda y\in\Pi$
+is stable under polynomials in $\gamma$), and has the coefficients $(P_c(\gamma_E)f_k)_k$
+(\lref{Formalism.MainNotions.N.Ln17.PCutBoundRep.RepVV_aeval}: if $y$ has coefficients $f$ then $Q(\gamma)y$ has
+coefficients $(Q(\gamma_E)f_k)_k$ for every polynomial $Q$; its proof uses the first clause of (arc), the identity
+$(\varphi^L\pi_0)^M\in\pi_0\Lambda^2A^\Delta$ of \lref{Formalism.MainNotions.N.Ln17.PCutBoundRho.φpow_π₀_JJ}, and the
+$\gamma$-compatibility of $\Lambda$ of \lref{Formalism.MainNotions.N.Ln17.PCutBoundRho.γ_Lam}). By (kill2),
+$P_c(\gamma)w'-P_c(1)w'\in\pi_0N_c$, so $\rho(P_c(\gamma)w')=P_c(1)p^\sigma x$ and $\rho(p^\sigma P_c(\gamma)w')=
+p^\sigma P_c(1)p^\sigma x$. The element $X_2=p^\sigma P_c(\gamma)w'-u''-u^R$ has coefficients
+$p^\sigma P_c(\gamma_E)f_k-p^\sigma f''_k-p^\sigma f^R_k=0$ and $\Lambda X_2\in\Pi$, so $\rho(X_2)=0$ by (F). Therefore
+\[
+p^\sigma P_c(1)\,p^\sigma x=\rho(u'')+\rho(u^R)=x''+\sum_io_ix_i .
+\]
+By (kill1), $v(P_c(1))=\kappa$; since $v(p)=1$, the element $p^\kappa/P_c(1)$ of $L_C$ has valuation $0$ and so, by (C0),
+equals $y$ for some $y\in\OO_C$, so that $p^\kappa=y\,P_c(1)$. As
+$\sigma+\kappa+e_1=\kappa+(e_1-\sigma)+2\sigma$,
+\[
+p^{\sigma+\kappa+e_1}x=y\,p^{e_1-\sigma}\bigl(p^\sigma P_c(1)p^\sigma x\bigr)=y\,F_*x_1+\sum_iy\,p^{e_1-\sigma}o_i\,x_i
+\in F_*\linkNadmHf(T_1)+\OO_CZ_c .\qedhere
+\]
+\end{proof}
+
+\begin{remark}[Two further arc inputs]\label{pf:linkN-adm:arcs}
+The proof of \cref{pf:linkN-adm:sumalt} also uses two results proved in the formal development and not reproduced here.
+We say that $x\in H^1(T_2)$ is \emph{concentrated at the cut} $c$ if $w\mapsto_cx$ for some $w\in I_c(T_2)$ with
+$\Lambda_cw\in P_{c',L}(T_2)$ satisfying the pole condition for every horizontal family at $c'$.
+\begin{itemize}
+\item[(A4)] \emph{Splitting along cuts} (\lref{Formalism.MainNotions.N.Ln17.split_sum}): under the core local
+  statements and the conclusions of \cref{pf:linkN-adm:arcsetup}, if for every cut $c$ the classes concentrated at $c$
+  satisfy $\ell^Ex\in F_*\linkNadmHf(T_1)+\OO_C\bigcup_cZ_c$, then every $x\in\linkNadmHf(T_2)$ satisfies
+  $\ell^{r_r+2\sigma(\mathcal A)+E}x\in F_*\linkNadmHf(T_1)+\OO_C\bigcup_cZ_c$. Its proof attaches to a finite class the
+  crystalline extension of $\mathbf 1$ by $T_2$ that it defines, (ext), and splits it by (split).
+\item[(A5)] \emph{Bounds for $\kappa$} (\lref{Formalism.MainNotions.N.Ln17.kappa_le_of_alternating},
+  \lref{Formalism.MainNotions.N.Ln17.kappa_le_of_single_thick}): $\kappa_c\le13S+3\,\mathrm{lg}+3$ if the type alternates
+  and $\mathrm{len}(c)\le3$; $\kappa_c\le3R^2(S+1+\mathrm{lg})$ if the type is constant and $\mathrm{len}(c)\le R$.
+\end{itemize}
+\end{remark}
+
+\paragraph{The core statements at a place.}
+Let the \emph{bounds package} $\mathcal B$ be the conjunction of the following seventeen statements, all contained in
+$\mathcal A_B$ (\cref{pf:linkN-adm:def-AB}): the clauses (P2), (P3), (P4), (P5), (P9) of the Wach lattice theory (part of
+(B1)), the local lifting theory (B2), (B3), (B4), the statements (kill1) and (kill2) of (B5), and (B6)--(B12). Recall that
+the jump inputs $\mathcal J$ are Fontaine's inequality at every place, (cj) at every place, and the global letter condition.
+
+\begin{proposition}[The core statements at a place]\label{pf:linkN-adm:cores}
+Assume $\mathcal B$ (with constants $C_R,C_A,C_B,C_K$) and the jump inputs $\mathcal J$. Let $\ell\ge11$ be a prime and $(K,L_C)$ a place
+in case~A (so $K$ is unramified), and let $W$ be its Wach structure of level $1$. Then the core local statements hold
+at $W$ with the constant $C_R$ and the pole points of the period data.
+\formallabel{Formalism.MainNotions.N.Ln17.coresAt}
+\end{proposition}
+
+\begin{proof}
+We go through the list of \cref{pf:linkN-adm:def-cores}. (C0): $p=\ell\ge11$, and the valuation of the datum is
+nonnegative exactly on $\OO_C$. (wr), (H) and (Tr) are components of the local lifting theory (B2) at $(\ell,K,1,L_C)$;
+(dc) is (B12); (relay) is (B8), (arc) and (arc$'$) are (B9), (split) is (B10), (univ) and (nn) are (B11), at the place
+$(\ell,K,L_C)$, which is in case~A with $\ell\ge5$; (sat) is (B3), (sat$'$) is (B4), (kill1) and (kill2) are parts of (B5),
+(r2) is (B6), and (P) consists of the clauses of the Wach lattice theory at $W$. For (pt): the existence of the roots of
+unity is \lref{Formalism.MainNotions.N.Ln17.ptEx_at} (in case~A every pole point condition is satisfied by some
+primitive $p$-th root of unity), and $\gamma(\pi_0)\in\pi_0A^\Delta$ is
+\lref{Formalism.MainNotions.UnusedSlot80.gamma_uniformizer_divisible_statement} (which derives it from (P9) in case~A with
+$\ell\ge5$). (ext) is \lref{Formalism.MainNotions.LiftingTheory.lext_HExt_D} (a finite cocycle of a crystalline lattice
+is attached to a crystalline extension of the unit lattice). (cj) is part of $\mathcal J$ and (c4) is the letter condition
+at $W$. (sec), (gl), (hf), (fl) are \lref{Formalism.MainNotions.N.Ln17.arc_structures_hold_at}, which proves them from
+$\mathcal B$ and $\mathcal J$. Finally (jq) and (jy) are \lref{Formalism.MainNotions.N.Ln17.jumps_of_surjective_lattice_map},
+which derives them from the jump statements of $\mathcal J$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-adm:cocycles}
+Let $e\in\N$ and $Z_0\subseteq\linkNadmHf(T_2)$ finite with $\ell^ex\in F_*\linkNadmHf(T_1)+\OO_CZ_0$ for all
+$x\in\linkNadmHf(T_2)$. Then there is a set $Z$ of at most $|Z_0|$ finite cocycles with
+$\ell^e\linkNadmZf(T_2)\subseteq\linkNadmIm(F)+\OO_CZ$.
+\formallabel{Formalism.MainNotions.N.Ln17.cocycle_classes_exponent}
+\end{lemma}
+
+\begin{proof}
+Choose for each $z\in Z_0$ a finite cocycle $\tilde z$ representing it and let $Z=\{\tilde z\}$. For $c\in\linkNadmZf(T_2)$
+with class $x$, write $\ell^ex=F_*y+\sum a_zz$ with $y\in\linkNadmHf(T_1)$ represented by a finite cocycle $\tilde y$. Then
+$\ell^ec-F_*\tilde y-\sum a_z\tilde z$ is a coboundary, so $\ell^ec\in F_*\linkNadmZf(T_1)+B^1(T_2)+\OO_CZ$.
+\end{proof}
+
+\begin{proposition}[Exponents from arcs]\label{pf:linkN-adm:sumalt}
+In a setting for theorem~B with $\ell\ge11$, $20w,20\eta,20S\le b$ and some letter not thick, under the core local
+statements at $W$ (\cref{pf:linkN-adm:def-cores}), with $\beta$ the band indicator for a constant $C\ge2$:
+\begin{enumerate}[label=(\alph*)]
+\item if the type alternates with no three consecutive thick letters and either no letter is thick or
+  $40\,\mathrm{Sg}\le b/4$, there are $e\le55\,\mathrm{Sg}+13S+\eta\beta$ and a set $Z$ of at most $4nm$ finite cocycles with
+  $\ell^e\linkNadmZf(T_2)\subseteq\linkNadmIm(F)+\OO_CZ$;
+\item if $R\ge1$ and the type is constant with no $R$ consecutive thick letters, the same holds with
+  $e\le18\,\mathrm{Sg}+3R^2(S+1+\mathrm{lg})+1$ and $|Z|\le(R+1)nm$.
+\end{enumerate}
+\formallabel{Formalism.MainNotions.N.Ln17.sum_alt}
+\formallabel{Formalism.MainNotions.N.Ln17.sumAltW}
+\formallabel{Formalism.MainNotions.N.Ln17.sum_one}
+\formallabel{Formalism.MainNotions.N.Ln17.sumOneW}
+\end{proposition}
+
+\begin{proof}
+(a) Let $E_1=\lfloor40\,\mathrm{Sg}+\eta\beta\rfloor$; then $\sigma(\mathcal A)\le3\,\mathrm{Sg}\le E_1$ (note $\mathrm{Sg}\ge1$). If no
+letter is thick, every arc has length $1$; so in all cases the hypothesis of \cref{pf:linkN-adm:arcalt} holds at every
+cut, with the data $r_r$ of \cref{pf:linkN-adm:arcsetup}, and the arc lifting property holds with exponent $E_1$ for all
+horizontal families of $T_2$ at $c'$, indices with the filtration condition and $f$ with (Id) (lifting with a smaller
+exponent implies lifting with a larger one). By \cref{pf:linkN-adm:arclen} (the low counts of $T_2$ are at most $m$ at every
+letter) there are sets $Z_c$; put $\kappa=\max_c\kappa_c$ and $E=\sigma(\mathcal A)+\kappa+E_1$, so that the hypothesis of (A4) holds with this $E$
+(multiply by $\ell^{\kappa-\kappa_c}$). By (A4) and \cref{pf:linkN-adm:cocycles} we get $Z$ with $|Z|\le\sum_c|Z_c|$ and the
+exponent $e=r_r+2\sigma(\mathcal A)+E=r_r+3\sigma(\mathcal A)+\kappa+E_1$. By \cref{pf:linkN-adm:arcsetup} and (A5), and $3\,\mathrm{lg}+3\le3\,\mathrm{Sg}$,
+\[
+e\le3\,\mathrm{Sg}+9\,\mathrm{Sg}+(13S+3\,\mathrm{lg}+3)+40\,\mathrm{Sg}+\eta\beta\le55\,\mathrm{Sg}+13S+\eta\beta .
+\]
+Since $\mathrm{len}(c)\le3$ and $\mathrm{ro}(c)\le\mathrm{len}(c)$, $\mathrm{ro}(c)(\mathrm{len}(c)+1)\le4\,\mathrm{len}(c)$, so
+$|Z|\le\sum_c4m\,\mathrm{len}(c)=4nm$.
+
+(b) The same argument, with \cref{pf:linkN-adm:single} in place of \cref{pf:linkN-adm:arcalt} and $E_1=\lfloor6\,\mathrm{Sg}+1\rfloor$, the bound $\kappa_c\le3R^2(S+1+\mathrm{lg})$ and
+$\mathrm{len}(c)\le R$ gives $e\le3\,\mathrm{Sg}+9\,\mathrm{Sg}+3R^2(S+1+\mathrm{lg})+6\,\mathrm{Sg}+1$ and
+$\mathrm{ro}(c)(\mathrm{len}(c)+1)\le(R+1)\mathrm{len}(c)$, so $|Z|\le(R+1)nm$.
+\end{proof}
+
+\begin{lemma}[Valuations in a window]\label{pf:linkN-adm:window}
+Let $\ell$ be a prime, $a\in\Z$ and $S,N\in\N$, and assume that every integer $i$ with $a\le i<a+S$ satisfies $i\ne0$ and
+$|i|\le N$. Then $\sum_{a\le i<a+S}v_\ell(i)\le N/(\ell-1)$.
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.sum_padicValInt_window_le}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.exists_sum_padicValInt_window_eq}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.padicValNat_factorial_add_sum}
+\end{lemma}
+
+\begin{proof}
+We may assume $S\ge1$. The window does not contain $0$, so it consists either of negative or of positive integers; in
+both cases the absolute values of its elements are $m+1,\dots,m+S$ for some $m\in\N$ with $m+S\le N$ (take $m=-a-S$,
+resp.\ $m=a-1$, and use the bound for the first, resp.\ last, element). Hence
+\[
+\sum_{a\le i<a+S}v_\ell(i)=\sum_{j=1}^Sv_\ell(m+j)=v_\ell((m+S)!)-v_\ell(m!)\le v_\ell((m+S)!)\le\frac{m+S}{\ell-1}\le\frac N{\ell-1},
+\]
+by Legendre's formula $(\ell-1)v_\ell(k!)=k-s_\ell(k)\le k$, where $s_\ell(k)$ is the sum of the $\ell$-adic digits of $k$.
+\end{proof}
+
+\begin{lemma}[The lifting exponent for short words]\label{pf:linkN-adm:ePA}
+Let $\ell\ge11$ be a prime and $h,\eta,H,M\in\N$ with $h\ge1$, $20\eta\le h$, $H\le h+\eta$ and $M\le h$, and let
+$J\subseteq\Z$ be a finite set contained in $[-M,h]$. Then
+\[
+e_{PA}(\ell,M,H,J)\le\frac{7.1\,h}\ell+7.1+2\log_\ell(2h).
+\]
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.lift_le_ePA}
+\formallabel{Formalism.MainNotions.N.FrobeniusPowerSeries.lift_le}
+\end{lemma}
+
+\begin{proof}
+Recall $e_{PA}=2e_W+\sum_{j\in J'}v_\ell(j)+a+v_\ell(a!)$ with $e_W=\lfloor H\ell/(\ell-1)^2+3+\log_\ell(H+1)\rfloor$,
+$a=\lfloor M/(\ell-1)\rfloor+1$ and $J'$ as in \eqref{pf:linkN-adm:eq-ePA}. For $\ell\ge11$,
+\[
+\frac1{\ell-1}\le\frac1{10},\qquad\frac1{\ell-1}\le\frac{1.1}\ell,\qquad\frac\ell{(\ell-1)^2}\le\frac{1.21}\ell,\qquad
+\frac1{(\ell-1)^2}\le\frac{0.11}\ell .
+\]
+Since $20\eta\le h$ and $h\ge1$ we have $\eta+1\le h$, so $H+1\le2h$ and $\log_\ell(H+1)\le\lambda:=\log_\ell(2h)$. Hence
+$e_W\le1.21(h+\eta)/\ell+3+\lambda$. The elements of $J'$ are of the form $j+k$ with $-M\le j\le h$, $1\le k\le M$,
+$j+k\ne0$, or lie in $[1,M]$; so $J'\subseteq[-M,-1]\cup[1,h+M]$. By \cref{pf:linkN-adm:window}, applied to the two windows
+$[-M,-1]$ (with $N=M$) and $[1,h+M]$ (with $N=h+M$), $\sum_{j\in J'}v_\ell(j)\le M/(\ell-1)+(h+M)/(\ell-1)$. Next
+$a\le M/(\ell-1)+1$, and Legendre's formula gives $v_\ell(a!)\le a/(\ell-1)\le M/(\ell-1)^2+1/(\ell-1)$. Adding up and using
+$\eta\le h/20$, $M\le h$:
+\[
+e_{PA}\le\frac{2.42(h+\eta)+3\cdot1.1\,h+1.1\,h+0.11\,h}\ell+6+2\lambda+1+0.1
+\le\frac{7.051\,h}\ell+7.1+2\lambda .\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[A thick letter and a short word]\label{pf:linkN-adm:thick}
+In a setting for theorem~B with $\ell\ge11$, $20w,20\eta,20S\le b$, a non-thick letter and alternating type, if some letter is thick
+and $b/4<40\,\mathrm{Sg}$, then $F$ lifts with an exponent $e_0\le160\,\mathrm{Sg}$.
+\formallabel{Formalism.MainNotions.N.Ln17.exists_liftF_le_sg_of_thick}
+\end{lemma}
+
+\begin{proof}
+Every letter has $\mathrm{sz}_a\le b+\eta$ (thick letters by definition, the others since $\mathrm{sz}_a\le w\le b$). At a
+non-thick letter $a$ we have $\eta<\mathrm{sz}_a\le w$ and $20w\le b$, so $b\ge1$. The height is $h=b+\eta+S$. Define new
+window bounds $M'^-_a=\eta$, $M'^+_a=\mathrm{sz}_a+S$ if $\mathrm{up}(a)$, and $M'^-_a=\mathrm{sz}_a+S$, $M'^+_a=\eta$
+otherwise; the jumps of $T_1$ lie within $(M'^-,M'^+)$ because they lie in the windows and $\eta<\mathrm{sz}_a$. Then
+$M'_{\max}\le h$, $H'_{\max}\le h+\eta$ and all jumps in the relevant range are in $[-M'_{\max},h]$. By (lift), $F$ lifts with
+exponent $e_{PA}(\ell,M'_{\max},H'_{\max},J)$. As $h\ge b\ge1$ and $20\eta\le b\le h$, \cref{pf:linkN-adm:ePA} shows that
+this exponent is at most $7.1\,h/\ell+7.1+2\log_\ell(2h)$; and \lref{Formalism.MainNotions.N.FrobeniusPowerSeries.step0} states that this
+quantity is at most $160\,\mathrm{Sg}$ when $b\ge1$, $20w,20\eta,20S\le b$ and $b/4<40\,\mathrm{Sg}$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The theorem on ramified coefficient chains (theorem C)}\label{pf:linkN-adm:thmCsec}
+
+For a prime $\ell$ and $H\in\N$ put
+\begin{equation}\label{pf:linkN-adm:eq-aR}
+\mathrm{lam}(\ell,H)=\log_\ell(2H)+1,\qquad a_R(\ell,H)=\frac{H(2\ell-1)}{(\ell-1)^2}+3+\mathrm{lam}(\ell,H),\qquad
+c_D(\ell,H)=\frac{H+1}{\ell-1}+1,
+\end{equation}
+with $\log_\ell0=0$, so that $\mathrm{lam}(\ell,H)\ge1$. Let $W$ be a Wach structure over $K$ with $n$ letters and
+coefficients $L_C$.
+
+\begin{definition}[The setting of theorem C]\label{pf:linkN-adm:def-setC}
+Let $d\in\N$, $T_1,T_2$ lattices, $F\colon T_1\to T_2$ a lattice map, $b\colon\Z/n\to\N$ and $S,\eta,m\in\N$; put
+$H_0=\max_ib_i+S$ and $H=H_0+\eta$. These form a \emph{setting of parity $d$ for theorem~C} if: $W$ is in case~A,
+$\ell\ge11$ and $n$ is even; $\OO_C$ is a discrete valuation ring with fraction field $L_C$, and $L_C$ contains a primitive
+$\ell$-th root of unity; $T_1,T_2$ are crystalline and $F$ is onto; for every letter $i$ and $\tau$ over $i$ the jumps of
+$T_1$ at $\tau$ lie in
+\[
+\mathrm{W}^d_i=\begin{cases}[-(b_i+S),-b_i]\cup[-\eta,\eta]&\text{if }i+d\text{ is even},\\
+[b_i,b_i+S]\cup[-\eta,\eta]&\text{if }i+d\text{ is odd;}\end{cases}
+\]
+$\sum_{|a|\le\eta}\mathrm{mult}_\tau(T_2,a)\le m$ for every $\tau$; and $2a_R(\ell,H)+\eta+1\le b_i$ and $H_0/2\le b_i$ for
+all $i$. We then put $M^d_i=b_i+S$, $N^d_i=\eta$ if $i+d$ is even, $M^d_i=\eta$, $N^d_i=b_i+S$ otherwise, and
+$e''=e_{PA}(\ell,\max_iM^d_i,\max_i(M^d_i+N^d_i),J)$ with $J$ the jumps of $T_1$ in $[-\max M^d,\max N^d]$.
+\formal{Formalism.MainNotions.RamifiedCoefficientChains.SetCS}
+\end{definition}
+
+Since $\eta\le b_i$, the jumps of $T_1$ lie within $(M^d,N^d)$ in a setting of theorem~C, so the lifting theorem in
+case~A shows that $F$ lifts with exponent $e''$.
+
+\begin{theorem}[Theorem~C]\label{pf:linkN-adm:thmC}
+Assume Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula. Let $D$ be a datum with
+local Hodge--Tate, Fontaine and comparison data, $\ell$ a prime, $K/\Q_\ell$ finite with $n$ letters, $L_C$ admissible for
+$K$ and $W$ the Wach structure. For every setting of parity $d$ for theorem~C there is $e\in\N$ with
+\begin{gather*}
+e\le e_{\mathrm{Bd}}=\frac{32H}{\ell^2}+4S+\frac{10\eta}{\ell-1}+25\,\mathrm{lam}(\ell,H),\\
+\linkNadmcol(F)\preceq(n+1)re+4nm\,e''+\tfrac32n\bigl(rS+2m\,c_D(\ell,H)\bigr),
+\end{gather*}
+where $r=\rank T_2$, and such that $F$ lifts with exponent $e+3S$ if $m=0$.
+\formallabel{GlobalTheory.T.prv_twenty_five_of_blochKato_tateDuality_eulerChar}
+\formallabel{GlobalTheory.ramifiedCoefficientChains_prv_twenty_five}
+\end{theorem}
+
+\paragraph{The local lifting conditions.}
+Let $\mathcal A_C$ denote the admissibility package of theorem~C with the constants $(10,23,32,32)$
+(\cref{pf:linkN-adm:def-AC}); among its components are the generator bound (gen) and the lifting theorem in case~A (lift) of \cref{pf:linkN-adm:thmBsec}. At a place $(\ell,K,L_C)$
+the \emph{local lifting conditions} are:
+
+\begin{itemize}
+\item[(LLC)] for every setting of parity $d$ for theorem~C there is $e_0\in\N$ such that: (a) there are $a,b'\in\N$ and
+  reals $s_1,E,e_2$ with $b'\le H_0$, $a\le a_R(\ell,H)+1$,
+  \[
+  s_1\le\frac{2a+2\eta+S}{\ell-1}+2\mathrm{lam},\quad E\le\frac{3a+S+2\eta}{\ell-1}+3\mathrm{lam},\quad
+  e_2\le\frac{b'}{\ell(\ell-1)}+E+2\sigma_2+2S+5+\mathrm{lam},
+  \]
+  and $e_0\le s_1+2\sigma_1+e_2+S+E+\sigma_2$, where $\mathrm{lam}=\mathrm{lam}(\ell,H)$,
+  $\sigma_1=(\lfloor H_0/(\ell-1)\rfloor+1+\eta)/(\ell-1)+1$ and $\sigma_2=2H/(\ell-1)^2+1$; (b) for every free $\OO_C$-module
+  $\Phi$ of finite rank and every $\OO_C$-linear map $g\colon\Phi\to\linkNadmZf(T_2)$ which is surjective modulo
+  $B^1(T_2)$, there is a \emph{kernel chain}: submodules $\Phi=\mathrm{Fl}_0\supseteq\dots\supseteq\mathrm{Fl}_k$ and a set
+  $\mathrm{gen}\subseteq\{0,\dots,k-1\}$ with $|\mathrm{gen}|\le4n$ and $k-|\mathrm{gen}|\le\lfloor3n/2\rfloor$, such that
+  each $\mathrm{Fl}_i/\mathrm{Fl}_{i+1}$ embeds into a module which is generated by at most $m$ elements if
+  $i\in\mathrm{gen}$ and has length at most $c\,e_C$ otherwise, where $c=rS+2m\,c_D(\ell,H)$, and
+  $\ell^{e_0}g(\mathrm{Fl}_k)\subseteq\linkNadmIm(F)$; (c) if $m=0$, $F$ lifts with exponent $e_0+3S$.
+\end{itemize}
+
+\begin{definition}[Three local statements]\label{pf:linkN-adm:def-three}
+Let $W$ be a Wach structure with $n$ letters. The following statements are quantified over all settings
+$(d,T_1,T_2,F,b,S,\eta,m)$ of parity $d$ for theorem~C at $W$; the letters $c$ with $c+d$ even are called \emph{even}, and
+$s_{CW}$, $e_{WV}$ are explicit functions of $(\ell,H_0,\eta,S)$ defined in the formal development. A \emph{chain with
+$(g_1,g_2)$ steps} from $\Phi$ to $\Phi'$ is a chain $\Phi=\mathrm{Fl}_0\supseteq\dots\supseteq\mathrm{Fl}_k=\Phi'$ as in
+(LLC)(b) (each quotient embeds into a module generated by at most $m$ elements, or of length at most $c\,e_C$ with
+$c=rS+2m\,c_D(\ell,H)$) with at most $g_1$ steps of the first kind and at most $g_2$ of the second.
+\begin{itemize}
+\item[(CW)] \emph{Cocycles to Wach vectors}: there is $s\le s_{CW}$ such that for every finite free $\OO_C$-module $\Phi$ and
+  every $\OO_C$-linear $g\colon\Phi\to\linkNadmZf(T_2)$ there are a submodule $\Phi_2\subseteq\Phi$ reached by a chain with
+  $(n,0)$ steps, with $\Phi_2=\Phi$ if $m=0$, and $\OO_C$-linear maps $w_c\colon\Phi_2\to D(T_2)$ for the even letters $c$,
+  such that each $w_c(f)$ satisfies the \emph{$q$-power condition} at $c$ ($q^\eta w_c(f)$ lies in the pull-back lattice at
+  $c-1$, and $w_c(f)$ satisfies the integrality condition at $c$), and for every $f\in\Phi_2$ there are cocycles
+  $\kappa_c$ attached to $w_c(f)$ (as classes of truncated $\Delta$-Herr cocycles) such that $\ell^sg(f)-\sum_c\kappa_c$ or
+  $\ell^sg(f)+\sum_c\kappa_c$ is a coboundary.
+\item[(WV)] \emph{Chains of Wach vectors}: there is $e\le e_{WV}$ such that for every even letter $c$, every submodule
+  $\Phi_s$ of a finite free module and every $\OO_C$-linear $w\colon\Phi_s\to D(T_2)$ whose values satisfy the $q$-power
+  condition at $c$, there is $\Phi'\subseteq\Phi_s$ reached by a chain with $(6,3)$ steps such that for all $f\in\Phi'$ and
+  $j\in\N$ there is $u\in D(T_1)$ satisfying the integrality condition at $c$ with $\ell^{j+e}w(f)-F(u)\in N(T_2)$; and if
+  $m=0$, the same holds for all $f\in\Phi_s$ with $\ell^{j+e+3S}$ in place of $\ell^{j+e}$.
+\item[(RL)] \emph{Lifting of attached cocycles}: for every even letter $c$, $w\in D(T_2)$, $u\in D(T_1)$ satisfying the
+  integrality condition at $c$, cocycle $\kappa$ attached to $w$ and $k\in\N$: if $\ell^kw-F(u)\in N(T_2)$, then
+  $\ell^k\kappa\in\linkNadmIm(F)$.
+\end{itemize}
+We say that one of these statements holds \emph{at every good place} if it holds at the Wach structures of level $1$ of all
+places $(\ell,K,L_C)$.
+\formal{Formalism.MainNotions.RamifiedCoefficientChains.S9.CocyclesToWachVectorsBound}
+\formal{Formalism.MainNotions.RamifiedCoefficientChains.S9.WachVectorSubmoduleChainBound}
+\formal{Formalism.MainNotions.RamifiedCoefficientChains.S9.RhoLift}
+\end{definition}
+
+At an admissible place the three statements imply (LLC); this is
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.lattice_bounds_of_admissible}, proved in the formal development
+and not reproduced here: it composes the chains of (CW) and (WV), lifts the vectors $w_c(f)$ by (WV) and the attached
+cocycles by (RL), and bounds the resulting exponent $e_0$ as in (LLC)(a).
+
+\begin{lemma}\label{pf:linkN-adm:e0}
+If $\ell\ge11$ and $e_0$ satisfies (a) of (LLC), then $e_0\le e_{\mathrm{Bd}}$.
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.e0_le_eBd_of_ExpC}
+\end{lemma}
+
+\begin{proof}
+Adding the bounds of (a) (note that $e_2$ contains $E$ once more),
+\[
+e_0\le\frac{8a+6\eta+3S}{\ell-1}+9\,\mathrm{lam}+2\sigma_1+\frac{H_0}{\ell(\ell-1)}+3\sigma_2+3S+5 .
+\]
+Insert $a\le H(2\ell-1)/(\ell-1)^2+4+\mathrm{lam}$, $2\sigma_1\le2H_0/(\ell-1)^2+(2+2\eta)/(\ell-1)+2$, $3\sigma_2=
+6H/(\ell-1)^2+3$ and $H_0\le H$. The coefficient of $H$ is then at most $\ell^{-2}f(\ell)$ with
+$f(\ell)=8(2\ell-1)\ell^2/(\ell-1)^3+8\ell^2/(\ell-1)^2+\ell/(\ell-1)$, which is decreasing for $\ell\ge11$ with
+$f(11)<31.2\le32$. The coefficient of $\eta$ is $8/(\ell-1)\le10/(\ell-1)$, that of $S$ is $3/(\ell-1)+3\le4$, that of
+$\mathrm{lam}$ is $9+8/(\ell-1)\le9.8$, and the constant term is $34/(\ell-1)+10\le13.4\le13.4\,\mathrm{lam}$. Since
+$9.8+13.4\le25$, $e_0\le e_{\mathrm{Bd}}$.
+\end{proof}
+
+\begin{lemma}[Length count]\label{pf:linkN-adm:lengthcount}
+Let $\OO_C$ be a discrete valuation ring with $\ell\ne0$ in $\OO_C$, $\ell\ge2$, $F\colon T_1\to T_2$ a lattice map lifting with
+exponent $e'$, $n,r,m,e\in\N$ and $c\ge0$. Let $\Phi$ be a free $\OO_C$-module of rank at most $(n+1)r$ and
+$g\colon\Phi\to\linkNadmZf(T_2)$ surjective modulo $B^1(T_2)$, and let $\mathrm{Fl},\mathrm{gen}$ be a kernel chain for
+$(\Phi,g)$ with the constants $m,c$ and exponent $e$ as in (LLC)(b). Then
+$\linkNadmcol(F)\preceq(n+1)re+4nm\,e'+\frac32n\,c$.
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.colLeR_of_lengthCount}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.lengthCount_of_kerChain}
+\end{lemma}
+
+\begin{proof}
+Let $P=g^{-1}(\linkNadmIm(F))\subseteq\Phi$ and $e_C=\linkNadmlen(\OO_C/\ell)$, finite as $\ell\ne0$. The map
+$\Phi/P\to\linkNadmZf(T_2)/(\linkNadmIm(F)\cap\linkNadmZf(T_2))$ induced by $g$ is injective by definition of $P$ and surjective
+because $g$ is surjective modulo $B^1(T_2)\subseteq\linkNadmIm(F)$; so $\linkNadmcol(F)\le\linkNadmlen(\Phi/P)$. We apply the
+filtration count (\cref{pf:linkN-adm:filtration}) with $a=\ell$ and $L=\lfloor c\,e_C\rfloor$. Condition (ii) holds since $F$ lifts
+with exponent $e'$, so $\ell^{e'}g(\Phi)\subseteq\linkNadmIm(F)$; (iv) is the last property of the kernel chain. For
+$i\in\mathrm{gen}$, $\mathrm{Fl}_i/\mathrm{Fl}_{i+1}$ is a submodule of a module generated by $m$ elements over a principal ideal
+domain, hence generated by at most $m$ elements, which gives (i). For $i\notin\mathrm{gen}$,
+$\mathrm{Fl}_i/((\mathrm{Fl}_{i+1}+P)\cap\mathrm{Fl}_i)$ is a quotient of $\mathrm{Fl}_i/\mathrm{Fl}_{i+1}$, whose length is at most
+$c\,e_C$, which gives (iii) with $L$. Hence
+\[
+\linkNadmlen(\Phi/P)\le\rank(\Phi)\,e\,e_C+|\mathrm{gen}|\,m\,e'e_C+(k-|\mathrm{gen}|)\,c\,e_C\le
+\Bigl((n+1)re+4nme'+\tfrac32nc\Bigr)e_C .\qedhere
+\]
+\end{proof}
+
+\begin{proposition}[Theorem~C from the local lifting conditions]\label{pf:linkN-adm:thmCLLC}
+If the generator bound (gen), the lifting theorem in case~A and (LLC) hold at every admissible place, then the conclusion
+of \cref{pf:linkN-adm:thmC} holds with the constant $25$.
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.theorem_of_lifting_steps}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.Theorem_C_of_open}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.Theorem_C_range_of_open}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.thmCKR_of_open}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.openKR_of_steps}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.openC_of_steps}
+\end{proposition}
+
+\begin{proof}
+Let a setting of parity $d$ for theorem~C be given. By (gen), $\linkNadmHf(T_2)$ is generated by at most $(n+1)r$ classes;
+choose finite cocycles $z_1,\dots,z_s$ representing them ($s\le(n+1)r$), let $\Phi=\OO_C^s$ and $g(x)=\sum x_jz_j$. Then every
+finite cocycle differs from an element of $g(\Phi)$ by a coboundary. Let $e_0$ be given by (LLC) and take the kernel chain
+for $(\Phi,g)$. By \cref{pf:linkN-adm:e0}, $e_0\le e_{\mathrm{Bd}}$. By the remark after \cref{pf:linkN-adm:def-setC}, $F$
+lifts with exponent $e''$, and \cref{pf:linkN-adm:lengthcount} with $e'=e''$ and $c=rS+2mc_D(\ell,H)$ gives the bound for
+$\linkNadmcol(F)$. The last assertion is (LLC)(c). Take $e=e_0$.
+\end{proof}
+
+\begin{proposition}[Theorem~C from the local statements]\label{pf:linkN-adm:thmC3}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data, and $C_R,C_A,C_B,C_K\in\R$.
+\begin{enumerate}[label=(\alph*)]
+\item If $\mathcal A_C$ implies (LLC) at every admissible place, then $\mathcal A_C$ implies the conclusion of
+  \cref{pf:linkN-adm:thmC} with the constant $25$.
+\item If $\mathcal A_C$ implies (CW), (WV) and (RL) at every good place, the same holds.
+\end{enumerate}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.stmt_of_stepsAdm}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.S9.stmt_of_lemmas}
+\end{proposition}
+
+\begin{proof}
+(a) Assume $\mathcal A_C$. Its component (C10) contains the lifting theorem in case~A, and its component (C19) is the
+generator bound (gen) (in an equivalent formulation). Apply \cref{pf:linkN-adm:thmCLLC}. (b) By
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.lattice_bounds_of_admissible}, the hypothesis of (b) implies that
+of (a).
+\end{proof}
+
+\begin{proposition}[The chain bound and the lifting of cocycles]\label{pf:linkN-adm:TLL}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data and $C_R,C_A,C_B,C_K\in\R$. Assume that $\mathcal
+A_C$ implies (CW) at every good place, that the jumps behave as in (cj) at every place, and the global letter condition.
+Then $\mathcal A_C$ implies the conclusion of \cref{pf:linkN-adm:thmC} with the constant $25$.
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.Asm.theorem_of_local_lemmas}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:linkN-adm:thmC3}(b) it suffices to show that $\mathcal A_C$ implies (WV) and (RL) at every good place. Assume
+$\mathcal A_C$. (RL) holds at every good place by
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.Asm.rhoLift_of_Adm}, which derives it from $\mathcal A_C$ (through a
+truncation clause and a local clause of the crystalline lifting inputs). For (WV) we use four local lemmas, each stated
+for all settings of theorem~C at a Wach structure $W$ of a good place:
+\begin{itemize}
+\item[(Gs)] at the letters $i$ with $i+d$ odd there is $E\le(3a_R(\ell,H)+S+2\eta)/(\ell-1)+\mathrm{lam}(\ell,H)$ such that
+  every $x\in\varphi^2(D_{i-2}(T_2))\cap\mathrm{Fil}^{b_i}D_{\mathrm{cris}}$ satisfies
+  $p^{\lceil E+\sigma_2+b_{i-1}+S-b_i\rceil}x\in F(D_i(T_1))$, where $D_i(T)$ denotes the lattice in $D_{\mathrm{cris}}$
+  attached to the letter $i$ and $\sigma_2$ is as in (LLC);
+\item[(DN)] at every even letter $i$ there is a set of at most $m$ elements of $N_i(T_2)$ such that the quotient of $N_i(T_2)$
+  by $\pi_0N_i(T_2)$, by the $q^{b_i+S}$-multiples of its Frobenius pull-back and by these elements has length at most
+  $\mathrm{len}_C\cdot\linkNadmlen(\OO_C/\ell)$, for an explicit $\mathrm{len}_C$;
+\item[(DN0)] if $m=0$, then at every even letter $i$, $p^S N_i(T_2)$ lies in the sum of $\pi_0N_i(T_2)$ and the
+  $q^{b_i+S}$-multiples of the Frobenius pull-back;
+\item[(H2)] an $H^2$-type bound for the lattices of the setting.
+\end{itemize}
+They hold at every good place: (Gs) by \lref{Formalism.MainNotions.RamifiedCoefficientChains.Asm.lemmaGs_rec} (from
+$\mathcal A_C$, (cj) and the letter condition); (DN) by
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.bigCellDetWeightedEnergyIntegral.dual_lemma_of_admitted} (a
+duality lemma for determinants, from $\mathcal A_C$); (DN0) by
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.DLev.lemmaDN0_L} (from the components (C1) and (C11) of
+$\mathcal A_C$); (H2) by \lref{Formalism.MainNotions.RamifiedCoefficientChains.Asm.h2_bound_of_admitted} (from $\mathcal
+A_C$). From them, \lref{Formalism.MainNotions.RamifiedCoefficientChains.Asm.frobenius_lift_lemmas_of_admitted} derives the
+\emph{Wach-vector lifting bound} at every good place, and \lref{Formalism.MainNotions.N.Pv.LocalLengthBound.steps6_of}
+derives, from $\mathcal A_C$, (Gs), (DN) and (DN0), a six-step chain statement at every good place. At a good place,
+\lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.lattice_bound_three_six_of} combines these two statements into
+(WV).
+\end{proof}
+
+\begin{proposition}[From cocycles to Wach vectors]\label{pf:linkN-adm:CW}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data and $C_R,C_A,C_B,C_K\in\R$. Assume $\mathcal A_C$,
+the statement (cj) at every place, the natural extension of Herr classes, Fontaine's inequality
+$\dim_{L_C}D_{\mathrm{cris}}(V)\le[K_0:\Q_\ell]\dim_{L_C}V$ at every place, and Fontaine's full faithfulness statement. Then
+(CW) holds at every good place.
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.S9.LocalLemmasFromLiterature.local_lemmas_of_literature}
+\end{proposition}
+
+\begin{proof}
+Let $W$ be the Wach structure of a good place $(\ell,K,L_C)$ and fix a setting of theorem~C at $W$; then $W$ is in case~A,
+$\ell\ge11$, and $K$ is unramified. By \lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.cocyclesToWachVectorsBound_of_extTool},
+(CW) at $W$ (for this setting) follows from three local statements at $W$: a \emph{first lifting step}, a \emph{second lifting
+step} and an \emph{extension tool}. They are obtained as follows.
+\begin{itemize}
+\item The first lifting step is \lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.first_lift_of_uniformizer_clause}
+  (a lifting lemma for killing polynomials, from the valuation property of $\OO_C$, the clause of (P9) on $\pi_0$, a
+  numerical tool of the crystalline lifting inputs, (P9), the statement (C18) on $(\gamma-1)/\pi_0$ at the letters, the
+  exponent rules and exponent ring of $W$, the lemma K, the filtration dimension statement, the basis
+  tool, and the three clauses of Fontaine's statement on $D_{\mathrm{cris}}$ (C11)).
+\item The second lifting step is \lref{Formalism.MainNotions.RamifiedCoefficientChains.S9.ExtensionLemmaAlt.second_lift_of_hypotheses}
+  (from a truncated-series tool, a Frobenius tool, the basis tool, the lemma K, the filtration dimension statement, the
+  exponent ring and rules, a clause of (C3), the clauses (P5) and (P9) contained in (C1), and (C11)).
+\item The extension tool is \lref{Formalism.MainNotions.RamifiedCoefficientChains.Sh.extData_extTool} (from the natural
+  extension of Herr classes, the extension and unit statements for the lifting of classes
+  \lref{Formalism.MainNotions.LiftingTheory.liftb_HExt_holds}, \lref{Formalism.MainNotions.LiftingTheory.liftb_HOne_holds},
+  a kernel statement \lref{Formalism.MainNotions.LiftingTheory.lker_HKer_D} derived from Fontaine's inequality, (cj),
+  Fontaine's full faithfulness, the invertibility of $|\Delta|$ in $\OO_C$, the clauses (P5), (P6), (P9) contained in (C1),
+  and a level tool).
+\end{itemize}
+The auxiliary statements come from $\mathcal A_C$ through the following results: the exponent rules from the level map
+statement of the level tools of $\mathcal A_C$ and the $\gamma$-structure attached to the comparison data
+(\lref{Formalism.MainNotions.N.Pv.LocalLengthBound.expRules_of}, \lref{Formalism.MainNotions.N.Pv.LocalLengthBound.gam_of_tie});
+the exponent ring from the ring clause of (P9) (\lref{Formalism.MainNotions.N.Pv.LocalLengthBound.expRing_of}); the basis
+tool from (P9) (\lref{Formalism.MainNotions.RamifiedCoefficientChains.Sh.basTool_of}); the lemma K
+(\lref{Formalism.MainNotions.N.Pv.LocalLengthBound.lemK_D}, from $\mathcal A_C$ and the level coefficients at the points
+given by the uniformiser clause of $\mathcal A_C$, \lref{Formalism.MainNotions.UnusedSlot80.points_exist_of_ring_condition},
+\lref{Formalism.MainNotions.UnusedSlot80.levCoeff_of_pt}); the filtration dimension statement from the third clause of (C11)
+(\lref{Formalism.MainNotions.N.Pv.LocalLengthBound.filDim_of}); the truncated-series tool
+(\lref{Formalism.MainNotions.CrystallineLiftingInputs.truncatedSeriesData.tTool2Z_DU}); the Frobenius and level tools
+(\lref{Formalism.MainNotions.CrystallineLiftingInputs.Tools.local_clause_of_admitted_statements},
+\lref{Formalism.MainNotions.CrystallineLiftingInputs.Tools.level_clause_of_admitted_statements}); and the numerical tool
+(\lref{Formalism.MainNotions.CrystallineLiftingInputs.RToolNum_holds}). Finally $|\Delta|=\ell-1$ in case~A
+(\lref{Formalism.MainNotions.UnusedSlot80.LevR.card_delF}), and $\ell-1$ is a unit of $\OO_C$: otherwise it would lie in
+the maximal ideal, which contains $\ell$, and so would $1=\ell-(\ell-1)$.
+\end{proof}
+
+\begin{proposition}[Reduction of theorem~C]\label{pf:linkN-adm:thmCred}
+Assume the exactness of jumps (the statement (cj) at every place), the global letter condition, the natural extension of
+Herr classes, Fontaine's inequality $\dim_{L_C}D_{\mathrm{cris}}(V)\le[K_0:\Q_\ell]\dim_{L_C}V$ at every place, and the full
+faithfulness and exactness statement for Fontaine's functor. Then $\mathcal A_C$ implies the conclusion of
+\cref{pf:linkN-adm:thmC} with the constant $25$.
+\formallabel{GlobalTheory.T.ramified_coefficient_chains_of_hypotheses}
+\formallabel{GlobalTheory.theoremC_of_admitted_inputs}
+\formallabel{Formalism.MainNotions.RamifiedCoefficientChains.Asm.theorem_of_literature_hypotheses}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:linkN-adm:CW}, whose hypotheses besides $\mathcal A_C$ are among the assumptions, $\mathcal A_C$ implies (CW)
+at every good place. \Cref{pf:linkN-adm:TLL}, applied with (cj) and the global letter condition, concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:linkN-adm:thmC}]
+The package $\mathcal A_C$ is proved from Bloch--Kato's local theory, local duality and the Euler characteristic formula in
+\cref{pf:linkN-adm:admC}. The other inputs of \cref{pf:linkN-adm:thmCred} are:
+the exactness of jumps \lref{GlobalTheory.jumps_exact_adm}; the global letter condition, from
+\cref{pf:linkN-adm:letter} and \lref{GlobalTheory.T.wachLattice_laterClauses_hold} as in the proof of theorem~B; the natural extension of Herr classes \lref{GlobalTheory.AdmHerrLocal.main}, which provides at
+every place the formula for the Herr class of an extension; the one-place Fontaine inequality
+\lref{GlobalTheory.FontaineIneq.one_place_admissible_of_gap_constant_le}; and
+\lref{GlobalTheory.T.fontaine_fullFaithful_exact_psi}, which proves the full faithfulness and exactness properties of
+Fontaine's functor used by the local lemmas. Apply \cref{pf:linkN-adm:thmCred}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Admissibility of the local inputs}\label{pf:linkN-adm:admsec}
+
+This subsection proves the admissibility packages $\mathcal A_B$ and $\mathcal A_C$ of theorems~B and~C from
+Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula, and the global letter condition
+from the norm bound for $\Delta$-invariant lattices. The proofs assemble the components from results of the formal
+development; the results with long proofs are cited with a statement of what they give. Three results proved elsewhere are
+used throughout: the \emph{later clauses of the Wach lattice theory}
+\lref{GlobalTheory.T.wachLattice_laterClauses_hold}, which prove the norm bound for $\Delta$-invariant lattices
+together with its clauses, among them the freeness (P1) of the Wach lattices and the clauses (P2)--(P9); the \emph{local
+constants} \lref{GlobalTheory.T.localConstants_from_admitted_local_Galois_statements}, which prove from the three
+hypotheses the local lifting theory with constants $(10,23,32,32)$, containing (H), (Tr), an annihilator statement (W1) for
+Wach modules and the statement (WX) that Wach modules kill the relevant quotients; and the \emph{arc tools}
+\lref{GlobalTheory.T.arcTheorem_tools_of_wachModuleConclusions}, which prove (sat) and (sat$'$), the statement
+$g(\pi_0)\in\pi_0A^\Delta$ for all $g\in\Gamma$, (kill1), the killer statements with constant $8$, and two filtration statements (F1), (F2),
+at every place in case~A with $\ell\ge5$.
+
+\begin{definition}[The admissibility package of theorem~B]\label{pf:linkN-adm:def-AB}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data and $C_R,C_A,C_B,C_K,C_\kappa\in\R$. The package
+$\mathcal A_B$ consists of: (B1) the used local conclusion of the Wach lattice theory; (B2) the local lifting theory with
+constants $(C_R,C_A,C_B,C_K)$, which contains (wr), (H), (Tr) and the lifting theorem in case~A; (B3) (sat) and (B4) (sat$'$)
+at every place in case~A with $\ell\ge5$; (B5) the killer statements: two auxiliary statements on window sums, (kill1) and
+(kill2) at these places, and a bound for $\kappa$ with constant $C_\kappa$; (B6) the content divisibility statement (r2);
+(B7) the generator bound (gen); (B8) (relay), (B9) (arc) and (arc$'$), (B10) (split), (B11) (nn) and (univ), each at every
+place in case~A with $\ell\ge5$; (B12) (dc) at every place; and (B13) the Bloch--Kato crystalline extension criterion.
+\formal{Formalism.MainNotions.ArcLiftingSetup.admitted}
+\end{definition}
+
+\begin{lemma}[The relay statement]\label{pf:linkN-adm:relaylem}
+Let $D$ be a datum with local Hodge--Tate and Fontaine data, and assume (P5), (P9), (H) and (Tr) at every place, and (sat),
+(F1), (F2) at every place in case~A with $\ell\ge5$. Then (relay) holds at every place in case~A with $\ell\ge5$.
+\formallabel{Formalism.MainNotions.UnusedSlot80.relay_general_statement}
+\formallabel{Formalism.MainNotions.UnusedSlot80.relay_general_case_of_admissible}
+\end{lemma}
+
+\begin{proof}
+Let $W$ be the Wach structure of such a place. \Lref{Formalism.MainNotions.UnusedSlot80.Relay2.relayCore_of} proves (relay)
+at $W$ from: the injectivity of $\OO_C\to L_C$ and the fact that every element of $L_C$ of nonnegative valuation comes from
+$\OO_C$ (true for the ring of integers of $L_C$), (P9), (P5), (H), (Tr), (sat), (sat$'$), (F1) and (F2) at $W$. Here (sat$'$) at
+$W$ holds by \lref{Formalism.MainNotions.UnusedSlot80.SatPW.satPCore_of}, which derives it from (P9) and the injectivity
+of $\OO_C\to L_C$.
+\end{proof}
+
+\begin{proposition}[Relay statement and arc package]\label{pf:linkN-adm:relay}
+Assume Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula, and let $D$ be a datum with
+local Hodge--Tate, Fontaine and comparison data. Then (relay) holds at every place in case~A with $\ell\ge5$, and the
+\emph{arc package} $\mathcal A_{\mathrm{arc}}$ holds: (P3), (P4), (P5), (P9), (H), (Tr), (W1), and (sat) at every place in
+case~A with $\ell\ge5$.
+\formallabel{GlobalTheory.T.wachRelayLemma_arcCoordinateHypotheses}
+\formallabel{GlobalTheory.NQ.relay_and_arc_inputs}
+\end{proposition}
+
+\begin{proof}
+(P3), (P4), (P5) and (P9) are among the later clauses of the Wach lattice theory; (H), (Tr) and (W1) are part of the local
+constants; (sat), (F1) and (F2) are among the arc tools. This gives $\mathcal A_{\mathrm{arc}}$ and the hypotheses of
+\cref{pf:linkN-adm:relaylem}, which gives (relay).
+\end{proof}
+
+\begin{proposition}[Class splitting along arcs]\label{pf:linkN-adm:splitting}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data. Assume the \emph{splitting package} ((P8), (P9),
+(W1), (cj) at every place, the Herr extension class formula, (F1), (relay) and the arc statements (B9)), the arc package
+$\mathcal A_{\mathrm{arc}}$, (P1), (P6), (WX), Fontaine's full faithfulness statement, (cj) at every place, (dc) at every
+place, and Fontaine's statement on $D_{\mathrm{cris}}$ (the component (C11) of $\mathcal A_C$). Then (split) holds at every
+place in case~A with $\ell\ge5$.
+\formallabel{GlobalTheory.T.classSplitting_along_arcs_of_admissible}
+\formallabel{GlobalTheory.classSplitAlongArcs}
+\formallabel{Formalism.MainNotions.UnusedSlot80.split_case_A_final}
+\end{proposition}
+
+\begin{proof}
+The proof passes through statements on the \emph{level-zero parts} of the coefficients relative to horizontal families.
+First, \lref{Formalism.MainNotions.N.Pv.LocalLengthBound.memCritL_of} gives a membership criterion at level zero from
+(P1), the clauses (P3), (P4), (P5), (P9) of $\mathcal A_{\mathrm{arc}}$ and (C11), and
+\lref{Formalism.MainNotions.UnusedSlot80.lev0MprL_of} turns it, with $\mathcal A_{\mathrm{arc}}$, into a refined
+level-zero statement modulo $p$. Second, \lref{Formalism.MainNotions.UnusedSlot80.lev0MpL_of} gives a level-zero
+membership statement from $\mathcal A_{\mathrm{arc}}$, (P4) and (P9). Third,
+\lref{Formalism.MainNotions.UnusedSlot80.splitShapeL_rec} derives from $\mathcal A_{\mathrm{arc}}$, these two
+statements, (cj) and (dc) the \emph{splitting shape}: a decomposition of finite classes along the cuts in the coordinates of
+the arcs. Finally, \lref{Formalism.MainNotions.UnusedSlot80.splitting_of_literature_exactness} derives (split) from the
+splitting package, (P6), (H), (Tr) (from $\mathcal A_{\mathrm{arc}}$), (WX), Fontaine's full faithfulness statement and
+the splitting shape.
+\end{proof}
+
+\begin{proposition}[The universal statements]\label{pf:linkN-adm:univ}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data. Assume the \emph{universal package} ((sat) and
+(kill1) at every place in case~A with $\ell\ge5$, the statement $g(\pi_0)\in\pi_0A^\Delta$ for all $g\in\Gamma$ at these
+places, and the arc statements (B9)), (P9),
+(H) at every place, and the equality of $D_{\mathrm{dR}}$ and $D_{\mathrm{cris}}$ at every place. Then (nn) and (univ)
+hold at every place in case~A with $\ell\ge5$.
+\formallabel{GlobalTheory.T.crystallineUniversalPart_caseA}
+\formallabel{GlobalTheory.universalPart_caseA}
+\formallabel{Formalism.MainNotions.UnusedSlot80.universal_general_statement_holds}
+\end{proposition}
+
+\begin{proof}
+By \lref{Formalism.MainNotions.UnusedSlot80.invLevCore_fin}, (P9) implies the following \emph{inverse level statement}
+at every place in case~A with $\ell\ge5$: for a letter $a$, an integer $s$, a finite set $T\not\ni s$ and exponents
+$e(t)$, if $f\in E_W$ lies in the fractional ideal $e_a\bigl(\prod_{t\in T}q_t^{e(t)}\bigr)^{-1}A^\Delta$ and
+$p^\kappa(\gamma_E-1)f$ lies in $q_s$ times this ideal for some $\kappa$, then $p^\kappa f-e_ax$ lies in $q_s$ times this
+ideal for some $\kappa$ and some $x\in\OO_C$. \Lref{Formalism.MainNotions.UnusedSlot80.universal_general_of_level_inverse}
+derives (nn) and (univ) from the universal package, (P9), (H), the equality of $D_{\mathrm{dR}}$ and $D_{\mathrm{cris}}$ and
+the inverse level statement.
+\end{proof}
+
+\begin{theorem}[Admissibility for theorem~B]\label{pf:linkN-adm:admB}
+Assume Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula. Then for every datum $D$
+with local Hodge--Tate, Fontaine and comparison data, $\mathcal A_B$ holds with the constants $(10,23,32,32,8)$.
+\formallabel{GlobalTheory.T.localLifting_theoremB_hypotheses_admitted}
+\formallabel{GlobalTheory.TheoremBAdm.admissible_ranks_of_CMDatum}
+\end{theorem}
+
+\begin{proof}
+(B1) is part of \lref{GlobalTheory.T.wachModuleLocalConclusions_usedForms} (the used forms of the local conclusions of the
+Wach lattice theory); (B2) is the local constants; (B3), (B4), (B5) are among the arc tools; (B6) is
+\lref{Formalism.MainNotions.ArcLiftingSetup.content_divisibility_clause}; (B7) is
+\lref{GlobalTheory.T.h1fGeneratorBoundAll_loc} (the generator bound at every place); (B12) is
+\lref{GlobalTheory.T.dcris_exact_strict_elementwise_crystalline}; and (B13) is
+\lref{GlobalTheory.T.blochKato_crystalline_extension_criterion}. By \cref{pf:linkN-adm:relay} we have (B8) and
+$\mathcal A_{\mathrm{arc}}$. (B9) follows from $\mathcal A_{\mathrm{arc}}$, (P1) and Fontaine's statement on
+$D_{\mathrm{cris}}$ (\lref{GlobalTheory.T.ramifiedCoefficientChains_adm11}) by
+\lref{GlobalTheory.T.arcCoordinatesCaseA_of_admArcA_of_P1free_of_adm11}. (B10) follows from
+\cref{pf:linkN-adm:splitting}: the splitting package consists of (P8), (P9), (W1), (cj) (proved at every place by
+\lref{GlobalTheory.jumps_exact_adm}), the Herr extension class formula
+(\lref{GlobalTheory.HerrExtClass.herr_extension_class_formula}), (F1), (B8) and (B9); the other hypotheses are
+$\mathcal A_{\mathrm{arc}}$, (P1), (P6), (WX), Fontaine's full faithfulness statement
+(\lref{GlobalTheory.T.fontaine_fullFaithful_exact_psi}), (cj), (B12) and Fontaine's statement on $D_{\mathrm{cris}}$.
+(B11) follows from \cref{pf:linkN-adm:univ}, the universal package consisting of (sat), (kill1), the statement $g(\pi_0)\in\pi_0A^\Delta$ ($g\in\Gamma$)
+and (B9), together with (P9), (H) and the equality of $D_{\mathrm{dR}}$ and $D_{\mathrm{cris}}$
+(\lref{GlobalTheory.T.dDeRham_eq_dCris_of_unramified}).
+\end{proof}
+
+\begin{definition}[The admissibility package of theorem~C]\label{pf:linkN-adm:def-AC}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data and $C_R,C_A,C_B,C_K\in\R$. The package $\mathcal A_C$
+consists of: (C1)--(C4) four clauses of the used local conclusion of the Wach lattice theory; (C5)--(C10) six components of
+the local lifting theory with constants $(C_R,C_A,C_B,C_K)$ (a bound for sizes, a restriction dimension statement, the level
+tools, the hypothesis of a lemma on $M'$, a crystalline lifting statement, and the lifting bounds, which contain the lifting
+theorem in case~A); (C11) Fontaine's statement on $D_{\mathrm{cris}}$ (three clauses on exactness and comparison); (C12) the
+Bloch--Kato dimension formula at all local situations; (C13) generators of $\linkNadmHf$; (C14) Herr's description of $H^1$;
+(C15) the Bloch--Kato crystalline extension criterion; (C16) the Herr extension class formula; (C17) the naturality of the
+Herr complex; (C18) a statement on $(\gamma-1)/\pi_0$ at the letters; and (C19) the generator bound (gen).
+\formal{Formalism.MainNotions.RamifiedCoefficientChains.admitted}
+\end{definition}
+
+\begin{theorem}[Admissibility for theorem~C]\label{pf:linkN-adm:admC}
+Assume Bloch--Kato's local theory, local Tate duality and the local Euler characteristic formula. Then for every datum $D$
+with local Hodge--Tate, Fontaine and comparison data, $\mathcal A_C$ holds with the constants $(10,23,32,32)$.
+\formallabel{GlobalTheory.T.localLifting_theoremC_hypotheses_admitted}
+\formallabel{GlobalTheory.TheoremCAdm.admissible_ranks_of_CMDatum}
+\end{theorem}
+
+\begin{proof}
+(C1)--(C4) are \lref{GlobalTheory.T.wachModuleLocalConclusions_usedForms}; (C5)--(C10) are components of the local
+lifting theory given by the local constants; (C11) is \lref{GlobalTheory.T.ramifiedCoefficientChains_adm11}; (C12) is
+\lref{GlobalTheory.T.blochKato_dimFormula_all_localSituations}; (C13) is
+\lref{GlobalTheory.T.ramifiedCoefficientChains_adm13}; (C14) consists of two clauses of Herr's theorem for every record
+(\lref{GlobalTheory.HerrFull.herr_part_a_every_record}, which states the injectivity and bijectivity properties of the
+class maps of the Wach structures); (C15) is \lref{GlobalTheory.T.blochKato_crystalline_extension_criterion}; (C16) is
+\lref{GlobalTheory.HerrExtClass.herr_extension_class_formula}; (C17) is
+\lref{Formalism.MainNotions.HerrComplexNaturality.herr_naturality_theorem_holds} (the naturality of the Herr complex,
+from Herr's theorem for every record); (C18) is
+\lref{GlobalTheory.T.gamma_sub_one_div_uniformiser_at_letter_of_conclusions}, applied to the norm bound for
+$\Delta$-invariant lattices; and (C19) is \lref{GlobalTheory.T.h1fGeneratorBoundAll_loc}.
+\end{proof}
+
+\begin{definition}[The letter condition]\label{pf:linkN-adm:def-letter}
+Let $W$ be a Wach structure of residue characteristic $p$. The \emph{letter condition} at $W$ is: if $W$ is in case~A,
+then for every crystalline lattice $T$, letter $i$, integer $y\ge1$, $\OO_C$-linear map $\delta\colon D(T)\to D(T)$ with
+$\pi_0\delta(z)=\gamma z-z$ for all $z$, map $c\colon\Z\to\OO_C$ with $-p\,c(x)=\chi(\gamma_0)^{-x}-1$ for all $x$, and finite
+set $X\subseteq\Z$ containing $a+j$ for every jump $a$ of $T$ at an embedding over $i$ and every $1\le j\le y$: if $z\in D(T)$
+satisfies $q^yz\in N_i(T)$, then $\prod_{x\in X}(\delta-c(x))\,z\in N_i(T)$. The \emph{global letter condition} is the
+letter condition at the Wach structures of all places $(\ell,K,s,L_C)$.
+\formal{Formalism.MainNotions.N.LetterConditionLocal}
+\formal{Formalism.MainNotions.N.LetterConditionGlobal}
+\end{definition}
+
+\begin{lemma}[The letter condition at one place]\label{pf:linkN-adm:letterloc}
+Let $W$ be a Wach structure of residue characteristic $p=\ell$. Assume that in case~A every crystalline lattice $T$
+satisfies the ring hypotheses of (P9), and the following \emph{shift statement}: in case~A, for every crystalline $T$, letter
+$i$, integers $y'\le Y$, map $c$ with $\ell\,c(x)=1-\chi(\gamma_0)^{-x}$, list $x_0,\dots,x_{t-1}$ of integers containing
+$a+j$ for every jump $a$ of $T$ over $i$ and every $y'<j\le Y$, and sequence $(z_k)$ in $D(T)$ such that $z_0$ is fixed by
+$e_i$ and by $\Delta$, $q^Yz_0\in N(T)$ and $\pi_0(z_{k+1}+c(x_k)z_k)=\gamma z_k-z_k$ for $k<t$, the element $z_t$ is fixed by
+$e_i$ and by $\Delta$ and satisfies $q^{y'}z_t\in N(T)$. Then the letter condition holds at $W$.
+\formallabel{GlobalTheory.PrimeSequence.eigenvalue_product_maps_letter_lattice_local}
+\end{lemma}
+
+\begin{proof}
+Let $T,i,y,\delta,c,X,z$ be as in the letter condition, with $q^yz\in N_i(T)$. By the ring hypotheses, this implies that $z$
+is fixed by $e_i$ and by $\Delta$ and that $q^yz\in N(T)$
+(\lref{GlobalTheory.PrimeSequence.dl_of_qp}). Since $p=\ell$, the map $c$ satisfies $\ell\,c(x)=1-\chi(\gamma_0)^{-x}$.
+List $X$ as $x_0,\dots,x_{t-1}$ and put $z_k=\prod_{s<k}(\delta-c(x_s))\,z$. Then $z_0=z$ and $z_{k+1}=\delta z_k-c(x_k)z_k$,
+so $\pi_0(z_{k+1}+c(x_k)z_k)=\pi_0\delta z_k=\gamma z_k-z_k$. The shift statement with $y'=0$ and $Y=y$ shows that
+$z_t=\prod_{x\in X}(\delta-c(x))\,z$ is fixed by $e_i$ and by $\Delta$ and lies in $N(T)$; hence it lies in $N_i(T)$.
+\end{proof}
+
+\begin{proposition}[The global letter condition]\label{pf:linkN-adm:letter}
+Let $D$ be a datum with local Hodge--Tate, Fontaine and comparison data. The norm bound for $\Delta$-invariant lattices
+implies the global letter condition.
+\formallabel{GlobalTheory.T.letterConditionGlobal_of_N1used}
+\formallabel{GlobalTheory.PrimeSequence.eigenvalue_product_maps_letter_lattice_of_conclusions}
+\end{proposition}
+
+\begin{proof}
+Let $(\ell,K,s,L_C)$ be a place with Wach structure $W$ in case~A (otherwise there is nothing to prove). Then the level is
+$s=1$, $K$ is unramified, $\ell\ne2$, and the residue characteristic of $W$ is $\ell$. The clause (P9) of the norm bound at
+$W$ gives the ring hypotheses for every crystalline $T$
+(\lref{Formalism.MainNotions.RamifiedCoefficientChains.Sh.ZT.ring_hypotheses_of_crystalline}), and the shift statement is
+\lref{GlobalTheory.T.wachOperatorProduct_shift_mem_lattice}, which proves it from the norm bound at every place in
+case~A. Apply \cref{pf:linkN-adm:letterloc}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:linkN-adm:remarks}
+
+\begin{remark}\label{pf:linkN-adm:rem}
+(1) The main theorem is stated for arbitrary local Hodge--Tate, Fontaine and comparison data and an arbitrary parameter
+choice; the Wach structures of \cref{pf:linkN-adm:wach} and the period data enter only through the axioms of these
+structures. The parameter choice is not used in the bound for the error term (\cref{pf:linkN-adm:bbmain}), and the row~B
+bound (\cref{pf:linkN-adm:rowB}) does not use its hypothesis $S_c+\eta_{\mathrm{sz}}+t+2\le b_L$.
+
+(2) The constant $7200$ of \eqref{pf:linkN-adm:eq-bb} is $60\cdot120$, and \eqref{pf:linkN-adm:eq-bb} is proved with $\Lambda$
+in place of $\Lambda^2$ and then weakened using $\Lambda\ge1$.
+
+(3) The row lengths $\linkNadmlen_B$ and $\linkNadmlen_{CD}$ are rational numbers chosen strictly between two real
+bounds; if the interval is empty the value $0$ is used. For $\linkNadmlen_{CD}$ the interval is never empty (since $r\ge5$);
+for $\linkNadmlen_B$ it is empty exactly when $\mathrm{core}_B\le0$, and the proof of \cref{pf:linkN-adm:rowB} covers this
+case.
+
+(4) In theorem~B the band indicator is formed with the same constant $C$ as the bound; it is used with $C=320$, which is
+the constant $C_B$ of the band predicate of the hub data.
+
+(5) Theorem~C has no hypothesis that $K$ is unramified, but its setting contains case~A ($K=K_0$, level $1$,
+$\ell\ne2$); its conclusion is used only in row~D, at unramified places.
+
+(6) At an inert prime the declarations of the hub data have no columns, so the lift condition (Lift) of the inert
+admissibility is vacuous; all places above $\ell$ are rows.
+
+(7) The proof shows that the inert primes of the data considered here are at least $11$, because the split bound is at
+least $60$ (\cref{pf:linkN-adm:eleven}).
+
+(8) Some formal statements carry hypotheses that their proofs do not use: the arc setup (\cref{pf:linkN-adm:arcsetup})
+assumes the exactness of $D_{\mathrm{cris}}$ (dc), and the arc length bound (\cref{pf:linkN-adm:arclen}) assumes the
+universal statement (nn) and that $F$ is onto. In the arc datum of a word every letter has type up or down, so the
+``thick'' types of the arc data (types other than thin) are not the thick letters of the word; for instance
+$\mathrm{ro}(c)=\mathrm{len}(c)$ for these arc data.
+\end{remark}
+

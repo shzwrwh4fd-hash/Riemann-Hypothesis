@@ -1,0 +1,2512 @@
+\section{Non-emptiness of the hypothesis package}\label{sec:pf:stageU}
+
+\providecommand{\stageUA}{\mathcal{A}}
+\providecommand{\stageUC}{\mathcal{C}}
+\providecommand{\stageUFm}{\mathcal{F}}
+\providecommand{\stageULk}{\mathrm{Lk}}
+\providecommand{\stageUKP}{\mathrm{KP}}
+\providecommand{\stageUBd}{\mathrm{Bd}}
+\providecommand{\stageUQO}{\mathrm{QO}}
+\providecommand{\stageUDR}{\mathrm{DR}}
+\providecommand{\stageUNN}{\mathcal{N}}
+\providecommand{\stageUand}{\mathbin{\wedge}}
+\providecommand{\stageUEv}{\mathrm{Ev}}
+\providecommand{\stageULg}{\mathrm{Lg}}
+\providecommand{\stageUBu}{\mathrm{Bu}}
+\providecommand{\stageUSel}{\mathrm{Sel}}
+\providecommand{\stageULin}{\mathrm{Lin}}
+\providecommand{\stageULB}{\mathrm{LB}}
+\providecommand{\stageUEx}{\mathrm{Ex}}
+\providecommand{\stageUDes}{\mathrm{Des}}
+\providecommand{\stageULay}{\mathrm{Lay}}
+\providecommand{\stageUPts}{\mathrm{Pts}}
+\providecommand{\stageUKits}{\mathrm{Kits}}
+\providecommand{\stageUHosts}{\mathrm{Hosts}}
+\providecommand{\stageUE}{\mathcal{E}}
+\providecommand{\stageUpd}{p_{\mathrm{dep}}}
+\providecommand{\stageUpA}{p_{A}}
+
+\subsection{Introduction}\label{sec:pf:stageU:intro}
+
+This section proves \cref{thm:hyps-nonempty}: the hypothesis package $\sfname{HypsAlt}(N,\stageUDR)$ of \cref{def:hyps},
+with $N=\sfname{NL}$ and $\stageUDR=\sfname{DefiniteSideCondition}$, is non-empty under the hypotheses
+listed there. The proof is an assembly. Each field of the package is produced by a result proved elsewhere, and the
+task of this section is to show how these results fit together and to supply the ingredients that are not provided
+elsewhere. The proof has three layers.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{The main theorem} (\cref{pf:stageU:main}). From the two bundles $P,F$ of classical results and the
+inputs $h_A,h_M,h_X,h_L,h_N$ one obtains the separation of rows by theta pairings ($\sfname{FunctionalsSeparate}$),
+the rationality of rows ($\sfname{RowRat}$), the slope bound $\sfname{ConstantFunctionFits}$, a grid constant $c^*$, the
+open parameter statements, and the functional and covolume rows; then \cref{pf:stageU:unram} applies.
+\item \emph{The package from unramified exponents} (\cref{pf:stageU:unram}). The member-bundle theorem, the open
+statements, the Galois link and the row package give the twenty-six linked statements of $\sfname{AllRowsAlt}$; then
+\cref{pf:stageU:allrows} applies.
+\item \emph{The package from the rows} (\cref{pf:stageU:allrows}). The twenty-six linked statements and one further row,
+which bounds the sizes of the level primes, are combined into a single linked row; the class-selection theorem
+(\cref{pf:stageU:classsel}) turns it into a family class $\stageUA$ with a selection $\sigma$ of bundles satisfying all
+rows; eight uniform statements fill the remaining fields.
+\end{enumerate}
+The mathematical content specific to this section is the following.
+\begin{itemize}
+\item The class-selection theorem. Its main part is the \emph{non-emptiness field} of the package: designed families
+exist in the selected class for every requirement admitting hosts on windows (\cref{def:hostexw}). This is proved by
+turning hosts into families of global data. The level primes $T_u$ of the words are chosen in short intervals among
+the primes $\pi\bar\pi$ with $\pi\equiv1$ in an imaginary quadratic field; the position of the intervals is governed
+by the ratio $D_*/d_u$ of main terms, which is bounded below through the Siegel mass ratio and lower bounds for
+Vandermonde products (\cref{pf:stageU:winlow}); an auxiliary prime $q_0\equiv1$ of polynomial size is supplied by a
+Linnik-type bound (\cref{pf:stageU:smallprime}).
+\item The size row: eventually $\log T_u\le C_{Tu}\,m\,L$ (\cref{pf:stageU:hTu}).
+\item Uniform statements of analytic number theory (zero density near $\Re s=1$, the Landau--Page theorem, the
+truncated explicit formula, \cref{pf:stageU:litthin}), the hermitian volume ratio deduced from the Siegel--Weil formula
+(\cref{pf:stageU:volratio}) and the main-term bound for equal words (\cref{pf:stageU:mainrow}).
+\end{itemize}
+Several ingredients of these proofs are large constructions of auxiliary records (bases, cores, ledger parts, kits of
+points) or long explicit verifications. They are stated precisely below and cited; their proofs are given elsewhere in
+this part.
+
+\paragraph{Organisation.} \Cref{sec:pf:stageU:vocab} fixes notation for the eventual quantifiers, rows, linked rows,
+member existence and design choices. \Cref{sec:pf:stageU:calculus} collects the calculus of rows.
+\Cref{sec:pf:stageU:classsel} proves the class-selection theorem from two propositions which are proved in
+\cref{sec:pf:stageU:designs} (existence of designs) and \cref{sec:pf:stageU:layers} (layered data and the window lower
+bound). \Cref{sec:pf:stageU:size} proves the size row and \cref{sec:pf:stageU:uniform} the uniform statements.
+\Cref{sec:pf:stageU:assembly} assembles the package and proves the main theorems. \Cref{sec:pf:stageU:other} proves results
+of the formal development which are used in other sections of this part: properties of downward theta lifts, the Schr\"odinger
+model of the doubled space, Hecke point laws and third-layer statements, Galois-theoretic conditions at members, the calculus of
+steps, the moving of layers, facts on Hecke operators, class sums and characters, and lemmas on rows, columns and bundles.
+
+\paragraph{Conventions.} We use the notions of \cref{sec:families} freely: global data $D$, size data with scale
+$s=(x,\eps,J)$, $L=x^{\eps}$, $b=e^{L}$, families $\stageUFm$ with exponent $\eps$, threshold $x_1$, index sets $I_x$ and
+members $(D_{x,i},L_{x,i})$, family classes, and the closedness quantifier $\sfname{Closed}(\stageUC,P)$ of
+\cref{def:families:closed}. For $x>x_1$ and $i\in I_x$ we write $O_{x,i}$ for the \emph{object} of the member (its size
+data, ties, division data and extra data). Records whose internal structure plays no role in an argument are
+described only by their role; the formal counterparts of the definitions are indicated at their end.
+
+% ---------------------------------------------------------------------------
+\subsection{Notation: eventual statements, rows and designs}\label{sec:pf:stageU:vocab}
+
+\paragraph{Contexts.}
+A \emph{constant package} $C$ is a record of real constants and lists of real constants; it is \emph{standard} if these
+satisfy a fixed list of numerical conditions, and \emph{large} for a transported constant $K_0$ in the sense of
+\cref{def:families:closed}. A \emph{context} $K$ consists of a scale $K.s$, a standard constant package $K.C$, reals
+$c_D,c_h$, a \emph{pre-character datum} $K.P$ (ranks $R$, a host $H$, a finite set of \emph{words} $u$ with
+Harish-Chandra parameters at the real places), an integer, integer weight vectors $a,b$ on the index set of the host,
+a binary code of the words (an injection of the words into $\{0,1\}^{k-2}$), conditions relating these data to the
+scale, and a \emph{level choice} (\cref{sec:pf:stageU:designs}).
+
+\begin{definition}[Eventual statements]\label{pf:stageU:ev}
+\begin{enumerate}[label=(\alph*)]
+\item For a property $p$ of contexts, $\stageUEv_K\,p(K)$ (``eventually in the scale'') means: there is $\eps_0>0$ such
+that for all $\eps\in(0,\eps_0]$ with $\eps<\frac1{52}$ and all $C_8\ge1$ there is a transported constant $K_0$ such
+that for every standard constant package $C$ with $C.\mathrm{Cpde}=C_8$ which is $K_0$-large there is $c_1$ such that for
+every $c_D\ge c_1$ there is $c_2$ such that for every $c_h\ge c_2$ there is $x_0$ with $p(K)$ for all contexts $K$ with
+constants $(C,c_D,c_h)$, exponent $\eps$ and $K.s.x\ge x_0$. The statement $\stageUEv^{\mathrm g}_K\,p(K)$ is defined in the
+same way, with three further constants $C_5,c_6,C_b$ quantified universally together with $C_8$ and the additional
+hypothesis that $K$ is $(C_5,c_6,C_b)$-good.
+\item For a context $K$ and a property $p$ of bases $B$, frames $f$ and twisting data $T$ (\cref{def:families:twist}),
+$\stageULg_K\,p$ (``for large twisting data'') means: there are functions $S_1,P_1,\mathcal E,S_2$ assigning to a
+pre-base, a frame and one or two subfields of $\C$ finite sets of algebraic numbers ($S_1,S_2$) or of rational primes
+($P_1$, and $\mathcal E(\ell)$ for every prime $\ell$), such that $p(B,f,T)$ holds for every base $B$ over the pre-character
+datum of $K$ whose coefficient fields contain the prescribed numbers, every frame $f$, and every twisting datum $T$
+whose prime set contains $P_1$ and whose auxiliary sets avoid $\mathcal E$. We put
+$\sfname{EvLgG}(p)=\stageUEv^{\mathrm g}_K\,\stageULg_K\,p_K$, and we also use $\stageUEv_K\,\stageULg_K\,p_K$.
+\item A \emph{parameter tuple} is $\kappa=(\eps,C,c_D,c_h,C_5,c_6,C_b)$; it is \emph{positive} if $C_5,c_6,C_b>0$, and
+$\kappa\triangleright K$ means that $K$ has the constants $(C,c_D,c_h)$ and the exponent $\eps$ of $\kappa$ and satisfies the
+goodness conditions with $(C_5,c_6,C_b)$. For a property $q$ of parameter tuples, $\stageUEv_\kappa\,q(\kappa)$ means:
+there is $\eps_0>0$ such that for all $\eps,C_8,C_5,c_6,C_b$ with $0<\eps\le\eps_0$, $\eps<\frac1{52}$, $1\le C_8$ there is
+$K_0$ such that for every standard $K_0$-large $C$ with $C.\mathrm{Cpde}=C_8$ there is $c_1$ such that for all $c_D\ge c_1$
+there is $c_2$ such that $q(\eps,C,c_D,c_h,C_5,c_6,C_b)$ holds for all $c_h\ge c_2$. For a property $p$ of parameter
+tuples and contexts,
+\[
+\stageUEv_{\kappa,K}\,p(\kappa,K)\ :=\ \stageUEv_\kappa\bigl(\kappa\text{ positive}\Rightarrow\exists x_0\ \forall K,\
+(\kappa\triangleright K\wedge K.s.x\ge x_0)\Rightarrow p(\kappa,K)\bigr).
+\]
+\end{enumerate}
+\formal{GlobalTheory.Mem.Top.Ev}\formal{GlobalTheory.Mem.Top.EvG}\formal{GlobalTheory.Mem.Top.large₂}
+\formal{GlobalTheory.Fc.ParEv}\formal{GlobalTheory.Fc.EvP}
+\end{definition}
+
+\paragraph{Bases, cores, slots and bundles.}
+As in \cref{sec:families:nonempty}, a \emph{base} $B$ fixes a pre-base (ranks, host, hermitian spaces, words) and a
+coefficient field with its subfields; $f$ denotes a frame and $T$ a twisting datum over $B$. A \emph{base predicate} is a
+predicate $\stageUKP(B,f)$; the one used in the package is $\stageUKP_0(B,f)$: \emph{the subfield $K_s$ of the
+coefficient field is exact for some field datum and $f$, and the pre-base is pinned}. A tuple $X$ of \emph{stages} over $B$
+(columns, row rest, division, and three further stages) determines a global datum $X.D$; a \emph{core} $c$ over
+$(K,X,f,T)$ is a record of characters and places together with an \emph{object} $c.O$ over $X.D$. A \emph{slot} is a
+predicate $Q(K,X,f,T,c)$ on cores; $Q\stageUand R$ is the pointwise conjunction. A \emph{bundle point} $\beta$ over a
+context $K$ is a core together with a layer and a ledger part (a point with size data at the scale $K.s$) and
+compatibility conditions with $K$; it has a datum $\beta.D$ and an object $\beta.O$, and it \emph{lies in} $Q$ if its core
+satisfies $Q$. A \emph{bundle type} $\stageUBd$ assigns a type $\stageUBd(D,O,c)$ to a datum, an object and a real
+number $c$; the one used in the package is the bundle condition of \cref{sec:families:rows}. A \emph{linkage}
+$\stageULk$ is a predicate $\stageULk(K,\beta,c,b)$ on contexts, bundle points, reals and bundles. A \emph{raw selection}
+$\sigma$ for a class $\stageUA$ chooses a bundle $\sigma(\stageUFm,x,i)\in\stageUBd(D_{x,i},O_{x,i},C_{sz})$ for every
+$\stageUFm\in\stageUA$, $x>x_1$ and $i\in I_x$, where $C_{sz}$ is a size constant of $\stageUFm$.
+
+\paragraph{Rows.}
+A parameter tuple $\kappa$ is \emph{attached} to a family $\stageUFm$, written $\kappa\sim\stageUFm$, if the exponent of
+$\kappa$ is that of $\stageUFm$, $\kappa$ is positive, $\kappa.C$ is standard, and the lists of constants of $\stageUFm$ are
+those of $\kappa.C$ (the entry $C_{Tu}$ being set to $\kappa.C.C_{Tu}$). For a property $\stageUQO$ of data and objects,
+$\stageUC[\stageUQO]$ denotes the class of families satisfying the page conditions (\cref{eq:families:rankval} and the
+fixed numerical constants of the pages) all of whose members $(D_{x,i},O_{x,i})$, $x>x_1$, satisfy $\stageUQO$, the
+condition $\mathrm{QD}$ (every tuple is used; the member is twisted at all places with good twists; the lattices
+$\widetilde M(\mu)$ are stable under $\OO_{\mathit{LL}}$), and a list of point conditions (twisting, tameness, Minkowski
+divisibility, twist goodness, duties and walls).
+
+\begin{definition}[Rows]\label{pf:stageU:rows}
+Let $Q$ be a slot, $\stageULk$ a linkage for a bundle type $\stageUBd$, and $E(\kappa,D,O,c,b)$ a property of bundles
+depending on a parameter tuple.
+\begin{enumerate}[label=(\alph*)]
+\item A bundle $b\in\stageUBd(D,O,c)$ is \emph{built} from $Q$ along $\stageULk$ at $\kappa$, written
+$b\in\stageUBu_\kappa(Q,\stageULk)$, if there are a context $K$ with $\kappa\triangleright K$, a bundle point $\beta$ over $K$ in
+$Q$ and $b'$ with $\stageULk(K,\beta,c,b')$ and $(D,O,b)=(\beta.D,\beta.O,b')$.
+\item $\stageUE(Q,\stageULk;E)$ (``$E$ holds eventually at linked bundles'') is the statement
+$\stageUEv_{\kappa,K}$ of: for every bundle point $\beta$ over $K$ in $Q$ and all $c,b$ with $\stageULk(K,\beta,c,b)$,
+$E(\kappa,\beta.D,\beta.O,c,b)$.
+\item $\stageUSel(Q,\stageULk,E;\stageUA,\sigma)$ (``$\sigma$ is an $E$-selection from $(Q,\stageULk)$''): for every
+$\stageUFm\in\stageUA$ there is $\kappa\sim\stageUFm$ with $\stageUFm\in\stageUC[\mathrm{True}]$ such that for all $x>x_1$ and
+$i\in I_x$ the bundle $\sigma(\stageUFm,x,i)$ lies in $\stageUBu_\kappa(Q,\stageULk)$ and satisfies $E(\kappa,\cdot)$.
+\item For a property $H(\stageUA,\sigma)$ of classes with raw selections, $\sfname{Row}(Q,\stageULk,H)$ means: there is $E$
+with $\stageUE(Q,\stageULk;E)$ such that $H(\stageUA,\sigma)$ holds for every $E$-selection $\sigma$ from $(Q,\stageULk)$.
+\end{enumerate}
+\formal{GlobalTheory.Fc.Built}\formal{GlobalTheory.Fc.RowE}\formal{GlobalTheory.Fc.IsSel}\formal{GlobalTheory.Fc.Row}
+\end{definition}
+
+\begin{definition}[Linked rows]\label{pf:stageU:linked}
+Let $\stageUKP$ be a base predicate, $Q,Q',R$ slots and $\stageULk$ a linkage.
+\begin{enumerate}[label=(\alph*)]
+\item $\stageULB_{\stageUKP}(Q,R)$ is the statement $\stageUEv_K\,\stageULg_K$ of: if $\stageUKP(B,f)$, then every core over
+stages over $B$ which satisfies $Q$ satisfies $R$. $\stageULB^{\mathrm g}_{\stageUKP}(Q,R)$ is the same with
+$\stageUEv^{\mathrm g}$.
+\item For a property $r$ of slots, $\stageULin_{\stageUKP}(Q,Q';r):=\exists R,\ \stageULB_{\stageUKP}(Q,R)\wedge r(Q'\stageUand R)$;
+we abbreviate $\stageULin_{\stageUKP}(Q,Q';\stageULk,H):=\stageULin_{\stageUKP}(Q,Q';S\mapsto\sfname{Row}(S,\stageULk,H))$.
+\item $\stageUEx(Q,\stageULk)$ is the statement $\stageUEv_{\kappa,K}$ of: every bundle point $\beta$ over $K$ in $Q$
+carries, for every $c\in\R$, a bundle $b$ with $\stageULk(K,\beta,c,b)$. Then
+$\sfname{ExBL}(\stageUKP,Q,Q',\stageULk):=\stageULin_{\stageUKP}(Q,Q';S\mapsto\stageUEx(S,\stageULk))$.
+\item For a parameter $p$ in the sense of \cref{def:families:rows}, with slots $Q_{\mathrm b}(p)\supseteq Q_{\mathrm g}(p)$
+of built and of good points and bundle linkage $\stageULk_p$, and a property $r$ of slots and linkages,
+$\sfname{LinkedAt}(p,r):=\stageULin_{\stageUKP_0}(Q_{\mathrm b}(p),Q_{\mathrm g}(p);S\mapsto r(S,\stageULk_p))$.
+\end{enumerate}
+\formal{GlobalTheory.Fc.LargeBaseCondition}\formal{GlobalTheory.Fc.Lg1}\formal{GlobalTheory.Fc.RowL}
+\formallabel{GlobalTheory.Fc.ExB}\formallabel{GlobalTheory.Fc.ExBL}\formal{GlobalTheory.Fc.RL.LinkedAt}
+\end{definition}
+
+This agrees with \cref{def:families:rows}. We also use the classes attached to properties of bundles.
+
+\begin{definition}[Classes attached to bundle properties]\label{pf:stageU:classes}
+For $Q,\stageULk,E$ as in \cref{pf:stageU:rows} let $\stageUQO_{Q,\stageULk,E}(\kappa)$ be the property of data and objects
+\[
+\begin{aligned}
+\stageUQO_{Q,\stageULk,E}(\kappa)(D,O)\ :\iff\ &\kappa\text{ positive}\Rightarrow\forall c\ \exists b\in
+\stageUBu_\kappa(Q,\stageULk)\cap\stageUBd(D,O,c)\\
+&\text{with }E(\kappa,D,O,c,b).
+\end{aligned}
+\]
+For a family $\stageUQO$ of properties of data and objects indexed by parameter tuples let $\stageUA[\stageUQO]$ be the
+class of families $\stageUFm$ for which there is $\kappa\sim\stageUFm$ with $\stageUFm\in\stageUC[\stageUQO(\kappa)]$, and put
+$\stageUA_{Q,\stageULk,E}:=\stageUA[\stageUQO_{Q,\stageULk,E}]$.
+\formallabel{GlobalTheory.Fc.QOf}\formallabel{GlobalTheory.Fc.clsP}\formallabel{GlobalTheory.Fc.cls}
+\end{definition}
+
+\paragraph{Member existence.}
+For a base predicate $\stageUKP$ and properties $p,q$ of $(K,B,f,T)$, the \emph{step} from $p$ to $q$ is the statement
+$\sfname{EvLgG}$ of: if $\stageUKP(B,f)$, $T$ is forced (its prime set contains the type primes, the prime $d$ of the host
+and all primes $\le X''(n)$) and $p$ holds, then $q$ holds.
+
+\begin{definition}[Member existence]\label{pf:stageU:memberE}
+Let $\stageUKP$ be a base predicate and $Q,Q'$ slots.
+\begin{enumerate}[label=(M\arabic*),start=0]
+\item (bases) $\mathrm{M}_0(\stageUKP)$: (i) $\stageUEv^{\mathrm g}_K$ of: there are a pre-base and a frame over $K$ such that
+for all finite sets $S_1,S_2$ of algebraic numbers (depending on subfields of $\C$) some base on this pre-base satisfies
+$\stageUKP$ and has coefficient fields containing $S_1$ and $S_2$; and (ii) $\stageUKP$ is stable under enlargement of
+the base.
+\item (first step) $\mathrm{M}_1(\stageUKP,Q)$: the step from ``$T$ is untwisted'' to ``a core in $Q$ exists over
+$(B,f,T)$''.
+\item (export) $\mathrm{M}_2(\stageUKP,Q)$: $\sfname{EvLgG}$ of: if $\stageUKP(B,f)$ and $T$ is untwisted, every core in $Q$
+satisfies the export condition (existence of good twists for all coprime powers, and the Bloch--Kato set conditions at
+the twisted places).
+\item (second pass) $\mathrm{M}_3(\stageUKP,Q,Q')$: $\sfname{EvLgG}$ of: if $\stageUKP(B,f)$, $T$ is untwisted and $c$ is a
+core in $Q$ satisfying the export condition, then for every finite exclusion function and every finite set of
+algebraic numbers there are an enlargement $B'$ of $B$, the same frame, and a twisting datum $T'$ with the same prime
+set, avoiding the exclusions and realising the numbers, over which there is a core in $Q$, twisted at all places with
+good twists, and in $Q'$.
+\end{enumerate}
+$\sfname{MemberE}$ of a slot family is the conjunction of $\mathrm{M}_0(\stageUKP_0)$, $\mathrm{M}_1(\stageUKP_0,Q_{\mathrm b})$,
+$\mathrm{M}_2(\stageUKP_0,Q_{\mathrm b})$ and $\mathrm{M}_3(\stageUKP_0,Q_{\mathrm b},Q_{\mathrm g})$, as in
+\cref{sec:families:nonempty}.
+\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.BaseCond}\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.FirstG}
+\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.ExportF}\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.SecondG}
+\end{definition}
+
+\paragraph{Design choices.}
+$\sfname{MinkDiv}$ is the statement $\forall n,\ \mathrm{MinkMult}(n,\mathrm{minkM}(n))$ about Minkowski-type multipliers; it
+is the hypothesis of the field $\mathsf{hEx}$ of the package.
+
+\begin{definition}[Designed families]\label{pf:stageU:designchoices}
+For a class $\stageUC$, a real $C_0$ and a function $c_T:\R\times\R\to\R$, $\stageUDes(\stageUC,C_0,c_T)$ means: there is
+$\eps_0>0$ such that for every $\eps\in(0,\eps_0]$ and every transported constant $K$ there are a family
+$\stageUFm\in\stageUC$ with exponent $\eps$ and reals $C_H\ge0$, $C_5>0$, $C_b>0$ such that $\stageUFm$ is large for
+$(K,C_H)$, $\stageUFm.C_F=C_H$, $\stageUFm.\mathrm{CYL}\le9$, $c_T(\eps,\stageUFm.\mathrm{CYL})\le\stageUFm.C_{Tu}$, the number of
+words is eventually at most $C_0\Gamma^2x^{C_H}+1$, and $\stageUFm$ has the following design properties: thick sets,
+chosen sets $T$, chosen bad characters (with $C_b$), chosen $QD$-data (with $C_5$), chosen codes (with $C_0,C_H$), boxes,
+$QD$-rows, divisibility of the multipliers $D_\Gamma$, and tame distinctness. For a class $\stageUA$,
+\[
+\stageUEx^{\mathrm{des}}(\stageUA,c_T):\iff\forall\lambda>1\ \forall\mathcal G,\quad
+\sfname{HostExW}(\lambda,\mathcal G)\Longrightarrow
+\stageUDes\bigl((\stageUA\cap\mathcal G.\mathrm{cls}(\lambda))\cap\sfname{TwGood},3,c_T\bigr),
+\]
+where $\mathcal G$ ranges over requirements (\cref{def:requirement}).
+\formallabel{GlobalTheory.EX.DC.DesignChoices}\formallabel{UpperTheory.Top.ExD}
+\end{definition}
+
+The field $\mathsf{hEx}$ of the package asserts $\sfname{MinkDiv}\Rightarrow\sfname{ExS}(\stageUA,c_T)$, where
+$\sfname{ExS}$ is defined as $\stageUEx^{\mathrm{des}}$ with the copies of the design properties of a different module of the
+formal development; the two versions are compared in \cref{pf:stageU:frozen}.
+
+% ---------------------------------------------------------------------------
+\subsection{The calculus of rows}\label{sec:pf:stageU:calculus}
+
+A row for a slot is a row for every smaller slot: if $Q\subseteq Q'$, then $\stageUE(Q',\stageULk;E)$ implies
+$\stageUE(Q,\stageULk;E)$ (fewer bundle points) and $\stageUBu_\kappa(Q,\stageULk)\subseteq\stageUBu_\kappa(Q',\stageULk)$, so that
+$E$-selections from $(Q,\stageULk)$ are $E$-selections from $(Q',\stageULk)$; hence $\sfname{Row}(Q',\stageULk,H)$ implies
+$\sfname{Row}(Q,\stageULk,H)$ (\lref{GlobalTheory.Fc.Row.strengthen}, which states exactly this). Similarly
+$\stageUEx(Q,\stageULk)$ is antitone in $Q$. Two eventual statements of the same kind imply the eventual statement of the
+conjunction: take the minimum of the $\eps_0$, the supremum of the transported constants, the maxima of the thresholds
+and the unions of the exceptional sets. Finally $\sfname{Row}(Q,\stageULk,H)$ and $\sfname{Row}(Q,\stageULk,H')$ imply
+$\sfname{Row}(Q,\stageULk,H\wedge H')$, with the conjunction of the two bundle properties. These facts are used without
+further comment.
+
+\begin{lemma}[Calculus of rows]\label{pf:stageU:rowcalc}
+Let $\stageUKP$ be a base predicate, $Q,Q',R$ slots, $\stageULk$ a linkage and $E,E'$ properties of bundles.
+\begin{enumerate}[label=(\alph*)]
+\item If $\stageULB_{\stageUKP}(Q,R)$ and $\sfname{Row}(Q',\stageULk,H)$, then $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$.
+\item If $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$ and $\stageULin_{\stageUKP}(Q,Q';\stageULk,H')$, then
+$\stageULin_{\stageUKP}(Q,Q';\stageULk,H\wedge H')$.
+\item If $\sfname{ExBL}(\stageUKP,Q,Q',\stageULk)$ and $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$, then there is a slot $R$ with
+$\stageULB_{\stageUKP}(Q,R)$, $\stageUEx(Q'\stageUand R,\stageULk)$ and $\sfname{Row}(Q'\stageUand R,\stageULk,H)$.
+\item If $\stageUEx(Q,\stageULk)$ and $\stageUE(Q,\stageULk;E)$, then $\stageUEv_{\kappa,K}$ of: every bundle point $\beta$ over
+$K$ in $Q$ satisfies $\stageUQO_{Q,\stageULk,E}(\kappa)(\beta.D,\beta.O)$.
+\item Let $\stageUFm\in\stageUA_{Q,\stageULk,E}$ and $\kappa\sim\stageUFm$ with $\stageUFm\in\stageUC[\stageUQO_{Q,\stageULk,E}(\kappa)]$.
+For all $x>x_1$ and $i\in I_x$ there is $b\in\stageUBu_\kappa(Q,\stageULk)\cap\stageUBd(D_{x,i},O_{x,i},C_{sz})$ satisfying
+$E(\kappa,\cdot)$. Consequently, if $\sigma_{Q,\stageULk,E}(\stageUFm,x,i)$ denotes such a bundle (for a chosen $\kappa$), then
+$\sigma_{Q,\stageULk,E}$ is an $E$-selection from $(Q,\stageULk)$ for $\stageUA_{Q,\stageULk,E}$.
+\item If $\stageUEx(Q,\stageULk)$ and $\sfname{Row}(Q,\stageULk,H)$, then there is $E$ satisfying the conclusion of
+\textup{(d)} such that $H(\stageUA_{Q,\stageULk,E},\sigma_{Q,\stageULk,E})$.
+\item If $E\Rightarrow E'$ pointwise, every $E$-selection from $(Q,\stageULk)$ is an $E'$-selection; every $E$-selection
+from $(Q\stageUand R,\stageULk)$ is an $E$-selection from $(Q,\stageULk)$.
+\item $\stageUC[\stageUQO]$ is monotone in $\stageUQO$, and every family in a class $\stageUA[\stageUQO]$ fulfils the seven
+duties (page conditions, a global twisting fact, tameness, walls, all tuples used, twisted at all places) and the
+stability of the lattices $\widetilde M(\mu)$ under $\OO_{\mathit{LL}}$ eventually.
+\end{enumerate}
+\formallabel{GlobalTheory.Fc.Row.rowL}\formallabel{GlobalTheory.Fc.RowL.elim}\formallabel{GlobalTheory.Fc.QOf₂}
+\formallabel{GlobalTheory.Fc.cls_at}\formallabel{GlobalTheory.Fc.pick}\formallabel{GlobalTheory.Fc.pick_isSel}
+\formallabel{GlobalTheory.Fc.Row.elim}\formallabel{GlobalTheory.Fc.IsSel.mono}\formallabel{GlobalTheory.Fc.isSel_of_sAnd}
+\formallabel{GlobalTheory.Fc.familyClassWithFurtherProperties_mono}\formallabel{GlobalTheory.Fc.sevenDuties_of_class}
+\end{lemma}
+
+\begin{proof}
+(a) By antitonicity, $\sfname{Row}(Q',\stageULk,H)$ gives $\sfname{Row}(Q'\stageUand R,\stageULk,H)$, and $R$ is the required
+witness. (b) This is \lref{GlobalTheory.Fc.RowL.and}: given witnesses $R_1,R_2$, the slot $R_1\stageUand R_2$ satisfies
+$\stageULB_{\stageUKP}(Q,R_1\stageUand R_2)$, and both rows hold for the smaller slot $Q'\stageUand R_1\stageUand R_2$; combine them.
+(c) Let $R_1$ be a witness of $\sfname{ExBL}$ and $R_2$ one of the linked row; then $R=R_1\stageUand R_2$ works,
+$\stageUEx(Q'\stageUand R,\stageULk)$ following from $\stageUEx(Q'\stageUand R_1,\stageULk)$ and the row from
+$\sfname{Row}(Q'\stageUand R_2,\stageULk,H)$ by antitonicity. (d) Combine the two eventual statements. Let $\kappa$ be positive
+with $\kappa\triangleright K$, let $\beta$ be a bundle point over $K$ in $Q$, and $c\in\R$. Existence gives $b$ with
+$\stageULk(K,\beta,c,b)$; then $b\in\stageUBu_\kappa(Q,\stageULk)$ (witnessed by $K,\beta,b$), and $\stageUE(Q,\stageULk;E)$ gives
+$E(\kappa,\beta.D,\beta.O,c,b)$. (e) Since $\stageUFm\in\stageUC[\stageUQO_{Q,\stageULk,E}(\kappa)]$, every member satisfies
+$\stageUQO_{Q,\stageULk,E}(\kappa)(D_{x,i},O_{x,i})$ by the definition of $\stageUC[\cdot]$, and $\kappa$ is positive because
+$\kappa\sim\stageUFm$; apply the definition with $c=C_{sz}$. For the second statement use the chosen $\kappa$ for every
+$\stageUFm$: then $\kappa\sim\stageUFm$, $\stageUFm\in\stageUC[\mathrm{True}]$ by the monotonicity in (h), and the chosen bundles
+are built and satisfy $E$ by the first statement. (f) Take the $E$ given by the row; (d) holds by existence, and by (e)
+$\sigma_{Q,\stageULk,E}$ is an $E$-selection for $\stageUA_{Q,\stageULk,E}$, so the row gives $H$. (g) The first statement is
+immediate from the definition; for the second, a bundle built from a point in $Q\stageUand R$ is built from a point in
+$Q$. (h) Monotonicity is immediate from the definition of $\stageUC[\cdot]$. If $\stageUFm\in\stageUA[\stageUQO]$, choose $\kappa$
+with $\stageUFm\in\stageUC[\stageUQO(\kappa)]$; the duties and the stability are part of the conditions defining
+$\stageUC[\cdot]$ (\lref{GlobalTheory.EX.DQ.familyClass_sevenDuties_and_stableLattices}, which extracts them).
+\end{proof}
+
+\begin{lemma}[Second pass with a large-base slot]\label{pf:stageU:secondg}
+Let $\stageUKP$ be a base predicate and $Q,Q',R$ slots. If $\mathrm{M}_0(\stageUKP)$, $\stageULB^{\mathrm g}_{\stageUKP}(Q,R)$
+and $\mathrm{M}_3(\stageUKP,Q,Q')$, then $\mathrm{M}_3(\stageUKP,Q,Q'\stageUand R)$.
+\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.SecondG.sAnd_of_largeBase}
+\formallabel{GlobalTheory.T.secondG_sAnd_of_largeBase}
+\end{lemma}
+
+\begin{proof}
+Both $\stageULB^{\mathrm g}_{\stageUKP}(Q,R)$ and $\mathrm{M}_3$ are of the form $\stageUEv^{\mathrm g}_K\stageULg_K(\cdot)$; work at a
+context at which both hold, with exceptional data $(S_1^R,P_1^R,\mathcal E^R,S_2^R)$ for the large-base condition and
+$(S_1^S,P_1^S,\mathcal E^S,S_2^S)$ for the second pass. For the conclusion use the exceptional data
+$(S_1^S\cup S_1^R,\ P_1^S\cup P_1^R,\ \mathcal E^S,\ S_2^S)$. Let $(B,f,T)$ satisfy them, with $\stageUKP(B,f)$ and $T$
+untwisted, let $c$ be a core in $Q$ satisfying the export condition, and let an exclusion function $\mathcal E'$ and a set
+$S_2'$ of algebraic numbers be given. Apply the second pass with the exclusion function $\mathcal E'\cup\mathcal E^R$ and the
+numbers $S_2'\cup S_2^R$: it gives an enlargement $B'$ of $B$, the same frame, a twisting datum $T'$ with the prime set of
+$T$, avoiding $\mathcal E'\cup\mathcal E^R$, with $S_2'\cup S_2^R$ realised in the coefficient field of $B'$, and a core $c'$
+over $(B',f,T')$ in $Q$, twisted at all places with good twists, and in $Q'$. Since $B'$ enlarges $B$, it has the same
+pre-base and the same images of the subfields $K_s$ and $\mathit{LL}_0$ in $\C$, so the exceptional data of the large-base
+condition computed from $B'$ are those computed from $B$, and $(B',f,T')$ satisfies them: $S_1^R$ lies in the common fixed
+coefficient field, $S_2^R$ is realised, $P_1^R$ is contained in the common prime set and $T'$ avoids $\mathcal E^R$.
+Moreover $\stageUKP(B',f)$ by the stability of $\stageUKP$ under enlargement. Hence the large-base condition gives $R$ at
+$c'$, so that $c'$ also lies in $Q'\stageUand R$.
+\end{proof}
+
+The rows of the package are stated with ``working copies'' of some family predicates. Let $W_1(\stageUA)$ be the class of
+$\stageUFm\in\stageUA$ which are twist-good and smooth and have divisible multipliers, tame distinctness, boxes, $QD$-rows and
+$\mathrm{CYL}\le9$, and let $W_3(\stageUA)\subseteq W_1(\stageUA)$ be defined by the chosen-constant condition at level $3$,
+$\sfname{TuSize}$ and $\sfname{DGamSize}$. The package uses instead the classes $D3(3,\stageUA)$ of
+\cref{def:families:closed} and $W'_1(\stageUA)$, the analogue of $W_1(\stageUA)$ built from the copies of these predicates in
+another module.
+
+\begin{lemma}[Working and frozen copies]\label{pf:stageU:frozen}
+\begin{enumerate}[label=(\alph*)]
+\item For every class $\stageUA$, $D3(3,\stageUA)=W_3(\stageUA)$ and $W'_1(\stageUA)=W_1(\stageUA)$.
+\item Every family fulfilling the seven duties of \cref{pf:stageU:rowcalc}(h) fulfils the duties required by the
+package.
+\item For every class $\stageUA$ and every $c_T$: if $\sfname{MinkDiv}$ implies
+$\stageUDes(\stageUA\cap\sfname{TwGood},3,c_T)$, then $\sfname{MinkDiv}$ implies the corresponding statement for the copies
+used in $\sfname{ExS}$.
+\end{enumerate}
+\formallabel{GlobalTheory.Fc.working_classes_frozen}\formallabel{GlobalTheory.Fc.copies_frozen}
+\formallabel{GlobalTheory.T.workingFamClass_copies_eq_frozen}
+\end{lemma}
+
+\begin{proof}
+The two copies of divisibility of the multipliers, of tame distinctness and of the bound on the number of words unfold to
+the same conditions (for tame distinctness after unfolding the tame list), and the two copies of $\sfname{MinkDiv}$ have
+the same definition; (a) and (c) follow by unfolding. (b) is \lref{GlobalTheory.EX.DQ.duty_seven_library}, which
+states that the seven duties imply the duties of the package.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The class-selection theorem}\label{sec:pf:stageU:classsel}
+
+The following theorem produces an actual class with a selection from linked rows, together with the non-emptiness of
+the class. Its two inputs on the existence side are proved in \cref{sec:pf:stageU:designs,sec:pf:stageU:layers}:
+\cref{pf:stageU:recs} (designs exist for classes $\stageUA[\stageUQO]$ once layered data exist, \cref{pf:stageU:recexpdef})
+and \cref{pf:stageU:membertop} (layered data exist under the member-existence statements). Write (SM) for the Siegel mass
+ratio of \cref{prop:families:mass}, and (VR) for the hermitian volume ratio of \cref{pf:stageU:volratio}.
+
+\begin{theorem}[Class selection]\label{pf:stageU:classsel}
+Assume (SM) and (VR). Let $\stageUKP$ be a base predicate, $Q,Q'$ slots, $\stageUBd$ a bundle type with a linkage
+$\stageULk$, $H$ a property of classes with raw selections, and $c_T:\R\times\R\to\R$. Suppose
+\begin{enumerate}[label=(\roman*)]
+\item $\sfname{MinkDiv}$ implies $\mathrm{M}_0(\stageUKP)$, $\mathrm{M}_1(\stageUKP,Q)$, $\mathrm{M}_2(\stageUKP,Q)$ and
+$\mathrm{M}_3(\stageUKP,Q,Q')$;
+\item $\sfname{ExBL}(\stageUKP,Q,Q',\stageULk)$;
+\item $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$.
+\end{enumerate}
+Then there are a class $\stageUA$ and a raw selection $\sigma$ for $\stageUA$ such that $\sfname{MinkDiv}$ implies
+$\stageUEx^{\mathrm{des}}(\stageUA,c_T)$; every family in $\stageUA$ fulfils the seven duties and the lattice stability;
+$\sigma$ is a $\mathrm{True}$-selection from $(Q',\stageULk)$; and $H(\stageUA,\sigma)$.
+\formallabel{UpperTheory.Top.classSel}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:stageU:rowcalc}(c) there is a slot $R$ with $\stageULB_{\stageUKP}(Q,R)$, $\stageUEx(Q'\stageUand R,\stageULk)$ and
+$\sfname{Row}(Q'\stageUand R,\stageULk,H)$. By \cref{pf:stageU:rowcalc}(f) there is a property $E$ of bundles such that,
+with $\stageUQO:=\stageUQO_{Q'\stageUand R,\stageULk,E}$,
+\begin{equation}\label{pf:stageU:eq:QO}
+\stageUEv_{\kappa,K}\Bigl(\text{every bundle point }\beta\text{ over }K\text{ in }Q'\stageUand R\text{ satisfies }
+\stageUQO(\kappa)(\beta.D,\beta.O)\Bigr),
+\end{equation}
+and $H(\stageUA,\sigma)$ for $\stageUA:=\stageUA[\stageUQO]$ and $\sigma:=\sigma_{Q'\stageUand R,\stageULk,E}$. The duties and the
+stability hold by \cref{pf:stageU:rowcalc}(h). By \cref{pf:stageU:rowcalc}(e), $\sigma$ is an $E$-selection from
+$(Q'\stageUand R,\stageULk)$; by \cref{pf:stageU:rowcalc}(g) it is a $\mathrm{True}$-selection from $(Q',\stageULk)$.
+
+It remains to show that $\sfname{MinkDiv}$ implies $\stageUEx^{\mathrm{des}}(\stageUA[\stageUQO],c_T)$. By \cref{pf:stageU:recs}
+it suffices to show that $\sfname{MinkDiv}$ implies $\stageULay(\kappa\mapsto\stageUQO(\kappa)\wedge\mathrm{QD})$. Assume
+$\sfname{MinkDiv}$; by (i) we have $\mathrm{M}_0(\stageUKP)$, $\mathrm{M}_1(\stageUKP,Q)$, $\mathrm{M}_2(\stageUKP,Q)$ and
+$\mathrm{M}_3(\stageUKP,Q,Q')$. The large-base condition $\stageULB_{\stageUKP}(Q,R)$ is an $\stageUEv$-statement and therefore
+implies the corresponding $\stageUEv^{\mathrm g}$-statement, the goodness hypothesis being simply not used
+(\lref{GlobalTheory.Mem.Top.evG_of_ev}, which states this implication); so $\stageULB^{\mathrm g}_{\stageUKP}(Q,R)$ holds and
+\cref{pf:stageU:secondg} gives $\mathrm{M}_3(\stageUKP,Q,Q'\stageUand R)$. \Cref{pf:stageU:membertop}, applied to $\stageUKP$,
+$Q$, $Q'\stageUand R$, $\stageUQO$ and \eqref{pf:stageU:eq:QO}, gives
+$\stageULay\bigl(\kappa\mapsto(\kappa\text{ positive}\Rightarrow\stageUQO(\kappa))\wedge\mathrm{QD}\bigr)$. Since
+$\stageUQO(\kappa)$ is itself of the form ``$\kappa$ positive $\Rightarrow\dots$'', the property
+``$\kappa$ positive $\Rightarrow\stageUQO(\kappa)$'' coincides with $\stageUQO(\kappa)$, and we obtain
+$\stageULay(\kappa\mapsto\stageUQO(\kappa)\wedge\mathrm{QD})$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Existence of designs}\label{sec:pf:stageU:designs}
+
+\paragraph{Level choices and layered data.}
+Let $P$ be a pre-character datum with ranks $R$ ($k,m,f,n$ and $r=k+m-1$) and host $H$; the host provides the primes
+$Q_S,q,d$, the type primes $g_0,g_1$, two further primes $p_{de},p'_{de}$, and the imaginary quadratic field
+$K=\Q(\sqrt{-d})\subseteq E$. For a word $u$ and a real place $\tau$ let $\dim(u,\tau)$ be the Weyl dimension attached to
+the Harish-Chandra parameter of $u$ at $\tau$, i.e.\ the Vandermonde product of its entries divided by $\prod_{i<k}i!$.
+Put
+\begin{equation}\label{pf:stageU:eq:dD}
+d_P(u)=\mathrm{mass}_k\,\bigl(\iota_{\mathrm{c}}(g_0)\,\iota_{\mathrm{c}}(g_1)\bigr)^{f}\prod_{\tau}\dim(u,\tau),\qquad
+D_P=\mathrm{mass}_r\,\bigl(\iota_{\mathrm{r}}(g_0)\,\iota_{\mathrm{r}}(g_1)\bigr)^{f}\prod_\tau d_\sigma(\tau),
+\end{equation}
+and $\Gamma(C,s,R)=\exp(C_\Gamma\,m^5fL)$. Here $\mathrm{mass}_n$ is the mass of the standard hermitian lattice $\OO_E^n$,
+$\iota_{\mathrm{c}}(g)$ and $\iota_{\mathrm{r}}(g)$ are the local indices at a type prime $g$ of the column level subgroup of
+$\GL_k(\F_g)$ and of the row level subgroup of $\GL_{k+m-1}(\F_g)$, $d_\sigma(\tau)$ is the degree attached to the row
+parameter of the base word $u_0$ at $\tau$, and $C_\Gamma$ is a constant of $C$. These are the main terms $d_u$ and $D_*$
+of \cref{thm:theorem-S}. A \emph{level choice} for $P$ consists of primes $T_u\equiv1\pmod{Q_Sqd}$, one for each word
+$u$, with $T_u\notin\{p_{de},p'_{de}\}$, elements $\pi_u\in\OO_K$ with $\pi_u\bar\pi_u=T_u$ and
+$\pi_u\equiv1\pmod{Q_Sqd(g_0g_1)^2}$, positive integers $d^*_u$ and reals $D^*>0$, $\Gamma>1$ such that
+\begin{equation}\label{pf:stageU:eq:Twin}
+\Bigl(\frac{D^*}{d^*_u}\Bigr)^{\frac1{fk}}\Gamma^{-\frac2{fk}}\ \le\ T_u\ \le\
+\Bigl(1+\frac1{fk}\Bigr)\Bigl(\frac{D^*}{d^*_u}\Bigr)^{\frac1{fk}}\Gamma^{-\frac2{fk}}\qquad\text{for all }u.
+\end{equation}
+In a context the level choice satisfies $d^*_u=d_P(u)$, $D^*=D_P$ and $\Gamma=\Gamma(C,s,R)$. Thus the level primes are
+determined, up to a factor $1+\frac1{fk}$, by the ratio of the main terms.
+
+\begin{definition}[Layered data]\label{pf:stageU:recexpdef}
+For a family $\stageUQO$ of properties of data and objects indexed by parameter tuples, $\stageULay(\stageUQO)$ is the
+statement $\stageUEv_\kappa$ of: there are $c_s>0$ and $x_0$ such that for every scale $s$ with exponent $\kappa.\eps$ and
+$s.x\ge x_0$, every pre-character datum $P$, all weights $a,b$ and every code $c$ satisfying the goodness conditions with
+$\kappa$, there are positive integers $d_u$ and a real $D_s>0$ with
+\begin{equation}\label{pf:stageU:eq:recexp}
+c_s\,m\,L\ \le\ \log\Bigl(\Bigl(\frac{D_s}{d_u}\Bigr)^{\frac1{fk}}\Gamma(\kappa.C,s,R)^{-\frac2{fk}}\Bigr)\qquad\text{for all }u,
+\end{equation}
+such that for every level choice with $d^*=d$, $D^*=D_s$ and $\Gamma=\Gamma(\kappa.C,s,R)$ there are a datum $D$ and a
+\emph{layer} $Y$ of $D$ lying over $(P,\text{level choice})$, satisfying the record, ledger and twist conditions, such that
+every \emph{ledger part} of $Y$ (a point of $D$ with size data) at the scale $s$, with weights $(a,b)$, valued and
+canonical, satisfies $\stageUQO(\kappa)$ at its datum and object.
+\formallabel{GlobalTheory.Fc.RecExP}
+\end{definition}
+
+\paragraph{Hosts, points and kits.}
+For a requirement $\mathcal G$ let $\mathcal G.\mathrm{req}(C_5,s,R,H,q_0)$ be $\mathcal G$ evaluated at the scale, the frame of
+$R$, the host axioms of $H$, its set $T$ and the rank $t$; it depends neither on $C_5$ nor on $q_0$ nor on the level primes
+of $H$. Write $\mathrm{HG}(s,C_8,C_5,c_6,C_b,H,q_0)$ for the size and arithmetic conditions on the host in
+\cref{def:hostexw} (the \emph{host conditions}), and $q_0(H)$ for the least prime $p\equiv1\pmod{r(H)Q_Sqd}$, where $r(H)$
+is the least prime not dividing $Q_Sqd(p_{de}-1)(p'_{de}-1)$ (the conductor ideal of the hosts used here is trivial).
+
+\begin{definition}[Hosts on windows, points and kits]\label{pf:stageU:kitsdef}
+Let $\lambda>1$ and let $\mathcal P(C_5,s,R,H,q_0)$ be a host requirement.
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{HostExW}(\lambda,\mathcal P)$ is as in \cref{def:hostexw}: for every $\eps\in(0,\frac1{52})$ there are constants
+$C_{T2},C_8\ge1,C_5,c_6,C_b>0,x_0$ and a set $S$ of scales with windows of exponent $\lambda$ (for every $y$ there is
+$Y\ge y$ with $[Y,Y^\lambda]$ in the window set) such that every $s\in S$ with exponent $\eps$ and $s.x\ge x_0$ admits
+ranks $R$ satisfying the rank conditions, a host $H$ with constant $C_{T2}$ and a prime $q_0$ with
+$\mathrm{HG}(s,C_8,C_5,c_6,C_b,H,q_0)$ and $\mathcal P(C_5,s,R,H,q_0)$. Put
+$\stageUHosts^{\mathrm q}(\lambda,\mathcal P):=\sfname{HostExW}(\lambda,\mathcal P\wedge(q_0=q_0(H)))$.
+\item $\stageUHosts^{\mathrm w}(\lambda,\mathcal P)$: there is $\eps_0>0$ such that for all $\eps\in(0,\eps_0]$, $\eps<\frac1{52}$,
+there are $C_{T2}$, $C_8\ge1$, $C_5,c_6,C_b>0$ and $K_0$ such that for every standard $K_0$-large constant package $C$ with
+these $C_{T2},C_8$, eventually in $c_D$ and then in $c_h$, there are $x_0$ and a set $S$ of scales with windows of exponent
+$\lambda$ such that every $s\in S$ with exponent $\eps$ and $s.x\ge x_0$ admits ranks $R$, a host $H$, $q_0=q_0(H)$ and
+weights $a,b$ supported on the set $T$ of $H$, with the rank conditions, $\mathrm{HG}(s,C_8,C_5,c_6,C_b,H,q_0)$, the window
+condition for $(a,b)$, the \emph{window-share condition} (a weighted sum over the candidate primes $p<X'$ of local shares,
+defined through the local lattice statement of \cref{thm:families:local}, is at most $x^{-9}$), and
+$\mathcal P(C_5,s,R,H,q_0)$.
+\item A \emph{point} $p$ over a constant package is a datum with size data, ties, extra data and an object; a \emph{point
+property} is a predicate on these. A point \emph{comes from} $(H,a,b,c,u_0)$ if its host, weights, words and word codes
+are those prescribed by $(H,a,b,c)$ and its distinguished index is $u_0$. A \emph{kit} over $(C,c_D,c_h,s)$ is a
+non-empty family of points at the scale $s$, valued and with arithmetic hosts, which pairwise have the same data except
+the distinguished index, whose word sets are identified by bijections compatible with the codes, and which covers every
+index $u_0<n$.
+\item For a family of point properties $Q(\kappa)$, $\stageUPts(Q)$ is the statement $\stageUEv_\kappa$ of: there is $x_0$
+such that for every scale $s$ with exponent $\kappa.\eps$ and $s.x\ge x_0$, ranks $R$ satisfying the rank conditions, every
+host $H$ with constant $\kappa.C.C_{T2}$ and $\mathrm{HG}(s,\kappa.C.\mathrm{Cpde},\kappa.C_5,\kappa.c_6,\kappa.C_b,H,q_0(H))$,
+weights $a,b$ with the window condition, every injective code $c$ of $M=\lceil3\Gamma^2x^{C_F}\rceil$ words and every
+$u_0<n$, there is a valued canonical point at the scale $s$ with arithmetic host, coming from $(H,a,b,c,u_0)$ and having
+$Q(\kappa)$. For a single point property $Q$, $\stageUPts_0(Q)$ is the same statement with the constants quantified as in
+\textup{(b)}.
+\item $\stageUKits(\lambda,Q)$ is defined as in \textup{(b)}, except that the conclusion at every $s\in S$ with exponent
+$\eps$ and $s.x\ge x_0$ is: there is a kit over $(C,c_D,c_h,s)$ all of whose points have
+$Q(\eps,C,c_D,c_h,C_5,c_6,C_b)$, the lower bound for the thick sets, and the choices of bad characters (with $C_b$) and of
+$QD$-data (with $C_5$).
+\end{enumerate}
+\formallabel{GlobalTheory.EX.DC.HostExQW}\formallabel{GlobalTheory.EX.DC.HostWW}\formallabel{GlobalTheory.EX.Kit}
+\formallabel{GlobalTheory.Fc.ObjCP}\formallabel{GlobalTheory.EX.DC.ObjC}\formallabel{GlobalTheory.Fc.KitCPW}
+\end{definition}
+
+\paragraph{Number-theoretic inputs.}
+
+\begin{definition}[Three statements]\label{pf:stageU:threestatements}
+\begin{itemize}
+\item[(L)] There is $A\ge1$ such that for every integer $M\ge2$ there is a prime $p\equiv1\pmod M$ with $p\le M^A$. (This is
+the residue class $1$ case of Linnik's theorem \cite{Linnik1944}.)
+\item[(LP)] For all $\eps\in(0,\frac1{52})$ and $c>0$ there is $x_0$ such that for every scale $s$ with exponent $\eps$ and
+$s.x\ge x_0$, all ranks $R$ satisfying the rank conditions, all integers $N,d,g_0,g_1$ with $d$ prime, $d\equiv3\pmod4$,
+$d\ge100$, $0<N$, $d\mid N$, $\log N\le3x^{\eps/5}(\log x)^2$, $1\le g_i\le b^9$, and every $T_s>0$ with
+$c\,m\,L\le\log T_s$, there is a prime $T$ with $T_s\le T\le(1+\frac1{fk})T_s$ of the form $T=\pi\bar\pi$, where
+$\pi=\frac{\alpha+\beta\sqrt{-d}}2$ with integers $\alpha,\beta$ such that $N(g_0g_1)^2\mid\beta$ and
+$2N(g_0g_1)^2\mid\alpha-2-\beta$ (that is, $\pi\in\OO_K$ and $\pi\equiv1\pmod{N(g_0g_1)^2\OO_K}$).
+\item[(W)] For the class of all families, the property ``eventually every member admits a weight vector'' is closed;
+here a weight vector is the input of the local lattice statement of \cref{thm:families:local} at the candidate primes.
+\end{itemize}
+\formallabel{GlobalTheory.EX.SmallPrimeOne}\formallabel{GlobalTheory.EX.LevelPrime}\formallabel{GlobalTheory.EX.DC.WClosed}
+\end{definition}
+
+\begin{lemma}[A Linnik-type bound]\label{pf:stageU:smallprime}
+The statement \textup{(L)} holds. More precisely, the prime number theorem in arithmetic progressions with relative error
+\textup{(\lref{GlobalTheory.Lin.primesRel_holds})} implies \textup{(L)}.
+\formallabel{GlobalTheory.EX.smallPrimeOne_of_primesRel}
+\end{lemma}
+
+\begin{proof}
+By \lref{GlobalTheory.Lin.primesAPInterval_of_primesRel} (a consequence of that prime number theorem), there are
+$C_0,C_r,c_r,c>0$ with the following property: for all integers $M\ge3$ and $a$ prime to $M$ and all reals $Y,h$ with
+$Y\ge(4M)^{C_0}$, $h\le1$,
+\[
+\rho(Y):=C_r\exp\Bigl(-c_r\frac{\log Y}{\log4M}\Bigr)+C_r\exp\bigl(-c_r\sqrt{\log Y}\bigr)\le\frac h{100}
+\quad\text{and}\quad(4M)^7\le hY^{1/3},
+\]
+the number of primes $p\equiv a\pmod M$ in $(Y,Y(1+h)]$ is at least $c\,h\,(4M)^{-6}Y/\log Y$. Choose
+$s\ge\max(C_0,21,200C_r/c_r)$ and put $A=3s^2+1$. For $M=2$ take $p=3\le2^A$. Let $M\ge3$ and $Y=(4M)^{s^2}$. Then
+$\log4M\ge1$ and $\log Y=s^2\log4M\ge s^2$, so both exponentials in $\rho(Y)$ are at most $e^{-c_rs}$, and
+$C_re^{-c_rs}\le\frac1{200}$ because $e^{c_rs}\ge1+c_rs>200C_r$; hence $\rho(Y)\le\frac1{100}$. Moreover
+$(4M)^7\le(4M)^{s^2/3}=Y^{1/3}$ and $Y\ge(4M)^{C_0}$, since $s^2\ge21$ and $s^2\ge C_0$. With $a=1$ and $h=1$ we obtain a
+prime $p\equiv1\pmod M$ in $(Y,2Y]$. Since $4\le M^2$ we have $Y\le M^{3s^2}$, so $p\le2Y\le M^{3s^2+1}=M^A$.
+\end{proof}
+
+\begin{lemma}[The auxiliary prime]\label{pf:stageU:q0bound}
+Let $A\ge1$ be as in \textup{(L)}, and let $H$ be a host with trivial conductor ideal and $p_{de},p'_{de}\le N^{C}$, where
+$N=Q_Sqd$. Then $q_0(H)\le N^{(3+2C)A}$.
+\formallabel{UpperTheory.Top.PolynomialHostPrimeBound.smallest_prime_polynomial_bound}
+\end{lemma}
+
+\begin{proof}
+By Bertrand's postulate there is a prime $r'$ with $Q<r'\le2Q$, where $Q=N(p_{de}-1)(p'_{de}-1)>0$; it does not divide
+$Q$, so $r(H)\le r'\le2Q\le N\cdot Np_{de}p'_{de}$, using $N\ge2$. Hence $r(H)N\le N^3p_{de}p'_{de}\le N^{3+2C}$. By (L)
+there is a prime $p\equiv1\pmod{r(H)N}$ with $p\le(r(H)N)^A$, and $q_0(H)\le p$ by minimality; thus
+$q_0(H)\le N^{(3+2C)A}$.
+\end{proof}
+
+\begin{lemma}[Re-levelling the hosts]\label{pf:stageU:hostq}
+Assume \textup{(L)}. For every $\lambda$ and every requirement $\mathcal G$, $\sfname{HostExW}(\lambda,\mathcal G.\mathrm{req})$
+implies $\stageUHosts^{\mathrm q}(\lambda,\mathcal G.\mathrm{req})$.
+\formallabel{UpperTheory.Top.hostQ}
+\end{lemma}
+
+\begin{proof}
+Let $A$ be the constant of (L) and fix $\eps$. Take the constants $C_{T2},C_8,C_5,c_6,C_b,x_0$ and the set of scales given by
+$\sfname{HostExW}$, and replace $C_8$ by $(3+2C_8)A\ge C_8$. For a window scale $s$ beyond $x_0$ let $(R,H,q_0)$ be the given
+data. Replace $H$ by the host $H'$ whose level primes are $\{g_0,g_1,p_{de},p'_{de},q_0(H)\}$, all other data being
+unchanged, and replace $q_0$ by $q_0(H)$; note that $q_0(H)$ is prime to $Q_S$ because $q_0(H)\equiv1\pmod{Q_Sqd}$. The host
+conditions for $H'$ with the constant $(3+2C_8)A$ follow from those for $H$: the size conditions are monotone in the
+constant; the conductor ideal is trivial and $p_{de},p'_{de}\le(Q_Sqd)^{C_8}$ are among the conditions on $H$, so
+\cref{pf:stageU:q0bound} gives $q_0(H)\le(Q_Sqd)^{(3+2C_8)A}$; moreover $q_0(H)\equiv1\pmod{Q_Sqd}$ and
+$q_0(H)\ne p_{de},p'_{de}$. The level primes $g_0,g_1,p_{de},p'_{de}$ split in $K$ as before, and $q_0(H)$ splits because it
+is $\equiv1\pmod{Q_Sqd}$ (\lref{GlobalTheory.HostSplit.split_of_one_mod}, which states that such primes split in the
+host). Finally $\mathcal G.\mathrm{req}$ does not depend on the level primes or on $q_0$.
+\end{proof}
+
+\begin{lemma}[Level primes]\label{pf:stageU:levelprime}
+The statement \textup{(LP)} holds.
+\formallabel{GlobalTheory.EX.levelPrime_unconditional}\formallabel{UpperTheory.T3.levelPrimeN}
+\end{lemma}
+
+\begin{proof}
+We use the prime number theorem for norms in short intervals (\lref{UpperTheory.T3.shortNorm}): there are
+$A',c,c'>0$ such that for every prime $d\equiv3\pmod4$ with $d\ge100$, every integer $M\ge3$ and all reals $X\ge1$ and $h$
+with $\log(4dM^2)\le c\sqrt{\log X}$ and $e^{-c\sqrt{\log X}}\le h\le1$, the number of primes $p\in(X,X(1+h)]$ of the form
+$p=\pi\bar\pi$ with $\pi\equiv1\pmod{M\OO_K}$ is at least $c'hX/((4dM^2)^{A'}\log X)$.
+
+Let $\eps$ and $c_s>0$ be given and put $M=N(g_0g_1)^2$, $X=T_s$ and $h=1/V$ with $V=fk$. For large $x$ the rank conditions
+give $m\ge x^{1/3}$ (as $\eps<\frac1{52}$) and $1\le V\le x^{12}$, and $g_i\le b^9$ gives $\log g_i\le9x^\eps$. Hence
+$\log T_s\ge c_s\,m\,x^\eps\ge c_sx^{1/3+\eps}$ and $c\sqrt{\log T_s}\ge c\sqrt{c_s}\,x^{1/6+\eps/2}$, whereas
+\[
+\log(4dM^2)\le\log4+3\log N+4\log g_0+4\log g_1\le\log4+9x^{\eps/5}(\log x)^2+72x^\eps,
+\quad \log V\le12\log x .
+\]
+Each of $\log4$, $9x^{\eps/5}(\log x)^2$ and $72x^\eps$ is at most $\frac13c\sqrt{c_s}\,x^{1/6+\eps/2}$ for large $x$ (since
+$(\log x)^2\le x^{1/6}$ eventually and $\eps<\frac16$), and so is $12\log x$. Hence $\log(4dM^2)\le c\sqrt{\log X}$ and
+$e^{-c\sqrt{\log X}}\le1/V=h\le1$; also $M\ge N\ge d\ge100$. So the number of primes in question in
+$(T_s,(1+\frac1{fk})T_s]$ is positive. This proves (LP), with $x_0$ the maximum of the thresholds of the finitely many
+eventual inequalities used and of the rank conditions (with $c$ in (LP) playing the role of $c_s$).
+\end{proof}
+
+\paragraph{Points, kits and the window-share condition.}
+We cite two results. The first constructs points from layered data, the second is the closed form of the window-share
+requirement.
+\begin{enumerate}[label=(\alph*)]
+\item \lref{GlobalTheory.Fc.objCP_of_recExP} (with its statement form
+\lref{GlobalTheory.T.existsObjects_of_admissibleTwistDatum}): (LP) and $\stageULay(\stageUQO)$ imply
+$\stageUPts(\kappa\mapsto Q^{\mathrm{obj}}(\stageUQO(\kappa)))$, where $Q^{\mathrm{obj}}$ adds to a property of the datum and
+object of a point the twisting, tameness, Minkowski-divisibility and twist-goodness conditions of the point. Its proof
+chooses Harish-Chandra parameters for the words from the host (\lref{GlobalTheory.EX.OB.chGood_of_host}), a level
+choice by (LP) with $T_s=(D_s/d_u)^{1/(fk)}\Gamma^{-2/(fk)}$ and \eqref{pf:stageU:eq:recexp}
+(\lref{GlobalTheory.EX.OB.exists_levCh_of_levelPrime}), size data over the datum given by $\stageULay(\stageUQO)$
+(\lref{GlobalTheory.EX.OB.exists_sizeData_over}) and a ledger part of its layer
+(\lref{GlobalTheory.EX.Led.exists_ledPart}).
+\item (W) holds (\lref{GlobalTheory.EX.G4.wClosed}, with its statement form
+\lref{GlobalTheory.T.windowShareRequirementClosedForm_proof}). Its proof verifies the numerical hypotheses of
+\cref{thm:families:local} in closed form.
+\end{enumerate}
+
+\begin{lemma}[Forgetting the point property]\label{pf:stageU:objc}
+For every family $Q$ of point properties, $\stageUPts(Q)$ implies $\stageUPts_0(\mathrm{True})$.
+\formallabel{UpperTheory.Top.objC_true}
+\end{lemma}
+
+\begin{proof}
+Given the data of $\stageUPts_0(\mathrm{True})$, use the transported constant and the thresholds provided by $\stageUPts(Q)$ for
+the parameter tuple formed by the given constants; the point it provides has all required properties, and its property
+$Q(\kappa)$ is not needed.
+\end{proof}
+
+\begin{lemma}[Window shares]\label{pf:stageU:hostww}
+Let $\lambda>1$ and let $\mathcal P$ be a host requirement. If $\stageUHosts^{\mathrm q}(\lambda,\mathcal P)$,
+$\stageUPts_0(\mathrm{True})$ and \textup{(W)} hold, then $\stageUHosts^{\mathrm w}(\lambda,\mathcal P)$.
+\formallabel{UpperTheory.Top.hostWW}
+\end{lemma}
+
+\begin{proof}
+Fix $\eps$ below the thresholds of $\stageUPts_0(\mathrm{True})$ and (W), take the constants $C_{T2},C_8,C_5,c_6,C_b$ of
+$\stageUHosts^{\mathrm q}$, the transported constant $K_0$ of $\stageUPts_0$ and the transported constant $K_1$ of (W), and use
+their supremum. Let $C$ be standard and large; for $c_D,c_h$ beyond the thresholds of $\stageUPts_0$ and of the numerical
+row constants (\lref{GlobalTheory.EX.szRow_numAt}, which provides the numerical data of the members), choose at every
+window scale $s$ of $\stageUHosts^{\mathrm q}$ beyond a common threshold $x_1$: the host data $(R,H,q_0)$; weights $a,b$ with
+the window condition (\lref{GlobalTheory.EX.exists_weights_in_windows}, existence of such weights); an injective code
+$c$ of $\lceil3\Gamma^2x^{C_F}\rceil$ words (\lref{GlobalTheory.EX.exists_injective_words}, existence of such codes,
+since $2^{k-2}$ exceeds this number); and, by $\stageUPts_0(\mathrm{True})$ for every $u_0<n$, points coming from
+$(H,a,b,c,u_0)$, which form a kit (\lref{GlobalTheory.EX.DC.kit_of_points}). Consider the point property $Q'$: ``if a
+weight vector exists at the point, then the scale of the point admits data $(R,H,q_0,a',b')$ with all the conditions of
+$\stageUHosts^{\mathrm w}$''. Every point $p$ of the kit has $Q'$: if a weight vector exists,
+\lref{GlobalTheory.EX.weightWindowRequirement_host_of_point} produces from it weights $a',b'$ supported on $T$ with
+the window and the window-share conditions at the scale of $p$, and the host conditions are those of $(R,H,q_0)$. The
+kits form a family $\stageUFm$ whose members at a window scale $x$ are the points of the kit at $x$, whose constants are
+those of $C$ and whose windows are those of the set of scales (\lref{GlobalTheory.EX.exists_famP_of_kits}, the
+construction of a family from kits). This family is large for $K_1$, so (W) gives $x_W$ such that every member at
+$x\ge x_W$ admits a weight vector; by $Q'$, every window scale $s$ with $s.x\ge\max(x_1+1,x_W)$ admits the required data.
+\end{proof}
+
+\begin{lemma}[Kits]\label{pf:stageU:kits}
+Let $\lambda>1$, $\mathcal G$ a requirement and $Q$ a family of point properties. If
+$\stageUHosts^{\mathrm w}(\lambda,\mathcal G.\mathrm{req})$ and $\stageUPts(Q)$, then
+$\stageUKits(\lambda,\kappa\mapsto Q^{\mathrm{du}}(Q(\kappa))\wedge Q^{\mathrm{wall}}\wedge\mathcal G.\mathrm{pt})$, where
+$Q^{\mathrm{du}}$ adds the duties, $Q^{\mathrm{wall}}$ is the wall condition and $\mathcal G.\mathrm{pt}$ is the requirement
+$\mathcal G$ at the point.
+\formallabel{UpperTheory.Top.kitS}
+\end{lemma}
+
+\begin{proof}
+Combine the two statements as in the proof of \cref{pf:stageU:hostww}. At a window scale $s$,
+$\stageUHosts^{\mathrm w}$ gives $(R,H,q_0,a,b)$ with the window-share condition and the requirement; choose an injective
+code $c$ (\lref{GlobalTheory.EX.exists_injective_words}); then $q_0<X'$ by the polynomial bound for $q_0$
+(\lref{GlobalTheory.EX.small_prime_lt}, which states that a prime bounded by a power of $Q_Sqd$ is $<X'$ for large
+$x$). For every $u_0<n$, $\stageUPts(Q)$ gives a point $p_{u_0}$ coming from $(H,a,b,c,u_0)$ with $Q(\kappa)$. These points
+have the same data except the distinguished index (\lref{GlobalTheory.EX.TieSame.same_of_from}, which states this for
+valued canonical points coming from the same $(H,a,b,c)$), and their words are identified through the code, so they form
+a kit. Each point has the duties, the wall condition, the thick-set bound and the two choices by
+\lref{GlobalTheory.EX.DC.has_withDuty_wall_and_choices} (which deduces them from the host conditions and the
+window-share condition), and the requirement because it comes from $H$.
+\end{proof}
+
+\begin{lemma}[Designed families]\label{pf:stageU:designs}
+Let $\lambda>1$, $\mathcal G$ a requirement, $Q$ a family of point properties and $c_T:\R\times\R\to\R$. Assume
+$\sfname{MinkDiv}$ and $\stageUKits(\lambda,\kappa\mapsto Q^{\mathrm{du}}(Q^{\mathrm{obj}}(Q(\kappa)))\wedge Q^{\mathrm{wall}}\wedge
+\mathcal G.\mathrm{pt})$. Then $\stageUDes((\stageUC\cap\mathcal G.\mathrm{cls}(\lambda))\cap\sfname{TwGood},3,c_T)$, where
+$\stageUC$ is the class of families $\stageUFm$ for which there is $\kappa\sim\stageUFm$ such that all members satisfy
+$Q^{\mathrm{du}}(Q^{\mathrm{obj}}(Q(\kappa)))\wedge Q^{\mathrm{wall}}$ and the page conditions hold.
+\formallabel{UpperTheory.Top.designS}
+\end{lemma}
+
+\begin{proof}
+Let $\eps\le\min(\eps_0,\frac1{53})$ and a transported constant $K$ be given. Take the constants of the kit statement and
+choose a standard constant package $C$ with the prescribed $C_{T2},C_8$ which is large both for $K_0$ and for $K$ with the
+entry $C_{Tu}$ replaced by $c_T(\eps,9)$ (\lref{GlobalTheory.EX.exists_std_large}, existence of such packages).
+Choose $c_D,c_h$ beyond the thresholds of the kit statement and of the numerical row constants, and at every window
+scale $s$ beyond the threshold choose a kit. These kits carry the numerical data, the chosen sets $T$, the chosen codes and
+$\lceil3\Gamma^2x^{C_F}\rceil$ words. They form a family $\stageUFm$ (\lref{GlobalTheory.EX.exists_famP_of_kits})
+whose members satisfy all point properties common to the kits, whose constants are those of $C$, and whose windows
+are those of the set of scales. Then: the page conditions hold, with $\mathrm{CYL}=9$
+(\lref{GlobalTheory.EX.DC.fix_and_win_of_numAt}, which reads them off the numerical data); $\stageUFm$ is large for
+$(K,C_F)$ because its constants are those of $C$; twist goodness, tame distinctness, boxes, $QD$-rows, the chosen $QD$-data,
+bad characters, sets $T$, codes and the thick-set bound hold because they hold at all points of the kits; divisibility of
+the multipliers holds because the Minkowski point condition gives divisibility by $\mathrm{minkM}$ under $\sfname{MinkDiv}$;
+the number of words is $\lceil3\Gamma^2x^{C_F}\rceil\le3\Gamma^2x^{C_F}+1$; and $\stageUFm\in\mathcal G.\mathrm{cls}(\lambda)$ by
+the windows and the requirement at the points. Finally replace the constant $C_{Tu}$ of $\stageUFm$ by $c_T(\eps,9)$; this does
+not affect the properties above, and it gives $c_T(\eps,\mathrm{CYL})=c_T(\eps,9)\le C_{Tu}$ and
+$(\eps,C,c_D,c_h,C_5,c_6,C_b)\sim\stageUFm$, with $C_H=C_F\ge1$.
+\end{proof}
+
+\begin{proposition}[Designs from layered data]\label{pf:stageU:recs}
+Let $\stageUQO$ be a family of properties of data and objects indexed by parameter tuples, and $c_T:\R\times\R\to\R$. If
+$\sfname{MinkDiv}$ implies $\stageULay(\kappa\mapsto\stageUQO(\kappa)\wedge\mathrm{QD})$, then $\sfname{MinkDiv}$ implies
+$\stageUEx^{\mathrm{des}}(\stageUA[\stageUQO],c_T)$.
+\formallabel{UpperTheory.Top.recS}
+\end{proposition}
+
+\begin{proof}
+Assume $\sfname{MinkDiv}$, and let $\lambda>1$ and $\mathcal G$ be a requirement with $\sfname{HostExW}(\lambda,\mathcal G.\mathrm{req})$.
+Write $\stageUQO'(\kappa)$ for the point property ``$\stageUQO(\kappa)\wedge\mathrm{QD}$ holds at the datum and object of the
+point''.
+\begin{enumerate}[label=\arabic*.]
+\item (L) holds (\cref{pf:stageU:smallprime}), so \cref{pf:stageU:hostq} gives
+$\stageUHosts^{\mathrm q}(\lambda,\mathcal G.\mathrm{req})$.
+\item (LP) holds (\cref{pf:stageU:levelprime}) and $\stageULay(\kappa\mapsto\stageUQO(\kappa)\wedge\mathrm{QD})$ holds by
+hypothesis; by the cited result (a) above, $\stageUPts(\kappa\mapsto Q^{\mathrm{obj}}(\stageUQO'(\kappa)))$, and hence
+$\stageUPts_0(\mathrm{True})$ by \cref{pf:stageU:objc}.
+\item With (W), \cref{pf:stageU:hostww} gives $\stageUHosts^{\mathrm w}(\lambda,\mathcal G.\mathrm{req})$, and
+\cref{pf:stageU:kits} gives
+$\stageUKits(\lambda,\kappa\mapsto Q^{\mathrm{du}}(Q^{\mathrm{obj}}(\stageUQO'(\kappa)))\wedge Q^{\mathrm{wall}}\wedge\mathcal G.\mathrm{pt})$.
+\item \Cref{pf:stageU:designs} gives $\stageUDes((\stageUC\cap\mathcal G.\mathrm{cls}(\lambda))\cap\sfname{TwGood},3,c_T)$ for the class
+$\stageUC$ described there. By definition, the members of a family in $\stageUC[\stageUQO(\kappa)]$ are required to satisfy
+exactly $Q^{\mathrm{du}}(Q^{\mathrm{obj}}(\stageUQO'(\kappa)))\wedge Q^{\mathrm{wall}}$, together with the page conditions, so
+$\stageUC=\stageUA[\stageUQO]$.
+\end{enumerate}
+Since $\lambda$ and $\mathcal G$ were arbitrary, this is $\stageUEx^{\mathrm{des}}(\stageUA[\stageUQO],c_T)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Layered data and the window lower bound}\label{sec:pf:stageU:layers}
+
+Write (VM) for the statement: for every datum $D$ whose hermitian volumes are normalised (the volume of every
+hermitian space is the covolume of its arithmetic group for normalised Haar measures), the volume of every positive
+definite hermitian space, and of every hermitian space whose signatures have at least two positive entries, equals the
+mass of the corresponding standard genus.
+
+\begin{lemma}[Volumes and masses]\label{pf:stageU:volmass}
+\textup{(VR)} implies \textup{(VM)}.
+\formallabel{GlobalTheory.Mem.VolMass.volumes_eq_masses_of_unfold}
+\end{lemma}
+
+\begin{proof}
+Let $D$ have normalised volumes. The normalisation in the form used in (VR) follows
+(\lref{Formalism.L2.Theta.VolTieG.volTie}, which compares the two normalisations), so (VR) gives the volume ratio
+for $D$. Unfolding this ratio with the global arithmetic identity gives the corresponding relation between volumes and
+masses (\lref{Formalism.MainNotions.StandardLattice.volumeMass_of_unfolding}). In the definite case the mass of every
+definite space is that of the standard genus (\lref{GlobalTheory.genusMassStd_all}), and the definite volume
+decomposes over the double cosets of the genus (\lref{GlobalTheory.DefiniteDecompObj.doubleCosets_mass}); together
+with the normalisation this gives volume $=$ mass for definite spaces
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.mass_volume_identity_of_class_decomp}). The two relations
+give (VM) (\lref{Formalism.MainNotions.StandardLattice.volume_eq_mass_of_definite}, which combines them).
+\end{proof}
+
+\begin{definition}[Layers at good contexts]\label{pf:stageU:recatgdef}
+For a property $\mathrm{QL}(K,D,Y)$ of contexts, data and layers, $\stageULay^{\mathrm g}(\mathrm{QL})$ is the statement
+$\stageUEv^{\mathrm g}_K$ of: there are a datum $D$ and a layer $Y$ of $D$ lying over the pre-character datum and the level
+choice of $K$, satisfying the record, ledger and twist conditions, with $\mathrm{QL}(K,D,Y)$. A layer $Y$ of $D$ \emph{comes
+from a core in} $Q'$ if there are stages $X$ with $X.D=D$, a frame, a twisting datum and a core in $Q'$ whose object is the
+object of $Y$.
+\formallabel{GlobalTheory.Mem.Top.RecAtG}
+\end{definition}
+
+We use the following statement (\lref{GlobalTheory.Mem.Top.LayOfCore.lay_of_core}): $\stageUEv_K$ of: for every core
+$c$ over $K$ whose datum satisfies the conclusion of (VM), there is a layer of this datum with object $c.O$, lying over the
+pre-character datum and level choice of $K$, satisfying the record and ledger conditions, in which every tuple is used.
+
+\begin{lemma}[Layers from two passes]\label{pf:stageU:recatg}
+Assume \textup{(VM)}. Let $\stageUKP$ be a base predicate and $Q,Q'$ slots. If $\mathrm{M}_0(\stageUKP)$, $\mathrm{M}_1(\stageUKP,Q)$,
+$\mathrm{M}_2(\stageUKP,Q)$ and $\mathrm{M}_3(\stageUKP,Q,Q')$, then $\stageULay^{\mathrm g}$ of the property: $Y$ comes from a core
+in $Q'$, and $\mathrm{QD}$ holds for $D$ and $Y$.
+\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.recAtG_of_two_passes}
+\formallabel{GlobalTheory.T.layeredAutomorphicData_exists_of_twoPasses}
+\end{lemma}
+
+\begin{proof}
+The statements $\mathrm{M}_1,\mathrm{M}_2,\mathrm{M}_3$ have the form $\stageUEv^{\mathrm g}_K\stageULg_K(\cdot)$, and so has, for
+every context, the statement that $T$ is forced (\lref{GlobalTheory.Mem.Top.GroupRetwisting.lg_forced}: it suffices
+that the prime set contains a prescribed finite set). The base statement $\mathrm{M}_0$(i) is an
+$\stageUEv^{\mathrm g}$-statement and the layer statement quoted above is an $\stageUEv$-statement. Work at a good context
+$K$ at which all of them hold, and let $(S_1,P_1,\mathcal E,S_2)$ be exceptional data serving simultaneously for
+$\mathrm{M}_1$, $\mathrm{M}_2$, $\mathrm{M}_3$ and the forcing. By $\mathrm{M}_0$(i) there are a pre-base and a frame $f$ over $K$
+and a base $B$ on this pre-base with $\stageUKP(B,f)$ whose coefficient fields contain $S_1$ and the numbers $S_2$ attached
+to the character set $\{1,\delta,\delta'\}$ of $f$, which is the character set of untwisted data. Let $T$ be the
+untwisted twisting datum over $B$ with prime set $P_1$; it satisfies the exceptional data (its auxiliary sets are empty)
+and is forced. By $\mathrm{M}_1$ there is a core $c$ in $Q$ over $(B,f,T)$; by $\mathrm{M}_2$ it satisfies the export
+condition; by $\mathrm{M}_3$, applied with empty exclusions and no numbers, there are an enlargement $B'$, the same frame,
+a twisting datum $T'$ and a core $c'$ over $(B',f,T')$ which lies in $Q$ and in $Q'$ and is twisted at all places with good
+twists. The datum of $c'$ has normalised volumes (its real record contains the normalisation), so it satisfies the
+conclusion of (VM), and the layer statement gives a layer $Y$ with object $c'.O$, lying over the data of $K$, with the
+record and ledger conditions and all tuples used. The twist conditions of $Y$ are those of $c'$, since the norm choice
+and theta data of $Y$ are those of $c'.O$, and the stability of the lattices is part of the core $c'$. Hence $Y$ comes
+from a core in $Q'$ and $\mathrm{QD}$ holds.
+\end{proof}
+
+\paragraph{Main terms.} The following statement is cited (\lref{GlobalTheory.Mem.Top.exists_du_nat}): for every
+$\eps\in(0,\frac1{52})$ there is $x_0$ such that for every context datum at a scale with exponent $\eps$ and $x\ge x_0$ the
+main terms $d_P(u)$ of \eqref{pf:stageU:eq:dD} are positive integers. (Its proof shows that the product of the mass
+$\mathrm{mass}_k$ and the column indices is a positive integer, using $g_i\equiv1\pmod{Q_Sqd}$ and $g_i-1>2fk$.)
+
+\begin{lemma}[Mass telescoping and the row main term]\label{pf:stageU:mainterms}
+\begin{enumerate}[label=(\alph*)]
+\item Assume \textup{(SM)}. For every CM field $E$ unramified over its maximal real subfield and all integers $k\ge2$,
+$n\ge0$,
+\[
+\mathrm{mass}_{k+n}=\mathrm{mass}_k\prod_{M=k+1}^{k+n}\rho_E(M),\qquad
+\rho_E(M)=\frac{\bigl((M-1)!\,(v/\pi)^M\bigr)^{f}}{(2v)^{f/2}}\,L(M,\eta^M),
+\]
+where $f=[E^+:\Q]$, $v$ is as in \cref{prop:families:mass} and $\rho_E(M)$ is the ratio given there.
+\item For every pre-character datum $P$, $D_P>0$ and
+\[
+D_P\ \ge\ \bigl(\tfrac23\bigr)^f\,\mathrm{mass}_r\,\bigl(\iota_{\mathrm r}(g_0)\iota_{\mathrm r}(g_1)\bigr)^f
+\prod_\tau\dim(v_\tau,-b_\tau),
+\]
+where $(v_\tau,-b_\tau)$ is the row parameter of the base word at $\tau$ and $\dim$ is its Weyl dimension.
+\end{enumerate}
+\formallabel{GlobalTheory.EX.WinLow.mass_tel}\formallabel{GlobalTheory.Mem.Top.DsLow.DsP_pos_and_lower}
+\end{lemma}
+
+\begin{proof}
+(a) Induction on $n$: for $n=0$ the product is empty, and $\mathrm{mass}_{k+n+1}=\mathrm{mass}_{k+n}\,\rho_E(k+n+1)$ by (SM), since
+$k+n+1\ge3$. (b) The mass $\mathrm{mass}_r$ is positive (\lref{Formalism.HermitianLatticesTheory.massTelescope_std_pos},
+positivity of the telescoped mass of the standard lattice), the row indices are positive
+(\lref{GlobalTheory.Mem.Top.DsLow.idxRowLoc_pos}), and the degree $d_\sigma(\tau)$ is the Weyl dimension of the row
+parameter, which is positive (\lref{GlobalTheory.Mem.Top.DsLow.trueDsig_eq_dimV}); hence $D_P>0$, and the inequality
+holds because $(\frac23)^f\le1$.
+\end{proof}
+
+\paragraph{A lower bound for the ratio of main terms.}
+For a sequence $y$ indexed by $\N$ and $N\ge1$ write $V_N(y)=\prod_{0\le i<j<N}(y_i-y_j)$ and
+$\dim_N(y)=V_N(y)/\prod_{i<N}i!$. Let $x\ge1$, $\Delta\ge1$, $B=e^{x^\eps}$ and $a=xB$. Sequences $(u,v,b,w)$ form a
+\emph{place datum} of type $(k,m)$ if $0\le v_i\le4k\Delta$ and $v_i-v_{i+1}=4\Delta$ for $i<k-1$ (resp.\ $i+1<k-1$);
+$v_i<u_i$ and $u_{i+1}<v_i$ for $i<k-1$; $-b_0<u_{k-1}$; either $u_0\le2a$ and $-a\le u_{k-1}$, or
+$4k\Delta\le u_0-v_0\le8k\Delta$ and $u_{k-1}=v_{k-2}-\frac12$; $b_j<w_j$ and $|w_j-b_j|\le b_j/x$ for $j<m$; $w_j<b_{j+1}$
+and $b_{j+1}-b_j\ge1$ for $j+1<m$; $4k\Delta\le b_0/x$; and $w_{m-1}\le2B$. Write $(v,-b)$ for the sequence
+$v_0,\dots,v_{k-2},-b_0,-b_1,\dots$. The following estimate is cited
+(\lref{Formalism.LogVandermondeBounds.vandermonde_place_lower_bound}, proved from
+\lref{Formalism.LogVandermondeBounds.StandardLattice.logRatioLowerBound_of_logVandermondeGap} and
+\lref{Formalism.LogVandermondeBounds.StandardLattice.VandPlace_holds}).
+
+\smallskip\noindent\textbf{(LRB)} For every $\eps\in(0,\frac1{52})$ and $C_0\ge0$ there is $C_1$ such that the following
+holds for all $x\ge1$, with $L=x^\eps$. Let $f,m\ge1$ and $2\le k\le x^{C_0}$ be integers, $v_E\ge\pi$ with $\log v_E\le L$,
+$\Delta\ge1$, $g_1,g_2\ge1$, let $(u_\rho,v_\rho,b_\rho,w_\rho)$ be place data of type $(k,m)$ for $\rho<f$, and let
+$\mathrm{mass}_k,\mathrm{mass}_r,I_\sigma,I_\pi>0$ and $L_M>0$ ($k<M<k+m$) with $|\log L_M|\le f\log\zeta(M)$ satisfy
+\[
+\mathrm{mass}_r=\mathrm{mass}_k\prod_{M=k+1}^{k+m-1}\frac{((M-1)!\,(v_E/\pi)^M)^f}{(2v_E)^{f/2}}L_M,\qquad
+\frac{I_\sigma}{I_\pi}\ge2^{-2f}(g_1g_2)^{fm(2k+m-1)/2}.
+\]
+If $D_*\ge(\frac23)^f\mathrm{mass}_rI_\sigma\prod_\rho\dim_{k-1+m}(v_\rho,-b_\rho)$ and
+$d_*=\mathrm{mass}_kI_\pi\prod_\rho\dim_k(u_\rho)$, then
+\[
+\sum_{j<m}\frac1f\sum_{\rho<f}\log\frac{w_\rho(j)v_E}{\pi}+m(\log g_1+\log g_2)-C_1\Bigl(L+\frac{m^2L}k\Bigr)\ \le\
+\frac1{fk}\log\frac{D_*}{d_*}.
+\]
+Its proof compares Vandermonde products: for interlacing sequences as above $V_k(u)\le(8a)^{2k-3}V_{k-1}(v)$, since the
+differences of the $u_i$ are at most $8a$, and $V_{k-1+m}(v,-b)\ge V_{k-1}(v)\prod_jb_j^{k-1}$, since $v_i+b_j\ge b_j$ and
+$b_j-b_i\ge1$; the remaining terms are sums of logarithms of factorials and of the mass factors.
+
+\begin{lemma}[Window lower bound]\label{pf:stageU:winlow}
+Assume \textup{(SM)}. Let $\eps\in(0,\frac1{52})$, $C$ a standard constant package and $c_D\ge0$. There is $c_2$ such that for
+every $c_h\ge c_2$ there is $x_0$ with the following property. For every scale $s$ with exponent $\eps$ and $s.x\ge x_0$, every
+pre-character datum $P$ with weights and code satisfying the conditions relating them to $s$ (with the constants
+$C,c_D,c_h$), all positive integers $d_u=d_P(u)$ and every real
+$D_s\ge(\frac23)^f\mathrm{mass}_r(\iota_{\mathrm r}(g_0)\iota_{\mathrm r}(g_1))^f\prod_\tau\dim(v_\tau,-b_\tau)$,
+\[
+m\,L\ \le\ \log\Bigl(\Bigl(\frac{D_s}{d_u}\Bigr)^{\frac1{fk}}\Gamma(C,s,R)^{-\frac2{fk}}\Bigr)\qquad\text{for every word }u.
+\]
+\formallabel{GlobalTheory.EX.WinLow.window_lower}
+\end{lemma}
+
+\begin{proof}
+Let $C_1$ be the constant of (LRB) for $\eps$ and $C_0=5$. For $x$ large the following hold, by results cited with their
+content.
+\begin{enumerate}[label=(\roman*)]
+\item At every real place the Harish-Chandra parameters of every word form a place datum of type $(k,m)$ with
+$\Delta=\lceil x^{c_D}\rceil$, and $w_\rho(j)\ge1$ (\lref{GlobalTheory.EX.WinLow.places_ok}).
+\item $k\le x^5$ (\lref{GlobalTheory.EX.WinLow.scale_sizes}), and $2|C_1|\le m$, $m^2\le k$, $2C_\Gamma m^4\le k$ and
+$L\ge1$ (\lref{GlobalTheory.EX.WinLow.rank_consts}).
+\item $\pi\le v_E$ (\lref{GlobalTheory.EX.WinLow.pi_le_v}), $\log v_E\le L$ and $g_i\ge b^8$, so $\log g_i\ge8L$ and $g_i\ge3$
+(\lref{GlobalTheory.EX.hostBounds}, the size bounds for the host).
+\item The column and row indices are positive and $I_\sigma/I_\pi\ge2^{-2f}(g_0g_1)^{fm(2k+m-1)/2}$ for
+$I_\sigma=(\iota_{\mathrm r}(g_0)\iota_{\mathrm r}(g_1))^f$ and $I_\pi=(\iota_{\mathrm c}(g_0)\iota_{\mathrm c}(g_1))^f$
+(\lref{GlobalTheory.EX.WinLow.idx_ratio}, from the orders of the finite general linear groups).
+\item $\mathrm{mass}_r=\mathrm{mass}_k\prod_{M=k+1}^{r}\rho_E(M)$ with $r=k+m-1$ (\cref{pf:stageU:mainterms}(a)), and
+$L(M,\eta^M)>0$, $|\log L(M,\eta^M)|\le f\log\zeta(M)$ for $M\ge2$
+(\lref{Formalism.HermitianLattices.GlobalBoundRefinements.log_l_value_field_bound} and
+\lref{Formalism.MainNotions.StandardLattice.cmField_unramified_massIdentity}, bounds for these $L$-values).
+\end{enumerate}
+The main term $d_u$ is the $d_*$ of (LRB) for the parameters of $u$, and the hypothesis on $D_s$ is that of (LRB). Hence
+\[
+\frac1{fk}\log\frac{D_s}{d_u}\ \ge\ \sum_{j<m}\frac1f\sum_\rho\log\frac{w_\rho(j)v_E}{\pi}+m(\log g_0+\log g_1)
+-C_1\Bigl(L+\frac{m^2L}k\Bigr).
+\]
+The first sum is non-negative since $w_\rho(j)\ge1$ and $v_E\ge\pi$; $m(\log g_0+\log g_1)\ge16mL$; and
+$C_1(L+m^2L/k)\le|C_1|\cdot2L\le mL$. Hence $\frac1{fk}\log(D_s/d_u)\ge15mL$ (in particular $d_u>0$). Finally
+$\frac2{fk}\log\Gamma(C,s,R)=\frac{2C_\Gamma m^4}{k}\,mL\le mL$, so the logarithm in the assertion is at least $14mL\ge mL$.
+\end{proof}
+
+\begin{proposition}[Layered data from layers]\label{pf:stageU:recexp}
+Assume \textup{(SM)}. Let $Q'$ be a slot and $\stageUQO$ a family of properties of data and objects indexed by parameter
+tuples. If $\stageULay^{\mathrm g}$ holds for the property ``$Y$ comes from a core in $Q'$ and $\mathrm{QD}$ holds for $D$ and $Y$'',
+and $\stageUEv_{\kappa,K}$(every bundle point $\beta$ over $K$ in $Q'$ satisfies $\stageUQO(\kappa)(\beta.D,\beta.O)$), then
+$\stageULay\bigl(\kappa\mapsto(\kappa\text{ positive}\Rightarrow\stageUQO(\kappa))\wedge\mathrm{QD}\bigr)$.
+\formallabel{GlobalTheory.Fc.recExP_of_recAtG}\formallabel{GlobalTheory.T.existsLayeredData_of_goodScaleContexts}
+\end{proposition}
+
+\begin{proof}
+Both hypotheses are eventual statements in $(\eps,C_8,C_5,c_6,C_b)$, $C$, $c_D$, $c_h$ and $x$; combine them with the
+thresholds of \cref{pf:stageU:winlow} (for $c_D\ge0$) and of the integrality of the main terms. Thus, given the
+constants, we obtain $c_D,c_h$ and $x_0$ such that the following holds for every scale $s$ with exponent $\eps$ and
+$s.x\ge x_0$; we take $c_s=1$. Let $P,a,b,c$ satisfy the goodness conditions with $\kappa$ (which include the conditions
+relating them to $s$).
+\begin{enumerate}[label=\arabic*.]
+\item The main terms $d_u=d_P(u)$ are positive integers, and $D_s:=D_P$ is positive and satisfies the lower bound of
+\cref{pf:stageU:mainterms}(b). By \cref{pf:stageU:winlow}, \eqref{pf:stageU:eq:recexp} holds with $c_s=1$.
+\item Let a level choice with $d^*=d$, $D^*=D_s$ and $\Gamma=\Gamma(C,s,R)$ be given. Together with $s,C,c_D,c_h,P,a,b,c$ it
+forms a context $K$ with $\kappa\triangleright K$. The hypothesis $\stageULay^{\mathrm g}$ at $K$ gives a datum $D$ and a layer $Y$
+over $(P,\text{level choice})$ with the record, ledger and twist conditions, coming from a core $c'$ in $Q'$, with
+$\mathrm{QD}$.
+\item Let $p$ be a ledger part of $Y$ at the scale $s$, with weights $(a,b)$, valued and canonical. If $\kappa$ is positive,
+then $c'$, the layer $Y$ and the ledger part $p$, together with the record and ledger conditions, the used tuples and the
+twist conditions, form a bundle point $\beta$ over $K$ in $Q'$ whose datum and object are those of $p$; by the second
+hypothesis, $\stageUQO(\kappa)$ holds at $p$. Moreover the datum and object of $p$ arise from $D$ and the object of $Y$ by
+replacing the division lattices and the height function, and $\mathrm{QD}$ is preserved by this replacement, because
+the used tuples, the twist goodness and the lattices $\widetilde M(\mu)$ only involve components which are not changed.
+Hence $\mathrm{QD}$ holds at $p$.
+\end{enumerate}
+\end{proof}
+
+\begin{proposition}[Layered data from member existence]\label{pf:stageU:membertop}
+Assume \textup{(SM)} and \textup{(VR)}. Let $\stageUKP$ be a base predicate, $Q,Q'$ slots and $\stageUQO$ a family of properties
+of data and objects indexed by parameter tuples. If $\mathrm{M}_0(\stageUKP)$, $\mathrm{M}_1(\stageUKP,Q)$, $\mathrm{M}_2(\stageUKP,Q)$,
+$\mathrm{M}_3(\stageUKP,Q,Q')$ and $\stageUEv_{\kappa,K}$(every bundle point $\beta$ over $K$ in $Q'$ satisfies
+$\stageUQO(\kappa)(\beta.D,\beta.O)$), then $\stageULay\bigl(\kappa\mapsto(\kappa\text{ positive}\Rightarrow\stageUQO(\kappa))\wedge\mathrm{QD}\bigr)$.
+\formallabel{GlobalTheory.Fc.memberTop_final_contextParameters}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:stageU:volmass}, (VR) implies (VM). \Cref{pf:stageU:recatg} gives $\stageULay^{\mathrm g}$ for the property ``$Y$ comes
+from a core in $Q'$ and $\mathrm{QD}$ holds'', and \cref{pf:stageU:recexp} gives the conclusion.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The size row}\label{sec:pf:stageU:size}
+
+For a family $\stageUFm$ write $\sfname{TuSize}(\stageUFm)$ for the statement: eventually in $x$, every member satisfies
+$b^{m/2}\le T(u)$ and $\log T(u)\le\stageUFm.C_{Tu}\,m\,L$ for every word $u$, where $T(u)$ is the level prime of $u$
+(\cref{def:families:closed}). Put $c_T^{\min}(y)=\max\bigl(11,\,16+3\max(5,y+1)\bigr)$. Recall that $\mathrm{mass}_n$ is the
+mass of the standard hermitian lattice $\OO_E^n$. Write (GM) for the statement: for every datum $D$ and every positive
+definite hermitian space $W$ of rank two over $E$, the mass of the distinguished lattice of $W$ equals $\mathrm{mass}_2$.
+
+\begin{lemma}[Level primes are small]\label{pf:stageU:tusizemin}
+Let $\stageUFm$ be a family with $c_T^{\min}(\stageUFm.\mathrm{CYL})\le\stageUFm.C_{Tu}$ such that eventually every member $D$
+satisfies: the volume of the base space of $D$ (of rank $r$) equals $\mathrm{mass}_r$, and the degrees $d_\sigma(\tau)$
+satisfy the two-sided bounds of \cref{prop:families:famgl} in terms of the gaps. Then $\sfname{TuSize}(\stageUFm)$.
+\formallabel{Formalism.MainNotions.StandardLattice.HarishChandraReduction.tuSize_min}
+\end{lemma}
+
+\begin{proof}
+Put $C_Y=\max(5,\mathrm{CYL}+1)$. By \lref{Formalism.MainNotions.StandardLattice.HarishChandraReduction.explicitConstants_family_of_volume_eq_mass}
+(explicit count bounds for the Vandermonde products of the members, deduced from the mass ratio, the base volume and the
+degree bounds through the level-prime family of the division lattices), eventually every member satisfies the explicit
+Vandermonde count bounds with constants $(C_Y,C_Y)$. By \lref{Formalism.MainNotions.GlobalTheoryTheory.rowsAF_fam}
+(the row bounds follow from the data bounds), eventually at every member the data bounds with constant $C_Y$ imply the
+row bounds with constant $C_Y$. These two statements combine
+(\lref{Formalism.MainNotions.StandardLattice.part_five_all_of_explicit}, which requires $11\le c$ and $16+3C_Y\le c$
+for the final constant $c=c_T^{\min}(\mathrm{CYL})$) into the conclusion of the Harish-Chandra reduction with constant
+$c_T^{\min}(\mathrm{CYL})$: explicit inequalities for the level primes and the Vandermonde variations of the members.
+Finally \lref{Formalism.MainNotions.GlobalTheoryTheory.tuSize_fam} gives $\sfname{TuSize}(\stageUFm)$ from these
+inequalities, since $c_T^{\min}(\mathrm{CYL})\le C_{Tu}$.
+\end{proof}
+
+\begin{proposition}[The size row]\label{pf:stageU:hTu}
+Assume \textup{(VR)} and \textup{(GM)}. For every slot $Q$ and every linkage $\stageULk$ for the bundle conditions,
+\[
+\sfname{Row}\Bigl(Q,\stageULk,\ \stageUA\mapsto\sfname{Closed}\bigl(W'_1(\stageUA),\ \stageUFm\mapsto
+(c_T^{\min}(\stageUFm.\mathrm{CYL})\le\stageUFm.C_{Tu}\Rightarrow\sfname{TuSize}(\stageUFm))\bigr)\Bigr).
+\]
+\formallabel{GlobalTheory.Fc.row_hTu_cTmin_alt}\formallabel{GlobalTheory.T.hTu_cTmin_of_genusMass}
+\end{proposition}
+
+\begin{proof}
+A property of classes with selections which holds for every $\mathrm{True}$-selection is a row
+(\lref{GlobalTheory.Fc.Row.of_sel}, which takes $E=\mathrm{True}$), and a property of families which holds for every
+family of a class is closed on that class (\lref{Formalism.MainNotions.Pk.Closed.of_class}). So let $\sigma$ be a
+$\mathrm{True}$-selection from $(Q,\stageULk)$ for a class $\stageUA$, and $\stageUFm\in W'_1(\stageUA)$ with
+$c_T^{\min}(\mathrm{CYL})\le C_{Tu}$. Since $W'_1(\stageUA)\subseteq\stageUA$ and $\sigma$ is a selection, there is
+$\kappa\sim\stageUFm$ such that every selected bundle $\sigma(\stageUFm,x,i)$ is built from $Q$ along $\stageULk$ at $\kappa$.
+A built bundle contains a real record of its datum (\lref{GlobalTheory.Fc.built_val}, which lists the data carried
+by built bundles), and a real record normalises the volumes of the datum
+(\lref{Formalism.MainNotions.RT.volTie_of_realTied}). So at every member $D$ the volumes are normalised, and (VR)
+gives the volume ratio formula at $D$. By the global arithmetic identity, this formula says that $\vol(W)/\vol(W')$ is the
+right-hand side of the mass ratio of \cref{prop:families:mass}
+(\lref{Formalism.MainNotions.StandardLattice.volumeMass_of_unfolding}, which states this reformulation). By (GM) and
+the decomposition of the volume of a definite space over the classes of its genus
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_mass_of_genus_rank}), $\vol(W)=\mathrm{mass}_2$ for every
+positive definite $W$ of rank two. Climbing from rank two to the rank $r$ of the base space with the volume ratios
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_eq_mass_rank_two}) gives that the volume of the base
+space equals $\mathrm{mass}_r$. The two-sided degree bounds hold eventually at the members of every family
+(\lref{Formalism.MainNotions.GappedMultiplicityBounds.explicit_bound_family}, a consequence of multiplicity one of the
+lowest $K$-type in large gap). \Cref{pf:stageU:tusizemin} gives $\sfname{TuSize}(\stageUFm)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Uniform statements}\label{sec:pf:stageU:uniform}
+
+\paragraph{The thin-scale package.}
+$\sfname{LitThin}$ (\cref{prop:families:design}) is the conjunction of the following three statements about Dirichlet
+$L$-functions. (Formally each is attached to a datum $D$, which does not occur in it.) Here $m_\rho$ denotes the order of a
+zero $\rho$.
+\begin{itemize}
+\item[(Z)] There are $C_1,c>0$ such that
+\begin{enumerate}[label=(Z\arabic*)]
+\item for every $Q\ge3$, the number of zeros $\rho$ with $\Re\rho\ge1-\frac1{400}$ and $|\Im\rho|\le Q$ of the functions $L(s,\chi)$,
+$\chi$ a primitive character of conductor $\le Q$, counted with multiplicity and summed over $\chi$, is at most
+$C_1Q^{1/4}$;
+\item for every primitive character $\chi$ of conductor $N\ge3$ and every zero $\rho$ of $L(s,\chi)$ with
+$\Re\rho\ge1-c/\log\max(N,N|\Im\rho|)$: $\chi$ is real, $\rho$ is real and simple, and $\rho$ is the only zero of $L(s,\chi)$ in
+the part of the formal proof treated here;
+\item every zero $\rho$ of $\zeta$ with $0<\Re\rho<1$ satisfies $\Re\rho\le1-c/\log(|\Im\rho|+3)$.
+\end{enumerate}
+\item[(EF)] There is $C>0$ such that for every primitive $\chi$ of conductor $N$ and all $2\le T\le u$ the set of zeros with
+$0<\Re\rho<1$, $|\Im\rho|<T$ is finite and
+\[
+\Bigl|\psi_0(u,\chi)+\sum_{|\Im\rho|<T}m_\rho\frac{u^\rho}\rho\Bigr|\le C\Bigl(\frac{u\log^2(NuT)}T+\log(Nu)
++\sum_{|\Im\rho|<1}\frac{m_\rho}{|\rho|}\Bigr),
+\]
+where $\psi_0(u,\chi)$ is the normalised Chebyshev function of $\chi$ and the sums run over zeros with $0<\Re\rho<1$.
+\item[(ZC)] There is $C>0$ such that for every primitive $\chi$ of conductor $N$ and every $t\in\R$ the zeros with
+$0<\Re\rho<1$ and $|\Im\rho-t|\le1$ are finite in number and $\sum m_\rho\le C\log(N(|t|+2))$.
+\end{itemize}
+
+\begin{littheorem}[Zero density near $\Re s=1$ {\cite[Ch.~12]{Montgomery1971}, \cite{Gallagher1970}}]\label{pf:stageU:zd}
+Statement \textup{(Z1)} holds.
+\formallabel{GlobalTheory.ZeroDensityMult.zero_density_mult}
+\end{littheorem}
+
+This is a weak form of the large-sieve density estimate
+$\sum_{q\le Q}\sideset{}{^*}\sum_{\chi}N(\alpha,T,\chi)\ll(Q^2T)^{3(1-\alpha)/(2-\alpha)}\log^9(QT)$ of
+\cite[Ch.~12]{Montgomery1971}: with $T=Q$ and $\alpha=1-\frac1{400}$ the exponent is $3\cdot\frac{3(1-\alpha)}{2-\alpha}=\frac9{401}<\frac14$.
+The formal proof follows Montgomery's method: a mollified Dirichlet polynomial over $(Q^3,Q^6]$ has absolute value
+$\ge\frac12$ at every zero in the box (zero detection); the hybrid large sieve, deduced from the multiplicative large sieve
+and Gallagher's lemma \cite{Gallagher1970}, bounds the number of unit cells $\{(\chi,\lfloor\Im\rho\rfloor)\}$ containing zeros by
+$CQ^{1/8}$; and each cell contains $\ll\log Q\ll Q^{1/8}$ zeros by (ZC)
+(\lref{GlobalTheory.T.ncard_unitCells_dirichletLZeros_near_one_le} is the cell count).
+
+\begin{lemma}[Landau--Page region]\label{pf:stageU:lp}
+There is $c>0$ such that for every modulus $q$, every Dirichlet character $\chi\bmod q$ and every zero $s$ of $L(s,\chi)$
+(with $s\ne1$ if $\chi$ is principal) in the region $\Re s\ge1-c/\log(q(|\Im s|+2))$: $\chi^2=1$, $\chi\ne1$, $s$ is real and
+$L'(s,\chi)\ne0$; and for every character $\chi'\bmod q$ and every zero $s'$ of $L(s,\chi')$ in the part of the formal proof treated here, $\chi'=\chi$ and
+$s'=s$.
+\formallabel{GlobalTheory.LandauPageRegion.main}
+\end{lemma}
+
+\begin{proof}
+We use three classical statements \cite[Ch.~14]{Davenport2000}:
+(A) \lref{GlobalTheory.ZeroFreeComplex.zero_free_region}: there is $c_1>0$ such that if $\chi\ne1$, $L(s,\chi)=0$ and
+$\chi^2\ne1$ or $\Im s\ne0$, then $\Re s<1-c_1/\log(q(|\Im s|+2))$;
+(B) \lref{GlobalTheory.RealZeroNearOne.main}: there is $c_2>0$ such that if $\chi,\psi\bmod q$ are non-principal real
+characters and $\beta,\beta'\ge1-c_2/\log2q$ are real zeros of $L(s,\chi)$ and $L(s,\psi)$, then $\chi=\psi$, $\beta=\beta'$ and
+$L'(\beta,\chi)\ne0$;
+(C) \lref{GlobalTheory.ZeroFreePrincipal.zero_free}: there is $c_3>0$ such that every zero $s\ne1$ of $L(s,\chi_0)$, $\chi_0$
+principal modulo $q$, satisfies $\Re s<1-c_3/\log(q(|\Im s|+2))$.
+Let $c=\min(c_1,c_2,c_3)$; the region grows with $c$. If $s$ is a zero of $L(s,\chi)$ in the region, then $\chi\ne1$ by (C),
+and $\chi^2=1$ and $\Im s=0$ by (A); hence $s=\beta$ is real and $\beta\ge1-c_2/\log2q$, and (B) with $\psi=\chi$ gives
+$L'(\beta,\chi)\ne0$. If $s'$ is a zero of $L(s,\chi')$ in the region, the same argument shows that $\chi'$ is real and
+non-principal and $s'=\beta'\ge1-c_2/\log2q$ is real, and (B) gives $\chi'=\chi$ and $\beta'=\beta$.
+\end{proof}
+
+\begin{lemma}[Zero-free regions in the form used]\label{pf:stageU:zfhalf}
+If $c$ is as in \cref{pf:stageU:lp}, then \textup{(Z2)} and \textup{(Z3)} hold with the constant $c/2$.
+\formallabel{GlobalTheory.ZeroFreeHalf.main}
+\end{lemma}
+
+\begin{proof}
+(Z2) A primitive character $\chi$ of conductor $N\ge3$ is not principal. For $t\in\R$ we have $N(|t|+2)\le\max(N,N|t|)^2$:
+if $|t|\le1$ then $N(|t|+2)\le3N\le N^2$, and if $|t|>1$ then $N(|t|+2)\le3N|t|\le(N|t|)^2$. Hence
+$\log(N(|t|+2))\le2\log\max(N,N|t|)$, and a zero $\rho$ with $\Re\rho\ge1-\frac c2/\log\max(N,N|\Im\rho|)$ lies in the region of
+\cref{pf:stageU:lp}. Thus $\chi^2=1$, so $\chi$ is real, $\rho$ is real, $L'(\rho,\chi)\ne0$, so the zero is simple, and every
+other zero in the region of (Z2) lies in the region of the lemma and equals $\rho$. (Z3) Let $\rho$ be a zero of $\zeta$ with
+$0<\Re\rho<1$, and suppose $\Re\rho>1-\frac c2/\log(|\Im\rho|+3)$. Since $\log(|t|+2)\le2\log(|t|+3)$, $\rho$ lies in the region of
+\cref{pf:stageU:lp} for $q=1$; as $\zeta(s)=L(s,\chi_0)$ for the character $\chi_0$ modulo $1$ and $\rho\ne1$, the lemma gives
+$\chi_0\ne1$, a contradiction.
+\end{proof}
+
+\begin{theorem}[The thin-scale package]\label{pf:stageU:litthin}
+$\sfname{LitThin}$ holds.
+\formallabel{GlobalTheory.ThinScaleLiterature.litThin}\formallabel{GlobalTheory.ZerosNearOne.main}
+\formallabel{GlobalTheory.ZerosNearOne.density_and_regions}\formallabel{GlobalTheory.ZeroBounds.explicit_formula_and_window_count}
+\end{theorem}
+
+\begin{proof}
+(Z1) is \cref{pf:stageU:zd}, and (Z2), (Z3) follow from \cref{pf:stageU:lp,pf:stageU:zfhalf}. (EF) is the truncated explicit
+formula \lref{GlobalTheory.ExplicitFormula.truncated_explicit_formula} \cite[Ch.~17, 19]{Davenport2000}, and (ZC) is the local
+zero count \lref{GlobalTheory.ZeroWindow.count_zeros_window} \cite[Ch.~16]{Davenport2000}. Since the three statements do not
+involve the datum, they hold for every datum.
+\end{proof}
+
+\paragraph{The volume ratio.}
+Write (VR) for the statement: for every datum $D$ with normalised volumes, every hermitian space $W$ over $E$ of rank $n\ge3$
+with signature $(P,Q)$ at every complex embedding of $E$, and every sign $\pm$ with $P\ge1$ (for $+$) or $Q\ge1$ (for $-$),
+there is $x\in W$ with $\langle x,x\rangle=\pm1$ such that $x^\perp$ is the image of an isometric embedding of a hermitian
+space $W'$ of signature $(P-1,Q)$ (resp.\ $(P,Q-1)$) with
+\[
+\frac{\vol(W')}{\vol(W)}=\Bigl(\frac{(2\pi)^n}{(n-1)!}\Bigr)^{f}\,(2v)^{f(\frac12-n)}\,L(n,\eta^n)^{-1},
+\]
+where $f=[F:\Q]$, $v$ is the invariant of $E$ in \cref{prop:families:mass} and $L(n,\eta^n)$ is the $L$-value there.
+
+\begin{proposition}[The volume ratio]\label{pf:stageU:volratio}
+The Siegel--Weil formula in the convergent range (\cref{lit:families:sw}, in the form of the field of $P$ asserting finite
+volume and the Siegel density identity for every CM extension and every non-degenerate hermitian matrix) implies
+\textup{(VR)}.
+\formallabel{GlobalTheory.VolRatioFromSiegelWeil.volumeRatio}
+\end{proposition}
+
+\begin{proof}
+The proof has three steps, of which the last is cited.
+\begin{enumerate}[label=\arabic*.]
+\item Specialising the formula to one vector ($n=1$, $T=(\beta)$) gives, for $M\ge3$, $\beta\in F^\times$ and
+$\Phi=\Phi_\infty\otimes\Phi_f$ with $\Phi_\infty$ smooth and compactly supported and $\Phi_f$ a pure finite test function:
+the mean over $H(F)\backslash H(\A_F)$ of $h\mapsto\sum_{\langle x,x\rangle=\beta}\Phi(h^{-1}x)$ equals
+$\Phi^\sharp_\infty(\beta)\prod_v\Phi^\sharp_v(\beta)$, where $\Phi^\sharp_\infty,\Phi^\sharp_v$ are the continuous densities of the
+push-forwards of $\Phi_\infty,\Phi_v$ under $x\mapsto\langle x,x\rangle$ for self-dual measures (\cref{pf:stageU:onevec}).
+\item By approximation, the same identity holds for non-negative measurable $\Phi_\infty$ and non-negative pure $\Phi_f$, the
+densities being replaced by integrals against fibre measures (disintegrations of the Haar measures along the hermitian
+norm) and the sum running over $x\ne0$ (\lref{GlobalTheory.OneVecMeas.sw1b2_of_cc}, with its statement form
+\lref{GlobalTheory.T.siegel_one_vector_measurable_of_compactSupport}).
+\item This one-vector mean-value formula implies (VR) (\lref{GlobalTheory.VolRatioFromSecondClause.volumeRatio}, by
+unfolding the mean of a Gaussian over the orbit of a vector of norm $\pm1$, as in \cref{prop:families:volratio}).
+\end{enumerate}
+\end{proof}
+
+\paragraph{The main-term bound for equal words.}
+Write (MT) for the statement of the main-term field $\mathsf{sM}$ of the package: for all constants
+$C_g,c_b,C_w,c_T,C_T,C_0,A$ with $c_b,c_T>0$ there are $C_B\ge0$ and $C'_0,C_{l,0}$ such that for all $C'\ge C'_0$ and
+$C_l\ge C_{l,0}$, every datum $D$ with size data, every Hida setting of $D$ with full data and every word $u$ the
+following holds: if $D$ satisfies its ties, the pair $(u,u)$ satisfies the counting hypotheses with the constants
+$(C',C_l,C_g,c_b,C_w,c_T,C_T,C_0,A)$, the concentration tie holds and the diagonal operator of $u$ converges absolutely,
+then the sum of the generic terms of the orbital expansion of the diagonal operator is at most
+$\gamma_B\,d_u^2/D_*$. Here $\gamma_B=\exp(C_B\,m_R^5\,f\log b)$ with $m_R=2r_S+2$ determined by the ranks of $D$, and
+$d_u$, $D_*$ are the dimension and the main term of the Hida setting (\cref{thm:theorem-S}).
+
+\begin{proposition}[The main-term bound]\label{pf:stageU:mainrow}
+The Siegel--Weil formula in the convergent range (in the form of \cref{pf:stageU:volratio}) implies \textup{(MT)}.
+\formallabel{GlobalTheory.rowMainEqP_of_siegelWeil}\formallabel{GlobalTheory.rowMainEqP_of_siegelWeil_of_stepChoice}
+\end{proposition}
+
+\begin{proof}
+The proof combines eleven step statements by a cited combination theorem.
+\begin{enumerate}[label=\arabic*.]
+\item The Siegel--Weil formula gives the step-choice constants
+(\lref{GlobalTheory.St.stepChoiceDataC_of_siegelWeil_inInfinity}), given the convergence at infinity of the energy
+integrals for real objects (\lref{Formalism.L2.SG.RealObj.EnergyConvJ.BM.realObj_inInfinityX_jsz}, applied with the
+uniqueness statement \lref{CompanionTheory.Lime.BM.uniqGap_holds} for large gap).
+\item The Siegel--Weil formula gives the volume identities $\sfname{SWXS}$ of \cref{prop:families:volratio}(ii)
+(\lref{GlobalTheory.St.swxs_of_siegelWeil}), and these give the generic family step
+(\lref{GlobalTheory.T.genericFamilyStep_of_siegelWeil}).
+\item The chain of step estimates for equal words (\lref{GlobalTheory.T.equalWords_nonGeneric_estimates_chain}) gives
+the non-generic chain, the class, point, norm-one, tie, pin and vanishing steps, and, from the generic family step, the
+step of local generation for pinned data; one of its nine components is not used. The normal step is the normal count
+for generic rows (\lref{GlobalTheory.T.normalCount_genericRow}).
+\item Theorem B in the pinned form required here follows from the global Theorem B
+(\lref{Formalism.MainStatements.RowRest.bDat_theoremB_global}), which has the same conclusion under one hypothesis
+fewer.
+\end{enumerate}
+The combination theorem \lref{GlobalTheory.T.equalWordGenericBound_of_normalisedSteps} (proved in
+\lref{GlobalTheory.SnPos.rowMainEqP_of_pinned} by a cut bound, a height bound from local estimates and an analytic
+bound from the choice step) turns these eleven statements into (MT).
+\end{proof}
+
+\begin{lemma}[Finite dimensionality and the genus mass in rank two]\label{pf:stageU:findim}
+\begin{enumerate}[label=(\alph*)]
+\item For every automorphic instance of a unitary group, the space of automorphic forms cut out by a locally constant
+level function supported in the level subgroup and by the matrix coefficients, at the infinite places, of irreducible
+unitary representations with formal degree and integrable matrix coefficients, is finite-dimensional.
+\item \textup{(GM)} holds.
+\end{enumerate}
+\formallabel{GlobalTheory.rowsFinDim_link}\formallabel{GlobalTheory.genusMassAt_two}
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.genusMassAt_of}
+\end{lemma}
+
+\begin{proof}
+(a) is \lref{CompanionTheory.D.gk.RF.automorphic_forms_finite_dimensional}, which states exactly this (compare
+\cite{HarishChandra1968}). (b) By \lref{GlobalTheory.genusMassStd_all}, for every datum $D$ and every positive definite
+hermitian space $W$ over $E$, the mass of the distinguished lattice of $W$ equals $\mathrm{mass}_n$, $n$ the rank of $W$;
+specialise to $n=2$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Assembly}\label{sec:pf:stageU:assembly}
+
+\paragraph{Three further uniform statements.}
+Besides $\sfname{LitThin}$, (VR), (GM) and (MT), the package contains the following uniform statements, which are proved
+elsewhere: (Wu) for every datum whose rank $r$ is at least $1801$ and whose Harish-Chandra parameters have all gaps at least
+$16r^{19}$, and every Hida setting $X$ of it, Wu's decay estimate holds for $X$ and the archimedean test function of $X$ is
+integrable (\lref{GlobalTheory.wuDecayOfGap}, which proves it); (TY) the type bounds: for all constants
+$C_g,c_b,C_w,c_T,C_T,C_0$ with $c_b,c_T>0$ there are $C_H,C_h,C_p\ge0$ such that for $C_s\ge C_p+4$, all large $C$ and all
+large $C',C_l$, every word of every datum with size data, for every Hida setting with full data satisfying the ties, the
+counting hypotheses with further parameter conditions, and the concentration tie, satisfies the type bound with the
+constants $(C_H,C_s,C,C_h,C_p)$ (\lref{GlobalTheory.rowsPos_typeP}, which proves it); and (NG) the
+bound $\varepsilon_{\mathrm{NG}}\,d_ud_{u'}/D_*$ for the non-generic terms of \cref{prop:families:volratio}(iii)
+(\lref{GlobalTheory.rowNGP_of_siegelWeil}, which deduces it from the Siegel--Weil formula). We write (RF) for
+\cref{pf:stageU:findim}(a).
+
+\paragraph{The fields of the package.}
+An element of $\sfname{HypsAlt}(\stageUNN,\stageUDR)$ (\cref{def:hyps}, \cref{tab:families:fields}) consists of a class
+$\stageUA$, a raw selection $\sigma$ for $\stageUA$, a function $c_T:\R\times\R\to\R$ and $43$ fields of five kinds:
+\begin{enumerate}[label=(F\arabic*)]
+\item $\mathsf{hEx}$: $\sfname{MinkDiv}\Rightarrow\sfname{ExS}(\stageUA,c_T)$; $\mathsf{hduty}$: every family in $\stageUA$
+fulfils the duties of the package; $\mathsf{hMt}$: for every family in $\stageUA$, eventually the lattices
+$\widetilde M(\mu)$ of the members are stable under $\OO_{\mathit{LL}}$;
+\item eight properties ($\mathsf{hRB}$, $\mathsf{hTw}$, $\mathsf{hPA}$, $\mathsf{hLamP}$, $\mathsf{hDivG}$, $\mathsf{hDcPtG}$,
+$\mathsf{hInstR}$, $\mathsf{selJ}$) of the selected bundles or of the members, required for every $\stageUFm\in\stageUA$,
+every $x>x_1$ which is at least the threshold of the selection and every $i\in I_x$; the last one asks for a datum (a join
+of the indefinite realisation), the others for propositions;
+\item the closedness of properties on $W'_1(\stageUA)$ ($\mathsf{hTu}$, $\mathsf{hn4}$) and on $D3(3,\stageUA)$ (fourteen
+fields $\mathsf{hTF}$, $\mathsf{sO}$, $\mathsf{h30}$, $\mathsf{jOn}$, $\mathsf{aPt0}$, $\mathsf{aPtTw}$, $\mathsf{aPer0}$,
+$\mathsf{aPerTw}$, $\mathsf{aP10}$, $\mathsf{aAtG}$, $\mathsf{aC2}$, $\mathsf{irrC}$, $\mathsf{zL}$, $\mathsf{tie}$, some of
+which involve the selection), two statements about the selection on $D3(3,\stageUA)$ ($\mathsf{sLp}$, $\mathsf{hServ}$), the
+definite rows along the selection ($\mathsf{rRows}$, with the definite-side condition $\stageUDR$), and
+$\stageUNN(D3(3,\stageUA))$ ($\mathsf{nRest}$); here $\mathsf{hTu}$ is
+$\sfname{Closed}\bigl(W'_1(\stageUA),\ \stageUFm\mapsto(c_T(\eps,\stageUFm.\mathrm{CYL})\le\stageUFm.C_{Tu}\Rightarrow
+\sfname{TuSize}(\stageUFm))\bigr)$;
+\item constants: a function $c_{30}$ from lists of reals to counting constants such that, for every family, the
+counting constants of its output list satisfy $0\le C$ and $2(\mathrm{CYL}+1)\le A$ ($\mathsf{c30}$, $\mathsf{hc30}$), and a
+real $c_{Ic}>0$ ($\mathsf{cIc}$, $\mathsf{hcI}$); the fields $\mathsf{h30}$ and $\mathsf{irrC}$ involve these constants;
+\item eight uniform statements: $\sfname{LitThin}$, (Wu), (RF), (TY), (NG), (MT), (VR) and (GM).
+\end{enumerate}
+The row package $\sfname{AllRowsAlt}(\stageUKP,Q,Q',\stageULk,\stageUNN,\stageUDR)$ (\cref{prop:families:allrows}) is the
+conjunction of twenty-six linked statements. Twenty-five of them are linked rows $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$,
+one for each field of (F2) and (F3) other than $\mathsf{hTu}$, $\mathsf{h30}$ and $\mathsf{irrC}$, whose property $H$ is the
+property of the field with the following differences: for the fields of (F2) it is required at all selected bundles for all
+$x>x_1$ (for $\mathsf{selJ}$: there exists a join); for $\mathsf{hn4}$ the closedness is asserted on $W_1(\stageUA)$; and
+for the nine fields $\mathsf{jOn}$, $\mathsf{aPt0}$, $\mathsf{aPtTw}$, $\mathsf{aPer0}$, $\mathsf{aPerTw}$, $\mathsf{aP10}$,
+$\mathsf{aAtG}$, $\mathsf{aC2}$, $\mathsf{tie}$ it is asserted on $W_3(\stageUA)$ (\cref{sec:pf:stageU:calculus}). The
+twenty-sixth, the \emph{counting statement}, is $\stageULin_{\stageUKP}(Q,Q';r_{30})$, where $r_{30}(S)$ says: there are
+$c_{30}$ and $c_{Ic}$ as in (F4) such that $\sfname{Row}(S,\stageULk,H_{30})$, $H_{30}$ being the conjunction of the
+properties of $\mathsf{h30}$ and $\mathsf{irrC}$ for these constants.
+
+\begin{theorem}[The package from the rows]\label{pf:stageU:allrows}
+Assume \textup{(SM)}, $\sfname{LitThin}$, \textup{(Wu)}, \textup{(RF)}, \textup{(TY)}, \textup{(NG)}, \textup{(MT)},
+\textup{(VR)} and \textup{(GM)}. Let $\stageUKP$ be a base predicate, $Q,Q'$ slots, $\stageULk$ a linkage for the bundle
+conditions, $\stageUNN$ a property of classes and $\stageUDR$ a definite-side condition. Suppose
+\begin{enumerate}[label=(\roman*)]
+\item $\sfname{MinkDiv}$ implies $\mathrm{M}_0(\stageUKP)$, $\mathrm{M}_1(\stageUKP,Q)$, $\mathrm{M}_2(\stageUKP,Q)$ and
+$\mathrm{M}_3(\stageUKP,Q,Q')$;
+\item $\sfname{ExBL}(\stageUKP,Q,Q',\stageULk)$;
+\item $\sfname{AllRowsAlt}(\stageUKP,Q,Q',\stageULk,\stageUNN,\stageUDR)$.
+\end{enumerate}
+Then $\sfname{HypsAlt}(\stageUNN,\stageUDR)$ is non-empty.
+\formallabel{GlobalTheory.Fc.nonempty_hyps_of_allRows_alt}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: one linked row.} The counting statement gives a slot $R_{30}$ with $\stageULB_{\stageUKP}(Q,R_{30})$, constants
+$c_{30},c_{Ic}$ as in (F4) and $\sfname{Row}(Q'\stageUand R_{30},\stageULk,H_{30})$; thus
+$\stageULin_{\stageUKP}(Q,Q';\stageULk,H_{30})$. By \cref{pf:stageU:hTu}, which uses (VR) and (GM),
+$\sfname{Row}(Q',\stageULk,H_{Tu})$ holds for the property $H_{Tu}$ of $\mathsf{hTu}$ with $c_T(\eps,y)=c_T^{\min}(y)$. The slot
+of all cores satisfies the large-base condition $\stageULB_{\stageUKP}(Q,\cdot)$
+(\lref{GlobalTheory.Fc.largeBaseProperty_true}, which states this), so \cref{pf:stageU:rowcalc}(a) gives
+$\stageULin_{\stageUKP}(Q,Q';\stageULk,H_{Tu})$. Combining the twenty-five linked rows of (iii), the counting row and the size
+row by \cref{pf:stageU:rowcalc}(b), we obtain $\stageULin_{\stageUKP}(Q,Q';\stageULk,H)$, where $H$ is the conjunction of
+these twenty-seven properties.
+
+\emph{Step 2: class selection.} \Cref{pf:stageU:classsel}, applied with (SM), (VR), the bundle conditions, the linkage
+$\stageULk$, the property $H$, the function $c_T(\eps,y)=c_T^{\min}(y)$ and the hypotheses (i), (ii) and step 1, gives a class
+$\stageUA$ and a raw selection $\sigma$ such that $\sfname{MinkDiv}$ implies $\stageUEx^{\mathrm{des}}(\stageUA,c_T)$, every
+family in $\stageUA$ fulfils the seven duties and the lattice stability, and $H(\stageUA,\sigma)$. (The fact that $\sigma$ is a
+$\mathrm{True}$-selection is not used.)
+
+\emph{Step 3: the fields.} We take $\stageUA$, $\sigma$ and $c_T(\eps,y)=c_T^{\min}(y)$, and obtain the fields as follows.
+\begin{itemize}
+\item (F1) $\mathsf{hEx}$ follows from the output of step 2 by \cref{pf:stageU:frozen}(c), applied for every $\lambda>1$ and
+every requirement $\mathcal G$ with $\sfname{HostExW}(\lambda,\mathcal G)$; $\mathsf{hduty}$ follows from the seven duties
+by \cref{pf:stageU:frozen}(b); $\mathsf{hMt}$ is the lattice stability.
+\item (F2) The corresponding rows in $H(\stageUA,\sigma)$ give the eight properties at all selected bundles for all $x>x_1$;
+the restriction to $x$ beyond the threshold of the selection is not needed. For $\mathsf{selJ}$ the row gives the
+existence of a join, and we choose one.
+\item (F3) The row of $\mathsf{hn4}$ gives closedness on $W_1(\stageUA)$, and $W'_1(\stageUA)=W_1(\stageUA)$ by
+\cref{pf:stageU:frozen}(a); similarly the nine rows on $W_3(\stageUA)$ give closedness on $D3(3,\stageUA)=W_3(\stageUA)$.
+(Closedness on a class implies closedness on every subclass, \lref{Formalism.MainNotions.Pk.Closed.sub}, so the
+inclusions suffice.) The fields $\mathsf{hTF}$, $\mathsf{sO}$, $\mathsf{zL}$, $\mathsf{sLp}$, $\mathsf{hServ}$, $\mathsf{rRows}$,
+$\mathsf{nRest}$ are the corresponding rows, $\mathsf{h30}$ and $\mathsf{irrC}$ are the two parts of $H_{30}$, and
+$\mathsf{hTu}$ is $H_{Tu}(\stageUA)$.
+\item (F4) The constants $c_{30},c_{Ic}$ of step 1, with their bounds.
+\item (F5) The hypotheses of the theorem.
+\end{itemize}
+\end{proof}
+
+\paragraph{Parameters.}
+For a proof $h_L$ of $\sfname{RecTExists}$, $c\in\R$ and an at-property $A$, let $\stageUpd(h_L,c)$ and $\stageUpA(h_L,c)$ be
+the parameters of \cref{sec:families:nonempty}: the norm-choice extension of $\stageUpd(h_L,c)$ asks for a law and a grid
+datum at level $(1,c,b)$ with full $\lambda$-tie, and that of $\stageUpA(h_L,c)$ adds a saturated state of the strict-henselian
+acyclic level (the \emph{origin} data) and the at-property $A$; both have no spectral extension and the geometric predicate
+of all geometries. Thus every datum of the extension of $\stageUpA(h_L,c)$ yields one of the origin extension, hence one of
+$\stageUpd(h_L,c)$, hence a law. We use the following monotonicity
+(\lref{GlobalTheory.Glob.open_and_linked_of_stronger_extension_alt}): \emph{if every datum of a norm-choice extension
+$N'$ yields a datum of $N$, then every linked row and the open parameter statements pass from the parameter of $N$ to the
+parameter of $N'$} (with the same spectral extension and geometric predicate). The \emph{functional row} and the
+\emph{covolume row} are the linked statements for $\sfname{FUN}$ and $\sfname{L3}$ of \cref{sec:families:nonempty}, and
+the \emph{norm row} of a property $\stageUNN$ of classes is $\sfname{Row}(\cdot,\cdot,\stageUA\mapsto\stageUNN(D3(3,\stageUA)))$.
+
+\begin{theorem}[The package from unramified exponents]\label{pf:stageU:unram}
+Assume $P$ and $\sfname{RowRat}$. Let $h_L$ be a proof of $\sfname{RecTExists}$, $c\in\R$ and $A$ an at-property with
+$\sfname{EvLgG}(A)$; write $\stageUpA=\stageUpA(h_L,c)$. Suppose
+\begin{enumerate}[label=(\roman*)]
+\item $\sfname{LinkedAt}\bigl(\stageUpd(h_L,c),\ \sfname{Row}(\cdot,\cdot,\stageUA\mapsto
+\sfname{Closed}(D3(3,\stageUA),\sfname{BoundAtTwoThree}))\bigr)$;
+\item $\stageUpA$ is linked for the functional row;
+\item $\stageUpA$ is linked for the covolume row.
+\end{enumerate}
+Then $\sfname{HypsAlt}(\sfname{NL},\sfname{DefiniteSideCondition})$ is non-empty.
+\formallabel{GlobalTheory.Fc.S0.StageU.hypotheses_nonempty_of_unramified_exponents_alt}
+\end{theorem}
+
+\begin{proof}
+Write $Q_{\mathrm b},Q_{\mathrm g},\stageULk$ for the slots of built and good points and the bundle linkage of $\stageUpA$
+(\cref{pf:stageU:linked}(d)).
+\begin{enumerate}[label=\arabic*.]
+\item By \cref{thm:member-bundles} (\lref{GlobalTheory.T.large_unramified_exponent_bundles_exist_alt}: $P$,
+$\sfname{RowRat}$ and $\sfname{EvLgG}(A)$ imply (SM), member existence $\sfname{MemberE}(\stageUpA)$, and $\sfname{ExBL}$
+for the base predicate $\stageUKP_0$, the slots $Q_{\mathrm b}$, $Q_{\mathrm g}$ and the linkage $\stageULk$), these three
+statements hold.
+\item From the fields of $P$ asserting the non-endoscopic hypotheses and the compatibility of the Galois representations
+attached to polarized cuspidal representations, \lref{GlobalTheory.T.hyps_e_third_layer_ser_n_of_geometric_galois}
+deduces four statements: an elliptic hypothesis, the third-layer inputs, the rationality and integrality of twist series,
+and a local Langlands statement. We use the second and the third.
+\item By \cref{prop:families:points} (\lref{GlobalTheory.Fc.S0.ontoX_and_lamLow_of_unitaryGroupHypotheses'}: $P$
+implies $\sfname{SurjectiveOntoX}$ and $\sfname{LambdaLowerBound}_2$), these two statements hold. By
+\cref{thm:families:open} (\lref{GlobalTheory.T.open0_of_unitary_group_hypotheses}: $P$ implies the open parameter
+statements for $\stageUpd(h_L,c)$), the open statements hold for $\stageUpd(h_L,c)$.
+\item By \cref{thm:linkN}(b) (\lref{UpperTheory.GalC.final_alt_alt}: under $\sfname{Hypotheses}_2$, the compatibility of
+Galois representations, depth-zero support, local finiteness, local Tate duality and the local Euler characteristic formula,
+which are fields of $P$, and the two statements of step 2, hypothesis (i) implies that $\stageUpd(h_L,c)$ is linked for the
+norm row of $\sfname{NL}$), $\stageUpd(h_L,c)$ is linked for the norm row of $\sfname{NL}$.
+\item By the monotonicity, applied to the extensions of $\stageUpd(h_L,c)$ and $\stageUpA$, the open statements and the norm
+row of $\sfname{NL}$ hold for $\stageUpA$.
+\item By \cref{prop:families:allrows} (\lref{GlobalTheory.Fc.AllAtMemberStage0.allRows_of_open0_alt}: global Artin
+reciprocity, the Siegel--Weil formula, five statements on real unitary groups and their automorphic forms,
+$\sfname{SurjectiveOntoX}$, $\sfname{LambdaLowerBound}_2$ and $h_L$ imply that a parameter satisfying the open statements and
+linked for the covolume, functional and norm rows of $\stageUNN$ satisfies
+$\sfname{AllRowsAlt}(\stageUKP_0,Q_{\mathrm b},Q_{\mathrm g},\stageULk,\stageUNN,\sfname{DefiniteSideCondition})$), applied with
+the fields of $P$, steps 3 and 5 and the hypotheses (ii), (iii), the row package
+$\sfname{AllRowsAlt}(\stageUKP_0,Q_{\mathrm b},Q_{\mathrm g},\stageULk,\sfname{NL},\sfname{DefiniteSideCondition})$ holds.
+\item The uniform statements hold: $\sfname{LitThin}$ by \cref{pf:stageU:litthin}; (Wu), (TY) and (NG) as stated above, (NG)
+from the second Siegel--Weil field of $P$; (RF) and (GM) by \cref{pf:stageU:findim}; (MT) and (VR) by
+\cref{pf:stageU:mainrow,pf:stageU:volratio}, from the same field of $P$.
+\item \Cref{pf:stageU:allrows}, applied to $\stageUKP_0$, $Q_{\mathrm b}$, $Q_{\mathrm g}$, $\stageULk$, $\sfname{NL}$ and
+$\sfname{DefiniteSideCondition}$, gives the conclusion: its hypothesis (i) holds because $\sfname{MemberE}(\stageUpA)$ is the
+conjunction of $\mathrm{M}_0(\stageUKP_0)$, $\mathrm{M}_1(\stageUKP_0,Q_{\mathrm b})$, $\mathrm{M}_2(\stageUKP_0,Q_{\mathrm b})$
+and $\mathrm{M}_3(\stageUKP_0,Q_{\mathrm b},Q_{\mathrm g})$ (\cref{pf:stageU:memberE}) and holds by step 1, (ii) is step 1 and
+(iii) is step 6.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[\cref{thm:hyps-nonempty}]\label{pf:stageU:main}
+Let $P$ and $F$ be the two bundles of classical results of \cref{sec:families:theta}, and let $h_A$, $h_M$, $h_X$, $h_L$ be
+proofs of $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$, $\sfname{CovolumeBoundOfX}$ and $\sfname{RecTExists}$.
+Assume that for every $c\in\R$
+\[
+\sfname{LinkedAt}\bigl(\stageUpd(h_L,c),\ \sfname{Row}(\cdot,\cdot,\stageUA\mapsto
+\sfname{Closed}(D3(3,\stageUA),\sfname{BoundAtTwoThree}))\bigr).\tag{$h_N$}
+\]
+Then $\sfname{HypsAlt}(\sfname{NL},\sfname{DefiniteSideCondition})$ is non-empty.
+\formallabel{UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound}
+\end{theorem}
+
+\begin{proof}
+Let $C$ be the field of $P$ containing the join statement and the functional equation of Hecke $L$-functions.
+\begin{enumerate}[label=\arabic*.]
+\item \emph{Separation.} Howe's unramified statement holds (\lref{GlobalTheory.Hk3.howeUnram_holds}, which proves it).
+By \cref{prop:families:fs} (\lref{UpperTheory.Lit.functionalsSeparate_of_howeUnram_of_siegelWeil}: $F$, Howe's
+unramified statement and the Siegel--Weil formula imply $\sfname{FunctionalsSeparate}$), applied with the first Siegel--Weil
+field of $P$, $\sfname{FunctionalsSeparate}$ holds.
+\item \emph{Rationality.} By \cref{prop:families:rowrat} (\lref{GlobalTheory.T.test_vector_assembly_holds}: the Siegel
+set and real Howe duality fields of $F$, Green's theorem on cuspidal characters from $P$, $F$, the two statements of $C$, $h_A$,
+$h_M$ and $\sfname{FunctionalsSeparate}$ imply the row test at all starting configurations; its proof rests on the
+properties of theta-lift rows, \lref{GlobalTheory.RowClaim.Join.thetaLift_row_properties_conj}), the row test holds at
+all starting configurations, and this is $\sfname{RowRat}$ (\lref{GlobalTheory.Mem.LiteralAutomorphy.rowRatW_of_rowTest},
+which records it).
+\item \emph{Fit.} By \cref{prop:families:points} (\lref{GlobalTheory.BigTop.Fun.Close.fourier_coefficient_fit_of_join_alt}:
+$F$, the two statements of $C$, $h_A$, $h_M$, $\sfname{FunctionalsSeparate}$ and $\sfname{LambdaLowerBound}_2$ imply
+$\sfname{ConstantFunctionFits}$), with $\sfname{LambdaLowerBound}_2$ from
+\lref{GlobalTheory.Fc.S0.ontoX_and_lamLow_of_unitaryGroupHypotheses'}, $\sfname{ConstantFunctionFits}$ holds.
+\item \emph{Grids.} The twisted Weil representations of the square configurations converge, their local factors match and
+their theta integrals agree (\lref{GlobalTheory.WeilConv.twisted_weil_representation_convergence},
+\lref{GlobalTheory.T.twisted_local_factors_match} and \lref{GlobalTheory.T.twisted_square_theta_integrals_eq}, which
+deduce these three statements from $F$, $h_A$ and $h_M$). Hence, by
+\lref{GlobalTheory.Mem.LiteralAutomorphy.evaluation_grid_of_join} (real Howe duality, $h_M$, $F$, the two statements of
+$C$, $h_A$, these three statements and $\sfname{FunctionalsSeparate}$ imply that there is $C_{F1}$ such that
+$\sfname{EvLgG}(\sfname{GridA}(C_F))$ for all $C_F\ge C_{F1}$), there is such a $C_{F1}$: full grids at level $C_F$ exist
+eventually and for large twisting data.
+\item \emph{Functional rows.} By \lref{GlobalTheory.Fc.StageOne.rowFun_at_gridA_alt} (five fields of $P$ and
+$\sfname{ConstantFunctionFits}$ imply: there is $C_{F0}$ such that for all $C_F\ge C_{F0}$, every $h_L$ and every norm-choice
+extension $N$ whose data yield grid data at level $C_F$ as in $\stageUpd(h_L,C_F)$, the open statements for the parameter of
+$N$ extended by the at-property $\sfname{GridA}(C_F)$ imply that this parameter is linked for the functional row), there is
+such a $C_{F0}$.
+\item Put $c^*=\max(C_{F0},C_{F1})$ and $A=\sfname{GridA}(c^*)$; then $\sfname{EvLgG}(A)$ by step 4.
+\item \emph{Open statements.} By \cref{thm:families:open} (\lref{GlobalTheory.T.open0_of_unitary_group_hypotheses}) the open
+statements hold for $\stageUpd(h_L,c^*)$, and by the monotonicity they hold for $\stageUpA(h_L,c^*)$.
+\item \emph{Functional and covolume rows.} The origin data at $c^*$ yield the grid data of $\stageUpd(h_L,c^*)$, and
+$c^*\ge C_{F0}$; so step 5, applied to the origin extension, shows that $\stageUpA(h_L,c^*)$ is linked for the functional row.
+By \lref{GlobalTheory.Glob.CovolRow.linked_bundles_l3_of_open_alt} (five fields of $P$, $h_X$ and $h_L$ imply: for every
+norm-choice extension whose data yield a law, the open statements imply that the parameter is linked for the covolume row),
+applied to the extension of $\stageUpA(h_L,c^*)$, this parameter is linked for the covolume row.
+\item \Cref{pf:stageU:unram}, applied with $c=c^*$, the at-property $A$, $\sfname{RowRat}$ from step 2, $\sfname{EvLgG}(A)$,
+the hypothesis $(h_N)$ at $c^*$ and step 8, gives the conclusion.\qedhere
+\end{enumerate}
+\end{proof}
+
+In the application in \cref{sec:families}, $h_L$ is \lref{UpperTheory.Zero.LLC.recTExists}, which constructs the local
+parameter maps, and $(h_N)$ holds by \cref{lem:families:at23} (see \cref{rem:families:supply}).
+
+\begin{remark}[On the formal statements]\label{pf:stageU:rem}
+\begin{enumerate}[label=(\arabic*)]
+\item The rationality statement produced in step 2 of the proof of \cref{pf:stageU:main} and $\sfname{RowRat}$ have the same
+definition.
+\item In \cref{pf:stageU:allrows} member existence is required only under the hypothesis $\sfname{MinkDiv}$; in the proof of
+\cref{pf:stageU:unram} it is supplied unconditionally, so that this hypothesis is not used there.
+\item Of the four statements of step 2 of the proof of \cref{pf:stageU:unram}, the elliptic hypothesis and the local
+Langlands statement are not used.
+\item The eight fields of (F2) carry the hypothesis that $x$ is at least the threshold of the selection; it is not used.
+\item The hypothesis $(h_N)$ of \cref{pf:stageU:main} is used only at $c=c^*$.
+\item $P$ contains two fields stating the Siegel--Weil formula in the convergent range, in two formulations; the first is used
+for $\sfname{FunctionalsSeparate}$, the second for the row package, (NG), (MT) and (VR).
+\item The function $c_T$ of the package does not depend on $\eps$, and the property ``$\sigma$ is a $\mathrm{True}$-selection''
+produced by class selection is not used.
+\item Each of the three components of $\sfname{LitThin}$ is stated for every datum $D$, which does not occur in it.
+\end{enumerate}
+\end{remark}
+
+% ===========================================================================
+\subsection{Results used in other sections}\label{sec:pf:stageU:other}
+
+The results of this subsection are ingredients of other sections of this part; they are grouped by topic, and the
+notation is that of the section using them, recalled briefly. Ingredients which are not proved here are cited with
+their content.
+
+% ---------------------------------------------------------------------------
+\subsubsection{Downward theta lifts}\label{sec:pf:stageU:down}
+
+We use the real data of \cref{pf:liftinj:realdefs}: a global datum $D$ with ranks $r=\dim W_i$, $\dim V_i=r+t$, a real datum $R$
+over $(D,\mathcal A,K_s)$, a face $F$, the standing hypotheses (G) and the fullness condition (F); for $0\le i<m$ and a tuple
+$\mu$ the space $H_V(i,\mu)$ with extension map $\mathrm{ext}_V$, the Weil datum $\omega=\omega_P(i,\mu)$ with characters
+$(\chi_W,\chi_V)=(\chi_W(i,\mu),\chi_V(i,\mu))$, the theta maps $\theta^F=\theta^F_{i,\mu}$ and $\theta^G=\theta^G_{i,\mu}$, the
+embedding $e_W$, the downward integrals $\mathrm{down}(y,f,\ell,g)$ of \cref{eq:pf:liftinj:downint}, good places, Hecke
+families, systems, Satake families and segments. Let $L_V$ be the level group of $V_i$ at the level primes $P_g$, with level
+character $\chi_{\mathrm{lev}}$, and for $g$ in the finite group $G$ let $\kappa(g)\in L_V$ be a level lift of $e_G(g)$.
+
+\begin{definition}[Level characters, finite type, the downward properties]\label{pf:stageU:downdefs}
+Fix $i$ and $\mu$.
+\begin{enumerate}[label=(\alph*)]
+\item For a level prime $P$, $0\ne a\in k_P^r$, $\mathrm{tr}\in\{0,1\}$ and $\epsilon=\pm1$ let $m_{P,a,\mathrm{tr},\epsilon}:G\to\C$ be
+$g\mapsto\chi_{i+1,P}(\det e_G(g)_P)^{\epsilon}$ if $e_G(g)$ is trivial at the level primes other than $P$ and $e_G(g)_P$ either moves
+every vector by a multiple of $a$ ($\mathrm{tr}=1$) or fixes the hyperplane $a^\perp$ pointwise ($\mathrm{tr}=0$), and $0$ otherwise.
+A vector $y\in H_V(i,\mu)$ has \emph{no level-character component} if, for all such data and every linear form $\ell$, the
+group-algebra operator of $m_{P,a,\mathrm{tr},\epsilon}$ (through the level lifts) kills $h\mapsto\ell(\mathrm{ext}_V(y)(h))$.
+\item A theta function $f$ for $\omega$ is of \emph{finite type} if every finitely supported combination of finite-adelic
+Heisenberg translates which kills the distinguished vector of $\omega$ kills $f$. It is of \emph{level type} if
+$\omega(\kappa,1)f=\chi_{\mathrm{lev}}(\kappa)^{-1}f$ for all $\kappa\in L_V$.
+\item For a theta function $f$ and data as in (a), the \emph{mirabolic average} of $f$ is
+$\sum_{g\in G}m_{P,a,\mathrm{tr},\epsilon}(g)\,\chi_{\mathrm{lev}}(\kappa(g))^{-1}\,\omega(\kappa(g)^{-1},1)f$; $f$ is \emph{clean} if all its
+mirabolic averages vanish.
+\item The properties of $(i,\mu)$ used in \cref{sec:pf:liftinj:realdata} are: $(\mathrm{Gen}_f)$ every $y$ without level-character
+component such that $\mathrm{down}(y,f,\ell,g)=0$ for all $f$ of finite type and all $\ell,g$ has no lift; $(\mathrm{Gen}_\infty)$ if
+$\theta^F(y)=0$ then $\mathrm{down}(y,f,\ell,g)=0$ for all $f$ of finite type and all $\ell,g$; $(\mathrm{GM})$ $e_W(\theta^G(y))=\theta^F(y)$
+for good $y$; $(\mathrm{GC})$ good vectors have no level-character component; $(\mathrm{EC})$ for every Hecke family and every system
+$s$ there is a system $c$ with $\theta^F(y)\in\mathrm{part}_W(c)$ for all eigenvectors $y$ with system $s$; $(\mathrm{PE})$ and
+$(\mathrm{UC}(\mathrm{ok}))$ as in \cref{sec:pf:liftinj:realdata}, \eqref{eq:pf:liftinj:unr}; $(\mathrm{NV})$ and $(\mathrm{TNZ})$ as in
+\cref{pf:liftinj:realdefs}.
+\end{enumerate}
+\formal{GlobalTheory.DownLift.NoChi}\formal{GlobalTheory.DownLift.FinLike}\formal{GlobalTheory.DownLift.GenFinite.TypeVec}
+\formal{GlobalTheory.DownLift.GenFinite.Clean}\formal{GlobalTheory.DownLift.GenFin}\formal{GlobalTheory.DownLift.GenInf}
+\formal{GlobalTheory.DownLift.GoodMem}\formal{GlobalTheory.DownLift.GoodNoChi}\formal{GlobalTheory.DownLift.DownEig}
+\formal{GlobalTheory.DownLift.ParamsEx}\formal{GlobalTheory.DownLift.UnrCorr}
+\end{definition}
+
+In the following results $R$ is a real datum over $D$ and $F$ a face such that (G) and (F) hold, and $i,\mu$ are arbitrary.
+
+\begin{lemma}[Generation at finite places]\label{pf:stageU:genfin}
+Assume Howe's unramified statement. Then $(\mathrm{Gen}_f)$ holds.
+\formallabel{GlobalTheory.DownLift.GenFinite.genFin}
+\end{lemma}
+
+\begin{proof}
+Let $y$ have no level-character component and suppose that $\mathrm{down}(y,f,\ell,g)=0$ for all $f$ of finite type. Let
+$\mathrm{Pr}(\varphi)$ mean: $\varphi$ is a theta function and $\mathrm{down}(y,\varphi,\ell,g)=0$ for all $\ell,g$. The downward integrand
+is integrable for every theta function (\lref{GlobalTheory.T.integrableOn_downwardThetaLift_integrand}), so $\mathrm{down}$ is
+linear in $\varphi$; theta functions form a vector space stable under $\omega$; hence $\mathrm{Pr}$ holds on the span of any set on
+which it holds. We show $\mathrm{Pr}$ on successively larger sets.
+\begin{enumerate}[label=\arabic*.]
+\item \emph{Translates.} Since $\theta(h,g;\omega(1,g')f)=\theta(h,gg';f)$, we have
+$\mathrm{down}(y,\omega(1,g')f,\ell,g)=\mathrm{down}(y,f,\ell,gg')$, which vanishes for $f$ of finite type.
+\item \emph{Mirabolic averages.} The downward integrals of a mirabolic average of a theta function vanish for vectors without
+level-character component (\lref{GlobalTheory.T.level_averages_theta_pair_zero_without_character}).
+\item \emph{Level type.} A function of level type lies in the span of the clean functions of level type and of the mirabolic
+averages (\lref{GlobalTheory.T.thetaFunction_levelType_mem_span_averages}), and a clean function of level type lies in the span
+of the translates $\omega(1,g')f$ of functions $f$ of finite type
+(\lref{GlobalTheory.T.thetaFunction_levelType_mem_span_translates}, which uses Howe's unramified statement). By steps 1 and 2,
+$\mathrm{Pr}$ holds for functions of level type.
+\item \emph{Differences.} For $\kappa\in L_V$ and a theta function $f$,
+$\mathrm{down}(y,\omega(\kappa,1)f,\ell,g)=\chi_{\mathrm{lev}}(\kappa)^{-1}\mathrm{down}(y,f,\ell,g)$
+(\lref{GlobalTheory.T.downwardLift_level_acts_by_inverse_character}), so $\mathrm{Pr}$ holds for
+$\omega(\kappa,1)f-\chi_{\mathrm{lev}}(\kappa)^{-1}f$.
+\item Every theta function lies in the span of the functions of level type and of these differences
+(\lref{GlobalTheory.T.thetaFunction_mem_span_levelType_differences}).
+\end{enumerate}
+Hence $\mathrm{Pr}(f)$ for every theta function $f$, i.e.\ $y$ has no lift.
+\end{proof}
+
+\begin{lemma}[Generation at real places]\label{pf:stageU:geninf}
+$(\mathrm{Gen}_\infty)$ holds.
+\formallabel{GlobalTheory.GenReal.genInf}
+\end{lemma}
+
+\begin{proof}
+Let $\theta^F(y)=0$, $f$ of finite type, and $\ell,g$ given. Choose a measure of covolume one with a fundamental domain on the
+space of $\omega$ (\lref{GlobalTheory.Size.exists_isCovolOne}). Since $\theta^F(y)=0$, every downward integral of $y$ against the
+Fock vectors attached to a low-type vector and a coefficient vanishes
+(\lref{GlobalTheory.T.theta_lift_vanishes_single_coefficient_of_kernel_kills}), and therefore so does every downward integral of
+$y$ against the Fock vectors $\mathrm{pt}(i,\mu,P)$ of all polynomials $P$
+(\lref{GlobalTheory.T.realFockThetaLift_vanishing_of_generating_vectors}: these Fock vectors are generated, for the downward
+integrals, by the former). Suppose $\mathrm{down}(y,f,\ell,g)\ne0$ and put $\varepsilon=|\mathrm{down}(y,f,\ell,g)|$. The downward integral
+is continuous for a Sobolev norm of order $d$: there are $d$ and $\delta>0$ such that $|\mathrm{down}(y,f,\ell,g)-\mathrm{down}(y,\mathrm{pt}
+(i,\mu,P),\ell,g)|<\varepsilon$ whenever the Sobolev distance of $f$ and $\mathrm{pt}(i,\mu,P)$ is $<\delta$
+(\lref{GlobalTheory.T.downward_theta_integral_sobolev_continuous}); and a function of finite type is a Sobolev limit of the Fock
+vectors $\mathrm{pt}(i,\mu,P)$ (\lref{GlobalTheory.T.thetaFunction_fixedFinitePart_sobolevLimit_fockVectors}). For $P$ with Sobolev
+distance $<\delta$ we get $\varepsilon=|\mathrm{down}(y,f,\ell,g)-0|<\varepsilon$, a contradiction.
+\end{proof}
+
+\begin{lemma}[Good vectors and the idempotent]\label{pf:stageU:goodmem}
+$(\mathrm{GM})$ holds: $e_W(\theta^G(y))=\theta^F(y)$ for every good $y\in H_V(i,\mu)$.
+\formallabel{GlobalTheory.GoodLift.goodMem_of_given}
+\end{lemma}
+
+\begin{proof}
+For $g\in G$ choose a level lift $\kappa(g)$ of $e_G(g)$ (\lref{GlobalTheory.GoodLift.liftsV_of_core}) and a translate
+$y_g\in H_V(i,\mu)$ with $\mathrm{ext}_V(y_g)(h)=\chi_{\mathrm{lev}}(\kappa(g))^{-1}\mathrm{ext}_V(y)(h\kappa(g))$
+(\lref{GlobalTheory.GoodLift.translate_of_core}). Let $e_C$ be the idempotent of the face. Since $y$ is good,
+$\mathrm{ext}_V(\sum_ge_C(g)y_g)=\mathrm{ext}_V(y)$ (expand the group-algebra operator of $e_C$,
+\lref{GlobalTheory.GoodLift.gaL_apply_choose}, and use \lref{GlobalTheory.GoodLift.sum_translates}). The difference
+$z=e_W(\theta^G(y))-\theta^F(y)$ lies in the image of $e_W$ (the core conditions), and elements of this image vanish if their values
+on all low-type vectors $v$ vanish (\lref{GlobalTheory.LiftRows.spanP_of_given}). For a low-type vector $v$, the core conditions
+give $e_W(\theta^G(y))(v)=\sum_ge_C(g)\,\mathrm{act}_W(e_G(g))\,\theta^F(y)(v)$ (\lref{GlobalTheory.GoodLift.eWf_apply_sum}); the
+translation rule $\theta^F(y_g)(v)=\mathrm{act}_W(e_G(g))\,\theta^F(y)(v)$ (\lref{GlobalTheory.GoodLift.thF_translate_low}) and
+linearity turn this into $\theta^F(\sum_ge_C(g)y_g)(v)$, which equals $\theta^F(y)(v)$ because $\theta^F(\cdot)(v)$ only depends on
+$\mathrm{ext}_V$ (\lref{GlobalTheory.GoodLift.thF_low_eq}). Hence $z(v)=0$ for all $v$ and $z=0$.
+\end{proof}
+
+\begin{lemma}[Good vectors have no level-character component]\label{pf:stageU:goodnochi}
+$(\mathrm{GC})$ holds.
+\formallabel{GlobalTheory.GoodTypeNoChi.goodNoChi}
+\end{lemma}
+
+\begin{proof}
+Let $y$ be good, $\ell$ a linear form and $u=\ell\circ\mathrm{ext}_V(y)$. The function $u$ has the principal level type
+(\lref{GlobalTheory.T.definiteSpace_forms_functional_principalType}), and level lifts exist
+(\lref{GlobalTheory.GoodTypeNoChi.p_lifts}). For functions of this type the group-algebra operators compose like
+convolution: the operator of $m=m_{P,a,\mathrm{tr},\epsilon}$ applied to the operator of $e_C$ is the operator of
+$x\mapsto\sum_ym(y)e_C(y^{-1}x)$ (\lref{GlobalTheory.GoodTypeNoChi.p_comp}). Since $y$ is good, the operator of $e_C$ fixes $u$,
+so the operator of $m$ applied to $u$ is the operator of $m\ast e_C$ applied to $u$. Finally $m\ast e_C=0$
+(\lref{GlobalTheory.T.goodProjector_conv_mirabolicAvg_eq_zero}, deduced from the vanishing of mirabolic averages on the series of
+characters of the family, \lref{GlobalTheory.GoodTypeNoChi.seriesKillsAvg}). Hence the operator of $m$ kills $u$.
+\end{proof}
+
+\begin{lemma}[Eigen-compatibility]\label{pf:stageU:downeig}
+Assume Howe's unramified statement. Then $(\mathrm{EC})$ holds.
+\formallabel{GlobalTheory.DownEigen.downEig}
+\end{lemma}
+
+\begin{proof}
+Let $h$ be a Hecke family and $s$ a system. At a good place $P$ the characters $\chi_W,\chi_V$ are unramified
+(\lref{GlobalTheory.T.splittingCharacters_unramified_offLevels}), and for an eigenvector $y$ with system $s$ the Hecke operator
+of $V_i$ with coefficients $c_V$ acts on $y$ by the scalar $\mathrm{ev}_P(s(P),c_V)$. If the vacuum vector of $\omega$ is fixed at $P$
+and the Hecke elements $c_V$ of $V_i$ and $c_W$ of $W_i$ \emph{match} under $\omega$ at $P$ (they act in the same way on the
+vacuum, $c_V$ through its dual), then the theta map intertwines them: the right action of the $W_i$-Hecke operator of $c_W$
+on $\theta^F(y)$ is $\mathrm{ev}_P(s(P),c_V)\,\theta^F(y)$ (\lref{GlobalTheory.DownEigen.thF_match'}). It remains to see that every
+Hecke operator of $W_i$ at $P$ acts on $\{\theta^F(y)\}$ by a scalar independent of $y$.
+\begin{enumerate}[label=(\roman*)]
+\item If $P$ is self-conjugate (inert), the vacuum is fixed (\lref{GlobalTheory.VacFixInert.vacFix_of_inert}, using that $r$ and
+$t$ are odd and the characters are unramified), and by Howe's unramified statement every Hecke element of $W_i$ at $P$ matches
+some Hecke element of $V_i$ (\lref{GlobalTheory.Hk3.CorrInert.sphCorr_of_inert}).
+\item If $P$ is not self-conjugate, the explicit matching for $\GL$ at split places
+(\lref{GlobalTheory.Hk3.SplitMatch.match_split}) expresses the action of $V_i$-Hecke elements on the vacuum through a
+triangular system in the $W_i$-Hecke elements of labels $0,\dots,r$, with non-zero diagonal coefficients (powers of $\Nm P$ and
+of the character values, \lref{GlobalTheory.DownEigen.diag_ne_zero}); solving it
+(\lref{GlobalTheory.DownEigen.tri_solve'}) shows that these $W_i$-Hecke operators act by scalars, and the operators of the
+other labels at $P$ are then scalars as well (\lref{GlobalTheory.DownEigen.scalar_of_split'}).
+\end{enumerate}
+The level operators fix the vectors $\theta^F(y)$ at good places (\lref{GlobalTheory.LevOp.level_operators}). Hence the
+vectors $\theta^F(y)$, $y$ an eigenvector with system $s$, are simultaneous eigenvectors of the Hecke operators of $W_i$ at all good
+places with eigenvalues independent of $y$; this system $c$ satisfies $\theta^F(y)\in\mathrm{part}_W(c)$.
+\end{proof}
+
+\begin{lemma}[Existence of parameters]\label{pf:stageU:paramsex}
+Assume rapid decay of cusp forms. Then $(\mathrm{PE})$ holds.
+\formallabel{GlobalTheory.DownLift.Params.paramsEx}
+\end{lemma}
+
+\begin{proof}
+The first half is \lref{GlobalTheory.DownLift.Params.paramsV} (the system of a non-zero eigenvector in $H_V(i,\mu)$ has a
+Satake family of rank $\dim V_i$ off the bad places, from the unramified Hecke algebras of the definite group), and the second
+half is \lref{GlobalTheory.DownLift.Params.paramsW} (a system $c$ with $\mathrm{part}_W(c)\ne0$ has a Satake family of rank $r$ whose
+elements satisfy $|b|\le\Nm w^{(r-1)/2}$ at good $w$, from rapid decay of cusp forms on $W_i$).
+\end{proof}
+
+\begin{lemma}[The unramified correspondence at inert places]\label{pf:stageU:unrinert}
+Assume Howe's unramified statement. Then $(\mathrm{UC}(\mathrm{ok}))$ holds for $\mathrm{ok}(w)$: ``$w$ is self-conjugate''.
+\formallabel{GlobalTheory.DownInert.unrCorr_inert}
+\end{lemma}
+
+\begin{proof}
+Let $y$ be an eigenvector with system $s$, $0\ne\theta^F(y)\in\mathrm{part}_W(c)$, $B$ and $B'$ Satake families of ranks $r+t$ and $r$
+for $s$ and $c$, and $w$ a good self-conjugate place; $w$ is inert (\lref{GlobalTheory.DownInert.isInertAt_of_conj}) and $\chi_W,\chi_V$
+are unramified at $w$ (\lref{GlobalTheory.UnrOffLevels.unrPl_of_good}, \lref{GlobalTheory.DownInert.unrAt_of_unrPl}).
+\begin{enumerate}[label=\arabic*.]
+\item There is a low-type vector $v_0$ with $\theta^F(y)(v_0)\ne0$, since $\theta^F(y)\ne0$ is determined by its values on low-type
+vectors (\lref{GlobalTheory.LowTypeDetermined.eq_zero_of_lowT}). The function $z=\theta^F(y)(v_0)$ on $G_{W_i}$ is spherical at
+$w$ with Satake parameter $B'(w)$ (\lref{GlobalTheory.LFun.isParamFunV_iff_of_mem_partFull}).
+\item Expanding the coefficient space in a basis $(b_k)$, $z(g)=\sum_k\int_{\mathfrak F_V}\theta(h,g;f_k)\,x_k(h)\,d\nu_V(h)$, where
+$f_k$ are Fock vectors which are vacuum vectors at $w$ (\lref{GlobalTheory.T.fockVectors_chain_isVacuum_off_thetaLevels},
+\lref{GlobalTheory.DownInert.vacFin_of_isVacAt}) and $x_k=b_k^*\circ\mathrm{ext}_V(y)$ are continuous automorphic functions on
+$G_{V_i}$, each zero or spherical at $w$ with Satake parameter $B(w)$ (\lref{GlobalTheory.DownInert.paramV_coord}).
+\item The pairing $(f,x)\mapsto\int_{\mathfrak F_V}\theta(h,\cdot;f)x(h)\,d\nu_V(h)$ is bilinear and equivariant for
+$\Uni(V_i)(F_w)\times\Uni(W_i)(F_w)$ (right translation invariance of integrals over fundamental domains,
+\lref{GlobalTheory.T.setIntegral_fundamentalDomain_right_translate_invariant}; integrability,
+\lref{GlobalTheory.DownInert.integrable_contAut}).
+\item The abstract form of Howe's unramified correspondence at inert places
+(\lref{GlobalTheory.DownInert.param_down}: for such an equivariant pairing of spherical vacuum vectors and spherical vectors with
+parameter $B(w)$, a non-zero image vector with parameter $B'(w)$ forces $(-1)^{\dim W}B(w)=(-1)^{\dim V}B'(w)+\mathrm{str}(q_w,\dim V-\dim W)$)
+gives the relation between $B(w)$ and $B'(w)$, with $\dim V_i-\dim W_i=t$.
+\end{enumerate}
+Writing the unramified character values at the inert place through the segment of length $t$
+(\lref{GlobalTheory.ChainOnto.val_seg_of_isInertAt}, \lref{GlobalTheory.DownInert.seg_coe}) turns this relation into
+\eqref{eq:pf:liftinj:unr}.
+\end{proof}
+
+\begin{lemma}[The unramified correspondence at the other places]\label{pf:stageU:unrsplit}
+$(\mathrm{UC}(\mathrm{ok}))$ holds for $\mathrm{ok}(w)$: ``$w$ is not self-conjugate''.
+\formallabel{GlobalTheory.SplitCorr.unrCorr_split}
+\end{lemma}
+
+\begin{proof}
+This is \lref{GlobalTheory.SplitCorr.unrCorr_at} (the relation \eqref{eq:pf:liftinj:unr} at good places $w$ with $\bar w\ne w$,
+from the correspondence for $\GL_n$ at split places), since $w$ is not self-conjugate iff $\bar w\ne w$
+(\lref{GlobalTheory.GoodPrimes.isConjPl_iff}).
+\end{proof}
+
+\begin{lemma}[Type non-vanishing from generation]\label{pf:stageU:typenz}
+If $(\mathrm{NV})$, $(\mathrm{Gen}_\infty)$, $(\mathrm{Gen}_f)$, $(\mathrm{GC})$ and $(\mathrm{GM})$ hold for $(i,\mu)$, then $(\mathrm{TNZ})$ holds for
+$(i,\mu)$.
+\formallabel{GlobalTheory.DownLift.typeNZ_of_nonVan_gen}
+\end{lemma}
+
+\begin{proof}
+Let $y$ be a good eigenvector whose system has a segment, with $\theta^G(y)=0$, and suppose $y\ne0$. By $(\mathrm{GM})$,
+$\theta^F(y)=e_W(\theta^G(y))=0$; by $(\mathrm{Gen}_\infty)$ all downward integrals of $y$ against functions of finite type vanish; by
+$(\mathrm{GC})$, $y$ has no level-character component; so $y$ has no lift by $(\mathrm{Gen}_f)$. This contradicts $(\mathrm{NV})$.
+\end{proof}
+
+\begin{lemma}[Segments from non-zero lifts]\label{pf:stageU:hasstring}
+Let $\mathrm{ok}$ be a predicate on places, and assume $(\mathrm{UC}(\mathrm{ok}))$, $(\mathrm{UC}(\neg\mathrm{ok}))$, $(\mathrm{PE})$ and $(\mathrm{EC})$ for
+$(i,\mu)$. If $y$ is an eigenvector with system $s$ for a Hecke family and $\theta^F(y)\ne0$, then $s$ has a segment.
+\formallabel{GlobalTheory.LiftInjProof.hasString_of_lift}
+\end{lemma}
+
+\begin{proof}
+By $(\mathrm{EC})$ there is $c$ with $\theta^F(y)\in\mathrm{part}_W(c)$; by $(\mathrm{PE})$ there are a Satake family $B$ of rank $\dim V_i$ for
+$s$ and, since $\mathrm{part}_W(c)\ni\theta^F(y)\ne0$, a Satake family $B'$ of rank $r$ for $c$ with $|b|\le\Nm w^{(r-1)/2}$. At a good $w$,
+$(\mathrm{UC}(\mathrm{ok}))$ or $(\mathrm{UC}(\neg\mathrm{ok}))$ gives \eqref{eq:pf:liftinj:unr}, so $B(w)=B''(w)+\mathrm{str}(\Nm w,\chi_V(w),t)$
+with $B''(w)=\chi_V(w)\chi_W(w)^{-1}B'(w)$, whose elements have absolute value $\le\Nm w^{(r-1)/2}$ because
+$|\chi_V(w)|=|\chi_W(w)|=1$ (\lref{GlobalTheory.LFun.norm_val}).
+\end{proof}
+
+\begin{lemma}[Injectivity from type non-vanishing]\label{pf:stageU:liftinj}
+If for every $i$ the properties $(\mathrm{TNZ})$, $(\mathrm{EC})$, $(\mathrm{UC}(\mathrm{ok}))$ for ``$w$ is not self-conjugate'' and for ``$w$ is
+self-conjugate'', and $(\mathrm{PE})$ hold at $(i,\mu_0)$, then $(\mathrm{INJ})(R)$ holds.
+\formallabel{GlobalTheory.LiftInjProof.liftInj_of_typeNZ}
+\end{lemma}
+
+\begin{proof}
+Let $x,y$ be eigenvectors with system $s$ with $\theta^G(x)\ne0$, $y$ good and $\theta^G(y)=0$. The core conditions give
+$e_W\circ\theta^G=\theta^F$ on the low types with $e_W$ injective, so $\theta^F(x)\ne0$. By \cref{pf:stageU:hasstring} (with
+$\mathrm{ok}$ = ``self-conjugate''), $s$ has a segment, and $(\mathrm{TNZ})$ applied to $y$ gives $y=0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{The doubled space and its Schr\"odinger model}\label{sec:pf:stageU:dbl}
+
+Let $A,B$ be hermitian spaces over $E$ for a datum $D$, $n=\dim A$, $A^\square=A\oplus(-A)$ the doubled space with its Siegel
+parabolic $P^\square$ (the stabiliser of the diagonal), $G_n$ the standard unitary group of the skew-hermitian form
+$\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$ with its Siegel parabolic $P_n$, Levi elements $m(a)$, unipotent elements
+$n(b)$, Weyl element $w_n$ and standard maximal compact subgroup $K$. For a majorant $a$ of $A$ let $\hat K(a)$ be the maximal
+compact subgroup of $G_{A^\square}$ attached to $a$ and the self-dual frame lattice. An element $\mu\in E$ is \emph{skew} if
+$\mu\ne0$ and $\bar\mu=-\mu$; a \emph{chart} for $\mu$ is an isomorphism $\kappa:G_{A^\square}\to G_n$ with $T_\mu\kappa(g)=gT_\mu$
+for a fixed rational matrix $T_\mu$ built from $\mu$. Let $\omega^\square$ be a Weil datum for $(A^\square,B)$ with characters
+$(1,\chi_B)$, and $\nu$ a measure of covolume one with a fundamental domain on $\mathrm{Mat}_{\dim B\times n}(\A_E)$. The
+\emph{Schr\"odinger transform} $\mathrm{sch}(f)$ of a theta function $f$ for $\omega^\square$ is the function on
+$\mathrm{Mat}_{\dim B\times n}(\A_E)$ obtained by the partial Fourier transform (normalised by $\nu$) from the mixed model of the doubled
+space. A representation $\omega_S$ of $G_n$ on the Schwartz space $\mathcal S(B^n)$ of \cref{pf:liftinj:schrdef} is a
+\emph{transport} of $\omega^\square$ through $\kappa$ if $\omega_S(\kappa(g))\mathrm{sch}(f)=\mathrm{sch}(\omega^\square(g,1)f)$ for all $g$
+and all theta functions $f$.
+
+\begin{lemma}[Theta kernels as lattice sums]\label{pf:stageU:thetaS}
+For every theta function $f$ for $\omega^\square$ and all $g\in G_{A^\square}$, $h\in G_B$,
+$\theta(g,h;f)=\sum_{\xi\in\mathrm{Mat}_{\dim B\times n}(E)}\mathrm{sch}(\omega^\square(g,1)f)(h^{-1}\xi)$.
+\formallabel{GlobalTheory.T.thetaKernel_eq_tsum_schrodingerFunction}
+\formallabel{GlobalTheory.StdUnn.thetaKO_eq_tsum_sch}
+\end{lemma}
+
+\begin{proof}
+We have $\omega^\square(g,h)f=\omega^\square(1,h)\,\omega^\square(g,1)f$, and $\omega^\square(g,1)f$ is a theta function. The value at $0$
+of a theta function is the lattice sum of its Schr\"odinger transform (the mixed-model formula,
+\lref{GlobalTheory.HeisMixSource.heis_mixS}), and the transform intertwines the action of $h\in G_B$ with the substitution
+$x\mapsto h^{-1}x$ (\lref{GlobalTheory.T.schrodingerFunction_unitary_levi_radical_actions}).
+\end{proof}
+
+\begin{lemma}[Iwasawa decomposition of the doubled group]\label{pf:stageU:iwasawa}
+For every majorant $a$ of $A$, $G_{A^\square}$ has an Iwasawa decomposition $G_{A^\square}=P^\square\hat K(a)$ (adelically, with the
+local factors at all places).
+\formallabel{GlobalTheory.Core.Rk.IP.hasIwasawa_Khat}
+\end{lemma}
+
+\begin{proof}
+The frame lattice of $A$ is self-dual (\lref{GlobalTheory.WeilAtPlace.isSelfDualC_frameLat}). For a self-dual lattice and a
+majorant the adelic decomposition is assembled from local decompositions at the split finite places, at the other finite
+places, and at the real places (\lref{GlobalTheory.Core.Rk.IP.hasIwasawa_KAd_selfDual}, which combines
+\lref{GlobalTheory.T.hasIwasawaDecomposition_doubled_split_place},
+\lref{GlobalTheory.T.iwasawa_doubled_hermitian_space_nonsplit_place} and
+\lref{GlobalTheory.T.iwasawa_doubled_hermitian_space_real_place}).
+\end{proof}
+
+\begin{lemma}[Standard charts]\label{pf:stageU:chart}
+For every skew $\mu$ there is a chart $\kappa:G_{A^\square}\to G_n$ for $\mu$.
+\formallabel{GlobalTheory.T.exists_standardUnitaryChart_doubledSpace}
+\formallabel{GlobalTheory.StdUnn.chart_exists}
+\end{lemma}
+
+\begin{proof}
+The matrix $T_\mu$ is invertible and carries the Gram matrix of $A^\square$ to the standard skew-hermitian form, up to the unit
+$\mu$ (\lref{GlobalTheory.StdUnn.Tm_gram_inv}). Hence $g\mapsto T_\mu^{-1}gT_\mu$ maps the unitary group of $A^\square$ isomorphically
+onto $G_n$ (adelically), and $T_\mu\kappa(g)=gT_\mu$ by construction.
+\end{proof}
+
+\begin{lemma}[Conjugating the compact subgroup]\label{pf:stageU:conjcompact}
+There is a skew $\mu\in E$ such that for every $A$, every majorant $a$ of $A$ and every chart $\kappa$ for $\mu$ there is
+$p\in P^\square$ with $k\in\hat K(a)\iff\kappa(p^{-1}kp)\in K$.
+\formallabel{GlobalTheory.T.exists_siegel_parabolic_conj_doubled_compact}
+\formallabel{GlobalTheory.StdUnn.ConjElt.exists_isConj}
+\end{lemma}
+
+\begin{proof}
+Choose $\mu$ with auxiliary scalars (\lref{GlobalTheory.StdUnn.scalData_exists}) and half data
+(\lref{GlobalTheory.StdUnn.exists_halfData}), independently of $A$. Given $A$ and $a$, choose a lattice frame $b$ adapted to $a$
+(\lref{GlobalTheory.StdUnn.exists_isLatticeFrame_bc_eq}); its Gram matrix $H$ is unimodular and hermitian
+(\lref{GlobalTheory.StdUnn.Unimod.gram_unimodular}) with $H^2=1$ at the real places, because $a$ is a majorant. These data give
+frames $M,M'$ of $A^\square$ (\lref{GlobalTheory.StdUnn.Frame.exists_frame}) and an element $p$ of the Siegel parabolic transporting
+the frame (\lref{GlobalTheory.StdUnn.ConjElt.exists_siegel_frame}); conjugation by $p$ then carries $\hat K(a)$ onto
+$\kappa^{-1}(K)$ (\lref{GlobalTheory.StdUnn.Conj.isConj_of_frame}).
+\end{proof}
+
+\begin{lemma}[The shifted additive character]\label{pf:stageU:shiftchar}
+Let $\psi$ be a standard additive character of $\A_F/F$ (of parameter $-1$), $\theta$ a family of archimedean embeddings and $\mu$
+skew. Then $\lambda=-\xi_0/\mu$ lies in $F$, the character $\psi_\lambda(x)=\psi(\lambda x)$ is a non-trivial character of $\A_F/F$, and
+its real parameters $l(\tau)$ satisfy $|l(\tau)|=|\tau(\xi_0)|/|\tau(\mu)|$.
+\formallabel{GlobalTheory.T.shiftedAdditiveCharacter_archimedeanParameters}
+\formallabel{GlobalTheory.StdUnn.shift_char_realPar}
+\end{lemma}
+
+\begin{proof}
+Since $\bar\xi_0=-\xi_0$ and $\bar\mu=-\mu$, $\lambda=-\xi_0/\mu$ is fixed by complex conjugation, hence lies in $F$, and $\lambda\ne0$. The
+character $\psi_\lambda$ is continuous, trivial on $F$ (as $\lambda F=F$) and non-trivial (if $\psi(x)\ne1$ then $\psi_\lambda(\lambda^{-1}x)\ne1$).
+At a real place $\tau$ the parameter of $\psi_\lambda$ is $\tau(\lambda)$ times that of $\psi$, which has absolute value $1$; hence
+$|l(\tau)|=|\tau(\lambda)|=|\tau(\xi_0)|/|\tau(\mu)|$.
+\end{proof}
+
+\begin{lemma}[Theta functions and Schwartz functions]\label{pf:stageU:schschwartz}
+For every standard $\psi$, family $\theta$, spaces $A,B$ and $\nu$ as above: the Schr\"odinger transform of a theta function for
+$(A^\square,B)$ lies in $\mathcal S(B^n)$; every function in $\mathcal S(B^n)$ is the transform of a theta function; and the transform
+is injective on theta functions.
+\formallabel{GlobalTheory.T.schrodingerTheta_eq_schwartzBruhat}
+\formallabel{GlobalTheory.SchSchwartzAll.schSchwartz}
+\end{lemma}
+
+\begin{proof}
+The transform of a theta function is a Schwartz--Bruhat function
+(\lref{GlobalTheory.T.isSchwartzBruhat_doubledPairSchrodingerFunction}), and the Schwartz--Bruhat functions on
+$\mathrm{Mat}_{\dim B\times n}(\A_E)$ are the elements of $\mathcal S(B^n)$ (\lref{GlobalTheory.T.isSchwartzBruhat_iff_mem_adelicMatrixSchwartzSpace}).
+Conversely every Schwartz--Bruhat function is the transform of a theta function
+(\lref{GlobalTheory.T.exists_thetaFunction_schrodingerFunction_eq}). If $\mathrm{sch}(f)=\mathrm{sch}(f')$, then $f-f'$ is a theta function
+with transform $0$ (the transform is linear), hence $f-f'=0$ (\lref{GlobalTheory.T.doubledPairThetaFunction_eq_zero_of_schrodinger_eq_zero}).
+\end{proof}
+
+\begin{lemma}[Transport to the standard group]\label{pf:stageU:transport}
+Let $\omega^\square,\nu$ be as above, $\theta$ an archimedean family and $\kappa:G_{A^\square}\to G_n$ an isomorphism. Then there is a
+transport $\omega_S$ of $\omega^\square$ through $\kappa$ on $\mathcal S(B^n)$.
+\formallabel{GlobalTheory.T.exists_weilDatum_transport_schwartzBruhat_standard}
+\formallabel{GlobalTheory.StdUnn.exists_transport_std}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:stageU:schschwartz} the transform is a linear bijection from theta functions onto $\mathcal S(B^n)$
+(\lref{GlobalTheory.T.schrodingerFunction_linear_thetaFunctions} for linearity), and theta functions are stable under
+$\omega^\square(g,1)$. Hence $\omega_S(\kappa(g))=\mathrm{sch}\circ\omega^\square(g,1)\circ\mathrm{sch}^{-1}$ defines a representation of $G_n$ with
+the required property.
+\end{proof}
+
+\begin{lemma}[The three formulas]\label{pf:stageU:schrformulas}
+Let $\mu$ be skew, $\kappa$ a chart for $\mu$, $\omega_S$ a transport of $\omega^\square$ through $\kappa$ and $\lambda=-\xi_0/\mu$. Then
+$\omega_S$ satisfies \eqref{eq:pf:liftinj:schr} for $(\psi_\lambda,\chi_B^{-1})$ and $\nu$:
+$\omega_S(m(a))\Phi(x)=\chi_B^{-1}(\det a)|\det a|^{\dim B/2}\Phi(xa)$, $\omega_S(n(b))\Phi(x)=\psi_\lambda(\frac12\tr(b\langle x,x\rangle))\Phi(x)$ and
+$\omega_S(w_n)\Phi(x)=\int\Phi(y)\psi_\lambda(\tr\langle x,y\rangle)\,d\nu(y)$.
+\formallabel{GlobalTheory.T.transportedSchrodinger_standardLeviAction}
+\formallabel{GlobalTheory.T.transportedSchrodinger_siegelUnipotentAction}
+\formallabel{GlobalTheory.T.weyl_formula_standardUnitaryGroup_weilDatum}
+\formallabel{GlobalTheory.StdUnn.transport_levi}\formallabel{GlobalTheory.StdUnn.Unip.transport_unip}\formallabel{GlobalTheory.StdUnn.WeylStd.main}
+\end{lemma}
+
+\begin{proof}
+Write $\Phi=\mathrm{sch}(f)$ (\cref{pf:stageU:schschwartz}); then $\omega_S(g)\Phi=\mathrm{sch}(\omega^\square(\kappa^{-1}(g),1)f)$. Under the chart,
+$m(a)$ corresponds to the Levi element of $a$ for the Witt decomposition of $A^\square$
+(\lref{GlobalTheory.T.standardUnitaryChart_blockDiagonal_eq_levi}), $n(b)$ to a unipotent element of the Siegel parabolic with
+parameter $c$ (\lref{GlobalTheory.T.standardUnitaryChart_unipotent_eq_wittUnipotent}), and $w_n$ to a rational Weyl element
+(\lref{GlobalTheory.T.standardUnitaryChart_weylElement_rational}). The Schr\"odinger transform turns the action of the Levi and
+unipotent elements of the doubled space into the first two formulas
+(\lref{GlobalTheory.T.schrodingerFunction_unitary_levi_radical_actions}; the character of the unipotent element is rewritten
+through $\psi_\lambda$ by \lref{GlobalTheory.StdUnn.Unip.chr_eq_shift}), and the action of the Weyl element into the Fourier
+transform for $\psi$, which is the third formula after the substitution $\lambda=-\xi_0/\mu$
+(\lref{GlobalTheory.T.weylElement_acts_on_schrodinger_by_fourier}). 
+\end{proof}
+
+\begin{lemma}[Inverses of adapted Hecke characters]\label{pf:stageU:heckeinv}
+If $\chi$ is a Hecke character of $\A_E^\times$ (continuous, trivial on $E^\times$) whose restriction to $\A_F^\times$ is $\eta^m$, then
+$\chi^{-1}$ has the same two properties.
+\formallabel{GlobalTheory.T.isHeckeChar_restrictionEta_inv}
+\end{lemma}
+
+\begin{proof}
+$\chi^{-1}$ is continuous and $\chi^{-1}(x)=\chi(x)^{-1}=1$ for $x\in E^\times$; and $\chi^{-1}|_{\A_F^\times}=\eta^{-m}=\eta^m$ since $\eta^2=1$
+(\lref{GlobalTheory.StdUnn.isHeckeChar_resEta_inv}).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Hecke point laws and the third layer}\label{sec:pf:stageU:points}
+
+The next two results concern the geometric theta functions of the twisted operators: for a CM field $E$ with a host, a
+datum, a level $l$, a moduli space $X_o$ of the corresponding abelian schemes with a coefficient datum $c$, and a prime $P$ of $E$
+split and off the level, a Hecke kernel $C$ of type $(P,p,i)$ and a Hecke isogeny $\Psi$ with kernel $C$ between the abelian
+schemes over two points $x,x'$, a \emph{theta trace} of a section $s$ along $\Psi$ is a section $s'$ related to $s$ by the trace
+of $\Psi$, and a \emph{theta generator} is a section which does not vanish identically in the relevant sense. The \emph{theta
+transport law} says that for all such data the theta transport is total and single-valued; the \emph{Hecke point laws} are
+finiteness of the Hecke correspondences, totality and single-valuedness of the Hecke relation on frames, and detection of
+points by their Hecke images.
+
+\begin{lemma}[The theta transport law]\label{pf:stageU:transportlaw}
+The theta transport law holds.
+\formallabel{GlobalTheory.ThetaTransport.thetaTransportLaw}
+\formallabel{GlobalTheory.ThetaTransport.existsUnique_trace_isThGen}
+\end{lemma}
+
+\begin{proof}
+Let $x$ be a point with the given coefficient datum, $C$ a Hecke kernel of type $(P,p,i)$, $\Psi$ a Hecke isogeny with kernel $C$, and
+$s$ a theta generator at $x$. A section $s$ has a unique theta trace along $\Psi$ (\lref{GlobalTheory.ThetaTransport.existsUnique_trace},
+from the splitting of $P$ off the level), and $s'$ is a theta generator iff it does not vanish, which holds for the trace of a
+generator, because the trace of $s$ vanishes only if $s$ does (\lref{GlobalTheory.ThetaTransport.isThGen_iff}). Hence there is
+a unique theta trace, and it is a theta generator; this is the
+totality and the uniqueness of the transport.
+\end{proof}
+
+\begin{lemma}[Hecke point laws]\label{pf:stageU:pointlaws}
+The theta transport law implies the Hecke point laws; in particular the Hecke point laws hold.
+\formallabel{GlobalTheory.HeckePointLaw.heckePointLaws_of_transport}
+\formallabel{GlobalTheory.HeckePointLaw.heckePointLaws}
+\end{lemma}
+
+\begin{proof}
+Finiteness of the Hecke correspondences and detection of points are \lref{GlobalTheory.HeckePointLaw.heckeFinite} and
+\lref{GlobalTheory.HeckePointLaw.pointsDetect}. For a Hecke prime, the totality part of the transport law gives a frame
+related to a given frame by the Hecke relation (\lref{GlobalTheory.HeckePointLaw.exists_hkRelFr}), and the uniqueness part shows
+that two frames related to the same frame coincide (\lref{GlobalTheory.HeckePointLaw.hkRelFr_unique}); this gives totality and
+single-valuedness. The second statement follows with \cref{pf:stageU:transportlaw} (in the form
+\lref{GlobalTheory.T.heckeIsogeny_thetaGenerator_transport}).
+\end{proof}
+
+For the following results we use the notions of the third layer (\cref{sec:families:nonempty}): the published third-layer inputs
+$\Pi$, the multiplicity statement $\mathrm{(SMt)}$ (module inputs exist at all states), the parameter statement for $h_L$
+(stability of the conjugate-dual local parameters at primes not dividing the level), the eventual statements ``at every member of
+a layer point'', character choice data $P$ for $(h_L,D)$ with its character frame, norm choice, tuple, module family and
+representation, real expansions $X$ agreeing with $P$, and joins of $P$ (a module form, canonical row modules at the local indices
+and theta modules).
+
+\begin{lemma}[The multiplicity statement]\label{pf:stageU:smt}
+$\mathrm{(SMt)}$ holds; in particular $\Pi$ implies $\mathrm{(SMt)}$.
+\formallabel{GlobalTheory.MtInMain.prN_sMt_alt_alt}
+\formallabel{GlobalTheory.MtId.sMt}
+\end{lemma}
+
+\begin{proof}
+At every state the pinned data provide a module input (\lref{GlobalTheory.MtId.inMt_state}). The hypothesis $\Pi$ is not used.
+\end{proof}
+
+\begin{lemma}[Stability of local parameters]\label{pf:stageU:conjdual}
+$\Pi$ and $\mathrm{(SMt)}$ imply the parameter statement for every $h_L$.
+\formallabel{GlobalTheory.HeightCounting.Up.conjDualParam_stable_of_prime_not_dividing_level_alt}
+\end{lemma}
+
+\begin{proof}
+The parameter statement is a step statement (eventually, for large twisting data, at all states). Combine (by the calculus of
+steps, \cref{pf:stageU:steps}) the following eventual statements: the lifting of all parameters from parallel inputs with module
+inputs (\lref{GlobalTheory.T.liftAll_of_parIn_of_mtInput}), the local components of parallel inputs
+(\lref{GlobalTheory.T.local_component_of_par_in_third_layer}), the sizes, congruences, host facts and column choices
+(\lref{GlobalTheory.T.eventually_sizes_congruences_hostFacts_columnChoices}), and $\mathrm{(SMt)}$. At a state $x$ with a pin, the
+parity conditions of the row hold (\lref{GlobalTheory.HeightCounting.Up.ParityConditions.ofSt}); the module input gives the lift of
+all parameters and the local component; the host facts give the CM and definiteness conditions; the parameters satisfy their
+laws (\lref{UpperTheory.GalN.par_laws_bare}) and the base change identities
+(\lref{UpperTheory.BaseChangeIdentities.Conclusion1_alt_alt_alt}, from base change, the Bernstein decomposition and the generic
+and standard modules in $\Pi$). These data give the cuspidal parameter condition, which is the parameter statement at $x$
+(\lref{GlobalTheory.T.cuspParam_of_definite_liftAll}).
+\end{proof}
+
+\begin{lemma}[Cuspidal parameters at members]\label{pf:stageU:cuspparam}
+Assume $\Pi$. For every $h_L$, eventually at every member of a layer point the row sides with the local representation of the
+member have good cuspidal parameters.
+\formallabel{GlobalTheory.HeightCounting.Up.cuspParameter_at_member_alt}
+\end{lemma}
+
+\begin{proof}
+As in \cref{pf:stageU:conjdual}, combine the lifting statement, the local component statement and the size and host facts.
+At a member, the norm-choice data give a parallel copy of the row with a parallel input
+(\lref{GlobalTheory.HeightCounting.Up.ParCopy.parIn_of_nTrue_alt}) and a module input
+(\lref{GlobalTheory.HeightCounting.Up.ParCopy.exists_mtInput_of_nTrue}); the lift and the local component of the copy, with the host
+facts, give good cuspidal parameters for every row side with the same local representation
+(\lref{GlobalTheory.HeightCounting.Up.ParCopy.good_cusp_param_of_definite_heq_locR}).
+\end{proof}
+
+\begin{lemma}[Joins of character choices]\label{pf:stageU:join}
+Assume Harish-Chandra finiteness and rapid decay of cusp forms. Let $P$ be character choice data for $(h_L,D)$ and $X$ a real
+expansion agreeing with $P$. Then $P$ has a join.
+\formallabel{GlobalTheory.T.nonempty_join_of_agree}
+\formallabel{GlobalTheory.JoinExists.main_alt_alt}
+\end{lemma}
+
+\begin{proof}
+For every local index $i$ there is a canonical row module $Y_i$ at $j_i=j(i)$ for $X$
+(\lref{GlobalTheory.T.exists_canonical_module_at_successor}, applied at $j_i-1<m$). The module form is obtained from the
+agreement (\lref{GlobalTheory.T.mtForm_of_realAt_agree}), and for each canonical module a theta module exists
+(\lref{GlobalTheory.T.nonempty_theta_mod_of_is_canon}). These data form a join.
+\end{proof}
+
+\begin{lemma}[Canonical row modules]\label{pf:stageU:rowmodcanon}
+In the situation of \cref{pf:stageU:join}, for every $j<m$ and $j'=j+1$ there is a row module at $j'$ which is canonical for $X$.
+\formallabel{GlobalTheory.RowModCanon.main_alt_alt}
+\end{lemma}
+
+\begin{proof}
+Let $M$ be the space of $K$-finite automorphic vectors of the principal level frame of $W_j$ (the space $M_{\inf}$ of the
+real datum of $X$), with the right action of $G_{W_j}$, and put $c=\prod_\rho\dim K_\rho/n_P>0$, the product over the archimedean
+places of the dimensions of the relevant $K$-types divided by a positive index. Take the row module with underlying space $M$
+and form $c\langle x,y\rangle$, where $\langle\,,\rangle$ is the Petersson inner product over the fundamental domain of $W_j$. By
+Harish-Chandra finiteness and rapid decay the inner products of elements of $M$ exist and satisfy Schur orthogonality
+(\lref{GlobalTheory.MultFinite.hcFinite_and_schurMult}); hence the form is sesquilinear, hermitian and positive definite on $M$
+(\lref{GlobalTheory.FinTypesRows.minf_sesq}), and $M$ is stable under the congruence subgroups
+(\lref{GlobalTheory.FinTypesRows.minf_stable}, using \lref{GlobalTheory.T.unitary_congruence_conj_contains_congruence}). The
+module of the datum at $j+1$ maps into the good part of the multiplicity space, which lies in $M$
+(\lref{GlobalTheory.FinTypesRows.levOK_levS}); this is the canonicity. (The statement form
+\lref{GlobalTheory.T.exists_canonical_module_at_successor} is used in \cref{pf:stageU:join}.)
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Galois-theoretic conditions at members}\label{sec:pf:stageU:galois}
+
+We use the conditions on a global datum $D$ with its norm-choice data $(\mathrm{nd},\mathrm{naut})$ named in \cref{pf:linkN:GP}
+(the Galois preconditions): the ties $\mathrm{tie}_0$ (local parameter, automorphy and Galois ties), the Galois closure condition
+$\mathrm{adm}_2$, the isobaric multiplicity-one and Chebotarev conditions $\mathrm{adm}_5$, the tame label condition, the linked
+inputs and the point conditions.
+
+\begin{lemma}[Admissibility of the residual tame eigenvalues]\label{pf:stageU:admtame}
+For every datum $D$, the conditions $\mathrm{tie}_0$, $\mathrm{adm}_2$, $\mathrm{adm}_5$ and the tame label condition imply the admissibility of the
+residual tame eigenvalues.
+\formallabel{GlobalTheory.AdmTame.main_alt_alt_alt}
+\end{lemma}
+
+\begin{proof}
+The tame label condition gives that the wild inertia at the type primes acts trivially; $\mathrm{adm}_2$ gives that the Galois
+representations are unramified away from the relevant set (\lref{GlobalTheory.AdmTame.galAwayOfS'}); $\mathrm{adm}_5$ gives the
+density of Frobenius elements (Chebotarev) and multiplicity one for the isobaric parts: if two one-part isobaric sums have the same
+local components almost everywhere, their parts coincide. The local-parameter tie gives the laws of the characters at the type
+primes. Multiplicity one and the character laws give invariance under twisting
+(\lref{GlobalTheory.TypeLeaf.twistInv_of_charLaws_multOne}). Since $t$ is odd, the archimedean infinitesimal characters shifted by
+$-t/2$ are integers (a direct check on the two possible parameters); with the twist invariance and the automorphy tie this gives the
+point parameters (\lref{GlobalTheory.TypeLeaf.pointPar_of_twist}). The first character is trivial on the wild inertia at the type
+primes (\lref{GlobalTheory.T.firstCharacter_trivial_wildInertia_typePrime}). These conditions and the full labels (from the tame
+label condition, \lref{UpperTheory.GalS.fullLabS_of_fullLabS_trivial}) give the tame sums, i.e.\ the admissibility
+(\lref{GlobalTheory.TypeLeaf.tameSum_of_inputs_alt}).
+\end{proof}
+
+\begin{lemma}[Residual irreducibility in rank $r$]\label{pf:stageU:resirr}
+Let $D$ be a datum satisfying the three-prime admissibility condition, $\mathrm{adm}_5$, the residual representation condition and
+the depth-zero condition, and assume the Brauer--Nesbitt irreducibility statement for the relevant Galois group. Then the residual
+representations of rank $r$ are irreducible.
+\formallabel{Formalism.MainNotions.AdmissibleThreePrime.residual_irreducible_of_theorem_three_prime_alt}
+\end{lemma}
+
+\begin{proof}
+By the three-prime theorem (\lref{Formalism.MainNotions.AdmissibleThreePrime.theorem_three_prime_holds_alt_alt}), for every local
+index $i$ with residue characteristic $\ell_i$ and every reduction $\bar\rho$ the residual representation is irreducible, also on
+every normal subgroup of finite solvable index containing the type elements. Its proof: the bad sets of the two type primes
+$g_0,g_1$ are disjoint, so $\ell_i$ avoids one of them, say that of $g_k$; for this $k$ the tame inertia at $g_k$ acts through a good
+tuple of characters, and the irreducibility criterion for good tuples
+(\lref{Formalism.CyclotomicNorms.irreducibility_of_good_tuple}) applies. Residual irreducibility in rank $r$ then follows with
+$\mathrm{adm}_5$, the Brauer--Nesbitt statement \cite{CurtisReiner1962} and the residual and depth-zero conditions
+(\lref{Formalism.MainNotions.N.residual_irreducible_of_theorem}).
+\end{proof}
+
+\begin{lemma}[The first provision from the summands]\label{pf:stageU:parts}
+For every datum $D$, the summands suffice: the admissibility at all local indices, the label tie, the row sizes, the Hecke split
+condition, the positivity of the $\lambda$-values, the theta condition and the unramifiedness of the cuspidal Galois
+representations imply the first provision.
+\formallabel{UpperTheory.GalS.Parts.main_alt_alt}
+\end{lemma}
+
+\begin{proof}
+The hypotheses give the parts statement (\lref{UpperTheory.GalS.Parts.p41'_alt}) and, through the parts, the conclusion on
+reduced parameters (\lref{GlobalTheory.NRows.Parts.conclusion42_of_parts}); the latter is equivalent to the parameter
+proposition (\lref{Formalism.MainNotions.SumRepresentations.proposition_parameters_iff_reduced}). Together these are the first
+provision.
+\end{proof}
+
+\begin{lemma}[Conditions (A)]\label{pf:stageU:aclose}
+The theta-local inputs imply, for every $h_L$, every datum $D$ with character choice data $P$ and the jump-count condition, the
+conditions (A) of the rows: the label tie, the Hecke split condition, $\mathrm{tie}_0$, $\mathrm{adm}_2$, the two isobaric multiplicity-one
+statements, $\mathrm{adm}_5$, $\mathrm{adm}_7$, the trivial local condition and the splitting of the automorphisms.
+\formallabel{UpperTheory.GalS.a_close_main}
+\end{lemma}
+
+\begin{proof}
+The label tie comes from the character choice (\lref{GlobalTheory.TieLabAt.main_alt_alt}). The pin of $P$ gives isobaric
+rigidity (\lref{GlobalTheory.NPin.isobaricRigid_of_pin_alt}), hence multiplicity one for isobaric cuspidal sums
+(\lref{GlobalTheory.RowClose.isobaricCuspidalMultiplicityOne_of_twisted}) and for isobaric discrete self-dual sums
+(\lref{GlobalTheory.SpehRigid.isobaricDiscreteSelfDualMultOne_of_isobaricSumMultOne}). The Chebotarev density of split primes
+(\cref{pf:stageU:chebsplit}) and these two statements give $\mathrm{adm}_5$
+(\lref{Formalism.MainNotions.SumRepresentations.condition_iff_additive_maps}). The automorphism tie and the splitting come from
+\lref{GlobalTheory.AutomorphismSplitting.tieAut_and_split_alt}; $\mathrm{tie}_0$ combines the local parameter tie
+(\lref{GlobalTheory.RowTieLP.main}), the automorphism tie and the Galois tie, which comes from the jump count and the de Rham
+and potentially semistable inputs (\lref{GlobalTheory.T.tieGal_of_jumpsCard_of_deRhamPotSemistable}). Finally $\mathrm{adm}_2$,
+$\mathrm{adm}_7$, the Hecke split condition and the trivial local condition are \lref{UpperTheory.GalS.galClose_alt},
+\lref{UpperTheory.GalN.allCuspidalOpenBound_of_cuspU_character_choice},
+\lref{GlobalTheory.RowClose.heckeSplitOne_of_charTied} and \lref{UpperTheory.GalS.trivialLocalCondition_of_inputs}.
+\end{proof}
+
+\begin{lemma}[Reduced multiplicity]\label{pf:stageU:redmult}
+For every $h_L$ and datum $D$, the linked inputs and the point conditions imply the reduced multiplicity statement.
+\formallabel{GlobalTheory.T.reducedMultiplicity_of_inputs}
+\formallabel{GlobalTheory.PtSt.reducedMultiplicity_of_rows'}
+\end{lemma}
+
+\begin{proof}
+Fix a local index $i$. The linked inputs give internal isotropy and, with the point conditions and \cref{pf:stageU:parts}, the
+conclusion on reduced parameters. With the parallel-up condition, the membership of the downward lifts and type non-vanishing
+(components of the point conditions), the multiplicity spaces $M_j^\sigma$ have the predicted image
+(\lref{GlobalTheory.PtSt.map_MjSig_eq}), and the good part of the image is as required
+(\lref{Formalism.MainNotions.SumRepresentations.good_part_image_iff}).
+\end{proof}
+
+\begin{lemma}[Character choices at members]\label{pf:stageU:pin}
+Assume $\Pi$. For every $h_L$, eventually at every member of a layer point there is character choice data $P$ for the datum of the
+member at which the member's character choice is pinned.
+\formallabel{GlobalTheory.T.exists_character_choice_pin_at_of_third_layer}
+\formallabel{GlobalTheory.PinLayer.specialization_at_member_of_layer_alt}
+\end{lemma}
+
+\begin{proof}
+At a member, the types of the datum are true (from the group condition of the row data), and the datum is elementary: complex
+conjugation preserves the coefficient field (which is Galois), the Harish-Chandra parameters are integral, and the places above the
+level primes split (since the level primes are $\equiv1\pmod{Q_Sqd}$, \lref{GlobalTheory.HeightCounting.Up.isSplitPl_of_mem_levelPrimes}).
+With Green's cuspidal characters (a field of $\Pi$), the injectivity of the row representations, the Chebotarev density of split
+primes (\cref{pf:stageU:chebsplit}) and the label and zeta data of the real expansion, the pin exists
+(\lref{GlobalTheory.PinLayer.pinAt_of_side_alt}).
+\end{proof}
+
+\begin{lemma}[Base change parameters up to permutation]\label{pf:stageU:bcvperm}
+If a list $\mathrm{Pa}$ of parts is a base change parameter for a point at a local index, then so is every permutation of
+$\mathrm{Pa}$.
+\formallabel{GlobalTheory.RowThetaParam.isBCV_of_perm}
+\end{lemma}
+
+\begin{proof}
+Each of the six defining conditions is invariant under permutations of the list: membership, the absence of repetitions, the
+total rank (a sum over the list), the local isobaric sums at the places (\lref{GlobalTheory.RowThetaParam.isoLoc_perm}) and the
+archimedean sums.
+\end{proof}
+
+\begin{lemma}[Characters to finite groups ignore the infinite part]\label{pf:stageU:finpart}
+Let $E$ be totally complex, $B$ a finite group and $\psi$ a homomorphism from the id\`eles of $E$ to $B$. Then $\psi(a)=\psi(a_f)$ for
+every id\`ele $a$, where $a_f$ is $a$ with all archimedean components replaced by $1$.
+\formallabel{GlobalTheory.RingCls.map_finPartI}
+\end{lemma}
+
+\begin{proof}
+Let $N=|B|$. Since every archimedean completion is $\C$, each archimedean component of $a$ has an $N$-th root; let $u$ be the id\`ele
+with these roots at the archimedean places and $1$ elsewhere. Then $a=u^Na_f$, and $\psi(u)^N=1$, so $\psi(a)=\psi(a_f)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Steps, member statements and positions}\label{sec:pf:stageU:stepcalc}
+
+\begin{lemma}[Calculus of steps and of member statements]\label{pf:stageU:steps}
+Let $\stageUKP$ be a base predicate.
+\begin{enumerate}[label=(\alph*)]
+\item The steps (\cref{sec:pf:stageU:vocab}) from $p$ to $q$ and from $p$ to $r$ give the step from $p$ to $q\wedge r$; the steps from
+$p$ to $q$ and from $q$ to $r$ give the step from $p$ to $r$. The same holds for the steps between properties of stage data.
+\item If $p$ and $q$ hold eventually at every member of a layer point, so does $p\wedge q$; if $p$ does and $p$ implies $q$ pointwise,
+so does $q$.
+\item A property which holds over all rows holds at all states.
+\item If $P$ implies the slot $R$ at all cores of layers, then every core in the position of $P$ lies in $R$.
+\end{enumerate}
+\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.Step.and}\formallabel{GlobalTheory.Mem.Top.GroupRetwisting.Step.trans}
+\formallabel{GlobalTheory.Mem.Top.Bl.StepW.and}\formallabel{GlobalTheory.HeightCounting.Up.Model.AtMem.and_z}
+\formallabel{GlobalTheory.HeightCounting.Up.Model.AtMem.at_member_imp}
+\formallabel{GlobalTheory.HeightCounting.Up.RowModel.overRows_allSt}\formallabel{GlobalTheory.Mem.Top.Bl.positionOf_ind}
+\end{lemma}
+
+\begin{proof}
+(a) A step is an $\sfname{EvLgG}$-statement; two such statements hold simultaneously (minimum of the exponents, supremum of the
+transported constants, maxima of the thresholds, unions of the exceptional sets), and at a context where both hold the
+implications compose, resp.\ combine. For stage data the step is defined through a step of the first kind followed by a pointwise
+implication, so the same argument applies. (b) The member statements are eventual statements of the same kind; combine as in
+(a), resp.\ apply the implication at each member. (c) At a state, the pinned core provides the data of a row over which the
+property holds. (d) A core in the position of $P$ is, up to the identification of the stage tuple with $w.\mathrm{st}(Z)$, a core
+$c'$ of a layer with $P(w,Z,c')$; the hypothesis gives $R$ at it, and the identification transports $R$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Moving layers}\label{sec:pf:stageU:moving}
+
+For a layer $Z$ over column data $w$ (\cref{pf:linkN:moving}), a family $N$ of division lattices $N_u$ and a height function
+$h$ on the words, $\mathrm{setDiv}(Z,N,h)$ is the layer with these division lattices and heights, and $\mathrm{upL}(Z,S',N,h)$ is the layer
+with in addition the $S$-stage $S'$. Two row data over the layers are \emph{rows-same} if their rows coincide.
+
+\begin{lemma}[Rows pass to moved layers]\label{pf:stageU:rowsmove}
+Let $t$ be row data over $Z$ with object $O$ and $O'$ the transported object over $\mathrm{setDiv}(Z,N,h)$. There are row data $t'$ over
+$\mathrm{setDiv}(Z,N,h)$ with object $O'$, rows-same with $t$, whose geometric part and packet are the transports of those of $t$, such that
+the object condition and the non-emptiness of the reading data pass from $t$ to $t'$.
+\formallabel{GlobalTheory.T.rows_pass_to_moved_divisionLatticesHeights}
+\end{lemma}
+
+\begin{proof}
+The components of $t$ which do not involve the division lattices or the heights are kept, and the others are transported along
+the identification of the stages; each listed property is checked componentwise
+(\lref{GlobalTheory.Mem.R3.Rw.DivMv.rows_move_geo}).
+\end{proof}
+
+\begin{lemma}[Kept norm choices]\label{pf:stageU:keptchoice}
+Let $\mathrm{nch}$ be a norm choice and $\mathrm{xd}$ theta data at $Z$. There are a norm choice $\mathrm{nch}'$ and theta data $\mathrm{xd}'$ at
+$\mathrm{upL}(Z,S',N,h)$ such that $\mathrm{nch}'$ keeps $\mathrm{nch}$; if $S'$ is the $S$-stage of $Z$, they are the transports of $\mathrm{nch}$
+and $\mathrm{xd}$; the norm-choice data and the goodness of $(\mathrm{nch},\mathrm{xd})$ pass to $(\mathrm{nch}',\mathrm{xd}')$; and for rows-same row data
+whose geometric parts correspond, the norm choice with law of the extension passes from the old to the new layer.
+\formallabel{GlobalTheory.T.exists_kept_choice_upper_lattice_alt}
+\end{lemma}
+
+\begin{proof}
+Define $\mathrm{nch}'$ and $\mathrm{xd}'$ by transporting the components of $\mathrm{nch}$ and $\mathrm{xd}$ along the stage identification, replacing
+only the parts which depend on the $S$-stage, the division lattices and the heights; the listed properties are then verified
+component by component (\lref{GlobalTheory.LayerMove.exists_kept_nChoice_thData_upL}).
+\end{proof}
+
+\begin{lemma}[Transport of list pins, spectral data and division geometry]\label{pf:stageU:movetransport}
+\begin{enumerate}[label=(\alph*)]
+\item For rows-same row data $t$ over $Z$ and $t'$ over $\mathrm{upL}(Z,S',N,h)$, a list pin of level $(c,b)$ for $t$ is one for $t'$.
+\item The spectral stage data move to the set-division lattices and heights.
+\item For a geometric property $\Gamma$ and rows-same row data $t$ over $Z$ and $t'$ over $\mathrm{setDiv}(Z,N,h)$ with objects $O$ and
+$O.\mathrm{tr}(N,h)$, the geometric closure of $\Gamma$ passes from $(t,O)$ to $(t',O.\mathrm{tr}(N,h))$.
+\item For slot data $\mathcal S$, if positions move along set division, then witnesses move along set division.
+\end{enumerate}
+\formallabel{GlobalTheory.Mem.GridMove.listPin_rowsSame}
+\formallabel{GlobalTheory.T.spectralStageData_transfer_lattices_heights}
+\formallabel{GlobalTheory.T.divisionGeometryScalars_transfer_setDivision}
+\formallabel{GlobalTheory.T.witnesses_pass_along_set_division}
+\end{lemma}
+
+\begin{proof}
+(a) Rows-same row data have the same grid, transfer and core components, and the algebra structures agree (both are determined by
+the embedding of the coefficient field); the list pin then transfers along the lattice move
+(\lref{GlobalTheory.Mem.GridMove.listPin_upL}). (b) is \lref{GlobalTheory.Mem.SRe.SxPass.sxMv}: the spectral stage data are
+transported componentwise. (c) is \lref{GlobalTheory.Mem.OxMove.oAt_setDiv}: the division geometry scalars only depend on
+components which are transported. (d) is \lref{GlobalTheory.Mem.Top.Bl.witMv_of_positionMv}: a witness is a position together
+with data which move with it.
+\end{proof}
+
+\begin{definition}[Moved grid data]\label{pf:stageU:gdc}
+For grid data $G$ at a level choice $L$ with constants $\mathrm{sc}$ and a real number $b$, the moved grid data at the moved level choice
+$\mathrm{levCh}(b,L)$ have the moved places, characters and vectors of $G$.
+\formallabel{GlobalTheory.Mem.GridMove.gdC}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Hecke operators, class sums and characters}\label{sec:pf:stageU:hecke}
+
+\begin{lemma}[Chebotarev density of split Frobenius elements]\label{pf:stageU:chebsplit}
+Assume the Chebotarev density theorem for degree-one places. Then for every datum $D$ with norm-choice data, Galois group $G$ of
+the relevant extension $\Omega/E$ and every finite set $S$ of places of $E$, the Frobenius elements at the places $w\notin S$ which
+split over $F$ are dense in $G$.
+\formallabel{GlobalTheory.ChebSplitDense.chebSplit_nd}
+\formallabel{GlobalTheory.ChebSplitDense.chebSplit}
+\end{lemma}
+
+\begin{proof}
+Outside a finite set $A$, every place of $E$ of degree one is split over $F$ (\lref{GlobalTheory.FrobDense.exists_finite_split}).
+By the Chebotarev theorem for degree-one places, the Frobenius elements at the degree-one places outside $A\cup S$ are dense; these
+places are split and outside $S$.
+\end{proof}
+
+\begin{lemma}[Components of Hecke characters at split places]\label{pf:stageU:compat}
+Let $L$ be a CM field, $\chi$ a Hecke character of $L$ and $s$ a split place (a place $s.w$ of $L$ above a place $v$ of $L^+$ with
+$L_{s.w}=L^+_v$). If $\xi,\xi'$ are characters of $(L^+_v)^\times$ which are trivial on $1+\mathfrak p_v^N$ for some $N$ and agree with the
+component of $\chi$ at $s.w$ on $L^\times$ (embedded through $s$), then $\xi=\xi'$.
+\formallabel{GlobalTheory.T.heckeCharacter_splitPlaceComponent_unique}
+\formallabel{GlobalTheory.CompAtUniq.main}
+\end{lemma}
+
+\begin{proof}
+Let $N$ be a common level and $\pi$ a uniformiser of $L^+_v$. Every $u\in(L^+_v)^\times$ can be written $u=\iota_s(k)u'$ with $k\in L^\times$ and
+$u'\in1+\mathfrak p_v^N$, since $L$ is dense in $L_{s.w}=L^+_v$ (write $u=\pi^au_0$ with a unit $u_0$, choose $k\in L$ close to $u$). Then
+$\xi(u)=\chi_{s.w}(k)=\xi'(u)$.
+\end{proof}
+
+\begin{lemma}[Refining class sums]\label{pf:stageU:classrefine}
+Let $G$ be a group, $Q\le G$ a subgroup, $J'\le J$ subgroups, $T$ and $T'$ sets of representatives of $Q\backslash G/J$ and $Q\backslash G/J'$,
+$F\subseteq J$ a set of representatives of $J/J'$, and $\varphi:G\to\C$ left $Q$-invariant and right $J'$-invariant. Write
+$Q_t(J)=Q\cap tJt^{-1}$. Then
+\[
+\sum_{t'\in T'}|Q_{t'}(J')|^{-1}\varphi(t')=\sum_{t\in T}|Q_t(J)|^{-1}\sum_{u\in F}\varphi(tu).
+\]
+\formallabel{GlobalTheory.ClassRefine.sum_classReps_refine}
+\end{lemma}
+
+\begin{proof}
+Group the pairs $(t,u)\in T\times F$ according to the representative $t'\in T'$ of $Qtu J'$. For fixed $t'$, let $t_0\in T$ be the
+representative of $Qt'J$; a pair $(t,u)$ lies over $t'$ iff $t=t_0$ and $u\in U=\{u\in F:t_0u\in Qt'J'\}$, by uniqueness of the
+representatives. For $u\in U$, $\varphi(t_0u)=\varphi(t')$ by the invariances. Hence the right side equals
+$\sum_{t'}|Q_{t_0}(J)|^{-1}|U|\varphi(t')$, and it remains to show $|Q_{t_0}(J)|=|U|\cdot|Q_{t'}(J')|$; $U\ne\emptyset$ because $t'\in Q t_0J$. This
+is an orbit--stabiliser count for the action of $Q_{t_0}(J)$ on $t_0J/J'$, whose orbit through the class of $t'$ corresponds to $U$
+and whose stabiliser is conjugate to $Q_{t'}(J')$ (\lref{GlobalTheory.ClassRefine.card_stabQ_split}).
+\end{proof}
+
+\begin{lemma}[Standard facts on Hecke double coset operators]\label{pf:stageU:heckestd}
+For the Hecke double coset operators $T$ of a unitary group at a prime $\mathfrak p$ of norm $q$ prime to the level, acting on the
+spaces of automorphic forms of a given level and type, and their normalisations $T_N=q^{-k(n-1)}T$: the operators preserve the
+spaces; they are linear; any two of them commute; and every eigenvalue $\mu$ of $T_N$ on a non-zero eigenvector is $\ell$-integral
+up to a power of $q$: there is a power $Q=q^{m+k(n-1)}$, prime to $\ell$, with $Q\mu$ integral.
+\formallabel{GlobalTheory.HeckeStdFacts.heckeStdPlain}
+\end{lemma}
+
+\begin{proof}
+Preservation, linearity and commutativity are the corresponding properties of the double coset operators
+(\lref{GlobalTheory.HeckeStdFacts.heckeD_mem}, \lref{GlobalTheory.HeckeStdFacts.heckeD_lin},
+\lref{GlobalTheory.HeckeStdFacts.heckeD_comm}). For integrality, choose double coset data for $T$
+(\lref{GlobalTheory.HeckeStdFacts.exists_data}); then $T$ acts through a sum of translates with integral coefficients, and an
+eigenvalue of $q^{-k(n-1)}T$ on a non-zero form with integral values becomes integral after multiplication by a power of $q$
+(\lref{GlobalTheory.HeckeStdFacts.eigen_integral}); since $\ell\nmid q$, this power is prime to $\ell$.
+\end{proof}
+
+\begin{lemma}[Hecke operators commute with the group action]\label{pf:stageU:commrho}
+Under the frame, family and model conditions of a real datum, let $j$ be the reading at a base embedding $\sigma$, injective, and
+$\rho$ the action of $G$ transported through $j$. Then every Hecke operator $h$ of Hecke data at $(P,k)$ commutes with every
+$\rho(g)$.
+\formallabel{GlobalTheory.HeckeSup.comm_rho_cl}
+\end{lemma}
+
+\begin{proof}
+Since $j$ is injective, it suffices to compare $j(h\rho(g)x)$ and $j(\rho(g)hx)$. Both equal the Hecke operator on the model
+applied to the action of $g$ on $j(x)$, up to the same scalar, because the Hecke operator on the model commutes with the action of
+$G$ (\lref{GlobalTheory.HeckeSup.heckeOn_actW_cl}).
+\end{proof}
+
+\begin{lemma}[Laws of forcing]\label{pf:stageU:evolaws}
+Let a datum with character frame, host embedding, module family, norm choice and tuple be given. Forcing by automorphic
+semisimple data (\cref{sec:pf:baselat2}) is closed under conjunction and monotone; if an automorphic side exists and $P_1$ is forced,
+then for every family $\mathrm{big}_0$ of finite sets there are $\mathrm{big}\supseteq\mathrm{big}_0$ and a local datum built for $\mathrm{big}$ at which
+$P_1$ holds; and being built for $\mathrm{big}$ is antitone in $\mathrm{big}$.
+\formallabel{GlobalTheory.CoefDuty.LargeRing.evO_laws_alt}
+\end{lemma}
+
+\begin{proof}
+Antitonicity: a specialisation for $\mathrm{big}'\supseteq\mathrm{big}$ is one for $\mathrm{big}$ (restrict the condition on the sets). If $P_1$ is
+forced by $b$ and $P_2$ by $c$, both are forced by $b\cup c$ by antitonicity, hence so is $P_1\wedge P_2$; monotonicity is immediate. If
+$P_1$ is forced by $b$ and an automorphic side exists, there is a local datum built for $\mathrm{big}=\mathrm{big}_0\cup b$, and $P_1$ holds at
+it since it is also built for $b$.
+\end{proof}
+
+\begin{lemma}[Complements of Galois representations]\label{pf:stageU:complement}
+Assume the Chebotarev statement for the twisting systems and that the cuspidal automorphic representations of a datum $D$ have
+attached Galois representations. Then for every local index $i$, every representation $\pi$ in the theta locus at $i$ and every
+continuous Galois representation $r_0$ of dimension $n_V=r+t$ attached to $\pi$, there is a representation $\rho$ of dimension $r$
+such that $r_0$ is the sum of $\rho$ and the $t$ characters $\bar\chi_{i,c+1}$, $c<t$ (with the stated compatibilities).
+\formallabel{GlobalTheory.BlockComplement.complement_at}
+\end{lemma}
+
+\begin{proof}
+The tie of $\pi$ gives an isobaric decomposition $\pi=\boxplus_{p\in\mathrm{Pa}}p$ containing the part $(1,\mu\eta,t)$, and the infinity types
+of the other parts are regular and integral up to the shift $(n_V-d_p)/2$ (\lref{GlobalTheory.BlockComplement.inf_part}). The other
+parts have traces of attached Galois representations, and their sum $T$ is a continuous trace
+(\lref{GlobalTheory.BlockComplement.hasTrace_part}). At almost all places the trace of $r_0(\mathrm{Frob}_w)$ equals $T(\mathrm{Frob}_w)$ plus
+the values of the $t$ characters $\bar\chi_{i,c+1}$ (comparison of Frobenius eigenvalues with the local parameters of the parts and of
+the segment); both sides are continuous, so by the Chebotarev statement they agree everywhere. A representation whose trace is
+$T+\sum_c\bar\chi_{i,c+1}$ has a complement $\rho$ to these characters (\lref{GlobalTheory.BlockComplement.exists_complement}).
+\end{proof}
+
+\begin{lemma}[Real idempotents]\label{pf:stageU:starcoeff}
+Suppose that for both type primes $g_k$ the series idempotents satisfy $\overline{e_{\mathrm{ser},k}(f)(x)}=e_{\mathrm{ser},k}(f(0)^{-1}f^{\mathrm{rev}})(x)$
+for every monic $f\in\F_{g_k}[X]$ with $f(0)\ne0$ and every $x$. Then all coefficients of the idempotent $e_0$ of the types are real.
+\formallabel{GlobalTheory.GoodIdemReal.star_coeff_of_reverse}
+\end{lemma}
+
+\begin{proof}
+The coefficient of $e_0$ at $\gamma$ is a sum over good tuples $a$ (families of monic polynomials of degree $r$ with non-zero constant
+term, indexed by the places of the type set) of the products $\prod e_{\mathrm{ser},k}(a_{k,v})(\gamma_{k,v})$. The map $f\mapsto
+f(0)^{-1}f^{\mathrm{rev}}$ is an involution of the monic polynomials of degree $r$ with non-zero constant term
+(\lref{GlobalTheory.SeriesSupportTest.dl_dl}), and the induced involution of tuples preserves goodness. By hypothesis the complex
+conjugate of the term of $a$ is the term of the image of $a$; reindexing the sum by the involution shows that the sum equals its
+complex conjugate.
+\end{proof}
+
+\begin{lemma}[Hecke statements for the localised datum]\label{pf:stageU:heckeopen}
+In the setting of the specialisation of a datum $D$ along a localisation datum $L$ (side data, a choice side, a module input, the
+conjugation stability of the coefficient field, integrality of the exponents, splitting of the places above $p_{de},p'_{de}$ and the
+Chebotarev splitting statement), for every specialisation and every automorphic specialisation there are Hecke open statements for
+the localised datum, the localised module family and the tuple, whose automorphic class data are those of the host embedding.
+\formallabel{GlobalTheory.FitHecke.heckeOpen_withLoc_alt}
+\end{lemma}
+
+\begin{proof}
+The specialisation provides a normalised local compatibility (cover) for the localised datum: its Hecke base, the
+coefficient data, the maps $\Psi$, the points and the compatible embeddings $\iota_C$ (coherent by the automorphic specialisation).
+The Hecke fields are then obtained from the cover: the hypotheses outside the bad places at each local index are transported from the
+module input and are monotone in the set of places (\lref{GlobalTheory.FitHecke.hypOutside_transport'},
+\lref{GlobalTheory.FitHecke.hypOutside_mono}); the Hecke tie, the equality of orders, the separation, conjugation and sameness
+of the sets $Q$ are \lref{GlobalTheory.FitHecke.hT_of}, \lref{GlobalTheory.FitHecke.sameO_of}, \lref{GlobalTheory.FitHecke.sep_of},
+\lref{GlobalTheory.FitHecke.Q_conj_of} and \lref{GlobalTheory.FitHecke.Q_same_of}; the automorphic data are those of the
+automorphic specialisation.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Rows, columns and bundles}\label{sec:pf:stageU:rowsmisc}
+
+\begin{lemma}[The theta hypotheses of a column inclusion]\label{pf:stageU:hypcolin}
+Let $I$ be an ok column inclusion over a base $B$ with stages $(C,W,V,S,N,G)$. For every index $a$ and word $u$, the theta hypothesis
+holds for the datum of $I$, the seam of the stages, the jet data and character of $I$, its selection, the tuple and constants at
+$a$, and $u$.
+\formallabel{GlobalTheory.KerT.hyp_of_colIn}
+\end{lemma}
+
+\begin{proof}
+The components of the hypothesis are: admissibility of the definite base data
+(\lref{GlobalTheory.T.definiteBaseData_admissible}); the seam conditions (\lref{GlobalTheory.Mem.Col2.seamOf_ok}), the jet
+conditions from the okness of the ambient datum, and the character ideal of the column character; the character values
+(\lref{GlobalTheory.Mem.ChiVal.chi_values}); the selection; the membership of $2,q,d,g_0,g_1$ and of the level primes $T_u$ in the
+prime set; smallness; the constants at $a$; $\mu_0$, $\eta$, the character tie and the condition on $\mu q G$. Each is a component of
+the okness of $I$ or of the cited lemmas.
+\end{proof}
+
+\begin{lemma}[Chain theta data are ok]\label{pf:stageU:chthok}
+Let $I$ be an ok column inclusion whose jets lie in the stages and whose record satisfies the equality and vector properties for its
+character. Then for every index $a$ and word $u$ the chain theta datum of $u$ at $(a,m-2)$ is ok.
+\formallabel{GlobalTheory.ChainTheta.chTh_ok_of_colIn'}
+\end{lemma}
+
+\begin{proof}
+This is \lref{GlobalTheory.ChainTheta.chTh_ok_of_colIn}, applied with the multiplicity condition of $I$: the chain theta datum is
+built from the normalised theta family of the column choice, whose equivariance laws and lattice conditions hold by
+\cref{pf:stageU:hypcolin} and the cited properties of normalised families.
+\end{proof}
+
+\begin{lemma}[Equivariance laws of normalised families]\label{pf:stageU:natequi}
+For a curve ideal $\mathfrak c$, a twelfth root $\delta$ of the discriminant, a kernel base and a character $\chi$, the normalised
+theta family satisfies the equivariance laws.
+\formallabel{GlobalTheory.T.normalisedFamily_satisfies_equivarianceLaws}
+\end{lemma}
+
+\begin{proof}
+This is \lref{GlobalTheory.Mem.NatEqui.eqP} (the normalised family transforms under the CM action and the twisting by the
+equivariance laws, from the transformation law of the theta functions of the curve lattice).
+\end{proof}
+
+\begin{lemma}[Genericity generators are units]\label{pf:stageU:normgen}
+Let $\ell$ be a prime which is not small and $\ne q$, $\lambda:\bar\Q\to\C_\ell$ an embedding, and $M\subset\C$ a number field containing the
+values of the embeddings of $D$. For every $\tau$ and every generator $s$ of the ideal $\mathfrak l_\tau$ of $\OO_M$, $|\lambda(s)|=1$.
+\formallabel{GlobalTheory.EigenGenerator.norm_generator_eq_one}
+\end{lemma}
+
+\begin{proof}
+$|\lambda(s)|\le1$ because the coordinates of elements of $\mathfrak l_\tau$ are $\lambda$-integral
+(\lref{GlobalTheory.EigenGenerator.norm_coord_le}). Conversely there is $v$, vanishing at all $\tau'\ne\tau$, with $|\lambda(v_\tau)|\ge1$
+(\lref{GlobalTheory.EigenGenerator.exists_vanishing}); then $v_\tau\in\mathfrak l_\tau=(s)$, $v_\tau=cs$ with $c\in\OO_M$, and
+$1\le|\lambda(c)||\lambda(s)|\le|\lambda(s)|$.
+\end{proof}
+
+\begin{lemma}[Bounded continuous representatives]\label{pf:stageU:contrep}
+Let $B$ be row automorphic data with discrete series data $d$ whose lowest $K$-types are of the given type, $n\ge1$ and level $g\ge1$.
+There is $C$ such that for every intertwiner $A$ of norm $\le1$ whose image of $\otimes w$ is fixed by $K(g)$, the vector $A(\otimes w)$
+has a continuous representative $f$ with $|f(x)|\le C\,\tau_1(x)^{-2n^2f}\|A(\otimes w)\|$.
+\formallabel{GlobalTheory.EvalBound.exists_contRep_bound_of_isKTypeOf}
+\end{lemma}
+
+\begin{proof}
+There is a smooth compactly supported function $a$ on the archimedean group whose operator reproduces $\otimes w$
+(\lref{GlobalTheory.StepAverage.exists_smooth_average_of_isKTypeOf}); its operator $T$ on $L^2$ is defined by absolute integration
+(\lref{GlobalTheory.absOpInt}), and for the convolution with a smooth compactly supported function there is $C$ such that
+$K(g)$-fixed vectors of the form $T(v)$ have continuous representatives with the stated bound
+(\lref{GlobalTheory.SmoothGrowth.convolutionSmoothL2}). Since $A$ intertwines, $T(A(\otimes w))=A(\otimes w)$.
+\end{proof}
+
+\begin{lemma}[The Siegel--Weil formula for one vector]\label{pf:stageU:onevec}
+The Siegel--Weil formula in the convergent range implies the one-vector mean-value formula used in \cref{pf:stageU:volratio}.
+\formallabel{GlobalTheory.GaussMean.oneVectorCc_of_siegelWeil}
+\end{lemma}
+
+\begin{proof}
+The finite-volume part is a component of the Siegel--Weil formula. For the mean-value formula take $n=1$ and $T=(\beta)$, $\beta\ne0$, so
+$\det T\ne0$ and the Gram condition $(h_J(x_a,x_b))=T$ is $h_J(x,x)=\beta$ (\lref{GlobalTheory.GaussMean.OneVec.gram_form}). The
+densities for the self-dual measures of the hermitian $1\times1$ matrices are carried to densities for the pushforwards under
+$x\mapsto h_J(x,x)$ through the identification of $1\times1$ hermitian matrices with $F$ (\lref{GlobalTheory.GaussMean.OneVec.dens_of_herm},
+\lref{GlobalTheory.GaussMean.OneVec.sd_of_herm}).
+\end{proof}
+
+\begin{lemma}[Tied kernel entries]\label{pf:stageU:kerent}
+Let $I$ be an ok column datum with pins, laws $l$ and later stages $Z$, and let size data, ties, instances, constants, division data,
+extra data, lift objects $O$ and kernel entries $E$ be given such that the $Q_p$-condition and the standard object condition hold, the
+unfolding is complete, the entries are ok and every kernel is served by $E$. Then there is a tied kernel entry with objects $O$ and
+entries $E$ which is standard, adapted and top-pinned.
+\formallabel{GlobalTheory.Mem.Col2.TC.kerEntTied_true_ent}
+\end{lemma}
+
+\begin{proof}
+The kernel entries are compatible with the true columns (\lref{GlobalTheory.T.kernelEntries_compatible_trueColumns}), which gives a
+tied kernel datum with the standard tie, the objects $O$ and the top pin; replacing its entries by $E$ keeps these properties and
+makes it adapted (\lref{GlobalTheory.Mem.Col2.TC.kerEntTied_withEnt}).
+\end{proof}
+
+\begin{lemma}[Fitting stages form states]\label{pf:stageU:fitstate}
+Assume the Weil representations of unitary pairs, existence of discrete series, Harish-Chandra finiteness and rapid decay. For a
+pre-state $P$ and an over-datum $o$ which fits, has the group of $P$, $\eta_F=6x^{-C_F}$ and the law of the datum, there is a state with
+over-datum $o$.
+\formallabel{GlobalTheory.T.fittingLaterStages_row_is_constructionState}
+\formallabel{GlobalTheory.Mem.R3.Rw.st_of_fits}
+\end{lemma}
+
+\begin{proof}
+The moved row lift data exist for fitting stages (\lref{GlobalTheory.T.exists_movedRowLiftData_to_fittingStages}), and a reading of
+the row lift family of the moved data exists from the inputs provided by the four published statements
+(\lref{GlobalTheory.T.exists_reading_of_rowLiftFamily_movedData}, \lref{GlobalTheory.LinksInputs.inputs_of_hypotheses}); together
+with $o$ these form a state.
+\end{proof}
+
+\begin{lemma}[Injectivity of adjoints on eigen-parts]\label{pf:stageU:adjinj}
+Let $T:H'\to H$ be a linear map of finite-dimensional Hilbert spaces, $(P_c)$ subspaces of $H$ and $s_c\ne0$ scalars with $TT^*x=s_cx$
+for $x\in P_c$. If $x\in\sum_cP_c$ and $T^*x=0$, then $x=0$.
+\formallabel{GlobalTheory.AdjointInjectiveOfParts.adjoint_inj_of_parts}
+\end{lemma}
+
+\begin{proof}
+Each $P_c$ lies in the range of $T$, since $y=T(T^*(s_c^{-1}y))$ for $y\in P_c$; hence $x=Tw$ for some $w$. Then
+$\langle x,x\rangle=\langle Tw,x\rangle=\langle w,T^*x\rangle=0$, so $x=0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsubsection{Two further lemmas}\label{sec:pf:stageU:misc}
+
+\begin{lemma}[Absolute values on the maximal unramified extension]\label{pf:stageU:kurval}
+Let $x\ne0$ lie in the maximal unramified extension of $\Q_\ell$ in $\C_\ell$. Then $|x|=\ell^m$ for some $m\in\Z$.
+\formallabel{ReciprocityTheory.ChartRestriction.L1.kur_val}
+\end{lemma}
+
+\begin{proof}
+There is $y$ in a finite unramified extension of $\Q_\ell$ with $|x-y|<|x|$ (\lref{ReciprocityTheory.ChartRestriction.L1.kur_approx}); then
+$|x|=|y|$ by the ultrametric inequality and $y\ne0$. In a finite unramified extension $\ell$ is a uniformiser, so $y=\ell^{-m}a/b$ with
+units $a,b$ (\lref{ReciprocityTheory.ChartRestriction.L1.kmu_shape}), and $|y|=\ell^m$.
+\end{proof}
+
+\begin{lemma}[Explicit Vandermonde counts for families]\label{pf:stageU:divlevel}
+Let $\stageUFm$ be a family such that eventually every member satisfies the mass ratio, the base-volume identity and the two-sided
+degree bounds of \cref{pf:stageU:tusizemin}. Then $\stageUFm$ satisfies the explicit Vandermonde count bounds for all constants
+$(C_0,C_Y)$.
+\formallabel{Formalism.MainNotions.StandardLattice.division_level_prime_family}
+\end{lemma}
+
+\begin{proof}
+Fix $(C_0,C_Y)$. There are thresholds beyond which: the ramified rank lines are free (\lref{Formalism.MainNotions.StandardLattice.ramified_rank_lines_of_free}),
+the part-five bounds follow from the mass and volume identities (\lref{Formalism.MainNotions.StandardLattice.part_five_family_of_mass_volume}),
+and the gaps satisfy the bound $\mathrm{gap}_B$ with constant $8192$ (\lref{Formalism.MainNotions.StandardLattice.gapB_ev}). Beyond the
+maximum of these thresholds and those of the three hypotheses, every member satisfies the sharp conclusion five (both components:
+the line part and the part-five part), and with the Vandermonde variation bound
+(\lref{Formalism.MainNotions.StandardLattice.vandermonde_variation_holds}) this gives the explicit count bounds
+(\lref{Formalism.MainNotions.StandardLattice.part_five_explicit_of_propositions}).
+\end{proof}
+
+

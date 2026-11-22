@@ -1,0 +1,2134 @@
+\section{The covolume bound}\label{sec:pf:covol}
+
+\providecommand{\covolLcv}{\operatorname{lcv}}
+\providecommand{\covolMainT}{\mathrm{mainT}}
+\providecommand{\covolUnitE}{\mathrm{unitE}}
+\providecommand{\covolHch}{h_{\mathrm{Ch}}}
+\providecommand{\covolHform}{h_{\mathrm{F}}}
+\providecommand{\covolMah}{\operatorname{m}}
+\providecommand{\covolFs}{\lambda}
+\providecommand{\covolCyc}{\operatorname{I}}
+\providecommand{\covolVt}{\operatorname{vt}}
+\providecommand{\covolPt}{\mathfrak{p}}
+\providecommand{\covolRel}{\operatorname{Rel}}
+\providecommand{\covolLm}{\operatorname{e}}
+\providecommand{\covolCdeg}{\operatorname{deg}_{\mathrm{Ch}}}
+\providecommand{\covolHar}{\mathrm{H}}
+\providecommand{\covolSmall}{\mathcal{S}}
+\providecommand{\covolGen}{\operatorname{gv}}
+\providecommand{\covolImDeg}{\delta_{\mathrm{im}}}
+\providecommand{\covolImHt}{h_{\mathrm{im}}}
+
+This section proves \cref{thm:covol} and \cref{thm:covolume:assembly}. The formal proof of
+\cref{thm:covol} is an assembly: it applies the lift estimates (\cref{thm:covolume:lift}) to the
+mean-slope statement $\sfname{DeepStR}$ (\cref{thm:deepstr}) and to four packages of hypotheses, which
+it builds from the fifteen inputs of \cref{tab:covolume:inputs} and from four results proved in this
+section. These four results carry the mathematical content of the section.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{The Chow height formula} (\cref{pf:covol:thm:chowformheight}). Let $X$ be an arithmetic
+  variety over the integers $\OO_K$ of a number field, embedded in projective space by sections
+  $s_1,\dots,s_m$ of a line bundle, and give the line bundle the Fubini--Study metrics attached to
+  Hermitian norms on $\C^m$. Then its arithmetic self-intersection is $[K:\Q]$ times the height of a
+  Chow form of $X_K$, measured by Gauss norms at the finite places and by Mahler measures on products
+  of spheres at the infinite places, plus an explicit harmonic correction. This is the comparison of
+  heights of varieties and heights of Chow forms of Philippon and Soul\'e
+  \cite{Philippon1991,Soule1991}, see also \cite[\S4.3]{BostGilletSoule1994}; the development proves
+  it from the axioms of arithmetic heights by induction on the dimension, and we give this induction in
+  full (\cref{pf:covol:thm:main}).
+\item \emph{The Chow form height comparison} (\cref{pf:covol:thm:comparison}, the second root of this
+  section). For a Hermitian lattice $W$, a linear map $\mathrm{ev}$ from $KW$ to a field whose ratios
+  generate it, and a normal model $(X,\overline L)$ of the image of $\mathrm{ev}$ on which the sections
+  of $W$ carry the Fubini--Study metric of the lattice, the arithmetic self-intersection of
+  $\overline L(t)$ equals $[K:\Q](D+1)\,\delta\,(h+t)$, where $D$, $\delta$ and $h$ are the dimension,
+  the degree and the normalised Chow height of the image. The formal statement is the corresponding
+  inequality.
+\item \emph{Injectivity of small forms} (\cref{pf:covol:thm:small}). On a good deep cover, small cusp
+  forms of weight $8i\cdot u$ give distinct small sections of $\overline L(t)^{\otimes 8i}$ on any such
+  model.
+\item \emph{Non-vanishing at interior points} (\cref{pf:covol:thm:nv}). At every complex point of a
+  unitary moduli space and for every dominant weight $a$ there are a dominant weight $a'$ and
+  algebraic automorphic forms of weights $a'$ and $a+a'$ which do not vanish at the point.
+\end{enumerate}
+The second result is the \emph{self-intersection hypothesis} of the lift estimates, and the third,
+applied with the fourth, is their \emph{small-sections hypothesis} (\cref{pf:covol:def:packages}); the lift
+estimates use them to compare numbers of small automorphic forms with arithmetic volumes.
+
+\Cref{sec:pf:covol:heights} recalls the formal notions of arithmetic heights and Chow heights.
+\Cref{sec:pf:covol:chowht} proves the Chow height formula, \cref{sec:pf:covol:comparison} the Chow form
+height comparison, \cref{sec:pf:covol:small} the injectivity of small forms and \cref{sec:pf:covol:nv}
+the non-vanishing statement. \Cref{sec:pf:covol:literature} collects the statements from the literature
+used by the assembly, \cref{sec:pf:covol:assembly} proves \cref{thm:covolume:assembly} and
+\cref{sec:pf:covol:main} proves \cref{thm:covol}; \cref{sec:pf:covol:further} proves further results of the
+development used in other sections of Part~II. Many auxiliary statements of the formal proof are
+classical facts about Chow forms, $\mathrm{Proj}$ and Mahler measures; we state them precisely and give
+references to the literature together with the formal statements which prove them.
+
+Throughout, $K$ is a number field, $\Sigma_K$ is the set of its $[K:\Q]$ embeddings $\sigma\colon K\to\C$,
+and for a maximal ideal $\mathfrak q$ of $\OO_K$ we write $|\cdot|_{\mathfrak q}$ for the absolute value
+with $|a|_{\mathfrak q}=\Nm(\mathfrak q)^{-\ord_{\mathfrak q}(a)}$. For a polynomial $f$ over $K$,
+$|f|_{\mathfrak q}$ is the maximum of $|c|_{\mathfrak q}$ over the coefficients $c$ of $f$ (the Gauss
+norm). $\covolHar_n=\sum_{i=1}^n\frac1i$ is the $n$-th harmonic number ($\covolHar_0=0$). We write
+$\mathcal P$ for the Hodge package of \cref{tab:covolume:inputs}. Among its statements are three facts
+of arithmetic intersection theory used below: the \emph{existence of arithmetic height functions} for
+all Hermitian line bundles on arithmetic varieties (\cref{pf:covol:def:height}), the \emph{projection
+formula} (if a morphism of arithmetic varieties of the same dimension maps the generic point to the
+generic point with residue degree $r\ne0$, the pull-back of a Hermitian line bundle with
+self-intersection $a$ has self-intersection $ra$); and it implies the formula for Fubini--Study heights of
+subvarieties of projective space recalled in \cref{pf:covol:lit:fs}.
+
+% ---------------------------------------------------------------------------
+\subsection{Arithmetic heights and Chow heights}\label{sec:pf:covol:heights}
+
+\begin{definition}[Arithmetic varieties and Hermitian line bundles]\label{pf:covol:def:hermlb}
+Let $R$ be a commutative ring. A morphism $p\colon X\to\Spec R$ is an \emph{arithmetic variety of
+relative dimension $D$} if $R$ is a domain which is finite over $\Z$, $X$ is integral, $p$ is
+projective, $X$ is flat over $\Z$ and $\dim X=D+1$. A \emph{Hermitian line bundle} $\overline L$ on
+$X$ is a line bundle $L$, given by trivialisations over an open cover $(U_i)$ with transition functions
+$g_{ij}$, together with, for every ring homomorphism $\sigma\colon R\to\C$, smooth functions
+$\varphi_{\sigma,i}$ (the \emph{weights}) on the complex points of $U_i$ over $\sigma$, such that
+$\varphi_{\sigma,j}=\varphi_{\sigma,i}-\log|g_{ij}|^2$ and the weights at $\sigma$ and $\bar\sigma$
+correspond under complex conjugation. The norm of a section $s$ with local components $s_i$ at a complex
+point $y$ is $\|s(y)\|^2=|s_i(y)|^2e^{-\varphi_{\sigma,i}(y)}$. For $t\in\R$, $\overline L(t)$ is
+$\overline L$ with the weights $\varphi_{\sigma,i}+2t$ (norms multiplied by $e^{-t}$), and
+$\overline L^{\otimes m}$ has the weights $m\varphi_{\sigma,i}$. A global section $s$ is \emph{small} if
+$\|s(y)\|\le1$ at all complex points $y$ over all $\sigma$.
+\formal{GlobalTheory.IsArithVar}\formal{GlobalTheory.HermLB}\formal{GlobalTheory.HermLB.smallSec}
+\end{definition}
+
+\begin{definition}[Arithmetic heights and self-intersections]\label{pf:covol:def:height}
+Let $p\colon X\to\Spec R$ be an arithmetic variety and $\overline L$ a Hermitian line bundle on $X$.
+Every point of $X$ is the generic point $\eta_Z$ of a unique integral closed subscheme $Z$. A function
+$h\colon X\to\R$ is an \emph{arithmetic height function} for $\overline L$ if for every integral closed
+subscheme $Z\subseteq X$:
+\begin{enumerate}[label=(\Alph*)]
+\item[(V)] if $\Gamma(Z,\OO_Z)$ is an algebra over a finite field $\kappa$ and $\dim Z=d$, then
+  $h(\eta_Z)=\deg_\kappa\bigl(c_1(L|_Z)^d\bigr)\log\#\kappa$, where $\deg_\kappa(c_1(L|_Z)^d)$ is the
+  top intersection number of $L|_Z$ over $\kappa$;
+\item[(P)] if $\Gamma(Z,\OO_Z)$ has characteristic $0$ and $\dim Z=1$, then for every rational section
+  $r$ of $L|_Z$
+  \[
+  h(\eta_Z)=\sum_{z}\ord_z(r)\log\#\kappa(z)-\sum_{\sigma}\sum_{y\in Z_\sigma(\C)}\log\|r(y)\|;
+  \]
+\item[(R)] if $\Gamma(Z,\OO_Z)$ has characteristic $0$ and $\dim Z=e+1\ge2$, then for every $m\ge0$
+  and every rational section $r$ of $L^{\otimes m}|_Z$ the function $\log\|r\|$ is integrable for the
+  Chern measures $c_1(\overline L|_Z)^{e}$ on the sets $Z_\sigma(\C)\smallsetminus|\mathrm{div}(r)|$, and
+  \begin{equation}\label{pf:covol:eq:recursion}
+  m\,h(\eta_Z)=\sum_z\ord_z(r)\,h(z)-\sum_\sigma\int_{Z_\sigma(\C)\smallsetminus|\mathrm{div}(r)|}
+  \log\|r\|\,c_1(\overline L|_Z)^{e}.
+  \end{equation}
+\end{enumerate}
+Here $z$ runs over the points of codimension one of $Z$ and $\ord_z(r)$ is the order of the Cartier
+divisor of $r$ at $z$. We say that $\overline L$ \emph{has self-intersection $a$} if there is an
+arithmetic height function $h$ with $h(\eta_X)=a$.
+\formallabel{GlobalTheory.HermLB.IsArithHeight}\formal{GlobalTheory.HermLB.IsSelfInter}
+\end{definition}
+
+The axioms (P) and (R) are the inductive formula of Bost, Gillet and Soul\'e for heights of cycles
+\cite[\S3]{BostGilletSoule1994}, and (V) computes the height of a cycle in a fibre at a finite
+prime. The existence of arithmetic height functions for all Hermitian line bundles on arithmetic
+varieties is part of the Hodge package $\mathcal P$; it is the existence of the heights of
+\cite{GilletSoule1990,BostGilletSoule1994}. Uniqueness is formal:
+
+\begin{lemma}[Uniqueness of heights]\label{pf:covol:lem:unique}
+Two arithmetic height functions for the same Hermitian line bundle on an arithmetic variety coincide.
+In particular a Hermitian line bundle has at most one self-intersection number, and isometric Hermitian
+line bundles have the same arithmetic height functions.
+\formallabel{GlobalTheory.HermLB.IsArithHeight.unique}
+\end{lemma}
+
+\begin{proof}
+Let $h,h'$ be arithmetic height functions. $X$ is Noetherian, so we may argue by Noetherian induction on
+the closure of a point $x=\eta_Z$. Every integral closed $Z$ is either of positive characteristic $\ell$,
+in which case $\Gamma(Z,\OO_Z)$ is an algebra over $\F_\ell$ and (V) gives the same value for $h$ and $h'$;
+or $\Gamma(Z,\OO_Z)$ has characteristic $0$ and $\dim Z=1$, in which case (P) gives the same value;
+or $\Gamma(Z,\OO_Z)$ has characteristic $0$ and $\dim Z=e+1\ge2$. In the last case choose a rational
+section $r$ of $L|_Z$ and apply (R) with $m=1$: the right-hand side involves only the values at points
+$z$ with $\ord_z(r)\ne0$, whose closures are strictly smaller than $Z$, and the same archimedean
+integral. The last assertion holds because the axioms involve the metrics only through the norms
+$\|r\|$.
+\end{proof}
+
+\begin{definition}[Embeddings by sections; point ideals; Fubini--Study metrics]\label{pf:covol:def:emb}
+Let $p\colon Z\to\Spec R$, $B$ a line bundle on $Z$ and $s_1,\dots,s_m\in\Gamma(Z,B)$.
+\begin{enumerate}[label=(\alph*)]
+\item The sections \emph{embed} $Z$ if they have no common zero, every non-vanishing locus $D(s_k)$ is
+  affine, and $\Gamma(D(s_k),\OO_Z)$ is generated as an $R$-algebra by the ratios $s_j/s_k$. (Then the
+  $s_k$ define a closed immersion of $Z$ into $\mathbb P^{m-1}_R$ under which $B$ is the restriction of
+  $\OO(1)$.)
+\item The \emph{point ideal} $\covolPt(z)\subseteq R[X_1,\dots,X_m]$ of $z\in Z$ is the kernel of the
+  homomorphism $R[X_1,\dots,X_m]\to\kappa(z)[T]$, $X_k\mapsto T\,s_k(z)$, where $s_k(z)$ is the value of
+  $s_k$ at $z$ in a trivialisation of $B$ near $z$; it does not depend on the trivialisation. If
+  $R=\OO_K$ and $Z$ is integral, the \emph{generic ideal} of $Z$ is $I_Z=\covolPt(\eta_Z)\otimes K
+  \subseteq K[X_1,\dots,X_m]$. For $u\in R^m$ we write $s_u=\sum_ku_ks_k$ and
+  $\ell_u=\sum_ku_kX_k$.
+\item Let $R=\OO_K$. A \emph{Hermitian norm} on $\C^m$ is given by an invertible matrix $M$; its norm
+  is $|x|_M=|Mx|$ and its dual norm is $|y|^*_M=|(M^{\mathsf T})^{-1}y|$, where $|\cdot|$ is the
+  standard Euclidean norm. A weight $\varphi$ on $B$ at $\sigma$ is the \emph{Fubini--Study weight of
+  $(s,M)$} if $\varphi_i(y)=\log\bigl(|(s_1(y),\dots,s_m(y))|^*_M\bigr)^2$ in every trivialisation $i$,
+  so that $\|s_u(y)\|=|\ell_{\sigma u}(s(y))|/|s(y)|^*_M$.
+\end{enumerate}
+\formallabel{ChowFormHeightComparison₂.CF.Emb}\formallabel{ChowFormHeightComparison₂.CF.ptIdeal}%
+\formallabel{ChowFormHeightComparison₂.CF.IsFS}
+\end{definition}
+
+\begin{definition}[Chow forms]\label{pf:covol:def:chow}
+Let $F$ be a field and $n,k\in\N$. Polynomials in $k$ blocks of $n$ variables $u=(u_{i,j})_{i<k,j<n}$
+are written $f(u_0,\dots,u_{k-1})$; $f$ is \emph{multihomogeneous of degree $\delta$} if it is
+homogeneous of degree $\delta$ in each block. For $u\in F^n$, $f(u,\cdot)$ is the polynomial in $k-1$
+blocks obtained by substituting $u$ for the first block. A \emph{projective prime} is a homogeneous prime
+ideal $I\subseteq F[X_1,\dots,X_n]$ not containing all the $X_j$.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{incidence set} of an ideal $I$ is the set of $u\in\overline F^{k\times n}$ for which
+  there is $x\ne0$ in $\overline F^n$ with $g(x)=0$ for all $g\in I$ and $\sum_ju_{i,j}x_j=0$ for all
+  $i$. A \emph{Chow form} of $I$ in $k$ blocks is a nonzero $f$ such that a polynomial $g$ vanishes on
+  the incidence set if and only if $f$ divides $g$. The \emph{Chow degree} $\covolCdeg(I,k)$ is the least
+  $\delta$ for which $I$ has a multihomogeneous Chow form of degree $\delta$ in $k$ blocks.
+\item An \emph{integral Chow form} of $I$ of dimension $e$ and degree $\delta$ is an irreducible
+  polynomial $f$ in $e+1$ blocks, multihomogeneous of degree $\delta$, whose zero set in
+  $\overline F^{(e+1)\times n}$ is the incidence set of $I$.
+\item For an ideal $J$ in a Noetherian polynomial ring, $\covolRel(J)$ is the set of minimal primes of
+  $J$ not containing all $X_j$, and the \emph{fundamental cycle} of $J$ is
+  $[J]=\sum_{W\in\covolRel(J)}\covolLm(J,W)\,W$, where $\covolLm(J,W)$ is the length of the
+  localisation at $W$ of the quotient by $J$. A \emph{Chow form of a cycle} $\sum_Wm_WW$ of projective
+  primes in $k$ blocks is a polynomial $c\prod_Wg_W^{m_W}$ with $c\in F^\times$ and $g_W$ a Chow form of
+  $W$ in $k$ blocks.
+\end{enumerate}
+\formallabel{GlobalTheory.ChowHt.IsChowFormInt}\formal{GroundTheory.Heights₂.Heights.IsChowForm}
+\end{definition}
+
+An integral Chow form of a projective prime of dimension $e+1$ (Krull dimension of the quotient) is
+a Chow form in $e+1$ blocks: its zero set is the incidence hypersurface, and it is irreducible, so the
+Nullstellensatz applies. These are the classical Chow forms (associated forms) of Chow and van der
+Waerden \cite{ChowVanDerWaerden1937}; their existence and uniqueness up to scalars is recalled in
+\cref{pf:covol:lit:chowint}.
+
+\begin{proposition}[Degrees of integral Chow forms]\label{pf:covol:prop:hilbdeg}
+Let $k$ be a field of characteristic $0$, $P\subseteq k[X_1,\dots,X_N]$ a homogeneous prime and $f$ an
+integral Chow form of $P$ of dimension $D$ and degree $\delta$. Then $\delta$ is the degree of $P$, that is,
+the Hilbert polynomial $H_P$ of $k[X]/P$ has degree $D$ and $\delta=D!\,a_D$, where $a_D$ is its leading
+coefficient.
+\formallabel{GlobalTheory.ChowExists.degree_eq_hilbertDegree}
+\end{proposition}
+
+\begin{proof}
+The quotient $k[X]/P$ has dimension $D+1$ (\lref{GlobalTheory.ChowExists.ringKrullDim_of_isChowFormInt},
+which derives this from the incidence description of the zero set of $f$), so $H_P$ has degree $D$ and the
+degree of $P$ is $D!$ times its coefficient of degree $D$
+(\lref{GlobalTheory.degree_idealHilbertPoly_eq_of_isPrime},
+\lref{GlobalTheory.cast_hilbertDegree_of_degree_eq}; \cite[Thm.~I.7.5]{Hartshorne1977}). We prove
+$\delta=D!\,a_D(H_P)$, where $a_D(H)$ denotes the coefficient of degree $D$, by induction on $D$, for all
+fields of characteristic $0$ simultaneously.
+
+\emph{$D=0$.} The zero set of $P$ is a single line: there are $y\in\bar k^N$ and $j$ with $y_j=1$ such that
+$P$ is the ideal of polynomials vanishing at $y$ (\lref{GlobalTheory.ChowExists.exists_eq_coneIdeal}).
+Then $H_P$ is the constant $[k(y):k]$, where $k(y)$ is generated by the coordinates of $y$
+(\lref{GlobalTheory.CompHt.idealHilbertPoly_coneIdeal_eq_C_finrank_adjoin}), and the degree of an
+integral Chow form of $P$ in one block is $[k(y):k]$: up to a scalar it is the product of the linear forms
+$\ell_u(y')$ over the conjugates $y'$ of $y$ (\lref{GlobalTheory.CompHt.PointUp.le_finrank_of_isChowFormInt},
+\lref{GlobalTheory.CompHt.PointLow.finrank_le_of_isChowFormInt}).
+
+\emph{$D\to D+1$.} Let $L=k(T_1,\dots,T_N)$ be a rational function field and $\ell_T=\sum_jT_jX_j$ the generic
+linear form; let $P_L=PL[X]$. Then:
+(a) $H_{P_L}=H_P$, as the graded pieces of $k[X]/P$ and $L[X]/P_L$ have the same dimensions
+(\lref{GlobalTheory.HilbBaseChange.idealHilbertPoly_map});
+(b) $P_L$ is prime and $\ell_T\notin P_L$ (\lref{GlobalTheory.ExtPrime.isPrime_map_and_generic_form_notMem};
+some $X_j$ is not in $P$, since $f$ is a Chow form);
+(c) there is a prime $Q\supseteq P_L+(\ell_T)$ which is the saturation of $P_L+(\ell_T)$ with respect to the
+variables, i.e. for every $g\in Q$ and every $j$ some $X_j^mg$ lies in $P_L+(\ell_T)$
+(\lref{GlobalTheory.Chow.exists_prime_saturation_generic_section}; its hypothesis, that for every $u$ the
+zero set of $P$ meets the hyperplane $\ell_u=0$ outside $0$, holds because $f$ vanishes whenever one block
+is $0$ and its zero set is the incidence set);
+(d) the generic specialisation of $f$ gives an integral Chow form $f'$ of $P_L+(\ell_T)$, hence of $Q$, of
+dimension $D$ and degree $\delta$ (\lref{GlobalTheory.ChowSpec.exists_isChowFormInt_generic_section};
+the passage to $Q$ uses that $Q$ and $P_L+(\ell_T)$ have the same zeros outside $0$, by the saturation
+property);
+(e) $Q$ is homogeneous and $H_Q=H_{P_L+(\ell_T)}$
+(\lref{GlobalTheory.prime_saturation_homogeneous_and_hilbertPoly_eq});
+(f) $H_{P+(\ell)}(t)=H_P(t)-H_P(t-1)$ for a homogeneous prime $P$ and a linear form $\ell\notin P$, by the
+exact sequence $0\to(k[X]/P)(-1)\xrightarrow{\ell}k[X]/P\to k[X]/(P+(\ell))\to0$
+(\lref{GlobalTheory.idealHilbertPoly_sup_of_isPrime}).
+If $\deg H\le D+1$, the coefficient of degree $D$ of $H(t)-H(t-1)$ is $(D+1)\,a_{D+1}(H)$. By the induction
+hypothesis for $L$, $Q$ and $f'$, and since $\deg H_P=D+1$,
+\[
+\delta=D!\,a_D(H_Q)=D!\,a_D\bigl(H_P(t)-H_P(t-1)\bigr)=D!\,(D+1)\,a_{D+1}(H_P)=(D+1)!\,a_{D+1}(H_P).\qedhere
+\]
+\end{proof}
+
+\begin{definition}[Mahler measures, cone integrals and Chow heights]\label{pf:covol:def:chowht}
+Let $M$ define a Hermitian norm on $\C^n$ and $k\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{Mahler measure} of a polynomial $f$ in $k$ blocks of $n$ variables over $\C$ is
+  \[
+  \covolMah_M(f)=\int\log|f(z_0,\dots,z_{k-1})|\,d\mu(z),
+  \]
+  where $\mu$ is the product of the normalised uniform measures on the $M$-unit spheres
+  $\{|z_i|_M=1\}$. (Formally, it is the average over the product of the unit balls of
+  $\log|f(z_0/|z_0|_M,\dots)|$, which is the same.)
+\item For $u\in\C^n$, $\covolFs_M(u;y)=\log\bigl(|\ell_u(y)|/|y|^*_M\bigr)$.
+\item For a homogeneous ideal $W\subseteq\C[X_1,\dots,X_n]$, $e\in\N$ and a function $g$ on $\C^n$,
+  the \emph{cone integral} $\covolCyc_M(W,e,g)$ is the integral of $g(M^{\mathsf T}y)$ over the set of
+  $y$ with $|y|<1$ and $M^{\mathsf T}y$ in the zero set of $W$, for the $2(e+1)$-dimensional Hausdorff
+  measure, divided by the volume of the unit ball of $\C^{e+1}$. For a cycle $\sum m_WW$,
+  $\covolCyc_M(\sum m_WW,e,g)=\sum m_W\covolCyc_M(W,e,g)$.
+\item \emph{Archimedean data} $H=(M_\sigma)_{\sigma\in\Sigma_K}$ on $\C^n$ consist of Hermitian norms
+  with $|\bar u|_{M_{\bar\sigma}}=|u|_{M_\sigma}$. The \emph{Chow height} of a polynomial $f$ over $K$
+  in $k$ blocks of $n$ variables, for the degree $\delta$, is
+  \begin{equation}\label{pf:covol:eq:chowht}
+  \covolHch^H(k,\delta,f)=\frac1{[K:\Q]}\Bigl(\sum_{\mathfrak q}\log|f|_{\mathfrak q}+
+  \sum_{\sigma\in\Sigma_K}\Bigl(\covolMah_{M_\sigma}(\sigma f)+\frac{k\,\delta\,\covolHar_{n-1}}2\Bigr)\Bigr).
+  \end{equation}
+\item For a projective prime $I\subseteq K[X_1,\dots,X_n]$, $u\in\OO_K^n$, $k\in\N$ and a maximal ideal
+  $\mathfrak q$, let $\mathcal I=I\cap\OO_K[X]$, let $\mathcal V_{\mathfrak q}$ be the set of
+  $W\in\covolRel(\mathcal I+(\ell_u))$ with $W\cap\OO_K=\mathfrak q$, and
+  \[
+  \covolVt_{\mathfrak q}(I,k,u)=\sum_{W\in\mathcal V_{\mathfrak q}}\covolLm\bigl(\mathcal I+(\ell_u),W\bigr)\,
+  \covolCdeg(W\bmod\mathfrak q,k)\log\Nm(\mathfrak q),
+  \]
+  where $W\bmod\mathfrak q$ is the image of $W$ in $(\OO_K/\mathfrak q)[X]$, and
+  $\covolVt(I,k,u)=\sum_{\mathfrak q}\covolVt_{\mathfrak q}(I,k,u)$.
+\end{enumerate}
+\formallabel{GroundTheory.Heights₂.Heights.mahler}\formallabel{GroundTheory.Heights₂.Heights.cycleIntegral}%
+\formallabel{GroundTheory.Heights₂.Heights.chowHt}\formallabel{GroundTheory.Heights₂.Heights.vertTerm}
+\end{definition}
+
+For the standard norm and a unit vector $p\in\C^n$ one has $\covolMah_1(\ell_p)=-\frac12\covolHar_{n-1}$:
+by unitary invariance we may take $p=(1,0,\dots,0)$, and $|z_1|^2$ has the beta distribution with
+parameters $(1,n-1)$ on the unit sphere, so its mean logarithm is $\psi(1)-\psi(n)=-\covolHar_{n-1}$, where
+$\psi$ is the digamma function. Hence for a point $x\in\mathbb P^{n-1}(K)$, whose Chow form in one block is
+$\ell_x$, the Chow height for the standard norms is the Weil height
+$\frac1{[K:\Q]}\bigl(\sum_{\mathfrak q}\log|x|_{\mathfrak q}+\sum_\sigma\log|\sigma x|\bigr)$ with $L^2$ norms
+at the infinite places. In general the harmonic correction makes $\covolHch$ the height of the variety for
+the Fubini--Study metric; see \cref{pf:covol:rem:classical}.
+
+The second normalisation of the same quantity used in the development is the following.
+
+\begin{definition}[Form heights]\label{pf:covol:def:formht}
+Let $w\in K^{N\times n}$, let $A=(A_\sigma)_{\sigma\in\Sigma_K}$ be invertible complex $N\times N$
+matrices, and let $f$ be a polynomial over $K$ in $B$ blocks of $N$ variables. Write
+$f\circ w$ for the polynomial in $B$ blocks of $n$ variables $f(wu_0',\dots,wu_{B-1}')$. The
+\emph{form height} of $f$ for the degree $\delta$ is
+\[
+\covolHform(\delta,w,A,f)=\frac1{[K:\Q]}\Bigl(\sum_{\mathfrak q}\log|f\circ w|_{\mathfrak q}+
+\sum_{\sigma}\Bigl(\covolMah^{A_\sigma}(\sigma f)+\frac{B\,\delta\,\covolHar_{N-1}}2\Bigr)\Bigr),
+\]
+where $\covolMah^{A_\sigma}(\sigma f)=\int\log|\sigma f(A_\sigma z_0,\dots,A_\sigma z_{B-1})|\,d\mu(z)$ and
+$\mu$ is the product of the uniform probability measures on the unit spheres of $\C^N$. The frames
+$A$ are \emph{conjugation compatible} if $|A_{\bar\sigma}^{-1}\bar x|=|A_\sigma^{-1}x|$ for all
+$\sigma$ and $x$.
+\formallabel{GlobalTheory.ChowHt.formHeight}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{The Chow height formula}\label{sec:pf:covol:chowht}
+
+We first list the auxiliary statements used in the proof. The first lemma collects facts about
+embeddings by sections; they are standard properties of $\mathrm{Proj}$ and of Cartier divisors
+(\cite[Ch.~II]{Hartshorne1977}, \cite[Ch.~1--2]{Fulton1998}).
+
+\begin{lemma}[Embedded arithmetic varieties]\label{pf:covol:lem:emb}
+Let $R$ be a commutative ring, $p\colon Z\to\Spec R$ with $Z$ integral, and let $s_1,\dots,s_m$ embed $Z$.
+\begin{enumerate}[label=(\alph*)]
+\item Every $\covolPt(z)$ is a projective prime; $z$ specialises to $z'$ if and only if
+  $\covolPt(z)\subseteq\covolPt(z')$; every projective prime containing $\covolPt(\eta_Z)$ is
+  $\covolPt(z)$ for some $z$; and if $u\in R^m$, then $z\in D(s_u)$ if and only if
+  $\ell_u\notin\covolPt(z)$. In particular $z\mapsto\covolPt(z)$ is injective.
+\item If $i\colon Y\to Z$ is a closed immersion, the restricted sections embed $Y$ and
+  $\covolPt_Y(y)=\covolPt_Z(i(y))$.
+\item If $R$ is Noetherian, $Z$ locally Noetherian, $u\in R^m$ and $\eta_Z\in D(s_u)$, then
+  $\ord_z(s_u)\ne0$ if and only if $\covolPt(z)\in\covolRel(\covolPt(\eta_Z)+(\ell_u))$, and then
+  $\ord_z(s_u)=\covolLm(\covolPt(\eta_Z)+(\ell_u),\covolPt(z))$.
+\item If $Y$ is an arithmetic variety of relative dimension $D$ and $Z\subseteq Y$ is an integral closed
+  subscheme whose generic point has codimension one in $Y$, then $\dim Z=D$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a)--(d) are \lref{ChowFormHeightComparison₂.CF.stPts}, \lref{ChowFormHeightComparison₂.CF.stPull},
+\lref{ChowFormHeightComparison₂.CF.stDiv} and \lref{ChowFormHeightComparison₂.CF.stDim}. By (a)
+and (b), the embedding identifies $Z$ with a closed subscheme of $\mathbb P^{m-1}_R$ and $\covolPt(z)$ with
+the homogeneous ideal of the closure of $z$, which gives (a) by the correspondence between points of
+$\mathrm{Proj}$ and relevant homogeneous primes; (c) is the computation of the order of a Cartier divisor
+on a Noetherian integral scheme as a length, transported to the homogeneous coordinate ring; (d) is the
+dimension formula for integral schemes of finite type and flat over a Dedekind domain.
+\end{proof}
+
+The second lemma collects facts about Chow forms. Parts (a), (b), (c) and (e) are classical properties of
+Chow forms (\cite{ChowVanDerWaerden1937}, \cite[\S1]{Philippon1986}); (d) is the Nullstellensatz; (f) is
+Gauss's lemma together with the additivity of $\log|fg|=\log|f|+\log|g|$.
+
+\begin{lemma}[Chow forms and Mahler measures]\label{pf:covol:lem:chowcalc}
+Let $F$ be a field and $I\subseteq F[X_1,\dots,X_n]$ a projective prime.
+\begin{enumerate}[label=(\alph*)]
+\item If $F$ has characteristic $0$, $f$ is a Chow form of $I$ in $e+1$ blocks and $u\in F^n$ with
+  $\ell_u\notin I$, then $f(u,\cdot)$ is a Chow form of the cycle $[I+(\ell_u)]$ in $e$ blocks.
+\item If $F=K$, $f$ is a Chow form of $I$ in $k$ blocks and $\sigma\in\Sigma_K$, then every
+  component of $[\sigma I]$ is a projective prime and $\sigma f$ is a Chow form of $[\sigma I]$.
+\item If $F=K$, $\ell_u\notin I$ and $\sigma\in\Sigma_K$, then $\ell_{\sigma u}$ lies in no component of
+  $[\sigma I]$.
+\item $I$ has a zero $x\ne0$ in $\overline F^n$. Consequently $I$ has no Chow form in $0$ blocks.
+\item A divisor of a multihomogeneous polynomial is multihomogeneous.
+\item For nonzero $f_1,f_2$ over $K$ in $k$ blocks and any archimedean data $H$,
+  $\covolHch^H(k,\delta_1+\delta_2,f_1f_2)=\covolHch^H(k,\delta_1,f_1)+\covolHch^H(k,\delta_2,f_2)$;
+  and for a nonzero constant $c$, $\covolHch^H(k,\delta,c)=\frac{k\delta}2\covolHar_{n-1}$, which vanishes
+  if $k=0$ or $\delta=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) is \lref{GroundTheory.Heights₂.Heights.ChowFormSection.full}, (b) is
+\lref{GroundTheory.Heights₂.Heights.ChowFormBaseChange.full} (the ideal generated by $\sigma(I)$ is
+radical because $K$ is perfect, $\sigma f$ is a Chow form of it, and a Chow form of a radical homogeneous
+ideal is a Chow form of its fundamental cycle, all multiplicities being $1$), (c) is
+\lref{GroundTheory.Heights₂.Heights.BaseChangeAvoid.full}, (d) is
+\lref{GroundTheory.Heights₂.Heights.ProjPrimeHasPoint.full} and the first assertion of (f) is
+\lref{GroundTheory.Heights₂.Heights.ChowHeightMul.full}. In (c), the minimal primes of
+$\sigma(I)\C[X]$ contract to minimal primes of $I$, that is to $I$, since $\C[X]$ is flat over $K[X]$;
+so $\ell_{\sigma u}\in W$ would give $\ell_u\in I$. In (d), the zero exists by the Nullstellensatz because
+$I$ is homogeneous and does not contain all $X_j$; with $0$ blocks the incidence set is then the whole
+(one-point) space, so a Chow form $f$ would be a nonzero constant which divides $1$ although $1$ does not
+vanish on the incidence set. (e) is elementary. In (f), the Gauss norms are multiplicative (Gauss's lemma)
+and $\covolMah_M(f_1f_2)=\covolMah_M(f_1)+\covolMah_M(f_2)$ because $\log|f|$ is integrable on products of
+spheres for $f\ne0$; the harmonic terms are additive in $\delta$; for a constant the non-harmonic part is
+$\frac1{[K:\Q]}(\sum_{\mathfrak q}\log|c|_{\mathfrak q}+\sum_\sigma\log|\sigma c|)=0$ by the product
+formula.
+\end{proof}
+
+The four remaining ingredients are proved in full in the rest of this subsection, before the induction:
+\cref{pf:covol:prop:vert} computes the self-intersection of a vertical subvariety,
+\cref{pf:covol:prop:arch} identifies the archimedean integrals with cone integrals (Wirtinger's theorem,
+\cite{GriffithsHarris1978}),
+and \cref{pf:covol:prop:csv,pf:covol:prop:mahler} compare the Gauss norms and the Mahler measures of a Chow
+form with those of its specialisation at a linear form. The last two are the non-archimedean and the
+archimedean halves of the comparison of Philippon and Soul\'e between heights of varieties and heights of
+Chow forms \cite{Philippon1991,Soule1991}, \cite[\S4.3]{BostGilletSoule1994}.
+
+\subsubsection*{Vertical subvarieties}
+For a scheme $X$ proper over a field $\kappa$, a coherent sheaf $\mathcal F$ on $X$ and line bundles
+$L_1,\dots,L_d$, the intersection number is
+$(L_1\cdots L_d\cdot\mathcal F)=\sum_{S\subseteq\{1,\dots,d\}}(-1)^{|S|}\chi_\kappa\bigl(\mathcal F\otimes
+\bigotimes_{j\in S}L_j^{-1}\bigr)$ (Snapper's definition, \cite[Ch.~18]{Fulton1998}); the top
+self-intersection $\deg_\kappa(c_1(L)^d)$ of \cref{pf:covol:def:height} is $(L\cdots L\cdot\OO_X)$ with $d$
+factors. We use two facts about Chow degrees over a perfect field $\kappa$, both classical
+(\cite{ChowVanDerWaerden1937}, \cite[\S1]{Philippon1986}):
+\begin{enumerate}[label=(\roman*)]
+\item if $I\subseteq\kappa[X_1,\dots,X_m]$ is a projective prime with $\dim\kappa[X]/I=1$ and
+  $X_k\notin I$, then $\covolCdeg(I,1)=\dim_\kappa\kappa[X]/(I+(X_k-1))$
+  (\lref{GlobalTheory.CompanionTheory.Ar.Short.ChowClosing.Auto.ObjectsChow_ChowDegreeClosedPoint});
+\item if $I$ is a projective prime with $\dim\kappa[X]/I=e+2$ and $\ell_u\notin I$, then every
+  $W\in\covolRel(I+(\ell_u))$ is a projective prime with $\dim\kappa[X]/W=e+1$
+  (\lref{GroundTheory.Heights₂.Heights.ConeDimComponent.proof_closed}), and
+  $\covolCdeg(I,e+2)=\sum_{W\in\covolRel(I+(\ell_u))}\covolLm(I+(\ell_u),W)\,\covolCdeg(W,e+1)$
+  (\lref{ChowFormHeightComparison₂.CF.V.chowDegreeSection}): the degree of a variety is the degree
+  of a hyperplane section counted with multiplicities.
+\end{enumerate}
+
+\begin{lemma}[Degrees over a field]\label{pf:covol:lem:fieldcase}
+Let $\kappa$ be a perfect field, $Z$ an integral scheme, projective over $\kappa$, embedded over $\kappa$ by
+sections $s_1,\dots,s_m$ of a line bundle $B$, and $J=\covolPt(\eta_Z)\subseteq\kappa[X_1,\dots,X_m]$. If
+$\dim\kappa[X]/J=e+1$, then $\dim Z=e$ and $\deg_\kappa(c_1(B)^e)=\covolCdeg(J,e+1)$.
+\formallabel{ChowFormHeightComparison₂.CF.V.field_case}
+\end{lemma}
+
+\begin{proof}
+First, $\dim Z+1\le\dim\kappa[X]/J$ for every $Z$ as in the lemma: by \cref{pf:covol:lem:emb}(a), a
+strictly decreasing chain of irreducible closed subsets of $Z$, with generic points $z_0,\dots,z_r$, gives a
+strictly increasing chain of projective primes $\covolPt(z_0)\subsetneq\dots\subsetneq\covolPt(z_r)$
+containing $J$, and it can be prolonged by the prime $(X_1,\dots,X_m)$, which contains all $X_j$. We
+argue by induction on $e$. Since the sections have no common zero, there is $k$ with $\eta_Z\in D(s_k)$,
+so $X_k\notin J$ by \cref{pf:covol:lem:emb}(a).
+
+\emph{$e=0$.} Then $\dim Z\le0$, so $Z$ is a point and $Z=D(s_k)$ is affine with ring generated over
+$\kappa$ by the ratios $s_j/s_k$; this ring is $\kappa[X]/(J+(X_k-1))$, since the kernel of
+$X_j\mapsto s_j/s_k$ is $J+(X_k-1)$ (\lref{ChowFormHeightComparison₂.CF.V.finrank_eq_of_dim_zero}). On
+a zero-dimensional scheme the higher cohomology of $\OO_Z$ vanishes, so
+$\deg_\kappa(c_1(B)^0)=\chi_\kappa(\OO_Z)=\dim_\kappa\Gamma(Z,\OO_Z)=\covolCdeg(J,1)$ by (i).
+
+\emph{$e\to e+1$.} Let $u$ be the $k$-th unit vector, so that $s_u=s_k$ and $\ell_u=X_k$, and let $T$ be
+the finite set of points $z$ with $\ord_z(s_k)\ne0$. By \cref{pf:covol:lem:emb}(a),(c) and (ii),
+$z\mapsto\covolPt(z)$ is a bijection from $T$ onto $\covolRel(J+(X_k))$ with
+$\ord_z(s_k)=\covolLm(J+(X_k),\covolPt(z))$: every $W\in\covolRel(J+(X_k))$ is a projective prime
+containing $J$, hence equal to $\covolPt(z)$ for some $z$, and $\ord_z(s_k)\ne0$ by (c). For $z\in T$ the
+closure $Y_z$ of $z$ is embedded by the restricted sections with the same point ideals
+(\cref{pf:covol:lem:emb}(b)) and $\dim\kappa[X]/\covolPt(z)=e+1$ by (ii); by the induction hypothesis,
+$\dim Y_z=e$ and $\deg_\kappa(c_1(B|_{Y_z})^e)=\covolCdeg(\covolPt(z),e+1)$.
+
+Since $Z$ is integral and $s_k\ne0$ at $\eta_Z$, the section $s_k\colon B^{-1}\to\OO_Z$ is injective; let
+$\OO_D$ be its cokernel. Additivity of the Euler characteristic in the exact sequences
+$0\to B^{-1}\otimes N\to N\to\OO_D\otimes N\to0$ gives
+$(B^{e+1}\cdot\OO_Z)=(B^e\cdot\OO_Z)-(B^e\cdot B^{-1})=(B^e\cdot\OO_D)$. The support of $\OO_D$ is the zero
+set of $s_k$, and every point $z$ of it outside $T$ has a closure of dimension $<e$: by
+\cref{pf:covol:lem:emb}(a), $J+(X_k)\subseteq\covolPt(z)$, so $\covolPt(z)$ contains some
+$W\in\covolRel(J+(X_k))$, $W=\covolPt(z')$ with $z'\in T$, $z'\ne z$, and the closure of $z$ is a proper
+closed subset of $Y_{z'}$, of dimension $e$. For a coherent sheaf $\mathcal F$ whose support consists of
+the points of $T$ (with closures of dimension $e$) and of points with closures of dimension $<e$,
+\[
+(B^e\cdot\mathcal F)=\sum_{z\in T}\len_{\OO_{Z,z}}(\mathcal F_z)\,\deg_\kappa\bigl(c_1(B|_{Y_z})^e\bigr)
+\]
+(\lref{ChowFormHeightComparison₂.CF.V.interNum_eq_sum}, which proves this by d\'evissage of
+$\mathcal F$, the intersection number of $e$ line bundles with a sheaf supported in dimension $<e$
+being $0$). For $\mathcal F=\OO_D$, $\len(\OO_{D,z})=\ord_z(s_k)$ is the order of the Cartier divisor
+of $s_k$ at $z$ (\lref{ChowFormHeightComparison₂.CF.V.length_cut}). Hence, with (ii),
+\begin{multline*}
+\deg_\kappa(c_1(B)^{e+1})=\sum_{z\in T}\ord_z(s_k)\,\covolCdeg(\covolPt(z),e+1)\\
+=\sum_{W\in\covolRel(J+(X_k))}\covolLm(J+(X_k),W)\,\covolCdeg(W,e+1)=\covolCdeg(J,e+2).
+\end{multline*}
+Finally $\dim Z\le e+1$ by the first paragraph. Conversely, $J+(X_k)$ is contained in the prime
+$(X_1,\dots,X_m)$, hence in a minimal prime $W$ of $J+(X_k)$ contained in it; as $X_k\notin J$ and
+$\kappa[X]/J$ is a domain of dimension $e+2$, $\dim\kappa[X]/W=e+1\ge1$, so $W$ does not contain all
+$X_j$ and $W=\covolPt(z)$ with $z\in T$. The closure of $z$ has dimension $e$ and is a proper subset of
+$Z$ (as $X_k\in W\setminus J$), so $\dim Z\ge e+1$.
+\end{proof}
+
+\begin{proposition}[Vertical subvarieties]\label{pf:covol:prop:vert}
+Let $Z$ be an integral scheme, projective over $\OO_K$, embedded by sections $s_1,\dots,s_m$ of a line
+bundle $B$, with $\covolPt(\eta_Z)\cap\OO_K=\mathfrak q$ a maximal ideal and $\dim Z=d$. Then
+$\Gamma(Z,\OO_Z)$ is an algebra over $\kappa=\OO_K/\mathfrak q$, and
+$\deg_\kappa(c_1(B)^d)=\covolCdeg(\covolPt(\eta_Z)\bmod\mathfrak q,d+1)$.
+\formallabel{ChowFormHeightComparison₂.CF.stVert}
+\end{proposition}
+
+\begin{proof}
+An element $r\in\OO_K$ vanishes in $\Gamma(Z,\OO_Z)$ if and only if the constant $r$ lies in
+$\covolPt(\eta_Z)$, that is $r\in\mathfrak q$; so the structure map factors through $\kappa$. Over
+$\kappa$ the same sections embed $Z$, $Z$ is projective over $\kappa$ (as $\OO_K\to\kappa$ is surjective),
+and the point ideal of $\eta_Z$ over $\kappa$ is the image $J$ of $\covolPt(\eta_Z)$ in $\kappa[X]$ (the
+reduction map $\OO_K[X]\to\kappa[X]$ is surjective). The dimension of $\kappa[X]/J$ is at most $m$ and, by
+the first paragraph of the proof of \cref{pf:covol:lem:fieldcase}, at least $d+1$; write it $n$. By
+\cref{pf:covol:lem:fieldcase} ($\kappa$ is finite, hence perfect), $\dim Z=n-1$ and
+$\deg_\kappa(c_1(B)^{n-1})=\covolCdeg(J,n)$. Since $\dim Z=d$, $n=d+1$.
+\end{proof}
+
+\subsubsection*{Archimedean integrals}
+
+\begin{proposition}[Wirtinger's theorem for embedded varieties]\label{pf:covol:prop:arch}
+Let $Z$ be an arithmetic variety of relative dimension $e$ over $\OO_K$, embedded by sections
+$s_1,\dots,s_m$ of a line bundle $B$, whose generic ideal $I_Z$ is a projective prime with a Chow form in
+$e+1$ blocks. Let $\sigma\in\Sigma_K$, let $\varphi$ be a smooth Fubini--Study weight of $(s,M)$ at
+$\sigma$, and let $u\in K^m$ with $\ell_u\notin I_Z$. Then
+\[
+\int_{Z_\sigma(\C)\cap\{\ell_{\sigma u}(s)\ne0\}}\covolFs_M(\sigma u;s(y))\,c_1(\varphi)^e=
+\covolCyc_M\bigl([\sigma I_Z],e,\covolFs_M(\sigma u;\cdot)\bigr),
+\]
+where $c_1(\varphi)^e$ is the Chern measure and $[\sigma I_Z]$ is the fundamental cycle of the ideal of
+$\C[X]$ generated by $\sigma(I_Z)$; and if $e=0$, then also
+$\sum_{y\in Z_\sigma(\C)}\covolFs_M(\sigma u;s(y))=\covolCyc_M([\sigma I_Z],0,\covolFs_M(\sigma u;\cdot))$.
+\formallabel{ChowFormHeightComparison₂.CF.stArch}
+\end{proposition}
+
+Here the Chern measure is defined through local holomorphic charts given by algebraic functions: on such
+a chart it has the density $\det(\partial\bar\partial\varphi)$ (suitably normalised), and the integral of
+$g$ over a set $S$ is $\int_Sg\,d\mu_+-\int_Sg\,d\mu_-$, where $\mu_\pm$ are the measures with the positive and
+negative parts of this density.
+
+\begin{proof}
+Let $J\subseteq\C[X]$ be the ideal generated by $\sigma(I_Z)$, let $\mathcal C\subseteq\C^m$ be the set of
+$y$ with $|y|<1$ and $M^{\mathsf T}y$ in the zero set of $J$, let $\mathcal H$ be the
+$2(e+1)$-dimensional Hausdorff measure and $b=\mathcal H(\{y\in\C^{e+1}:|y|<1\})\in(0,\infty)$. We use four
+facts.
+\begin{enumerate}[label=(\arabic*)]
+\item There is a homogeneous $q\in\OO_K[X]$ with $q\notin\covolPt(\eta_Z)$ such that every complex point
+  $y$ of $Z_\sigma$ with $q(s(y))\ne0$ lies in the domain of an algebraic chart of dimension $e$
+  (\lref{ChowFormHeightComparison₂.CF.stCharts}).
+\item $e+1\le m$; the function $y\mapsto\covolFs_M(\sigma u;M^{\mathsf T}y)$ is $\mathcal H$-integrable on
+  $\mathcal C$; $\covolCyc_M([J],e,g)=\covolCyc_M(J,e,g)$ for this function (all components of $J$ have
+  multiplicity $1$); and for $q\notin I_Z$ the zero set of $\sigma q(M^{\mathsf T}\cdot)$ in $\mathcal C$ is
+  $\mathcal H$-null (\lref{ChowFormHeightComparison₂.CF.C.cone_side}).
+\item (Wirtinger) If $q$ is as in (1) and $\{0\}\cup(\mathcal C\cap\{\sigma q(M^{\mathsf T}\cdot)=0\})$ is
+  $\mathcal H$-null, then for every measurable $F\colon\C^m\to[0,\infty]$ with $F(ty)=F(y)$ for
+  $t\in\C^\times$,
+  \[
+  \int_{\mathcal C}F\,d\mathcal H=b\int_{Z_\sigma(\C)}F\bigl(\bar s(y)\bigr)\,d\mu_+(y),
+  \]
+  where $\bar s(y)\in\C^m$ is any representative of $s(y)$ in the coordinates of $M$
+  (\lref{ChowFormHeightComparison₂.CF.C.lintegral_cone}, proved chart by chart: on a chart the cone
+  is fibred over the chart by complex lines, and the coarea formula identifies the fibre integrals with
+  the Fubini--Study density).
+\item For a Fubini--Study weight the density is nonnegative, so $\mu_-=0$
+  (\lref{ChowFormHeightComparison₂.CF.C.chernPart_neg}).
+\end{enumerate}
+The function $F_G=G\circ\covolFs_M(\sigma u;M^{\mathsf T}\cdot)$ is measurable and invariant under $\C^\times$
+for every measurable $G\colon\R\to[0,\infty]$, because $|\ell_{\sigma u}(ty)|=|t||\ell_{\sigma u}(y)|$ and
+$|ty|^*_M=|t||y|^*_M$. By (2), the hypothesis of (3) holds for the $q$ of (1), and (3) gives
+$\int_{\mathcal C}G(f)\,d\mathcal H=b\int G(g)\,d\mu_+$ for all such $G$, with $f=\covolFs_M(\sigma
+u;M^{\mathsf T}\cdot)$ and $g(y)=\covolFs_M(\sigma u;s(y))$. Taking $G(x)=|x|$ shows that $g$ is
+$\mu_+$-integrable, as $f$ is $\mathcal H$-integrable by (2); taking for $G$ the positive and the negative
+parts gives $\int g\,d\mu_+=b^{-1}\int_{\mathcal C}f\,d\mathcal H=\covolCyc_M(J,e,\covolFs_M(\sigma
+u;\cdot))=\covolCyc_M([J],e,\covolFs_M(\sigma u;\cdot))$ by (2). By (4) the left-hand side is the integral
+against $c_1(\varphi)^e$; and the integral over the set where $\ell_{\sigma u}(s(y))\ne0$ is the integral
+over $Z_\sigma(\C)$, because on the complement the integrand is replaced by $0$ (formally $\log0=0$).
+If $e=0$, every complex point of $Z_\sigma$ lies over the generic point of $Z$, so $q(s(y))\ne0$ and $y$
+lies in a chart of dimension $0$ by (1); thus $Z_\sigma(\C)$ is finite and $c_1(\varphi)^0$ is the counting
+measure (\lref{ChowFormHeightComparison₂.CF.C.integral_zero}), which gives the second identity.
+\end{proof}
+
+\subsubsection*{The vertical term of a Chow form}
+Let $I\subseteq K[X_1,\dots,X_n]$ be a projective prime with a Chow form $f$ in $e+1$ blocks, let
+$u\in\OO_K^n$ with $\ell_u\notin I$, and let $\mathfrak q$ be a maximal ideal of $\OO_K$. Write
+$\mathcal I=I\cap\OO_K[X]$ and let $S_{\mathfrak q}=\covolRel(\mathcal I+\mathfrak q\OO_K[X])$ be the set of
+components of the fibre of $\mathcal I$ at $\mathfrak q$. Let $t=(t_{ij})_{i\le e,j\le n}$ and
+$t'=(t'_j)_{j\le n}$ be indeterminates, $R$ the localisation of $\OO_K[t,t']$ at the prime
+$\mathfrak q\OO_K[t,t']$, and
+\[
+\mathcal B=R[X_1,\dots,X_n]\big/\bigl(\mathcal IR[X]+(\textstyle\sum_jt_{ij}X_j)_{i\le e}+
+(\sum_jt'_jX_j-1)\bigr),
+\]
+the coordinate ring of the intersection of the model of $I$ with $e$ generic hyperplanes in a generic
+affine chart. For $W\in S_{\mathfrak q}$ let $\mathfrak n_W$ be the ideal of $\mathcal B$ generated by $W$.
+The proof of the next proposition uses the following statements of the development.
+\begin{enumerate}[label=(\arabic*)]
+\item $R$ is a discrete valuation ring, $\mathcal B$ is a finite free $R$-module, and multiplication by
+  $\ell_u$ on $\mathcal B$ is injective
+  (\lref{GroundTheory.Heights₂.Heights.Vertical.ParDVRIsDVR.full},
+  \lref{GroundTheory.Heights₂.Heights.Vertical.SecBFinite.full},
+  \lref{GroundTheory.Heights₂.Heights.Vertical.SecBTorsionFree.full},
+  \lref{GroundTheory.Heights₂.Heights.Vertical.SecBLinInj.proof}).
+\item \emph{Norm identity.} If $g\in\OO_K[u_0,\dots,u_e]$ is a Chow form of $I$ with a coefficient not in
+  $\mathfrak q$, then $g(u,t)=w\cdot\Nm_{\mathcal B/R}(\ell_u)$ for a unit $w$ of $R$
+  (\lref{GroundTheory.Heights₂.Heights.Vertical.NormIdentity.proof}); this rests on the classical
+  description of a Chow form as the norm form of the generic linear form on the generic zero-dimensional
+  section.
+\item $W\mapsto\mathfrak n_W$ is a bijection from $S_{\mathfrak q}$ onto the set of maximal ideals of
+  $\mathcal B$ (\lref{GroundTheory.Heights₂.Heights.Vertical.SpecMax.proof}), and
+  $\len_R(\mathcal B/\mathfrak n_W)=\covolCdeg(W\bmod\mathfrak q,e+1)$
+  (\lref{GroundTheory.Heights₂.Heights.Vertical.SpecResidue.proof}).
+\item The length of $\mathcal B_{\mathfrak n_W}/\ell_u\mathcal B_{\mathfrak n_W}$ is
+  $\covolLm(\mathcal I+(\ell_u),W)$ if $\ell_u\in W$ and $0$ otherwise
+  (\lref{GroundTheory.Heights₂.Heights.Vertical.SpecLength.proof}); and the set
+  $\mathcal V_{\mathfrak q}$ of \cref{pf:covol:def:chowht}(e) is $\{W\in S_{\mathfrak q}:\ell_u\in W\}$
+  (\lref{GroundTheory.Heights₂.Heights.Vertical.VertSpec.full}).
+\item For $0\ne h\in\OO_K[t,t']$, $|h|_{\mathfrak q}\Nm(\mathfrak q)^{\ord_R(h)}=1$: the valuation of $R$
+  restricts to the Gauss valuation (\lref{GroundTheory.Heights₂.Heights.Vertical.GaussDVR.full}).
+\end{enumerate}
+
+\begin{proposition}[Vertical terms]\label{pf:covol:prop:csv}
+In this situation,
+$\log|f|_{\mathfrak q}-\log|f(u,\cdot)|_{\mathfrak q}=\covolVt_{\mathfrak q}(I,e+1,u)$.
+\formallabel{GroundTheory.Heights₂.Heights.ChowFormSectionVertical.full}
+\end{proposition}
+
+\begin{proof}
+Multiplying $f$ by a suitable $c\in K^\times$ we obtain $g=cf\in\OO_K[u_0,\dots,u_e]$ with a coefficient not
+in $\mathfrak q$ (\lref{GroundTheory.Heights₂.Heights.Vertical.PrimitiveScale.full}); $g$ is again a
+Chow form of $I$, $|g|_{\mathfrak q}=1$, and both $\log|f|_{\mathfrak q}$ and
+$\log|f(u,\cdot)|_{\mathfrak q}$ change by $\log|c|_{\mathfrak q}$, so we may take $f=g$. Let
+$\nu=\sum_{W\in\mathcal V_{\mathfrak q}}\covolLm(\mathcal I+(\ell_u),W)\,\covolCdeg(W\bmod\mathfrak q,e+1)$,
+so that $\covolVt_{\mathfrak q}(I,e+1,u)=\nu\log\Nm(\mathfrak q)$ by definition.
+
+For a finite free algebra $\mathcal B$ over a discrete valuation ring $R$ and a nonzerodivisor
+$b\in\mathcal B$ one has $\ord_R\Nm_{\mathcal B/R}(b)=\len_R(\mathcal B/b\mathcal B)$, and
+$\len_R(\mathcal B/b\mathcal B)=\sum_{\mathfrak n}\len(\mathcal B_{\mathfrak n}/b\mathcal B_{\mathfrak n})\,
+\len_R(\mathcal B/\mathfrak n)$, the sum over the maximal ideals of $\mathcal B$ (standard,
+\cite[App.~A]{Fulton1998}; \lref{GroundTheory.Heights₂.Heights.Vertical.NormLength.full},
+\lref{GroundTheory.Heights₂.Heights.Vertical.LengthDecomp.full}). With (1)--(4),
+\[
+\ord_R g(u,t)=\ord_R\Nm_{\mathcal B/R}(\ell_u)=\sum_{W\in S_{\mathfrak q}}
+\len\bigl(\mathcal B_{\mathfrak n_W}/\ell_u\mathcal B_{\mathfrak n_W}\bigr)\,\covolCdeg(W\bmod\mathfrak q,e+1)=\nu .
+\]
+The polynomial $g(u,\cdot)$ is nonzero (a Chow form of $[I+(\ell_u)]$ by \cref{pf:covol:lem:chowcalc}(a)),
+so (5) gives $|g(u,\cdot)|_{\mathfrak q}=\Nm(\mathfrak q)^{-\nu}$. Hence
+$\log|g|_{\mathfrak q}-\log|g(u,\cdot)|_{\mathfrak q}=\nu\log\Nm(\mathfrak q)$.
+\end{proof}
+
+\subsubsection*{The Mahler measure of a specialised Chow form}
+Let $M$ define a Hermitian norm on $\C^n$. For a cycle $Z$ of projective primes of $\C[X_1,\dots,X_n]$ with
+a Chow form $f$ in $e+1$ blocks and $u\in\C^n$ with $\ell_u$ in no component of $Z$, call
+$D_f(u)=\covolMah_M(f(u,\cdot))-\covolCyc_M(Z,e,\covolFs_M(u;\cdot))$ the \emph{defect} of $f$ at $u$.
+
+\begin{proposition}[Mahler measures of specialisations]\label{pf:covol:prop:mahler}
+Let $Z=\sum_Wm_WW$ be a cycle of projective primes of $\C[X_1,\dots,X_n]$ with a Chow form $f$ in $e+1$
+blocks which is multihomogeneous of degree $\delta$, and let $u\in\C^n$ with $\ell_u\notin W$ for all $W$ in
+the support of $Z$. Then
+\[
+\covolMah_M(f(u,\cdot))=\covolMah_M(f)+\frac{\delta\,\covolHar_{n-1}}2+
+\covolCyc_M\bigl(Z,e,\covolFs_M(u;\cdot)\bigr).
+\]
+\formallabel{GlobalTheory.T.mahler_section_statement_holds}
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: the defect of a prime does not depend on $u$}
+(\lref{GlobalTheory.T.mahler_minus_cone_integral_indep}, the formal proof of which is the following
+Crofton argument). Let $W$ be a projective prime with a Chow form $g$ in $e+1$ blocks, multihomogeneous of
+degree $\delta$, and let $u,u'$ with $\ell_u,\ell_{u'}\notin W$. Let $\gamma$ be the standard Gaussian
+measure on $(\C^n)^e$, and for $\pi=(\pi_1,\dots,\pi_e)$ let $\hat\pi$ be the $e$ linear forms obtained by
+normalising the rows of $\pi$, transported by $M$, to unit length. For $\gamma$-almost every $\pi$:
+(i) the linear subspace $\{\ell_{\hat\pi_1}=\dots=\ell_{\hat\pi_e}=0\}$ meets the cone of $W$ in exactly
+$\delta$ lines (\lref{GlobalTheory.T.ae_fibre_points_card_eq_degree}); (ii) $g(u,\hat\pi)\ne0$ and
+$g(u',\hat\pi)\ne0$ (\lref{GlobalTheory.T.ae_polynomial_nonvanishing_rows}); and then (iii) there is
+$c\ne0$ such that $g(v,\hat\pi)=c\prod_y\ell_v(y)$ for all $v$, where $y$ runs over representatives of these
+lines of $M$-norm $1$ (\lref{GlobalTheory.T.chow_form_fibre_specialization}). Since
+$\covolFs_M(v;y)=\log|\ell_v(y)|-\log|y|^*_M$, it follows that
+$\log|g(v,\hat\pi)|-\sum_y\covolFs_M(v;y)=\log|c|+\sum_y\log|y|^*_M$ is the same for $v=u$ and $v=u'$.
+Integrate over $\gamma$. The push-forward of $\gamma$ under $\pi\mapsto\hat\pi$ is a multiple $\Gamma$ of the
+product of the uniform measures on the unit spheres, so
+$\int\log|g(v,\hat\pi)|\,d\gamma=\Gamma\,\covolMah_M(g(v,\cdot))$
+(\lref{GlobalTheory.T.sphere_mean_normalized_groups}); and by the Crofton formula
+$\int\sum_y\covolFs_M(v;y)\,d\gamma(\pi)=\Gamma\,\covolCyc_M(W,e,\covolFs_M(v;\cdot))$
+(\lref{GlobalTheory.T.integral_fubini_study_sum_cone}). As $0<\Gamma<\infty$
+(\lref{GlobalTheory.T.gaussian_matrix_measure_pos_finite}), $D_g(u)=D_g(u')$.
+
+\emph{Step 2: the defect of a cycle.} Write $f=c\prod_Wg_W^{m_W}$ with Chow forms $g_W$ of $W$. Since the
+Mahler measure is additive on products and the cone integral is additive in the cycle,
+$D_f(u)=\log|c|+\sum_Wm_WD_{g_W}(u)$ (\lref{GlobalTheory.CompanionTheory.Ar.Short.mahlerDefect_eq_sum});
+by Step 1, $D_f(u)$ is the same for all admissible $u$.
+
+\emph{Step 3: averaging.} For almost every $v$ in the $M$-unit ball, $\ell_v$ lies in no component of $Z$
+(\lref{GroundTheory.Heights₂.Heights.AutoClose.AdmissibleAENrm}), so $D_f(v/|v|_M)=D_f(u)$ for almost
+every $v$; the ball has positive finite volume
+(\lref{GroundTheory.Heights₂.Heights.BallVolume.proof}), so $D_f(u)$ is the average of $D_f(v/|v|_M)$
+over the ball. This average is $\covolMah_M(f)+\frac{\delta\covolHar_{n-1}}2$
+(\lref{GroundTheory.Heights₂.Heights.AutoClose.DefectAverage}): by Fubini, the average of
+$\covolMah_M(f(v,\cdot))$ is $\covolMah_M(f)$; and since the average over the unit sphere of
+$\covolFs_M(v;y)$ is $-\frac12\covolHar_{n-1}$ for every $y\ne0$ (the computation after
+\cref{pf:covol:def:chowht}) and $\covolCyc_M(Z,e,1)=\delta$, the average of the cone integral is
+$-\frac{\delta\covolHar_{n-1}}2$. Hence $D_f(u)=\covolMah_M(f)+\frac{\delta\covolHar_{n-1}}2$, which is the
+claim.
+\end{proof}
+
+\begin{proposition}[Recursion for Chow heights]\label{pf:covol:prop:recursion}
+Let $I\subseteq K[X_1,\dots,X_n]$ be a projective prime with a Chow form $f$ in $e+1$ blocks which is
+multihomogeneous of degree $\delta$, let $H=(M_\sigma)_\sigma$ be archimedean data and $u\in\OO_K^n$ with
+$\ell_u\notin I$. Then
+\begin{equation}\label{pf:covol:eq:chowrec}
+\covolHch^H(e+1,\delta,f)=\covolHch^H\bigl(e,\delta,f(u,\cdot)\bigr)+\frac1{[K:\Q]}\Bigl(\covolVt(I,e+1,u)-
+\sum_{\sigma\in\Sigma_K}\covolCyc_{M_\sigma}\bigl([\sigma I],e,\covolFs_{M_\sigma}(\sigma u;\cdot)\bigr)\Bigr).
+\end{equation}
+\formallabel{GroundTheory.Heights₂.Heights.ChowHeightRecursion.of_leaves}
+\end{proposition}
+
+\begin{proof}
+Put $g=f(u,\cdot)$. Only finitely many $\log|f|_{\mathfrak q}$ and $\log|g|_{\mathfrak q}$ are nonzero,
+and \cref{pf:covol:prop:csv} gives $\sum_{\mathfrak q}\log|f|_{\mathfrak q}=
+\sum_{\mathfrak q}\log|g|_{\mathfrak q}+\covolVt(I,e+1,u)$. For $\sigma\in\Sigma_K$, the cycle
+$[\sigma I]$ consists of projective primes, $\sigma f$ is a Chow form of it and is multihomogeneous of
+degree $\delta$, and $\ell_{\sigma u}$ avoids its components (\cref{pf:covol:lem:chowcalc}(b),(c));
+since $\sigma g=(\sigma f)(\sigma u,\cdot)$, \cref{pf:covol:prop:mahler} gives
+$\covolMah_{M_\sigma}(\sigma f)=\covolMah_{M_\sigma}(\sigma g)-\frac{\delta\covolHar_{n-1}}2-
+\covolCyc_{M_\sigma}([\sigma I],e,\covolFs_{M_\sigma}(\sigma u;\cdot))$. Inserting both identities in
+\eqref{pf:covol:eq:chowht}, the harmonic terms $\frac{(e+1)\delta\covolHar_{n-1}}2$ of the left-hand side
+become $\frac{e\,\delta\covolHar_{n-1}}2$ plus the term $\frac{\delta\covolHar_{n-1}}2$ just produced,
+and \eqref{pf:covol:eq:chowrec} follows.
+\end{proof}
+
+We can now prove the main identity.
+
+\begin{theorem}[Heights of embedded arithmetic varieties]\label{pf:covol:thm:main}
+Let $H=(M_\sigma)_\sigma$ be archimedean data on $\C^m$, let $p\colon X\to\Spec\OO_K$ be an arithmetic
+variety of relative dimension $e_0$, $\overline L$ a Hermitian line bundle on $X$ and
+$s_1,\dots,s_m\in\Gamma(X,L)$ sections which embed $X$, such that for every $\sigma$ the weight of
+$\overline L$ at $\sigma$ is the Fubini--Study weight of $(s,M_\sigma)$. Let $f$ be a Chow form of the
+generic ideal $I_X$ in $e_0+1$ blocks which is multihomogeneous of degree $\delta$. If $\overline L$ has
+self-intersection $a$, then
+\[
+a=[K:\Q]\,\covolHch^H(e_0+1,\delta,f).
+\]
+\formallabel{ChowFormHeightComparison₂.CF.stMain_of}\formallabel{ChowFormHeightComparison₂.CF.StMain}
+\end{theorem}
+
+\begin{proof}
+Let $h$ be an arithmetic height function with $h(\eta_X)=a$. We prove by induction on $e\ge0$ the
+following assertion $P(e)$: \emph{for every integral closed subscheme $Z\subseteq X$ of dimension $e+1$
+with $\covolPt(\eta_Z)\cap\OO_K=0$, every $\delta_Z$ and every Chow form $f_Z$ of
+$I_Z=\covolPt(\eta_Z)\otimes K$ in $e+1$ blocks which is multihomogeneous of degree $\delta_Z$, we have
+$h(\eta_Z)=[K:\Q]\,\covolHch^H(e+1,\delta_Z,f_Z)$.} The theorem is $P(e_0)$ for $Z=X$; here
+$\covolPt(\eta_X)\cap\OO_K=0$ because $X$ is flat over $\Z$.
+
+Fix $e$, $Z$, $\delta_Z$ and $f_Z$ as in $P(e)$, and assume $P(e-1)$ if $e\ge1$. By
+\cref{pf:covol:lem:emb}(b) the restrictions of the $s_k$ embed $Z$ with the same point ideals; since
+$\covolPt(\eta_Z)\cap\OO_K=0$, $\Gamma(Z,\OO_Z)$ has characteristic $0$, $Z$ is an arithmetic variety of
+relative dimension $e$, and $\covolPt(\eta_Z)=I_Z\cap\OO_K[X]$, so $I_Z$ is a projective prime. As the
+$s_k$ have no common zero, there is $j$ with $\eta_Z\in D(s_j)$; put $u=(0,\dots,1,\dots,0)$, the $j$-th
+unit vector, so that $s_u=s_j$, $\ell_u=X_j\notin\covolPt(\eta_Z)$ (\cref{pf:covol:lem:emb}(a)) and hence
+$\ell_u\notin I_Z$.
+
+\emph{Step 1: the arithmetic recursion.} We claim
+\begin{equation}\label{pf:covol:eq:step}
+h(\eta_Z)=\sum_z\ord_z(s_j|_Z)\,h(z)-\sum_{\sigma\in\Sigma_K}\covolCyc_{M_\sigma}\bigl([\sigma I_Z],e,
+\covolFs_{M_\sigma}(\sigma u;\cdot)\bigr).
+\end{equation}
+If $e\ge1$, this is axiom (R) for $Z$, $m=1$ and $r=s_j|_Z$, since on $Z_\sigma(\C)$ the function
+$\log\|s_j\|$ is $\covolFs_{M_\sigma}(\sigma u;s(y))$ (Fubini--Study weights) and its integral against
+$c_1(\overline L|_Z)^e$ is the cone integral by \cref{pf:covol:prop:arch} (the restriction of $h$ to
+the subschemes of $Z$ is an arithmetic height function for $\overline L|_Z$, directly from the
+definition). If $e=0$, $Z$ is an arithmetic curve; every complex
+point of $Z$ lies over $\eta_Z$, hence in $D(s_j)$, and axiom (P) with $r=s_j|_Z$ gives
+$h(\eta_Z)=\sum_z\ord_z(s_j)\log\#\kappa(z)-\sum_\sigma\sum_y\log\|s_j(y)\|$. Every $z$ with
+$\ord_z(s_j)\ne0$ is a closed point with finite residue field, so $h(z)=\log\#\kappa(z)$ by axiom (V)
+with $d=0$, and the archimedean sum is the cone integral by the case $e=0$ of
+\cref{pf:covol:prop:arch}.
+
+\emph{Step 2: the components of the divisor.} By \cref{pf:covol:lem:emb}(a),(c), the points $z$ with
+$\ord_z(s_j|_Z)\ne0$ correspond bijectively, via $z\mapsto\covolPt(z)$, to the relevant minimal primes of
+$J=\covolPt(\eta_Z)+(\ell_u)$, and $\ord_z(s_j|_Z)=\covolLm(J,\covolPt(z))$. In particular there are
+finitely many such $z$, and each has codimension one in $Z$, hence dimension $e$ by
+\cref{pf:covol:lem:emb}(d). Such a $z$ is \emph{vertical} if $\covolPt(z)\cap\OO_K$ is a maximal ideal
+$\mathfrak q$ and \emph{horizontal} if $\covolPt(z)\cap\OO_K=0$.
+
+\emph{Step 3: vertical components.} If $z$ is vertical over $\mathfrak q$, then axiom (V) and
+\cref{pf:covol:prop:vert}, applied to the closure of $z$, give $h(z)=\covolCdeg(\covolPt(z)\bmod
+\mathfrak q,e+1)\log\Nm(\mathfrak q)$. Since $I_Z\cap\OO_K[X]=\covolPt(\eta_Z)$, the vertical components
+of Step 2 over $\mathfrak q$ are exactly the elements of $\mathcal V_{\mathfrak q}$ in the definition of
+$\covolVt$, with the same multiplicities, and summing over $\mathfrak q$ gives
+\[
+\sum_{z\text{ vertical}}\ord_z(s_j|_Z)\,h(z)=\covolVt(I_Z,e+1,u).
+\]
+
+\emph{Step 4: horizontal components.} By \cref{pf:covol:lem:chowcalc}(a), $f_Z(u,\cdot)=c\prod_W
+g_W^{m_W}$, where $c\in K^\times$, $W$ runs over the support of the cycle $[I_Z+(\ell_u)]$ with
+multiplicities $m_W$, and $g_W$ is a Chow form of $W$ in $e$ blocks. The primes $W$ are the ideals
+$\covolPt(z)\otimes K$ for the horizontal $z$ of Step 2, and $m_W=\ord_z(s_j|_Z)$ (localisation at
+$\covolPt(z)$ commutes with inverting the nonzero integers). If $e=0$, a horizontal $z$ would give a
+projective prime $W$ with a Chow form in $0$ blocks, which is impossible by
+\cref{pf:covol:lem:chowcalc}(d); so there is no horizontal $z$, $f_Z(u,\cdot)=c$ and
+$\covolHch^H(0,\delta_Z,c)=0$ by \cref{pf:covol:lem:chowcalc}(f). If $e\ge1$, each $g_W$ divides
+$f_Z(u,\cdot)$, which is multihomogeneous of degree $\delta_Z$, so $g_W$ is multihomogeneous of some
+degree $\delta_W$ (\cref{pf:covol:lem:chowcalc}(e)), and comparing degrees, $\delta_Z=\sum_Wm_W\delta_W$.
+The induction hypothesis $P(e-1)$, applied to the closure of $z$ (of dimension $e$), gives
+$h(z)=[K:\Q]\covolHch^H(e,\delta_W,g_W)$, and \cref{pf:covol:lem:chowcalc}(f) gives
+$\covolHch^H(e,\delta_Z,f_Z(u,\cdot))=\sum_Wm_W\covolHch^H(e,\delta_W,g_W)$. In both cases
+\[
+\sum_{z\text{ horizontal}}\ord_z(s_j|_Z)\,h(z)=[K:\Q]\,\covolHch^H\bigl(e,\delta_Z,f_Z(u,\cdot)\bigr).
+\]
+
+\emph{Step 5: conclusion.} Inserting Steps 3 and 4 in \eqref{pf:covol:eq:step} and comparing with
+\cref{pf:covol:prop:recursion} (for $I=I_Z$, $f=f_Z$, $\delta=\delta_Z$) gives
+$h(\eta_Z)=[K:\Q]\covolHch^H(e+1,\delta_Z,f_Z)$, which is $P(e)$.
+\end{proof}
+
+To pass from the coordinates of \cref{pf:covol:thm:main} to those of \cref{pf:covol:def:formht} we use two
+further facts.
+
+\begin{lemma}[Closures of points; change of frame]\label{pf:covol:lem:modelform}
+\begin{enumerate}[label=(\alph*)]
+\item Let $\Omega\supseteq K$ be a field and $t\in\Omega^m$. Let $Z$ be an integral scheme, separated,
+  quasi-compact and locally of finite type over $\OO_K$, with a point $\Spec\Omega\to Z$ onto the generic
+  point identifying the function field with $\Omega$ (a \emph{rational model} of $\Omega$), which is
+  the \emph{closure of the point $t$}: every point of $Z$ has an index $i$ with $t_i\ne0$ and all
+  $t_j/t_i$ regular at it, and for every $i$ with $t_i\ne0$ the set $U_i$ of such points is an affine
+  open subset with $\Gamma(U_i,\OO_Z)=\OO_K[t_j/t_i:j\le m]$. Let $\mathcal L$ be a line bundle on
+  $Z$ with a generic trivialisation and sections $s_1,\dots,s_m$ without common zero whose values in the
+  generic trivialisation are $t_1,\dots,t_m$, and assume $\Gamma(Z,\OO_Z)$ has characteristic $0$. Then
+  the $s_k$ embed $Z$, and $I_Z$ is the ideal of polynomials $P\in K[X_1,\dots,X_m]$ with $P(t)=0$ (the
+  \emph{cone ideal} of $t$).
+\item Let $y\in\Omega^N$, $g\in K^{N\times m}$ whose columns span $K^N$, $A_\sigma\in\GL_N(\C)$, and let
+  $\Phi$ be an integral Chow form of the cone ideal of $y$ of dimension $d$ and degree $\delta$. Let
+  $H=(M_\sigma)$ be archimedean data on $\C^m$ with $|g^{\mathsf T}x|^*_{M_\sigma}=
+  |A_\sigma^{\mathsf T}x|$ for all $x\in\C^N$, where $(g^{\mathsf T}x)_k=\sum_j\sigma(g_{jk})x_j$.
+  Then $\Phi\circ g$ is a Chow form in $d+1$ blocks of the cone ideal of $g^{\mathsf T}y$, it is
+  multihomogeneous of degree $\delta$, and $\covolHform(\delta,g,A,\Phi)=
+  \covolHch^H(d+1,\delta,\Phi\circ g)$.
+\end{enumerate}
+\formallabel{ChowFormHeightComparison₂.CF.stModel}\formallabel{ChowFormHeightComparison₂.CF.stForm}%
+\formallabel{PositivityTheory.UnitarySelfGeneration.UnitProductCombination.formHeight_gen}
+\end{lemma}
+
+\begin{proof}
+(a) On $D(s_k)$ the ratios $s_j/s_k$ are the functions $t_j/t_k$, which generate the coordinate ring by
+the closure condition; and a polynomial lies in $\covolPt(\eta_Z)\otimes K$ if and only if it vanishes at
+$t$, by definition of the point ideal at the generic point.
+
+(b) Choose $P\in K^{m\times N}$ with $gP=1$ and put $z=g^{\mathsf T}y$. Since $g^{\mathsf T}P^{\mathsf T}z=z$,
+the linear forms expressing $x'=g^{\mathsf T}P^{\mathsf T}x'$ lie in the cone ideal of $z$, so
+$x\mapsto g^{\mathsf T}x$ and $x'\mapsto P^{\mathsf T}x'$ are inverse bijections between the zeros of the
+cone ideals of $y$ and of $z$, and under them the incidence conditions $(gu_i)\cdot x=0$ and
+$u_i\cdot x'=0$ correspond. Hence the zero set of $\Phi\circ g$ is the incidence set of the cone ideal of
+$z$; $\Phi\circ g$ is irreducible because $(\Phi\circ g)\circ P=\Phi$, and it is multihomogeneous of
+degree $\delta$. So $\Phi\circ g$ is an integral Chow form, hence a Chow form. The Gauss norms of both
+sides are those of $\Phi\circ g$. For the archimedean terms fix
+$\sigma$, write $M=M_\sigma$ and let $B=(M^{\mathsf T})^{-1}g^{\mathsf T}(A_\sigma^{\mathsf T})^{-1}
+\colon\C^N\to\C^m$; the hypothesis says that $B$ is an isometric embedding, and
+$\sigma(\Phi\circ g)(M^{-1}v)=\sigma\Phi(A_\sigma B^{\mathsf T}v)$. If $v$ is uniformly distributed on
+the unit sphere of $\C^m$, then $\pi(v)=B^{\mathsf T}v$ is the orthogonal projection onto an
+$N$-dimensional subspace (up to complex conjugation of coordinates), $\pi(v)/|\pi(v)|$ is uniformly
+distributed on the unit sphere of $\C^N$ and independent of $|\pi(v)|^2$, which has the beta
+distribution with parameters $(N,m-N)$, so that $\mathbb E\log|\pi(v)|^2=\psi(N)-\psi(m)=
+\covolHar_{N-1}-\covolHar_{m-1}$ ($\psi$ the digamma function). By homogeneity of degree $\delta$ in each
+of the $d+1$ blocks,
+\[
+\covolMah_M\bigl(\sigma(\Phi\circ g)\bigr)=\covolMah^{A_\sigma}(\sigma\Phi)+
+\frac{(d+1)\delta}2\bigl(\covolHar_{N-1}-\covolHar_{m-1}\bigr),
+\]
+which is the asserted identity after adding $\frac{(d+1)\delta\covolHar_{m-1}}2$.
+\end{proof}
+
+\begin{theorem}[Chow height formula]\label{pf:covol:thm:chowformheight}
+Assume the Hodge package $\mathcal P$. Let $\Omega\supseteq K$ be a field,
+$d,N,m,\delta\in\N$, $g\in K^{N\times m}$ with columns spanning $K^N$, and $A_\sigma\in\GL_N(\C)$
+$(\sigma\in\Sigma_K)$ conjugation compatible. Let $y\in\Omega^N$ and put $z_k=\sum_jg_{jk}y_j$. Let $Z$ be
+a rational model of $\Omega$ over $\OO_K$ which is the closure of $z$ and an arithmetic variety of
+relative dimension $d$; let $\Phi$ be an integral Chow form of the cone ideal of $y$ of dimension $d$ and
+degree $\delta$; let $\mathcal L$ be a line bundle on $Z$ with a generic trivialisation and sections
+$s_1,\dots,s_m$ without common zero whose values are $z_1,\dots,z_m$; and let $M_\sigma\in\GL_m(\C)$
+$(\sigma\colon\OO_K\to\C)$ with $M_{\bar\sigma}=\overline{M_\sigma}U_\sigma$ for unitary $U_\sigma$ and
+\[
+\sum_a\Bigl|\sum_kM_\sigma(k,a)\sum_j\sigma(g_{jk})x_j\Bigr|^2=|A_\sigma^{\mathsf T}x|^2\qquad
+(x\in\C^N).
+\]
+Let $\overline{\mathcal L}_{\mathrm{FS}}$ be $\mathcal L$ with the weights $\log\sum_a|\sum_kM_\sigma(k,a)s_k|^2$.
+Then $\overline{\mathcal L}_{\mathrm{FS}}$ has self-intersection $[K:\Q]\,\covolHform(\delta,g,A,\Phi)$.
+\formallabel{ChowFormHeightComparison₂.CF.glue}\formallabel{ChowFormHeightComparison₂.CF.chowFormHeight_of_arch}%
+\formallabel{ChowFormHeightComparison₂.chow_form_height_bound}%
+\formallabel{PositivityTheory.UnitarySelfGeneration.ChowFormHeight}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:covol:lem:modelform}(a) (with $t=z$; $\Gamma(Z,\OO_Z)$ has characteristic $0$ because $Z$ is
+flat over $\Z$) the $s_k$ embed $Z$ and $I_Z$ is the cone ideal of $z$. Let $H$ be the archimedean data
+given by the matrices $M_\sigma^{-1}$, so that $|v|^*_{M_\sigma^{-1}}=(\sum_a|\sum_kM_\sigma(k,a)v_k|^2)^{1/2}$;
+the relation $M_{\bar\sigma}=\overline{M_\sigma}U_\sigma$ with $U_\sigma$ unitary gives the conjugation
+condition. By construction the weight of $\overline{\mathcal L}_{\mathrm{FS}}$ at $\sigma$ is the
+Fubini--Study weight of $(s,M_\sigma^{-1})$, and the displayed hypothesis says
+$|g^{\mathsf T}x|^*_{M_\sigma^{-1}}=|A_\sigma^{\mathsf T}x|$. By \cref{pf:covol:lem:modelform}(b),
+$\Phi\circ g$ is a Chow form of $I_Z$ in $d+1$ blocks, multihomogeneous of degree $\delta$, and
+$\covolHform(\delta,g,A,\Phi)=\covolHch^H(d+1,\delta,\Phi\circ g)$. By the existence of arithmetic height
+functions (part of $\mathcal P$) there is an arithmetic height function $h_0$ for
+$\overline{\mathcal L}_{\mathrm{FS}}$, so $\overline{\mathcal L}_{\mathrm{FS}}$ has self-intersection
+$h_0(\eta_Z)$, and \cref{pf:covol:thm:main} gives $h_0(\eta_Z)=[K:\Q]\covolHch^H(d+1,\delta,\Phi\circ g)=
+[K:\Q]\covolHform(\delta,g,A,\Phi)$.
+\end{proof}
+
+\begin{remark}\label{pf:covol:rem:classical}
+(1) The conjugation compatibility of the frames $A_\sigma$ is a hypothesis of the formal statement which
+the proof does not use.
+(2) \Cref{pf:covol:thm:chowformheight} is the comparison theorem of Philippon and Soul\'e
+\cite{Philippon1991,Soule1991} between the height of a projective variety for the Fubini--Study metric
+and the height of its Chow form defined with Mahler measures on spheres, in the form
+$h_{\overline{\OO(1)}}(X)=\sum_{\mathfrak q}\log|F_X|_{\mathfrak q}+\sum_\sigma\bigl(\covolMah(\sigma F_X)+
+\frac{(d+1)\deg X}2\covolHar_{N-1}\bigr)$ for $X\subseteq\mathbb P^{N-1}$ of dimension $d$; compare
+\cite[\S4.3]{BostGilletSoule1994}. For instance, for $X=\mathbb P^{N-1}$ (with $d=N-1$, $\delta=1$ and Chow form
+the determinant) the right-hand side is $\frac12\sum_{k=1}^{N-1}\covolHar_k$, the classical value of the
+Fubini--Study height of projective space. In the formal statement, self-intersections are those of
+\cref{pf:covol:def:height}, the variety is given as a rational model which is the closure of a point, and
+the metric is pulled back by a linear map $g$; the published form of the formula for subvarieties of
+projective space is recalled in \cref{pf:covol:lit:fs}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{The Chow form height comparison}\label{sec:pf:covol:comparison}
+
+\begin{definition}[Frames, image degree and image height]\label{pf:covol:def:image}
+Let $V$ be a finite-dimensional $K$-vector space, $W\subseteq V$ a finitely generated $\OO_K$-submodule
+and $\nu=(\nu_\sigma)_{\sigma\in\Sigma_K}$ a family of norms on $V$. Let $\Omega\supseteq K$ be a field and
+$\mathrm{ev}\colon V\to\Omega$ a $K$-linear map.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{frame} of $(\nu,W)$ is a triple $(b,w,A)$ consisting of a basis $b_1,\dots,b_N$ of $V$, a
+  matrix $w\in K^{N\times n}$ whose columns span $K^N$ and such that the vectors $\sum_jw_{jk}b_j$
+  ($k\le n$) generate $W$ over $\OO_K$, and conjugation compatible invertible matrices $A_\sigma$ with
+  $\nu_\sigma(x)=|A_\sigma^{-1}(\sigma x_j)_j|$, where $x=\sum_jx_jb_j$.
+\item $\mathrm{ev}$ \emph{generates} $\Omega$ if $\mathrm{ev}\ne0$ and $\Omega=K(\mathrm{ev}(v)/\mathrm{ev}(v'):
+  v,v'\in V)$. The \emph{image ideal} of $\mathrm{ev}$ for a basis $b$ is the cone ideal of
+  $(\mathrm{ev}(b_j))_j$.
+\item The \emph{image degree} $\covolImDeg(\mathrm{ev},D)$ is an integer $\delta$ such that for some basis
+  $b$ the image ideal has an integral Chow form of dimension $D$ and degree $\delta$, and $0$ if there is
+  no such basis. The \emph{image height} $\covolImHt(\nu,W,\mathrm{ev},D)$ is a real number $h$ such
+  that $(D+1)\delta h=\covolHform(\delta,w,A,f)$ for some frame $(b,w,A)$ of $(\nu,W)$ and some integral
+  Chow form $f$ of the image ideal for $b$ of dimension $D$ and degree $\delta$, and $0$ if there is no
+  such $h$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompHt.imageDeg}\formallabel{GlobalTheory.CompHt.imageHeight}
+\end{definition}
+
+Both quantities are well defined, i.e.\ independent of the choices: the degree of an integral Chow form
+is the degree of the image variety, and the image height does not depend on the frame and the Chow form
+(\lref{GlobalTheory.ImageHeightUnique.isImageHeight_unique}; under a change of basis $b'$ the form
+height transforms by \lref{GlobalTheory.ImageHeightUnique.formHeight_linSubst}, which states
+$\covolHform(\delta,w',A',f\circ P)=\covolHform(\delta,w,A,f)$ for two frames and the change-of-basis
+matrix $P$ from $b$ to $b'$). If $\covolImDeg>0$, the image variety (the closure of the point
+$(\mathrm{ev}(b_j))_j$ in $\mathbb P^{N-1}_K$) has dimension $D$ and degree $\covolImDeg$, and $\covolImHt$ is
+its height for the Fubini--Study metrics of the frame, normalised by $(D+1)\covolImDeg$
+(\cref{pf:covol:rem:classical}).
+
+\begin{definition}[Models of images]\label{pf:covol:def:model}
+In the situation of \cref{pf:covol:def:image}, let $D\in\N$, let $p\colon X\to\Spec\OO_K$ with $X$
+integral, $\overline L$ a Hermitian line bundle on $X$, $\psi\colon\Omega\to\kappa(X)$ a homomorphism to
+the function field and $s\colon W\to\Gamma(X,L)$ a map. Then $(X,\overline L,\psi,s)$ is a \emph{model}
+of $(\nu,W,\mathrm{ev},D)$ if: $X$ is an arithmetic variety of relative dimension $D$; $X$ is normal;
+$\psi$ is bijective and compatible with $\OO_K\to\Gamma(X,\OO_X)$; $\psi(\mathrm{ev}\,w)\,s(w')=
+\psi(\mathrm{ev}\,w')\,s(w)$ as rational sections for all $w,w'\in W$; the sections $s(w)$ have no
+common zero; and there are a frame $(b,w,A)$ of $(\nu,W)$, with generators $\gamma_k=\sum_jw_{jk}b_j$ of
+$W$, and $c\in K^{n\times N}$ with $b_j=\sum_kc_{kj}\gamma_k$, such that the weight of $\overline L$ at
+$\sigma$ is $\log\sum_a|\sum_k(\sum_l\sigma(c_{kl})A_\sigma(l,a))\,s(\gamma_k)|^2$.
+\formallabel{GlobalTheory.ImageModel.IsModelOf}
+\end{definition}
+
+The last condition says that the metric of $\overline L$ is the Fubini--Study metric attached to the
+sections $s(w)$ and to the norms $\nu$: by the ratio condition, $\sum_kc_{kl}\,s(\gamma_k)$ is the
+section corresponding to $b_l$, so the weight is $\log|(s(b_l))_l|^{*2}$ for the dual norm
+$|y|^*=|A_\sigma^{\mathsf T}y|$ of the frame.
+
+\begin{lemma}[Scaling]\label{pf:covol:lem:scaling}
+If $f\ne0$ is multihomogeneous of degree $\delta$ in $B$ blocks of $N\ge1$ variables and $A_\sigma$ are
+invertible, then $\covolHform(\delta,w,e^tA,f)=\covolHform(\delta,w,A,f)+B\delta t$ for $t\in\R$.
+\formallabel{PositivityTheory.UnitarySelfGeneration.FrameHeightScaling.formHeight_smul}
+\end{lemma}
+
+\begin{proof}
+$\sigma f(e^tA_\sigma z)=e^{B\delta t}\sigma f(A_\sigma z)$, so each of the $[K:\Q]$ archimedean terms
+increases by $B\delta t$, and the sum is divided by $[K:\Q]$.
+\end{proof}
+
+\begin{proposition}[Self-intersection of the Fubini--Study model]\label{pf:covol:prop:vol}
+Assume the Hodge package $\mathcal P$. In the situation of \cref{pf:covol:def:image}, let $(b,g,A)$ be a
+frame of $(\nu,W)$ with $g\in K^{N\times m}$, let $\mathrm{ev}$ generate $\Omega$ and
+$\covolImDeg(\mathrm{ev},d)>0$. Let $Y$ be a rational model of $\Omega$ over $\OO_K$ which is an arithmetic
+variety of relative dimension $d$, such that for $z_k=\mathrm{ev}(\sum_jg_{jk}b_j)$ every point of $Y$ has
+an index $i$ with $z_i\ne0$ and all $z_j/z_i$ regular at the point; let $\mathcal L$ be a line bundle on
+$Y$ with a generic trivialisation and sections $s_1,\dots,s_m$ without common zero with values $z_k$; and
+let $M_\sigma$ be as in \cref{pf:covol:thm:chowformheight}, with
+$\sum_a|\sum_kM_\sigma(k,a)\sum_j\sigma(g_{jk})x_j|^2=|A_\sigma^{\mathsf T}x|^2$. Then for every $t\in\R$
+the Hermitian line bundle $\overline{\mathcal L}_{\mathrm{FS}}(t)$ has self-intersection
+\[
+(d+1)\,[K:\Q]\,\covolImDeg(\mathrm{ev},d)\,\bigl(\covolImHt(\nu,W,\mathrm{ev},d)+t\bigr).
+\]
+\formallabel{PositivityTheory.UnitarySelfGeneration.volume_le_self_intersection}
+\end{proposition}
+
+\begin{proof}
+The values $z_k$ generate $\Omega$ over $K$ by their ratios, because $\mathrm{ev}$ does and the columns of
+$g$ span $K^N$. By \lref{GlobalTheory.ZH.exists_isCl_isProjOver}, which states that for a
+Noetherian ring $o\subseteq\Omega$ and $t\in\Omega^{n+1}$ with some $t_i\ne0$ such that $o$ and the ratios
+$t_j/t_i$ generate the field $\Omega$, there is a rational model of $\Omega$ over $o$ which is the closure
+of the point $t$ (\cref{pf:covol:lem:modelform}(a)) and is projective over $o$, there is such a model $Z$
+for $o=\OO_K$ and $t=z$. Its ring of functions has characteristic $0$, so it is flat over $\Z$; and it has
+dimension $d+1$, because the transcendence degree of $\Omega$ over $K$ is $d$ when the image ideal has an
+integral Chow form of dimension $d$. So $Z$ is an arithmetic variety of relative dimension $d$. Since
+every point of $Y$ has a coordinate $z_i$ with regular ratios $z_j/z_i$, the identity of $\Omega$ induces
+a morphism $\pi\colon Y\to Z$ over $\OO_K$ which maps the generic point to the generic point with residue
+degree $1$. The coordinate functions give a line bundle $\mathcal L'$ on $Z$ with a generic trivialisation
+and sections $s'_k$ with values $z_k$.
+
+Let $\delta=\covolImDeg(\mathrm{ev},d)$ and choose an integral Chow form $f'$ of dimension $d$ and degree
+$\delta$ of the image ideal for some basis $b'$; transporting it by the change of basis gives an integral
+Chow form $f$ of the image ideal for $b$, i.e.\ of the cone ideal of $y=(\mathrm{ev}(b_j))_j$. By
+definition of the image height and its independence of choices,
+$\covolImHt(\nu,W,\mathrm{ev},d)=\covolHform(\delta,g,A,f)/((d+1)\delta)$.
+
+Apply \cref{pf:covol:thm:chowformheight} to $Z$, the sections $s'_k$, the frames $e^tA_\sigma$ and the
+matrices $e^tM_\sigma$ (the hypotheses are homogeneous in this scaling): the Fubini--Study bundle
+$\overline{\mathcal L'}_{\mathrm{FS}}$ of $(s',e^tM)$ has self-intersection
+$[K:\Q]\covolHform(\delta,g,e^tA,f)$. By the projection formula of $\mathcal P$, applied to $\pi$ with
+residue degree $1$, $\pi^*\overline{\mathcal L'}_{\mathrm{FS}}$ has the same self-intersection. The
+sections $\pi^*s'_k$ and $s_k$ have the same values, and multiplying $M_\sigma$ by $e^t$ adds $2t$ to the
+Fubini--Study weights; so the identity is an isometry from $\pi^*\overline{\mathcal L'}_{\mathrm{FS}}$ to
+$\overline{\mathcal L}_{\mathrm{FS}}(t)$, and by \cref{pf:covol:lem:unique} the latter has the same
+self-intersection. Finally, by \cref{pf:covol:lem:scaling} with $B=d+1$,
+\[
+[K:\Q]\covolHform(\delta,g,e^tA,f)=[K:\Q]\bigl(\covolHform(\delta,g,A,f)+(d+1)\delta t\bigr)=
+(d+1)[K:\Q]\delta\bigl(\covolImHt+t\bigr).\qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Chow form height comparison]\label{pf:covol:thm:comparison}
+Assume the Hodge package $\mathcal P$. Let $K$ be a totally complex number field, $V$ a $K$-vector space,
+$W\subseteq V$ a finitely generated $\OO_K$-submodule with $KW=V$, $\nu$ a family of norms on $V$ which
+has a Gram frame (\cref{def:covolume:slopes}) and satisfies $\nu_{\bar\sigma}=\nu_\sigma$,
+$\mathrm{ev}\colon V\to\Omega$ a $K$-linear map which generates $\Omega$, and $D\in\N$ with
+$\covolImDeg(\mathrm{ev},D)>0$. Let $(X,\overline L,\psi,s)$ be a model of $(\nu,W,\mathrm{ev},D)$, let
+$t\in\R$, and suppose that $\overline L(t)$ has self-intersection $a$. Then
+\[
+a\le[K:\Q]\,(D+1)\,\covolImDeg(\mathrm{ev},D)\,\bigl(\covolImHt(\nu,W,\mathrm{ev},D)+t\bigr).
+\]
+In fact equality holds.
+\formallabel{ChowFormHeightComparison₂.chow_form_height_comparison}%
+\formallabel{PositivityTheory.UnitarySelfGeneration.weil_height_inequality}
+\end{theorem}
+
+\begin{proof}
+Since $\psi$ is bijective and compatible with $\OO_K$, $X$ with the point defined by $\psi^{-1}$ is a
+rational model of $\Omega$ over $\OO_K$. Let $(b,g,A)$, $\gamma_k$ and $c$ be the frame data of
+\cref{pf:covol:def:model}. There are matrices $M_\sigma\in\GL_m(\C)$ with
+$M_{\bar\sigma}=\overline{M_\sigma}U_\sigma$, $U_\sigma$ unitary, and
+$\sum_a|\sum_kM_\sigma(k,a)\sum_j\sigma(g_{jk})x_j|^2=|A_\sigma^{\mathsf T}x|^2$: this is linear algebra,
+since the map $x\mapsto(\sum_j\sigma(g_{jk})x_j)_k$ is injective and the Hermitian form
+$|A_\sigma^{\mathsf T}x|^2$ on its image extends to a positive definite form on $\C^m$, compatibly with
+complex conjugation. By the ratio condition and the absence of common zeros, the generic point of $X$ lies
+in the non-vanishing locus of some $s(w)$, and $L$ has a generic trivialisation in which every $s(w)$ has
+value $\mathrm{ev}(w)$; in particular every point of $X$ has a coordinate $\mathrm{ev}(\gamma_i)\ne0$ with
+all ratios regular. \Cref{pf:covol:prop:vol}, applied to $Y=X$, $\mathcal L=L$ and the sections
+$s(\gamma_k)$, shows that the Fubini--Study bundle $\overline L'_{\mathrm{FS}}(t)$ of $(s(\gamma_k),M)$ has
+self-intersection $(D+1)[K:\Q]\covolImDeg(\covolImHt+t)$. The metric of $\overline L$ in the definition of
+a model is the Fubini--Study metric of the same sections for the dual norm $|A_\sigma^{\mathsf T}\cdot|$
+(by the ratio condition, $\sum_kc_{kl}s(\gamma_k)$ is the section corresponding to $b_l$), so the
+identity is an isometry between $\overline L(t)$ and $\overline L'_{\mathrm{FS}}(t)$. By
+\cref{pf:covol:lem:unique}, $a=(D+1)[K:\Q]\covolImDeg(\covolImHt+t)$.
+\end{proof}
+
+\begin{remark}\label{pf:covol:rem:equality}
+The formal statement is an inequality, but its proof establishes the equality. The hypotheses that $K$
+is totally complex, that $\nu$ has a Gram frame and is conjugation invariant, and that $W$ is finitely
+generated are part of the statement but are not used in the proof; the frame data needed are contained in
+the definition of a model. The theorem is the self-intersection hypothesis of the lift estimates
+(\cref{pf:covol:def:packages}).
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Small forms and small sections}\label{sec:pf:covol:small}
+
+We use the deep covers of \cref{sec:covolume:lift}.
+
+\begin{definition}[Small forms; admissible components]\label{pf:covol:def:small}
+Fix a global datum $\mathcal D$ with host field $E$ (a CM field), a core datum $T$ of $\mathcal D$, an
+integer $j$ and a deep cover $Y$ of $T$ at level $j$ which is \emph{good} for some parameters (the
+condition $\mathrm{GoodCov}$ of \cref{sec:covolume:lift}). The cover carries a unitary moduli space $X^o$
+over a number field $F$ (its coefficient field) with complex uniformisations at the good embeddings
+$\sigma\colon F\to\C$. Automorphic forms are \emph{rules}: functions which assign to every framed point of
+$X^o$ with values in an $F$-algebra $S$ (an $S$-point with a frame of the Lie algebra of the universal
+abelian scheme and a generator of the polarisation line) an element of $S$, compatibly with base change.
+For an irreducible component $Z$ of the generic fibre of $X^o$ and a weight $G$:
+\begin{enumerate}[label=(\alph*)]
+\item $\mathcal C(Z,G)$ is the $F$-vector space of cusp forms of weight $G$ supported on $Z$,
+  $\Lambda(Z,G)\subseteq\mathcal C(Z,G)$ its $\OO_F$-lattice of integral forms, and $\nu_\sigma(Z,G)$ the
+  Petersson-type norm at $\sigma$ (computed with a probability measure on the frames over $Z$);
+\item $\Omega_Z$ is the field of rational functions in the flag variables over the function field of $Z$,
+  and $\covolGen_Z$ is the $F$-algebra homomorphism from automorphic forms to $\Omega_Z$ given by evaluation
+  at a generic framed point over $Z$; its restriction to $\mathcal C(Z,G)$ is the \emph{evaluation map} of
+  the lattice;
+\item for $\tau\in\N$ and $t\in\R$, the set $\covolSmall(Z,G,\tau,t)$ of \emph{small forms} consists of the
+  $f\in\mathcal C(Z,\tau G)$ such that $v(f)\ge\tau\inf_{w\in\Lambda(Z,G)}v(w)$ for every maximal ideal
+  $\mathfrak l$ of $\OO_F$ and every valuation $v$ of the family of valuations attached to $\mathfrak l$,
+  and such that at every good embedding $\sigma$ and every frame point $y$ over $Z$ the pointwise norm of
+  $f$ satisfies $|f(y)|^2\le e^{2\tau t}B_G(y)^\tau$, where $B_G$ is the Bergman function of weight $G$ for
+  the Petersson norm on $Z$.
+\end{enumerate}
+For a weight $u$ of the datum of $T$ at level $j$ let $G_u$ be the associated weight of the deep cover
+(with shift $0$), and let $\deg(Y,u,Z)=\covolImDeg(\covolGen_Z|_{\mathcal C(Z,G_u)},\dim\mathrm{Fl})$ be the
+image degree of the evaluation map in the dimension $\dim\mathrm{Fl}$ of the flag variety of the datum. The
+pair $(Z,u)$ is \emph{admissible} if $(\nu(Z,G_u),\Lambda(Z,G_u))$ has a Gram frame, $\Lambda(Z,G_u)$ is
+finitely generated and spans $\mathcal C(Z,G_u)$, the evaluation map generates $\Omega_Z$, the lattice has
+no base locus along the valuations of these families (for every such valuation $v$ and every form $f$ of
+any weight with $v(f)\ne\infty$ there is $w\in\Lambda(Z,G_u)$ with $v(w)\ne\infty$), and $\deg(Y,u,Z)>0$.
+\formal{GlobalTheory.CovTop.Deep.Good}\formal{GlobalTheory.AllWt.cuspOn}\formal{GlobalTheory.AllWt.latOn}%
+\formal{GlobalTheory.AllWt.normOn}\formal{GlobalTheory.CompHt.genVal}\formal{GlobalTheory.CovHt.smallL}%
+\formal{GlobalTheory.AllWt.wtOf}\formallabel{GlobalTheory.AllWt.GoodOn}\formallabel{GlobalTheory.DegVal.BirOn}%
+\formallabel{GlobalTheory.CovHt.NoBase}
+\end{definition}
+
+\begin{theorem}[Small forms give small sections]\label{pf:covol:thm:small}
+Assume the non-vanishing statement (NV) of \cref{pf:covol:thm:nv} and the Hodge package $\mathcal P$. Let
+$Y$ be a good deep cover as in \cref{pf:covol:def:small}, with $[E:\Q]/2>2$, let $(Z,u)$ be admissible,
+and let $(X,\overline L,\psi,s)$ be a model (\cref{pf:covol:def:model}) of
+$(\nu(Z,G_u),\Lambda(Z,G_u),\covolGen_Z,\dim\mathrm{Fl})$. Then for every $t\in\R$ and every $i\ge1$,
+\[
+\#\covolSmall(Z,G_u,8i,t)\le\#\bigl\{\text{small sections of }\overline L(t)^{\otimes8i}\bigr\}
+\]
+(cardinalities in $\N\cup\{\infty\}$).
+\formallabel{PositivityTheory.Xj7N.small_sections_injective}
+\end{theorem}
+
+The theorem, applied with (NV), is the small-sections hypothesis of the lift estimates
+(\cref{pf:covol:def:packages}). Its proof constructs an injection $f\mapsto S_f$ and needs three lemmas.
+
+\begin{lemma}[Rational sections]\label{pf:covol:lem:ratsmall}
+Let $X$ be an integral scheme over $\Spec k$, $\overline L$ a Hermitian line bundle on $X$, $s_0$ a section
+of $L$ not vanishing at $\eta_X$, $\tau\in\N$ and $t\in\R$. There is an injective map $R$ from the sections
+of $L^{\otimes\tau}$ to the function field $\kappa(X)$ with the following property: if $h\in\kappa(X)$ is
+such that the rational section $hs_0^\tau$ is regular at every point of $X$ and
+$\|hs_0^\tau(y)\|^2\le e^{2\tau t}$ (norm of $\overline L^{\otimes\tau}$) at every complex point $y$ at which
+it is regular, then $h=R(S)$ for a small section $S$ of $\overline L(t)^{\otimes\tau}$.
+\formallabel{PositivityTheory.Xj7N.Inj.exists_rat_small}
+\end{lemma}
+
+\begin{proof}
+Let $R(S)=S/s_0^\tau$. If $hs_0^\tau$ is regular everywhere, it is a global section $S$ with $R(S)=h$,
+and its norm for $\overline L(t)^{\otimes\tau}$ is $e^{-\tau t}\|hs_0^\tau\|\le1$.
+\end{proof}
+
+\begin{lemma}[From generic points to all complex points]\label{pf:covol:lem:dense}
+Let $(X,\overline L,\psi,s)$ be a model of $(\nu,W,\mathrm{ev},d)$, $\beta\in\Omega$, $\tau\in\N$ and
+$t\in\R$. Suppose that for every frame $(b,g,A)$ of $(\nu,W)$, every $\sigma\in\Sigma_K$ and every field
+embedding $\rho\colon\Omega\to\C$ extending $\sigma$,
+\begin{equation}\label{pf:covol:eq:genbound}
+|\rho(\beta)|\le e^{\tau t}\,\bigl|A_\sigma^{\mathsf T}(\rho(\mathrm{ev}\,b_j))_j\bigr|^{\tau}.
+\end{equation}
+Let $w\in W$ with $\mathrm{ev}(w)\ne0$ and $F=\psi(\beta)\psi(\mathrm{ev}\,w)^{-\tau}s(w)^\tau$. Then
+$\|F(y)\|^2\le e^{2\tau t}$ (norm of $\overline L^{\otimes\tau}$) at every complex point $y$ of $X$ at which
+$F$ is regular.
+\formallabel{ChowFormHeightComparison₂.GenericDenseBound.norm_le_of_emb}%
+\formallabel{PositivityTheory.Xj7N.weil_height_comparison_of_degree_bound}
+\end{lemma}
+
+\begin{proof}
+Let $(b,g,A)$, $\gamma_k$ and $c$ be the frame data of the model, and let $y$ lie over
+$\sigma_0\colon\OO_K\to\C$. Choose an affine open set $O\ni y$ in a trivialising open set of $L$ on which
+$F$ is regular, and let $B=\Gamma(O,\OO_X)$, a domain of finite type over $\Z$ with fraction field
+$\kappa(X)=\psi(\Omega)$. In the trivialisation, $\|F(y)\|^2=|F(y)|^2e^{-\tau\varphi(y)}$ with
+$\varphi=\log\sum_a|\sum_k(\sum_l\sigma(c_{kl})A_\sigma(l,a))\,s(\gamma_k)|^2$, and the desired inequality is
+an inequality $\Phi_\sigma(r(y))\le\Psi_\sigma(r(y))$ between continuous functions of the values at $y$ of
+the finitely many elements $r=(F,s(\gamma_1),\dots)$ of $B$.
+
+\emph{The inequality holds at every embedding $\rho\colon\kappa(X)\to\C$.} Let $\sigma=\rho\psi|_K$ and
+$\lambda=\rho(\psi(\mathrm{ev}\,w)^{-1}s(w))$. By the ratio condition,
+$\rho(s(\gamma_k))=\rho\psi(\mathrm{ev}\,\gamma_k)\lambda$ and $\rho(F)=\rho\psi(\beta)\lambda^\tau$; since
+$b_l=\sum_kc_{kl}\gamma_k$, $\sum_k(\sum_l\sigma(c_{kl})A_\sigma(l,a))\rho\psi(\mathrm{ev}\,\gamma_k)=
+\sum_lA_\sigma(l,a)\rho\psi(\mathrm{ev}\,b_l)$. The inequality at $\rho$ is therefore
+\eqref{pf:covol:eq:genbound} for $\rho\psi$, squared and multiplied by $|\lambda|^{2\tau}$.
+
+\emph{Limits.} Write $B$ as a quotient of $\Z[X_1,\dots,X_n]$; the ring homomorphisms $B\to\C$ form a
+closed algebraic subset $V\subseteq\C^n$ defined over $\Q$, whose irreducible components are conjugate
+under automorphisms of $\C$ because $B\otimes\Q$ is a domain. For $0\ne b\in B$ the zero set of $b$ in $V$
+contains no component (otherwise it would contain all of them, and $b$ would be $0$ in the domain $B$),
+so it is nowhere dense in $V$. Since $B$ is countable, Baire's theorem shows that the points of $V$ at
+which no nonzero element of $B$ vanishes are dense; at such a point evaluation is injective on $B$ and
+extends to a field embedding of $\kappa(X)$. Hence $y$ is the pointwise limit of a sequence of field
+embeddings $\rho_n\colon\kappa(X)\to\C$. As $\Sigma_K$ is finite, a subsequence has a constant restriction
+$\sigma$ to $K$, and $\sigma|_{\OO_K}=\sigma_0$ by continuity. Passing to the limit in
+$\Phi_\sigma(r(\rho_n))\le\Psi_\sigma(r(\rho_n))$ gives the inequality at $y$.
+\end{proof}
+
+\begin{lemma}[Regularity]\label{pf:covol:lem:regular}
+Let $(X,\overline L,\psi,s)$ be a model of $(\nu,W,\mathrm{ev},d)$, $\beta\in\Omega$ and $\tau\in\N$.
+Suppose that for every maximal ideal $\mathfrak l$ of $\OO_K$ and every valuation ring $O\supseteq\OO_K$ of
+$\Omega$ whose maximal ideal contains $\mathfrak l$ there is $l\in W$ with $\beta\in\mathrm{ev}(l)^\tau O$.
+Then for every $w\in W$ with $\mathrm{ev}(w)\ne0$ the rational section
+$\psi(\beta)\psi(\mathrm{ev}\,w)^{-\tau}s(w)^\tau$ of $L^{\otimes\tau}$ is regular at every point of $X$.
+\formallabel{ChowFormHeightComparison₂.RegularPointExistence.reg_of_val}%
+\formallabel{ChowFormHeightComparison₂.SmallGenerators.reg_of_val}
+\end{lemma}
+
+\begin{proof}
+Let $x\in X$ and $F=\psi(\beta)\psi(\mathrm{ev}\,w)^{-\tau}s(w)^\tau$, written in a trivialisation near
+$x$. $X$ is normal, so the local ring at $x$ is the intersection of the valuation rings of $\kappa(X)$
+containing it, and it suffices to show $F\in O$ for each such $O$. The valuation ring
+$\psi^{-1}(O)$ of $\Omega$ contains $\OO_K$; it contains a valuation ring $O'\supseteq\OO_K$ of $\Omega$
+whose maximal ideal contains some maximal ideal $\mathfrak l$ of $\OO_K$ (refine by a valuation of the
+residue field). By hypothesis $\beta=\mathrm{ev}(l)^\tau c$ for some $l\in W$ and $c\in O'\subseteq\psi^{-1}(O)$.
+By the ratio condition, $F=\psi(c)\bigl(\psi(\mathrm{ev}\,l)\psi(\mathrm{ev}\,w)^{-1}s(w)\bigr)^\tau=
+\psi(c)\,s(l)^\tau$, and $s(l)$ is regular at $x$, so $F\in O$.
+(The formal development contains two copies of this argument, one for the points of the generic fibre
+and one for the points over the maximal ideals of $\OO_K$.)
+\end{proof}
+
+\subsubsection*{Forms with vanishing generic values}
+Recall from \cref{pf:covol:def:small} that rules are functions on framed points. Formally they are
+defined on the framed points with values in the \emph{test rings} $F[x_1,\dots,x_r]/\mathfrak a$ with
+$\mathfrak a$ radical, and are compatible with base change. A rule $g$ has \emph{exponent}
+$e\colon\mathrm{Ix}\to\Z$ if $g(y')=\prod_it_i^{e_i}\,g(y)$ whenever $y'$ is obtained from $y$ by a Borel
+change of frame with diagonal $t$ (the index set $\mathrm{Ix}$ consists of the polarisation index and the
+pairs $(\tau,i)$, $i<\mathrm{mult}(\tau)$).
+
+\begin{lemma}[Rules with vanishing generic values]\label{pf:covol:lem:secz}
+Let $g$ be a rule of exponent $e$ such that $\covolGen_Z(g)=0$ for every irreducible component $Z$ of the
+generic fibre of $X^o$. Then $g=0$.
+\formallabel{GlobalTheory.CompHt.secZ_eq_zero_of_genVal}%
+\formallabel{GlobalTheory.CompHt.evR_eq_zero_of_genVal_eq_zero}
+\end{lemma}
+
+\begin{proof}
+We use the \emph{atlas property} of generic frames (\lref{GlobalTheory.Reg.evLaws_genFr_atlas}): for
+every field $L$ over $F$ and every framed point $y$ over $L$ there are a component $Z$, a smooth
+$F$-subalgebra $R_C\subseteq\Omega_Z$ with fraction field $\Omega_Z$, a framed point $y_C$ over $R_C$ whose
+image in $\Omega_Z$ is obtained from the generic framed point of $Z$ by a Borel change of frame with
+diagonal $t$, an $F$-homomorphism $\psi\colon R_C\to L$, and a diagonal $t'$ such that $y$ is obtained from
+$\psi_*(y_C)$ by the Borel change with diagonal $t'$.
+
+\emph{Points over fields.} In this situation, by the transformation law and the compatibility with base
+change, $g(y)=\prod_it_i'^{e_i}\,\psi(g(y_C))$, and the image of $g(y_C)$ in $\Omega_Z$ is
+$\prod_it_i^{e_i}\,\covolGen_Z(g)=0$. As $R_C\subseteq\Omega_Z$, $g(y_C)=0$ and so $g(y)=0$.
+
+\emph{Test rings.} Let $S=F[x]/\mathfrak a$ be a test ring, $y$ a framed point over $S$, and $a\in F[x]$ a
+representative of $g(y)$. For a maximal ideal $\mathfrak m\supseteq\mathfrak a$, the image of $y$ under
+$S\to F[x]/\mathfrak m$ is a framed point over a field (\lref{GlobalTheory.FlagTan.exists_frMap}), at
+which the value of $g$ is the image of $g(y)$ (\lref{GlobalTheory.FlagTan.evR_eq}); it is $0$ by the
+first step, so $a\in\mathfrak m$. Since $F[x]$ is a Jacobson ring and $\mathfrak a$ is radical,
+$\mathfrak a$ is the intersection of the maximal ideals containing it; hence $a\in\mathfrak a$ and $g(y)=0$.
+\end{proof}
+
+\subsubsection*{Holomorphic sections over a component}
+Fix a good embedding $\sigma$ of $F$. The complex uniformisation $V$ of $X^o$ at $\sigma$ consists of charts
+$k$, each a domain of frames of a Hermitian symmetric domain, with a \emph{model weight} $\lambda_k$ on chart
+$k$ attached to every weight of the datum; $\mathrm{rd}(f)(k,x)$ denotes the value of a rule $f$ at the
+framed point of chart $k$ at $x$, read through the uniformisation, and the \emph{frames over $Z$} are the
+pairs $(k,x)$ whose framed point lies on $Z$. A \emph{holomorphic section} of weight $\lambda$ on chart $k$ is a
+holomorphic function $P$ on its frames with the transformation law of $\lambda$; it is \emph{cuspidal} if
+it has moderate growth and its constant Fourier--Jacobi coefficients at all isotropic vectors vanish. For a
+toroidal flag datum $\mathrm{TF}$ of $X^o$ (\lref{DifferentiableLines.nonempty_toroidal_flag_bundle},
+which provides one from the first statement of the Hodge package when the flag variety has positive
+dimension), with flag model $\overline{\mathrm{Fl}}$, interior $\mathrm{Fl}^o$ and automorphic line bundles
+$\mathcal L(e)$, an algebraic form of exponent $e$ \emph{vanishing along the boundary} is the rule defined by
+a global section of $\mathcal L(e)$ whose non-vanishing locus lies in $\mathrm{Fl}^o$. Finally, the exponent
+$e$ is \emph{twisted} on chart $k$ for the weight $\lambda$ if for every complex framed point $y$ there are
+dominant weights $(a,n)$ and $(a_0,n_0)$ for which (NV) holds at $\sigma$, whose exponents differ by $e$ and
+whose model weights on chart $k$ differ by $\lambda$, and a rule $g$ of weight $(a_0,n_0)$ with $g(y)\ne0$.
+
+\begin{lemma}[Algebraicity of cuspidal sections]\label{pf:covol:lem:comb}
+Let $e$ be an exponent vector with $e_0=0$ at the polarisation index, and for every chart $k$ let
+$\lambda_k$ be a weight for which $e$ is twisted on chart $k$ and $P_k$ a cuspidal holomorphic section of
+weight $\lambda_k$. Then there are $a_1,\dots,a_m\in\C$ and algebraic forms $f_1,\dots,f_m$ of exponent $e$
+vanishing along the boundary with $P_k(x)=\sum_ia_i\,\mathrm{rd}(f_i)(k,x)$ for every chart $k$ and every
+frame $x$ of it.
+\formallabel{PositivityTheory.UnitarySelfGeneration.VuOnto.exists_comb}
+\end{lemma}
+
+\begin{proof}
+The flag model is smooth of some relative dimension and projective over $F$
+(\lref{GlobalTheory.T.toroidal_flag_smooth_projective}). For every chart $k$, $P_k$ defines a function
+$h_k$ on the complex points of $\overline{\mathrm{Fl}}$ at $\sigma$, with values in the fibres of
+$\mathcal L(e)$ (in the trivialisations of a covering), which reads $P_k$ at the points of the image of
+chart $k$ and vanishes at all other points
+(\lref{PositivityTheory.UnitarySelfGeneration.VuOnto.open_secZ}). It is holomorphic on the interior
+(\lref{PositivityTheory.UnitarySelfGeneration.VuOnto.open_holoZ}, whose proof uses the twisting
+hypothesis) and also at the boundary points
+(\lref{PositivityTheory.UnitarySelfGeneration.VuOnto.holoOn_bdZ}, whose proof uses the cuspidality of
+$P_k$). Hence $h=\sum_kh_k$ is a holomorphic
+section of $\mathcal L(e)$ on $\overline{\mathrm{Fl}}_\sigma(\C)$ which vanishes outside the interior. The
+images of different charts are disjoint, by the definition of a uniformisation and because the Borel
+changes of frame form a groupoid (\lref{GlobalTheory.Reg.BorelGroupoid.frBor_groupoid}); so $h$ reads
+$P_k$ on chart $k$. As
+$\overline{\mathrm{Fl}}_\sigma$ is smooth and projective, $h$ is the section of an algebraic section of
+$\mathcal L(e)$ over $\C$ (\lref{GlobalTheory.AnRead.bijective_valC}; this is GAGA). An algebraic section
+over $\C$ of a line bundle on a scheme locally of finite type over $F$ which vanishes outside an open set $O$
+is a finite combination $\sum_ia_is_i$ with $a_i\in\C$ and sections $s_i$ over $F$ whose non-vanishing loci
+lie in $O$ (\lref{GlobalTheory.T.complex_section_finite_combination}). The sections $s_i$ (for
+$O=\mathrm{Fl}^o$) define algebraic forms $f_i$ of exponent $e$ vanishing along the boundary, and reading
+$h=\sum_ia_is_i$ through the uniformisation gives $P_k=\sum_ia_i\,\mathrm{rd}(f_i)(k,\cdot)$
+(\lref{GlobalTheory.T.holomorphic_extension_section_reading}).
+\end{proof}
+
+\begin{proposition}[Holomorphic sections are combinations of algebraic forms]\label{pf:covol:prop:lum}
+Assume (NV) and $\mathcal P$. Let $Y$ be a good deep cover as in \cref{pf:covol:def:small} with
+$[E:\Q]/2>2$, $Z$ a component, $\mathrm{TF}$ a toroidal flag datum and $u$ a weight such that
+$(Z,u)$ satisfies the first three conditions of admissibility in \cref{pf:covol:def:small} (only the
+generation of $\Omega_Z$ is used), and let $\sigma$ be a good embedding. Then every cuspidal holomorphic
+section $P$ of the model weight of $G_u$ at $\sigma$ agrees on the frames over $Z$ with $\sum_ia_i\,\mathrm{rd}(f_i)$ for some $a_i\in\C$ and algebraic forms $f_i$ of exponent
+$e_u$ (the exponent of $G_u$) vanishing along the boundary of $\mathrm{TF}$.
+\formallabel{PositivityTheory.Xj7N.local_unit_map_surjective}
+\end{proposition}
+
+\begin{proof}
+\emph{The weight is dominant.} Let $\tau$ and $m$ with $m+1<\mathrm{mult}(\tau)$. If
+$u_{\tau,m+1}>u_{\tau,m}$, every rule of exponent $e_u$ vanishes
+(\lref{GlobalTheory.NonDomVanish.eq_zero_of_lt}, which states that a rule whose exponent increases
+strictly at two consecutive indices of the same $\tau$ is $0$), so the evaluation map of $\mathcal C(Z,G_u)$
+is $0$, which contradicts the hypothesis. Hence each $i\mapsto u_{\tau,i}$ is non-increasing.
+
+\emph{Twisting.} Good deep covers carry a key section, a rule which does not vanish at the relevant points
+(\lref{GlobalTheory.HSApp.VanishingBound.keySec}). With it, (NV) and the monotonicity just proved, the
+exponent $e_u$ is twisted on every chart for the model weight of $G_u$
+(\lref{PositivityTheory.UnitarySelfGeneration.VuOnto.tw_of_dec}). As $p+q\ge1$ and $e_u$ vanishes at the
+polarisation index, \cref{pf:covol:lem:comb} applies to the sections $P$ on all charts and gives the claim.
+\end{proof}
+
+\begin{proposition}[Archimedean bound for small forms]\label{pf:covol:prop:archsmall}
+Assume (NV) and $\mathcal P$. Let $Y$ be a good deep cover with $[E:\Q]/2>2$, let $(Z,u)$ be admissible,
+$G=G_u$, and let $(b,g,A)$ be a frame of $(\nu(Z,G),\Lambda(Z,G))$. Let $\sigma\colon F\to\C$, let
+$\rho\colon\Omega_Z\to\C$ be a field embedding extending $\sigma$, $\tau>0$ and $t\in\R$. Then for every
+$f\in\covolSmall(Z,G,\tau,t)$
+\[
+|\rho(\covolGen_Zf)|\le e^{\tau t}\,\bigl|A_\sigma^{\mathsf T}(\rho(\covolGen_Zb_j))_j\bigr|^\tau .
+\]
+\formallabel{PositivityTheory.Xj7N.weil_height_archimedean_contribution}%
+\formallabel{PositivityTheory.Xj7N.norm_small_le}
+\end{proposition}
+
+\begin{proof}
+Write $S=|A_\sigma^{\mathsf T}(\rho(\covolGen_Zb_j))_j|$. Since $p+q=r\ge2$, the flag variety has positive
+dimension and a toroidal flag datum exists (\lref{DifferentiableLines.nonempty_toroidal_flag_bundle}).
+
+\emph{Step 1: spanning.} At every good embedding $\sigma'$, every holomorphic section $P$ of the model weight
+of $G$ agrees on the frames over $Z$ with a complex linear combination of cusp forms of weight $G$ supported
+on $Z$, read through the uniformisation: by \cref{pf:covol:prop:lum}, $P=\sum_ia_i\,\mathrm{rd}(f_i)$ there,
+and for every algebraic form $f_i$ vanishing along the boundary there is a cusp form $g_i$ of weight $G$
+supported on $Z$ with the same values at all frames over $Z$ at all good embeddings
+(\lref{GlobalTheory.T.extVan_section_has_cusp_form_match}).
+
+\emph{Step 2: a frame point for $\rho$.} There are a chart $k$ of the uniformisation at the good embedding
+attached to $\rho$ and a frame $y_0$ of it which lies over $Z$ and is a Borel transform of the image of the
+generic framed point of $Z$ under $\rho$ (\lref{GlobalTheory.CompHS.InfFr.nonempty}). Consequently there
+is $c_G>0$ with $|f'(y_0)|_G=c_G\,|\rho(\covolGen_Zf')|$ for all rules $f'$ of the exponent of $G$, where
+$|\cdot|_G$ is the pointwise norm of weight $G$, and $c_{\tau G}=c_G^\tau$ (the pointwise norm transforms
+under the Borel change by a positive factor which is multiplicative in the weight).
+
+\emph{Step 3: the Bergman function.} By the definition of frames (\cref{def:covolume:slopes}), the Hermitian
+form of $\nu_\sigma(Z,G)$ is diagonalised by $(b,g,A)$, and Cauchy--Schwarz gives
+$|\rho(\covolGen_Zf')|\le S\,\nu_\sigma(f')$ for every cusp form $f'$ of weight $G$ supported on $Z$
+(\lref{PositivityTheory.Xj7N.norm_genVal_le}). Hence the Bergman function of these cusp forms at $y_0$,
+$\sup_{f'\ne0}|f'(y_0)|_G^2/\nu_\sigma(f')^2$, is at most $(c_GS)^2$
+(\lref{GlobalTheory.CompHS.bergCusp_le_iff}). By Step 1 it equals the Bergman function $B_G(y_0)$ of
+the holomorphic sections of the model weight used in \cref{pf:covol:def:small}(c)
+(\lref{GlobalTheory.CompHS.bergCusp_eq_bergOn}); so $B_G(y_0)\le(c_GS)^2$.
+
+\emph{Step 4.} As $f$ is small, $|f(y_0)|_{\tau G}^2\le e^{2\tau t}B_G(y_0)^\tau$, that is
+$c_G^{2\tau}|\rho(\covolGen_Zf)|^2\le e^{2\tau t}(c_GS)^{2\tau}$. Dividing by $c_G^{2\tau}>0$ and taking
+square roots gives the claim.
+\end{proof}
+
+\begin{remark}\label{pf:covol:rem:archsmall}
+Some hypotheses of the formal statements of \cref{pf:covol:prop:lum,pf:covol:prop:archsmall} are not used.
+In \cref{pf:covol:prop:lum}, the Hodge package, the condition $[E:\Q]/2>2$ and the frame and spanning
+conditions of admissibility are not used. In \cref{pf:covol:prop:archsmall}, of the admissibility of $(Z,u)$
+only the generation of $\Omega_Z$ is used (besides the frame $(b,g,A)$, which is given separately); the
+absence of base locus, the positivity of the image degree and the condition $[E:\Q]/2>2$ are not used, and
+the Hodge package is used only to obtain a toroidal flag datum.
+\end{remark}
+
+\begin{proof}[Proof of \cref{pf:covol:thm:small}]
+Write $G=G_u$, $\Lambda=\Lambda(Z,G)$, $\covolGen=\covolGen_Z$. Some $w_1\in\Lambda$ has
+$\covolGen(w_1)\ne0$: otherwise the evaluation map vanishes on $\Lambda$, hence on $\mathcal C(Z,G)$, and its
+image degree $\deg(Y,u,Z)$ would be $0$. Since the sections $s(w)$ have no common zero, there is
+$w\in\Lambda$ with $\eta_X\in D(s(w))$; then $\covolGen(w)\ne0$, since otherwise the ratio condition
+$\psi(\covolGen\,w_1)s(w)=\psi(\covolGen\,w)s(w_1)$ would force $\psi(\covolGen\,w_1)s(w)=0$ at $\eta_X$.
+Let $R$ be the map of \cref{pf:covol:lem:ratsmall} for $s_0=s(w)$ and $\tau=8i$.
+
+Let $f\in\covolSmall(Z,G,8i,t)$ and $h_f=\psi(\covolGen\,f)\psi(\covolGen\,w)^{-8i}$. The rational section
+$h_fs(w)^{8i}$ is regular at every point of $X$ by \cref{pf:covol:lem:regular} with $\beta=\covolGen(f)$.
+Its hypothesis is supplied by \lref{ChowFormHeightComparison₂.RegularPointExistence.fin_small_gen}
+and \lref{ChowFormHeightComparison₂.SmallGenerators.fin_small_gen}, which state that for every
+valuation $\mu$ of $\Omega_Z$ with $\mu\le1$ on $\OO_F$ and $\mu<1$ on $\mathfrak l$ there is $l\in\Lambda$
+with $\mu(\covolGen f)\le\mu(\covolGen l)^{8i}$, as a consequence of the conditions at the valuations attached
+to $\mathfrak l$ in the definition of small forms; the resulting regularity statements are
+\lref{ChowFormHeightComparison₂.regulator_lower_bound} (points of the generic fibre) and
+\lref{ChowFormHeightComparison₂.height_lower_bound_of_regulator} (all points). Next, \cref{pf:covol:prop:archsmall} with $\tau=8i$ shows that $\beta=\covolGen(f)$ satisfies
+\eqref{pf:covol:eq:genbound} for every frame of $(\nu(Z,G),\Lambda)$. By \cref{pf:covol:lem:dense} with
+$\beta=\covolGen(f)$ and $\tau=8i$, $\|h_fs(w)^{8i}(y)\|^2\le e^{16it}$ at all complex points. By
+\cref{pf:covol:lem:ratsmall} there is a small section $S_f$ of $\overline L(t)^{\otimes8i}$ with
+$R(S_f)=h_f$.
+
+The map $f\mapsto S_f$ is injective: $R(S_f)=R(S_{f'})$ gives $\psi(\covolGen f)=\psi(\covolGen f')$ because
+$\psi(\covolGen w)\ne0$, hence $\covolGen(f-f')=0$ as $\psi$ is injective, and
+a cusp form of weight $8iG$ supported on $Z$ whose generic value at $Z$ vanishes is zero: its generic
+values at the other components vanish because it is supported on $Z$, and \cref{pf:covol:lem:secz}
+applies. This proves the inequality of cardinalities.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Non-vanishing of automorphic forms at interior points}\label{sec:pf:covol:nv}
+
+\begin{definition}[Algebraic automorphic forms of a given weight]\label{pf:covol:def:sec}
+Let $E$ be a CM field with a host datum, $\mathrm{Dw}$ a unitary datum of signature $(p,q)$ with
+$p+q\ge1$, $l$ a level, $X^o$ the unitary moduli space and $c$ a coefficient datum with field $F$. For an
+exponent vector $a\colon\Sigma_E\times\N\to\N$ and $n\in\N$, $\mathrm{sec}(a,n)$ is the $F$-space of
+algebraic automorphic forms (rules, as in \cref{pf:covol:def:small}) of weight $(a,n)$, and $(a,n)$ is
+\emph{dominant} if each $i\mapsto a(\tau,i)$ is non-increasing and $n$ is even. For an embedding
+$\sigma\colon F\to\C$, a \emph{complex framed point} $y$ of $X^o$ over $\sigma$ is a complex point of $X^o$
+with a frame, and $f(y)\in\C$ is the value of a rule $f$ at $y$. The \emph{non-vanishing statement} (NV)
+is: for all such data, every dominant $(a,n)$ and every complex framed point $y$ there are a dominant
+$(a',n')$, $g\in\mathrm{sec}(a',n')$ and $f\in\mathrm{sec}(a+a',n+n')$ with $g(y)\ne0$ and $f(y)\ne0$.
+\formal{Formalism.L2.Pj.Dom}\formal{Formalism.L2.Pj.sec}\formal{Formalism.L2.Pj.evR}%
+\formallabel{PositivityTheory.Xj7N.NV}
+\end{definition}
+
+\begin{theorem}[Non-vanishing at interior points]\label{pf:covol:thm:nv}
+The Siegel toroidal input and the unitary toroidal input of \cref{tab:covolume:inputs} imply (NV).
+\formallabel{GlobalTheory.CompanionTheory.Ar.Rec.exists_nonvanishing_of_toroidal}
+\end{theorem}
+
+\begin{proof}
+Fix the data, a dominant $(a,n)$ and $y$. The unitary toroidal input, with a polarised fan provided by
+the Siegel toroidal input, gives a smooth projective toroidal model $\overline Y$ of $X^o$ over $F$ with a
+boundary divisor $\Delta$, given by an effective Cartier divisor whose canonical section $s_\Delta$ does not
+vanish on the interior, and an integer $k\ge1$ such that $A=\omega^{\otimes k}\otimes\OO(-\Delta)$ is
+ample, where $\omega$ is the determinant of the Hodge bundle of the model. Over $\overline Y$ there is an
+integral flag model $\pi\colon\mathcal F\to\overline Y$ carrying automorphic line bundles $\mathcal L(e)$ for
+exponent vectors $e$, with $\mathcal L(e+e')=\mathcal L(e)\otimes\mathcal L(e')$ in the Picard group: by
+\lref{GlobalTheory.T.nonempty_integralFlagModel_of_smooth_coefficientField}, which states that a
+smooth toroidal model on which the push-forward of the polarisation line is invertible has an integral flag
+model, since the model has a theta structure by
+\lref{GlobalTheory.ThetaNormal.hasTheta_of_smooth}, which states that every smooth toroidal model has
+one. For the vector $w$ with all entries $1$, $\mathcal L(w)\cong\pi^*\omega$. For
+$e_0(\tau,i)=\mathrm{mult}(\tau)-i$, the bundle $\mathcal L(e_0)$ is ample on $\pi^{-1}(V)$ for the members
+$V$ of an affine open cover of $\overline Y$, by
+\lref{GlobalTheory.T.borelWeil_flagModel_detInverse_isAmple_local}, which states this ampleness
+(the Borel--Weil property of the flag model). Hence $\mathcal L(e_0)$ is ample relative to $\pi$, and
+$P=\pi^*A^{\otimes m}\otimes\mathcal L(e_0)$ is ample for all large $m$ \cite[\S1.7]{Lazarsfeld2004};
+fix such $m\ge1$. Put $\tau_0=mk\,w+e_0$; then $\mathcal L(\tau_0)=P\otimes\pi^*\OO(\Delta)^{\otimes m}$ in the
+Picard group, and the section $\pi^*s_\Delta^m$ of the second factor does not vanish at the point $z$ of
+$\mathcal F$ defined by the framed point $y$, which lies over the interior.
+
+For every line bundle $\mathcal N$ on $\mathcal F$, the sheaf $\mathcal N\otimes P^{\otimes u}$ is generated by
+global sections for all large $u$ \cite[Thm.~1.2.6]{Lazarsfeld2004}; multiplying by $\pi^*s_\Delta^{mu}$
+gives, for all large $u$, sections of $\mathcal N\otimes\mathcal L(u\tau_0)$ not vanishing at $z$. Apply this
+to $\mathcal N=\mathcal L(0)$ and to $\mathcal N=\mathcal L(e_A)$, where $e_A$ is the exponent vector of the
+weight $(a,n)$, and take a common $u\ge1$: we obtain sections $s_1$ of $\mathcal L(u\tau_0)$ and $s_2$ of
+$\mathcal L(e_A+u\tau_0)$ not vanishing at $z$. Let $a'(\tau,i)=u\,(mk+\mathrm{mult}(\tau)-i)$ and $n'=0$;
+then $(a',0)$ is dominant, its exponent vector is $u\tau_0$, and the exponent vector of $(a+a',n)$ is
+$e_A+u\tau_0$. The global sections $s_1,s_2$ define rules $g\in\mathrm{sec}(a',0)$ and
+$f\in\mathrm{sec}(a+a',n)$, whose values at $y$ are the values of $s_1,s_2$ at $z$ in the frame given by $y$,
+hence nonzero.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Statements from the literature used by the assembly}\label{sec:pf:covol:literature}
+
+The following statements, proved in the development, enter the proof of \cref{thm:covol} directly. They
+are published results (or immediate consequences of published inputs), and we only recall them.
+
+\begin{littheorem}[Green {\cite{Green1955}}]\label{pf:covol:lit:green}
+The parametrisation of the irreducible cuspidal characters of $\GL_d(\F_g)$ by regular characters of
+$\F_{g^d}^\times$ holds (\cref{thm:literature:green}); consequently $\sfname{Green}$
+(\cref{def:green}) holds, by \cref{lit:top:green}.
+\formallabel{GlobalTheory.greenRegularCharacters_holds}
+\end{littheorem}
+
+\begin{littheorem}[Fubini--Study heights of subvarieties of projective space {\cite{Philippon1991,Soule1991}}]\label{pf:covol:lit:fs}
+Assume $\mathcal P$. Let $Y\subseteq\mathbb P^N_{\OO_K}$ be an integral closed subscheme which is an
+arithmetic variety of relative dimension $e$, let $A_\sigma\in\GL_{N+1}(\C)$ with
+$A_{\bar\sigma}=\overline{A_\sigma}U_\sigma$, $U_\sigma$ unitary, and let $f$ be an integral Chow form of
+dimension $e$ and degree $\delta$ of the generic ideal of $Y$. Then the restriction to $Y$ of $\OO(1)$
+with the Fubini--Study metrics of the coordinate sections and the matrices $A_\sigma$ has
+self-intersection $[K:\Q]\,\covolHform(\delta,1,A,f)$. (The development derives this from the arithmetic
+intersection theory contained in $\mathcal P$.)
+\formallabel{FubiniStudyChowHeightFormula₂.fubiniStudy_chowHeight_formula}
+\end{littheorem}
+
+\begin{littheorem}[Integral Chow forms {\cite{ChowVanDerWaerden1937}}]\label{pf:covol:lit:chowint}
+Let $k$ be a field of characteristic $0$ and $P\subseteq k[X_1,\dots,X_N]$ a homogeneous prime with
+$\dim k[X]/P=e+1$. Then $P$ has an integral Chow form of dimension $e$ whose degree is the degree of $P$
+(the normalised leading coefficient of its Hilbert polynomial), and every integral Chow form of $P$ of
+dimension $e$ and the same degree is a nonzero multiple of it.
+\formallabel{GlobalTheory.Published.chowFormIntExists_holds}
+\end{littheorem}
+
+\begin{littheorem}[Chow forms of hyperplane sections {\cite[\S1]{Philippon1986}}]\label{pf:covol:lit:cut}
+Let $k$ be a field of characteristic $0$, $P\subseteq k[X_1,\dots,X_N]$ a homogeneous prime with
+$\dim k[X]/P=e+2$, $u\in k^N$ with $\ell_u\notin P$, and $f$ an integral Chow form of $P$ of dimension
+$e+1$. If $g_Q$ are integral Chow forms of dimension $e$ of the components $Q$ of the cycle
+$[P+(\ell_u)]$, then $f(u,\cdot)=c\prod_Qg_Q^{m_Q}$ with $c\in k^\times$ and $m_Q$ the multiplicities.
+(The development deduces this from \cref{pf:covol:lem:chowcalc}(a) and the uniqueness of Chow forms up
+to scalars.)
+\formallabel{ChowFormCompatibility.chow_form_hyperplane_section}
+\end{littheorem}
+
+\begin{littheorem}[Toroidal charts {\cite{FaltingsChai1990,Lan2013}}]\label{pf:covol:lit:tor}
+(a) The unitary toroidal input of \cref{tab:covolume:inputs} implies the existence of \emph{toroidal charts
+for a given fan}: for every admissible polarised fan without self-intersection, the unitary moduli spaces
+have smooth toroidal models with simple normal crossings boundary, charts at the boundary points and an
+ample polarisation (the Kodaira--Spencer clause of the input is dropped). (b) This statement and the
+Siegel toroidal input imply the existence of \emph{toroidal charts}: smooth toroidal models with simple
+normal crossings boundary and charts at all boundary points.
+\formallabel{PositivityTheory.Prw.toroidalChartsForFan_of}\formallabel{GlobalTheory.Published.toroidalCharts_of_siegel_of_forFan}
+\end{littheorem}
+
+In (b), the polarised fan of the Siegel toroidal input in genus $[E:\Q]q+1$ is refined to a fan which is
+invariant under the CM structure, polarised and without self-intersection, by
+\lref{GlobalTheory.PolFan.exists_fine_invariant_fan}, which states that every polarised fan for
+$\Z$-lattices of rank $\ge[E:\Q]q$ restricts and refines to such a fan for projective $\OO_E$-modules of
+rank $\le q$; this fan is then used in (a).
+
+\begin{littheorem}[Lengths of proper intersections {\cite[\S7.1]{Fulton1998}}]\label{pf:covol:lit:length}
+Let $X$ be an integral scheme, projective of dimension $D$ over a field $k$, $L$ a line bundle on $X$ and
+$s_1,\dots,s_D$ sections of $L$ whose common zero scheme $C$ is finite with Cohen--Macaulay local rings.
+Then the sections form a regular sequence at the points of $C$, $C$ is finite over $k$, and the top
+self-intersection of $L$ equals $\sum_{z\in C}[\kappa(z):k]\,\len(\OO_{C,z})=\dim_k\Gamma(C,\OO_C)$.
+(In the development this statement, which belongs to the package $\mathcal Q$ of
+\cref{pf:covol:def:packages}, is supplied by a theorem whose hypothesis, the Hodge package, is not used.)
+\formal{GlobalTheory.CovTop.PublishedHodgeBundleTheorems.q12}
+\end{littheorem}
+
+% ---------------------------------------------------------------------------
+\subsection{The final assembly}\label{sec:pf:covol:assembly}
+
+We use the families, points and constants of \cref{sec:covolume:statement} and the lift predicates
+$\mathsf{GramAt}$, $\mathsf{RecAt}$, $\mathsf{CutAt}$, $\mathsf{BadAt}$, $\mathsf{LamAt}(A)$,
+$\mathsf{SizeAt}(PP,A)$, $\mathsf{CoreAt}(C)$, $\mathsf{LowAt}(C)$ of \cref{def:covolume:predicates}. For a
+point $p$ at $(x,\iota)$ we write $b$, $e_z$ for the parameters of its size data,
+$\delta=\exp(-x^{e_z/7})$, $\covolMainT_i=\covolMainT_i(p)$ and $U=\covolUnitE(p)$. Recall that the lift
+condition attached to a predicate $Q(p,i,PP,C)$ is
+\begin{multline*}
+\mathrm{Closed}\Bigl(\mathrm{FamHyp},(F,C_H)\mapsto\exists C\ge0:\\
+\mathrm{EventuallyAtAllPoints}\bigl(F,p\mapsto\forall i\in J:\ Q(p,i,PP(x,\iota),C)\bigr)\Bigr),
+\end{multline*}
+where $PP(x,\iota)$ is a parameter of the family at $(x,\iota)$; the eight lift conditions are those
+attached to the eight predicates above, the existential constant playing the role of $A$ for
+$\mathsf{LamAt}$ and of the second argument for $\mathsf{SizeAt}$, $\mathsf{CoreAt}$ and $\mathsf{LowAt}$.
+
+\begin{lemma}[Covolume bound at a point]\label{pf:covol:lem:lcvle}
+Let $p$ be a point at $(x,\iota)$ with $x>0$, let $i\in J$, $A,B,PP\in\R$ and $C_1,C_2\ge0$ with
+\begin{equation}\label{pf:covol:eq:loss}
+12\,e^{-x^{e_z/7}}\bigl(x^A+x^B+C_1+C_2+1\bigr)\le1 .
+\end{equation}
+If $\mathsf{GramAt}$, $\mathsf{RecAt}$, $\mathsf{CutAt}$, $\mathsf{BadAt}$, $\mathsf{LamAt}(A)$,
+$\mathsf{SizeAt}(PP,B)$, $\mathsf{CoreAt}(C_1)$ and $\mathsf{LowAt}(C_2)$ hold at $(p,i)$, then
+\[
+\frac1D\,\covolLcv(X_{W,i},M_i)\le\covolMainT_i+(C_1+C_2+1)\,U .
+\]
+\formal{GlobalTheory.CovTop.Assembly.lcv_le}
+\end{lemma}
+
+\begin{proof}
+Let $Q=(x^A+x^B+C_1+C_2+1)U$, let $\Lambda^{\mathrm{type}}$, $\Lambda^{\mathrm{all}}$,
+$\Lambda^{\mathrm{good}}$ be the lattices of \cref{sec:covolume:assembly}, $e=e_i$ and $g=|G_p|$. By
+$\mathsf{SizeAt}(PP,B)$, $1\le b\le U$ and $|\covolMainT_i|\le x^Bb$; in particular $U\ge0$ and $Q\ge U$.
+We use the estimate for the slope of the good part (\cref{lem:covolume:slope-good}, formally
+\lref{GlobalTheory.CutNum.slope_good_ge}): if the norms have a Gram frame, $L\subseteq M$ with $M$
+finitely generated and $L\ne0$, $e$ is a Pythagorean idempotent, $g\ge1$ is an integer with
+$g\,e(L)\subseteq L$, $0\le\delta\le\frac1{12}$, $\rank(L\cap\ker e)\le3\delta\rank L$,
+$\mu_{\max}(M)\le Q$, $-Q\le\mu(L)$ and $2\log g\le Q$, then $\mu(L\cap\operatorname{im}e)\ge\mu(L)-12\delta Q$.
+Apply it to $L=\Lambda^{\mathrm{type}}\subseteq M=\Lambda^{\mathrm{all}}$. The hypotheses hold: the Gram
+frame, the finite generation of $M$ and $L\ne0$ (because $0\ne\Lambda^{\mathrm{good}}\subseteq L$) come
+from $\mathsf{GramAt}$; $e^2=e$, $e$ Pythagorean and $g\,e(L)\subseteq L$ from $\mathsf{CutAt}$;
+$12\delta\le1$ from \eqref{pf:covol:eq:loss}, because $x^A,x^B>0$ and $C_1+C_2+1\ge1$; the rank condition
+is $\mathsf{BadAt}$; $\mu_{\max}(M)\le x^Ab\le x^AU\le Q$ by $\mathsf{LamAt}(A)$; by $\mathsf{CoreAt}(C_1)$,
+$\mathsf{LowAt}(C_2)$ and $\mathsf{SizeAt}$,
+\[
+\mu(L)\ge\mu_{\mathrm{core}}-C_1U\ge-\covolMainT_i-(C_1+C_2)U\ge-x^BU-(C_1+C_2)U\ge-Q;
+\]
+and $2\log g\le b\le U\le Q$ by $\mathsf{CutAt}$. Hence $\mu(\Lambda^{\mathrm{good}})\ge\mu(L)-12\delta Q$.
+Multiplying \eqref{pf:covol:eq:loss} by $U\ge0$ gives $12\delta Q\le U$. With $\mathsf{RecAt}$,
+$\mathsf{CoreAt}(C_1)$ and $\mathsf{LowAt}(C_2)$,
+\[
+\frac1D\covolLcv(X_{W,i},M_i)\le-\mu(\Lambda^{\mathrm{good}})\le-\mu(L)+U\le-\mu_{\mathrm{core}}+(C_1+1)U
+\le\covolMainT_i+(C_1+C_2+1)U.\qedhere
+\]
+\end{proof}
+
+\begin{lemma}\label{pf:covol:lem:loss}
+For $c>0$ and $A,B,C\in\R$ there is $x_0$ such that $12\,e^{-x^c}(x^A+x^B+C)\le1$ for all $x\ge x_0$.
+\formal{GlobalTheory.CovTop.Assembly.exists_loss_le}\formal{GlobalTheory.CovTop.Assembly.tendsto_exp_mul_rpow}
+\end{lemma}
+
+\begin{proof}
+For every $a\in\R$, $e^{-x^c}x^a=e^{-y}y^{a/c}\to0$ as $x\to\infty$, where $y=x^c\to\infty$. Hence
+$12e^{-x^c}(x^A+x^B+Cx^0)\to0<1$.
+\end{proof}
+
+\begin{theorem}[\cref{thm:covolume:assembly}]\label{pf:covol:thm:assembly}
+The eight lift conditions of \cref{def:covolume:predicates} imply $\sfname{CovolumeBoundOfX}$.
+\formal{GlobalTheory.CovTop.Assembly.covolX_of_lift_bounds_and_coreLe}
+\end{theorem}
+
+\begin{proof}
+A finite conjunction of statements of the form $\mathrm{Closed}(\mathrm{FamHyp},P_k)$ is again of this form
+for the conjunction of the $P_k$: take the least of the thresholds $\eps_1$ and a transported constant
+dominating those of the $P_k$; and if $P$ implies $P'$ for all $\eps$, families $F$ and constants $C_H$
+satisfying the conditions of $\mathrm{Closed}$, then $\mathrm{Closed}(\mathrm{FamHyp},P)$ implies
+$\mathrm{Closed}(\mathrm{FamHyp},P')$. Similarly a finite conjunction of statements
+$\mathrm{EventuallyAtAllPoints}(F,Q_k)$ holds with the largest of the thresholds $x_0$.
+
+So fix $\eps$, a family $F$ and $C_H$ as in $\mathrm{Closed}$, and the constants provided by the eight
+conditions: $A$ for $\mathsf{LamAt}$, $B$ for $\mathsf{SizeAt}$, $C_1\ge0$ for $\mathsf{CoreAt}$ and
+$C_2\ge0$ for $\mathsf{LowAt}$; let $x_1'$ be a common threshold for the eight
+$\mathrm{EventuallyAtAllPoints}$ statements. The exponent $e_z$ of the size data is the same at all
+$(x,\iota)$ and is positive, since it is positive at the first index (the scale axioms); by
+\cref{pf:covol:lem:loss} with $c=e_z/7$ and $C=C_1+C_2+1$ there is $x_0'$ such that
+\eqref{pf:covol:eq:loss} holds for $x\ge x_0'$. Put $C_0=C_1+C_2+1\ge0$ and take the threshold
+$\max(x_0',x_1')$. Let $x$ exceed it (so that also $x>x_1>1$, where $x_1$ is the threshold of the
+family), $\iota\in I_x$, $p$ a point at $(x,\iota)$ satisfying $\mathrm{PointConditions}'$ and
+$\mathrm{RecTied}$, $C\ge C_0$ and $i\in J$. The eight predicates hold at $(p,i)$, so
+\cref{pf:covol:lem:lcvle} gives $\frac1D\covolLcv(X_{W,i},M_i)\le\covolMainT_i+C_0U$. Since $U\ge b\ge1>0$ by
+$\mathsf{SizeAt}$, this is at most $\covolMainT_i+CU$, which is $l_3(i)$ for the numerical datum
+$p.N(C,C_H)$; this is the inequality required by $\sfname{CovolumeBoundOfX}$ (\cref{def:covolX}).
+\end{proof}
+
+\begin{remark}\label{pf:covol:rem:assembly}
+The formal statements of this subsection belong to the formal proof of the lift estimates
+(\cref{thm:covolume:lift}), whose last step is \cref{pf:covol:thm:assembly}, applied through a
+restatement of it. The constant $C_H$ enters only through the constants and thresholds provided by the
+lift conditions.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the covolume bound}\label{sec:pf:covol:main}
+
+We first record the two remaining notions which occur in the statements used.
+
+\begin{definition}[The four packages]\label{pf:covol:def:packages}
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{unitary geometric package} $\mathcal H_X$ consists of the unitary toroidal input and the
+  Lie seminegativity and point separation inputs of \cref{tab:covolume:inputs}, of $\sfname{Green}$
+  (\cref{def:green}), and of the formula for Fubini--Study heights of subvarieties of projective space
+  (\cref{pf:covol:lit:fs}).
+\item The \emph{toroidal package} $\mathcal H_H$ consists of the Siegel toroidal input, the existence of
+  toroidal charts for a given fan and of toroidal charts (\cref{pf:covol:lit:tor}), and $\sfname{ArDegree}$.
+\item The \emph{volume package} $\mathcal V$ consists of the \emph{self-intersection hypothesis}: $\mathcal P$
+  implies the conclusion of \cref{pf:covol:thm:comparison} for all data; and the \emph{small-sections
+  hypothesis}: $\mathcal P$ implies the conclusion of \cref{pf:covol:thm:small} for all data.
+\item The \emph{quoted package} $\mathcal Q$ consists of the Kawamata--Viehweg vanishing theorem, the
+  $L^2$ extension theorem for log canonical pairs, GAGA for holomorphic sections, the numerics of nef
+  divisors and the existence of Chow forms (all statements of $\mathcal P$), the existence of integral
+  Chow forms (\cref{pf:covol:lit:chowint}), Chow forms of hyperplane sections (\cref{pf:covol:lit:cut}) and
+  the length formula for proper intersections (\cref{pf:covol:lit:length}).
+\end{enumerate}
+\formallabel{GlobalTheory.CovTop.HypothesesX}\formallabel{GlobalTheory.CovHt.HypothesesH}%
+\formal{SelfIntersectionVolumeEstimates.VolumeEstimateHypotheses}\formal{GlobalTheory.HSCore.Quoted}
+\end{definition}
+
+\begin{definition}[Mean slopes on deep covers]\label{pf:covol:def:deepstr}
+Let $Y$ be a deep cover as in \cref{pf:covol:def:small}, of a datum of signature $(p,q)$ with CM type
+$\Psi$, and let $u=(u_{\tau,a})$ be a weight of the datum.
+\begin{enumerate}[label=(\alph*)]
+\item For $g>0$, $u$ has \emph{gap} $g$ if every $a\mapsto u_{\tau,a}$ is strictly decreasing and
+  $|u_{\tau,a}-u_{\tau,a'}|\ge g$ for $a\ne a'$ with $a\ge p$. Put
+  $\mathrm{bnd}(u,g)=4|\Psi|(p+q)^2\bigl(1+\max_{\tau,a}|u_{\tau,a}|/g\bigr)$ and, for $s\in\R$,
+  $\mathrm{err}_s(u,g)=(\log\mathrm{bnd}(u,g)+s)\|u\|_1+q\sum_\tau(\max_au_{\tau,a}-\min_au_{\tau,a})$.
+\item For $\delta>0$ and a function $\mathrm{vol}\colon\R\to[0,\infty]$, the \emph{volume slope} is
+  $\mathrm{volSlope}(\delta,\mathrm{vol})=\inf_{t\in\R}\bigl(\mathrm{vol}(t)/\delta-t\bigr)\in[-\infty,\infty]$.
+  For $D,d,a\in\N$ and a sequence $m(\tau)\in\N\cup\{\infty\}$, the \emph{counting volume} is
+  $\limsup_{k\to\infty}D!\,\log^+m(ak)/(d\,(ak)^{D+1})$.
+\item For a family $\mathcal V$ of valuations, a component $Z$ and $a\in\N$, let $\mathrm{vol}_{a}(Z,u)(t)$
+  be the counting volume, with $D=\dim\mathrm{Fl}$ and $d=[F:\Q]$, of the numbers of cusp forms of weight
+  $\tau G_u$ on $Z$ which are integral for $\mathcal V$ and have pointwise norm at most $e^{\tau t}$ at all
+  frame points over $Z$ at the good embeddings; and let
+  $\mathrm{slope}_a(Z,u)=\mathrm{volSlope}(\gamma_ZV(u),\mathrm{vol}_a(Z,u))$, where
+  $V(u)=\prod_\tau\prod_{i<l}(u_{\tau,i}-u_{\tau,l})$ is the Vandermonde product of $u$ and $\gamma_Z$ is
+  the growth constant of the dimensions of the spaces of cusp forms on $Z$ for the standard weight $u_0$,
+  divided by $V(u_0)$.
+\item $\mathrm{MeanAll}(s,C)$ holds on $Y$ if for every weight $u$ with gap $g>0$ there are real numbers
+  $\mathrm{sl}(Z)\le\mathrm{slope}_8(Z,u)$, computed with the family of valuations attached to the primes
+  up to $\mathrm{bnd}(u,g)$, whose average over the components $Z$ is at least
+  $-C\,\mathrm{err}_s(u,g)$.
+\item $\sfname{DeepStR}$ is the statement: there is $C\ge0$ such that for every global datum $\mathcal D$
+  and every core datum $T$ of $\mathcal D$ satisfying the structural conditions $\mathsf{LawsJ}$, with
+  $m^2\le k$, every $1\le j<m$ and every good deep cover $Y$ of $T$ at level $j$ whose level modulus has at
+  most $15$ prime factors, $\mathrm{MeanAll}(\ell(\mathcal D),C)$ holds on $Y$, where
+  $\ell(\mathcal D)=\log\mathrm{rd}_E+|\frac{L'}{L}(1,\chi_d)|$.
+\end{enumerate}
+This makes \cref{def:covolume:deepstr} of Part I explicit.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.DeepStR}\formallabel{GlobalTheory.CovHt.MeanAll}%
+\formallabel{GlobalTheory.CovHt.MeanGe}\formallabel{GlobalTheory.CovHt.WtGap}\formallabel{GlobalTheory.CovHt.bndB}%
+\formallabel{GlobalTheory.CovHt.errX}\formallabel{GlobalTheory.CovHt.ell}\formallabel{GlobalTheory.CompHt.volSlope}%
+\formallabel{GlobalTheory.CompHt.countVol}\formallabel{GlobalTheory.CompHt.compVol}%
+\formallabel{GlobalTheory.CompHt.compVolSlope}\formallabel{GlobalTheory.CompHt.topDeg}
+\end{definition}
+
+\begin{lemma}\label{pf:covol:lem:volslope}
+For $\delta>0$, a function $\mathrm{vol}\colon\R\to[0,\infty]$ and $a\in\R$, one has
+$a\le\mathrm{volSlope}(\delta,\mathrm{vol})$ if and only if $\delta(a+t)\le\mathrm{vol}(t)$ for every
+$t\in\R$ with $a+t\ge0$.
+\formallabel{GlobalTheory.CompHt.le_volSlope_iff}
+\end{lemma}
+
+\begin{proof}
+$a\le\mathrm{vol}(t)/\delta-t$ is equivalent to $\delta(a+t)\le\mathrm{vol}(t)$, and it holds trivially when
+$a+t<0$, as $\mathrm{vol}(t)\ge0$. (Formally the right-hand side is written with the truncation
+$\max(\delta(a+t),0)$.)
+\end{proof}
+
+\begin{theorem}[\cref{thm:covol}]\label{pf:covol:thm:covol}
+The fifteen statements of \cref{tab:covolume:inputs} imply $\sfname{CovolumeBoundOfX}$.
+\formallabel{SelfIntersectionVolumeEstimates.topCovolSlim2_use_alt_alt}
+\end{theorem}
+
+\begin{proof}
+Assume the fifteen statements. We verify the four packages of \cref{pf:covol:def:packages} and
+$\sfname{DeepStR}$, and apply the lift estimates.
+
+(1) $\mathcal H_X$: the unitary toroidal, Lie seminegativity and point separation inputs are among the
+fifteen statements; $\sfname{Green}$ holds by \cref{pf:covol:lit:green}; and the Fubini--Study height
+formula follows from $\mathcal P$ by \cref{pf:covol:lit:fs}.
+
+(2) $\mathcal H_H$: the Siegel toroidal input and $\sfname{ArDegree}$ are among the fifteen statements,
+and the two statements on toroidal charts follow from the Siegel and unitary toroidal inputs by
+\cref{pf:covol:lit:tor}.
+
+(3) $\mathcal V$: the self-intersection hypothesis is \cref{pf:covol:thm:comparison}. The small-sections
+hypothesis is \cref{pf:covol:thm:small}, once (NV) is known; and (NV) holds by \cref{pf:covol:thm:nv},
+applied to the Siegel and unitary toroidal inputs.
+
+(4) $\mathcal Q$: the first five statements are part of $\mathcal P$, and the last three hold by
+\cref{pf:covol:lit:chowint,pf:covol:lit:cut,pf:covol:lit:length}.
+
+(5) By \cref{thm:deepstr}, i.e.\ \lref{PositivityTheory.HtPt.Ah.deep_slim_use}, which states that the
+resolution, principalisation, Poincar\'e--Lelong, $\sfname{HSUse}$, Moriwaki, Hodge--Tate, Zarhin and nef
+Riemann--Roch inputs imply $\sfname{DeepStR}$ (\cref{pf:covol:def:deepstr}), the first eight inputs give
+$\sfname{DeepStR}$.
+
+(6) By \cref{thm:covolume:lift}, i.e.\ \lref{SelfIntersectionVolumeEstimates.topCovolG_alt_alt},
+which states that $\mathcal V$, $\mathcal H_X$, $\mathcal P$, $\mathcal H_H$, the Grothendieck--Messing input,
+$\mathcal Q$ and $\sfname{DeepStR}$ imply $\sfname{CovolumeBoundOfX}$, the packages (1)--(4), the inputs
+$\mathcal P$ and Grothendieck--Messing, and (5) give $\sfname{CovolumeBoundOfX}$.
+\end{proof}
+
+\begin{remark}\label{pf:covol:rem:inputs}
+(1) The resolution, principalisation, Poincar\'e--Lelong, $\sfname{HSUse}$, Moriwaki, Hodge--Tate, Zarhin
+and nef Riemann--Roch inputs are used only through $\sfname{DeepStR}$; the other seven inputs enter the
+four packages and the lift estimates. (2) All fifteen inputs are theorems of the development:
+$\sfname{HSUse}$ and $\sfname{MoriwakiBigStatement}$ by \cref{thm:covolume:hs}, the resolution inputs by
+\cref{thm:covolume:resolution}, and the others as described in \cref{sec:literature}; hence
+$\sfname{CovolumeBoundOfX}$ holds. (3) Inside the lift estimates, $\sfname{CovolumeBoundOfX}$ is obtained
+from the eight lift conditions by \cref{pf:covol:thm:assembly}; the results of
+\cref{sec:pf:covol:chowht,sec:pf:covol:comparison,sec:pf:covol:small,sec:pf:covol:nv} are used there to
+bound numbers of small automorphic forms on deep covers by arithmetic volumes of models of their images.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Further results used in other sections}\label{sec:pf:covol:further}
+
+This subsection proves statements of the development which are used in other sections of Part~II: an
+exponent and a lemma on levels used for deep covers, GAGA for sections of line bundles, the identification
+of the Hodge determinant on flag covers, the two flat line statements and the flat degree formula.
+
+\subsubsection*{Deep covers}
+
+\begin{definition}[Exponents of primes]\label{pf:covol:def:htex}
+For the host field $E$ of a global datum and $p\in\N$ let
+$\mathrm{ex}(p)=\frac1{p-1}+40\,\frac{v_p(|d_E|)}{[E:\Q]}$, where $d_E$ is the discriminant of $E$ and
+$v_p$ the $p$-adic valuation (for $p=1$ the first term is read as $0$). It is used in the height comparisons
+for deep covers.
+\formallabel{GlobalTheory.CovHt.htEx}
+\end{definition}
+
+Recall that a level $l$ of a host datum has a modulus $M(l)$, an odd integer $\ge3$, and that $l$ has
+\emph{good reduction at a prime $p$} if the prime-to-$p$ part $M(l)/p^{v_p(M(l))}$ is at least $3$.
+
+\begin{lemma}[Good reduction and multiples of the level]\label{pf:covol:lem:goodmul}
+\begin{enumerate}[label=(\alph*)]
+\item A level $l$ has good reduction at a prime $p$ if and only if $M(l)$ is not a power of $p$.
+\item Let $l,l_2$ be levels with $M(l_2)=b\,M(l)$ for some $b\in\N$. If $l$ has good reduction at every
+  prime, then so has $l_2$.
+\end{enumerate}
+\formallabel{GlobalTheory.HostProbe.goodAt_iff}\formallabel{GlobalTheory.LawsDeep.goodAt_of_mul}
+\end{lemma}
+
+\begin{proof}
+(a) The prime-to-$p$ part of $M(l)$ is odd (as $M(l)$ is odd), so it is at least $3$ unless it is $1$,
+that is, unless $M(l)=p^{v_p(M(l))}$; and if $M(l)=p^k$ for some $k$, then the prime-to-$p$ part is $1$.
+(b) By (a) it suffices to show that $M(l_2)$ is not a power of $p$. If $M(l_2)=p^k$, then $M(l)$ divides $p^k$, so $M(l)=p^i$ for some $i\le k$, and $l$ would not
+have good reduction at $p$.
+\end{proof}
+
+\subsubsection*{GAGA for sections}
+
+\begin{theorem}[GAGA for sections]\label{pf:covol:thm:gaga}
+Let $X$ be a scheme, proper and smooth over $\C$, and $L$ a line bundle on $X$, given by transition
+functions $g_{ij}\in\Gamma(U_i\cap U_j,\OO_X)^\times$ on an open cover $(U_i)$. Let $h_i\colon U_i(\C)\to\C$ be
+functions such that
+\begin{enumerate}[label=(\roman*)]
+\item for every open set $B\subseteq\C^m$ and every holomorphic family $b\mapsto y(b)$ of complex points of
+  $U_i$ parametrised by $B$, the function $b\mapsto h_i(y(b))$ is holomorphic on $B$; and
+\item $h_i(x)=g_{ij}(x)h_j(x)$ for every complex point $x$ of $U_i\cap U_j$.
+\end{enumerate}
+Then there is a global section of $L$ whose local function on $U_i$ takes the value $h_i(x)$ at every complex
+point $x$ of $U_i$, for every $i$.
+\formallabel{GlobalTheory.CompanionTheory.Gaga.gagaSections}
+\end{theorem}
+
+The theorem is a form of Serre's GAGA \cite{Serre1956}; the development proves it by the following direct
+argument.
+
+\begin{lemma}[The equidimensional case]\label{pf:covol:lem:gagapure}
+\Cref{pf:covol:thm:gaga} holds if $X$ is smooth of pure relative dimension $D$ over $\C$.
+\formallabel{GlobalTheory.CompanionTheory.Gaga.gagaSections_pure}
+\end{lemma}
+
+\begin{proof}
+Every complex point of $X$ lies in an \emph{algebraic chart}: a neighbourhood biholomorphic to an open set
+of $\C^D$ through $D$ algebraic functions. By (i) applied to the inverses of the charts, the $h_i$ are
+holomorphic in the charts, and by (ii) they form a holomorphic section $s=(s_i)$ of $L$ on $X(\C)$
+(\lref{GlobalTheory.T.holomorphic_gluing_local_functions}). We show that $s$ is algebraic
+(\lref{GlobalTheory.CompanionTheory.Gaga.holomorphicSections_algebraic_of_isProper}).
+
+\emph{Local algebraicity.} Let $x\in U_i$. As $X$ is smooth, $x$ has an open neighbourhood $U$ such that
+$\Gamma(V,\OO_X)$ is a domain for every open $V\subseteq U$ containing $x$
+(\lref{GlobalTheory.exists_open_isDomain_of_smooth_complex}); let $V\ni x$ be an affine open subset of
+$U\cap U_i$. Because $X$ is proper, $s_i$ has polynomial growth on $V(\C)$: there are regular functions
+$u_1,\dots,u_n$ on $V$ and constants $C,m$ with $|s_i(y)|\le C(1+\sum_l|u_l(y)|)^m$ for $y\in V(\C)$
+(\lref{GlobalTheory.T.holomorphic_section_moderate_growth}). A holomorphic function of polynomial growth
+on $V(\C)$, $V$ smooth affine with a domain as ring of functions, is a quotient of regular functions: there
+are $a,b\in\Gamma(V,\OO_X)$, $b\ne0$, with $b\,s_i=a$ on $V(\C)$
+(\lref{GlobalTheory.SerreSections.exists_mul_eq_of_polynomial_growth}). A continuous function on $V(\C)$
+which equals $a/b$ is regular: there is $c\in\Gamma(V,\OO_X)$ with $c=s_i$ on $V(\C)$
+(\lref{GlobalTheory.exists_ev_eq_of_continuousOn_quotient}).
+
+\emph{Gluing.} Regular functions on an open subset of $X$ which agree at all complex points are equal, $X$
+being reduced and of finite type over $\C$
+(\lref{GlobalTheory.eq_of_ev_eq_of_smoothOfRelativeDimension}). Hence the local functions $c$ agree on
+overlaps and glue to $f_i\in\Gamma(U_i,\OO_X)$ with $f_i=s_i$ on $U_i(\C)$; for the same reason
+$f_i=g_{ij}f_j$ on $U_i\cap U_j$. So $(f_i)$ is a global section of $L$ with the required values.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:covol:thm:gaga}]
+A scheme smooth over $\C$ is the disjoint union of open and closed subschemes $W_D$, $D\in\N$, with $W_D$
+smooth of pure relative dimension $D$ (\lref{GlobalTheory.T.smooth_scheme_decompose_relative_dimension}).
+Each $W_D$ is proper over $\C$, being closed in $X$, and the restrictions of $L$ and of the $h_i$ to $W_D$
+satisfy (i) and (ii), since holomorphic families of points of $W_D$ are holomorphic families of points of
+$X$. By \cref{pf:covol:lem:gagapure} there are global sections $\sigma_D$ of $L|_{W_D}$ with the required
+values. Since the $W_D$ form a disjoint open cover, for every $i$ the local functions of the $\sigma_D$ on
+the sets $U_i\cap W_D$ glue uniquely to a function $b_i$ on $U_i$
+(\lref{GlobalTheory.CompanionTheory.Gaga.glue}); the relations $b_i=g_{ij}b_j$ hold because they hold on
+every $W_D$, and every complex point of $X$ lies in some $W_D$, which gives the values.
+\end{proof}
+
+\subsubsection*{The Hodge determinant on flag covers}
+Let $Y$ be a model of $X^o$ over $F$ and $\pi\colon\mathrm{Fl}\to Y$ a \emph{flag cover}: $\mathrm{Fl}$ is a
+normal scheme, proper over $Y$, with a \emph{frame system}, which consists of an open cover $(U_k)_k$ of
+$\mathrm{Fl}$, charts $M_k$ of $Y$ (each providing a basis of the Lie algebra of the semi-abelian scheme of
+$Y$ over an open set containing $\pi(U_k)$, of size $n$; on overlaps the two bases differ by a matrix
+$\mathrm{chg}_{kk'}$), and $n\times\mathrm{mult}(\tau)$ matrices $u_k(\tau)$ of functions on $U_k$, with a
+left inverse, such that on $U_k\cap U_{k'}$
+\[
+\mathrm{chg}_{kk'}\,u_{k'}(\tau)=u_k(\tau)\,B_{kk'}(\tau)
+\]
+with upper triangular matrices $B_{kk'}(\tau)$. The columns of $u_k(\tau)$, read in the basis of chart $k$,
+are the \emph{flag vectors} $v_k(\tau,i)$, $i<\mathrm{mult}(\tau)$. Line bundles on $\mathrm{Fl}$ are given by
+cocycles on $(U_k)$ and compared through their classes. The \emph{Hodge determinant}
+$\det\Omega$ is given by the cocycle $(\det\mathrm{chg}_{kk'})^{-1}$; for an exponent vector $e$, the
+automorphic line bundle $\mathcal L(e)$ is given by the cocycle $\prod_\iota T_{kk'}(\iota)^{-e(\iota)}$,
+where $T_{kk'}(\tau,i)$ is the diagonal entry $B_{kk'}(\tau)_{ii}$ and $T_{kk'}$ at the polarisation index is
+a unit attached to the two charts (it plays no role below); and $\mathcal L_\lambda=\mathcal L(e_\lambda)$ for a weight
+$\lambda$ with exponent vector $e_\lambda$. For the weight $\mu_0$ (equal to $1$ on the first $p$ entries
+and to $-1$ on the others), $e_{\mu_0}$ is $0$ at the polarisation index and $1$ at all $(\tau,i)$
+(\lref{GlobalTheory.FlagMod.unitaryWeightExponentVector_signatureWeightMuZero}).
+
+\begin{proposition}[The Hodge determinant on flag covers]\label{pf:covol:prop:lbiso}
+On every flag cover, $\det\Omega$ is isomorphic to $\mathcal L_{\mu_0}$.
+\formallabel{GlobalTheory.FlagHodge.lbIso_detOm_Llam}
+\end{proposition}
+
+\begin{proof}
+Two line bundles with cocycles $(g_{kk'})$ and $(g'_{kk'})$ on the same cover are isomorphic as soon as
+there are units $d_k\in\Gamma(U_k,\OO)^\times$ with $g'_{kk'}d_{k'}=g_{kk'}d_k$ on $U_k\cap U_{k'}$; this is
+the usual coboundary computation with the cocycle relations. Let $d_k$ be the determinant of the $n\times n$
+matrix whose columns are the columns of all $u_k(\tau)$; its value at a point is the determinant of the
+flag vectors in the basis of chart $k$.
+
+\emph{Eigenframes.} For every point $z$ of $U_k$ with values in a ring $S$ there is a homomorphism
+$\phi\colon F\to S$ such that, for every $\tau$, the flag vectors $v_k(\tau,i)(z)$ lie in the eigenspace of
+the Lie algebra at $\pi(z)$ on which $\OO_E$ acts through $\phi\circ\tau$, and form a basis of it
+(\lref{GlobalTheory.FlagHodge.exists_eigFrame}, which deduces this from the corresponding property over a
+dense open subset of $\mathrm{Fl}$ and the normality of $\mathrm{Fl}$). The Lie algebra is the direct sum of
+these eigenspaces (\lref{GlobalTheory.T.existsUnique_embedding_eigenspace_sum}), so all flag vectors
+together form a basis (\lref{GlobalTheory.ShFam.exists_eigBasis}); hence $d_k(z)$, the determinant of a
+basis in another basis, is a unit, and $d_k$ is a unit on $U_k$ (a function whose values at all points are
+units is a unit).
+
+\emph{The coboundary relation.} Let $z$ be a point of $U_k\cap U_{k'}$ and $f$, $f'$ the eigenframes given by
+the flag vectors of $k$ and $k'$. By the displayed relation and the linear independence of the flag
+vectors, $f'(\tau)=f(\tau)B_{kk'}(\tau)(z)$; so the matrix of $f'$ in the basis $f$ is block diagonal with the
+upper triangular blocks $B_{kk'}(\tau)(z)$, whose determinant is $\prod_{\tau,i}T_{kk'}(\tau,i)(z)$. By the
+multiplicativity of determinants,
+\[
+\det\mathrm{chg}_{kk'}(z)\,d_{k'}(z)=\det\nolimits_{M_k}(f')=\det\nolimits_{M_k}(f)\prod_{\tau,i}T_{kk'}(\tau,i)(z)
+=d_k(z)\prod_{\tau,i}T_{kk'}(\tau,i)(z),
+\]
+where $\det_{M_k}$ is the determinant in the basis of chart $k$
+(\lref{GlobalTheory.ShFam.ev_detChg_mul_frameDet}, \lref{GlobalTheory.ShFam.frameDet_change}). A
+function is determined by its values at all points with values in rings, so
+$\bigl(\prod_{\tau,i}T_{kk'}(\tau,i)\bigr)^{-1}d_{k'}=(\det\mathrm{chg}_{kk'})^{-1}d_k$, which is the
+coboundary relation between the cocycles of $\mathcal L_{\mu_0}$ and of $\det\Omega$.
+\end{proof}
+
+\subsubsection*{Flat line generators}
+Fix a CM host datum with field $E$ and $d$ (so that $\sqrt{-d}\in E$), a unitary datum of signature
+$(p,q)$ with $p+q\ge1$, a level, the moduli space $X^o$ and a coefficient datum with field $F$, and an
+embedding $\tau\colon E\to\C$ which maps $\sqrt{-d}$ to the chosen root of $-d$ in $\C$.
+
+\begin{definition}[Frame functions]\label{pf:covol:def:framefn}
+Let $U\subseteq X^o_F$.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{frame function} $\varphi$ assigns to every field $F'$, every $F'$-point $y$ of $X^o_F$ and all
+  families $v=(v_1,\dots,v_p)$, $w=(w_1,\dots,w_q)$ of elements of the Lie algebra of the universal abelian
+  scheme at $y$ an element $\varphi(y,v,w)\in F'$. The triple $(y,v,w)$ is \emph{framed over $U$} (for
+  $\beta\colon F\to F'$) if $y$ lies over $\beta$, its image lies in $U$, and $v$ and $w$ are bases of the
+  eigenspaces of the Lie algebra on which $\OO_E$ acts through $\beta\circ\tau$ and
+  $\beta\circ\bar\tau$ respectively.
+\item $\varphi$ is a \emph{line function on $U$} if it does not vanish at framed triples, satisfies
+  $\varphi(y,v',w')\det A=\varphi(y,v,w)\det B$ when $v'=Av$ and $w'=Bw$, and is compatible with extensions of
+  fields.
+\item Let $Y$ be a model of $X^o$ over a Noetherian subring $O\subseteq F$ with fraction field $F$, and let
+  $Z$ be a component over $Y$ for $U$: a point of $X^o_F$ with values in a field $\Omega$ which maps to the
+  generic point of a component of $Y$ and whose closure is $U$, together with a model $V$ over $\Omega$ of the
+  Lie algebra of the semi-abelian scheme of $Y$ at the image point, with its $\OO_E$-action; $Z$ is \emph{geometric} if $F$ is algebraically closed in $\Omega$.
+  The \emph{eigen-lattices} of $Z$ are the lattices in the eigenspaces of $V$ for $\tau$ and $\bar\tau$
+  given by the Lie algebra at the points of the generic fibre. A line function $\varphi$ on $U$ is
+  \emph{flat on the model} if there are $a\in\bigwedge^pV$ and $b\in\bigwedge^qV$ which generate the top
+  exterior powers of the two eigen-lattices at all points of the generic fibre, such that $\varphi$
+  represents $(a,b)$: whenever $a=\alpha\,v_1\wedge\dots\wedge v_p$ and $b=\kappa\,w_1\wedge\dots\wedge w_q$
+  with $v,w$ read at $y$, $\varphi(y,v,w)$ is the value of $\alpha/\kappa$ at $y$.
+\item For $s\colon F\to\C$ and $t\in\R$, $\varphi$ has \emph{archimedean norm $t$ at $s$} if
+  $\log|\varphi(y,v,w)|+\frac12(\log|\det\Gamma|-\log|\det\Delta|)=t$ for all complex triples $(y,v,w)$
+  framed over $U$ for $s$, where $\Gamma$ and $\Delta$ are the Gram matrices of $v$ and $w$ for the Hodge
+  metric. For a prime $\ell$, $\kappa\colon F\to\C_\ell$ and $t\in\R$, $\varphi$ has \emph{finite norm $t$ at
+  $\kappa$} if $\log\|j(\varphi(y,v,w))\|=t$ for every discrete valuation ring $V'$ with fraction field $K'$,
+  every embedding $j\colon K'\to\C_\ell$ with $V'=\{\|j(\cdot)\|\le1\}$ and $j\beta=\kappa$, and every triple
+  framed over $U$ for $\beta$ at a point $y$ which extends to a semi-abelian scheme over $V'$ such that $v,w$
+  are integral eigenframes of it.
+\item Let $\mathrm{FU}$ be a family of complex uniformisations of $X^o$ for a type function of signature
+  $(p,q)$, with period lattices $\Lambda_i$, and let $i$ be an index whose period points lie in $U$. A line
+  function $\varphi$ is a \emph{flat generator} for $\mathrm{FU}$ at $i$ if there are a family $e$ of $p+q$
+  linearly independent elements of $\Lambda_i$ over $\OO_E$ and $\rho\in\C$ such that
+  $\varphi(y,v,w)\det\binom{C}{F_m}=\rho$ whenever $y$ is the point of a period map $P$, $(y,v,w)$ is framed
+  over $U$, $C$ expresses the derivatives of the uniformisation in the directions $v$ through the
+  $\tau$-parts of the vectors $P(e_m)$, and $F_m$ expresses those in the directions $w$ through the Hermitian
+  pairings $\tau\langle e_m,e_n\rangle$.
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Fl.FrameFn}\formal{GlobalTheory.CompanionTheory.Ar.Fl.IsFramed}%
+\formal{GlobalTheory.CompanionTheory.Ar.Fl.IsLineFn}\formal{GlobalTheory.CompanionTheory.Ar.Flat.FlatOnModel}%
+\formal{GlobalTheory.CompanionTheory.Ar.Fl.HasInfNorm}\formal{GlobalTheory.CompanionTheory.Ar.Fl.HasFinNorm}%
+\formal{GlobalTheory.CompanionTheory.Ar.Fl.IsFlatGen}\formal{GlobalTheory.CompanionTheory.Ar.Fl.IsConstMul}
+\end{definition}
+
+\emph{Resolution in projective coordinates} is the statement that a closed subscheme $X$ of a projective space
+over a field of characteristic $0$, with an open subset as in the statement, has a resolution of
+singularities $X'\to X$ by a closed subscheme $X'$ of a product of two projective spaces compatible with the
+projection (a form of resolution of singularities, compare \cref{thm:covolume:resolution});
+\emph{GAGA for sections} is the conclusion of \cref{pf:covol:thm:gaga}, which is a hypothesis of the next
+two theorems.
+
+\begin{theorem}[Flat line generators]\label{pf:covol:thm:flatzero}
+Assume resolution in projective coordinates and GAGA for sections. Let $Y$ be a model of $X^o$ over a
+Noetherian subring $O\subseteq F$ with fraction field $F$, $U\subseteq X^o_F$ and $Z$ a geometric component
+over $Y$ for $U$. Then there is a line function $\varphi$ on $U$ which is flat on the model, and for every
+other such $\varphi'$ there is $x\in F^\times$ with $\varphi'(y,v,w)=\beta(x)\varphi(y,v,w)$ for all triples
+framed over $U$ for $\beta$.
+\formallabel{GlobalTheory.T.flat_zero_from_resolution_and_gaga}
+\end{theorem}
+
+\begin{proof}
+Let $\sigma\colon F\to\C$ be the given embedding of the coefficient field. Choose a type function of
+signature $(p,q)$ (\lref{GlobalTheory.CompanionTheory.Ar.Flat.A0.exists_typeFn}) and a family of complex
+uniformisations of $X^o$ at $\sigma$ for it (\lref{GlobalTheory.familyUnif_of_laws}, which constructs it
+from the laws of abelian schemes). There is an \emph{analytic unit function} $\Phi$ for $(\tau,\sigma)$: a
+function of complex framed triples which does not vanish, transforms like a line function, satisfies
+$|\Phi(y,v,w)|^2|\det\Gamma|=|\det\Delta|$ with the Hodge Gram matrices, and is holomorphic in holomorphic
+families (\lref{GlobalTheory.T.exists_unit_analytic_function}). The eigen-lattices of $Z$ are vector
+bundles of ranks $p$ and $q$ on the generic fibre, which is not empty
+(\lref{GlobalTheory.T.eigen_lattice_vector_bundle}); let $b_1$, $b_2$ be bases over $\Omega$ of the two
+eigenspaces of $V$. By resolution and GAGA, there is $f\in\Omega$ such that $a=f\,b_{1,1}\wedge\dots\wedge
+b_{1,p}$ and $b=b_{2,1}\wedge\dots\wedge b_{2,q}$ generate the top exterior powers of the eigen-lattices at
+all points of the generic fibre (\lref{GlobalTheory.T.eigen_frames_analytic}, which in addition relates
+$f$ to $\Phi$ at the complex points; only the generation statement is used here). There is a line function
+$\varphi$ on $U$ representing $(a,b)$ (\lref{GlobalTheory.T.wedge_eigen_line_generator}); it is flat on
+the model by definition. Finally, two line functions which are flat on the model differ by a nonzero
+constant of $F$ (\lref{GlobalTheory.T.frame_functions_flat_agree}).
+\end{proof}
+
+\begin{theorem}[Norms and flatness of flat line generators]\label{pf:covol:thm:flatfirst}
+Assume resolution in projective coordinates and GAGA for sections. In the situation of
+\cref{pf:covol:thm:flatzero}, let $\varphi$ be a line function on $U$ which is flat on the model. Then:
+\begin{enumerate}[label=(\alph*)]
+\item for every $s\colon F\to\C$ there is $t\in\R$ such that $\varphi$ has archimedean norm $t$ at $s$ and at
+  $\bar s$;
+\item for every family of complex uniformisations $\mathrm{FU}$ for a type function of signature $(p,q)$ and
+  every index $i$ whose period points lie in $U$, $\varphi$ is a flat generator for $\mathrm{FU}$ at $i$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.flat_first_from_resolution_and_gaga}
+\end{theorem}
+
+\begin{proof}
+(a) Let $s\colon F\to\C$. Then $s(\tau(\sqrt{-d}))$ is one of the two roots of $-d$, as its square is $-d$. Suppose first that it is the
+chosen root. Choose a type function and a family of complex uniformisations at $s$ as in the proof of
+\cref{pf:covol:thm:flatzero}, and an analytic unit function $\Phi$ for $(\tau,s)$
+(\lref{GlobalTheory.T.exists_unit_analytic_function}). As $\varphi$ is flat on the model, there is
+$\kappa\ne0$ with $\varphi=\kappa\Phi$ at all complex triples framed over $U$ for $s$
+(\lref{GlobalTheory.T.frame_function_analytic_norm}, which uses resolution and GAGA). The Hodge Gram
+matrices of frames are nonsingular
+(\lref{GlobalTheory.CompanionTheory.Ar.Flat.FlatFirstTheorem.gram_det_ne_zero}), so taking logarithms in
+$|\Phi(y,v,w)|^2|\det\Gamma|=|\det\Delta|$ gives
+$\log|\varphi(y,v,w)|+\frac12(\log|\det\Gamma|-\log|\det\Delta|)=\log|\kappa|$: $\varphi$ has archimedean norm
+$\log|\kappa|$ at $s$. Otherwise $\bar s$ maps $\tau(\sqrt{-d})$ to the chosen root, as complex conjugation
+maps it to its negative, so $\varphi$ has an archimedean norm $t$ at $\bar s$. In both cases the archimedean
+norm at the conjugate embedding is the same: if a line function has archimedean norm $t$ at $s$, it has
+archimedean norm $t$ at $\bar s$ (\lref{GlobalTheory.T.inf_norm_conjugate_invariant}).
+
+(b) The period points lie in $U$ by hypothesis and $\varphi$ is a line function. Let $\Phi$ be an analytic
+unit function for $(\tau,\sigma)$ which is flat for $\mathrm{FU}$ at $i$: there are linearly independent
+$e_m\in\Lambda_i$ and $\rho\ne0$ with $\Phi(y,v,w)\det\binom{C}{F_m}=\rho$ in the situation of
+\cref{pf:covol:def:framefn}(e) (\lref{GlobalTheory.T.exists_unit_analytic_function}). As $\varphi$ is flat
+on the model, $\varphi=\kappa\Phi$ at all complex triples framed over $U$ for $\sigma$, for some $\kappa\ne0$
+(\lref{GlobalTheory.T.frame_function_analytic_norm}, which uses resolution and GAGA). Hence
+$\varphi(y,v,w)\det\binom{C}{F_m}=\kappa\rho$ in that situation, and $\varphi$ is a flat generator with the
+basis $e$ and the constant $\kappa\rho$.
+\end{proof}
+
+\subsubsection*{The flat degree}
+\begin{definition}[Log norms]\label{pf:covol:def:lognorms}
+A family of \emph{log norms} $N$ on a number field $k$ consists of real numbers $N_\infty(s)$ for the
+embeddings $s\colon k\to\C$ and $N_\ell(j)$ for the primes $\ell$ and the embeddings $j\colon k\to\C_\ell$. It
+is \emph{adelic} if $N_\ell=0$ for almost all $\ell$, and its \emph{degree} is
+$\deg N=-\frac1{[k:\Q]}\bigl(\sum_sN_\infty(s)+\sum_\ell\sum_jN_\ell(j)\bigr)$ (with the finite sum taken over the
+finitely many nonzero terms). For a frame function $\varphi$ with coefficient field $F$, $N$ is the family of
+\emph{norms of $\varphi$} if $\varphi$ has archimedean norm $N_\infty(s)$ at every $s$ and finite norm
+$N_\ell(\kappa)+q\bigl(\log\|\mathfrak d_E\|_{\kappa\tau}-\log\|d\|_\ell\bigr)$ at every $\kappa\colon
+F\to\C_\ell$, where $\mathfrak d_E$ is the different of $E$ and $\log\|\mathfrak d_E\|_{j}$ is the logarithm
+of the absolute value of a local generator at the place defined by $j\colon E\to\C_\ell$.
+\formal{GlobalTheory.CompanionTheory.Ar.Fl.LogNorms}\formal{GlobalTheory.CompanionTheory.Ar.Fl.HasNorms}
+\end{definition}
+
+Let $\chi$ be the Kronecker character of conductor $d$ and
+$\log\Omega(E,\chi)=\gamma+\log(2\pi/\mathrm{rd}_E)-\frac{L'}{L}(1,\chi)$ (compare \cref{rem:covolume:omega}),
+where $\mathrm{rd}_E=|d_E|^{1/[E:\Q]}$ is the root discriminant.
+
+\begin{lemma}[An adelic computation]\label{pf:covol:lem:adelic}
+Let $k$ be a number field, $\tau\colon E\to k$, $N$ log norms on $k$, $\rho\in k^\times$, $a\in E^\times$,
+$r\in E$ with $r^2=-d$, $x\in\R$, positive functions $n,n'$ on the embeddings of $k$ with
+$-\frac1{[k:\Q]}\sum_s\log n(s)=x=-\frac1{[k:\Q]}\sum_s\log n'(s)$, and $t_\ell,t'_\ell\in E$ for every prime
+$\ell$. Write $L_j=\log\|\mathfrak d_E\|_j$ for $j\colon E\to\C_\ell$. Suppose that
+\begin{enumerate}[label=(\roman*)]
+\item $N_\infty(s)=\log|s\rho|+\frac p2\bigl(\log n(s)+\frac{\log d}2\bigr)-\frac q2\bigl(\log n'(s)+
+  \frac{\log d}2\bigr)+\frac12\log|s\tau(a)|$ for all $s$;
+\item $\sum_j\log\|j(t'_\ell)\|=\sum_j\log\|j(t_\ell)\|$ and
+  $\log\|j(t_\ell)\|+\log\|j(t'_\ell)\|+\log\|j(a)\|=-(p+q)L_j$ for all $\ell$ and $j\colon E\to\C_\ell$;
+\item $t_\ell$ is a unit at all places above $\ell$ for almost all $\ell$;
+\item $N_\ell(j)+q(L_{j\tau}-\log\|d\|_\ell)=\log\|j\rho\|-\log\|j\tau(t_\ell)\|-qL_{j\tau}+(q-p)
+  \bigl(L_{j\tau}-\log\|j\tau(r)\|\bigr)$ for all $\ell$ and $j\colon k\to\C_\ell$.
+\end{enumerate}
+Then $N$ is adelic and
+$\deg N=\frac{p-q}2\bigl(x-\log\mathrm{rd}_E+\log\sqrt d\bigr)+q\bigl(2\log\sqrt d-\log\mathrm{rd}_E\bigr)$.
+\formallabel{GlobalTheory.T.hermitian_metric_log_norm_formula}
+\end{lemma}
+
+\begin{proof}
+By (iv), $N_\ell(j)=\log\|j\rho\|-\log\|j\tau(t_\ell)\|-(p+q)L_{j\tau}+(p-q)\log\|j\tau(r)\|+q\log\|d\|_\ell$.
+For almost all $\ell$, the elements $\rho$, $t_\ell$ (by (iii)), $r$ and $d$ are units above $\ell$ and $\ell$
+does not divide $d_E$; then $N_\ell=0$, so $N$ is adelic. Let $n_k=[k:\Q]$, $n_E=[E:\Q]$. Every embedding of
+$E$ into $\C$ or $\C_\ell$ is $j\tau$ for exactly $n_k/n_E$ embeddings $j$ of $k$. We use the product formula
+$\sum_s\log|s\alpha|+\sum_\ell\sum_j\log\|j\alpha\|=0$ for $\alpha\in k^\times$ (and its analogue for $E$ and
+for $\Q$), and $\sum_\ell\sum_{j\colon E\to\C_\ell}L_j=-\log|d_E|=-n_E\log\mathrm{rd}_E$. By (ii),
+$2\sum_j\log\|j(t_\ell)\|=-\sum_j\log\|j(a)\|-(p+q)\sum_jL_j$, so
+\[
+\sum_\ell\sum_{j\colon k\to\C_\ell}\log\|j\tau(t_\ell)\|=\frac{n_k}{2n_E}\Bigl(\sum_{\sigma\colon E\to\C}\log|\sigma a|
++(p+q)\,n_E\log\mathrm{rd}_E\Bigr).
+\]
+Moreover $\sum_\ell\sum_j\log\|j\tau(r)\|=-n_k\log\sqrt d$ and $\sum_\ell\sum_j\log\|d\|_\ell=-n_k\log d$.
+Summing, the finite part is
+\begin{multline*}
+\sum_\ell\sum_jN_\ell(j)=-\sum_s\log|s\rho|-\frac{n_k}{2n_E}\sum_\sigma\log|\sigma a|-\frac{p+q}2n_k\log\mathrm{rd}_E\\
++(p+q)n_k\log\mathrm{rd}_E-(p-q)n_k\log\sqrt d-qn_k\log d .
+\end{multline*}
+By (i) and the hypothesis on $n,n'$, the archimedean part is
+\[
+\sum_sN_\infty(s)=\sum_s\log|s\rho|-\frac{p-q}2n_kx+\frac{p-q}2n_k\log\sqrt d+\frac{n_k}{2n_E}\sum_\sigma\log|\sigma a|.
+\]
+Adding, dividing by $-n_k$ and using $\log d=2\log\sqrt d$,
+\[
+\deg N=\frac{p-q}2x+\frac{p-q}2\log\sqrt d-\frac{p+q}2\log\mathrm{rd}_E+2q\log\sqrt d,
+\]
+which is the asserted value.
+\end{proof}
+
+\begin{theorem}[The flat degree]\label{pf:covol:thm:flatdeg}
+Let $F$ be a number field, $\mathrm{FU}$ a family of complex uniformisations of $X^o$ for a type function of
+signature $(p,q)$, $i$ an index, $U\subseteq X^o_F$, and $\varphi$ a flat generator for $\mathrm{FU}$ at $i$
+whose family of norms is $N$. Then $N$ is adelic and
+\[
+\deg N=\frac{p-q}2\,\Re\log\Omega(E,\chi)+q\bigl(2\log\sqrt d-\log\mathrm{rd}_E\bigr).
+\]
+\formallabel{GlobalTheory.T.FlatDegree_holds}
+\end{theorem}
+
+\begin{proof}
+Let $e$ and $\rho$ be the basis and the constant of the flat generator, and $a\in E^\times$ the determinant of
+the Gram matrix of $e$ for the Hermitian form of the lattice; $a\ne0$, and $e$ is a basis of the lattice
+locally at all but finitely many primes (\lref{GlobalTheory.T.gram_det_ne_zero_local_basis_cofinite}).
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Chowla--Selberg.} For each of the two square roots $r_\pm$ of $-d$ in $\C$ there are a number
+  field $M_\pm\subseteq\C$ and an elliptic curve $Z_\pm$ over $\OO_{M_\pm}$ with complex multiplication by
+  $\frac{1+r_\pm}2$, with a complex uniformisation whose differential is $c_\pm z_\pm$ times the invariant
+  vector for nonzero $c_\pm,z_\pm$, and with \emph{period} $x$: the average over the complex embeddings of
+  $M_\pm$ of minus the logarithm of the squared norm $n_\pm$ of the invariant vector is $x$, where
+  $x=\gamma+\log(2\pi/\sqrt d)-\frac{L'}{L}(1,\chi)$ (\lref{GlobalTheory.T.chowla_selberg_period}); $x$ is
+  real because $\chi$ is real.
+\item \emph{The CM value.} There are a number field $k\subseteq\C$ containing $F$, $M_+$ and $M_-$, and
+  $r\in k^\times$ with $r z_+^p=\rho z_-^q$ (\lref{GlobalTheory.T.frame_function_cm_value}).
+\item \emph{Archimedean norms.} For every $s\colon k\to\C$ the archimedean norm of $\varphi$ at $s|_F$ is
+  $\log|s r|+\frac p2(\log n_+(s)+\frac{\log d}2)-\frac q2(\log n_-(s)+\frac{\log d}2)+\frac12\log|s\tau(a)|$
+  (\lref{GlobalTheory.T.frame_function_cm_number_field}); and the average of $-\log n_\pm(s)$ over the
+  embeddings $s$ of $k$ equals that over the embeddings of $M_\pm$, which is $x$.
+\item \emph{Finite norms.} For every prime $\ell$ there is $t_\ell\in E$ with
+  $\log\|j(t_\ell)\|+\log\|j(\bar t_\ell)\|+\log\|j(a)\|=-(p+q)L_j$ for all $j\colon E\to\C_\ell$, with $t_\ell$
+  a unit above $\ell$ whenever $e$ is a local basis at $\ell$, and such that the finite norm of $\varphi$ at
+  $j|_F$, for $j\colon k\to\C_\ell$, is
+  $\log\|jr\|-\log\|j\tau(t_\ell)\|-qL_{j\tau}+(q-p)(L_{j\tau}-\log\|j\tau(\sqrt{-d})\|)$
+  (\lref{GlobalTheory.T.frame_function_cm_height}).
+\end{enumerate}
+Let $N_k$ be the extension of $N$ to $k$, $N_{k,\infty}(s)=N_\infty(s|_F)$ and $N_{k,\ell}(j)=N_\ell(j|_F)$; it has
+the same degree as $N$ and is adelic if and only if $N$ is
+(each embedding of $F$ extends to $[k:F]$ embeddings of $k$). Since $\sum_j\log\|j(\bar t)\|=\sum_j\log\|j(t)\|$ for $t\in E$ (complex
+conjugation permutes the embeddings), (1)--(4) and the definition of the norms of $\varphi$ give the
+hypotheses of \cref{pf:covol:lem:adelic} for $N_k$, $\rho=r$, $r=\tau^{-1}$ of the chosen root,
+$n=n_+$, $n'=n_-$, $t'_\ell=\bar t_\ell$. Hence $N$ is adelic and $\deg N=\frac{p-q}2(x-\log\mathrm{rd}_E+
+\log\sqrt d)+q(2\log\sqrt d-\log\mathrm{rd}_E)$. Finally $x-\log\mathrm{rd}_E+\log\sqrt d=\gamma+
+\log(2\pi/\mathrm{rd}_E)-\frac{L'}{L}(1,\chi)=\Re\log\Omega(E,\chi)$
+(\lref{GlobalTheory.CompanionTheory.Ar.Fl.flatDegree_logOm_re}).
+\end{proof}

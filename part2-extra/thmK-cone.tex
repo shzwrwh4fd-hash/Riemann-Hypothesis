@@ -1,0 +1,1532 @@
+\section{Theorem K I: constant terms and cone integrals}\label{sec:pf:thmK-cone}
+
+\providecommand{\thmKconeAE}{\mathbb{A}_E}
+\providecommand{\thmKconeS}{\mathcal{S}}
+\providecommand{\thmKconeI}{\mathcal{I}}
+\providecommand{\thmKconecone}{\operatorname{cone}}
+\providecommand{\thmKconeht}{\operatorname{ht}}
+\providecommand{\thmKconeform}{\operatorname{form}}
+\providecommand{\thmKconePol}{\operatorname{PolData}}
+\providecommand{\thmKconeiso}{\operatorname{iso}}
+\providecommand{\thmKconeshift}{\operatorname{sh}}
+\providecommand{\thmKconeStab}{Q}
+
+\subsection{Introduction}\label{pf:thmK-cone:intro}
+
+This section proves the cone formula for constant terms, the proposition $\sfname{CTBigCone}$ of the formal development
+\cite{LeanSource2026}: a
+formula for one of the two components of the constant term of a theta integral along a maximal parabolic subgroup.
+It is one of the statements (``leaves'') from which Theorem~K (\cref{thm:theorem-K}) is derived by induction on the
+real rank.
+
+\paragraph{The statement in words.}
+Let $E/F$ be a CM extension, $V$ a hermitian space of dimension $b+2$, $V'$ a hermitian space of dimension
+$a'<b+2$ which is definite at every infinite place, and $W$ a skew-hermitian space of dimension $b+2+a'$.  Let
+$\alpha,\beta$ be Hecke characters, $\nu=\alpha/\beta$, and let $\omega$ be a Weil representation of
+$\Uni(V)\times\Uni(W)$ with splitting characters $(\beta,\beta/\alpha)$.  For a test function $\Phi$ the theta
+integral $\thmKconeI(\Phi)(h)=\int_{[\Uni(V)]}\theta(g,h;\Phi)\,dg$ is a function on $\Uni(W)(\A)$.  Remove a
+hyperbolic plane $H=(x,y)$ from $V$ and a hyperbolic plane $H'=(x',y')$ from $W$; the complements $V_1$, $W_1$ have
+dimensions $b$ and $b+a'$, and $(V_1,V',W_1)$ is again a configuration of complementary spaces (``configuration
+A'').  Let $N(H')$ be the unipotent radical of the parabolic subgroup of $\Uni(W)$ stabilising the line $Ex'$; its
+Levi factor consists of the elements $m(t,h_1)$ acting by $t\in\thmKconeAE^\times$ on $x'$, by $c(t)^{-1}$ on $y'$
+and by $h_1\in\Uni(W_1)(\A)$ on the complement.  Suppose that the constant term of $\thmKconeI(\Phi)$ along $N(H')$
+is written as $f_a+f_b$, where $f_a$ transforms under $m(t,1)$ by $\alpha(t)|t|^{a'/2}$ and $f_b$ by
+$\beta(t)|t|^{(b+2)/2}$.  The theorem identifies $f_a$:
+\[
+  f_a(m(1,h_1)h)=C\cdot\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(h_1),
+\]
+where $\thmKconeI_1$ is the theta integral of the smaller configuration and $\thmKconecone(\Phi)$ is the ``cone
+transform'' of $\Phi$: an integral over a compact subgroup $K\subseteq\Uni(V)(\A)$ and over $\thmKconeAE^\times$ of
+an evaluation map applied to Heisenberg translates of $\omega(k,1)\Phi$ along $l\,x\,y'^{\mathsf T}$, weighted by
+$\nu(l)|l|^{(b+2-a')/2}$.  The constant $C\neq0$ depends only on the geometric data.  The precise statement is
+\cref{pf:thmK-cone:main}.
+
+\paragraph{The idea.}
+The proof is the classical computation of constant terms of theta lifts (compare \cite{Rallis1984,KudlaRallis1994}),
+carried out in the models of the Weil representation used by the development.
+\begin{enumerate}
+\item A partial Poisson summation in a mixed model writes the theta kernel as a sum over $\xi\in V(E)$ of theta
+  kernels of the pair $(V,W_1)$ (\cref{pf:thmK-cone:mixed}).  Integrating over $N(H')(F)\backslash N(H')(\A)$, the
+  term $\xi=0$ is invariant, the terms with $\thmKconeform(\xi,\xi)\neq0$ vanish, and the terms with $\xi\neq0$
+  isotropic become theta functions of the evaluation map along $(H,H')$
+  (\cref{pf:thmK-cone:ctkernel}).
+\item Integrating over $[\Uni(V)]$, the term $\xi=0$ gives a function $A_0$ transforming by $\beta|\cdot|^{(b+2)/2}$
+  (\cref{pf:thmK-cone:ctint}).  The nonzero isotropic vectors form one $\Uni(V)(F)$-orbit (Witt's theorem), so their
+  sum unfolds to an integral over $\Uni(V)(F)_x\backslash\Uni(V)(\A)$ (\cref{pf:thmK-cone:unfold}).
+\item The Iwasawa decomposition with respect to the parabolic subgroup of $\Uni(V)$ stabilising $Ex$ turns this
+  integral into $\thmKconeI_1(\thmKconecone(\omega(1,h)\Phi))(1)$ (\cref{pf:thmK-cone:iwasawa}).
+\item The cone term transforms under $m(t,h_1)$ by $\alpha(t)|t|^{a'/2}$ (\cref{pf:thmK-cone:propB}).
+\item The characters $\alpha|\cdot|^{a'/2}$ and $\beta|\cdot|^{(b+2)/2}$ differ on the Levi torus (their
+  infinity types differ), so a decomposition of the constant term into the two laws is unique; this identifies
+  $f_a$ (\cref{pf:thmK-cone:lawsep,pf:thmK-cone:proofmain}).
+\end{enumerate}
+The formal proof never constructs local Weil representations or mixed models explicitly: models are given by
+Darboux coordinates, and maps between them (``evaluation maps'') are characterised by their equivariance
+properties.  The equivariance of evaluation maps under Levi subgroups, the uniqueness of the theta functional, the
+Iwasawa integration formula, reduction theory and a number of convergence and interchange statements are proved in
+the development; they are stated where they are used, as the items \textup{(D1)}--\textup{(D47)} below.
+
+\paragraph{Organisation.}
+\Cref{pf:thmK-cone:setting} fixes the notation and states the theorem.  \Cref{pf:thmK-cone:reduction} reduces it
+to two propositions and two lemmas and proves it.  \Cref{pf:thmK-cone:elementary} contains elementary lemmas
+(Witt's theorem, Levi elements, unfolding, Haar measures on $N(H')$, separation of the two laws).
+\Cref{pf:thmK-cone:evmaps} collects the properties of evaluation maps.
+\Cref{pf:thmK-cone:ctkernel,pf:thmK-cone:ctint,pf:thmK-cone:unfold,pf:thmK-cone:iwasawa} prove the first
+proposition and \cref{pf:thmK-cone:levilaw} the second.
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{Setting and statement}\label{pf:thmK-cone:setting}
+
+We fix the notation of the formal statements; only the features used in this section are spelled out.
+
+\begin{definition}[Adelic notation]\label{pf:thmK-cone:def-adelic}
+Let $F$ and $E$ be number fields, $E$ an $F$-algebra and $\sigma\colon E\to E$ an $F$-algebra map.  We write $\A$ for
+the adeles of $F$, $\thmKconeAE=\A\otimes_FE$ and $c=\mathrm{id}\otimes\sigma$ on $\thmKconeAE$, and we identify vectors
+and matrices over $E$ with their images over $\thmKconeAE$.  For $l\in\thmKconeAE^\times$, $|l|$ is the idelic absolute
+value, a continuous homomorphism $\thmKconeAE^\times\to\R_{>0}$.  A \emph{character} is a homomorphism
+$\chi\colon\thmKconeAE^\times\to S^1$; it is a \emph{Hecke character} if it is continuous and trivial on $E^\times$.  For
+$n\in\N$, $\chi|_{\A^\times}=\eta^n$ means that for $a\in\A^\times$, $\chi(a)=1$ if $a\in F^\times\Nm(\thmKconeAE^\times)$
+and $\chi(a)=(-1)^n$ otherwise.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE}
+\formal{GlobalTheory.Doubling.absE}
+\formal{GlobalTheory.LFun.IsHecke}
+\formal{GlobalTheory.WeilM.ResEtaPow}
+\end{definition}
+
+The absolute value satisfies $|c(l)|=|l|$ (\cref{lean:GlobalTheory.Doubling.absE_conjUnit}: the idelic absolute value is
+invariant under $c$).
+
+\begin{definition}[Test functions and the theta functional]\label{pf:thmK-cone:def-test}
+For a finite set $\kappa$, the space $\thmKconeS(\A^\kappa)$ of \emph{test functions} is spanned by the functions
+$f\otimes g$ with $f$ a Schwartz function on $(F\otimes\R)^\kappa$ and $g$ a locally constant compactly supported function
+on $\A_f^\kappa$.  For a function $\Phi$ on $\A^\kappa$, $\theta(\Phi)=\sum_{\xi\in F^\kappa}\Phi(\xi)$.  As in the formal
+statements, an infinite sum denotes the sum of a summable family and is $0$ for a non-summable family, and integrals are
+Bochner integrals, equal to $0$ for non-integrable functions; all statements below are to be read with these
+conventions.
+\formal{GlobalTheory.WeilM.schA}
+\formal{GlobalTheory.WeilM.thetaSum}
+\end{definition}
+
+Test functions are continuous and square integrable for every Haar measure.  When an argument below needs summability
+or integrability, it is established explicitly.
+
+\begin{definition}[Base data]\label{pf:thmK-cone:def-base}
+A \emph{base datum} $B$ consists of a character $\psi$ of $\A$, embeddings $\tau_w\colon E\to\C$ over the infinite places
+$w$ of $F$, integers $m_\alpha(w),m_\beta(w)$, a finite set $P$ of finite places with embeddings of $E$ into the
+completions, and an auxiliary finite place.  It is \emph{good} if in particular $(E,\sigma)$ is a CM extension of $F$
+($F$ totally real, $E$ totally complex, $[E:F]=2$, and $\tau\circ\sigma=\overline\tau$ for every embedding $\tau$) and
+$\psi$ is \emph{standard}: continuous, trivial on $F$, and equal to $a\mapsto\exp(-2\pi i\Tr(a))$ on the adeles supported
+at the archimedean places; further conditions concern the finite places.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base.IsGood}
+\end{definition}
+
+\begin{definition}[Spaces and unitary groups]\label{pf:thmK-cone:def-spaces}
+For $J\in M_n(E)$ put $\thmKconeform_J(x,y)=x^{\mathsf T}J\,\sigma(y)$ (and the same formula over $\thmKconeAE$ with $c$ in
+place of $\sigma$).  A \emph{space} of dimension $n$ is a tuple $X=(J,L,\theta,\mathrm{bas})$ with $J\in M_n(E)$, $L$ an
+$\OO_E$-submodule of $E^n$, matrices $\theta_w\in M_n(\C)$ for the infinite places and bases $\mathrm{bas}_v$ at the
+finite places.  For a base datum $B$ we write $X\in\mathrm{Herm}_B(r,s)$, resp.\ $X\in\mathrm{Skew}_B(r,s)$, if $J$ is
+hermitian ($\sigma(J_{ji})=J_{ij}$), resp.\ skew-hermitian, of signature $(r,s)$ at every infinite place, $L$ is a
+self-dual lattice, the $\theta_w$ are Cartan involutions and the $\mathrm{bas}_v$ are split bases at the places of $P$.
+The unitary group is
+$\Uni(X)(\A)=\{g\in\GL_n(\thmKconeAE):g^{\mathsf T}J\,c(g)=J\}$, and $\Uni(X)(F)$ is its subgroup of elements coming from
+$\GL_n(E)$; for a subgroup $N$ we put $N(F)=N\cap\Uni(X)(F)$.  The height $\thmKconeht(g)\ge1$ of $g\in\Uni(X)(\A)$ is the
+product over all places of $\max(1,\|g\|_v,\|g^{-1}\|_v)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc.IsHerm}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc.IsSkew}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.UA}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ratU}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ht}
+\end{definition}
+
+If $X\in\mathrm{Herm}_B$ or $\mathrm{Skew}_B$, then $\det J\neq0$ and $L$ spans $E^n$; the height is submultiplicative.
+
+\begin{definition}[Planes]\label{pf:thmK-cone:def-plane}
+A \emph{plane} $H=(x,y,\iota,\mathfrak b)$ for dimensions $(n,n_1)$ consists of $x,y\in E^n$, $\iota\in M_{n\times n_1}(E)$
+and a fractional ideal $\mathfrak b$.  It is \emph{adapted} to $(Y,Y_1)$ at $(i_0,i_1)$ if $n=n_1+2$,
+$\thmKconeform(x,x)=\thmKconeform(y,y)=0$, $\thmKconeform(x,y)=1$, $\thmKconeform(\iota u,x)=\thmKconeform(\iota u,y)=0$ for
+all $u$, $\iota^{\mathsf T}J_Y\sigma(\iota)=J_{Y_1}$, and compatibility conditions hold for the lattices (every $z\in L_Y$ is
+$sx+\iota u+ty$ with $sx,ty\in L_Y$ and $u\in L_{Y_1}$), the Cartan involutions and the bases.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Plane}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Plane.IsAdapted}
+\end{definition}
+
+Since $L_Y$ spans $E^n$, every vector of $E^n$, hence of $\thmKconeAE^n$, is of the form $sx+\iota u+ty$.
+
+\begin{definition}[Levi elements, unipotent radicals, constant terms]\label{pf:thmK-cone:def-ct}
+Let $H'=(x',y',\iota',\mathfrak b')$ be a plane for $(W,W_1)$.  For $t\in\thmKconeAE^\times$, $h_1\in\Uni(W_1)(\A)$ and
+$h\in\Uni(W)(\A)$ we write $\mathrm{Levi}_{H'}(t,h_1,h)$, and call $h$ a \emph{Levi element} $m(t,h_1)$, if
+\[
+  hx'=t\,x',\qquad hy'=c(t)^{-1}y',\qquad h\,\iota'=\iota'\,h_1 ;
+\]
+the same notation is used for planes in hermitian spaces.  $N(H')\subseteq\Uni(W)(\A)$ is the subgroup generated by the
+$u$ with $ux'=x'$ and $u\iota'z\in\iota'z+\thmKconeAE x'$ for all $z\in\thmKconeAE^{d_1}$.  For functions $f,c_f$ on
+$\Uni(W)(\A)$ we write $\mathrm{CT}_{H'}(f)=c_f$ if for every Haar measure $\nu$ on $N(H')$, every measurable fundamental
+domain $\mathcal F$ for the left action of $N(H')(F)$ on $N(H')$ with $\nu(\mathcal F)=1$, and every $h$,
+\[
+  c_f(h)=\int_{\mathcal F}f(uh)\,d\nu(u).
+\]
+A function $T$ on $\Uni(W)(\A)$ \emph{has law} $(\chi,s)$, for a character $\chi$ and $s\in\R$, if $T(mh)=\chi(t)|t|^sT(h)$
+whenever $\mathrm{Levi}_{H'}(t,1,m)$.  If $W$ has dimension $a+a'$ and $\alpha,\beta$ are characters, a pair $(f_a,f_b)$
+\emph{splits} $f$, written $\mathrm{Split}(f;f_a,f_b)$, if $\mathrm{CT}_{H'}(f)=f_a+f_b$, $f_a$ has law $(\alpha,a'/2)$ and
+$f_b$ has law $(\beta,a/2)$.
+\formal{GlobalTheory.ThK.IsLevi}
+\formal{GlobalTheory.ThK.unip}
+\formal{GlobalTheory.ThK.IsCT}
+\formal{GlobalTheory.ThK.HasLaw}
+\formal{GlobalTheory.ThK.Split2}
+\end{definition}
+
+\begin{definition}[Models and Weil representations]\label{pf:thmK-cone:def-model}
+Let $X,W$ be spaces of dimensions $n,d$, and consider on $M_{n\times d}(\thmKconeAE)$ the alternating $\A$-bilinear form
+$\langle w,w'\rangle=-\Tr_{\thmKconeAE/\A}\bigl(\sum_{i,j,k,l}w_{ij}(J_X)_{ik}(J_W)_{jl}c(w'_{kl})\bigr)$.  A \emph{Darboux
+coordinate system} is an $\A$-linear isomorphism $w\mapsto(w_1,w_2)$ of $M_{n\times d}(\thmKconeAE)$ onto
+$\A^{n\times d}\times\A^{n\times d}$ with $\langle w,w'\rangle=w_1\cdot w'_2-w'_1\cdot w_2$; for a character $\psi$ of $\A$ the
+\emph{Heisenberg operators} are $\rho(w)\varphi(Z)=\psi(Z\cdot w_2+\tfrac12w_1\cdot w_2)\varphi(Z+w_1)$.  A \emph{model} $M$
+for $(X,W)$ consists of Darboux coordinates, functions $\mathrm{vac}_v$ on $F_v^{n\times d}$ for the finite places $v$, a
+measure $\mu$ on $\Uni(X)(\A)$ and a subset $\mathrm{dom}\subseteq\Uni(X)(\A)$.  It is \emph{good} if the coordinates map
+$M_{n\times d}(E)$ into $F^{n\times d}\times F^{n\times d}$, the $\mathrm{vac}_v$ are vacua equal to the characteristic
+function of $\OO_v^{n\times d}$ for almost all $v$, $\mu$ is a Haar measure and $\mathrm{dom}$ is a measurable fundamental
+domain for the left action of $\Uni(X)(F)$.  A \emph{representation} for $(X,W)$ is a monoid homomorphism $\omega$ from
+$\Uni(X)(\A)\times\Uni(W)(\A)$ to the endomorphisms of the space of functions on $\A^{n\times d}$.  The development defines
+when $\omega$ is a \emph{Weil representation for $M$ with splitting characters $(\chi_X,\chi_W)$}; of this definition we
+use directly only the following consequences: for $p=(g,h)$ and every test function $\varphi$,
+\begin{enumerate}[label=\textup{(W\arabic*)},ref=\textup{(W\arabic*)}]
+\item\label{pf:thmK-cone:W1} $\omega(p)\varphi$ is a test function;
+\item\label{pf:thmK-cone:W2} $\omega(p)\rho(w)\varphi=\rho(g\,w\,h^{\mathsf T})\,\omega(p)\varphi$ for
+  $w\in M_{n\times d}(\thmKconeAE)$;
+\item\label{pf:thmK-cone:W3} $\int|\omega(p)\varphi|^2\,d\mu_Y=\int|\varphi|^2\,d\mu_Y$ for every Haar measure $\mu_Y$ on
+  $\A^{n\times d}$.
+\end{enumerate}
+We write $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega;r,s,r',s')$ if $B$ is good, $X\in\mathrm{Herm}_B(r,s)$,
+$W\in\mathrm{Skew}_B(r',s')$, $M$ is good, $\chi_X,\chi_W$ are Hecke characters with $\chi_X|_{\A^\times}=\eta^n$ and
+$\chi_W|_{\A^\times}=\eta^d$, and $\omega$ is a Weil representation for $M$ with splitting characters $(\chi_X,\chi_W)$; the
+signatures are often omitted.
+\formal{GlobalTheory.WeilM.Darboux}
+\formal{GlobalTheory.WeilM.schr}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.IsGood}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.IsWeil}
+\formal{GlobalTheory.WeilM.IsUSplitting}
+\formal{GlobalTheory.ThK.IsPair}
+\end{definition}
+
+The Heisenberg operators preserve test functions (\cref{lean:GlobalTheory.HeisSchA.rho_mem_schA}: $\rho(w)$ maps test
+functions to test functions).
+
+\begin{definition}[Theta functions and theta integrals]\label{pf:thmK-cone:def-theta}
+For a representation $\omega$ for $(X,W)$, a model $M$ and a function $\Phi$ on $\A^{n\times d}$,
+\[
+  \theta_\omega(\Phi)(g,h)=\theta\bigl(\omega(g,h)\Phi\bigr),\qquad
+  \thmKconeI_{M,\omega}(\Phi)(h)=\int_{\mathrm{dom}}\theta_\omega(\Phi)(g,h)\,d\mu(g).
+\]
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.theta}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.I}
+\end{definition}
+
+\begin{definition}[Evaluation maps]\label{pf:thmK-cone:def-ev}
+Let $M$ be a model for $(X,W)$ of dimensions $(n,d)$, $M_1$ one for $(X_1,W_1)$ of dimensions $(n_1,d_1)$,
+$\iota\in M_{n\times n_1}(E)$, $\iota'\in M_{d\times d_1}(E)$ and $I\subseteq M_{n\times d}(\thmKconeAE)$.  A $\C$-linear map
+$e$ from functions on $\A^{n\times d}$ to functions on $\A^{n_1\times d_1}$ is an \emph{evaluation map of type
+$(\iota,\iota',I)$} from $M$ to $M_1$ if
+\begin{enumerate}[label=\textup{(E\arabic*)},ref=\textup{(E\arabic*)}]
+\item\label{pf:thmK-cone:E1} $e$ maps test functions to test functions;
+\item\label{pf:thmK-cone:E2} $e(\rho_M(\iota z\iota'^{\mathsf T})\Phi)=\rho_{M_1}(z)\,e(\Phi)$ for
+  $z\in M_{n_1\times d_1}(\thmKconeAE)$ and test functions $\Phi$;
+\item\label{pf:thmK-cone:E3} $e(\rho_M(u)\Phi)=e(\Phi)$ for $u\in I$ and test functions $\Phi$;
+\item\label{pf:thmK-cone:E4} $e$ is a restricted tensor product of a nonzero continuous map of archimedean Schwartz spaces
+  and of local maps $e_v$ with $e_v(\mathrm{vac}_v)=\mathrm{vac}_{1,v}$ which map the locally constant compactly supported
+  functions onto those on $F_v^{n_1\times d_1}$.
+\end{enumerate}
+For planes $H=(x,\dots)$ in $X$ and $H'=(x',y',\iota',\dots)$ in $W$ let
+$\thmKconeiso_0(H')=\{v\,x'^{\mathsf T}:v\in\thmKconeAE^n\}$, $\thmKconeiso_X(H)=\{x\,z^{\mathsf T}:z\in\thmKconeAE^d\}$ and
+$\thmKconeiso_A(H,H')=\thmKconeiso_0(H')\cup\{x\,(\iota'z)^{\mathsf T}:z\in\thmKconeAE^{d_1}\}$.  An evaluation map
+\emph{along $H'$} is one of type $(1,\iota',\thmKconeiso_0(H'))$ (so $X_1=X$), one \emph{along $H$} is one of type
+$(\iota_H,1,\thmKconeiso_X(H))$ (so $W_1=W$), and one \emph{along $(H,H')$} is one of type
+$(\iota_H,\iota',\thmKconeiso_A(H,H'))$.
+\formal{GlobalTheory.ThK.IsEv}
+\formal{GlobalTheory.ThK.iso0}
+\formal{GlobalTheory.ThK.isoA}
+\end{definition}
+
+\begin{definition}[Configurations, character data, triples]\label{pf:thmK-cone:def-config}
+A \emph{configuration} $G$ of type $(a,a')$ consists of $p,q\in\N$, spaces $V,V',W$ of dimensions $a,a',a+a'$ and models
+$M,M'$ for $(V,W)$ and $(V',W)$.  It is \emph{good} for $B$ if
+\begin{equation}\label{pf:thmK-cone:eq-geo}
+\begin{gathered}
+  a'<a,\qquad a+a'\ \text{even},\qquad a+a'<m_\alpha(w)-m_\beta(w)\ \text{for all }w,\\
+  2(p+q)+1<\lfloor(a-a')/2\rfloor,\qquad 2(p+q)+1<a',\\
+  V\in\mathrm{Herm}_B(a-p,p),\quad V'\in\mathrm{Herm}_B(q,a'-q),\quad W\in\mathrm{Skew}_B(a+a'-(p+q),p+q),\\
+  M,M'\ \text{good}.
+\end{gathered}
+\end{equation}
+A \emph{character datum} $X=(\alpha,\beta,S_0,Q)$ consists of two characters and two finite sets of places; it is good for
+$(B,a,a')$ if in particular $\alpha,\beta$ are Hecke characters with $\alpha|_{\A^\times}=\eta^{a'}$ and
+$\beta|_{\A^\times}=\eta^a$, and for $(\chi,m_\chi)\in\{(\alpha,m_\alpha),(\beta,m_\beta)\}$
+\begin{equation}\label{pf:thmK-cone:eq-hasexp}
+  \chi(z)=\prod_w\bigl(\tau_w(z)/|\tau_w(z)|\bigr)^{m_\chi(w)}\qquad\text{for every idele $z$ whose finite components are }1;
+\end{equation}
+further conditions concern $S_0$ and $Q$.  We put $\nu=\alpha/\beta$.  We write $\mathrm{Triple}(B,G,X,\omega,\omega')$ if
+$B$, $G$ and $X$ are good, $\omega$ is a Weil representation for $M$ with splitting characters $(\beta,\beta/\alpha)$ and
+$\omega'$ one for $M'$ with splitting characters $(\alpha,\alpha/\beta)$.
+
+Let $G$ be of type $(b+2,a')$, $G_1$ of type $(b,a')$, $H$ a plane for dimensions $(b+2,b)$ and $H'$ one for
+$(b+2+a',b+a')$.  The tuple $(G,G_1,H,H')$ is \emph{in configuration A} (for $B$) if $V'(G_1)=V'(G)$,
+$q(G)=q(G_1)=0$, $p(G_1)+1=p(G)$, $H$ is adapted to $(V(G),V(G_1))$ and $H'$ to $(W(G),W(G_1))$, both at $(0,b+1)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo.IsGood}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars.IsGood}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasExp}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsTriple}
+\formal{GlobalTheory.ThK.CfgA}
+\end{definition}
+
+A triple gives $\mathrm{Pair}(B,M,\beta,\beta/\alpha,\omega;a-p,p,a+a'-(p+q),p+q)$
+(\cref{lean:GlobalTheory.ThK.Inhab.pairV}: the data of a triple form a pair for $(V,W)$), since $\beta/\alpha$ is a Hecke
+character with $(\beta/\alpha)|_{\A^\times}=\eta^{a-a'}=\eta^{a+a'}$.
+
+\begin{definition}[Polynomial data, stabilisers, cones]\label{pf:thmK-cone:def-cone}
+$\thmKconePol(M)$ is the span of the pure tensors $f\otimes\bigotimes_v\varphi_v$ with $f$ in the Fock space of $M$,
+$\varphi_v$ locally constant compactly supported and $\varphi_v=\mathrm{vac}_v$ for almost all $v$.  For a base datum $B$, a
+subgroup $K\le\Uni(V)(\A)$ is \emph{the stabiliser of $L$} if $K$ consists of the $g$ whose archimedean components commute
+with the Cartan involutions $\theta_w$ and such that $g$ and $g^{-1}$ preserve the subgroup of $\thmKconeAE^n$ generated by
+the $a\,x$, $a\in\A$ with zero archimedean and integral finite components, $x\in L$.  For a plane $H=(x,\dots)$ in $V$ and
+a plane $H'=(x',y',\dots)$ in $W$ put $\thmKconeshift(l)=l\cdot x\,y'^{\mathsf T}\in M_{n\times d}(\thmKconeAE)$ for
+$l\in\thmKconeAE^\times$.  Given an evaluation map $e$ along $(H,H')$, $K$, Haar measures $\mu_K$ on $K$ and $\mu^\times$
+on $\thmKconeAE^\times$, a character $\nu$ and $z\in\N$, the \emph{cone} of $\Phi$ is the function
+\begin{equation}\label{pf:thmK-cone:eq-cone}
+  \thmKconecone(\Phi)(Y)=\int_K\int_{\thmKconeAE^\times}e\bigl(\rho(\thmKconeshift(l))\,\omega(k,1)\Phi\bigr)(Y)\,
+  \nu(l)\,|l|^z\,d\mu^\times(l)\,d\mu_K(k).
+\end{equation}
+\formal{GlobalTheory.ThK.PolData}
+\formal{GlobalTheory.ThK.IsStab}
+\formal{GlobalTheory.ThK.shiftA}
+\formal{GlobalTheory.ThK.cone}
+\end{definition}
+
+If $M$ is good, $\thmKconePol(M)$ consists of test functions, because $\mathrm{vac}_v$ is the characteristic function of
+$\OO_v^{n\times d}$ for almost all $v$; in the arguments written out in this section, membership in $\thmKconePol(M)$ is
+used only through this fact.
+
+\paragraph{The statement.}
+Let $\sfname{KP}$ be the hypothesis of the theorem: a structure whose fields are statements labelled as published results
+(\cref{sec:literature}), among them the structure $\sfname{Hypotheses}_2$ of \cref{sec:families}.
+
+\begin{theorem}\label{pf:thmK-cone:main}
+Assume $\sfname{KP}$.  Let $B$ be a base datum, $b,a'\in\N$, $G$ a configuration of type $(b+2,a')$ with spaces $V,V',W$
+and models $M,M'$, $G_1$ a configuration of type $(b,a')$ with spaces $V_1,V',W_1$ and model $M_1$ for $(V_1,W_1)$, and
+$H,H'$ planes such that $(G,G_1,H,H')$ is in configuration A.  Let $e$ be an evaluation map along $(H,H')$ from $M$ to
+$M_1$, let $K\le\Uni(V)(\A)$ be the stabiliser of $L_V$, and let $\mu_K$, $\mu^\times$ be Haar measures on $K$ and
+$\thmKconeAE^\times$.  Then there is $C\in\C$, $C\neq0$, with the following property.  Let $X$ be a character datum and
+$\omega,\omega',\omega_1,\omega_1'$ representations with $\mathrm{Triple}(B,G,X,\omega,\omega')$ and
+$\mathrm{Triple}(B,G_1,X,\omega_1,\omega'_1)$; write $\thmKconeI=\thmKconeI_{M,\omega}$, $\thmKconeI_1=\thmKconeI_{M_1,\omega_1}$,
+and let $\thmKconecone$ be the cone with $\nu=\alpha/\beta$ and $z=(b+2-a')/2$ (natural number division).  Let
+$\Phi\in\thmKconePol(M)$, let $f_a,f_b$ be functions with $\mathrm{Split}(\thmKconeI(\Phi);f_a,f_b)$ (relative to $W_1$ and
+$H'$), and let $h_1\in\Uni(W_1)(\A)$ and $m\in\Uni(W)(\A)$ with $\mathrm{Levi}_{H'}(1,h_1,m)$.  Then for all
+$h\in\Uni(W)(\A)$
+\begin{equation}\label{pf:thmK-cone:eq-main}
+  f_a(mh)=C\cdot\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(h_1).
+\end{equation}
+\formallabel{GlobalTheory.ThK.ctBigCone}
+\formal{GlobalTheory.ThK.CTBigCone}
+\formal{GlobalTheory.ThK.KP}
+\end{theorem}
+
+The conclusion of the theorem is the proposition $\sfname{CTBigCone}$ of the development, the cone formula for the
+$\alpha$-part of the constant term.
+
+\begin{remark}\label{pf:thmK-cone:rem-statement}
+\begin{enumerate}
+\item The constant $C$ is chosen before the character datum and the representations; it depends only on the data
+  $B,b,a',G,G_1,H,H',e,K,\mu_K,\mu^\times$.  If no pair of triples exists the statement is empty.
+\item Under the hypotheses, $a'<b+2$ and $b+2+a'$ is even \eqref{pf:thmK-cone:eq-geo}, so the exponent $z$, defined by
+  natural number division, is the rational number $(b+2-a')/2$.
+\item The theorem does not assume that a splitting $(f_a,f_b)$ of $\thmKconeI(\Phi)$ exists or is unique; it asserts
+  \eqref{pf:thmK-cone:eq-main} for every splitting.  The uniqueness of $f_a$ is part of the proof
+  (\cref{pf:thmK-cone:proofmain}).
+\item In the arguments written out below, $\sfname{KP}$ is used through the existence of global Weil representations (the
+  statement $\sfname{WeilRepresentationExists}$, a field of $\sfname{Hypotheses}_2$, \cref{sec:literature:theta}) and
+  through reduction theory for unitary groups ($\sfname{SiegelSetUnitary}$, \cref{sec:literature:aut}) in the convergence
+  criterion \ref{pf:thmK-cone:D-weil}; the cited results \textup{(D1)}--\textup{(D47)} below that take $\sfname{KP}$ or
+  $\sfname{Hypotheses}_2$ as hypothesis may use further fields.
+\item The proposition $\sfname{CTBigCone}$ is also proved, from seven other propositions of the development, by
+  \cref{lean:PositivityTheory.ThKCT.ctBigCone_of}; it is that theorem which supplies $\sfname{CTBigCone}$ in the proof of
+  Theorem~K given in the development (\cref{lean:PositivityTheory.Sph.Tr.closeSph}, the spherical closure theorem from
+  which Theorem~K is derived).  The theorem of this section is used in the development only through a restatement whose
+  only user lies outside the part of the development on which the main theorems depend.
+\end{enumerate}
+\end{remark}
+
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{Reduction to two propositions}\label{pf:thmK-cone:reduction}
+
+\paragraph{Standing data.}
+From now on, except in \cref{pf:thmK-cone:ctkernel} (which is more general), the data of \cref{pf:thmK-cone:main} are
+fixed: the base datum $B$, the configurations $G$ and $G_1$, with $p=p(G)$, the planes $H=(x,y,\iota,\mathfrak b)$ and
+$H'=(x',y',\iota',\mathfrak b')$, so that $(G,G_1,H,H')$ is in configuration A, the evaluation map $e$, the stabiliser $K$
+and the Haar measures $\mu_K$ and $\mu^\times$.  We write $\mu,\mathrm{dom}$ for the measure and domain of $M$ and
+$\mu_1,\mathrm{dom}_1$ for those of $M_1$.  A \emph{pair of triples} is a tuple $(X,\omega,\omega',\omega_1,\omega_1')$
+with $\mathrm{Triple}(B,G,X,\omega,\omega')$ and $\mathrm{Triple}(B,G_1,X,\omega_1,\omega_1')$; given one, $\thmKconeI$,
+$\thmKconeI_1$, $\nu=\alpha/\beta$, $z=(b+2-a')/2$ and $\thmKconecone$ are as in \cref{pf:thmK-cone:main}.
+
+\begin{proposition}[The constant term]\label{pf:thmK-cone:propA}
+Assume $\sfname{KP}$.  There is $C\neq0$ such that for every pair of triples and every $\Phi\in\thmKconePol(M)$ there is
+a function $A_0$ on $\Uni(W)(\A)$ with law $(\beta,(b+2)/2)$ such that
+\[
+  \mathrm{CT}_{H'}\bigl(\thmKconeI(\Phi)\bigr)=T+A_0,\qquad
+  T(h)=C\cdot\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(1).
+\]
+\formallabel{GlobalTheory.ThK.unfoldCTBigCone}\formallabel{GlobalTheory.T.exists_isCT_integral_eq_cone_integral_add_hasLaw}
+\end{proposition}
+
+\begin{proposition}[The Levi law of the cone term]\label{pf:thmK-cone:propB}
+Assume $\sfname{KP}$, let $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples and $\Phi\in\thmKconePol(M)$.  If
+$\mathrm{Levi}_{H'}(t,h_1,m)$, then for all $h$
+\[
+  \thmKconeI_1\bigl(\thmKconecone(\omega(1,mh)\Phi)\bigr)(1)
+  =\alpha(t)\,|t|^{a'/2}\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(h_1).
+\]
+\formallabel{GlobalTheory.ThK.cone_levi_law}\formallabel{GlobalTheory.T.config_a_eigen_integral_haar}
+\end{proposition}
+
+\begin{lemma}[Separation of the two laws]\label{pf:thmK-cone:lawsep}
+Let $X,\omega,\omega'$ satisfy $\mathrm{Triple}(B,G,X,\omega,\omega')$.  There are $t_0\in\thmKconeAE^\times$ and
+$m_0\in\Uni(W)(\A)$ with $\mathrm{Levi}_{H'}(t_0,1,m_0)$ and
+\[
+  \alpha(t_0)\,|t_0|^{a'/2}\neq\beta(t_0)\,|t_0|^{(b+2)/2}.
+\]
+\formallabel{GlobalTheory.ThK.LawSep.lawSep}\formallabel{GlobalTheory.T.exists_levi_character_modulus}
+\end{lemma}
+
+\begin{lemma}[Haar measures on $N(H')$]\label{pf:thmK-cone:haarN}
+Assume that $\mathrm{Triple}(B,G,X,\omega,\omega')$ holds for some $X,\omega,\omega'$.  There are a Haar measure $\nu$ on
+$N(H')$ and a measurable fundamental domain $\mathcal F$ for the left action of $N(H')(F)$ on $N(H')$ with
+$\nu(\mathcal F)=1$.
+\formallabel{GlobalTheory.UnipMass.exists_haar_unip_mass_one}\formallabel{GlobalTheory.T.exists_unipotent_fundamental_domain}
+\end{lemma}
+
+The propositions are proved in \cref{pf:thmK-cone:iwasawa,pf:thmK-cone:levilaw}, the lemmas in
+\cref{pf:thmK-cone:elementary}.
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:thmK-cone:main}}{the theorem}}\label{pf:thmK-cone:proofmain}
+Let $C$ be the constant of \cref{pf:thmK-cone:propA}; it depends only on the standing data.  Let
+$(X,\omega,\omega',\omega_1,\omega_1')$, $\Phi$, $f_a,f_b$, $h_1$ and $m$ be as in the theorem, and let $A_0$ and $T$ be
+as in \cref{pf:thmK-cone:propA}, so that $A_0$ has law $(\beta,(b+2)/2)$ and $\mathrm{CT}_{H'}(\thmKconeI(\Phi))=T+A_0$.
+
+\emph{$T$ has law $(\alpha,a'/2)$.}  If $\mathrm{Levi}_{H'}(t,1,m')$, \cref{pf:thmK-cone:propB} with $h_1=1$ gives
+\[
+  T(m'h)=C\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,m'h)\Phi)\bigr)(1)=\alpha(t)|t|^{a'/2}\,T(h).
+\]
+
+\emph{Comparison of the constant terms.}  Choose $\nu$ and $\mathcal F$ as in \cref{pf:thmK-cone:haarN}.  By the
+definition of $\mathrm{CT}_{H'}$, applied to the two identities $\mathrm{CT}_{H'}(\thmKconeI(\Phi))=f_a+f_b$ (part of
+$\mathrm{Split}$) and $\mathrm{CT}_{H'}(\thmKconeI(\Phi))=T+A_0$, with the same $\nu$ and $\mathcal F$,
+\begin{equation}\label{pf:thmK-cone:eq-sum}
+  f_a(x_0)+f_b(x_0)=\int_{\mathcal F}\thmKconeI(\Phi)(ux_0)\,d\nu(u)=T(x_0)+A_0(x_0)\qquad(x_0\in\Uni(W)(\A)).
+\end{equation}
+
+\emph{Uniqueness.}  Let $t_0,m_0$ be as in \cref{pf:thmK-cone:lawsep} and put $\lambda_a=\alpha(t_0)|t_0|^{a'/2}$,
+$\lambda_b=\beta(t_0)|t_0|^{(b+2)/2}$, so $\lambda_a\neq\lambda_b$.  The functions $f_a$ and $T$ have law
+$(\alpha,a'/2)$ and $f_b$ and $A_0$ have law $(\beta,(b+2)/2)$; hence \eqref{pf:thmK-cone:eq-sum} at $m_0x_0$ reads
+$\lambda_af_a(x_0)+\lambda_bf_b(x_0)=\lambda_aT(x_0)+\lambda_bA_0(x_0)$.  Subtracting $\lambda_b$ times
+\eqref{pf:thmK-cone:eq-sum} gives $(\lambda_a-\lambda_b)(f_a(x_0)-T(x_0))=0$, hence $f_a=T$.
+
+\emph{Conclusion.}  By \cref{pf:thmK-cone:propB} with $t=1$ (note $\alpha(1)|1|^{a'/2}=1$),
+\[
+  f_a(mh)=T(mh)=C\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,mh)\Phi)\bigr)(1)
+  =C\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(h_1),
+\]
+which is \eqref{pf:thmK-cone:eq-main}.\qed
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{Elementary lemmas}\label{pf:thmK-cone:elementary}
+
+\subsubsection{Witt's theorem for isotropic vectors}
+For the next two lemmas let $J\in M_n(E)$ satisfy $\sigma(J_{ji})=J_{ij}$, assume $\sigma\circ\sigma=\mathrm{id}$, and write
+$\thmKconeform=\thmKconeform_J$.  Then $\thmKconeform(z,z')=\sigma(\thmKconeform(z',z))$, and a matrix $g$ satisfies
+$g^{\mathsf T}J\sigma(g)=J$ if and only if $\thmKconeform(gz,gz')=\thmKconeform(z,z')$ for all $z,z'$.
+
+\begin{lemma}\label{pf:thmK-cone:swap}
+Let $a,b\in E^n$ with $\thmKconeform(a,a)=\thmKconeform(b,b)=0$ and $\gamma:=\thmKconeform(a,b)\neq0$.  There is $g\in M_n(E)$
+with $g^{\mathsf T}J\sigma(g)=J$ and $ga=b$.
+\formallabel{GlobalTheory.WittIso.exists_swap}
+\end{lemma}
+
+\begin{proof}
+Let $g$ be the matrix with
+\[
+  gz=z+\gamma^{-1}\bigl(\thmKconeform(z,a)-\thmKconeform(z,b)\bigr)a
+     +\bigl(\gamma^{-1}\thmKconeform(z,b)-\sigma(\gamma)^{-1}\thmKconeform(z,a)\bigr)b .
+\]
+Since $\thmKconeform(a,a)=0$ and $\thmKconeform(a,b)=\gamma$, $ga=a-a+b=b$.  Write $gz=z+pa+qb$ and $gz'=z'+p'a+q'b$.
+Expanding $\thmKconeform(gz,gz')$ by sesquilinearity, using $\thmKconeform(a,a)=\thmKconeform(b,b)=0$,
+$\thmKconeform(b,a)=\sigma(\gamma)$ and $\thmKconeform(a,z')=\sigma(\thmKconeform(z',a))$, one finds that all terms
+other than $\thmKconeform(z,z')$ cancel; this is a direct computation.
+\end{proof}
+
+\begin{lemma}[Witt]\label{pf:thmK-cone:witt}
+Assume moreover $\det J\neq0$.  If $x,x_0\in E^n$ are nonzero and isotropic, there is $g\in M_n(E)$ with
+$g^{\mathsf T}J\sigma(g)=J$ and $gx=x_0$.
+\formallabel{GlobalTheory.WittIso.exists_unitary_isotropic}
+\end{lemma}
+
+\begin{proof}
+If $\thmKconeform(x,x_0)\neq0$, apply \cref{pf:thmK-cone:swap}.  Otherwise, since $\det J\neq0$ there are $p_1,p_2$ with
+$\thmKconeform(p_1,x_0)\neq0$ and $\thmKconeform(p_2,x)\neq0$; one of $p_1,p_2,p_1+p_2$ is a vector $p$ with
+$\thmKconeform(p,x_0)\neq0$ and $\thmKconeform(p,x)\neq0$.  Put
+$t=-\thmKconeform(p,p)/\bigl(2\sigma(\thmKconeform(p,x_0))\bigr)$ and $w=p+tx_0$.  As $\thmKconeform(p,p)$ is fixed by
+$\sigma$, $\thmKconeform(w,w)=\thmKconeform(p,p)+\sigma(t)\thmKconeform(p,x_0)+t\,\sigma(\thmKconeform(p,x_0))=0$; moreover
+$\thmKconeform(w,x_0)=\thmKconeform(p,x_0)\neq0$, and $\thmKconeform(w,x)=\thmKconeform(p,x)\neq0$ because
+$\thmKconeform(x_0,x)=\sigma(\thmKconeform(x,x_0))=0$, so $\thmKconeform(x,w)\neq0$.  \Cref{pf:thmK-cone:swap} gives
+unitary $g_1,g_2$ with $g_1x=w$ and $g_2w=x_0$; take $g=g_2g_1$.
+\end{proof}
+
+\begin{lemma}[Rational representatives]\label{pf:thmK-cone:reps}
+Assume that $\mathrm{Triple}(B,G,X,\omega,\omega')$ holds for some $X,\omega,\omega'$.  For every nonzero $\xi\in
+E^{b+2}$ with $\thmKconeform_{J_V}(\xi,\xi)=0$ there is $\gamma_\xi\in\Uni(V)(F)$ with $\gamma_\xi\,\xi=x$.
+\formallabel{GlobalTheory.WittIso.exists_rational_to_x₀}\formallabel{GlobalTheory.T.exists_isotropic_vector_translation}
+\end{lemma}
+
+\begin{proof}
+$B$ is good, so $(E,\sigma)$ is a CM extension and $\tau\circ\sigma\circ\sigma=\tau$ for an embedding $\tau$, whence
+$\sigma\circ\sigma=\mathrm{id}$.  $J_V$ is hermitian with $\det J_V\neq0$ ($V\in\mathrm{Herm}_B(b+2-p,p)$), and $x\neq0$
+is isotropic since $\thmKconeform(x,y)=1$ and $\thmKconeform(x,x)=0$.  For each $\xi$ choose $g_\xi$ by
+\cref{pf:thmK-cone:witt} with $g_\xi\xi=x$; $g_\xi$ is invertible because
+$\det(g_\xi)\det J_V\,\sigma(\det g_\xi)=\det J_V\neq0$, and its image in $\GL_{b+2}(\thmKconeAE)$ is an element
+$\gamma_\xi\in\Uni(V)(F)$ with $\gamma_\xi\xi=x$.
+\end{proof}
+
+\subsubsection{Unfolding}
+Let $\thmKconeStab=\Uni(V)(F)\cap\{g\in\Uni(V)(\A):gx=x\}$ be the stabiliser of $x=x_H$ in $\Uni(V)(F)$.  (In the
+formal statements it is written as the intersection of $\Uni(V)(F)$ with the subgroup generated by
+$\{g:gx=x\}$; that set is already a subgroup.)
+
+\begin{lemma}\label{pf:thmK-cone:coset}
+Let $J\in M_n(E)$, $x_0\in E^n$ nonzero with $\thmKconeform_J(x_0,x_0)=0$, and let $(\gamma_\xi)$ be a family indexed by
+the nonzero isotropic $\xi\in E^n$ with $\gamma_\xi\in\Uni(J)(F)$ and $\gamma_\xi\xi=x_0$.  For every
+$\delta\in\Uni(J)(F)$ there is exactly one $\xi$ with $\delta\gamma_\xi^{-1}x_0=x_0$, i.e.\ with
+$\delta\gamma_\xi^{-1}$ in the stabiliser of $x_0$ in $\Uni(J)(F)$.
+\formallabel{GlobalTheory.ThK.IsoCoset.coset}\formallabel{GlobalTheory.T.rational_unipotent_coset_parametrization}
+\end{lemma}
+
+\begin{proof}
+Since $\delta^{-1}$ comes from $\GL_n(E)$, $\delta^{-1}x_0=\eta$ for some $\eta\in E^n$; $\eta\neq0$, and
+$\thmKconeform(\eta,\eta)=\thmKconeform(x_0,x_0)=0$ as $\delta$ is unitary.  Then $\delta\gamma_\eta^{-1}x_0=\delta\eta=
+x_0$.  If also $\delta\gamma_\xi^{-1}x_0=x_0$, then $\delta\xi=x_0=\delta\eta$, so $\xi=\eta$.
+\end{proof}
+
+\begin{lemma}[Unfolding]\label{pf:thmK-cone:unfoldlemma}
+Let $\mathcal G$ be a group with a measurable structure for which left translations are measurable, $\mu$ a
+left invariant measure, $\Gamma$ a countable subgroup, $\thmKconeStab'\le\Gamma$ a subgroup, $D_0$ and $D$ measurable
+fundamental domains for the left actions of $\Gamma$ and $\thmKconeStab'$, and $(\gamma_i)_{i\in I}$ a countable family in
+$\Gamma$ such that for every $\delta\in\Gamma$ there is exactly one $i$ with $\delta\gamma_i^{-1}\in\thmKconeStab'$.  If
+$f\colon\mathcal G\to\C$ is left $\thmKconeStab'$-invariant and integrable on $D$, then
+\[
+  \int_{D_0}\sum_{i\in I}f(\gamma_ig)\,d\mu(g)=\int_Df\,d\mu .
+\]
+\formallabel{GlobalTheory.integral_tsum_cosetReps_eq_integral_fundamentalDomain}\formallabel{GlobalTheory.T.unfolding_integral_coset_representatives}
+\end{lemma}
+
+\begin{proof}
+Put $s_i=\gamma_iD_0$.  If $q\gamma_i=q'\gamma_j$ with $q,q'\in\thmKconeStab'$, then $\gamma_i\gamma_j^{-1}=q^{-1}q'\in
+\thmKconeStab'$ and also $\gamma_i\gamma_i^{-1}\in\thmKconeStab'$, so $i=j$ by uniqueness and then $q=q'$.  Hence the
+sets $qs_i$ ($q\in\thmKconeStab'$, $i\in I$) are pairwise almost disjoint, $D_0$ being a fundamental domain for $\Gamma$.
+They cover almost all of $\mathcal G$: for almost every $g$ there is $\delta\in\Gamma$ with $\delta g\in D_0$; choose $i$
+with $\delta^{-1}\gamma_i^{-1}\in\thmKconeStab'$; then $q=\gamma_i\delta\in\thmKconeStab'$ and $qg\in s_i$.  So
+$D_1=\bigcup_is_i$ is a fundamental domain for $\thmKconeStab'$.  Since $f$ is $\thmKconeStab'$-invariant, it is
+integrable on $D_1$ and $\int_Df=\int_{D_1}f$.  As the $s_i$ are almost disjoint and $\mu$ is left invariant,
+$\int_{D_1}f=\sum_i\int_{s_i}f=\sum_i\int_{D_0}f(\gamma_ig)\,d\mu(g)$, and the interchange of sum and integral is
+justified by $\sum_i\int_{D_0}|f(\gamma_ig)|\,d\mu(g)=\int_{D_1}|f|\,d\mu<\infty$.
+\end{proof}
+
+\begin{lemma}\label{pf:thmK-cone:fdQ}
+Assume that $\mathrm{Triple}(B,G,X,\omega,\omega')$ holds for some $X,\omega,\omega'$.  There is a measurable
+fundamental domain $\mathcal D$ for the left action of $\thmKconeStab$ on $\Uni(V)(\A)$ with respect to $\mu$.
+\formallabel{GlobalTheory.QDom.exists_fundamentalDomain_ratStab}\formallabel{GlobalTheory.T.exists_fundamental_domain_closure}
+\end{lemma}
+
+\begin{proof}
+$M$ is good, so $\mu$ is a Haar measure and $\mathrm{dom}$ is a fundamental domain for the countable group
+$\Uni(V)(F)$.  If $R$ is a set of representatives of $\thmKconeStab\backslash\Uni(V)(F)$, then
+$\mathcal D=\bigcup_{r\in R}r\,\mathrm{dom}$ is a fundamental domain for $\thmKconeStab$.
+\end{proof}
+
+\subsubsection{Levi elements}
+
+\begin{lemma}\label{pf:thmK-cone:leviV}
+Assume that $B$, $G$ and $G_1$ are good.  There is a map $m\colon\thmKconeAE^\times\times\Uni(V_1)(\A)\to\Uni(V)(\A)$
+with $\mathrm{Levi}_H(l,g_0,m(l,g_0))$ for all $(l,g_0)$, i.e.\ $m(l,g_0)x=lx$, $m(l,g_0)y=c(l)^{-1}y$ and
+$m(l,g_0)\iota=\iota g_0$.
+\formallabel{GlobalTheory.LeviElem.levi_exists}\formallabel{GlobalTheory.T.levi_embedding_exists_doubling_configuration}
+\end{lemma}
+
+\begin{proof}
+Let $P\in M_{b+2}(E)$ have columns $\iota,x,y$.  The adaptedness of $H$ gives
+$P^{\mathsf T}J_V\sigma(P)=K_0:=\mathrm{diag}\bigl(J_{V_1},\bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)\bigr)$,
+and $K_0$ is invertible since $\det J_{V_1}\neq0$; hence $P$ is invertible.  For $l\in\thmKconeAE^\times$ and
+$g_0\in\Uni(V_1)(\A)$ let $D=\mathrm{diag}(g_0,l,c(l)^{-1})$ and $m(l,g_0)=PDP^{-1}$.  It is invertible with inverse
+$P\,\mathrm{diag}(g_0^{-1},l^{-1},c(l))P^{-1}$; it is unitary because $D^{\mathsf T}K_0c(D)=K_0$ (use
+$g_0^{\mathsf T}J_{V_1}c(g_0)=J_{V_1}$ and $l\,c(c(l)^{-1})=1$); and $m(l,g_0)P=PD$ gives the three identities.
+\end{proof}
+
+\begin{lemma}\label{pf:thmK-cone:leviW}
+Let $(E,\sigma)$ be a CM extension of $F$, $W\in\mathrm{Skew}_B(r,s)$ and $H'$ adapted to $(W,W_1)$.  For every
+$t\in\thmKconeAE^\times$ there is $m\in\Uni(W)(\A)$ with $\mathrm{Levi}_{H'}(t,1,m)$.
+\formallabel{GlobalTheory.ThK.exists_isLevi}\formallabel{GlobalTheory.T.exists_levi_torus_element_cm}
+\end{lemma}
+
+\begin{proof}
+Every $v\in\thmKconeAE^d$ is $sx'+\iota'u+ry'$, and $\thmKconeform(v,y')=s$, $\thmKconeform(v,x')=-r$ since
+$\thmKconeform(y',x')=-\sigma(\thmKconeform(x',y'))=-1$.  Let $m$ be the $\thmKconeAE$-linear map
+$v\mapsto v+(t-1)s\,x'+(c(t)^{-1}-1)r\,y'$, i.e.\ $m$ multiplies $x'$ by $t$, $y'$ by $c(t)^{-1}$ and fixes
+$\iota'(\thmKconeAE^{d_1})$.  For $v'=s'x'+\iota'u'+r'y'$,
+$\thmKconeform(mv,mv')=\thmKconeform(\iota'u,\iota'u')+t\,c(c(t)^{-1})\,s\,c(r')-c(t)^{-1}c(t)\,r\,c(s')=
+\thmKconeform(v,v')$, so $m$ is unitary; its inverse is the same construction for $t^{-1}$.
+\end{proof}
+
+\begin{lemma}\label{pf:thmK-cone:leviW1}
+Let $B$ be good, $W\in\mathrm{Skew}_B(r,s)$, $W_1\in\mathrm{Skew}_B(r_1,s_1)$ and $H'$ adapted to $(W,W_1)$.  For every
+$h_1\in\Uni(W_1)(\A)$ there is $m\in\Uni(W)(\A)$ with $\mathrm{Levi}_{H'}(1,h_1,m)$.
+\formallabel{GlobalTheory.LeviUnitary.exists_isLevi}
+\end{lemma}
+
+\begin{proof}
+By \cref{lean:GlobalTheory.LeviUnitary.exists_proj} there is $\pi\in M_{d_1\times d}(E)$ with $\pi\iota'=1$,
+$\pi x'=\pi y'=0$, $J_W\sigma(\iota')=\pi^{\mathsf T}J_{W_1}$ and $\iota'^{\mathsf T}J_W=J_{W_1}\sigma(\pi)$.  Put
+$m=1+\iota'(h_1-1)\pi$, with inverse $1+\iota'(h_1^{-1}-1)\pi$.  Then $mx'=x'$, $my'=y'$, $m\iota'=\iota'h_1$, and
+$m^{\mathsf T}J_Wc(m)=J_W+\pi^{\mathsf T}\bigl(h_1^{\mathsf T}J_{W_1}c(h_1)-J_{W_1}\bigr)c(\pi)=J_W$ by the identities
+for $\pi$.
+\end{proof}
+
+\subsubsection{Separation of the two laws}
+
+\begin{lemma}\label{pf:thmK-cone:angle}
+Let $(E,\sigma)$ be a CM extension of $F$, $\tau\colon E\to\C$ a field embedding and $\kappa\ge1$.  There is
+$\xi\in E^\times$ with $\bigl(\tau(\xi)/|\tau(\xi)|\bigr)^\kappa\neq1$.
+\formallabel{GlobalTheory.CMArg.exists_ne_zero_arg_pow_ne_one}\formallabel{GlobalTheory.T.exists_element_angle_nontrivial}
+\end{lemma}
+
+\begin{proof}
+As $E$ is totally complex, there is $x\in E$ with $\Im\tau(x)\neq0$.  For $k\in\N$, $\tau(k+x)=k+\tau(x)\neq0$.  The
+map $k\mapsto u_k=\tau(k+x)/|\tau(k+x)|$ is injective: $u_k=u_l$ gives, on comparing imaginary parts,
+$|\tau(k+x)|=|\tau(l+x)|$, hence $\tau(k+x)=\tau(l+x)$ and $k=l$.  Only finitely many complex numbers satisfy
+$u^\kappa=1$, so some $u_k$ does not.
+\end{proof}
+
+\begin{lemma}\label{pf:thmK-cone:idele}
+Let $(E,\sigma)$ be a CM extension of $F$, $(\tau_w)_w$ embeddings $E\to\C$ over the infinite places, $w_0$ an
+infinite place and $\xi\in E^\times$.  There is $t\in\thmKconeAE^\times$ such that $\chi(t)=\bigl(\tau_{w_0}(\xi)/
+|\tau_{w_0}(\xi)|\bigr)^{m(w_0)}$ for every character $\chi$ and every $m$ satisfying \eqref{pf:thmK-cone:eq-hasexp}
+for $(\chi,m)$.
+\formallabel{GlobalTheory.IdeleAtPlace.exists_idele_char_eq}\formallabel{GlobalTheory.T.exists_idele_character_value}
+\end{lemma}
+
+\begin{proof}
+Let $t$ be the idele whose component at $w_0$ is $\xi\in E\otimes_FF_{w_0}$ and whose other components are $1$.
+Its finite components are $1$, so \eqref{pf:thmK-cone:eq-hasexp} applies, and in the product all factors with
+$w\neq w_0$ equal $1$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmK-cone:lawsep}]
+$B$ is good, so $(E,\sigma)$ is a CM extension.  Fix an infinite place $w_0$; by \eqref{pf:thmK-cone:eq-geo},
+$\kappa:=m_\alpha(w_0)-m_\beta(w_0)>b+2+a'\ge0$.  Choose $\xi$ by \cref{pf:thmK-cone:angle} for $\tau_{w_0}$ and
+$\kappa$, then $t_0$ by \cref{pf:thmK-cone:idele}, and $m_0$ with $\mathrm{Levi}_{H'}(t_0,1,m_0)$ by
+\cref{pf:thmK-cone:leviW}.  Put $u=\tau_{w_0}(\xi)/|\tau_{w_0}(\xi)|$, so $|u|=1$, $\alpha(t_0)=u^{m_\alpha(w_0)}$ and
+$\beta(t_0)=u^{m_\beta(w_0)}$, and let $P=|t_0|^{a'/2}>0$, $Q=|t_0|^{(b+2)/2}>0$.  If $\alpha(t_0)P=\beta(t_0)Q$, then
+$u^\kappa P=Q$ after cancelling $u^{m_\beta(w_0)}$; taking absolute values, $P=Q$, hence $u^\kappa=1$, contradicting the
+choice of $\xi$.
+\end{proof}
+
+\subsubsection{Haar measures on \texorpdfstring{$N(H')$}{N(H')}}
+
+\begin{lemma}\label{pf:thmK-cone:haarfd}
+Let $\mathcal G$ be a locally compact, second countable, Hausdorff topological group with its Borel structure,
+$\Gamma$ a countable discrete subgroup, and $C_0\subseteq\mathcal G$ compact with $\mathcal G=\Gamma C_0$.  There are a
+Haar measure $\nu$ and a measurable fundamental domain $\mathcal F$ for the left action of $\Gamma$ with
+$\nu(\mathcal F)=1$.
+\formallabel{GlobalTheory.HaarFundDom.exists_haar_fundDom_mass_one}\formallabel{GlobalTheory.T.cocompact_lattice_unit_covolume}
+\end{lemma}
+
+\begin{proof}
+By \cref{lean:GlobalTheory.FundDomDiscrete.exists_measurable_section} there is a measurable set $\mathcal F$ meeting
+each orbit $\Gamma g$ in exactly one point; it is a fundamental domain for every Haar measure $\nu_0$.  Since
+$\mathcal F\subseteq\bigcup_\gamma(\gamma C_0\cap\mathcal F)$ and $\mathcal F$ is a fundamental domain,
+$\nu_0(\mathcal F)\le\sum_\gamma\nu_0(\gamma C_0\cap\mathcal F)=\nu_0(C_0)<\infty$.  Also $\nu_0(\mathcal F)\neq0$, as
+otherwise $\nu_0(\mathcal G)=\sum_\gamma\nu_0(\gamma\mathcal F)=0$.  Take $\nu=\nu_0(\mathcal F)^{-1}\nu_0$.
+\end{proof}
+
+We use the following facts about $N(H')$, proved in the development.
+\begin{enumerate}[label=\textup{(D\arabic*)},ref=\textup{(D\arabic*)},series=thmKconeD]
+\item\label{pf:thmK-cone:D-top} \cref{lean:GlobalTheory.UnipMass.topUA}: $\Uni(W)(\A)$ is a locally compact, second
+  countable, Hausdorff topological group.
+\item\label{pf:thmK-cone:D-closed} \cref{lean:GlobalTheory.T.unipotent_radical_closed_nonzero}: if $x'\neq0$,
+  $N(H')$ is closed in $\Uni(W)(\A)$.
+\item\label{pf:thmK-cone:D-discrete} \cref{lean:GlobalTheory.UnipMass.countable_ratU'} and
+  \cref{lean:GlobalTheory.T.discrete_rational_points_subgroup}: for every subgroup $N$ of $\Uni(W)(\A)$, $N(F)$ is
+  countable and discrete.
+\item\label{pf:thmK-cone:D-cocompact} \cref{lean:GlobalTheory.UnipMass.cocompact}: if $\sigma\circ\sigma=\mathrm{id}$,
+  $J_W$ is skew-hermitian, $x',y',\iota'$ satisfy the identities of an adapted plane and
+  $E^d=Ex'+\iota'(E^{d_1})+Ey'$, there is a compact $C_0\subseteq N(H')$ with $N(H')=N(H')(F)\,C_0$.
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:thmK-cone:haarN}]
+$x'\neq0$ because $\thmKconeform(x',y')=1$; $\sigma\circ\sigma=\mathrm{id}$ ($B$ is good), $J_W$ is skew-hermitian
+($W\in\mathrm{Skew}_B$) and $E^d=Ex'+\iota'(E^{d_1})+Ey'$ (\cref{pf:thmK-cone:setting}).  By
+\ref{pf:thmK-cone:D-top} and \ref{pf:thmK-cone:D-closed}, $N(H')$ is a locally compact, second countable, Hausdorff
+group; by \ref{pf:thmK-cone:D-discrete} and \ref{pf:thmK-cone:D-cocompact}, \cref{pf:thmK-cone:haarfd} applies to
+$\Gamma=N(H')(F)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{Evaluation maps and their equivariance}\label{pf:thmK-cone:evmaps}
+
+The following results of the development describe models, evaluation maps and their behaviour under Levi
+elements.  \Cref{pf:thmK-cone:second,pf:thmK-cone:first} below are the mixed-model formulas of the Weil
+representation in the form in which the development proves them: an evaluation map along a plane of $W$ (resp.\ $X$)
+intertwines the action of the Levi element $m(t,h_1)$ with that of $h_1$, up to the character $\chi_X(t)|t|^{n/2}$
+(resp.\ $\chi_W(t)|t|^{d/2}$).
+
+\paragraph{Hypotheses for planes in $W$ and in $X$.}
+We say that $(\mathrm{S}_W)$ holds if $\sfname{Hypotheses}_2$ holds, $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$ holds for
+$(X,W)$ with signatures $(r,s)$ and $(r',s')$, $H'$ is adapted to $(W,W_1)$, $M_1$ is a model for $(X,W_1)$ and
+$\omega_1$ a representation with $\mathrm{Pair}(B,M_1,\chi_X,\chi_W,\omega_1)$ with signatures $(r,s)$ and $(r_1,s_1)$.
+We say that $(\mathrm{S}_X)$ holds if $\sfname{Hypotheses}_2$ holds, $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$ holds for
+$(X,W)$ with signatures $(r,s)$ and $(r',s')$, $H$ is adapted to $(X,X_1)$, $M_1$ is a model for $(X_1,W)$ and
+$\omega_1$ a representation with $\mathrm{Pair}(B,M_1,\chi_X,\chi_W,\omega_1)$ with signatures $(r_1,s_1)$ and $(r',s')$.
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-model} \cref{lean:GlobalTheory.T.exists_good_schrodinger_model}: if $B$ is good,
+  $X\in\mathrm{Herm}_B(r,s)$ and $W\in\mathrm{Skew}_B(r',s')$, there is a good model for $(X,W)$.
+\item\label{pf:thmK-cone:D-skew} \cref{lean:GlobalTheory.ThK.KernelZero.isSkew_complement}: if $B$ is good,
+  $W\in\mathrm{Skew}_B(r,s)$ and $H'$ is adapted to $(W,W_1)$, then $W_1\in\mathrm{Skew}_B(r-1,s-1)$.
+\item\label{pf:thmK-cone:D-evzero} \cref{lean:GlobalTheory.T.theta_evaluation_zero_cone} (existence of evaluation
+  maps): assume $\sfname{Hypotheses}_2$.  If $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$ for $(X,W)$, $H'$ is adapted to
+  $(W,W_1)$ and $M_1$ is a good model for $(X,W_1)$, there is an evaluation map along $H'$ from $M$ to $M_1$.  (The
+  cited theorem asserts more: such maps carry $\thmKconePol(M)$ onto $\thmKconePol(M_1)$, and evaluation maps along pairs
+  of planes exist.  Only the part stated is used here.)
+\item\label{pf:thmK-cone:D-torusW} \cref{lean:GlobalTheory.T.skew_adapted_plane_seesaw_identity}: under
+  $(\mathrm{S}_W)$, for every evaluation map $e$ along $H'$ from $M$ to $M_1$, every $m$ with $\mathrm{Levi}_{H'}(t,1,m)$
+  and every test function $\Phi$, $e(\omega(1,m)\Phi)=\chi_X(t)|t|^{n/2}e(\Phi)$.
+\item\label{pf:thmK-cone:D-leviW} \cref{lean:GlobalTheory.T.ev_om_levi_eq_om_ev_of_isAdapted}: under $(\mathrm{S}_W)$,
+  for $e$ as before, every $m$ with $\mathrm{Levi}_{H'}(1,h_1,m)$ and every test function $\Phi$,
+  $e(\omega(1,m)\Phi)=\omega_1(1,h_1)e(\Phi)$.
+\item\label{pf:thmK-cone:D-leftW} \cref{lean:GlobalTheory.T.skew_adapted_plane_theta_integral}: under
+  $(\mathrm{S}_W)$, for $e$ as before, $g\in\Uni(X)(\A)$ and test functions $\Phi$, $e(\omega(g,1)\Phi)=\omega_1(g,1)e(\Phi)$.
+\item\label{pf:thmK-cone:D-unipW} \cref{lean:GlobalTheory.T.skew_adapted_plane_restriction}: under $(\mathrm{S}_W)$, for
+  $e$ as before, $u\in N(H')$ and test functions $\Phi$, $e(\omega(1,u)\Phi)=e(\Phi)$.
+\item\label{pf:thmK-cone:D-evX} \cref{lean:GlobalTheory.T.adapted_plane_pair_restriction}: under $(\mathrm{S}_X)$ there
+  is an evaluation map along $H$ from $M$ to $M_1$.
+\item\label{pf:thmK-cone:D-unipX} \cref{lean:GlobalTheory.T.adapted_plane_pair_theta_integral}: under $(\mathrm{S}_X)$,
+  for every evaluation map $e$ along $H$ from $M$ to $M_1$, $u\in N(H)$ and test functions $\Phi$,
+  $e(\omega(u,1)\Phi)=e(\Phi)$.
+\item\label{pf:thmK-cone:D-leviX} \cref{lean:GlobalTheory.T.adapted_plane_pair_seesaw_identity}: under $(\mathrm{S}_X)$,
+  for $e$ as before, every $m$ with $\mathrm{Levi}_H(t,g_1,m)$ and every test function $\Phi$,
+  $e(\omega(m,1)\Phi)=\chi_W(t)|t|^{d/2}\omega_1(g_1,1)e(\Phi)$.
+\item\label{pf:thmK-cone:D-rightX} \cref{lean:GlobalTheory.T.adapted_plane_pair_local_factor}: under $(\mathrm{S}_X)$, for
+  $e$ as before, $h\in\Uni(W)(\A)$ and test functions $\Phi$, $e(\omega(1,h)\Phi)=\omega_1(1,h)e(\Phi)$.
+\end{enumerate}
+
+\begin{lemma}[Law in the second variable]\label{pf:thmK-cone:second}
+Assume $(\mathrm{S}_W)$ and let $e$ be an evaluation map along $H'$ from $M$ to $M_1$.  Then for $g\in\Uni(X)(\A)$,
+$\mathrm{Levi}_{H'}(t,h_1,m)$, $u\in N(H')$ and test functions $\Phi$,
+\[
+  e\bigl(\omega(g,um)\Phi\bigr)=\chi_X(t)\,|t|^{n/2}\,\omega_1(g,h_1)\,e(\Phi).
+\]
+\formallabel{GlobalTheory.MixW.evalZero_law}\formallabel{GlobalTheory.T.adapted_plane_second_variable}
+\end{lemma}
+
+\begin{proof}
+By $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, $B$ is good, so that $(E,\sigma)$ is a CM extension, and
+$W\in\mathrm{Skew}_B(r',s')$; hence \cref{pf:thmK-cone:leviW} gives $m_1$ with $\mathrm{Levi}_{H'}(t,1,m_1)$.  Then $m_2=m_1^{-1}m$ satisfies $\mathrm{Levi}_{H'}(1,h_1,m_2)$: indeed
+$m_1^{-1}x'=t^{-1}x'$, $m_1^{-1}y'=c(t)y'$ and $m_1^{-1}\iota'=\iota'$, so $m_2x'=x'$, $m_2y'=y'$ and
+$m_2\iota'=\iota'h_1$.  The functions $\omega(p)\Phi$ are test functions \ref{pf:thmK-cone:W1}, and
+$\omega(g,um)=\omega(g,1)\,\omega(1,u)\,\omega(1,m_1)\,\omega(1,m_2)$.  By \ref{pf:thmK-cone:D-leftW},
+\ref{pf:thmK-cone:D-unipW}, \ref{pf:thmK-cone:D-torusW} and \ref{pf:thmK-cone:D-leviW}, in this order,
+\[
+  e(\omega(g,um)\Phi)=\omega_1(g,1)\,e(\omega(1,m_1)\omega(1,m_2)\Phi)
+  =\chi_X(t)|t|^{n/2}\,\omega_1(g,1)\,\omega_1(1,h_1)\,e(\Phi),
+\]
+and $\omega_1(g,1)\omega_1(1,h_1)=\omega_1(g,h_1)$.
+\end{proof}
+
+\begin{lemma}[Law in the first variable]\label{pf:thmK-cone:first}
+Assume $(\mathrm{S}_X)$.  There is an evaluation map along $H$ from $M$ to $M_1$, and every such map $e$ satisfies, for
+$h\in\Uni(W)(\A)$, $\mathrm{Levi}_H(t,g_1,m)$, $u\in N(H)$ and test functions $\Phi$,
+\[
+  e\bigl(\omega(um,h)\Phi\bigr)=\chi_W(t)\,|t|^{d/2}\,\omega_1(g_1,h)\,e(\Phi).
+\]
+\formallabel{GlobalTheory.ThKMixX.mixed_model_plane_X}\formallabel{GlobalTheory.T.adapted_plane_first_variable}
+\end{lemma}
+
+\begin{proof}
+Existence is \ref{pf:thmK-cone:D-evX}.  Since $\omega(um,h)=\omega(u,1)\,\omega(m,1)\,\omega(1,h)$ and the $\omega(p)\Phi$
+are test functions, \ref{pf:thmK-cone:D-unipX}, \ref{pf:thmK-cone:D-leviX} and \ref{pf:thmK-cone:D-rightX} give
+$e(\omega(um,h)\Phi)=e(\omega(m,1)\omega(1,h)\Phi)=\chi_W(t)|t|^{d/2}\omega_1(g_1,1)\omega_1(1,h)e(\Phi)$, and
+$\omega_1(g_1,1)\omega_1(1,h)=\omega_1(g_1,h)$.
+\end{proof}
+
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-pairdesc} \cref{lean:GlobalTheory.T.pair_double_descent} (uniqueness): assume
+  $\sfname{Hypotheses}_2$.  Let $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$ for $(X,W)$, $H$ adapted to $(X,X_1)$, $H'$
+  adapted to $(W,W_1)$, $M_1$ a good model for $(X_1,W_1)$ and $e$ an evaluation map along $(H,H')$ from $M$ to
+  $M_1$.  If a linear map $f$ satisfies \ref{pf:thmK-cone:E2} for $(\iota_H,\iota')$ and \ref{pf:thmK-cone:E3} for
+  $\thmKconeiso_A(H,H')$, there is $c\in\C$ with $f(\Phi)=c\,e(\Phi)$ for all test functions $\Phi$.
+\item\label{pf:thmK-cone:D-pairdescnz} \cref{lean:GlobalTheory.T.pair_double_descent_models}: assume
+  $\sfname{Hypotheses}_2$.  Let $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$ hold for $(X,W)$ with signatures $(r,s)$ and
+  $(r',s')$, let $H,H'$ be adapted to $(X,X_1)$ and $(W,W_1)$, let $M_a$ be a model for $(X,W_1)$ and $\omega_a$ a
+  representation with $\mathrm{Pair}(B,M_a,\chi_X,\chi_W,\omega_a)$ with signatures $(r,s)$ and $(r_1,s_1)$, let $M_1$ be a
+  good model for $(X_1,W_1)$, $e_1$ an evaluation map along $H'$ from $M$ to $M_a$ and $e_2$ one along $H$ from $M_a$ to
+  $M_1$.  Then $e_2(e_1(\Phi))\neq0$ for some test function $\Phi$.
+\item\label{pf:thmK-cone:D-seesaw} \cref{lean:GlobalTheory.T.seesaw_identity_config_a_eigen}: assume $\sfname{KP}$, let
+  $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples, $p_1=p(G_1)$, $q_1=q(G_1)$, let $M_2$ be a model for
+  $(V,W_1)$ and $\omega_2$ a representation with $\mathrm{Pair}(B,M_2,\beta,\beta/\alpha,\omega_2)$ with signatures
+  $(b+2-p,p)$ and $(b+a'-(p_1+q_1),p_1+q_1)$, let $e_1$ be an evaluation map along $H'$ from $M$ to $M_2$ and $e_2$ one
+  along $H$ from $M_2$ to $M_1$.  There is $c\neq0$ with $e(\Psi)=c\,e_2(e_1(\Psi))$ for all test functions $\Psi$.
+\item\label{pf:thmK-cone:D-eigen} \cref{lean:GlobalTheory.T.config_a_evaluation_theta}: assume $\sfname{KP}$ and let
+  $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples.  If $k\in\Uni(V)(\A)$ satisfies $kx=ax$ for some
+  $a\in\thmKconeAE$ and $k\iota z\in\iota z+\thmKconeAE x$ for all $z$, there is $c\in\C$ with
+  $e(\omega(k,1)\Psi)=c\,e(\Psi)$ for all test functions $\Psi$.
+\item\label{pf:thmK-cone:D-scale} \cref{lean:GlobalTheory.PlaneLevi.exists_levi_scale}: if $H$ is adapted to
+  $(X,X_1)$ with $X,X_1$ hermitian spaces in $\mathrm{Herm}_B$, $\sigma\circ\sigma=\mathrm{id}$ and $t\in\N$, $t\neq0$,
+  there is $m_t\in\Uni(X)(\A)$ with $m_tx=tx$, $t\,m_ty=y$ and $m_t\iota z=\iota z$ for all $z$.
+\item\label{pf:thmK-cone:D-commut} \cref{lean:GlobalTheory.UnipLine.conj_commutator_eq_pow}: in the situation of
+  \ref{pf:thmK-cone:D-scale}, let $u\in\Uni(X)(\A)$ with $ux=x$ and $u\iota z\in\iota z+\thmKconeAE x$ for all $z$, and
+  put $v=u^{-1}u^{-1}(m_2um_2^{-1})$.  Then $m_tvm_t^{-1}=v^{t^2}$ for every $t$ as in \ref{pf:thmK-cone:D-scale}.
+\end{enumerate}
+
+\begin{lemma}[Existence of Weil representations]\label{pf:thmK-cone:weilex}
+Assume $\sfname{Hypotheses}_2$.  If $B$ is good, $X\in\mathrm{Herm}_B(r,s)$, $W\in\mathrm{Skew}_B(r',s')$, $M$ is a good
+model for $(X,W)$, and $\chi_X,\chi_W$ are Hecke characters with $\chi_X|_{\A^\times}=\eta^n$ and
+$\chi_W|_{\A^\times}=\eta^d$, then there is a Weil representation for $M$ with splitting characters $(\chi_X,\chi_W)$.
+\formallabel{GlobalTheory.WeilExGen.exists_isWeil}\formallabel{GlobalTheory.T.hecke_characters_restriction_eta}
+\end{lemma}
+
+\begin{proof}
+This is the field $\sfname{WeilRepresentationExists}$ of $\sfname{Hypotheses}_2$ (\cref{sec:literature:theta}).
+\end{proof}
+
+\begin{lemma}[An intermediate pair]\label{pf:thmK-cone:midpair}
+Assume $\sfname{KP}$ and let $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples; put $p_1=p(G_1)$ and $q_1=q(G_1)$.
+There are a model $M_2$ for $(V,W_1)$ and a representation $\omega_2$ with $\mathrm{Pair}(B,M_2,\beta,\beta/\alpha,\omega_2)$
+with signatures $(b+2-p,p)$ and $(b+a'-(p_1+q_1),p_1+q_1)$.
+\formallabel{GlobalTheory.ThK.MidPair.exists_midPair}\formallabel{GlobalTheory.T.exists_model_pair_of_triples}
+\end{lemma}
+
+\begin{proof}
+By the two triples, $B$ is good, $V\in\mathrm{Herm}_B(b+2-p,p)$ (the condition on $V$ in \eqref{pf:thmK-cone:eq-geo} for
+$G$) and $W_1\in\mathrm{Skew}_B(b+a'-(p_1+q_1),p_1+q_1)$ (the condition on $W$ for $G_1$).  Let $M_2$ be a good model for
+$(V,W_1)$ \ref{pf:thmK-cone:D-model}.  The character $\beta/\alpha$ is continuous and trivial on $E^\times$, so it is a
+Hecke character.  For $a\in\A^\times$ the triple for $G_1$ gives $\alpha(a)=\beta(a)=1$ if $a\in F^\times\Nm(\thmKconeAE^\times)$,
+and $\alpha(a)=(-1)^{a'}$, $\beta(a)=(-1)^b$ otherwise, in which case $(\beta/\alpha)(a)=(-1)^{b-a'}=(-1)^{b+a'}$; hence
+$(\beta/\alpha)|_{\A^\times}=\eta^{b+a'}$.  The triple for $G$
+gives $\beta|_{\A^\times}=\eta^{b+2}$.  Since $\sfname{Hypotheses}_2$ is part of $\sfname{KP}$, \cref{pf:thmK-cone:weilex} gives
+a Weil representation $\omega_2$ for $M_2$ with splitting characters $(\beta,\beta/\alpha)$, and the conditions collected
+show $\mathrm{Pair}(B,M_2,\beta,\beta/\alpha,\omega_2)$ with the stated signatures.
+\end{proof}
+
+\begin{lemma}[$N(H')$-invariance of evaluation maps]\label{pf:thmK-cone:evzeroN}
+Let $M$ be a model for $(X,W)$, $M_1$ a good model for $(X,W_1)$, $H'$ adapted to $(W,W_1)$, $e_0$ an evaluation map
+along $H'$ from $M$ to $M_1$, and assume $\sfname{KP}$ and $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega;r,s,r',s')$.  Then
+$e_0(\omega(1,u)\Psi)=e_0(\Psi)$ for all $u\in N(H')$ and test functions $\Psi$.
+\formallabel{GlobalTheory.ThK.UnipEvZero.evZero_unip_invariant}\formallabel{GlobalTheory.T.eigen_intertwiner_restriction_pair}
+\end{lemma}
+
+\begin{proof}
+By \ref{pf:thmK-cone:D-skew}, $W_1\in\mathrm{Skew}_B(r'-1,s'-1)$.  Since $d=d_1+2$ and $\eta^2=1$,
+$\chi_W|_{\A^\times}=\eta^{d_1}$.  \Cref{pf:thmK-cone:weilex} gives a Weil representation $\omega_1$ for $M_1$ with
+splitting characters $(\chi_X,\chi_W)$, so $\mathrm{Pair}(B,M_1,\chi_X,\chi_W,\omega_1;r,s,r'-1,s'-1)$.  Apply
+\cref{pf:thmK-cone:second} with $g=1$, $t=1$, $h_1=1$ and $m=1$ (clearly $\mathrm{Levi}_{H'}(1,1,1)$):
+$e_0(\omega(1,u)\Psi)=\omega_1(1,1)e_0(\Psi)=e_0(\Psi)$.
+\end{proof}
+
+\begin{lemma}[Levi law of the evaluation map along $(H,H')$]\label{pf:thmK-cone:evlaw}
+Assume $\sfname{KP}$ and let $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples.  If $\mathrm{Levi}_{H'}(t,h_1,m)$,
+then for all test functions $\Psi$
+\[
+  e\bigl(\omega(1,m)\Psi\bigr)=\beta(t)\,|t|^{(b+2)/2}\,\omega_1(1,h_1)\,e(\Psi).
+\]
+\formallabel{GlobalTheory.ThK.evLaw_isoA}\formallabel{GlobalTheory.T.doubling_levi_translation_identity}
+\end{lemma}
+
+\begin{proof}
+The triples give $\mathrm{Pair}(B,M,\beta,\beta/\alpha,\omega)$ and $\mathrm{Pair}(B,M_1,\beta,\beta/\alpha,\omega_1)$.  Let
+$M_a$ be a good model for $(V,W_1)$ \ref{pf:thmK-cone:D-model}.  The character $\beta/\alpha$ is a Hecke character with
+$(\beta/\alpha)|_{\A^\times}=\eta^{b-a'}=\eta^{b+a'}$ (from the triple for $G_1$), so \cref{pf:thmK-cone:weilex} gives a
+Weil representation $\omega_a$ for $M_a$ with splitting characters $(\beta,\beta/\alpha)$.  Let $e_1$ be an
+evaluation map along $H'$ from $M$ to $M_a$ \ref{pf:thmK-cone:D-evzero} and $e_2$ one along $H$ from $M_a$ to $M_1$
+(\cref{pf:thmK-cone:first}).
+
+The composite $f=e_2\circ e_1$ satisfies \ref{pf:thmK-cone:E2} for $(\iota_H,\iota')$: for test $\Phi$,
+$f(\rho(\iota_Hz\iota'^{\mathsf T})\Phi)=e_2(\rho_a(\iota_Hz)e_1\Phi)=\rho_1(z)f(\Phi)$, by \ref{pf:thmK-cone:E2} for
+$e_1$ (with $\iota_Hz$) and for $e_2$, since $e_1\Phi$ is a test function.  It satisfies \ref{pf:thmK-cone:E3} for
+$\thmKconeiso_A(H,H')$: for $u\in\thmKconeiso_0(H')$ this is \ref{pf:thmK-cone:E3} for $e_1$; for
+$u=x(\iota'z)^{\mathsf T}=(xz^{\mathsf T})\iota'^{\mathsf T}$, \ref{pf:thmK-cone:E2} for $e_1$ gives
+$e_1(\rho(u)\Phi)=\rho_a(xz^{\mathsf T})e_1(\Phi)$, and $xz^{\mathsf T}$ lies in the set $\thmKconeiso_X(H)$ for the pair
+$(V,W_1)$, so \ref{pf:thmK-cone:E3} for $e_2$ applies.  By \ref{pf:thmK-cone:D-pairdesc} there is $c$ with $f(\Phi)=c\,e(\Phi)$ for test $\Phi$, and $c\neq0$
+by \ref{pf:thmK-cone:D-pairdescnz}.
+
+By \cref{pf:thmK-cone:second} (with $g=1$, $u=1$), $e_1(\omega(1,m)\Psi)=\beta(t)|t|^{(b+2)/2}\omega_a(1,h_1)e_1(\Psi)$,
+and by \cref{pf:thmK-cone:first} (with the Levi element $1=m(1,1)$ of $V$, $u=1$ and $h=h_1$),
+$e_2(\omega_a(1,h_1)\varphi)=\omega_1(1,h_1)e_2(\varphi)$ for test $\varphi$.  Hence, $\omega(1,m)\Psi$ being a test
+function \ref{pf:thmK-cone:W1},
+\[
+  e(\omega(1,m)\Psi)=c^{-1}f(\omega(1,m)\Psi)=c^{-1}\beta(t)|t|^{(b+2)/2}\omega_1(1,h_1)f(\Psi)
+  =\beta(t)|t|^{(b+2)/2}\omega_1(1,h_1)e(\Psi).\qedhere
+\]
+\end{proof}
+
+From now on, $\thmKconeshift(l)=l\,x\,y'^{\mathsf T}$ as in \cref{pf:thmK-cone:setting}.  For
+$\Phi\in\thmKconePol(M)$ and $h\in\Uni(W)(\A)$ we call
+\begin{equation}\label{pf:thmK-cone:eq-xterm}
+  \Theta_{\Phi,h}(g)=\theta\Bigl(e\bigl(\rho(\thmKconeshift(1))\,\omega(g,h)\Phi\bigr)\Bigr)\qquad(g\in\Uni(V)(\A))
+\end{equation}
+the \emph{$x$-term}.
+
+\begin{lemma}[Levi law of the $x$-term]\label{pf:thmK-cone:xlaw}
+Assume $\sfname{KP}$, let $(X,\omega,\omega',\omega_1,\omega_1')$ be a pair of triples, $\Phi\in\thmKconePol(M)$,
+$h\in\Uni(W)(\A)$, and let $\mathrm{Levi}_H(l,g_0,m)$ in $\Uni(V)(\A)$.  Then for all $k\in\Uni(V)(\A)$
+\[
+  \Theta_{\Phi,h}(mk)=\nu(l)^{-1}\,|l|^{(b+a')/2}\;
+  \theta\Bigl(\omega_1(g_0,1)\,e\bigl(\rho(\thmKconeshift(l^{-1}))\,\omega(k,h)\Phi\bigr)\Bigr).
+\]
+\formallabel{GlobalTheory.XTermLaw.law}\formallabel{GlobalTheory.T.doubling_eigen_intertwiner_unramified}
+\end{lemma}
+
+\begin{proof}
+Put $\Psi_1=\rho(\thmKconeshift(l^{-1}))\omega(k,h)\Phi$, a test function.  Since $mx=lx$, $m\,\thmKconeshift(l^{-1})=
+\thmKconeshift(1)$, so by \ref{pf:thmK-cone:W2} $\omega(m,1)\Psi_1=\rho(\thmKconeshift(1))\omega(mk,h)\Phi$.  Let $M_2,\omega_2$
+be as in \cref{pf:thmK-cone:midpair}, $e_1$ an evaluation map along $H'$ from $M$ to $M_2$ \ref{pf:thmK-cone:D-evzero}
+and $e_2$ one along $H$ from $M_2$ to $M_1$ (\cref{pf:thmK-cone:first}, applied to $\mathrm{Pair}(B,M_2,\dots)$ and to
+the pair $(M_1,\omega_1)$ given by the triple for $G_1$), and let $c\neq0$ with $e=c\,e_2\circ e_1$ on test functions
+\ref{pf:thmK-cone:D-seesaw}.  By \cref{pf:thmK-cone:second} with $g=m$, the trivial Levi element $1=m(1,1)$ of $W$ and
+$u=1$, $e_1(\omega(m,1)\Psi_1)=\omega_2(m,1)e_1(\Psi_1)$, and by the law of \cref{pf:thmK-cone:first} for the pair
+$(M_2,\omega_2)$, whose second splitting character is $\beta/\alpha$ and whose second space $W_1$ has dimension $b+a'$,
+$e_2(\omega_2(m,1)\varphi)=(\beta/\alpha)(l)|l|^{(b+a')/2}\omega_1(g_0,1)e_2(\varphi)$.  Therefore
+\[
+  e\bigl(\rho(\thmKconeshift(1))\omega(mk,h)\Phi\bigr)=c\,e_2\bigl(\omega_2(m,1)e_1\Psi_1\bigr)
+  =(\beta/\alpha)(l)\,|l|^{(b+a')/2}\,\omega_1(g_0,1)\,e(\Psi_1).
+\]
+Apply $\theta$, which is homogeneous, and use $(\beta/\alpha)(l)=\nu(l)^{-1}$.
+\end{proof}
+
+\begin{lemma}[$N(H)$-invariance of the $x$-term]\label{pf:thmK-cone:xNinv}
+Under the hypotheses of \cref{pf:thmK-cone:xlaw}, $\Theta_{\Phi,h}(ng)=\Theta_{\Phi,h}(g)$ for all $n\in N(H)$ and
+$g\in\Uni(V)(\A)$.
+\formallabel{GlobalTheory.ThKNInv.unip_inv}\formallabel{GlobalTheory.T.doubling_eigen_intertwiner_global_factor}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: every $k\in N(H)$ satisfies $kx=x$ and $e(\omega(k,1)\Psi)=e(\Psi)$ for all test functions $\Psi$.}  Both
+properties are preserved under products and inverses (for the second use $\omega(kk',1)=\omega(k,1)\omega(k',1)$ and
+\ref{pf:thmK-cone:W1}) and hold for $k=1$, so it suffices to treat a generator $u$ of $N(H)$: $ux=x$ and
+$u\iota z\in\iota z+\thmKconeAE x$ for all $z$.  If $e$ vanishes on all test functions there is nothing to prove;
+otherwise fix a test function $\Psi_0$ and a point $Y$ with $e(\Psi_0)(Y)\neq0$.  Then a scalar $c$ with
+$e(\omega(k,1)\Psi)=c\,e(\Psi)$ for all test $\Psi$ is determined by $k$; when it exists we denote it $\chi(k)$.  If
+$\chi(k)$ and $\chi(k')$ exist, so do $\chi(kk')=\chi(k)\chi(k')$, and $\chi(k)\neq0$ with $\chi(k^{-1})=\chi(k)^{-1}$
+(from $e(\Psi)=e(\omega(k,1)\omega(k^{-1},1)\Psi)$).  By \ref{pf:thmK-cone:D-eigen}, $\chi(u)$ exists, and so do
+$\chi(m_2)$ and $\chi(m_3)$ for the elements $m_t$ of \ref{pf:thmK-cone:D-scale}.  Let $v=u^{-2}m_2um_2^{-1}$; then
+$\chi(v)=\chi(u)^{-1}$ and, for $t=2,3$, $\chi(m_tvm_t^{-1})=\chi(v)$.  By \ref{pf:thmK-cone:D-commut},
+$m_tvm_t^{-1}=v^{t^2}$, so $\chi(u)^{-1}=\chi(u)^{-4}$ and $\chi(u)^{-1}=\chi(u)^{-9}$.  The first gives
+$\chi(u)^{-3}=1$, and then the second gives $\chi(u)^{-1}=1$.
+
+\emph{Step 2.}  Let $n\in N(H)$ and $\Psi'=\omega(g,h)\Phi$.  Since $nx=x$, $n\,\thmKconeshift(1)=\thmKconeshift(1)$,
+so by \ref{pf:thmK-cone:W2} $\rho(\thmKconeshift(1))\omega(n,1)\Psi'=\omega(n,1)\rho(\thmKconeshift(1))\Psi'$, and by
+Step 1 $e(\rho(\thmKconeshift(1))\omega(ng,h)\Phi)=e(\rho(\thmKconeshift(1))\Psi')$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{The constant term of the theta kernel}\label{pf:thmK-cone:ctkernel}
+
+In this subsection $B$ is a base datum, $X,W,W_1$ are spaces of dimensions $n,d,d_1$, $M$ is a model for $(X,W)$,
+$M_1$ a good model for $(X,W_1)$, $H'=(x',y',\iota',\mathfrak b')$ is a plane adapted to $(W,W_1)$, and $e_0$ is an
+evaluation map along $H'$ from $M$ to $M_1$.  For $\xi\in E^n$, $\xi y'^{\mathsf T}\in M_{n\times d}(E)$.  We say that
+$(\nu,\mathcal F)$ is \emph{normalised} if $\nu$ is a Haar measure on $N(H')$ and $\mathcal F$ a measurable fundamental
+domain for $N(H')(F)$ in $N(H')$ with $\nu(\mathcal F)=1$.
+
+\subsubsection{Partial Poisson summation}
+We use the following results.
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-uniq} \cref{lean:GlobalTheory.T.additive_homogeneous_functional_linear} (uniqueness of the
+  theta functional): assume $\sfname{KP}$, $B$ and $M$ good, $X\in\mathrm{Herm}_B$ and $W\in\mathrm{Skew}_B$.  Let $L$ be a
+  complex function on the functions on $\A^{n\times d}$ which is additive and homogeneous on test functions, such that
+  for every locally constant compactly supported $g$ on $\A_f^{n\times d}$ the map $f\mapsto L(f\otimes g)$ is a
+  continuous linear functional on the archimedean Schwartz space, and such that $L(\rho(\gamma)\Psi)=L(\Psi)$ for
+  $\gamma\in M_{n\times d}(E)$ and test functions $\Psi$.  Then there is $c\in\C$ with $L(\Psi)=c\,\theta(\Psi)$ for all
+  test functions $\Psi$.
+\item\label{pf:thmK-cone:D-Lprop} Assume $\sfname{KP}$, $B$ and $M$ good, $X\in\mathrm{Herm}_B$, $W\in\mathrm{Skew}_B$, and
+  put $L_{e_0}(\Psi)=\sum_{\xi\in E^n}\theta(e_0(\rho(\xi y'^{\mathsf T})\Psi))$.  Then: $L_{e_0}$ is additive and
+  homogeneous on test functions (\cref{lean:GlobalTheory.T.evaluation_map_adapted_plane_injective}); $f\mapsto
+  L_{e_0}(f\otimes g)$ is a continuous linear functional for every $g$ as in \ref{pf:thmK-cone:D-uniq}
+  (\cref{lean:GlobalTheory.T.evaluation_map_adapted_plane_surjective}); $L_{e_0}(\rho(\gamma)\Psi)=L_{e_0}(\Psi)$ for
+  $\gamma\in M_{n\times d}(E)$ (\cref{lean:GlobalTheory.T.evaluation_map_adapted_plane_continuous});
+  $L_{e_0}(\Psi_0)\neq0$ for some test function $\Psi_0$
+  (\cref{lean:GlobalTheory.T.evaluation_map_adapted_plane_intertwines}); and for every test function $\Psi$ the family
+  $\xi\mapsto\theta(e_0(\rho(\xi y'^{\mathsf T})\Psi))$ is summable
+  (\cref{lean:GlobalTheory.T.evaluation_map_adapted_plane_equivariant}).
+\end{enumerate}
+
+\begin{lemma}[Partial Poisson summation]\label{pf:thmK-cone:mixed}
+Assume $\sfname{KP}$, $B$ and $M$ good, $X\in\mathrm{Herm}_B(r,s)$ and $W\in\mathrm{Skew}_B(r',s')$ for some $r,s,r',s'$.
+There is $C_0\neq0$ such that for every test function $\Psi$ on $\A^{n\times d}$ the family
+$\xi\mapsto\theta(e_0(\rho(\xi y'^{\mathsf T})\Psi))$, $\xi\in E^n$, is summable and
+\begin{equation}\label{pf:thmK-cone:eq-mixed}
+  \theta(\Psi)=C_0\sum_{\xi\in E^n}\theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\Psi)\bigr).
+\end{equation}
+\formallabel{GlobalTheory.ThKExpand.thetaSum_eq_mixed}\formallabel{GlobalTheory.T.eigen_intertwiner_restriction_rank}
+\end{lemma}
+
+\begin{proof}
+By \ref{pf:thmK-cone:D-Lprop}, $L_{e_0}$ satisfies the hypotheses of \ref{pf:thmK-cone:D-uniq}, so $L_{e_0}=c\,\theta$ on
+test functions for some $c$; $c\neq0$ because $L_{e_0}(\Psi_0)\neq0$.  Put $C_0=c^{-1}$; summability is part of
+\ref{pf:thmK-cone:D-Lprop}.
+\end{proof}
+
+\subsubsection{The anisotropic terms}
+We use the following results.
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-phase} \cref{lean:GlobalTheory.T.eval_map_pair_compat}: assume $\sfname{KP}$ and
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$.  For every $\xi\in E^n$ with $\thmKconeform(\xi,\xi)\neq0$ there is
+  $\kappa\in F^\times$ such that for all $t\in\A$ and $z\in N(H')$ with $z^{-1}y'=y'-t\,x'$, all
+  $u\in\Uni(W)(\A)$ and all test functions $\Psi$,
+  \[
+    \theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\omega(1,zu)\Psi)\bigr)=\psi(t\kappa)\,
+    \theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi)\bigr).
+  \]
+\item\label{pf:thmK-cone:D-ratinv} \cref{lean:GlobalTheory.T.eval_map_pair_compat_alt}: under the same hypotheses, for
+  every $\xi\in E^n$, $\gamma\in N(H')(F)$, $u\in\Uni(W)(\A)$ and test function $\Psi$,
+  $\theta(e_0(\rho(\xi y'^{\mathsf T})\omega(1,\gamma u)\Psi))=\theta(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi))$.
+\item\label{pf:thmK-cone:D-central} \cref{lean:GlobalTheory.T.exists_central_unipotent_translate}: if $(E,\sigma)$ is a
+  CM extension and $W\in\mathrm{Skew}_B(r',s')$, then for every $t\in\A$ there is $z\in N(H')$, commuting with every
+  element of $N(H')$, with $z^{-1}y'=y'-t\,x'$.
+\end{enumerate}
+
+\begin{lemma}[Anisotropic terms vanish]\label{pf:thmK-cone:aniso}
+Assume $\sfname{KP}$ and $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, let $(\nu,\mathcal F)$ be normalised, $\Psi$ a test
+function and $\xi\in E^n$ with $\thmKconeform(\xi,\xi)\neq0$.  Then
+\[
+  \int_{\mathcal F}\theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi)\bigr)\,d\nu(u)=0.
+\]
+\formallabel{GlobalTheory.AnisConstTerm.integral_anisotropic_eq_zero}\formallabel{GlobalTheory.T.eigen_intertwiner_restriction_unitary}
+\end{lemma}
+
+\begin{proof}
+Let $\vartheta(u)=\theta(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi))$ and let $\kappa$ be as in
+\ref{pf:thmK-cone:D-phase}.  The character $\psi$ is standard, hence nontrivial: on adeles supported at an archimedean
+place it is $a\mapsto\exp(-2\pi i\Tr a)$.  Choose $s_0\in\A$ with $\psi(s_0)\neq1$.  By \ref{pf:thmK-cone:D-central}
+there is $z\in N(H')$, central in $N(H')$, with $z^{-1}y'=y'-s_0\kappa^{-1}x'$, and by \ref{pf:thmK-cone:D-phase}
+$\vartheta(zu)=\psi(s_0)\vartheta(u)$ for all $u$.  By \ref{pf:thmK-cone:D-ratinv}, $\vartheta$ is left invariant under
+$N(H')(F)$, and so is $u\mapsto\vartheta(zu)$ since $z$ is central.  As $z$ is central, $z^{-1}\mathcal F$ is again a
+fundamental domain for $N(H')(F)$; integrals of an invariant function over two fundamental domains agree, and $\nu$ is
+invariant under left translation by $z$, hence
+\[
+  \psi(s_0)\int_{\mathcal F}\vartheta\,d\nu=\int_{\mathcal F}\vartheta(zu)\,d\nu(u)
+  =\int_{z^{-1}\mathcal F}\vartheta(zu)\,d\nu(u)=\int_{\mathcal F}\vartheta\,d\nu .
+\]
+These identities hold for Bochner integrals without integrability assumptions.  Since $\psi(s_0)\neq1$, the integral
+vanishes.
+\end{proof}
+
+\subsubsection{The isotropic terms}
+Let $H=(x_H,y_H,\iota_H,\mathfrak b_H)$ be a plane adapted to $(X,X_1)$, $M_2$ a good model for $(X_1,W_1)$ and $e$ an
+evaluation map along $(H,H')$ from $M$ to $M_2$; $\rho_1$ denotes the Heisenberg operators of $M_1$.  We use the
+following results, all assuming $\sfname{KP}$.
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-isoseesaw} \cref{lean:GlobalTheory.T.adapted_evaluation_seesaw}: if $B$ and $M$ are good,
+  $X\in\mathrm{Herm}_B$ and $W\in\mathrm{Skew}_B$, there are an evaluation map $e'$ along $H$ from $M_1$ to $M_2$ and
+  $c\neq0$ with $e'(e_0(\Psi))=c\,e(\Psi)$ for all test functions $\Psi$.
+\item\label{pf:thmK-cone:D-isomixed} \cref{lean:GlobalTheory.T.adapted_evaluation_restriction} (partial Poisson
+  summation for $(X,W_1)$ along $H$): if $B$ is good, $X\in\mathrm{Herm}_B$, $W\in\mathrm{Skew}_B$ and $e'$ is an evaluation
+  map along $H$ from $M_1$ to $M_2$, there is $C'\neq0$ such that for every test function $\varphi$ on $\A^{n\times d_1}$
+  the family $w\mapsto\theta(e'(\rho_1(y_Hw^{\mathsf T})\varphi))$, $w\in E^{d_1}$, is summable and
+  $\theta(\varphi)=C'\sum_{w\in E^{d_1}}\theta(e'(\rho_1(y_Hw^{\mathsf T})\varphi))$.
+\item\label{pf:thmK-cone:D-isorat} \cref{lean:GlobalTheory.T.adapted_evaluation_equivariant}: if
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, then $\theta(e_0(\omega(\gamma,1)\Phi))=\theta(e_0(\Phi))$ for
+  $\gamma\in\Uni(X)(F)$ and test functions $\Phi$.
+\item\label{pf:thmK-cone:D-isoswap} \cref{lean:GlobalTheory.T.adapted_evaluation_compatible_levi}: if
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, $e'$ is as in \ref{pf:thmK-cone:D-isomixed}, $(\nu,\mathcal F)$ is normalised and
+  $\Psi$ is a test function, then, with
+  $\varphi_u=e_0(\rho(x_Hy'^{\mathsf T})\omega(1,u)\Psi)$,
+  \[
+    \int_{\mathcal F}\sum_{w}\theta\bigl(e'(\rho_1(y_Hw^{\mathsf T})\varphi_u)\bigr)\,d\nu(u)
+    =\sum_{w}\int_{\mathcal F}\theta\bigl(e'(\rho_1(y_Hw^{\mathsf T})\varphi_u)\bigr)\,d\nu(u).
+  \]
+\item\label{pf:thmK-cone:D-isonz} \cref{lean:GlobalTheory.T.adapted_evaluation_induction}: in the situation of
+  \ref{pf:thmK-cone:D-isoswap}, $\int_{\mathcal F}\theta(e'(\rho_1(y_Hw^{\mathsf T})\varphi_u))\,d\nu(u)=0$ for every
+  nonzero $w\in E^{d_1}$.
+\item\label{pf:thmK-cone:D-isozero} \cref{lean:GlobalTheory.T.adapted_evaluation_nonvanishing}: in the situation of
+  \ref{pf:thmK-cone:D-isoswap}, $e'(\varphi_u)=e'(\varphi_1)$ for every $u\in N(H')$.
+\end{enumerate}
+
+\begin{lemma}[Isotropic terms]\label{pf:thmK-cone:iso}
+Assume $\sfname{KP}$.  There is $C\neq0$ such that for every $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, every normalised
+$(\nu,\mathcal F)$, every test function $\Psi$, every nonzero $\xi\in E^n$ with $\thmKconeform(\xi,\xi)=0$ and every
+$\gamma\in\Uni(X)(F)$ with $\gamma\xi=x_H$,
+\[
+  \int_{\mathcal F}\theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi)\bigr)\,d\nu(u)
+  =C\,\theta\bigl(e(\rho(x_Hy'^{\mathsf T})\omega(\gamma,1)\Psi)\bigr).
+\]
+\formallabel{GlobalTheory.ThKIso.constTerm_iso}\formallabel{GlobalTheory.T.eigen_intertwiner_double_restriction}
+\end{lemma}
+
+\begin{proof}
+If no $\mathrm{Pair}(B,M,\dots)$ exists, take $C=1$.  Otherwise $B$ and $M$ are good, $X\in\mathrm{Herm}_B$ and
+$W\in\mathrm{Skew}_B$; let $e',c$ be as in \ref{pf:thmK-cone:D-isoseesaw}, $C'$ as in \ref{pf:thmK-cone:D-isomixed}, and put
+$C=C'c$.  Fix the data and put $\Psi'=\omega(\gamma,1)\Psi$.
+
+For $u\in\Uni(W)(\A)$, $\omega(\gamma,1)\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi=\rho(\gamma\xi y'^{\mathsf T})
+\omega(\gamma,1)\omega(1,u)\Psi=\rho(x_Hy'^{\mathsf T})\omega(1,u)\Psi'$ by \ref{pf:thmK-cone:W2}, so by
+\ref{pf:thmK-cone:D-isorat}
+\[
+  \theta\bigl(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi)\bigr)=\theta\bigl(e_0(\rho(x_Hy'^{\mathsf T})\omega(1,u)\Psi')\bigr)
+  =C'\sum_{w\in E^{d_1}}\theta\bigl(e'(\rho_1(y_Hw^{\mathsf T})\varphi_u)\bigr),
+\]
+with $\varphi_u=e_0(\rho(x_Hy'^{\mathsf T})\omega(1,u)\Psi')$, a test function by \ref{pf:thmK-cone:E1}, and the last
+equality by \ref{pf:thmK-cone:D-isomixed}.  Integrate over $\mathcal F$ and interchange sum and integral by
+\ref{pf:thmK-cone:D-isoswap}.  The terms with $w\neq0$ vanish by \ref{pf:thmK-cone:D-isonz}.  For $w=0$,
+$\rho_1(0)$ is the identity, and by \ref{pf:thmK-cone:D-isozero} the integrand is the constant
+$\theta(e'(\varphi_1))=\theta(e'(e_0(\rho(x_Hy'^{\mathsf T})\Psi')))=c\,\theta(e(\rho(x_Hy'^{\mathsf T})\Psi'))$ (by
+\ref{pf:thmK-cone:D-isoseesaw}), whose integral over $\mathcal F$ is itself since $\nu(\mathcal F)=1$.  Altogether the
+integral in the statement equals $C'c\,\theta(e(\rho(x_Hy'^{\mathsf T})\Psi'))=C\,\theta(e(\rho(x_Hy'^{\mathsf T})
+\omega(\gamma,1)\Psi))$.
+\end{proof}
+
+\subsubsection{The constant term}
+Two more results are used below.  Both assume that $\sfname{KP}$ holds and that $\omega$ satisfies
+$\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$.
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-swap} \cref{lean:GlobalTheory.T.eigen_intertwiner_restriction_character}: for every
+  normalised $(\nu,\mathcal F)$ and every test function $\Psi$, put
+  $\vartheta_\xi(u)=\theta(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi))$; then the family
+  $\xi\mapsto\int_{\mathcal F}\vartheta_\xi\,d\nu$ is summable and
+  $\sum_\xi\int_{\mathcal F}\vartheta_\xi\,d\nu=\int_{\mathcal F}\sum_\xi\vartheta_\xi\,d\nu$.
+\item\label{pf:thmK-cone:D-summ} \cref{lean:GlobalTheory.T.eigen_intertwiner_double_restriction_pair}: with $H,M_2,e$
+  as above and $(\gamma_\xi)$ a family indexed by the nonzero isotropic $\xi\in E^n$ with $\gamma_\xi\in\Uni(X)(F)$ and
+  $\gamma_\xi\xi=x_H$, for every test function $\Psi$ the family
+  $\xi\mapsto\theta(e(\rho(x_Hy'^{\mathsf T})\omega(\gamma_\xi,1)\Psi))$ is summable.
+\end{enumerate}
+
+\begin{lemma}[Constant term of the theta kernel]\label{pf:thmK-cone:ctk}
+Assume $\sfname{KP}$.  There is $C_0\neq0$ with the following properties.
+\begin{enumerate}
+\item If $X$ is anisotropic ($\thmKconeform(\xi,\xi)=0\Rightarrow\xi=0$), then for every
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, every test function $\Phi$ and every $g\in\Uni(X)(\A)$,
+  $\mathrm{CT}_{H'}\bigl(\theta_\omega(\Phi)(g,\cdot)\bigr)=\bigl(h\mapsto C_0\,\theta(e_0(\omega(g,h)\Phi))\bigr)$.
+\item For every plane $H$ adapted to $(X,X_1)$, good model $M_2$ for $(X_1,W_1)$ and evaluation map $e$ along $(H,H')$
+  from $M$ to $M_2$ there is $C_1\neq0$ such that for every family $(\gamma_\xi)$ as in \ref{pf:thmK-cone:D-summ}, every
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, every test function $\Phi$ and every $g$: the family
+  $\xi\mapsto\theta(e(\rho(x_Hy'^{\mathsf T})\omega(\gamma_\xi g,h)\Phi))$ is summable for every $h$, and
+  $\mathrm{CT}_{H'}\bigl(\theta_\omega(\Phi)(g,\cdot)\bigr)$ is the function
+  \begin{equation}\label{pf:thmK-cone:eq-ctk}
+    h\longmapsto C_0\,\theta\bigl(e_0(\omega(g,h)\Phi)\bigr)
+    +C_1\sum_{\xi}\theta\bigl(e(\rho(x_Hy'^{\mathsf T})\omega(\gamma_\xi g,h)\Phi)\bigr),
+  \end{equation}
+  the sum running over the nonzero isotropic $\xi\in E^n$.
+\end{enumerate}
+\formallabel{GlobalTheory.ThKConstTerm.constantTerm_theta}\formallabel{GlobalTheory.T.adapted_plane_evaluation_constant}
+\end{lemma}
+
+\begin{proof}
+If $B$ or $M$ is not good, or there are no $r,s,r',s'$ with $X\in\mathrm{Herm}_B(r,s)$ and $W\in\mathrm{Skew}_B(r',s')$, no
+$\mathrm{Pair}(B,M,\dots)$ exists and $C_0=C_1=1$ will do.  Otherwise let $C_0$ be as in \cref{pf:thmK-cone:mixed}.
+
+Fix $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, normalised $(\nu,\mathcal F)$, a test function $\Phi$, $g$ and $h$; put
+$\Psi=\omega(g,h)\Phi$ and
+$a(\xi)=\int_{\mathcal F}\theta(e_0(\rho(\xi y'^{\mathsf T})\omega(1,u)\Psi))\,d\nu(u)$.  Since $(g,uh)=(1,u)(g,h)$,
+$\theta_\omega(\Phi)(g,uh)=\theta(\omega(1,u)\Psi)$, and $\omega(1,u)\Psi$ is a test function; by
+\eqref{pf:thmK-cone:eq-mixed} and \ref{pf:thmK-cone:D-swap},
+\begin{equation}\label{pf:thmK-cone:eq-ctk-sum}
+  \int_{\mathcal F}\theta_\omega(\Phi)(g,uh)\,d\nu(u)=C_0\sum_{\xi\in E^n}a(\xi),\qquad(a(\xi))_\xi\ \text{summable}.
+\end{equation}
+For $\xi=0$, $\rho(0)$ is the identity and $e_0(\omega(1,u)\Psi)=e_0(\Psi)$ for $u\in N(H')$
+(\cref{pf:thmK-cone:evzeroN}), so $a(0)=\theta(e_0(\Psi))\,\nu(\mathcal F)=\theta(e_0(\omega(g,h)\Phi))$.  For
+$\thmKconeform(\xi,\xi)\neq0$, $a(\xi)=0$ by \cref{pf:thmK-cone:aniso}.
+
+(1) If $X$ is anisotropic, $a(\xi)=0$ for all $\xi\neq0$ and \eqref{pf:thmK-cone:eq-ctk-sum} is
+$C_0\theta(e_0(\omega(g,h)\Phi))$.
+
+(2) Let $C$ be as in \cref{pf:thmK-cone:iso} and $C_1=C_0C$.  Summability follows from \ref{pf:thmK-cone:D-summ} applied
+to $\omega(g,h)\Phi$, since $\omega(\gamma_\xi g,h)=\omega(\gamma_\xi,1)\omega(g,h)$.  Splitting off $\xi=0$ in
+\eqref{pf:thmK-cone:eq-ctk-sum} and discarding the anisotropic $\xi$, the remaining sum runs over the nonzero isotropic
+$\xi$, and for these \cref{pf:thmK-cone:iso} with $\gamma=\gamma_\xi$ gives
+$a(\xi)=C\,\theta(e(\rho(x_Hy'^{\mathsf T})\omega(\gamma_\xi g,h)\Phi))$.  Multiplying by $C_0$ gives
+\eqref{pf:thmK-cone:eq-ctk}.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{The constant term of the theta integral}\label{pf:thmK-cone:ctint}
+
+We return to the standing data of \cref{pf:thmK-cone:reduction}; recall the $x$-term $\Theta_{\Phi,h}$ of
+\eqref{pf:thmK-cone:eq-xterm}.  We use:
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-basic} \cref{lean:GlobalTheory.T.theta_basic_properties}: assume $\sfname{Hypotheses}_2$ and
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$.  For every test function $\Phi$, $(g,h)\mapsto\theta_\omega(\Phi)(g,h)$ is
+  continuous, $\theta_\omega(\Phi)(\gamma g,\gamma'h)=\theta_\omega(\Phi)(g,h)$ for $\gamma\in\Uni(X)(F)$,
+  $\gamma'\in\Uni(W)(F)$, and $|\theta_\omega(\Phi)(g,h)|\le C(\thmKconeht(g)\thmKconeht(h))^k$ for some $C,k$.
+\item\label{pf:thmK-cone:D-weil} \cref{lean:GlobalTheory.T.weil_convergence_of_kernel} (Weil's convergence criterion,
+  cf.\ \cite{Weil1965}; the formal proof uses reduction theory, $\sfname{SiegelSetUnitary}$): assume $\sfname{KP}$ and
+  $\mathrm{Pair}(B,M,\chi_X,\chi_W,\omega)$, where $X$ has signature $(r,s)$, and assume $d+2\min(r,s)<2n$ or
+  $\min(r,s)=0$.  For every test function $\Phi$, $g\mapsto\theta_\omega(\Phi)(g,h)$ is integrable on $\mathrm{dom}$ for
+  every $h$, and there are $C,k$ with $\int_{\mathrm{dom}}|\theta_\omega(\Phi)(g,h)|\,d\mu(g)\le C\,\thmKconeht(h)^k$ for
+  all $h$.
+\item\label{pf:thmK-cone:D-height} \cref{lean:GlobalTheory.T.unipotent_bounded_height_reduction}: if $B$ is good,
+  $W\in\mathrm{Skew}_B$ and $H'$ is adapted to $(W,W_1)$, there is $R\ge0$ such that every $u\in N(H')$ has a
+  $\gamma\in N(H')(F)$ with $\thmKconeht(\gamma u)\le R$.
+\end{enumerate}
+
+\begin{lemma}[Fubini]\label{pf:thmK-cone:fubini}
+Assume $\sfname{KP}$ and $\mathrm{Triple}(B,G,X,\omega,\omega')$.  Let $\Phi$ be a test function, $(\nu,\mathcal F)$
+normalised and $h\in\Uni(W)(\A)$.  Then $g\mapsto\int_{\mathcal F}\theta_\omega(\Phi)(g,uh)\,d\nu(u)$ is integrable on
+$\mathrm{dom}$ and
+\[
+  \int_{\mathcal F}\thmKconeI(\Phi)(uh)\,d\nu(u)=\int_{\mathrm{dom}}\int_{\mathcal F}\theta_\omega(\Phi)(g,uh)\,d\nu(u)\,d\mu(g).
+\]
+\formallabel{GlobalTheory.ThK.CTIntegrate.fubini_big}
+\end{lemma}
+
+\begin{proof}
+The triple gives $\mathrm{Pair}(B,M,\beta,\beta/\alpha,\omega)$, and $V$ has signature $(b+2-p,p)$ since $q(G)=0$.  By
+\eqref{pf:thmK-cone:eq-geo}, $2p+1<(b+2-a')/2$ (an exact quotient, $b+2+a'$ being even), i.e.\ $4p+a'<b$; hence
+$(b+2+a')+2\min(b+2-p,p)\le b+2+a'+2p<2(b+2)$, and \ref{pf:thmK-cone:D-weil} gives $C,k$ (we may take $C\ge0$) with
+$\int_{\mathrm{dom}}|\theta_\omega(\Phi)(g,h')|\,d\mu(g)\le C\thmKconeht(h')^k$.  Let $R$ be as in
+\ref{pf:thmK-cone:D-height}.  For $u\in N(H')$ choose $\gamma\in N(H')(F)$ with $\thmKconeht(\gamma u)\le R$; by the
+invariance in \ref{pf:thmK-cone:D-basic} and submultiplicativity of the height,
+\[
+  \int_{\mathrm{dom}}|\theta_\omega(\Phi)(g,uh)|\,d\mu(g)=\int_{\mathrm{dom}}|\theta_\omega(\Phi)(g,\gamma uh)|\,d\mu(g)
+  \le C\bigl(R\,\thmKconeht(h)\bigr)^k .
+\]
+The function $(g,u)\mapsto\theta_\omega(\Phi)(g,uh)$ is continuous (\ref{pf:thmK-cone:D-basic}), and by this bound and
+$\nu(\mathcal F)=1$ it is integrable on $\mathrm{dom}\times\mathcal F$.  Fubini's theorem gives both assertions.
+\end{proof}
+
+\begin{lemma}[Integration over $\Uni(V)$]\label{pf:thmK-cone:ctbig}
+Assume $\sfname{KP}$.  There is $C_1\neq0$ such that for every family $(\gamma_\xi)$ as in \cref{pf:thmK-cone:reps},
+every pair of triples and every $\Phi\in\thmKconePol(M)$ there is a function $A_0$ with law $(\beta,(b+2)/2)$ such that
+$\mathrm{CT}_{H'}(\thmKconeI(\Phi))$ is the function
+\[
+  h\longmapsto C_1\int_{\mathrm{dom}}\sum_{\xi}\Theta_{\Phi,h}(\gamma_\xi g)\,d\mu(g)+A_0(h),
+\]
+the sum running over the nonzero isotropic $\xi\in E^{b+2}$.
+\formallabel{GlobalTheory.ThK.ctBig_integrate}\formallabel{GlobalTheory.T.exists_nonzero_isotropic_integral}
+\end{lemma}
+
+\begin{proof}
+If no pair of triples exists, $C_1=1$ will do.  Otherwise fix one; it shows that $B$, $G$ and $G_1$ are good, which does
+not depend on the triples.  Let $M^\sharp$ be the model for $(V,W_1)$ with the Darboux coordinates and vacua of a good
+model given by \ref{pf:thmK-cone:D-model} and with the measure $\mu$ and the domain $\mathrm{dom}$ of $M$; it is good.  Let
+$e_0$ be an evaluation map along $H'$ from $M$ to $M^\sharp$ \ref{pf:thmK-cone:D-evzero}, let $C_0$ be the constant of
+\cref{pf:thmK-cone:ctk} for $(M,M^\sharp,H',e_0)$, and let $C_1\neq0$ be the constant of
+\cref{pf:thmK-cone:ctk}(2) for the plane $H$, the good model $M_1$ for $(V_1,W_1)$ and $e$.
+
+Fix $(\gamma_\xi)$, the triples and $\Phi$; $\Phi$ is a test function.  As in the proof of \cref{pf:thmK-cone:evlaw},
+\cref{pf:thmK-cone:weilex} gives a Weil representation $\omega^\sharp$ for $M^\sharp$ with splitting characters
+$(\beta,\beta/\alpha)$, so $\mathrm{Pair}(B,M^\sharp,\beta,\beta/\alpha,\omega^\sharp)$.  By \cref{pf:thmK-cone:second} for
+$e_0$,
+\begin{equation}\label{pf:thmK-cone:eq-e0law}
+  e_0(\omega(g,1)\Psi)=\omega^\sharp(g,1)e_0(\Psi),\qquad
+  e_0(\omega(1,m)\Psi)=\beta(t)|t|^{(b+2)/2}e_0(\Psi)\quad\text{if }\mathrm{Levi}_{H'}(t,1,m),
+\end{equation}
+for test functions $\Psi$.  Put $A_0(h)=C_0\int_{\mathrm{dom}}\theta(e_0(\omega(g,h)\Phi))\,d\mu(g)$.  If
+$\mathrm{Levi}_{H'}(t,1,m)$, then $\omega(g,mh)=\omega(1,m)\omega(g,h)$ and \eqref{pf:thmK-cone:eq-e0law} give
+$\theta(e_0(\omega(g,mh)\Phi))=\beta(t)|t|^{(b+2)/2}\theta(e_0(\omega(g,h)\Phi))$; integrating, $A_0$ has law
+$(\beta,(b+2)/2)$.
+
+Let $(\nu,\mathcal F)$ be normalised and $h\in\Uni(W)(\A)$, and put $F_h(g)=\int_{\mathcal F}\theta_\omega(\Phi)(g,uh)\,d\nu(u)$.
+By \cref{pf:thmK-cone:fubini}, $F_h$ is integrable on $\mathrm{dom}$ and $\int_{\mathcal F}\thmKconeI(\Phi)(uh)\,d\nu(u)=
+\int_{\mathrm{dom}}F_h\,d\mu$.  By \cref{pf:thmK-cone:ctk}(2), applied to $\mathrm{Pair}(B,M,\beta,\beta/\alpha,\omega)$,
+\[
+  F_h(g)=C_0\,\theta\bigl(e_0(\omega(g,h)\Phi)\bigr)+C_1\sum_\xi\Theta_{\Phi,h}(\gamma_\xi g).
+\]
+By \eqref{pf:thmK-cone:eq-e0law}, $\theta(e_0(\omega(g,h)\Phi))=\theta_{\omega^\sharp}(\Phi^\sharp)(g,1)$ with
+$\Phi^\sharp=e_0(\omega(1,h)\Phi)$, a test function.  The pair $(M^\sharp,\omega^\sharp)$ has signatures $(b+2-p,p)$ and
+$W_1$ has dimension $b+a'$; since $(b+a')+2p<2(b+2)$, \ref{pf:thmK-cone:D-weil} shows that the first term is integrable on
+$\mathrm{dom}$ (the measure and domain of $M^\sharp$ are those of $M$).  Hence so is the second, and integrating,
+$\int_{\mathcal F}\thmKconeI(\Phi)(uh)\,d\nu(u)=A_0(h)+C_1\int_{\mathrm{dom}}\sum_\xi\Theta_{\Phi,h}(\gamma_\xi g)\,d\mu(g)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{Unfolding the isotropic terms}\label{pf:thmK-cone:unfold}
+
+\begin{lemma}[Invariance of the $x$-term]\label{pf:thmK-cone:xQinv}
+Assume $\sfname{KP}$ and fix a pair of triples, and let $\Phi\in\thmKconePol(M)$ and $h\in\Uni(W)(\A)$.  Then
+$\Theta_{\Phi,h}(qg)=\Theta_{\Phi,h}(g)$ for all $q\in\thmKconeStab$ and $g\in\Uni(V)(\A)$.
+\formallabel{GlobalTheory.ThK.StabInv.xTerm_left_inv}\formallabel{GlobalTheory.T.doubling_eigen_intertwiner_triple_first}\formallabel{GlobalTheory.ThK.RatStab.xTerm_left_invariant_ratStab}\formallabel{GlobalTheory.T.doubling_eigen_intertwiner_local_factor}
+\end{lemma}
+
+\begin{proof}
+Let $M^\natural$ be a good model for $(V,W_1)$ \ref{pf:thmK-cone:D-model}, $e_0$ an evaluation map along $H'$ from $M$ to
+$M^\natural$ \ref{pf:thmK-cone:D-evzero}, $(\nu,\mathcal F)$ normalised (\cref{pf:thmK-cone:haarN}), and $C\neq0$ the
+constant of \cref{pf:thmK-cone:iso} for $(M,M^\natural,H',e_0)$ and $(H,M_1,e)$.  Apply \cref{pf:thmK-cone:iso} to the
+test function $\Psi=\omega(g,h)\Phi$ and $\xi=x$, which is nonzero and isotropic, once with $\gamma=q$ and once with
+$\gamma=1$; both satisfy $\gamma x=x$.  The left hand sides coincide, so
+$C\,\theta(e(\rho(xy'^{\mathsf T})\omega(q,1)\Psi))=C\,\theta(e(\rho(xy'^{\mathsf T})\Psi))$, i.e.\
+$\Theta_{\Phi,h}(qg)=\Theta_{\Phi,h}(g)$.
+\end{proof}
+
+\begin{lemma}[Unfolding]\label{pf:thmK-cone:unfoldx}
+Assume $\sfname{KP}$ and fix a pair of triples.  Let $(\gamma_\xi)$ be as in \cref{pf:thmK-cone:reps}, $\mathcal D$ a fundamental
+domain for $\thmKconeStab$ with respect to $\mu$, $\Phi\in\thmKconePol(M)$ and $h\in\Uni(W)(\A)$.  Then
+\[
+  \int_{\mathrm{dom}}\sum_\xi\Theta_{\Phi,h}(\gamma_\xi g)\,d\mu(g)=\int_{\mathcal D}\Theta_{\Phi,h}\,d\mu .
+\]
+\formallabel{GlobalTheory.ThK.Unfold.integral_tsum_isotropic_eq}\formallabel{GlobalTheory.T.config_a_eigen_theta_triples}
+\end{lemma}
+
+\begin{proof}
+Apply \cref{pf:thmK-cone:unfoldlemma} with $\mathcal G=\Uni(V)(\A)$, the Haar measure $\mu$, $\Gamma=\Uni(V)(F)$ (countable),
+$\thmKconeStab'=\thmKconeStab$, $D_0=\mathrm{dom}$, $D=\mathcal D$, the family $(\gamma_\xi)$ indexed by the nonzero isotropic
+$\xi$ (a countable set, $E$ being countable), and $f=\Theta_{\Phi,h}$.  The uniqueness hypothesis is
+\cref{pf:thmK-cone:coset} ($x\neq0$ is isotropic), the invariance is \cref{pf:thmK-cone:xQinv} and the integrability is
+\cref{pf:thmK-cone:xint} below (whose proof does not use the present lemma).
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{The Iwasawa integration and the cone}\label{pf:thmK-cone:iwasawa}
+
+In this subsection we write $\int_K\int_l\int_{g_0}$ for iterated integrals over $K$, $\thmKconeAE^\times$ and
+$\mathrm{dom}_1$ with respect to $\mu_K,\mu^\times,\mu_1$ (innermost last), and $\delta(l)=|l|^{1-(b+2)}$.  We use:
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-iwasawa} \cref{lean:GlobalTheory.T.doubling_configuration_haar_unfolding_second} (Iwasawa
+  integration formula): assume that $B$, $G$, $G_1$ are good, and let $m$ be as in \cref{pf:thmK-cone:leviV}.
+  There are a Haar measure $\mu_N$ on $N(H)$ and $c\in(0,\infty)$ such that for every measurable
+  $\varphi\colon\Uni(V)(\A)\to[0,\infty]$
+  \[
+    \int\varphi\,d\mu=c\int_K\int_{\thmKconeAE^\times}\int_{\Uni(V_1)(\A)}\int_{N(H)}
+    \varphi\bigl(n\,m(l,g_0)\,k\bigr)\,\delta(l)\,d\mu_N(n)\,d\mu_1(g_0)\,d\mu^\times(l)\,d\mu_K(k).
+  \]
+\item\label{pf:thmK-cone:D-unfoldstab} \cref{lean:GlobalTheory.T.config_a_haar_unfolding}: under the same hypotheses,
+  given $(\mu_N,c)$ as in \ref{pf:thmK-cone:D-iwasawa}, there is $C\in(0,\infty)$ such that for every fundamental domain
+  $\mathcal D$ for $\thmKconeStab$ and every continuous $\varphi\colon\Uni(V)(\A)\to[0,\infty]$ which is left invariant under
+  $\thmKconeStab$ and under $N(H)$,
+  $\int_{\mathcal D}\varphi\,d\mu=C\int_K\int_l\int_{g_0}\varphi(m(l,g_0)k)\,\delta(l)$.
+\item\label{pf:thmK-cone:D-four} \cref{lean:GlobalTheory.T.config_a_haar_unfolding_measure}: under the same hypotheses,
+  for $\varphi\ge0$ let $J(\varphi)=\int_K\int_l\int_{g_0}\varphi(m(l,g_0)k)\,\delta(l)\in[0,\infty]$.  If
+  $f\colon\Uni(V)(\A)\to\C$ is continuous with $J(|f|)<\infty$, then the iterated (Bochner) integral
+  $\int_K\int_l\int_{g_0}f(m(l,g_0)k)\,\delta(l)$ equals $J(f_1)-J(f_2)+i\,(J(f_3)-J(f_4))$, where $f_1,f_2,f_3,f_4$ are
+  the positive parts of $\Re f$, $-\Re f$, $\Im f$, $-\Im f$.
+\item\label{pf:thmK-cone:D-cont} \cref{lean:GlobalTheory.T.doubling_eigen_intertwiner_triple_compatible}: fix a pair of
+  triples; for $\Phi\in\thmKconePol(M)$ and $h$, $\Theta_{\Phi,h}$ is continuous.
+\item\label{pf:thmK-cone:D-conv} \cref{lean:GlobalTheory.T.doubling_configuration_levi_integral}: assume $\sfname{KP}$,
+  fix a pair of triples and $m$ as in \cref{pf:thmK-cone:leviV}; for $\Phi\in\thmKconePol(M)$ and $h$,
+  $J(|\Theta_{\Phi,h}|)<\infty$.
+\item\label{pf:thmK-cone:D-fub} \cref{lean:GlobalTheory.T.config_a_haar_integral_formula}: assume $\sfname{KP}$ and fix
+  a pair of triples; for $\Phi\in\thmKconePol(M)$ and $h$, the iterated integral over $(k,l,g_0)$ of
+  \[
+    \nu(l)\,|l|^z\,\theta\bigl(\omega_1(g_0,1)\,e(\rho(\thmKconeshift(l))\omega(k,h)\Phi)\bigr)
+  \]
+  equals the iterated integral of the same function in the order $(g_0,k,l)$.
+\item\label{pf:thmK-cone:D-opcone} \cref{lean:GlobalTheory.T.config_a_haar_unfolding_alt}: assume $\sfname{KP}$ and fix
+  a pair of triples; for test functions $\Psi$ and $p\in\Uni(V_1)(\A)\times\Uni(W_1)(\A)$, $\omega_1(p)\thmKconecone(\Psi)$
+  is the function
+  \[
+    Y\longmapsto\int_K\int_l\,\bigl[\omega_1(p)\,e(\rho(\thmKconeshift(l))\omega(k,1)\Psi)\bigr](Y)\,\nu(l)|l|^z .
+  \]
+\item\label{pf:thmK-cone:D-thcone} \cref{lean:GlobalTheory.T.config_a_haar_stabilizer}: under the same hypotheses,
+  $\theta$ of the function in \ref{pf:thmK-cone:D-opcone} equals
+  \[
+    \int_K\int_l\nu(l)|l|^z\,\theta\bigl(\omega_1(p)\,e(\rho(\thmKconeshift(l))\omega(k,1)\Psi)\bigr).
+  \]
+\end{enumerate}
+
+\begin{lemma}[Iwasawa unfolding]\label{pf:thmK-cone:iwunfold}
+Assume that $B$, $G$ and $G_1$ are good, and let $m$ be as in \cref{pf:thmK-cone:leviV}.  There is $C\neq0$ such
+that for every fundamental domain $\mathcal D$ for $\thmKconeStab$ and every continuous $f\colon\Uni(V)(\A)\to\C$, left
+invariant under $\thmKconeStab$ and under $N(H)$, with $J(|f|)<\infty$ (notation of \ref{pf:thmK-cone:D-four}),
+\[
+  \int_{\mathcal D}f\,d\mu=C\int_K\int_l\int_{g_0}f\bigl(m(l,g_0)k\bigr)\,\delta(l).
+\]
+\formallabel{GlobalTheory.IwasawaUnfold.iwasawa_unfold}\formallabel{GlobalTheory.T.doubling_configuration_haar_integral_unfolding}
+\end{lemma}
+
+\begin{proof}
+Let $(\mu_N,c)$ be as in \ref{pf:thmK-cone:D-iwasawa} and $C\in(0,\infty)$ as in \ref{pf:thmK-cone:D-unfoldstab}.  Applied
+to $|f|$, \ref{pf:thmK-cone:D-unfoldstab} and $J(|f|)<\infty$ show that $f$ is integrable on $\mathcal D$.  Applied to the
+positive parts $f_1,\dots,f_4$ of $\Re f$, $-\Re f$, $\Im f$, $-\Im f$ (continuous, non-negative and invariant), it gives
+$\int_{\mathcal D}f_j\,d\mu=C\,J(f_j)$.  Hence
+$\int_{\mathcal D}f\,d\mu=C\bigl(J(f_1)-J(f_2)+i(J(f_3)-J(f_4))\bigr)$, which is $C$ times the iterated integral by
+\ref{pf:thmK-cone:D-four}.
+\end{proof}
+
+\begin{lemma}[Integrability of the $x$-term]\label{pf:thmK-cone:xint}
+Assume $\sfname{KP}$ and fix a pair of triples.  For every fundamental domain $\mathcal D$ for $\thmKconeStab$ with respect
+to $\mu$, every $\Phi\in\thmKconePol(M)$ and every $h\in\Uni(W)(\A)$, the $x$-term $\Theta_{\Phi,h}$ is integrable on
+$\mathcal D$.
+\formallabel{GlobalTheory.XTermInteg.xTerm_integrableOn}\formallabel{GlobalTheory.T.doubling_eigen_intertwiner_triple_second}
+\end{lemma}
+
+\begin{proof}
+The triples show that $B$, $G$ and $G_1$ are good.  Let $m$ be as in \cref{pf:thmK-cone:leviV}, $(\mu_N,c)$ as in
+\ref{pf:thmK-cone:D-iwasawa} and $C\in(0,\infty)$ as in \ref{pf:thmK-cone:D-unfoldstab}, for the standing $K$, $\mu_K$
+and $\mu^\times$ (the statement does not involve them).  The function $f=\Theta_{\Phi,h}$ is continuous
+\ref{pf:thmK-cone:D-cont}, hence measurable, and $|f|$ is continuous, non-negative and left invariant under
+$\thmKconeStab$ (\cref{pf:thmK-cone:xQinv}) and under $N(H)$ (\cref{pf:thmK-cone:xNinv}).  By
+\ref{pf:thmK-cone:D-unfoldstab}, $\int_{\mathcal D}|f|\,d\mu=C\,J(|f|)$, which is finite by \ref{pf:thmK-cone:D-conv}.
+\end{proof}
+
+\begin{lemma}[The cone]\label{pf:thmK-cone:itcone}
+Assume $\sfname{KP}$ and fix a pair of triples, and let $\Phi\in\thmKconePol(M)$ and $h\in\Uni(W)(\A)$.  Then
+\[
+  \int_K\int_l\int_{g_0}\nu(l)^{-1}|l|^{(b+a')/2}\,
+  \theta\Bigl(\omega_1(g_0,1)\,e\bigl(\rho(\thmKconeshift(l^{-1}))\omega(k,h)\Phi\bigr)\Bigr)\,\delta(l)
+  =\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(1).
+\]
+\formallabel{GlobalTheory.XTermExch.iterated_eq_cone}\formallabel{GlobalTheory.T.doubling_configuration_eigen_integral}
+\end{lemma}
+
+\begin{proof}
+For fixed $k$, substitute $l\mapsto l^{-1}$ in the integral over $\thmKconeAE^\times$; a Haar measure on this abelian group
+is invariant under inversion.  Since $\nu(l^{-1})^{-1}=\nu(l)$, $|l^{-1}|=|l|^{-1}$, and
+$r^{(b+a')/2}r^{1-(b+2)}=(r^{-1})^z$ for $r>0$ (because $a'<b$ and $b+a'$ is even, $G_1$ being good), the left hand side
+becomes
+\[
+  \int_K\int_l\int_{g_0}\nu(l)|l|^z\,\theta\bigl(\omega_1(g_0,1)e(\rho(\thmKconeshift(l))\omega(k,h)\Phi)\bigr).
+\]
+By \ref{pf:thmK-cone:D-fub} we may integrate over $g_0$ last.  For fixed $g_0$, \ref{pf:thmK-cone:D-opcone} and
+\ref{pf:thmK-cone:D-thcone}, applied to $\Psi=\omega(1,h)\Phi$ (a test function) and $p=(g_0,1)$, together with
+$\omega(k,1)\omega(1,h)=\omega(k,h)$, identify the inner integral over $(k,l)$ with
+$\theta(\omega_1(g_0,1)\thmKconecone(\omega(1,h)\Phi))$.  Its integral over $\mathrm{dom}_1$ is
+$\thmKconeI_1(\thmKconecone(\omega(1,h)\Phi))(1)$ by definition.
+\end{proof}
+
+\begin{lemma}[The cone term]\label{pf:thmK-cone:iwcone}
+Assume $\sfname{KP}$.  There is $C_2\neq0$ such that for every pair of triples, every fundamental domain $\mathcal D$ for
+$\thmKconeStab$ with respect to $\mu$, every $\Phi\in\thmKconePol(M)$ and every $h$,
+\[
+  \int_{\mathcal D}\Theta_{\Phi,h}\,d\mu=C_2\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(1).
+\]
+\formallabel{GlobalTheory.ThKIwasawa.iwasawaConeTerm}\formallabel{GlobalTheory.T.config_a_eigen_integral_unimodular}
+\end{lemma}
+
+\begin{proof}
+If $B$, $G$, $G_1$ are not all good, no triples exist and $C_2=1$ will do.  Otherwise let $m$ be as in
+\cref{pf:thmK-cone:leviV} and $C_2$ the constant of \cref{pf:thmK-cone:iwunfold}.  The function $f=\Theta_{\Phi,h}$ is
+continuous \ref{pf:thmK-cone:D-cont}, left invariant under $\thmKconeStab$ (\cref{pf:thmK-cone:xQinv}) and under $N(H)$
+(\cref{pf:thmK-cone:xNinv}), and satisfies the finiteness condition \ref{pf:thmK-cone:D-conv}.  By
+\cref{pf:thmK-cone:iwunfold}, $\int_{\mathcal D}\Theta_{\Phi,h}\,d\mu=C_2\int_K\int_l\int_{g_0}
+\Theta_{\Phi,h}(m(l,g_0)k)\delta(l)$.  By \cref{pf:thmK-cone:xlaw} applied to $\mathrm{Levi}_H(l,g_0,m(l,g_0))$, the integrand
+is the integrand of \cref{pf:thmK-cone:itcone}, which concludes.
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:thmK-cone:propA}}{the first proposition}}
+Let $C_1$ and $C_2$ be the constants of \cref{pf:thmK-cone:ctbig,pf:thmK-cone:iwcone} and $C=C_1C_2\neq0$.  Given a pair of
+triples and $\Phi\in\thmKconePol(M)$, choose $(\gamma_\xi)$ by \cref{pf:thmK-cone:reps} and $\mathcal D$ by
+\cref{pf:thmK-cone:fdQ}, and let $A_0$ be the function of \cref{pf:thmK-cone:ctbig} for $(\gamma_\xi)$; it has law
+$(\beta,(b+2)/2)$.  For every $h$, by \cref{pf:thmK-cone:unfoldx,pf:thmK-cone:iwcone},
+\begin{align*}
+  C_1\int_{\mathrm{dom}}\sum_\xi\Theta_{\Phi,h}(\gamma_\xi g)\,d\mu(g)+A_0(h)
+  &=C_1\int_{\mathcal D}\Theta_{\Phi,h}\,d\mu+A_0(h)\\
+  &=C\,\thmKconeI_1\bigl(\thmKconecone(\omega(1,h)\Phi)\bigr)(1)+A_0(h),
+\end{align*}
+so \cref{pf:thmK-cone:ctbig} gives $\mathrm{CT}_{H'}(\thmKconeI(\Phi))=T+A_0$.\qed
+
+% ---------------------------------------------------------------------------------------------------------------
+\subsection{The Levi law of the cone term}\label{pf:thmK-cone:levilaw}
+
+The notation is that of \cref{pf:thmK-cone:iwasawa}.  For functions $f,\varphi$ on $\A^\kappa$ and a Haar measure $\mu_Y$
+on $\A^\kappa$ write $\langle f,\varphi\rangle_{\mu_Y}=\int f\,\overline{\varphi}\,d\mu_Y$.  Test functions are continuous
+and square integrable.  We use:
+\begin{enumerate}[resume*=thmKconeD]
+\item\label{pf:thmK-cone:D-conemem} \cref{lean:GlobalTheory.T.configuration_stabiliser_measure}: assume $\sfname{KP}$ and
+  fix a pair of triples.  For every test function $\Psi$, $\thmKconecone(\Psi)$ is a test function on
+  $\A^{b\times(b+a')}$.
+\item\label{pf:thmK-cone:D-paircone} \cref{lean:GlobalTheory.ConeComm.pair_cone}: under the same hypotheses, for test
+  functions $\Psi$ and $\varphi$ and every Haar measure $\mu_Y$ on $\A^{b\times(b+a')}$,
+  \[
+    \langle\thmKconecone(\Psi),\varphi\rangle_{\mu_Y}=\int_K\int_l
+    \bigl\langle e(\rho(\thmKconeshift(l))\omega(k,1)\Psi),\varphi\bigr\rangle_{\mu_Y}\,\nu(l)|l|^z .
+  \]
+\end{enumerate}
+
+\begin{lemma}\label{pf:thmK-cone:pairsep}
+Let $f,g$ be test functions on $\A^\kappa$ with $\langle f,\psi\rangle_{\mu_Y}=\langle g,\psi\rangle_{\mu_Y}$ for every Haar
+measure $\mu_Y$ and every test function $\psi$.  Then $f=g$.
+\formallabel{GlobalTheory.SchAPairing.eq_of_pairing}\formallabel{GlobalTheory.T.schwartz_eq_of_integrals_eq}
+\end{lemma}
+
+\begin{proof}
+Take $\psi=f-g$ and a Haar measure $\mu_Y$: $\int|f-g|^2\,d\mu_Y=0$, so $f=g$ almost everywhere; both are continuous and
+$\mu_Y$ charges every nonempty open set, so $f=g$.
+\end{proof}
+
+\begin{lemma}\label{pf:thmK-cone:polar}
+Let $T$ be a linear operator on functions on $\A^\kappa$ which maps test functions to test functions and satisfies
+$\int|T\varphi|^2\,d\mu_Y=\int|\varphi|^2\,d\mu_Y$ for every Haar measure $\mu_Y$ and test function $\varphi$.  Then
+$\langle Tf,Tg\rangle_{\mu_Y}=\langle f,g\rangle_{\mu_Y}$ for all test functions $f,g$ and every Haar measure $\mu_Y$.
+\formallabel{GlobalTheory.L2PairingPolar.pairing_eq}\formallabel{GlobalTheory.T.unitary_preserves_inner_product}
+\end{lemma}
+
+\begin{proof}
+Apply the hypothesis to $g+cf$ for $c\in\{1,-1,i,-i\}$ and use the polarisation identity in $L^2(\mu_Y)$.
+\end{proof}
+
+\begin{lemma}[The cone commutes with $\Uni(W_1)$]\label{pf:thmK-cone:conecomm}
+Assume $\sfname{KP}$ and fix a pair of triples.  For $h_1\in\Uni(W_1)(\A)$ and every test function $\Psi$,
+$\omega_1(1,h_1)\thmKconecone(\Psi)$ is the function
+\[
+  Y\longmapsto\int_K\int_l\,\bigl[\omega_1(1,h_1)\,e\bigl(\rho(\thmKconeshift(l))\omega(k,1)\Psi\bigr)\bigr](Y)\,\nu(l)|l|^z .
+\]
+\formallabel{GlobalTheory.ConeComm.cone_comm}\formallabel{GlobalTheory.T.doubling_haar_eigen_unfolding}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:thmK-cone:leviW1} there is $m\in\Uni(W)(\A)$ with $\mathrm{Levi}_{H'}(1,h_1,m)$.  By \cref{pf:thmK-cone:evlaw}
+with $t=1$, $\omega_1(1,h_1)e(\varphi)=e(\omega(1,m)\varphi)$ for test functions $\varphi$.  Since $my'=y'$,
+$\thmKconeshift(l)\,m^{\mathsf T}=\thmKconeshift(l)$, so \ref{pf:thmK-cone:W2} and $\omega(1,m)\omega(k,1)=\omega(k,1)\omega(1,m)$
+give
+\begin{equation}\label{pf:thmK-cone:eq-key-comm}
+  \omega_1(1,h_1)\,e\bigl(\rho(\thmKconeshift(l))\omega(k,1)\Psi\bigr)=e\bigl(\rho(\thmKconeshift(l))\omega(k,1)\Psi_m\bigr),
+  \qquad\Psi_m=\omega(1,m)\Psi .
+\end{equation}
+Hence the function in the statement is $\thmKconecone(\Psi_m)$, and it remains to show
+$\omega_1(1,h_1)\thmKconecone(\Psi)=\thmKconecone(\Psi_m)$.  Both are test functions (\ref{pf:thmK-cone:D-conemem},
+\ref{pf:thmK-cone:W1}).  Let $\mu_Y$ be a Haar measure, $\varphi$ a test function and $\varphi'=\omega_1(1,h_1^{-1})\varphi$, so
+$\varphi=\omega_1(1,h_1)\varphi'$.  By \ref{pf:thmK-cone:W3} and \cref{pf:thmK-cone:polar}, $\omega_1(1,h_1)$ preserves
+$\langle\cdot,\cdot\rangle_{\mu_Y}$ on test functions, so by \ref{pf:thmK-cone:D-paircone} (twice) and
+\eqref{pf:thmK-cone:eq-key-comm}
+\begin{align*}
+  \langle\omega_1(1,h_1)\thmKconecone(\Psi),\varphi\rangle_{\mu_Y}
+  &=\langle\thmKconecone(\Psi),\varphi'\rangle_{\mu_Y}
+   =\int_K\int_l\bigl\langle e(\rho(\thmKconeshift(l))\omega(k,1)\Psi),\varphi'\bigr\rangle_{\mu_Y}\nu(l)|l|^z\\
+  &=\int_K\int_l\bigl\langle e(\rho(\thmKconeshift(l))\omega(k,1)\Psi_m),\varphi\bigr\rangle_{\mu_Y}\nu(l)|l|^z
+   =\langle\thmKconecone(\Psi_m),\varphi\rangle_{\mu_Y}.
+\end{align*}
+\Cref{pf:thmK-cone:pairsep} concludes.
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:thmK-cone:propB}}{the second proposition}}
+Let $\mathrm{Levi}_{H'}(t,h_1,m)$, put $t^c=c(t)\in\thmKconeAE^\times$ and $\Psi_0=\omega(1,h)\Phi$, a test function.
+
+\emph{Characters.}  $\alpha|_{\A^\times}=\eta^{a'}$ and $\beta|_{\A^\times}=\eta^{b+2}$ with $a'\equiv b+2\pmod 2$, so $\nu$ is
+trivial on $\A^\times$.  As $E/F$ is CM, $t\,t^c\in\A^\times$, so $\nu(t^c)=\nu(t)^{-1}$
+(\cref{lean:GlobalTheory.ideleChar_conj_eq_inv_of_trivial_on_base}: for a CM extension, a character of
+$\thmKconeAE^\times$ trivial on $\A^\times$ takes inverse values at $t$ and $c(t)$); also $|t^c|=|t|$, and $2z+a'=b+2$.  Hence
+\begin{equation}\label{pf:thmK-cone:eq-hsc}
+  \beta(t)|t|^{(b+2)/2}=\alpha(t)|t|^{a'/2}\cdot\nu(t^c)\,|t^c|^z .
+\end{equation}
+
+\emph{Translation.}  Since $\omega(k,1)\omega(1,mh)=\omega(1,m)\omega(k,1)\omega(1,h)$, and since
+$\thmKconeshift(l\,t^c)\,m^{\mathsf T}=l\,t^c\,x\,(my')^{\mathsf T}=\thmKconeshift(l)$ because $my'=c(t)^{-1}y'$,
+\ref{pf:thmK-cone:W2} gives
+\[
+  \rho(\thmKconeshift(l))\,\omega(k,1)\,\omega(1,mh)\Phi=\omega(1,m)\,\rho(\thmKconeshift(l\,t^c))\,\omega(k,1)\Psi_0 .
+\]
+
+\emph{The cone.}  By \cref{pf:thmK-cone:evlaw} and the last identity, $\thmKconecone(\omega(1,mh)\Phi)(Y)$ equals
+\[
+  \int_K\int_l\beta(t)|t|^{(b+2)/2}\,\bigl[\omega_1(1,h_1)e(\rho(\thmKconeshift(l\,t^c))\omega(k,1)\Psi_0)\bigr](Y)\,\nu(l)|l|^z .
+\]
+On the other hand, by \cref{pf:thmK-cone:conecomm} and the substitution $l\mapsto l\,t^c$ (Haar measure on
+$\thmKconeAE^\times$ is translation invariant), $\alpha(t)|t|^{a'/2}\,\omega_1(1,h_1)\thmKconecone(\Psi_0)(Y)$ equals
+\[
+  \int_K\int_l\alpha(t)|t|^{a'/2}\,\bigl[\omega_1(1,h_1)e(\rho(\thmKconeshift(l\,t^c))\omega(k,1)\Psi_0)\bigr](Y)\,
+  \nu(l\,t^c)\,|l\,t^c|^z .
+\]
+By \eqref{pf:thmK-cone:eq-hsc} the two integrands agree, so
+$\thmKconecone(\omega(1,mh)\Phi)=\alpha(t)|t|^{a'/2}\,\omega_1(1,h_1)\thmKconecone(\Psi_0)$.
+
+\emph{Conclusion.}  $\thmKconeI_1$ is homogeneous ($\theta$ is homogeneous, and so is the integral), and
+$\thmKconeI_1(\omega_1(1,h_1)\varphi)(1)=\int_{\mathrm{dom}_1}\theta(\omega_1(g,h_1)\varphi)\,d\mu_1(g)=\thmKconeI_1(\varphi)(h_1)$.
+Hence
+$\thmKconeI_1(\thmKconecone(\omega(1,mh)\Phi))(1)=\alpha(t)|t|^{a'/2}\,\thmKconeI_1(\thmKconecone(\omega(1,h)\Phi))(h_1)$.\qed

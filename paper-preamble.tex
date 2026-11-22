@@ -1,0 +1,120 @@
+% ---------------------------------------------------------------------------
+% paper-preamble.tex -- shared by paper.tex and all section files
+% Compiles with pdfLaTeX, XeLaTeX and LuaLaTeX.
+% ---------------------------------------------------------------------------
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\else
+  \usepackage[no-math]{fontspec}
+  \IfFontExistsTF{DejaVuSansMono.ttf}{%
+    \setmonofont{DejaVuSansMono.ttf}[Scale=MatchLowercase,
+      BoldFont=DejaVuSansMono-Bold.ttf, ItalicFont=DejaVuSansMono-Oblique.ttf,
+      BoldItalicFont=DejaVuSansMono-BoldOblique.ttf]%
+  }{}
+\fi
+\usepackage[a4paper,margin=2.7cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs,longtable,array}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+% --- theorem-like environments (one counter, numbered by section) -----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{littheorem}[theorem]{Theorem}
+\newtheorem*{theoremA}{Theorem A}
+\newtheorem*{theoremB}{Theorem B}
+\newtheorem*{corollaryC}{Corollary C}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\crefname{littheorem}{Theorem}{Theorems}
+\Crefname{littheorem}{Theorem}{Theorems}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+\Crefname{hypothesis}{Hypothesis}{Hypotheses}
+\crefname{claim}{Claim}{Claims}
+\Crefname{claim}{Claim}{Claims}
+\numberwithin{equation}{section}
+\setlength{\emergencystretch}{3em}
+
+% --- references to the formal development ------------------------------------
+% \formal{Full.Lean.Name}: the Lean declaration that states (and proves) a result.
+% A ragged line break is allowed before the tag, and the name may break after dots and underscores.
+\DeclareUrlCommand\formalname{\def\UrlFont{\ttfamily}\def\UrlBreaks{\do\.\do\_}\def\UrlBigBreaks{}}
+\newcommand{\formal}[1]{\ifhmode\hfil\penalty50\hfilneg\fi{\footnotesize\textsf{[}\formalname{#1}\textsf{]}}}
+% \Fmark: a result of Part I whose proof is only outlined there and given in Part II (see Section 1.4)
+\newcommand{\Fmark}{\textsuperscript{\textsf{F}}}
+% \formallabel{Full.Lean.Name}: label lean:<name> for cross-references in Part II, and print the tag
+\newcommand{\formallabel}[1]{\label{lean:#1}\formal{#1}}
+% \lref{Full.Lean.Name}: the result of this paper with label lean:<name> if there is one; otherwise the
+% bracketed name of the formal result (whose proof is then only contained in the formal development)
+\makeatletter
+\DeclareRobustCommand{\lref}[1]{\@ifundefined{r@lean:#1}{\formal{#1}}{\cref{lean:#1}}}
+\DeclareRobustCommand{\Lref}[1]{\@ifundefined{r@lean:#1}{\formal{#1}}{\Cref{lean:#1}}}
+\makeatother
+\pdfstringdefDisableCommands{\def\lref#1{#1}\def\Lref#1{#1}\def\formal#1{#1}}
+\newenvironment{proofoutline}{\begin{proof}[Outline of proof]}{\end{proof}}
+
+% --- notation -----------------------------------------------------------------
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\Qbar}{\overline{\mathbb{Q}}}
+\newcommand{\Ql}{\mathbb{Q}_\ell}
+\newcommand{\Zl}{\mathbb{Z}_\ell}
+\newcommand{\Qlbar}{\overline{\mathbb{Q}}_\ell}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\Sha}{\mathrm{III}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\GSp}{GSp}
+\DeclareMathOperator{\Uni}{U}
+\DeclareMathOperator{\GU}{GU}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\Ort}{O}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\Fr}{Fr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Nm}{N}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\covol}{covol}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\cond}{cond}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\len}{length}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\sfname}[1]{\mathsf{#1}}   % names of propositions of the development, e.g. \sfname{VWin}

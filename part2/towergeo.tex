@@ -1,0 +1,2287 @@
+\section{Good towers: models over Hodge loci and geometry}\label{sec:pf:towergeo}
+
+\providecommand{\towergeock}{\operatorname{ck}}
+\providecommand{\towergeola}{\operatorname{la}}
+\providecommand{\towergeocyc}{\operatorname{cyc}}
+\providecommand{\towergeoco}{\operatorname{co}}
+\providecommand{\towergeodiv}{\operatorname{div}}
+\providecommand{\towergeoRI}{\mathrm{RI}}
+\providecommand{\towergeoHC}{\mathcal M}
+\providecommand{\towergeoG}{\mathbf G}
+\providecommand{\towergeoFC}{\mathrm{FC}}
+\providecommand{\towergeoLC}{\mathrm{LC}}
+\providecommand{\towergeoRel}{\mathrm{Rel}}
+\providecommand{\towergeoTriv}{\mathrm{Triv}}
+\providecommand{\towergeoTw}{\mathrm{Tw}}
+\providecommand{\towergeoreg}{\phi^{\mathrm{reg}}}
+
+This section proves the following theorem. The geometric package $\towergeoG$ and the statements
+(PI), (Av), (W), (F), (CP) are described in \cref{pf:towergeo:sec-statements}; the statements
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$ are those of \cref{def:covolume:tower},
+recalled in \cref{pf:towergeo:sec-towers}.
+
+\begin{theorem}\label{pf:towergeo:main}
+Assume the geometric package $\towergeoG$, the integrability of points \textup{(PI)}, the avoidance
+statement \textup{(Av)}, the Weil pairing statement \textup{(W)}, the positivity of families
+\textup{(F)} and the comparison of pairs \textup{(CP)}. Then $\sfname{GoodTowerExistsX}$ and
+$\sfname{VolumeTheoremX}$ hold.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.goodTower_and_volume}
+\end{theorem}
+
+It is the central step of the proof of \cref{thm:tower}: the six hypotheses are derived from the
+inputs of \cref{thm:tower} in the proof of \lref{GlobalTheory.T.good_tower_volume_theorem}.
+
+\emph{Structure of the proof.} The volume half is the volume theorem
+\lref{GlobalTheory.T.volume_theorem_of_inputs}, which takes, besides inputs supplied elsewhere,
+four geometric statements as hypotheses. This section proves them:
+\begin{enumerate}[label=(\arabic*)]
+\item the twisting statement (TA): automorphisms of the CM field fixing $\sqrt{-d}$ act on the unitary
+  moduli spaces (\cref{pf:towergeo:sec-twist});
+\item the trivial flag statement (TF): on every component of the special fibre at a Hodge--Tate free
+  prime, the root lines of a Hodge flag are the graded pieces of a flag of the trivial bundle; it follows
+  from Fargues' form of the Hodge--Tate theorem (\cref{pf:towergeo:sec-triv});
+\item the Hodge comparison (HC): an identity between the Chern numbers of the Hodge--Tate and de Rham
+  flags on models over discrete valuation rings, deduced from the positivity of families
+  (\cref{pf:towergeo:sec-hodge});
+\item the height constants statement: there are constants $C_h,C_u$, uniform in all data, giving
+  positivity, lower bounds for heights of points and an upper bound for the mean of the cusp weight
+  for regularised Hodge bundles (\cref{pf:towergeo:sec-nine}).
+\end{enumerate}
+The existence half is proved in \cref{pf:towergeo:sec-exist}: the components of the tower are the
+generic points of the global model, and its levels are root models built from Hodge components with
+prescribed sets of primes. \Cref{pf:towergeo:sec-nef} proves the nefness of root lines on the special fibres,
+at Hodge--Tate free primes from the trivial flags and at the other primes from a statement on semi-abelian
+schemes over curves; it is used for the positivity in (GH) and in the proof of the volume theorem. Two
+auxiliary statements on intersection numbers, used in the proof of the volume theorem, are proved in
+\cref{pf:towergeo:sec-aux}.
+
+\emph{Scope.} The formal proofs of the results of this section are long (about $150{,}000$ lines in
+\cite{LeanSource2026}). We prove in full the assembly of each statement above and the arguments which
+are self-contained: the twisting statement, the passage from local relations to Chern number identities
+and the descent through ramified extensions, the reduction of the relations for lattice families to refined
+coordinates, the nefness of trivial flags and the reduction of nefness to curves, the integral of the cusp weight
+over fundamental sets and the mean of the logarithm of first minima, the bound for the mean of the cusp weight,
+the positivity of the regularised lines and the height identity at integral points. The remaining lemmas are
+stated, and cited by the formal names of their proofs.
+
+% ---------------------------------------------------------------------------
+\subsection{Coordinates, cycles and Chern numbers}\label{pf:towergeo:setting}
+
+\subsubsection*{Multiprojective coordinates}
+Let $K$ be a nonempty finite set and $(J_k)_{k\in K}$ finite sets. For a commutative ring $R$ put
+$R[x]=R[x_{k,i}:k\in K,\,i\in J_k]$, graded by multidegrees $a\in\Z^K$. For a field $\Omega$ and a
+family $y=(y_{k,i})$ of elements of $\Omega$ the \emph{coordinate ideal} $P_y\subset\Z[x]$ is the kernel
+of the multicone map attached to $y$; it is the multihomogeneous ideal of the closure in
+$\prod_k\mathbb P^{J_k}_\Z$ of the point with coordinates $y$. We say that $y$ \emph{defines an
+arithmetic variety of dimension $d+1$} if $P_y$ is one in the sense of \cref{def:covolume:hs}(a): a
+relevant multihomogeneous prime with $P_y\cap\Z=0$ and $\dim\Z[x]/P_y=d+1+|K|$. For
+$s\in\prod_kJ_k$ the \emph{Segre coordinate} is $y^s=\prod_ky_{k,s_k}$, and for a multidegree $b$ we put
+$y_s^b=\prod_ky_{k,s_k}^{b_k}$. For a ring $o$ with $o\to\Omega$ and $y^s\ne0$, the \emph{chart ring} is
+$o[y]_s=o[y^t/y^s:t\in\prod_kJ_k]\subseteq\Omega$.
+
+Let $O$ be a discrete valuation ring with an $O$-algebra structure on $\Omega$. The ideal
+$P^O_y\subset O[x]$ is defined in the same way. A relevant multihomogeneous prime $P\subset O[x]$ is a
+\emph{model over $O$ of relative dimension $d$} if $P\cap O=0$ and $\dim O[x]/P=d+1+|K|$. For
+$P\subset O[x]$ and $a\in O[x]$ the \emph{divisor} $\towergeodiv_P(a)$ is the function on prime ideals
+$W$ which is the length of $(O[x]/(P+(a)))_W$ if $W$ is a relevant minimal prime of $P+(a)$, and $0$
+otherwise. For a relevant prime $W$ containing a uniformiser and multidegrees $b_1,\dots,b_n$,
+$\langle b_1\cdots b_n\rangle_W$ is the intersection number, on the variety over the residue field of $O$
+defined by $W$, of the line bundles of multidegrees $b_1,\dots,b_n$.
+
+\begin{definition}[Cycle numbers, local pairs and Chern numbers]\label{pf:towergeo:def-numbers}
+Let $P\subset O[x]$ and let $Z$ be a finitely supported function on the primes of $O[x]$.
+\begin{enumerate}[label=(\alph*)]
+\item For a finite set $\sigma$, classes $c\colon\sigma\to\Z^K$, a polynomial
+  $H=\sum_\mu H_\mu X^\mu\in\R[X_s:s\in\sigma]$ and a list $Q$ of multidegrees, the \emph{cycle number}
+  is $\towergeocyc(Z,c,H,Q)=\sum_\mu H_\mu\sum_WZ(W)\,\langle c^\mu\cdot Q\rangle_W$, where $c^\mu$ is the
+  list in which $c(s)$ occurs $\mu_s$ times.
+\item For $a\in O$, classes $x\colon\{1,\dots,r\}\to\Z^K$ and $k\ge1$, the \emph{root number} is
+  $\towergeola_P(a,x,k,Q)=k\cdot\towergeocyc(\towergeodiv_P(a),x,\sum_iX_i^{k-1},Q)$.
+\item A \emph{local pair} $T=(x,x',f,g)$ indexed by $\sigma$ consists of classes
+  $x,x'\colon\sigma\to\Z^K$ and polynomials $f,g\colon\sigma\to O[x]$. For $\sigma=\{1,\dots,r\}$ its
+  \emph{$k$-th Chern number} is
+  \[
+  \towergeock(T,P,k,Q)=\sum_{i=1}^r\sum_W\bigl(\towergeodiv_P(f_i)-\towergeodiv_P(g_i)\bigr)(W)\,
+  \Bigl\langle\sum_{a+b=k-1}x_i^a\,{x'_i}^b\cdot Q\Bigr\rangle_W .
+  \]
+  Restriction along a map $e\colon\sigma'\to\sigma$ is written $T\circ e$, and $T\otimes O'$ denotes the
+  image of $T$ under a ring map $O\to O'$. The pair $T$ is \emph{vertical} (for a uniformiser $\varpi$) if
+  for every $i$, $f_i,g_i$ are multihomogeneous of degrees with difference $x_i-x'_i$, $f_i,g_i\notin P$,
+  the divisor of $f_i/g_i$ is supported on primes containing $\varpi$, and $f_i/g_i$ is a unit at the
+  relevant primes containing $P$ but not $\varpi$.
+\item For a permutation $\varphi$ of a finite set $\Sigma$, a prime $p$, $k\ge1$ and
+  $\tau,\sigma\in\Sigma$,
+  \[
+  \towergeoco(\varphi,p,k;\tau,\sigma)=\sum_{n\ge0}[\varphi^{n+1}\tau=\sigma]\,p^{-k(n+1)}
+  -\frac{[\sigma=\tau]}{p-1}.
+  \]
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.cycNum}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.laNum}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.LocPair.ck}
+\formal{GroundTheory.Heights₂.Heights.ModelLeaves.co}
+\end{definition}
+
+If $\towergeodiv(f_i)-\towergeodiv(g_i)$ represents the difference of the classes of the line bundles of
+multidegrees $x_i$ and $x'_i$, then $\towergeock(T,P,k,Q)$ is the intersection of $Q$ with the difference
+of the $k$-th power sums of the two families of Chern roots, since $a^k-b^k=(a-b)\sum_{j<k}a^jb^{k-1-j}$;
+this is the meaning of the Chern numbers below. Three properties are immediate from the definitions:
+$\towergeocyc(Z,c,H,Q)$ is $\R$-linear in $H$; renaming the variables of $H$ along a map $e$ of index sets
+amounts to replacing $c$ by $c\circ e$; and $\towergeock$ and $\towergeola$ are sums over the indices,
+hence additive under a decomposition of the index set and invariant under its permutations.
+
+% ---------------------------------------------------------------------------
+\subsection{Unitary moduli, models and Hodge components}\label{pf:towergeo:sec-unitary}
+
+The following data are those of the formal treatment of unitary Shimura varieties; compare
+\cite{Kottwitz1992,Lan2013}.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{host} $H$ on a CM field $E$ consists of a prime $d\equiv7\bmod16$, an element
+  $\sqrt{-d}\in\OO_E$ with square $-d$, the element $w_0=(1+\sqrt{-d})/2\in\OO_E$, complex conjugation on
+  $\OO_E$, the condition that $E$ is unramified over its maximal real subfield, and a square root
+  $\rho_0$ of $-d$ in $\C$. Its \emph{CM type} is $\Psi_H=\{\tau\colon E\to\C:\tau(\sqrt{-d})=\rho_0\}$;
+  $f=|\Psi_H|$. We write $\mathrm{rd}_E=|d_E|^{1/[E:\Q]}$, $L_H=\Re\frac{L'}{L}(1,\chi_d)$ with $\chi_d$
+  the quadratic character modulo $d$, and $\ell_H(B)=\log(B\,\mathrm{rd}_E)+|L_H|$ for $B>0$.
+\item A \emph{datum} $D$ of signature $(p,q)$ is a finitely generated projective $\OO_E$-module $\Lambda$
+  of rank $N=p+q$ (we write $p_D=p$, $q_D=q$ where $p$ also denotes a prime) with a unimodular alternating $\Z$-bilinear form $\langle\,,\rangle$ satisfying
+  $\langle ax,y\rangle=\langle x,\bar ay\rangle$, admitting a positive complex structure on
+  $\Lambda_\R$ for which the action of $a\in\OO_E$ has trace $\sum_{\tau\in\Psi_H}(p\tau(a)+q\bar\tau(a))$.
+  The \emph{root indices} are $\towergeoRI(D)=\Psi_H\times\{0,\dots,N-1\}$; the \emph{labels} are the
+  elements $(\tau,1)$, $(\tau,2)$ of $\Psi_H\times\{1,2\}$, of ranks $p$ and $q$, indexing the embeddings
+  $\tau$ and $\bar\tau$ of $\OO_E$; the swap $(\tau,1)\leftrightarrow(\tau,2)$ is written $s\mapsto s^\vee$.
+\item A \emph{level} $l$ consists of an odd $M\ge3$, an ideal $\mathfrak M\subseteq\OO_E$ with
+  $\mathfrak M\bar{\mathfrak M}=(M)$, $\mathfrak M+\bar{\mathfrak M}=\OO_E$ (generated by elements of
+  $\Z[w_0]$) and an integer $A\ge1$; $M'=\lcm(M,A)$, and $K_A=\Q(\rho_0,\zeta_A)\subset\C$.
+\item An \emph{object} over a scheme $S$ (over a base ring containing a square root of $-d$ and a
+  primitive $A$-th root of unity) is an abelian scheme with $\OO_E$-action, a symmetric rigidified line
+  bundle with cubical structure compatible with complex conjugation, a level-$\mathfrak M$ structure $\eta$
+  and a level-$A$ structure $\eta_A$ (homomorphisms on $\Lambda$ killing $\mathfrak M\Lambda$, resp.\
+  $A\Lambda$), satisfying the determinant condition of signature $(p,q)$ and the existence, at geometric
+  points, of a Tate isomorphism compatible with the Weil pairings and the level structures. A \emph{map
+  of objects} over $f\colon S'\to S$ is a cartesian $\OO_E$-equivariant morphism of the semi-abelian
+  schemes over $f$, compatible with the cubical structures and with $\eta$, $\eta_A$.
+\item A \emph{moduli space} $X^o$ for $(D,l)$ is a smooth quasi-projective $K_A$-scheme with a universal
+  object $\mathrm{univ}$, such that for every reduced $K_A$-scheme $S$ and object $o$ over $S$ there is a
+  unique morphism $f\colon S\to X^o$ over $K_A$ admitting a map of objects $o\to\mathrm{univ}$ over $f$,
+  together with an infinitesimal rigidity condition.
+\item A \emph{coefficient field} $c$ for $l$ is a number field $F_c\subset\C$ containing $\tau(E)$ for all
+  $\tau$, $\zeta_{M'}$ and $K_A$. A \emph{model} $Y$ of $X^o$ over a ring $O$ with $\beta\colon O\to F_c$ is
+  a normal scheme $Y.X$, projective and flat over $\Spec O$, with a dense open immersion of $X^o_{F_c}$
+  into $Y.X\times_OF_c$ and a semi-abelian scheme $Y.t$ with $\OO_E$-action over $Y.X$ extending the
+  universal object, whose abelian locus in the generic fibre is exactly the image of $X^o_{F_c}$.
+\item For a family of moduli spaces $X^o=(X^o_l)_l$, a model $Y$ of $X^o_l$ over $\OO_{F_c}$ is
+  \emph{global} if there are compatible systems of models over all valuation rings of $\C$ above all
+  primes, satisfying the comparison with Siegel moduli spaces and the splitting conditions on fibres of
+  the formal development, $l$ is good at every prime, $A=1$, $Y$ descends to $K_A$, and $Y$ dominates all
+  these local models. $Y$ has \emph{split components} if for every generic point of a component of $Y.X$,
+  with residue field $\Omega$ and constant map $F_c\to\Omega$, every element of $\Omega$ algebraic over
+  $\Z$ lies in the image of $F_c$.
+\end{enumerate}
+
+\begin{definition}[Hodge components]\label{pf:towergeo:def-hodgecpt}
+Let $Y$ be a model over $O_0$, $S$ a finite set of primes, $\Omega$ a field and $y$ coordinates in
+$\Omega$. A \emph{Hodge component} $\towergeoHC$ of $Y$ with primes $S$ and coordinates $y$ consists of:
+\begin{enumerate}[label=(\roman*)]
+\item a normal scheme $\towergeoHC.X$ with a point $\xi\colon\Spec\Omega\to\towergeoHC.X$ of which every
+  point is a specialisation, whose local rings are given by the Segre coordinates of $y$, and a morphism
+  $f\colon\towergeoHC.X\to Y.X$; a field $\Omega_0$, a generic point $\xi_0$ of a component of $Y.X$ with
+  residue field $\Omega_0$, dominated by $\xi$ through an embedding $\Omega_0\to\Omega$, and an embedding
+  $F_c\to\Omega$ of the constants;
+\item a semi-abelian scheme $t$ over $\towergeoHC.X$ with $\OO_E$-action and a map to $Y.t$ over $f$;
+  the Lie algebra $\mathrm{Li}$ of $t$ at $\xi$, an $\Omega$-vector space with $\OO_E$-action $\rho$,
+  modelled by tangent vectors;
+\item a function $R$ on primes with $R(p)\ge4$ and full $p^{R(p)}$-torsion of $t$ at $\xi$ for $p\in S$;
+\item for each label $s$, the $\rho$-eigenspace $V^{\mathrm{gen}}_s\subseteq\mathrm{Li}$ of the embedding
+  indexed by $s$, the de Rham lattice $\mathrm{dR}_s$ (the eigen-lattice of the Lie algebra of $t$) and,
+  for $p\in S$, the Hodge--Tate lattice $\mathrm{HT}_{p,s}$ built from the $p^{R(p)}$-torsion and the
+  polarisation; the \emph{patched lattice} $V_s$, equal to $\mathrm{HT}_{p,s}$ at the points over $p\in S$
+  and to $\mathrm{dR}_s$ elsewhere, is a vector bundle of the rank of $s$.
+\end{enumerate}
+$\towergeoHC$ is \emph{Hodge--Tate free at $p$} if the Hodge--Tate $\omega$-module at $p$ and its
+restrictions to the eigenspaces are vector bundles of the expected ranks on the fibre over $p$; it is
+\emph{$\omega$-regular} if this holds, for the modules built from the $p^{R(p)}$-torsion, at all $p\in S$.
+\formal{GlobalTheory.CompanionTheory.Ar.HodgeCpt}
+\formal{GlobalTheory.CompanionTheory.Ar.HT.HTFree}
+\end{definition}
+
+\begin{definition}[Flags and root lines]\label{pf:towergeo:def-flag}
+A \emph{flag} $\mathrm{Fl}$ of a Hodge component $\towergeoHC$ consists of bases $b_s$ of the eigenspaces
+$V^{\mathrm{gen}}_s$ which define full flags of subbundles of $V_s$ and descend to a model of the Lie
+algebra at $\xi_0$, together with a degree $\deg\mathrm{Fl}\in\N$, the degree of the generic flag over
+$\Omega_0$. For a root index $r=(\tau,i)$, the \emph{root lattice} of $r$ is the graded piece of the flag
+of $V_{(\tau,1)}$ at position $i$ if $i<p$, and the dual of the graded piece of the flag of $V_{(\tau,2)}$
+at position $N-1-i$ if $i\ge p$. For multidegrees $x\colon\towergeoRI(D)\to\Z^K$ and generators
+$e\colon\towergeoRI(D)\to\Omega$, $\mathrm{Fl}$ \emph{has root lines $(x,e)$} if in each Segre chart $s$
+the root lattice of $r$ is generated by $y_s^{x_r}e_r$, i.e.\ is the line bundle of multidegree $x_r$ with
+generic generator $e_r$. For $S_0\subseteq S$ and a local pair $T$ over $\Z$ indexed by $\towergeoRI(D)$,
+$\mathrm{Fl}$ \emph{has two levels $(S_0,T)$} if the flag restricts to the lattices patched only at the
+primes of $S_0$ with root lines $(T.x,e^0)$, the flag itself has root lines $(T.x',e)$,
+$T.f_r(y)=(e_r/e^0_r)\,T.g_r(y)$ for all $r$, and the divisors of $T.f_r/T.g_r$ are supported over the
+primes of $S\setminus S_0$.
+\formal{GlobalTheory.CompanionTheory.Ar.HodgeCpt.Flag}
+\formal{GlobalTheory.CompanionTheory.Ar.HodgeCpt.Flag.TwoLevels}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{Root towers and their origins}\label{pf:towergeo:sec-towers}
+
+We recall the objects of \cref{def:covolume:tower}. Write $\dim\mathrm{Fl}(\Psi,N)=|\Psi|\,N(N-1)/2$.
+
+\begin{definition}[Root models, towers and origins]\label{pf:towergeo:def-towers}
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{root model} $R$ of type $(\Psi,N)$ consists of coordinates $R.y$ in a field $R.\Omega$
+  defining a birational arithmetic variety of dimension $\dim\mathrm{Fl}(\Psi,N)+1$, multidegrees $x_r$
+  ($r\in\Psi\times\{0,\dots,N-1\}$) with families of smooth conjugation-invariant Hermitian lines $x(t,r)$
+  of multidegree $x_r$ ($t\in\R$), integers $k_A,\delta>0$ and a smooth conjugation-invariant reference
+  line $A$.
+\item A \emph{root tower} $T$ of type $(\Psi,N)$ consists of $1\le j<N$, a finite nonempty set
+  $\mathrm{Comp}$ of components, a finite set $\mathrm{bad}\ni2$ of primes, a rational weight
+  $\nu\colon\Psi\times\{0,\dots,N-1\}\to\Q$ and root models $T.M(B,a)$ for $B\in\N$ and
+  $a\in\mathrm{Comp}$. For $B\in\N$, $S_B$ denotes the set of primes $r$ with $r\le B$ or
+  $r\in\mathrm{bad}$.
+\item \emph{Fixed data} $F_x$ on a model $Y$, relative to an \emph{analytic system} $\mathrm{Sys}$ (a
+  compact complex manifold of dimension $\dim\mathrm{Fl}(\Psi_H,N)$ with a holomorphic atlas, potentials,
+  a normal crossings section and regularised weights indexed by the root indices and one further index),
+  consist of a point $\xi_f$ of $Y.X$ with values in a field, a model of the Lie algebra there with
+  bases, projective coordinates $y_f\in\Omega_f^{m+1}$ generating the field, a map $\mathrm{pt}$ from
+  $\mathrm{Sys}$ to $\C^{m+1}\setminus0$ injective up to scalars, a positive reference potential, integers
+  $k_A,q'>0$, weights $n\colon\towergeoRI(D)\to\Z$ and a nonzero element $s_E$.
+\item A \emph{root origin} of a root model $R$ over $F_x$ with primes $S$ consists of a Hodge component
+  $\towergeoHC$ of $Y$ with primes $S$ and coordinates $R.y$, a flag of it with root lines of multidegrees
+  $R.x$, singular Hermitian metrics on the root lines realising the Hodge norms on the interior, an
+  embedding of the field of $F_x$ into $R.\Omega$ of degree equal to the degree of the flag, an
+  identification of a coordinate block of $R$ with the coordinates $y_f$, an effectivity condition for
+  $s_E$, and a realisation of $\mathrm{Sys}$ by a logarithmic resolution of $R.y$ with exceptional ideal
+  $J$, compatible with the fundamental weights.
+\item A \emph{tower origin} of a root tower $T$ of type $(\Psi_H,p+q)$ on a model $Y$ over
+  $\OO_{F_c}$ consists of: $T.j=p$; $r\in T.\mathrm{bad}$ if and only if $r$ is a prime dividing
+  $2d_EM'$; for each component $a$ an analytic system $\mathrm{Sys}(a)$ and fixed data $F_x(a)$, whose
+  points $\xi_f$ have pairwise distinct generic points exhausting the generic points of $Y.X$, with
+  $F_x(a).n(r)=k_Aq'\,\nu(r)$; and root origins $\mathrm{Or}(B,a)$ of $T.M(B,a)$ over $F_x(a)$ with
+  primes $S_B$.
+\item A \emph{good origin} is a tower origin such that the Hodge components of all $\mathrm{Or}(B,a)$
+  are $\omega$-regular, all their realisations have $J=(1)$ and smooth generic fibre, the potentials of the
+  last roots $(\tau,N-1)$ are pluriharmonic, and there are reference root models $R(a)$ with root origins
+  with empty set of primes, flags of degree $1$, $J=(1)$ and ample reference multidegree.
+\item A good origin $o$ satisfies the conditions \textup{(Ex)} if (i) every point of every
+  $\mathrm{Sys}(a)$ has a neighbourhood $U$ with a holomorphic map $\lambda\colon U\to\C^{m+1}$,
+  $\lambda(y)\in\C^\times\mathrm{pt}(y)$, whose affine ratios $\lambda_i/\lambda_p$ are immersions in the
+  charts, and (ii) $R(p)=4$ for the Hodge components of all $\mathrm{Or}(B,a)$ and all $p\in S_B$.
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Top.RootTower}
+\formal{GlobalTheory.CompanionTheory.Ar.TowerOrigin}
+\formal{GlobalTheory.CompanionTheory.Ar.Top.GoodOrigin}
+\end{definition}
+
+$\sfname{GoodTowerExistsX}$ asserts: for every CM field $E$, host $H$, datum $D$ with $p,q\ge1$, family of
+moduli spaces $X^o$, level $l$, coefficient field $c$ and global model $Y$ of $X^o_l$ over $\OO_{F_c}$ with
+split components, there are a root tower $T$ of type $(\Psi_H,p+q)$ and a good origin of $T$ on $Y$
+satisfying (Ex). $\sfname{VolumeTheoremX}$ is the statement recalled in \cref{def:covolume:tower}.
+
+% ---------------------------------------------------------------------------
+\subsection{The statements and the proof of the main theorem}\label{pf:towergeo:sec-statements}
+
+\subsubsection*{The twisting statement}
+Let $H$ be a host on $E$. A \emph{host automorphism} $g$ is a field automorphism $\sigma_g$ of $E$ with
+$\sigma_g(\sqrt{-d})=\sqrt{-d}$. For a datum $D$ let $\Lambda^g$ be $\Lambda$ with the action of $\OO_E$
+twisted by $\sigma_g$, with the same form. A \emph{twisting isomorphism} is a \emph{pro-isomorphism}
+$a\colon\Lambda\to\Lambda^g$: a family $(a_n)_{n\ge1}$ of $\OO_E$-linear maps such that for every $n\ge1$,
+$a_n$ induces an isomorphism $\Lambda/n\Lambda\to\Lambda^g/n\Lambda^g$ (i.e.\
+$a_n(x)\in n\Lambda^g\Leftrightarrow x\in n\Lambda$, and every $y$ is $a_n(x)+ne$), the forms satisfy
+$\langle a_nx,a_ny\rangle\equiv\langle x,y\rangle\bmod n$, and $a_{nm}(x)\equiv a_n(x)\bmod n$. Their set
+is $\towergeoTw(D,g)$. For an object $o$ and $a\in\towergeoTw(D,g)$ the \emph{twist} $o^{g,a}$ has the same
+abelian scheme, line bundle and cubical structure, the $\OO_E$-action composed with $\sigma_g$, and the
+level structures $\eta\circ a_M$, $\eta_A\circ a_A$; it is an object provided the twist is
+\emph{admissible}: $\eta\circ a_M$ kills $\mathfrak M\Lambda$, and the determinant condition and the Tate
+isomorphisms exist for the twisted action.
+
+\begin{definition}[Twisting statement]\label{pf:towergeo:def-twistaut}
+The \emph{twisting statement} \textup{(TA)} asserts: for every host $H$ on a CM field $E$, datum $D$,
+level $l$, moduli space $X^o$ for $(D,l)$ and host automorphism $g$, the set $\towergeoTw(D,g)$ is
+nonempty, and for every $a\in\towergeoTw(D,g)$ the twist $\mathrm{univ}^{g,a}$ is admissible and there are
+an automorphism $\Phi$ of $X^o$ over $K_A$ and a map of objects $\mathrm{univ}^{g,a}\to\mathrm{univ}$ over
+$\Phi$.
+\formal{GlobalTheory.CompanionTheory.Ar.TwistAut}
+\end{definition}
+
+\subsubsection*{Trivial flags and the Hodge comparison}
+In the next statements $E,H,D,l,X^o,c$ are as above, $Y$ is a model of $X^o$ over a ring $O_0$, $S$ is
+a finite set of primes, $y$ are coordinates in a field $\Omega$ defining an arithmetic variety of dimension
+$d+1$, $\towergeoHC$ is a Hodge component of $Y$ with primes $S$ and coordinates $y$, and $A$ is the integral
+closure of $\Z$ in $\Omega$. A property holds \emph{at all places of $\Omega$ over $p$} if it holds for
+every prime $\mathfrak m$ of $A$ containing $p$ and every discrete valuation ring $O$ which is the
+localisation of $A$ at $\mathfrak m$, with compatible algebra structures on $\Omega$. A \emph{fibre
+component} at such $O$ is a relevant minimal prime $W$ of $P^O_y+\mathfrak m_OO[x]$. For multidegrees
+$b_1,\dots,b_N$ and a fibre component $W$, we write $\towergeoTriv_W(b)$ if there are a field $\Omega'$
+over the residue field $k_O$, coordinates $y'$ in $\Omega'$ whose coordinate ideal over $k_O$ is the
+reduction of $W$, and a basis of $\Omega'^N$ which is a frame adapted to a full flag of the trivial bundle
+of rank $N$ whose graded pieces are the line bundles of multidegrees $b_1,\dots,b_N$.
+
+\begin{definition}[Trivial flag statement]\label{pf:towergeo:def-triv}
+The \emph{trivial flag statement} \textup{(TF)} asserts: in the situation above, for every flag
+$\mathrm{Fl}$ of $\towergeoHC$ with root lines $(x,e)$ and every $p\in S$ at which $\towergeoHC$ is
+Hodge--Tate free, at all places $O$ of $\Omega$ over $p$, for every $\tau\in\Psi_H$ and every fibre
+component $W$, $\towergeoTriv_W\bigl((x(\tau,i))_{i<N}\bigr)$ holds.
+\formal{GlobalTheory.CompanionTheory.Ar.TrivFlagOnHodge}
+\end{definition}
+
+A permutation $\varphi$ of the labels is a \emph{Frobenius at $p$} if for every prime $\mathfrak n$ of
+$\OO_{F_c}$ above $p$, every label $s$ and $a\in\OO_E$, the images $u,v$ of $a$ under the embeddings
+indexed by $\varphi(s)$ and $s$ satisfy $u\equiv v^p\bmod\mathfrak n$. For $j\le N$ and $m\in\N$ let
+$\pi_{j,m}$ be the polynomials in the variables $X_{(\sigma,i)}$, $(\sigma,i)\in\towergeoRI(D)$, given by
+\[
+\pi_{j,m}(\sigma,1)=\sum_{i<j}X_{(\sigma,i)}^m,\qquad\pi_{j,m}(\sigma,2)=\sum_{i\ge j}(-X_{(\sigma,i)})^m,
+\]
+and for $\tau\in\Psi_H$, $k\ge1$ put
+\begin{equation}\label{pf:towergeo:eq-bracket}
+\mathcal B_j(\varphi,p,k,\tau)=k\sum_{s}\towergeoco(\varphi,p,k;(\tau,1),s)\,\pi_{j,k-1}(s),
+\end{equation}
+the sum over all labels $s$.
+
+\begin{definition}[Chern number comparisons]\label{pf:towergeo:def-fcc}
+Let $O$ be a discrete valuation ring, $P\subset O[x]$ and $d,p,j\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item For a permutation $\varphi$ of a set of labels $\Psi\times\{1,2\}$ and a local pair $T$ over $O$
+  indexed by $\Psi\times\{0,\dots,N-1\}$, the \emph{flag comparison} $\towergeoFC_j(P,d;p,\varphi,T)$ means:
+  for all $\tau\in\Psi$, $k\ge1$ and lists $Q$ of multidegrees with $|Q|+k=d+1$,
+  \begin{equation}\label{pf:towergeo:eq-fcc}
+  \towergeock\bigl(T\circ(\tau,\cdot),P,k,Q\bigr)=\towergeocyc\bigl(\towergeodiv_P(p),T.x,\mathcal B_j(\varphi,p,k,\tau),Q\bigr).
+  \end{equation}
+\item For a permutation $\varphi$ of a finite set $\Sigma$ and families of local pairs
+  $\mathrm{lie}=(\mathrm{lie}_\tau)$, $\mathrm{om}=(\mathrm{om}_\tau)$ indexed by $\tau\in\Sigma$, the
+  \emph{label comparison} $\towergeoLC(P,d;p,\varphi,\mathrm{lie},\mathrm{om})$ means: for all $k\ge1$, $Q$
+  with $|Q|+k=d+1$ and $\tau\in\Sigma$,
+  \begin{equation}\label{pf:towergeo:eq-lcc}
+  \towergeock(\mathrm{lie}_\tau,P,k,Q)+\towergeock(\mathrm{om}_\tau,P,k,Q)
+  =\sum_{\sigma\in\Sigma}\towergeoco(\varphi,p,k;\tau,\sigma)\,\towergeola_P(p,\mathrm{lie}_\sigma.x,k,Q).
+  \end{equation}
+\item In the situation of (b), the \emph{relations} $\towergeoRel(P,d;p,\varphi,\mathrm{lie},\mathrm{om})$
+  mean: for all $k\ge1$ and $Q$ with $|Q|+k=d+1$ there is $h\colon\Sigma\to\R$ with, for all $\tau$,
+  \begin{gather}
+  \towergeock(\mathrm{lie}_\tau,P,k,Q)+\towergeock(\mathrm{om}_\tau,P,k,Q)
+  =h(\tau)-\frac{\towergeola_P(p,\mathrm{lie}_\tau.x,k,Q)}{p-1},\label{pf:towergeo:eq-rel1}\\
+  p^kh(\tau)=h(\varphi\tau)+\towergeola_P(p,\mathrm{lie}_{\varphi\tau}.x,k,Q).\label{pf:towergeo:eq-rel2}
+  \end{gather}
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.FlagChernComparison}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.LabelChernComparison}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.Relations}
+\end{definition}
+
+\begin{definition}[Hodge comparison]\label{pf:towergeo:def-hlfb}
+The \emph{Hodge comparison} \textup{(HC)} asserts: in the situation above, for every flag $\mathrm{Fl}$ of
+$\towergeoHC$, finite set $S_0$ and local pair $T$ over $\Z$ indexed by $\towergeoRI(D)$ such that
+$\mathrm{Fl}$ has two levels $(S_0,T)$, every prime $p\in S\setminus S_0$ at which $\towergeoHC$ is
+Hodge--Tate free with $p\ne2$ and $p\nmid d_E$, and every Frobenius $\varphi$ at $p$ on the labels: at all
+places $O$ of $\Omega$ over $p$, $\towergeoFC_{p_D}(P^O_y,d;p,\varphi,T\otimes O)$ holds, with $j=p_D$ the first
+signature index of $D$.
+\formal{GlobalTheory.CompanionTheory.Ar.HodgeLatticeFlagBound}
+\end{definition}
+
+\begin{definition}[Positivity of families]\label{pf:towergeo:def-fam}
+The \emph{positivity of families} \textup{(F)} asserts: in the situation above with $N>0$, for all bases
+$b_s$ of the eigenspaces $V^{\mathrm{gen}}_s$, every $p\in S$ at which $\towergeoHC$ is Hodge--Tate free with
+$p\ne2$, $p\nmid d_E$, and every Frobenius $\varphi$ at $p$ on the labels: at all places $O$ of $\Omega$
+over $p$ and for every label $t_0$, there are a finite set $\Sigma'$, a map $\epsilon$ from $\Sigma'$ to the
+labels with $t_0$ in its image, a permutation $\varphi'$ of $\Sigma'$ with $\epsilon\varphi'=\varphi\epsilon$,
+a finite field $F$ of characteristic $p$, an element $w\in O$, embeddings $\sigma_t\colon F\to k_O$, and
+\emph{Lie lattice data} $D_f(c)$ in the Segre charts $c$ (groups $M$, $\mathrm{lie}_t$, $W_t$,
+$\mathrm{om}_t$, $\mathrm{om}^{\mathrm{HT}}_t$, $\Gamma_t$, $\Delta_t$, $\Theta_t$) forming a
+\emph{pre-family} (they are lattice families in the charts, $w^{p-1}$ is a unit times $p$, $p$ is not a
+unit in $O$, and structural relations hold in every chart and at all test points), such that in every
+chart $\mathrm{lie}_t$ and $W_t$ are the coordinate lattices of $\mathrm{dR}_{\epsilon t}$ and
+$\mathrm{HT}_{p,\epsilon t}$ in the basis $b_{\epsilon t}$, and $\mathrm{om}_t$, $\mathrm{om}^{\mathrm{HT}}_t$
+are the duals of those of $\mathrm{dR}_{(\epsilon t)^\vee}$ and $\mathrm{HT}_{p,(\epsilon t)^\vee}$.
+\formal{GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos}
+\end{definition}
+
+\subsubsection*{The height constants statement}
+The last statement concerns \emph{component data}: coordinates $y$ in a field $\Omega\supseteq\Q$
+defining a birational arithmetic variety with smooth generic fibre of dimension $n+1$,
+$n=|\Psi|\,j\,(N-j)$, with constants $F'\to\Omega$, a closed torus- and conjugation-invariant boundary
+$\mathrm{Bd}$ of the complex points, finitely many normal crossings charts covering the complex points,
+rank-$N$ bundles $W_\tau$ ($\tau\in\Psi$) with Hermitian metrics off $\mathrm{Bd}$, a finite set $S$ of
+primes with vertical divisors of multidegrees $v_r$ and factors $\phi^{\mathrm{vert}}_r$ ($r\in S$), and a
+positive conjugation-invariant Hermitian line $A'$ of multidegree $a'>0$ whose heights on arithmetic
+curves are at least $-c_{A'}$ times their degrees; we write $f=|\Psi|$ and $j'=N-j$. \emph{Hodge data} are
+subbundles $F_\tau\subseteq W_\tau$ and a section of $\bigotimes_\tau\bigwedge^{j'}(W_\tau/F_\tau)$ of
+multidegree $a_\mu$, locally a unit times a wedge of adapted frames; they define the Hermitian line $\mu$ of
+multidegree $a_\mu$ and the function $\phi_\mu=\log h_\mu$. A \emph{component origin} realises these
+data on a Hodge component $\towergeoHC$ of a model $Y$ with primes $S_0$: $\towergeoHC.X$ covers the
+variety with some degree, $W_\tau\cong V^{\mathrm{gen}}_{b(\tau)}\oplus V^{\mathrm{gen}}_{s(\tau)}$ with
+$F_\tau=V^{\mathrm{gen}}_{b(\tau)}$ for a choice $\{b(\tau),s(\tau)\}=\{(\tau,1),(\tau,2)\}$ (with $j=p$ or
+$j=q$ accordingly), $N=p+q$, the metrics are the Gram matrices of the polarisation on the interior,
+$\mathrm{Bd}$ is the complement of the interior, $S\cap S_0=\emptyset$, and conditions on torsion and
+Hodge--Tate lattices hold at the primes of $S$. The origin is \emph{admissible} for $B_1\in\N$ if $Y$ is
+global, the origin is good, $S_0$ is the set of primes dividing $2d_EM'$, $|S_0|\le4fN^2$,
+$4f+2\le B_1$, $S$ is the set of primes $r\le B_1$ with $r\notin S_0$, and $j'\le j$. A function $U$ on the
+complex points is the \emph{cusp weight} of the origin if at every interior complex point it equals the
+cusp weight $w^{\mathrm{cusp}}$ (\cref{pf:towergeo:sec-nine}) of the Riemann lattice of the fibre.
+
+A \emph{bounded regularisation setting} $S'$ for a weight $w$ consists of a smooth reference line of
+multidegree $a_\mu$ with metric $h_{\mathrm{ref}}$, bounded plurisubharmonic data whose singular weight
+$\phi_{\mathrm{sing}}$ on the interior is $w-\log h_{\mathrm{ref}}$, a mollifier, cut-off functions and an
+error function $e_1$; it is \emph{tied} if $e_1(t)\to0$ as $t\to0^+$ and the regularised weights of
+overlapping pieces differ by at most $e_1(t)$ for small $t$. The regularised weight at $t>0$ is
+$\towergeoreg_t$. For $B,\alpha,\beta\in\N$ and $t>0$ let $\mathcal M_t=\mathcal M_t(B,\alpha,\beta)$ be the Hermitian line of
+multidegree $\beta(a_\mu+\sum_{r\in S,\,r\le B}v_r)+\alpha a'$ with metric
+\[
+\bigl(h_{\mathrm{ref}}\,e^{\towergeoreg_t}\bigr)^\beta\Bigl(\prod_{r\in S,\,r\le B}\phi^{\mathrm{vert}}_r\Bigr)^\beta
+h_{A'}^\alpha,
+\]
+made smooth and conjugation invariant, and for an arithmetic curve $P$ on the variety put
+$h_{\mathcal M_t}(P)=\mathrm{II}(P;\mathcal M_t)/(\beta\deg P)$. For a function $U$ on the complex points let
+$\mathrm{mean}(U)=\int U\,d\mu/\deg_\mu$, where the integral is taken with respect to the measure on the
+complex points defined by $\phi_\mu$ and $\deg_\mu$ is the geometric degree of $\mu$.
+
+\begin{definition}[Height constants statement]\label{pf:towergeo:def-nine}
+For $C_h,C_u\in\R$, the \emph{height constants statement} $\textup{(GH)}_{C_h,C_u}$ asserts: for every
+abelian CM field $E$, host $H$, datum $D$, family of moduli spaces $X^o$, level $l$, coefficient field $c$,
+model $Y$ of $X^o_l$ over $\OO_{F_c}$, full intersection system $\mathrm{II}$, component data with Hodge
+data, component origin with primes $S_0$ admissible for some $B_1$, function $U$ which is the cusp weight
+of the origin, complex model and tied bounded regularisation setting for the weight $\phi_\mu+U/2$:
+\begin{enumerate}[label=(\alph*)]
+\item (positivity) for all $B\ge4f+2$ and $1\le\alpha\le\beta$ there is $t_0>0$ such that for $0<t\le t_0$,
+  $\mathcal M_t(B,\alpha,\beta)$ is semipositive, nef on the fibres and ample on the generic fibre;
+\item (heights) for all $B\ge4fN^2$ and $1\le\alpha\le\beta$ there is $t_0>0$ such that for $0<t\le t_0$ and every
+  arithmetic curve $P$ on the variety, $h_{\mathcal M_t}(P)\ge-C_hfj'\ell_H(B)-\frac\alpha\beta c_{A'}$;
+\item (mean) if $1\le j'$ and $3j'+1\le N$, then $\mathrm{mean}(U)\le C_ufj'\ell_H(B)$ for all
+  $B\ge4fN^2$.
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Cusp.NineGeoU}
+\end{definition}
+
+\subsubsection*{The hypotheses}
+The \emph{geometric package} $\towergeoG$ is the conjunction of fourteen statements: model clauses (among
+them the existence of families of uniformisations of the moduli spaces, and the compatibility of toroidal
+models with levels and Hecke operators), the key formula for theta constants, the extension of
+homomorphisms of semi-abelian schemes, a numerical Segre statement, resolution of singularities in
+projective coordinates, a semi-abelian statement, the Hodge--Tate statement \textup{(HT)} in the form of
+Fargues, GAGA for sections, a slope bound, a package of statements on metrics and intersections (the
+\emph{metric package}), the Hilbert--Samuel provision, an analytic provision, height bounds for
+push-downs to Grassmannians and an antisymmetric perturbation statement. It is proved from the inputs of
+\cref{thm:tower} in the proof of \lref{GlobalTheory.T.good_tower_volume_theorem}. The other
+hypotheses of \cref{pf:towergeo:main} are: the \emph{integrability of points} (PI), the integrability, over
+the base of a good finite projection of an arithmetic variety, of the fibre sums of $\log\|s\|$ against
+products of Chern forms of smooth Hermitian lines; the \emph{avoidance statement} (Av), the existence, for
+finitely many multiprojective primes, of multihomogeneous elements of every sufficiently large multidegree
+avoiding all of them; the \emph{Weil pairing statement} (W), the existence, uniqueness,
+bimultiplicativity, alternation and compatibility under $k\mapsto kl$ of the Weil pairings on the
+$k$-torsion of polarised abelian schemes over locally Noetherian schemes \cite{Mumford1970}; the
+positivity of families (F) of \cref{pf:towergeo:def-fam}; and the \emph{comparison of pairs} (CP): for a
+full intersection system, and root models $M,M'$ attached by Hodge ties to Hodge components exchanged by
+an automorphism of $X^o$ covering a twist, the normalised arithmetic intersection numbers of the lines
+$M.x(t,\cdot)$ and $M'.x(t,\cdot)$, the latter with the CM type permuted, have the same limit as
+$t\to0^+$.
+
+Three further statements occur in the proof. The \emph{flat line statements} (FL) assert that on the
+geometric components of models there are flat line generators, unique up to nonzero constants, whose sup
+norms at conjugate embeddings agree and which are flat generators for the families of uniformisations.
+The \emph{flat degree formula} (FD) asserts that the adelic norms $\mathcal N$ of these flat generators
+have degree $\frac{p-q}2\Re\log\Omega(E,\chi)+q(2\log\sqrt d-\log\mathrm{rd}_E)$, where
+$\log\Omega(E,\chi)=\gamma+\log(2\pi/\mathrm{rd}_E)-\frac{L'}{L}(1,\chi)$ for the Kronecker character
+$\chi$ of conductor $d$ (compare \cref{rem:covolume:omega}). The \emph{comparison statement} (CS) asserts
+that the difference of the degree-normalised arithmetic intersection numbers of two realisations of an
+arithmetic variety through block maps tends to $0$ as $t\to0^+$.
+
+\subsubsection*{Proof of the main theorem}
+
+\begin{proof}[Proof of \cref{pf:towergeo:main}]
+Assume the six hypotheses. By \lref{GlobalTheory.T.flat_zero_from_resolution_and_gaga} and
+\lref{GlobalTheory.T.flat_first_from_resolution_and_gaga}, resolution in projective coordinates and
+GAGA for sections, both part of $\towergeoG$, imply the two flat line statements (FL).
+
+\emph{Existence.} Let $E,H,D,X^o,l,c,Y$ be as in $\sfname{GoodTowerExistsX}$. By
+\cref{pf:towergeo:exist}, applied with $\towergeoG$, (W) and (FL), there are a root tower $T$ of type
+$(\Psi_H,p+q)$ and a good origin of $T$ on $Y$ satisfying (Ex).
+
+\emph{Volume.} The volume theorem \lref{GlobalTheory.T.volume_theorem_of_inputs} states that
+$\towergeoG$, (PI), (W), the existence of $C_h,C_u$ with $\textup{(GH)}_{C_h,C_u}$, (HC), (TF), (FD), (TA),
+(CP) and (CS) imply $\sfname{VolumeTheoremX}$. We supply the hypotheses which are not among ours: (FD)
+holds by \lref{GlobalTheory.T.FlatDegree_holds}; $\textup{(GH)}_{C_h,C_u}$ for some $C_h,C_u$ follows
+from $\towergeoG$, (W) and (FD) by \cref{pf:towergeo:nine}; (HC) follows from (F) by
+\cref{pf:towergeo:hodge}; (TF) follows from the Hodge--Tate statement (HT) of $\towergeoG$ by
+\cref{pf:towergeo:triv}; (TA) holds by \cref{pf:towergeo:twist}; and (CS) follows from the metric package of
+$\towergeoG$, (Av) and resolution in projective coordinates by
+\lref{GlobalTheory.T.comparison_of_inputs_avoidance}. Hence $\sfname{VolumeTheoremX}$ holds.
+\end{proof}
+
+\begin{remark}\label{pf:towergeo:rem-hyps}
+The avoidance statement enters only through (CS), and (PI) and (CP) only through the volume theorem.
+In $\textup{(GH)}_{C_h,C_u}$ the constants are chosen before the field $E$ and all other data, so the bounds
+are uniform; the same holds for the constant of $\sfname{VolumeTheoremX}$. The existence half uses
+neither (F) nor (CP).
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Twisting by automorphisms of the host}\label{pf:towergeo:sec-twist}
+
+We use the notation of \cref{pf:towergeo:sec-statements}. The following lemma is purely algebraic.
+
+\begin{lemma}[Inverse of a pro-isomorphism]\label{pf:towergeo:proiso-inv}
+Let $O$ be a commutative ring, $L,L'$ $O$-modules with $\Z$-bilinear forms $B,B'$, and assume that $L'$ is
+projective. For every pro-isomorphism $f=(f_n)\colon(L,B)\to(L',B')$ there is a pro-isomorphism
+$h=(h_n)\colon(L',B')\to(L,B)$ such that $h_n(f_n(x))\equiv x\bmod nL$ and $f_n(h_n(y))\equiv y\bmod nL'$
+for all $n\ge1$, $x\in L$, $y\in L'$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.ProIso.exists_isInv}
+\end{lemma}
+
+\begin{proof}
+Fix $n\ge1$. The $O$-linear map $L\oplus L'\to L'$, $(x,e)\mapsto f_n(x)+ne$, is surjective by the
+surjectivity condition on $f_n$; as $L'$ is projective it has an $O$-linear section $\varsigma_n$. Put
+$h_n=\mathrm{pr}_1\circ\varsigma_n$; then $f_n(h_n(y))=y-n\,\mathrm{pr}_2(\varsigma_n(y))\equiv y\bmod n$.
+If $f_n(u)\equiv f_n(v)\bmod n$, then $f_n(u-v)\in nL'$, hence $u-v\in nL$ by the injectivity condition.
+Applying this to $u=h_n(f_n(x))$, $v=x$ gives $h_n(f_n(x))\equiv x\bmod n$. We check that $h$ is a
+pro-isomorphism. If $h_n(y)=nz$ then $y\equiv f_n(h_n(y))=nf_n(z)$, so $y\in nL'$; conversely
+$h_n(nz)=nh_n(z)$. Every $x$ equals $h_n(f_n(x))-ne$ for some $e$. Writing $f_n(h_n(x))=x+ne_1$ and
+$f_n(h_n(y))=y+ne_2$,
+\[
+B(h_nx,h_ny)-B'(x,y)=\bigl(B'(x+ne_1,y+ne_2)-B'(x,y)\bigr)-\bigl(B'(f_nh_nx,f_nh_ny)-B(h_nx,h_ny)\bigr),
+\]
+where the first bracket is $n(B'(x,e_2)+B'(e_1,y)+nB'(e_1,e_2))$ and the second is divisible by $n$ since
+$f$ preserves the forms modulo $n$. Finally, for $n,m\ge1$, using $f_{nm}\equiv f_n\bmod n$,
+$f_n(h_{nm}(y))\equiv f_{nm}(h_{nm}(y))\equiv y\equiv f_n(h_n(y))\bmod n$, hence
+$h_{nm}(y)\equiv h_n(y)\bmod n$ by the first observation.
+\end{proof}
+
+\begin{lemma}[Twisting back]\label{pf:towergeo:twback}
+Let $g$ be a host automorphism and $a\in\towergeoTw(D,g)$. There is $a'\in\towergeoTw(D,g^{-1})$ such that
+for every level $l$, base ring with base data, scheme $S$ over it and object $o$ over $S$, whenever the
+twists are admissible there are maps of objects $(o^{g,a})^{g^{-1},a'}\to o$ and
+$(o^{g^{-1},a'})^{g,a}\to o$ over $\mathrm{id}_S$.
+\formallabel{GlobalTheory.T.twist_inverse_iso}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_back}
+\end{lemma}
+
+\begin{proof}
+The module $\Lambda^g$ is finitely generated projective of the same rank
+(\lref{GlobalTheory.T.twisted_module_finite_projective_rank}: twisting the scalars of a finitely
+generated projective module by a ring automorphism preserves these properties and the rank), so
+\cref{pf:towergeo:proiso-inv} gives an inverse $h$ of $a$. Since each $h_n$ is linear for the twisted
+action, i.e.\ $h_n(\sigma_g(c)x)=ch_n(x)$, the same maps define $a'=(h_n)\in\towergeoTw(D,g^{-1})$.
+Consider $(o^{g,a})^{g^{-1},a'}$: its semi-abelian scheme, line bundle and cubical structure are those of
+$o$ and its $\OO_E$-action is the action of $o$ composed with $\sigma_g\sigma_g^{-1}=\mathrm{id}$, so the
+identity of the group scheme is a map of semi-abelian schemes over $\mathrm{id}_S$ (it is cartesian,
+equivariant and compatible with the cubical structure). Its level structures are
+$x\mapsto\eta(a_M(h_M(x)))$ and $x\mapsto\eta_A(a_A(h_A(x)))$. Now $a_M(h_M(x))=x+Me$ for some $e$; since
+$M\in\mathfrak M\bar{\mathfrak M}\subseteq\mathfrak M$, $Me\in\mathfrak M\Lambda$ is killed by $\eta$, so
+$\eta(x+Me)=\eta(x)\eta(Me)=\eta(x)$; likewise $\eta_A(x+Ae)=\eta_A(x)$ because $\eta_A$ kills $A\Lambda$.
+Hence the identity is a map of objects. The second assertion is proved in the same way with
+$h_n(a_n(x))\equiv x$.
+\end{proof}
+
+\begin{theorem}\label{pf:towergeo:twist}
+The twisting statement \textup{(TA)} holds.
+\formallabel{GlobalTheory.T.TwistAut_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwistAutProof.twistAut}
+\end{theorem}
+
+\begin{proof}
+Let $E,H,D,l,X^o,g$ be given. The set $\towergeoTw(D,g)$ is nonempty by
+\lref{PositivityTheory.UnitarySelfGeneration.tw_iso}, which constructs a pro-isometry
+$\Lambda\to\Lambda^g$ from local isometries at all primes. Let $a\in\towergeoTw(D,g)$ and let $a'$ be as in
+\cref{pf:towergeo:twback}. By \lref{GlobalTheory.T.twist_ok_all}, the twist $o^{g,a}$ is admissible for
+every object $o$, every host automorphism $g$ and every $a\in\towergeoTw(D,g)$; in particular all twists
+below are admissible. The scheme $X^o$ is smooth over the field $K_A$, hence reduced.
+
+By the universal property of $X^o$ applied to the reduced scheme $X^o$ and the object
+$\mathrm{univ}^{g,a}$, there is $\Phi\colon X^o\to X^o$ over $K_A$ with a map of objects
+$m\colon\mathrm{univ}^{g,a}\to\mathrm{univ}$ over $\Phi$; likewise there is $\Psi$ over $K_A$ with
+$m'\colon\mathrm{univ}^{g^{-1},a'}\to\mathrm{univ}$ over $\Psi$. Twisting is functorial: a map of objects
+$o'\to o$ over $f$ is also a map $o'^{g,a}\to o^{g,a}$ over $f$, since the actions on both sides are
+composed with $\sigma_g$ and the level structures on both sides are precomposed with $a_M$, $a_A$. Maps of
+objects compose, because maps of semi-abelian schemes compose
+(\lref{ReciprocityTheory.ChartRestriction.G.Geo.Tor.sabComp}: the composite of cartesian equivariant
+cubical morphisms is again one) and the compatibilities with the level structures are transitive.
+Applying the twist by $(g^{-1},a')$ to $m$ and composing with $m'$ gives a map
+$(\mathrm{univ}^{g,a})^{g^{-1},a'}\to\mathrm{univ}$ over $\Psi\circ\Phi$. By \cref{pf:towergeo:twback}
+there is also a map $(\mathrm{univ}^{g,a})^{g^{-1},a'}\to\mathrm{univ}$ over the identity. Both
+$\Psi\circ\Phi$ and $\mathrm{id}$ are morphisms over $K_A$, so the uniqueness in the universal property
+gives $\Psi\circ\Phi=\mathrm{id}$. Exchanging the roles of $(g,a)$ and $(g^{-1},a')$ gives
+$\Phi\circ\Psi=\mathrm{id}$. Thus $\Phi$ is an automorphism of $X^o$ over $K_A$, and $m$ is the required
+map of objects.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Trivial flags in the special fibres}\label{pf:towergeo:sec-triv}
+
+\begin{definition}[Trivial flags modulo $\varpi$]\label{pf:towergeo:def-trivmod}
+Let $o$ be a commutative ring, $\Omega$ an $o$-algebra which is a field, $\varpi\in o$, $y$ coordinates in
+$\Omega$ and $b_1,\dots,b_N$ multidegrees. A \emph{trivial flag of type $b$ modulo $\varpi$}, written
+$\towergeoTriv_\varpi(o;y,b)$, consists of matrices $g_s\in M_N(\Omega)$ for the Segre indices $s$ with
+$y^s\ne0$ such that:
+\begin{enumerate}[label=(\roman*)]
+\item the entries of $g_s$ lie in $o[y]_s$, and $\det(g_s)\,h=1+\varpi r$ for some $h,r\in o[y]_s$;
+\item for all $s,t$ with $y^s,y^t\ne0$ there are $m\in\N$ and matrices $U,Z$ with entries in $o[y]_t$,
+  $U$ upper triangular with $U_{ii}=(y^s/y^t)^m\,y_s^{b_i}/y_t^{b_i}$, such that $(y^s/y^t)^mg_s$ has
+  entries in $o[y]_t$ and $(y^s/y^t)^mg_s=g_tU+\varpi Z$.
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Ar.Num.TrivFlagMod}
+\end{definition}
+
+Thus, modulo $\varpi$, the frames $g_s$ of the trivial bundle of rank $N$ are invertible on the charts and
+change by upper triangular matrices whose diagonal entries are the transition functions of the line
+bundles of multidegrees $b_i$, up to a common twist: the trivial bundle carries, modulo $\varpi$, a full
+flag with these graded pieces. If $\varpi'\mid\varpi$, say $\varpi=\varpi'c$, a trivial flag modulo
+$\varpi$ is one modulo $\varpi'$: replace $r$ by $cr$ and $Z$ by $cZ$. There are two inputs.
+
+The first input is a construction from $p$-adic Hodge theory. Let $A\subseteq K$ be a ring in a field and
+$R,N\in\N$. A \emph{Hodge--Tate chart} over $A$ of a $K$-vector space $V$ with an action of $\OO_E$ consists
+of an $\OO_E$-stable $A$-lattice $\omega\subseteq V$ which is a projective $A$-module, an alternating
+biadditive pairing $e$ on $\OO_E^N$ with values in $\Z/p^R$ which is perfect modulo $p^R$ and satisfies
+$e(ax,y)=e(x,\bar ay)$ (a model of the Weil pairing on the $p^R$-torsion), and a \emph{Hodge--Tate map}
+$h\colon\OO_E^N\to\omega$ which is $\OO_E$-linear modulo $p^R\omega$. We put $\omega'=A\,h(\OO_E^N)+p^R\omega$, and for
+an embedding $\sigma\colon E\to K$ we let $\omega^{\mathrm{HT}}_\sigma$ be the $\sigma$-eigencomponent of $\omega'$
+and $q_\sigma\colon A^N\to\omega^{\mathrm{HT}}_\sigma$ the map $x\mapsto\sum_ix_i\pi_\sigma(h(e_i))$, where
+$\pi_\sigma$ is the eigenprojection.
+
+\begin{proposition}[Trivial flags from Hodge--Tate charts]\label{pf:towergeo:htcharts}
+Assume the Hodge--Tate statement \textup{(HT)}. Let $\towergeoHC$ be a Hodge component of a model $Y$ with
+primes $S$ and coordinates $y$ in $\Omega$, $p\in S$, $N>0$, and let $o$ be a ring with a map
+$o\to\Omega$ whose image is $\{a/b:a\in\Z,\,b\in\N,\,p\nmid b\}$. If $\towergeoHC$ is Hodge--Tate free at
+$p$ and a flag of $\towergeoHC$ has root lines $(x,e)$, then $\towergeoTriv_{p^{R(p)-2}}(o;y,(x(\tau,i))_i)$
+holds for every $\tau\in\Psi_H$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.trivFlagMod_rootLines_model}
+\formallabel{PositivityTheory.HtPt.Ge.triv_flag_mod_of_hodge_tate_free_of_root_lines}
+\end{proposition}
+
+\begin{proof}
+Write $R=R(p)\ge4$, fix $\tau$, and let $\sigma\colon E\to\Omega$ be $\tau$ followed by the constants of
+$\towergeoHC$, so that $\sigma$ restricted to $\OO_E$ is the embedding of the label $(\tau,1)$. The chart rings
+$o[y]_s$ are Noetherian, integrally closed, with fraction field $\Omega$, and $\Omega$ has characteristic $0$
+(\lref{PositivityTheory.HtPt.Hcptgen.hcpt_generic}: these are general facts on the chart rings of
+Hodge components over $o$); in particular they contain $\sigma'(\OO_E)$ for every embedding $\sigma'$.
+
+\emph{Charts and test points.} By \lref{GlobalTheory.T.hodge_tate_free_flag_lattice_lower} there is, for
+every Segre index $s$ with $y^s\ne0$, a Hodge--Tate chart $D_s$ over $o[y]_s$ of the dual of the Lie algebra of
+$\towergeoHC$, with $N=p_D+q_D$ and $R=R(p)$, such that the charts form a family (the actions and pairings agree,
+the lattices agree at the points of overlapping charts, and the Hodge--Tate maps agree there modulo $p^R$), and
+every $D_s$ has test points at every $\kappa\in o[y]_s$ which equals $\zeta-1$ for a primitive $p$-th root of
+unity $\zeta$ ($\kappa=4$ if $p=2$), provided the Hodge--Tate statement at points holds. The latter follows from
+(HT) by \lref{GlobalTheory.T.pointHT_of_fargues_hodge_tate}. Since $\towergeoHC$ is Hodge--Tate free at $p$,
+\lref{PositivityTheory.HtPt.Famproj.family_proj} shows that the lattices $\omega_s$ and their eigencomponents
+are projective, that the eigencomponents for $\sigma$ and $\sigma\circ c$ ($c$ complex conjugation) admit duality
+data, given by an element $d$ generating the different, and that there is such a $\kappa$ in all chart rings.
+Since $\kappa$ divides $p^2$ (for $p$ odd, $p=\prod_{i=1}^{p-1}(1-\zeta^i)$ is divisible by $1-\zeta$ in $\Z[\zeta]$, and
+$\zeta=\kappa+1$ lies in the chart rings; for $p=2$, $\kappa=4=p^2$), $\kappa p^{R-2}$ divides $p^R$ in every chart ring.
+
+\emph{Exactness modulo $p^{R-2}$.} By \lref{PositivityTheory.HtPt.Ge.chart_sequence}, applied in each chart
+with the test points at $\kappa$ and the divisibility $\kappa p^{R-2}\mid p^R$, there is a map $i_s$ which makes
+the $\sigma$-eigencomponent of $h_s$ dual, modulo $p^{R-2}$, to the $(\sigma\circ c)$-eigencomponent, such that the
+resulting sequence is exact modulo $p^{R-2}$; moreover $\kappa\omega_s\subseteq\omega'_s$, i.e.\ the cokernel of the
+Hodge--Tate map is killed by $\kappa$ (this is where (HT) enters, through the test points), hence
+$p^2\omega_s\subseteq\omega'_s$; and the maps $q_\sigma$ of the charts are surjective onto
+$\omega^{\mathrm{HT}}_{\sigma,s}$ (\lref{PositivityTheory.HtPt.Ga.q_surj}).
+
+\emph{Transitions.} For charts $s,t$, every element of $\omega_s$ lies in $\omega_t$ after multiplication by a
+power of $y^s/y^t$ (\lref{GlobalTheory.T.hodge_component_integral_at_prime_in_S}: an element which lies in
+the lattices at all points of the chart $s$ in the fibre over $p$ is integral over $o[y]_t$ up to such a power).
+Applied to $p^{-R}(h_s(x)-h_t(x))$, which lies in the lattices at all common points by the gluing property, this
+gives $n$ with $(y^s/y^t)^n(h_s(x)-h_t(x))\in p^R\omega_t$. Projecting to the $\sigma$-eigencomponent and using
+$p^2\omega_t\subseteq\omega'_t$ we obtain $(y^s/y^t)^n\pi_\sigma(h_s(x)-h_t(x))\in p^{R-2}\omega^{\mathrm{HT}}_{\sigma,t}$,
+and \lref{GlobalTheory.T.hodge_chart_transition_integral} gives the integrality of the transitions of the
+eigencomponents.
+
+\emph{Flag bases and assembly.} By \lref{PositivityTheory.HtPt.Flagb.chart_flag_bases}, applied to the flag
+with root lines $(x,e)$, there are generic vectors $w_1,\dots,w_N$ and, in each chart, bases of the dual of
+$\omega^{\mathrm{HT}}_{\sigma\circ c,s}$ (of size $p_D$) and of $\omega^{\mathrm{HT}}_{\sigma,s}$ (of size $q_D$)
+whose $a$-th element is an upper triangular combination of the $w_{a'}$ with diagonal coefficient the chart
+monomial $y_s^{x(\tau,a)}$. Finally \lref{PositivityTheory.HtPt.Ge.trivflag_charts} assembles from the
+Hodge--Tate maps, written in these bases, matrices $g_s$ with the properties (i) and (ii) of
+\cref{pf:towergeo:def-trivmod} for $\varpi=p^{R-2}$: condition (i) comes from the exactness modulo $p^{R-2}$, and
+condition (ii) from the transition property and the triangularity of the flag bases.
+\end{proof}
+
+The second input is the reduction of a trivial flag to the special fibre.
+
+\begin{lemma}[{\lref{GlobalTheory.T.trivial_flag_at_prime}}]\label{pf:towergeo:trivat}
+Let $O$ be a discrete valuation ring with uniformiser $\varpi$, $\Omega$ an $O$-algebra which is a field,
+and assume $\towergeoTriv_\varpi(O;y,b)$. Then $\towergeoTriv_W(b)$ holds for every relevant multihomogeneous
+prime $W\subset O[x]$ containing $P^O_y$ and $\varpi$.
+\end{lemma}
+
+In its formal proof the reduction of $W$ is the coordinate ideal of a point over an extension of the
+residue field, some Segre coordinate of which is nonzero, and the frames $g_s$ reduced modulo $\varpi$ give
+the required flag frame.
+
+\begin{theorem}\label{pf:towergeo:triv}
+The Hodge--Tate statement \textup{(HT)} implies the trivial flag statement \textup{(TF)}.
+\formallabel{GlobalTheory.T.triv_flag_on_hodge_of_fargues}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.trivFlagOnHodge_of_fargues}
+\end{theorem}
+
+\begin{proof}
+Let the data of (TF) be given, let $O$ be a place of $\Omega$ over $p$, obtained by localising $A$ at
+$\mathfrak m\ni p$, let $\varpi$ be a uniformiser of $O$, $\tau\in\Psi_H$ and $W$ a fibre component. We first
+show $\towergeoTriv_\varpi(O;y,x(\tau,\cdot))$. If $N=0$ this holds with empty matrices. Let $N>0$. Since $y$
+defines an arithmetic variety, $P_y\cap\Z=0$, so $\Z\to\Omega$ is injective and $\Omega$ has characteristic
+$0$. Let $o\subseteq\Omega$ be the subring of fractions $a/b$ with $p\nmid b$. By
+\cref{pf:towergeo:htcharts}, $\towergeoTriv_{p^{R(p)-2}}(o;y,x(\tau,\cdot))$ holds. If $p\nmid b$ then $b$
+is a unit in $O$: otherwise $b\in\mathfrak m$, and writing $1=ub+vp$ with $u,v\in\Z$ gives
+$1\in\mathfrak m$. Hence $o\subseteq O$ inside $\Omega$, every chart ring $o[y]_s$ is contained in $O[y]_s$,
+and the matrices witnessing the trivial flag over $o$ witness it over $O$, with the same element
+$p^{R(p)-2}$. As $p\in\mathfrak mO=\varpi O$ and $R(p)-2\ge2$, $\varpi$ divides $p^{R(p)-2}$ in $O$, so
+$\towergeoTriv_\varpi(O;y,x(\tau,\cdot))$ holds by the remark after \cref{pf:towergeo:def-trivmod}.
+
+The ideal $P^O_y+\mathfrak m_OO[x]$ is multihomogeneous, so its minimal prime $W$ is multihomogeneous
+(\lref{GroundTheory.Heights₂.Heights.NumbersDVR.MinimalPrimeMultiHomog.proof}: minimal primes over
+multihomogeneous ideals are multihomogeneous); $W$ is relevant and contains $P^O_y$ and
+$\varpi\in\mathfrak m_O$. By \cref{pf:towergeo:trivat}, $\towergeoTriv_W(x(\tau,\cdot))$ holds.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Existence of good towers}\label{pf:towergeo:sec-exist}
+
+Throughout this subsection $E,H,D,X^o,l,c$ are as in $\sfname{GoodTowerExistsX}$, $N=p+q$, and $Y$ is a
+model of $X^o_l$ over $\OO_{F_c}$. A \emph{generic point} of $Y.X$ is a point $x$ which is not a proper
+specialisation of another point.
+
+\begin{lemma}[Components]\label{pf:towergeo:components}
+Assume $\towergeoG$. The set of generic points of $Y.X$ is finite and nonempty.
+\formallabel{GlobalTheory.T.generic_points_finite_nonempty}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Comps.finite_nonempty_maximal}
+\end{lemma}
+
+\begin{proof}
+Since $Y.X$ is projective over the Noetherian ring $\OO_{F_c}$, its underlying space is Noetherian
+(\lref{GlobalTheory.ModelSum.noetherianSpace_of_isProjOver}: a scheme projective over a Noetherian
+ring has a Noetherian underlying space). A Noetherian space has finitely many irreducible components
+\cite[I, Prop.~1.5]{Hartshorne1977}, and in a scheme every irreducible closed subset has a unique generic
+point \cite[II, Ex.~2.9]{Hartshorne1977}; the generic points of $Y.X$ in our sense are exactly the generic
+points of the irreducible components. It remains to show $Y.X\ne\emptyset$, since a nonempty Noetherian
+space has an irreducible component. First, $X^o\ne\emptyset$: if $N=0$, the universal property applied to
+the zero object over $\Spec K_A$ (\lref{GlobalTheory.Models.RankZero.zeroObj}: for $p+q=0$ the zero
+semi-abelian scheme with trivial level structures is an object) gives a morphism $\Spec K_A\to X^o$; if
+$N>0$, the function on embeddings $\tau\mapsto p$ for $\tau\in\Psi_H$ and $\tau\mapsto q$ otherwise is the
+multiplicity function of a list of embeddings, and the model clauses of $\towergeoG$ provide a family of
+uniformisations of $X^o$ of this type, in particular a complex point of $X^o$. Given a point of $X^o$, there
+is a point of $X^o\times_{K_A}F_c$ over it, since both factors map to the unique point of $\Spec K_A$, and
+the open immersion $X^o_{F_c}\to Y.X\times_{\OO_{F_c}}F_c$ followed by the projection gives a point of
+$Y.X$.
+\end{proof}
+
+A \emph{reference geometry} $G$ of $Y$ is a Hodge component $\towergeoHC_G$ of $Y$ with empty set of primes
+and coordinates $y_G$ in a field $\Omega_G$ of characteristic $0$, with a flag of degree $1$ with root lines
+of multidegrees $x_G$, an ideal defining a model with simple normal crossings boundary whose complex points
+are exactly the coordinates of the non-interior points, and a block $k_0$ of coordinates which embeds the
+generic point. An \emph{analytic realisation} of $G$ consists of singular Hermitian metrics on the root
+lines realising the Hodge norms, an analytic system $\mathrm{Sys}$ and a realisation of it by a logarithmic
+resolution of $y_G$ with $J=(1)$, of degree $1$, with bijective projection $\pi$, embedded, compatible with
+the interior, the fundamental weights and complex conjugation, with reference line of multidegree $e_{k_0}$
+and metric $(\sum_i|z_{k_0,i}|^2)^{1/2}$, positive reference potential, and pluriharmonic potentials for the
+last roots $(\tau,N-1)$. For $n\colon\towergeoRI(D)\to\Z$, $q'\in\N$ and $s\in\Omega_G$, the triple
+$(n,q',s)$ is \emph{effective} for $G$ if at every point of $\towergeoHC_G.X$ outside the fibres over all
+primes, in every chart of the block $k_0$ and for every local generator $t$ of the tensor product of the
+root lattices with exponents $-n(r)$, the element $s\,y_{k_0,i}^{q'}/t$ is regular, and it is not a unit at
+the points outside the abelian locus of the semi-abelian scheme.
+
+We first prove the five constructions used below. The first produces reference geometries; it uses
+resolution in projective coordinates, one of the statements of $\towergeoG$.
+
+\begin{proposition}[Reference geometries]\label{pf:towergeo:refgeo}
+Assume resolution in projective coordinates. For every point $\xi_0\colon\Spec\Omega_0\to Y.X$ which is the
+generic point of a component (in the sense of \cref{pf:towergeo:def-hodgecpt}) there is a reference geometry
+$G$ of $Y$ whose point $\xi_0(G)$ has the same generic point as $\xi_0$.
+\formallabel{GlobalTheory.T.exists_reference_geometry_same_generic}
+\formallabel{GlobalTheory.CompanionTheory.Ar.exists_refGeo}
+\end{proposition}
+
+\begin{proof}
+The field $\Omega_0$ has characteristic $0$, since the generic points of the components of the flat
+$\OO_{F_c}$-scheme $Y.X$ lie over the generic point of $\Spec\OO_{F_c}$. By
+\lref{GlobalTheory.T.exists_coords_for_component}, which uses resolution in projective coordinates, there are
+coordinates $y_0$ in $\Omega_0$, a scheme $X$ with a point $\xi$ of which every point is a specialisation and whose
+local rings are given by the Segre coordinates of $y_0$, a morphism $f\colon X\to Y.X$ with $\xi\circ f=\xi_0$,
+constants $F_c\to\Omega_0$ compatible with the structure maps, a semi-abelian scheme $t$ with $\OO_E$-action
+over $X$ with a cartesian map to $Y.t$ over $f$, a model of its Lie algebra at $\xi$ with action $\rho$, lattices
+$L_s$ for the labels which are vector bundles of the ranks of the labels with generic fibres the $\rho$-eigenspaces
+and coincide with the eigenlattices of the Lie algebra outside the fibres over all primes, and an ideal defining a
+model of $y_0$ with simple normal crossings boundary whose complex points are exactly the coordinates of the
+complex points $z$ of $X$ with $f(z)$ outside the abelian locus. By
+\lref{GlobalTheory.T.coords_with_constants_map} these data can be transported to an extension $\Omega$ of
+$\Omega_0$ and new coordinates $y$ in $\Omega$, so that in addition there are bases $b_s$ of the eigenspaces
+defining full flags of vector bundles of the eigenlattices outside the fibres over all primes (compatible with a
+model of the Lie algebra over $\Omega_0$, i.e.\ a generic flag of degree $1$ over $\Omega_0$), and the local rings
+outside the fibres over all primes are integrally closed. By
+\lref{GlobalTheory.T.generic_coords_descend_subfield} there are coordinates $y'$ in $\Omega$ extending $y$
+blockwise, a Hodge component $\towergeoHC$ of $Y$ with empty set of primes and coordinates $y'$, a morphism
+$g\colon\towergeoHC.X\to X$ compatible with the points and with $f$, identifying the local rings outside the fibres
+over all primes and injective there, and a flag of $\towergeoHC$ of degree $1$ with root lines $(x,e)$; moreover
+the point $\xi_0(\towergeoHC)$ has the generic point of $\xi_0$.
+
+It remains to add the block which embeds the generic point. Let $G$ have the coordinates $y'$ together with one
+further block $k_0$, indexed by $\prod_kJ'_k$, whose coordinates are the Segre coordinates $y'^s$. The local rings
+are still given by the Segre coordinates (the Segre coordinates of the enlarged family are products of those of
+$y'$), the root lines keep their generators and have multidegree $0$ in the new block, and the new block embeds
+the generic point, because the ratios of Segre coordinates of a coordinate tie in characteristic $0$ generate the
+function field (\lref{GlobalTheory.T.embeds_generic_of_char_zero}). The boundary ideal is the image of the
+one of $y$ under the renaming of variables; it defines a simple normal crossings model for $y'$
+(\lref{GlobalTheory.T.snc_model_reindexed_coords}), and its complex points are the coordinates of the
+non-interior points: complex coordinates of $\towergeoHC.X$ restrict to complex coordinates of $X$
+(\lref{GlobalTheory.T.complex_coords_reindexed}), and the abelian locus is compatible with the cartesian map
+of semi-abelian schemes (\lref{ReciprocityTheory.ChartRestriction.G.Geo.Tor.abLocus_pullback}: a point lies in
+the abelian locus of a pull-back if and only if its image lies in the abelian locus).
+\end{proof}
+
+\begin{proposition}[Analytic realisations]\label{pf:towergeo:holo}
+Assume $\towergeoG$ and \textup{(FL)}, let $Y$ be global with split components, and $p,q\ge1$. Every reference
+geometry $G$ of $Y$ has an analytic realisation $\mathcal A$ whose projection $\pi$ has a holomorphic map
+$\iota$ with $\iota\circ\pi=\mathrm{id}$.
+\formallabel{GlobalTheory.T.exists_holomorphic_section_of_analytic}
+\formallabel{AnalyticReference.reference_geometry_holomorphic_inverse}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.T.hodge_cpt_flag_xdeg}, for every root index $r$ there is a conjugation-invariant
+Hermitian line $h_r$ of multidegree $x_G(r)$ which is a \emph{Hodge line} of the flag at $r$: on the interior, its
+norm of the generator $e_r$ is the Hodge norm. Let $\chi$ be a simple normal crossings chart of the boundary, with
+$a$ boundary coordinates, and $\gamma_\chi$ its parametrisation. By
+\lref{AnalyticReference.An.local_bounds}, which uses $\towergeoG$, (FL), globality and split components, for
+every $\tau$ and $i$ the function $\phi_{\tau,i}=-\sum_{k\le i}\log h_{(\tau,k)}\circ\gamma_\chi$ has
+\emph{log-log growth} at the centre: near $0$ and off the boundary it is smooth, and $|\phi_{\tau,i}|$ and the
+norm of its differential are bounded by $C\log\ell(t)$ and $C\ell(t)^Ce^{\ell(t)/2}$, where $\ell(t)$ is the
+logarithmic distance to the boundary of the chart; if $a=0$, $\phi_{\tau,i}$ is of class $C^2$ at $0$ with
+nonnegative Levi form there, and so is $-\phi_{\tau,N-1}$. By \lref{AnalyticReference.An.of_local}, which uses
+the metric package of $\towergeoG$, these local bounds for the lines $h_r$ of a reference geometry (with $p,q\ge1$)
+yield an analytic realisation $\mathcal A$ of $G$ together with a holomorphic map $\iota$ with
+$\iota\circ\pi=\mathrm{id}$.
+\end{proof}
+
+For a weight $\nu\colon\towergeoRI(D)\to\Z$ the \emph{gaps} are $g_\nu(\tau,i)=\nu(\tau,i)-\nu(\tau,i+1)$ for
+$i+1<N$, $g_\nu(\tau,N-1)=\nu(\tau,N-1)$, and $g_\nu=0$ at the further index of the analytic system. For
+an analytic realisation $\mathcal A$, the \emph{combined line} of exponents $n$ is the tensor product of the
+reference lines of $\mathcal A$ with exponents $n$, and $\deg_{\mathcal A}$ is the polynomial in the exponents giving
+the degree of the combined line (the top intersection number of the reference lines).
+
+\begin{proposition}[Effective weights]\label{pf:towergeo:exeff}
+Assume $\towergeoG$, let $Y$ be global and $p,q\ge1$. Let $G$ be a reference geometry of $Y$ which has an
+analytic realisation, and $\nu\colon\towergeoRI(D)\to\Z$ strictly decreasing in $i$ for every $\tau$. Then there
+are $k,q'>0$ and $s\ne0$ in $\Omega_G$ such that $(kq'\nu,q',s)$ is effective for $G$.
+\formallabel{GlobalTheory.T.exists_effective_weight_section}
+\formallabel{GlobalTheory.CompanionTheory.Ar.ExRefEff.exists_eff}
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal A$ be an analytic realisation. The coordinates $y_G$ are birational
+(\lref{GlobalTheory.T.hodge_cpt_birational_arith_var}: the coordinates of a Hodge component with a flag define
+a birational arithmetic variety of dimension $\dim\mathrm{Fl}(\Psi_H,N)+1$). By
+\lref{GlobalTheory.T.reference_geometry_multihomog_form} there is a multihomogeneous $\beta$ of multidegree
+$d_\beta$ with $\beta(y_G)\ne0$, which in every chart is a section of the line bundle of multidegree $d_\beta$ and is
+not a unit at the points outside the fibres over all primes and outside the abelian locus.
+
+The gaps $g_\nu$ are $\ge0$ except possibly at the last roots $(\tau,N-1)$: for $i+1<N$, $g_\nu(\tau,i)>0$ by
+strict monotonicity. At the last roots both the potentials and their negatives are plurisubharmonic, which is part
+of the analytic realisation. Moreover $\deg_{\mathcal A}(g_\nu)>0$ by
+\lref{GlobalTheory.T.global_reference_gap_positive}, which uses $\towergeoG$ and globality. Hence the
+\emph{nef polarisation} statement of the metric package (applied with the intersection numbers over $\Q$, a field
+intersection family by \lref{GroundTheory.Heights₂.Heights.NumbersDVR.IntNumIsFieldIntersection.full}) gives
+$k\ge1$ and a nonzero $e\in\Omega_G$ which in every chart is a section of the line bundle of multidegree
+$k\,a-\mathbf 1-d_\beta$, where $a$ is the multidegree of the combined line of exponents $g_\nu$ and $\mathbf 1$ the
+multidegree with all entries $1$. The multidegree of the combined line is
+$a=-\sum_{\tau,i}\nu(\tau,i)\,x_G(\tau,i)$ (\lref{GlobalTheory.CompanionTheory.Ar.ExRefEff.comb_a}: an Abel
+summation, the reference lines of the realisation being attached to the fundamental weights).
+
+Put $q'=1$, $n=k\nu$, choose for every block $\kappa$ an index $i_0(\kappa)$ with $y_{\kappa,i_0(\kappa)}\ne0$ (they
+exist since $\xi$ lies in some chart), and
+\[
+s=e\,\beta(y_G)\prod_{\kappa\ne k_0}y_{\kappa,i_0(\kappa)}\prod_re_r^{-n(r)}.
+\]
+Then $s\ne0$, as all factors are nonzero. The triple $(n,1,s)$ is effective: in a chart of the block $k_0$, a local
+generator $t$ of the tensor product of the root lattices with exponents $-n(r)$ is a unit times the chart monomial of
+multidegree $-\sum_rn(r)x_G(r)=k\,a$ times $\prod_re_r^{-n(r)}$; the multidegrees of the factors of
+$s\,y_{k_0,i}$ add up to $k\,a$, so $s\,y_{k_0,i}/t$ is a unit times a product of elements of the chart ring, hence
+regular, and it is not a unit outside the abelian locus because the factor coming from $\beta(y_G)$ is not
+(\lref{GlobalTheory.CompanionTheory.Ar.ExRefEff.isEff_of_data} carries out this verification in the charts).
+\end{proof}
+
+\begin{proposition}[Root origins from reference geometries]\label{pf:towergeo:refroot}
+Let $G$ be a reference geometry of $Y$ with an analytic realisation $\mathcal A$ whose projection $\pi$ has a
+holomorphic left inverse $\iota$, assume that $Y$ has split components, and let $k,q'>0$, $s\ne0$ and $\nu$ be such
+that $(kq'\nu,q',s)$ is effective for $G$. Then there are fixed data $F_x$ on $Y$ relative to the analytic system
+of $\mathcal A$, a root model $R$ and a root origin $o$ of $R$ over $F_x$ with empty set of primes such that: the
+generic point of $F_x.\xi_f$ is that of $\xi_0(G)$; $F_x$ has the integers $k_A=k$ and $q'$ and the weights
+$kq'\nu$; the flag of $o$ has degree $1$, its realisation has $J=(1)$, is embedded and has bijective projection;
+the reference multidegree of $R$ is ample; and condition \textup{(i)} of \textup{(Ex)} holds for $F_x$.
+\formallabel{GlobalTheory.T.effective_scaled_weight_of_retraction}
+\formallabel{GlobalTheory.CompanionTheory.Ar.RefRoot.refRoot}
+\end{proposition}
+
+\begin{proof}
+Let $y_f$ be the coordinates of the block $k_0$, numbered $0,\dots,m$. Since the block embeds the generic point,
+their ratios generate $\Omega_G$ (\lref{GlobalTheory.CompanionTheory.Ar.RefRoot.EmbedsGeneric.exists_closure}).
+For a point $x$ of the analytic system let $\mathrm{pt}(x)\in\C^{m+1}$ be the block $k_0$ of the coordinates of the
+lift of $\iota(x)$ in the logarithmic resolution. It is nonzero, since the lift lies in the complex points of the
+variety, and injective up to scalars: if $\mathrm{pt}(x)=a\,\mathrm{pt}(x')$, the two lifts lie in the same torus
+orbit (\lref{GlobalTheory.T.same_orbit_of_proportional_coords}: complex points whose $k_0$-blocks are
+proportional lie in the same orbit, as the block embeds the generic point), hence $\iota(x)=\iota(x')$ because the
+realisation is embedded, and $x=\pi\iota(x)=\pi\iota(x')=x'$. The Lie algebra model of $\towergeoHC_G$ is pushed to
+a model of the Lie algebra of $Y.t$ at $\xi_0$ (\lref{GlobalTheory.T.lie_model_push_along_map}), $y_G$ is
+birational (\lref{GlobalTheory.T.hodge_cpt_birational_arith_var}), and, as $Y$ has split components and the flag
+has degree $1$, every element of $\Omega_G$ algebraic over $\Z$ lies in the image of the constants
+(\lref{GlobalTheory.T.algebraic_constants_in_range}). These are the data of the fixed data $F_x$ (with
+$k_A=k$, $q'$, weights $kq'\nu$ and $s_E=s$), of the root model $R$ (coordinates $y_G$, the lines of $\mathcal A$,
+$k_A=k$, $\delta=[F_c:\Q]$) and of the root origin $o$ (the Hodge component, flag, Hodge lines and realisation of
+$G$ and $\mathcal A$); the effectivity of $s$ is that of $(kq'\nu,q',s)$, and the generic point of $F_x.\xi_f$ is
+that of $\xi_0(G)$ because $\xi_f$ is $\xi_G$ followed by the structure map, which factors through $\xi_0(G)$.
+The reference multidegree is the unit vector of the block $k_0$, which is ample because the block embeds the
+generic point (\lref{GlobalTheory.T.ample_of_single_coord_block}).
+
+For condition (i) of (Ex), let $x$ be a point of the analytic system, $U=\iota^{-1}(U_{\iota(x)})$ for the
+neighbourhood $U_{\iota(x)}$ of the lifts in the resolution, and $\lambda(x')$ the block $k_0$ of the lift at
+$\iota(x)$ evaluated at $\iota(x')$. It is holomorphic on $U$ as a composition of holomorphic maps, it is a nonzero
+multiple of $\mathrm{pt}(x')$ by the compatibility of the lifts of an embedded realisation, and its affine ratios
+$\lambda_i/\lambda_p$ are immersions in the charts: they are immersions on the resolution
+(\lref{GlobalTheory.T.holomorphic_atlas_coord_compat}), and composing with the holomorphic inverse $\iota$ of
+the bijection $\pi$ preserves this (\lref{GlobalTheory.T.holomorphic_inverse_chart_value}).
+\end{proof}
+
+The last construction transports a root origin with empty set of primes to the Hodge components with primes
+which are produced at the levels of the tower.
+
+\begin{proposition}[Root origins over covers]\label{pf:towergeo:rootcov}
+Assume $\towergeoG$. Let $\mathrm{Sys}$, $F_x$, $R$ and a root origin $o$ of $R$ over $F_x$ with empty set of primes
+be given, such that the flag of $o$ has degree $1$, its realisation is embedded and has bijective projection. Let
+$S$ be a finite set of primes, $y$ coordinates in a field $\Omega$ of characteristic $0$ which extend $R.y$
+blockwise through an embedding $i\colon R.\Omega\to\Omega$ (with an injective map of blocks), $\towergeoHC$ a Hodge
+component of $Y$ with primes $S$ and coordinates $y$ with a morphism $h$ to the Hodge component of $o$ which is
+compatible with the points through $i$, with the maps to $Y.X$, with the constants and with the models of the Lie
+algebras, and $\mathrm{Fl}$ a flag of $\towergeoHC$ with $[\Omega:R.\Omega]=\deg\mathrm{Fl}$ and root lines
+$(x,e)$. If $\towergeoHC$ is $\omega$-regular and $y$ has smooth generic fibre, there are a root model $R'$ and a
+root origin $o'$ of $R'$ over $F_x$ with primes $S$, whose Hodge component is $\omega$-regular with the same
+function $R$, whose realisation has $J=(1)$, and such that $R'.y$ has smooth generic fibre.
+\formallabel{GlobalTheory.T.root_origin_coords_over_field}
+\formallabel{GlobalTheory.CompanionTheory.Ar.root_model_on_cover}
+\end{proposition}
+
+\begin{proof}
+The root origin $o'$ has the Hodge component $\towergeoHC$ and the flag $\mathrm{Fl}$; we construct the root model
+$R'$ with coordinates $y$ and the realisation. The coordinates $y$ define a birational arithmetic variety of
+dimension $\dim\mathrm{Fl}(\Psi_H,N)+1$ (\lref{GlobalTheory.T.hodge_cpt_birational_arith_var}), so, having
+smooth generic fibre, they admit an analytic logarithmic resolution $R''$ with $J=(1)$
+(\lref{GlobalTheory.T.exists_analytic_log_resolution}). The coordinate ideal of $R.y$ is contained in the image
+of that of $y$ under the block map, so by \lref{GlobalTheory.T.log_resolution_functorial_holomorphic} there is
+a holomorphic map $h'$ from $R''$ to the resolution of $o$ mapping lifts to lifts up to the torus action. By
+\lref{GlobalTheory.T.log_resolution_reindexed} and \lref{GlobalTheory.T.holomorphic_degree_composition}, the
+composite $\pi\circ h'$ is holomorphic of degree $\deg\mathrm{Fl}$ (as $\pi$ is bijective and the field degree is
+$\deg\mathrm{Fl}$).
+
+\emph{Correction lines.} By \lref{GlobalTheory.T.hodge_comp_descent_first},
+\lref{GlobalTheory.T.hodge_comp_descent_second} and \lref{GlobalTheory.T.hodge_comp_descent_third}, the flag
+$\mathrm{Fl}$ is the pull-back of the flag of $o$ generically and on the norms (the bases correspond through the
+compatibility of the Lie algebra models, and the Hodge norms are pulled back along $h$). Hence by
+\lref{GlobalTheory.T.hodge_comp_descent_fourth} and \lref{GlobalTheory.T.degree_reindexed_coords}, for every
+root index $r$ the ratio of the generators $e_r$ and $i(e^o_r)$, corrected by the chart monomials, is a positive
+function on the complex points which is homogeneous of multidegree $x(r)-x^R(r)$ (with $x^R(r)$ extended by $0$ to
+the new blocks), conjugation invariant, and locally the norm of a nonvanishing analytic function. By
+\lref{GlobalTheory.T.positive_homogeneous_potential}, it is the metric of a smooth conjugation-invariant
+Hermitian line $T_r$ of multidegree $x(r)-x^R(r)$ which is flat on the resolution.
+
+\emph{The root model and the origin.} Let $R'$ have the coordinates $y$, multidegrees $x$, lines
+$x'(t,r)=x^R(t,r)\otimes T_r$ (pulled back along the block map), the integer $k_A$ of $R$, the reference line of $R$
+pulled back, and $\delta=[F_c:\Q]\deg\mathrm{Fl}>0$. The realisation has the resolution $R''$, $J=(1)$, projection
+$\pi\circ h'$ of degree $\deg\mathrm{Fl}$, and reference lines those of $o$ tensored with the corresponding
+products of the $T_r$; their potentials are the pull-backs of those of $o$ plus pluriharmonic functions
+(\lref{GlobalTheory.T.log_resolution_potential_pullback} and
+\lref{GlobalTheory.T.flat_on_log_resolution_corr}), and the weights of the lines differ from those of $o$ by
+the same corrections, so the identities of the realisation persist. The singular metrics of $o'$ are those of $o$
+pulled back and tensored with $T_r$; they realise the Hodge norms of $\mathrm{Fl}$ by
+\lref{GlobalTheory.T.hodge_comp_descent_fifth}, since the interior of $\towergeoHC$ maps to the interior of the
+Hodge component of $o$. The embedding of the field of $F_x$ is $i$ composed with that of $o$; its degree is
+$1\cdot\deg\mathrm{Fl}$ by multiplicativity of degrees, and the identification of the block $k_0$ and the
+effectivity of $s_E$ are transported along $i$. The Hodge component, and hence $\omega$-regularity and the function
+$R$, are those of $\towergeoHC$.
+\end{proof}
+
+\begin{lemma}[Data on a component]\label{pf:towergeo:comp-data}
+Assume $\towergeoG$ and the flat line statements \textup{(FL)}, and let $Y$ be global with split
+components, $p,q\ge1$. For every generic point $x$ of $Y.X$ there are an analytic system $\mathrm{Sys}$,
+fixed data $F_x$ on $Y$, a root model $R$ and a root origin $o$ of $R$ over $F_x$ with empty set of primes
+such that:
+\begin{enumerate}[label=(\alph*)]
+\item the generic point of $F_x.\xi_f$ is $x$, and $F_x.n(\tau,i)=-k_Aq'\,i$ for all $(\tau,i)$, where
+  $k_A$, $q'$ are the integers of $F_x$;
+\item the flag of $o$ has degree $1$, its realisation has $J=(1)$, is embedded and has bijective
+  projection $\pi$, and the reference multidegree of $R$ is ample;
+\item the potentials of $\mathrm{Sys}$ for the last roots $(\tau,N-1)$ are pluriharmonic;
+\item every point of $\mathrm{Sys}$ has a neighbourhood with a holomorphic lift of $F_x.\mathrm{pt}$ as in
+  condition (i) of (Ex).
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TopTower.comp_data}
+\end{lemma}
+
+\begin{proof}
+Since $Y.X$ is normal its local rings are domains; the local ring at the generic point $x$ is a field, equal
+to $\kappa(x)$, and the local rings at the points of the component of $x$ inject into it. Hence the
+canonical point $\Spec\kappa(x)\to Y.X$ is the generic point of a component in the sense required for
+Hodge components. By \cref{pf:towergeo:refgeo} (resolution in projective coordinates is part of $\towergeoG$)
+there is a reference geometry $G$ of $Y$ whose point $\xi_0$ has the generic point $x$. By \cref{pf:towergeo:holo},
+$G$ has an analytic realisation $\mathcal A$ for which $\pi$ has a holomorphic left inverse. Put $\nu(\tau,i)=-i$;
+it is strictly decreasing in $i$. By \cref{pf:towergeo:exeff} there are $k,q'>0$ and $s\ne0$ such that
+$(kq'\nu,q',s)$ is effective for $G$. By \cref{pf:towergeo:refroot}, using that $Y$ has split components, we
+obtain $F_x$, $R$, $o$ with $F_x.n=kq'\nu$ and properties (a), (b), (d). Property (c) is part of the analytic
+realisation $\mathcal A$.
+\end{proof}
+
+\begin{lemma}[Data on a level]\label{pf:towergeo:level-data}
+Assume $\towergeoG$ and \textup{(W)}. Let $\mathrm{Sys}$, $F_x$, $R$, $o$ be as in
+\cref{pf:towergeo:comp-data}(b) (flag of degree $1$, embedded realisation, bijective $\pi$), and let $S$ be a
+finite set of primes containing all prime divisors of $d_E$. Then there are a root model $R'$ and a root
+origin $o'$ of $R'$ over $F_x$ with primes $S$ such that the Hodge component of $o'$ is $\omega$-regular
+with $R(p)=4$ for all $p\in S$, the realisation of $o'$ has $J=(1)$, and $R'.y$ has smooth generic fibre.
+\formallabel{GlobalTheory.CompanionTheory.Ar.TopTower.level_data}
+\end{lemma}
+
+\begin{proof}
+By \lref{GlobalTheory.T.root_origin_good_primes_finite}, which uses $\towergeoG$ and (W), there are
+coordinates $y$ in a field $\Omega$ of characteristic $0$ extending those of $R$ blockwise through an
+embedding $i\colon R.\Omega\to\Omega$ of degree equal to the degree of a new flag, a Hodge component
+$\towergeoHC$ of $Y$ with primes $S$ and coordinates $y$ mapping to the Hodge component of $o$ compatibly
+with the points, the constants and the Lie algebra models, and a flag of $\towergeoHC$ with root lines and
+compatible bases, such that $\towergeoHC$ is $\omega$-regular, $y$ has smooth generic fibre, and $R(p)=4$
+for $p\in S$. By \cref{pf:towergeo:rootcov}, applied to these data, we obtain a root model $R'$ and a root origin
+$o'$ over $F_x$ with primes $S$ whose Hodge component is $\omega$-regular and has the same function $R$, with
+$J=(1)$ and smooth generic fibre.
+\end{proof}
+
+\begin{theorem}\label{pf:towergeo:exist}
+Assume $\towergeoG$, \textup{(W)} and \textup{(FL)}. For all $E,H,D,X^o,l,c$ and every global model $Y$
+of $X^o_l$ over $\OO_{F_c}$ with split components, with $p,q\ge1$, there are a root tower $T$ of type
+$(\Psi_H,p+q)$ and a good origin of $T$ on $Y$ satisfying \textup{(Ex)}.
+\formallabel{GlobalTheory.T.exists_good_root_tower}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TopTower.exists_good_tower}
+\end{theorem}
+
+\begin{proof}
+Let $\mathrm{Comp}$ be the set of generic points of $Y.X$; it is finite and nonempty by
+\cref{pf:towergeo:components}. For $a\in\mathrm{Comp}$ choose $\mathrm{Sys}(a)$, $F_x(a)$, $R(a)$, $o(a)$ as
+in \cref{pf:towergeo:comp-data}. Since $M\ge3$ and $A\ge1$, $M'=\lcm(M,A)\ne0$, and $d_E\ne0$, so
+$n_0=2|d_E|M'\ne0$. Let $\mathrm{bad}$ be the set of prime factors of $n_0$; thus $r\in\mathrm{bad}$ if and
+only if $r$ is a prime dividing $2d_EM'$, and $2\in\mathrm{bad}$. For $B\in\N$ let
+$S_B=\{r\le B\text{ prime}\}\cup\mathrm{bad}$, so that $r\in S_B$ if and only if $r$ is prime and $r\le B$
+or $r\in\mathrm{bad}$; every prime divisor of $d_E$ lies in $\mathrm{bad}\subseteq S_B$. For each $B$ and $a$
+apply \cref{pf:towergeo:level-data} to $o(a)$ and $S_B$, obtaining $R'(B,a)$ and $o'(B,a)$.
+
+Define the root tower $T$ by $T.j=p$ (so $1\le j<N$ as $p,q\ge1$), $T.\mathrm{Comp}=\mathrm{Comp}$,
+$T.\mathrm{bad}=\mathrm{bad}$, $T.\nu(\tau,i)=-i$ (a rational weight) and $T.M(B,a)=R'(B,a)$. The data
+$j=p$, $\mathrm{bad}$, $S_B$, $\mathrm{Sys}(a)$, $F_x(a)$ and $\mathrm{Or}(B,a)=o'(B,a)$ form a tower
+origin: the characterisations of $\mathrm{bad}$ and $S_B$ were shown above; the points $F_x(a).\xi_f$ have
+generic point $a$ by \cref{pf:towergeo:comp-data}(a), so they are pairwise distinct and exhaust the generic
+points of $Y.X$; and $F_x(a).n(\tau,i)=k_Aq'\cdot(-i)=k_Aq'\,\nu(\tau,i)$. It is a good origin with reference
+root models $R(a)$ and root origins $o(a)$: $\omega$-regularity, $J=(1)$ and smoothness of the generic
+fibres hold by \cref{pf:towergeo:level-data}, the pluriharmonicity of the last-root potentials by
+\cref{pf:towergeo:comp-data}(c), and the conditions on $R(a)$, $o(a)$ by \cref{pf:towergeo:comp-data}(b).
+Finally condition (i) of (Ex) is \cref{pf:towergeo:comp-data}(d), and condition (ii) holds since $R(p)=4$
+for all $p\in S_B$ by \cref{pf:towergeo:level-data}.
+\end{proof}
+
+\begin{remark}\label{pf:towergeo:rem-tower}
+In the tower constructed above the weight is $\nu(\tau,i)=-i$ for every component, the levels $B$ enter
+only through the sets of primes $S_B$, and the reference root models $R(a)$ do not depend on $B$. The
+integers $k_A$, $q'$ may depend on the component.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Chern numbers of Hodge flags}\label{pf:towergeo:sec-hodge}
+
+In this subsection we deduce the Hodge comparison (HC) from the positivity of families (F). The heart of
+the argument is the relation theorem for lattice families (\cref{pf:towergeo:relations}); from it, the
+Chern number identity \eqref{pf:towergeo:eq-fcc} is obtained by summing along Frobenius orbits and by a
+descent from a ramified extension. We begin with the self-contained steps.
+
+\subsubsection*{Summation along Frobenius orbits}
+
+\begin{lemma}[The coefficients $\towergeoco$]\label{pf:towergeo:co-series}
+Let $\varphi$ be a permutation of a finite set $\Sigma$, $p\ge2$, $k\ge1$, $L\colon\Sigma\to\R$ and
+$\tau\in\Sigma$. Then the series defining $\towergeoco(\varphi,p,k;\tau,\sigma)$ converge absolutely and
+\[
+\sum_{\sigma\in\Sigma}\towergeoco(\varphi,p,k;\tau,\sigma)L(\sigma)=\sum_{n\ge0}p^{-k(n+1)}L(\varphi^{n+1}\tau)-\frac{L(\tau)}{p-1}.
+\]
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.co_series_three_step}
+\end{lemma}
+
+\begin{proof}
+Put $c=p^{-k}\in(0,1)$. The $n$-th term of the series for $\towergeoco(\varphi,p,k;\tau,\sigma)$ is $c^{n+1}$
+or $0$, so the series is dominated by the convergent geometric series $\sum_nc^{n+1}$. Hence the finite
+sum over $\sigma$ may be interchanged with the summation over $n$, and for fixed $n$,
+$\sum_\sigma[\varphi^{n+1}\tau=\sigma]c^{n+1}L(\sigma)=c^{n+1}L(\varphi^{n+1}\tau)$. The term
+$-[\sigma=\tau]/(p-1)$ contributes $-L(\tau)/(p-1)$.
+\end{proof}
+
+\begin{lemma}[Local comparison along orbits]\label{pf:towergeo:orbits}
+Let $O$ be a discrete valuation ring, $P\subset O[x]$, $d\in\N$, $p\ge2$, $\varphi$ a permutation of a finite
+set $\Sigma$, and $\mathrm{lie}$, $\mathrm{om}$ families of local pairs indexed by $\Sigma$. Assume that for
+every $\tau\in\Sigma$ there are a finite set $\Sigma'$, a map $e\colon\Sigma'\to\Sigma$ with
+$\tau\in e(\Sigma')$ and a permutation $\varphi'$ of $\Sigma'$ with $e\varphi'=\varphi e$ such that
+$\towergeoRel(P,d;p,\varphi',\mathrm{lie}\circ e,\mathrm{om}\circ e)$ holds. Then
+$\towergeoLC(P,d;p,\varphi,\mathrm{lie},\mathrm{om})$ holds.
+\formallabel{GlobalTheory.T.local_comparison_of_orbits_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.local_comparison_of_orbits}
+\end{lemma}
+
+\begin{proof}
+Fix $k\ge1$, $Q$ with $|Q|+k=d+1$ and $\tau\in\Sigma$; choose $\Sigma',e,\varphi'$ as in the hypothesis and
+$t_0\in\Sigma'$ with $e(t_0)=\tau$, and let $h\colon\Sigma'\to\R$ satisfy \eqref{pf:towergeo:eq-rel1} and
+\eqref{pf:towergeo:eq-rel2} for $\mathrm{lie}\circ e$, $\mathrm{om}\circ e$, $\varphi'$. Put
+$L(\sigma)=\towergeola_P(p,\mathrm{lie}_\sigma.x,k,Q)$ and $c=p^{-k}\in(0,1)$. By
+\eqref{pf:towergeo:eq-rel2}, $h(t)=c\,\bigl(h(\varphi't)+L(e(\varphi't))\bigr)$ for all $t$, and by induction
+on $m$,
+\[
+h(t)=\sum_{n<m}c^{n+1}L\bigl(e(\varphi'^{n+1}t)\bigr)+c^mh(\varphi'^mt).
+\]
+Since $\Sigma'$ is finite, $|h|$ and $|L\circ e|$ are bounded, so the remainder tends to $0$ and the series
+converges absolutely; as $e\varphi'^n=\varphi^ne$, $h(t_0)=\sum_{n\ge0}p^{-k(n+1)}L(\varphi^{n+1}\tau)$. By
+\eqref{pf:towergeo:eq-rel1} at $t_0$ and \cref{pf:towergeo:co-series},
+\[
+\towergeock(\mathrm{lie}_\tau,P,k,Q)+\towergeock(\mathrm{om}_\tau,P,k,Q)=h(t_0)-\frac{L(\tau)}{p-1}
+=\sum_\sigma\towergeoco(\varphi,p,k;\tau,\sigma)L(\sigma).\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[From labels to flags]\label{pf:towergeo:flag-from-labels}
+Let $O$ be a discrete valuation ring, $P$ a model over $O$ of relative dimension $d$, $p\in\N$ with
+$p\ne0$ in $O$, $\Psi$ finite, $j,j'\in\N$, $\varphi$ a permutation of $\Psi\times\{1,2\}$, $T$ a local pair
+over $O$ indexed by $\Psi\times\{0,\dots,j+j'-1\}$, and $\mathrm{lie}_s,\mathrm{om}_s$ local pairs indexed by
+the labels $s$, of sizes $j,j'$ for $s=(\tau,1)$ and $j',j$ for $s=(\tau,2)$. Assume
+\begin{enumerate}[label=(\roman*)]
+\item $\mathrm{lie}_{(\tau,1)}=T\circ(\tau,i)_{i<j}$ and $\mathrm{om}_{(\tau,1)}=T\circ(\tau,j+i)_{i<j'}$;
+\item $\towergeola_P(p,\mathrm{lie}_{(\tau,2)}.x,k,Q)=\towergeola_P\bigl(p,(-T.x(\tau,j+i))_{i<j'},k,Q\bigr)$
+  whenever $|Q|+k=d+1$;
+\item $\towergeoLC(P,d;p,\varphi,\mathrm{lie},\mathrm{om})$.
+\end{enumerate}
+Then $\towergeoFC_j(P,d;p,\varphi,T)$ holds.
+\formallabel{GlobalTheory.T.flag_m3_from_local}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.flag_m3_of_local_m3}
+\end{lemma}
+
+\begin{proof}
+Fix $\tau$, $k\ge1$, $Q$ with $|Q|+k=d+1$, and put $Z=\towergeodiv_P(p)$. We claim that for every label
+$s$,
+\begin{equation}\label{pf:towergeo:eq-la}
+\towergeola_P(p,\mathrm{lie}_s.x,k,Q)=k\,\towergeocyc\bigl(Z,T.x,\pi_{j,k-1}(s),Q\bigr).
+\end{equation}
+For $s=(\sigma,1)$, $\mathrm{lie}_s.x=(T.x(\sigma,i))_{i<j}$ by (i), and
+\[
+\towergeola_P(p,\mathrm{lie}_s.x,k,Q)=k\,\towergeocyc\Bigl(Z,\mathrm{lie}_s.x,\sum_{i<j}X_i^{k-1},Q\Bigr),
+\]
+which is \eqref{pf:towergeo:eq-la} after renaming the variables. For $s=(\sigma,2)$, by (ii) the left side
+equals $k\,\towergeocyc(Z,(-T.x(\sigma,j+i))_i,\sum_iX_i^{k-1},Q)$. The polynomial $\sum_iX_i^{k-1}$ is
+homogeneous of degree $k-1$ with $(k-1)+|Q|=d$, and $p\ne0$ in $O$, so by
+\lref{GlobalTheory.T.divisor_cycle_substitution} (cycle numbers of the divisor of a nonzero
+multihomogeneous element on a model of relative dimension $d$ transform under an integral linear
+substitution of the classes by the corresponding substitution of the variables in a homogeneous polynomial
+of degree $d-|Q|$) this equals $k\,\towergeocyc(Z,(T.x(\sigma,j+i))_i,\sum_i(-X_i)^{k-1},Q)$, which is
+\eqref{pf:towergeo:eq-la} after renaming. Now the Chern number of $T\circ(\tau,\cdot)$ is the sum of those
+of $T\circ(\tau,i)_{i<j}$ and $T\circ(\tau,j+i)_{i<j'}$, so by (i), (iii), \eqref{pf:towergeo:eq-la} and the
+linearity of cycle numbers,
+\begin{align*}
+\towergeock\bigl(T\circ(\tau,\cdot),P,k,Q\bigr)
+&=\sum_s\towergeoco(\varphi,p,k;(\tau,1),s)\,k\,\towergeocyc\bigl(Z,T.x,\pi_{j,k-1}(s),Q\bigr)\\
+&=\towergeocyc\bigl(Z,T.x,\mathcal B_j(\varphi,p,k,\tau),Q\bigr).\qedhere
+\end{align*}
+\end{proof}
+
+\begin{lemma}[Descent through a ramified extension]\label{pf:towergeo:descent}
+Let $O$ be a discrete valuation ring with uniformiser $\varpi$, $\Omega$ an $O$-algebra which is a field of
+characteristic $0$, $y$ coordinates in $\Omega$ such that $P=P^O_y$ is a model over $O$ of relative
+dimension $d$ and $O$ is integrally closed in $\Omega$. Let $O'$ be a discrete valuation ring which is a
+local algebraic extension of $O$, and $\Omega'\supseteq\Omega$ a field containing $O'$ compatibly. Let
+$p\ne0$ be a natural number and $T$ a local pair over $O$ which is vertical. If
+$\towergeoFC_j(P^{O'}_y,d;p,\varphi,T\otimes O')$ holds, then $\towergeoFC_j(P,d;p,\varphi,T)$ holds.
+\formallabel{GlobalTheory.T.model_descent_integral_closure}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.model_descends_from_dvr_ext}
+\end{lemma}
+
+\begin{proof}
+By \lref{GlobalTheory.T.model_over_dvr_extension} (for such an extension, $P^{O'}_y$ is the extension
+of $P$ and is a model over $O'$ of relative dimension $d$), $P'=P^{O'}_y$ is a model over $O'$. Since
+$P\cap O=0$, the maps $O\to\Omega$ and $O\to O'$ are injective, so $\varpi\ne0$ in $O'$; write
+$\varpi=u\varpi'^e$ with $u\in O'^\times$, $\varpi'$ a uniformiser of $O'$ and $e\in\N$. Here $e\ge1$:
+otherwise $\varpi$ would be a unit of $O'$, hence of $O$ because $O\to O'$ is local. By
+\lref{GlobalTheory.T.model_over_ramified_extension}, for every multihomogeneous $f\notin P$ and every
+list $l$ of $d$ multidegrees,
+\begin{equation}\label{pf:towergeo:eq-scale}
+\sum_{W'}\towergeodiv_{P'}(f)(W')\,\langle l\rangle_{W'}=e\sum_W\towergeodiv_P(f)(W)\,\langle l\rangle_W .
+\end{equation}
+Both sides of \eqref{pf:towergeo:eq-fcc} are linear combinations of such numbers. On the left, the Chern
+number of $T\circ(\tau,\cdot)$ involves the divisors of the $f_i$ and $g_i$, which are multihomogeneous and
+not in $P$ because $T$ is vertical, against lists of length $(k-1)+|Q|=d$. On the right the divisor of $p$
+occurs, and $p\notin P$ because $P\cap O=0$ and $p\ne0$ in $\Omega$; the polynomial
+$\mathcal B_j(\varphi,p,k,\tau)$ is homogeneous of degree $k-1$, so again the lists have length $d$. By
+\eqref{pf:towergeo:eq-scale} both sides of \eqref{pf:towergeo:eq-fcc} for $(P',T\otimes O')$ are $e$ times
+the corresponding sides for $(P,T)$; since $e>0$, the identity for $(P',T\otimes O')$ implies that for
+$(P,T)$.
+\end{proof}
+
+\subsubsection*{Lattice families}
+The main input is a relation between the Chern numbers of the Lie and $\omega$ lattices of a family of
+finite flat $F$-vector space schemes over a discrete valuation ring of mixed characteristic, in coordinates
+in the spirit of Raynaud's description of such group schemes \cite{Raynaud1974}. A \emph{lattice family}
+over $O$ in the charts of coordinates $x$ consists of Lie lattice data $D(c)$ in the Segre charts $c$ which
+are families of lattices in the chart rings, an element $w\in O$ with $w^{p-1}$ a unit times $p$, $p$ a
+nonunit, characters $\chi_\tau\colon F\to O$ with $\chi_\tau(0)=0$, $\chi_\tau(1)=1$, and structural
+relations in every chart. \emph{Chart bundles} $\mathrm{Lie}_\tau,W_\tau$ (of rank $r_\tau$) and
+$\mathrm{Om}_\tau,\mathrm{Om}^{\mathrm{HT}}_\tau$ (of rank $s_\tau$) \emph{realise} the lattice family if their
+lattices in the charts are those of $D(c)$. A pair $(B,B')$ of chart bundles is a \emph{flag pair} for a
+local pair $(x,x',f,g)$ and a uniformiser $\varpi$ if both carry full flags whose graded pieces are the line
+bundles of multidegrees $x_i$, resp.\ $x'_i$, related generically by $f_i/g_i$ with vertical divisor.
+
+For chart bundles $B,B'$ of rank $r$ over $O$ with the same generic fibre, the Chern number
+$\towergeock(B,B',k,L,Q)$ and the root number $\towergeola(B,c,G,L,Q)$ (for $c\in O$ and $G\in\Z[X_1,\dots,X_r]$)
+are computed on a \emph{flag model} of $(B,B')$, i.e.\ a refinement of the coordinates over which both bundles
+acquire full flags with line bundle graded pieces, by the formulas of \cref{pf:towergeo:def-numbers} with the
+multidegrees of the graded pieces, $Q(L)$ for the remaining classes and the power sum $p_k=\sum_iX_i^k$ (they
+are $0$ if there is no flag model). Coordinates $x'$ \emph{refine} $x$ if they are obtained by adjoining further
+blocks of coordinates in $\Omega$ and $P^O_{x'}$ is again a model over $O$ of relative dimension $d$; a lattice
+family over $x$ \emph{pulls back} to the family over $x'$ whose lattices in a chart of $x'$ are generated over
+its chart ring by those of the restricted chart of $x$.
+
+\begin{theorem}[Bundle relations for lattice families]\label{pf:towergeo:ckrel}
+Let $O$ be a discrete valuation ring of characteristic $0$, and $x$ coordinates in an $O$-algebra $\Omega$ which
+is a field, such that $P^O_x$ is a model over $O$ of relative dimension $d$ and the ratios of $x$ generate $\Omega$
+over $O$. Let $p$ be a prime and $(D,w,\chi,\varphi)$ a lattice family over $O$ in the charts of $x$, realised by
+chart bundles $\mathrm{Lie},W,\mathrm{Om},\mathrm{Om}^{\mathrm{HT}}$. Then the \emph{bundle relations} hold: for
+all $1\le k\le d+1$, multidegrees $L_1,\dots,L_q$ and homogeneous $Q\in\Z[X_1,\dots,X_q]$ of degree $d+1-k$
+there is $h\colon\Sigma\to\R$ such that for all $\tau$
+\begin{gather*}
+\towergeock(\mathrm{Lie}_\tau,W_\tau,k,L,Q)+\towergeock(\mathrm{Om}_\tau,\mathrm{Om}^{\mathrm{HT}}_\tau,k,L,Q)
+=h(\tau)-\frac{k\,\towergeola(\mathrm{Lie}_\tau,p,p_{k-1},L,Q)}{p-1},\\
+p^kh(\tau)=h(\varphi\tau)+k\,\towergeola(\mathrm{Lie}_{\varphi\tau},p,p_{k-1},L,Q).
+\end{gather*}
+\formallabel{GlobalTheory.T.lattice_family_ckRelations}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.CkTop.ckRelations_of_model}
+\end{theorem}
+
+\begin{proof}
+\emph{Refinements.} Let $x'$ refine $x$. The pulled-back family is a lattice family over $x'$, and the goodness
+properties used below pass from $x$ to $x'$ (\lref{GlobalTheory.T.lattice_family_injective_model}); the chart
+rings of $x'$ are Noetherian, contain those of the restricted charts of $x$, and the ratios of $x'$ still generate
+$\Omega$ (\lref{GlobalTheory.T.chart_rings_noetherian_fraction}).
+
+\emph{Step 1 (descent).} If the bundle relations hold for all chart bundles over a refinement $x'$ realising the
+pulled-back family, they hold for all chart bundles over $x$ realising $D$. Indeed, let
+$\mathrm{Lie},W,\mathrm{Om},\mathrm{Om}^{\mathrm{HT}}$ realise $D$. By
+\lref{GlobalTheory.T.lattice_family_injective_model} their pull-backs to $x'$ realise the pulled-back family.
+The pairs $(\mathrm{Lie}_\tau,W_\tau)$ and $(\mathrm{Om}_\tau,\mathrm{Om}^{\mathrm{HT}}_\tau)$ have the same generic
+fibres, by the inclusions between their lattices with factors $1$ and $w\ne0$ which are part of the structural
+relations of the family. For such pairs, \lref{GlobalTheory.T.model_over_prime_perm_module_lattice} shows that
+the bundle relations for the pull-backs to a refinement with the same function field imply the bundle relations
+over $x$ (a flag model of the pull-backs is a flag model of the original pairs, so the Chern numbers and root
+numbers agree).
+
+\emph{Step 2 (successive refinements).} We refine five times, keeping the previous properties by the remark on
+refinements. (a) By \lref{GlobalTheory.T.lattice_family_model_facts} there is a refinement over which the
+family is \emph{good} in every chart: the auxiliary lattice of functions on $F^n$ attached to the data is locally
+free of rank $|F|^n$, and the images of the character maps and the vanishing and character submodules are direct
+summands. (b) By \lref{GlobalTheory.T.model_refinement_exists} there is a refinement whose chart rings are
+integrally closed in $\Omega$; over it, $w$ times the standard lattice is contained in the annihilator lattice of
+every character in every chart (\lref{GlobalTheory.T.hodge_annihilator_lattice_holds}). (c) By
+\lref{GlobalTheory.T.lattice_family_model_comparison} there is a refinement over which the family satisfies
+the second goodness conditions: the annihilator submodules are direct summands of the annihilator lattices, and the
+kernel, step and image lattices attached to the characters are locally free of the expected ranks. (d) By
+\lref{GlobalTheory.T.lattice_family_model_chern} there is a refinement over which the character ideals of the
+family are line bundles, i.e.\ generated in every chart by a fixed element times a chart monomial. (e) By
+\lref{GlobalTheory.T.model_refinement_exists} once more, a final refinement has integrally closed chart rings.
+
+\emph{Step 3 (the computation).} Over the final refinement the chart rings are Noetherian, integrally closed, with
+fraction field $\Omega$, the structural facts on the lattice data hold in every chart
+(\lref{GlobalTheory.T.lattice_facts_of_normal_holds}), and
+\lref{GlobalTheory.T.model_over_mod_p_lattice_eigen_split} gives the bundle relations: it computes the Chern
+numbers of the four bundles on the special fibre through the splitting into eigenspaces of the characters of the
+lattices modulo $p$. Applying Step 1 to the five refinements of Step 2, in reverse order, gives the bundle relations
+over $x$.
+\end{proof}
+
+\begin{proposition}[Relations for lattice families]\label{pf:towergeo:relations}
+Let $O$ be a discrete valuation ring of characteristic $0$ with uniformiser $\varpi$, and $x$ coordinates in
+an $O$-algebra $\Omega$ which is a field, such that $P^O_x$ is a model over $O$ of relative dimension $d$
+and the ratios of $x$ generate $\Omega$ over $O$. Let $p$ be a prime, $F$ a finite set with elements $0,1$,
+and $(D,w,\chi,\varphi)$ a lattice family over $O$ realised by chart bundles
+$\mathrm{Lie},W,\mathrm{Om},\mathrm{Om}^{\mathrm{HT}}$. If $(\mathrm{Lie}_\tau,W_\tau)$ and
+$(\mathrm{Om}_\tau,\mathrm{Om}^{\mathrm{HT}}_\tau)$ are flag pairs for local pairs $\mathrm{lie}_\tau$ and
+$\mathrm{om}_\tau$, then $\towergeoRel(P^O_x,d;p,\varphi,\mathrm{lie},\mathrm{om})$ holds.
+\formallabel{GlobalTheory.T.arithmetic_relations_statement_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.TopRel.relations}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:towergeo:ckrel}, the chart bundles satisfy the bundle relations. Next,
+$w\ne0$: otherwise $0=w^{p-1}=up$ with $u$ a unit, contradicting $p\ne0$ in $O$. In every chart, the
+lattices of $\mathrm{Lie}_\tau$ and $W_\tau$ (resp.\ of $\mathrm{Om}_\tau$ and $\mathrm{Om}^{\mathrm{HT}}_\tau$)
+have the same generic span: by the inclusions which are part of the structural relations of the lattice
+family, the product of every element of one of them with $1$ or with $w$ lies in the other. Under this
+condition and $p\ne0$ in $O$, \lref{GlobalTheory.T.uniformizer_model_perm_module_lattice} (the bundle
+relations for chart bundles which are flag pairs for local pairs $\mathrm{lie}_\tau$, $\mathrm{om}_\tau$
+imply the relations for these local pairs, because the Chern numbers and root numbers of flag pairs of
+chart bundles equal those of the local pairs) gives $\towergeoRel(P^O_x,d;p,\varphi,\mathrm{lie},\mathrm{om})$.
+\end{proof}
+
+\begin{remark}\label{pf:towergeo:rem-relations}
+\cref{pf:towergeo:ckrel} carries most of the weight of (HC). Its final step,
+\lref{GlobalTheory.T.model_over_mod_p_lattice_eigen_split} (about $4{,}800$ lines in \cite{LeanSource2026}),
+computes the Chern numbers of the four bundles on the special fibre from the structure of the $F$-vector space
+schemes. The relations
+\eqref{pf:towergeo:eq-rel1}--\eqref{pf:towergeo:eq-rel2} express that the defect $h$ is transported by
+Frobenius with the factor $p^k$, which is how the coefficients $\towergeoco$ arise in
+\cref{pf:towergeo:orbits}.
+\end{remark}
+
+The chart bundles to which \cref{pf:towergeo:relations} is applied are read off from lattices on Hodge
+components. Let $\xi\colon\Spec\Omega\to X$ be a point of a scheme $X$ of which every point is a specialisation and
+whose local rings are given by the Segre coordinates of $y$, $V$ an $\Omega$-vector space, $b_1,\dots,b_r\in V$
+linearly independent, and $Q=(x,x',f,g)$ a local pair over $\Z$ indexed by $\{1,\dots,r\}$. For a set $T$ of points,
+lattices $L,L'$ in $V$ (submodules $L_q$ over the local rings $\mathcal O_q$, $q\in X$) form a \emph{lattice flag
+pair} on $T$ with $b$ and $Q$ if on $T$ both are flagged by $b$ (the partial spans of $b$ give full flags of
+subbundles), their graded pieces are the line bundles of multidegrees $x_i$, resp.\ $x'_i$, with generic generators
+$e_i,e'_i$, and $f_i(y)=(e'_i/e_i)\,g_i(y)$ with $g_i(y)\ne0$. The \emph{coordinate lattice} of $L$ over $O$ in the
+chart $c$ is the set of $z\in\Omega^r$ with $\sum_iz_ib_i\in L_q$ for all points $q$ of the chart $c$ whose local
+ring contains $O$.
+
+\begin{proposition}[Chart bundles of lattice flag pairs]\label{pf:towergeo:dedekind}
+Let $y$ define an arithmetic variety of dimension $d+1$ and $\xi$, $X$ be as above, $A\subseteq\Omega$ a Dedekind
+domain finite over $\Z$ containing the constants of $y$, $p$ a prime, $\mathfrak m\ni p$ a prime of $A$,
+$O=A_{\mathfrak m}$ with uniformiser $\varpi$. Let $(L,L')$ be a lattice flag pair on the points over $p$ with $b$
+and $Q$, such that $L_q=L'_q$ at the points $q$ over $p$ outside the fibre over $p$. Then there are chart bundles
+$B,B'$ over $O$ whose lattices in every chart are the coordinate lattices of $L$, resp.\ $L'$, and which form a
+flag pair for $Q\otimes O$ and $\varpi$.
+\formallabel{GlobalTheory.T.arith_variety_dedekind_constants}
+\formallabel{GlobalTheory.CompanionTheory.Ar.CoordRead.flagPair_coord}
+\end{proposition}
+
+\begin{proof}
+\emph{Reduction to the standard basis.} The map $c_b\colon\Omega^r\to V$, $z\mapsto\sum_iz_ib_i$, is injective.
+The preimages $c_b^{-1}(L)$, $c_b^{-1}(L')$ are lattices in $\Omega^r$ which form a lattice flag pair with the
+standard basis and the same $Q$: $c_b$ maps the partial spans of the standard basis onto those of $b$, so the flags
+and their graded pieces correspond. They agree where $L$ and $L'$ agree, and their coordinate lattices are those of
+$L$ and $L'$. Hence we may assume that $V=\Omega^r$ and $b$ is the standard basis.
+
+\emph{The bundles.} By \lref{GlobalTheory.T.dedekind_constants_degree_one}, applied to $L$ and to $L'$, there
+are chart bundles $B,B'$ over $O$ whose lattices in every chart are the coordinate lattices of $L$, resp.\ $L'$,
+and which carry the full flags given by the bases $v=(e_ib_i)_i$, resp.\ $v'=(e'_ib_i)_i$, with graded pieces the line
+bundles of multidegrees $x_i$, resp.\ $x'_i$. By \lref{GlobalTheory.T.localization_model_over_place}, $P^O_y$ is
+a model over $O$ of relative dimension $d$.
+
+\emph{Same generic fibre.} A point $q$ whose local ring contains $O$ lies over $p$, since every prime $p'\ne p$ is a
+unit in $O$; if moreover $\varpi$ is a unit at $q$, then $q$ is not in the fibre over $p$, because $p$ is a unit times
+a power of $\varpi$ in $O$. At such points $L_q=L'_q$. Now let $z$ lie in the lattice of $B$ in the chart $c$. Then
+$z\in L'_q$ at all points $q$ of the chart over $O$ at which $\varpi$ is a unit, and a regular function at these
+points becomes regular in the chart after multiplication by a power of $\varpi$; by the flag structure of $B'$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.LatFlag.flag_sections}), $\varpi^nz$ lies in the lattice of $B'$ for
+some $n$. By symmetry $B$ and $B'$ have the same generic fibre.
+
+\emph{Flag pair.} The change of basis from $v$ to $v'$ is diagonal with entries $e'_i/e_i$, and
+$f_i(y)=(e'_i/e_i)g_i(y)$ with $f_i,g_i$ multihomogeneous of degrees differing by $x_i-x'_i$. At a point of a chart
+$c$ over $O$ at which $\varpi$ is a unit, the graded pieces of $L$ and $L'$ agree, so the ratio
+$y_c^{x'_i}e'_i/(y_c^{x_i}e_i)$ of their local generators is a unit there; hence $f_i/g_i$, written in the chart, is
+a unit at every relevant prime of the chart ring not containing $\varpi$, i.e.\ its divisor is vertical. Hence
+$(B,B')$ is a flag pair for $Q\otimes O$ and $\varpi$.
+\end{proof}
+
+\subsubsection*{The comparison}
+
+\begin{theorem}\label{pf:towergeo:hodge}
+The positivity of families \textup{(F)} implies the Hodge comparison \textup{(HC)}.
+\formallabel{GlobalTheory.T.model_on_hodge_from_family}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.HodgeModel.model_on_hodge_of_family_pos}
+\end{theorem}
+
+\begin{proof}
+Let the data of (HC) be given: $\towergeoHC$, $d$, a flag $\mathrm{Fl}$ with two levels $(S_0,T)$,
+$p\in S\setminus S_0$ Hodge--Tate free with $p\ne2$, $p\nmid d_E$, a Frobenius $\varphi$ at $p$, and a place
+$O$ of $\Omega$ over $p$, the localisation of $A$ at $\mathfrak m$, with uniformiser $\varpi$. Write
+$P=P^O_y$ and $T_O=T\otimes O$.
+
+\emph{Step 0.} If $N=0$, both sides of \eqref{pf:towergeo:eq-fcc} vanish: the local pair
+$T\circ(\tau,\cdot)$ has no indices, and $\pi_{j,k-1}(s)=0$ for all labels, so $\mathcal B_j=0$. Assume
+$N>0$. Then $p$ is prime (as $p\in S$) and $\Omega$ has characteristic $0$.
+
+\emph{Step 1 (the model over $O$).} By \lref{GlobalTheory.T.arith_variety_coord_ideal}, $A$ is a
+Dedekind domain, finite over $\Z$, contained in $\Omega$ and containing the constants of $y$, and for every
+place $O$, $O$ is integrally closed in $\Omega$ and the ratios of $y$ generate $\Omega$ over $O$. By
+\lref{GlobalTheory.T.localization_model_over_place}, $P$ is the extension of $P^A_y$, it is a model
+over $O$ of relative dimension $d$, and every local pair over $\Z$ whose divisors are supported over a finite
+set of primes, with $f_i/g_i$ a unit elsewhere, becomes vertical over $O$. Since $\mathrm{Fl}$ has two levels
+$(S_0,T)$, this applies to $T$ with the primes of $S\setminus S_0$; hence $T_O$ is vertical.
+
+\emph{Step 2 (families).} The bases $b_s$ of $\mathrm{Fl}$ are linearly independent and span
+$V^{\mathrm{gen}}_s$: they are linearly independent by the definition of a flag, they lie in
+$V^{\mathrm{gen}}_s$, and their number is the rank of the vector bundle $V_s$, whose generic fibre is
+$V^{\mathrm{gen}}_s$. Apply (F) with these bases at the place $O$: for every label $t$ we obtain $\Sigma'_t$,
+$\epsilon_t$, $\varphi'_t$, a finite field $F_t$ of characteristic $p$, $w_t\in O$, $\sigma_t$ and Lie lattice
+data $D_{f,t}(c)$ forming a pre-family related to $\mathrm{dR}$ and $\mathrm{HT}_p$ as in
+\cref{pf:towergeo:def-fam}.
+
+\emph{Step 3 (roots of unity).} Let $n=\prod_t(|F_t|-1)>0$. By
+\lref{GlobalTheory.T.exists_dvr_extension_field} there are a discrete valuation ring $O'$, a local
+algebraic extension of $O$, a field $\Omega'\supseteq\Omega$ containing $O'$, and a primitive $n$-th root of
+unity $\zeta\in O'$ with $\Omega'=\Omega(\zeta)$. Then $\zeta^{n/(|F_t|-1)}$ is a primitive
+$(|F_t|-1)$-th root of unity. Let $\varpi'$ be a uniformiser of $O'$, $P'=P^{O'}_y$ and $T_{O'}=T\otimes O'$.
+By \lref{GlobalTheory.T.model_over_dvr_extension}, $P'$ is the extension of $P$ and a model over $O'$ of
+relative dimension $d$. The ratios of $y$ generate $\Omega'$ over $O'$: the subfield of $\Omega'$ generated by
+$O'$ and the ratios contains the image of $O$ and the ratios, hence $\Omega$ (which they generate), and it
+contains $\zeta\in O'$, hence $\Omega(\zeta)=\Omega'$.
+
+\emph{Step 4 (lattice flag pairs).} By \lref{GlobalTheory.T.hodge_flag_outside_prime_fibres},
+$\mathrm{HT}_{p,s}=\mathrm{dR}_s$ at the points outside the fibres over all primes; in particular the two
+lattices agree at the points over $p$ outside the fibre over $p$. For a local pair $T'=(x,x',f,g)$ indexed
+by $\{0,\dots,r-1\}$ put $T'^\dagger=(-x\circ\rho,-x'\circ\rho,g\circ\rho,f\circ\rho)$, $\rho$ the reversal of
+the indices; $\dagger$ is an involution. By \lref{GlobalTheory.T.hodge_flag_cm_type_degree}, for every
+label $s$ the pair $(\mathrm{dR}_s,\mathrm{HT}_{p,s})$ is a \emph{lattice flag pair} over $p$ with the bases
+$b_s$ and the local pair $\lambda_s$ defined by
+\[
+\lambda_{(\tau,1)}=T\circ(\tau,i)_{i<p_D},\qquad\lambda_{(\tau,2)}=\bigl(T\circ(\tau,p_D+i)_{i<q_D}\bigr)^\dagger:
+\]
+both lattices are flagged by $b_s$, their graded pieces are line bundles of multidegrees $\lambda_s.x$ and
+$\lambda_s.x'$, and $\lambda_s.f(y)=(e'/e)\lambda_s.g(y)$ for the generic generators. Put
+$\omega_s=\lambda_{s^\vee}^\dagger$.
+
+\emph{Step 5 (chart bundles).} By \cref{pf:towergeo:dedekind}, for every $s$
+there are chart bundles $B_s,B'_s$ over $O$, whose lattices in each chart are the coordinates of
+$\mathrm{dR}_s$ and $\mathrm{HT}_{p,s}$ in the basis $b_s$, forming a flag pair for $\lambda_s\otimes O$. By
+\lref{GlobalTheory.T.flag_pair_chart_bundle_compat} (the duals of a flag pair form a flag pair for the
+pair transformed by $\dagger$), the dual chart bundles $C_s,C'_s$ of $B_{s^\vee},B'_{s^\vee}$ form a flag pair
+for $\omega_s\otimes O$. By \lref{GlobalTheory.T.model_descent_valuation_fibre} (the spans over the
+chart rings of $O'$ of the base change of a flag pair form a flag pair for $\varpi'$), the $O'$-spans
+$LB_s,LB'_s,LC_s,LC'_s$ of the base changes are flag pairs for $\lambda_s\otimes O'$ and $\omega_s\otimes O'$.
+
+\emph{Step 6 (relations on orbits).} Fix a label $t$. By
+\lref{GlobalTheory.T.model_descent_generic_fibre}, applied to the pre-family of Step 2 and the root of
+unity of Step 3, there are characters $\chi$ and a lattice family $D'_{f,t}$ over $O'$ whose lattices are the
+$O'$-spans of the base changes of those of $D_{f,t}$. By the relation of $D_{f,t}$ with $\mathrm{dR}$ and
+$\mathrm{HT}_p$ and Step 5, the chart bundles $LB_{\epsilon_t\tau}$, $LB'_{\epsilon_t\tau}$,
+$LC_{\epsilon_t\tau}$, $LC'_{\epsilon_t\tau}$ ($\tau\in\Sigma'_t$) realise $D'_{f,t}$, and
+\cref{pf:towergeo:relations} gives
+$\towergeoRel(P',d;p,\varphi'_t,(\lambda_{\epsilon_t\tau}\otimes O')_\tau,(\omega_{\epsilon_t\tau}\otimes O')_\tau)$.
+
+\emph{Step 7 (labels).} Since $\epsilon_t\varphi'_t=\varphi\epsilon_t$, $t\in\epsilon_t(\Sigma'_t)$ and
+$p\ge2$, \cref{pf:towergeo:orbits} gives $\towergeoLC(P',d;p,\varphi,\lambda\otimes O',\omega\otimes O')$.
+
+\emph{Step 8 (flags).} Apply \cref{pf:towergeo:flag-from-labels} over $O'$ with $j=p_D$, $j'=q_D$,
+$\mathrm{lie}=\lambda\otimes O'$ and $\mathrm{om}=\omega\otimes O'$: condition (i) holds by the definition
+of $\lambda$ and because $\dagger$ is an involution, so that
+$\omega_{(\tau,1)}=\lambda_{(\tau,2)}^\dagger=T\circ(\tau,p_D+i)_{i<q_D}$; condition (ii) holds because
+$\lambda_{(\tau,2)}.x$ is the reversal of $(-T.x(\tau,p_D+i))_i$ and root numbers are invariant under
+permutations of the indices; condition (iii) is Step 7. As $p\ne0$ in $O'$,
+$\towergeoFC_{p_D}(P',d;p,\varphi,T_{O'})$ holds.
+
+\emph{Step 9 (descent).} By \cref{pf:towergeo:descent}, applied with Steps 1 and 3, Step 8 gives
+$\towergeoFC_{p_D}(P,d;p,\varphi,T_O)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Nefness of root lines on the special fibres}\label{pf:towergeo:sec-nef}
+
+This subsection proves two nefness statements for the root lines of root models which come from Hodge
+components: at the primes of $S$ at which the Hodge component is Hodge--Tate free, from the trivial flags of
+\cref{pf:towergeo:sec-triv}, and at the primes outside $S$, from a statement on semi-abelian schemes over curves
+in characteristic $p>2$. They are used in the proof of the volume theorem and in \cref{pf:towergeo:sec-nine}.
+
+Let $M$ be a root model of type $(\Psi,N)$. A \emph{weight} is a function $\lambda\colon\Psi\times\{0,\dots,N-1\}\to\R$;
+it is \emph{dominant} if $\lambda(\tau,b)\le\lambda(\tau,a)$ for $a\le b$; $\|\lambda\|$ is its supremum norm, and
+$\mathrm{gap}_j(\lambda,\tau)=\lambda(\tau,j-1)-\lambda(\tau,j)$ for $1\le j<N$. For $b\in\R$, $\mathcal N_j(b,\lambda)$
+means $4|\Psi|\,\|\lambda\|\le(b-2)\,\mathrm{gap}_j(\lambda,\tau)$ for all $\tau$. The lines of $M$ are
+$\ell_t(r)=x(t,r)$ for the root indices $r$ and $\ell_t(\infty)=A$, with coefficients
+$\mathrm{coef}(\lambda,s)(r)=-\lambda(r)$ and $\mathrm{coef}(\lambda,s)(\infty)=s/k_A$. A \emph{vertical curve of
+characteristic $p$} is a relevant multihomogeneous prime $W\supseteq P_M$ with $W\cap\Z=p\Z$ and
+$\dim\Z[x]/W=1+|K|$; $\deg(a\cdot W)$ denotes the degree on $W$ of the line bundle of multidegree $a$, which is
+additive in $a$. As in the proof of the volume theorem, $\mathrm{Nef}_p(\lambda,s)$ means
+$\sum_r\mathrm{coef}(\lambda,s)(r)\deg(\ell_1(r)\cdot W)\ge0$ for every vertical curve $W$ of characteristic $p$.
+A multidegree $a$ is \emph{nef on the fibres} of $P_M$ if $\deg(a\cdot W)\ge0$ for all vertical curves $W$ of all
+characteristics.
+
+\begin{lemma}[Abel summation]\label{pf:towergeo:abel}
+Let $\lambda_0\ge\lambda_1\ge\dots\ge\lambda_{N-1}$ and $x_0,\dots,x_{N-1}$ be real numbers with
+$X_i=\sum_{l<i}x_l\ge0$ for $0\le i\le N$ and $X_N=0$. Then $\sum_l\lambda_lx_l\ge0$.
+\formallabel{PositivityTheory.HtPt.Gf.abel_sum}
+\end{lemma}
+
+\begin{proof}
+Since $x_l=X_{l+1}-X_l$ and $X_0=X_N=0$,
+$\sum_{l=0}^{N-1}\lambda_lx_l=\sum_{i=1}^{N-1}(\lambda_{i-1}-\lambda_i)X_i\ge0$.
+\end{proof}
+
+\begin{lemma}[Trivial flags are nef]\label{pf:towergeo:trivnef}
+Let $M$ be a root model of type $(\Psi,N)$ with $M.\Omega$ of characteristic $0$, $p$ a prime, and $o\subseteq M.\Omega$
+the ring of fractions $a/b$ with $a\in\Z$, $b\in\N$, $p\nmid b$. If $\towergeoTriv_p(o;M.y,(x(\tau,i))_i)$ holds for
+every $\tau$, then $M$ satisfies $\mathrm{Nef}_p(\mu,0)$ for every dominant $\mu$.
+\formallabel{PositivityTheory.HtPt.Gf.trivflag_nef}
+\end{lemma}
+
+\begin{proof}
+Let $W$ be a vertical curve of characteristic $p$ and $\tau\in\Psi$. By
+\lref{PositivityTheory.HtPt.Gf.trivflag_deg}, the trivial flag modulo $p$ restricts to a flag of the trivial
+bundle of rank $N$ on $W$ whose graded pieces are the line bundles of multidegrees $x(\tau,i)$, so that
+$\sum_{l<i}\deg(x(\tau,l)\cdot W)\le0$ for $0\le i\le N$ (a subbundle of a trivial bundle on a curve has
+nonpositive degree) and $\sum_{l<N}\deg(x(\tau,l)\cdot W)=0$. \Cref{pf:towergeo:abel}, applied to
+$\lambda_l=\mu(\tau,l)$ and $x_l=-\deg(x(\tau,l)\cdot W)$, gives $\sum_l-\mu(\tau,l)\deg(x(\tau,l)\cdot W)\ge0$.
+Summing over $\tau$, and noting that the reference line has coefficient $0/k_A=0$, gives $\mathrm{Nef}_p(\mu,0)$
+at $W$.
+\end{proof}
+
+\begin{proposition}[Nefness at Hodge--Tate free primes]\label{pf:towergeo:rootw}
+Assume the Hodge--Tate statement \textup{(HT)}. Let $Y$ be a model of $X^o$ over a ring $O$, $S$ a finite set of
+primes, $M$ a root model of type $(\Psi_H,N)$, $\towergeoHC$ a Hodge component of $Y$ with primes $S$ and
+coordinates $M.y$ and $\mathrm{Fl}$ a flag of $\towergeoHC$ with root lines $(M.x,e)$. If $p\in S$ and $\towergeoHC$
+is Hodge--Tate free at $p$, then $M$ satisfies $\mathrm{Nef}_p(\mu,0)$ for every dominant $\mu$.
+\formallabel{GlobalTheory.T.root_lines_weight_bound_of_free}
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.rootModel_nefAt_of_hodgeCpt}
+\end{proposition}
+
+\begin{proof}
+If $N=0$, the only line is the reference line, with coefficient $0/k_A=0$, and the assertion is trivial. Let
+$N>0$. The prime $p$ is prime as $p\in S$, and $M.\Omega$ has characteristic $0$ since it contains the image of the
+constants $F_c$. Let $o\subseteq M.\Omega$ be the ring of fractions $a/b$ with $p\nmid b$. By
+\cref{pf:towergeo:htcharts}, $\towergeoTriv_{p^{R(p)-2}}(o;M.y,(x(\tau,i))_i)$ holds for every $\tau$. Since
+$R(p)\ge4$, $p$ divides $p^{R(p)-2}$, so $\towergeoTriv_p(o;M.y,(x(\tau,i))_i)$ holds by the remark after
+\cref{pf:towergeo:def-trivmod}, and \cref{pf:towergeo:trivnef} gives the assertion.
+\end{proof}
+
+At the primes outside $S$ the input is a statement on curves. A geometric fibre of a semi-abelian scheme is
+\emph{power-free} if it is an extension of an abelian variety $B$ by a torus such that the pull-back of the line
+bundle of the semi-abelian scheme is isomorphic to the pull-back of a line bundle on $B$ with trivial group
+$K(\cdot)$. For a field $K$ of characteristic $p$, a \emph{curve} over $K$ is a complete regular curve given by its
+places, and for a model $V$ over $K$ of the Lie algebra of a semi-abelian scheme $t$ along a curve $C$ and a subspace
+$U\subseteq V$, $d(U)$ denotes the degree on $C$ of the saturation of $U$ in the Lie algebra lattice of $t$ along
+$C$. A family $\chi$ of ring homomorphisms $\OO_E\to k$, indexed by $\Psi\sqcup\Psi$, is \emph{split} if its members
+are pairwise distinct.
+
+\begin{definition}[Curve statement]\label{pf:towergeo:def-curve}
+For a prime $p$, integers $j,q\ge1$ and $\mu\colon\Psi\times\N\to\R$, the \emph{gap condition} $\mathrm{GC}_p(j,q,\mu)$
+means: $\mu(\tau,i+1)\le\mu(\tau,i)$ for $1\le i<j+q$, and there are $C,g\in\R$ with $|\mu(\tau,i)|\le C$ for
+$1\le i\le j+q$, $g\le\mu(\tau,j)-\mu(\tau,j+1)$ for all $\tau$, and $4|\Psi|\,C\le(p-2)g$. The \emph{curve
+statement} \textup{(CC)} asserts: for every host $H$ on a CM field $E$, semi-abelian scheme $t$ with
+$\OO_E$-action over a scheme $X_0$ whose power maps are bijective on global functions, fields $k\subseteq K$ with
+$K$ of characteristic $p>2$, curve $C$ over $K$ with a morphism to $X_0$ at whose places the fibres of $t$ are
+power-free and on which the elements of $k$ have valuation $\le1$, model $V$ of the Lie algebra of $t$ at the
+generic point of $C$ with the action of $\OO_E$, split family $\chi$ with $\chi_{(\tau,2)}=\chi_{(\tau,1)}\circ c$,
+$j,q\ge1$, chains of subspaces $0=W_\tau(0)\subseteq\dots\subseteq W_\tau(j)=V_{\chi(\tau,1)}$ and
+$0=L_\tau(0)\subseteq\dots\subseteq L_\tau(q)=V_{\chi(\tau,2)}$ of the eigenspaces, and $\mu$ with
+$\mathrm{GC}_p(j,q,\mu)$:
+\begin{multline}\label{pf:towergeo:eq-curve}
+\sum_\tau\Bigl(\sum_{i<j}\mu(\tau,i+1)\bigl(d(W_\tau(i+1))-d(W_\tau(i))\bigr)\\
++\sum_{m<q}\mu(\tau,j+m+1)\bigl(d(L_\tau(q-m-1))-d(L_\tau(q-m))\bigr)\Bigr)\le0.
+\end{multline}
+\formal{GlobalTheory.CompanionTheory.Ar.Conj.CurveSemiAbelianConjecture}
+\end{definition}
+
+The curve statement holds by \lref{GlobalTheory.T.curveSemiAbelianConjecture}. It is applied through de Rham
+ties. Let $M$ be a root model of type $(\Psi,N)$, $1\le j\le N$ and $p$ a prime. A \emph{de Rham tie} of $M$ at
+$(j,p)$ consists of: a scheme $X$ with a point $\xi\colon\Spec M.\Omega\to X$ of which every point is a
+specialisation and whose local rings are given by the Segre coordinates of $M.y$; a semi-abelian scheme $t$ with
+$\OO_E$-action over $X$ whose power maps are bijective on global functions and whose fibres at the points in the
+fibre over $p$ are power-free; a model $V$ of its Lie algebra at $\xi$ with the action $r$ of $\OO_E$; pairwise
+distinct embeddings $\sigma_s\colon\OO_E\to M.\Omega$ ($s\in\Psi\sqcup\Psi$) with $2|\Psi|=[E:\Q]$,
+$\sigma_{(\tau,2)}=\sigma_{(\tau,1)}\circ c$ and values regular at the points over $p$; the condition $p\nmid d_E$; and
+bases $b_1(\tau)$ of size $j$ and $b_2(\tau)$ of size $N-j$ of the $\sigma_{(\tau,1)}$- and
+$\sigma_{(\tau,2)}$-eigenspaces of $V$ which define full flags of the eigenlattices of the Lie algebra at the points
+in the fibre over $p$, with graded pieces the line bundles of multidegree $x(\tau,i)$ at position $i<j$, resp.\
+$-x(\tau,i)$ at position $N-1-i$ for $i\ge j$.
+
+\begin{lemma}[Reduction to curves]\label{pf:towergeo:m2curve}
+Assume \textup{(CC)}. Let $M$ be a root model of type $(\Psi,N)$, $1\le j<N$, $p>2$ a prime, and assume that $M$
+has a de Rham tie at $(j,p)$. Then $M$ satisfies $\mathrm{Nef}_p(\mu,0)$ for every dominant $\mu$ with
+$\mathcal N_j(p,\mu)$.
+\formallabel{GlobalTheory.T.rootLineDeRhamModel_of_curveSemiAbelian}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Conj.m2Model_of_m2Curve}
+\end{lemma}
+
+\begin{proof}
+Let $W$ be a vertical curve of characteristic $p$; $M.\Omega$ has characteristic $0$ as $M.y$ defines an arithmetic
+variety.
+
+\emph{The curve.} By \lref{GlobalTheory.T.function_field_model_exists} there are a function field $K$ of
+transcendence degree one over $\F_p$ and coordinates $w$ in $K$, generating $K$ and with a nonzero entry in every
+block, whose coordinate ideal is $W$. By \lref{GlobalTheory.T.function_field_curve_exists}, $K$ is the function
+field of a curve $C$ (with at least one place) on which the elements algebraic over $\F_p$ have valuation $\le1$.
+Since $P_M\subseteq W$, \lref{GlobalTheory.T.curve_through_coordinates} gives a $K$-point $z$ of $X$ with
+coordinates $w$ and a curve in $X$ along $C$ through $z$, all of whose points lie in the fibre over $p$ (as $p=0$
+in $K$).
+
+\emph{Characters and flags.} The values of the $\sigma_s$ at $z$ are regular; reducing them gives, by
+\lref{GlobalTheory.T.split_characters_unramified} (as $p\nmid d_E$ and there are $[E:\Q]$ pairwise distinct
+$\sigma_s$), a split family $\chi_s\colon\OO_E\to\bar\F_p\cap K$ with $\chi_{(\tau,2)}=\chi_{(\tau,1)}\circ c$; the
+elements of $\bar\F_p\cap K$ have valuation $\le1$ on $C$. Let $V_z$ be the Lie algebra of $t$ at $z$, a
+finite-dimensional $K$-vector space with an action of $\OO_E$. The flags of the tie at the points of the curve give
+chains $W_\tau(i)$ ($i\le j$) and $L_\tau(i)$ ($i\le N-j$) of subspaces of the $\chi$-eigenspaces of $V_z$, from
+$0$ to the eigenspace, such that the saturations have the degrees of the graded pieces: by
+\lref{GlobalTheory.T.curve_lattice_degree_formula} the degree along $C$ of a line bundle of multidegree $a$ on
+the fibre over $p$ is the coordinate degree of $w$ in $a$, degrees along $C$ are unique
+(\lref{GlobalTheory.T.curve_degree_unique}), and the coordinate degree equals $\deg(a\cdot W)$
+(\lref{GlobalTheory.T.function_field_degree_eq}). Writing $x_r=\deg(x(r)\cdot W)$ we get
+\[
+x_{(\tau,i)}=d(W_\tau(i+1))-d(W_\tau(i))\quad(i<j),\qquad
+x_{(\tau,i)}=d(L_\tau(N-1-i))-d(L_\tau(N-i))\quad(i\ge j).
+\]
+
+\emph{The weights.} Put $\mu'(\tau,i)=\mu(\tau,i-1)$ for $1\le i\le N$ (and $\mu'(\tau,i)=\mu(\tau,N-1)$ for larger
+$i$). Then $\mathrm{GC}_p(j,N-j,\mu')$ holds: the monotonicity is the dominance of $\mu$, $|\mu'|\le C=\|\mu\|$, and
+with $g=\min_\tau\mathrm{gap}_j(\mu,\tau)=\min_\tau(\mu'(\tau,j)-\mu'(\tau,j+1))$ the inequality $4|\Psi|C\le(p-2)g$
+is $\mathcal N_j(p,\mu)$. Substituting the degrees, the left side of \eqref{pf:towergeo:eq-curve} with $q=N-j$ is
+\[
+\sum_\tau\Bigl(\sum_{i<j}\mu(\tau,i)x_{(\tau,i)}+\sum_{m<N-j}\mu(\tau,j+m)x_{(\tau,j+m)}\Bigr)=\sum_r\mu(r)x_r
+\]
+By (CC) it is $\le0$, i.e.\
+$\sum_r-\mu(r)\deg(x(r)\cdot W)\ge0$; as the reference line has coefficient $0$, this is $\mathrm{Nef}_p(\mu,0)$ at
+$W$.
+\end{proof}
+
+\begin{proposition}[Nefness at good primes]\label{pf:towergeo:nefgood}
+Let $X^o$ be a family of moduli spaces, $l$ a level which is good at every prime, and $Y$ a model of $X^o_l$ over
+$\OO_{F_c}$ which dominates compatible systems of local models over the valuation rings of $\C$ above all primes
+whose fibres are split and satisfy the further condition required in the definition of global models (for
+instance, $Y$ global). Let $p_D,q_D\ge1$, $S$ a finite set of primes, $M$ a root model of type $(\Psi_H,N)$,
+$\towergeoHC$ a Hodge component of $Y$ with primes $S$ and coordinates $M.y$, and $\mathrm{Fl}$ a flag with root lines
+$(M.x,e)$. Let $p>2$ be a prime with $p\notin S$ and $p\nmid d_E$. Then $M$ satisfies $\mathrm{Nef}_p(\mu,0)$ for every
+dominant $\mu$ with $\mathcal N_{p_D}(p,\mu)$.
+\formallabel{GlobalTheory.T.hodge_cpt_global_nef_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Conj.hodge_cpt_global_nefness}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.T.global_model_power_free}, the domination of the local models implies that the power
+maps of $Y.t$ are bijective on global functions and that its geometric fibres at all points of characteristic $p$
+are power-free. Hence, as $p\notin S$ and $p\nmid d_E$, \lref{GlobalTheory.T.root_lines_unramified_primes}
+provides a de Rham tie of $M$ at $(p_D,p)$, whose data are taken from $\towergeoHC$ and the flag (outside $S$ the
+patched lattices of $\towergeoHC$ are its de Rham lattices). As $1\le p_D<N$ and $p>2$,
+\cref{pf:towergeo:m2curve} and the curve statement \textup{(CC)} give the assertion.
+\end{proof}
+
+\begin{lemma}[Nefness of the block sums]\label{pf:towergeo:blocknef}
+Assume $\towergeoG$, let $Y$ be global, $p_D,q_D\ge1$, $S$ a finite set of primes, $M$ a root model of type
+$(\Psi_H,N)$, $\towergeoHC$ a Hodge component of $Y$ with primes $S$ and coordinates $M.y$ which is Hodge--Tate free
+at all $p\in S$, and $\mathrm{Fl}$ a flag with root lines $(M.x,e)$. Assume that every prime $r\notin S$ satisfies
+$r\nmid d_E$, $r\ge4f+2$ and $r>2$. Then the multidegrees $\sum_\tau\sum_{i\ge p_D}x(\tau,i)$ and
+$-\sum_\tau\sum_{i<p_D}x(\tau,i)$ are nef on the fibres of $P_M$.
+\formallabel{GlobalTheory.T.nefOnFibres_block_xdeg_sums_of_rootLines}
+\formallabel{GlobalTheory.CompanionTheory.Relay.nefOnFibres_block_xdeg_sums_of_rootLines}
+\end{lemma}
+
+\begin{proof}
+Let $\mu$ be dominant with $|\mu(\tau,i)|\le1$ and $\mathrm{gap}_{p_D}(\mu,\tau)=1$ for all $\tau$, and $r$ a prime.
+Then $M$ satisfies $\mathrm{Nef}_r(\mu,0)$: if $r\in S$ by \cref{pf:towergeo:rootw} (the statement (HT) is part of
+$\towergeoG$); if $r\notin S$, then $\mathcal N_{p_D}(r,\mu)$ holds because
+$4f\|\mu\|\le4f\le r-2=(r-2)\,\mathrm{gap}_{p_D}(\mu,\tau)$, and \cref{pf:towergeo:nefgood} applies. Take
+$\mu=-\mathbf 1_{i\ge p_D}$: it is dominant with gap $0-(-1)=1$, and $\mathrm{Nef}_r(\mu,0)$ says
+$\sum_\tau\sum_{i\ge p_D}\deg(x(\tau,i)\cdot W)\ge0$ for all vertical curves $W$ of characteristic $r$. Take
+$\mu=\mathbf 1_{i<p_D}$: it is dominant with gap $1-0=1$, and $\mathrm{Nef}_r(\mu,0)$ says
+$-\sum_\tau\sum_{i<p_D}\deg(x(\tau,i)\cdot W)\ge0$. By additivity of $\deg(\cdot\cdot W)$ in the multidegree, these are
+the assertions.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Geometric height constants}\label{pf:towergeo:sec-nine}
+
+We use the notation of \cref{pf:towergeo:def-nine}. Throughout, $f=|\Psi_H|$, $N=p+q$ and $j'=N-j$.
+
+\begin{lemma}[Numbers of a host]\label{pf:towergeo:host-numbers}
+For a host $H$ on $E$: $\mathrm{rd}_E\ge2$, $\Psi_H\ne\emptyset$ and $2|\Psi_H|=[E:\Q]$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.HostNumbers.host_numbers}
+\end{lemma}
+
+\begin{proof}
+For an embedding $\tau\colon E\to\C$, $\tau(\sqrt{-d})^2=-d$, so $\tau(\sqrt{-d})=\pm\rho_0$, and $\rho_0\ne0$
+is purely imaginary, so $\bar\rho_0=-\rho_0\ne\rho_0$. Hence $\tau\mapsto\bar\tau$ maps $\Psi_H$ bijectively
+onto its complement, and $2|\Psi_H|=[E:\Q]>0$. Let $F$ be the maximal real subfield of $E$ and $m=[F:\Q]$.
+As $E/F$ is unramified (part of the definition of a host), the relative different is trivial and
+$|d_E|=|d_F|^{[E:F]}=|d_F|^2$ \cite[Ch.~III, \S2]{Neukirch1999}. If $m=1$ this gives $|d_E|=1$, which is
+impossible for a quadratic field. If $m\ge2$, Minkowski's bound for the totally real field $F$ gives
+$|d_F|\ge(m^m/m!)^2$ \cite[Ch.~III, \S2]{Neukirch1999}, and $(m^m/m!)^2\ge2^m$: by induction
+$2^mm!\le2m^m$ for $m\ge1$ (the step uses $(1+1/m)^m\ge2$), hence $4^m(m!)^2\le4m^{2m}$, and $4\le2^m$
+gives $2^m(m!)^2\le m^{2m}$. Therefore $|d_E|\ge4^m=2^{[E:\Q]}$, i.e.\ $\mathrm{rd}_E\ge2$.
+\end{proof}
+
+\subsubsection*{The cusp weight on fundamental sets}
+Let $E$ be a CM field and $g\in\N$. A \emph{Riemann lattice} $R$ of genus $g$ on an $\OO_E$-module $\Lambda$
+which is free of rank $2g$ over $\Z$ consists of a unimodular alternating form $\langle\,,\rangle$ on
+$\Lambda$ with $\langle ax,y\rangle=\langle x,\bar ay\rangle$; an additive map $P\colon\Lambda\to\C^g$; a
+positive definite Hermitian matrix $H_R$ with $\Im H_R(Px,Py)=\langle x,y\rangle$; and an action of $\OO_E$
+on $\C^g$ compatible with $P$. Its \emph{first
+minimum} $\lambda_1(R)$ is the infimum of the $H_R$-norms of the vectors $P(v)$, $v\ne0$. A \emph{cusp} of $R$ is
+a nonzero saturated isotropic $\OO_E$-submodule $I\subseteq\Lambda$; for a family $\sigma$ of embeddings it
+has a normalised covolume $\mathrm{nz}_\sigma(I)>0$, and the \emph{cusp weight} is
+$w^{\mathrm{cusp}}_\sigma(R)=\max\bigl(0,\sup_I(-\log\mathrm{nz}_\sigma(I))\bigr)$, the supremum over the
+cusps. A \emph{universal family} $F$ of type $(\Psi,j,j')$ consists of a CM family
+$\sigma\colon\Psi\to\Hom(\OO_E,\C)$ (so that $2|\Psi|=[E:\Q]$), a fixed form on $\Lambda$, and a holomorphic
+ family
+$t\mapsto R(t)$ of Riemann lattices with this form over the \emph{ball domain} $\mathcal D\subseteq\C^n$,
+$n=|\Psi|jj'$, of signature $(j,j')$ at $\sigma$, with eigenframes whose log-determinant is the ball
+potential, such that every Riemann lattice with this form and signature is equivalent to $R(t)$ for exactly
+one $t\in\mathcal D$. The \emph{ball density} is $\delta(t)=\exp((j+j')\,\phi_{\mathrm{ball}}(t))$. An
+\emph{arithmetic group} $\Gamma$ is a subgroup of finite index of the automorphism group of the form, and a
+\emph{fundamental set} is a measurable $\mathcal F\subseteq\mathcal D$ containing exactly one point of every
+$\Gamma$-equivalence class.
+
+A \emph{group dictionary} for $F$ consists of a Hermitian form $h$ on $E^{j+j'}$ and an $\OO_E$-linear embedding of
+$\Lambda$ whose image is a lattice integral for $h$ (up to a fixed denominator), orthogonality for $h$ corresponding to
+the vanishing of the form of $F$ on $\OO_E$-multiples; a positive definite majorant of $h$, with length function
+$|\cdot|_M$; the archimedean unitary group $G$ of $h$ and the discrete subgroup $G_\Lambda$ of elements stabilising the
+lattice; a continuous map $\pi$ from $G$ onto $\mathcal D$ whose fibres are the cosets of the stabiliser of the
+majorant; and $\kappa>0$ such that the squared norm of a lattice vector $x$ in $R(\pi(a))$ is $\kappa|a^{-1}x|_M^2$.
+For $C\in\N$, the \emph{short set} $V_C$ is the set of nonzero lattice vectors $x$ with $h(x,x)=0$ whose index in the
+saturation of the line $\OO_Ex$ is at most $C$. The following lemma is a general fact on measures.
+
+\begin{lemma}[Mean of the logarithm of a first minimum]\label{pf:towergeo:meanlog}
+Let $\mu$ be a measure on a measurable space $X$ and $S\subseteq X$ measurable with $0<\mu(S)<\infty$. Let
+$\lambda\colon X\to(0,\infty)$ and $c(t,\cdot)\colon X\to[0,\infty]$ $(t>0)$ be measurable, $a\ge1$ an integer, $k\ge3a$
+and $r>0$ real numbers, such that for all $t>0$: $\int_Sc(t,\cdot)\,d\mu<\infty$; $c(t,z)=0$ if $t\le\lambda(z)$;
+$1\le c(t,z)\le(3t/\lambda(z))^a$ if $\lambda(z)<t\le r$; and $\int_Sc(\theta t,\cdot)\,d\mu=\theta^k\int_Sc(t,\cdot)\,d\mu$
+for $\theta>0$. Then $\int_S\log^+(r/\lambda)\,d\mu\le3\mu(S)$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.lintegral_logPlus_le_of_mass}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBound.MeanLogPlus.full}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBound.TailBound.full}
+\end{lemma}
+
+\begin{proof}
+Let $\nu=\mu(S)^{-1}\mu|_S$, a probability measure, and $m(t)=\int c(t,\cdot)\,d\nu<\infty$; then $m(\theta t)=\theta^km(t)$.
+
+\emph{Tail bound: $\nu(\lambda<e^{-x}r)\le\min(1,2\cdot36^ae^{-kx})$ for $x\ge0$.} For $0<t\le r$ we have
+$c(t,\cdot)\ge1$ on $\{\lambda<t\}$, so $\nu(\lambda<t)\le m(t)=(t/r)^km(r)$; it suffices to show $M:=m(r)\le2\cdot36^a$.
+Put $G(u)=\nu(\lambda<r/u)$ for $u\ge1$, so $G(u)\le\min(1,u^{-k}M)$. As $c(r,\cdot)\le(3r/\lambda)^a$ on $\{\lambda<r\}$
+and vanishes elsewhere, the layer-cake formula gives
+\[
+M\le3^a\int_{\{\lambda<r\}}(r/\lambda)^a\,d\nu=3^a\Bigl(G(1)+\int_1^\infty au^{a-1}G(u)\,du\Bigr).
+\]
+If $M\le1$ we are done. Otherwise let $u_0=M^{1/k}>1$; splitting the integral at $u_0$,
+\[
+\int_1^\infty au^{a-1}G(u)\,du\le(u_0^a-1)+Ma\int_{u_0}^\infty u^{a-1-k}\,du=u_0^a-1+\frac a{k-a}u_0^a,
+\]
+using $Mu_0^{-k}=1$. Hence $M\le3^au_0^a\frac k{k-a}\le\frac32\,3^aM^{a/k}$, since $k\ge3a$. As $1-a/k\ge2/3$ and $M>1$,
+$M^{2/3}\le M^{1-a/k}\le\frac32\,3^a$, so $M\le(3/2)^{3/2}3^{3a/2}\le2\cdot36^a$.
+
+\emph{The mean.} Let $F=\log^+(r/\lambda)$, $C_a=2\cdot36^a$ and $x_0=\log(C_a)/k\ge0$. Then $\{F>x\}=\{\lambda<e^{-x}r\}$ for
+$x>0$, and
+\begin{multline*}
+\int F\,d\nu=\int_0^\infty\nu(F>x)\,dx\le x_0+\int_{x_0}^\infty C_ae^{-kx}\,dx\\
+=\frac{\log2+a\log36+1}{k}\le\frac{\log2+1}3+\frac{\log36}3<3,
+\end{multline*}
+using $k\ge3a\ge3$. Multiplying by $\mu(S)$ gives the assertion.
+\end{proof}
+
+\begin{proposition}[First minima on a fundamental domain]\label{pf:towergeo:fmin}
+Let $F$ be a universal family of type $(\Psi,j,j')$ with a group dictionary and a Haar measure $\mu$ on $G$, and let
+$v>0$. Assume $1\le j'$, $3j'+1\le j+j'$, and that there are $a_1,\dots,a_{[E:\Q]}\in\OO_E$, linearly independent over
+$\Q$, with $|\sigma(a_i)|\le v$ for all embeddings $\sigma$. Then there is a fundamental domain $D_\infty$ of
+$G_\Lambda$ in $G$ with $0<\mu(D_\infty)<\infty$ and
+\[
+\int_{D_\infty}\log^+\bigl(v^{-1/2}/\lambda_1(R(\pi(a)))\bigr)\,d\mu(a)\le3\mu(D_\infty).
+\]
+\formallabel{GlobalTheory.T.first_minimum_integral_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.group_mean_logPlus_le}
+\end{proposition}
+
+\begin{proof}
+Let $f=|\Psi|$, so $[E:\Q]=2f$, $r=v^{-1/2}$, $\lambda(a)=\lambda_1(R(\pi(a)))$ and
+$C=\lfloor(v\sqrt{2f})^{2f}\rfloor$. By \lref{GlobalTheory.T.first_minimum_attained_with_bounds}, which uses
+the small elements $a_i$, $1\le j'$ and the signature of $R(\pi(a))$: $\lambda(a)>0$ is attained by a lattice vector
+$x_a$; lattice vectors of norm $<r$ are pairwise orthogonal for the form; and for $\lambda(a)<t\le r$ there are at
+most $(3t/\lambda(a))^{2fj'}$ lattice vectors of norm $<t$. By \lref{GroundTheory.Heights₂.Heights.FiniteCovolume.ScalingLaw.full}
+there is a fundamental domain $D_\infty$ of $G_\Lambda$ such that the counting functions
+\[
+c(t,a)=\#\{x\in V_C:\sqrt\kappa\,|a^{-1}x|_M<t\},
+\]
+the numbers of elements of the short set of norm $<t$ in $R(\pi(a))$, have finite integrals over $D_\infty$, homogeneous
+of degree $k=2f(j+j'-1)$ in $t$. By \lref{GroundTheory.Heights₂.Heights.FiniteCovolume.ArithmeticCovolumeFinite.full},
+$\mu(D_\infty)<\infty$, and $\mu(D_\infty)>0$, since otherwise the countably many translates of $D_\infty$ by
+$G_\Lambda$, which cover $G$, would be null, whereas nonempty open sets have positive Haar measure.
+
+We apply \cref{pf:towergeo:meanlog} with $S=D_\infty$, $a=2fj'\ge1$ and $k=2f(j+j'-1)\ge3a$ (as $3j'\le j+j'-1$).
+The function $\lambda$ is continuous, hence measurable
+(\lref{GlobalTheory.T.first_minimum_continuous_cusp_weight_measurable}). If $t\le\lambda(a)$, no element of the
+short set has norm $<t$, so $c(t,a)=0$. If $\lambda(a)<t\le r$, then $c(t,a)\le(3t/\lambda(a))^{2fj'}$ since the short
+set consists of lattice vectors, and $c(t,a)\ge1$: the minimal vector $x_a$ has norm $\lambda(a)<r$, so it is orthogonal
+to itself, i.e.\ isotropic, and its index is at most $C$ by
+\lref{GroundTheory.Heights₂.Heights.FiniteCovolume.ShortestVectorIndex.full} (a shortest nonzero vector of the
+lattice at a point of $G$ has index at most $(v\sqrt{2f})^{2f}$ in its saturated line, given the small elements $a_i$), so
+$x_a\in V_C$ is counted. The lemma gives the assertion.
+\end{proof}
+
+\begin{proposition}[The cusp weight on fundamental sets]\label{pf:towergeo:cusp-fund}
+Let $F$ be a universal family of type $(\Psi,j,j')$, $\Gamma$ an arithmetic group and $\mathcal F$ a
+fundamental set, and assume $1\le j'$ and $3j'+1\le j+j'$. Then $\delta$ is integrable on $\mathcal F$ with
+$\int_{\mathcal F}\delta>0$, the function $w^{\mathrm{cusp}}_\sigma(R(t))\,\delta(t)$ is integrable on
+$\mathcal F$, and
+\[
+\int_{\mathcal F}w^{\mathrm{cusp}}_\sigma(R(t))\,\delta(t)\,dt\le
+fj'\bigl(6+\log(2f\,\mathrm{rd}_E)+\log(2fj'\,\mathrm{rd}_E)\bigr)\int_{\mathcal F}\delta(t)\,dt,\qquad f=|\Psi|.
+\]
+\formallabel{GlobalTheory.T.cusp_weight_integrable_on_fundamental_set}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.fund_set_mean_cuspW}
+\end{proposition}
+
+\begin{proof}
+Put $v=2f\,\mathrm{rd}_E$ and $r=v^{-1/2}$. Since $|d_E|\ge1$ we have $\mathrm{rd}_E\ge1$, so $v\ge1$ and
+$r\le1$. We use the following results.
+\begin{enumerate}[label=(\arabic*)]
+\item By \lref{GlobalTheory.T.exists_group_dictionary}, $F$ has a \emph{group dictionary}: the
+  archimedean unitary group $G$ of the form with a Haar measure $\mu$, a discrete subgroup $G_\Lambda$ of $G$
+  defined by the lattice, and a map $\pi$ from $G$ onto $\mathcal D$.
+\item By \lref{GlobalTheory.T.cm_field_small_integral_basis}, there are $a_1,\dots,a_{[E:\Q]}\in\OO_E$,
+  linearly independent over $\Q$, with $|\sigma(a_i)|\le[E:\Q]\,\mathrm{rd}_E=v$ for all embeddings
+  $\sigma$.
+\item By \cref{pf:towergeo:fmin}, given (2), $1\le j'$ and $3j'+1\le j+j'$,
+  there is a fundamental domain $D_\infty$ of $G_\Lambda$ in $G$ with $0<\mu(D_\infty)<\infty$ and
+  $\int_{D_\infty}\log^+\bigl(r/\lambda_1(R(\pi(a)))\bigr)\,d\mu(a)\le3\mu(D_\infty)$.
+\item By \lref{GlobalTheory.T.fundamental_set_to_fundamental_domain}, there is $C\in(0,\infty)$ with
+  $\int_{\mathcal F}\Phi\,\delta=C\int_{D_\infty}\Phi\circ\pi\,d\mu$ for every measurable
+  $\Phi\colon\mathcal D\to[0,\infty]$ which is constant on the equivalence classes for the automorphism group
+  of the form.
+\item By \lref{GlobalTheory.T.first_minimum_continuous_cusp_weight_measurable}, $\mathcal D$ is open,
+  $t\mapsto\lambda_1(R(t))$ is continuous on $\mathcal D$, $t\mapsto w^{\mathrm{cusp}}_\sigma(R(t))$ (extended
+  by $0$) is measurable, and both are constant on equivalence classes.
+\item By \lref{GlobalTheory.T.first_minimum_and_cusp_weight_bounds}, for $t\in\mathcal D$,
+  $\lambda_1(R(t))>0$ and
+  $0\le w^{\mathrm{cusp}}_\sigma(R(t))\le fj'\bigl(2\max(0,\log(1/\lambda_1(R(t))))+\log(2fj'\,\mathrm{rd}_E)\bigr)$.
+\end{enumerate}
+Write $\lambda(t)=\lambda_1(R(t))$ and $w(t)=w^{\mathrm{cusp}}_\sigma(R(t))$. Taking $\Phi=1$ in (4),
+$V:=\int_{\mathcal F}\delta=C\mu(D_\infty)\in(0,\infty)$; as $\delta>0$, $\delta$ is integrable on $\mathcal F$
+with positive integral. Taking $\Phi=\log^+(r/\lambda)$ on $\mathcal D$, which is measurable and constant on
+equivalence classes by (5), (4) and (3) give
+\[
+\int_{\mathcal F}\log^+(r/\lambda)\,\delta=C\int_{D_\infty}\log^+\bigl(r/\lambda(\pi(a))\bigr)\,d\mu(a)\le3C\mu(D_\infty)=3V.
+\]
+For $\lambda>0$ we have $\max(0,\log(1/\lambda))\le\log^+(r/\lambda)+\frac12\log v$: if $\lambda\ge1$ the left
+side vanishes, and otherwise $\log(1/\lambda)=\log(r/\lambda)+\frac12\log v$. By (6),
+\[
+0\le w\le fj'\bigl(2\log^+(r/\lambda)+\log v+\log(2fj'\,\mathrm{rd}_E)\bigr)\quad\text{on }\mathcal F.
+\]
+The right side times $\delta$ is integrable on $\mathcal F$, so $w\delta$ is integrable, and
+\[
+\int_{\mathcal F}w\,\delta\le fj'\bigl(6+\log v+\log(2fj'\,\mathrm{rd}_E)\bigr)V,
+\]
+which is the assertion since $\log v=\log(2f\,\mathrm{rd}_E)$.
+\end{proof}
+
+\subsubsection*{The three bounds}
+
+\begin{proposition}[Mean of the cusp weight]\label{pf:towergeo:meanU}
+Assume $\towergeoG$. Then part (c) of $\textup{(GH)}_{C_h,C_u}$ holds with $C_u=4$, for all data as in
+\cref{pf:towergeo:def-nine}.
+\formallabel{GlobalTheory.T.cusp_volume_sum}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.top_mean_cusp_weight}
+\end{proposition}
+
+\begin{proof}
+Let the data be given, and assume $1\le j'$, $3j'+1\le N$ and $B\ge4fN^2$. Note that $j+j'=N$.
+
+\emph{Decomposition into fundamental sets.} By \lref{GlobalTheory.T.cusp_volume_left}, which uses
+$\towergeoG$, the origin admits a \emph{decomposition into pieces}: finitely many universal families
+$F_k$ with arithmetic groups $\Gamma_k$, fundamental sets $\mathcal F_k$ and ball densities $\delta_k$,
+multiplicities $d_k\in\N$ not all zero, and maps $\gamma_m$ from parameter pieces $V_m$ to the complex
+points of the variety. By \lref{GlobalTheory.T.ptsIntegral_eq_sum_ballDens_integrals} there is
+$\kappa>0$ such that for every function $G$ on the complex points which is invariant under the torus action
+and is given on the pieces by functions $G_k$ (i.e.\ $G(\gamma_m(t))=G_k(t)$ for $t\in V_m$, $k$ the family
+of the piece $m$), with $G_k\delta_k$ integrable on $\mathcal F_k$,
+\begin{equation}\label{pf:towergeo:eq-pieces}
+\int G\,d\mu=\kappa\sum_kd_k\int_{\mathcal F_k}G_k(t)\,\delta_k(t)\,dt,
+\end{equation}
+where $\mu$ is the measure on the complex points defined by $\phi_\mu$. By
+\lref{GlobalTheory.T.cusp_volume_middle}, the cusp weight $U$ is torus invariant and is given on the
+pieces by the cusp weights $w^{\mathrm{cusp}}(R_k(t))$ of the lattices of the families $F_k$.
+
+\emph{The mean.} By \cref{pf:towergeo:cusp-fund}, applied to each $F_k$ (with $1\le j'$ and
+$3j'+1\le j+j'$), $\delta_k$ and $w^{\mathrm{cusp}}(R_k)\delta_k$ are integrable on $\mathcal F_k$,
+$\int_{\mathcal F_k}\delta_k>0$, and
+$\int_{\mathcal F_k}w^{\mathrm{cusp}}(R_k)\delta_k\le C\int_{\mathcal F_k}\delta_k$ with
+$C=fj'(6+\log(2f\,\mathrm{rd}_E)+\log(2fj'\,\mathrm{rd}_E))$. The degree $\deg_\mu$ is by definition the
+integral of the constant function $1$, so \eqref{pf:towergeo:eq-pieces} with $G=1$ gives
+$\deg_\mu=\kappa\sum_kd_k\int_{\mathcal F_k}\delta_k>0$, because $\kappa>0$, all terms are nonnegative and one
+$d_k$ is positive. With $G=U$,
+\[
+\int U\,d\mu=\kappa\sum_kd_k\int_{\mathcal F_k}w^{\mathrm{cusp}}(R_k)\delta_k\le
+C\kappa\sum_kd_k\int_{\mathcal F_k}\delta_k=C\deg_\mu,
+\]
+so $\mathrm{mean}(U)\le C$.
+
+\emph{Numerics.} By \cref{pf:towergeo:host-numbers}, $\mathrm{rd}_E\ge2$ and $f\ge1$. From $j'\ge1$ and
+$3j'+1\le N$ we get $N\ge4$, hence $B\ge4fN^2\ge64$, and $2fj'\le4fN^2\le B$ since $j'\le N^2$. Then
+$\log(2f\,\mathrm{rd}_E)\le\log(B\,\mathrm{rd}_E)$ and $\log(2fj'\,\mathrm{rd}_E)\le\log(B\,\mathrm{rd}_E)$;
+moreover $B\,\mathrm{rd}_E\ge128$, so $\log(B\,\mathrm{rd}_E)\ge7\log2>3$. Hence
+$6+\log(2f\,\mathrm{rd}_E)+\log(2fj'\,\mathrm{rd}_E)\le4\log(B\,\mathrm{rd}_E)\le4\ell_H(B)$, and
+$\mathrm{mean}(U)\le C\le4fj'\ell_H(B)$.
+\end{proof}
+
+For an admissible origin and $B\in\N$ let $S_B=\{r\in S:r\le B\}$. The next two results give part (a).
+
+\begin{proposition}[Nefness of the twisted Hodge degree]\label{pf:towergeo:idu}
+Assume $\towergeoG$ and \textup{(W)}. For a component origin which is admissible for $B_1$ and every $B\ge4f+2$, the
+multidegree $a_\mu+\sum_{r\in S_B}v_r$ is nef on the fibres of the variety.
+\formallabel{GlobalTheory.T.intersection_degree_upper}
+\formallabel{GlobalTheory.CompanionTheory.Relay.intersection_degree_upper}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.T.compact_datum_intersection}, the Hodge component $\towergeoHC$ of the origin, with the
+primes $S_0\cup S_B$ and the lattices patched at these primes, is again a Hodge component (the elements of
+$S_0\cup S_B$ are primes $p$ with $R(p)\ge4$ and full $p^{R(p)}$-torsion, and the patched lattices are vector bundles
+of the ranks of the labels). At the generic point choose a chart; by the local description of the Hodge data there
+are frames $b_\tau$ of $W_\tau$ and $\lambda\ne0$ such that the Hodge section is $\lambda$ times the tensor product
+of the wedges of the last $j'$ vectors of $b_\tau$ modulo $F_\tau$. Let $s_\tau(k)\in V^{\mathrm{gen}}_{s(\tau)}$ be
+the component of the $k$-th of these vectors in the decomposition
+$W_\tau\cong V^{\mathrm{gen}}_{b(\tau)}\oplus V^{\mathrm{gen}}_{s(\tau)}$. By
+\lref{GlobalTheory.T.intersection_datum_degree_sum}, the $s_\tau$ are linearly independent and the tensor
+product of the determinant lattices of the patched lattices $V_{s(\tau)}$ in the frames $s_\tau$ has multidegree
+$a_\mu+\sum_{r\in S_B}v_r$; by counting dimensions the $s_\tau$ span $V^{\mathrm{gen}}_{s(\tau)}$. The choice
+$s(\tau)$ is the same label side for all $\tau$, and $p_D,q_D\ge1$ by the side condition of the origin.
+
+By \lref{GlobalTheory.T.hodge_comp_cover_cm_signs}, which uses $\towergeoG$ and (W), for a Hodge component of a
+global model which covers the variety and is Hodge--Tate free at all its primes, such that every other prime $r$
+satisfies $r\nmid d_E$, $r\ge4f+2$ and $r>2$, and for spanning families of the eigenspaces of one side, the multidegree
+of the tensor product of the determinant lattices is nef on the fibres (its proof passes to a root model covering the
+component and applies \cref{pf:towergeo:blocknef}). The hypotheses hold: $Y$ is global since the origin is
+admissible, and $\towergeoHC.X$ covers the variety (part of the component origin); $\towergeoHC$ is Hodge--Tate free
+at the primes of $S_0\cup S_B$ by goodness; and if
+$r\notin S_0\cup S_B$ is a prime, then $r\nmid2d_EM'$ (otherwise $r\in S_0$), so $r\nmid d_E$ and $r\ne2$, and
+$r\ge4f+2$, since otherwise $r<4f+2\le\min(B,B_1)$ would give $r\in S$ and $r\in S_B$.
+\end{proof}
+
+\begin{proposition}[Positivity from nefness]\label{pf:towergeo:posu}
+Assume the metric package of $\towergeoG$. Let $\mathrm{II}$ be a full intersection system, component data with
+Hodge data, a complex model and a tied bounded regularisation setting for a weight $w$. If $a_\mu+\sum_{r\in S_B}v_r$
+is nef on the fibres for every $B\ge4f+2$, then for all $B\ge4f+2$ and $1\le\alpha\le\beta$ there is $t_0>0$ such that
+for $0<t\le t_0$, $\mathcal M_t(B,\alpha,\beta)$ is semipositive, nef on the fibres and ample on the generic fibre.
+\formallabel{GlobalTheory.T.posU_of_full_intersection_system}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.posU_of_nefOnFibres}
+\end{proposition}
+
+\begin{proof}
+For a function $\phi$ on a chart let $\mathcal L\phi(t;v)$ be its Levi form at $t$ in the direction $v$. By
+\lref{GlobalTheory.T.uniform_levi_positivity_on_charts} there is $\delta_0>0$ with
+$\mathcal L(\log h_{A'}\circ\gamma)(t;v)\ge\delta_0|v|^2$ for all charts $\gamma$ and $|t|\le\frac12$. Put
+$\delta=\alpha\delta_0/(2\beta)>0$. Since the setting is tied, for all sufficiently small $t>0$ the metric of
+$\mathcal M_t$ is given by the formula of \cref{pf:towergeo:def-nine}
+(\lref{GlobalTheory.T.regularized_weight_dominates_eventually}) and
+$\mathcal L((\log h_{\mathrm{ref}}+\towergeoreg_t)\circ\gamma)(t';v)\ge-\delta|v|^2$ on the charts
+(\lref{GlobalTheory.T.regularized_levi_lower_bound_eventually}); choose $t_0>0$ such that both hold for
+$0<t\le t_0$. Fix such $t$, a chart and $|t'|\le\frac12$. By the formula for the metric,
+\[
+\mathcal L(\log h_{\mathcal M_t}\circ\gamma)=\beta\,\mathcal L((\log h_{\mathrm{ref}}+\towergeoreg_t)\circ\gamma)
++\alpha\,\mathcal L(\log h_{A'}\circ\gamma)
+\]
+(\lref{GlobalTheory.CompanionTheory.Ar.Cusp.chart_levi_split}). With $V=|v|^2$, $L_F\ge-\delta V$ and
+$L_A\ge\delta_0V$ for the two Levi forms on the right,
+\[
+\beta L_F+\alpha L_A\ge-\tfrac12\alpha\delta_0V+\alpha\delta_0V\ge0,\qquad
+2(\beta L_F+\alpha L_A)-\alpha L_A\ge-\alpha\delta_0V+\alpha\delta_0V=0.
+\]
+The first inequality shows that $\mathcal M_t$ is semipositive, and the second that $\mathcal M_t^{\otimes2}\otimes
+A'^{\otimes-\alpha}$ is semipositive (\lref{GlobalTheory.T.semipositive_levi_of_log_metric}: a smooth Hermitian
+line whose metric has nonnegative Levi form on all charts is semipositive). The multidegree of $\mathcal M_t$ is
+$\beta(a_\mu+\sum_{r\in S_B}v_r)+\alpha a'$, nef on the fibres as a sum of a nef multidegree and a nonnegative one
+(degrees on curves are additive in the multidegree, and nonnegative multidegrees have nonnegative degrees). Finally $\mathcal M_t^{\otimes2}=(\mathcal M_t^{\otimes2}\otimes
+A'^{\otimes-\alpha})\otimes A'^{\otimes\alpha}$ with the first factor semipositive and $A'$ positive of multidegree
+$a'>0$, so $\mathcal M_t$ is ample on the generic fibre
+(\lref{GlobalTheory.T.ample_on_generic_fibre_of_semipositive}, which uses the full intersection system and the
+metric package).
+\end{proof}
+
+\begin{proposition}[Positivity]\label{pf:towergeo:posU}
+Assume $\towergeoG$ and \textup{(W)}. Then part (a) of $\textup{(GH)}_{C_h,C_u}$ holds for all data as in
+\cref{pf:towergeo:def-nine}.
+\formallabel{GlobalTheory.T.intersection_degree_lower}
+\formallabel{GlobalTheory.CompanionTheory.Relay.intersection_degree_lower}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:towergeo:idu}, for an admissible origin and every $B\ge4f+2$ the multidegree
+$a_\mu+\sum_{r\in S_B}v_r$ is nef on the fibres of the variety. By \cref{pf:towergeo:posu}, for a full intersection
+system and a tied setting this nefness implies part (a).
+\end{proof}
+
+\subsubsection*{Heights of integral points}
+Let $L$ be a number field and $z$ an $\OO_L$-point of the Hodge component $\towergeoHC$ of a component origin.
+\emph{Integral linear point data} at $z$ consist of a model $V$ over $L$ of the Lie algebra of the abelian part of the
+semi-abelian scheme at $z$, an action $\rho$ of $\OO_E$ on $V$, a bijection $s\mapsto\sigma_s$ from the labels to the
+embeddings $\OO_E\to L$ with eigenspaces $V_s$, a finitely generated $\rho$-stable $\OO_L$-lattice $\Lambda$ spanning
+$V$, a $\rho$-stable subgroup $I\subseteq\Lambda$ spanned by an $L$-linearly independent family, and a Hermitian
+$\OO_L$-bundle $B_q$ with a map $\Lambda\to B_q$ with kernel $\OO_LI$, surjective up to scalars, under which distinct
+eigenspaces become orthogonal; they are compatible with $z$ and the Hodge component. An \emph{$\OO$-family} is a
+family $v_1,\dots,v_r\in I$, linearly independent over $\OO_E$, whose $\OO_E$-span has finite index $[I:\OO_Ev]$ in
+$I$. A family $q_1,\dots,q_k\in\Lambda\cap V_s$ is \emph{adapted} to $v$ at $s$ if the $\sigma_s$-eigencomponents of
+the $v_a$ followed by the $q_c$ form a basis $\mathrm{fam}_s(v,q)$ of $V_s$. For $\OO_L$-lattices
+$F_\tau\subseteq V_{s(\tau)}$ and adapted families $q_\tau$ at $s(\tau)$, the \emph{$\phi$-degree} is
+\begin{multline*}
+\deg_\phi=\sum_\tau\frac1{[L:\Q]}\Bigl(\log[F_\tau:\mathrm{fam}_{s(\tau)}(v,q_\tau)]
+-\frac12\sum_{\iota\colon L\to\C}\log\mathrm{Gram}_\iota(q_\tau)\Bigr)\\
+-\frac12\log[I:\OO_Ev]+\frac{fr}2\log(4\pi),
+\end{multline*}
+where $[F:b]$ is the generalised index of the $\OO_L$-span of $b$ in $F$ and $\mathrm{Gram}_\iota(q)$ is the Gram
+determinant of the images of the $q_c$ in $B_q$ for the metric at $\iota$. Below $F_\tau$ is the fibre at $z$ of the
+patched lattice $V_{s(\tau)}$ of $\towergeoHC$ with the primes $S_0\cup S_B$, transported to $V$.
+
+\begin{proposition}[Height comparison]\label{pf:towergeo:phideg}
+Assume $\towergeoG$ and \textup{(FD)}. There is $C\ge0$ such that for all data as in \cref{pf:towergeo:def-nine} with
+a component origin admissible for $B_1$, every $B\ge4fN^2$, every integral linear point at an $\OO_L$-point $z$ whose
+Hermitian bundle has rank at most $fN$, every $\OO$-family $v$ of length $r$ and adapted families $q_\tau$ of length
+$k$ at the labels $s(\tau)$ with $r+k=j'$, one has $\deg_\phi\le C\,fj'\,\ell_H(B)$.
+\formallabel{GlobalTheory.T.phiDeg_fibLat_le_of_isOFamily_of_isAdapted}
+\formallabel{LevelTowerAlt.height_comparison_global_model}
+\end{proposition}
+
+\begin{proof}
+\emph{Constants.} By \lref{GlobalTheory.CompanionTheory.Ar.Cusp.U4.flat_saturation_of_degree}, $\towergeoG$ and
+(FD) give the \emph{flat saturation bound}: there is $C_f\ge0$ such that for every principal semi-abelian scheme with
+$\OO_E$-action of signature type $(p',q')$ over $\OO_L$, the Hermitian bundle $B$ of its Lie algebra with the Hodge
+metric, and conjugate embeddings $s_1,s_2=\bar s_1$, the eigen-subbundles satisfy
+$|\deg B_{s_1}-\deg B_{s_2}|\le C_f(\mathrm{rk}B_{s_1}+\mathrm{rk}B_{s_2})(1+\log\mathrm{rd}_E+|L_H|)$, degrees being
+normalised by $[L:\Q]$. By \lref{GlobalTheory.T.sum_log_prime_div_pred_le_log} there is $C_1\ge0$ with
+$\sum_{p\in S'}\frac{\log p}{p-1}\le C_1\log B$ for $B\ge2$ and every set $S'$ of primes each of which is $\le B$ or in a
+set $S''$ with $|S''|\le B$. Let $C_s$ be the constant of the slope bound of $\towergeoG$ (the maximal slope of the
+Hermitian bundle of such a semi-abelian scheme is at most $C_s\log(2+\mathrm{rk}B+\max(-\deg B,0))$), and
+$C_0=C_s+C_f(2+C_1)$. By \lref{LevelTowerAlt.abel_abstract} there is $C_a\ge0$ such that for every Hermitian
+$\OO_L$-bundle $B$, sub-bundles $F_\tau,F'_\tau$ ($\tau\in\Psi$), $m,N\in\N$ and $\ell\in\R$ with $fm\ge1$, $\ell\ge1$,
+$fN\le e^\ell$, $\mathrm{rk}B\le fN$, $\mathrm{rk}F_\tau\le m$, maximal slope of $B$ at most
+$C_0\log(2+\mathrm{rk}B+\max(-\deg B,0))$, $\sum_\tau\deg F_\tau+\sum_\tau\deg F'_\tau\le\deg B$ and
+$|\deg F_\tau-\deg F'_\tau|\le C_0N\ell$, one has $\sum_\tau\deg F_\tau\le C_afm\ell$. Put $C=2C_1+3+C_a$.
+
+\emph{Numerics.} Let $\ell=\ell_H(B)=\log B+\log\mathrm{rd}_E+|L_H|$. By \cref{pf:towergeo:host-numbers},
+$\mathrm{rd}_E\ge2$ and $f\ge1$; $N\ge2$ and $j'\ge1$. Hence $B\ge4fN^2\ge16$, $fN\le B$, $|S_0|\le4fN^2\le B$,
+$1\le\log B\le\ell$, $\log(4\pi)\le\ell$ and $fN\le B\le e^\ell$.
+
+\emph{The Hermitian bundle.} Let $B=B_q$ and, for a label $s$, $B_s$ the saturation of the image of $V_s$. The ranks
+of the $B_s$ are those of the images $\mathrm{img}(s)$ of $\Lambda\cap V_s$, $\deg\mathrm{img}(s)\le\deg B_s$, and
+$\sum_s\deg B_s\le\deg B$ (\lref{LevelTowerAlt.eig_facts}); $\mathrm{rk}B_{s(\tau)}=\dim V_{s(\tau)}=r+k=j'$, and
+$\mathrm{rk}B_s$ is at most the rank of the label $s$ (\lref{GlobalTheory.T.adapted_family_exists_on_eigenspace}).
+The labels at $z$ correspond to the embeddings of $\OO_E$, conjugate labels to conjugate embeddings
+(\lref{GlobalTheory.T.cusp_correspondence_bound}), and the abelian part has the signature of $D$
+(\lref{GlobalTheory.T.abelian_part_lie_signature}). By the slope bound, the maximal slope of $B$ is at most
+$C_0\log(2+\mathrm{rk}B+\max(-\deg B,0))$, and by the flat saturation bound
+\[
+|\deg B_{(\tau,1)}-\deg B_{(\tau,2)}|\le C_fN(1+\log\mathrm{rd}_E+|L_H|)\le C_fN(2+C_1)\ell\le C_0N\ell,
+\]
+since $1\le\ell$ and $\log\mathrm{rd}_E+|L_H|\le\ell$. The choice of $C_a$ with $m=j'$, $F_\tau=B_{s(\tau)}$ and
+$F'_\tau=B_{b(\tau)}$ gives $T:=\sum_\tau\deg\mathrm{img}(s(\tau))\le\sum_\tau\deg B_{s(\tau)}\le C_afj'\ell$.
+
+\emph{Fibre lattices.} The patched Hodge component with primes $S_0\cup S_B$ is Hodge--Tate free at these primes,
+which include all prime divisors of $d_E$. By \lref{GlobalTheory.T.abelian_part_integral_point}, which uses
+$\towergeoG$, for every $\tau$ there is a nonzero ideal $\mathfrak a$ of $\OO_L$ with
+$\mathfrak aF_\tau\subseteq\Lambda\cap V_{s(\tau)}$, $\mathfrak a(\Lambda\cap V_{s(\tau)})\subseteq F_\tau$ and
+$\log\mathrm N\mathfrak a/[L:\Q]\le X:=2\sum_{p\in S_0\cup S_B}\frac{\log p}{p-1}+2\log\mathrm{rd}_E$. Hence
+(\lref{LevelTowerAlt.phiDeg_le_parts}, which compares the indices and uses the orthogonality of the eigenspaces)
+\[
+\deg_\phi\le f(r+k)X-fr\log\mathrm{rd}_E+T+\frac{fr}2\log(4\pi).
+\]
+By the choice of $C_1$, $X\le2C_1\log B+2\log\mathrm{rd}_E\le(2C_1+2)\ell$. With $r+k=j'$, $r\le j'$,
+$\log\mathrm{rd}_E\ge0$ and $\log(4\pi)\le\ell$ we obtain $\deg_\phi\le(2C_1+2+C_a+1)fj'\ell=Cfj'\ell$.
+\end{proof}
+
+A number $x$ is a \emph{weight of the origin} at a complex point $z'$ with coordinates $w'$ if there are a chart $c$
+and a unit $u$ in which the Hodge section is $u$ times the standard section near $z'$, frames of the patched lattices
+$V_{s(\tau)}$ at $z'$ (the small part), and the corresponding volume $\nu>0$ of the small part for the polarisation,
+such that $x=\log\bigl(|u(w')|\prod_k|w'_{k,c_k}|^{a_\mu(k)}\bigr)+\frac12\log\nu$. For $w$ with coordinates in $L$
+let
+\[
+h^{\mathrm{pt}}(w)=\frac1{[L:\Q]}\Bigl(\sum_{\mathfrak p}\sum_km_k\log\max_i|w_{k,i}|_{\mathfrak p}
++\sum_{\sigma\colon L\to\C}\sum_{p\in S_B}\log\phi^{\mathrm{vert}}_p(\sigma w)\Bigr),\qquad m=a_\mu+\sum_{p\in S_B}v_p,
+\]
+the sum over the finite places $\mathfrak p$ of $L$ with their normalised absolute values.
+
+\begin{proposition}[Heights of integral linear points]\label{pf:towergeo:cih}
+Assume $\towergeoG$. Let a good component origin with primes $S_0$ and $B\in\N$ be given, $z$ an $\OO_L$-point of its
+Hodge component whose generic point has coordinates $w$ in a chart, integral linear point data at $z$, an
+$\OO$-family $v$ of length $r$ and adapted families $q_\tau$ of length $k$ at the labels $s(\tau)$. Then there is
+$x\colon\Hom(L,\C)\to\R$ such that $x(e)$ is a weight of the origin at $e(z)$ for every $e$, and
+\[
+h^{\mathrm{pt}}(w)+\frac1{[L:\Q]}\sum_ex(e)=-\deg_\phi .
+\]
+\formallabel{GlobalTheory.T.cusp_intersection_height}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.PtHt.g_height}
+\end{proposition}
+
+\begin{proof}
+\emph{Local data.} By \lref{GlobalTheory.CompanionTheory.Ar.Cusp.PtHt.datum} there are a chart $c$ with
+$w_{k,c_k}\ne0$, a unit $u$ in which the Hodge section is $u$ times the standard section near $z$, with value
+$u_L\ne0$ at $z$, and frames $s_\tau$ of the patched lattices $V_{s(\tau)}$ at the generic point of $z$ which form a
+small part there. No prime of $S_0\cup S_B$ vanishes in $L$, so at the generic point of $z$ the patched lattices are
+the de Rham lattices. By \lref{GlobalTheory.T.abelian_part_integral_point_alt} the frames $s_\tau$ give bases
+$s^L_\tau$ of $V_{s(\tau)}$; comparing dimensions, $r+k=N-j=j'$. Let $C_\tau$ be the matrix expressing
+$\mathrm{fam}_{s(\tau)}(v,q_\tau)$ in the basis $s^L_\tau$; it is invertible since both are bases.
+
+\emph{Finite places.} By \lref{GlobalTheory.T.abelian_part_lattice_eigen_compat}, for every finite place
+$\mathfrak p$ there is a matrix $T_\tau(\mathfrak p)$ with $\det T_\tau(\mathfrak p)\ne0$, integral with unit
+determinant for almost all $\mathfrak p$, such that $F_\tau$ consists of the elements of $V_{s(\tau)}$ which lie,
+locally at every $\mathfrak p$, in the span of $s^L_\tau T_\tau(\mathfrak p)$; $T_\tau(\mathfrak p)$ is the value at $z$
+of the matrix expressing a frame of $V_{s(\tau)}$ at the point of $z$ over $\mathfrak p$ in the frame $s_\tau$. By
+\lref{GlobalTheory.T.glued_lattice_from_local_matrices},
+\begin{equation}\label{pf:towergeo:eq-idx}
+\log[F_\tau:\mathrm{fam}_{s(\tau)}(v,q_\tau)]=\sum_{\mathfrak p}\log|\det T_\tau(\mathfrak p)|_{\mathfrak p}
++\sum_\sigma\log|\sigma(\det C_\tau)|.
+\end{equation}
+For $p\in S_B$, \lref{GlobalTheory.T.exists_val_at_vert_factor_eq_norm_mul_prod} gives $t_p\in L^\times$, the value
+at $z$ of the vertical function of $p$ in the chart $c$, with
+$\phi^{\mathrm{vert}}_p(\sigma w)=|\sigma t_p|\prod_k|\sigma w_{k,c_k}|^{v_p(k)}$ for all $\sigma$. Put
+$g=u_L\prod_{p\in S_B}t_p\ne0$. By \lref{GlobalTheory.T.intersection_datum_degree_sum}, the inverse of the tensor
+product of the determinant lattices of the $V_{s(\tau)}$ in the frames $s_\tau$ is the line bundle of multidegree $m$,
+with a generator whose value at $z$ is $g$ up to the chart monomial; hence by
+\lref{GlobalTheory.T.tensor_lattice_coord_degree}, at every finite place,
+$\prod_\tau|\det T_\tau(\mathfrak p)|_{\mathfrak p}\cdot\rho_{\mathfrak p}=|g|_{\mathfrak p}$, where
+$\rho_{\mathfrak p}=\prod_k\bigl(\max_i|w_{k,i}|_{\mathfrak p}/|w_{k,c_k}|_{\mathfrak p}\bigr)^{m_k}$. Summing over
+$\mathfrak p$ and using the product formula (\lref{GlobalTheory.CompanionTheory.Ar.RootHt.RatioSum.ratio_sum}),
+\begin{equation}\label{pf:towergeo:eq-fin}
+\sum_\tau\sum_{\mathfrak p}\log|\det T_\tau(\mathfrak p)|_{\mathfrak p}
+=-\sum_{\mathfrak p}\sum_km_k\log\max_i|w_{k,i}|_{\mathfrak p}-\sum_\sigma\Bigl(\log|\sigma g|+\sum_km_k\log|\sigma w_{k,c_k}|\Bigr).
+\end{equation}
+
+\emph{Archimedean places.} By \lref{GlobalTheory.T.abelian_part_integral_lattice}, for every $e\colon L\to\C$ we
+have $\mathrm{Gram}_e(q_\tau)>0$, and
+$\nu(e)=[I:\OO_Ev]\prod_\tau(4\pi)^{-r}\mathrm{Gram}_e(q_\tau)\,|e(\det C_\tau)|^{-2}$ is the volume of the small part at
+$e(z)$ in the frames $s_\tau$. Hence $x(e)=\log\bigl(|e(u_L)|\prod_k|e(w_{k,c_k})|^{a_\mu(k)}\bigr)+\frac12\log\nu(e)$ is a
+weight of the origin at $e(z)$.
+
+\emph{The identity.} Since $m=a_\mu+\sum_{p\in S_B}v_p$ and $\log|eg|=\log|e(u_L)|+\sum_p\log|e(t_p)|$, the formula for
+$\phi^{\mathrm{vert}}_p$ gives
+\begin{multline*}
+[L:\Q]\,h^{\mathrm{pt}}(w)+\sum_ex(e)=\sum_{\mathfrak p}\sum_km_k\log\max_i|w_{k,i}|_{\mathfrak p}\\
++\sum_e\Bigl(\log|eg|+\sum_km_k\log|e(w_{k,c_k})|\Bigr)+\frac12\sum_e\log\nu(e).
+\end{multline*}
+By \eqref{pf:towergeo:eq-fin} the first two terms equal
+$-\sum_\tau\sum_{\mathfrak p}\log|\det T_\tau(\mathfrak p)|_{\mathfrak p}$, and
+\begin{multline*}
+\frac12\sum_e\log\nu(e)=[L:\Q]\Bigl(\frac12\log[I:\OO_Ev]-\frac{fr}2\log(4\pi)\Bigr)\\
++\frac12\sum_\tau\sum_e\log\mathrm{Gram}_e(q_\tau)-\sum_\tau\sum_e\log|e(\det C_\tau)|.
+\end{multline*}
+By \eqref{pf:towergeo:eq-idx} the total is
+\begin{multline*}
+-\sum_\tau\Bigl(\log[F_\tau:\mathrm{fam}_{s(\tau)}(v,q_\tau)]-\frac12\sum_e\log\mathrm{Gram}_e(q_\tau)\Bigr)\\
++[L:\Q]\Bigl(\frac12\log[I:\OO_Ev]-\frac{fr}2\log(4\pi)\Bigr)=-[L:\Q]\deg_\phi.\qedhere
+\end{multline*}
+\end{proof}
+
+\begin{proposition}[Heights of points]\label{pf:towergeo:htU}
+Assume $\towergeoG$ and \textup{(FD)}. There is $C_h\ge0$ such that part (b) of $\textup{(GH)}_{C_h,C_u}$
+holds with this $C_h$ for all data as in \cref{pf:towergeo:def-nine}.
+\formallabel{GlobalTheory.T.cusp_height_upper}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.TopHt.htU_of_given}
+\end{proposition}
+
+\begin{proof}
+Let $C\ge0$ be the constant of \cref{pf:towergeo:phideg}, which uses $\towergeoG$ and (FD): for admissible origins
+and $B\ge4fN^2$, the $\phi$-degree of the fibre lattices at an integral linear point, with respect to an
+$\OO$-family and adapted families of the eigenspaces, is at most $Cfj'\ell_H(B)$. Put $C_h=C$. Let the data be
+given, $B\ge4fN^2$ and $1\le\alpha\le\beta$.
+
+\emph{Choice of $t_0$.} By \lref{GlobalTheory.T.regularized_weight_dominates_eventually}, since the
+setting is tied, there is $u>0$ such that for $0<t<u$: $\phi_{\mathrm{sing}}\le\towergeoreg_t$, and
+$\mathcal M_t=\mathcal M_t(B,\alpha,\beta)$ is smooth, of multidegree $\beta(a_\mu+\sum_rv_r)+\alpha a'$, with
+$\log h(z)=\beta\bigl(\log h_{\mathrm{ref}}(z)+\towergeoreg_t(z)+\sum_r\log\phi^{\mathrm{vert}}_r(z)\bigr)+\alpha\log h_{A'}(z)$
+at all complex points $z$ of the variety. Put $t_0=u/2$ and let $0<t\le t_0$.
+
+\emph{Reduction to a point.} Let $P$ be an arithmetic curve on the variety. By
+\lref{GlobalTheory.T.height_of_zero_dim_variety}, $P$ is the coordinate ideal of a point $w$ with
+coordinates in a number field $L_0$, and $\mathrm{II}(P;\mathcal L)/\deg P=h_{\mathcal L}(w)$ for every smooth
+Hermitian line $\mathcal L$, where $h_{\mathcal L}$ is the height of points. Hence
+$h_{\mathcal M_t}(P)=h_{\mathcal M_t}(w)/\beta$, and $h_{A'}(w)\ge-c_{A'}$ by the height condition in the component
+data. By the definition of heights as sums of local contributions
+(\lref{GlobalTheory.CompanionTheory.Ar.Cusp.TopHt.lineHt_decomp}: the height for a metric of the form
+above splits accordingly), for any number field $L$ over which $w$ is defined,
+\begin{equation}\label{pf:towergeo:eq-htdec}
+h_{\mathcal M_t}(w)=\beta\Bigl(h^{\mathrm{pt}}(w)+\frac1{[L:\Q]}\sum_{\sigma\colon L\to\C}
+\bigl(\log h_{\mathrm{ref}}+\towergeoreg_t\bigr)(\sigma w)\Bigr)+\alpha\,h_{A'}(w),
+\end{equation}
+where $h^{\mathrm{pt}}$ is the point height defined before \cref{pf:towergeo:cih} (with $\sum_r$ over $r\in S_B$);
+heights do not change under extension of the number field
+(\lref{GlobalTheory.T.line_height_invariant_scaling}).
+
+\emph{Integral linear points.} By \lref{GlobalTheory.T.small_points_over_number_field}, there are a
+finite extension $L$ of $L_0$, an $\OO_L$-point $z$ of the Hodge component of the origin with coordinates
+$w$, the abelian part of the semi-abelian scheme at $z$, a model of its Lie algebra, and integral linear point
+data whose eigenspaces have the ranks of the labels and whose lattice has rank at most $fN$. By
+\lref{GlobalTheory.T.cusp_correspondence_bound}, the labels at $z$ correspond bijectively to the
+embeddings of $\OO_E$, and $2|\Psi_H|=[E:\Q]$, so $\Psi_H\ne\emptyset$. By
+\lref{GlobalTheory.T.adapted_family_exists_on_eigenspace}, there are an $\OO$-family $v$ of some length
+$r_0$ and, for every $\tau$, an adapted family $\theta_\tau$ of length $j'-r_0$ in the eigenspace of the label
+$s(\tau)$, whose dimension is $j'$.
+
+\emph{The bound.} By \cref{pf:towergeo:cih}, there is
+$x\colon\Hom(L,\C)\to\R$ such that $x(\sigma)$ is a weight of the origin at the complex point $\sigma(z)$ for
+every $\sigma$, and $h^{\mathrm{pt}}(w)+[L:\Q]^{-1}\sum_\sigma x(\sigma)=-\deg_\phi$, the $\phi$-degree of the fibre
+lattices with respect to $v$ and $(\theta_\tau)$. By \cref{pf:towergeo:phideg}, $\deg_\phi\le Cfj'\ell_H(B)$. By
+\lref{GlobalTheory.T.cusp_intersection_finite}, since $U$ is the cusp weight,
+\[
+x(\sigma)\le\phi_{\mathrm{sing}}(\sigma w)+\log h_{\mathrm{ref}}(\sigma w)
+\le\log h_{\mathrm{ref}}(\sigma w)+\towergeoreg_t(\sigma w).
+\]
+Inserting these bounds in \eqref{pf:towergeo:eq-htdec},
+\begin{align*}
+h_{\mathcal M_t}(P)&=h^{\mathrm{pt}}(w)+\frac1{[L:\Q]}\sum_\sigma(\log h_{\mathrm{ref}}+\towergeoreg_t)(\sigma w)
++\frac\alpha\beta\,h_{A'}(w)\\
+&\ge-\deg_\phi-\frac\alpha\beta c_{A'}\ge-Cfj'\ell_H(B)-\frac\alpha\beta c_{A'}.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{theorem}\label{pf:towergeo:nine}
+$\towergeoG$, \textup{(W)} and \textup{(FD)} imply that $\textup{(GH)}_{C_h,C_u}$ holds for some
+$C_h,C_u\in\R$.
+\formallabel{GlobalTheory.T.exists_geometric_height_constants}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cusp.TopNine.nineGeoU_of_given}
+\end{theorem}
+
+\begin{proof}
+Let $C_h$ be the constant of \cref{pf:towergeo:htU} and $C_u=4$ (\cref{pf:towergeo:meanU}); both are chosen
+before the data. For data as in \cref{pf:towergeo:def-nine}, part (a) holds by \cref{pf:towergeo:posU},
+part (b) with $C_h$ by \cref{pf:towergeo:htU}, and part (c) with $C_u$ by \cref{pf:towergeo:meanU}.
+\end{proof}
+
+\begin{remark}\label{pf:towergeo:rem-nine}
+The tied regularisation setting is not used for part (c); (W) is used only for part (a), and (FD) only for
+part (b). The value $C_u=4$ is explicit, while $C_h$ comes from the bound for $\deg_\phi$.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Two auxiliary statements}\label{pf:towergeo:sec-aux}
+
+The following two results of the formal development are used in the proof of the volume theorem.
+For a field $F$, an \emph{intersection family} over $F$ assigns to every multihomogeneous prime
+$V\subset F[x]$ defining a projective variety of dimension $n$ and multidegrees $a_1,\dots,a_n$ a number
+$I(V;a_1,\dots,a_n)$; it is a \emph{field intersection family} if it satisfies the axioms of intersection
+numbers of line bundles on multiprojective varieties of the formal development (normalisation and the
+inductive formula through divisors of sections). For $F=\Q$ we write $\mathrm{int}_\Q$ for the intersection
+numbers of the generic fibres of arithmetic varieties.
+
+\begin{lemma}[Intersection numbers over a field]\label{pf:towergeo:fieldnumbers}
+Let $F$ be a field. (a) There is a field intersection family over $F$, and any two agree on all projective
+varieties. (b) Every field intersection family is symmetric in $a_1,\dots,a_n$. (c) Every field intersection
+family is additive in each $a_i$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.PB.Known.fieldNumbers}
+\end{lemma}
+
+\begin{proof}
+(a) is \lref{GroundTheory.Heights₂.Heights.Targets.ExistsUnique.full}, which constructs the family from
+the intersection numbers of the varieties over $F$ and proves uniqueness. (b) is
+\lref{ReciprocityTheory.ChartRestriction.G.AI.I1.intersection_symmetric} (field intersection families
+are invariant under permutations of the multidegrees), and (c) is
+\lref{ReciprocityTheory.ChartRestriction.G.AI.I1.multilin_thm} (they are additive in each multidegree).
+\end{proof}
+
+\begin{lemma}[Nonnegativity of degrees]\label{pf:towergeo:ptsint}
+Assume the Kleiman criterion over fields: for every field $F$, field intersection family $I$ over $F$,
+projective variety $V$ of dimension $n$ over $F$ and multidegrees $a_1,\dots,a_n$ each of which has
+nonnegative intersection number with all curves on $V$, one has $I(V;a_1,\dots,a_n)\ge0$. Let $\mathrm{II}$ be
+a full intersection system, $W\subset\Z[x]$ an arithmetic variety of dimension $e+1$ and $L_1,\dots,L_e$
+smooth Hermitian lines such that every $L_j$ has nonnegative geometric degree on every arithmetic surface
+$W'\supseteq W$. Then the integral over the complex points of $W$ of the product of the first Chern forms
+of $L_1,\dots,L_e$ is nonnegative.
+\formallabel{GlobalTheory.T.ptsIntegral_log_nonneg}
+\end{lemma}
+
+\begin{proof}
+For a full intersection system, the integral over the complex points of an arithmetic variety of the
+product of the first Chern forms of smooth Hermitian lines equals the intersection number over $\Q$ of
+its generic fibre with their multidegrees (\lref{GlobalTheory.CompanionTheory.Ar.Giv.degree_of_system}
+and \lref{GlobalTheory.CompanionTheory.Ar.Giv.degreeGeneric_of_degree}: the integral is the sum of the
+geometric intersection numbers of the components of the fibre over a prime, which is the generic
+intersection number). The generic fibre $W_\Q$ is a projective variety of dimension $e$
+(\lref{GroundTheory.Heights₂.Heights.HilbertSamuel.isProjVarF_map_of_isArithVar}), and
+$\mathrm{int}_\Q$ is a field intersection family
+(\lref{GroundTheory.Heights₂.Heights.NumbersDVR.IntNumIsFieldIntersection.full}). Every curve
+$V\subseteq W_\Q$ is the generic fibre of an arithmetic surface $W'\supseteq W$
+(\lref{GroundTheory.Heights₂.Heights.HilbertSamuel.NefAmpleGeneric.isArithVar_comap_of_isProjVarF}),
+and by the same degree identity in dimension one, $\mathrm{int}_\Q(V;a_j)$ is the geometric degree of $L_j$
+on $W'$, which is nonnegative. By the Kleiman criterion,
+$\mathrm{int}_\Q(W_\Q;a_1,\dots,a_e)\ge0$, which is the assertion.
+\end{proof}
+
+\begin{remark}\label{pf:towergeo:rem-aux}
+The formal statement of \cref{pf:towergeo:ptsint} has two further hypotheses, the existence and uniqueness
+of intersection numbers over $\Q$ and a statement on the support of divisors of sections; they are not
+used in its proof.
+\end{remark}
+

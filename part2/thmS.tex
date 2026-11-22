@@ -1,0 +1,2215 @@
+\section{Theorem S III: the spectral argument and assembly}\label{sec:pf:thmS}
+
+\providecommand{\thmSClosed}{\sfname{Closed}}
+\providecommand{\thmSEv}{\sfname{Ev}}
+\providecommand{\thmSdC}{d_{C}}
+\providecommand{\thmSepsL}{\varepsilon_{L}}
+\providecommand{\thmSId}{\mathrm{Id}}
+\providecommand{\thmSDeg}{\mathrm{Deg}}
+\providecommand{\thmSNG}{\mathrm{NG}}
+\providecommand{\thmSGen}{\mathrm{Gen}}
+\providecommand{\thmSNZ}{\mathrm{NZ}}
+\providecommand{\thmSpart}{\operatorname{part}}
+\providecommand{\thmSvp}{\operatorname{vp}}
+\providecommand{\thmSps}{\operatorname{ps}}
+\providecommand{\thmSpa}{\operatorname{pa}}
+\providecommand{\thmSrow}{\operatorname{row}}
+\providecommand{\thmSlev}{\operatorname{lev}}
+\providecommand{\thmSjoin}{\operatorname{join}}
+\providecommand{\thmSblk}{\operatorname{blk}}
+\providecommand{\thmSmaj}{\operatorname{maj}}
+\providecommand{\thmSSf}{\mathrm{Sf}}
+\providecommand{\thmSNst}{\mathrm{N}}
+\providecommand{\thmSNz}{\mathrm{N}_0}
+\providecommand{\thmSNh}{\widehat{\mathrm{N}}}
+\providecommand{\thmSDg}{\mathrm{Dg}}
+\providecommand{\thmSgram}{\mathrm{gr}}
+\providecommand{\thmStt}{\mathrm{tt}}
+
+This section proves the three ``local rows'' $\mathsf{sLp}$, $\mathsf{sO}$, $\mathsf{hTF}$ of the hypothesis
+package from the Siegel--Weil formula, and, on the way, Theorem~S (\cref{thm:theorem-S}). The two largest inputs of
+Theorem~S, the nineteen hypotheses of its pointwise form and the lower bound for Poincar\'e amplitudes, are proved
+elsewhere in Part~II (\lref{GlobalTheory.CarrierGap.theoremS_leaves_of_carrierG} and
+\lref{GlobalTheory.CarrierGap.carrierP}); here we give the assembly and the spectral argument which turns these
+inputs into the bound of Theorem~S.
+
+\paragraph{The idea.}
+Let $u\ne u'$ be two words of a datum, and let $C_u$, $C_{u'}$ be the finite-dimensional spaces of automorphic forms
+attached to them, of dimensions $d_u$, $d_{u'}$. Theorem~S asserts that the operator relating $C_{u'}$ to $C_u$ has
+Hilbert--Schmidt mass at most $(1+b^{-6})\,d_ud_{u'}/D_*$, where $D_*$ is the main term of the relevant space; that is,
+$C_u$ and $C_{u'}$ are, up to a factor $1+b^{-6}$, as orthogonal as two independent random subspaces
+(\cref{rem:families:random}). The proof follows the relative trace formula strategy of \cite{Announcement2026}.
+The operator has an orbital expansion $K=\sum_t\mathrm{op}(t)$ over \emph{terms} $t$: a term is a pair of row
+lattices $\Lambda,\Lambda'$ with a class of rational isometries $\gamma$ satisfying $\gamma\Lambda'=\Lambda$, and
+$\mathrm{op}(t)$ is an integral of rank-one operators over a fundamental domain. Terms are identity, degenerate,
+generic or non-generic; identity and degenerate terms contribute nothing, and $K_0$, the leading coefficient, is
+the sum of the generic and non-generic parts. The Hilbert--Schmidt norm of each part is expanded by a Gram
+identity over the finitely many ``Levi types'' of the terms (a finite Fourier analysis on products of groups
+$\GL_k(\F_q)$ at two auxiliary primes); after a positive semi-definite comparison of the Gram matrix with a scalar,
+it becomes a double sum over pairs of terms in the same row. Pairs are sorted by a corank $s_0\ge1$: pairs of corank
+at least two and non-scalar pairs of corank one (the \emph{loop rows}) and non-generic pairs of corank one are
+negligible, and the scalar pairs of corank one give the \emph{main row}, which is bounded by $(1+\delta)e_1\,
+d_ud_{u'}/D_*$ through a Bessel-type inequality for a tower of positive semi-definite kernels (``Theorem~A'') and a
+chain of identities between volumes and masses. Explicit numerics then give the factor $1+b^{-6}$.
+
+\paragraph{Organisation.}
+\Cref{sec:pf:thmS:conv} fixes the notions of families, closed properties and selections used throughout.
+\Cref{sec:pf:thmS:rows} proves the three local rows (the root result, \cref{pf:thmS:lg1}) from Theorem~S, the loop
+rows and the rank and trace-frame rows. \Cref{sec:pf:thmS:fam} deduces Theorem~S (\cref{pf:thmS:main}) from its
+pointwise form, and \cref{sec:pf:thmS:pw} reduces the pointwise form to an abstract statement about term systems.
+\Cref{sec:pf:thmS:abs} contains the spectral argument for term systems, \cref{sec:pf:thmS:main} the main row and
+Theorem~A, and \cref{sec:pf:thmS:loops} the loop rows. \Cref{sec:pf:thmS:deferred} proves the remaining inputs of these
+arguments and several results used in other sections of Part~II (density of $K$-finite vectors, a Capelli identity, the
+joint tensor identity of the carrier, lattice facts and size bounds), and \cref{sec:pf:thmS:remarks} records
+peculiarities of the formal statements.
+
+% ---------------------------------------------------------------------------
+\subsection{Conventions: families, closed properties, selections}\label{sec:pf:thmS:conv}
+
+We use the notions of \cref{def:families:closed,def:families:rows}. A family $F\in\sfname{FamP}(\eps)$ has a threshold
+$x_1$, index sets $I_x$, members $(D_{x,i},L_{x,i})$ for $x>x_1$, and lists of constants: a list $c_{\mathrm{out}}$,
+a list $c_{\mathrm{mid}}(C_H)$ depending on an auxiliary constant $C_H$, a last list, and named constants such as
+$C_{\mathrm{YL}}$, $C_{\mathrm{Tu}}$, $C_\Gamma$. Two derived constants are used constantly:
+$s_{C'}(F)$ (the constant $C_{k,\mathrm{low}}$ of $F$) and $s_{C_l}(F)$ (the minimum of six constants of $F$).
+For a datum $D$ we write $k,m,f,r,r_S$ for its ranks, $E$ for its CM host field, $T_u$ for the level prime of a word
+$u$, $d^S_u\in\N$ for the number attached to $u$ (the ``size'' of $u$), $D_*$ for its main term, and for size data
+$L$ we write $b=b(L)\ge2$ for the scale quantity $b=e^{x^\eps}$.
+
+\begin{definition}[Eventually; closed]\label{pf:thmS:closed}
+For a family $F$ and a predicate $P(C',C_l,x,i)$, $\thmSEv_F\,P$ means: there is $x_0$ such that
+$P(s_{C'}(F),s_{C_l}(F),x,i)$ holds for all $x\ge x_0$ and $i\in I_x$. For a class $\mathcal C$ and a property
+$P(F,C_H)$, $\thmSClosed(\mathcal C,P)$ means: there is $\eps_1>0$ such that for every $\eps\in(0,\eps_1]$ there is a
+staged threshold $K$ (a constant $K_{\mathrm{pre}}$ and functions $K_{\mathrm{mid}},K_{\mathrm{last}}$ of lists of
+reals) with $P(F,C_H)$ for all $F\in\mathcal C\cap\sfname{FamP}(\eps)$ and all $C_H$ such that the constants of
+$F$ are \emph{large} for $(K,C_H)$: every entry of the first list is $\ge K_{\mathrm{pre}}$, every entry of
+$c_{\mathrm{mid}}(C_H)$ is $\ge K_{\mathrm{mid}}(c_{\mathrm{out}})$, and every entry of the last list is
+$\ge K_{\mathrm{last}}(c_{\mathrm{out}}\mathbin{+\!\!+}c_{\mathrm{mid}}(C_H))$.
+\end{definition}
+
+The following shared lemma is used to derive closed statements; it is proved in
+\lref{Formalism.L2.SG.ThmSOwn.closed_with}: \emph{if $\thmSClosed(\mathcal C,Q)$ holds and $\theta_m,\theta$ are
+functions of lists of reals such that $Q(F,C_H)$ implies $P(F,C_H)$ whenever $F\in\mathcal C$,
+$\theta_m(c_{\mathrm{out}})\le C_\Gamma(F)$, $\theta(c_{\mathrm{out}}\mathbin{+\!\!+}c_{\mathrm{mid}}(C_H))\le
+s_{C'}(F)$ and $\theta(c_{\mathrm{out}}\mathbin{+\!\!+}c_{\mathrm{mid}}(C_H))\le s_{C_l}(F)$, then
+$\thmSClosed(\mathcal C,P)$.} In words: in a closed statement, the constants $s_{C'}(F),s_{C_l}(F)$ may be assumed
+larger than any prescribed function of the earlier constants. Closed statements are also stable under
+conjunction (take the largest of the staged thresholds).
+
+\paragraph{Spectral selections and term systems.}
+A \emph{spectral selection} $\sigma$ for a class $\mathcal C$ assigns to every $F\in\mathcal C$ a threshold $x_0(F)$
+and, for $x>x_1$, $x\ge x_0(F)$ and $i\in I_x$, \emph{spectral ties} $\sigma(F)_{x,i}$ for $D_{x,i}$. Spectral ties
+$T$ for a datum $D$ consist of a Hida setting $X=T.X$ (an automorphic instance of a unitary group over $E$, with a
+level subgroup character, discrete series data at the infinite places and a Haar measure on the finite adelic
+points), an adelic bridge, and a \emph{full system} $Y=T.Y$ (flags, row representatives, fundamental sets,
+column systems and a typed reduction at the two type primes). For words $u,u'$ the full system defines a
+\emph{term system} $Y.t_O(u,u')$ in the sense of \cref{pf:thmS:terms} below, whose terms are the triples
+$(\Lambda,\Lambda',[\gamma])$ described in the introduction, with operators in the Hilbert--Schmidt space of maps
+between the column spaces of $u'$ and $u$; we write $K_0(u,u')$ for its leading coefficient. The pair $(X,Y)$
+is \emph{concretely tied} if, among other things, the dimension of the space $C_u$ of $X$ equals $d^S_u$ and the
+main term $D_*(X)$ of $X$ equals $D_*$. We put
+\[
+\thmSdC(u,u')=\frac{\dim C_u\,\dim C_{u'}}{D_*(X)},\qquad \thmSepsL(D)=\exp\Bigl(-\tfrac13\,k f\log k\Bigr).
+\]
+
+\paragraph{Standing and count hypotheses.}
+Data and size data carry \emph{standing hypotheses} and \emph{standing numerical data}, depending on constants; we use
+them only through the consequences cited below. The \emph{admissible bounds} are the standing numerical data with
+constant $C_0$, the standing hypotheses with constants $(C',C_l,C_{\mathrm{YL}}+1,\frac14,3,\frac12,C_{\mathrm{Tu}})$, and
+$1\le C_0$. The count hypotheses $\mathrm{CH}_0(D,L;C',C_l,C_g,c_b,C_u,c_T,C_T,C_0)$ are the standing hypotheses and data
+with these constants and $1\le C_0$; the count hypotheses $\mathrm{CH}(D,L,u,u';\dots,C_0,A)$ for two words add the
+\emph{standard conditions} $\mathrm{St}(D,u,u')$ (the level primes $T_u,T_{u'}\ge3$ and the type primes $g_0\ne g_1$ are
+primes split completely in $E$, $g_S(D)$ is prime to $T_uT_{u'}$, $T_u\equiv T_{u'}\bmod g_S(D)$, and $r_S\ge1$), the
+comparisons $T_u/T_{u'},T_{u'}/T_u\le A$ and $\mathrm{vand}(u_\tau)\le A^k\mathrm{vand}(u'_\tau)$ (and symmetrically) for
+the Vandermonde products of the Harish-Chandra parameters at every embedding type $\tau$, and the inequalities
+$C_lm^6\Lambda\le k\log k$, $(\log f)^2\le Am^2\Lambda$, $\log f\le Ar_S^2$, where $\Lambda$ is the scale quantity of $L$
+entering the size conditions.
+
+\begin{definition}[Loop rows, Theorem S along a selection, trace frame]\label{pf:thmS:defrows}
+Let $\mathcal C$ be a class, $\sigma$ a spectral selection for $\mathcal C$ and $C_0\in\R$. Write $X,Y$ for the
+components of $\sigma(F)_{x,i}$ and $D=D_{x,i}$, $L=L_{x,i}$.
+\begin{enumerate}
+\item (Loop rows.) $\mathcal{L}_{C_0}(\mathcal C,\sigma)$: for every function $a_F$ of lists of reals,
+$\thmSClosed(\mathcal C,P)$, where $P(F,C_H)$ says that $\thmSEv_F$ of the following holds: for all admissible
+$x$ and all words $u,u'$ of $D$, if the count hypotheses $\mathrm{CH}(D,L,u,u';C',C_l,C_{\mathrm{YL}}+1,\tfrac14,3,
+\tfrac12,C_{\mathrm{Tu}},C_0,a_F(c_{\mathrm{out}}))$ hold, $(X,Y)$ is concretely tied and the term system
+$Y.t_O(u,u')$ is absolutely convergent, then the row bounds $\mathrm{R}_{\mathrm{big}}$ and $\mathrm{R}_{\mathrm{nsc}}$ of
+\cref{pf:thmS:terms} hold for $Y.t_O(u,u')$ with $\varepsilon=\thmSepsL(D)$ and $dd=\thmSdC(u,u')$.
+\item (Theorem S along the selection.) $\mathcal{S}(F,C_0,\sigma(F))$: $\thmSEv_F$ of the following: if the admissible
+bounds hold, then for all admissible $x$ and all words $u\ne u'$ of $D$,
+\begin{equation}\label{eq:pf:thmS:S}
+\|K_0(u,u')\|^2\le\bigl(1+b^{-6}\bigr)\,\frac{d^S_u\,d^S_{u'}}{D_*}.
+\end{equation}
+\item (Trace frame.) $\mathrm{TF}(F;C_g,c_b,C_u,c_T,C_T,C_0)$: $\thmSEv_F$ of: if the count hypotheses $\mathrm{CH}_0$ hold for $(D,L)$ with the constants
+$(C',C_l,C_g,c_b,C_u,c_T,C_T,C_0)$, then $1\le T_w\,\kappa_S(D)^{2r_S}$ for every word $w$,
+where $\kappa_S(D)$ is the quotient of the constant $\kappa$ of the host by a constant $g(D)$ of the datum.
+\item (Mass formulas.) $\mathrm{MF}(F;C_0,\dots)$: $\thmSEv_F$ of: under the corresponding standing hypotheses, the \emph{mass
+formulas} hold for $D$: for every hermitian $\OO_E$-lattice $L$ with a symmetric form which is orthogonal of rank $k$,
+$d^S_u$ equals the mass of $L$ times explicit local and archimedean factors (a product of Vandermonde values of the
+Harish-Chandra parameters of $u$, factorials, and $(T_u^k-1)^f$), and for $L$ orthogonal of rank $r$, $D_*$ equals the
+mass of $L$ times explicit factors. The \emph{rank row} for $\mathcal C$ is
+$\mathcal{R}_{C_0}(\mathcal C)=\thmSClosed(\mathcal C,\mathrm{MF}(\cdot;C_0,C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,
+C_{\mathrm{Tu}}))$.
+\end{enumerate}
+\end{definition}
+
+The three rows of the package treated here are, for a slot $Q$ and a linkage $\mathrm{Lk}$ for bundles (in the
+sense of \cref{def:families:rows}),
+\begin{align*}
+\mathsf{sLp}:&\ \ \sfname{Row}\bigl(Q,\mathrm{Lk},(\mathcal A,\sigma)\mapsto
+\mathcal{L}_{3}(\mathcal D_3,\sigma^{\mathrm{sp}})\bigr),\\
+\mathsf{sO}:&\ \ \sfname{Row}\bigl(Q,\mathrm{Lk},(\mathcal A,\sigma)\mapsto
+\thmSClosed\bigl(\mathcal D_3,F\mapsto\mathcal{S}(F,3,\sigma^{\mathrm{sp}}(F))\bigr)\bigr),\\
+\mathsf{hTF}:&\ \ \sfname{Row}\bigl(Q,\mathrm{Lk},(\mathcal A,\sigma)\mapsto
+\thmSClosed\bigl(\mathcal D_3,\mathrm{TF}(\cdot;C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,C_{\mathrm{Tu}},3)\bigr)\bigr),
+\end{align*}
+where $\mathcal D_3=D3(3,\mathcal A)$ is the class of designed families of \cref{def:families:closed}, and for a raw
+selection $\sigma$ of bundles over $\mathcal A$, $\sigma^{\mathrm{sp}}$ is the spectral selection with threshold $x_1$
+whose spectral ties at $(F,x,i)$ are those of the spectral record of the bundle $\sigma(F,x,i)$.
+For a predicate $\mathrm{KP}$ on bases and frames, slots $Q,Q'$ and a property $r$ of slots, $\mathrm{Lg}(\mathrm{KP},
+Q,Q',r)$ means: there is a slot $R$ such that, eventually in the scale and for large twisting data, every core of $Q$
+satisfying $\mathrm{KP}$ lies in $R$, and $r(Q'\wedge R)$ holds.
+
+% ---------------------------------------------------------------------------
+\subsection{The three local rows}\label{sec:pf:thmS:rows}
+
+\begin{theorem}[Local rows from the Siegel--Weil formula]\label{pf:thmS:lg1}
+Assume the Siegel--Weil formula in the convergent range (\cref{lit:families:sw}). Then for every predicate
+$\mathrm{KP}$ on bases and frames, all slots $Q,Q'$ and every linkage $\mathrm{Lk}$ for bundles,
+$\mathrm{Lg}(\mathrm{KP},Q,Q',S\mapsto\mathsf{sLp}(S,\mathrm{Lk}))$, $\mathrm{Lg}(\mathrm{KP},Q,Q',
+S\mapsto\mathsf{sO}(S,\mathrm{Lk}))$ and $\mathrm{Lg}(\mathrm{KP},Q,Q',S\mapsto\mathsf{hTF}(S,\mathrm{Lk}))$ hold.
+\formallabel{GlobalTheory.LocalRows.lg1_sLp_sO_hTF}
+\end{theorem}
+
+\begin{proposition}[The rows at every slot]\label{pf:thmS:everyslot}
+Under the Siegel--Weil formula, $\mathsf{sLp}(Q,\mathrm{Lk})$, $\mathsf{sO}(Q,\mathrm{Lk})$ and $\mathsf{hTF}(Q,\mathrm{Lk})$
+hold for every slot $Q$ and every linkage $\mathrm{Lk}$.
+\formallabel{GlobalTheory.LocalRows.sLp_sO_hTF_of_siegelWeil}
+\end{proposition}
+
+\begin{proposition}[The rows at a selection]\label{pf:thmS:atchoice}
+Assume the Siegel--Weil formula. For every class $\mathcal A$ and every raw selection $\sigma$ of bundles over
+$\mathcal A$, with $\mathcal D_3=D3(3,\mathcal A)$:
+\begin{enumerate}
+\item $\mathcal{L}_{3}(\mathcal D_3,\sigma^{\mathrm{sp}})$;
+\item $\thmSClosed(\mathcal D_3,F\mapsto\mathcal{S}(F,3,\sigma^{\mathrm{sp}}(F)))$;
+\item $\thmSClosed(\mathcal D_3,\mathrm{TF}(\cdot;C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,C_{\mathrm{Tu}},3))$.
+\end{enumerate}
+\formallabel{GlobalTheory.LocalRows.at_choice_alt}
+\end{proposition}
+
+We first record the rank and trace-frame rows. A \emph{twist selection} for a class $\mathcal C$ chooses, for every
+member of every $F\in\mathcal C$ past a threshold, a tied record (theta data with real structure, column data and
+levels); a raw selection $\sigma$ of bundles over $\mathcal A$ induces one on $\mathcal D_3$, by taking the records
+of the bundles.
+
+\begin{lemma}[Rank and trace-frame rows]\label{pf:thmS:ranks}
+Assume the mass-ratio identity for every datum $D$ (if the volumes of $D$ are tied, they satisfy the volume ratio of \cref{prop:families:volratio}(i)). Then for every class $\mathcal C$ admitting a twist selection,
+$\mathcal{R}_{3}(\mathcal C)$ holds, and so does
+$\thmSClosed(\mathcal C,\mathrm{TF}(\cdot;C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,C_{\mathrm{Tu}},3))$.
+\formallabel{GlobalTheory.ranks_and_frame_of_tied_class_alt}
+\end{lemma}
+
+\begin{proof}
+For the rank row it suffices to prove $\mathrm{MF}(F;C_0,\dots)$ for every family $F$ with a twist selection and
+all constants (a property holding for every member of the class is closed). This is
+\lref{GlobalTheory.exact_ranks_along_tied_family_alt}: past the threshold of the selection, the tied record
+gives the real structure of the theta data and the equality of the column levels with the symmetric level; the
+class number formula of the development gives the rank formula for the levels; the type primes split
+completely (by the standing hypotheses); the volume of the definite space equals the mass by the mass-ratio
+identity; and \lref{GlobalTheory.exact_ranks_of_record} rewrites $d^S_u$ and $D_*$ through the mass of orthogonal
+lattices, the product over the places above the type primes, and the exact local indices of columns and rows. The
+trace-frame row follows from the rank row by \cref{pf:thmS:tf} below with $C_0=3$, applied with the formal-degree identity and the representation property of CM fields (\cref{pf:thmS:rem1}(2)), which are theorems of the development
+(\lref{Formalism.L2.SG.OwnFacts.FD.factDsigHC} and \lref{GlobalTheory.hermRepUnram}); this is
+\lref{GlobalTheory.tFrame_of_ranksRow_three}.
+\end{proof}
+
+\begin{corollary}\label{pf:thmS:bothrows}
+The Siegel--Weil formula implies, for every class with a twist selection, the rank row $\mathcal{R}_{3}$ and the
+trace-frame row of \cref{pf:thmS:ranks}.
+\formallabel{GlobalTheory.bothRowsFromSiegelWeil_alt}
+\end{corollary}
+
+\begin{proof}
+The mass-ratio identity for every datum follows from the Siegel--Weil formula by
+\lref{GlobalTheory.VolRatioFromSiegelWeil.volumeRatio} (\cref{prop:families:volratio}(i)); apply
+\cref{pf:thmS:ranks}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:atchoice}]
+Let $T$ be the twist selection on $\mathcal D_3$ induced by $\sigma$. By \cref{pf:thmS:ranks} and the mass-ratio
+identity from the Siegel--Weil formula, $\mathcal{R}_{3}(\mathcal D_3)$ and the trace-frame row hold; the latter is
+(3). Members of $\mathcal D_3$ satisfy the size condition $\sfname{TuSize}$ (it is part of the definition of designed
+families). Hence (1) is the loop-row theorem \cref{pf:thmS:loops}, applied to $\mathcal D_3$, $T$ and
+$\sigma^{\mathrm{sp}}$, with finite-dimensionality of the row spaces $\mathrm{FD}$
+(\lref{GlobalTheory.rowsFinDim_link}) and the mass-ratio identity. For (2) apply Theorem~S
+(\cref{pf:thmS:main}) to $\mathcal D_3$ and $\sigma^{\mathrm{sp}}$: its hypotheses are $\sfname{SWXS}$ and
+$\sfname{RowNGP}$, which follow from the Siegel--Weil formula
+(\lref{GlobalTheory.St.swxs_of_siegelWeil} and \lref{GlobalTheory.rowNGP_of_siegelWeil},
+\cref{prop:families:volratio}(ii),(iii)), $\mathrm{FD}$, the local ties of the selected data (a field of the
+spectral record of every bundle), the rank row and (1).
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:everyslot} and \cref{pf:thmS:lg1}]
+A row $\sfname{Row}(Q,\mathrm{Lk},H)$ holds as soon as $H(\mathcal A,\sigma)$ holds for every class $\mathcal A$ and
+every raw selection $\sigma$ (take for the bundle property of \cref{def:families:rows} the true property; this is
+the shared lemma \lref{GlobalTheory.Fc.Row.of_sel}). By \cref{pf:thmS:atchoice} this is the case for the three
+rows, for every $Q$ and $\mathrm{Lk}$; this proves \cref{pf:thmS:everyslot}. For \cref{pf:thmS:lg1} take for $R$ the
+slot containing every core: the large-base condition holds trivially for it
+(\lref{GlobalTheory.Fc.largeBaseProperty_true}), and the three rows hold at the slot $Q'\wedge R$ by
+\cref{pf:thmS:everyslot}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Theorem S along families}\label{sec:pf:thmS:fam}
+
+\begin{theorem}[\cref{thm:theorem-S}]\label{pf:thmS:main}
+Assume $\sfname{SWXS}$, $\sfname{RowNGP}$ and $\mathrm{FD}$. Let $\mathcal C$ be a class and $\sigma$ a
+spectral selection for $\mathcal C$ such that every datum $D_{x,i}$ with $F\in\mathcal C$, $x>x_1$, $x\ge x_0(F)$ is
+locally tied, the rank row $\mathcal{R}_{3}(\mathcal C)$ holds and $\mathcal{L}_{3}(\mathcal C,\sigma)$
+holds. Then $\thmSClosed(\mathcal C,F\mapsto\mathcal{S}(F,3,\sigma(F)))$: closedly on $\mathcal C$,
+eventually in $x$, under the admissible bounds, \eqref{eq:pf:thmS:S} holds for all $i\in I_x$ and all distinct
+words $u\ne u'$ of $D_{x,i}$.
+\formallabel{GlobalTheory.CarrierGap.offDiag}
+\end{theorem}
+
+Here $\sfname{SWXS}$ is the Siegel--Weil volume identity for the CM and hermitian steps of every Hida setting together
+with a first-Chern compatibility of stabilisers, $\sfname{RowNGP}$ is the bound for the non-generic terms
+(\cref{prop:families:volratio}(iii)), and $\mathrm{FD}$ is the finite-dimensionality of the spaces of
+automorphic forms cut out by a locally constant idempotent on a fundamental domain. ``Locally tied'' means that at
+every place of the auxiliary set, the local data of $D$ are isomorphic to the canonical local data.
+
+The proof combines the pointwise form of Theorem~S (\cref{sec:pf:thmS:pw}) with the following statements.
+
+\begin{definition}[Pointwise Theorem S]\label{pf:thmS:distinct}
+$\mathcal{S}^{\mathrm{pt}}$ is the statement: for every $C_{\mathrm{thr}}$ there are $C_4\ge1$,
+$C_A\ge\max(1,C_{\mathrm{thr}})$ and $0\le C\le C_A$ such that for all $C_0\ge1$, $C_G\ge0$, $C_\Delta>4$, $c_T>0$,
+$C_b>0$ with $c_TC_b>1$ there is $k_0\in\N$ such that for all $C_g,c_b,C_w,c_{Tf},C_T,C_{0f}$ with $c_b>0$, $c_{Tf}>0$
+there are $C_n\ge0$, $C'_0$, $C_{l,0}$ such that for all $C'\ge C'_0$ and $C_l\ge C_{l,0}$ the following holds for
+every datum $D$, size data $L$, spectral ties $T=(X,Y,\dots)$ for $D$ and distinct words $u\ne u'$: if $D$ is tied,
+$b\ge0$, the size hypotheses $\mathrm{Sz}(C_A,C_0,C_G,C_\Delta,c_T,C_b,C_n,k_0;D,L,T,u,u')$, the count
+hypotheses $\mathrm{CH}_0(D,L;C',C_l,C_g,c_b,C_w,c_{Tf},C_T,C_{0f})$, the standard conditions
+$\mathrm{St}(D,u,u')$ on the level and type primes, the hypotheses $\mathrm{H}_{K}$, the gap hypothesis
+$\mathrm{Gap}(D)$ ($r\ge1801$ and consecutive Harish-Chandra parameters differ by at least $16r^{19}$), local ties,
+the trace frame $1\le T_w\kappa_S(D)^{2r_S}$ for all words $w$, and the two loop-row bounds $\mathrm{R}_{\mathrm{big}}$,
+$\mathrm{R}_{\mathrm{nsc}}$ for $Y.t_O(u,u')$ with $(\thmSepsL(D),\thmSdC(u,u'))$ hold, then \eqref{eq:pf:thmS:S} holds.
+\end{definition}
+
+\begin{lemma}[Pointwise to distinct words]\label{pf:thmS:distinctlemma}
+The conclusion of \cref{pf:thmS:pointwise} below implies $\mathcal{S}^{\mathrm{pt}}$.
+\formallabel{Formalism.L2.SG.ThmSOwn.theoremS_distinct_of_closed}
+\end{lemma}
+
+\begin{proof}
+\Cref{pf:thmS:pointwise} has the same quantifier structure and hypotheses, and its conclusion is the conjunction of
+\eqref{eq:pf:thmS:S} with a second inequality; keep the first conjunct.
+\end{proof}
+
+\begin{lemma}[Selections are admissible]\label{pf:thmS:selok}
+Assume $\mathrm{Fin}$ and Wu decay $\mathrm{Wu}$ (for every datum $D$ with $\mathrm{Gap}(D)$ and every
+Hida setting $X$ for $D$, the Wu decay estimate holds and the archimedean matrix-coefficient function of $X$ is
+integrable). Let $\sigma$ be a spectral selection for $\mathcal C$ whose selected data are locally tied, and assume the
+trace-frame row $\thmSClosed(\mathcal C,\mathrm{TF}(\cdot;C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,C_{\mathrm{Tu}},C_0))$.
+Then closedly on $\mathcal C$, eventually in $x$ and under the admissible bounds, every selected $\sigma(F)_{x,i}$ is
+\emph{admissible} (its pair $(X,Y)$ is concretely tied, and $D_{x,i}$ is locally tied and satisfies
+the trace frame).
+\formallabel{Formalism.L2.SG.ThmSOwn.selOK_of}
+\end{lemma}
+
+\begin{proof}
+Apply the closing lemma \lref{Formalism.L2.SG.ThmSOwn.closed_with} to the trace-frame row, with thresholds $0$ for
+$C_\Gamma$ and $29$ for $s_{C'}$, $s_{C_l}$. Under the admissible bounds with $s_{C'}(F),s_{C_l}(F)\ge29$, the standing hypotheses
+give $\mathrm{Gap}(D_{x,i})$ (the shared lemma \lref{Formalism.L2.SG.ThmSOwn.gap_hypothesis_of_hypotheses}:
+the standing hypotheses with $C_l\ge16$ and $C'\ge29$ imply the gap hypothesis); the
+trace frame holds at $D_{x,i}$ by the row; and the shared lemma \lref{Formalism.L2.SG.ThmSOwn.sTiesOK_of} states
+that $\mathrm{Fin}$, Wu decay, the gap hypothesis, local ties and the trace frame make spectral ties admissible.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS:finxc}
+Wu decay and $\mathrm{FD}$ imply $\mathrm{Fin}$ (finiteness of the spaces of the full systems of all spectral
+ties for data with the gap hypothesis).
+\formallabel{Formalism.L2.SG.Pf.finXC_of}
+\end{lemma}
+
+\begin{proof}
+This is the shared statement \lref{Formalism.L2.SG.Pf.FinXP.finX_holds}, applied with Wu decay,
+$\mathrm{FD}$, the finiteness of Levi quotients \lref{Formalism.L2.SG.Pf.FinLeviPf.finLeviC_holds} and
+the kernel statement \lref{Formalism.L2.SG.Pf.KernelOfEmbedding.IotaKer_holds}.
+\end{proof}
+
+\begin{lemma}[Size rows from the rank row]\label{pf:thmS:tf}
+Let $C_0\ge1$ and assume $\mathcal{R}_{C_0}(\mathcal C)$. Then:
+\begin{enumerate}
+\item $\thmSClosed(\mathcal C,\mathrm{TF}(\cdot;C_{\mathrm{YL}}+1,\tfrac14,3,\tfrac12,C_{\mathrm{Tu}},C_0))$;
+\item closedly, eventually and under the admissible bounds, the size rows hold at $D_{x,i}$: the
+Schur formal-degree identity, the mass formulas of $\mathrm{MF}$, the split size condition, and
+the lower bound $\ge\frac12$ for the relative formal degrees at all infinite places;
+\item with $a(C_0)=e^{3/4}C_0e$: closedly, $1\le a(C_0)$ and, eventually and under the admissible bounds,
+$\mathrm{LR}(D_{x,i},a(C_0))$ holds, i.e.\ $T_u/T_{u'}\le a(C_0)$ and
+$\mathrm{vand}(u'_\tau)\le a(C_0)^k\,\mathrm{vand}(u_\tau)$ for all words $u,u'$ and all embeddings $\tau$, where
+$\mathrm{vand}$ is the Vandermonde product of the Harish-Chandra parameters.
+\end{enumerate}
+\formallabel{Formalism.L2.SG.Pf.SzHypFam.hTF_of_ranks}
+\formallabel{GlobalTheory.tFrame_of_ranksRow_three}
+\formallabel{Formalism.L2.SG.Pf.SzHypFam.hRw_of_ranks}
+\formallabel{Formalism.L2.SG.Pf.SzHypFam.hA_of_ranks}
+\end{lemma}
+
+\begin{proof}
+In each case apply \lref{Formalism.L2.SG.ThmSOwn.closed_with} to the rank row, with thresholds $40$, $1$ and $40$
+for $s_{C_l}$. (For $C_0=3$ the auxiliary propositions taken as instance arguments are theorems of the development,
+\cref{pf:thmS:rem1}(2); this is the form of (1) used for the trace-frame row.) (1) Under $s_{C_l}(F)\ge40$, the trace frame is deduced from the rank formulas by
+\lref{Formalism.L2.SG.Pf.SzHypFam.tFrame_of_ranks}: the Siegel mass ratio for CM fields unramified over their
+real subfield and the rank-two mass bound give the first part of the family Bessel bound, the critical-level lower
+bound gives the local split exponents, and the level frame lemma combines them. (2) Under $s_{C_l}(F)\ge1$ one has
+$1\le s_{C_l}(F)\,L$, and \lref{Formalism.L2.SG.Pf.SzHypFam.szRowsAt_of_ties} gives the four size rows from the
+ties of $D$, the standing data and hypotheses, and the mass formulas. (3) $a(C_0)\ge1$ since $C_0\ge1$; the bound
+$\mathrm{LR}$ is \lref{Formalism.L2.SG.Pf.SzHypFam.sizes3b_of_ranks}, from the critical-level ratio and the
+level-ratio bound for the lowest $K$-types.
+\end{proof}
+
+We also use two closed statements about the thresholds and sizes of selected data, both deferred:
+\lref{Formalism.L2.SG.Pf.ThresholdLevels.thrRow_holds} states that for every $C_A\ge1$, closedly, eventually and
+under the admissible bounds with $C_0$, for all distinct words $u\ne u'$ the threshold set of the data at places has
+a largest element of the form $\Theta^{-f}$ with $\Theta>0$ (the threshold condition at places); and
+\lref{Formalism.L2.SG.Pf.SzHypOf.sizesRowS_of} states that the size rows of \cref{pf:thmS:tf}(2) and these
+threshold rows imply the closed size row $\mathrm{SR}_{C_0}(\mathcal C,\sigma)$: for all $C_A\ge1$ and all
+functions $k_0,c_n$ of lists of reals, closedly, eventually and under the admissible bounds, the size hypotheses
+$\mathrm{Sz}(C_A,C_0,C_\Gamma,5,\tfrac12,3,c_n(\cdot),k_0(\cdot);D,L,\sigma(F)_{x,i},u,u')$ hold for all $u\ne u'$.
+
+\begin{proposition}[Passage to families]\label{pf:thmS:transport}
+Assume $\mathcal{S}^{\mathrm{pt}}$ and $C_0\ge1$. Let $\sigma$ be a spectral selection for $\mathcal C$ such that,
+closedly, the selected spectral ties are admissible (\cref{pf:thmS:selok}); assume the size row
+$\mathrm{SR}_{C_0}(\mathcal C,\sigma)$, a function $a_F$ with $\thmSClosed(\mathcal C,F\mapsto 1\le
+a_F(c_{\mathrm{out}})\wedge\thmSEv_F(\text{admissible bounds}\Rightarrow\mathrm{LR}(D,a_F(c_{\mathrm{out}}))))$, the
+loop rows $\mathcal{L}_{C_0}(\mathcal C,\sigma)$, and absolute convergence of all tied term systems
+($\mathrm{AC}$). Then $\thmSClosed(\mathcal C,F\mapsto\mathcal{S}(F,C_0,\sigma(F)))$.
+\formallabel{Formalism.L2.SG.ThmSOwn.offDiagonalK0_of_rows}
+\end{proposition}
+
+\begin{proof}
+Apply $\mathcal{S}^{\mathrm{pt}}$ with $C_{\mathrm{thr}}=1$; it gives $C_A\ge1$. For a list $l$ of reals let
+$C_G(l)$ be its entry of index $17$ (for $l=c_{\mathrm{out}}\mathbin{+\!\!+}c_{\mathrm{mid}}(C_H)$ this entry is
+$C_\Gamma(F)\ge0$). Applying the statement with $C_0$, $C_G=C_G(l)$, $C_\Delta=5$, $c_T=\frac12$, $C_b=3$ (so
+$c_TC_b>1$) and with the count constants $(C_g,c_b,C_w,c_{Tf},C_T,C_{0f})=(l_6+1,\frac14,3,\frac12,l_{13},C_0)$ (the
+entries $6$ and $13$ of the list are $C_{\mathrm{YL}}$ and $C_{\mathrm{Tu}}$) defines functions $k_0(l)$, $c_n(l)$,
+$c'(l)$, $c_l(l)$ such that the conclusion of the pointwise theorem holds for all $C'\ge c'(l)$, $C_l\ge c_l(l)$
+(for lists with negative entry $17$ the functions are set to $0$). Take the conjunction of the closed statements:
+admissibility, the size row $\mathrm{SR}_{C_0}$ with $(C_A,k_0,c_n)$, the loop rows with $a_F$, and the bound
+$\mathrm{LR}$; and apply \lref{Formalism.L2.SG.ThmSOwn.closed_with} with the threshold $0$ for $C_\Gamma$ and
+$\max(c'(l),c_l(l),29)$ for $s_{C'}$, $s_{C_l}$. Fix $F$, $C_H$ in the resulting situation, choose $x_0$ larger than
+the four thresholds ``eventually'' of the statements, and let $x\ge x_0$, $i\in I_x$, $u\ne u'$, under the admissible
+bounds. Then: the selected $(X,Y)$ is concretely tied (admissibility); the count hypotheses
+$\mathrm{CH}$ hold with $a_F(c_{\mathrm{out}})$, by \lref{Formalism.MainNotions.count_hypotheses_of_sizes}
+(the admissible bounds, $s_{C_l}(F)\ge29$ and $\mathrm{LR}$); the term system is absolutely convergent
+($\mathrm{AC}$); so the loop rows give $\mathrm{R}_{\mathrm{big}}$ and $\mathrm{R}_{\mathrm{nsc}}$ with
+$(\thmSepsL(D),\thmSdC(u,u'))$. Further $b\ge2\ge0$; the size row gives $\mathrm{Sz}$; the conditions
+$\mathrm{St}(D,u,u')$ and $\mathrm{H}_{K}$ follow from the standing data and hypotheses
+(\lref{Formalism.MainNotions.Stand_of} and \lref{Formalism.MainNotions.NonGenericAndKTwoTheorems.Hyp_of}); the gap
+hypothesis follows from the standing hypotheses since $s_{C'}(F)\ge29$; local ties and the trace frame are part of
+admissibility; and $D_{x,i}$ is tied (a field of the family). The pointwise statement with $C'=s_{C'}(F)$,
+$C_l=s_{C_l}(F)$ gives \eqref{eq:pf:thmS:S}.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS:absconv}
+$\mathrm{AC}$ holds: for every datum $D$, every Hida setting $X$ and full system $Y$ which are concretely tied
+and all words $u,u'$, the term system $Y.t_O(u,u')$ is absolutely convergent.
+\formallabel{Formalism.L2.SG.ThmSOwn.absConvTied_holds}
+\end{lemma}
+
+\begin{proof}
+This is the shared implication \lref{Formalism.L2.SG.RowsConc.absConvTied_of_full} (folding, existence of
+fundamental sets, integrability of the orbital integrals and absolute convergence for full systems imply
+$\mathrm{AC}$), applied to the four statements
+\lref{Formalism.L2.SG.Closed.FoldOKC_outright}, \lref{Formalism.L2.SG.Closed.FundExistsC_holds}, \lref{Formalism.L2.SG.Closed.OOIntAllC_outright}, and \lref{Formalism.L2.SG.Closed.AbsConvC_outright}
+proved in the development.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:main}]
+Wu decay holds (\lref{CompanionTheory.Lime.BM.wuDecayOfGap_holds'}), hence $\mathrm{Fin}$ by
+\cref{pf:thmS:finxc}. The rank row gives the trace-frame row (\cref{pf:thmS:tf}(1) with $C_0=3$), hence
+admissibility of the selection (\cref{pf:thmS:selok}). The nineteen hypotheses (H1)--(H19) of the pointwise theorem are supplied by \lref{GlobalTheory.CarrierGap.theoremS_leaves_of_carrierG}, which derives
+them from the carrier bound (\lref{GlobalTheory.CarrierGap.carrierP}: a lower bound for Poincar\'e amplitudes), $\sfname{RowNGP}$,
+$\mathrm{FD}$, uniqueness of Bessel models with large gap (\lref{CompanionTheory.Lime.BM.uniqGap_holds})
+and $\sfname{SWXS}$; so \cref{pf:thmS:pointwise,pf:thmS:distinctlemma} give $\mathcal{S}^{\mathrm{pt}}$. The size
+row $\mathrm{SR}_{3}$ follows from \cref{pf:thmS:tf}(2) and the threshold row
+(\lref{Formalism.L2.SG.Pf.ThresholdLevels.thrRow_holds} and \lref{Formalism.L2.SG.Pf.SzHypOf.sizesRowS_of}); the bound
+$\mathrm{LR}$ with $a_F=a(3)$ is \cref{pf:thmS:tf}(3); the loop rows are assumed; and $\mathrm{AC}$ is
+\cref{pf:thmS:absconv}. \Cref{pf:thmS:transport} with $C_0=3$ concludes. (The auxiliary statements used as instance arguments by the lemmas of this subsection are theorems of the development, see \cref{pf:thmS:rem1}(2).)
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The pointwise theorem and its reduction to term systems}\label{sec:pf:thmS:pw}
+
+The pointwise theorem has nineteen hypotheses (H1)--(H19), supplied by
+\lref{GlobalTheory.CarrierGap.theoremS_leaves_of_carrierG}. We list them by their role; the terms ``datum'',
+``spectral ties'', ``term system'' are those of \cref{sec:pf:thmS:conv,sec:pf:thmS:abs}.
+\begin{enumerate}[label=(H\arabic*)]
+\item\label{pf:thmS:H1} (Local models.) For every datum $D$, the abstract kernels attached to $D$ have the local
+model of \cref{pf:thmS:localmodel} below.
+\item (Density inputs.) For every locally tied datum, in particular the density input
+$\mathrm{DI}(k,r_S,f,s_d)$ of \cref{pf:thmS:mainrowthm} for the density $s_d$ of the data, and positivity and
+boundedness of the local factors $\alpha_p$.
+\item (Row inputs.) For every datum, positive semi-definiteness of the top kernel minus the row coefficients
+(see $\mathrm{RI}$ in \cref{pf:thmS:mainrowthm}).
+\item (Non-generic terms.) $\sfname{RowNGP}$, the bound for the non-generic pairs (\cref{prop:families:volratio}(iii)).
+\item (Degenerate terms.) For distinct words, under $\mathrm{H}_{K}$ and a concrete tie, every degenerate term
+of $Y.t_O(u,u')$ has operator $0$.
+\item (Carrier bound.) The carrier lower bound for Poincar\'e amplitudes (\lref{GlobalTheory.CarrierGap.carrierP}).
+\item (Kernel expansion.) The kernel relating the words is the sum of the term operators.
+\item[(H8--10)] Folding, integrability of the orbital integrals and absolute convergence for full systems.
+\item[(H11)] (Finiteness.) $\mathrm{Fin}$: the spaces of the full systems of all spectral ties of data with the gap hypothesis are finite.
+\item[(H12)] (Wu decay.) $\mathrm{Wu}$ (\cref{pf:thmS:selok}).
+\item[(H13)] (Choices.) Existence of point representatives, a pinned archimedean measure, base vectors,
+local splitting data, uniformisers at the auxiliary places, a row labelling and a pair system.
+\item[(H14--16)] (Formula, row sums, row forms.) The counting formula for the terms,
+the resulting sum of rows, and the row forms with their normalising constants.
+\item[(H17)] (Mass data.) The thirteen identities $\mathrm{MI}$ of \cref{pf:thmS:massdata} for the
+mass data of the terms.
+\item[(H18)] (Links.) The link $\mathrm{LC}$ of \cref{pf:thmS:pbfromlocal} between the term system and the
+mass data.
+\item[(H19)] (Split inputs.) The inputs $\mathrm{SI}$ of \cref{pf:thmS:pbfromlocal} (Gram expansion, Gram
+bound, row orthogonality, positive corank, vanishing of the identity part, $\Gamma(i,i)=\Gamma_1$).
+\end{enumerate}
+
+\begin{theorem}[Pointwise Theorem S]\label{pf:thmS:pointwise}
+Assume (H1)--(H19). Then the statement $\mathcal{S}^{\mathrm{pt}}$ of
+\cref{pf:thmS:distinct} holds with the conclusion strengthened to
+\[
+\|K_0(u,u')\|^2\le\bigl(1+b^{-6}\bigr)\frac{d^S_ud^S_{u'}}{D_*}\quad\text{and}\quad
+\mathrm{hs}(u,u')\le\bigl(1+b^{-6}\bigr)\frac{d^S_ud^S_{u'}}{D_*},
+\]
+where $\mathrm{hs}(u,u')$ is the Hilbert--Schmidt square of the block $(u,u')$ recorded in the size data $L$.
+\formallabel{Formalism.L2.SG.TheoremSConclusion.theoremS_of_conj}
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.theoremS_closedP}
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.theoremS_rec3P}
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.theoremS_rec2P}
+\formallabel{Formalism.L2.SG.SpectralTiesReal.theoremS_rec}
+\end{theorem}
+
+The proof passes through three intermediate statements in which more and more of the hypotheses are replaced by the
+explicit data they provide; we describe them as steps.
+
+\begin{lemma}[Hilbert--Schmidt mass and leading coefficient]\label{pf:thmS:packagetie}
+Let $D$ be a datum with size data $L$, $b\ge0$, and assume the isometry of norms of the development. Let $X$, $Y$ be a
+Hida setting and a full system with finite spaces, isomorphic to the spectral data of $D$, and $u\ne u'$ words with
+the dimension ties, the $K$-expansion, absolute convergence, identity terms of weight $0$, vanishing degenerate part
+and the norm tie. If for some global size datum $G$ and parameters with the size tie one has $\|K_0(u,u')\|^2\le(1+b^{-6})\,d_ud_{u'}/D_*(G)$, then
+$\mathrm{hs}(u,u')\le(1+b^{-6})\,d^S_ud^S_{u'}/D_*$.
+\formallabel{Formalism.L2.SG.PackageTie2.packageTieConc}
+\end{lemma}
+
+\begin{proof}
+By the norm tie (applicable under the dimension ties, the expansion, absolute convergence and the vanishing of the
+identity-degenerate and degenerate parts) and the isometry of norms, $\mathrm{hs}(u,u')=\|K_0(u,u')\|^2$. The size tie
+gives $d_u=d^S_u$, $d_{u'}=d^S_{u'}$ and $D_*(G)=D_*$, and $b^{-6}=(b^6)^{-1}$ for $b\ge0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:pointwise}]
+\emph{Step 1: unpacking the sizes.}
+The size hypotheses $\mathrm{Sz}$ provide a bijection $e$ between the infinite places of $E$ and the embedding
+types $\tau$, a type $\tau$, constants $C_p,\Theta,C_f$ with $\Theta>0$, and for the global size datum $G=g(D,e)$
+attached to $D$ and the word data $d_e=\mathrm{de}(D,\tau,u)$, $d'_e=\mathrm{de}(D,\tau,u')$, $l=l(d_e,d'_e)$: $k_0\le
+G.k$, the size hypotheses $\mathrm{SH}(G,C_A,C_0,C_G,C_\Delta,c_T,C_b,b,C_p,\Theta,d_e,d'_e,T_u,T_{u'},d^S_u,
+d^S_{u'},l)$, the inequalities $16\le c_{\exp}(C_\Delta,c_T,C_b)\,C_f$, $C_f\log b\le G.f\log G.k$, $2r_S+2+f+5\le k$,
+the numerical conditions $\mathrm{SN}(G.k,G.r,G.f,b,G.g_1,G.g_2,\frac13,C_n)$ (\cref{pf:thmS:sizenumbers}),
+$D_*(G.\mathrm{size}(d_e,T_u,d^S_u))=D_*$ and $T_u\equiv T_{u'}\bmod g_S(D)^2$. By $\mathrm{Fin}$ and Wu decay the
+full system of $T$ has finite spaces and the archimedean coefficient is integrable; with the level-subgroup properties,
+neatness of the level subgroups (shared statements of the development), local ties and the trace frame, the pair
+$(T.X,T.Y)$ is concretely tied. (H13) provides the choices, and (H14) the counting formula for them. Since $(kb)^8\le g_1,g_2$ with $k\ge32$ and $b\ge16$ (from $\mathrm{SN}$), both type
+primes satisfy $g_i\ge3$. Folding, integrability and absolute convergence give absolute convergence of the term
+system; (H5) gives the vanishing of its degenerate part (the shared lemma
+\lref{Formalism.L2.SG.RowsOther.kppOff_of_termZero}); identity terms have weight $0$ (the shared lemma
+\lref{Formalism.L2.SG.Pf.SatGram.idDegenerate_tO}). Together with (H7) and (H15)--(H19) at these
+choices, all hypotheses of Step~2 hold.
+
+\emph{Step 2: the carrier bound.}
+The carrier bound (H6) provides $C_4\ge1$, $C_{A,0}$ and, for every $C_A\ge C_{A,0}$, the carrier estimate for the data of Step~1 beyond a further threshold for $k$. One applies Step~3 with
+$C_{\mathrm{thr}}$ replaced by $\max(C_{\mathrm{thr}},C_{A,0})$ and with $k_0$ the larger of the two thresholds.
+
+\emph{Step 3: the non-generic row.}
+The carrier record identifies the global size datum: $G.k=k$, $G.r=r_S$, $G.f=f$. The concrete tie gives
+$\dim C_u=d^S_u$, $\dim C_{u'}=d^S_{u'}$, $D_*(X)=D_*$; hence $\thmSdC(u,u')=d^S_ud^S_{u'}/D_*(G.\mathrm{size})$.
+$\sfname{RowNGP}$ provides $C_4'\ge0$ and the non-generic row bound with
+$\varepsilon_{\mathrm{NG}}=2^{-(k-2r_S-5)}\exp(C_4'(2r_S+2)^5f\log b)$; local ties follow from the concrete tie; and
+$\thmSepsL(D)=\exp(-\frac13 kf\log k)$. So the three row bounds of Step~4 hold with $c_5=\frac13$ and $C_n=C'_4$.
+
+\emph{Step 4: instantiation.} The carrier record contains a
+structure $S$ from which the abstract data of \cref{sec:pf:thmS:abs,sec:pf:thmS:main} are built: a TB-datum $D^\flat$ over the field $E$, built from $S$ and the data of $Y$, (\cref{pf:thmS:tbdata}) which is an instance
+$\mathrm{Inst}(D^\flat,S.\mathrm{pl},S.G,C_A,S.d_e,S.d'_e,T_u,T_{u'},S.l)$ of the sizes of $G$; (H1) gives its local model; (H2) the density input; (H3), together with the $K_V$-identity and its consequences $K_V\ge0$ and the bound for $K_V$, gives the row input $\mathrm{RI}$ for the row coefficients $c$; and the energy link
+$\mathrm{En}(B,\mathrm{jn},s_d,C,\Theta,r,f)$ for the mass data $B$ of the terms is
+\lref{Formalism.L2.SG.MassDataConc.energyLink_bCF}. $E$ is unramified over its maximal real subfield
+(a property of the host). The term system $Y.t_O(u,u')$ satisfies $\mathrm{LC}$ and
+$\mathrm{SI}$ with the mass data, and the three row bounds of Step~3. Now \cref{pf:thmS:pbapplied} gives
+$\|K_0(u,u')\|^2\le(1+b^{-6})\,d^S_ud^S_{u'}/D_*(G.\mathrm{size})$, which is the first inequality since
+$D_*(G.\mathrm{size})=D_*$; \cref{pf:thmS:packagetie} (with the dimension ties, the norm tie and the isometry of
+norms, which are shared statements of the development) gives the second.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The spectral argument for term systems}\label{sec:pf:thmS:abs}
+
+\begin{definition}[Term systems]\label{pf:thmS:terms}
+A \emph{term system} $\mathcal X$ consists of a set $\mathcal T$ of terms, complex inner product spaces $H$ and $H_1$,
+maps $\mathrm{op}:\mathcal T\to H$ and $\mathrm{vec}:\mathcal T\to H_1$, a set of rows with a map
+$\thmSrow:\mathcal T\to\mathrm{Rw}$, a finite set $I$ (of \emph{types}) with a map $\iota:\mathrm{Rw}\to I$,
+predicates $\mathrm{isId}$ and $\mathrm{gen}$ on $\mathcal T$, a weight $G:\mathcal T\to\R$, a matrix $\Gamma:I\times
+I\to\C$, a real number $\Gamma_1$, a corank function $s_0:\mathcal T\times\mathcal T\to\N$ and a relation
+$\mathrm{scal}$ on $\mathcal T$. Put
+\begin{gather*}
+\thmSId=\{\mathrm{isId}\},\quad \thmSDeg=\{G=0,\ \neg\mathrm{isId}\},\quad \thmSNG=\{G\ne0,\ \neg\mathrm{gen}\},\\
+\thmSGen=\{G\ne0,\ \mathrm{gen}\},\quad \thmSNZ=\{G\ne0\},\quad \Phi(S)=\Gamma_1\sum_{i\in I}\|\thmSvp(S,i)\|^2,\\
+\thmSpart(S)=\sum_{t\in S}\mathrm{op}(t),\qquad \thmSvp(S,i)=\sum_{t\in S,\ \iota(\thmSrow t)=i}\mathrm{vec}(t),\\
+K=\sum_t\mathrm{op}(t),\qquad K_0=\thmSpart(\thmSId)+\thmSpart(\thmSGen)+\thmSpart(\thmSNG)
+\end{gather*}
+(sums in the sense of unconditional summation). For $S\subseteq\mathcal T$ let $P(S)$ be the set of pairs
+$(t,t')\in S\times S$ with $\thmSrow t=\thmSrow t'$, and $\mathrm{big}(S)$, $\mathrm{one}(S)$, $\mathrm{nsc}(S)$,
+$\mathrm{sc}(S)$ the subsets of $P(S)$ where $s_0(t,t')\ge2$, resp.\ $s_0=1$, resp.\ $s_0=1$ and not
+$\mathrm{scal}(t,t')$, resp.\ $s_0=1$ and $\mathrm{scal}(t,t')$. For a set $Q$ of pairs put
+\[
+\thmSps(Q)=\Gamma_1\sum_{(t,t')\in Q}\Re\langle\mathrm{vec}\,t,\mathrm{vec}\,t'\rangle,\qquad
+\thmSpa(Q)=\Gamma_1\sum_{(t,t')\in Q}|\langle\mathrm{vec}\,t,\mathrm{vec}\,t'\rangle|.
+\]
+The system is \emph{absolutely convergent} if $\sum_t\|\mathrm{op}(t)\|<\infty$, $\sum_t\|\mathrm{vec}(t)\|<\infty$ and
+$\Gamma_1>0$. We use the following conditions:
+\begin{itemize}
+\item $\mathrm{ID}$: $G(t)=0$ for identity terms; $\mathrm{IZ}$: $\thmSpart(\thmSId)=0$;
+\item $\mathrm{GE}(S)$: $\|\thmSpart(S)\|^2=\Re\sum_{i,j\in I}\Gamma(i,j)\langle\thmSvp(S,i),\thmSvp(S,j)\rangle$;
+\item $\mathrm{GB}(P_g)$: the matrix $P_g\Gamma_1\cdot\one-\Gamma$ is positive semi-definite;
+\item $\mathrm{RO}$: $\langle\mathrm{vec}\,t,\mathrm{vec}\,t'\rangle=0$ if $\iota(\thmSrow t)=\iota(\thmSrow t')$ and
+$\thmSrow t\ne\thmSrow t'$;
+\item $\mathrm{CP}$: $s_0(t,t')\ge1$ if $\thmSrow t=\thmSrow t'$, $G(t)\ne0$ and $G(t')\ne0$;
+\item the \emph{row bounds}, for $\varepsilon,A,dd\in\R$: $\mathrm{R}_{\mathrm{big}}(\varepsilon,dd)$:
+$\thmSpa(\mathrm{big}(\thmSNZ))\le\varepsilon\,dd$; $\mathrm{R}_{\mathrm{nsc}}(\varepsilon,dd)$:
+$\thmSpa(\mathrm{nsc}(\thmSGen))\le\varepsilon\,dd$; $\mathrm{R}_{\mathrm{main}}(A,dd)$: $\thmSps(\mathrm{sc}(\thmSGen))\le A\,dd$;
+$\mathrm{R}_{\mathrm{ng}}(\varepsilon,dd)$: $\thmSps(\mathrm{one}(\thmSNG))\le\varepsilon\,dd$.
+\end{itemize}
+\end{definition}
+
+For the term systems $Y.t_O(u,u')$ of \cref{sec:pf:thmS:conv}, $H$ is the Hilbert--Schmidt space of maps between the
+column spaces of $u'$ and $u$; $\mathrm{op}(t)$ is the block operator whose $(\rho,\rho')$ entry, for columns $\rho$,
+$\rho'$ over $\Lambda$, $\Lambda'$, is a normalised value of the level character at the finite part of $t$ times the
+orbital integral $\int_{\Omega_t}\phi_u(x)\otimes\overline{\phi_{u'}(\gamma^{-1}x)}\,dx$ of rank-one operators over a
+fundamental set $\Omega_t$; $H_1$ is a sum of Hilbert--Schmidt spaces indexed by the pairs $(\Lambda,\Lambda')$; the row
+of $t$ is $(\Lambda,\Lambda',\iota(t))$ with $\iota(t)\in I=\prod_v\GL_k(\F_{q_v})$ the reduction of the finite part of
+$t$ at the places above the type primes; $\Gamma(i,j)$ is the complex conjugate of a product of character sums
+evaluated at $j^{-1}i$, and $\Gamma_1$ the real part of this product at $1$; $G(t)=1$ or $0$ according as an invariant
+of $t$ is non-zero or zero; and $s_0$, $\mathrm{scal}$ compare the frames of two terms with the same lattices. We do not
+use this description: the argument below only uses the axioms listed.
+
+\begin{lemma}[Gram sums]\label{pf:thmS:gram}
+Let $I$ be finite, $\Gamma:I\times I\to\C$, $c\in\R$ and $a:I\to H_1$. If $c\cdot\one-\Gamma$ is positive
+semi-definite, then $\Re\sum_{i,j}\Gamma(i,j)\langle a_i,a_j\rangle\le c\sum_i\|a_i\|^2$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_EqualIota}
+\end{lemma}
+
+\begin{proof}
+Write $M=c\cdot\one-\Gamma=\sum_lv_lv_l^*$, i.e.\ $M(i,j)=\sum_lv_l(i)\overline{v_l(j)}$. With inner products linear in
+the second variable, $\sum_{i,j}M(i,j)\langle a_i,a_j\rangle=\sum_l\|\sum_i\overline{v_l(i)}a_i\|^2\ge0$, and
+$\sum_{i,j}M(i,j)\langle a_i,a_j\rangle=c\sum_i\|a_i\|^2-\sum_{i,j}\Gamma(i,j)\langle a_i,a_j\rangle$. Take real parts.
+\end{proof}
+
+\begin{lemma}[Price of the types]\label{pf:thmS:price}
+If $\mathrm{GE}(S)$ and $\mathrm{GB}(P_g)$ hold, then $\|\thmSpart(S)\|^2\le P_g\,\Phi(S)$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_PriceOfIota}
+\end{lemma}
+
+\begin{proof}
+Apply \cref{pf:thmS:gram} with $c=P_g\Gamma_1$ and $a_i=\thmSvp(S,i)$.
+\end{proof}
+
+\begin{lemma}[Pair expansion]\label{pf:thmS:pairsplit}
+Let $\mathcal X$ be absolutely convergent with $H_1$ complete, $\mathrm{RO}$ and $\mathrm{CP}$. Then
+$\Phi(S)=\thmSps(P(S))$ for every $S$, and
+\begin{equation}\label{eq:pf:thmS:split}
+\Phi(\thmSGen)=\thmSps(\mathrm{big}(\thmSGen))+\thmSps(\mathrm{nsc}(\thmSGen))+\thmSps(\mathrm{sc}(\thmSGen)),\qquad
+\Phi(\thmSNG)=\thmSps(\mathrm{big}(\thmSNG))+\thmSps(\mathrm{one}(\thmSNG)).
+\end{equation}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_PairSplit}
+\end{lemma}
+
+\begin{proof}
+For an absolutely summable family $(f_t)$ in a Hilbert space, $\|\sum_tf_t\|^2=\sum_{(t,t')}\Re\langle f_t,f_{t'}\rangle$,
+the double sum being absolutely convergent since $|\langle f_t,f_{t'}\rangle|\le\|f_t\|\|f_{t'}\|$. Hence
+$\|\thmSvp(S,i)\|^2$ is the sum of $\Re\langle\mathrm{vec}\,t,\mathrm{vec}\,t'\rangle$ over the pairs in $S\times S$
+with $\iota(\thmSrow t)=\iota(\thmSrow t')=i$; summing over $i$ gives the sum over the pairs with
+$\iota(\thmSrow t)=\iota(\thmSrow t')$. By $\mathrm{RO}$ the pairs with distinct rows contribute $0$, so
+$\Phi(S)=\thmSps(P(S))$. For $(t,t')\in P(\thmSGen)$ or $P(\thmSNG)$ both weights are non-zero, so $s_0(t,t')\ge1$ by
+$\mathrm{CP}$; the sets $\mathrm{big}$, $\mathrm{nsc}$, $\mathrm{sc}$ (resp.\ $\mathrm{big}$, $\mathrm{one}$)
+therefore partition $P(\thmSGen)$ (resp.\ $P(\thmSNG)$), and \eqref{eq:pf:thmS:split} follows by additivity of
+absolutely convergent sums.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS:subfamily}
+If $\mathcal X$ is absolutely convergent and $Q\subseteq Q'$, then $\thmSpa(Q)\le\thmSpa(Q')$ and
+$|\thmSps(Q)|\le\thmSpa(Q)$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_SubFamily}
+\end{lemma}
+
+\begin{proof}
+The family $|\langle\mathrm{vec}\,t,\mathrm{vec}\,t'\rangle|$ is summable over pairs (as above), $\Gamma_1>0$, and
+$|\Re z|\le|z|$.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS:textclosing}
+In a normed space, if $dd\ge0$, $\|x\|^2\le(1+\eta+\varepsilon)\,dd$ and $\|y\|^2\le\varepsilon\,dd$, then
+$\|x+y\|^2\le(\sqrt{1+\eta+\varepsilon}+\sqrt\varepsilon)^2\,dd$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_TextClosing}
+\end{lemma}
+
+\begin{proof}
+$\|x+y\|\le\|x\|+\|y\|\le(\sqrt{1+\eta+\varepsilon}+\sqrt\varepsilon)\sqrt{dd}$.
+\end{proof}
+
+\begin{proposition}[Abstract pair bound]\label{pf:thmS:pba}
+Let $\mathcal X$ be an absolutely convergent term system with $H_1$ complete, and let $P_g,A,\varepsilon,\varepsilon',dd$
+be reals with $P_g\ge0$ and $dd\ge0$. Assume $\mathrm{GE}(\thmSGen)$, $\mathrm{GE}(\thmSNG)$,
+$\mathrm{GB}(P_g)$, $\mathrm{RO}$, $\mathrm{CP}$, $\mathrm{IZ}$ and the row bounds
+$\mathrm{R}_{\mathrm{big}}(\varepsilon,dd)$, $\mathrm{R}_{\mathrm{nsc}}(\varepsilon,dd)$, $\mathrm{R}_{\mathrm{main}}(A,dd)$,
+$\mathrm{R}_{\mathrm{ng}}(\varepsilon',dd)$. Then
+\begin{equation}\label{eq:pf:thmS:pba}
+\|K_0\|^2\le\Bigl(\sqrt{P_g(A+2\varepsilon)}+\sqrt{P_g(\varepsilon+\varepsilon')}\Bigr)^2\,dd.
+\end{equation}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_PairBoundAbstract}
+\end{proposition}
+
+\begin{proof}
+Since $\mathrm{big}(\thmSNG)\subseteq\mathrm{big}(\thmSNZ)$, \cref{pf:thmS:pairsplit,pf:thmS:subfamily} give
+\[
+\Phi(\thmSNG)\le|\thmSps(\mathrm{big}(\thmSNG))|+\thmSps(\mathrm{one}(\thmSNG))
+\le\thmSpa(\mathrm{big}(\thmSNZ))+\varepsilon'dd\le(\varepsilon+\varepsilon')\,dd.
+\]
+Similarly, since $\mathrm{big}(\thmSGen)\subseteq\mathrm{big}(\thmSNZ)$,
+\[
+\Phi(\thmSGen)\le\thmSpa(\mathrm{big}(\thmSNZ))+\thmSpa(\mathrm{nsc}(\thmSGen))+\thmSps(\mathrm{sc}(\thmSGen))
+\le(A+2\varepsilon)\,dd.
+\]
+By \cref{pf:thmS:price}, $\|\thmSpart(\thmSGen)\|^2\le P_g(A+2\varepsilon)\,dd$ and
+$\|\thmSpart(\thmSNG)\|^2\le P_g(\varepsilon+\varepsilon')\,dd$. By $\mathrm{IZ}$,
+$K_0=\thmSpart(\thmSGen)+\thmSpart(\thmSNG)$, and \cref{pf:thmS:textclosing} (with
+$\eta=P_g(A+2\varepsilon)-1-P_g(\varepsilon+\varepsilon')$ and $P_g(\varepsilon+\varepsilon')$ in place of
+$\varepsilon$) gives \eqref{eq:pf:thmS:pba}.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS:fourparts}
+If $\mathrm{ID}$ holds, the four sets $\thmSId,\thmSDeg,\thmSNG,\thmSGen$ partition $\mathcal T$, and for an
+absolutely convergent system with $H$ complete, $K=K_0+\thmSpart(\thmSDeg)$.
+\end{lemma}
+
+\begin{proof}
+A term is an identity term, or else has weight $0$ (degenerate) or non-zero weight, and in the last case is generic or
+not; identity terms have weight $0$ by $\mathrm{ID}$, so the sets are disjoint. The second claim follows by additivity of
+absolutely convergent sums. Thus, when the degenerate part vanishes (as in Step~1 of the proof of
+\cref{pf:thmS:pointwise}), $K_0$ is the whole operator.
+\end{proof}
+
+\paragraph{Numerics.}
+\begin{definition}\label{pf:thmS:sizenumbers}
+$\mathrm{SN}(k,r,f,b,g_1,g_2,c,C_n)$ means: $b\ge16$, $k\ge32$, $f\le k$, $4r+12\le k$, $(kb)^8\le g_1$,
+$(kb)^8\le g_2$, $70\log b\le k$, $1\le5cf\log k$ and $8C_n(2r+2)^5f\log b\le k$.
+\end{definition}
+
+\begin{lemma}[Numerical inequalities]\label{pf:thmS:num}
+Let $k,r,f\in\N$ and $b,g_1,g_2,c,C,C_n\in\R$.
+\begin{enumerate}
+\item If $b\ge1$, $k\ge1$, $f\le k$ and $(kb)^8\le g_1,g_2$, then $f/g_j\le b^{-7}$ and
+$0\le(1+3/g_1)^f(1+3/g_2)^f\le e^{6b^{-7}}$.
+\item If $b>0$ and $70\log b\le k$, then $e^{-k/5}\le b^{-14}$.
+\item If $f\le k$, $k\ge32$ and $4r+12\le k$, then $12f\,2^{-(k-2r-2)}\le f\,2^{-k/2}\le e^{-k/5}$.
+\item If $1\le5cf\log k$, then $\exp(-ckf\log k)\le e^{-k/5}$.
+\item If $8Cm^5f\log b\le k$, then $2^{-k/2}\exp(Cm^5f\log b)\le e^{-k/5}$.
+\item If $4r+10\le k$, then $2^{-(k-2r-5)}\le2^{-k/2}$.
+\item If $b\ge16$, $0\le P_g\le e^{6b^{-7}}$, $A\le(1+b^{-7})e^{b^{-14}}$ and $\varepsilon,\varepsilon'\le b^{-14}$, then
+$\bigl(\sqrt{P_g(A+2\varepsilon)}+\sqrt{P_g(\varepsilon+\varepsilon')}\bigr)^2\le1+b^{-6}$.
+\end{enumerate}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NumPrice}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NumExp}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NumDens}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NumLoops}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NumNG}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_NGExponent}
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_EtaZero}
+\end{lemma}
+
+\begin{proof}
+(1) $fb^7\le kb^7\le(kb)^8\le g_j$, and $(1+3/g)^f\le e^{3f/g}\le e^{3b^{-7}}$. (2) $-k/5\le-14\log b$. (3) Write
+$k=2r+2+j$; then $j\ge2r+10$, so $2^{-j}\cdot2^{k/2}=2^{-(j-2r-2)/2}\le2^{-4}<\frac1{12}$, which is the first
+inequality. For the second, $f2^{-k/2}\le k2^{-k/2}=\exp(\log k-\frac k2\log2)$; from $\log(k/32)\le k/32-1$ and
+$0.69<\log2<0.7$ one gets $\log k-\frac k2\log2\le5\log2-1+k(\frac1{32}-0.345)\le-\frac k5$ for $k\ge32$. (4)
+$ckf\log k\ge k/5$. (5) $\exp(-\frac k2\log2+Cm^5f\log b)\le\exp(-0.345k+\frac k8)\le e^{-k/5}$. (6) $k-2r-5\ge k/2$.
+(7) Put $u=b^{-7}\le16^{-7}<10^{-3}$. Then $e^{6u}\le1+7u$, $e^{u^2}\le1+u$, so $A+2\varepsilon\le(1+u)^2+2u^2\le1+3u$,
+$P_g(A+2\varepsilon)\le(1+7u)(1+3u)\le1+11u$ and $P_g(\varepsilon+\varepsilon')\le2u^2(1+7u)\le3u^2$. Hence
+$\sqrt{P_g(A+2\varepsilon)}\le1+\frac{11}2u$, $\sqrt{P_g(\varepsilon+\varepsilon')}\le\frac74u$, and
+$(1+\frac{29}4u)^2\le1+16u\le1+b^{-6}$, the last step because $16u=16b^{-7}\le b^{-6}$.
+\end{proof}
+
+\begin{proposition}[Pair bound]\label{pf:thmS:pairbound}
+Let $\mathcal X$ be an absolutely convergent term system with $H_1$ complete, and assume
+$\mathrm{SN}(k,r,f,b,g_1,g_2,c,C_n)$, $dd\ge0$, $0\le\delta\le b^{-7}$, $0\le e_1\le
+\exp(12f\,2^{-(k-2r-2)})$, the Gram expansions on $\thmSGen$ and $\thmSNG$, $\mathrm{GB}((1+3/g_1)^f(1+3/g_2)^f)$,
+$\mathrm{RO}$, $\mathrm{CP}$, $\mathrm{IZ}$, and the row bounds
+\begin{gather*}
+\mathrm{R}_{\mathrm{big}}(\varepsilon,dd),\quad \mathrm{R}_{\mathrm{nsc}}(\varepsilon,dd)\quad\text{with }\varepsilon=e^{-ckf\log k},\qquad
+\mathrm{R}_{\mathrm{main}}((1+\delta)e_1,dd),\\
+\mathrm{R}_{\mathrm{ng}}\bigl(2^{-(k-2r-5)}e^{C_n(2r+2)^5f\log b},dd\bigr).
+\end{gather*}
+Then $\|K_0\|^2\le(1+b^{-6})\,dd$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_PairBound}
+\end{proposition}
+
+\begin{proof}
+Put $P_g=(1+3/g_1)^f(1+3/g_2)^f$, $A=(1+\delta)e_1$, $\varepsilon'=2^{-(k-2r-5)}e^{C_n(2r+2)^5f\log b}$. By
+\cref{pf:thmS:num}: $0\le P_g\le e^{6b^{-7}}$ by (1); $e_1\le\exp(12f2^{-(k-2r-2)})\le\exp(e^{-k/5})\le e^{b^{-14}}$ by (3)
+and (2), so $A\le(1+b^{-7})e^{b^{-14}}$; $\varepsilon\le e^{-k/5}\le b^{-14}$ by (4), (2); and $\varepsilon'\le
+2^{-k/2}e^{C_n(2r+2)^5f\log b}\le e^{-k/5}\le b^{-14}$ by (6) (as $4r+10\le k$), (5) with $m=2r+2$, and (2).
+\Cref{pf:thmS:pba} and \cref{pf:thmS:num}(7) give the claim.
+\end{proof}
+
+\begin{theorem}[Pair bound from the main row]\label{pf:thmS:pbfromlocal}
+Assume the main-row statement (\cref{pf:thmS:mainrowthm}, as an implication from its inputs: the local inputs, the global inputs, the lattice link, the local-model axioms and the theta step), and
+the pair bound (\cref{pf:thmS:pairbound}) with its inputs (\cref{pf:thmS:pba,pf:thmS:num} and the lemmas used there).
+Then for every $C_4\ge1$ and $C_{\mathrm{thr}}$ there are $C_A\ge\max(C_{\mathrm{thr}},1)$ and $0\le C\le C_A$ such that
+for all $C_0\ge1$, $C_G\ge0$, $C_\Delta>4$, $c_T,C_b>0$ with $c_TC_b>1$ there is $k_0$ with the following property. Let
+the data of the main row be given, satisfying the hypotheses of \cref{pf:thmS:mainrowthm} with these constants: a CM
+field $E$ unramified over its real subfield, a TB-datum $D$ over $E$, a global size datum $G$ with $k_0\le G.k$ and the
+size hypotheses, an instance $\mathrm{Inst}$, the local model, the real inputs, the density input, mass data $B$ with
+$\mathrm{RI}$, $\mathrm{MI}$ and $\mathrm{En}$. Let $\mathcal X$ be a term system with $H_1$
+complete, $c_5,C_n\in\R$, and assume:
+\begin{itemize}
+\item $\mathrm{LC}$: $\Gamma_1(\mathcal X)=\Gamma_1(B)$, $\thmSps(\mathrm{sc}(\thmSGen))=\Gamma_1(B)\Sigma(B)$, there is a
+bijection between the index set of $B$ and $\{0,1\}\times\{\text{infinite places of }E\}$ under which $g_p=g_1$ or $g_2$
+according to the first coordinate, $d(B)=d_u$, $d'(B)=d_{u'}$ and $D_*(B)=D_*(G.\mathrm{size}(d_e,T,d_u))$;
+\item $\mathrm{SI}(\mathcal X,\thmStt(B))$: absolute convergence, the Gram expansions on $\thmSGen$ and
+$\thmSNG$, $\mathrm{GB}(\thmStt(B))$, $\mathrm{RO}$, $\mathrm{CP}$, $\mathrm{IZ}$, and $\Gamma(i,i)=\Gamma_1$;
+\item $\mathrm{SN}(G.k,G.r,G.f,b,G.g_1,G.g_2,c_5,C_n)$, $\mathrm{R}_{\mathrm{big}}$ and $\mathrm{R}_{\mathrm{nsc}}$ with
+$(e^{-c_5G.kG.f\log G.k},dd)$, and $\mathrm{R}_{\mathrm{ng}}(2^{-(G.k-2G.r-5)}e^{C_n(2G.r+2)^5G.f\log b},dd)$, where
+$dd=d_ud_{u'}/D_*(G.\mathrm{size}(d_e,T,d_u))$.
+\end{itemize}
+Then $\|K_0\|^2\le(1+b^{-6})\,dd$.
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_PairBoundFromLocal}
+\end{theorem}
+
+\begin{proof}
+Take the constants $C_A,C$ and $k_0$ of the main row theorem \cref{pf:thmS:mainrowthm}. It gives
+$\Gamma_1(B)\Sigma(B)\le(1+\delta)e_1\,d(B)d'(B)/D_*(B)$ with $0\le\delta\le b^{-7}$ and $1\le e_1\le
+\exp(12G.f\,2^{-(G.k-2G.r-2)})$. By $\mathrm{LC}$ the left side is $\thmSps(\mathrm{sc}(\thmSGen))$ and the right
+side is $(1+\delta)e_1\,dd$: this is $\mathrm{R}_{\mathrm{main}}((1+\delta)e_1,dd)$. The bijection of $\mathrm{LC}$ gives
+$\thmStt(B)=\prod_p(1+3/g_p)=(1+3/g_1)^{G.f}(1+3/g_2)^{G.f}$, $G.f$ being the number of infinite places. Positivity of
+the mass data gives $D_*(B)>0$, hence $dd\ge0$. Now apply \cref{pf:thmS:pairbound}.
+\end{proof}
+
+\begin{theorem}[The abstract Theorem S]\label{pf:thmS:pbapplied}
+The conclusion of \cref{pf:thmS:pbfromlocal} holds unconditionally.
+\formallabel{Formalism.L2.SG.TheoremS.pbApplied}
+\end{theorem}
+
+\begin{proof}
+All hypotheses of \cref{pf:thmS:pbfromlocal} are theorems: the main row is \cref{pf:thmS:mainrowthm}; the pair bound
+is \cref{pf:thmS:pairbound}, with \cref{pf:thmS:pba,pf:thmS:price,pf:thmS:gram,pf:thmS:pairsplit,pf:thmS:subfamily,pf:thmS:num};
+and the inputs of the main row are the local and global inputs
+\cref{pf:thmS:localcores,pf:thmS:globalcores},
+the lattice link \lref{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_LatticeLink}, the local-model axioms
+\lref{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_AxiomsOfLocalModel} and the theta step
+\cref{pf:thmS:thetastep} (see \cref{sec:pf:thmS:main}).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The main row: Theorem A and the mass identities}\label{sec:pf:thmS:main}
+
+The main row bounds the contribution of the scalar generic pairs. In the concrete situation this contribution is,
+after the counting formula and the row forms, a multiple of a sum $\sum_\rho\|\sum_pc(\rho,p)V(p)\|^2$ of norms of
+combinations of vectors $V(p)$ attached to the points $p$ of a tower of flags, with coefficients $c(\rho,p)$ dominated
+by a positive semi-definite kernel. \Cref{sec:pf:thmS:tbdef,sec:pf:thmS:steps,sec:pf:thmS:thmA} prove a Bessel-type
+inequality for such sums (Theorem~A); \cref{sec:pf:thmS:mass} converts it into the main row through identities
+between volumes and masses.
+
+\subsubsection{Tower data}\label{sec:pf:thmS:tbdef}
+
+\begin{definition}[Points, towers, TB-data]\label{pf:thmS:tbdata}
+Let $E$ be a field and $W$ a set (of \emph{words}). A \emph{point} is a finite sequence
+$p=((s_1,t_1),\dots,(s_n,t_n))$ of pairs in $\N\times E$; its level is $\thmSlev(p)=\sum_js_j$, and
+$\thmSjoin(h,s,t)$ is $h$ followed by $(s,t)$. A point $p$ is a point of level $i$ if $\thmSlev(p)=i$ and $s_j\ge1$,
+$t_j\ne0$ for all $j$. A \emph{tower} $T$ consists of finite sets $\mathrm{Sg}(b,s)\subseteq E\smallsetminus\{0\}$
+($b,s\in\N$) and finite sets $X_i$ of points, where $X_i$ is the set of $p$ with $\thmSlev(p)=i$, $s_j\ge1$ and
+$t_j\in\mathrm{Sg}(s_1+\dots+s_{j-1}+1,s_j)$ for all $j$; thus $X_0=\{\emptyset\}$. A kernel $\kappa$ on points is
+\emph{positive semi-definite (PSD) on} a finite set $Y$ if the matrix $(\kappa(x,y))_{x,y\in Y}$ is.
+
+A \emph{TB-datum} $D$ over $(E,W)$ consists of integers $r,f,K$; functions $a_v:E\to\R$ ($1\le v\le f$); a weight
+$\mathrm{wt}:W\to\R$ and a count $\mathrm{cnt}:W\to\N$; a finite set $W_{\mathrm{all}}\subseteq W$ containing an
+element $\varnothing$ with $\mathrm{cnt}(\varnothing)=0$, $\mathrm{wt}(\varnothing)=1$; kernels
+$\thmSgram_{\eps,i,w}(p,q)$ ($\eps\in\R$, $i\in\N$, $w\in W$), $K_i(p,q)$ with $K_0(\emptyset,\emptyset)=1$, and
+$\Theta_{i,s,t}(h,h')$ ($t\in E$); reals $e_i$; additive subgroups $\mathrm{La}(b,s)$, $\mathrm{Lap}(b,s)$,
+$\mathrm{Lad}(b)$ of $E$; complex numbers $\thmSNh(\eps,i,w,Y,\kappa,l)$ (for finite sets $Y$ of points, kernels
+$\kappa$ and $l\in E$); and reals $\mathrm{szD}(i,v)$, $\mathrm{szL}(b,s,v)$, $\mathrm{vol}(b,s)$. Put
+$N_{\mathrm{top}}=4K(r+1)$, $\mathrm{bud}(i)=4K(r+1-i)$, $W(n)=\{w\in W_{\mathrm{all}}:\mathrm{cnt}(w)\le n\}$, and
+\begin{gather*}
+\thmSSf(\eps,i,w,Y)=\Re\sum_{p,q\in Y}K_i(p,q)\,\thmSgram_{\eps,i,w}(p,q),\qquad Q(T,\eps,i,w)=\thmSSf(\eps,i,w,X_i)/\mathrm{wt}(w),\\
+\thmSNst(\eps,i,s,w,Y,\kappa;t,t')=\mathrm{wt}(w)^{-1}\sum_{h,h'\in Y}\kappa(h,h')\,
+\thmSgram_{\eps,i,w}(\thmSjoin(h,s,t),\thmSjoin(h',s,t')),\\
+\thmSNz(\eps,j,w,Y,\kappa)=\mathrm{wt}(w)^{-1}\Re\sum_{h,h'\in Y}\kappa(h,h')\,\thmSgram_{\eps,j,w}(h,h'),\\
+\thmSblk(\kappa,s,t,t')(h,h')=\kappa(\thmSjoin(h,s,t),\thmSjoin(h',s,t')),\qquad
+\thmSmaj(\rho,l)=\prod_{v=1}^f\min\bigl(1,(\rho_v/a_v(l))^K\bigr),\\
+\thmSDg(T,\eps,i,s,w)=\sum_{t\in\mathrm{Sg}(i-s+1,s)}\Re\thmSNst(\eps,i,s,w,X_{i-s},\thmSblk(K_i,s,t,t);t,t),
+\end{gather*}
+and let $X_{i,s}\subseteq X_i$ be the set of points whose last block has size $s$.
+\end{definition}
+
+\begin{definition}[Hypotheses on TB-data]\label{pf:thmS:tbhyp}
+Let $D$ be a TB-datum, $C_4,\mathrm{ep},\mathrm{jn},\Theta\in\R$, $V$ a map from points to a Hilbert space $H$ and
+$c:\N\times\{\text{points}\}\to\C$. In the following, $1\le s\le i\le r+1$, ``$Y$ of level $j$'' means a finite set of
+points of level $j$, and $\eps>0$.
+\begin{itemize}
+\item (Positivity.) $\mathrm{GP}$: every $\thmSgram_{\eps,i,w}$ is PSD on every finite set; $\mathrm{KP}$: every $K_i$ is; the
+conjunction of $\mathrm{KP}$ with the same property of all $\Theta_{i,s,t}$ is $\mathrm{KP}^{+}$;
+$\mathrm{WP}$: $\mathrm{wt}>0$; $\mathrm{E}$: $0\le e_i\le1$ for $1\le i\le r+1$.
+\item (Support.) $\mathrm{KS}$: let $h,h'$ be points of level $i-s$ and let $t,t'\ne0$ be distinct. If the value
+$K_i(\thmSjoin(h,s,t),\thmSjoin(h',s,t'))$ is non-zero, then $(i,s)\ne(r+1,1)$ and $t^{-1}-t'^{-1}$ lies in
+$\mathrm{Lap}(i-s+1,s)$.
+\item (Theta domination.) $\mathrm{TD}$: $\mathrm{E}$; $\Theta_{i,s,t}-\thmSblk(K_i,s,t,t)$ is PSD on every $Y$ of level
+$i-s$ for $t\ne0$; $\Theta_{i,s,t}$ depends only on $t$ modulo $\mathrm{La}(i-s+1,s)$; and for every finite $S\subseteq E$
+of elements pairwise incongruent modulo $\mathrm{La}(i-s+1,s)$, $(1+e_i)K_{i-s}-\sum_{t\in S}\Theta_{i,s,t}$ is PSD on every
+$Y$ of level $i-s$.
+\item (Domination on towers.) $\mathrm{DT}(T,\Theta')$, for a tower $T$ and kernels $\Theta'$: the three domination properties of
+$\mathrm{TD}$ for $\Theta'$, restricted to $t,t'\in\mathrm{Sg}(i-s+1,s)$, $S\subseteq\mathrm{Sg}(i-s+1,s)$ and
+$Y=X_{i-s}$. $\mathrm{DT}_{\forall}$: for every tower $T$ there is $\Theta'$ with $\mathrm{DT}(T,\Theta')$.
+\item (Wave estimate.) $\mathrm{EW}$: for $w\in W_{\mathrm{all}}$ with $\mathrm{cnt}(w)+K\le N_{\mathrm{top}}$ there are probability
+vectors $\theta_A$ on $W(\mathrm{cnt}(w)+K)$, $A\subseteq\{1,\dots,f\}$, such that for $Y$ of level $i-1$ and $\kappa$
+PSD on $Y$: $\thmSNh(\eps,i,w,Y,\kappa,0)=\thmSNz(\eps,i-1,w,Y,\kappa)$, and for $0\ne l\in\mathrm{Lad}(i)$ there is $A$
+with $|\thmSNh(\eps,i,w,Y,\kappa,l)|\le\thmSmaj(\mathrm{szD}(i),l)\sum_{w'}\theta_A(w')\thmSNz(\eps,i-1,w',Y,\kappa)$.
+\item (Poisson step.) $\mathrm{PS}$: for $w\in W$, $Y$ of level $i-1$, $\kappa$ PSD on $Y$, $t_0\in E$ and $B\in\R$: if
+$\sum_{l\in L}|\thmSNh(\eps,i,w,Y,\kappa,l)|\le B$ for every finite $L\subseteq\mathrm{Lad}(i)\smallsetminus\{0\}$, then
+$\sum_{t\in S}\Re\thmSNst(\eps,i,1,w,Y,\kappa;t,t)\le|\thmSNh(\eps,i,w,Y,\kappa,0)|+B$ for every finite
+$S\subseteq(t_0+\mathrm{La}(i,1))\smallsetminus\{0\}$.
+\item (Lift estimate.) $\mathrm{EL}$: for $(i,s)\ne(r+1,1)$ and $w$ with $\mathrm{cnt}(w)+K\le N_{\mathrm{top}}$ there are
+probability vectors $\theta_\pi$ on $W(\mathrm{cnt}(w)+K)^2$, $\pi\in\{1,2,3\}^f$, such that for $Y$ of level $i-s$,
+finite $S\subseteq E$, $\kappa$ PSD on $\{\thmSjoin(h,s,t):h\in Y,t\in S\}$ and $t,t'\in S\smallsetminus\{0\}$ with
+$t^{-1}\ne t'^{-1}$ there is $\pi$ with
+\[
+|\thmSNst(\eps,i,s,w,Y,\thmSblk(\kappa,s,t,t');t,t')|\le\thmSmaj(\mathrm{szL}(i-s+1,s),t^{-1}-t'^{-1})
+\sum_{(x,x')}\theta_\pi(x,x')\,\frac{a_x(t)+a_{x'}(t')}2,
+\]
+where $a_x(t)=\Re\thmSNst(\eps,i,s,x,Y,\thmSblk(\kappa,s,t,t);t,t)$.
+\item (Block estimate.) $\mathrm{EB}(C_4)$: for $s\ge2$, $w$ with $\mathrm{cnt}(w)+(s+1)K\le N_{\mathrm{top}}$ and
+$\mathrm{vol}(i-s+1,s)\le1$ there is a probability vector $\theta$ on $W(\mathrm{cnt}(w)+(s+1)K)$ such that for $Y$ of
+level $i-s$, $\kappa$ PSD on $Y$ and finite $S\subseteq(t_0+\mathrm{La}(i-s+1,s))\smallsetminus\{0\}$,
+$\sum_{t\in S}\Re\thmSNst(\eps,i,s,w,Y,\kappa;t,t)\le C_4^{fs}\prod_{1\le s'<s}\mathrm{vol}(i-s+1,s')
+\sum_{w'}\theta(w')\thmSNz(\eps,i-s,w',Y,\kappa)$.
+\item (Lattice sums.) $\mathrm{LS}(\mathrm{ep})$: $\sum_{l\in L}\thmSmaj(\mathrm{szD}(i),l)\le\mathrm{ep}$ for finite
+$L\subseteq\mathrm{Lad}(i)\smallsetminus\{0\}$, and $\sum_{l\in L}\thmSmaj(\mathrm{szL}(i-s+1,s),l)\le\mathrm{ep}$ for finite
+$L\subseteq\mathrm{Lap}(i-s+1,s)\smallsetminus\{0\}$ when $(i,s)\ne(r+1,1)$.
+\item (Energy.) $\mathrm{EN}(\mathrm{jn})$: $\Re\thmSgram_{\eps,0,w}(\emptyset,\emptyset)/\mathrm{wt}(w)\to\mathrm{jn}$ as
+$\eps\to0^+$, for $w\in W(N_{\mathrm{top}})$.
+\item (Cutoff.) $\mathrm{CO}(V)$: for every finite set $Y$ of points of level $r+1$, for all sufficiently small $\eps>0$,
+$\thmSgram_{\eps,r+1,\varnothing}(p,q)=\langle V(q),V(p)\rangle$ whenever $p,q\in Y$ and $K_{r+1}(p,q)\ne0$.
+\item (Leading domination.) $\mathrm{LD}(V,c)$: $c(\rho,p)\ne0$ only for points $p$ of level $r+1$; for every finite set $Y$
+of such points and finite $R\subseteq\N$, $K_{r+1}-\sum_{\rho\in R}c(\rho,\cdot)\overline{c(\rho,\cdot)}$ is PSD on $Y$;
+and $\sum_p|c(\rho,p)|\,\|V(p)\|<\infty$ for every $\rho$.
+\item (Sizes.) $\mathrm{SB}(\Theta)$: $\mathrm{vol}\ge0$, and $\mathrm{vol}(b,s)\le\Theta^{-2f}$ for $b,s\ge1$, $b+s\le r+2$.
+\end{itemize}
+\end{definition}
+
+We use two elementary facts throughout: by the Schur product theorem \cite[Thm.~7.5.3]{HornJohnson2013}, the entrywise
+product of two PSD matrices is PSD, so the sum of its entries is $\ge0$; consequently, under $\mathrm{GP}$ and
+$\mathrm{WP}$, $\kappa\mapsto\thmSNz(\eps,j,w,Y,\kappa)$ is linear, $\ge0$ on kernels PSD on $Y$, and monotone for
+the PSD order on $Y$, and the same holds for $\kappa\mapsto\Re\thmSNst(\eps,i,s,w,Y,\kappa;t,t)$ (the kernel
+$(h,h')\mapsto\thmSgram_{\eps,i,w}(\thmSjoin(h,s,t),\thmSjoin(h',s,t))$ being PSD).
+
+\subsubsection{The one-level inequality}\label{sec:pf:thmS:steps}
+
+Fix a TB-datum $D$ with $\mathrm{GP}$, $\mathrm{KP}^{+}$ and $\mathrm{WP}$, a tower $T$ and $\eps>0$; let
+$1\le s\le i\le r+1$ and $w\in W$.
+
+\begin{lemma}[Five steps]\label{pf:thmS:fivesteps}
+\begin{enumerate}
+\item (Split by size.) $\sqrt{\thmSSf(\eps,i,w,X_i)}\le\sum_{s=1}^i\sqrt{\thmSSf(\eps,i,w,X_{i,s})}$.
+\item (Schur step.) Assume $\mathrm{KS}$, $\mathrm{EL}$ and $\mathrm{LS}(\mathrm{ep})$. If
+$w\in W_{\mathrm{all}}$, $\mathrm{cnt}(w)+K\le N_{\mathrm{top}}$ and $\thmSDg(T,\eps,i,s,w')\le M$ for all
+$w'\in W(\mathrm{cnt}(w)+K)$, then $\thmSSf(\eps,i,w,X_{i,s})/\mathrm{wt}(w)\le\thmSDg(T,\eps,i,s,w)+3^f\mathrm{ep}\,M$.
+\item (Diagonal step.) Assume $\mathrm{TD}$. If $R\subseteq E$ is finite and every
+$t\in\mathrm{Sg}(i-s+1,s)$ is congruent modulo $\mathrm{La}(i-s+1,s)$ to some $t_0\in R$, then
+$\thmSDg(T,\eps,i,s,w)\le\sum_{t_0\in R}\sum_{t}\Re\thmSNst(\eps,i,s,w,X_{i-s},\Theta_{i,s,t_0};t,t)$, the inner sum over the
+$t\in\mathrm{Sg}(i-s+1,s)$ congruent to $t_0$.
+\item (One step.) Assume $\mathrm{TD}$, $\mathrm{EW}$, $\mathrm{PS}$ and
+$\mathrm{LS}(\mathrm{ep})$. If $w\in W_{\mathrm{all}}$, $\mathrm{cnt}(w)+K\le N_{\mathrm{top}}$, $R$ consists of
+elements pairwise incongruent modulo $\mathrm{La}(i,1)$, and $\thmSNz(\eps,i-1,w',X_{i-1},K_{i-1})\le M$ for all
+$w'\in W(\mathrm{cnt}(w)+K)$, then
+\[
+\sum_{t_0\in R}\sum_{t\equiv t_0}\Re\thmSNst(\eps,i,1,w,X_{i-1},\Theta_{i,1,t_0};t,t)\le(1+e_i)\bigl(\thmSNz(\eps,i-1,w,X_{i-1},K_{i-1})
++2^f\mathrm{ep}\,M\bigr).
+\]
+\item (Multi step.) Assume $\mathrm{TD}$, $\mathrm{EB}(C_4)$, $C_4\ge1$ and $\mathrm{vol}\ge0$. If
+$s\ge2$, $w\in W_{\mathrm{all}}$, $\mathrm{cnt}(w)+(s+1)K\le N_{\mathrm{top}}$, $\mathrm{vol}(i-s+1,s)\le1$, $R$ consists of
+elements pairwise incongruent modulo $\mathrm{La}(i-s+1,s)$, and $\thmSNz(\eps,i-s,w',X_{i-s},K_{i-s})\le M$ for all
+$w'\in W(\mathrm{cnt}(w)+(s+1)K)$, then
+\[
+\sum_{t_0\in R}\sum_{t\equiv t_0}\Re\thmSNst(\eps,i,s,w,X_{i-s},\Theta_{i,s,t_0};t,t)\le C_4^{fs}\prod_{1\le s'<s}
+\mathrm{vol}(i-s+1,s')\,(1+e_i)M.
+\]
+\end{enumerate}
+\formallabel{Formalism.FourierDecayAlt.P.splitByLastSize}
+\formallabel{Formalism.FourierDecayAlt.P.schurRecursion_true}
+\formallabel{Formalism.FourierDecayAlt.P.diagStep}
+\formallabel{Formalism.FourierDecayAlt.P.singleBlockStep}
+\formallabel{Formalism.FourierDecayAlt.P.longBlockStep}
+\end{lemma}
+
+\begin{proof}
+(1) The kernel $K_i\cdot\thmSgram_{\eps,i,w}$ (entrywise product) is PSD on $X_i$ by the Schur product theorem, so
+$q(x)=\Re\sum_{p,q}x_p\overline{x_q}K_i(p,q)\thmSgram_{\eps,i,w}(p,q)$ is a positive semi-definite quadratic form and
+$\sqrt q$ is a seminorm. Since $i\ge1$, $X_i$ is the disjoint union of the $X_{i,s}$, $1\le s\le i$; apply the triangle
+inequality for $\sqrt q$ to the decomposition of the indicator vector of $X_i$ into those of the $X_{i,s}$.
+
+(2) Put $Y=X_{i-s}$ and $S=\mathrm{Sg}(i-s+1,s)$. The map $(h,t)\mapsto\thmSjoin(h,s,t)$ is a bijection from $Y\times S$
+onto $X_{i,s}$, so $\thmSSf(\eps,i,w,X_{i,s})/\mathrm{wt}(w)=\sum_{t,t'\in S}\Re\thmSNst(\eps,i,s,w,Y,\thmSblk(K_i,s,t,t');t,t')$.
+The diagonal terms sum to $\thmSDg(T,\eps,i,s,w)$. For $t\ne t'$, $\mathrm{KS}$ shows that the term vanishes
+unless $(i,s)\ne(r+1,1)$ and $0\ne t^{-1}-t'^{-1}\in\mathrm{Lap}(i-s+1,s)$; in that case $\mathrm{EL}$ (with
+$\kappa=K_i$, PSD on the points) bounds it by $m(t,t')\sum_\pi\sum_{(x,x')}\theta_\pi(x,x')(a_x(t)+a_{x'}(t'))/2$, where
+$m(t,t')=\thmSmaj(\mathrm{szL}(i-s+1,s),t^{-1}-t'^{-1})$ and the sum over all $3^f$ maps $\pi$ dominates the term for
+the $\pi$ given by $\mathrm{EL}$, all terms being $\ge0$. Since $t'\mapsto t^{-1}-t'^{-1}$ is injective,
+$\mathrm{LS}(\mathrm{ep})$ gives $\sum_{t'}m(t,t')\le\mathrm{ep}$ and $\sum_tm(t,t')\le\mathrm{ep}$ (sums over the
+admissible pairs). Hence, for each $\pi$ and $(x,x')$,
+$\sum_{t\ne t'}m(t,t')\frac{a_x(t)+a_{x'}(t')}2\le\frac{\mathrm{ep}}2\bigl(\sum_ta_x(t)+\sum_{t'}a_{x'}(t')\bigr)\le\mathrm{ep}\,M$,
+as $\sum_ta_x(t)=\thmSDg(T,\eps,i,s,x)\le M$ (Schur's test). Summing against the probability vectors $\theta_\pi$ and over
+the $3^f$ maps $\pi$ gives the bound $3^f\mathrm{ep}\,M$ for the off-diagonal part.
+
+(3) For $t\in\mathrm{Sg}(i-s+1,s)$ choose $t_0\in R$ with $t\equiv t_0$. By $\mathrm{TD}$,
+$\Theta_{i,s,t}-\thmSblk(K_i,s,t,t)$ is PSD on $X_{i-s}$, so $\Re\thmSNst(\dots,\thmSblk(K_i,s,t,t);t,t)\le
+\Re\thmSNst(\dots,\Theta_{i,s,t};t,t)=\Re\thmSNst(\dots,\Theta_{i,s,t_0};t,t)$ by monotonicity and periodicity; the right
+side of (3) contains this term, and its other terms are $\ge0$.
+
+(4) Fix $t_0\in R$ and put $\kappa=\Theta_{i,1,t_0}$, PSD on $X_{i-1}$. $\mathrm{EW}$ gives probability vectors
+$\theta_A$ with $\thmSNh(\dots,\kappa,0)=\thmSNz(\eps,i-1,w,X_{i-1},\kappa)\ge0$ and
+$|\thmSNh(\dots,\kappa,l)|\le\thmSmaj(\mathrm{szD}(i),l)\sum_Ag_A(t_0)$ for $0\ne l\in\mathrm{Lad}(i)$, where
+$g_A(t_0)=\sum_{w'}\theta_A(w')\thmSNz(\eps,i-1,w',X_{i-1},\Theta_{i,1,t_0})\ge0$. By $\mathrm{LS}$,
+$\sum_{l\in L}|\thmSNh(\dots,l)|\le\mathrm{ep}\sum_Ag_A(t_0)$ for all finite $L$, and $\mathrm{PS}$ gives
+$\sum_{t\equiv t_0}\Re\thmSNst(\eps,i,1,w,X_{i-1},\kappa;t,t)\le\thmSNz(\eps,i-1,w,X_{i-1},\Theta_{i,1,t_0})+\mathrm{ep}\sum_Ag_A(t_0)$.
+Now sum over $t_0\in R$: since $(1+e_i)K_{i-1}-\sum_{t_0\in R}\Theta_{i,1,t_0}$ is PSD on $X_{i-1}$, linearity and
+positivity of $\thmSNz$ give $\sum_{t_0}\thmSNz(\eps,i-1,w',X_{i-1},\Theta_{i,1,t_0})\le(1+e_i)\thmSNz(\eps,i-1,w',X_{i-1},
+K_{i-1})$ for every $w'$; for $w'=w$ this bounds the first part, and averaging against $\theta_A$ gives
+$\sum_{t_0}g_A(t_0)\le(1+e_i)M$ for each of the $2^f$ subsets $A$.
+
+(5) For each $t_0\in R$, $\mathrm{EB}(C_4)$ with $\kappa=\Theta_{i,s,t_0}$ bounds the inner sum by
+$C_4^{fs}\prod\mathrm{vol}\cdot\sum_{w'}\theta(w')\thmSNz(\eps,i-s,w',X_{i-s},\Theta_{i,s,t_0})$; sum over $t_0$ and use, as in
+(4), that $\sum_{t_0}\thmSNz(\dots,\Theta_{i,s,t_0})\le(1+e_i)\thmSNz(\dots,K_{i-s})\le(1+e_i)M$; the prefactor is $\ge0$.
+\end{proof}
+
+\begin{proposition}[One-level inequality]\label{pf:thmS:onelevel}
+Let $D$ satisfy $\mathrm{GP}$, $\mathrm{KP}^{+}$, $\mathrm{WP}$, $\mathrm{KS}$,
+$\mathrm{TD}$, $\mathrm{EW}$, $\mathrm{PS}$, $\mathrm{EL}$, $\mathrm{EB}(C_4)$ and
+$\mathrm{LS}(\mathrm{ep})$, with $\mathrm{ep}\ge0$, $C_4\ge1$, $\mathrm{vol}\ge0$ and $\mathrm{vol}(b,s)\le1$ for
+$b,s\ge1$, $b+s\le r+2$. Let $T$ be a tower, $\eps>0$, $1\le i\le r+1$, and $\sigma_k\ge0$ ($k<i$) with
+$Q(T,\eps,k,w)\le\sigma_k^2$ for all $w\in W(\mathrm{bud}(k))$. Then for every $w\in W(\mathrm{bud}(i))$,
+\begin{multline}\label{eq:pf:thmS:onelevel}
+\sqrt{Q(T,\eps,i,w)}\le\sqrt{(1+3^f\mathrm{ep})(1+2^f\mathrm{ep})}\sqrt{1+e_i}\,\sigma_{i-1}\\
++\sum_{s=2}^i\sqrt{(1+3^f\mathrm{ep})(1+e_i)C_4^{fs}\textstyle\prod_{1\le s'<s}\mathrm{vol}(i-s+1,s')}\;\sigma_{i-s}.
+\end{multline}
+\formallabel{Formalism.FourierDecayAlt.P.OneLevelCoefficients.oneLevel_of_steps}
+\formallabel{Formalism.FourierDecayAlt.P.one_level_inequality_split_by_size}
+\end{proposition}
+
+\begin{proof}
+Let $w\in W(\mathrm{bud}(i))$, so $\mathrm{cnt}(w)\le4K(r+1-i)$. For $1\le s\le i$ one has
+$\mathrm{cnt}(w)+(s+2)K\le\min(N_{\mathrm{top}},\mathrm{bud}(i-s))$, since $s+2\le4s$ and $s\le i$; hence every $w''$
+reached below lies in $W(\mathrm{bud}(i-s))$, where $Q(T,\eps,i-s,w'')\le\sigma_{i-s}^2$. Note
+$\thmSNz(\eps,j,w'',X_j,K_j)=Q(T,\eps,j,w'')$. Choose for each $s$ a set $R\subseteq\mathrm{Sg}(i-s+1,s)$ of
+representatives of the classes modulo $\mathrm{La}(i-s+1,s)$ met by $\mathrm{Sg}(i-s+1,s)$.
+
+For $s=1$ and $w'\in W(\mathrm{cnt}(w)+K)$, \cref{pf:thmS:fivesteps}(3),(4) with $M=\sigma_{i-1}^2$ give
+$\thmSDg(T,\eps,i,1,w')\le(1+e_i)(1+2^f\mathrm{ep})\sigma_{i-1}^2$; then (2) gives
+$\thmSSf(\eps,i,w,X_{i,1})/\mathrm{wt}(w)\le(1+3^f\mathrm{ep})(1+e_i)(1+2^f\mathrm{ep})\sigma_{i-1}^2$. For $s\ge2$,
+\cref{pf:thmS:fivesteps}(3),(5) with $M=\sigma_{i-s}^2$ (and $\mathrm{vol}(i-s+1,s)\le1$) and then (2) give
+$\thmSSf(\eps,i,w,X_{i,s})/\mathrm{wt}(w)\le(1+3^f\mathrm{ep})C_4^{fs}\prod_{s'<s}\mathrm{vol}(i-s+1,s')(1+e_i)\sigma_{i-s}^2$.
+By (1), divided by $\sqrt{\mathrm{wt}(w)}$, $\sqrt{Q(T,\eps,i,w)}\le\sum_{s=1}^i\sqrt{\thmSSf(\eps,i,w,X_{i,s})/\mathrm{wt}(w)}$,
+and \eqref{eq:pf:thmS:onelevel} follows.
+\end{proof}
+
+\begin{corollary}[One-level inequality on towers]\label{pf:thmS:onelevelafter}
+\Cref{pf:thmS:onelevel} holds with $\mathrm{KP}^{+}$ and $\mathrm{TD}$ replaced by $\mathrm{KP}$,
+$\mathrm{E}$ and the existence of kernels $\Theta'$ with $\mathrm{DT}(T,\Theta')$.
+\formallabel{Formalism.FourierDecayAlt.P.RecursionWithDensities.B1.oneLevelAfterOfOld}
+\formallabel{Formalism.FourierDecayAlt.P.RecursionWithDensities.B1.oneLevelAfter}
+\end{corollary}
+
+\begin{proof}
+Let $D^T$ be $D$ with $K_j$ replaced by its restriction to $X_j\times X_j$ (zero elsewhere) and $\Theta$ replaced as
+follows: for $1\le s\le i\le r+1$ and $t$ whose class modulo $\mathrm{La}(i-s+1,s)$ meets $\mathrm{Sg}(i-s+1,s)$,
+$\Theta^T_{i,s,t}$ is the restriction to $X_{i-s}\times X_{i-s}$ of $\Theta'_{i,s,t^\sharp}$, $t^\sharp$ a chosen element of
+$\mathrm{Sg}(i-s+1,s)$ in that class; otherwise $\Theta^T_{i,s,t}=0$. Restrictions of PSD kernels are PSD, and
+$\Theta'_{i,s,t}$ is PSD on $X_{i-s}$ since $\Theta'_{i,s,t}-\thmSblk(K_i,s,t,t)$ and $\thmSblk(K_i,s,t,t)$ are; so $D^T$
+satisfies $\mathrm{KP}^{+}$. Zeros of $K_i$ remain zeros, so $\mathrm{KS}$ persists. $\mathrm{DT}$,
+$\mathrm{KP}$ and $\mathrm{E}$ give $\mathrm{TD}$ for $D^T$ (on points outside the tower the kernels
+vanish, blocks $\thmSblk(K^T_i,s,t,t)$ with $t\notin\mathrm{Sg}(i-s+1,s)$ vanish, and a finite set $S$ of incongruent
+elements contributes only through its classes meeting the tower, each represented once). The other hypotheses do not involve $K$ or $\Theta$ except through PSD kernels supplied as
+arguments, and $Q^{D^T}(T,\eps,k,w)=Q^D(T,\eps,k,w)$. Apply \cref{pf:thmS:onelevel} to $D^T$.
+\end{proof}
+
+\subsubsection{Theorem A}\label{sec:pf:thmS:thmA}
+
+\begin{lemma}[Recursive inequalities]\label{pf:thmS:rect}
+Let $r\in\N$, $0\le a\le\frac12$, $0\le\eps\le a$ with $ra\le1$, and let $e_i,\sigma_i\ge0$ satisfy, for $1\le i\le r+1$,
+\begin{equation}\label{eq:pf:thmS:rec}
+\sigma_i\le(1+\eps)\sqrt{1+e_i}\,\sigma_{i-1}+\sum_{t=2}^ia^{t-1}\sigma_{i-t}.
+\end{equation}
+Then $\sigma_{r+1}^2\le\bigl(1+e^9(r+1)a\bigr)\prod_{i=1}^{r+1}(1+e_i)\,\sigma_0^2$.
+\formallabel{Formalism.FourierDecayAlt.P.RecText.recT}
+\formallabel{Formalism.FourierDecayAlt.P.coarseBound}
+\end{lemma}
+
+\begin{proof}
+Put $\lambda=1+\eps+2a$ and $Q_i=\prod_{j=1}^i\sqrt{1+e_j}$, which is $\ge1$ and non-decreasing. We show
+$\sigma_i\le\lambda^iQ_i\sigma_0$ for $i\le r+1$ by strong induction: with $M=\lambda^{i-1}Q_i\sigma_0$, the induction
+hypothesis gives $\sqrt{1+e_i}\,\sigma_{i-1}\le M$ and $\sigma_{i-t}\le M$ for $t\ge2$, and $\sum_{t=2}^ia^{t-1}\le2a$
+(geometric series, $a\le\frac12$), so $\sigma_i\le(1+\eps+2a)M=\lambda^iQ_i\sigma_0$. Hence $\sigma_{r+1}^2\le
+\lambda^{2(r+1)}\prod_{i\le r+1}(1+e_i)\sigma_0^2$. With $x=(r+1)a\le\frac32$ we have
+$\lambda^{2(r+1)}\le e^{2(r+1)(\eps+2a)}\le e^{6x}$, and by convexity of $\exp$ on $[0,9]$,
+$e^{6x}=e^{(2x/3)\cdot9}\le1-\frac{2x}3+\frac{2x}3e^9\le1+e^9x$.
+\end{proof}
+
+\begin{corollary}[Recursion with parameters]\label{pf:thmS:jointA}
+For every $C_0\ge1$ there are $C'$ and $C$ (namely $C'=2C_0$, $C=e^9$) such that for all $K_x\ge4$, $f\ge1$,
+$\Theta\ge C'$, $r$ with $r(C_0/\Theta)^f\le1$, and $e_i,\sigma_i\ge0$ satisfying \eqref{eq:pf:thmS:rec} with
+$\eps=(C_0\Theta^{-(K_x-5/2)})^f$ and $a=(C_0/\Theta)^f$, one has
+$\sigma_{r+1}^2\le(1+C(r+1)(C_0/\Theta)^f)\prod_{i=1}^{r+1}(1+e_i)\sigma_0^2$.
+\formallabel{Formalism.FourierDecayAlt.P.K.jointTheoremA}
+\end{corollary}
+
+\begin{proof}
+$\Theta\ge2C_0\ge2$ gives $a\le(C_0/\Theta)\le\frac12$ (as $f\ge1$), and $\Theta^{-(K_x-5/2)}\le\Theta^{-1}$ (as
+$K_x\ge4$, $\Theta\ge1$) gives $\eps\le a$. Apply \cref{pf:thmS:rect}.
+\end{proof}
+
+\begin{lemma}[Limit step]\label{pf:thmS:limit}
+Let $D$ satisfy $\mathrm{GP}$, $\mathrm{KP}^{+}$, $\mathrm{EN}(\mathrm{jn})$, $\mathrm{CO}(V)$ and
+$\mathrm{LD}(V,c)$, with $H$ complete, and let $B\in\R$. Assume that for every tower $T$, every $\eps>0$
+and every $\beta$ with $\Re\thmSgram_{\eps,0,w}(\emptyset,\emptyset)/\mathrm{wt}(w)\le\beta$ for all
+$w\in W(N_{\mathrm{top}})$, one has $\thmSSf(\eps,r+1,\varnothing,X_{r+1})\le B\beta$. Then
+$\sum_{\rho\in R}\|\sum_pc(\rho,p)V(p)\|^2\le B\,\mathrm{jn}$ for every finite $R\subseteq\N$.
+\formallabel{Formalism.FourierDecayAlt.P.limitStep}
+\end{lemma}
+
+\begin{proof}
+The series $\sum_pc(\rho,p)V(p)$ converge absolutely, so it suffices to show that for every finite set $F$ of points
+there is a finite $F'\supseteq F$ with $\sum_{\rho\in R}\|\sum_{p\in F'}c(\rho,p)V(p)\|^2\le B\,\mathrm{jn}$. Let $F_0$
+be the set of points of level $r+1$ in $F$, $S\subseteq E\smallsetminus\{0\}$ the set of all coordinates $t_j$ of
+points of $F_0$, and $T$ the tower with $\mathrm{Sg}(b,s)=S$ for all $b,s$; put $Y=X_{r+1}\supseteq F_0$ and
+$F'=F\cup Y$. Since $c(\rho,p)=0$ unless $p$ has level $r+1$, $\sum_{p\in F'}c(\rho,p)V(p)=\sum_{p\in Y}c(\rho,p)V(p)$.
+Now
+\begin{align*}
+\sum_{\rho\in R}\Bigl\|\sum_{p\in Y}c(\rho,p)V(p)\Bigr\|^2&=\Re\sum_{p,q\in Y}\Bigl(\sum_{\rho\in R}c(\rho,p)\overline{c(\rho,q)}\Bigr)
+\langle V(q),V(p)\rangle\\
+&\le\Re\sum_{p,q\in Y}K_{r+1}(p,q)\langle V(q),V(p)\rangle,
+\end{align*}
+because $K_{r+1}-\sum_\rho c(\rho,\cdot)\overline{c(\rho,\cdot)}$ and the Gram matrix of the $V(p)$ are PSD on $Y$ (Schur
+product theorem). For $\delta>0$ choose $\eps>0$ so small that $\Re\thmSgram_{\eps,0,w}(\emptyset,\emptyset)/\mathrm{wt}(w)
+\le\mathrm{jn}+\delta$ for the finitely many $w\in W(N_{\mathrm{top}})$ and the cutoff identity holds on $Y$; then the
+right side equals $\thmSSf(\eps,r+1,\varnothing,Y)\le B(\mathrm{jn}+\delta)$. Let $\delta\to0$.
+\end{proof}
+
+\begin{lemma}[Coefficient bound]\label{pf:thmS:coef}
+Let $D$ be a TB-datum, $\Theta\ge1$, $C_4\ge1$, $C_0\ge2C_4$, $f\ge1$, $\mathrm{SB}(\Theta)$, $0\le a\le1$, $0\le e\le1$ and
+$2\le s\le i\le r+1$. Then
+\[
+\sqrt{(1+a)(1+e)\,C_4^{fs}\textstyle\prod_{1\le s'<s}\mathrm{vol}(i-s+1,s')}\le\bigl((C_0/\Theta)^f\bigr)^{s-1}.
+\]
+\formallabel{Formalism.FourierDecayAlt.P.OneLevelCoefficients.coef}
+\end{lemma}
+
+\begin{proof}
+$(1+a)(1+e)\le4$; $\prod_{s'<s}\mathrm{vol}(i-s+1,s')\le\Theta^{-2f(s-1)}$ by $\mathrm{SB}(\Theta)$ (the indices satisfy
+$b+s'\le r+2$); and $4C_4^{fs}\le(2C_4)^{2f(s-1)}\le C_0^{2f(s-1)}$, since $f(s-1)\ge1$, $s\le2(s-1)$ and $C_4\ge1$. Hence the
+radicand is at most $(C_0^{f(s-1)}\Theta^{-f(s-1)})^2$.
+\end{proof}
+
+\begin{theorem}[Theorem A]\label{pf:thmS:thmA}
+For all $C_1,C_4\ge1$ there are $C,C'$ such that the following holds. Let $D$ be a TB-datum, $\Theta,\mathrm{jn}\in\R$,
+$H$ a Hilbert space, $V$ and $c$ as above, with $K\ge4$, $f\ge1$, $0<\Theta$, $C'\le\Theta$, $r(C/\Theta)^f\le1$,
+$\mathrm{SB}(\Theta)$, $\mathrm{GP}$, $\mathrm{KP}$, $\mathrm{WP}$, $\mathrm{KS}$,
+$\mathrm{E}$, $\mathrm{DT}_{\forall}$, $\mathrm{EW}$, $\mathrm{PS}$, $\mathrm{EL}$,
+$\mathrm{EB}(C_4)$, $\mathrm{LS}((C_1\Theta^{-(K-5/2)})^f)$, $\mathrm{EN}(\mathrm{jn})$,
+$\mathrm{CO}(V)$ and $\mathrm{LD}(V,c)$. Then for every finite $R\subseteq\N$,
+\begin{equation}\label{eq:pf:thmS:thmA}
+\sum_{\rho\in R}\Bigl\|\sum_pc(\rho,p)V(p)\Bigr\|^2\le\Bigl(1+C(r+1)\bigl(C/\Theta\bigr)^f\Bigr)\prod_{i=1}^{r+1}(1+e_i)\;\mathrm{jn}.
+\end{equation}
+\formallabel{Formalism.FourierDecayAlt.P.RecursionWithDensities.B2.theoremAAfterOfSteps}
+\formallabel{Formalism.FourierDecayAlt.P.theorem_a_after}
+\formallabel{Formalism.FourierDecayAlt.Final.tc_theoremAAfter}
+\end{theorem}
+
+\begin{proof}
+Let $C_0=\max(3C_1,2C_4)$, let $(C'_J,C_J)$ be the constants of \cref{pf:thmS:jointA} for $C_0$, and put
+$C=\max(C_0,C_J)$, $C'=\max(C'_J,3C_1,1)$. Then $\Theta\ge1$, $\Theta\ge3C_1$ and $\Theta\ge C'_J$. Put
+$y=\Theta^{-(K-5/2)}\le\Theta^{-1}$ and $\mathrm{ep}=(C_1y)^f$; then $3^f\mathrm{ep}=(3C_1y)^f\le\min(1,(C_0y)^f)$ and
+$2^f\mathrm{ep}\le3^f\mathrm{ep}$. Replacing all $\Theta_{i,s,t}$ by $0$ does not affect the hypotheses used and gives
+$\mathrm{KP}^{+}$; by \cref{pf:thmS:limit} it suffices to show, for every tower $T$, $\eps>0$ and $\beta$ as there,
+that $\thmSSf(\eps,r+1,\varnothing,X_{r+1})\le B\beta$ with $B=(1+C(r+1)(C/\Theta)^f)\prod_i(1+e_i)$.
+
+Let $\sigma_k=\bigl(\max_{w\in W(\mathrm{bud}(k))}\max(Q(T,\eps,k,w),0)\bigr)^{1/2}$. Since $X_0=\{\emptyset\}$ and
+$K_0(\emptyset,\emptyset)=1$, $Q(T,\eps,0,w)=\Re\thmSgram_{\eps,0,w}(\emptyset,\emptyset)/\mathrm{wt}(w)$, and
+$\mathrm{bud}(0)=N_{\mathrm{top}}$; so $\sigma_0^2\le\beta$, and $\beta\ge0$ by $\mathrm{GP}$. By
+$\mathrm{SB}(\Theta)$ and $\Theta\ge1$, $0\le\mathrm{vol}(b,s)\le1$ in the relevant range. By $\mathrm{DT}_{\forall}$
+there are $\Theta'$ with $\mathrm{DT}(T,\Theta')$, so \cref{pf:thmS:onelevelafter} applies and gives
+\eqref{eq:pf:thmS:onelevel} for every $w\in W(\mathrm{bud}(i))$, hence for $\sigma_i$. Its coefficients are bounded as
+follows: $\sqrt{(1+3^f\mathrm{ep})(1+2^f\mathrm{ep})}\le1+3^f\mathrm{ep}\le1+(C_0y)^f$, and for $s\ge2$ the
+coefficient of $\sigma_{i-s}$ is at most $((C_0/\Theta)^f)^{s-1}$ by \cref{pf:thmS:coef} (with $a=3^f\mathrm{ep}\le1$ and
+$e=e_i\le1$). Thus \eqref{eq:pf:thmS:rec} holds with
+$\eps=(C_0\Theta^{-(K-5/2)})^f$, $a=(C_0/\Theta)^f$, where we put $e_i:=0$ outside $1\le i\le r+1$. Since $C_0\le C$,
+$r(C_0/\Theta)^f\le1$, and \cref{pf:thmS:jointA} gives
+$\sigma_{r+1}^2\le(1+C_J(r+1)(C_0/\Theta)^f)\prod(1+e_i)\sigma_0^2\le B\beta$. Finally $\varnothing\in W(\mathrm{bud}(r+1))$
+and $Q(T,\eps,r+1,\varnothing)=\thmSSf(\eps,r+1,\varnothing,X_{r+1})$, which is therefore $\le\sigma_{r+1}^2\le B\beta$.
+\end{proof}
+
+\begin{corollary}[Theorem A with a density]\label{pf:thmS:recdens}
+For $C_1,C_4\ge1$ there are $C,C'$ such that, under the hypotheses of \cref{pf:thmS:thmA} with $C'\le\Theta$ and
+$r(C/\Theta)^f\le1$, if moreover $e_i=0$ for $1\le i\le r$ and $1+e_{r+1}=\max(s_d,1)$ for some $s_d\in\R$, then
+$\sum_{\rho\in R}\|\sum_pc(\rho,p)V(p)\|^2\le(1+C(r+1)(C/\Theta)^f)\max(s_d,1)\,\mathrm{jn}$.
+\formallabel{Formalism.FourierDecayAlt.P.RecursionWithDensities.J1.t_RecursionWithDens}
+\formallabel{Formalism.FourierDecayAlt.P.recursion_with_densities}
+\end{corollary}
+
+\begin{proof}
+Under these conditions $\prod_{i=1}^{r+1}(1+e_i)=\max(s_d,1)$.
+\end{proof}
+
+\subsubsection{Mass data and the main row}\label{sec:pf:thmS:mass}
+
+\begin{definition}[Mass data]\label{pf:thmS:massdata}
+Mass data $B$ on a finite set $P$ (of places) consist of real numbers: for $p\in P$, $g_p$, $\mathrm{glk}_p$,
+$\mathrm{uk}_p$, $\mathrm{nn}_p$, $\mathrm{gg}_p$, $\mu^K_p$, $\mu^{K\natural}_p$, $\mu^{K''}_p$, $\mu^S_p$, $\mu^{S'}_p$,
+$\mu^{S''}_p$, $\mu^{S''\prime}_p$, $M_p$, $\ell_p$; and global numbers $\mu^K_o,\mu^S_o,\mu^{S'}_o,M_o,\ell_\infty$,
+$\mu_H,\mu_{H'},\mu_{H''},\mu_{H''\prime},\mu_N,\mu_{N'}$, volumes $v_{ZZ},v_{PP},v_G,v_{Ha},v_{Ha'},v_{Na},v_{Na'},v_B,v_H,v_{H'},v_N,v_{N'}$,
+and $\alpha$, $C_{oo}$, $\deg$, $\dim\pi$, $\dim\pi'$, $\rho_0$, $\rho_0'$, $d$, $d'$, $n_{0c}$, $s_d$, $e_1$, $\delta$, $K_{gs2}$,
+$K_V$, $\Sigma$, $K^{\mathrm{top}}_V$, $I_N$, $I_C$, $I_{OO}$. Put $\gamma_p=\mathrm{glk}_p/\mathrm{uk}_p$,
+$\Gamma_1=\prod_p\gamma_p$, $\thmStt=\prod_p(1+3/g_p)$, $\mu^K=\mu^K_o\prod_p\mu^K_p$ and similarly $\mu^{K\natural}$,
+$\mu^{K''}$, $\mu^S$, $\mu^{S'}$, $\mu^{S''}$, $\mu^{S''\prime}$, $M=M_o\prod_pM_p$, $\ell=\ell_\infty\prod_p\ell_p$,
+$c_0=v_Nv_H/\dim\pi$, $c_0'=v_{N'}v_{H'}/\dim\pi'$, $D_*=\deg\cdot v_G/\mu^{K''}$, $\mathrm{AA}=v_BC_{oo}(M/v_{ZZ})/\mu^K$ and
+$\mathrm{GS}=\thmStt\,(d/\dim\pi)\,K_V$. $\mathrm{MI}(B)$ is the conjunction of positivity of all these numbers
+(with $s_d,\delta\ge0$) and the identities
+\begin{gather*}
+\Sigma=\rho_0K_V,\qquad n_{0c}\rho_0=\mathrm{AA},\qquad I_N=\frac{v_{ZZ}}{\ell\,v_{PP}}\,v_{PP}I_C,\qquad I_{OO}=C_{oo}I_C,\qquad
+I_{OO}\le1/\deg,\\
+v_Bv_G=v_{Ha}v_{Ha'},\quad v_{Na}=v_{Na'}=1,\quad \mu^S=\mu_N\mu_H,\quad\mu^{S''}=\mu_N\mu_{H''},\quad\mu^{S'}=\mu_{N'}\mu_{H'},\\
+\mu^{S''\prime}=\mu_{N'}\mu_{H''\prime},\quad
+\rho_0=\frac{v_{Ha}}{v_H\mu_H},\quad v_{Na}=v_N\mu_N,\quad\rho_0'=\frac{v_{Ha'}}{v_{H'}\mu_{H'}},\quad v_{Na'}=v_{N'}\mu_{N'},\\
+d=\dim\pi\frac{v_{Ha}}{v_H\mu_{H''}},\quad d'=\dim\pi'\frac{v_{Ha'}}{v_{H'}\mu_{H''\prime}},\quad\frac{\mu_H}{\mu_{H''}}=
+\frac{\mu_{H'}}{\mu_{H''\prime}}=\Gamma_1,\quad
+\frac{M_o}{\ell_\infty}=\frac{(\mu^K_o)^2}{\mu^S_o\mu^{S'}_o},\\
+\frac{M_p}{\ell_p}=\frac{\mu^K_p\mu^{K\natural}_p}{\mu^S_p\mu^{S'}_p},\quad
+\mu^S_p=\gamma_p\mu^{S''}_p,\quad\mu^{S'}_p=\gamma_p\mu^{S''\prime}_p,\quad\mu^K_p=\frac{\mathrm{gg}_p}{\mathrm{nn}_p\mathrm{uk}_p}\mu^{K''}_p,\quad
+\frac{\mu^{K\natural}_p}{\mu^K_p}=\frac{\mathrm{glk}_p\mathrm{nn}_p}{\mathrm{gg}_p}.
+\end{gather*}
+\end{definition}
+
+\begin{lemma}[Mass identities]\label{pf:thmS:massid}
+Let $B$ satisfy $\mathrm{MI}(B)$, $e_1>0$, $K_V\ge0$, $K_{gs2}\le\thmStt\,\Gamma_1\Sigma$, and
+\begin{equation}\label{eq:pf:thmS:key}
+c_0c_0'K_V\le(1+\delta)\,e_1\,n_{0c}I_N.
+\end{equation}
+Then $\mathrm{GS}=\thmStt\,\Gamma_1\Sigma$ and $K_{gs2}\le\mathrm{GS}\le(1+\delta)e_1\,\thmStt\,dd'/D_*$. The same conclusion
+holds if \eqref{eq:pf:thmS:key} is replaced by $K_V\le s_dn_{0c}K^{\mathrm{top}}_V$, $K^{\mathrm{top}}_V\ge0$, $s_d\le e_1$ and
+$c_0c_0'K^{\mathrm{top}}_V\le(1+\delta)I_N$.
+\formallabel{Formalism.FourierDecayAlt.P.form_gives_theorem_A}
+\formallabel{Formalism.FourierDecayAlt.Final.jx_formGivesMain}
+\formallabel{Formalism.FourierDecayAlt.P.mass_formula_constant_one}
+\formallabel{Formalism.FourierDecayAlt.Final.counting_theorem}
+\end{lemma}
+
+\begin{proof}
+The second set of hypotheses implies \eqref{eq:pf:thmS:key}, since $c_0c_0'K_V\le c_0c_0's_dn_{0c}K^{\mathrm{top}}_V\le
+e_1n_{0c}(1+\delta)I_N$. (Conversely, the formal proof derives the first version from the second by replacing $s_d$ by
+$e_1$ and $K^{\mathrm{top}}_V$ by $K_V/(e_1n_{0c})$.) All quantities below are positive. First,
+$d/\dim\pi=v_{Ha}/(v_H\mu_{H''})=\rho_0\Gamma_1$, so $\mathrm{GS}=\thmStt\Gamma_1\rho_0K_V=\thmStt\Gamma_1\Sigma$. Next,
+\begin{gather*}
+\Sigma=\rho_0K_V\le\frac{(1+\delta)e_1\,\rho_0n_{0c}I_N}{c_0c_0'}=\frac{(1+\delta)e_1\,\mathrm{AA}\,I_N}{c_0c_0'},\\
+\mathrm{AA}\,I_N=\frac{v_BC_{oo}M}{v_{ZZ}\mu^K}\cdot\frac{v_{ZZ}I_C}{\ell}=\frac{v_BM\,I_{OO}}{\mu^K\ell}\le\frac{v_BM}{\mu^K\ell\deg}.
+\end{gather*}
+The local identities give $M/\ell=\mu^K\mu^{K\natural}/(\mu^S\mu^{S'})$, $\mu^{K\natural}_p=\gamma_p\mu^{K''}_p$ (hence
+$\mu^{K\natural}=\Gamma_1\mu^{K''}$), $\mu^S=\Gamma_1\mu^{S''}$ and $\mu^{S'}=\Gamma_1\mu^{S''\prime}$; so
+$M/(\ell\mu^K)=\mu^{K''}/(\Gamma_1\mu^{S''}\mu^{S''\prime})$. Further $1/v_N=\mu_N$ (as $v_N\mu_N=v_{Na}=1$), so
+$1/c_0=\dim\pi\,\mu_N/v_H=d\,\mu_N\mu_{H''}/v_{Ha}=d\,\mu^{S''}/v_{Ha}$ and likewise $1/c_0'=d'\mu^{S''\prime}/v_{Ha'}$. Hence
+\[
+\Gamma_1\Sigma\le(1+\delta)e_1\,\frac{v_B\,\mu^{K''}}{\deg\,\mu^{S''}\mu^{S''\prime}}\cdot\frac{d\,\mu^{S''}}{v_{Ha}}\cdot
+\frac{d'\mu^{S''\prime}}{v_{Ha'}}=(1+\delta)e_1\,\frac{dd'\,\mu^{K''}v_B}{\deg\,v_Bv_G}=(1+\delta)e_1\frac{dd'}{D_*},
+\]
+and multiplying by $\thmStt>0$ gives the claim.
+\end{proof}
+
+\begin{definition}[Local model]\label{pf:thmS:localmodel}
+$\mathrm{LM}(D)$, for a TB-datum $D$ over a field $E$, means: (i) for every $i$ and finite set $Y$ of points
+there are finitely many \emph{places} $p$ (each a topological ring $K_p$ with a subring $R_p$, an additive character
+$\psi_p$, a local datum, invertible integers, and an embedding $E\to K_p$), maps $\eta_p$ from points to local points,
+class maps $\mathrm{cl}_p$, phases $d_p$ and a real function $a$ with
+$K_i(x,y)=a(x)a(y)\prod_p\one[\mathrm{cl}_p(x)=\mathrm{cl}_p(y)]\,d_p(x)\overline{d_p(y)}\,K^{\mathrm{loc}}_p(\eta_p(x),\eta_p(y))$
+on $Y$, $K^{\mathrm{loc}}_p$ the local kernel of the place; (ii) for $1\le s\le i\le r+1$ and $Y$ of level $i-s$, the block
+system of $D$ at $(i,s)$ on $Y$ (its kernels $\thmSblk(K_i,s,t,t')$, its base kernel $K_{i-s}$ and its lattices
+$\mathrm{La}$, $\mathrm{Lap}$) is a rescaled product of local systems, each a top system (if $(i,s)=(r+1,1)$), a
+pull-back system or an outside system; (iii) $K_{r+1}(\thmSjoin(h,1,t),\thmSjoin(h',1,t'))=0$ for $h,h'$ of level $r$ and
+$t\ne t'$ nonzero; (iv) $e_i=0$ for $1\le i\le r+1$.
+\end{definition}
+
+The following components of the local and global inputs (\cref{pf:thmS:localcores,pf:thmS:globalcores}) are used in
+the proof of the main row; \ref{pf:thmS:M3} rests on \cref{pf:thmS:sizesmain}, and the others are cited.
+\begin{enumerate}[label=(M\arabic*)]
+\item\label{pf:thmS:M1} \emph{Local-model axioms} (\lref{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_AxiomsOfLocalModel}):
+given the local inputs (\cref{pf:thmS:localcores}: Schur product and domination lemmas for kernel systems,
+pull-back and top systems, Gram and Parseval identities for local theta kernels) and the existence $\mathrm{A}_s$ of local theta majorants for blocks of every size $s\ge1$, every
+TB-datum with $\mathrm{LM}$ satisfies $\mathrm{KP}$, $\mathrm{KS}$, $\mathrm{E}$ and
+$\mathrm{DT}_{\forall}$. The statements $\mathrm{A}_s$ are part of a local lemma assembled from the local inputs and the theta step (existence of local majorants for blocks of size
+$s$ implies it for $s+1$; \cref{pf:thmS:thetastep}).
+\item\label{pf:thmS:M2} \emph{Lattice sums} (\lref{Formalism.FourierDecayAlt.Final.jx_instLatticeSums}): there is
+$C_1\ge1$ such that for every CM field $E$ unramified over its real subfield and every instance
+$\mathrm{Inst}(D,e,G,C,d_e,d'_e,T,T',l)$ with $g_1,g_2,\mathrm{len}_I>0$, $C\ge0$, $\Theta>4$ and $\Theta^{-G.f}$ the largest
+element of the threshold set $\mathrm{Thr}_G(C,d_e,d'_e,T,T',l)$, one has $\mathrm{SB}(\Theta)$ and
+$\mathrm{LS}((C_1\Theta^{-(K-5/2)})^f)$. (Here $\mathrm{Inst}$ says that $r=G.r$, $K=5$, the places of $D$ are
+the infinite places of $E$ via $e$, and the lattices, sizes and volumes of $D$ are the explicit ideals, thresholds and
+norms attached to $G$.)
+\item\label{pf:thmS:M3} \emph{Sizes} (\lref{Formalism.FourierDecayAlt.Final.jx_sizesToRecursion}, from
+the size bounds \cref{pf:thmS:sizesmain}): for $C_A,C_0\ge1$, $C_G\ge0$, $C_\Delta>4$, $c_T,C_b>0$,
+$c_TC_b>1$ and $0\le C\le C_A$, $C'$, there is $k_1$ such that the size hypotheses $\mathrm{SH}$ (with threshold
+$\Theta$), $k_1\le G.k$, $16\le c_{\exp}C_f$ and $C_f\log b\le G.f\log G.k$ imply $C'\le\Theta$, $4<\Theta$,
+$G.r(C/\Theta)^{G.f}\le1$, $(G.r+1)(C/\Theta)^{G.f}\le1$ and $C(G.r+1)(C/\Theta)^{G.f}\le b^{-7}$.
+\item\label{pf:thmS:M4} \emph{Positivity} (\lref{Formalism.FourierDecayAlt.Final.jx_globPositive}): for
+$C_\Delta>4$, $C_b>0$ there is $k_3$ such that $G.k\ge k_3$ and the hypothesis $\mathrm{Hyp}_G(b,C_\Delta,C_b)$ on the global size datum imply
+$g_1,g_2,\mathrm{len}_I>0$.
+\item\label{pf:thmS:M5} \emph{Poisson summation} (\lref{Formalism.FourierDecayAlt.Final.jx_poissonStepJoint}, from
+\lref{Formalism.FourierDecayAlt.Final.poisson_summation_text}): the Poisson input (lattices $\Lambda_i$ in a real
+inner product space with frames and wave functions compatible with $D$) implies $\mathrm{PS}$.
+\item\label{pf:thmS:M6} \emph{Density} (\lref{Formalism.FourierDecayAlt.Final.tc_densChain}, shared): if
+$2r+2+f+5\le k$, the $q_p\ge\ell_p$ with $\ell_p$ prime, at most $f$ indices share the same prime, and $s_d$ is at most the
+supremum of the products $\prod_{p\in S}\exp(4q_p^{-(k-2r-2)})$, then $s_d\le\exp(12f2^{-(k-2r-2)})$ and $s_d\le2$.
+\item\label{pf:thmS:M7} \emph{Scaling the top level} (\lref{Formalism.FourierDecayAlt.Final.tc_recHypScaleTop}):
+let $D^\lambda$ be $D$ with $K_{r+1}$ multiplied by $\lambda=\max(s_d,1)$ and $e_{r+1}$ replaced by $\lambda-1$. If $s_d\le2$,
+$e_{r+1}=0$, $D$ satisfies the hypotheses of \cref{pf:thmS:thmA} (with some $c$), and $c'$ is supported on points of level
+$r+1$, summable against $\|V\|$, with $s_dK_{r+1}-\sum_{\rho\in R}c'(\rho,\cdot)\overline{c'(\rho,\cdot)}$ PSD on finite sets of
+such points, then $D^\lambda$ satisfies the hypotheses of \cref{pf:thmS:thmA} with $c'$, has the same $r,f$, and
+$e^\lambda_i=e_i$ for $i\le r$. (Scaling preserves zeros and positivity of the kernels; $0\le\lambda-1\le1$; the
+dominating kernels at the top are scaled by $\lambda$; and if $K$ is PSD and $s_dK-m$ is PSD then so is $\max(s_d,1)K-m$.)
+\end{enumerate}
+
+\begin{theorem}[The main row]\label{pf:thmS:mainrowthm}
+Assume the local inputs, the global inputs, the lattice link, the local-model axioms and the theta step (see \ref{pf:thmS:M1}). For every $C_4\ge1$ and $C_{\mathrm{thr}}$ there are $C_A\ge\max(C_{\mathrm{thr}},1)$ and $0\le
+C\le C_A$ such that for all $C_0\ge1$, $C_G\ge0$, $C_\Delta>4$, $c_T,C_b>0$ with $c_TC_b>1$ there is $k_0$ with the
+following property. Let $E$ be a CM field unramified over its maximal real subfield, $D$ a TB-datum over $E$ with a
+bijection $e$ between $\{1,\dots,f\}$ and the infinite places of $E$, $G$ a global size datum, $b,C_p,C_f,\Theta\in\R$, word
+data $d_e,d'_e$, $T,T'\in\N$, $d_u,d_{u'}\in\R$, $l\in\N$, such that $k_0\le G.k$, the size hypotheses
+$\mathrm{SH}(G,C_A,C_0,C_G,C_\Delta,c_T,C_b,b,C_p,\Theta,d_e,d'_e,T,T',d_u,d_{u'},l)$ hold (they include
+$\mathrm{Hyp}_G(b,C_\Delta,C_b)$, $\Theta>0$ and that $\Theta^{-G.f}$ is the largest element of
+$\mathrm{Thr}_G(C_A,d_e,d'_e,T,T',l)$), $16\le c_{\exp}(C_\Delta,c_T,C_b)C_f$, $C_f\log b\le G.f\log G.k$,
+$\mathrm{Inst}(D,e,G,C_A,d_e,d'_e,T,T',l)$ and $\mathrm{LM}(D)$. Let $\mathrm{jn}\in\R$, $H$ a Hilbert space,
+$V$, $c$ as above and $s_d\in\R$, with the real inputs ($\mathrm{GP}$, $\mathrm{WP}$, $\mathrm{EW}$, the
+Poisson input, $\mathrm{EL}$, $\mathrm{EB}(C_4)$, $\mathrm{EN}(\mathrm{jn})$, $\mathrm{CO}(V)$) and the
+density input $\mathrm{DI}(G.k,G.r,G.f,s_d)$ (that is, $2r+2+f+5\le k$ and the hypotheses of \ref{pf:thmS:M6}).
+Let $B$ be mass data with $\mathrm{MI}(B)$, the energy link $I_N=\mathrm{jn}$, $e_1=\max(s_d,1)$,
+$\delta=C(r+1)(C/\Theta)^f$, and $\mathrm{RI}(D,s_d,V,c,B)$: $c$ is supported on points of level $r+1$,
+$s_dK_{r+1}-\sum_{\rho\in R}c(\rho,\cdot)\overline{c(\rho,\cdot)}$ is PSD on finite sets of such points, $\sum_p|c(\rho,p)|
+\|V(p)\|<\infty$, $c_0c_0'K_V\le n_{0c}M$ whenever $M$ bounds all sums $\sum_{\rho\in R}\|\sum_pc(\rho,p)V(p)\|^2$,
+$K_V\ge0$ and $s_d$ is the density of $B$. Then
+\[
+\Gamma_1\Sigma\le(1+\delta)e_1\frac{dd'}{D_*},\qquad0\le\delta\le b^{-7},\qquad1\le e_1\le\exp\bigl(12f\,2^{-(k-2r-2)}\bigr).
+\]
+\formallabel{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_MainRow}
+\end{theorem}
+
+\begin{proof}
+\emph{Constants.} Let $C_1\ge1$ be the constant of \ref{pf:thmS:M2}, and $(C_T,C'_T)$ the constants of
+\cref{pf:thmS:recdens} for $(C_1,C_4)$. Put $C_A=\max(C_{\mathrm{thr}},1,|C_T|)$ and $C=|C_T|$. Given
+$C_0,C_G,C_\Delta,c_T,C_b$, let $k_1$ be given by \ref{pf:thmS:M3} for $(C_A,C_0,C_G,C_\Delta,c_T,C_b,|C_T|,C'_T)$, $k_3$ by
+\ref{pf:thmS:M4}, and $k_0=\max(k_1,k_3)$.
+
+\emph{Hypotheses of Theorem A.} By \ref{pf:thmS:M3}: $C'_T\le\Theta$, $4<\Theta$, $r(|C_T|/\Theta)^f\le1$ and
+$|C_T|(r+1)(|C_T|/\Theta)^f\le b^{-7}$ (with $r=G.r=D.r$ by $\mathrm{Inst}$, and $f=G.f=D.f$ via $e$). By
+\ref{pf:thmS:M4}, $g_1,g_2,\mathrm{len}_I>0$; by \ref{pf:thmS:M2}, $\mathrm{SB}(\Theta)$ and
+$\mathrm{LS}((C_1\Theta^{-(K-5/2)})^f)$; $K=5\ge4$, and $f\ge1$ since $E$ has an infinite place. The
+local-model axioms \ref{pf:thmS:M1} give $\mathrm{KP}$, $\mathrm{KS}$, $\mathrm{E}$, $\mathrm{DT}_{\forall}$;
+\ref{pf:thmS:M5} gives $\mathrm{PS}$; and $\mathrm{LD}(V,0)$ holds since $K_{r+1}$ is PSD. So
+$D$ satisfies the hypotheses of \cref{pf:thmS:thmA} with the coefficients $0$.
+
+\emph{Density and scaling.} \ref{pf:thmS:M6} gives $s_d\le\exp(12f2^{-(k-2r-2)})$ and $s_d\le2$. By the local model,
+$e_i=0$ for $1\le i\le r+1$. The first three clauses of $\mathrm{RI}$ are the hypotheses of \ref{pf:thmS:M7}, which
+gives the hypotheses of \cref{pf:thmS:thmA} for $D^\lambda$, $\lambda=\max(s_d,1)$, with the coefficients $c$, and
+$1+e^\lambda_{r+1}=\max(s_d,1)$, $e^\lambda_i=0$ for $i\le r$. \Cref{pf:thmS:recdens} gives, for every finite $R$,
+\[
+\sum_{\rho\in R}\Bigl\|\sum_pc(\rho,p)V(p)\Bigr\|^2\le\bigl(1+C_T(r+1)(C_T/\Theta)^f\bigr)\max(s_d,1)\,\mathrm{jn}\le(1+\delta)e_1I_N,
+\]
+using $C_T(C_T/\Theta)^f\le|C_T|(|C_T|/\Theta)^f$, the energy link, and $\mathrm{jn}\ge0$ (a limit of non-negative numbers by
+$\mathrm{GP}$ and $\mathrm{EN}$).
+
+\emph{Mass identities.} The fourth clause of $\mathrm{RI}$ now gives \eqref{eq:pf:thmS:key}. Apply
+\cref{pf:thmS:massid} to $B$ with $K_{gs2}$ replaced by $\thmStt\Gamma_1\Sigma$: $\thmStt\Gamma_1\Sigma\le(1+\delta)e_1\thmStt
+dd'/D_*$; since $\thmStt=\prod_p(1+3/g_p)>0$, $\Gamma_1\Sigma\le(1+\delta)e_1dd'/D_*$. Finally $\delta\ge0$, $\delta\le b^{-7}$ by
+\ref{pf:thmS:M3}, $e_1=\max(s_d,1)\ge1$, and $e_1\le\exp(12f2^{-(k-2r-2)})$ since both $s_d$ and $1$ are.
+\end{proof}
+
+\begin{remark}\label{pf:thmS:latticelinkunused}
+The lattice-link hypothesis of the main-row statement (and hence the theorem
+\lref{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_LatticeLink} supplying it in
+\cref{pf:thmS:pbapplied}) is not used in the proof of \cref{pf:thmS:mainrowthm}. Of the local and global inputs the proof uses the components named in \ref{pf:thmS:M1}--\ref{pf:thmS:M7}, Theorem~A, the
+recursion with densities and the mass identities.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{The loop rows}\label{sec:pf:thmS:loops}
+
+\begin{theorem}[Loop rows]\label{pf:thmS:loops}
+Assume $\mathrm{FD}$ and the mass-ratio identity for every datum. Let $\mathcal C$ be a class with a twist
+selection, all of whose members satisfy the size condition $\sfname{TuSize}$ (eventually, the size data satisfy
+a lower bound on the level primes and $\log T_u\le C_{\mathrm{Tu}}\,m\,\Lambda$ for every word $u$), and let $\sigma$ be a spectral selection for
+$\mathcal C$. Then $\mathcal{L}_{3}(\mathcal C,\sigma)$.
+\formallabel{GlobalTheory.LoopRowsByName.loopRows_of_rowsFinDim_alt}
+\formallabel{GlobalTheory.T.loopRows_of_large_gap_discreteSeries}
+\formallabel{GlobalTheory.LoopRowsCloseGap.loop_rows_closed_gap}
+\end{theorem}
+
+The proof reduces the loop rows to three ``row estimates'' along families. For data $D$, size data $L$, term ties $X$ (an identification of the terms of $D$ with explicit flags
+and lattices) and loop ties $Y$ for a pair of words, the row estimates $\mathrm{RE}_{\mathrm{nd}}(C)$, $\mathrm{RE}_{\mathrm{deg}}(C)$ and $\mathrm{RE}_{1}(C)$ with constant $C$ bound the non-degenerate, degenerate and corank-one contributions to the loop rows
+by explicit lattice sums with constant $C$. They are provided by \cref{pf:thmS:loopbounds}, which is proved, together with
+\cref{pf:thmS:betauniq}, in \cref{sec:pf:thmS:loopsproofs}.
+
+\begin{theorem}[Row estimates along families]\label{pf:thmS:loopbounds}
+Assume the Siegel mass ratio,
+the gap hypotheses $\mathrm{GH}$ (branching support, uniqueness of Bessel models with large gap,
+multiplicity one of the lowest $K$-type, and the formal-degree identity) and the pointwise bound for discrete
+series matrix coefficients. For all constants $(C_g,c_b,C_u,c_T,C_T,C_0,A,C_1,c_V,C_\Gamma)$ there are $C_*$ and
+$\vartheta$ such that for every family $F$ with $C_\Gamma(F)=C_\Gamma$, $s_{C'}(F),s_{C_l}(F)\ge\vartheta$ and
+$\mathrm{MF}(F;C_0,\dots)$: (i) eventually, under $\mathrm{CH}_0$, the volume--mass formula at $(D,u)$
+holds for every word $u$ (for normalised flags and every set of row representatives, $g_a(D)$ times the mass of the rows
+times $\dim\pi_u$ equals $d^S_u$); (ii) for all term ties $X$ and loop ties $Y$ along $F$ (with constant $C_1$) satisfying
+the tie conditions, injectivity of the terms of word pairs, the $\beta$-lattice property of word pairs, and eventually
+the small-cell volume bound for terms, and for every $C\ge C_*$: eventually, under $\mathrm{CH}$ with $A$, the three
+row estimates hold with constant $C$.
+\formallabel{GlobalTheory.T.loopRowBounds_along_family_largeGaps}
+\end{theorem}
+
+\begin{theorem}[The corank-one lattice property]\label{pf:thmS:betauniq}
+Let $D$ be a datum with hermitian space $V$, $u,u'$ words, $\Lambda$ a lattice, $F$ a flag for $T_u$ and $F',F''$ flags for
+$T_{u'}$, such that the fixed-lattice hypothesis holds for $(\Lambda,F)$ and $(F,F')$, $(F,F'')$ are generic terms over
+$\Lambda$. Let $\beta_1,\beta_2$ be linear automorphisms of $V$ such that $(F,F',F'',\beta_\iota)$ is a pair of corank $s_0=1$
+for $\iota=1,2$. Then $\beta_2x-\beta_1x\in X(F'')$ for all $x$ orthogonal to the span $X(F')$ of the flag $F'$.
+\formallabel{beta_l_unique}
+\end{theorem}
+
+Finally we use the following statement of the development, the \emph{evaluation of the row estimates}
+(\lref{Formalism.L2.SG.LoopsTies.loopRowS_of_raised}): for a spectral selection with raised
+thresholds and loop ties $Y$, if for every $a_F$, closedly and for every $C$ above a threshold $C_{0}(a_F,\cdot)$, the three
+row estimates hold eventually under the count hypotheses $\mathrm{CH}(\dots,C_0,a_F(c_{\mathrm{out}}))$, and the
+volume--mass formula holds closedly, then $\mathcal{L}_{C_0}$ holds. (The proof evaluates the lattice sums of the
+row estimates by the loop-kernel bounds, giving $\mathrm{R}_{\mathrm{big}}$ and $\mathrm{R}_{\mathrm{nsc}}$ with
+$\thmSepsL(D)=e^{-\frac13kf\log k}$.)
+
+\begin{lemma}\label{pf:thmS:loopsub}
+Let $\mathcal C^g\subseteq\mathcal C$ be the subclass of families on which the gap condition holds eventually, with the
+restricted selection. If the gap condition is closed on $\mathcal C$ ($\thmSClosed(\mathcal C,F\mapsto(F\in\mathcal C
+\Rightarrow\mathrm{Gap}_{\mathrm{ev}}(F)))$) and $\mathcal{L}_{C_0}(\mathcal C^g,\sigma)$ holds, then
+$\mathcal{L}_{C_0}(\mathcal C,\sigma)$ holds.
+\formallabel{Formalism.L2.SG.LoopsTies.loopRowS_of_sub}
+\end{lemma}
+
+\begin{proof}
+For a given $a_F$ take $\eps_1$ the smaller of the two values and, for $\eps\le\eps_1$, the supremum of the two staged
+thresholds. For $F\in\mathcal C$ with large constants the second statement gives $\mathrm{Gap}_{\mathrm{ev}}(F)$, so $F\in\mathcal C^g$
+and the first statement applies.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:loops}]
+The gap hypotheses $\mathrm{GH}$ and the Whittaker--Bessel statement are the two components of the uniqueness theorem for Bessel
+models with large gap and the Whittaker--Bessel statement
+(\lref{GlobalTheory.T.bessel_multiplicity_one_large_gap_and_whittaker_bessel}, via
+\lref{GlobalTheory.GapIn.hyp_of_uniqGap}); the pointwise bound for discrete-series coefficients is
+\lref{GlobalTheory.T.discreteSeriesCoef_pointwiseBound_unconditional}; Wu decay is
+\lref{GlobalTheory.wuDecayOfGap}; and the rank row $\mathcal{R}_{3}(\mathcal C)$ holds by \cref{pf:thmS:ranks}.
+Given these:
+
+(a) $\sfname{TuSize}$ makes the gap condition closed on $\mathcal C$ (\lref{Formalism.L2.SG.GapClosed.gapEv_closed_of});
+by \cref{pf:thmS:loopsub} it suffices to treat $\mathcal C^g$.
+
+(b) The representation property of CM fields and the integrability of weighted coefficients (theorems of the development) and the two decay statements for matrix coefficients (components of $\mathrm{GH}$) are made available;
+$\mathrm{Fin}$ holds by \cref{pf:thmS:finxc}; the existence of $R$-measures, the local Bessel $J$-factors of all word
+pairs and the covolume formula are the shared theorems
+\lref{GlobalTheory.RMeasAll.rMeasEx_all}, \lref{GlobalTheory.T.localBesselJFactor_all_words_of_gap}, and \lref{GlobalTheory.CovNFormulaPf.main}.
+
+(c) \Cref{pf:thmS:loopbounds} with the Siegel mass ratio (\lref{Formalism.HermitianLattices.Ext.L3.siegelMassRatio}) provides
+constants $C_*(\cdot)$, $\vartheta(\cdot)$ as functions of the constants; the stabiliser covolume bound
+\lref{GlobalTheory.T.stabiliserCovolume_relevantTerm_le_heightPow} (for every relevant term with non-zero weight,
+the covolume of its stabiliser is at most a power $C r_S^2$ of an explicit height) provides a constant $c_V(\cdot)$.
+
+(d) The volume--mass formula holds closedly on $\mathcal C$: combine the rank row with \cref{pf:thmS:loopbounds}(i), enlarging the
+staged threshold so that $s_{C'}(F),s_{C_l}(F)\ge\vartheta$.
+
+(e) Apply the evaluation of the row estimates to $\mathcal C^g$, the selection with raised thresholds, $C_1=1$, the threshold function
+$C_0(a_F,l)=C_*(\dots,a_F(\cdot),1,c_V(\dots),l_{17})$ and the loop ties built from the Bessel data and the measure data of
+(b). Its hypothesis on the row estimates is \cref{pf:thmS:loopbounds}(ii) applied to the raised family: the tie conditions hold for
+the raised selection, injectivity of terms holds, the $\beta$-lattice property is \cref{pf:thmS:betauniq}, the small-cell volume
+bound follows from (c), and the constants are large by a further enlargement of the staged threshold (including
+$s_{C_l}(F)\ge1$). With (d), the evaluation gives $\mathcal{L}_{3}(\mathcal C^g,\sigma)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proofs of the deferred results}\label{sec:pf:thmS:deferred}
+
+This subsection proves results which were cited above, or in other sections of Part~II, as statements of the formal
+development: three elementary inputs of the carrier bound (\cref{sec:pf:thmS:elem}); the density of $K$-finite vectors and
+its consequence for Bessel functionals (\cref{sec:pf:thmS:kfin}); the Capelli identity behind the capacity of the carrier
+(\cref{sec:pf:thmS:capelli}); the leaf condition and the joint tensor identity of the carrier (\cref{sec:pf:thmS:joint}); the
+lattice facts and the size bounds behind the main row (\cref{sec:pf:thmS:latfacts,sec:pf:thmS:sizes}); the theta step and
+the local and global inputs of the main row (\cref{sec:pf:thmS:theta,sec:pf:thmS:cores}); and the row estimates along
+families and the corank-one lattice property stated in \cref{sec:pf:thmS:loops} (\cref{sec:pf:thmS:loopsproofs}). Their
+deeper ingredients are cited.
+
+\subsubsection{Elementary inputs of the carrier}\label{sec:pf:thmS:elem}
+
+For a datum $D$ with type primes $g_0,g_1$ we put $g_S(D)=g_0g_1$.
+
+\begin{lemma}[The trace hypothesis]\label{pf:thmS:hyptt}
+Let $D$ be a datum and $u,u'$ words of $D$. Then $T_u$ and $T_{u'}$ are primes, $T_u,T_{u'}\ge3$, and
+$T_u\equiv T_{u'}\pmod{g_S(D)}$.
+\formallabel{Formalism.MainNotions.SchurRelationsDiscreteSeries.hypTT_all}
+\end{lemma}
+
+\begin{proof}
+The level primes are prime by definition of a datum. By \lref{Formalism.MainNotions.S.T_mod}, every level prime
+satisfies $T_w\equiv1\pmod{g_S(D)^2}$ (it is a norm $\pi\bar\pi$ with $\pi\equiv1$ modulo an integer divisible by
+$g_S(D)^2$). As $g_0,g_1\ge2$, $G=g_S(D)\ge4$. A prime $T\equiv1\pmod{G^2}$ is not $2$, since $2<G^2$; hence $T\ge3$.
+Finally $T_u\equiv1\equiv T_{u'}$ modulo $G^2$, hence modulo $G$.
+\end{proof}
+
+\begin{lemma}[An elementary inequality]\label{pf:thmS:acle}
+Let $c,C_l,L\in\R$ and $r,k,f\in\N$ with $C_l\ge1000+|c|$, $f\ge2$ and $L\ge\frac12$, and put $n=2r+k+1$. Then
+\[
+\max\bigl(c\,(r+1)^2(rn+1),\,0\bigr)\le\tfrac12\,C_l\,n^{19}f^5L.
+\]
+\formallabel{Formalism.L2.SG.Pf.CarrierXAll.ac_le}
+\end{lemma}
+
+\begin{proof}
+Since $1\le r+1\le n$ and $rn+1\le n^2+1\le2n^2$, we have $0\le(r+1)^2(rn+1)\le2n^4\le2n^{19}$. Since $f^5\ge32$ and
+$L\ge\frac12$, the right side is at least $8C_ln^{19}$, which is non-negative and at least $2|c|n^{19}\ge c\,(r+1)^2(rn+1)$.
+\end{proof}
+
+Let $X$ be a Hida setting for a datum $D$ and $C$ a choice for $X$, with parameter $\theta$. Put $k=k(D)$, $r=r_S(D)$,
+$n=2r+k+1$, let $h$ be the hermitian form of $H_{k,r}$ on $\C^n$, $W_b$ the span of the $k+1$ middle basis vectors
+$w_0,\dots,w_k$, $T(z)=-h(z,z)$, and let $U_W(z)$ be the stabiliser of $z$ and of the $2r$ hyperbolic basis vectors in
+$\Uni(H_{k,r})$. For a word $u$ and an embedding type $\tau$ the choice transports the local data of $X$ at the place of
+$\tau$ to $\Uni(H_{k,r})$: a vector $z_u=z_C(u,\tau)\in\C^n$, a representation $\pi_u$ of its stabiliser, the discrete series
+representation $\sigma_\tau$ of $\Uni(H_{k,r})$ and a measure $\mu_G$ on $\Uni(H_{k,r})$; together with the stabiliser measures,
+the measure on the unipotent group $N$ and the orbit measures of the choice they form the \emph{local window}
+$W_C(u,u',\tau)$ of a pair of words.
+
+\begin{lemma}[Goodness of the weights]\label{pf:thmS:goodw}
+For words $u,u'$ and an embedding type $\tau$ the local window $W_C(u,u',\tau)$ is good: $\pi_u$ and $\pi_{u'}$ have the column
+types of $u$ and $u'$ at $\tau$; $z_u,z_{u'}\in W_b$ with $T(z_u)=T_u$ and $T(z_{u'})=T_{u'}$; $\mu_G$ is a Haar measure on
+$\Uni(H_{k,r})$; the stabiliser measures are Haar probability measures on $U_W(z_u)$ and $U_W(z_{u'})$; the measure on $N$ is
+the Haar measure normalised by the Lie algebra with the constant $\kappa_N(D,\theta)$; and the two orbit measures are the
+quotients of $\mu_G$ by the products of the stabiliser measures with the measure on $N$.
+\formallabel{Formalism.L2.SG.Pf.AmpWinRX.goodW_all}
+\end{lemma}
+
+\begin{proof}
+The conditions on the stabiliser measures, on the measure on $N$ and on the orbit measures are part of the definition of a
+choice. By \lref{Formalism.L2.SG.LocWSOf.goodW_of}, the window is therefore good as soon as three transfers hold for $u$ and
+$u'$: the column-type transfer ($\pi_u$ has the column type of $u$ at $\tau$), the $z$-transfer ($z_u\in W_b$ and $T(z_u)=T_u$)
+and the Haar transfer ($\mu_G$ is a Haar measure). These hold for every choice, word and type by
+\lref{Formalism.L2.SG.Pf.colsTypeTr}, \lref{Formalism.L2.SG.Pf.zTr}, and \lref{Formalism.L2.SG.Pf.haarTr} respectively.
+\end{proof}
+
+\subsubsection{$K$-finite vectors}\label{sec:pf:thmS:kfin}
+
+Let $K_H=\Uni(H_{k,r})\cap\Uni(n)$, a compact group, and let $\sigma$ be a continuous unitary representation of $\Uni(H_{k,r})$ on a
+Hilbert space $\mathcal H$. For a word $w=(Z_1,\dots,Z_\ell)$ of elements of the Lie algebra of $\Uni(H_{k,r})$ write
+$d\sigma(w)=d\sigma(Z_1)\cdots d\sigma(Z_\ell)$; a vector $v$ is \emph{smooth} if all $d\sigma(w)v$ are defined, and
+\emph{$K$-finite} if it lies in a finite-dimensional subspace stable under $\sigma(K_H)$.
+
+\begin{theorem}[Density of $K$-finite vectors]\label{pf:thmS:kfindense}
+Let $\sigma$ be a discrete series representation of $\Uni(H_{k,r})$ with a Harish-Chandra parameter $\lambda$ (for some
+signature). For every smooth vector $v$, every finite list $w_1,\dots,w_L$ of words in the Lie algebra and every $\delta>0$
+there is a $K$-finite vector $a$ with $\sum_{j=1}^L\|d\sigma(w_j)(v-a)\|<\delta$.
+\formallabel{Formalism.L2.SG.Pf.CarrierXAll.kFinDense_holds}
+\formal{GlobalTheory.KFinDenseDS.kFin_dense}
+\formal{GlobalTheory.KFinAvg.kDense}
+\end{theorem}
+
+\begin{proof}
+A discrete series representation is a continuous unitary representation, and for a smooth vector $v$ and a word $w$ the map
+$g\mapsto d\sigma(w)\sigma(g)v$ is continuous. Let $\mu$ be the Haar probability measure of $K_H$ and
+\[
+p(g)=\tfrac12\bigl(1+\tfrac1n\Re\tr g\bigr)\qquad(g\in\Uni(n)).
+\]
+For unitary $g$ the eigenvalues have modulus one, so $|\tr g|\le n$ and $0\le p(g)\le1$; moreover $p(g)=1$ only if all
+eigenvalues equal $1$, that is $g=1$, unitary matrices being diagonalisable. By compactness, for every neighbourhood $U$ of
+$1$ there is $\delta_U<1$ with $p\le\delta_U$ on $\Uni(n)\setminus U$. The power $p^m$ is a polynomial of degree at most $m$ in
+the entries of $g$ and $\bar g$; these polynomials form a finite-dimensional space $\mathcal P_m$, stable under the
+translations $b\mapsto b(x\,\cdot)$ because the entries of $xg$ are linear in those of $g$.
+
+Put $p_m=p^m/\int_{K_H}p^m\,d\mu$; the denominator is positive because $p$ is continuous with $p(1)=1$ and $\mu$ charges every
+non-empty open subset of $K_H$. The $p_m$ form an approximate identity at $1$: for continuous $\phi\colon K_H\to\mathcal H$,
+$\int p_m\phi\,d\mu\to\phi(1)$. Indeed, given $\eta>0$ choose a neighbourhood $U$ of $1$ with $\|\phi-\phi(1)\|\le\eta$ on
+$U\cap K_H$, a number $\delta'\in(\delta_U,1)$ and a neighbourhood $V\subseteq U$ of $1$ on which $p\ge\delta'$; then
+\[
+\Bigl\|\int p_m(\phi-\phi(1))\,d\mu\Bigr\|\le\eta+2\sup\|\phi\|\cdot\frac{\delta_U^m}{\mu(V\cap K_H)\,\delta'^m},
+\]
+and the last term tends to $0$.
+
+Let $a_m=\int_{K_H}p_m(g)\,\sigma(g)v\,d\mu(g)$. (i) $a_m$ is $K$-finite: for $x\in K_H$, invariance of $\mu$ gives
+$\sigma(x)a_m=\int p_m(x^{-1}g)\sigma(g)v\,d\mu(g)$ with $g\mapsto p_m(x^{-1}g)$ in $\mathcal P_m$, so $\sigma(x)a_m$ lies in the
+space $\{\int b(g)\sigma(g)v\,d\mu(g):b\in\mathcal P_m\}$, which is finite-dimensional and, by the same computation,
+$\sigma(K_H)$-stable. (ii) For each $j$, differentiating under the integral sign (legitimate since $v$ is smooth and $K_H$ is
+compact) and using $\int p_m\,d\mu=1$,
+\[
+d\sigma(w_j)(v-a_m)=\int_{K_H}p_m(g)\bigl(d\sigma(w_j)v-d\sigma(w_j)\sigma(g)v\bigr)\,d\mu(g),
+\]
+which tends to $0$ by the approximate identity, applied to the continuous function $g\mapsto d\sigma(w_j)\sigma(g)v$. Choose $m$
+with $\|d\sigma(w_j)(v-a_m)\|<\delta/(L+1)$ for all $j$; then $a=a_m$ satisfies
+$\sum_j\|d\sigma(w_j)(v-a)\|\le L\delta/(L+1)<\delta$.
+\end{proof}
+
+Let now $B$ be Wu--Bessel data for the choice $C$. For a word $u$ and a type $\tau$ they provide a \emph{Bessel functional}
+$b=b_B(u,\tau)$ on the smooth vectors of $\sigma_\tau$, which is additive and satisfies a Sobolev bound: there are $C_w\in\R$ and
+finitely many words $w_j$ with $|b(y)|\le C_w\sum_j\|d\sigma_\tau(w_j)y\|$ for smooth $y$. The \emph{local Bessel function} is
+$\varphi_B(u,\tau)(m)=b(\sigma_\tau(m)v_0)$, where $v_0$ is the base vector of the lowest $K$-type.
+
+\begin{proposition}[Bessel functionals on $K$-finite vectors]\label{pf:thmS:kfinnz}
+Assume the conclusion of \cref{pf:thmS:kfindense}. Let $D$ be a datum satisfying the gap hypothesis, $X$ a Hida setting for $D$,
+$C$ a choice and $B$ Wu--Bessel data for $C$, $u$ a word and $\tau$ an embedding type. Then there is a $K$-finite vector $a$ for
+$\sigma_\tau$ with $b_B(u,\tau)(a)\ne0$.
+\formallabel{Formalism.L2.SG.Pf.CarrierXAll.kFinNZ_of}
+\end{proposition}
+
+\begin{proof}
+Write $\sigma=\sigma_\tau$, $b=b_B(u,\tau)$ and $\varphi=\varphi_B(u,\tau)$. Under the gap hypothesis every choice satisfies the
+local factor conditions (\lref{Formalism.L2.SG.Pf.LocF.locFactor_holds}), and then $\varphi$ has non-zero finite norm in
+$L^2(\nu_S)$, $\nu_S$ the orbit measure of the choice (\lref{Formalism.L2.SG.Pf.GoodS.l2SG_phiOf_ne_zero_and_lt_infty}). The
+vector $z_u$ lies in $W_b$ with $T(z_u)=T_u>0$ (\lref{Formalism.L2.SG.Pf.zTr}) and $\mu_G$ is a Haar measure
+(\lref{Formalism.L2.SG.Pf.haarTr}), so $\nu_S$ gives measure zero to the complement of $\Uni(H_{k,r})$
+(\lref{Formalism.L2.SG.Pf.GoodS.nu_conc}, which states this for the quotient of a Haar measure of $\Uni(H_{k,r})$ by a Haar
+measure of the stabiliser of such a vector). If $\varphi$ vanished on $\Uni(H_{k,r})$ it would vanish $\nu_S$-almost everywhere;
+hence there is $m\in\Uni(H_{k,r})$ with $b(\sigma(m)v_0)=\varphi(m)\ne0$.
+
+The representation $\sigma$ is a discrete series representation with the Harish-Chandra parameter $\lambda_D(\tau)$
+(\lref{Formalism.L2.SG.Pf.dsTr} and \lref{Formalism.MainNotions.S.Inh.amp_isHCParam_lamD}); its base vector $v_0$ is a lowest
+$K$-type vector (\lref{Formalism.L2.SG.Pf.isLowUnitH_base_vector}) and hence smooth
+(\lref{Formalism.L2.SG.Pf.WuDec.lowSmoothSK}); so $y=\sigma(m)v_0$ is smooth
+(\lref{Formalism.MainNotions.LowestKTypeMultiplicity.smooth_orbit}). Let $C_w$, $w_j$ be the constants of the Sobolev bound
+for $b$ and $\delta=|b(y)|/(|C_w|+1)>0$. By density there is a $K$-finite $a$ with $\sum_j\|d\sigma(w_j)(y-a)\|<\delta$.
+$K$-finite vectors are smooth (\lref{Formalism.L2.SG.Pf.k_finite_smooth}), so $y-a$ is smooth and $b(y)=b(y-a)+b(a)$. If
+$b(a)=0$, then
+\[
+|b(y)|=|b(y-a)|\le C_w\sum_j\|d\sigma(w_j)(y-a)\|\le|C_w|\,\delta<|b(y)|,
+\]
+a contradiction. Hence $b(a)\ne0$.
+\end{proof}
+
+\subsubsection{The Capelli identity}\label{sec:pf:thmS:capelli}
+
+For $z\in W_b$, a \emph{frame} of $z$ is a family $B=(B_1,\dots,B_k)$ in $W_b$ with $h(B_a,B_b)=\delta_{ab}$ and $h(B_a,z)=0$.
+Let $\pi$ be a continuous representation of $U_W(z)$ on a finite-dimensional Hilbert space $W$ and $B$ a frame. Let $E^B_{ab}$
+be the endomorphism $x\mapsto B_a\,h(x,B_b)$ of $\C^n$; its hermitian and skew-hermitian parts lie in the Lie algebra of
+$U_W(z)$, and we put $E_{ab}=d\pi(E^B_{ab})$, where $d\pi$ is the complex-linear extension of the differential of $\pi$. The
+\emph{Capelli operator} is the column determinant
+\[
+\mathrm{Cap}_B(\pi)(w)=\sum_{\varsigma\in S_k}\operatorname{sgn}(\varsigma)\,(E+w)_{\varsigma(1)1}(E+w-1)_{\varsigma(2)2}\cdots
+(E+w-k+1)_{\varsigma(k)k}\qquad(w\in\C),
+\]
+where $(E+x)_{ab}=E_{ab}+x\,\delta_{ab}$ and products are compositions in the written order. We say that $\pi$ has
+\emph{Harish-Chandra type} $u\in\R^k$ if there is $g\in\Uni(H_{k,r})$ fixing the hyperbolic basis vectors with
+$g(\sqrt{T(z)}\,w_k)=z$ such that $x\mapsto\pi(g\,\mathrm{blk}(x)\,g^{-1})$, $\mathrm{blk}$ the block embedding of $\Uni(k)$ used in
+the development, is a non-zero irreducible unitary representation of $\Uni(k)$ with highest weight $\Lambda(u)$, the lowest
+$K$-type attached to $u$; a direct computation with its definition gives $\Lambda(u)_j=u_j-\frac{k-1}2+(j-1)$ ($1\le j\le k$).
+
+\begin{theorem}[Capelli identity]\label{pf:thmS:capelli}
+Let $z\in W_b$ with $T(z)>0$, and let $\pi$ be a continuous representation of $U_W(z)$ on a finite-dimensional Hilbert space $W$,
+of Harish-Chandra type $u\in\R^k$. Then for every frame $B$ of $z$ and every $w\in\C$,
+\[
+\mathrm{Cap}_B(\pi)(w)=\prod_{j=1}^k\Bigl(w-\frac k2+\frac12+u_j\Bigr)\cdot\mathrm{id}_W.
+\]
+\formallabel{Formalism.L2.SG.Pf.CarrierT.capacity_from_hermitian_char}
+\end{theorem}
+
+\begin{proof}
+Let $g$ be as in the definition of the Harish-Chandra type; the vectors $B^g=(gw_0,\dots,gw_{k-1})$ form a frame of $z$
+(\lref{Formalism.FourierDecayAlt.P.QrCap.fr_frame}).
+
+\emph{Step 1.} For every frame $B$ the matrices $E^B_{ab}$ lie in the complexified Lie algebra of $U_W(z)$
+(\lref{Formalism.FourierDecayAlt.P.QrD.frame_lie}), and on such matrices the complexified differential of $\pi$ is the
+combination of the differentials of the hermitian and skew-hermitian parts (\lref{Formalism.FourierDecayAlt.P.QrD.ecRep_eq});
+hence $\mathrm{Cap}_B(\pi)(w)$ is the Capelli determinant $\operatorname{qdet}(E_B)(w)$ of the $k\times k$ matrix
+$E_B=(E_{ab})$ with entries in $\End(W)$.
+
+\emph{Step 2.} The Capelli determinant does not depend on the frame: $\operatorname{qdet}(E_B)(w)=\operatorname{qdet}(E_{B'})(w)$
+for any two frames of $z$ (\lref{Formalism.FourierDecayAlt.P.QrCap.capChange}; the change of frame $P_{ca}=h(B_a,B'_c)$ is
+invertible with inverse $Q_{bd}=h(B'_d,B_b)$, and the Capelli determinant is invariant under the induced change of $E_B$).
+
+\emph{Step 3.} For the frame $B^g$, $\operatorname{qdet}(E_{B^g})(w)$ acts on $W$ as $\prod_{j=1}^k(w+\Lambda(u)_j-(j-1))$
+(\lref{Formalism.FourierDecayAlt.P.QrCap.core}). This is the classical evaluation of the Capelli determinant on an irreducible
+module of highest weight $\Lambda$ \cite{HoweUmeda1991}: the operators $E_{ab}$ of the frame $B^g$ satisfy the commutation relations
+of $\mathfrak{gl}_k$, the diagonal torus acts through them by $\pi(g\,\mathrm{blk}(\mathrm{diag}(e^{i\theta_c}))\,g^{-1})=
+\exp(\sum_ci\theta_cE_{cc})$, the Capelli determinant is central and so acts on the irreducible module $W$ by a scalar, and the
+scalar is computed on a highest weight vector, which is annihilated by the raising operators.
+
+\emph{Step 4.} Since $\Lambda(u)_j-(j-1)=u_j-\frac{k-1}2$, the scalar of Step~3 is $\prod_j(w-\frac k2+\frac12+u_j)$, and Steps
+1--3 give the claim.
+\end{proof}
+
+\subsubsection{The leaf condition and the joint tensor identity}\label{sec:pf:thmS:joint}
+
+We use the carrier construction of Part~II for $X$, $C$, Wu--Bessel data $B$, words $u,u'$ and a bijection $e$ between the
+infinite places of $E$ and the embedding types which is compatible with $X$, under the normalisation $v(D)=\mathrm{rd}_E/2$ of
+the host. The places are indexed by $j$, with types $\tau_j$. For vectors $a_j,b_j$ of $\sigma_{\tau_j}$,
+$\xi_j\in V_{u,v_j}$, $\xi'_j\in V_{u',v_j}$ and scalars $c_j$, the \emph{coefficient function} $f_{c,j}$ is the
+operator-valued matrix coefficient of $(a_j,b_j)$, multiplied by $c_j$ and by the rank-one operator attached to
+$(\xi_j,\xi'_j)$, and conjugated by a fixed torus element of the datum. From these coefficient functions, grids, a cut, indices
+$i'_0$, top lifts, type projections and a constant $A_0$, the construction produces a \emph{carrier} $\mathcal P$: a Hida setting
+over $E$ with level towers, the test functions $f_{c,j}$, parameters $\nu'_j$, $m_{0,j}$ and isometries
+$e_P(v)\colon W_p(v)\to V_{u,v}$, $e_Q(v)\colon W_q(v)\to V_{u',v}$. The carrier satisfies the \emph{pinning covariance} if for
+every infinite place $v$, every $\gamma$ in the local unitary group and all measures $\mu_{R,v},\nu$ satisfying the pin hypotheses
+($G_v(\gamma)>0$, the matrix of $\gamma$ is monomial and its transfer $\mathrm{tr}_v(\gamma)$ to the model group is relevant for
+the base tower, $\mu_{R,v}$ is a Haar measure on the stabiliser of $\gamma$ and $\nu$ the corresponding quotient measure), the
+local orbital integral equals the transported model orbital integral:
+\[
+J_v\bigl(\nu;W_{u,v},W_{u',v};\gamma\bigr)=e_P(v)\circ\mathrm{orb}_v\bigl(\mathrm{tr}_v(\gamma),\mathrm{tr}_{v*}\mu_{R,v},f_{c,v}\bigr)\circ
+e_Q(v)^{-1}.
+\]
+A function $F$ on the model group lies in the \emph{coefficient class} $\mathrm{CC}(A,m)$ if it is of class $C^m$ and
+$\mathrm N(g)^A\|\partial_L(w)\partial_R(w')F(g)\|$ is bounded for all words $w,w'$ of total length at most $m$ in unit Lie algebra
+elements, $\mathrm N$ being the norm function of the development.
+
+\begin{proposition}[The leaf condition]\label{pf:thmS:xleaf}
+Assume the uniqueness of Bessel models with large gap. Let $D$ be a datum with size data satisfying the count hypotheses
+$\mathrm{CH}_0$ with constants $(C',C_l,\dots)$, $C_l\ge1000$, and let $X,C,B,u,u',e$ be as above. Assume the trace hypothesis for
+$(u,u')$, the goodness of the weights and of the Harish-Chandra parameters at every place, $T_u,T_{u'}>0$, and let
+$(a_j,b_j,\xi_j,\xi'_j)$ be pinned at scale $1$ ($a_j,b_j$ are $K$-finite and
+$\langle b_B(u,\tau_j)(a_j),\xi_j\rangle\langle\xi'_j,b_B(u',\tau_j)(b_j)\rangle=1$), with $\mathrm{scl}(B,u,u',\tau_j)\ne0$ and
+$c(B,u,\tau_j)\ne0$ for all $j$. Let $h_j\in\R$ be such that $\lambda_D(\tau_j)$ is a Harish-Chandra parameter with gap at least
+$h_j$ and the gap condition of Wu decay holds at $h_j$, and let $A_c\ge0$ with $A_c\ge C_{\mathrm{orb}}(r+1)^2(rn+1)$ and
+$A_c\le h_j/2$ for all $j$, where $C_{\mathrm{orb}}$ is the constant of
+\lref{Formalism.FourierDecayAlt.P.orbital_integral_converges} (convergence of the orbital integrals of the Bessel kernels).
+Let $c_j$ be the normalising scalars of the carrier, defined from $c(B,u,\tau_j)$, $\mathrm{scl}(B,u,u',\tau_j)$ and the
+amplitude vector provided by the uniqueness of Bessel models. Then the leaf condition holds for $(a,b,\xi,\xi',c)$: the $a_j,b_j$
+are $K$-finite, and for all top lifts, type projections and $A_0$ the carrier built from the coefficient functions of
+$(a,b,\xi,\xi',c)$ satisfies the pinning covariance.
+\formallabel{GlobalTheory.CarrierGap.xLeafAt_of_pinsG}
+\end{proposition}
+
+\begin{proof}
+$K$-finiteness of $a_j,b_j$ is part of the pinning. Fix the top lifts, type projections and $A_0$. By
+\lref{Formalism.L2.SG.Pf.CoefCCT.fcT_inCC}, every coefficient function $f_{c,j}$ lies in $\mathrm{CC}(A_c,m)$ for every $m$:
+this lemma states that for $K$-finite vectors of a discrete series representation whose Harish-Chandra parameter has gap at least
+$h_j$, with the gap condition of Wu decay at $h_j$ and $0\le A_c\le h_j/2$, the conjugated and rescaled operator-valued matrix
+coefficients lie in these classes. Then \lref{GlobalTheory.CarrierGap.pinCov_ccOneG} gives the pinning covariance: it states
+that under the hypotheses of the proposition, if every coefficient function with the normalising scalars $c_j$ lies in
+$\mathrm{CC}(A_c,1)$, the carrier built from them satisfies the pinning covariance for all top lifts, type projections, $A_0$ and
+models. (Its proof reduces the covariance to an identity, at each place, between the local orbital integral and the model orbital
+integral of $f_{c,j}$, which holds for the normalising scalar $c_j$.)
+\end{proof}
+
+\begin{theorem}[Joint tensor identity]\label{pf:thmS:jointtensor}
+Let $X,C,u,u',e$ be as above, and let $\mathcal P$ be the carrier built, with its standard models, from arbitrary constants,
+grids, coefficient functions $f_{c,j}$, a cut, indices $i'_0$, top lifts, type projections and $A_0$. Let $i_0=i'_0$,
+$\mathrm{sc}>0$, and let $\nu_q$ be pinned quotient measures: $\nu_q(\gamma)=\mu_\infty$ for regular $\gamma$, and for the
+representative $\gamma_w$ of a point $w$ with a rational representative, $\nu_q(\gamma_w)$ is the quotient of a Haar measure on the
+stabiliser $\mathrm{St}_\infty(\gamma_w)$ whose image in coordinates is the stabiliser measure of $w$. Assume that $\mathcal P$ is
+built and satisfies the pinning covariance. Then for every tower point $p$ whose point $w$ of level $r+1$ has a rational
+representative and $G_v(\gamma_w)>0$ at all infinite places $v$, all frames $(h,h')$ adapted to $\gamma_w$ with scale
+$\mathrm{sc}$ and indices $i_0,i'_0$, and all $x=(x_v)_v$,
+\[
+\pi_u(h^{-1})\,\mathrm{OO}\bigl(\nu_q(\gamma_w);W_u,W_{u'};\gamma_w\bigr)\,\pi_{u'}(h')\Bigl(\bigotimes_vx_v\Bigr)
+=\bigotimes_ve_P(v)\Bigl(\frac{\mathrm{vec}_v(\mathrm{std}(p_v))}{b_{\mathrm{st}}(\kappa_G,p_v)}\,e_Q(v)^{-1}x_v\Bigr).
+\]
+Here $\mathrm{OO}$ is the archimedean orbital integral of the global Whittaker--Bessel data $W_u,W_{u'}$, $p_v$ the localisation
+of $p$ at $v$ and $\mathrm{std}(p_v)$ its standardisation, $\mathrm{vec}_v$ the model vector operator of the base tower at $v$ with
+the parameters $\nu'_v,m_{0,v}$ and the test function $f_{c,v}$, and $b_{\mathrm{st}}(\kappa_G,\cdot)$ the standard volume factor
+with $\kappa_G=\kappa(g,\mathrm{rd}_E)$.
+\formallabel{Formalism.L2.SG.Pf.CarrierXAll.jointTensor_compact_test}
+\end{theorem}
+
+\begin{proof}
+Call a point $w$ \emph{admissible} if it has a rational representative and $G_v(\gamma_w)>0$ for all $v$.
+
+\emph{Inputs.} The local stabilisers of the standard vectors have the geometric description of
+\lref{Formalism.L2.SG.Pf.Carrier.JointQuot.stVGeo_of_sec}, applied with the section of
+\lref{Formalism.L2.S.L6.UnitaryStandardVectors.stVSec_holds}: at every admissible $w$ and every place $v$ the local stabiliser
+$\mathrm{St}_v(\gamma_w)$ is a subgroup, parametrised continuously by its free coordinates, with translations and inversion
+measure-preserving in coordinates. From this, \lref{Formalism.L2.SG.Pf.Carrier.JointQuot.locUni_of} provides, for every Haar
+measure $\mu_R$ on the global stabiliser normalised by the stabiliser measure, inversion-invariant normalised Haar measures
+$\mu_{R,v}$ on the local stabilisers and measurable functions $b_v<\infty$ with $\int b_v(sx)\,d\mu_{R,v}(s)=1$ for all $x$; and
+\lref{Formalism.L2.SG.Pf.Carrier.JointQuot.globProd_of} shows $\mu_R=\prod_v\mu_{R,v}$. The characters of the Whittaker--Bessel
+data satisfy $\psi_u(s)\overline{\psi_{u'}(\gamma_w^{-1}s\gamma_w)}=1$ on the stabilisers of admissible points
+(\lref{Formalism.L2.SG.Pf.Carrier.JointQuot.stRel_holds}). By construction, the carrier built from $X$ is compatible with
+$X$, its base frames are those of $X$ (as $i_0=i'_0$), and its embeddings of $E$ are those of $X$ at the corresponding places.
+
+\emph{Step 1: factorisation.} By \lref{Formalism.L2.SG.Pf.Carrier.JointQuot.ooQuot_pin} there are local measures
+$\nu_l(w,v)$, quotients of the normalised local Haar measures of the stabilisers, such that for every admissible $w$
+\[
+\mathrm{OO}\bigl(\nu_q(\gamma_w);W_u,W_{u'};\gamma_w\bigr)\Bigl(\bigotimes_vy_v\Bigr)=\bigotimes_vJ_v\bigl(\nu_l(w,v);W_{u,v},W_{u',v};
+\gamma_{w,v}\bigr)y_v :
+\]
+the global quotient measure is the product of the local ones (Fubini, with $\prod_vb_v$ as cut-off function), and the integrand
+is a tensor product of local integrands.
+
+\emph{Step 2: the places.} Fix $v$. Three statements about carriers built from $X$ --
+\lref{Formalism.L2.SG.Pf.Carrier.relTr_carrierOf} (the transfer of $h_v^{-1}\gamma_{w,v}h'_v$ to the model group is relevant
+for the base tower), \lref{Formalism.L2.SG.Pf.Carrier.measPinAt_of} (the transfer of the conjugated local Haar measure of the
+stabiliser is $b_{\mathrm{st}}(\kappa_G,p_v)$ times the model measure of the tower at the transferred element) and
+\lref{Formalism.L2.SG.Pf.Carrier.orbVecAt_carrierOf} (given this, the model orbital integral of any test function at the
+transferred element is $b_{\mathrm{st}}(\kappa_G,p_v)^{-1}$ times the model vector operator at $\mathrm{std}(p_v)$) -- combine by
+\lref{Formalism.L2.SG.Pf.Carrier.JointPinJB.jointBridge_of_open} into a bridge: there are $\gamma''$ and measures
+$\mu_{R,v},\nu$ satisfying the pin hypotheses such that
+$\pi_{u,v}(h_v^{-1})\,J_v(\nu_l(w,v);\gamma_{w,v})\,\pi_{u',v}(h'_v)=J_v(\nu;\gamma'')$, and the model orbital integral of
+$f_{c,v}$ at $\mathrm{tr}_v(\gamma'')$ equals $b_{\mathrm{st}}(\kappa_G,p_v)^{-1}\mathrm{vec}_v(\mathrm{std}(p_v))$. The pinning
+covariance identifies $J_v(\nu;\gamma'')$ with $e_P(v)\circ\mathrm{orb}_v(\cdots)\circ e_Q(v)^{-1}$. Hence
+\[
+\pi_{u,v}(h_v^{-1})\,J_v\bigl(\nu_l(w,v);\gamma_{w,v}\bigr)\,\pi_{u',v}(h'_v)=e_P(v)\circ
+\frac{\mathrm{vec}_v(\mathrm{std}(p_v))}{b_{\mathrm{st}}(\kappa_G,p_v)}\circ e_Q(v)^{-1}.
+\]
+
+\emph{Step 3.} The adapted frames act on the global tensor product factor by factor,
+$\pi_u(h^{\pm1})\bigotimes_vy_v=\bigotimes_v\pi_{u,v}(h_v^{\pm1})y_v$. Combining this with Steps 1 and 2 gives the identity.
+\end{proof}
+
+\subsubsection{Lattice facts}\label{sec:pf:thmS:latfacts}
+
+Let $E$ be a CM field with maximal real subfield $E^+$. We call $E$ \emph{unramified} if the different $\mathfrak D$ of $E$ is
+generated by the different of $E^+$. Put $\deg=[E^+:\Q]$ and $\mathrm{rd}=|d_E|^{1/[E:\Q]}$. For $g\in\N_{>0}$ and $k,\nu\in\Z$ let
+$\mathfrak a(g,k,\nu)=\mathfrak D^\nu g^k$. For fractional ideals $A,B$ and $s\in\N$ let
+$\mathrm{tw}_s(A,B)=\{x\in A:x-(-1)^s\bar x\in B\}$, and put
+\begin{gather*}
+P=\mathrm{tw}_s\bigl(\mathfrak a(g,1,\nu),\mathfrak a(g,2,\nu)\bigr),\qquad
+P^\sharp=\mathrm{tw}_s\bigl(\mathfrak a(g,-1,-\nu),\mathfrak a(g,0,-\nu)\bigr),\\
+\mathfrak a^\vee=\mathfrak a(g,-1,-\nu-1),\qquad\mathfrak a^\sharp=\mathfrak a(g,-1,-\nu).
+\end{gather*}
+For a $\Z$-module $L\subseteq E$ let $L^{*g}=\{x\in E:\Tr_{E/\Q}(xy/g)\in\Z\text{ for all }y\in L\}$, and for $c\in\R$ let
+$\Phi_c(L)=c\,\iota(L)\subseteq E_\R$, where $\iota$ is the mixed embedding.
+
+\begin{theorem}[Lattice facts]\label{pf:thmS:latfacts}
+Let $E$ be an unramified CM field, $g>0$, $\nu\in\Z$ and $s\in\N$. Then:
+\begin{enumerate}
+\item $\mathfrak a(g,2,\nu)\subseteq P\subseteq\mathfrak a(g,1,\nu)$ and $[\mathfrak a(g,1,\nu):P]=[P:\mathfrak a(g,2,\nu)]=g^{\deg}$;
+\item $P^{*g}\subseteq\mathfrak a^\vee$ and $[\mathfrak a^\vee:P^{*g}]=g^{\deg}$;
+\item $P^\sharp\subseteq\mathfrak a^\sharp$ and $[\mathfrak a^\sharp:P^\sharp]=g^{\deg}$;
+\item $\sqrt{N(\mathfrak a^\vee)}=(g\,\mathrm{rd}^{\nu+1})^{-\deg}$;
+\item $\Phi_{\mathrm{rd}^{-\nu}}(P)$ is a discrete subgroup of $E_\R$ which spans $E_\R$, of covolume $(\mathrm{rd}/2)^{\deg}g^{3\deg}$.
+\end{enumerate}
+\formallabel{Formalism.FourierDecayAlt.P.lattice_facts_general}
+\end{theorem}
+
+\begin{proof}
+We use the following facts.
+\begin{enumerate}[label=(\alph*)]
+\item $[E:\Q]=2\deg$, and $E$ has $\deg>0$ infinite places (\lref{Formalism.FourierDecayAlt.P.degreeFacts_statement}).
+\item Each $\mathfrak a(g,k,\nu)$ is stable under complex conjugation, since $\mathfrak D$ is stable under the automorphisms of $E$
+and $g\in\Q$.
+\item The relative different $\mathfrak D_{E/E^+}$ is trivial: by transitivity $\mathfrak D=\mathfrak D_{E/E^+}\cdot\mathfrak
+D_{E^+}\OO_E$, and $\mathfrak D=\mathfrak D_{E^+}\OO_E\ne0$. In particular it is prime to every $g$.
+\item If $B\subseteq A$ and $B$ is stable under conjugation, then $B\subseteq\mathrm{tw}_s(A,B)\subseteq A$: for $x\in B$,
+$\bar x\in B$ and so $x-(-1)^s\bar x\in B$.
+\item If $A\ne0$ is stable under conjugation and $\mathfrak D_{E/E^+}$ is prime to $g$, then
+$[A:\mathrm{tw}_s(A,gA)]=[\mathrm{tw}_s(A,gA):gA]=g^{\deg}$ (\lref{Formalism.FourierDecayAlt.P.twistedLatticeIndex}).
+\item $P^{*g}=\mathrm{tw}_{s+1}\bigl(\mathfrak a^\vee,\mathfrak a(g,0,-\nu-1)\bigr)$: the inclusion $\subseteq$ is
+\lref{Formalism.FourierDecayAlt.P.dual_lattice_subset}, and $\supseteq$ is
+\lref{Formalism.FourierDecayAlt.P.traceDualGe}, which uses that $E$ is unramified.
+\item $\sqrt{N(\mathfrak a(g,k,\nu))}=(g^k\mathrm{rd}^\nu)^{\deg}$: indeed $N(\mathfrak D)=|d_E|=\mathrm{rd}^{2\deg}$ by (a),
+$N(g^k\OO_E)=g^{2k\deg}$, and the norm is multiplicative.
+\item For a fractional ideal $B\ne0$, $c\ne0$ and a $\Z$-module $L\supseteq B$ with $[L:B]$ finite, $\Phi_c(L)$ is discrete, spans
+$E_\R$ and has covolume $|c|^{2\deg}N(B)2^{-\deg}\sqrt{|d_E|}/[L:B]$ (\lref{Formalism.FourierDecayAlt.P.covolumeIndex}).
+\end{enumerate}
+Now (1) is (d) and (e) for $A=\mathfrak a(g,1,\nu)$, $gA=\mathfrak a(g,2,\nu)$. (2): by (f) and (d), $P^{*g}\subseteq\mathfrak a^\vee$,
+and by (f) and (e) for $A=\mathfrak a^\vee$, $gA=\mathfrak a(g,0,-\nu-1)$, the index is $g^{\deg}$. (3) is (d) and (e) for
+$A=\mathfrak a^\sharp$, $gA=\mathfrak a(g,0,-\nu)$. (4) is (g) for $\mathfrak a(g,-1,-\nu-1)$. (5): apply (h) with
+$B=\mathfrak a(g,2,\nu)$, $L=P$ and $c=\mathrm{rd}^{-\nu}\ne0$; by (1), $[P:B]=g^{\deg}$, and by (g) and (a),
+$N(B)=g^{4\deg}\mathrm{rd}^{2\nu\deg}$ and $\sqrt{|d_E|}=\mathrm{rd}^{\deg}$. The covolume is
+\[
+\mathrm{rd}^{-2\nu\deg}\cdot g^{4\deg}\mathrm{rd}^{2\nu\deg}\cdot2^{-\deg}\cdot\mathrm{rd}^{\deg}\cdot g^{-\deg}=(\mathrm{rd}/2)^{\deg}g^{3\deg}.
+\qedhere
+\]
+\end{proof}
+
+\subsubsection{Sizes}\label{sec:pf:thmS:sizes}
+
+For a global size datum $G$ we write $k=G.k$, $r=G.r$, $m=G.m=2r+2$, $f=G.f$, $N=10m$, $\Delta=G.\Delta$, $I=\Delta/2-\frac52$ (the
+length $\mathrm{len}_I$), $g=g_1g_2$ for its type primes and $\kappa$ for its angle; the hypothesis $\mathrm{Hyp}_G(b,C_\Delta,C_b)$
+contains in particular $m\le f\le k$, $(kf\log b)^{C_\Delta}\le\Delta$, $k^{C_b}\le b_{w,1}\le b^2$ for the node values at the
+places $w$, $b>1$, $g_1,g_2\ge(kb)^8$, and $v\ge1$, so that the angle $\kappa=\pi/v$ satisfies $0<\kappa\le\pi$.
+
+\begin{theorem}[Size bounds]\label{pf:thmS:sizesmain}
+Let $C_A\ge1$, $C_0\ge1$, $C_G\ge0$, $C_\Delta>4$, $c_T,C_b>0$ with $c_TC_b>1$, and
+$c_{\exp}=\min\{(C_\Delta-4)/2,(c_TC_b-1)/4\}$. There is $k_0$ with the following property. Let $G$ be a global size datum and
+let $b,C',C_f,\Theta\in\R$, word data $d_e,d'_e$ of length $k$, $T,T'\in\N$, $d_u,d_{u'}\in\R$ and $l\in\N$ satisfy: $k\ge k_0$;
+$\mathrm{Hyp}_G(b,C_\Delta,C_b)$; $1\le l\le k-2$ and $d_e(l)\ne d'_e(l)$; $b^{c_Tm}\le T$ and $b^{c_Tm}\le T'$; $8C_G\le C'$
+and $C'm^5f\log b\le k$; the mass ratios, the lower bound and the column count of the size datum $G.\mathrm{size}(d_e,T,d_u)$,
+the column count of $G.\mathrm{size}(d'_e,T',d_{u'})$, the choice of $T$ for both with the constants $C_0$ and
+$\exp(C_Gm^5f\log b)$, and the lower bound $\frac12$ for the formal degrees at every place; $\Theta>0$, and $\Theta^{-f}$ is the
+largest element of the threshold set $\mathrm{Thr}_G(C_A,d_e,d'_e,T,T',l)$. Then $k^{c_{\exp}}\le\Theta$; and if moreover
+$16\le c_{\exp}C_f$ and $C_f\log b\le f\log k$, then $r(C_A/\Theta)^f\le1$ and $C_A(r+1)(C_A/\Theta)^f\le b^{-7}$.
+\formallabel{Formalism.FourierDecayAlt.Final.sz_sizesMain}
+\end{theorem}
+
+\begin{proof}
+Put $C_t=2C_0e^{1/4}\ge1$; $c_{\exp}>0$ since $C_\Delta>4$ and $c_TC_b>1$. For $\Delta,N,I$ and $TT>0$ let
+\[
+\mu(\Delta,N,I,TT)=\min\Bigl\{\frac{\sqrt{\Delta/(kN^3)}}{160C_tC_A},\ \frac{I}{160\pi C_tC_A^2\sqrt k\,N},\
+\Bigl(\frac{\sqrt{TT}}{160\pi C_tC_A\sqrt k}\Bigr)^{1/2}\Bigr\}.
+\]
+The power bound \lref{Formalism.FourierDecayAlt.P.theta_power_bound} provides $k_1$ such that for $k\ge k_1$, $2\le m\le f\le
+k$, $N=10m$, $I=\Delta/2-\frac52$, $k^{C_b/2}\le b$, $(kf\log b)^{C_\Delta}\le\Delta$ and $(b^{c_Tm})^2\le TT$ one has
+$\pi C_AN/I\le1$ and $k^{c_{\exp}}\le\mu(\Delta,N,I,TT)$. The final smallness
+\lref{Formalism.FourierDecayAlt.P.final_smallness} provides $k_2$ such that for $k\ge k_2$, $2r+2\le f$, $b\ge1$,
+$16\le c_{\exp}C_f$, $C_f\log b\le f\log k$ and $k^{c_{\exp}}\le\Theta$ one has $r(C_A/\Theta)^f\le1$ and
+$C_A(r+1)(C_A/\Theta)^f\le b^{-7}$. Put $k_0=\max(7,k_1,k_2)$ and let the data be given.
+
+\emph{Elementary consequences.} We have $k\ge7$, $m\ge2$ and $f\ge m\ge2$. Since $k^{C_b}\le b^2$, $k^{C_b/2}\le b$; as $b>1$,
+$T,T'\ge b^{c_Tm}>1$, so $T,T'\ge2$ and $(b^{c_Tm})^2\le TT'$. The power bound applies with $TT=TT'$: $\pi C_AN/I\le1$ and
+$k^{c_{\exp}}\le\mu(\Delta,N,I,TT')$. Since $k^{c_{\exp}}\ge1$ and $C_tC_A\ge1$, the first entry of $\mu$ gives
+$\Delta\ge160^2kN^3$; hence $N^3\le\Delta/2$, $\Delta>0$ and $I>0$. Also $g_1,g_2\ge(kb)^8\ge4$, so $g\ge16\ge2\pi$.
+
+\emph{Positivity.} By the interlacing of the parameters $\lambda$ and $u(d_e)$ at every place
+(\lref{Formalism.FourierDecayAlt.P.interlacing}) and the strict monotonicity of $\lambda$
+(\lref{Formalism.FourierDecayAlt.P.lamStrictAnti}), the Vandermonde products of $u(d_e)$, $u(d'_e)$ and $\lambda$ are positive;
+with the lower bound for the formal degrees, the formal-degree quantities $V(w)$ and $d_\sigma(w)$ are positive at every place $w$.
+
+\emph{Critical heights.} Corollary~A (\lref{Formalism.FourierDecayAlt.P.corollary_a_of_proposition_a}: under the mass
+ratios, the lower bound, the column count, the choice of $T$ with constants $C_0$, $\exp(C_Gm^5fL)$, $8C_G\le C'$,
+$C'm^5fL\le k$ and $8f2^{-k}\le\log2$, the product $\prod_wT_{\mathrm{crit}}(w)/T$ of the critical heights lies between
+$(2C_0)^{-1/k}$ and $(2C_0)^{1/k}e^{1/4}\le C_t$), applied with $L=\log b$ to both size data (note $8f2^{-k}\le\log2$ for
+$f\le k$, $k\ge7$), gives $\prod_wT_{\mathrm{crit}}(w)/T\le C_t$ and $\prod_wT'_{\mathrm{crit}}(w)/T'\le C_t$. Put
+$t_w=\bigl(T_{\mathrm{crit}}(w)T'_{\mathrm{crit}}(w)/(TT')\bigr)^{1/2}\ge0$; then $(\prod_wt_w)^2\le C_t^2$, so $\prod_wt_w\le C_t$.
+
+\emph{The $\beta$-function.} The boundary bound \lref{Formalism.FourierDecayAlt.P.beta_bound_on_boundary} with its constant
+$A_0\in(0,160]$ (\lref{Formalism.FourierDecayAlt.P.a_zero_le_one_sixty}) gives, for $Y$ in the cut interval at $l$ with
+$\frac52\le v_l+Y\le D\le\Delta/2$: $0\le g^m\beta_w(Y)\le160\,t_w\sqrt k\sqrt{D/\Delta}$. Taking suprema, the long-cut supremum
+$B_1(w)$ (with $D=N^3$) and the supremum $B(w)$ over the whole interval (with $D=\Delta/2$) satisfy $0\le B_1(w)\le160t_w\sqrt
+k\sqrt{N^3/\Delta}$ and $0\le B(w)\le160t_w\sqrt k$.
+
+\emph{Thresholds.} The threshold products \lref{Formalism.FourierDecayAlt.P.threshold_products} (for $C=C_A$, $A_0=160$,
+$C_t$, $\kappa\in(0,\pi]$, $N,I,g,\Delta,TT'$, using $\pi C_AN/I\le1$, $\prod_wt_w\le C_t$ and the bounds for $B_1,B$) bound the
+four kinds of elements of the threshold set: the products of the $x$-thresholds at $i=1$ by
+$C_t(160C_A)^f(kN^3/\Delta)^{f/2}$, those at $i\ge2$ by $C_t(160C_A\sqrt k)^f(\pi C_AN/I)^{2f}$, the products of the
+$\lambda$-thresholds with $s\ge2$ by $C_t(160C_A\sqrt k)^f(\pi C_AN/I)^f$, and the products of the $\lambda'$-thresholds by
+$\sqrt{C_t}\,(160\pi C_A\sqrt k/\sqrt{TT'})^{f/2}$. The largest element $\Theta^{-f}$ is of one of these kinds, so it is bounded
+by the corresponding quantity; the lower bound \lref{Formalism.FourierDecayAlt.P.theta_lower_bound} (if $\Theta^{-f}$ is
+at most one of these four quantities, then $\mu(\Delta,N,I,TT')\le\Theta$) gives $\mu(\Delta,N,I,TT')\le\Theta$, hence
+$k^{c_{\exp}}\le\Theta$. Finally, if $16\le c_{\exp}C_f$ and $C_f\log b\le f\log k$, the final smallness applies, since
+$k\ge k_2$, $2r+2=m\le f$ and $b\ge1$.
+\end{proof}
+
+\subsubsection{The theta step}\label{sec:pf:thmS:theta}
+
+A \emph{local datum} $(K,R,\psi)$ consists of a Hausdorff commutative topological ring $K$ which is Artinian and reduced, an open
+compact subring $R$ containing a unit $\varpi$ of $K$ with $\varpi^mx\in R$ for every $x\in K$ and some $m$, such that every
+$x\in K$ has $x+r\in K^\times$ for some $r\in R$, and an additive character $\psi$ with $\overline{\psi(x)}=\psi(-x)$ and
+$\psi(aR)=1\iff a\in R$. For $x\in K$ let $|x|_R=[xR:xR\cap R]/[R:R\cap xR]$. A \emph{point} $h$ consists of a list of block
+sizes, of total size $|h|$, and units of $K$; $\mathrm{pt}(h)$ is the associated matrix, $\mathrm{cs}(h)=|\det\mathrm{pt}(h)|_R^{-1}$,
+$h\oplus(s,t)$ is obtained by appending a block of size $s$ with the unit $t$, and $h\in\GL(R)$ means that $\mathrm{pt}(h)$ and its
+inverse have entries in $R$. The local kernel $N_0(h,h')=K^{\mathrm{loc}}(h,h')$ is the finite sum over pairs of cosets of the
+development, and for $s\ge1$, units $t,t'$,
+\[
+N_s(h,h',t,t')=|tt'|_R^{s(s-1)/2}\,N_0\bigl(h\oplus(s,t),h'\oplus(s,t')\bigr).
+\]
+For $s\ge1$, a finite set $F$ of points and $\Theta\colon K\to\{\text{kernels on points}\}$, the \emph{theta properties}
+$\mathrm{TP}_s(F,\Theta)$ are:
+(T1) $\Theta(x+y)=\Theta(x)$ for $y\in R$;
+(T2) $\Theta(x)$ is PSD on $F$;
+(T3) there is an open compact $R$-submodule $L$ of $K$ with $\Theta(x)=0$ on $F\times F$ for $x\notin L$;
+(T4) $\Theta(t)-N_s(\cdot,\cdot,t,t)$ is PSD on $F$ for every unit $t$;
+(T5) $M_s-\sum_{x\in K/R}\Theta(x)$ is PSD on $F$, where $M_s(h,h')=\mathrm{cs}(h)^s\mathrm{cs}(h')^sN_0(h,h')$;
+(T6) $\Theta(x)(h,h')=0$ if $|\det\mathrm{pt}(h)|_R\ne|\det\mathrm{pt}(h')|_R$;
+(T7) if all points of $F$ lie in $\GL(R)$, then $\one_R(x)N_0-\Theta(x)$ is PSD on $F$ for every $x$.
+\emph{Local theta majorants exist for blocks of size $s$} if for every $m$ and every finite set $F$ of points of total size $m$
+there is $\Theta$ with $\mathrm{TP}_s(F,\Theta)$. The block-kernel statement (A2) asserts that for every local datum and $s\ge1$
+the kernels $((h,t),(h',t'))\mapsto N_s(h,h',t,t')$ are PSD on finite sets of pairs (point of a fixed total size, unit) and
+satisfy a support condition; the single-block Parseval identity asserts that for points $h,h'$ of equal total size and unit
+representatives $c(x)$ of the classes $x\in K/R$, $x\mapsto N_1(h,h',c(x),c(x))$ has finite support and sum
+$\mathrm{cs}(h)\mathrm{cs}(h')N_0(h,h')$.
+
+\begin{theorem}[The theta step]\label{pf:thmS:thetastep}
+Assume (A2) and the single-block Parseval identity. Let $(K,R,\psi)$ be a local datum in which every non-zero integer is a unit,
+and $s\ge1$. If local theta majorants exist for blocks of size $s$, they exist for blocks of size $s+1$.
+\formallabel{Formalism.FourierDecayAlt.P.lattice_average_induction}
+\end{theorem}
+
+\begin{proof}
+Let $F$ be a finite set of points of total size $m$, and write $M=M_{s+1}$. We use three results of the development.
+\begin{enumerate}[label=(\alph*)]
+\item (Cut module.) There is an open compact $R$-submodule $L_c\supseteq R$ of $K$ such that $N_{s+1}(h,h',t,t)=0$ for
+$h,h'\in F$ and units $t\notin L_c$, with $L_c=R$ if all points of $F$ lie in $\GL(R)$
+(\lref{Formalism.FourierDecayAlt.P.finite_family_truncation_module}, from the support statement
+\lref{Formalism.FourierDecayAlt.P.added_block_kernel_support}: $N_s(h,h',t,t')\ne0$ implies $\det\mathrm{pt}(h)\,t\in R$
+and $\det\mathrm{pt}(h')\,t'\in R$).
+\item (Exhaustion; \lref{Formalism.FourierDecayAlt.P.rootStableExhaustion}.) There are open compact sets
+$\Omega_1\subseteq\Omega_2\subseteq\cdots$ of units, each stable under multiplication by the $(s+1)$-th roots of unity, whose union
+contains every unit.
+\item (Majorants on $\Omega$; \lref{Formalism.FourierDecayAlt.P.theta_omega_bound}.) Under (A2), the Parseval identity and
+the existence of majorants for size $s$, for $L_c$ as in (a) and each such $\Omega$ there is $\Theta_\Omega$ with (T1), (T2),
+(T5), (T6) for $s+1$, vanishing outside $L_c$, and with (T4) for the units in $\Omega$. This is the core of the argument; its
+proof uses the existence for size $s$, $p$-adic stationary phase, Gauss sums of quadratic forms and averages over lattices.
+\end{enumerate}
+Let $\Theta_j=\Theta_{\Omega_j}$.
+
+\emph{Compactness.} The quotient $L_c/R$ is finite, since $L_c$ is compact and covered by the disjoint open cosets of $R$. Let $S$
+be a set of representatives. As $\Theta_j$ is $R$-periodic and vanishes outside $L_c$, the sum in (T5) is the finite sum over
+$S$. For every $x$ the kernel $M-\Theta_j(x)$ is PSD: if $x\equiv y\in S$ it is the sum of $M-\sum_{y'\in S}\Theta_j(y')$ and of
+the PSD kernels $\Theta_j(y')$, $y'\ne y$; if $x\notin L_c$, then $\Theta_j(x)=0$ and $M$ itself is such a sum. If $k$ and $M-k$
+are PSD then $0\le k(h,h)\le M(h,h)$ and $|k(h,h')|^2\le k(h,h)k(h',h')$ (a $2\times2$ principal minor), so
+$|k(h,h')|^2\le M(h,h)M(h',h')$. Hence the finitely many sequences $j\mapsto\Theta_j(y)(h,h')$, $y\in S$, $h,h'\in F$, are
+bounded, and by the Bolzano--Weierstrass theorem there is a strictly increasing $\phi$ along which all of them converge. Let
+$\Theta(x)$ be the limit at the representative of $x$ if $x\in L_c$, and $\Theta(x)=0$ otherwise; then
+$\Theta_{\phi(j)}(x)\to\Theta(x)$ on $F\times F$ for every $x\in K$.
+
+\emph{Limit.} (T1) holds by construction, and (T3) with $L=L_c$. PSD kernels on $F$ form a closed set; this gives (T2), and also
+(T4): a unit $t$ lies in $\Omega_j$ for all large $j$, so $\Theta_{\phi(j)}(t)-N_{s+1}(\cdot,\cdot,t,t)$ is PSD for large $j$. The
+PSD kernels $M-\sum_{y\in S}\Theta_{\phi(j)}(y)$ converge to $M-\sum_{y\in S}\Theta(y)$, the kernel of (T5); and (T6) holds since
+the relevant entries vanish along the sequence. Finally, if all points of $F$ lie in $\GL(R)$, then $L_c=R$, and
+$\mathrm{cs}(h)=1$ for $h\in F$ (the determinant is a unit of $R$, and multiplication by a unit of $R$ preserves $R$), so
+$M=N_0$. For $x\in R$ the kernel $N_0-\Theta(x)=M-\Theta(x)$ is PSD, as a limit of the PSD kernels $M-\Theta_{\phi(j)}(x)$; for
+$x\notin R=L_c$ both $\one_R(x)N_0$ and $\Theta(x)$ vanish. This is (T7).
+\end{proof}
+
+\subsubsection{The local and global inputs}\label{sec:pf:thmS:cores}
+
+A kernel $k$ on a finite set $F$ is PSD if $\sum_{x,y\in F}a_x\overline{a_y}k(x,y)$ is real and non-negative for all $a\in\C^F$.
+A \emph{local system} $S=(N,\Theta,B,L,L')$ on a set $\alpha$ over a field $E$ consists of kernels $N(t,t')$ and $\Theta(t)$ on
+$\alpha$ ($t,t'\in E$), a kernel $B$ and additive subgroups $L,L'$ of $E$. It is \emph{valid} on a finite set $F$ if:
+$N(t,t')(h,h')\ne0$ with $t,t'\ne0$ and $h,h'\in F$ implies $t^{-1}-t'^{-1}\in L'$; $N(t,t)$ is PSD for $t\ne0$; $\Theta(t)$
+depends only on $t$ modulo $L$; $\Theta(t)$ is PSD; $\Theta(t)-N(t,t)$ is PSD for $t\ne0$; and $B-\sum_{t\in R}\Theta(t)$ is PSD
+for every finite set $R$ of elements pairwise incongruent modulo $L$. Products of local systems are taken entrywise, with
+$L=\bigcap_pL_p$ and $L'=\bigcap_pL'_p$; a rescaling by $a\colon\alpha\to\R$ multiplies $N$, $\Theta$, $B$ by $a(h)a(h')$; a phase
+twist by $d\colon E\to\C$ multiplies $N(t,t')$ by $d(t)\overline{d(t')}$. The block system of a TB-datum at $(i,s)$ has kernels
+$K_i(\thmSjoin(h,s,t),\thmSjoin(h',s,t'))$, majorants $\Theta_{i,s}$, base kernel $(1+e_i)K_{i-s}$ and the lattices
+$\mathrm{La}_{i-s+1,s}$, $\mathrm{Lap}_{i-s+1,s}$. For a local datum $(K,R,\psi)$, a field embedding $\sigma\colon E\to K$, a unit
+$u$, a map $\eta$ to points and a family $\Theta$, the \emph{pull-back system} of size $s$ has kernels
+$N_s(\eta h,\eta h',u\sigma(t),u\sigma(t'))$, majorants $\Theta(u\sigma(t))(\eta h,\eta h')$, base kernel $M_s(\eta h,\eta h')$
+and lattices $\sigma^{-1}(u^{-1}R)$, $\sigma^{-1}(uR)$; the \emph{top system} (with a shift $\tau_0\in K$) has kernels
+$\delta_{tt'}\Theta(u\sigma(t)-\tau_0)$, the same majorants, base kernel $M_1$ and lattices $\sigma^{-1}(u^{-1}R)$, $0$; an
+\emph{outside system} has given kernels $N$, majorants $\one_L(t)$ and base kernel $1$.
+
+\begin{theorem}[The local inputs]\label{pf:thmS:localcores}
+The following statements hold.
+\begin{enumerate}[label=(LI\arabic*)]
+\item\label{pf:thmS:LI1} The three notions of positive semi-definiteness of kernels on finite sets used in the development (a
+positive semi-definite matrix; a hermitian kernel with non-negative real part of the quadratic form; a kernel with real
+non-negative quadratic form) coincide.
+\item\label{pf:thmS:LI2} (Schur product.) Finite products of PSD kernels are PSD.
+\item\label{pf:thmS:LI3} (Product domination.) If $k_p$ and $K_p-k_p$ are PSD for all $p$ in a finite set, then
+$\prod_pK_p-\prod_pk_p$ is PSD.
+\item\label{pf:thmS:LI4} (Diagonal scaling and phase.) If $k$ is PSD, so are $a(x)a(y)k(x,y)$ for real $a$ and
+$d(x)\overline{d(y)}k(x,y)$ for complex $d$.
+\item\label{pf:thmS:LI5} (Block diagonal.) If $k$ is PSD on every fibre of $c\colon F\to\beta$, then $\one[c(x)=c(y)]\,k(x,y)$ is
+PSD on $F$.
+\item\label{pf:thmS:LI6} (Operations on systems.) Products of systems valid on $F$ are valid on $F$; rescalings of valid systems are
+valid; phase twists of valid systems by $d$ with $|d|=1$ are valid; an outside system is valid if its kernels satisfy the support
+condition and $N(t,t)$, $\one_L(t)-N(t,t)$ are PSD for $t\ne0$; and if $k_p$ and $\one_{L_p}(t)-k_p$ are PSD for all $p$, then
+$\one_{\bigcap_pL_p}(t)-\prod_pk_p$ is PSD.
+\item\label{pf:thmS:LI7} (Pull-back and top systems.) For a family $\Theta$ with $\mathrm{TP}_s(\eta(F),\Theta)$, $s\ge1$, and points
+$\eta(h)$ of equal total size, the pull-back system is valid on $F$; for $\Theta$ with $\mathrm{TP}_1(\eta(F),\Theta)$ the top
+system is valid on $F$; and if moreover all $\eta(h)$ lie in $\GL(R)$ (and $\tau_0\in R$ for the top system), the kernels
+$\one_L(t)-N(t,t)$ of these systems are PSD.
+\item\label{pf:thmS:LI8} (Global from local.) If the block system of a TB-datum at $(i,s)$ agrees on $Y$ with a rescaled product of
+local systems valid on $Y$ (kernels, base kernel and $L$, with $\bigcap_pL'_p$ contained in its $L'$), then it is valid on $Y$ for
+suitable majorants.
+\item\label{pf:thmS:LI9} (Uniform majorants.) If for every finite subset $F$ of a set $A$ some majorant makes a system valid on
+$F$, then one majorant, vanishing outside $A\times A$ and PSD everywhere, makes it valid on every finite subset of $A$.
+\item\label{pf:thmS:LI10} (Axioms.) If all block systems of a TB-datum are valid on finite sets of the right level, $0\le e_i\le1$,
+the majorants vanish off that level, and $K_{r+1}(\thmSjoin(h,1,t),\thmSjoin(h',1,t'))=0$ for $h,h'$ of level $r$ and $t\ne t'$
+non-zero, then the datum satisfies the kernel-support and theta-domination axioms; if only the existence of majorants for each
+finite set is known, there are majorants for which these axioms hold and all $\Theta_{i,s}(t)$ are PSD.
+\item\label{pf:thmS:LI11} (Kernels of local type.) If $K(x,y)=a(x)a(y)\prod_pk_p(x,y)$ on $Y$ with all $k_p$ PSD, then $K$ is PSD;
+and the local kernels $N_0(\eta x,\eta y)$ of a local datum are PSD on every finite set.
+\item\label{pf:thmS:LI12} (Domination.) The textual domination of a TB-datum implies its minimal domination; and if all block
+systems at all towers are rescaled products of valid local systems, then the textual domination holds at every tower and the
+datum satisfies the domination axiom.
+\item\label{pf:thmS:LI13} (Local theta kernels.) For every local datum: (A2); the Gram property of $N_0$ (it is PSD on finite sets of
+points); $N_0(h,h')=1$ for points of equal size in $\GL(R)$ when $\psi(R)=1$; the single-block Parseval identity; the existence of
+a single-block family $\Theta$ with $\Theta(t)=N_1(\cdot,\cdot,t,t)$ on units, sum over $K/R$ equal to $M_1$, and
+$\mathrm{TP}_1(F,\Theta)$ for all $F$ of fixed size; the support statement of \cref{pf:thmS:thetastep}(a); the block-diagonality
+of $N_0$ and $N_s$ in $|\det\mathrm{pt}|_R$; and the assembly of the local lattice-average lemma from these statements and the
+theta step.
+\end{enumerate}
+\formallabel{Formalism.FourierDecayAlt.P.HilbertSchmidtNorm.localCores}
+\end{theorem}
+
+\begin{proof}
+\ref{pf:thmS:LI1}: a positive semi-definite matrix is hermitian with real non-negative quadratic form; conversely, if
+$Q(a)=\sum a_x\overline{a_y}k(x,y)$ is real for all $a$, then by polarisation $k(y,x)=\overline{k(x,y)}$, and for a hermitian
+kernel $Q(a)$ is real, so the three conditions agree. \ref{pf:thmS:LI2} is the Schur product theorem \cite[Thm.~7.5.3]{HornJohnson2013}
+(by induction; the empty product is the constant kernel $1$, which is PSD). \ref{pf:thmS:LI3}: by induction, writing
+\[
+\prod_{p\in P}K_p-\prod_{p\in P}k_p=(K_q-k_q)\prod_{p\ne q}K_p+k_q\Bigl(\prod_{p\ne q}K_p-\prod_{p\ne q}k_p\Bigr),
+\]
+each term is a product of PSD kernels ($K_p=k_p+(K_p-k_p)$ is PSD). \ref{pf:thmS:LI4}: substitute $a_xa(x)$, resp. $a_xd(x)$, for
+$a_x$ in the quadratic form. \ref{pf:thmS:LI5}: the quadratic form is the sum over $b\in\beta$ of the quadratic forms on the fibres.
+The first part of \ref{pf:thmS:LI11} follows from \ref{pf:thmS:LI2} and \ref{pf:thmS:LI4}, and the second from the Gram property
+in \ref{pf:thmS:LI13}: the quadratic form of $N_0(\eta x,\eta y)$ at $a$ is that of $N_0$ on $\eta(Y)$ at
+$b_h=\sum_{\eta x=h}a_x$. The first part of \ref{pf:thmS:LI12} is a restriction of the quantifiers: the minimal domination
+consists of the conditions of the textual one for the relevant $t$.
+
+The remaining statements are theorems of the development: \ref{pf:thmS:LI6} is
+\lref{Formalism.FourierDecayAlt.Final.jx_productLemma}, \lref{Formalism.FourierDecayAlt.Final.jx_scaleOk}, \lref{Formalism.FourierDecayAlt.Final.jx_phaseOk}, \lref{Formalism.FourierDecayAlt.Final.jx_outsideSysOk}, and \lref{Formalism.FourierDecayAlt.Final.jx_outsideDomination};
+\ref{pf:thmS:LI7} is
+\lref{Formalism.FourierDecayAlt.Final.jx_localPullback}, \lref{Formalism.FourierDecayAlt.Final.jx_localUnitHeads}, \lref{Formalism.FourierDecayAlt.Final.jx_topPullback}, and \lref{Formalism.FourierDecayAlt.Final.jx_topUnitHeads};
+\ref{pf:thmS:LI8} is \lref{Formalism.FourierDecayAlt.Final.jx_globalOfLocal}; \ref{pf:thmS:LI9} is
+\lref{Formalism.FourierDecayAlt.Final.jx_uniformMajorantOn}; \ref{pf:thmS:LI10} is
+\lref{Formalism.FourierDecayAlt.Final.jx_axiomsFromSystems} and \lref{Formalism.FourierDecayAlt.Final.jx_axiomsFromFamilies}; the
+second part of \ref{pf:thmS:LI12} is \lref{Formalism.FourierDecayAlt.Final.tc_domAfterOfLocal}; and the statements of
+\ref{pf:thmS:LI13} are, in this order,
+\lref{Formalism.FourierDecayAlt.P.second_gram_and_vanishing}, \lref{Formalism.FourierDecayAlt.P.kernel_gram_property}, \lref{Formalism.FourierDecayAlt.P.zero_kernel_all_ones}, \lref{Formalism.FourierDecayAlt.P.first_kernel_parseval}, \lref{Formalism.FourierDecayAlt.P.first_theta_kernel_equality}, \lref{Formalism.FourierDecayAlt.P.first_theta_equals_first_kernel}, \lref{Formalism.FourierDecayAlt.P.added_block_kernel_support}, \lref{Formalism.FourierDecayAlt.P.added_block_kernel_block_diagonal}, and \lref{Formalism.FourierDecayAlt.P.lattice_average_lemma_from_parts}
+(the fifth and sixth giving the single-block family, the first with its periodicity, value on units and sum, the second with the
+theta properties). Each of them states exactly the corresponding item.
+\end{proof}
+
+\begin{theorem}[The global inputs]\label{pf:thmS:globalcores}
+The following statements hold.
+\begin{enumerate}[label=(GI\arabic*)]
+\item\label{pf:thmS:GI1} Theorem~A in the form of \cref{pf:thmS:thmA}, and the recursion with densities \cref{pf:thmS:recdens}.
+\item\label{pf:thmS:GI2} (Scaling at the top.) If $\lambda\ge0$, $e_{r+1}=0$ and $\Theta$ is a minimal domination of a TB-datum $D$
+at a tower, then $\Theta$ with the top majorants multiplied by $\lambda$ is a minimal domination of $D$ with $K_{r+1}$
+multiplied by $\lambda$ and $e_{r+1}$ replaced by $\lambda-1$.
+\item\label{pf:thmS:GI3} (Sum bound with maximum.) If $k$ and $s_dk-m$ are PSD, so is $\max(s_d,1)k-m$.
+\item\label{pf:thmS:GI4} (Scaled recursion hypotheses.) Statement \ref{pf:thmS:M7}.
+\item\label{pf:thmS:GI5} (Densities.) If $n\ge2$, $\ell_p\le q_p$ with $\ell_p$ prime and at most $f$ indices of $S$ share a prime,
+then $\sum_{p\in S}q_p^{-n}\le3f2^{-n}$; if $18f\le2^n$, then $\exp(12f2^{-n})\le2$; if $2r+2+f+5\le k$, then
+$18f\le2^{k-2r-2}$; and statement \ref{pf:thmS:M6}.
+\item\label{pf:thmS:GI6} (Poisson summation.) Statement \ref{pf:thmS:M5} and its two inputs: for a lattice $\Lambda$ in a real
+inner product space $V$ with coordinates $\pi_v$, and a continuous $\varphi\ge0$ on $\Lambda+x$ with
+$|\varphi(c)|\le C\prod_v(1+|\pi_v(c)|)^{-3}$ and summable Fourier transform on the dual lattice, the Poisson summation formula holds
+at $x$ and $\sum_{l\in S}\varphi(l+x)$ is bounded by the Poisson bound of $(\Lambda,\varphi)$; and its form for lattices given by
+embeddings and dual maps.
+\item\label{pf:thmS:GI7} (Box sums.) There is $C$ such that for every totally complex number field $E$, non-zero fractional ideal
+$\mathfrak b$, $x_w>0$, $\Theta>2$ and $K_x\ge3$ with $\Theta^{d}=\sqrt{N\mathfrak b}/\prod_wx_w$ ($d$ the number of infinite
+places $w$) and every finite set $S$ of non-zero elements of $\mathfrak b$:
+$\sum_{l\in S}\prod_w\min(1,(x_w/|l|_w)^{K_x})\le(C\Theta^{-(K_x-5/2)})^{d}$.
+\item\label{pf:thmS:GI8} (Lattices and ideals.) \Cref{pf:thmS:latfacts}; for $\nu_{r,i,s}=2r+3-2i-s$:
+$\mathfrak a^\vee$ at $\nu_{r,i,s}$ equals $\mathfrak a^\sharp$ at $\nu_{r,i,s-1}$ and $\mathfrak a(g,-1,-(2r+4-2i-s))$, and
+$\nu_{r,i,s}=2(r+1)-i-(i-1+s)$; the norm formula $\sqrt{N(\mathfrak a(g,k,\nu))}=(g^k\mathrm{rd}^\nu)^{\deg}$; and the degree facts
+$[E:\Q]=2\deg$, $E$ has $\deg>0$ infinite places.
+\item\label{pf:thmS:GI9} (Thresholds.) The frame-product identities expressing the thresholds $\lambda$ and $\lambda'$ through their
+normalised versions, and the identity of the $x$-thresholds with the $\lambda$-thresholds at $s=1$.
+\item\label{pf:thmS:GI10} (Lattice sums.) The joint lattice-sum bound (from the box sums), the instance sizes (from
+\ref{pf:thmS:GI8} and \ref{pf:thmS:GI9}), and statement \ref{pf:thmS:M2}.
+\item\label{pf:thmS:GI11} (Sizes.) \Cref{pf:thmS:sizesmain} and statements \ref{pf:thmS:M3} and \ref{pf:thmS:M4}.
+\item\label{pf:thmS:GI12} (Masses.) The mass identities \cref{pf:thmS:massid}, in both forms.
+\end{enumerate}
+\formallabel{Formalism.FourierDecayAlt.P.HilbertSchmidtNorm.globalCores}
+\end{theorem}
+
+\begin{proof}
+\ref{pf:thmS:GI1}, \ref{pf:thmS:GI11} (first part) and \ref{pf:thmS:GI12} are proved in this section, and so is the first part of
+\ref{pf:thmS:GI8}. \ref{pf:thmS:GI2}: each condition of the minimal domination at level $r+1$ (the majorants minus the blocks of
+$K_{r+1}$ are PSD, periodicity, and the base kernel $(1+e_{r+1})K_{r+1-s}$ minus sums of majorants is PSD) is multiplied by
+$\lambda\ge0$, since $1+(\lambda-1)=\lambda$ and $e_{r+1}=0$; the conditions at the other levels do not change.
+\ref{pf:thmS:GI3}: $\max(s_d,1)k-m=(s_dk-m)+(\max(s_d,1)-s_d)k$, a sum of PSD kernels. In \ref{pf:thmS:GI5}: if $18f\le2^n$, then
+$12f2^{-n}\le\frac23$ and $e^{2/3}<2$; if $2r+2+f+5\le k$, then $2^{k-2r-2}\ge2^{f+5}\ge32(f+1)\ge18f$; the first statement is
+\lref{Formalism.FourierDecayAlt.Final.tc_densSum} and the last \lref{Formalism.FourierDecayAlt.Final.tc_densChain}. In
+\ref{pf:thmS:GI8}: $\mathfrak a^\vee$ at $\nu_{r,i,s}$ is $\mathfrak a(g,-1,-(\nu_{r,i,s}+1))$, $\mathfrak a^\sharp$ at
+$\nu_{r,i,s-1}$ is $\mathfrak a(g,-1,-\nu_{r,i,s-1})$, and $\nu_{r,i,s-1}=\nu_{r,i,s}+1=2r+4-2i-s=2(r+1)-i-(i-1+s)+1$; the norm
+formula is step (g) of the proof of \cref{pf:thmS:latfacts}, and the degree facts are
+\lref{Formalism.FourierDecayAlt.P.degreeFacts_statement}.
+
+The remaining statements are theorems of the development: \ref{pf:thmS:GI4} is
+\lref{Formalism.FourierDecayAlt.Final.tc_recHypScaleTop}; \ref{pf:thmS:GI6} is
+\lref{Formalism.FourierDecayAlt.Final.jx_poissonStepJoint}, \lref{Formalism.FourierDecayAlt.Final.poisson_summation_text}, and \lref{Formalism.FourierDecayAlt.Final.jx_poissonJoint};
+\ref{pf:thmS:GI7} is \lref{Formalism.SA.P.smoothedSumBound}; \ref{pf:thmS:GI9} is
+\lref{Formalism.FourierDecayAlt.P.frame_product_identities} and \lref{Formalism.FourierDecayAlt.P.lattice_x_eq_lambda_one};
+\ref{pf:thmS:GI10} is
+\lref{Formalism.FourierDecayAlt.P.lattice_sums_joint}, \lref{Formalism.FourierDecayAlt.P.instance_sizes}, and \lref{Formalism.FourierDecayAlt.Final.jx_instLatticeSums};
+and the second part of \ref{pf:thmS:GI11} is
+\lref{Formalism.FourierDecayAlt.Final.jx_sizesToRecursion} and \lref{Formalism.FourierDecayAlt.Final.jx_globPositive}. Each of them
+states exactly the corresponding item.
+\end{proof}
+
+\subsubsection{Row estimates along families and the corank-one property}\label{sec:pf:thmS:loopsproofs}
+
+\begin{proof}[Proof of \cref{pf:thmS:loopbounds}]
+Fix the constants $(C_g,c_b,C_u,c_T,C_T,C_0,A,C_1,c_V,C_\Gamma)$.
+
+\emph{Constants.} Under the Siegel mass ratio, \lref{GlobalTheory.T.rowCounts_uniform_constants_families} provides constants
+$c_3,c_H,c_S,c_4$ and a threshold $\vartheta_1$ such that for every family $F$ with $s_{C'}(F),s_{C_l}(F)\ge\vartheta_1$ the four
+row-count conditions of the admissibility package hold eventually, for all pairs of words: the local height-determinant bound
+with constant $3$ for every $C\ge c_3$, the extension-class bound with $c_H$, the matching of archimedean signatures with $c_S$,
+and the row bound with $c_4$. Under the Siegel mass ratio, $\mathrm{GH}$ and the pointwise bound,
+\lref{GlobalTheory.T.amplitude_bounds_uniform_large_gap_families} provides $C_a\ge0$, $C_2$, $C_h\ge0$ and a threshold
+$\vartheta_2$ such that for every family with $s_{C'},s_{C_l}\ge\vartheta_2$ and the mass formulas $\mathrm{MF}$, for every $C_{pr}$
+and $\delta>0$, the amplitude bounds with these constants hold eventually. Let $U=(c_3,c_H,c_V,c_S,c_4,C_a,C_2,C_h)$, let $C_*$
+be the threshold $c_0(C_T,A,C_0,C_\Gamma,U)$ of the row estimates below, and $\vartheta=\max(40,\vartheta_1,\vartheta_2)$.
+
+\emph{(i).} Let $F$ be a family with $C_\Gamma(F)=C_\Gamma$, $s_{C'}(F),s_{C_l}(F)\ge\vartheta$ and $\mathrm{MF}$. The raw-mass and
+genus-mass identity holds for every datum and word (\lref{GlobalTheory.T.rows_raw_mass_and_genus_mass}). Hence, as
+$s_{C_l}(F)\ge40$, \lref{GlobalTheory.CritLevelGap.along_family} applies (with the formal-degree identity, a component of
+$\mathrm{GH}$): it gives the existence of the family rows, the three critical-level conditions (F6)--(F8) of the admissibility
+package, the bound for the quotients of Weyl dimensions and Vandermonde products, and statement (i).
+
+\emph{(ii).} Let $X,Y$ be as in (ii). The family is admissible with the constants $U$: the components of admissibility are the
+four row-count conditions of the first step, the small-cell volume bound (a hypothesis of (ii)) and, for every $C_{pr}$, the
+constants $C_h,C_a$ with the amplitude bounds of the first step for all $\delta>0$. By
+\lref{GlobalTheory.T.admissible_family_satisfies_row_estimates} (for an admissible family with the conditions of (i), the tie
+conditions, injectivity of terms and the $\beta$-lattice property, and every $C\ge c_0(C_T,A,C_0,C_\Gamma(F),U)$, eventually and
+under $\mathrm{CH}$ with $A$ the three row estimates hold with constant $C$), statement (ii) follows, since $C_\Gamma(F)=C_\Gamma$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmS:betauniq}]
+Let $V$ be the hermitian space of $D$, of dimension $k+2r+1$ ($r=r_S$), $U$ the $E$-span of the lattice generated by $X(F)$,
+$X(F')$ and the lifts of the flags, $H=U^\perp$, and $U''$ the analogous space for $(F,F'')$. For an isometry $\beta$ let
+$\mathrm{Th}(\beta)$ be the space of $x\in H$ for which there is $y\in U''^\perp$ with $x-y\in X(F)$ and $\beta x-y\in X(F'')$; the
+corank is $s_0(\beta)=k-\dim\mathrm{Th}(\beta)$.
+
+(a) Since $(F,F')$ and $(F,F'')$ are terms, their Gram values are non-zero, and
+\lref{PI.UnitaryGroupMassFormula.BetaLUniq.gram_matrix_nondegenerate} gives $\dim U=\dim U''=2r+2$ and
+$U\cap U^\perp=U''\cap U''^\perp=0$ (the $2r+2$ flag vectors spanning $U$ are linearly independent, and no non-zero vector of $U$
+is orthogonal to $U$).
+
+(b) $\beta_1$ and $\beta_2$ agree on $H$ modulo $X(F'')$. Indeed $\dim H=\dim V-\dim U=k-1$ by (a), and
+$\mathrm{Th}(\beta_\iota)\subseteq H$ has dimension $k-s_0(\beta_\iota)=k-1$, so $\mathrm{Th}(\beta_\iota)=H$. For $x\in H$ choose
+$y_\iota\in U''^\perp$ with $x-y_\iota\in X(F)$ and $\beta_\iota x-y_\iota\in X(F'')$. Then $y_1-y_2=(x-y_2)-(x-y_1)\in
+X(F)\subseteq U''$ and $y_1-y_2\in U''^\perp$, so $y_1=y_2$ by (a), and $\beta_2x-\beta_1x=(\beta_2x-y_2)-(\beta_1x-y_1)\in X(F'')$.
+
+(c) Every isotropic vector orthogonal to $X^+(F')=X(F')+Ez(F')$ lies in $X(F')$
+(\lref{PI.UnitaryGroupMassFormula.BetaLUniq.weight_space_anisotropic}).
+
+(d) If $v\perp X^+(F')$, $v\notin X(F')$, $v\perp H$ and $\beta_1^{-1}\beta_2v-\mu v\in X(F')$ with $\mu\in E$, then $\mu=1$
+(\lref{PI.UnitaryGroupMassFormula.BetaLUniq.eigenvalue_last_line_eq_one}, which proves this for generic pairs of corank one).
+
+(e) The pair conditions include that $\beta_1,\beta_2$ are isometries mapping the flag of $F'$ onto that of $F''$ and $z(F')$ to
+$z(F'')$. The line reduction \lref{PI.UnitaryGroupMassFormula.BetaLUniq.line_reduction_holds} states that for such
+isometries, (a) for $(F,F')$, agreement modulo $X(F'')$ on $H$, (c) and (d) imply $\beta_2x-\beta_1x\in X(F'')$ for all
+$x\perp X(F')$. By (a)--(d) its hypotheses hold.
+\end{proof}
+
+\begin{remark}\label{pf:thmS:rem2}
+(1) The density of $K$-finite vectors (\cref{pf:thmS:kfindense}) enters the formal proof as an instance argument of the lemmas
+which use it; the instance is discharged by the averaging argument given above. Only the continuity and unitarity of $\sigma$
+are used; the Harish-Chandra parameter plays no role.
+
+(2) In \cref{pf:thmS:acle} the hypothesis $C_l\ge1000+|c|$ is used only through $C_l\ge|c|$ (which also gives $C_l\ge0$).
+
+(3) The congruence of \cref{pf:thmS:hyptt} is deduced from the stronger congruence $T_u\equiv1\pmod{g_S(D)^2}$ for every word.
+
+(4) The local and global inputs (\cref{pf:thmS:localcores,pf:thmS:globalcores}) are conjunctions of $32$ and $27$ statements of the
+development; several of them are implications whose hypotheses are other members of the conjunction (for instance the joint
+Poisson statement assumes the Poisson summation statement), and the conjunctions are proved by proving each member.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:thmS:remarks}
+
+\begin{remark}\label{pf:thmS:rem1}
+(1) In \cref{pf:thmS:lg1} the slot $R$ is the slot of all cores, and the large-base condition holds trivially for it; the
+three rows hold at every slot $Q$ and for every linkage (\cref{pf:thmS:everyslot}), because their contents
+(\cref{pf:thmS:atchoice}) hold for all classes and all raw selections. The row $\mathsf{hTF}$ does not depend on the
+selection at all.
+
+(2) Several lemmas of \cref{sec:pf:thmS:fam,sec:pf:thmS:loops} take auxiliary propositions as instance arguments: the formal-degree identity (the formal degree at $\tau$ equals the Harish-Chandra formal degree of the corresponding parameter), the representation property of CM fields (for a CM field unramified over its real subfield and totally positive
+real $a,b,n$ there are $s,t$ with $as\bar s+bt\bar t=n$), the integrability of a weighted matrix coefficient of discrete series with large gap, and two decay statements for such coefficients. All are discharged by theorems of
+the development (\lref{Formalism.L2.SG.OwnFacts.FD.factDsigHC}, \lref{GlobalTheory.hermRepUnram}, and \lref{GlobalTheory.Sloc.CoefWeighted.coefWeightedLoc_uncond}
+and the components of $\mathrm{GH}$); the statements proved are therefore unconditional apart from their explicit
+hypotheses.
+
+(3) In the pointwise theorem (\cref{pf:thmS:pointwise}) the Hilbert--Schmidt square $\mathrm{hs}(u,u')$ of the size data is
+shown to equal $\|K_0(u,u')\|^2$ (\cref{pf:thmS:packagetie}); the two conclusions are the same bound. The family statement
+(\cref{pf:thmS:main}) keeps only the first.
+
+(4) The lattice-link hypothesis of the main row is not used (\cref{pf:thmS:latticelinkunused}); it is nevertheless
+supplied by a theorem in the proof of \cref{pf:thmS:pbapplied}.
+
+(5) The constants in the rows are fixed: $C_0=3$, count constants $(C_{\mathrm{YL}}+1,\frac14,3,\frac12,C_{\mathrm{Tu}},3)$, and
+in the transport $C_\Delta=5$, $c_T=\frac12$, $C_b=3$. The non-generic row is used with $\varepsilon_{\mathrm{NG}}=
+2^{-(k-2r_S-5)}\exp(C(2r_S+2)^5f\log b)$, and the loop rows with $\thmSepsL(D)=\exp(-\frac13kf\log k)$; the final constant
+$1+b^{-6}$ comes from \cref{pf:thmS:num}(7), where $b\ge16$.
+
+(6) The term systems of \cref{pf:thmS:terms} are abstract: \cref{pf:thmS:pba} uses only the listed axioms, and the
+identification of the concrete term system $Y.t_O(u,u')$ with an orbital expansion enters only through the hypotheses
+(H5), (H7)--(H10), (H18), (H19) of the pointwise theorem.
+\end{remark}

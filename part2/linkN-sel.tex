@@ -1,0 +1,1912 @@
+\section{The Galois link II: Selmer and Bloch--Kato bounds}\label{sec:pf:linkN-sel}
+
+\providecommand{\linkNselvcc}{v_{\mathrm{cc}}}
+\providecommand{\linkNselsP}{s_{\Pi}}
+\providecommand{\linkNseleta}{\eta_{\mathrm{loc}}}
+\providecommand{\linkNselmult}{\mathrm{mult}}
+\providecommand{\linkNselZg}{Z^{\mathrm{good}}}
+\providecommand{\linkNsellst}{\ell^{*}}
+\providecommand{\linkNsellen}{\operatorname{len}_{\ell}}
+\providecommand{\linkNselSel}{\operatorname{Sel}}
+\providecommand{\linkNselG}{\mathcal G}
+\providecommand{\linkNselP}{\mathcal P_0}
+\providecommand{\linkNselexc}{\mathrm{exc}}
+\providecommand{\linkNselExc}{\mathrm{Exc}}
+\providecommand{\linkNselerr}{\mathrm{err}}
+\providecommand{\linkNselB}{\mathrm{B}}
+\providecommand{\linkNselT}{\mathcal T}
+\providecommand{\linkNselbsm}{\beta_{\mathrm{sm}}}
+\providecommand{\linkNselbqd}{\beta_{qd}}
+
+\subsection{Introduction}\label{sec:pf:linkN-sel:intro}
+
+This section proves the theorem which, in the proof of the Galois link (\cref{thm:linkN}(a)), produces the
+\emph{table of local bounds} (step 2 of the outline given there). Its root is \cref{pf:linkN-sel:main}.
+
+\paragraph{What is proved.}
+Let $\mathcal F$ be a family (\cref{def:families:closed}) whose members $(D_{x,i},L_{x,i})$ carry the Galois data of
+\cref{sec:families:galois}. For a local index $\iota$ of a member, with prime $\ell=\ell_\iota$, and a good eigensystem
+$\pi\in\linkNselZg_\iota$, the basic local inequality is
+\begin{equation}\label{eq:pf:linkN-sel:bd}
+\linkNselvcc(\iota,\pi)\ \le\ \linkNselsP(\iota,\rho,\pi)+\beta+VV(\ell)+v_\ell(h_E)+\ell^{-2}:
+\end{equation}
+the normalised length of the congruence module of $\pi$ is bounded by the normalised length of a Selmer group of a Galois
+representation $\rho_{\iota,\pi}$, plus an error term $\beta$, the lengths of the Tate--Shafarevich groups
+$\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ ($0<e<t$), the $\ell$-adic valuation of the class number $h_E$ and $\ell^{-2}$. The main theorem
+says: under the literature package $\sfname{Hypotheses}_2$, for a family with good twists, with the norm-choice facts and two extra
+conditions at every member (with constants $C,C_T$), and with a bound at the primes $2$ and $3$, there is one constant $C_s$ such
+that eventually every member with finite odd Tate--Shafarevich groups admits a \emph{hub datum} $X$ (Galois representations and
+local length tables) satisfying fifteen statements, the \emph{table of local bounds} $\linkNselT(L,P,X,C_s)$
+(\cref{pf:linkN-sel:concl}). Among them are \eqref{eq:pf:linkN-sel:bd} with $\beta=0$ at all primes $\ell>\linkNsellst$ outside an
+exceptional set of controlled size, with explicit $\beta$ at the two auxiliary primes $q,d$, at the small primes and at $2$ and $3$;
+a bound for the lattice indices $\linkNseleta(\iota)$ in terms of congruence lengths; a bound for the divisibility defect at the two
+generator primes $g_0,g_1$; and numerical side conditions. The summation of this table into the link $\sfname{LinkN}$ of
+\cref{def:families:linkN} is not part of this section.
+
+\paragraph{The arguments.}
+The middle range of primes is treated by \lref{GlobalTheory.T.star_ad_and_bb_le_of_joint_cond}, proved in another section of
+Part II, which we use as a black box; we prove here the two inputs that it needs (\cref{sec:pf:linkN-sel:thmE,sec:pf:linkN-sel:bcd}). The main arguments of this section are:
+\begin{enumerate}[label=(\alph*)]
+\item a lattice-index bound (\cref{sec:pf:linkN-sel:pass}): if an endomorphism of $M_\iota$ commuting with the Hecke algebra acts
+by an integer $A$ on the good eigenspaces and by $0$ on the other eigenspaces of $Z_\iota$, then
+$\linkNseleta(\iota)\le\sum_\pi\linkNselmult(\iota,\pi)\bigl(\linkNselvcc(\iota,\pi)+v_\ell(A)\bigr)$;
+\item the congruence bound at large primes (\cref{sec:pf:linkN-sel:large}): a global argument bounding the congruence ideal by the
+lengths of modules of cocycles attached to the blocks $\rho$ and $\chi_c$ ($1\le c\le t$) of a reducible situation, these being
+bounded by the Selmer group, the class number (through Artin reciprocity) and the Tate--Shafarevich groups; the local input is a
+theorem on twisted lattice cohomology of Bloch--Kato type (``Theorem TOP'');
+\item the bound at $q$ and $d$ (``Theorem B'', \cref{sec:pf:linkN-sel:thmB}), deduced from a global lattice index theorem and a
+local lifting theorem (``Theorem A'') by an explicit closing inequality;
+\item the bound at the generator primes (\cref{sec:pf:linkN-sel:typ}), deduced from a paired character condition.
+\end{enumerate}
+The names ``Theorem A, B, E, TOP'' and ``Corollary A'' are those of the formal development \cite{LeanSource2026}; they do not refer
+to published results. The shape of \eqref{eq:pf:linkN-sel:bd}, a congruence module bounded by a Selmer group, is that of the
+numerical criterion of Wiles and Lenstra \cite{Wiles1995,Lenstra1995}, and the construction of cohomology classes from congruences in
+(b) is in the spirit of Ribet \cite{Ribet1976} and of Bella{\"\i}che--Chenevier \cite{BellaicheChenevier2009}; the formal development
+does not refer to these works.
+
+\paragraph{Organisation.}
+\Cref{sec:pf:linkN-sel:setting} fixes notation and states the main theorem. \Cref{sec:pf:linkN-sel:elem} collects the elementary
+parts of the table (monotonicity, small primes, exceptional primes, numerical row conditions, setups).
+\Cref{sec:pf:linkN-sel:pass,sec:pf:linkN-sel:typ,sec:pf:linkN-sel:thmB,sec:pf:linkN-sel:large} prove the bounds (a)--(d).
+\Cref{sec:pf:linkN-sel:thmE,sec:pf:linkN-sel:bcd} prove the inputs of the middle range, and \cref{sec:pf:linkN-sel:proof}
+assembles the proof of the main theorem. \Cref{sec:pf:linkN-sel:local} proves local results used here and in \cref{sec:pf:linkN-adm}.
+Several deep local statements of $p$-adic Hodge theory are stated precisely and their proofs are deferred.
+
+% ---------------------------------------------------------------------------
+\subsection{Setting and statement}\label{sec:pf:linkN-sel:setting}
+
+We use the data $D$ and size data $L$ of \cref{sec:families}. We write $\linkNselG=\{g_0,g_1\}$ for the set of generator primes of
+the host and $\linkNselP$ for its finite set of small primes ($2\in\linkNselP$).
+
+\begin{definition}[Sizes and the large-prime threshold]\label{pf:linkN-sel:sizes}
+The scale of $L$ consists of $x>1$, $0<\eps<1/52$ and $J\ge1$; put $\Lambda=x^{\eps}$ and $b=e^{\Lambda}$. The size data provide
+positive reals $S_c$ and $\eta_{\mathrm{sz}}$, a real $C_t$, and further quantities ($b'$, $w''$, $b_T(\tau)$ for $\tau$ in a
+finite set $T_T$, $\mathrm{de}_2$) which enter only through the numerical lemmas below. The ranks of $D$ are natural numbers
+$k,m,t,f,n,r,n_V$ with $t$ odd, $f=2n$, $n_V=r+t$, $r+5\le t$, $m\le r$ and $1\le f$. The host provides a CM field $E$ with class
+number $h_E$ and primes $q,d>4tr+1$. The \emph{large-prime threshold} is
+\[
+\linkNsellst=\linkNsellst(L)=\frac{m\,b}{n\,t^2(N_m+t)\Lambda^2+k\,n^2(S_c+t+\Lambda)},
+\]
+where $N_m$ is a rank invariant. For $C\in\R$ and a prime $\ell$ put
+\begin{gather*}
+\linkNselbsm(L,C)=C f m\,b\log x+C x^C\Lambda^2,\\
+\linkNselbqd(L,C,\ell)=Cf\bigl(r(b/\ell+S_c+t+\eta_{\mathrm{sz}}+\Lambda)+mb\bigr)+C(frt)^C\Lambda .
+\end{gather*}
+\formal{Formalism.BasicNotions.LevelStarExponents.lStar}
+\formal{GlobalTheory.NLink.midF}
+\formal{Formalism.MainNotions.TwistedPlaces.midG}
+\end{definition}
+
+\begin{definition}[Local indices and their invariants]\label{pf:linkN-sel:inv}
+A local index $\iota$ of $D$ carries (\cref{sec:families:galois}) a prime $\ell=\ell_\iota$, a complete discrete valuation ring
+$\OO=\OO_\iota$ finite over $\Zl$ with fraction field $K$, a finite set $X_\iota$ of eigensystems with subsets
+$\linkNselZg_\iota\subseteq Z_\iota\subseteq X_\iota$, a Hecke algebra $T_\iota\subseteq\OO^{X_\iota}$ which is a local ring and
+separates the points of $X_\iota$, a free $\OO$-module $M_\iota$ of finite rank with a faithful action of $T_\iota$, a lift index
+$1\le j_\iota\le m$, a place $w_\iota$ of $\mathit{LL}$ above $\ell$, characters $\chi_{\iota,c}\colon G_E\to\OO^\times$ with
+$\chi_{\iota,c}=\chi_{\iota,1}\chi_{\mathrm{cyc}}^{1-c}$ for $1\le c\le t$, and disjoint finite sets $S_\iota,Q_\iota$ of split places
+of $E$ prime to $\ell$, with elements $\zeta_{\iota,v}\in\OO$ for $v\in Q_\iota$. All places $w_\iota$ are twisted. For $x\in X_\iota$
+let $V_x\subseteq M_\iota\otimes_\OO K$ be the common eigenspace of $T_\iota$ with eigenvalues $(f(x))_{f\in T_\iota}$, and
+$V_S=\sum_{x\in S}V_x$. For an $\OO$-module $N$ the \emph{normalised length} is
+$\linkNsellen(N)=\len_\OO(N)/\len_\OO(\OO/\ell\OO)\in\Q$, where a module of infinite length has normalised length $0$. Then:
+\begin{itemize}
+\item $\linkNseleta(\iota)=\linkNsellen\bigl(((M_\iota+V_{X_\iota\smallsetminus\linkNselZg_\iota})\cap V_{\linkNselZg_\iota})/
+(M_\iota\cap V_{\linkNselZg_\iota})\bigr)$, with $M_\iota$ identified with its image in $M_\iota\otimes K$, and
+$\eta_j(w)=\sum_{\iota:(j_\iota,w_\iota)=(j,w)}\linkNseleta(\iota)$ for $1\le j\le m$;
+\item $\linkNselmult(\iota,\pi)=\dim_KV_\pi$;
+\item $\linkNselvcc(\iota,\pi)=\linkNsellen(\OO/\mathfrak c_\pi)$, where $\mathfrak c_\pi=\{c(\pi):c\in T_\iota,\ c(y)=0\text{ for all }
+y\notin Z_\iota\}$;
+\item for a family $\rho$ of continuous representations $\rho_{\iota,\pi}\colon G_E\to\GL_r(\OO_\iota)$,
+$\linkNselsP(\iota,\rho,\pi)=\linkNsellen(\linkNselSel(\iota,\rho,\pi))$, where $\linkNselSel(\iota,\rho,\pi)\subseteq
+H^1(G_E,W_{\iota,\rho,\pi})$ is the Selmer group with the local conditions at $\ell$ given by the local theory of $D$ and relaxed at
+$S_\iota\cup Q_\iota$, and $W_{\iota,\rho,\pi}$ is $(K/\OO)^r$ with $G_E$ acting through $\rho_{\iota,\pi}\chi_{\iota,1}^{-1}$; the
+Selmer group is \emph{finite} if it has finite length;
+\item $\mathrm{sh}(\ell,e)\ge0$ ($e\in\N$) are rational data of $D$ and $VV(\ell)=\sum_{1\le e<t}\mathrm{sh}(\ell,e)$; we say that $D$
+has \emph{finite odd Tate--Shafarevich groups} if $\Sha^1(G_{E,S_p},\Q_p/\Z_p(-e))$ has finite length for all primes $p$ and
+$0<e<t$, in which case $\mathrm{sh}(p,e)$ equals this length (a field of $D$);
+\item $\eps_\ell=\ell^{-2}$; $\nu_L(\ell)\ge0$ is a cyclotomic invariant of $D$ at $\ell$; $\#G\ge1$ is an integer attached to the
+rows of $D$; $\delta_\iota=\sum_{0<k<t}(s_0(\iota)+v_\ell(k))$, where $s_0(\iota)$ is the local level exponent of $\iota$ (equal to $1$ if
+$\ell\notin\linkNselP$).
+\end{itemize}
+We write $\mathrm{lw}(w)=\log\Nm(w)/[\mathit{LL}:\Q]$ and $e(w)$ for the ramification index of a place $w$ of $\mathit{LL}$, $d_{Z_0}(j)$
+for the dimension of the $j$-th zero space of $L$, and $n_\lambda$ for the local degree of a place $\lambda$ of $E$.
+\formal{Formalism.BasicNotions.lenUnit}
+\formal{Formalism.BasicNotions.NData.etaLoc}
+\formal{Formalism.BasicNotions.NData.vcc}
+\formal{Formalism.MainNotions.N.Br.selPi}
+\formal{Formalism.MainNotions.TwistedPlaces.ShaFinOdd}
+\formal{Formalism.MainNotions.TwistedPlaces.nuL}
+\end{definition}
+
+By \lref{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.etaLoc_eq} (another section), $\linkNseleta(\iota)$ is the
+normalised length of the quotient displayed above; this is the description used below.
+
+\begin{definition}[Hub data, killing, the local bound]\label{pf:linkN-sel:hub}
+A \emph{hub datum} $X$ for $D$ consists of families of continuous representations $r_{\iota,\pi}\colon G_E\to\GL_{n_V}(\OO_\iota)$ and
+$\rho_{\iota,\pi}\colon G_E\to\GL_r(\OO_\iota)$ ($\iota$ a local index, $\pi\in X_\iota$), real tables $\mathrm{len}_0(\iota,\pi,\lambda)$
+($\lambda$ a place of $E$) and $\linkNselerr(\iota,\pi)$, a partition of the places above $\ell_\iota$ into rows and columns, a band
+predicate on pairs $(\iota,\lambda)$, natural numbers $c_B(\iota),\dots$, a finite set $\linkNselexc(X)$ of primes, an integer $\eta(X)$
+and twisting data. Its \emph{table} $\mathrm{tab}_X$ has $\mathrm{len}(\iota,\lambda)=\sup_{\pi\in\linkNselZg_\iota}
+\mathrm{len}_0(\iota,\pi,\lambda)$ and $BB(\iota)=\sup_{\pi\in\linkNselZg_\iota}\linkNselerr(\iota,\pi)$ (both $0$ if
+$\linkNselZg_\iota=\emptyset$). For a family $\rho$, the \emph{killing condition} $\mathrm{Kill}(\rho)$ means: for every local index
+$\iota$ and $\pi\in\linkNselZg_\iota$ the Selmer group $\linkNselSel(\iota,\rho,\pi)$ is finite and
+$\linkNselsP(\iota,\rho,\pi)\le\nu_L(\ell_\iota)+\eps_{\ell_\iota}$, and $t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1))\le
+\eps_{\ell_\iota}$. For $\beta\in\R$, the \emph{local bound} $\linkNselB(\rho,\iota,\pi;\beta)$ is the inequality
+\eqref{eq:pf:linkN-sel:bd}, i.e.\ $\linkNselvcc(\iota,\pi)\le\linkNselsP(\iota,\rho,\pi)+\beta+VV(\ell)+v_\ell(h_E)+\eps_\ell$ with
+$\ell=\ell_\iota$.
+\formal{Formalism.MainNotions.N.KillingConditions.HubData}
+\formal{Formalism.MainNotions.N.KillingConditions.KillAt}
+\formal{GlobalTheory.NLink.Bd}
+\end{definition}
+
+\begin{definition}[The numerical row conditions]\label{pf:linkN-sel:rownumdef}
+Put $h_B=b+S_c+\eta_{\mathrm{sz}}+t+2$, $e_P(C,\ell)=C(1+h_B/\ell+\log_\ell h_B)$, $\eta_3=\eta_{\mathrm{sz}}+t+2$,
+$w_B=\max\bigl(w''+\eta_{\mathrm{sz}},\max_{\tau}b_T(\tau)+b'/x+\eta_{\mathrm{sz}}\bigr)$, $w_P=w_B+(t+1)/2$, $G_P=w_P+S_c+\eta_3$,
+$\ell_A=k\Lambda/(m\,\mathrm{de}_2)$ and $j_A(\ell)=\max(1,\lceil\log_{\ell-1}\ell_A\rceil)$, and
+$\mathrm{flat}(\iota,\lambda,\ell)=(w_P+\eta_3)/\ell+S_c+\Lambda+\eta_3\cdot[\text{$(\iota,\lambda)$ is a band pair}]$. Let $L_w$ be a
+host constant and $\mathrm{ord}_H(\ell)$ the least $o>0$ with $\ell^o\equiv\pm1\pmod{2^{e+2}}$ ($e$ a rank parameter); primes are
+\emph{split} or \emph{inert} according to the class assigned to them by the host. For a table $\mathrm{tb}$ and $C\in\R$ the numerical
+row conditions are (R1)--(R4), required for every local index $\iota$ with $\ell=\ell_\iota\notin\linkNselG$ and every $\lambda\mid\ell$,
+and (R5), required for every band pair:
+\begin{enumerate}[label=(R\arabic*)]
+\item if $\ell\ge5$ is split and ($\ell\le\linkNsellst$ or $\ell\in\linkNselexc$):
+$2\sum_{\lambda\mid\ell}\mathrm{len}(\iota,\lambda)\le\sum_{\lambda\mid\ell}(2n_\lambda m+1)e_P(C,\ell)$;
+\item if $\ell$ is inert, $\ell<\ell_A$ and $4L_w<\mathrm{ord}_H(\ell)$:
+$\mathrm{len}(\iota,\lambda)\le C(n_\lambda+1)r\bigl(h_B/(\ell-1)^{j_A(\ell)+1}+(G_P+1)(j_A(\ell)+1)+\Lambda\bigr)$;
+\item if $\ell$ is inert, $\ell_A\le\ell$ and ($\ell\le\linkNsellst$ or $\ell\in\linkNselexc$):
+$\mathrm{len}(\iota,\lambda)\le C(n_\lambda+1)r\bigl(h_B/\ell^2+\mathrm{flat}(\iota,\lambda,\ell)\bigr)+Cn_\lambda m\,e_P(C,\ell)$;
+\item if $\ell$ is inert, $\ell<\ell_A$ and $\mathrm{ord}_H(\ell)\le4L_w$: the same bound as in (R3);
+\item for every band pair $(\iota,\lambda)$ and every prime $\ell$ with $\lambda\mid\ell$ there is $s$ with $w''\le s\le w_B$ and
+$|\ell s-b|\le C(\ell\eta_3+\ell S_c+b/\ell+s+\ell\Lambda)$.
+\end{enumerate}
+\formal{GlobalTheory.NLink.RowNum}
+\end{definition}
+
+\begin{definition}[The table of local bounds]\label{pf:linkN-sel:concl}
+Let $P$ be a parameter choice for $(D,L)$, $X$ a hub datum and $C\in\R$; write $\rho=X.\rho$ and $\ell=\ell_\iota$. The \emph{table
+of local bounds} $\linkNselT(L,P,X,C)$ is the conjunction of:
+\begin{description}[style=nextline,leftmargin=1.5em,font=\normalfont\itshape]
+\item[pos] $C\ge0$;
+\item[pass] for every $\iota$ with $\ell\notin\linkNselG$:
+$\linkNseleta(\iota)\le\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)\bigl(\linkNselvcc(\iota,\pi)+v_\ell(\#G)\bigr)$;
+\item[mult] for $1\le j\le m$ and every twisted place $w$:
+$\sum_{\iota:(j_\iota,w_\iota)=(j,w)}\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)$ is at most the rank of the $j$-th zero space
+of $L$ at $w$;
+\item[rank] that rank equals $d_{Z_0}(j)$ for $1\le j\le m$ and all twisted $w$;
+\item[kill] $\mathrm{Kill}(\rho)$;
+\item[num] the numerical row conditions (R1)--(R5) for $\mathrm{tab}_X$ and $C$;
+\item[mid] for $\ell\notin\linkNselG$ in the \emph{middle range} ($\ell\notin\linkNselP$, $\ell\ne3$, $\ell\notin\{q,d\}$, and not both
+$\ell>\linkNsellst$ and $\ell\notin\linkNselexc(X)$) and $\pi\in\linkNselZg_\iota$: $\linkNselvcc\le\linkNselsP+\sum_{\lambda\mid\ell}
+\mathrm{len}_0(\iota,\pi,\lambda)+VV(\ell)+v_\ell(h_E)+\linkNselerr(\iota,\pi)+\eps_\ell$;
+\item[bb] in the same range, $\linkNselerr(\iota,\pi)\le C f n t^2 n_V\Lambda^2$;
+\item[large] $\linkNselB(\rho,\iota,\pi;0)$ whenever $\ell>\linkNsellst$, $\ell\notin\linkNselG$, $\ell\notin\linkNselexc(X)$ and
+$\pi\in\linkNselZg_\iota$;
+\item[exc] $\#\linkNselexc(X)\le(\#T_T+2)\bigl(S_c+3\eta_{\mathrm{sz}}+t+8b/\linkNsellst+9\bigr)$, and every element of $\linkNselexc(X)$
+is at most $3b$;
+\item[two] there is a table $\mathrm{tf}$ with $\sum_{\lambda\mid\ell}\mathrm{len}_{\mathrm{tf}}(\iota,\lambda)+BB_{\mathrm{tf}}(\iota)
+\le\linkNselbsm(L,C)$ and $\linkNselB\bigl(\rho,\iota,\pi;\sum_{\lambda\mid\ell}\mathrm{len}_{\mathrm{tf}}(\iota,\lambda)+BB_{\mathrm{tf}}(\iota)\bigr)$
+for all $\iota$ with $\ell\in\linkNselP$ or $\ell=3$ and all $\pi\in\linkNselZg_\iota$;
+\item[ram] $\linkNselB(\rho,\iota,\pi;\linkNselbqd(L,C,\ell))$ for $\ell\in\{q,d\}$ and $\pi\in\linkNselZg_\iota$;
+\item[typ] for $1\le j\le m$ and $\ell\in\linkNselG$:
+$\sum_{w}\mathrm{lw}(w)e(w)\eta_j(w)\le\log\ell\cdot d_{Z_0}(j)\bigl(Cx^C\eta_{\mathrm{sz}}+2\eps_\ell+VV(\ell)+v_\ell(h_E)\bigr)$, the sum
+over the twisted places $w$ of the support of $L$ above $\ell$;
+\item[par] the parameters are polynomially bounded with constant $C$: $P.C_{Lw}\le C$, $P.C_{YL}\le C$, $k,n,t\le x^C$,
+$x^{-\eps}\le\mathrm{de}_2$, $\log h_E\le Cx^C$ and $\log\#G\le Cx^C\Lambda$;
+\item[small] $3,q,d$ and all small primes are at most $\linkNsellst$, the prime $3$ is not inert, and $\linkNselbqd(L,C,\ell)\le2Cfmb$
+for $\ell\in\{q,d\}$.
+\end{description}
+A family $\mathcal F$ \emph{admits tables of local bounds}, $\linkNselT(\mathcal F)$, if there are $C,x_0\in\R$ such that for all
+$x\ge x_0$ with $x>x_1$ and all $i\in I_x$ for which $D_{x,i}$ has finite odd Tate--Shafarevich groups there is a hub datum $X$ for
+$D_{x,i}$ with $\linkNselT(L_{x,i},P_{x,i},X,C)$, $P_{x,i}$ being the parameter choice of the member.
+\formal{GlobalTheory.NLink.Concl}
+\formal{GlobalTheory.NLink.ConclF}
+\end{definition}
+
+\begin{definition}[Setups and the family hypotheses]\label{pf:linkN-sel:hyps}
+$\sfname{Hypotheses}_2$ is the conjunction of seven literature statements: Fontaine's crystalline period ring
+\cite{Fontaine1982,Fontaine1994}, global Artin reciprocity \cite{Artin1927,Neukirch1999}, the local Bloch--Kato theory (dimension
+formula, rational and integral duality for $H^1_f$) \cite{BlochKato1990}, local Tate duality, the local Euler characteristic formula
+and local finiteness for finite extensions of $\Ql$ \cite{Tate1963,Serre1997,NeukirchSchmidtWingberg2008}, and an integral comparison
+of Bhatt--Scholze type \cite{BhattScholze2022,BhattScholze2023}. Let $D$ be a datum with a norm choice $\mathrm{nch}$
+(\cref{sec:families:galois}), local Hodge--Witt data $HW$, a hub datum $X$ and $C_2\in\R$, and let $R(C_2)=(C_2,320,25,23,32,32)$ (the
+\emph{row constants}). A \emph{setup} $(L,\mathrm{nch},HW,X,C_2)$ consists of: the norm-choice facts for $(D,\mathrm{nch})$; the
+statement that $X$ is \emph{canonical} for $R(C_2)$, i.e.\ its representations form a \emph{point family} (each $r_\iota$ is good,
+each $\rho_{\iota,\pi}$ is continuous and, for $\pi\in Z_\iota$, a complement of the characters $\chi_{\iota,c}$ in $r_{\iota,\pi}$) and
+its tables are the canonical tables built with $R(C_2)$; the \emph{admissibility of the parameters} ($\eta_{\mathrm{sz}}+t+S_c<w''$,
+$3w''\le b$, $b_T(\tau)+b'/x\le b$, $t\le\eta_{\mathrm{sz}}$); the inequality $S_c+\eta_{\mathrm{sz}}+t+2\le b$; $\Lambda\ge8$; a host
+split bound $\ge60$; $\mathrm{Kill}(X.\rho)$; and finite odd Tate--Shafarevich groups for $D$. For a family $\mathcal F$ and $C\in\R$,
+$C_T\in\N$ we consider:
+\begin{itemize}
+\item the \emph{facts hypothesis} $(\mathrm F)_{C,C_T}$: for all $x>x_1$ and $i\in I_x$ the norm-choice facts hold for
+$(D_{x,i},\mathrm{nch}_{x,i})$, and $D_{x,i}$ satisfies the \emph{commuting endomorphism condition} (for every $\iota$ with
+$\ell_\iota\notin\linkNselG$ there is an $\OO_\iota$-endomorphism of $M_\iota$ commuting with $T_\iota$ which acts on $V_x$ by $\#G$ for
+$x\in\linkNselZg_\iota$ and by $0$ for $x\in Z_\iota\smallsetminus\linkNselZg_\iota$) and the paired character condition
+$\mathrm{PC}(C,C_T)$ of \cref{pf:linkN-sel:pcc};
+\item $\sfname{TwGood}(\mathcal F)$: the twisting characters of the norm choices are eventually good (\cref{sec:families:galois});
+\item the \emph{bound at $2$ and $3$}, $(\mathrm B_{23})$: there are $C_a,x_a$ such that for all $x\ge x_a$, $x>x_1$, $i\in I_x$ and every
+setup $(L_{x,i},\mathrm{nch}_{x,i},HW,X,C_2)$ (with any Fontaine and comparison data), $\linkNselB(X.\rho,\iota,\pi;\linkNselbsm(L_{x,i},C_a))$
+holds for every $\iota$ with $\ell_\iota=2$ or $\ell_\iota=3\notin\linkNselP$ and every $\pi\in\linkNselZg_\iota$.
+\end{itemize}
+\formal{GlobalTheory.NLink.Hypotheses₂}
+\formal{GlobalTheory.NLink.SetupAlt}
+\formal{GlobalTheory.NLink.FactsFAlt}
+\formal{GlobalTheory.NLink.BoundAtTwoThreeFamilyFonAlt}
+\end{definition}
+
+\begin{theorem}[Table of local bounds]\label{pf:linkN-sel:main}
+Assume $\sfname{Hypotheses}_2$. Let $\eps\in\R$, $\mathcal F\in\sfname{FamP}(\eps)$, $C\ge0$ and $C_T\in\N$, and suppose that
+$\mathcal F$ satisfies $\sfname{TwGood}$, $(\mathrm F)_{C,C_T}$ and $(\mathrm B_{23})$. Then $\mathcal F$ admits tables of local bounds.
+More precisely, let $C_0$ be the constant of \cref{pf:linkN-sel:thmE}, $c_1=2080$ and $Q=260X_0^2X_2^2(X_1+X_2)$
+(\cref{pf:linkN-sel:thmBmain}), $C_1\ge1$ the constant of the parameter bound along $\mathcal F$
+(\lref{GlobalTheory.T.admissible_parameters_family_const}), $C_a$ the constant of
+$(\mathrm B_{23})$ and $C_b$ that of \cref{pf:linkN-sel:starS}. Then the conclusion holds with the single constant
+\begin{equation}\label{eq:pf:linkN-sel:Cs}
+C_s=\max\bigl(3C_2+1,\ 22365,\ C_G,\ 2000(C+1)+5C_1,\ C_1,\ \max(0,C_a,C_b),\ C_T\bigr),
+\end{equation}
+where $C_2=\max(C_0,1)$, $C_G=\max(c_1,\Sigma(Q),\deg Q,1)$ and $\Sigma(Q)$ is the sum of the coefficients of $Q$.
+\formallabel{GlobalTheory.NLinkClose.main_alt_alt}
+\end{theorem}
+
+\begin{remark}\label{pf:linkN-sel:remmain}
+(i) All seven fields of $\sfname{Hypotheses}_2$ are used. (ii) The hypothesis $(\mathrm B_{23})$ is used in an essential way: it gives the
+field \emph{two} at $\ell=2$ and at $\ell=3\notin\linkNselP$. (iii) The representations $\rho$ of the conclusion are part of
+the hub datum $X$, which is chosen for each member; the local bounds concern the Selmer groups of these representations.
+(iv) Nothing is asserted about members some of whose groups $\Sha^1(G_{E,S_p},\Q_p/\Z_p(-e))$, $0<e<t$, are infinite. (v) Since normalised
+lengths of infinite modules are $0$, the local bounds are meaningful only together with the finiteness of the Selmer groups, which is
+part of the field \emph{kill}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Elementary parts of the table}\label{sec:pf:linkN-sel:elem}
+
+\subsubsection{Monotonicity in the constant}
+
+\begin{lemma}\label{pf:linkN-sel:mono}
+Let $D$, $L$, a parameter choice $P$ and a hub datum $X$ be given, and let $C\le C'$ with $C'\ge0$. Then
+$\linkNselbsm(L,C)\le\linkNselbsm(L,C')$, and each of the fields \emph{two}, \emph{typ}, \emph{bb} and \emph{par} of
+\cref{pf:linkN-sel:concl} for the constant $C$ implies the same field for $C'$.
+\formallabel{GlobalTheory.T.sizeConditions_mono}
+\formallabel{GlobalTheory.NLinkMono.main}
+\formallabel{GlobalTheory.NLink.midF_mono}
+\end{lemma}
+
+\begin{proof}
+Since $x>1$ we have $\log x\ge0$, and $b,\Lambda>0$. Moreover $Cx^C\le C'x^{C'}$: if $C\ge0$ this is the product of $C\le C'$ and
+$x^C\le x^{C'}$ between nonnegative numbers; if $C<0$ then $Cx^C\le0\le C'x^{C'}$. Multiplying $C\le C'$ by $fmb\log x\ge0$ and
+$Cx^C\le C'x^{C'}$ by $\Lambda^2$ gives $\linkNselbsm(L,C)\le\linkNselbsm(L,C')$. For \emph{two} keep the same table: its bound
+$\le\linkNselbsm(L,C)$ implies $\le\linkNselbsm(L,C')$. For \emph{typ}, multiply $Cx^C\eta_{\mathrm{sz}}\le C'x^{C'}\eta_{\mathrm{sz}}$
+by $\log\ell\cdot d_{Z_0}(j)\ge0$. For \emph{bb}, multiply $C\le C'$ by $fnt^2n_V\Lambda^2\ge0$. For \emph{par}, the bounds on
+$P.C_{Lw},P.C_{YL}$ pass to $C'$, $x^C\le x^{C'}$ handles $k,n,t$, and $Cx^C\le C'x^{C'}$ (times $\Lambda\ge0$ for $\log\#G$) handles
+$\log h_E$ and $\log\#G$; the condition on $\mathrm{de}_2$ does not involve $C$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-sel:starF}
+Let $\rho$ be a family of representations and $C\in\R$, and suppose that $\linkNselB(\rho,\iota,\pi;\linkNselbsm(L,C))$ holds for all
+$\iota$ with $\ell_\iota=2$, or $\ell_\iota=3\notin\linkNselP$, or $\ell_\iota\in\linkNselP\smallsetminus\{2\}$, and all
+$\pi\in\linkNselZg_\iota$. Then the field \emph{two} holds for $(L,\rho,C)$.
+\formallabel{GlobalTheory.NLink.starF_of}
+\end{lemma}
+
+\begin{proof}
+Take the table with $\mathrm{len}=0$ and $BB=\linkNselbsm(L,C)$; its length bound is an equality. If $\ell_\iota\in\linkNselP$ or
+$\ell_\iota=3$, then $\ell_\iota=2$, or $\ell_\iota\in\linkNselP\smallsetminus\{2\}$, or $\ell_\iota=3\notin\linkNselP$, and the
+hypothesis applies.
+\end{proof}
+
+\subsubsection{The small odd primes}
+
+For $A,B\in\R$ and a small prime $\ell$ let $\mathrm{cost}(L,A,B,\ell)=Afm\,h_B\,s_\ell+Bf^2t^2n_V\,\lambda_\ell$, where $h_B$ is as in
+\cref{pf:linkN-sel:rownumdef}, $s_\ell=\max(1,v_\ell(N_E))$ for an integer $N_E$ attached to the host, and $\lambda_\ell\ge0$ is an
+explicit logarithmic quantity.
+
+\begin{lemma}\label{pf:linkN-sel:starS}
+Assume $\sfname{Hypotheses}_2$. For every family $\mathcal F$ there are $C_b,x_b\in\R$ such that for all $x\ge x_b$ with $x>x_1$, all
+$i\in I_x$ and every setup $(L_{x,i},\mathrm{nch}_{x,i},HW,X,C_2)$, the local bound $\linkNselB(X.\rho,\iota,\pi;\linkNselbsm(L_{x,i},C_b))$
+holds for all $\iota$ with $\ell_\iota\in\linkNselP\smallsetminus\{2\}$ and all $\pi\in\linkNselZg_\iota$.
+\formallabel{UpperTheory.N.starSF_of_prints}
+\formallabel{UpperTheory.N.starSF_of_rowC_alt}
+\formallabel{UpperTheory.N.exists_nonneg_c_constants_of_prints}
+\formallabel{UpperTheory.N.n_at_bounds_of_setup}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: the cost bound at every setup.} Let a setup be given, $\iota$ with $\ell=\ell_\iota\in\linkNselP$, $\ell\ne2$, and
+$\pi\in\linkNselZg_\iota$. The host conditions imply that $\ell$ is not a generator prime and, since $\ell$ divides the level of the
+host, that $-d$ is a square modulo $\ell$. The lemma \lref{UpperTheory.N.decl_split} gives a decomposition of the places
+above $\ell$ adapted to this splitting, and the lemma \lref{UpperTheory.N.conclusion_split_alt} gives local length bounds at
+$\pi$ for it (from $\sfname{Hypotheses}_2$, the setup, and the local statements \lref{UpperTheory.N.locAll} at all primes). The
+lemma \lref{UpperTheory.N.bound_smallPrime_of_splitBound_cyclotomic} states that such local bounds, together with the
+killing condition, finite odd Tate--Shafarevich groups, the column bound \lref{UpperTheory.N.h0_le} and the elementary inequalities
+$\lfloor h_B\rfloor\le h_B$, $b\le h_B$, $\lfloor2b\rfloor\le2b$ and $1\le s_0(\iota)$, imply
+$\linkNselB(X.\rho,\iota,\pi;\mathrm{cost}(L,6000,30000,\ell))$.
+
+\emph{Step 2: uniformity.} Let $C_0\ge1$ and $x_p$ be the constants of the parameter bound
+\lref{GlobalTheory.T.admissible_parameters_family_const}, which states that along $\mathcal F$ the field \emph{par} holds
+eventually with a constant $C_0\ge1$ (in particular $n,t\le x^{C_0}$). Put $A=6000$, $B=30000$, $C_b=18AC_0+2B(3C_0+9)+5C_0+1$ and
+$x_b=\max(3,x_p)$. For $x\ge x_b$ we have $\log x\ge1$, and the estimate \lref{UpperTheory.N.Num.cost_le} (deferred) states that
+then $\mathrm{cost}(L,A,B,\ell)\le\linkNselbsm(L,C)$ for every small prime $\ell$ and every $C\ge C_b$. Since the local bound is monotone
+in $\beta$, Step 1 gives the claim.
+\end{proof}
+
+\subsubsection{Exceptional primes}
+
+\begin{definition}[Exceptional primes]\label{pf:linkN-sel:excdef}
+For size data $L$ put $\sigma^+=\lfloor2b/\linkNsellst\rfloor$, call \emph{base sizes} the reals $W\in\{b,w''\}\cup\{b_T(\tau)+
+\lfloor b'/x\rfloor:\tau\in T_T\}$, and let $\mathrm{win}(W)$ be the set of integers $n$ with $W-\eta_{\mathrm{sz}}-2\sigma^+-3\le n
+\le W+S_c+2\eta_{\mathrm{sz}}+2\sigma^++4$. The \emph{exceptional set} $\linkNselExc(L)$ is the set of primes $\ell>\linkNsellst$ dividing
+some element of $\mathrm{win}(W)$ for some base size $W$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.BaseSizes.Exc}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN-sel:exc}
+Let $L$ be size data of a member of a family. Then $\linkNselExc(L)$ is finite,
+$\#\linkNselExc(L)\le(\#T_T+2)\bigl(S_c+3\eta_{\mathrm{sz}}+t+8b/\linkNsellst+9\bigr)$, and every element of $\linkNselExc(L)$ is at
+most $3b$. Consequently, for every family and all $x>x_1$, $i\in I_x$, the field \emph{exc} holds for $\linkNselexc=\linkNselExc(L_{x,i})$.
+\formallabel{GlobalTheory.NLink.ExcBound.excOK_at}
+\formallabel{GlobalTheory.NLink.excOK_family}
+\formallabel{GlobalTheory.T.excludedPrimes_few_and_small_along_family}
+\end{lemma}
+
+\begin{proof}
+The size conditions of the members give: $\linkNsellst>0$; $2\linkNsellst<b$; $2\eta_{\mathrm{sz}}+t+8b/\linkNsellst+7<\linkNsellst$;
+$b_T(\tau)\le\frac54b'$, $b'\le b$ and $w''\le b$; and all elements of the windows are positive (numerical lemmas with deferred proofs,
+\lref{GlobalTheory.Survey.CongruenceBoundParameters.two_lStar_lt_b} for the second and
+\lref{GlobalTheory.Survey.CongruenceBoundParameters.window_pos} for the last). From the third inequality,
+$8b/\linkNsellst<\linkNsellst$, i.e.\ $8b<(\linkNsellst)^2$. Every base size satisfies $W\le2b$, and $S_c+2\eta_{\mathrm{sz}}+2\sigma^++4<b$;
+hence every $n\in\mathrm{win}(W)$ satisfies $0<n<3b$.
+
+If $n\in\mathrm{win}(W)$ had two distinct prime factors $p,p'>\linkNsellst$, then $pp'\mid n$ and $n\ge pp'>(\linkNsellst)^2>8b>3b$, a
+contradiction. Hence each $n$ contributes at most one prime to $\linkNselExc(L)$, and
+\[
+\#\linkNselExc(L)\le\sum_W\#\mathrm{win}(W)\le(\#T_T+2)\bigl(S_c+3\eta_{\mathrm{sz}}+4\sigma^++8\bigr),
+\]
+since there are at most $\#T_T+2$ base sizes and an interval of length $S_c+3\eta_{\mathrm{sz}}+4\sigma^++7$ contains at most
+$S_c+3\eta_{\mathrm{sz}}+4\sigma^++8$ integers. As $4\sigma^+\le8b/\linkNsellst$ and $t\ge0$, the stated bound follows; in particular
+$\linkNselExc(L)$ is finite. An element $\ell\in\linkNselExc(L)$ divides some $n$ with $0<n<3b$, so $\ell\le3b$. The family version holds
+from the threshold $x_1$ on.
+\end{proof}
+
+\subsubsection{The special primes}
+
+\begin{lemma}\label{pf:linkN-sel:small}
+For every family $\mathcal F$ and every $C\ge1$ there is $x_0$ such that for all $x\ge x_0$ with $x>x_1$ and all $i\in I_x$: the field
+\emph{small} holds for $(L_{x,i},C)$, $\Lambda\ge8$, the host split bound of $D_{x,i}$ is $\ge60$, and $C\le b$.
+\formallabel{GlobalTheory.T.specialPrimes_small_along_family}
+\formallabel{GlobalTheory.SpecialSmall.special_primes_small}
+\formallabel{GlobalTheory.SpecialSmall.at_one}
+\end{lemma}
+
+\begin{proof}
+For $x>x_1$ the scale of $L_{x,i}$ has parameter $x$ and the fixed $\eps>0$ of the family, and $C_t$ and $\eps_z=\eps/J$ are family
+constants. Since $x^{\eps}\to\infty$ and $e^{x^\eps}$ grows faster than any power of $x$, for large $x$: $x\ge3$, $x^\eps\ge\max(16,C)$,
+$x^{\eps_z/5}\ge60$, $4\cdot2^Cx^{(11+|C_t|)C+\eps}\le e^{x^\eps}$ and $32x^{5+\eps}\le e^{x^\eps}$. Assume these. The split bound is at least
+$\lfloor x^{\eps_z/5}\rfloor\ge60$ by a tie of the size data, $\Lambda=x^\eps\ge16$, and $C\le x^\eps\le e^{x^\eps}=b$. The size conditions
+give $k\le x^5$ and $t\le x^{|C_t|+1}$, and $f\le k$, $r\le2k$; hence $frt\le2x^{11+|C_t|}$ and $(frt)^C\Lambda\le2^Cx^{(11+|C_t|)C+\eps}\le b/4$.
+They also give $S_c,\eta_{\mathrm{sz}},t\le b'$ and $16rb'\le mb$, while $32x^{5+\eps}\le b$ gives $16r\Lambda\le mb$; together
+$r(S_c+t+\eta_{\mathrm{sz}}+\Lambda)\le mb/4$. For $\ell\in\{q,d\}$ we have $\ell>4tr+1\ge2r$, so $rb/\ell\le mb/2$, and
+\[
+\linkNselbqd(L,C,\ell)\le Cf\bigl(\tfrac{mb}2+\tfrac{mb}4+mb\bigr)+C\tfrac{b}4\le2Cfmb .
+\]
+The remaining parts of the field \emph{small} ($3,q,d$ and the small primes are at most $\linkNsellst$, and $3$ is not inert) are size
+conditions of the member.
+\end{proof}
+
+\subsubsection{The numerical row conditions}
+
+\begin{lemma}\label{pf:linkN-sel:rownum}
+Let $R=(C_2,C_B,C_C,C_A,C_B',C_K)$ be row constants and $X$ a hub datum whose tables are the canonical tables for $R$. Let $C$ satisfy
+$1\le C_2$, $C_B,C_C,C_A\ge0$, $1\le C$, $3C_2+1\le C$, $K_1\le C$, $K_2+1\le C$, $K_3\le C$, $6C_B+1\le C$ and $2(3C_A+1)\le C$, where
+$K_1=C_B+48$, $K_2=6C_B+12+6C_C$ and $K_3=3C_AC_B+12C_A+9$ (we then say that $R$ is \emph{admissible for} $C$). Then (R1)--(R4) hold for
+$\mathrm{tab}_X$ and $C$; if moreover $S_c+\eta_{\mathrm{sz}}+t+2\le b$, then (R5) holds as well.
+\formallabel{GlobalTheory.NLink.RowA.main}
+\formallabel{GlobalTheory.NLink.RowA.two_eA_le}
+\formallabel{GlobalTheory.NLink.localBoundTableFromData_rowB_rowEntries}
+\formallabel{GlobalTheory.NLink.RowBSize.lenRowB_le}
+\formallabel{GlobalTheory.T.mediumInert_smallInert_lengthBound_tabX}
+\formallabel{GlobalTheory.NLink.localBoundTable_rowsCD_admissible}
+\formallabel{GlobalTheory.T.localBoundTableFromData_bandCondition}
+\formallabel{GlobalTheory.NBand.bandPlaceWeightApproximation_tabX}
+\end{lemma}
+
+\begin{proof}
+All canonical tables are explicit, and each condition is a direct comparison.
+
+(R1) At a split $\ell\ge5$ the canonical table is $\mathrm{len}_0(\iota,\pi,\lambda)=(2n_\lambda m+1)e_A(\ell)$ if $\lambda$ is a column
+place and $0$ otherwise, where $e_A(\ell)=\lceil C_A(2+2h_N/\ell+\log_\ell(2h_N+1))\rceil$ and $h_N=\lfloor h_B\rfloor$; it does not depend
+on $\pi$. Since $h_N\le h_B$, $1\le h_B$ and $2h_N+1\le\ell h_B$, we get $2+2h_N/\ell+\log_\ell(2h_N+1)\le3(1+h_B/\ell+\log_\ell h_B)$, hence
+$e_A(\ell)\le(3C_A+1)(1+h_B/\ell+\log_\ell h_B)$ and $2e_A(\ell)\le e_P(C,\ell)$ because $2(3C_A+1)\le C$. Multiplying by $2n_\lambda m+1\ge0$
+and summing over $\lambda\mid\ell$ gives (R1).
+
+(R2) At an inert $\ell$ in the range of (R2) the canonical table is a rational number chosen strictly between $3C_2\,c_B(\ell,\lambda)$ and
+$(3C_2+1)c_B(\ell,\lambda)$, where $c_B(\ell,\lambda)=(n_\lambda+1)r\bigl(h_B/(\ell-1)^{j_A+1}+(G_P+1)(j_A+1)+\Lambda\bigr)>0$; since
+$3C_2+1\le C$ it is at most $C\,c_B(\ell,\lambda)$.
+
+(R3), (R4) At the other inert primes the canonical table is a rational number chosen strictly between two explicit expressions
+$\mathrm{bd}(K_1,K_2,K_3)<\mathrm{bd}(K_1,K_2+1,K_3)$ built from $h_B,\mathrm{flat},e_P$; the estimate
+\lref{GlobalTheory.NLink.RowCDSize.len_le} (deferred) states that the larger one is at most the right-hand side of (R3) when $K_1$, $K_2+1$
+and $K_3$ are at most $C$, which gives (R3) and (R4).
+
+(R5) A band pair $(\iota,\lambda)$ comes, by definition of the canonical band predicate, with $\ell\ge11$, a good eigensystem and word
+data at $\lambda$ whose box conditions provide $s$ with $w''\le s\le w_B$ and an inequality $|\ell s-b|\le C_B(\cdots)$ in the word
+parameters; these parameters are bounded by $b,\eta_{\mathrm{sz}},S_c$, and $\log_\ell(2h)\le\Lambda$ for the relevant $h\le4e^\Lambda$.
+An elementary inequality then gives (R5), using $6C_B+1\le C$, $S_c+\eta_{\mathrm{sz}}+t+2\le b$, $w''\ge0$ and $\Lambda\ge1$.
+\end{proof}
+
+\subsubsection{Setups}
+
+\begin{lemma}[Killing by the twist]\label{pf:linkN-sel:kill}
+Let $D$ be a datum with a norm choice, twisting data and a family $\rho$. Suppose that the norm choice is tied to $D$, that the twists
+are good at all twisted places, and that the signature choice condition holds for $\rho$ (for every $\iota$ and good $\pi$ there is a good
+signature $s$ of the twist at $w_\iota$ such that finiteness of the Selmer group of the Bloch--Kato reduction of the twist for $s$ implies
+finiteness of $\linkNselSel(\iota,\rho,\pi)$ and $\linkNselsP(\iota,\rho,\pi)$ is at most the length of that Selmer group, and
+$\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1))$ is at most the tame valuation of the twist at its auxiliary places). Then
+$\mathrm{Kill}(\rho)$.
+\formallabel{GlobalTheory.T.chosenTwist_annihilates_selmerGroups}
+\formallabel{GlobalTheory.NLink.twist_kills_selmer}
+\end{lemma}
+
+\begin{proof}
+Let $\iota$ be a local index and $w=w_\iota$. Goodness of the twist at $w$ provides nonnegative reals $\eps_T(s)$, indexed by the good
+signatures $s$, with $\sum_s\eps_T(s)\le\eps(w)$ and with the length of the Selmer group of the Bloch--Kato reduction for $s$ at most
+$\nu+\eps_T(s)$, where $\nu$ is the cyclotomic constant of the twist; it also provides the bound $t\cdot(\text{tame valuation})\le\eps(w)$.
+Since the norm choice is tied to $D$, the prime of the twist is $\ell_\iota$, so $\eps(w)=\eps_{\ell_\iota}$ and $\nu=\nu_L(\ell_\iota)$. The
+signature choice condition gives, for each $\pi\in\linkNselZg_\iota$, a good signature $s$ for which the Selmer group of $\pi$ is finite and
+$\linkNselsP(\iota,\rho,\pi)\le\nu_L(\ell_\iota)+\eps_T(s)\le\nu_L(\ell_\iota)+\eps_{\ell_\iota}$, and it gives
+$t\sum_v\linkNsellen(\OO/(\zeta_{\iota,v}-1))\le\eps_{\ell_\iota}$.
+\end{proof}
+
+\begin{lemma}[Canonical hub data]\label{pf:linkN-sel:canon}
+Assume the degree-one Chebotarev statement. Let $D,L,HW$ and row constants $R$ be given, and suppose that $D$ satisfies the two
+conditions of its norm-choice facts which provide Galois representations at the cuspidal eigensystems (the condition on the
+attached representations and the forty-first provision). Then for all choices of exponents $e'$, of exceptional sets (as functions of the
+representations) and of twisting data $I$, there is a hub datum $X$ which is canonical for $R$, with the prescribed $e'$,
+$\linkNselexc(X)$ and $I$, with good $r$ at every local index, with $\eta(X)\le2\eta_{\mathrm{sz}}$ when $\eta_{\mathrm{sz}}\ge0$, and with
+$c_B(\iota)$ equal to its canonical value.
+\formallabel{GlobalTheory.HubX.exists_canonical_hubData_with_bounds}
+\end{lemma}
+
+\begin{proof}
+By the lemma \lref{GlobalTheory.PtCore.exists_ptFam} (deferred, like the two other lemmas cited in this proof), which states that Chebotarev, Galois representations at the
+cuspidal eigensystems and the existence of a good family at every index give a point family, by
+\lref{GlobalTheory.T.galoisRepsCusp_of_adm2}, which derives the Galois representations at the cuspidal eigensystems from the first
+condition, and since the forty-first provision provides a good family at every index, there is a point family $(r,\rho)$.
+Let $X$ have these representations, the canonical tables and the prescribed $e',\linkNselexc,I$. It is canonical for $R$ by the
+verification \lref{GlobalTheory.HubX.canon_ourX}; its $\eta(X)$ is $\lfloor\eta_{\mathrm{sz}}\rfloor\le2\eta_{\mathrm{sz}}$.
+\end{proof}
+
+\begin{proposition}[Setups exist]\label{pf:linkN-sel:setup}
+Assume $\sfname{Hypotheses}_2$. Let $\mathcal F\in\sfname{FamP}(\eps)$, $C,C_2\in\R$ and $C_T\in\N$, and suppose that $\mathcal F$ satisfies
+$\sfname{TwGood}$ and $(\mathrm F)_{C,C_T}$. Then there is $x_0$ such that for all $x\ge x_0$, $x>x_1$, all $i\in I_x$ for which $D_{x,i}$
+has finite odd Tate--Shafarevich groups, and every finite set $\linkNselexc$ of primes, there are $HW$, Fontaine data, comparison data and
+a hub datum $X$ with $\linkNselexc(X)=\linkNselexc$, the admissibility of the jump parameters of $L_{x,i}$, and a setup
+$(L_{x,i},\mathrm{nch}_{x,i},HW,X,C_2)$.
+\formallabel{GlobalTheory.T.exists_hubData_admJ_setup}
+\formallabel{GlobalTheory.NLink.exists_setup_large_alt}
+\formallabel{GlobalTheory.HTW.admissibleParameters_of_large_scale}
+\end{proposition}
+
+\begin{proof}
+Three thresholds are used: $x_a$ such that every size datum of scale $(x,\eps)$ with $x\ge x_a$ and parameter constant $C_{Lw}$ at most the
+corresponding family constant has admissible parameters and satisfies $S_c+\eta_{\mathrm{sz}}+t+2\le b$ (the estimate
+\lref{GlobalTheory.HTW.admissible_params_large}, deferred, states exactly this, up to rearranging its inequalities); $x_b$ from
+\cref{pf:linkN-sel:small} with $C=1$; and $x_c$ from $\sfname{TwGood}(\mathcal F)$. Let $x_0=\max(x_a,x_b,x_c)$ and fix a member with
+finite odd Tate--Shafarevich groups and a set $\linkNselexc$.
+
+The Bhatt--Scholze field of $\sfname{Hypotheses}_2$ gives local data $HW$, Fontaine data and comparison data, by
+\lref{GlobalTheory.T.exists_wachFunctor_comparison_of_bhattScholze}, which states that the integral comparison provides them for every
+datum. The norm-choice facts contain the hypotheses of \cref{pf:linkN-sel:canon}, which gives $X$ canonical for $R(C_2)$ with the given
+$\linkNselexc$ and the twisting data supplied by $\sfname{TwGood}$. \Cref{pf:linkN-sel:small} gives $\Lambda\ge8$ and the split bound. For the
+killing condition we apply \cref{pf:linkN-sel:kill}: the norm choice is tied to $D$ and the twists are good by the norm-choice facts and
+$\sfname{TwGood}$; the signature choice condition for $X.\rho$ is given by the statement \lref{GlobalTheory.JointSix.main}, which
+derives it from Chebotarev, the point family and the norm-choice facts together with the good-point properties of the rows
+(\lref{GlobalTheory.Proof.LocalGlobalAssembly.main}, which assembles them from three conditions of the norm-choice facts) and the
+absolute irreducibility at good points (\lref{GlobalTheory.PtCore.residualAbsIrredGoodPoint_of_residualIrred}, which deduces it from
+residual irreducibility). Finally the admissibility of the jump parameters follows from the norm-choice facts and the admissibility of the
+parameters, and all parts of a setup are available.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The lattice index bound}\label{sec:pf:linkN-sel:pass}
+
+In this subsection $\OO$ is a discrete valuation ring with fraction field $K$ and normalised valuation $v$, $X$ is a finite set, and
+$T\subseteq\OO^X$ is an $\OO$-subalgebra which is a local ring and separates the points of $X$. Let $V$ be a finite-dimensional
+$K$-vector space with a ring homomorphism $\mathrm{act}\colon T\to\End_K(V)$; for $x\in X$ let $V_x=\bigcap_{f\in T}\ker(\mathrm{act}(f)
+-f(x))$ and for $S\subseteq X$ let $V_S=\sum_{x\in S}V_x$. For an $\OO$-submodule $L\subseteq V$ and $S\subseteq X$ the
+\emph{congruence module} is
+\[
+\mathrm{CM}(L,S)=L\big/\bigl((V_S\cap L)+(V_{X\smallsetminus S}\cap L)\bigr).
+\]
+For $Z\subseteq X$ let $\mathrm{cc}(Z)=\{c\in T:c(y)=0\text{ for all }y\notin Z\}$, an ideal of $T$, and $v_Z(x)=\min_{c\in\mathrm{cc}(Z)}
+v(c(x))\in\N\cup\{\infty\}$ (a minimum, as the values lie in a well-ordered set).
+
+We use the following result proved in another section of Part II:
+\lref{Formalism.NG.QuotientPowerLengths.congMod_le} states that if $\sum_xV_x=V$, $L$ is finitely generated, $S\subseteq X$ is
+finite, $E$ is a set of $K$-endomorphisms of $V$ commuting with $\mathrm{act}(T)$ and mapping $L$ into $L\cap V_S$, and
+$w\colon X\to\N\cup\{\infty\}$ is such that for every $x\in S$ some $g\in E$ acts on $V_x$ as a scalar $l\in\OO$ with $v(l)\le w(x)$, then
+$\len_\OO\mathrm{CM}(L,S)\le\sum_{x\in S}\dim_KV_x\cdot w(x)$.
+
+\begin{lemma}\label{pf:linkN-sel:etabound}
+Assume $\sum_{x\in X}V_x=V$. Let $L\subseteq V$ be a finitely generated $\OO$-submodule which spans $V$ and is stable under
+$\mathrm{act}(T)$, let $Z_g\subseteq Z\subseteq X$ be finite, and let $a\in\End_K(V)$ preserve $L$, commute with $\mathrm{act}(T)$, and act
+on $V_x$ as multiplication by an integer $A$ for $x\in Z_g$ and as $0$ for $x\in Z\smallsetminus Z_g$. Then for every
+$B\colon X\to\N\cup\{\infty\}$ with $v_Z\le B$ on $Z_g$,
+\[
+\len_\OO\mathrm{CM}(L,Z_g)\le\sum_{x\in Z_g}\dim_KV_x\,\bigl(B(x)+v(A)\bigr).
+\]
+\formallabel{Formalism.NG.etaBound}
+\formallabel{Formalism.NG.congBoundGood}
+\end{lemma}
+
+\begin{proof}
+It suffices to treat $B=v_Z$. Apply \lref{Formalism.NG.QuotientPowerLengths.congMod_le} with $S=Z_g$,
+$E=\{a\circ\mathrm{act}(c):c\in\mathrm{cc}(Z)\}$ and $w(x)=v_Z(x)+v(A)$. Since $T$ is commutative, $a\,\mathrm{act}(c)\,\mathrm{act}(f)=
+a\,\mathrm{act}(f)\,\mathrm{act}(c)=\mathrm{act}(f)\,a\,\mathrm{act}(c)$, so $E$ commutes with $\mathrm{act}(T)$, and $E$ preserves $L$ since
+$\mathrm{act}(c)$ and $a$ do. For $c\in\mathrm{cc}(Z)$, $\mathrm{act}(c)$ acts on $V_y$ by $c(y)$, which vanishes for $y\notin Z$; as
+$V=\sum_yV_y$, $\mathrm{act}(c)(V)\subseteq V_Z$. Next $a(V_Z)\subseteq V_{Z_g}$, because $a$ acts by $A$ on $V_y$ for $y\in Z_g$ and by
+$0$ for $y\in Z\smallsetminus Z_g$. Hence every element of $E$ maps $L$ into $V_{Z_g}$. Finally, for $x\in Z_g$ choose $c\in\mathrm{cc}(Z)$
+with $v(c(x))=v_Z(x)$; on $V_x$, $a\,\mathrm{act}(c)$ is multiplication by $A\,c(x)\in\OO$, and $v(A\,c(x))=v(A)+v_Z(x)=w(x)$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-sel:heckelen}
+Let $\ell$ be a prime, $M$ a finite free $\OO$-module with an $\OO$-algebra homomorphism $\mathrm{act}\colon T\to\End_\OO(M)$, and identify
+$M$ with its image in $V=M\otimes_\OO K$. Let $Z_g\subseteq Z\subseteq X$, $A\in\Z\smallsetminus\{0\}$ and $\alpha\in\End_\OO(M)$ commuting
+with $\mathrm{act}(T)$, such that $\alpha\otimes K$ acts on $V_x$ by $A$ for $x\in Z_g$ and by $0$ for $x\in Z\smallsetminus Z_g$. Then
+\[
+\linkNsellen\Bigl(\frac{(M+V_{X\smallsetminus Z_g})\cap V_{Z_g}}{M\cap V_{Z_g}}\Bigr)\ \le\ \sum_{x\in Z_g}\dim_KV_x
+\bigl(\linkNsellen(\OO/\mathfrak c_x)+v_\ell(A)\bigr),\qquad \mathfrak c_x=\{c(x):c\in\mathrm{cc}(Z)\}.
+\]
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.hecke_length_bound}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.vcc_ne_top}
+\end{lemma}
+
+\begin{proof}
+If $\ell\in\OO^\times$, then $\len_\OO(\OO/\ell\OO)=0$, all normalised lengths vanish by convention, and the right-hand side is
+$\ge0$. Otherwise put $e=v(\ell)=\len_\OO(\OO/\ell\OO)\ge1$. Since $T$ separates points, $\sum_xV_x=V$ by
+\lref{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.eigSpan} (another section), which deduces this from the existence of
+elements of $T$ that are a nonzero constant at one point and vanish elsewhere. The image $L$ of $M$ is finitely generated, spans $V$ and is
+$T$-stable. By \lref{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.len_le} (another section), which compares the two
+modules by means of the projector $C^{-1}\mathrm{act}(\sum_{x\in Z_g}e_x)$ built from such elements $e_x$, the length of the quotient on the
+left is at most $\len_\OO\mathrm{CM}(L,Z_g)$. \Cref{pf:linkN-sel:etabound} with $a=\alpha\otimes K$ bounds this by
+$\sum_{x\in Z_g}\dim V_x(v_Z(x)+v(A))$. Now $v(A)=v_\ell(A)\,e$: write $A=\ell^{v_\ell(A)}m'$ with $\ell\nmid m'$; as $\ell$ and $m'$ are
+coprime in $\Z$ and $\OO$ is local with $\ell\notin\OO^\times$, $m'$ is a unit of $\OO$ (this is the lemma
+\lref{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.addVal_int}). Moreover $\len_\OO(\OO/\mathfrak c_x)=v_Z(x)$, because
+$\mathfrak c_x$ is generated by an element $c(x)$ of minimal valuation, and $v_Z(x)<\infty$ for $x\in Z$, because an element of $T$ which is a
+nonzero constant at $x$ and vanishes elsewhere lies in $\mathrm{cc}(Z)$. Dividing by $e$ gives the claim.
+\end{proof}
+
+\begin{corollary}\label{pf:linkN-sel:eib}
+Let $D$ be a datum and $\iota$ a local index. For every $Z'\subseteq Z_\iota$, every $A\in\Z\smallsetminus\{0\}$ and every
+$\alpha\in\End_{\OO_\iota}(M_\iota)$ commuting with $T_\iota$ which acts by $A$ on $V_x$ for $x\in Z'$ and by $0$ on $V_x$ for
+$x\in Z_\iota\smallsetminus Z'$,
+\[
+\linkNsellen\Bigl(\frac{(M_\iota+V_{X_\iota\smallsetminus Z'})\cap V_{Z'}}{M_\iota\cap V_{Z'}}\Bigr)\le\sum_{\pi\in Z'}
+\linkNselmult(\iota,\pi)\bigl(\linkNselvcc(\iota,\pi)+v_\ell(A)\bigr).
+\]
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.hecke_length_bound_localised}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.endomorphism_index_bound}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.second_statement}
+\end{corollary}
+
+\begin{proof}
+This is \cref{pf:linkN-sel:heckelen} for $\OO_\iota$, $T_\iota$ (local and separating), $M_\iota$, $Z_\iota$ and $Z_g=Z'$, since
+$\linkNselvcc(\iota,\pi)=\linkNsellen(\OO/\mathfrak c_\pi)$ and $\linkNselmult(\iota,\pi)=\dim V_\pi$.
+\end{proof}
+
+\begin{corollary}[The field \emph{pass}]\label{pf:linkN-sel:pass}
+If $D$ satisfies the commuting endomorphism condition, then for every local index $\iota$ with $\ell_\iota\notin\linkNselG$,
+$\linkNseleta(\iota)\le\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)\bigl(\linkNselvcc(\iota,\pi)+v_\ell(\#G)\bigr)$.
+\formallabel{GlobalTheory.EtaPassage.main}
+\end{corollary}
+
+\begin{proof}
+Take the endomorphism of the commuting endomorphism condition, $A=\#G\ge1$ and $Z'=\linkNselZg_\iota\subseteq Z_\iota$. By the description
+of $\linkNseleta(\iota)$ in \cref{pf:linkN-sel:inv}, \cref{pf:linkN-sel:eib} is the claim.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The bound at the generator primes}\label{sec:pf:linkN-sel:typ}
+
+\begin{definition}[Paired character condition]\label{pf:linkN-sel:pcc}
+For $C\in\R$, $\eta\in\N$, a local index $\iota$, a family $\rho$ and $\pi\in X_\iota$ put
+\begin{multline*}
+\mathrm{rhs}(C,\eta,\iota,\rho,\pi)=4fn_V\,e_T+2fr^2+\linkNselsP(\iota,\rho,\pi)+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)\\
++4n_V\delta_\iota+t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1)),
+\end{multline*}
+with $e_T=Cn_V^2(n_V+\eta+t)$. For $C\in\R$ and $C_T\in\N$, the \emph{paired character condition} $\mathrm{PC}(C,C_T)$ says: for every local
+index $\iota$ with $\ell_\iota=g_k$, the other generator prime $g_{k'}$, all families $r$ (good) and $\rho$ at $\iota$ with semisimple
+decompositions $r_\pi\otimes K\simeq\rho_\pi\oplus\bigoplus_{c=1}^t\chi_{\iota,c}$ for all $\pi\in Z_\iota$, and all natural numbers
+$\eta,s,S$, signs and finite sets of integers attached to the places of $E$ such that $\eta+t+1<s$, $\log g_{k'}\le2\log g_k$,
+$C_T\bigl((s+S)(n_V+1)^2+(n_V+1)^3\bigr)<g_k$, a sign condition and the host jump condition at $\iota$ hold, the Selmer groups of the
+good eigensystems are finite and $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ is finite for $0<e<t$:
+$\linkNseleta(\iota)\le\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)\,\mathrm{rhs}(C,\eta,\iota,\rho,\pi)$.
+\formal{Formalism.MainNotions.PairedCharacterCondition.PairedCharacterConditionAlt}
+\formal{Formalism.MainNotions.PairedCharacterCondition.rhs}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN-sel:starHlocal}
+Let $C\in\R$ and put $M(\ell)=Cx^C\eta_{\mathrm{sz}}+2\eps_\ell+VV(\ell)+v_\ell(h_E)$. Suppose that $M(\ell)\ge0$ for $\ell\in\linkNselG$, that
+the fields \emph{mult} and \emph{rank} hold, and that $\linkNseleta(\iota)\le\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)M(\ell_\iota)$
+for every $\iota$ with $\ell_\iota\in\linkNselG$. Then the field \emph{typ} holds with the constant $C$.
+\formallabel{GlobalTheory.NLinkTyp.starH_of_local}
+\end{lemma}
+
+\begin{proof}
+Fix $1\le j\le m$ and $\ell\in\linkNselG$. Let $w$ be a twisted place of the support of $L$ above $\ell$. Every $\iota$ with
+$(j_\iota,w_\iota)=(j,w)$ has $\ell_\iota=\ell$, so by $\eta_j(w)=\sum_\iota\linkNseleta(\iota)$ and the hypothesis,
+\[
+\eta_j(w)\le\Bigl(\sum_{\iota:(j_\iota,w_\iota)=(j,w)}\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)\Bigr)M(\ell)\le d_{Z_0}(j)\,M(\ell),
+\]
+by \emph{mult}, \emph{rank} and $M(\ell)\ge0$. Multiply by $\mathrm{lw}(w)e(w)\ge0$ and sum over these $w$. By
+\lref{Formalism.MainNotions.TwistedPlaces.admissibleMeanCondition_holds} (another section), which states that
+$\sum_{w}\mathrm{lw}(w)e(w)\le\log\ell$ over the twisted places $w$ of the support above $\ell$ (indeed
+$\mathrm{lw}(w)e(w)=e(w)f(w)\log\ell/[\mathit{LL}:\Q]$), we get $\sum_w\mathrm{lw}(w)e(w)\eta_j(w)\le\log\ell\cdot d_{Z_0}(j)M(\ell)$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-sel:rhsle}
+Let $X$ be a hub datum with $\mathrm{Kill}(X.\rho)$ and $\eta(X)\le\eta_{\mathrm{sz}}$, let $P$ satisfy the field \emph{par} with a constant
+$C_1\ge1$, and let $C'\ge0$. Let $\iota$ be a local index with $\ell=\ell_\iota\notin\linkNselP$ and $\nu_L(\ell)=0$. Then for
+$\pi\in\linkNselZg_\iota$, with $C''=2000(C'+1)+5C_1$,
+\[
+\mathrm{rhs}(C',\eta(X),\iota,X.\rho,\pi)\le C''x^{C''}\eta_{\mathrm{sz}}+2\eps_\ell+VV(\ell)+v_\ell(h_E).
+\]
+Moreover $\nu_L(g_k)=0$ whenever $g_k\ne2$.
+\formallabel{GlobalTheory.NLinkTyp.rhs_le}
+\formallabel{GlobalTheory.NLinkTyp.typePrime_size_terms_le_elementary}
+\formallabel{UpperTheory.KStar.nuL_eq_zero_of_g}
+\end{lemma}
+
+\begin{proof}
+The killing condition gives $\linkNselsP(\iota,X.\rho,\pi)\le\nu_L(\ell)+\eps_\ell=\eps_\ell$ and
+$t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1))\le\eps_\ell$. Since $\ell\notin\linkNselP$, $s_0(\iota)=1$, and the lemma
+\lref{Formalism.MainNotions.LargeLevelLemmas.vdel_le}, which states $\delta_\iota\le t\,s_0(\iota)+v_\ell(t!)$, gives
+$0\le\delta_\iota\le t+v_\ell(t!)\le2t$. It remains to bound $4fn_Ve_T+2fr^2+4n_V\delta_\iota$, which is elementary: with $f=2n$,
+$n_V=r+t\le2t$, $\eta(X)\le\eta_{\mathrm{sz}}$, $1\le t\le\eta_{\mathrm{sz}}$, $1\le n$, $n,t\le x^{C_1}$ (from \emph{par}) and $x\ge1$,
+$4fn_Ve_T\le4\cdot2n\cdot2t\cdot C'(2t)^2\cdot4\eta_{\mathrm{sz}}\le256C'x^{4C_1}\eta_{\mathrm{sz}}$, $2fr^2\le4x^{3C_1}\eta_{\mathrm{sz}}$ and
+$4n_V\delta_\iota\le16x^{2C_1}\eta_{\mathrm{sz}}$, so the sum is at most $(256C'+20)x^{4C_1}\eta_{\mathrm{sz}}\le C''x^{C''}\eta_{\mathrm{sz}}$.
+Finally, for a generator prime $g_k$ the invariant $\nu_L(g_k)$ is computed in a field in which $g_k$ splits (a condition of the datum),
+and it vanishes by the lemma \lref{UpperTheory.Mu.nu_eq_zero_of_split} (deferred), which states this vanishing for split primes. The
+hypothesis $g_k\ne2$ is not used.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-sel:etaLoc}
+Assume $\sfname{Hypotheses}_2$. Let $(L,\mathrm{nch},HW,X,C_2)$ be a setup, $C'\in\R$ and $C_T\in\N$ with $C_T\le b$, and assume
+$\mathrm{PC}(C',C_T)$ and the size condition on the generator primes ($(kb)^8\le g_k\le2g_{k'}$ and $\log g_k\le x^{\theta}\Lambda$ for
+$k,k'\in\{0,1\}$, $\theta$ a size exponent). Then for every $\iota$ with $\ell_\iota=g_k$,
+$\linkNseleta(\iota)\le\sum_{\pi\in\linkNselZg_\iota}\linkNselmult(\iota,\pi)\,\mathrm{rhs}(C',\eta(X),\iota,X.\rho,\pi)$.
+\formallabel{GlobalTheory.NLinkTyp.etaLoc_le_rhs_alt}
+\end{lemma}
+
+\begin{proof}
+If $\linkNselZg_\iota=\emptyset$, apply \cref{pf:linkN-sel:eib} with $Z'=\emptyset$, $\alpha=0$ and $A=1$: it gives $\linkNseleta(\iota)\le0$,
+which is the claim. Otherwise we use the lemma \lref{GlobalTheory.T.split_bound_of_params_alt}: applied to the canonical hub
+datum of the setup (with the Fontaine and finiteness fields of $\sfname{Hypotheses}_2$, Chebotarev, $C_T\le b$, $\Lambda\ge8$ and the
+norm-choice facts) it provides, at the generator primes, the goodness of $X.r$, the properties of the eigensystems of $Z_\iota$ from which
+the semisimple decompositions follow (by \lref{Formalism.MainNotions.N.semisimple_decomposition_of}, which deduces the decomposition
+from a condition of the norm-choice facts and these properties), and integers $s,S$, signs and sets with $\eta(X)+t+1<s$,
+$C_T((s+S)(n_V+1)^2+(n_V+1)^3)<g_k$, the sign condition and the host jump condition. From the size condition, $g_{k'}\le2g_k$ and $g_k\ge2$
+give $\log g_{k'}\le\log2+\log g_k\le2\log g_k$. The Selmer groups of the good eigensystems are finite by the killing condition of the setup,
+and the Tate--Shafarevich groups by the finiteness part of the setup. The paired character condition now gives the claim.
+\end{proof}
+
+\begin{proposition}[The field \emph{typ}]\label{pf:linkN-sel:typprop}
+Assume $\sfname{Hypotheses}_2$ and a setup $(L,\mathrm{nch},HW,X,C_2)$. Let $C'\ge0$, $C_1\ge1$ and $C_T\in\N$ with $C_T\le b$, and assume
+$\mathrm{PC}(C',C_T)$, the field \emph{mult}, the field \emph{par} with constant $C_1$, and the size condition on the generator primes. Then
+the field \emph{typ} holds with the constant $2000(C'+1)+5C_1$.
+\formallabel{GlobalTheory.T.star_bound_of_paired_character_condition}
+\formallabel{GlobalTheory.NLinkTyp.main_alt_alt}
+\end{proposition}
+
+\begin{proof}
+For the canonical hub datum, $\eta(X)=\lfloor\eta_{\mathrm{sz}}\rfloor\le\eta_{\mathrm{sz}}$ (as $\eta_{\mathrm{sz}}\ge t\ge1$). Let
+$C''=2000(C'+1)+5C_1$; then $M(\ell)=C''x^{C''}\eta_{\mathrm{sz}}+2\eps_\ell+VV(\ell)+v_\ell(h_E)\ge0$, every term being nonnegative. For
+$\iota$ with $\ell_\iota=g_k$: $g_k\ne2$ by the size condition, $g_k\notin\linkNselP$ by the host conditions, and $\nu_L(g_k)=0$ by
+\cref{pf:linkN-sel:rhsle}; so \cref{pf:linkN-sel:etaLoc,pf:linkN-sel:rhsle} give $\linkNseleta(\iota)\le\sum_\pi\linkNselmult(\iota,\pi)
+M(g_k)$. The field \emph{rank} is part of the norm-choice facts. Now apply \cref{pf:linkN-sel:starHlocal}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The bound at \texorpdfstring{$q$}{q} and \texorpdfstring{$d$}{d}}\label{sec:pf:linkN-sel:thmB}
+
+\subsubsection{Statements used}
+
+A local index $\iota$ is \emph{of type $QD$} if $\ell_\iota\in\{q,d\}$ and $\linkNselZg_\iota\ne\emptyset$. For a place $w$ of $E$, $n_w$
+is its local degree.
+
+\begin{lemma}[Local fields at $q$ and $d$]\label{pf:linkN-sel:qdfields}
+For every datum $D$: $q\equiv d\equiv3\pmod4$; every place $v$ of $E$ above $\ell\in\{q,d\}$ has ramification index $2$ and is not fixed
+by complex conjugation; at $q$ the decomposition group of $v$ preserves the CM type of $E$, and at $d$ every nontrivial inertia element
+exchanges the CM type and its complement. Moreover, at every local index with $\ell_\iota\in\{q,d\}$ and every $w\mid\ell_\iota$, the
+completion $K_w$ is $K_{w,0}(\sqrt{-\ell_\iota})$ with $[K_w:K_{w,0}]=2$, and $K_w$ lies in an auxiliary field $K_s$ with
+$[K_s:\Q_{\ell_\iota}]=\frac{\ell_\iota-1}2[K_w:\Q_{\ell_\iota}]$.
+\end{lemma}
+
+This is \lref{GlobalTheory.T.local_fields_at_auxiliary_primes}; its proof (about $560$ lines) is deferred. We also use three
+consequences, whose proofs are deferred: \lref{GlobalTheory.T.theoremB_ramifiedPrimes_ne_typePrimes} states that $q,d\notin\linkNselG$;
+\lref{GlobalTheory.T.mul_lt_finrank_cyclotomic_at_q_and_d} states that $tr<[E(\zeta_\ell):E]$ for $\ell\in\{q,d\}$; and
+\lref{GlobalTheory.T.theoremB_localDegree_sum_bounds} states that every set $s$ of places above $\ell\in\{q,d\}$ satisfies
+$\sum_{w\in s}n_w\le2f$ and $2\#s\le\sum_{w\in s}n_w$.
+
+\begin{theorem}[Integrality from a metric]\label{pf:linkN-sel:intmetric}
+Let $D$ be a datum with local data $HW$, Fontaine data and comparison data, and $C_A,C_B,C_K,C\in\R$ with $C\ge160$. Assume (F2) at the Wach
+structures of all good triples (\cref{pf:linkN-sel:exact}); that $\dim_{\mathit{LL}}D_{\mathrm{dR},\tau}(T)=\rank T$ for every crystalline lattice
+$T$ and embedding $\tau$ at the pairs $(K,\mathit{LL})$ admitting a good triple; and that the letter components of every crystalline lattice at a
+good triple of level $1$ have full rank. If the thirteen \emph{admitted hypotheses} of the local lifting theorem with constants $(C_A,C_B,C_K)$
+hold (among them the natural Herr classes of \cref{pf:linkN-sel:herr} and an Archimedean signature matching with these constants), then the
+local theory of $D$ satisfies the conclusion of \cref{pf:linkN-sel:thmA} with the constant $C$.
+\formallabel{Formalism.MainNotions.N.Ln34.integrality_from_metric_of_large_constant}
+\end{theorem}
+
+\begin{proof}
+By \lref{Formalism.MainNotions.N.Ln34.lifting_theorem_of_uniform_link} (deferred; about $16{,}200$ lines, which assemble some thirty
+statements on Wach-type lattices, frames, model lattices, exponent recursions and rank bounds), the conclusion holds for all such data as soon as
+the \emph{first frame of models} holds: for every datum satisfying the first admitted hypothesis, the dimension and rank assumptions above, the
+model statements for lattices and for filtrations imply the first uniform link statement. The first frame of models is
+\lref{Formalism.MainNotions.N.Ln34.u1link_pf} (deferred; about $2{,}700$ lines).
+\end{proof}
+
+\begin{theorem}[Theorem A: local lifting]\label{pf:linkN-sel:thmA}
+Assume the local Bloch--Kato theory, local Tate duality and the local Euler characteristic formula. For every datum $D$ with local data
+$HW$, Fontaine data and comparison data, and every $C\ge160$, the local theory of $D$ satisfies the following for every prime $\ell\ne2$
+and all good pairs $(K,\mathit{LL})$ of finite extensions of $\Ql$. Let $T_1,T_2$ be crystalline $\OO_{\mathit{LL}}$-lattices of $G_K$ and
+$F\colon T_1\to T_2$ a surjective morphism, $r=\rank T_2$, and let $S,\eta,m,h\in\N$, $\mathrm{up}(\tau)\in\{\pm\}$ and $b(\tau)\in\N$
+($\tau\colon K\to\mathit{LL}$) be such that the Hodge--Tate jumps of $T_1$ at $\tau$ lie in $[-h,h]\cap\bigl(I_{\mathrm{up}(\tau)}(b(\tau),S)
+\cup[-\eta,\eta]\bigr)$, where $I_+(b,S)=[b,b+S]$ and $I_-(b,S)=[-b-S,-b]$, that $\eta<b(\tau)$, that $T_2$ has at most $m$ jumps (with
+multiplicity) in $[-\eta,\eta]$ at each $\tau$, and that $[K:K_0]=2$ or $\mathrm{up}(\tau)$ depends only on $\tau|_{K_0}$. Then
+\[
+\mathrm{col}(F)\le\Bigl(C(n e+1)r\bigl(\tfrac{eh}{\ell}+eS+e\log_\ell h+1+\eta\bigr)+ne(e+1)mC(h+1)\Bigr)\len(\OO_{\mathit{LL}}/\ell),
+\]
+where $n=[K_0:\Ql]$, $e=[K:K_0]$, and $\mathrm{col}(F)$ is the length of the quotient of the module of finite (crystalline) cocycles of
+$T_2$ by the image of the finite cocycles of $T_1$.
+\formallabel{GlobalTheory.T.localLifting_of_blochKato_tateDuality_eulerChar}
+\formallabel{GlobalTheory.theoremA_closing}
+\formallabel{GlobalTheory.T.integralityFromMetric_of_160_le}
+\formallabel{GlobalTheory.TheoremAFinal.integralityFromMetric_of_le}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:linkN-sel:intmetric} (whose deeper steps, about $20{,}500$ lines through Wach-type lattices, Herr cocycles and universal lift
+filtrations, compare \cite{Wach1996,Berger2004,Herr1998,FontaineLaffaille1982}, are deferred), for $C\ge160$ and any constants $(C_A,C_B,C_K)$
+the displayed bound holds for every local theory satisfying the admitted hypotheses and three local inputs: exactness of the
+Wach functor on short exact sequences of lattices, the dimension of $D_{\mathrm{dR}}$ of crystalline representations, and the rank of the
+letter decomposition. The three inputs are \cref{pf:linkN-sel:exact} and the lemmas
+\lref{GlobalTheory.CrysDdR.finrank_DdRE_of_isCrys} and \lref{GlobalTheory.NL.IotaLetterRank.finrank_iota_letter} (deferred), and
+the admitted hypotheses, with $(C_A,C_B,C_K)=(23,32,32)$, are provided from the three literature statements by the lemma
+\lref{GlobalTheory.T.localLifting_theoremA_hypotheses_admitted} (deferred).
+\end{proof}
+
+\begin{theorem}[Global lattice index theorem]\label{pf:linkN-sel:glit}
+Assume global Artin reciprocity, the local Bloch--Kato theory, local Tate duality and the local Euler characteristic formula. Let $D$ be a
+datum satisfying its design conditions. Let $\iota$ be a local index with $\ell=\ell_\iota\notin\linkNselG$, $r$ a good family and $\rho$ a
+family at $\iota$, $\pi\in Z_\iota$, and let $\mathrm{dc}$ be a partition of the places of $E$ above $\ell$ into rows and columns, with row
+lengths $\kappa_{\mathrm{row}}$, column exponents $e'$ and a block constant $c_B\in\N$ satisfying the twenty \emph{admitted conditions} (among
+them: the coefficients of the characteristic polynomials of the $r_x$ lie in $T_\iota$; crystallinity and a gain bound at the places
+above $\ell$; absolute irreducibility, a residual decomposition $\bar r_\pi\sim\bar\rho_\pi\oplus\bigoplus_{c=1}^t\bar\chi_{\iota,c}$ and
+the semisimple decomposition $r_\pi\otimes K\simeq\rho_\pi\oplus\bigoplus_c\chi_{\iota,c}$; unramifiedness outside $\ell,S_\iota,Q_\iota$ and
+conditions at $S_\iota\cup Q_\iota$; the row length bounds; the block condition with constant $c_B$; local Bloch--Kato and Tate duality
+statements; and the bound $\linkNsellen(\mathrm{Hom}^{\mathrm{ur}}(G_E,K/\OO))\le v_\ell(h_E)$ for the unramified homomorphisms). If
+$\linkNselSel(\iota,\rho,\pi)$ is finite and $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ is finite for $0<e<t$, then
+\begin{multline}\label{eq:pf:linkN-sel:glit}
+\linkNselvcc(\iota,\pi)\le\sum_{w}\kappa(w)+\linkNselsP(\iota,\rho,\pi)+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)
++t\sum_{w\in\mathrm{row}}(n_w+2)c_B\\
++4n_V(\#\mathrm{col}+1)\delta_\iota+t\,\#\mathrm{col}\cdot h_0(\mathrm{col})+t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1)),
+\end{multline}
+where $\kappa(w)=\kappa_{\mathrm{row}}(w)$ for row places, $\kappa(w)$ is a column length for column places, and $h_0(\mathrm{col})$
+is a column invariant. Moreover \cref{pf:linkN-sel:eib} holds for $D$.
+\formallabel{GlobalTheory.T.lengthBound_of_rowConditions_and_dualityTheorems}
+\formallabel{GlobalTheory.InertiaEigenvalues.LengthBoundClosing.stmt_closed}
+\formallabel{GlobalTheory.T.integralityFromMetric_of_designConditionAll}
+\formallabel{GlobalTheory.LocalisationBoundAtPoint.boundAtPoint_all_localisations_of_objectConditions}
+\end{theorem}
+
+\begin{proof}
+The inequality is the theorem \lref{GlobalTheory.T.globalLatticeIndexTheorem_of_lengthBoundAtPlaces} (about $34{,}000$ lines, proved elsewhere in Part II),
+which states \eqref{eq:pf:linkN-sel:glit} under the admitted conditions together with four further inputs: the Bloch--Kato annihilator
+statements at all places, given by \lref{GlobalTheory.T.blochKatoAnnihilator_all_of_tateDuality_eulerChar} from the three
+local literature statements; the finiteness of local cohomology, given by \lref{GlobalTheory.T.tateFinitenessAll_of_localTateDuality} from local Tate duality; the design condition at
+$(\iota,r,\rho,\pi,\mathrm{dc})$, which is the hypothesis; and the triviality of unramified finite classes at the column places, given for
+every partition by \lref{GlobalTheory.T.unramifiedTrivialH1f_of_decl}. The block condition is passed in the form required
+there (it is only needed at row places). The last assertion is \cref{pf:linkN-sel:eib}.
+\end{proof}
+
+\begin{lemma}[Row and block bounds at $q$ and $d$]\label{pf:linkN-sel:rowblock}
+Let $D$, $HW$, Fontaine data, families $r,\rho$ and size data $L$ be given, and assume \cref{pf:linkN-sel:qdfields}, the conclusion of
+\cref{pf:linkN-sel:thmA} with a constant $C_A$, the Hodge jump windows and the Fontaine conditions at $q,d$, the admissibility conditions
+(G2) and the Iwahori conditions at the indices of type $QD$, the literature hypotheses at $q,d$, and $S_c+\eta_{\mathrm{sz}}+t+2\le b$. Let
+$\iota$ be of type $QD$, $\pi\in\linkNselZg_\iota$ and $\mathrm{dc}$ a partition.
+\begin{enumerate}[label=(\alph*)]
+\item There are row lengths satisfying the row length bounds at $\pi$ with, for every row place $w$,
+$\kappa_{\mathrm{row}}(w)\le\max(C_A,0)\bigl((n_w+1)rY+3n_wm(2b+1)\bigr)+1$, where $Y=4b/\ell+2S_c+2\log_\ell(2b)+1+\eta_{\mathrm{sz}}+t$.
+\item If moreover the Wach hypothesis and the local block statement hold, there is $c_B\in\N$ with the block condition at $\pi$ and
+$c_B\le60tf(r+t)\log b$.
+\end{enumerate}
+\end{lemma}
+
+Part (a) is \lref{GlobalTheory.T.rowPlaces_satisfy_rowHypothesis_at_q_and_d} and part (b) is
+\lref{GlobalTheory.T.blockBound_qd_places_uniformConst}; their proofs (about $200$ and $250$ lines) are deferred.
+
+\subsubsection{The closing inequality and Theorem B}
+
+\begin{lemma}\label{pf:linkN-sel:closing}
+Let $C_A,C,b,\ell,S,\eta,R_w,T_b,V_d\in\R$ and $f,r,t,m,p\in\N$ with $13\max(C_A,0)\le C$, $260f^2t^2(r+t)\le p$, $t,f\ge1$, $m\le r$,
+$\ell\ge3$, $S,\eta\ge0$, $b>0$, $\log b>1$, and
+\begin{gather*}
+R_w\le K\bigl(3fr(\tfrac{4b}\ell+2S+2\log_\ell(2b)+1+\eta+t)+6fm(2b+1)\bigr)+f,\\
+T_b\le240t^2f^2(r+t)\log b,\qquad V_d\le4(r+t)t,
+\end{gather*}
+where $K=\max(C_A,0)$. Then $R_w+T_b+V_d\le Cf\bigl(r(b/\ell+S+t+\eta+\log b)+mb\bigr)+p\log b$.
+\formallabel{GlobalTheory.T.closing_numerical_inequality_theoremB}
+\formallabel{GlobalTheory.closing_numerical_inequality}
+\end{lemma}
+
+\begin{proof}
+Write $\lambda=\log_\ell(2b)$ and $\Lambda_b=\log b$. Since $\ell\ge3$, $\log\ell\ge1$, and $\log2<1<\Lambda_b$, so $\lambda\le\log(2b)\le
+2\Lambda_b$. Then
+\begin{align*}
+&13\bigl(r(\tfrac b\ell+S+t+\eta+\Lambda_b)+mb\bigr)-\bigl(3r(\tfrac{4b}\ell+2S+2\lambda+1+\eta+t)+6m(2b+1)\bigr)\\
+&\qquad=\tfrac{rb}\ell+7rS+10rt+10r\eta+13r\Lambda_b-6r\lambda-3r+mb-6m\\
+&\qquad\ge\tfrac{rb}\ell+7rS+10r\eta+r\Lambda_b+mb+(7r-6m)\ \ge0,
+\end{align*}
+using $\lambda\le2\Lambda_b$, $t\ge1$ and $m\le r$. Multiplying by $Kf\ge0$ and using $13K\le C$ gives
+$R_w\le Cf\bigl(r(\frac b\ell+S+t+\eta+\Lambda_b)+mb\bigr)+f$. Put $Q=f^2t^2(r+t)$; then $f\le Q$, $4(r+t)t\le4Q$ and $Q\le Q\Lambda_b$, so
+$f+T_b+V_d\le Q\Lambda_b+240Q\Lambda_b+4Q\Lambda_b\le260Q\Lambda_b\le p\Lambda_b$.
+\end{proof}
+
+\begin{definition}[The bound of Theorem B]\label{pf:linkN-sel:TBdef}
+For $c\in\R$ and $Q\in\N[X_0,X_1,X_2]$ put $\beta_B(L,c,Q,\ell)=cf\bigl(r(b/\ell+S_c+t+\eta_{\mathrm{sz}}+\log b)+mb\bigr)+Q(f,r,t)\log b$.
+For a family $\rho$, $\mathrm{TB}(\rho,L,c,Q)$ is the statement: for every $\iota$ with $\ell=\ell_\iota\in\{q,d\}$ and $x^{2C_t+5}<\ell$,
+every $\pi\in\linkNselZg_\iota$ with finite Selmer group, if $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ is finite for $0<e<t$, then
+\begin{equation}\label{eq:pf:linkN-sel:conc2}
+\linkNselvcc(\iota,\pi)\le\beta_B(L,c,Q,\ell)+VV(\ell)+v_\ell(h_E)+\linkNselsP(\iota,\rho,\pi)+\eps_\ell .
+\end{equation}
+\formal{Formalism.MainNotions.EmbeddingTypeJumps.bndB}
+\formal{Formalism.MainNotions.EmbeddingTypeJumps.Conclusion2}
+\end{definition}
+
+\begin{theorem}[Theorem B from admitted hypotheses]\label{pf:linkN-sel:thmBadm}
+Let $D$, $HW$, Fontaine data, families $r,\rho$, size data $L$, $C_A,C\in\R$ and $Q$ be given with $13\max(C_A,0)\le C$ and
+$Q(f,r,t)\ge260f^2t^2(r+t)$ for all $f,r,t$. Assume: the Wach hypothesis; the conclusion of \cref{pf:linkN-sel:thmA} with constant $C_A$;
+inequality \eqref{eq:pf:linkN-sel:glit} for all admitted data at $(r,\rho)$ at the indices with $\ell_\iota\notin\linkNselG$; at the indices of
+type $QD$ the admissibility conditions (G1)--(G6), the Iwahori conditions (continuity, semisimplicity, semisimple decomposition, cyclotomic
+inertia image), the block statement, the Bloch--Kato statement, the Hodge jump windows, the Fontaine conditions and the literature
+hypotheses; the \emph{killing condition at $q$ and $d$} (if all places above $\ell\in\{q,d\}$ are unramified or $tr<[E(\zeta_\ell):E]$, then
+$\linkNselsP(\iota,\rho,\pi)\le\eps_\ell$ and $t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1))\le\eps_\ell$ for good $\pi$); and
+$S_c+\eta_{\mathrm{sz}}+t+2\le b$. Then $\mathrm{TB}(\rho,L,C,Q)$.
+\formallabel{GlobalTheory.TheoremB.theoremB_of_admitted}
+\end{theorem}
+
+\begin{proof}
+Let $\iota$, $\ell\in\{q,d\}$ and $\pi$ be as in $\mathrm{TB}$; then $\iota$ is of type $QD$. Let $\mathrm{dc}$ be the partition with all
+places above $\ell$ as rows and no columns. \Cref{pf:linkN-sel:rowblock} gives row lengths and $c_B$ with the stated bounds, and the
+hypotheses provide the remaining admitted conditions (the column condition is empty). Since $\ell\notin\linkNselG$,
+\eqref{eq:pf:linkN-sel:glit} applies; with no columns it reads
+\[
+\linkNselvcc\le R_w+\linkNselsP+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)+T_b+V_d+t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1)),
+\]
+with $R_w=\sum_{w}\kappa_{\mathrm{row}}(w)$, $T_b=t\sum_w(n_w+2)c_B$ and $V_d=4n_V\delta_\iota$. Let $\Sigma=\sum_wn_w$; then $\Sigma\le2f$ and
+$2\#\mathrm{row}\le\Sigma$, hence $\#\mathrm{row}\le f$. With $K=\max(C_A,0)$, $Y$ as in \cref{pf:linkN-sel:rowblock} and $Y'=2b+1$,
+\begin{align*}
+R_w&\le\sum_w\bigl(K((n_w+1)rY+3n_wmY')+1\bigr)=(KrY+3KmY')\Sigma+\#\mathrm{row}\,(KrY+1)\\
+&\le K(3frY+6fmY')+f.
+\end{align*}
+Next $T_b=t(\Sigma+2\#\mathrm{row})c_B\le t\cdot4f\cdot60tf(r+t)\log b=240t^2f^2(r+t)\log b$. Since $\ell\notin\linkNselP$, $s_0(\iota)=1$,
+and $\ell>4tr+1>t$ gives $v_\ell(k)=0$ for $0<k<t$; so $\delta_\iota=t-1\le t$ and $V_d\le4(r+t)t$. As $tr<[E(\zeta_\ell):E]$, the killing
+condition at $q,d$ gives $t\sum_v\linkNsellen(\OO/(\zeta_{\iota,v}-1))\le\eps_\ell$. Finally $\ell\ge3$, $\log b=\Lambda>1$, $b>0$, $f,t\ge1$
+and $m\le r$, so \cref{pf:linkN-sel:closing} gives $R_w+T_b+V_d\le\beta_B(L,C,Q,\ell)$, which yields \eqref{eq:pf:linkN-sel:conc2}.
+\end{proof}
+
+\begin{theorem}[Twisted-place Selmer length bound]\label{pf:linkN-sel:tpb}
+Assume global Artin reciprocity, the local Bloch--Kato theory, local Tate duality and the local Euler characteristic formula. Let $D$, $HW$,
+Fontaine and comparison data, families $r,\rho$, size data $L$, a sign $\mathrm{ep}$, $C\ge2080$ and $Q$ with $Q(f,r,t)\ge260f^2t^2(r+t)$ be
+given, and assume inequality \eqref{eq:pf:linkN-sel:glit} for all admitted data at $(r,\rho)$, the admissibility conditions (G1)--(G6) and
+the Iwahori conditions at the indices of type $QD$, the killing condition at $q$ and $d$, the Hodge jump windows (for $\mathrm{ep}$) and the
+Fontaine conditions at $q,d$, the tame generator conditions at the indices of type $QD$, and $S_c+\eta_{\mathrm{sz}}+t+2\le b$. Then the
+statements of \cref{pf:linkN-sel:qdfields} and $\mathrm{TB}(\rho,L,C,Q)$ hold.
+\formallabel{GlobalTheory.T.twistedPlace_selmerLengthBound_of_localDuality}
+\formallabel{GlobalTheory.TwistedPlaceBound.closing}
+\end{theorem}
+
+\begin{proof}
+The first statements are \cref{pf:linkN-sel:qdfields}. For $\mathrm{TB}$ we verify the hypotheses of \cref{pf:linkN-sel:thmBadm} with
+$C_A=160$, so that $13\max(C_A,0)=2080\le C$. The Wach hypothesis follows from the statements
+\lref{GlobalTheory.T.wachModuleLocalConclusions_usedForms} (the Wach module conclusions in the form used) and
+\lref{GlobalTheory.T.wachHypothesis_crystallineLattices} (which deduces the Wach hypothesis for crystalline lattices from them). The
+conclusion of \cref{pf:linkN-sel:thmA} holds with $C=160$. The block statement is the theorem
+\lref{GlobalTheory.T.theorem_tb_of_local_blochKato_duality_euler} and the Bloch--Kato statement \lref{GlobalTheory.T.blochKatoLocal_all_of_tateDuality_eulerChar}, both derived from the three local literature statements. The
+literature hypotheses at an index of type $QD$ consist of: the tame generator conditions (assumed); at every place above $\ell$ and every
+coefficient extension, integral Tate duality in degree $2$ (from local Tate duality) and the Bloch--Kato dimension statement at the
+auxiliary prime places (\lref{GlobalTheory.T.blochKatoDim_at_auxiliary_prime_places}, deferred); local coefficient
+compatibility at all places above $\ell$ (\lref{GlobalTheory.BridgeTie.localCoefficientCompatibility}); the Fontaine properties at all
+places, \lref{GlobalTheory.FontaineAdm.fontaineProperties_all_places}; integral Tate duality for $H^2$,
+\lref{GlobalTheory.T.integral_tate_H2_top}; and the bound for the unramified homomorphisms by $v_\ell(h_E)$, deduced from
+global Artin reciprocity in the lemma \lref{GlobalTheory.T.unramifiedClassFieldBound_of_artin}. The remaining hypotheses are
+assumed.
+\end{proof}
+
+\begin{theorem}[Theorem B]\label{pf:linkN-sel:thmBmain}
+Let $c_1=2080$ and $Q=260X_0^2X_2^2(X_1+X_2)$. Assume $\sfname{Hypotheses}_2$. Then for every datum $D$, size data $L$, parameter choice $P$
+and every setup $(L,\mathrm{nch},HW,X,C_2)$ with Fontaine and comparison data, $\mathrm{TB}(X.\rho,L,c_1,Q)$ holds.
+\formallabel{GlobalTheory.T.embedding_jumps_aux2_of_setup}
+\formallabel{GlobalTheory.TheoremBQD.main_alt_alt}
+\formallabel{GlobalTheory.TheoremBQD.main_of_alt}
+\end{theorem}
+
+\begin{proof}
+We verify the hypotheses of \cref{pf:linkN-sel:tpb} for $(r,\rho)=(X.r,X.\rho)$, $C=c_1$ and $Q$; note $Q(f,r,t)=260f^2t^2(r+t)$. The
+lemma \lref{GlobalTheory.T.split_bound_of_params_alt}, applied to the canonical hub datum of the setup (with the Fontaine and
+finiteness fields of $\sfname{Hypotheses}_2$, Chebotarev, $\Lambda\ge8$ and the norm-choice facts), gives among others the Fontaine
+conditions at $q,d$. The lemma \lref{GlobalTheory.T.set_pt_of_setup_not_twisted} gives at every $\iota$ with
+$\ell_\iota\notin\linkNselG$ (in particular at the indices of type $QD$) and every good $\pi$ the admissibility conditions (G1)--(G6), the
+Iwahori conditions and the tame generator conditions. The statement \lref{GlobalTheory.JumpStatement.holds_all_alt} gives a sign
+$\mathrm{ep}$ for which the lemma \lref{GlobalTheory.T.hodgeJumpParameters_of_setup} (deferred) gives the Hodge jump windows
+at $q$ and $d$. \Cref{pf:linkN-sel:glit}, whose design hypothesis holds by the lemma
+\lref{GlobalTheory.DesignUnconditional.main} (deferred; it derives the design conditions from the largeness part of the norm-choice facts), gives
+\eqref{eq:pf:linkN-sel:glit} for all admitted data. For the killing condition at $q$ and $d$: $\nu_L(\ell)=0$ for $\ell\in\{q,d\}$ by the
+lemma \lref{UpperTheory.KStar.nuL_eq_zero_of_qd} (deferred), so the killing condition $\mathrm{Kill}(X.\rho)$ of the setup gives
+$\linkNselsP\le\eps_\ell$ and the bound for the elements $\zeta_{\iota,v}-1$. Finally $S_c+\eta_{\mathrm{sz}}+t+2\le b$ is part of the setup.
+\end{proof}
+
+\begin{corollary}[The field \emph{ram}]\label{pf:linkN-sel:ram}
+Let $c_1\in\R$, $Q$ a polynomial and $C\ge\max(c_1,\Sigma(Q),\deg Q,1)$. If $\mathrm{TB}(\rho,L,c_1,Q)$ and $\mathrm{Kill}(\rho)$ hold, $D$ has
+finite odd Tate--Shafarevich groups, and the parameter choice satisfies $x^{2C_t+5}<q$ and $x^{2C_t+5}<d$, then
+$\linkNselB(\rho,\iota,\pi;\linkNselbqd(L,C,\ell_\iota))$ for every $\iota$ with $\ell_\iota\in\{q,d\}$ and $\pi\in\linkNselZg_\iota$.
+\formallabel{GlobalTheory.NLink.starG_of_thmB}
+\end{corollary}
+
+\begin{proof}
+Let $\ell=\ell_\iota\in\{q,d\}$; it is an odd prime with $x^{2C_t+5}<\ell$. The Selmer group at $\pi$ is finite by $\mathrm{Kill}(\rho)$ and the
+Tate--Shafarevich groups are finite, so \eqref{eq:pf:linkN-sel:conc2} holds. Since $f,r,t\ge1$, every monomial $f^ar^bt^c$ of $Q$ is at most
+$(frt)^{\deg Q}$, so $Q(f,r,t)\le\Sigma(Q)(frt)^{\deg Q}\le C(frt)^C$. With $\log b=\Lambda$, $c_1\le C$ and the nonnegativity of
+$r(b/\ell+S_c+t+\eta_{\mathrm{sz}}+\Lambda)+mb$ we get $\beta_B(L,c_1,Q,\ell)\le\linkNselbqd(L,C,\ell)$, and \eqref{eq:pf:linkN-sel:conc2}
+becomes $\linkNselB(\rho,\iota,\pi;\linkNselbqd(L,C,\ell))$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The congruence bound at large primes}\label{sec:pf:linkN-sel:large}
+
+In this subsection lengths may be infinite: for a local index $\iota$ we write $\overline{\mathrm{len}}_\ell(N)=\len_\OO(N)/\len_\OO(\OO/\ell)
+\in[0,\infty]$, and $\overline{\mathrm{sh}}_\ell(e)\in\N\cup\{\infty\}$ for the $\Zl$-length of $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$. A continuous
+$\rho\colon G_E\to\GL_r(\OO_\iota)$ is a \emph{rank-$r$ part} of $r_\pi$ if $r_\pi\otimes K\simeq\rho\otimes K\oplus\bigoplus_{c=1}^t\chi_{\iota,c}$
+as representations of $G_E$.
+
+\begin{definition}[Congruence bound]\label{pf:linkN-sel:congbound}
+The \emph{congruence bound} $\mathrm{CB}(D,L)$ means: for every local index $\iota$ with $\ell=\ell_\iota>\linkNsellst$, $\ell\notin\linkNselG$,
+$\ell\notin\linkNselExc(L)$, whose eigensystems have the prescribed infinity types (the \emph{weight tie} at $\iota$) and which has a good
+eigensystem, for every good family $r$ at $\iota$, every $\pi\in Z_\iota$ and every rank-$r$ part $\rho$ of $r_\pi$:
+\[
+\overline{\mathrm{len}}_\ell(\OO/\mathfrak c_\pi)\le\overline{\mathrm{len}}_\ell(\linkNselSel(\iota,\rho,\pi))+\sum_{0<e<t}\overline{\mathrm{sh}}_\ell(e)
++v_\ell(h_E)+t\sum_{v\in Q_\iota}\overline{\mathrm{len}}_\ell(\OO/(\zeta_{\iota,v}-1))\quad\text{in }[0,\infty].
+\]
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.BaseSizes.CongBound_at}
+\end{definition}
+
+\begin{lemma}[The field \emph{large}]\label{pf:linkN-sel:large}
+Let $D,L$ satisfy $\mathrm{CB}(D,L)$ and the weight parameter condition of the norm-choice facts (which gives the weight tie at every index),
+let $(r,\rho)$ be a point family with $\mathrm{Kill}(\rho)$, assume that $D$ has finite odd Tate--Shafarevich groups and $3\le\linkNsellst$,
+and let $\linkNselexc=\linkNselExc(L)$. Then $\linkNselB(\rho,\iota,\pi;0)$ holds for all $\iota$ with $\ell_\iota>\linkNsellst$,
+$\ell_\iota\notin\linkNselG$, $\ell_\iota\notin\linkNselexc$, and all $\pi\in\linkNselZg_\iota$.
+\formallabel{GlobalTheory.T.localBoundZeroAtLargePrimes_of_congruenceBound}
+\formallabel{GlobalTheory.NLink.RowE.main}
+\end{lemma}
+
+\begin{proof}
+Let $\iota,\pi$ be as stated and $\ell=\ell_\iota$. Then $\pi\in Z_\iota$ and $\pi$ is good, the weight tie holds at $\iota$, $r_\iota$ is good and
+$\rho_{\iota,\pi}$ is a rank-$r$ part of $r_{\iota,\pi}$ (point family). The congruence bound gives the displayed inequality in $[0,\infty]$; all
+terms on the right are finite. Indeed, the Selmer group is finite by $\mathrm{Kill}(\rho)$; since $\ell>\linkNsellst\ge3$, $\ell$ is odd and the
+groups $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$, $0<e<t$, are finite; and for $v\in Q_\iota$, $\zeta_{\iota,v}\ne1$ by the tame design of the datum
+(the lemma \lref{GlobalTheory.TameDesign.main} states the tame conditions of the datum at the places of $S_\iota\cup Q_\iota$, among them
+$\zeta_{\iota,v}\ne1$ for $v\in Q_\iota$), so
+$\OO/(\zeta_{\iota,v}-1)$ has finite length. Passing to real numbers: the left side is $\linkNselvcc(\iota,\pi)$, the Selmer term is
+$\linkNselsP(\iota,\rho,\pi)$, the Tate--Shafarevich sum is $VV(\ell)$ (the data $\mathrm{sh}(\ell,e)$ equal the finite lengths), the class term
+is $v_\ell(h_E)$, and the last term is at most $\eps_\ell$ by $\mathrm{Kill}(\rho)$. This is $\linkNselB(\rho,\iota,\pi;0)$.
+\end{proof}
+
+\subsubsection{The local input: Theorem TOP}
+
+Let $K/\Ql$ be a finite extension with maximal unramified subextension $K_0$, $\mathit{LL}/\Ql$ a finite extension with ring of integers $\OO$
+and a uniformiser $\lambda$, and $n=[K_0:\Ql]$. Consider a crystalline representation $V$ of $G_K$ over $\mathit{LL}$ with a $G_K$-stable
+lattice $T_0$, and continuous characters $\chi_c\colon G_K\to\OO^\times$, $1\le c\le t$. The \emph{position hypothesis} with position data
+$(h,w,\eta,\mathrm{typ},U)$ indexed by $\Z/n$ (the embeddings of $K_0$) says: $t\ge1$; the explicit separation and residue-avoidance
+\emph{position conditions} hold for $(\ell,n,t,h,w,\eta,\mathrm{typ},U)$; the Hodge--Tate multiplicities of $V$ at the embeddings over the
+$i$-th embedding of $K_0$ are given by the multiset $U_i$; and $\chi_c=\chi_1\chi_{\mathrm{cyc}}^{1-c}$, each $\chi_c$ being crystalline with the
+single Hodge--Tate weight $w_i+c-1$ over the $i$-th embedding. A cocycle $z\colon G_K\to T\otimes_\OO X$ ($X$ a finite $\OO$-module, $T$ a lattice,
+the action twisted by $\chi_1$) is \emph{admissible} if, for all large $a$ with $\lambda^aX=0$, the extension of $G_K$-modules defined by $z$
+satisfies modulo $\lambda^a$ the Hodge--Tate and characteristic polynomial conditions determined by the position data and by
+$\mathrm{charpoly}(V)\prod_c(Y-\chi_c)$.
+
+\begin{definition}[Admitted clauses of Theorem TOP]\label{pf:linkN-sel:topadm}
+For a datum $D$ with local data $HW$, Fontaine data and comparison data, the \emph{admitted clauses of Theorem TOP} are twenty-four statements
+on the local theory of $D$: fifteen clauses on Wach lattices, two clauses on $A_{\inf}$, a Herr lattice clause and a clause on lattices; local Tate
+duality and the local Euler characteristic formula for all finite extensions of $\Ql$; the Bloch--Kato dimension statement for the jumps of
+unramified saturations at the places in case~A; the conclusions of \cref{pf:linkN-sel:crychar}; Sen multiplicities; crystalline literature
+statements; and a Frobenius expansion congruence. They are verified in the proof of \cref{pf:linkN-sel:top}.
+\formal{Formalism.MainNotions.tableLineDegreeTwo.admitted}
+\end{definition}
+
+\begin{theorem}[Core of Theorem TOP]\label{pf:linkN-sel:topcore}
+Let $D$ be a datum with local data $HW$, Fontaine data and comparison data satisfying the admitted clauses of Theorem TOP. Then for every prime
+$\ell\ge5$, every pair $(K,\mathit{LL})$ in case~A and every uniformiser $\lambda$ of $\OO_{\mathit{LL}}$, the conclusions (i)--(iii) of
+\cref{pf:linkN-sel:top} hold at $(K,\mathit{LL},\lambda)$, for the embeddings given by the Wach structure of level $1$ and the inertia group
+$I_K$.
+\formallabel{GlobalTheory.TopBridge.twistedLatticeCohomology_theoremTOP}
+\end{theorem}
+
+\begin{proof}
+Fix $\ell$; the period rings of the local theory at $\ell$ are identified with $B_{\mathrm{cris}}$ and $B_{\mathrm{dR}}$. A \emph{situation} for
+Theorem TOP consists of $K$, $\mathit{LL}$, $n,r\in\N$, a map $\mathrm{emb}$ from $\Z/n$ to the embeddings of $K_0$ into $\mathit{LL}$, and top data
+of size $(n,r)$ (a lattice $T_0$ of rank $r$, characters $\chi_c$, position data and a uniformiser, as in \cref{pf:linkN-sel:top}). A situation is
+\emph{realised} if for every residue field $k$ of $\OO_{\mathit{LL}}$ there are a ring with a cyclotomic Frobenius lift on $k((X))$, a functor to
+\'etale $\varphi$-modules over it and a model of the top data whose characters reduce to those of the situation, such that $T_0$ maps onto the
+model modulo $\lambda$ compatibly with the twist by $\chi_1^{-1}$, and every admitted residual representation has a model. The proof has three
+steps; all statements cited are deferred.
+
+\emph{Step 1: every situation is realised.} This is \lref{GlobalTheory.BasePairs.real_of_presented} (about $2{,}800$ lines), which derives
+realisation from three inputs: presentation data for the situation, which exist by \lref{GlobalTheory.RedFun.realD} (about $2{,}600$ lines,
+through reductions of tensor products and cyclotomic rings); the used properties of the Wach lattices of the Wach structures of level $1$ in
+case~A, which follow from the admitted clauses by \lref{GlobalTheory.T.wachLattice_usedProperties_of_admitted} (about $1{,}500$ lines); and the
+crystalline calculus of the situation (direct sums, twists and characters have the expected jumps), \lref{GlobalTheory.TopSteps.CrysRules.crysCalc}.
+
+\emph{Step 2: three statements on admissible classes.} From realisation, the admitted local Tate duality and Euler characteristic formula and the
+admitted Bloch--Kato dimension statement, \lref{GlobalTheory.TopBridge.stmtAt_of_real} (about $5{,}900$ lines, through bounds for the
+residual parts and the Euler characteristic) proves the \emph{error exponent statement}: in every situation satisfying the standing
+hypotheses, the twisted lattice has no invariants and vanishing $H^2$, its $H^1$ is free of rank $rn$ with the finite part a direct summand of the
+expected rank, and for every finite module $X$ the admissible classes with values in $T_0\otimes X$ are exactly the finite classes. From realisation alone,
+\lref{GlobalTheory.TopSteps.CharVanish.stmt_of_real} proves that the admissible classes of the characters $\chi_c$, $2\le c\le t$, with values
+in a finite module vanish, and \lref{GlobalTheory.TopSteps.admissibleUntwistedCharUnramified_of_residueRealisation} (about $1{,}050$ lines)
+proves that the admissible classes of $\chi_1$ are the classes of homomorphisms trivial on the inertia group.
+
+\emph{Step 3.} \lref{GlobalTheory.T.exactLocalConditions_topCore} (about $2{,}100$ lines, through the comparison of admissibility of extensions
+and of their quotients and the transport of cocycles along equivariant isomorphisms) deduces (i)--(iii) at every pair in case~A and every
+uniformiser from the three statements of Step 2.
+\end{proof}
+
+\begin{theorem}[Theorem TOP]\label{pf:linkN-sel:top}
+Assume the local Bloch--Kato theory, local Tate duality and the local Euler characteristic formula. Let $D$ be a datum with local data $HW$,
+Fontaine data and comparison data. For every prime $\ell\ge5$, all pairs $(K,\mathit{LL})$ of finite extensions of $\Ql$ singled out by the
+local theory of $D$, every uniformiser $\lambda$ of $\OO=\OO_{\mathit{LL}}$, all $(V,T_0,\chi)$ satisfying the position hypothesis and every
+finite $\OO$-module $X$:
+\begin{enumerate}[label=(\roman*)]
+\item a cocycle of $T_0\otimes X$ (twisted by $\chi_1$) is admissible if and only if it lies in the finite part $H^1_f$ of the twisted lattice
+$\chi_1^{-1}T_0$;
+\item for $2\le c\le t$ and every lattice $L_c$ of $\chi_c$, a cocycle of $L_c\otimes X$ is admissible if and only if it is a coboundary;
+\item for every lattice $L_1$ of $\chi_1$, a cocycle of $L_1\otimes X$ is admissible if and only if it is unramified.
+\end{enumerate}
+\formallabel{GlobalTheory.T.blochKatoTop_of_localTateDuality_eulerChar}
+\formallabel{GlobalTheory.TopClosing.blochKatoTop_of_localTateDuality_eulerChar_alt}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:linkN-sel:topcore}, the conclusion holds for every datum satisfying the admitted clauses of Theorem TOP
+(\cref{pf:linkN-sel:topadm}); note that the pairs singled out by the local theory are the pairs in case~A. The clauses are provided as follows. Fifteen clauses on Wach lattices, and a norm statement, are given by the lemma
+\lref{GlobalTheory.T.wachLattice_laterClauses_hold}; two clauses on $A_{\inf}$ follow from the norm statement by the lemma
+\lref{Formalism.MainNotions.tableLineDegreeTwo.ainf_clauses_of_theorem}. The Herr lattice clause follows
+(\lref{Formalism.MainNotions.InvariantsGenerators.herr_lattice_of_fon}) from the Herr statement
+\lref{GlobalTheory.HerrFull.herr_part_a_every_record}, from the invariants statement for fields of norms
+\lref{GlobalTheory.T.invariants_statement_holds} (which uses the Fontaine--decompletion statement
+\lref{GlobalTheory.Decompl.fontaine_and_decompletion}) and from the statement
+\lref{GlobalTheory.T.fontaine_fullFaithful_exact_psi} (full faithfulness and exactness of Fontaine's functor and existence of the
+operator $\psi$). The clause on lattices follows (\lref{Formalism.MainNotions.InvariantsGenerators.herr_lattice_rest_iff}) from the
+existence of sublattices \lref{GlobalTheory.EtaleSub.exists_lattice_of_pow_mem} and an extension rule
+\lref{GlobalTheory.ExtDict.extension_rule}. The remaining clauses are local Tate duality and the Euler characteristic formula (hypotheses),
+a Bloch--Kato dimension statement for unramified saturations \lref{GlobalTheory.FiltrationJumpMultiplicity.blochKato_dimension_saturation_unramified},
+the existence of crystalline characters with given jumps \lref{GlobalTheory.T.crystalline_characters_given_jumps_unramified_twists}, Sen
+multiplicities \lref{GlobalTheory.SenMult.stmtSen}, and crystalline literature statements \lref{GlobalTheory.CrysFormalism.crysLit_all}.
+The statements \lref{GlobalTheory.T.fontaine_fullFaithful_exact_psi} and
+\lref{GlobalTheory.T.crystalline_characters_given_jumps_unramified_twists} are \cref{pf:linkN-sel:fontaine,pf:linkN-sel:crychar};
+\lref{GlobalTheory.T.wachLattice_laterClauses_hold}, \lref{GlobalTheory.HerrFull.herr_part_a_every_record} and
+\lref{GlobalTheory.Decompl.fontaine_and_decompletion} are proved elsewhere in Part II; the proofs of the other statements cited in this
+proof are deferred.
+\end{proof}
+
+\begin{remark}\label{pf:linkN-sel:topremark}
+The local Bloch--Kato hypothesis in the statement of \cref{pf:linkN-sel:top} is not used in its proof: the dimension statement that is needed is
+proved in the development (\lref{GlobalTheory.FiltrationJumpMultiplicity.blochKato_dimension_saturation_unramified}).
+\end{remark}
+
+For a local index $\iota$, a place $w\mid\ell$ of $E$ and a Galois representation $M$ into $M_k(\OO_\iota)$, the \emph{cut cocycles} are the local
+cocycles at $w$ of the form $g\mapsto\varphi(gE-E)$, where $Y$ is a finitely generated $G_E$-stable $\OO_\iota$-lattice in a finite sum of the
+twisted representations $r_x$ ($x\in X_\iota$), $E$ is a vector with $gE-E\in Y$ for all $g$, and $\varphi\colon Y\to(K/\OO)^k$ is
+$G_E$-equivariant for the action through $M$. We write $\mathrm{LB}_w(M,e)$ for the statement that the span of the cut cocycles has length at most
+$e\cdot\len(\OO/\ell)$ modulo the finite part $H^1_f$ of the local lattice of $M$.
+
+\begin{lemma}[Cut cocycles after enlarging the coefficients]\label{pf:linkN-sel:enlarge}
+Let $D$ and $HW$ be given, $\iota$ a local index with $\ell=\ell_\iota\ge5$, $r$ a good family, $\pi\in Z_\iota$, $\rho$ a family with the
+semisimple decomposition at $(\iota,\pi)$ and continuity, and $w\mid\ell$ a place of $E$. Let $\mathit{LL}_C$ be a finite extension of the
+coefficient field at $w$ with ring of integers $\OO_C$ such that $(K_w,\mathit{LL}_C)$ is in case~A, $\lambda$ a uniformiser of $\OO_C$,
+$\theta\colon G_{K_w}\to\OO_C^\times$ a character and $(h,w',\eta,\mathrm{typ},U)$ position data (we use the notation $H_f$ and $Z^1_{\mathrm{ur}}$ of
+\cref{sec:pf:linkN-sel:local}). Assume that the conclusions (i)--(iii) of
+\cref{pf:linkN-sel:top} hold at $(K_w,\mathit{LL}_C,\lambda)$, and the \emph{setting condition}: the position hypothesis holds for the
+$\theta$-twist of $W_\rho\otimes\OO_C$ and the characters attached to $\theta$, and for every eigensystem $x$ the $\theta$-twist of
+$r_x\otimes\OO_C$ satisfies the Hodge--Tate and characteristic polynomial conditions determined by the position data. For a cut cocycle $z$ let
+$\tilde z$ be its image under $K/\OO\to\mathit{LL}_C/\OO_C$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item for every cut cocycle $z$ for $W_\rho$, $\tilde z$ lies in $H_f$ of the lattice $W_\rho\otimes\OO_C$;
+\item for $2\le c\le t$ and every cut cocycle $z$ for $\chi_{\iota,c}\chi_{\iota,1}^{-1}$, $\tilde z$ is a coboundary;
+\item for every cut cocycle $z$ for the trivial character, $\tilde z$ lies in $Z^1_{\mathrm{ur}}(\OO_C,I_{K_w})$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.unramifiedEnlargement_cut_cocycles_blochKato}
+\formallabel{GlobalTheory.UseLoc.Cases.main}
+\formallabel{GlobalTheory.UseLoc.Cases.partW}
+\formallabel{GlobalTheory.UseLoc.Cases.partC}
+\formallabel{GlobalTheory.UseLoc.Cases.partU}
+\end{lemma}
+
+\begin{proof}
+The three parts follow the same pattern; we use the following statements, all with deferred proofs.
+\begin{itemize}
+\item \lref{GlobalTheory.T.cutCocycles_locallyConstant_killed_by_uniformiserPow}: for every cut cocycle $z$ (for any of the representations
+above) there is $a\in\N$ such that $\tilde z$ is locally constant with values killed by $\lambda^a$; and $X_a=\lambda^{-a}\OO_C/\OO_C$ is finite
+(\lref{GlobalTheory.T.finite_lambdaPowerTorsionFieldModInt}).
+\item \lref{GlobalTheory.T.exists_integralTensorTorsion_cocycle_of_torsion_localCocycle} and
+\lref{GlobalTheory.T.exists_twistedCharacter_cocycle_of_torsion_localCocycle}: such a $\tilde z$ is the image of a cocycle $z'$ of the
+$\theta$-twisted lattice (of $W_\rho\otimes\OO_C$, resp.\ of the character) tensored with $X_a$, the action being twisted by the first character
+attached to $\theta$, as in \cref{pf:linkN-sel:top}.
+\item \lref{GlobalTheory.T.cocycleExtension_twistedWeilCoefficients_admissible} and
+\lref{GlobalTheory.T.cocycleExtension_conductorTwistedCharacter_admissible}: under the setting condition and the hypotheses on
+$r,\rho,\pi$, this $z'$ is admissible in the sense of \cref{pf:linkN-sel:top}.
+\item \lref{GlobalTheory.T.isBlochKato_read_of_tensor_selmer_add_coboundary},
+\lref{GlobalTheory.T.isCoboundary_read_of_twistedCharacter_coboundary} and
+\lref{GlobalTheory.T.isUnramified_read_of_trivialTwist_coboundary_on_subgroup}: if $z'$ lies in the finite part, resp.\ is a coboundary,
+resp.\ is unramified, then $\tilde z$ lies in $H_f$, resp.\ is a coboundary, resp.\ lies in $Z^1_{\mathrm{ur}}(\,\cdot\,,I_{K_w})$.
+\end{itemize}
+For (a), the conclusion (i) of \cref{pf:linkN-sel:top} with $X=X_a$, applied to the $\theta$-twist of $W_\rho\otimes\OO_C$ and to the representation
+$W_\rho\otimes\OO_C$, which is its twist by the inverse of the first character
+(\lref{GlobalTheory.T.representationOfIntegralMatrices_eq_inv_twistedChar_smul}), shows that the admissible cocycle $z'$ lies in the
+finite part; hence $\tilde z\in H_f$. For (b), the conclusion (ii) applied to the lattice $\OO_C$ of the $c$-th character shows that $z'$ is a
+coboundary, and for (c) the conclusion (iii) applied to the lattice $\OO_C$ of the first character shows that $z'$ is unramified; reading back
+gives the claims.
+\end{proof}
+
+\begin{proposition}[Local conditions above $\ell$]\label{pf:linkN-sel:useloc}
+Let $D$, $HW$ and Fontaine data be given, and assume the conclusion of \cref{pf:linkN-sel:top}, the existence of crystalline characters with given
+jumps, and the jump conditions of $D$. Let $\iota$ be a local index with $\ell=\ell_\iota\ge5$, $\ell\notin\linkNselP\cup\{q,d\}$, $r$ a good family,
+$\pi\in Z_\iota$ and $\rho$ a family satisfying at $(\iota,\pi)$ the admissibility conditions (G2), (G3), continuity, the semisimple decomposition and
+the cyclotomic inertia image. Suppose that for every $n\ge1$, every $\mathrm{up}\colon\Z/n\to\{\pm\}$ and every $\tau\colon\Z/n\to\mathcal T_D$
+($\mathcal T_D$ a finite index set of $D$) there are position data satisfying the position conditions for $(\ell,n,t)$ whose multisets describe the
+jump sets $J(\mathrm{up},j_\iota,\tau)$ of $D$. Then at every place $w\mid\ell$ of $E$: $\mathrm{LB}_w(W_\rho,0)$ holds for
+$W_\rho=\rho_\pi\chi_{\iota,1}^{-1}$ (the cut cocycles for $W_\rho$ lie in $H^1_f$); the cut cocycles for the characters
+$\chi_{\iota,c}\chi_{\iota,1}^{-1}$, $2\le c\le t$, are coboundaries; and the cut cocycles for the trivial character are unramified.
+\formallabel{GlobalTheory.UseLoc.main}
+\end{proposition}
+
+\begin{proof}
+We use three descent statements for the passage from $\OO_\iota$ to a coefficient extension $\OO_C$ (deferred):
+\lref{GlobalTheory.T.mem_finite_part_of_lift}, \lref{GlobalTheory.T.coboundary_descent_enlargement_coefficients} and
+\lref{GlobalTheory.T.unramifiedCocycle_descent_enlargement} state that a cocycle with values in $(K/\OO)^k$ whose image in
+$(\mathit{LL}_C/\OO_C)^k$ lies in $H_f$, resp.\ is a coboundary, resp.\ is unramified on a subgroup, has the same property. By
+\lref{GlobalTheory.T.exists_exactLocalConditionData_at_place} (deferred), which uses the existence of crystalline characters with given
+jumps, the jump conditions, the hypotheses on $r,\rho,\pi$ and the position data, there are $\mathit{LL}_C$, $\lambda$, $\theta$ and position
+data at $w$ as in \cref{pf:linkN-sel:enlarge}, satisfying the setting condition, with $(K_w,\mathit{LL}_C)$ in case~A. The conclusion of
+\cref{pf:linkN-sel:top} at $(K_w,\mathit{LL}_C,\lambda)$ is a hypothesis. \Cref{pf:linkN-sel:enlarge} and the descent statements give: every cut
+cocycle for $W_\rho$ lies in $H^1_f$ of the local lattice of $W_\rho$; the cut cocycles for $\chi_{\iota,c}\chi_{\iota,1}^{-1}$, $2\le c\le t$, are
+coboundaries; and the cut cocycles for the trivial character are unramified on $I_{K_w}$, which is the inertia group at $w$
+(\lref{GlobalTheory.BridgeInertia.inertEq}). Finally, since all cut cocycles for $W_\rho$ lie in $H^1_f$, so does their span, and the length
+in $\mathrm{LB}_w(W_\rho,0)$ is $0$.
+\end{proof}
+
+\begin{lemma}[Position data off the exceptional primes]\label{pf:linkN-sel:posdata}
+For every family $\mathcal F$ there is $x_0$ such that for all $x\ge x_0$, $x>x_1$, all $i\in I_x$ satisfying the jump conditions, and every prime
+$\ell>\linkNsellst(L_{x,i})$: $\ell\ge5$, $t+1<\ell$, $\ell\notin\{q,d\}$ and $\ell\notin\linkNselP$; and if moreover $\ell\notin\linkNselExc(L_{x,i})$,
+then for every $1\le j\le m$, $n\ge1$, $\mathrm{up}$ and $\tau$ there are position data satisfying the position conditions for $(\ell,n,t)$ whose
+multisets have multiplicities at most one and describe the jump sets $J(\mathrm{up},j,\tau)$.
+\formallabel{GlobalTheory.T.exists_localPositionData_off_exceptional_primes}
+\formallabel{GlobalTheory.LocalPositionData.position_data_exist}
+\end{lemma}
+
+\begin{proof}
+The first assertions follow from two numerical lemmas (deferred): $q$, $d$ and the small primes are eventually below $\linkNsellst$
+(\lref{GlobalTheory.T.conductorPrimes_lt_specialPrimeThreshold_eventually}), and $\linkNsellst>7$ and $\linkNsellst>t+1$ along the family
+(\lref{GlobalTheory.T.specialPrimeThreshold_numerics_along_family}). For the second, let $F_\ell$ and $F_c$ be the integer points of the ``low''
+and ``cloud'' parts of the jump set. By the lemma \lref{GlobalTheory.T.lowJumps_and_cloud_in_windows_along_family} (deferred), the
+low jumps lie at distance at most $\eta_{\mathrm{sz}}$ and at least $2b/\linkNsellst+t/2+3$ from $(t-1)/2$, and the cloud lies, after the reflection
+prescribed by $\mathrm{up}$, between $W_0$ and $W_0+S_c+\eta_{\mathrm{sz}}+1$ for some base size $W_0$. The position data are defined explicitly
+from $F_\ell$ and $F_c$; then $h_i\le b+S_c+2\eta_{\mathrm{sz}}+3$, so the carry quantity $\sigma_i$ of the position conditions is at most
+$2b/\linkNsellst$ by a geometric series estimate, hence $\sigma_i\le\sigma^+$. Since $\ell\notin\linkNselExc(L)$, $\ell$ divides no integer of the
+windows $\mathrm{win}(W_0)$ of \cref{pf:linkN-sel:excdef}; this is the residue avoidance required by the position conditions, and the remaining
+separation conditions follow from the window bounds by the lemma \lref{GlobalTheory.T.jump_position_conditions_at_letter}
+(deferred). The multiplicity statement holds by construction.
+\end{proof}
+
+\subsubsection{The global congruence count}
+
+Let $\iota$ be a local index and $r$ a good family at $\iota$. An \emph{idempotent choice datum} $\mathcal S$ at $\iota$ consists of a finite set
+$X'$ with a map $p\colon X'\to X_\iota$ and a point $\pi'\in X'$, a subalgebra $T'\subseteq\OO^{X'}$, idempotent-type matrices, an isomorphism
+$K^{n_V}\simeq K^r\times K^t$, and block homomorphisms $\psi_\rho$ (to $M_r(\OO)$) and $\psi_{\chi,c}$ (to $\OO$, $1\le c\le t$). It is an
+\emph{orthogonal idempotent decomposition} for $(r,\rho,\pi)$ if, in particular, these define an orthogonal decomposition compatible with
+$\rho_\pi\oplus\bigoplus_c\chi_{\iota,c}$ and a certain element $\delta_{\mathcal S}\in\OO$ is a unit. From $\mathcal S$ one builds modules of global
+cocycles $\mathrm{Coc}_\rho\subseteq\{G_E\to(K/\OO)^r\}$ and $\mathrm{Coc}_c\subseteq\{G_E\to K/\OO\}$ ($1\le c\le t$), spanned by the functions
+$\gamma\mapsto\varphi(y_\gamma)$, where $y_\gamma$ is the matrix-valued function attached to $\gamma$ by $\mathcal S$ and $\varphi$ runs over the
+$\OO$-linear maps which are equivariant for $\psi_\rho$, resp.\ $\psi_{\chi,c}$.
+
+\begin{lemma}[Inertia blocks]\label{pf:linkN-sel:quad}
+Let $\iota$ be a local index, $r$ a good family, $\rho$ a family, $\pi\in Z_\iota$, and $\mathcal S$ an orthogonal idempotent decomposition for
+$(r,\rho,\pi)$. Let $v\in S_\iota\cup Q_\iota$ be a place at which inertia acts through the quadratic relation
+$(r_x(\gamma)-1)(r_x(\gamma)-\chi_{\iota,1}(\gamma))=0$ ($x\in X_\iota$, $\gamma\in I_v$). Then for $1\le c\le t$ the module of restrictions of the
+elements of $\mathrm{Coc}_c$ to the inertia group $I_v$ has length at most $\len_\OO(\OO/(\zeta_{\iota,v}-1))$.
+\formallabel{GlobalTheory.T.inertiaCocycleBlock_length_le_of_quadraticRelation}
+\formallabel{GlobalTheory.Cut.QuadN.main}
+\formallabel{GlobalTheory.Cut.QuadN.psiChi_group}
+\end{lemma}
+
+\begin{proof}
+Let $\gamma_0\in I_v$ be the tame generator attached to $(\iota,v)$ by the datum, so that $\zeta_{\iota,v}=\chi_{\iota,1}(\gamma_0)$. Since
+$v\nmid\ell$, the cyclotomic character is unramified at $v$, so $\chi_{\iota,c}=\chi_{\iota,1}$ on $I_v$
+(\lref{GlobalTheory.T.cyclotomicChar_unramified_away_from_ell}, another section). The compatibility conditions of the orthogonal
+decomposition, applied to the vector corresponding to $(0,(1,\dots,1))\in K^r\times K^t$, show that the block homomorphism $\psi_{\chi,c}$
+takes the value $\chi_{\iota,c}(g)$ on the element of $\mathcal S$ attached to $g\in G_E$. By \lref{GlobalTheory.Cut.Check.cocW_quad}
+(another section), which deduces it from the quadratic relation, every $f\in\mathrm{Coc}_c$ satisfies $\psi_{\chi,c}(\cdot)f(\gamma)=f(\gamma)$
+at the elements attached to $\gamma\in I_v$; for $\gamma=\gamma_0$ this reads $\zeta_{\iota,v}f(\gamma_0)=f(\gamma_0)$, i.e.\
+$(\zeta_{\iota,v}-1)f(\gamma_0)=0$. On the other hand $f$ is a continuous cocycle with values in the discrete module $K/\OO$ (statement (C) in
+the proof of \cref{pf:linkN-sel:gcc}), hence locally constant, and it is additive on $I_v$, because its coefficient character
+$\chi_{\iota,c}\chi_{\iota,1}^{-1}$ is trivial on $I_v$. By \lref{GlobalTheory.T.wildInertia_killed_by_additive_locallyConstant} (another
+section) such a function vanishes on the wild inertia subgroup (as $v\nmid\ell$), and since $\gamma_0$ topologically generates the tame
+quotient, $f|_{I_v}=0$ as soon as $f(\gamma_0)=0$ (\lref{GlobalTheory.Cut.Quad.eq_zero_of_tameGen}). Hence evaluation at $\gamma_0$ is an
+injective $\OO$-linear map from the module of restrictions into the $(\zeta_{\iota,v}-1)$-torsion of $K/\OO$, whose length is at most
+$\len_\OO(\OO/(\zeta_{\iota,v}-1))$ (\lref{GlobalTheory.Cut.Quad.length_torsionBy_le}).
+\end{proof}
+
+\begin{theorem}[Global congruence count]\label{pf:linkN-sel:gcc}
+Assume global Artin reciprocity. Let $\iota$ be a local index, $r$ a good family, $\rho$ a family, $\pi\in Z_\iota$, and $\mathcal S$ an
+orthogonal idempotent decomposition for $(r,\rho,\pi)$. Assume:
+\begin{enumerate}[label=(\alph*)]
+\item for $x\notin Z_\iota$ the representation $r_x\otimes\chi_{\iota,1}^{-1}$ has no nonzero invariant vector over $K$, and the $r_x$ are
+unramified outside $\ell$, $S_\iota$ and $Q_\iota$;
+\item at every $v\in S_\iota$, either inertia acts through the quadratic relation $(r_x(\gamma)-1)(r_x(\gamma)-\chi_{\iota,1}(\gamma))=0$ and
+$\zeta_{\iota,v}-1$ is a unit, or a polynomial condition on the action of a tame generator holds; at every $v\in Q_\iota$ the quadratic relation holds
+and $\zeta_{\iota,v}\ne1$;
+\item at every place $w\mid\ell$: $\mathrm{LB}_w(W_\rho,0)$ with $W_\rho=\rho_\pi\chi_{\iota,1}^{-1}$, the cut cocycles for
+$\chi_{\iota,c}\chi_{\iota,1}^{-1}$ ($2\le c\le t$) are coboundaries, and those for the trivial character are unramified.
+\end{enumerate}
+If $\linkNselSel(\iota,\rho,\pi)$ and $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ ($0<e<t$) are finite, then
+\[
+\linkNselvcc(\iota,\pi)\le\linkNselsP(\iota,\rho,\pi)+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)+t\sum_{v\in Q_\iota}\linkNsellen(\OO/(\zeta_{\iota,v}-1)).
+\]
+\formallabel{GlobalTheory.T.globalCongruenceCount_of_rootDifference_unit}
+\formallabel{GlobalTheory.CutCoreUnit.main}
+\end{theorem}
+
+\begin{proof}
+Let $L_0=\len_\OO(\OO/\ell\OO)$, a positive integer since $\ell\ne0$ is not a unit in $\OO$; let $s=\len_\OO\linkNselSel(\iota,\rho,\pi)<\infty$,
+$h=v_\ell(h_E)$, $g_e=\overline{\mathrm{sh}}_\ell(e)<\infty$, and $z_v=\len_\OO(\OO/(\zeta_{\iota,v}-1))$ for $v\in Q_\iota$ (finite since $\zeta_{\iota,v}\ne1$).
+We use the following statements; the proofs of (D), (B), (C) and of the second half of (I) are deferred:
+\begin{itemize}
+\item[(D)] the \emph{determinant bound} \lref{GlobalTheory.T.length_heckeValueIdeal_le_determinant_bound}: under the first condition of (a),
+$\len_\OO(\OO/\mathfrak c'_\pi)\le\len\mathrm{Coc}_\rho+\sum_{c=1}^t\len\mathrm{Coc}_c$, where $\mathfrak c'_\pi$ is the ideal generated by the
+values at $\pi$ of the elements of $T_\iota$ vanishing at the eigensystems outside $Z_\iota$; and $\mathfrak c'_\pi=\mathfrak c_\pi$ by the
+definitions;
+\item[(B)] the \emph{coboundary bound} \lref{GlobalTheory.T.length_cutCoboundaryModule_le_unitDelta}: the coboundary parts of $\mathrm{Coc}_\rho$
+and $\mathrm{Coc}_c$ have length at most a multiple of $\len(\OO/\delta_{\mathcal S})=0$;
+\item[(C)] \lref{GlobalTheory.T.finiteQuotientCocycleSpans_le_continuousCocycles} and
+\lref{GlobalTheory.T.localCocycles_aboveEll_inCut_unitDelta}: the elements of $\mathrm{Coc}_\rho$ and $\mathrm{Coc}_c$ are continuous cocycles,
+and their restrictions to the places above $\ell$ are cut cocycles;
+\item[(I)] \cref{pf:linkN-sel:quad}: at $v\in S_\iota\cup Q_\iota$ with the quadratic relation, the module of inertia restrictions of $\mathrm{Coc}_c$
+has length at most $\len(\OO/(\zeta_{\iota,v}-1))$; and \lref{GlobalTheory.T.inertia_restriction_polynomial_condition_second_form}: under the
+polynomial condition the inertia restrictions vanish.
+\end{itemize}
+We also use results of another section of Part II: \lref{GlobalTheory.T.length_global_cocycles_le_sum_places_over} (a module of global cocycles
+whose restrictions above $\ell$ are cut cocycles with $\mathrm{LB}_w(\cdot,e_w)$ contains a submodule of cocycles satisfying the local conditions,
+of colength at most $\sum_we_wL_0$); \lref{GlobalTheory.T.length_cocycles_le_coboundaries_add_selmer} (a module of continuous cocycles for
+$W_\rho$ satisfying the local conditions at $\ell$, with vanishing inertia restrictions outside $\ell,S_\iota,Q_\iota$, has length at most the length of
+its coboundary part plus $s$); \lref{GlobalTheory.Proof.LocalGlobalSelmer.main} (under the second condition of (a), the inertia restrictions
+outside $\ell,S_\iota,Q_\iota$ vanish); \lref{GlobalTheory.Cut.Peel.main} (a module of cocycles contains a submodule with trivial inertia
+restrictions at the places of $Q_\iota$, of colength at most the sum over $v\in Q_\iota$ of the lengths of the modules of inertia restrictions at $v$);
+\lref{GlobalTheory.UnramHom.length_le_classNumber} (by global Artin reciprocity, a module of everywhere unramified homomorphisms
+$G_E\to K/\OO$ has length at most $L_0h$); \lref{GlobalTheory.CutTrivIne.main} (unramified cut cocycles at $w\mid\ell$ have trivial inertia
+restrictions); and \lref{GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha} (a module of cocycles for $\chi_{\mathrm{cyc}}^{1-c}$, $c\ge2$,
+which are coboundaries at the places above $\ell$ and unramified elsewhere, has length at most its coboundary part plus $L_0\,g_{c-1}$).
+
+\emph{The $\rho$-block.} By (C) and (c), \lref{GlobalTheory.T.length_global_cocycles_le_sum_places_over} with $e_w=0$ shows that
+$\mathrm{Coc}_\rho$ satisfies the local conditions at $\ell$; its inertia restrictions outside $\ell,S_\iota,Q_\iota$ vanish by (a); hence
+$\len\mathrm{Coc}_\rho\le(\text{coboundary part})+s=s$ by \lref{GlobalTheory.T.length_cocycles_le_coboundaries_add_selmer} and (B).
+
+\emph{The $\chi$-blocks.} Let $1\le c\le t$; the elements of $\mathrm{Coc}_c$ are cocycles for $\chi_{\iota,c}\chi_{\iota,1}^{-1}=\chi_{\mathrm{cyc}}^{1-c}$.
+By \lref{GlobalTheory.Cut.Peel.main} and (I) at the places of $Q_\iota$ there is $C'\subseteq\mathrm{Coc}_c$ of colength $\le\sum_{v\in Q_\iota}z_v$
+with trivial inertia restrictions at $Q_\iota$. At $v\in S_\iota$ the inertia restrictions of $C'$ vanish by (I) (in the quadratic case
+$\len(\OO/(\zeta_{\iota,v}-1))=0$ since $\zeta_{\iota,v}-1$ is a unit), and outside $\ell,S_\iota,Q_\iota$ by (a). If $c=1$, the elements of $C'$ are
+homomorphisms, unramified at the places above $\ell$ by (c) and \lref{GlobalTheory.CutTrivIne.main}; so $\len C'\le L_0h$. If $c\ge2$, they are
+coboundaries at the places above $\ell$ by (c), and $\len C'\le L_0g_{c-1}$ by \lref{GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha}
+and (B). Hence $\len\mathrm{Coc}_1\le L_0h+\sum_vz_v$ and $\len\mathrm{Coc}_c\le L_0g_{c-1}+\sum_vz_v$ for $c\ge2$.
+
+\emph{Conclusion.} By (D),
+\[
+\len_\OO(\OO/\mathfrak c_\pi)\le s+L_0\Bigl(h+\sum_{0<e<t}g_e\Bigr)+t\sum_{v\in Q_\iota}z_v .
+\]
+Divide by $L_0$: since $g_e=\mathrm{sh}(\ell,e)$, $s/L_0=\linkNselsP(\iota,\rho,\pi)$ and $z_v/L_0=\linkNsellen(\OO/(\zeta_{\iota,v}-1))$, this is the
+claim.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN-sel:extended}
+Let $\iota$, $\pi\in Z_\iota$ and $\rho$ be such that $\zeta_{\iota,v}\ne1$ for $v\in Q_\iota$, and suppose that the conclusion of
+\cref{pf:linkN-sel:gcc} holds whenever the Selmer group and the Tate--Shafarevich groups are finite. Then the inequality of
+\cref{pf:linkN-sel:congbound} holds in $[0,\infty]$.
+\formallabel{GlobalTheory.T.congruenceBound_extended_of_rationalBound}
+\formallabel{GlobalTheory.Proof.congruenceBound_extended_of_rationalBound.congBound_of_rational}
+\end{lemma}
+
+\begin{proof}
+If the Selmer group or some $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ is infinite, the right-hand side is $\infty$. Otherwise all terms are finite
+($\OO/\mathfrak c_\pi$ has finite length since $\pi\in Z_\iota$, and $\OO/(\zeta_{\iota,v}-1)$ since $\zeta_{\iota,v}\ne1$), they coincide with the
+normalised rational lengths (the elements $\zeta_{\iota,v}$ entering the two formulations agree), and the claim is the rational inequality.
+\end{proof}
+
+\begin{theorem}[Congruence bound along families]\label{pf:linkN-sel:congfam}
+Assume $\sfname{Hypotheses}_2$. For every family $\mathcal F$ there is $x_E$ such that $\mathrm{CB}(D_{x,i},L_{x,i})$ holds for all $x\ge x_E$ with
+$x>x_1$ and all $i\in I_x$ for which the norm-choice facts hold for $(D_{x,i},\mathrm{nch}_{x,i})$.
+\formallabel{GlobalTheory.T.eventually_congBound_of_facts}
+\formallabel{GlobalTheory.NLinkE.main_alt_alt}
+\end{theorem}
+
+\begin{proof}
+Let $x_E$ be the maximum of the threshold of \cref{pf:linkN-sel:posdata}, of the threshold of the lemma
+\lref{GlobalTheory.T.eventually_prvJ_of_facts} (deferred; the jump conditions hold eventually for members with the norm-choice facts), and of a
+threshold beyond which the parameters are admissible. Fix a member with the norm-choice facts, and $\iota,r,\pi,\rho$ as in
+\cref{pf:linkN-sel:congbound}; let $\ell=\ell_\iota$.
+\begin{enumerate}[label=\textit{Step \arabic*.},leftmargin=*]
+\item By \cref{pf:linkN-sel:posdata}, $\ell\ge5$, $t+1<\ell$, $\ell\notin\{q,d\}\cup\linkNselP$, and (as $\ell\notin\linkNselExc(L)$) position data
+exist for every $(n,\mathrm{up},\tau)$ and the lift index $j_\iota$. Hence $E$ is unramified at $\ell$ (every prime outside $\linkNselP\cup\{q,d\}$
+is unramified in $E$, a property of the host), and the cyclotomic inertia image holds at $\iota$ (a property of every local index).
+\item From the norm-choice facts at the large index $\iota$ with a good eigensystem, six lemmas (deferred) give: (G1), continuity and
+semisimplicity of the $r_x$ (\lref{GlobalTheory.T.admG1_continuous_admSS_of_rank_r_summand}); (G3)
+(\lref{GlobalTheory.T.admG3_of_isRankR_of_lStar_lt}); (G2), using Fontaine's period ring and the admissibility of the parameters
+(\lref{GlobalTheory.T.admG2_of_isRankR_of_lStar_lt}); condition (a) of \cref{pf:linkN-sel:gcc}
+(\lref{GlobalTheory.T.noChiOff_and_unrOut_of_large_good_place}); and condition (b) at $S_\iota$ and at $Q_\iota$
+(\lref{GlobalTheory.T.quadAt_unit_zeta_sub_one_or_polyAt}, \lref{GlobalTheory.T.quadAt_and_zeta_ne_one_of_large_place}). The
+semisimple decomposition at $\pi$ is the hypothesis that $\rho$ is a rank-$r$ part of $r_\pi$.
+\item An orthogonal idempotent decomposition $\mathcal S$ for $(r,\rho,\pi)$ exists by the lemma
+\lref{GlobalTheory.T.exists_globalStep_objects_of_cyclotomic_generator_inertia} (deferred), which constructs it from Steps 1--2, $t+1<\ell$ and
+the unramifiedness of $E$ at $\ell$.
+\item The Bhatt--Scholze field of $\sfname{Hypotheses}_2$ gives local data $HW$, Fontaine data and comparison data
+(\lref{GlobalTheory.T.exists_wachFunctor_comparison_of_bhattScholze}), and \cref{pf:linkN-sel:top} applies to them.
+\Cref{pf:linkN-sel:useloc}, with the crystalline characters with given jumps, the jump conditions, Steps 1--2 and the position data, gives condition
+(c) of \cref{pf:linkN-sel:gcc} at every $w\mid\ell$.
+\item \Cref{pf:linkN-sel:gcc} (with global Artin reciprocity) gives the rational inequality whenever the Selmer and Tate--Shafarevich groups are
+finite, and \cref{pf:linkN-sel:extended} (with $\zeta_{\iota,v}\ne1$ for $v\in Q_\iota$, Step 2) gives the inequality of $\mathrm{CB}(D,L)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Theorem E and Corollary A}\label{sec:pf:linkN-sel:thmE}
+
+The middle-range bound \lref{GlobalTheory.T.star_ad_and_bb_le_of_joint_cond} (another section) uses a lifting corollary for the local theory
+of the datum with a constant $C_2\ge C_0$. We prove the existence of $C_0$.
+
+\begin{definition}[Lifting theorem and lifting corollary]\label{pf:linkN-sel:liftdef}
+Let $D$ be a datum. For finite extensions $K,\mathit{LL}$ of $\Ql$, a surjective morphism $F\colon T_1\to T_2$ of crystalline
+$\OO_{\mathit{LL}}$-lattices of $G_K$ and $e\in\N$, we say that $F$ \emph{lifts with exponent} $e$ if $\ell^e c$ lies in the image of the finite
+cocycles of $T_1$ for every finite cocycle $c$ of $T_2$. The local theory of $D$ satisfies the \emph{lifting theorem with constant $C$} if:
+(i) for every $\ell\ge5$, all $K,\mathit{LL}$, every $n\ge1$ and every map $\mathrm{emb}$ from $\Z/n$ to the embeddings of $K_0$ into
+$\mathit{LL}$ satisfying the letter condition, and every such $F$ with good coefficients whose source has its Hodge--Tate jumps in windows of
+prescribed kinds and sizes (parameters $j,G,S,\eta,h$, types, cuts and arc lengths subject to explicit size, cut and word conditions), $F$ lifts with
+an explicit exponent $e=e(\ell,n,j,g,h,\dots)$, where $g=\max(G,S,\eta,1)$; and (ii) under the same size conditions
+$e\le C\bigl(h/(\ell-1)^{j+1}+g\,\ell_{\max}+\log_\ell h\bigr)$, $\ell_{\max}$ being the maximal arc length of the cuts. It satisfies the
+\emph{lifting corollary with constant $C$} if for every $\ell\ge11$, all $K,\mathit{LL},n,\mathrm{emb}$ as above, and every such $F$ with
+$\rank T_2=r$, $1\le j$, $j+1\le n$, the jumps of $T_1$ over the $i$-th embedding in an upper or lower window of size $\mathrm{sz}(i)$ with
+parameters $(S,\eta)$, every $i$ either thick (of size near $b$) or of size $\le w$, $C(j+1)(w+S+\eta+1)\le b$, and the thick indices forming
+clusters of length $\le j$:
+\[
+\mathrm{col}(F)\le C(n+1)r\Bigl(\frac{h_{\mathrm{cor}}}{(\ell-1)^{j+1}}+(w+S+\eta+1)(j+1)+\log_\ell h_{\mathrm{cor}}\Bigr)\len(\OO_{\mathit{LL}}/\ell),
+\]
+where $h_{\mathrm{cor}}=b+\eta+S$ if some $\mathrm{sz}(i)$ lies in $[b,b+\eta]$ and $h_{\mathrm{cor}}=w+S+\eta$ otherwise.
+\formal{Formalism.MainNotions.WachCoordinates.LiftingTheoremLocalTheory}
+\formal{Formalism.MainNotions.WachCoordinates.ThmELiftAt}
+\formal{Formalism.MainNotions.WachCoordinates.ThmEBound}
+\formal{Formalism.MainNotions.WachCoordinates.LocalCorollaryLifting}
+\formal{Formalism.MainNotions.WachCoordinates.CorAAt}
+\end{definition}
+
+\begin{theorem}[Theorem E]\label{pf:linkN-sel:thmEcore}
+Let $D$ be a datum with local data $HW$, Fontaine data and comparison data, and $C\in\R$. Assume: the clauses (P3), (P4), (P5), (P6), (P9) and two
+further conditions on $\Delta$-invariant lattices; the admitted local hypotheses of Theorem E (the conditions on $\delta$-invariant lattices, the
+Archimedean signature matching with constant $C$, and the Hodge, filtration and saturation hypotheses at the places in case~A with $\ell\ge5$);
+$D_{\mathrm{dR}}=D_{\mathrm{cris}}$ at the pairs in case~A; Fontaine's theory (\cref{pf:linkN-sel:fontaine}); and, for $\ell\ge5$ and every pair in
+case~A, the existence of a unit generator of the Wach module of the trivial lattice. Then the local theory of $D$ satisfies the lifting theorem
+with constant $800$.
+\formallabel{Formalism.MainNotions.N.Ln03.local_theorem_of_inputs}
+\end{theorem}
+
+\begin{proof}
+All statements cited in this proof are deferred, except \lref{Formalism.MainNotions.LiftingTheory.gen_one_crys}.
+
+\emph{Reduction.} By \lref{Formalism.MainNotions.N.Ln03.local_theorem_of_cyclotomic_lift} (about $700$ lines), together with the base change of
+the local theory along coefficient extensions (\lref{Formalism.MainNotions.UnusedSlot80.base_change_every_theory}), the lifting theorem with
+constant $800$ holds as soon as the lifting (i) of \cref{pf:linkN-sel:liftdef} holds, for the embeddings of the Wach structure $W$ of level $1$, at
+every place $(\ell,K,\mathit{LL})$ in case~A with $\ell\ge5$ for which $\mathit{LL}$ contains a primitive $\ell^{[K_0:\Ql]}$-th root of unity. Its proof
+passes to such coefficient fields by base change and proves the bound (ii) with constant $800$ for the explicit exponent.
+
+\emph{The lifting at $W$.} Fix such a place. By \lref{Formalism.MainNotions.WachCoordinates.Br.crystalline_lifting_second_form}
+(about $9{,}800$ lines, through the primitive and final forms of Theorem E, arc lifting and realisation in coordinates) the lifting (i) holds
+at the place if the hypotheses of the second form hold and there is a unit generator $e$ of $D(\mathbf 1)$ satisfying the Bloch--Kato extension property
+and the realisation property. The hypotheses of the second form are assembled from (P5), (P6), (P9), the further lattice conditions and the
+admitted hypotheses (\lref{Formalism.MainNotions.WachCoordinates.Br.brHyp2_of_rec}). A unit generator $e$ exists by assumption; it has the
+Bloch--Kato extension property by \lref{UpperTheory.Prune.bkExt_holds}, from the admitted saturation hypothesis and Fontaine's theory. For
+the realisation property we apply \lref{Formalism.MainNotions.N.Ln03.realised2_pf} (about $8{,}700$ lines, through level kernel detection
+and the coordinate, splitting and coefficient steps). Its hypotheses are: the compatibilities of the comparison data with the levels, with
+$\varphi$ and with $\Gamma$ (fields of the comparison data); the admitted hypotheses; (P3), (P4), (P5), (P9) and the further lattice condition;
+$D_{\mathrm{dR}}=D_{\mathrm{cris}}$; the crystallinity of the generator of the trivial lattice
+(\lref{Formalism.MainNotions.LiftingTheory.gen_one_crys}); the fact that $\OO_{\mathit{LL}}$ is a complete discrete valuation ring in which
+$\ell$ is not a unit (\lref{Formalism.MainNotions.N.Ln03.Pf.complMax_holds}); a unit relating the generator to the cyclotomic data
+(\lref{Formalism.MainNotions.N.Ln03.Pf.uTieRec_holds}); that $K$ is unramified; the primitive root of unity; and $\ell\ge5$.
+\end{proof}
+
+\begin{theorem}[Corollary of Theorem E]\label{pf:linkN-sel:corE}
+There is $C'\ge1$ such that for every datum $D$ and every $C_1\ge0$: if the local theory of $D$ satisfies the lifting theorem with constant $C_1$,
+the generator bound for $H^1_f$ at all places, and the jump statement for surjections (if $F\colon T_1\to T_2$ is a surjection of crystalline
+lattices and $A$ is a set of integers containing the jumps of $T_1$ at a letter, then $A$ contains the jumps of $T_2$ there), then it satisfies
+the lifting corollary with constant $\max(C',4C_1)$.
+\formallabel{Formalism.MainNotions.WachCoordinates.corollary_of_Theorem_E}
+\end{theorem}
+
+\begin{proof}
+By \lref{Formalism.MainNotions.WachCoordinates.aprimeConfig_holds} (deferred; about $740$ lines, through the existence of cuts with
+exponent bounds for words with sparse thick letters) there is $C'\ge1$ satisfying the \emph{cut configuration statement}: for all
+$\ell,n,j,b,w,S,\eta$, types and sizes with $j\ge1$, $j+1\le n$, the window and thickness conditions, $C'(j+1)(w+S+\eta+1)\le b$ and clustered
+thick letters, there are cuts whose exponents satisfy the bounds needed below. Fix $D$, $C_1$, a place and $n,\mathrm{emb}$. The lemma
+\lref{Formalism.MainNotions.WachCoordinates.corAAt_of} (deferred; about $430$ lines) states that the cut configuration statement for $C'$,
+the bound (ii) of the lifting theorem with $C_1$, the lifting (i) at the place, the jump statement, the generator bound and the finiteness of
+$\len(\OO/\ell\OO)$ (\lref{Formalism.MainNotions.LocalTheoryWindows.lenOl_finite}, deferred) give the lifting corollary at the place with
+constant $\max(C',4C_1)$; its proof obtains a lifting exponent from (i) and the cuts, and bounds $\mathrm{col}(F)$ by the number of generators of
+$H^1_f(T_2)$ times this exponent.
+\end{proof}
+
+\begin{theorem}[Theorem E and Corollary A]\label{pf:linkN-sel:thmE}
+Assume the local Bloch--Kato theory, local Tate duality and the local Euler characteristic formula. There is $C_0\in\R$ such that for every datum
+$D$ with local data $HW$, Fontaine data and comparison data, the local theory of $D$ satisfies the lifting theorem with constant $800$ and, for every
+$C_2\ge C_0$, the lifting corollary with constant $C_2$.
+\formallabel{GlobalTheory.T.theoremE_corollaryA_closing_all_data}
+\formallabel{GlobalTheory.ThmECorA.closing}
+\formallabel{Formalism.MainNotions.N.Ln03.corollary_local_exists_constant}
+\formallabel{Formalism.MainNotions.N.Ln03.local_corollary_of_de_rham}
+\end{theorem}
+
+\begin{proof}
+Let $C'$ be the constant of \cref{pf:linkN-sel:corE} and put $C_0=\max(C',3200)$.
+
+Fix $D$ with local and comparison data. The following inputs hold: the equality $D_{\mathrm{dR}}=D_{\mathrm{cris}}$ for the pairs $(K,\mathit{LL})$
+singled out by the local theory (\lref{GlobalTheory.Per.DdREqDcris.record_caseA}); the Fontaine and decompletion statements
+(\lref{GlobalTheory.Decompl.fontaine_and_decompletion}); Fontaine's theory (\cref{pf:linkN-sel:fontaine}); the existence of unit generators of the Wach modules for $\ell\ge5$
+(\lref{GlobalTheory.WachUnit.unitGen_exists}); and sixteen admitted local hypotheses, derived from the three literature statements by
+\lref{GlobalTheory.T.localLifting_theoremE_hypotheses_admitted} (the proofs of the inputs other than \cref{pf:linkN-sel:fontaine} and the Fontaine and decompletion statements are deferred). From the admitted
+hypotheses one extracts the conditions on $\delta$-invariant lattices, the generator bound for $H^1_f$ and the Hodge exactness of all
+extensions. Then \cref{pf:linkN-sel:thmEcore} gives the lifting theorem with constant $800$.
+Applying \cref{pf:linkN-sel:corE} with $C_1=800$, the generator bound, and the jump statement
+deduced from Hodge exactness (if $F$ is onto and $T_1,T_2$ are crystalline, every jump of $T_2$ is a jump of $T_1$), we obtain the lifting corollary
+with constant $\max(C',3200)=C_0$; by \lref{Formalism.MainNotions.N.Ln03.corollary_monotone_in_constant} (the
+corollary with constant $C$ implies the corollary with every larger constant) it holds for every $C_2\ge C_0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Joint hub conditions at inert primes}\label{sec:pf:linkN-sel:bcd}
+
+\begin{definition}[Joint hub conditions]\label{pf:linkN-sel:jointdef}
+Let $R=(C_2,\dots)$ be row constants and $X$ a hub datum. The \emph{joint hub conditions} for $(L,HW,X,R)$ require, for every local index $\iota$ with
+$\ell_\iota$ inert and every $\pi\in\linkNselZg_\iota$: if $\ell_\iota<\ell_A$ and $4L_w<\mathrm{ord}_H(\ell_\iota)$ (the range of (R2)), a local
+representation bound condition for $(X.r_\iota,X.\rho_\iota,\pi)$ at the places above $\ell_\iota$ with constant $C_2$; otherwise a local representation
+congruence condition for $(X.r_\iota,X.\rho_\iota,\pi)$.
+\formal{Formalism.MainNotions.N.KillingConditions.JointParametersHubConditions}
+\end{definition}
+
+\begin{theorem}[Joint conditions along families]\label{pf:linkN-sel:famjoints}
+Let $\mathcal F\in\sfname{FamP}(\eps)$ and $C_2\in\R$, and assume, for all data, Fontaine's period ring statement at every prime and the Fontaine
+conditions at the places above $\ell_\iota$ for all local indices (as in \cref{pf:linkN-sel:jointprop}). Then there is $x_0$ such that for all $x\ge x_0$ with $x>x_1$, all $i\in I_x$ and all $HW$,
+if $D_{x,i}$ satisfies the jump conclusion, then:
+\begin{enumerate}[label=(\alph*)]
+\item (\emph{joint condition B}) at every inert index $\iota$ with $\ell=\ell_\iota$ unramified in the host and in row~B, for every point $(r,\rho,\pi)$
+at $\iota$ and every place $w\mid\ell$: $K_w$ is unramified over $\Ql$, and for every good coefficient extension at $w$ there is a word on the
+letters of $w$ with the word base conditions and the thick-letter lattice surjection hypotheses, such that $\ell\ge11$, $j_A+1\le n_w$,
+$C_2(j_A+1)(w+S+\eta+1)\le b$ and the thick letters form clusters of length at most $j_A$, where $j_A=j_A(L_{x,i},\ell)$;
+\item (\emph{joint condition CD}) at every inert index with $\ell$ unramified, for every point and every $w\mid\ell$: $K_w$ is unramified, and for
+every good coefficient extension at $w$ there is a word with the word base conditions, the thick-letter hypotheses, $\ell\ge11$ and the word
+box condition, which either has a non-thick letter or is of alternating type with the alternating lattice surjection hypotheses.
+\end{enumerate}
+\formallabel{GlobalTheory.HTW.RecS.fam_joints}
+\end{theorem}
+
+\begin{proof}
+Let $\eps_z>0$ be the second scale parameter of $\mathcal F$ and $A$ the bound of $\mathcal F$ for the parameter constants $C_{Lw}$; the scale
+parameters of all members are $(\eps,\eps_z)$, both positive. By \lref{GlobalTheory.T.inertLongOrbitWordConditions_of_large_scale}
+(deferred; about $310$ lines, through a dichotomy for twisted dual size words at long orbits) there is $x_B$ such that (a) holds for every datum
+$D$, size data $L$ of scale $(x,\eps,\eps_z)$ with $x\ge x_B$, parameter choice with $C_{Lw}\le A$ and $HW$, under the two Fontaine
+assumptions and the jump conclusion; by \lref{GlobalTheory.T.inertPrimeWordConditions_of_large_scale} (deferred; about $570$ lines) there is
+$x_C$ with the same property for (b). Put $x_0=\max(x_B,x_C)$; for $x\ge x_0$, $x>x_1$ the members of $\mathcal F$ satisfy these assumptions,
+since their scale is $x$ and their parameter constant equals that of the family.
+\end{proof}
+
+\begin{proposition}\label{pf:linkN-sel:jointprop}
+Assume Fontaine's period ring, the Fontaine bounds and the Fontaine properties at the places above $\ell$ for all data, and the closure of the
+jump conditions for all data. For every family $\mathcal F$ and all row constants $R$ there is $x_0$ such that for all $x\ge x_0$, $x>x_1$, $i\in I_x$,
+all $HW$ and every hub datum $X$ whose representations form a point family and for which the jump parameters of $L_{x,i}$ are admissible, the joint
+hub conditions hold for $(L_{x,i},HW,X,R)$.
+\formallabel{GlobalTheory.HTW.RecS.fam_jointBCD_closed_alt}
+\formallabel{GlobalTheory.HTW.RecS.fam_jointBCD}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:linkN-sel:famjoints}, for every family and every $C_2$ there is
+$x_0$ beyond which, at every member satisfying the jump conclusion, the word and Hodge--Tate data at the inert indices satisfy two families of joint
+conditions; the lemma \lref{GlobalTheory.Survey.ClusteredLetterwiseBoxes.frozenBCD_of} (deferred) turns these, for a hub datum whose
+representations satisfy a point condition at the inert indices, into the joint hub conditions. The jump conclusion follows from the admissibility of
+the jump parameters by the closure of the jump conditions. The point condition at an inert index $\iota$ with good $\pi$ follows from the point
+family by the lemma \lref{GlobalTheory.T.ptIn_of_ptFam_deRham_away}, which needs Fontaine's period ring, the de Rham property away from
+the generator primes contained in the admissibility of the jump parameters, and $\ell_\iota\notin\linkNselG$; the last holds because an inert prime
+is not a generator prime (\lref{GlobalTheory.T.inert_prime_ne_typePrime}, deferred).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the main theorem}\label{sec:pf:linkN-sel:proof}
+
+\begin{proof}[Proof of \cref{pf:linkN-sel:main}]
+\emph{Constants.} Let $C_0$ be given by \cref{pf:linkN-sel:thmE}, and $c_1=2080$, $Q=260X_0^2X_2^2(X_1+X_2)$ by \cref{pf:linkN-sel:thmBmain}. Let
+$C_1\ge1$ and $x_p$ be the constant and threshold of the parameter bound \lref{GlobalTheory.T.admissible_parameters_family_const}
+(eventually along $\mathcal F$, the field \emph{par} holds with constant $C_1$). Let $(C_a,x_a)$ be given by $(\mathrm B_{23})$ and $(C_b,x_b)$ by
+\cref{pf:linkN-sel:starS}. Put $C_{23}=\max(0,C_a,C_b)$, $x_{23}=\max(1,x_a,x_b)$, $C_2=\max(C_0,1)$, and let $C_s$ be as in \eqref{eq:pf:linkN-sel:Cs}.
+Then $C_s\ge1$, and the row constants $R(C_2)=(C_2,320,25,23,32,32)$ are admissible for $C_s$ in the sense of \cref{pf:linkN-sel:rownum}: $1\le C_2$,
+$3C_2+1\le C_s$, $K_1=368$, $K_2+1=2083$, $K_3=3\cdot23\cdot320+12\cdot23+9=22365$, $6\cdot320+1=1921$ and $2(3\cdot23+1)=140$ are all at most
+$C_s$, since $C_s\ge22365$.
+
+\emph{Thresholds.} Let $x_{\mathrm{set}}$ be the threshold of \cref{pf:linkN-sel:setup} (for $C$, $C_2$, $C_T$), $x_{\mathrm{exc}}=x_1$ that of
+\cref{pf:linkN-sel:exc}, $x_{\mathrm{sm}}$ that of \cref{pf:linkN-sel:small} for the constant $C_s\ge1$, $x_E$ that of \cref{pf:linkN-sel:congfam}, and
+$x_{\mathrm{bcd}}$ that of \cref{pf:linkN-sel:jointprop} for $R(C_2)$, whose hypotheses are supplied by the Fontaine field of
+$\sfname{Hypotheses}_2$ and the statements \lref{GlobalTheory.Per.FontaineAll.fontaine_bounds} (the Fontaine bounds for all data),
+\lref{GlobalTheory.FontaineAdm.fontaineProperties_all_places} (the Fontaine properties at all places) and
+\lref{GlobalTheory.JumpStatement.holds_all_alt} (the closure of the jump conditions). Put
+$x_0=\max(x_{\mathrm{set}},x_{\mathrm{exc}},x_{\mathrm{sm}},x_E,x_{\mathrm{bcd}},x_p,x_{23})$.
+
+\emph{A member.} Let $x\ge x_0$ with $x>x_1$, and $i\in I_x$ such that $D=D_{x,i}$ has finite odd Tate--Shafarevich groups; write $L=L_{x,i}$,
+$P=P_{x,i}$, $\mathrm{nch}=\mathrm{nch}_{x,i}$. By \cref{pf:linkN-sel:exc} the set $\linkNselexc=\linkNselExc(L)$ is finite and satisfies the field
+\emph{exc}. By \cref{pf:linkN-sel:setup} there are $HW$, Fontaine and comparison data and a hub datum $X$ with $\linkNselexc(X)=\linkNselExc(L)$,
+admissible jump parameters, and a setup $(L,\mathrm{nch},HW,X,C_2)$. By $(\mathrm F)_{C,C_T}$, $D$ satisfies the norm-choice facts, the commuting
+endomorphism condition and $\mathrm{PC}(C,C_T)$. By \cref{pf:linkN-sel:small}, the field \emph{small} holds for $(L,C_s)$ and $C_s\le b$; hence
+$C_T\le C_s\le b$. We verify the fifteen fields of $\linkNselT(L,P,X,C_s)$.
+\begin{description}[style=nextline,leftmargin=1.5em,font=\normalfont\itshape]
+\item[pos] $C_s\ge0$.
+\item[pass] \Cref{pf:linkN-sel:pass}, from the commuting endomorphism condition.
+\item[mult] The result \lref{GlobalTheory.T.goodPointMultiplicityLeRank_proof} of another section, which derives the field \emph{mult} from three
+conditions of the norm-choice facts (two conclusions on the attached representations and an isotypicity statement) and the uniqueness of
+localisations.
+\item[rank] A condition of the norm-choice facts.
+\item[kill] Part of the setup.
+\item[num] \Cref{pf:linkN-sel:rownum}, since $X$ has the canonical tables for $R(C_2)$, $R(C_2)$ is admissible for $C_s$, and
+$S_c+\eta_{\mathrm{sz}}+t+2\le b$ (setup).
+\item[mid, bb] The joint hub conditions hold for $(L,HW,X,R(C_2))$ by \cref{pf:linkN-sel:jointprop} (the representations of $X$ form a point family
+since $X$ is canonical). By \cref{pf:linkN-sel:thmE}, the lifting corollary holds with constant $C_2\ge C_0$. Since $C_2\ge1$, the middle-range
+theorem \lref{GlobalTheory.T.star_ad_and_bb_le_of_joint_cond} of another section, which states that under $\sfname{Hypotheses}_2$, for a setup
+$(L,\mathrm{nch},HW,X,C_2)$ with $C_2\ge1$, the lifting corollary with constant $C_2$ and the joint hub conditions for $R(C_2)$, the field \emph{mid}
+holds and the field \emph{bb} holds with constant $7200$, gives \emph{mid}, and \emph{bb} with constant $7200\le C_s$; \cref{pf:linkN-sel:mono}
+gives \emph{bb} with $C_s$.
+\item[large] \Cref{pf:linkN-sel:congfam} gives $\mathrm{CB}(D,L)$; the weight parameter condition is part of the norm-choice facts, $(X.r,X.\rho)$ is a
+point family with $\mathrm{Kill}(X.\rho)$, and $3\le\linkNsellst$ by \emph{small}; so \cref{pf:linkN-sel:large} with $\linkNselexc(X)=\linkNselExc(L)$
+gives \emph{large}.
+\item[exc] \Cref{pf:linkN-sel:exc}, as $\linkNselexc(X)=\linkNselExc(L)$.
+\item[two] Since $x\ge x_a$ and $x\ge x_b$, $(\mathrm B_{23})$ and \cref{pf:linkN-sel:starS}, applied to the setup, give the local bounds with
+$\linkNselbsm(L,C_a)$ at $\ell=2$ and at $\ell=3\notin\linkNselP$, and with $\linkNselbsm(L,C_b)$ at the odd small primes. As $C_a,C_b\le C_{23}$ and
+$C_{23}\ge0$, \cref{pf:linkN-sel:mono} replaces both by $\linkNselbsm(L,C_{23})$, and \cref{pf:linkN-sel:starF} gives \emph{two} with $C_{23}$; then
+\cref{pf:linkN-sel:mono} gives it with $C_s\ge C_{23}$.
+\item[ram] \Cref{pf:linkN-sel:thmBmain} gives $\mathrm{TB}(X.\rho,L,c_1,Q)$; the parameter choice satisfies $x^{2C_t+5}<q,d$; and $C_s\ge C_G$. So
+\cref{pf:linkN-sel:ram} gives \emph{ram} with $C_s$.
+\item[typ] \Cref{pf:linkN-sel:typprop} with $C'=C\ge0$, the constant $C_1\ge1$ (the field \emph{par} with $C_1$ holds as $x\ge x_p$), $C_T\le b$,
+$\mathrm{PC}(C,C_T)$, the field \emph{mult} and the size condition on the generator primes (a size condition of the member) gives \emph{typ} with
+$2000(C+1)+5C_1\le C_s$; \cref{pf:linkN-sel:mono} gives it with $C_s$.
+\item[par] The field \emph{par} with $C_1\le C_s$ and \cref{pf:linkN-sel:mono}.
+\item[small] \Cref{pf:linkN-sel:small}.
+\end{description}
+Hence $\linkNselT(L,P,X,C_s)$ holds for all such members, which is the claim with the constants $C_s$ and $x_0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Local results}\label{sec:pf:linkN-sel:local}
+
+This subsection proves local results used above and in \cref{sec:pf:linkN-adm}. Throughout, $p$ is a prime, $K$ a finite extension
+of $\Q_p$ with maximal unramified subfield $K_0$, $G$ a closed subgroup of $G_K$ (mostly $G=G_K$), $\mathit{LL}$ a finite extension of
+$\Q_p$ with ring of integers $\OO$, $\chi$ the cyclotomic character and $B_{\mathrm{cris}}$ the crystalline period ring of the local
+theory. A \emph{lattice} $T$ is a finite-dimensional continuous $\mathit{LL}$-representation $V=V(T)$ of $G$ together with a
+$G$-stable finitely generated $\OO$-submodule of $V$ spanning it, also denoted $T$; a \emph{lattice homomorphism} is a continuous
+$G$-equivariant $\mathit{LL}$-linear map carrying lattice into lattice, and a \emph{short exact sequence of lattices}
+$0\to T_0\xrightarrow{\iota}T_1\xrightarrow{\pi}T_2\to0$ is a pair of lattice homomorphisms which is exact on the representations,
+with $\pi(T_1)=T_2$ and $\iota^{-1}(T_1)=T_0$. For a lattice $T\subseteq V$ we use the following $\OO$-modules of maps $G\to V/T$:
+the \emph{divisible cocycles} $Z^1_{\mathrm{div}}(T)$, the locally constant maps $c$ with $c(gh)=c(g)+gc(h)$; the
+\emph{coboundaries} $B(T)=\{g\mapsto gx-x:x\in V/T\}$; the \emph{finite classes} $H_f(T)=\overline{Z^1_f(V)}+B(T)$, where $Z^1_f(V)$
+is the space of continuous cocycles $c\colon G\to V$ with $c(g)\otimes1=gx-x$ for some $x\in V\otimes_{\Q_p}B_{\mathrm{cris}}$ and the
+bar denotes reduction modulo $T$; and, for a subgroup $I\subseteq G$, the \emph{unramified classes} $Z^1_{\mathrm{ur}}(T,I)$, the maps
+$c$ for which there is $x\in V/T$ with $c(g)=gx-x$ for all $g\in I$. Put
+$H^1_{\mathrm{div}}(T)=Z^1_{\mathrm{div}}(T)/(Z^1_{\mathrm{div}}(T)\cap B(T))$ and let $H^1_{\mathrm{div},f}(T)$ be the image of
+$Z^1_{\mathrm{div}}(T)\cap H_f(T)$ in it. Finally $H^1(G,T)$ is the module of continuous cocycles with values in $T$ modulo the
+coboundaries of elements of $T$, and $H^1_f(T)\subseteq H^1(G,T)$ the submodule of classes of cocycles in $Z^1_f(V)$. Lengths are
+$\OO$-lengths with values in $\N\cup\{\infty\}$.
+
+\subsubsection{Two length estimates}
+
+\begin{lemma}[Torsion lengths]\label{pf:linkN-sel:torslen}
+Let $\OO$ be a commutative ring and $a\in\OO$. If an $\OO$-module $P$ is generated by $n$ elements each killed by $a$, then
+$\len(P)\le n\,\len(\OO/a\OO)$. Moreover $\len(\OO/a^e\OO)\le e\,\len(\OO/a\OO)$ for all $e\in\N$.
+\formallabel{Formalism.WachCohomologyFacts.PLenBound.length_le_of_span}
+\formallabel{Formalism.WachCohomologyFacts.PLenBound.length_quot_pow_le}
+\end{lemma}
+
+\begin{proof}
+$P$ is a quotient of $(\OO/a\OO)^n$, and length is monotone under quotients and additive in short exact sequences. For the second
+claim argue by induction on $e$: the exact sequence $0\to a^e\OO/a^{e+1}\OO\to\OO/a^{e+1}\OO\to\OO/a^e\OO\to0$ and the surjection
+$\OO/a\OO\to a^e\OO/a^{e+1}\OO$, $x\mapsto a^ex$, give $\len(\OO/a^{e+1}\OO)\le\len(\OO/a\OO)+\len(\OO/a^e\OO)$.
+\end{proof}
+
+\begin{lemma}[Two-step count]\label{pf:linkN-sel:twostep}
+Let $\OO$ be a commutative ring, $M$ an $\OO$-module, $\ell,g,g_0,e,e'\in\N$, $I\subseteq Z\subseteq M$ submodules and $s,s_0\subseteq M$
+finite sets with $\#s\le g$, $\#s_0\le g_0$, $s_0\subseteq Z$, $\OO s+I=Z$, $\ell^eZ\subseteq\OO s_0+I$ and $\ell^{e'}\OO s_0\subseteq I$. Then
+\[
+\len(Z/I)\le(ge+g_0e')\,\len(\OO/\ell\OO).
+\]
+\formallabel{Formalism.TruncatedSeriesCounting.TruncatedSeriesCountingBounds.length_quotient_le_of_two_step}
+\end{lemma}
+
+\begin{proof}
+Since $s_0\subseteq Z$ and $I\subseteq Z$, $Z'=\OO s_0+I$ is a submodule of $Z$ containing $I$, and $0\to Z'/I\to Z/I\to Z/Z'\to0$ is exact,
+so $\len(Z/I)=\len(Z'/I)+\len(Z/Z')$. The module $Z'/I$ is generated by the images of the elements of $s_0$, each killed by $\ell^{e'}$;
+by \cref{pf:linkN-sel:torslen}, $\len(Z'/I)\le g_0\len(\OO/\ell^{e'}\OO)\le g_0e'\len(\OO/\ell\OO)$. The module $Z/Z'$ is generated by the
+images of the elements of $s$ (as $\OO s+I=Z$), each killed by $\ell^e$ (as $\ell^eZ\subseteq Z'$); hence $\len(Z/Z')\le ge\len(\OO/\ell\OO)$.
+\end{proof}
+
+\subsubsection{The local Bloch--Kato condition}
+
+A \emph{local situation} $S$ consists of the period data of $G=G_K$ at $p$, a coefficient field $\mathit{LL}$ and a Wach structure $W$ of
+level $s$ (\cref{pf:linkN-adm:wach}), and $G_{K_s}\subseteq G$ denotes the subgroup on which $\chi\equiv1\bmod p^s$. A lattice $Y$ is
+\emph{crystalline on} a subgroup $H\subseteq G$ if $\dim_{\mathit{LL}}(V(Y)\otimes B_{\mathrm{cris}})^H=[K_0:\Q_p]\dim V(Y)$. Given a
+comparison datum $E$ for $S$ and $M_0,h_0\in\N$, the \emph{Wach hypothesis} $\mathrm{HypW}(Y,M_0,h_0)$ requires that $Y$ is crystalline on
+$G_{K_s}$, that its jumps lie in $[-M_0,h_0]$, and that $D(Y)$ contains an $A$-submodule satisfying the Wach clauses of $E$.
+
+\begin{definition}[The local theorem TB]\label{pf:linkN-sel:TBloc}
+The \emph{local theorem TB} holds at $(S,E)$ if the following holds for all $e,M_0,h_0\in\N$. Let
+$0\to Y\xrightarrow{\iota}\tilde Y\xrightarrow{\pi}Z\to0$ be a short exact sequence of lattices with $Z$ of rank one and trivial action, let
+$T_e$ be a lattice of rank one on which $g$ acts by $\chi(g)^{-e}$, assume $\tilde Y$ crystalline on $G_{K_s}$ and $\mathrm{HypW}(Y,M_0,h_0)$,
+and let $\tilde y\in\tilde Y$ with $\OO\pi(\tilde y)=Z$, $\varphi\colon Y\to V(T_e)/T_e$ an $\OO$-linear $G$-equivariant map and
+$f\colon G\to Y$ with $\iota(f(g))=g\tilde y-\tilde y$. Then $p^{c_{\mathrm{TB}}(Y)}\,\varphi\circ f\in H_f(T_e)$, where
+$c_{\mathrm{TB}}(Y)=c_{\mathrm{TB}}(Y;M_0,h_0,e)\in\N$ is an explicit constant depending on $p$, $s$, $e$, $K$, the jump set of $Y$ and
+$M_0+h_0$.
+\formal{Formalism.MainNotions.LocalSituation.TBat}
+\formal{Formalism.MainNotions.LocalSituation.cTBY}
+\end{definition}
+
+\begin{lemma}[TB for a vector of value one]\label{pf:linkN-sel:tbpart1}
+Assume the local theorem TB at $(S,E)$. Let $\tilde Y$ be a lattice which is crystalline on $G_{K_s}$, $\lambda\colon V(\tilde Y)\to\mathit{LL}$ a
+$G$-invariant linear form with $\lambda(\tilde Y)\subseteq\OO$, and $e_0\in\tilde Y$ with $\lambda(e_0)=1$; let $Y$ be the lattice
+$\tilde Y\cap\ker\lambda$ of $\ker\lambda$. Let $e,M_0,h_0,c_B\in\N$ with $\mathrm{HypW}(Y,M_0,h_0)$ and $c_{\mathrm{TB}}(Y;M_0,h_0,e)\le c_B$,
+let $T_e$ be as in \cref{pf:linkN-sel:TBloc}, and let $\varphi\colon V(\tilde Y)\to V(T_e)/T_e$ be $\OO$-linear with
+$\varphi(gy)=g\varphi(y)$ for $y\in Y$. Then $p^{c_B}\cdot\bigl(g\mapsto\varphi(ge_0-e_0)\bigr)\in H_f(T_e)$.
+\formallabel{GlobalTheory.TBLocal.tb_part1}
+\formallabel{GlobalTheory.TBLocal.ses}
+\end{lemma}
+
+\begin{proof}
+Let $Z=\OO\subseteq\mathit{LL}$ with trivial action. The inclusion $\iota\colon\ker\lambda\to V(\tilde Y)$ and $\lambda\colon V(\tilde Y)\to\mathit{LL}$
+form a short exact sequence of lattices $0\to Y\to\tilde Y\to Z\to0$: $\lambda$ is onto since $\lambda(ze_0)=z$; $\lambda(\tilde Y)=\OO$ since
+$\lambda(\tilde Y)\subseteq\OO$ and $\lambda(ae_0)=a$; the kernel of $\lambda$ is the image of $\iota$; and $\iota^{-1}(\tilde Y)=Y$ by
+definition. As $\lambda$ is $G$-invariant, $f(g)=ge_0-e_0$ lies in $Y$, and $\OO\lambda(e_0)=Z$. Apply TB with $\tilde y=e_0$, the restriction
+of $\varphi$ to $Y$ and this $f$: $p^{c_{\mathrm{TB}}(Y)}\bigl(g\mapsto\varphi(ge_0-e_0)\bigr)\in H_f(T_e)$. Multiplying by
+$p^{c_B-c_{\mathrm{TB}}(Y)}$ gives the claim, $H_f(T_e)$ being an $\OO$-module.
+\end{proof}
+
+\begin{lemma}[The clauses of TBe]\label{pf:linkN-sel:tbe}
+Let $T$ be a lattice, $I=J$ subgroups of $G$, and $e,c_B\in\N$. Assume: if $e>0$, then $H_f(T)=B(T)$; if $e=0$, then a map $c$ lies in
+$H_f(T)$ if and only if $c\in Z^1_{\mathrm{div}}(T)$ and $c(g)=gx-x$ for all $g\in J$, for some $x$; and the $p^{c_B}$-torsion of
+$H^1_{\mathrm{div}}(T)/H^1_{\mathrm{div},f}(T)$ has length at most $([K:\Q_p]+1)c_B\len(\OO/p\OO)$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item if $e>0$, then $Z^1_{\mathrm{div}}(T)\cap H_f(T)\subseteq B(T)$;
+\item if $e=0$, then $Z^1_{\mathrm{div}}(T)\cap H_f(T)=Z^1_{\mathrm{div}}(T)\cap\bigl(Z^1_{\mathrm{ur}}(T,I)+B(T)\bigr)$;
+\item with $A=\{c\in Z^1_{\mathrm{div}}(T):p^{c_B}c\in H_f(T)\}$, $\len\bigl(A/(Z^1_{\mathrm{div}}(T)\cap H_f(T))\bigr)\le([K:\Q_p]+1)c_B\len(\OO/p\OO)$.
+\end{enumerate}
+\formallabel{GlobalTheory.TBLocal.tbe_clauses}
+\formallabel{GlobalTheory.TBLocal.len_le_torsion}
+\end{lemma}
+
+\begin{proof}
+(a) is immediate. (b) If $c\in Z^1_{\mathrm{div}}\cap H_f$, the hypothesis for $e=0$ gives $x$ with $c(g)=gx-x$ on $J=I$, so $c\in Z^1_{\mathrm{ur}}(T,I)$.
+Conversely let $c=y+b\in Z^1_{\mathrm{div}}$ with $y(g)=gx-x$ on $I$ and $b(g)=gu-u$; then $c(g)=g(x+u)-(x+u)$ on $J$, so $c\in H_f$ by the
+hypothesis. (c) For $c\in A$ the class of $c$ in $Q=H^1_{\mathrm{div}}(T)/H^1_{\mathrm{div},f}(T)$ is killed by $p^{c_B}$, since $p^{c_B}c\in
+Z^1_{\mathrm{div}}\cap H_f$. This gives an $\OO$-linear map from $A$ to the $p^{c_B}$-torsion of $Q$. Its kernel is $Z^1_{\mathrm{div}}\cap H_f$:
+if the class of $c$ is that of some $w\in Z^1_{\mathrm{div}}\cap H_f$, then $c-w\in B(T)\subseteq H_f(T)$, so $c\in H_f$; the converse is clear.
+Hence $A/(Z^1_{\mathrm{div}}\cap H_f)$ embeds into the torsion submodule, and the length bound follows from the hypothesis.
+\end{proof}
+
+\subsubsection{Generators of finite classes}
+
+\begin{proposition}[Generator bound]\label{pf:linkN-sel:gen}
+For every datum $D$, every prime $\ell$ and all finite extensions $K,\mathit{LL}$ of $\Ql$ with $K=K_0$, every crystalline
+$\OO_{\mathit{LL}}$-lattice $T$ of $G_K$ has a generating set of $H^1_f(T)$ with at most $([K_0:\Ql]+1)\rank T$ elements.
+\formallabel{GlobalTheory.T.h1fGeneratorBoundAll_loc}
+\formallabel{GlobalTheory.GenCountUnram.admGenL_all}
+\end{proposition}
+
+\begin{proof}
+Let $V=V(T)$. Crystalline representations are de Rham (\lref{GlobalTheory.Per.CrisDR.isDR_of_isCrys}, which states this for the
+period data of the datum). For de Rham $V$ the lemma \lref{GlobalTheory.T.h1fT_span_card_bound} (deferred) gives a generating set $s$
+of $H^1_f(T)$ with $\#s+\dim H^0(G_K,V)\le\dim H^1_f(V)+\dim V$, where $H^1_f(V)$ is the space of classes of $Z^1_f(V)$; the dimension
+formula of Bloch--Kato, \lref{GlobalTheory.SeqDim.h1f_finrank}, gives
+$\dim H^1_f(V)=\dim H^0(G_K,V)+\dim D_{\mathrm{dR}}(V)-\dim\mathrm{Fil}^0D_{\mathrm{dR}}(V)$ \cite{BlochKato1990}; and
+$\dim D_{\mathrm{dR}}(V)\le[K:\Ql]\dim V$ (\lref{GlobalTheory.Per.TiedDdR.ddR_finrank_le}). Since $K=K_0$,
+$\#s\le\dim D_{\mathrm{dR}}(V)+\dim V\le([K_0:\Ql]+1)\dim V$. The ring $\OO_{\mathit{LL}}$ satisfies the integrality conditions required
+there by \lref{GlobalTheory.LocalIntegers.good_integers}.
+\end{proof}
+
+\subsubsection{Herr classes}
+
+For a Wach structure $W$ of level $s$ and a lattice $T$, a \emph{divisible Wach cocycle} is a pair $(y,z)\in D(T)^2$ satisfying the cocycle
+condition of the Herr complex \cite{Herr1998}; $W$ provides a class map $\mathrm{cl}_T$ from divisible Wach cocycles to
+$H^1(G_{K_s},T)$ and, for the $\Delta$-invariant version (pairs in the $\Delta$-invariant Wach cocycles), a class map $\mathrm{cl}^K_T$ to
+$H^1(G_K,T)$. We say that $W$ has \emph{natural Herr classes} if:
+\begin{enumerate}[label=(N\arabic*)]
+\item for every lattice homomorphism $f\colon T\to T'$ and divisible Wach cocycles $(y,z)$ of $T$ and $(y',z')=(D(f)y,D(f)z)$ of $T'$,
+$f_*\mathrm{cl}_T(y,z)=\mathrm{cl}_{T'}(y',z')$ in $H^1(G_{K_s},T')$;
+\item if $p=2$ implies $\sqrt{-1}\in K$, the same holds for $\mathrm{cl}^K$;
+\item (extension formula) for lattice homomorphisms $\iota\colon T\to T_p$ and $\pi\colon T_p\to\mathbf 1$ between crystalline lattices ($\mathbf 1$
+the trivial lattice of $W$), every lattice cocycle $c$ of $T$ which is an extension cocycle of $(\iota,\pi)$ and every unit generator $e$ of
+$D(\mathbf 1)$, there is $u\in\OO^\times$ such that
+for all $x\in D(T_p)$, $a\in\OO$ with $D(\pi)x=ae$ and all divisible Wach cocycles $(y,z)$ of $T$ with $D(\iota)y=\varphi x-x$ and
+$D(\iota)z=\gamma x-x$, one has $\mathrm{cl}_T(y,z)=ua\cdot\mathrm{res}_{G_{K_s}}[c]$;
+\item if $s=1$ and $p\ne2$, the analogue of (N3) for $\Delta$-invariant $x$, $\Delta$-invariant Wach cocycles and $\mathrm{cl}^K$, with
+$\gamma_K$ in place of $\gamma$ and without restriction.
+\end{enumerate}
+
+\begin{proposition}[Natural Herr classes]\label{pf:linkN-sel:herr}
+For every datum $D$ with local Hodge--Tate data $HW$ and Fontaine data, the Wach structure of every good triple $(K,s,\mathit{LL})$ at every
+prime has natural Herr classes.
+\formallabel{GlobalTheory.AdmHerrLocal.main}
+\formallabel{Formalism.MainNotions.HerrComplexNaturality.herr_naturality_theorem_holds}
+\formallabel{Formalism.MainNotions.HerrComplexNaturality.herr_class_maps_of_naturality}
+\end{proposition}
+
+\begin{proof}
+Herr's theorem in the form \lref{GlobalTheory.HerrFull.herr_a_and_natural} states, at every good triple, two forms of part (a) of
+Herr's theorem (injectivity and bijectivity properties of the class maps) together with (N1); the first form contains, under the hypothesis
+of (N2), the naturality of $\mathrm{cl}^K$, which is (N2). The extension formulas (N3) and (N4), with a unit
+$u$, are \lref{GlobalTheory.HerrExtUnit.main}.
+\end{proof}
+
+\subsubsection{Fontaine's functor}
+
+Let $W$ be a Wach structure (\cref{pf:linkN-adm:wach}) with ring $A=\OO[[X]]^{\Z/n}$, \'etale ring $\mathcal E\supseteq A$, Frobenius
+$\varphi$ and $\Gamma$-action, and \'etale $(\varphi,\Gamma)$-modules $D(T)$ over $\mathcal E$ for the lattices $T$. We say that \emph{Fontaine's
+theory holds at $W$} if:
+\begin{enumerate}[label=(F\arabic*)]
+\item (full faithfulness) for lattices $T,T'$ and every $\mathcal E$-linear map $f\colon D(T)\to D(T')$ commuting with $\varphi$ and $\Gamma$
+there is a unique lattice homomorphism $F\colon T\to T'$ with $D(F)=f$;
+\item (exactness) for every short exact sequence of lattices $0\to T_0\xrightarrow{\iota}T_1\xrightarrow{\pi}T_2\to0$, $D(\iota)$ is injective,
+$D(\pi)$ is surjective and $\ker D(\pi)=\operatorname{im}D(\iota)$;
+\item ($\psi$ on $\mathcal E$) there is an $\OO$-linear $\psi\colon\mathcal E\to\mathcal E$ commuting with $\Gamma$, with $\psi(\varphi(a)x)=a\psi(x)$,
+and with $\psi\bigl((1+X)^j\varphi(a)\bigr)=a$ for $j=0$ and $=0$ for $0<j<p$; and every $x\in\mathcal E$ can be written
+$x=\sum_{j=0}^{p-1}(1+X)^j\varphi(c_j)$ with $c_j\in\mathcal E$;
+\item ($\psi$ on modules) for every lattice $T$ there is an $\OO$-linear $\psi\colon D(T)\to D(T)$ commuting with $\Gamma$, with $\psi(\varphi x)=x$
+and $\psi(\varphi(a)x)=a\psi(x)$ for $a\in\mathcal E$.
+\end{enumerate}
+These are the basic properties of Fontaine's equivalence between lattices and \'etale $(\varphi,\Gamma)$-modules and of the operator $\psi$
+\cite{Fontaine1990,Herr1998}.
+
+\begin{theorem}[Fontaine's functor]\label{pf:linkN-sel:fontaine}
+For every datum $D$ with local Hodge--Tate data $HW$ and Fontaine data, Fontaine's theory holds at the Wach structure of level $1$ of every
+place $(\ell,K,\mathit{LL})$ in case~A.
+\formallabel{GlobalTheory.T.fontaine_fullFaithful_exact_psi}
+\formallabel{GlobalTheory.fontaine_litFont_assembled}
+\end{theorem}
+
+\begin{proof}
+Let $W$ be the Wach structure; the residue characteristic $p$ of its period data is $\ell$. (F1) is
+\lref{GlobalTheory.T.wachFunctor_fullyFaithful} (deferred), which states (F1) at every good triple. (F2) is
+\cref{pf:linkN-sel:exact} below. For (F3), \lref{GlobalTheory.T.wachFunctorRing_psiOperator_exists_of_good} (deferred) gives an
+$\OO$-linear $\psi$ on $\mathcal E$ with the three displayed properties, and \lref{GlobalTheory.T.etaleRing_free_over_frobenius_image}
+(deferred) states that every $x\in\mathcal E$ has a unique expansion $x=\sum_{j<p}(1+X)^j\varphi(c_j)$, i.e.\ that $\mathcal E$ is free over
+$\varphi(\mathcal E)$ with basis $(1+X)^j$, $0\le j<p$; only the existence of the expansion is used. (F4) is
+\lref{GlobalTheory.T.exists_psi_operator_etale_phiGamma_module} (deferred), which constructs $\psi$ on every $D(T)$.
+\end{proof}
+
+\begin{lemma}[Exactness of the \'etale functor]\label{pf:linkN-sel:exact}
+For every datum with local Hodge--Tate and Fontaine data, the functor $D$ of the Wach structure of every good triple satisfies (F2).
+\formallabel{GlobalTheory.LatExact.W_exact}
+\formallabel{GlobalTheory.T.etaleFunctor_exact_on_lattices}
+\end{lemma}
+
+\begin{proof}
+By the Fontaine and decompletion statements \lref{GlobalTheory.Decompl.fontaine_and_decompletion}, the hypotheses of
+\lref{GlobalTheory.EtaleExact.DD_exact} are satisfied; the latter states that $D$ carries short exact sequences of lattices to exact
+sequences of $\mathcal E$-modules: $D(\iota)$ injective, $\ker D(\pi)=\operatorname{im}D(\iota)$ and $D(\pi)$ surjective.
+\end{proof}
+
+\subsubsection{The arc tools}
+
+\begin{definition}[The arc tools]\label{pf:linkN-sel:arcdef}
+Let $D$ be a datum with local Hodge--Tate data, Fontaine data and comparison data. The \emph{arc tools} are the following thirteen
+statements on the Wach structures of level $1$ at the places in case~A with $\ell\ge5$ (in the notation of
+\cref{pf:linkN-adm:def-AB}): the saturation statement (sat) for arc lifting and its \'etale form (sat$_E$); the saturation statement (satP)
+for Frobenius pullbacks; the statement $\gamma(\pi_0)\in\pi_0A^\Delta$; the killer statement at levels (kLev), the killer bound with
+constant $8$, and the second form (kLev$_E$) of (kLev); the first and second filtration statements (F1), (F2) for arc lifting and their
+\'etale forms (F1$_E$), (F2$_E$); the filtration properties (FP$_E$) in \'etale coordinates, which involve the comparison data; and the
+freeness (bc) of finite cohomology under unramified base change.
+\formal{Formalism.MainNotions.ArcLiftingSetup.adm5}
+\formal{Formalism.MainNotions.WachCoordinates.adm8}
+\formal{Formalism.MainNotions.ArcLiftingSetup.SaturationFrobeniusPullback}
+\formal{Formalism.MainNotions.UnusedSlot80.GammaPreservesUniformiser}
+\formal{Formalism.MainNotions.ArcLiftingSetup.KillerLevL}
+\formal{Formalism.MainNotions.ArcLiftingSetup.adm8}
+\formal{Formalism.MainNotions.WachCoordinates.adm11}
+\formal{Formalism.MainNotions.ArcLiftingSetup.adm6}
+\formal{Formalism.MainNotions.ArcLiftingSetup.adm7}
+\formal{Formalism.MainNotions.WachCoordinates.adm9}
+\formal{Formalism.MainNotions.WachCoordinates.adm10}
+\formal{Formalism.MainNotions.WachCoordinates.adm7}
+\formal{Formalism.MainNotions.WachCoordinates.adm13}
+\end{definition}
+
+\begin{theorem}[The arc tools]\label{pf:linkN-sel:arc}
+For every datum $D$ with local Hodge--Tate data, Fontaine data and comparison data, the arc tools hold.
+\formallabel{GlobalTheory.T.arcTheorem_tools_of_wachModuleConclusions}
+\formallabel{GlobalTheory.ArcTools.arc_tools_from_clauses}
+\end{theorem}
+
+\begin{proof}
+The later clauses of the Wach lattice theory \lref{GlobalTheory.T.wachLattice_laterClauses_hold} give the clauses (P1)--(P10) and
+further clauses, among them two clauses (a), (b) on Wach cohomology classes; \cref{pf:linkN-sel:herr} gives the naturality (N1), (N2) of the
+Herr classes. Each arc tool is then derived by a lemma of the development (all deferred):
+\begin{itemize}
+\item (sat) and (sat$_E$) from (P1) and (P9) (\lref{Formalism.MainNotions.UnusedSlot80.saturation_general_statement},
+\lref{Formalism.MainNotions.UnusedSlot80.saturation_unramified_statement}); (satP) from (P9)
+(\lref{Formalism.MainNotions.UnusedSlot80.saturation_pullback_statement}); and $\gamma(\pi_0)\in\pi_0A^\Delta$ from (P9)
+(\lref{Formalism.MainNotions.UnusedSlot80.gamma_uniformizer_divisible_statement});
+\item (kLev) from the comparison data, (P4) and (P9) (\lref{Formalism.MainNotions.UnusedSlot80.annihilator_levels_unramified_statement},
+about $700$ lines, through a grading of the annihilator ideals by levels); the killer bound with constant $8$ from (kLev) and
+$\gamma(\pi_0)\in\pi_0A^\Delta$ (\lref{Formalism.MainNotions.UnusedSlot80.killer_first_theorem_holds}, about $280$ lines, through a
+$\pi$-stability statement for contents); and (kLev$_E$) from $\gamma(\pi_0)\in\pi_0A^\Delta$
+(\lref{Formalism.MainNotions.UnusedSlot80.killer_second_theorem_holds});
+\item (F1) and (F1$_E$) from (P2), (P5), (P9), the clause (a) and (N1), (N2)
+(\lref{Formalism.MainNotions.UnusedSlot80.firstFiltrationTheoremCaseA},
+\lref{Formalism.MainNotions.UnusedSlot80.firstFiltrationTheoremEtale}); (F2) and (F2$_E$) from (P7), (P9), the clause (b) and
+(F1), resp.\ (F1$_E$) (\lref{Formalism.MainNotions.UnusedSlot80.second_filtration_theorem_arc_lifting},
+\lref{Formalism.MainNotions.UnusedSlot80.cohomology_class_unramified_statement});
+\item (FP$_E$) from the comparison data, (P3), (P4) and (P9) (\lref{Formalism.MainNotions.UnusedSlot80.tools_unramified_statement});
+and (bc) for every datum (\lref{Formalism.MainNotions.UnusedSlot80.base_change_statement}).\qedhere
+\end{itemize}
+\end{proof}
+
+\subsubsection{Crystalline characters with given jumps}
+
+\begin{proposition}[Crystalline characters with given jumps]\label{pf:linkN-sel:crychar}
+Let $D$ be a datum with local Hodge--Tate data and Fontaine data, $\ell$ a prime and $(K,\mathit{LL})$ a pair in case~A, so that the letters of the
+Wach structure of level $1$ correspond to the embeddings $\tau\colon K\to\mathit{LL}$.
+\begin{enumerate}[label=(\alph*)]
+\item For every function $a$ from the letters to $\Z$ there is a continuous crystalline character $\psi\colon G_K\to\OO^\times$ which has, at every
+embedding $\tau$ over the letter $i$, the single Hodge--Tate jump $a(i)$, with multiplicity one.
+\item If $\rho$ is a crystalline representation of $G_K$ and $\mu\colon G_K\to\mathit{LL}^\times$ a continuous character trivial on the inertia group,
+then $\mu\otimes\rho$ is crystalline and has the same Hodge--Tate multiplicities as $\rho$ at every embedding.
+\end{enumerate}
+\formallabel{GlobalTheory.T.crystalline_characters_given_jumps_unramified_twists}
+\formallabel{GlobalTheory.CrysCharJumps.adm20_of_fonOf}
+\formallabel{GlobalTheory.CrysCharJumps.hasJumps_prod}
+\end{proposition}
+
+\begin{proof}
+(a) For every embedding $\tau_0$, \lref{GlobalTheory.T.exists_crystalline_char_jump_one_alt} (deferred; a character of Lubin--Tate type) gives a continuous crystalline character $\psi_{\tau_0}\colon G_K\to\OO^\times$ whose only Hodge--Tate jump is $1$
+at $\tau_0$ and $0$ at the other embeddings, all with multiplicity one. Put $c(\tau)=a(i)$ for $\tau$ over the letter $i$ and
+$\psi=\prod_\tau\psi_\tau^{c(\tau)}$. By induction over finite sets $s$ of embeddings, $\prod_{\tau\in s}\psi_\tau^{c(\tau)}$ is crystalline with the
+single jump $c(\tau)$ at $\tau\in s$ and $0$ at $\tau\notin s$: for $s=\emptyset$ this is the trivial character, and the induction step uses that
+integral powers and products of crystalline characters are crystalline, with jumps multiplied, resp.\ added
+(\lref{GlobalTheory.CrysCharJumps.hasJumps_one}, \lref{GlobalTheory.CrysCharJumps.hasJumps_zpow},
+\lref{GlobalTheory.CrysCharJumps.hasJumps_mul}). For $s$ the set of all embeddings this is (a).
+
+(b) A continuous unramified character is crystalline with the single Hodge--Tate weight $0$
+(\lref{GlobalTheory.T.unramifiedChar_isCrystalline_hodgeTate_zero}), and the twist of a crystalline representation by a crystalline
+character is crystalline, with multiplicities shifted by the weight of the character
+(\lref{GlobalTheory.TwistRepCrys.isCrys_and_multV_twist}); with weight $0$ the multiplicities are unchanged.
+\end{proof}

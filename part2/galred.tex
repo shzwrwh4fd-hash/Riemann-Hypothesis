@@ -1,0 +1,2372 @@
+\section{Reduction to theta lifting and geometry}\label{sec:pf:galred}
+
+\providecommand{\galredWD}{\mathrm{WD}}
+\providecommand{\galredrc}{\mathrm{rc}}
+\providecommand{\galredIrr}{\operatorname{Irr}}
+\providecommand{\galredHT}{\mathrm{HT}}
+\providecommand{\galredinf}{\operatorname{inf}}
+\providecommand{\galredU}{\mathrm{U}}
+\providecommand{\galredsph}{\mathrm{WD}^{\mathrm{ur}}}
+\providecommand{\galredSat}{\operatorname{Sat}}
+\providecommand{\galredcp}{\operatorname{cp}}
+\providecommand{\galredtr}{\operatorname{tr}}
+\providecommand{\galredFr}{\operatorname{Fr}}
+\providecommand{\galredSp}{\operatorname{Sp}}
+
+This section proves \cref{thm:galois:reduction}: the geometric statement $\sfname{GeoOne}$
+(\cref{def:galois:geoone}) and the theta lifting statement $\sfname{TLiftK}$ (\cref{def:galois:tliftk})
+together imply the statement $\sfname{Row0}(\mathrm{recT})$, a slight strengthening of
+$\sfname{Row0b}(\mathrm{recT})$ (\cref{def:row0b}). Both $\sfname{GeoOne}$ and $\sfname{TLiftK}$ are hypotheses
+here; they are proved in the formal development (\cref{thm:geoone,thm:galois:tlift}), and with them the
+results of this section give \cref{thm:row0b}.
+
+\paragraph{The two halves of the proof.} The two halves meet in a statement $\sfname{CoreAll}$
+(\cref{pf:galred:coreall}). It asserts that every regular algebraic, polarized, cuspidal automorphic
+representation $\pi$ of $\GL_a(\A_E)$, $E$ a CM field, has a \emph{weakly attached} $\ell$-adic Galois
+representation (one whose Frobenius characteristic polynomials match the Satake parameters of $\pi$ at almost
+all places), and that every weakly attached representation $r$ satisfies local--global compatibility at
+\emph{every} place $w$ where $\pi$ is unramified: matching Frobenius eigenvalues if $w\nmid\ell$, and if
+$w\mid\ell$ the de Rham property with the expected Hodge--Tate weights, crystallinity and the expected
+Frobenius on the Weil--Deligne representation.
+
+\begin{enumerate}[label=(\alph*),nosep]
+\item \emph{From $\sfname{CoreAll}$ to $\sfname{Row0}$} (\cref{sec:pf:galred:rest}). The weights are read off from
+  the infinitesimal characters and the polarization. The remaining work is local--global compatibility at
+  ramified places $w$, in the two cases where the local parameter $y=\galredrc(\sigma^\natural)$ of a local
+  component $\sigma$ has no monodromy and is either abelian, or tame and squarefree at a place with $E_w\cong\Q_g$.
+  In the abelian case $\sigma^\natural$ is an irreducible principal series, and for every Weil group element $g$
+  of nonzero degree a solvable CM base change $M/E$ with $g\in G_M$ makes the place unramified; $\sfname{CoreAll}$
+  for the base change computes the characteristic polynomial of $r(g)$. In the tame case a counting argument for
+  depth-zero supercuspidal representations shows that $\sigma$ has depth zero, and an unramified base change of
+  suitable degree reduces this case to the abelian one.
+\item \emph{From $\sfname{GeoOne}\wedge\sfname{TLiftK}$ to $\sfname{CoreAll}$}
+  (\cref{sec:pf:galred:odd,sec:pf:galred:core}). For automorphic representations of totally definite unitary
+  groups of odd rank $a$, $\sfname{GeoOne}$ produces Galois representations, of unknown dimension, whose
+  Frobenius elements are annihilated by the Hecke polynomials; a \emph{division} argument extracts
+  $a$-dimensional representations (``seeds''). A density argument (``congruences'') shows that every
+  automorphic representation of odd rank is an $\ell$-adic limit of seeds, and the limit of the seed
+  representations, constructed through pseudo-characters, is attached to it (``limits''). Two theta lifts
+  ($\sfname{TLiftK}$) to odd rank and the subtraction of $\ell$-adic characters reach even rank; descent
+  passes to $\GL_a$; quadratic base change and patching remove the conditions on the field; twisting passes
+  from conjugate self-dual to polarized representations.
+\end{enumerate}
+
+\paragraph{What is proved here.} The deductions at the top two or three levels of the formal proof are given in
+full: the main theorem and its two halves, the deduction of $\sfname{Row0}$ from $\sfname{CoreAll}$ and two
+local--global statements $\sfname{R1}$, $\sfname{R2}$, the local lemmas behind the abelian and tame cases
+(including the counting argument for depth-zero representations), the weights, the base change argument for
+$\sfname{R1}$, the reduction of $\sfname{R2}$ to $\sfname{R1}$, the extraction of seeds from $\sfname{GeoOne}$
+given an abstract division theorem, the limit argument, the passage from odd rank to all ranks, the descent to
+$\GL_a$, the patching arguments, and the passage from $\sfname{Core}$ to $\sfname{CoreAll}$. The auxiliary results behind
+these deductions (the abstract division theorem, the closedness of crystallinity and of Fontaine's Weil--Deligne
+representation under limits, pseudo-characters, the density statements and weight families of the congruence argument,
+supports under unramified base change, the counting of depth-zero representations, the construction of CM extensions with
+prescribed local behaviour, and the data for the theta lifts) are proved in \cref{sec:pf:galred:aux} down to their main
+ingredients, which are stated precisely and cited.
+
+\paragraph{Organization.} \Cref{sec:pf:galred:stmts} fixes notation, makes the statements precise and proves the
+main theorem modulo three theorems: \cref{pf:galred:rest} (half (a)), \cref{pf:galred:coreallof} and
+\cref{pf:galred:seedcong} (half (b)). \Cref{sec:pf:galred:rest} proves \cref{pf:galred:rest}.
+\Cref{sec:pf:galred:odd} treats definite unitary groups of odd rank (seeds, congruences, limits), and
+\cref{sec:pf:galred:core} passes from odd rank to $\sfname{Core}$ and to $\sfname{CoreAll}$. \Cref{sec:pf:galred:aux} proves
+the auxiliary results used along the way.
+
+% ---------------------------------------------------------------------------
+\subsection{Notation and statements}\label{sec:pf:galred:stmts}
+
+\paragraph{Places and Weil groups.} We use the conventions of \cref{sec:galois:local,sec:galois:row}. For a number field
+$E$, $\Omega$ is an algebraic closure of $E$, fields between $E$ and $\Omega$ are regarded as subfields of $\Omega$, and
+$G_E=\Aut_E(\Omega)$ with the Krull topology. A finite place $w$ of $E$ is a nonzero prime of $\OO_E$, $E_w$ its completion and
+$q_w=\Nm w$. A place $A$ of $\Omega$ above $w$ is a valuation ring of $\Omega$ lying over $w$; it has
+decomposition, inertia and wild inertia groups $D_A\supset I_A\supset P_A$ in $G_E$ and a Weil group
+$W_A\subset D_A$ with degree map $\deg\colon W_A\to\Z$, whose kernel is $I_A$. An \emph{arithmetic Frobenius}
+at $A$ is an element $\sigma\in D_A$ acting on the residue field of $A$ by $x\mapsto x^{q_w}$; it lies in $W_A$
+and has degree $1$. If $E\subset M\subset\Omega$ and $u$ is the place of $M$ below $A$, then $W_A(M)$, $I_A(M)$ denote the
+corresponding subgroups of $G_M$; an element of $G_M$ is identified with the element of $G_E$ with the same action on
+$\Omega$.
+
+$\galredWD_A$ is the set of isomorphism classes of Frobenius-semisimple Weil--Deligne representations of
+$W_A$ on spaces $\C^n$ (\cref{def:galois:wd}). For $x=(\rho_x,N_x)\in\galredWD_A$ and $g\in W_A$ we write
+$P_x(g)=\det(X-\rho_x(g))\in\C[X]$ for the characteristic polynomial of $\rho_x(g)$. For a multiset $S$ we
+write $\prod_S(X-s)$ for $\prod_{s\in S}(X-s)$.
+
+\paragraph{Local representations and local parameter maps.} $\galredIrr(E_w)$, supercuspidal supports, segments,
+Langlands quotients, depth zero and \emph{good} representations are as in \cref{def:galois:irr}. For
+$x\in\galredIrr(E_w)$ we write $\supp(x)$ for its supercuspidal support (a multiset of cuspidal elements of
+$\galredIrr(E_w)$); a multiset $s$ of such elements is \emph{unlinked} if $y\ne z\nu$ for all $y,z\in s$
+($\nu=|\det|$). Two elements $y,z$ of $\galredIrr(E_w)$ are \emph{inertially equivalent} if $z=y\otimes\mu$ for an
+unramified character $\mu$. A \emph{local parameter map} is a map $\galredrc\colon\galredIrr(E_w)\to\galredWD_A$
+satisfying the laws (L1)--(L12) of \cref{def:rectexists} for some local Artin map $a$ (we then say that
+$\galredrc$ \emph{has Artin map $a$}); in the formal statement of the injectivity law (L10) only $y$ is assumed
+to be good: $\galredrc(x)=\galredrc(y)$ with $y$ good implies $x=y$. Local parameter maps exist
+(\cref{thm:rectexists}).
+
+\paragraph{Automorphic notions.} Cuspidal automorphic representations $\pi$ of $\GL_a(\A_E)$, their local
+components $\sigma$ at finite places, the normalized classes $\sigma^\natural=\sigma\otimes|\det|^{(1-a)/2}$,
+infinitesimal characters $\galredinf_\tau(\pi)$, regular algebraicity and polarized pairs $(\pi,\chi)$ are as in
+\cref{def:galois:aut}. We say that $\pi$ is \emph{unramified at $w$ with Satake parameter $B$}, and write
+$\galredSat_w(\pi)=B$, if the representation of $\GL_a(E_w)$ on $V_\pi$ has nonzero $\GL_a(\OO_{E_w})$-fixed
+vectors and every nonzero fixed vector is a spherical vector with Satake parameter $B$, a multiset of $a$ nonzero
+complex numbers; $B$ is then unique. For such $B$ we put
+\[
+  B^{(a)}_w=\{q_w^{(a-1)/2}b:\ b\in B\}.
+\]
+
+\paragraph{$\ell$-adic representations.} Fix a prime $\ell$ and a field isomorphism $\iota\colon\Qlbar\to\C$. A
+homomorphism $r\colon G_E\to\GL_a(\Qlbar)$ is \emph{semisimple} if every $r$-stable subspace of $\Qlbar^a$ has an
+$r$-stable complement. For $w\nmid\ell$, $\galredWD_\iota(r|_{W_A})\in\galredWD_A$ is the Frobenius-semisimplified
+Weil--Deligne representation of \cref{def:galois:awayb}(a). For $w\mid\ell$ the clauses below are expressed
+relative to \emph{frames at $A$}: a frame consists of a package of period rings with an $A_{\inf}$-structure, an
+identification of it with the development's Fontaine rings, and a bridge, that is, an embedding $j$ of $\Omega$
+into $\Qlbar$ with $j(E)$ dense in a finite extension $K$ of $\Ql$, together with a topological isomorphism
+$D_A\cong\Gal(\Qlbar/K)$ compatible with $j$, such that $A=\{x:|j(x)|\le1\}$ (\cref{def:galois:awayb}(d)). Frames
+at $A$ exist only if $w\mid\ell$. Relative to a frame, $r|_{D_A}$ may be crystalline, semistable, de Rham or
+potentially semistable; for every embedding $\tau\colon E\to\Qlbar$ \emph{induced by the frame}, i.e.\ of the form
+$\tau'\circ j|_E$ for an embedding $\tau'$ of $K$, it has a multiset of $\tau$-Hodge--Tate weights (when de
+Rham); and there is Fontaine's Weil--Deligne representation $\galredWD(r|_{D_A})\in\galredWD_A$, transported by
+$\iota$ (the trivial class if $r|_{D_A}$ is not potentially semistable). A property of $r|_{D_A}$ relative to a frame
+\emph{holds at $w$} if it holds for every place $A$ of $\Omega$ above $w$ and every frame at $A$.
+
+\paragraph{Unitary groups.} $\galredU_n$ denotes the totally definite unitary group of
+\cref{sec:galois:arch}; its automorphic representations, weights and Satake parameters at split places are
+recalled in \cref{sec:pf:galred:odd}.
+
+\subsubsection{The statements \texorpdfstring{$\sfname{Row0}$}{Row0} and \texorpdfstring{$\sfname{Row0b}$}{Row0b}}
+
+\begin{definition}[$\sfname{Away}$; $\sfname{Props}$ and $\sfname{Row0}$]\label{pf:galred:row0}
+Let $x,y\in\galredWD_A$, $A$ above a finite place $w$ of $E$. We say that $w$ is a \emph{$\Q_g$-place} if
+$E_w\cong\Q_g$ as topological fields for a prime $g$. $y$ is \emph{abelian} if every commutator in $W_A$ acts on
+$y$ with characteristic polynomial $(X-1)^{\dim y}$, \emph{tame} if every element of $P_A$ does, and
+\emph{squarefree} as in \cref{def:galois:awayb}(b). Then $\sfname{Away}(x,y)$ is the conjunction of: $\dim
+x=\dim y$; if $y$ is abelian and $N_y=0$, then $x=y$; and if $w$ is a $\Q_g$-place and $y$ is tame, squarefree
+and has $N_y=0$, then $N_x=0$ and $P_x(g)=P_y(g)$ for all $g\in W_A$ of degree $0$. Thus $\sfname{Away}$ is
+$\sfname{AwayB}$ (\cref{def:galois:awayb}(c)) with ``$w$ is $(\dim y)$-large'' replaced by ``$w$ is a
+$\Q_g$-place''.
+
+For a recognition notion $\mathrm{Rc}$, $\sfname{Props}_{\mathrm{Rc}}(\pi,\iota,r,\mathrm{wt},\galredHT)$ is
+$\sfname{PropsB}_{\mathrm{Rc}}(\pi,\iota,r,\mathrm{wt},\galredHT)$ (\cref{def:row0b}) with $\sfname{Away}$ in place of
+$\sfname{AwayB}$ in (away) and (nice), and with ``$w$ is a $\Q_g$-place'' in place of ``$w$ is $a$-large'' in
+(nice). $\sfname{Row0}(\mathrm{Rc})$ is $\sfname{Row0b}(\mathrm{Rc})$ with $\sfname{Props}$ in place of
+$\sfname{PropsB}$. The instance used is $\mathrm{Rc}=\mathrm{recT}$: the local parameter maps.
+\end{definition}
+
+\begin{lemma}\label{pf:galred:row0b}
+For every recognition notion $\mathrm{Rc}$, $\sfname{Row0}(\mathrm{Rc})$ implies $\sfname{Row0b}(\mathrm{Rc})$.
+\end{lemma}
+
+\begin{proof}
+Keep $r$, $\mathrm{wt}$ and $\galredHT$. An $n$-large place is a $\Q_g$-place, so $\sfname{Away}(x,y)$ implies
+$\sfname{AwayB}(x,y)$, and the hypothesis of (nice) in $\sfname{PropsB}$ implies that of (nice) in
+$\sfname{Props}$; every clause of $\sfname{PropsB}$ therefore follows from the corresponding clause of
+$\sfname{Props}$. (This is \lref{UpperTheory.GalStar.Row0.row0b}.)
+\end{proof}
+
+\subsubsection{Weakly attached representations and \texorpdfstring{$\sfname{CoreAll}$}{CoreAll}}
+
+\begin{definition}[Weakly attached representations]\label{pf:galred:weak}
+Let $r\colon G_E\to\GL_a(\Qlbar)$, $w$ a finite place of $E$ and $S$ a multiset of complex numbers. We say that
+$r$ \emph{has geometric Frobenius multiset $S$ at $w$}, and write $\galredFr_w(r)=S$, if for every place $A$ of
+$\Omega$ above $w$, $r$ is trivial on $I_A$ and $\iota\bigl(\det(X-r(\sigma^{-1}))\bigr)=\prod_S(X-s)$ for every
+arithmetic Frobenius $\sigma$ at $A$. The representation $r$ is \emph{weakly attached} to a cuspidal
+automorphic representation $\pi$ of $\GL_a(\A_E)$ if it is continuous and semisimple and for all but finitely
+many finite places $w$, $\pi$ is unramified at $w$ and $\galredFr_w(r)=\galredSat_w(\pi)^{(a)}_w$.
+\end{definition}
+
+For a multiset $B$ of $a$ nonzero complex numbers and $A$ above $w$, let $\galredsph_A(B)\in\galredWD_A$ be the
+class of $N=0$ and $\rho=\bigoplus_{b\in B}\bigl(g\mapsto(q_w^{(1-a)/2}b^{-1})^{\deg g}\bigr)$; elements of degree
+$-1$ (geometric Frobenius elements) act on it with eigenvalues $B^{(a)}_w$.
+
+\begin{definition}[The clauses at unramified places]\label{pf:galred:clauses}
+Let $\pi$ be a cuspidal automorphic representation of $\GL_a(\A_E)$, $r\colon G_E\to\GL_a(\Qlbar)$, $w$ a finite
+place and $B$ a multiset. The four \emph{clauses} at $(w,B)$ are:
+\begin{description}[nosep]
+\item[(unr)] if $w\nmid\ell$, then $\galredFr_w(r)=B^{(a)}_w$;
+\item[(dR)] at $w$, $r|_{D_A}$ is de Rham, and for every embedding $\tau$ induced by the frame its $\tau$-Hodge--Tate
+  multiset is $\{\frac{a-1}2-z:\ z\in\galredinf_{\iota\tau}(\pi)\}$ (whenever this is a multiset of integers);
+\item[(crys)] at $w$, $r|_{D_A}$ is crystalline whenever $\pi$ has a spherical local component at $w$;
+\item[(phi)] at $w$, $P_{\galredWD(r|_{D_A})}(g)=P_{\galredsph_A(B)}(g)$ for every $g\in W_A$.
+\end{description}
+\formallabel{GlobalTheory.RoadU.SphAt}
+\end{definition}
+
+The clauses (dR), (crys), (phi) are vacuous if $w\nmid\ell$, as there are no frames; (dR) and (crys) do not
+involve $B$.
+
+\begin{definition}[Levels; $\sfname{Ex}$, $\sfname{Core}$, $\sfname{CoreAll}$]\label{pf:galred:coreall}
+Let $E$ be a CM field with maximal totally real subfield $E^+$, $\ell$ a prime, $\pi$ a cuspidal automorphic
+representation of $\GL_a(\A_E)$ and $\chi$ a Hecke character of $E^+$. We say that $(\pi,\chi)$ is \emph{in scope}
+\begin{description}[nosep]
+\item[$\mathrm{all}$] if $\pi$ is regular algebraic and $(\pi,\chi)$ is polarized;
+\item[$\mathrm{good}$] if moreover $E$ contains $\sqrt{-d}$ for some integer $d>0$, $[E^+:\Q]$ is even, and every
+  place $w$ of $E$ which is not split over $E^+$ satisfies $w\nmid\ell$, is unramified over $E^+$, and $\pi$ is
+  unramified at $w$; we then also say that $\pi$ is \emph{good};
+\item[$\mathrm{csd}$] if moreover $\chi=\eta^a$, where $\eta$ is the quadratic Hecke character of $E^+$ attached to
+  $E/E^+$; then $\pi^c\cong\pi^\vee$ ($\pi$ is conjugate self-dual).
+\end{description}
+A place $w$ is \emph{admissible} for the level $\mathrm{all}$ always, and for the levels $\mathrm{good}$,
+$\mathrm{csd}$ if it is split over $E^+$. For a level $s$:
+\begin{itemize}[nosep]
+\item $\sfname{Ex}(s)$: for all $E,\Omega,\ell,\iota$, $a\ge1$ and $(\pi,\chi)$ in scope $s$, some $r$ is weakly
+  attached to $\pi$;
+\item $\sfname{SLC}(s,c)$, for $c\in\{\mathrm{unr},\mathrm{dR},\mathrm{crys},\mathrm{phi}\}$: for all $(\pi,\chi)$
+  in scope $s$, every $r$ weakly attached to $\pi$, every place $w$ admissible for $s$ at which $\pi$ is unramified,
+  and $B=\galredSat_w(\pi)$, the clause $(c)$ at $(w,B)$ holds.
+\end{itemize}
+$\sfname{Core}$ is $\sfname{Ex}(\mathrm{csd})\wedge\forall c\,\sfname{SLC}(\mathrm{csd},c)$, and
+$\sfname{CoreAll}$ is $\sfname{Ex}(\mathrm{all})\wedge\forall c\,\sfname{SLC}(\mathrm{all},c)$.
+\formallabel{GlobalTheory.RoadU.CoreAll}
+\end{definition}
+
+\begin{remark}\label{pf:galred:coreallrem}
+This is the precise form of the statement $\sfname{CoreAll}$ of \cref{def:galois:core}. Two features should be
+noted. The clauses are required for \emph{every} weakly attached $r$, not only for the one provided by
+$\sfname{Ex}$; and the clause (phi) compares characteristic polynomials of all elements of $W_A$, not only of
+Frobenius elements. Since two weakly attached representations are isomorphic (\cref{pf:galred:repiso}), the
+first feature costs nothing.
+\end{remark}
+
+\subsubsection{The main theorem}
+
+The proof of half (b) passes through the following statements about definite unitary groups of odd rank, which
+are defined precisely in \cref{sec:pf:galred:oddstmts}: $\sfname{SeedFinOdd}$ (existence of seed
+representations), $\sfname{CongFinOdd}$ (density of seeds) and $\sfname{LimFinOdd}$ (existence of limit
+representations).
+
+\begin{theorem}[\cref{thm:galois:reduction}]\label{pf:galred:main}
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\sfname{CoreAll}$ implies $\sfname{Row0}(\mathrm{recT})$, hence $\sfname{Row0b}(\mathrm{recT})$.
+\item $\sfname{GeoOne}\wedge\sfname{TLiftK}$ implies $\sfname{CoreAll}$.
+\end{enumerate}
+Consequently $\sfname{GeoOne}\wedge\sfname{TLiftK}$ implies $\sfname{Row0}(\mathrm{recT})$.
+\formallabel{UpperTheory.Gal.Int.galoisLocalGlobal_of_geometry_lift}
+\end{theorem}
+
+\begin{corollary}\label{pf:galred:root}
+$\sfname{GeoOne}\wedge\sfname{TLiftK}$ implies $\sfname{Row0b}(\mathrm{recT})$.
+\formallabel{UpperTheory.Gal.Int.galoisLocalGlobalStrong_of_geometry_lift}
+\end{corollary}
+
+\begin{proof}[Proof of \cref{pf:galred:main,pf:galred:root}]
+(a) is \cref{pf:galred:rest}, together with \cref{pf:galred:row0b}. For (b), assume $\sfname{GeoOne}$ and
+$\sfname{TLiftK}$. By \cref{pf:galred:seedcong}, $\sfname{GeoOne}$ implies $\sfname{SeedFinOdd}$ and
+$\sfname{CongFinOdd}$ holds; by \cref{pf:galred:coreallof}, $\sfname{SeedFinOdd}\wedge\sfname{CongFinOdd}\wedge
+\sfname{TLiftK}$ implies $\sfname{CoreAll}$. The consequence follows from (a) and (b), and the corollary from
+\cref{pf:galred:row0b}.
+\end{proof}
+
+The proof of (b) is the chain
+\begin{multline}\label{eq:pf:galred:chain}
+\sfname{SeedFinOdd}\wedge\sfname{CongFinOdd}\ \Rightarrow\ \sfname{LimFinOdd}\
+\xRightarrow{\ \sfname{ClosedPhi}\ }\ \sfname{LimU}\ \Rightarrow\ \sfname{CoreUd}\
+\xRightarrow{\ \sfname{TLiftK}\ }\ \sfname{AllUd}\\
+\xRightarrow{\ \text{descent}\ }\ \sfname{CoreGLu}\ \xRightarrow{\ \text{quadratic base change}\ }\
+\sfname{RowCsd}\ \Rightarrow\ \sfname{Core}\ \Rightarrow\ \sfname{CoreAll},
+\end{multline}
+whose links are \cref{pf:galred:lim,pf:galred:limU,pf:galred:joinU,pf:galred:joinAll,pf:galred:joinGL,%
+pf:galred:joinUp,pf:galred:joinEnd,pf:galred:coreallofcore}.
+
+% ---------------------------------------------------------------------------
+\subsection{From \texorpdfstring{$\sfname{CoreAll}$}{CoreAll} to \texorpdfstring{$\sfname{Row0}$}{Row0}}\label{sec:pf:galred:rest}
+
+This subsection proves half (a) of \cref{pf:galred:main}:
+
+\begin{theorem}\label{pf:galred:rest}
+$\sfname{CoreAll}$ implies $\sfname{Row0}(\mathrm{recT})$.
+\formallabel{UpperTheory.Gal.Int.rest}
+\end{theorem}
+
+The proof (\cref{sec:pf:galred:restproof}) combines $\sfname{CoreAll}$ with two local--global statements
+$\sfname{R1}$ and $\sfname{R2}$ (\cref{pf:galred:R1R2}), which are deduced from $\sfname{CoreAll}$ in
+\cref{sec:pf:galred:R1,sec:pf:galred:R2}.
+
+\subsubsection{Local lemmas}\label{sec:pf:galred:local}
+
+Throughout this paragraph $E$ is a number field, $w$ a finite place of $E$, $F=E_w$ with residue field $k_F$, $A$ a
+place of $\Omega$ above $w$, and $\galredrc\colon\galredIrr(F)\to\galredWD_A$ a local parameter map with Artin map
+$a$. We fix an element $\varphi\in W_A$ of degree $1$; every $g\in W_A$ is $\varphi^{\deg g}t$ with $t\in I_A$.
+
+\begin{lemma}\label{pf:galred:ine}
+Let $x,y\in\galredWD_A$ with $P_x(t)=P_y(t)$ for all $t\in I_A$. Then $\dim x=\dim y$ and $P_x(g)=P_y(g)$ for
+every $g\in W_A$ of degree $0$.
+\formallabel{UpperTheory.Gal.Int.Row.charPol_of_ine}
+\end{lemma}
+
+\begin{proof}
+An element of degree $0$ lies in $I_A$, and $\dim x$ is the degree of $P_x(1)$.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:degne0}
+Let $x,y\in\galredWD_A$ with $P_x(g)=P_y(g)$ for every $g\in W_A$ of nonzero degree. Then $P_x(g)=P_y(g)$ for
+every $g\in W_A$.
+\formallabel{GlobalTheory.AboveL.charPol_eq_of_deg_ne_zero}
+\end{lemma}
+
+\begin{proof}
+Comparing degrees at $g=\varphi$ gives $\dim x=\dim y$. Equal characteristic polynomials have equal traces, so
+$\galredtr\rho_x(g)=\galredtr\rho_y(g)$ whenever $\deg g\ne0$. Let $g$ have degree $0$ and put $M=\rho_x(g)$,
+$\Phi=\rho_x(\varphi)$, $M'=\rho_y(g)$, $\Phi'=\rho_y(\varphi)$. The sequence
+$u_i=\galredtr(M\Phi^i)-\galredtr(M'\Phi'^i)$ vanishes for $i\ge1$, as $\deg(g\varphi^i)=i$. By the Cayley--Hamilton
+theorem it satisfies the linear recurrence whose characteristic polynomial is $\det(X-\Phi)\det(X-\Phi')$; the
+constant term of this polynomial is nonzero because $\Phi,\Phi'$ are invertible, so the recurrence can be run
+backwards and $u_0=0$. Hence $\galredtr\rho_x=\galredtr\rho_y$ on all of $W_A$. Applying this to the powers $g^j$,
+$j\ge1$, of an arbitrary $g$ gives $\galredtr\rho_x(g)^j=\galredtr\rho_y(g)^j$ for all $j\ge1$, and in characteristic $0$
+the power sums of the eigenvalues determine the characteristic polynomial (Newton's identities).
+\end{proof}
+
+\begin{lemma}\label{pf:galred:generic}
+If $\sigma$ is a local component at $w$ of a cuspidal automorphic representation of $\GL_a(\A_E)$, then
+$\sigma^\natural$ is generic.
+\formallabel{UpperTheory.Gal.Int.Row.generic_algNorm}
+\end{lemma}
+
+\begin{proof}
+$\sigma$ is generic by \lref{GlobalTheory.CuspRep.Generic.isGeneric_of_isLocComp}, which states that local
+components of cuspidal automorphic representations of $\GL_a$ are generic (\cite{Shalika1974}), and genericity
+is preserved by the twist by $|\det|^{(1-a)/2}$.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:split}
+Let $x\in\galredIrr(F)$ be generic with $N_{\galredrc(x)}=0$. Then $\supp(x)=\{y_1,\dots,y_k\}$ is unlinked and
+$\galredrc(x)=\bigoplus_i\galredrc(y_i)$.
+\formallabel{UpperTheory.Gal.Int.Row.split}
+\end{lemma}
+
+\begin{proof}
+By Zelevinsky's classification of generic representations (\cite[\S9]{Zelevinsky1980}), $x=L(\Delta_1,\dots,\Delta_k)$ for pairwise
+unlinked segments $\Delta_i=[\rho_i,\rho_i\nu^{m_i-1}]$. By (L3),
+$\galredrc(x)=\bigoplus_i\galredrc(\rho_i)(\frac{m_i-1}2)\otimes\galredSp(m_i)$. The monodromy of
+$V\otimes\galredSp(m)$ is nonzero if $V\ne0$ and $m\ge2$; as $N_{\galredrc(x)}=0$, all $m_i=1$ and
+$\galredrc(x)=\bigoplus_i\galredrc(\rho_i)$. The support of
+the Langlands quotient of segments of length one is the multiset of the $\rho_i$
+(\lref{GlobalTheory.T.supercuspidalSupport_of_lengthOne_langlandsDatum}), and segments of length one are
+unlinked if and only if no $\rho_i$ is $\rho_j\nu$
+(\lref{GlobalTheory.T.unlinkedLengthOneSegments_firstTerms_not_nuTwist}).
+\end{proof}
+
+A representation $x\in\galredIrr(F)$ is \emph{plain toral} if $\supp(x)$ consists of characters
+$\xi_1,\dots,\xi_n$ of $F^\times$ and is unlinked; equivalently, $x$ is an irreducible principal series.
+
+\begin{lemma}\label{pf:galred:plaintor}
+Let $x\in\galredIrr(F)$ be generic, with $\galredrc(x)$ abelian and $N_{\galredrc(x)}=0$. Then $x$ is plain toral.
+\formallabel{UpperTheory.Gal.Int.Row.plainTor_of_tor}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:galred:split}, $\supp(x)=\{y_1,\dots,y_k\}$ is unlinked and $\galredrc(x)=\bigoplus\galredrc(y_i)$.
+For $s,t\in W_A$, $P_{\galredrc(x)}([s,t])$ is a power of $X-1$, and $P_{\galredrc(y_i)}([s,t])$ divides it. Each
+$\galredrc(y_i)$ is irreducible (L4). An irreducible element of $\galredWD_A$ in which every commutator has
+characteristic polynomial dividing a power of $X-1$ is one-dimensional
+(\lref{UpperTheory.Zero.LLC.AbC.dim_one}: the commutators act semisimply with all eigenvalues $1$, hence
+trivially; so $\rho(I_A)$ is central, consists of scalars by Schur's lemma, and $\rho(W_A)$ is abelian). By (L1),
+each $y_i$ is a character.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:torfix}
+Let $y\in\galredWD_A$ be tame and let $\gamma\in I_A$ generate $I_A$ topologically together with $P_A$. If every
+eigenvalue $z$ of $\rho_y(\gamma)$ satisfies $z^{q_w-1}=1$, then $y$ is abelian.
+\formallabel{UpperTheory.Gal.Int.Row.tor_of_fix}
+\end{lemma}
+
+\begin{proof}
+$\rho_y(\gamma)$ is semisimple with eigenvalues of order dividing $q_w-1$, so $\rho_y(\gamma)^{q_w-1}=1$. Since $y$ is
+tame, $\rho_y(\varphi\gamma\varphi^{-1})=\rho_y(\gamma)^{q_w}=\rho_y(\gamma)$, so $\rho_y(\varphi)$ commutes with
+$\rho_y(\gamma)$. For a matrix $Z$ commuting with $\rho_y(\gamma)$, the set of $t\in I_A$ such that $\rho_y(t)$ commutes
+with $Z$ is a closed subgroup ($\rho_y$ is trivial on an open subgroup of $I_A$) containing $\gamma$ and $P_A$ (which acts
+trivially), hence equal to $I_A$. Applied to $Z=\rho_y(\varphi)$ and to $Z=\rho_y(t)$, $t\in I_A$, this shows that
+$\rho_y(W_A)=\langle\rho_y(\varphi)\rangle\rho_y(I_A)$ is commutative.
+\end{proof}
+
+\begin{lemma}[Counting depth-zero representations]\label{pf:galred:dzcusp}
+Assume that $w$ is a $\Q_g$-place, and let $x\in\galredIrr(F)$ be cuspidal with $\galredrc(x)$ tame. Then $x$ has
+depth zero.
+\formallabel{UpperTheory.Gal.Int.Row.dz_of_cusp}
+\end{lemma}
+
+\begin{proof}
+Let $n=n(x)$ and let $\mathcal L$ be the finite set of monic irreducible polynomials of degree $n$ over $k_F$
+different from $X$. Fix $\phi\in W_A$ of degree $-1$; then $\varpi=a(\phi)$ is a uniformizer. Let $c\in\C^\times$ be
+the product of the eigenvalues of $\rho_{\galredrc(x)}(\phi)$. We use two counting statements:
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{PositivityTheory.Rg.DzCount.depth_zero_intermediate_holds}) There is a map $f$ from
+  $\galredWD_A$ to $k_F[X]$ which maps the set $\mathcal T$ of irreducible tame $y\in\galredWD_A$ of dimension
+  $n$ with $\det\rho_y(\phi)=c$ injectively into $\mathcal L$.
+\item (\cref{pf:galred:dzcount}) There is a map $Y\colon\mathcal L\to\galredIrr(F)$,
+  injective on $\mathcal L$, such that each $Y(P)$ is a cuspidal representation of $\GL_n(F)$ of depth zero
+  whose central character $\omega$ satisfies $\omega(\varpi)=c$.
+\end{enumerate}
+As $F\cong\Q_g$, every cuspidal representation of depth zero is good. For $P\in\mathcal L$, $\galredrc(Y(P))$ is
+irreducible (L4), tame (L11), of dimension $n$ (L1), and $\det\rho_{\galredrc(Y(P))}(\phi)=\omega(a(\phi))=c$ (L8); so
+$\galredrc\circ Y$ maps $\mathcal L$ into $\mathcal T$, injectively by (L10). Hence $f\circ\galredrc\circ Y$ maps the
+finite set $\mathcal L$ injectively into itself, and is therefore bijective. Now $\galredrc(x)\in\mathcal T$: it is
+irreducible by (L4), tame by hypothesis, of dimension $n$ by (L1), and $\det\rho_{\galredrc(x)}(\phi)=c$ by the choice of
+$c$. So $f(\galredrc(x))=f(\galredrc(Y(P)))$ for some $P$; injectivity of $f$ on $\mathcal T$ gives
+$\galredrc(x)=\galredrc(Y(P))$, and (L10) gives $x=Y(P)$, which has depth zero.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:inert}
+Let $y,z\in\galredIrr(F)$ with $y$ good and $z=y\otimes\mu$ for an unramified character $\mu$. Then
+$P_{\galredrc(z)}(t)=P_{\galredrc(y)}(t)$ for all $t\in I_A$.
+\formallabel{UpperTheory.Gal.Int.Row.charPol_of_inert}
+\end{lemma}
+
+\begin{proof}
+By (L7) and (L2), $\galredrc(z)=\galredrc(y)\otimes\langle\mu\circ a\rangle$, and $\mu(a(t))=1$ for $t\in I_A$
+because $a(t)$ is a unit.
+\end{proof}
+
+A representation $x\in\galredIrr(F)$ is \emph{apart} if the members of $\supp(x)$ of dimension $\ge2$ are pairwise
+(as members of the multiset) not inertially equivalent.
+
+\begin{lemma}\label{pf:galred:mixed}
+Assume that $w$ is a $\Q_g$-place, and let $x\in\galredIrr(F)$ be generic such that $y=\galredrc(x)$ is tame,
+squarefree and has $N_y=0$. Then $x$ has depth zero, $\supp(x)$ is unlinked, and $x$ is apart.
+\formallabel{UpperTheory.Gal.Int.Row.mixed_of_tame}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:galred:split}, $\supp(x)=\{y_1,\dots,y_k\}$ is unlinked and $y=\bigoplus\galredrc(y_i)$; a summand of a
+tame representation is tame, so each $y_i$ has
+depth zero by \cref{pf:galred:dzcusp}. A representation whose supercuspidal support consists of depth-zero
+representations has depth zero (\cite{MoyPrasad1996}; in the development
+\lref{GlobalTheory.DepthZeroPass.depthZeroInduction}), so $x$ has depth zero. Supercuspidal supports are
+unique (\lref{UpperTheory.Zero.LLC.goodSeg}), so every support of $x$ is $\{y_1,\dots,y_k\}$.
+
+Suppose that $y_i,y_j$ ($i\ne j$) have dimension $\ge2$ and $y_j=y_i\otimes\mu$ with $\mu$ unramified. Choose
+$\gamma\in I_A$ generating $I_A$ topologically together with $P_A$ (\lref{GlobalTheory.exists_tameGenAt_of_isPlaceOver}).
+As $y_i$ is good, \cref{pf:galred:inert} gives $P_{\galredrc(y_j)}(\gamma)=P_{\galredrc(y_i)}(\gamma)$, so
+$P_{\galredrc(y_i)}(\gamma)^2$ divides $P_y(\gamma)$, and every root of $P_{\galredrc(y_i)}(\gamma)$ is a multiple root of
+$P_y(\gamma)$, hence a $(q_w-1)$-th root of unity because $y$ is squarefree. By \cref{pf:galred:torfix},
+$\galredrc(y_i)$ is abelian; being irreducible it is one-dimensional (\lref{UpperTheory.Zero.LLC.AbC.dim_one}),
+so $n(y_i)=1$ by (L1), a contradiction.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:guard}
+Let $\sigma$ be a local component at a $\Q_g$-place $w$ of a cuspidal automorphic representation of
+$\GL_a(\A_E)$, $a\ge1$, such that $y=\galredrc(\sigma^\natural)$ is tame, squarefree and has $N_y=0$. Then $\sigma$
+has nonzero vectors fixed by $K_1=\ker(\GL_a(\OO_F)\to\GL_a(k_F))$, and $\sigma^\natural$ is apart.
+\formallabel{UpperTheory.Gal.Int.Row.guard_tame}
+\end{lemma}
+
+\begin{proof}
+Apply \cref{pf:galred:mixed} to $x=\sigma^\natural$, which is generic by \cref{pf:galred:generic}. Depth zero is
+preserved by unramified twists (\lref{UpperTheory.Zero.LLC.twTame}), in particular by the twist by
+$|\det|^{(a-1)/2}$, so $\sigma$ has depth zero.
+\end{proof}
+
+\subsubsection{Weights}
+
+\begin{lemma}\label{pf:galred:isweight}
+Let $(\pi,\chi)$ be in scope $\mathrm{all}$, $a\ge1$. There is $\mathrm{wt}\in\Z$ such that
+$\galredinf_{\tau c}(\pi)=\{a-1-\mathrm{wt}-z:\ z\in\galredinf_\tau(\pi)\}$ for every embedding $\tau\colon E\to\C$.
+\formallabel{GlobalTheory.PolarizedWeight.exists_isWeight}
+\end{lemma}
+
+\begin{proof}
+The Capelli elements commute with all operators on $V_\pi$, so $\pi$ has an infinitesimal character at every $\tau$
+(\lref{GlobalTheory.CuspRep.hasInfChar_infChar_of_commute}). Let $\psi=\chi\circ\Nm_{E/E^+}$, and for a Hecke
+character $\theta$ of $E$ let $e_\tau(\theta)\in\C$ be its exponent at $\tau$, so that twisting by $\theta$ shifts
+$\galredinf_\tau$ by $e_\tau(\theta)$. The polarization is an invariant pairing, with respect to complex conjugation,
+between $\pi\otimes\psi^{-1}$ and $\pi$, and such a pairing reverses the signs of the infinitesimal characters
+(\lref{GlobalTheory.T.infChar_conjEmbedding_neg_of_invariant_pairing}). Hence
+\begin{equation}\label{eq:pf:galred:infconj}
+  \galredinf_{\bar\tau}(\pi)=\{-(z+e_\tau(\psi^{-1})):\ z\in\galredinf_\tau(\pi)\}.
+\end{equation}
+By regular algebraicity, the elements of $\galredinf_\tau(\pi)$ and of $\galredinf_{\bar\tau}(\pi)$ lie in
+$\frac{a-1}2+\Z$; comparing an element $z$ of $\galredinf_\tau(\pi)$ with the element $-(z+e_\tau(\psi^{-1}))$ of
+$\galredinf_{\bar\tau}(\pi)$ shows that $k(\tau)=e_\tau(\psi)=-e_\tau(\psi^{-1})$ is an integer. Moreover
+$e_{\bar\tau}(\psi)=e_\tau(\psi)$ (\lref{GlobalTheory.T.exponent_heckeChar_compNorm_conjEmbedding}), so
+$k(\tau)=n(\tau|_{E^+})$ for a function $n$ on the embeddings $\phi$ of $E^+$. For a totally positive $x\in E^{+\times}$,
+let $u$ be the archimedean idele of $E$ with coordinates $\exp(\frac12\log\phi(x))$; then $\Nm_{E/E^+}(u)=x$ at
+infinity, and $\chi_\infty(x)=\psi_\infty(u)=\prod_\phi\phi(x)^{n(\phi)}$. A Hecke character of a totally real field with
+this property has parallel weight, i.e.\ $n$ is constant (\lref{UpperTheory.heckeChar_parallel_weight}). Put
+$\mathrm{wt}=a-1-n$. Then $e_\tau(\psi^{-1})=-n$ for all $\tau$, and \eqref{eq:pf:galred:infconj} reads
+$\galredinf_{\bar\tau}(\pi)=\{n-z\}=\{a-1-\mathrm{wt}-z\}$. Finally $\bar\tau=\tau\circ c$.
+\end{proof}
+
+\begin{corollary}\label{pf:galred:weights}
+Let $(\pi,\chi)$ be in scope $\mathrm{all}$, $a\ge1$, and $\iota\colon\Qlbar\to\C$. There are $\mathrm{wt}\in\Z$ and
+multisets $\galredHT_\tau$ of integers, $\tau\colon E\to\Qlbar$, such that
+$\galredHT_\tau=\{\frac{a-1}2-z:z\in\galredinf_{\iota\tau}(\pi)\}$ and $\galredHT_{\tau c}=\{\mathrm{wt}-h:h\in\galredHT_\tau\}$.
+\formallabel{UpperTheory.Gal.Int.Row.exists_weights}
+\end{corollary}
+
+\begin{proof}
+By regular algebraicity $\frac{a-1}2-z\in\Z$ for $z\in\galredinf_{\iota\tau}(\pi)$, which defines $\galredHT_\tau$.
+With $\mathrm{wt}$ from \cref{pf:galred:isweight}, $\galredHT_{\tau c}=\{\frac{a-1}2-(a-1-\mathrm{wt}-z)\}=
+\{\mathrm{wt}-(\frac{a-1}2-z)\}$.
+\end{proof}
+
+\subsubsection{Two local--global statements and the deduction of \texorpdfstring{$\sfname{Row0}$}{Row0}}
+\label{sec:pf:galred:restproof}
+
+\begin{definition}[$\sfname{R1}$, $\sfname{R2}$]\label{pf:galred:R1R2}
+Consider $E,\Omega,\ell,\iota$, $n\ge1$, $(\pi,\chi)$ in scope $\mathrm{all}$ with $\pi$ on $\GL_n$, $r$ weakly
+attached to $\pi$, a finite place $w$ and a local component $\sigma$ of $\pi$ at $w$.
+\begin{itemize}[nosep]
+\item $\sfname{R1}$ states: if $\sigma^\natural$ is plain toral, then
+  \begin{enumerate}[label=(\roman*),nosep]
+  \item if $w\nmid\ell$: for every $A$ above $w$, $x=\galredWD_\iota(r|_{W_A})$ has $N_x=0$ and $x=\galredrc(\sigma^\natural)$
+    for every local parameter map $\galredrc\colon\galredIrr(E_w)\to\galredWD_A$;
+  \item if $w\mid\ell$: the clause (dR) holds at $w$, and at $w$, $r|_{D_A}$ is potentially semistable,
+    $x=\galredWD(r|_{D_A})$ has $N_x=0$, and $P_x(g)=P_{\galredrc(\sigma^\natural)}(g)$ for all $g\in W_A$ and all local
+    parameter maps $\galredrc$.
+  \end{enumerate}
+\item $\sfname{R2}$ states: if $\sigma$ has nonzero $K_1$-fixed vectors, and $\sigma^\natural$ is plain toral or [$w$ is a
+  $\Q_g$-place and $\sigma^\natural$ is apart], then for every $A$ above $w$ and every local parameter map $\galredrc$ with
+  $N_{\galredrc(\sigma^\natural)}=0$:
+  \begin{enumerate}[label=(\roman*),nosep]
+  \item if $w\nmid\ell$: $x=\galredWD_\iota(r|_{W_A})$ has $N_x=0$ and $P_x(t)=P_{\galredrc(\sigma^\natural)}(t)$ for
+    $t\in I_A$;
+  \item if $w\mid\ell$: (dR) holds at $w$, and for every frame at $A$, $r|_{D_A}$ is potentially semistable,
+    $x=\galredWD(r|_{D_A})$ has $N_x=0$ and $P_x(t)=P_{\galredrc(\sigma^\natural)}(t)$ for $t\in I_A$.
+  \end{enumerate}
+\end{itemize}
+\formallabel{GlobalTheory.DeRhamOfPlainTorus.R1}
+\formallabel{UpperTheory.Gal.ToralGalois.R2.LocalGlobalCompatAtIwahoriFixedPlaces}
+\end{definition}
+
+\begin{proposition}\label{pf:galred:deduce}
+$\sfname{CoreAll}\wedge\sfname{R1}\wedge\sfname{R2}$ implies $\sfname{Row0}(\mathrm{recT})$.
+\formallabel{UpperTheory.Gal.Int.Row.galoisLocalGlobal_of_localGlobalCompatibility}
+\end{proposition}
+
+\begin{proof}
+Let $E,\Omega,\ell,\iota$, $a\ge1$ and $(\pi,\chi)$ be as in $\sfname{Row0}$; then $(\pi,\chi)$ is in scope
+$\mathrm{all}$. By $\sfname{Ex}(\mathrm{all})$ there is $r$ weakly attached to $\pi$; it is continuous and
+semisimple. Take $\mathrm{wt}$ and $\galredHT$ from \cref{pf:galred:weights}, which gives (weights). Let $w$ be a
+finite place, $A$ above $w$, $\sigma$ a local component of $\pi$ at $w$, $\galredrc$ a local parameter map and
+$y=\galredrc(\sigma^\natural)$; recall that $\sigma^\natural$ is generic (\cref{pf:galred:generic}).
+
+\emph{(away)}, $w\nmid\ell$, $x=\galredWD_\iota(r|_{W_A})$. $\dim x=a=\dim y$ by construction of $x$ and (L1). If $y$
+is abelian with $N_y=0$, then $\sigma^\natural$ is plain toral (\cref{pf:galred:plaintor}) and $x=y$ by
+$\sfname{R1}$(i). If $w$ is a $\Q_g$-place and $y$ is tame, squarefree with $N_y=0$, then by \cref{pf:galred:guard}
+$\sigma$ has nonzero $K_1$-fixed vectors and $\sigma^\natural$ is apart, so $\sfname{R2}$(i) gives $N_x=0$ and $P_x=P_y$
+on $I_A$, hence on all elements of degree $0$ (\cref{pf:galred:ine}).
+
+\emph{(crys).} If $\sigma$ is spherical, then $\pi$ is unramified at $w$
+(a spherical local component has a Satake parameter, which is then the Satake parameter of
+$\pi$ at $w$), and $\sfname{SLC}(\mathrm{all},\mathrm{crys})$ and
+$\sfname{SLC}(\mathrm{all},\mathrm{dR})$ give, for every frame, that $r|_{D_A}$ is crystalline and de Rham with
+$\tau$-Hodge--Tate weights $\galredHT_\tau$.
+
+\emph{(nice).} Assume $N_y=0$ and that $y$ is abelian, or $w$ is a $\Q_g$-place and $y$ is tame and squarefree; fix a
+frame at $A$ and put $x=\galredWD(r|_{D_A})$. If $y$ is abelian, $\sigma^\natural$ is plain toral and $\sfname{R1}$(ii)
+gives (dR) (hence the de Rham property with weights $\galredHT_\tau$), potential semistability, $N_x=0$ and $P_x=P_y$
+on $W_A$; two Frobenius-semisimple Weil--Deligne representations without monodromy and with the same characteristic
+polynomials are equal (\lref{GlobalTheory.WeakTheRep.eq_of_mono0_charPol}), so $x=y$ and $\sfname{Away}(x,y)$
+holds. Otherwise $y$ is not abelian, and \cref{pf:galred:guard} and $\sfname{R2}$(ii) give (dR), potential
+semistability, $N_x=0$ and $P_x=P_y$ on $I_A$; by \cref{pf:galred:ine}, $\dim x=\dim y$ and $P_x=P_y$ in degree $0$,
+which is $\sfname{Away}(x,y)$.
+\end{proof}
+
+The formal proof states the deduction for an arbitrary class of places in the tame clause; with the class of all
+places it gives $\sfname{Row0}$. (The development also contains the variant for the class of $a$-large places, which
+gives $\sfname{Row0b}$ directly; it is not used.)
+
+\subsubsection{Compatibility at plain toral places}\label{sec:pf:galred:R1}
+
+The base change arguments use a package of published results. $\sfname{Inp}$ is the conjunction of: Jacquet--Shalika
+rigidity (strong multiplicity one for isobaric sums) \cite{JacquetShalika1981}; Gelfand--Kazhdan's description of the
+contragredient \cite{GelfandKazhdan1975}; admissibility of irreducible smooth representations of $\GL_n$ and finite
+length of standard modules \cite{BernsteinZelevinsky1977}; the Langlands classification and Zelevinsky's description
+of the Grothendieck ring \cite{Zelevinsky1980}; the classification of generic unitary representations
+\cite{Tadic1986}; the strong form of cyclic base change \cite{ArthurClozel1989}; the existence of $\ell$-adic
+characters attached to algebraic Hecke characters, with their local properties \cite{Serre1968}; and the theorem that
+de Rham representations are potentially semistable \cite{Berger2002}. All of these are proved in the formal development. $\sfname{Inq}$ is $\sfname{Inp}$ together with the statement that if
+$M/K$ is a Galois extension of prime degree of totally complex fields and $P$ is a cuspidal lift of $\pi$ to $M$, then
+$P$ is a \emph{character lift} of $\pi$ (\cref{pf:galred:lifts}); this is proved in the development
+(\lref{UpperTheory.Gal.GamX.charLiftPrime_holds}), so $\sfname{Inq}$ holds.
+
+\begin{definition}[Lifts]\label{pf:galred:lifts}
+Let $M/K$ be an extension of totally complex number fields, $\pi$ cuspidal on $\GL_a(\A_K)$ and $P$ cuspidal on
+$\GL_a(\A_M)$. $P$ is a \emph{lift} of $\pi$ if: for every place $u$ of $M$ above a place $v$ of $K$ with $q_u=q_v^f$, if
+$\pi$ is unramified at $v$ with Satake parameter $B$, then $P$ is unramified at $u$ with Satake parameter $\{b^f:b\in
+B\}$; $\galredinf_\tau(P)=\galredinf_{\tau|_K}(\pi)$ for all $\tau\colon M\to\C$; and whenever $K_v\cong M_u$ continuously
+and compatibly with $K\to M$, the local components of $\pi$ at $v$ and of $P$ at $u$ correspond. $P$ is a
+\emph{character lift} of $\pi$ if moreover, for all places $u\mid v$ and local components $\tau$ of $\pi$ at $v$ and $T$ of
+$P$ at $u$: if $\supp(\tau)$ is the multiset of characters $\xi_1,\dots,\xi_a$, then $\supp(T)$ is the multiset of the
+characters $\xi_j\circ\Nm_{M_u/K_v}$.
+\formallabel{GlobalTheory.RoadU.CharLift}
+\end{definition}
+
+If $P$ is a lift of $\pi$ and $r$ is weakly attached to $\pi$, then $r|_{G_M}$ is weakly attached to $P$
+(\lref{GlobalTheory.GalCut.weak_comp_res}), as Frobenius elements at $u$ are the $f$-th powers of Frobenius
+elements at $v$.
+
+\begin{lemma}\label{pf:galred:rcchars}
+Let $x\in\galredIrr(F)$ with $\supp(x)=\{\xi_1,\dots,\xi_n\}$ an unlinked multiset of characters. Then
+$N_{\galredrc(x)}=0$ and $P_{\galredrc(x)}(g)=\prod_j(X-\xi_j(a(g)))$ for all $g\in W_A$.
+\formallabel{GalTw.GlobalTheory.RoadU.UnlinkedChars.rc_unlinked_chars}
+\end{lemma}
+
+\begin{proof}
+By the Langlands classification $x=L(\mathfrak m)$ for a multiset $\mathfrak m$ of segments, and $\supp(x)$ is the
+multiset of the terms of the segments of $\mathfrak m$ \cite{Zelevinsky1980}; by uniqueness of supports, every term is
+some $\xi_j$. A segment of length $\ge2$ contains two terms $\rho,\rho\nu$, contradicting unlinkedness; so all
+segments have length one and $\mathfrak m=\{\xi_1,\dots,\xi_n\}$. By (L3) and (L2),
+$\galredrc(x)=\bigoplus_j\langle\xi_j\circ a\rangle$.
+\end{proof}
+
+The following lemma carries the base change argument. For a field $E\subset M\subset\Omega$, an element of $W_A$ fixing
+$M$ is regarded as an element of $W_A(M)$.
+
+\begin{lemma}[Spherical lifts]\label{pf:galred:sphlift}
+Let $(\pi,\chi)$ be in scope $\mathrm{all}$ on $\GL_n$, $\sigma$ a local component of $\pi$ at $w$ with
+$\supp(\sigma^\natural)=\{\xi_1,\dots,\xi_n\}$ an unlinked multiset of characters, $a$ a local Artin map at $A$, and
+$g\in W_A$ with $\deg g\ne0$. Assume that $\pi$ has a weakly attached representation. There are a CM field $M$, $E\subset
+M\subset\Omega$, fixed by $g$, a cuspidal lift $P$ of $\pi$ to $M$ with $(P,\chi')$ in scope $\mathrm{all}$ for some
+$\chi'$, and $B$ such that $P$ is unramified at the place $u$ of $M$ below $A$ with Satake parameter $B$ and
+$P_{\galredsph_A(B)}(g_0)=\prod_j(X-\xi_j(a(g_0)))$ for every $g_0\in W_A$ fixing $M$.
+\formallabel{GalTw.GlobalTheory.RoadU.exists_sph_lift_of_toral}
+\end{lemma}
+
+\begin{proof}
+Put $\xi_j^0=\xi_j|\cdot|^{(n-1)/2}$; these are the characters of the support of $\sigma$. By \cref{pf:galred:cmlift}
+(which uses $\sfname{Inq}$) there are a CM field $M\subset\Omega$ containing $E$ and fixed by $g$, and a cuspidal character
+lift $P$ of $\pi$ to $M$, in scope $\mathrm{all}$, such that $\xi^0_j(a(t))=1$ for all $j$ and every $t\in W_A$ of degree $0$
+fixing $M$.
+
+By local class field theory, the condition on the $\xi^0_j$ means that the characters $\xi^0_j\circ\Nm_{M_u/E_w}$ are
+unramified (\lref{GlobalTheory.T.unramified_comp_norm_of_killed_inertia_fixing}). The local component of $P$ at $u$
+has support $\{\xi^0_j\circ\Nm_{M_u/E_w}\}$, so $P$ is unramified at $u$, with Satake parameter $B$ given by the values of
+these characters at a uniformizer, and $\galredsph_A(B)$ has the stated characteristic polynomials
+(\lref{GalTw.GlobalTheory.T.frobenius_charpoly_eq_satake_of_place_above}).
+\end{proof}
+
+\begin{lemma}\label{pf:galred:toralgal}
+Assume $\sfname{SLC}(\mathrm{all},\mathrm{unr})$. In the situation of \cref{pf:galred:sphlift}, let $r$ be weakly attached
+to $\pi$, $w\nmid\ell$ and $x=\galredWD_\iota(r|_{W_A})$. Then $N_x=0$, $P_x(g)=\prod_j(X-\xi_j(a(g)))$ for every
+$g\in W_A$, and $x=\galredrc(\sigma^\natural)$ for every local parameter map $\galredrc$.
+\formallabel{GalTw.GlobalTheory.RoadU.toralGal_of_holds}
+\end{lemma}
+
+\begin{proof}
+Let $g\in W_A$ with $\deg g\ne0$, and take $M,u,P,B$ as in \cref{pf:galred:sphlift}. Then $u\nmid\ell$, $r|_{G_M}$ is
+weakly attached to $P$, and $\sfname{SLC}(\mathrm{all},\mathrm{unr})$ applied to $P$ at $u$ gives
+$\galredFr_u(r|_{G_M})=B^{(n)}_u$, hence $\galredWD_\iota(r|_{W_A(M)})=\galredsph_A(B)$
+(\lref{GlobalTheory.T.weilDeligneParam_eq_unramifiedSatake_of_frobenius}). The Weil--Deligne representation of
+$r|_{G_M}$ at $A$ is the restriction of that of $r$ (\lref{GlobalTheory.AboveL.wdOf_restricts}), so $N_x=0$ and
+$P_x(g)=P_{\galredsph_A(B)}(g)=\prod_j(X-\xi_j(a(g)))$. By \cref{pf:galred:degne0} this identity extends to all $g\in W_A$.
+If $\galredrc$ is a local parameter map with Artin map $a'$, then by \cref{pf:galred:rcchars} and the identity just
+proved for $a'$ in place of $a$, $\galredrc(\sigma^\natural)$ has no monodromy and the same characteristic polynomials as
+$x$; so $x=\galredrc(\sigma^\natural)$ (\lref{GlobalTheory.WeakTheRep.eq_of_mono0_charPol}).
+\end{proof}
+
+\begin{theorem}\label{pf:galred:R1thm}
+$\sfname{CoreAll}$ implies $\sfname{R1}$.
+\formallabel{UpperTheory.Gal.ToralGalois.galoisCompat_unlinkedSupport_of_spherical}
+\end{theorem}
+
+\begin{proof}
+Let $\sigma^\natural$ be plain toral, with support $\{\xi_1,\dots,\xi_n\}$
+(\lref{GlobalTheory.RoadU.plainTor_exists_chars}). If $w\nmid\ell$, this is \cref{pf:galred:toralgal}. Let $w\mid\ell$.
+The clause (dR) at $w$ is obtained from $\sfname{SLC}(\mathrm{all},\mathrm{dR})$ for the lift $P$ of
+\cref{pf:galred:sphlift} (with $g$ of degree $1$): the de Rham property and the Hodge--Tate weights descend from the
+open subgroup $D_A(M)$ to $D_A$, and the infinitesimal characters of $P$ are those of $\pi$
+(\lref{GalTw.GlobalTheory.DeRhamOfPlainTorus.deRham_of_plainTor}). For the remaining assertions fix a frame at $A$
+and $g$ of nonzero degree, and take $M,u,P,B$ from \cref{pf:galred:sphlift}. By $\sfname{SLC}(\mathrm{all},\mathrm{crys})$
+and $\sfname{SLC}(\mathrm{all},\mathrm{phi})$ for $P$ at $u$, $r|_{D_A(M)}$ is crystalline, hence semistable without
+monodromy, and its Weil--Deligne representation has the characteristic polynomials of $\galredsph_A(B)$. Potential
+semistability and Fontaine's Weil--Deligne representation are compatible with restriction to the open subgroup $D_A(M)$,
+so $r|_{D_A}$ is potentially semistable, $x=\galredWD(r|_{D_A})$ has $N_x=0$ and $P_x(g)=\prod_j(X-\xi_j(a(g)))$
+(\lref{GalTw.GlobalTheory.RoadU.toralAbove_of_holds}). By \cref{pf:galred:degne0,pf:galred:rcchars},
+$P_x(g)=P_{\galredrc(\sigma^\natural)}(g)$ for all $g\in W_A$ and all local parameter maps $\galredrc$.
+\end{proof}
+
+\subsubsection{Compatibility on inertia at depth-zero places}\label{sec:pf:galred:R2}
+
+The plain toral case of $\sfname{R2}$ is contained in $\sfname{R1}$. The other case is reduced to it by an unramified
+base change which turns the depth-zero supercuspidal members of the support into characters. A representation $x$ of
+$\GL_n(E_w)$ is \emph{mixed} if it has depth zero and $\supp(x)$ is unlinked and apart. The reduction uses the
+following statements; (ii) and (v) are proved in \cref{sec:pf:galred:aux}, the others in the development.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.ToralGalois.R2.mixedOf}) If $\sigma$ is a local component of a cuspidal $\pi$ with
+  nonzero $K_1$-fixed vectors, $\sigma^\natural$ is apart and $N_{\galredrc(\sigma^\natural)}=0$ for some local parameter map,
+  then $\sigma$ is mixed.
+\item (\cref{pf:galred:unrfield}) For a CM field $E$, a split place $w$,
+  $f\ge1$ and a finite set $S$ of places, there is an abelian CM extension $X/E$, built as a tower of steps adapted to
+  $S$, in which the inertia groups at $w$ and at the non-split places act trivially and every place of $X$ above $w$
+  has norm $q_w^f$.
+\item (\lref{UpperTheory.Gal.NearKilling.allLift_holds}) If $(\pi,\chi)$ is in scope $\mathrm{all}$, $\pi$ is unramified
+  outside $S$ and $X$ is as in (ii), then $\pi$ has a cuspidal lift $P$ to $X$ through a chain of Galois extensions of
+  prime degree, $(P,\chi')$ is in scope $\mathrm{all}$ for some $\chi'$, and $r|_{G_X}$ is weakly attached to $P$
+  whenever $r$ is weakly attached to $\pi$.
+\item (\lref{UpperTheory.Gal.NearKilling.ineNorm}) If the inertia group at $A$ fixes $X$ and $u$ is the place of $X$
+  below $A$, then $I_A(X)=I_A$, and local Artin maps of $X_u$ and $E_w$ are compatible with the norm on inertia.
+\item (\cref{pf:galred:suppbc}) \emph{Supports under unramified base change.} If $\tau,\tau'$ are local components of $\pi$
+  at a $\Q_g$-place $v$ whose inertia groups fix $X$ and of $P$ at the place $u$ of $X$ below $A$, $\tau$ has depth zero
+  and $q_u=g^f$ with $f$ divisible by the dimensions of the members of $\supp(\tau)$, then $\supp(\tau')$ is a multiset of
+  tame characters $\xi_1,\dots,\xi_n$ of $X_u^\times$ with $P_{\galredrc(\tau)}(t)=\prod_j(X-\xi_j(a'(t)))$ for $t\in I_A$,
+  for all local parameter maps $\galredrc$ of $E_v$ and local Artin maps $a'$ of $X_u$, and it is unlinked if $\tau$ is
+  mixed.
+\item (\lref{UpperTheory.Gal.ToralGalois.R2.recChars}) In the situation of (v), if $\{\xi_j\}$ is unlinked then
+  $\tau'^\natural$ is plain toral; and $P_{\galredrc'(\tau'^\natural)}(t)=\prod_j(X-\xi_j(a'(t)))$ for $t\in I_A(X)$, every
+  local parameter map $\galredrc'$ of $X_u$ and every local Artin map $a'$ (compare \cref{pf:galred:rcchars}).
+\end{enumerate}
+
+\begin{theorem}\label{pf:galred:R2thm}
+$\sfname{R1}$ implies $\sfname{R2}$.
+\formallabel{UpperTheory.Gal.ToralGalois.R2.localGlobalCompatAtIwahoriFixed_of_unlinked}
+\end{theorem}
+
+\begin{proof}
+Let the data of $\sfname{R2}$ be given. If $\sigma^\natural$ is plain toral, $\sfname{R1}$ gives more than required.
+Otherwise $w$ is a $\Q_g$-place and $\sigma^\natural$ is apart, so $\sigma$ is mixed by (i). A $\Q_g$-place of a CM field
+is split over $E^+$: it is unramified over $g$ by \cref{pf:galred:gnotsq} and has residue degree $1$ over $g$, so it is
+neither ramified nor inert over $E^+$. Let $f=n!$ and let $S$ be the
+finite set of places where $\pi$ is ramified. By (ii)--(iv) there are an abelian CM extension $X/E$ whose inertia
+groups at $w$ fix $X$ and whose places above $w$ have norm $q_w^f$, and a cuspidal lift $P$ of $\pi$ to $X$ in scope
+$\mathrm{all}$ with $r|_{G_X}$ weakly attached to $P$. Let $u$ be the place of $X$ below $A$ and $\tau'$ a local component
+of $P$ at $u$. The members of a support of a representation of $\GL_n$ have dimension at most $n$, hence dividing $n!$;
+so by (v) and (vi), $\tau'^\natural$ is plain toral and $P_{\galredrc'(\tau'^\natural)}(t)=P_{\galredrc(\sigma^\natural)}(t)$ for all
+$t\in I_A$, for every local parameter map $\galredrc'$ of $X_u$, which exists by \cref{thm:rectexists}. (Here
+$\galredrc(\sigma^\natural)=\galredrc(\sigma)(\frac{1-n}2)$ by (L5) has the same characteristic polynomials on inertia as
+$\galredrc(\sigma)$.)
+
+Apply $\sfname{R1}$ to $P$, $r|_{G_X}$ and $\tau'$ at $u$. If $w\nmid\ell$, it gives $N=0$ and
+$\galredWD_\iota(r|_{W_A(X)})=\galredrc'(\tau'^\natural)$; since $I_A(X)=I_A$ and the Weil--Deligne representation of
+$r|_{G_X}$ is the restriction of that of $r$ (\lref{GlobalTheory.AboveL.wdOf_restricts}), $x=\galredWD_\iota(r|_{W_A})$
+has $N_x=0$ and $P_x(t)=P_{\galredrc(\sigma^\natural)}(t)$ for $t\in I_A$. If $w\mid\ell$, $\sfname{R1}$(ii) at $u$ gives, for
+every frame, potential semistability of $r|_{D_A(X)}$, absence of monodromy and the characteristic polynomials on
+inertia, and these descend to $r|_{D_A}$ as in the proof of \cref{pf:galred:R1thm}; the clause (dR) at $w$ descends from
+the clauses (dR) at the places of such extensions above $w$, whose lifts have the same infinitesimal characters
+(\lref{UpperTheory.Gal.ToralGalois.R2.drDesc}).
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:galred:rest}]
+By \cref{pf:galred:R1thm,pf:galred:R2thm}, $\sfname{CoreAll}$ implies $\sfname{R1}$ and $\sfname{R2}$, and
+\cref{pf:galred:deduce} gives $\sfname{Row0}(\mathrm{recT})$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Definite unitary groups of odd rank}\label{sec:pf:galred:odd}
+
+\subsubsection{Notation and the three statements}\label{sec:pf:galred:oddstmts}
+
+Let $E$ be a CM field. A place $w$ of $E$ is \emph{split} if another place of $E$ lies over the same place of $E^+$;
+two places are \emph{apart} if they lie over different places of $E^+$; $w$ is apart from a finite set $S$ if it
+is apart from every member of $S$. For a split place $w$ there is $c(w)\ne w$ over the same place of $E^+$.
+$\galredU_a(\A_{E^+})=\{g\in\GL_a(\A_E):{}^t\bar g\,g=1\}$, and an \emph{automorphic representation} $U$ of $\galredU_a$
+is a nonzero irreducible right-translation-stable space of automorphic forms on
+$\galredU_a(E^+)\backslash\galredU_a(\A_{E^+})$ (\cref{sec:galois:arch}). At a split place $w$ the local group is
+$\GL_a(E_w)$; a \emph{local component} of $U$ at $w$ is a smooth irreducible $\sigma$ with a nonzero equivariant map to
+$U$, and $U$ is \emph{spherical at $w$ with Satake parameter $B$} if a local component at $w$ is spherical with Satake
+parameter $B$; we write $\galredSat_w(U)=B$ (it is unique), and $B^{(a)}_w$ as before. At a non-split place, $U$ is
+\emph{unramified} if it has a nonzero vector fixed by the hyperspecial subgroup. For $\tau\colon E\to\C$, a dominant
+weight $\lambda\in\Z^a$ ($\lambda_0\ge\dots\ge\lambda_{a-1}$) is a \emph{weight of $U$ at $\tau$} if the irreducible algebraic
+representation of highest weight $\lambda$ of the factor at $\tau$ occurs in $U$; its \emph{Hodge--Tate multiset} is
+$J_\lambda=\{k-\lambda_k:0\le k<a\}=\{\frac{a-1}2-z:z\in\galredinf(\lambda)\}$, where
+$\galredinf(\lambda)=\{\lambda_k+\frac{a-1}2-k\}$. An embedding $\tau\colon E\to\C$ \emph{lies over} a place $v$ above
+$\ell$ if $\iota^{-1}\tau$ induces $v$.
+
+\begin{definition}[Conditions on fields, places and representations]\label{pf:galred:conds}
+Let $\ell$ be a prime, $d>0$ an integer and $a\ge1$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\sfname{FieldOK}(E,\ell,d)$: $E$ contains a square root $x$ of $-d$; $-d$ is a square in $\Q_\ell$; $[E^+:\Q]$ is
+  even; every non-split place of $E$ is prime to $\ell$ and unramified over $E^+$. Then all places above $\ell$ are
+  split.
+\item A place $w$ is \emph{$d$-usable} if it is split and $-d$ is a square in $\Q_q$, $q$ the prime below $w$.
+\item $U$ is \emph{unramified off $T$}, $T$ a finite set of non-split places, if it is unramified at all non-split
+  places outside $T$.
+\item $U$ has a \emph{type of $\ell$-power order} at $w_0$ if there are an open compact torsion-free subgroup $J$ of
+  $\GL_a(E_{w_0})$, a surjection $\vartheta\colon J\to\Z/\ell^m$ and a nontrivial character $\chi$ of $\Z/\ell^m$ such that
+  every smooth irreducible representation of $\GL_a(E_{w_0})$ with a nonzero $\chi\circ\vartheta$-eigenvector is
+  supercuspidal, and $U$ contains a nonzero $\chi\circ\vartheta$-eigenvector for $J$.
+\item A multiset $J$ of $a$ integers, sorted as $j_0\le\dots\le j_{a-1}$, is \emph{gapped} if $j_{i+1}-j_0>a(j_i-j_0)$ for
+  all $i+1<a$. $U'$ has \emph{lacunary weight at $v'$ relative to $U$} if $U$ and $U'$ have the same weights at every
+  $\tau$ such that every place over which $\tau$ lies is apart from $w_0$ and $v'$, and there is $\tau_0$ lying over $v'$
+  such that $J_\lambda$ is gapped for every weight $\lambda$ of $U'$ at $\tau_0$.
+\item A multiset $B=\{\alpha_1,\dots,\alpha_a\}$ of nonzero complex numbers is \emph{generic} if
+  $D_a(\alpha_1,\dots,\alpha_a)\ne0$, where
+  \begin{multline*}
+    D_a=\prod_{i\ne j}\prod_{c=1}^{a}(X_i^c-X_j^c)\cdot\prod_{j\notin\{i,k\}}(X_iX_k-X_j^2)\\
+    \cdot\prod_{m}\Bigl(\prod_iX_i^{m_i}-\prod_iX_i\Bigr)\in\Z[X_1,\dots,X_a],
+  \end{multline*}
+  the last product over the $m\in\{0,\dots,a\}^a$ with $\sum m_i=a$ and $m\ne(1,\dots,1)$. $U$ is \emph{generic at $w$} if
+  every Satake parameter of $U$ at $w$ is generic.
+\item For a representation $r\colon G_E\to\GL_a(\Qlbar)$ and $w\mid\ell$: $\sfname{CrysDR}(U,r,w)$ means that at $w$,
+  $r|_{D_A}$ is crystalline and de Rham, and its $\tau$-Hodge--Tate multiset is $J_\lambda$ for every $\tau$ induced by the
+  frame and every weight $\lambda$ of $U$ at $\iota\tau$; $\sfname{Phi}(r,w,B)$ means that at $w$,
+  $P_{\galredWD(r|_{D_A})}(g)=P_{\galredsph_A(B)}(g)$ for all $g\in W_A$ (formally: the power sums of the roots agree for
+  every exponent $n\ge0$, which is equivalent).
+\end{enumerate}
+\end{definition}
+
+The three statements about odd rank are the following. In all of them $E$ is a CM field, $\Omega,\ell,\iota$ are as
+before, $a$ is odd, $\sfname{FieldOK}(E,\ell,d)$ holds, $T$ is a finite set of non-split places, and $w_0,v'$ are places
+above $\ell$ which are apart.
+
+\begin{definition}[$\sfname{SeedFinOdd}$]\label{pf:galred:seeddef}
+For all such data, every automorphic $U_0$ of $\galredU_a$ and all finite sets $S,Y$ of places, there is a finite set
+$Z_0$ of $d$-usable places prime to $\ell$ and apart from $w_0$ and $S$, such that every \emph{seed} $U$, i.e.\ every
+automorphic representation of $\galredU_a$ which is unramified off $T$, has a type of $\ell$-power order at $w_0$, has
+lacunary weight at $v'$ relative to $U_0$, is spherical at every split place apart from $w_0$ and $S$ and at $v'$,
+and is generic at the places of $Z_0$, has a continuous semisimple $r\colon G_E\to\GL_a(\Qlbar)$ such that:
+\begin{enumerate}[label=(S\arabic*),nosep]
+\item there are an open dense $V\subset G_E$ and a finite set $X$ of places such that for every $d$-usable $w\notin X$
+  prime to $\ell$ and apart from $S$, every $B=\galredSat_w(U)$ and every $A$ above $w$: $r(I_A)=1$, and
+  $\iota\det(X-r(s^{-1}))=\prod_{B^{(a)}_w}(X-b)$ for every arithmetic Frobenius $s\in V$ at $A$;
+\item for $w\in Y$ $d$-usable, prime to $\ell$, apart from $S$, with $B=\galredSat_w(U)$ generic: $\galredFr_w(r)=B^{(a)}_w$;
+\item for $w\in Y$ above $\ell$, apart from $w_0$, $v'$ and $S$: $\sfname{CrysDR}(U,r,w)$;
+\item for $w\in Y$ above $\ell$, apart from $w_0$, $v'$ and $S$, with $B=\galredSat_w(U)$ generic: $\sfname{Phi}(r,w,B)$.
+\end{enumerate}
+\formallabel{GlobalTheory.CongL.SeedFinOdd}
+\end{definition}
+
+\begin{definition}[$\sfname{CongFinOdd}$]\label{pf:galred:congdef}
+A \emph{family of local Hecke operators} of level $(K_w)_w$ ($K_w\subset\GL_a(E_w)$ for split $w$) indexed by a set $J$
+consists of split places $w_j\nmid\ell$ and finitely supported functions $f_j$ on $\GL_a(E_{w_j})$ with $\ell$-adically
+integral values (after $\iota^{-1}$), such that $f_j$ acts on the $K_{w_j}$-fixed vectors of every smooth irreducible
+$\sigma$ by a scalar $z_j(\sigma)$. The \emph{eigenvalue system} of $U$ is $\theta_U=(\iota^{-1}z_j(\sigma_j))_j$, $\sigma_j$ the
+local component of $U$ at $w_j$. For $\theta\colon J\to\Qlbar$ and a set $\mathcal S$ of such functions, $\theta$ is
+\emph{polynomially approximable} by $\mathcal S$ if for every $\varepsilon>0$ there are finitely many
+$\eta\in\mathcal S$ and $c_\eta\in\Qlbar$ with $|P(\theta)-\sum c_\eta P(\eta)|\le\varepsilon$ for \emph{all}
+$P\in\Z[X_j:j\in J]$.
+
+$\sfname{CongFinOdd}$ states: for all data as above and every $U$ unramified off $T$, there is a level $(K_w)$, with
+$K_w$ open compact for split $w$ apart from $w_0$ and $K_w=\GL_a(\OO_{E_w})$ at split places apart from $w_0,v'$ where
+$U$ is spherical, such that the local components of $U$ at split places apart from $w_0,v'$ have nonzero
+$K_w$-fixed vectors, and for all finite sets $Z$ (of split places apart from $w_0,v'$ where $U$ is spherical) and $W$
+(of such places above $\ell$) there are nonzero constants $c(w,n)$, $w\in W$, $n\in\Z$, such that for every family of
+local Hecke operators of level $(K_w)$ the extended system
+$\bigl(\theta_U,\ (\iota^{-1}(c(w,n)p_n(U,w)))_{w\in W,n\in\Z}\bigr)$, $p_n(U,w)=\sum_{b\in B^{(a)}_w}b^n$, is
+polynomially approximable by the extended systems of seeds $U'$ (relative to $U_0=U$) of the same level, with the same
+weights as $U$ at the embeddings over places apart from $w_0,v'$, generic at the places of $Z\cup W$; and if the
+operators have rational values, then $\theta_U$ takes values in a finite extension of $\Ql$.
+\formallabel{GlobalTheory.CongL.CongFinOdd}
+\end{definition}
+
+\begin{definition}[$\sfname{LimFinOdd}$]\label{pf:galred:limdef}
+For all data as above and every $U$ unramified off $T$ there is a continuous semisimple $r\colon
+G_E\to\GL_a(\Qlbar)$ such that:
+\begin{enumerate}[label=(L\arabic*),nosep]
+\item $\galredFr_w(r)=\galredSat_w(U)^{(a)}_w$ for every $d$-usable $w\nmid\ell$ at which $U$ is spherical;
+\item $\sfname{CrysDR}(U,r,w)$ for every $w\mid\ell$ apart from $w_0,v'$ at which $U$ is spherical;
+\item for every such $w$ with $B=\galredSat_w(U)$, every frame at a place $A$ above $w$ and every $\sigma\in W_A$, there are
+  a set $\mathcal C$ of continuous representations, crystalline (for the frame) with a common Hodge--Tate multiset
+  $J_\tau$ for each $\tau$, which \emph{jointly approximates} $r$ and the power sums of $\sigma$ on $\galredsph_A(B)$: for
+  every $n$ and $\varepsilon>0$ there are finitely many $\rho\in\mathcal C$ and $c_\rho$ with $|\galredtr r(g)-\sum
+  c_\rho\galredtr\rho(g)|\le\varepsilon$ for all $g\in G_E$ and $|\iota^{-1}p_j(\sigma,\galredsph_A(B))-\sum
+  c_\rho\iota^{-1}p_j(\sigma,\galredWD(\rho|_{D_A}))|\le\varepsilon$ for $j\le n$, where $p_j(\sigma,x)$ is the $j$-th power
+  sum of the roots of $P_x(\sigma)$.
+\end{enumerate}
+\formallabel{GlobalTheory.CongL.LimFinOdd}
+\end{definition}
+
+\begin{theorem}\label{pf:galred:seedcong}
+$\sfname{GeoOne}$ implies $\sfname{SeedFinOdd}$, and $\sfname{CongFinOdd}$ holds.
+\formallabel{UpperTheory.Gal.Int.Div.seedFinOdd_of_geoOne}
+\formallabel{UpperTheory.Gal.Int.Cong.congFinOdd_of_ex}
+\end{theorem}
+
+The two assertions are proved in \cref{sec:pf:galred:seeds,sec:pf:galred:cong}; the limit statement in
+\cref{sec:pf:galred:lim}.
+
+\subsubsection{Seeds from geometry}\label{sec:pf:galred:seeds}
+
+$\sfname{GeoOne}$ (\cref{def:galois:geoone}) provides representations $\rho$ of unknown dimension whose Frobenius
+elements are \emph{annihilated} by the Hecke polynomials. We call a continuous semisimple $\rho\colon
+G_E\to\GL_{d'}(\Qlbar)$ \emph{basic} for $U$ (and $d$) if (1) for all but finitely many $d$-usable $w\nmid\ell$ where $U$ is
+spherical with $B=\galredSat_w(U)$, $\rho$ is unramified at $w$ and $\prod_{B^{(a)}_w}(X-\iota^{-1}b)$ annihilates
+$\rho(s^{-1})$ for every arithmetic Frobenius $s$ at every $A$ above $w$ (``$\rho$ is killed by $B$ at $w$''); and (2) at some place
+above $\ell$ and some frame, $\rho$ is de Rham and some $\tau$-Hodge--Tate multiset of $\rho$ contains a \emph{lacunary}
+set of $a$ integers, i.e.\ a set of $a$ integers no two disjoint nonempty subsets of which have the same average. This
+is the notion of \cref{def:galois:geoone}.
+
+The extraction of $a$-dimensional representations rests on an abstract division theorem. For representations
+$r\colon\Gamma\to\GL_a(k)$ and $\rho\colon\Gamma\to\GL_N(k)$ of a group, $r$ is \emph{inside} $\rho$ if there is an
+$N\times a$ matrix $M$ of rank $a$ with $\rho(g)M=Mr(g)$ for all $g$, and $r$ \emph{covers} $\rho$ if there are $m$ and an
+$(am)\times N$ matrix $M'$ of rank $N$ with $(r(g)\otimes1_m)M'=M'\rho(g)$ for all $g$.
+
+\begin{theorem}[Division]\label{pf:galred:division}
+Let $\Gamma$ be a compact topological group, $K$ an algebraically closed topological field of characteristic $0$, $K'$
+an algebraically closed extension of $K$, and $\rho\colon\Gamma\to\GL_N(K)$ continuous and semisimple. Let
+$S\subset\Gamma$ be dense, and for $s\in S$ let $P_s\in K[X]$ be monic of degree $n$ with $P_s(\rho(s))=0$. Let $Z\in
+M_N(K')$ lie in the Lie algebra of the Zariski closure of $\rho(\Gamma)$ (every polynomial vanishing on $\rho(\Gamma)$ has
+differential at $1$ vanishing on $Z$), and assume that $\det(X-Z)$ has $n$ distinct roots $e_1,\dots,e_n$ which are
+lacunary ($|B|\sum_{i\in A}e_i\ne|A|\sum_{i\in B}e_i$ for disjoint nonempty $A,B$). Let $\psi\colon\Gamma\to K^\times$ be a
+continuous character with $\psi(s)=(-1)^nP_s(0)$ for $s\in S$. Then there is a continuous semisimple $r\colon
+\Gamma\to\GL_n(K)$ which is inside $\rho$ and covers $\rho$, with $\det r=\psi$, $P_s(r(s))=0$ for $s\in S$, whose
+characteristic polynomial annihilates $\rho(g)$ for all $g$, such that the set of $g$ with separable characteristic
+polynomial $\det(X-r(g))$ is open and dense, and $\det(X-r(s))=P_s$ for every $s\in S$ for which $\det(X-r(s))$ is
+separable or $P_s$ is product-generic (separable, and no multiset of $n$ roots of $P_s$ other than the multiset of all roots
+has the same product).
+\formallabel{LateralTheory.DivDb.goal_holds}
+\end{theorem}
+
+The proof is given in \cref{sec:pf:galred:divproof}. The element $Z$ is provided by Sen's theory \cite{Sen1980}, in which the
+Sen operator of $\rho$ at a place above $\ell$ lies in the Lie algebra of the Zariski closure of the image and has the
+Hodge--Tate weights as eigenvalues: if $\rho\colon G_E\to\GL_N(\Qlbar)$ is continuous and some $\tau$-Hodge--Tate multiset
+of $\rho$ at a place above $\ell$ contains $n$ lacunary integers, then there is $Z$ as in \cref{pf:galred:division} with
+$n$ distinct lacunary eigenvalues
+(\lref{UpperTheory.Gal.Int.Div.senWLac_holds} and \lref{UpperTheory.Gal.Int.Div.lacBridge_of}).
+
+\begin{lemma}\label{pf:galred:divset}
+Let $\rho\colon G_E\to\GL_{d'}(\Qlbar)$ be continuous and semisimple, with a $\tau$-Hodge--Tate multiset containing $a$
+lacunary integers. Let $\psi\colon G_E\to\Qlbar^\times$ be a continuous character such that the set of $g$ for which some
+monic $P\in\Qlbar[X]$ of degree $a$ satisfies $P(\rho(g))=0$ and $\psi(g)=(-1)^aP(0)$ is dense. Then there is a continuous
+semisimple $r\colon G_E\to\GL_a(\Qlbar)$ inside $\rho$ and covering $\rho$, such that the set of $g$ with $\det(X-r(g))$
+separable is open and dense.
+\formallabel{UpperTheory.Gal.Int.Div.divSet_holds}
+\end{lemma}
+
+\begin{proof}
+Choose such a $P=P_g$ for each $g$ in the dense set, and apply \cref{pf:galred:division} with $\Gamma=G_E$ (compact),
+$K=\Qlbar$ and the element $Z$ given by Sen's theory.
+\end{proof}
+
+A continuous character $\psi$ of $G_E$ is a \emph{determinant character} for $U$ if at every split place $w$ where $U$ is
+spherical with Satake parameter $B$, the four clauses hold for $\psi$ (as a one-dimensional representation) with
+Frobenius multiset $\{\prod_{b\in B^{(a)}_w}b\}$ and some Hodge--Tate multisets. Such a $\psi$ exists for every $U$
+(\lref{UpperTheory.Gal.Int.Div.detEx_holds}); it is built from an algebraic Hecke character $\chi$ of $E$ with
+$\chi(\varpi_w)=\prod_{b\in B}b$ at the split places $w$ where $U$ is spherical with Satake parameter $B$, which exists by
+\lref{UpperTheory.Gal.Int.Div.centU_holds} (central characters). A continuous semisimple $r\colon G_E\to\GL_a(\Qlbar)$ is a \emph{division
+representation} for $U$ if it satisfies (S1) of \cref{pf:galred:seeddef} with $S=\emptyset$.
+
+\begin{lemma}\label{pf:galred:divone}
+Let $d$ satisfy $\sqrt{-d}\in E$, let $U$ be automorphic, $\psi$ a determinant character for $U$, and $\rho$ basic for $U$. Then
+there is a division representation $r$ for $U$ which is inside $\rho$ and covers $\rho$.
+\formallabel{UpperTheory.Gal.Int.Div.divOne_holds}
+\end{lemma}
+
+\begin{proof}
+Let $X_\rho$ be the finite exceptional set of (1). By Chebotarev's density theorem \cite{Chebotarev1926}, the set of
+inverses of arithmetic Frobenius elements at $d$-usable places $w\notin X_\rho$, $w\nmid\ell$, where $U$ is spherical, is
+dense in $G_E$ (\lref{GlobalTheory.CongL.UnitLim.dense_frob_usable_off}). For such an element $g=s^{-1}$ take
+$P=\prod_{B^{(a)}_w}(X-\iota^{-1}b)$: it is monic of degree $a$, annihilates $\rho(g)$ because $\rho$ is basic, and
+$(-1)^aP(0)=\iota^{-1}\prod_{B^{(a)}_w}b=\psi(g)$ because $\psi$ is a determinant character. \Cref{pf:galred:divset} gives
+$r$ inside and covering $\rho$, with separable characteristic polynomial on an open dense set $V'$. Let $V$ be the set of
+$s$ with $s^{-1}\in V'$. Let $M$ be the matrix of rank $a$ with $\rho(g)M=Mr(g)$. If $\rho(g)=1$ then $M=Mr(g)$, so
+$r(g)=1$; and if $P(\rho(g))=0$ then $MP(r(g))=P(\rho(g))M=0$, so $P(r(g))=0$. Hence for $w\notin X_\rho$ as in (S1), $A$
+above $w$ and an arithmetic Frobenius $s\in V$: $r(I_A)=1$, and the characteristic polynomial of $r(s^{-1})$ is separable, so
+it equals the minimal polynomial, which divides $P$; both being monic of degree $a$, it equals $P$.
+\end{proof}
+
+A finite multiset $s$ of nonzero complex numbers is \emph{multiplicatively generic} if every multiset of $|s|$ elements of
+$s$ (counted with multiplicity, i.e.\ every multiset with the same cardinality, all of whose members belong to $s$) having
+the same product as $s$ is equal to $s$.
+
+\begin{lemma}\label{pf:galred:frobcond}
+Let $\psi$ be a determinant character for $U$, $r$ inside $\rho$ with $\det r=\psi$, $w\nmid\ell$ split with
+$B=\galredSat_w(U)$ multiplicatively generic, and assume $\rho$ is unramified at $w$ and killed by $B$ at $w$. Then
+$\galredFr_w(r)=B^{(a)}_w$.
+\formallabel{UpperTheory.Gal.Int.Div.frobSeed_of}
+\end{lemma}
+
+\begin{proof}
+$B^{(a)}_w$ is multiplicatively generic as well, since it is obtained from $B$ by multiplication by the constant
+$q_w^{(a-1)/2}$, which multiplies the products of all multisets of cardinality $a$ by the same factor. $r$ is trivial on $I_A$
+since $\rho$ is. For an arithmetic Frobenius $s$, the eigenvalues of $r(s^{-1})$ are roots of
+$\prod_{B^{(a)}_w}(X-\iota^{-1}b)$ (which annihilates $\rho(s^{-1})$, hence $r(s^{-1})$), and their product is $\det r(s^{-1})=
+\psi(s^{-1})=\iota^{-1}\prod_{B^{(a)}_w}b$. By multiplicative genericity, the multiset of eigenvalues is $\iota^{-1}B^{(a)}_w$.
+\end{proof}
+
+If $B=\{\alpha_1,\dots,\alpha_a\}$ is generic in the sense of \cref{pf:galred:conds}(f), then $B$ is multiplicatively generic.
+Indeed the $\alpha_i$ are distinct (first factor of $D_a$), so a multiset of $a$ elements of $B$ is described by multiplicities
+$m_i\in\{0,\dots,a\}$ with $\sum m_i=a$; equality of products means $\prod\alpha_i^{m_i}=\prod\alpha_i$, and the last factor of
+$D_a$ forces $m=(1,\dots,1)$.
+
+\begin{proposition}\label{pf:galred:divall}
+Let $\sqrt{-d}\in E$ and let $U$ be automorphic with a basic representation. There is a division representation $r$ for
+$U$ such that for every basic $\rho$ and every place $w$:
+\begin{enumerate}[label=(\roman*),nosep]
+\item if $w$ is split, $w\nmid\ell$, $B=\galredSat_w(U)$ is generic and $\rho$ is unramified at $w$ and killed by $B$ at $w$,
+  then $\galredFr_w(r)=B^{(a)}_w$;
+\item if at $w$ the representation $\rho$ is crystalline and its $\tau$-Hodge--Tate multisets contain $J_\lambda$ for every
+  weight $\lambda$ of $U$ at $\iota\tau$ ($\tau$ induced by the frame), then $\sfname{CrysDR}(U,r,w)$;
+\item if $w$ is split, $B=\galredSat_w(U)$ is generic, and at $w$ the representation $\rho$ is crystalline and, for some
+  element $g$ of degree $-1$, $P_{\galredWD(\rho|_{D_A})}(g)$ divides a power of $P_{\galredsph_A(B)}(g)$, then $r$ is crystalline at $w$
+  and $\sfname{Phi}(r,w,B)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Div.divAll_holds}
+\end{proposition}
+
+\begin{proof}
+Take a determinant character $\psi$ (\lref{UpperTheory.Gal.Int.Div.detEx_holds}) and, by \cref{pf:galred:divone}, a
+division representation $r$ inside and covering some basic representation. Then $\det r=\psi$: at the arithmetic Frobenius
+elements $s\in V$ of (S1), $\det r(s^{-1})$ and $\psi(s^{-1})$ both equal $\iota^{-1}\prod_{B^{(a)}_w}b$; the inverses of these
+elements are dense (Chebotarev), and both sides are continuous. Let $\rho$ be basic and let $r'$ be the division
+representation inside and covering $\rho$ given by \cref{pf:galred:divone}. The characteristic polynomials of $r$ and $r'$
+agree at the inverses of the Frobenius elements lying in both open dense sets $V$, outside both exceptional sets; this set
+is dense, so $\galredtr r=\galredtr r'$ by continuity, and $r\cong r'$ since semisimple representations in characteristic $0$
+are determined by their traces \cite[(30.16)]{CurtisReiner1962}. Being inside $\rho$ and covering $\rho$ are invariant under
+isomorphism, so $r$ is inside and covers $\rho$. Now (i) is \cref{pf:galred:frobcond}, as generic Satake parameters are
+multiplicatively generic.
+
+For (ii) and (iii) we use that if $r$ is inside a semisimple $\rho$, then at a frame $r|_{D_A}$ is crystalline whenever
+$\rho|_{D_A}$ is, its Hodge--Tate multisets are contained in those of $\rho$, and the characteristic polynomials of elements of
+$W_A$ on $\galredWD(r|_{D_A})$ divide those on $\galredWD(\rho|_{D_A})$ (\lref{UpperTheory.Gal.Int.Div.subLoc_holds}).
+(ii): $r$ is crystalline at $w$. Since $r$ covers $\rho$ and is semisimple, $\rho$ is inside the sum of $m$ copies of $r$, so
+the $\tau$-Hodge--Tate multiset of $\rho$ is contained in $m$ copies of the $\tau$-Hodge--Tate multiset $J_r$ of $r$. By
+hypothesis it contains $J_\lambda$, which consists of $a$ distinct integers; so $J_\lambda\subset J_r$, and as $J_r$ has $a$
+elements, $J_r=J_\lambda$. (iii): $r$ is crystalline at $w$. For the given $g$
+of degree $-1$, $P_{\galredWD(r|_{D_A})}(g)$ divides $P_{\galredWD(\rho|_{D_A})}(g)$, hence a power of
+$P_{\galredsph_A(B)}(g)=\prod_{B^{(a)}_w}(X-b)$; the product of its roots is the eigenvalue of $g$ on the Weil--Deligne
+representation of $\det r=\psi$, which is $\prod_{B^{(a)}_w}b$ by the clauses for $\psi$. By multiplicative genericity,
+$P_{\galredWD(r|_{D_A})}(g)=P_{\galredsph_A(B)}(g)$. As $r|_{D_A}$ is crystalline, $\galredWD(r|_{D_A})$ is unramified without
+monodromy, hence determined by the characteristic polynomial of one element of degree $-1$, and $\sfname{Phi}(r,w,B)$ follows
+(\lref{UpperTheory.Gal.Int.Div.phiSeed_holds}).
+\end{proof}
+
+\begin{proof}[Proof that $\sfname{GeoOne}$ implies $\sfname{SeedFinOdd}$]
+Take $Z_0=\emptyset$, and let $U$ be a seed. Write $x^2=-d$ in $E$. Since $-d$ is a square in $\Q_\ell$, $\ell$ splits in
+$\Q(x)$; complex conjugation acts on $\Q(x)$ nontrivially, so if $u$ is a split place above $\ell$ and $w$ a place above
+$\ell$, then $u$ or $c(u)$ lies over the same place of $\Q(x)$ as $w$; and $c(u)$ is apart from exactly the same places as $u$.
+A gapped multiset $J$ is lacunary: shifting by $-j_0$ we may assume $0=j_0\le j_1\le\dots$ with $j_{i+1}>aj_i$; if
+$|B|\sum_Aj=|A|\sum_Bj$ for disjoint nonempty $A,B$, let $j_m$ be the largest index used, say in $A$ (then $m\ge1$); then
+$|B|\sum_Aj\ge|B|j_m>|B|\,a\,j_{m-1}\ge|A|\,|B|\,j_{m-1}\ge|A|\sum_Bj$, a contradiction. Hence $U$ has lacunary weight at $v'$
+in the sense of \cref{def:galois:geoone}. The hypotheses of $\sfname{GeoOne}$ on $U$ at $w_0$ (type of $\ell$-power order) and
+at $v'$ (spherical, lacunary weight) are invariant under replacing $w_0$ by $c(w_0)$ and $v'$ by $c(v')$, by conjugation of
+local components (\lref{UpperTheory.Gal.Int.Div.locIso_of}). Hence for every place $w$ above $\ell$ there are $u_0\in\{w_0,c(w_0)\}$ and
+$u'\in\{v',c(v')\}$, both lying over the same place of $\Q(x)$ as $w$, for which $\sfname{GeoOne}$ applies, and its conclusions
+(G1)--(G3) hold for $(u_0,u')$.
+
+Apply \cref{pf:galred:divall} to $U$ and the basic representation of (G1) for the pair attached to $w=v'$; let $r$ be the
+resulting division representation. It satisfies (S1). For (S2), let $w\in Y$ be $d$-usable, prime to $\ell$, apart from $S$,
+with $B$ generic; $U$ is spherical at $w$ since $U$ is a seed, so (G2) gives a basic $\rho$ killed by $B$ at $w$, and
+\cref{pf:galred:divall}(i) gives $\galredFr_w(r)=B^{(a)}_w$. For (S3) and (S4), let $w\in Y$ lie above $\ell$, apart from
+$w_0,v',S$; then $U$ is spherical at $w$, and with $(u_0,u')$ chosen for $w$, $w$ lies over the same place of $\Q(x)$ as
+$u'$ and is apart from $u_0$ and $u'$, so (G3) provides the basic representations required in
+\cref{pf:galred:divall}(ii) and (iii).
+\end{proof}
+
+\subsubsection{Congruences}\label{sec:pf:galred:cong}
+
+The density of seeds is proved by approximating $\ell$-adically, in a space of algebraic automorphic forms, a given form by
+forms in the span of representations with the required properties, and translating such approximations into polynomial
+approximations of Hecke eigenvalue systems.
+
+For a level $K$ (an open compact subgroup of $\galredU_a(\A_{E^+,f})$) and a weight $W$, let $\mathcal A(W,K)$ be the
+finite-dimensional space of $K$-invariant algebraic automorphic forms of weight $W$, and for a property $\mathcal P$ of
+automorphic representations let $\mathcal A_{\mathcal P}(W,K)$ be the span of the $K$-fixed parts of the representations
+with property $\mathcal P$. $\mathcal P$ is \emph{dense} at $(W,K)$ if every $f\in\mathcal A(W,K)$ can be approximated
+$\ell$-adically by elements of $\mathcal A_{\mathcal P}(W,K)$: for every $\varepsilon>0$ there is
+$G\in\mathcal A_{\mathcal P}(W,K)$ with $f-G=e\cdot f$ pointwise for a function $e$ of $\ell$-adic size at most
+$\varepsilon$. The following statements are used; (ii) and (iii) are proved in \cref{sec:pf:galred:aux}, the others in
+the development.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.Gen.toPolyX_holds}) If $\mathcal P$ is dense at $(W,K)$ and a family of $\ell$-adically
+  integral Hecke operators $t_j$ of level $K$ acts on the $K$-fixed vectors of every automorphic representation $U$ by
+  scalars $\eta_j(U)$, then for every $U$ of weight $W$ with nonzero $K$-fixed vectors, the system $\eta(U)$ is
+  polynomially approximable by the systems $\eta(U')$ of the $U'$ of weight $W$ and level $K$ with property $\mathcal P$.
+\item (\cref{pf:galred:densegen}) Genericity at finitely many split places apart from $w_0$ of the Satake parameters, in
+  the sense of the nonvanishing of a fixed nonzero polynomial, is dense, for every weight and level away from $w_0$.
+\item (\cref{pf:galred:wtlac}) \emph{Lacunary weight families.} The eigenvalue system of $U$ of weight $\lambda$ and level
+  $K\cap K'_{v'}$ ($K'_{v'}$ an open subgroup at $v'$) is polynomially approximable by eigenvalue systems of
+  representations $U'$ of level $K$ whose weights $\mu$ agree with $\lambda$ at the embeddings not lying over $v'$ or
+  $c(v')$, and such that $J_{\mu(\tau_0)}$ is gapped for a fixed $\tau_0$ lying over $v'$.
+\item (\lref{UpperTheory.Gal.Int.Cong.ellSt_holds}) Types of $\ell$-power order exist in every neighbourhood of $1$ in
+  $\GL_a(E_{w_0})$, $w_0\mid\ell$, with $m$ as large as required; combined with (iii) and the density of forms of a given type
+  (\lref{UpperTheory.Gal.Gen.tyStep_holds}) this gives the statement (iii) with the additional property that $U'$ has a
+  type of $\ell$-power order at $w_0$ (\lref{UpperTheory.Gal.Int.Cong.stepSt_of_ex}).
+\item (\lref{UpperTheory.Gal.Gen.combine_holds}) If $\theta$ is polynomially approximable
+  by $\mathcal S$, every $\eta\in\mathcal S$ is polynomially approximable by $\mathcal T$ and satisfies $Q(\eta)\ne0$ for a
+  fixed integral polynomial $Q$, then $\theta$ is polynomially approximable by $\{\eta\in\mathcal T:Q(\eta)\ne0\}$; and
+  polynomial approximability is preserved by forgetting coordinates.
+\item (\lref{GlobalTheory.Cong.finU_holds}) If the operators have rational values, the eigenvalues lie in a finite
+  extension of $\Ql$.
+\end{enumerate}
+
+\begin{proof}[Proof that $\sfname{CongFinOdd}$ holds]
+Fix the data and $U$. A level $K$ away from $w_0$, an open subgroup $K_{v'}$ at $v'$ and local levels $(K_w)$ with the
+required properties, such that $U$ has nonzero $K\cap K_{v'}$-invariant vectors, exist
+(\lref{UpperTheory.Gal.Int.Cong.exists_level}); let $\lambda$ be the weight of $U$. Given $Z$ and $W$, choose: at each
+$w\in W$ and $n\in\Z$ a Hecke operator of level $K$ supported at $w$ acting on spherical vectors by the power sum
+$p_n(\cdot,w)$, normalized by a nonzero constant $c(w,n)$ to be $\ell$-adically integral
+(\lref{UpperTheory.Gal.Int.Cong.exists_powOp} and \lref{UpperTheory.Gal.Int.Cong.exists_scale}); at each $z\in Z$ a
+\emph{test operator} acting on spherical vectors by the value of $D_a$ at the Satake parameters, similarly normalized
+(\lref{UpperTheory.Gal.Int.Cong.exists_testOp}). Together with the given family of local Hecke operators this is a
+family $t$ of integral operators of level $K\cap K_{v'}$, with eigenvalue systems $\eta(\cdot)$.
+
+By (i) and (ii), $\eta(U)$ is polynomially approximable by the systems $\eta(U_1)$ of representations $U_1$ of weight
+$\lambda$ and level $K\cap K_{v'}$ which are generic at the places of $Z$. By (iv), each such $\eta(U_1)$ is polynomially
+approximable by the systems $\eta(U')$ of representations $U'$ of level $K$, with lacunary weight at $v'$ relative to
+$U$, the same weights as $U$ away from $v'$, and a type of $\ell$-power order at $w_0$. With $Q$ the product of the test
+coordinates, which is nonzero exactly when $U'$ is generic at all places of $Z$, (v) shows that $\eta(U)$ is polynomially
+approximable by the systems of such $U'$ which are generic at $Z$; forgetting the test coordinates gives the
+approximation required in $\sfname{CongFinOdd}$. The $U'$ obtained are seeds of the required level: they are unramified
+off $T$ and spherical at $v'$ and at the split places apart from $w_0,v'$ where $U$ is, because they have nonzero
+$K$-fixed vectors, and genericity at the places of $W$ is obtained in the same way by including $W$ among the test
+places. The finiteness assertion is (vi).
+\end{proof}
+
+\subsubsection{Limits}\label{sec:pf:galred:lim}
+
+\begin{theorem}\label{pf:galred:lim}
+$\sfname{SeedFinOdd}\wedge\sfname{CongFinOdd}$ implies $\sfname{LimFinOdd}$.
+\formallabel{UpperTheory.Gal.Lim.limFinOdd_of}
+\end{theorem}
+
+The proof is an $\ell$-adic interpolation of Galois pseudo-characters in the manner of \cite{Taylor1991}. Write
+$\galredtr\rho$ for the trace function of a representation $\rho$, and say that $r$ is \emph{linearly approximable} by a set
+$\mathcal C$ of representations if for every $\varepsilon>0$ there are finitely many $\rho\in\mathcal C$ and $c_\rho$ with
+$|\galredtr r(g)-\sum c_\rho\galredtr\rho(g)|\le\varepsilon$ for all $g$. We use the following results; (iii) and (v) are
+proved in \cref{sec:pf:galred:aux}, the others in the development.
+
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{GlobalTheory.FrobOpsIdx.frobOpsIdx}) For a level $(K_w)$ and the set $W_0$ of split places $w\nmid\ell$ with
+  $K_w=\GL_a(\OO_{E_w})$, there is a family of local Hecke operators indexed by $J$, with places $w_j\in W_0$, rational
+  values, Frobenius elements $s_j$ at $w_j$ and exponents $n_j\ge1$, such that: every arithmetic Frobenius at a place of
+  $W_0$ occurs with $n_j=1$; if $\sigma$ is spherical with Satake parameter $B$ at $w_j$ and $\rho$ satisfies
+  $\iota\det(X-\rho(s_j^{-1}))=\prod_{B^{(a)}}(X-b)$, then $\iota^{-1}z_j(\sigma)=\galredtr\rho(x_j)$, $x_j=s_j^{-n_j}$; and conversely
+  if $\galredtr r(x_j)=\iota^{-1}z_j(\sigma)$ for all $j$ with $w_j=w$, then $\iota\det(X-r(s^{-1}))=\prod_{B^{(a)}_w}(X-b)$ for every
+  arithmetic Frobenius $s$ at $w$.
+\item (\lref{UpperTheory.Gal.Lim.exists_trace_limit}) Let $\Gamma$ be a topological group, $x\colon J\to\Gamma$,
+  $\theta\colon J\to L$ with $L/\Ql$ finite, $(\rho_i)_{i\in I}$ continuous representations, $\eta_i\colon J\to\Qlbar$ and
+  $D_i\subset J$ with $\eta_i(j)=\galredtr\rho_i(x_j)$ for $j\in D_i$, such that $x(\bigcap_{i\in s}D_i)$ is dense for every finite
+  $s\subset I$, and $\theta$ is polynomially approximable by $\{\eta_i\}$. Then there is $t\colon\Gamma\to L$ such that
+  every polynomial approximation of $\theta$ by a combination $\sum c_i\eta_i$ with error $\varepsilon$ gives
+  $|t-\sum c_i\galredtr\rho_i|\le\varepsilon$ on $\Gamma$, and for every $A\subset I$ with $\theta$ polynomially approximable by
+  $\eta(A)$, $t$ is polynomially approximable by $\{\galredtr\rho_i:i\in A\}$ and $t(x_j)=\theta_j$ whenever $j\in D_i$ for all
+  $i\in A$.
+\item (\cref{pf:galred:limrep}) Let $\Gamma$ be compact, $x\colon J\to\Gamma$ with dense image,
+  $\theta\colon J\to L$, and $\mathcal C$ a set of continuous representations $\Gamma\to\GL_a(\Qlbar)$ such that $\theta$ is
+  polynomially approximable by the functions $j\mapsto\galredtr\rho(x_j)$, $\rho\in\mathcal C$. Then there is a continuous
+  semisimple $r$ with $\galredtr r(x_j)=\theta_j$, and $\galredtr r$ is polynomially approximable by $\{\galredtr\rho\}$.
+  Polynomial approximability of traces implies linear approximability (apply the definition to the coordinate polynomials
+  $X_g$, $g\in\Gamma$).
+\item (\lref{GlobalTheory.Cong.ker_of_linApprox}) If $r$ is semisimple and linearly approximable by $\mathcal C$, and
+  every $\rho\in\mathcal C$ is trivial at $s$, then $r(s)=1$.
+\item (\cref{pf:galred:closedAtL}) \emph{Closedness at $\ell$.} If $r$ is continuous, semisimple and
+  linearly approximable by a set $\mathcal C$ of continuous representations which are semistable at a frame with a
+  common $\tau$-Hodge--Tate multiset $J_\tau$ for every $\tau$ induced by the frame, then $r$ is de Rham with $\tau$-Hodge--Tate
+  multisets $J_\tau$; if the members of $\mathcal C$ are crystalline, so is $r$. Hence
+  (\lref{GlobalTheory.CongL.crysDRU_of_linApprox}) $\sfname{CrysDR}$ passes to linear limits of representations
+  satisfying $\sfname{CrysDR}$ for representations with the same weights at the embeddings over $w$.
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:galred:lim}]
+Let $U$ be unramified off $T$. Take the level $(K_w)$ of $\sfname{CongFinOdd}$, the finite set $S$ of split places where
+$U$ is not spherical, and the family of Hecke operators of (i) for the set
+$W_0$ of split places $w\nmid\ell$ where $U$ is spherical (at such places apart from $w_0,v'$ the level is maximal). Let
+$\theta=\theta_U$. For every finite set $Y$ of places, $\sfname{SeedFinOdd}$ (with $U_0=U$ and this $S$) gives a set
+$Z_0(Y)$, and for every seed $U'$ a representation $\rho(Y,U')$; let $Z(Y)=Z_0(Y)\cup\{w\in Y:\text{split},\ w\nmid\ell,\ U
+\text{ spherical at }w\}$ and $W(Y)$ the set of places of $Y$ above $\ell$, apart from $w_0,v'$, where $U$ is spherical. Let
+$I$ be the set of triples $i=(Y,U',\theta')$ where $U'$ is a seed of level $(K_w)$, generic at $Z(Y)\cup W(Y)$, with the same
+weights as $U$ away from $w_0,v'$, and $\theta'=\theta_{U'}$; put $\rho_i=\rho(Y,U')$, $\eta_i=\theta'$ and $D_i=\{j:
+\eta_i(j)=\galredtr\rho_i(x_j)\}$. By $\sfname{CongFinOdd}$ applied with $Z(Y),W(Y)$, for every $Y$ the system $\theta$
+(extended by the normalized power sums at $W(Y)$) is polynomially approximable by the systems of the $i$ with first
+component $Y$.
+
+For every finite $s\subset I$, the set $x(\bigcap_{i\in s}D_i)$ is dense: by Chebotarev's theorem the inverses of Frobenius
+elements at $d$-usable places outside a finite set are dense (\lref{GlobalTheory.CongL.UnitLim.dense_frob_usable_off}),
+the open dense sets $V$ of (S1) for the $\rho_i$, $i\in s$,
+intersect them in a dense set, and for such a Frobenius element at $w=w_j$ the seed $\rho_i$ has the Frobenius characteristic
+polynomial of $\galredSat_w(U')$ (S1), so by (i) $\galredtr\rho_i(x_j)=\eta_i(j)$. The eigenvalues of $\theta$ lie in a finite
+extension $L$ of $\Ql$ (the operators of (i) have rational values). Now (ii) gives a function $t$ with $t(x_j)=\theta_j$
+approximated by combinations of the $\galredtr\rho_i$, and (iii) gives a continuous semisimple $r$ with $\galredtr r=t$ which is
+linearly approximable by $\{\rho_i:i\in A\}$ for every $A\subset I$ for which $\theta$ is polynomially approximable by $\eta(A)$, in
+particular for $A=\{i:Y_i=\{w\}\}$ for every place $w$.
+
+(L1): let $w$ be $d$-usable, $w\nmid\ell$, $B=\galredSat_w(U)$, and $A_w=\{i:Y_i=\{w\}\}$. Every $\rho_i$, $i\in A_w$, satisfies
+$\galredFr_w(\rho_i)=\galredSat_w(U_i)^{(a)}_w$ by (S2) (the seeds in $A_w$ are generic at $w\in Z(\{w\})$), in particular is trivial on
+$I_A$; by (iv), $r(I_A)=1$. For the Frobenius elements, $\galredtr r(x_j)=t(x_j)=\theta_j$ for $w_j=w$, by (ii) applied to $A_w$
+(for $i\in A_w$, $j\in D_i$ by (S2) and (i)), and the converse part of (i) gives $\galredFr_w(r)=B^{(a)}_w$.
+
+(L2): for $w\mid\ell$ apart from $w_0,v'$ with $U$ spherical at $w$, the representations $\rho_i$, $i\in A_w$, satisfy
+$\sfname{CrysDR}(U_i,\rho_i,w)$ by (S3), and $U_i$ has the same weights as $U$ at the embeddings over $w$; by (v), $r$
+satisfies $\sfname{CrysDR}(U,r,w)$.
+
+(L3): for such $w$ and $B=\galredSat_w(U)$, take $\mathcal C=\{\rho_i:i\in A_w\}$; these are crystalline at $w$ with the common
+Hodge--Tate multisets $J_{\lambda}$ of the weights of $U$, and by (S4) their Weil--Deligne representations at $w$ have the
+characteristic polynomials of $\galredsph_A(\galredSat_w(U_i))$. The joint polynomial approximation of $\theta$ and the normalized
+power sums $c(w,n)p_n(U,w)$ by the corresponding data of the $i\in A_w$, together with the uniform approximation of $t$
+obtained in (ii), gives the joint approximation of (L3) (\lref{UpperTheory.Gal.Lim.joint}; the power sums of an element
+$\sigma\in W_A$ on $\galredsph_A(B)$ are the power sums $p_{-n\deg\sigma}(U,w)$, and the constants $c(w,n)$ are divided out).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{From odd rank to \texorpdfstring{$\sfname{CoreAll}$}{CoreAll}}\label{sec:pf:galred:core}
+
+\begin{theorem}\label{pf:galred:coreallof}
+$\sfname{SeedFinOdd}\wedge\sfname{CongFinOdd}\wedge\sfname{TLiftK}$ implies $\sfname{CoreAll}$.
+\formallabel{UpperTheory.Gal.Int.coreAll_of}
+\end{theorem}
+
+The proof follows the chain \eqref{eq:pf:galred:chain}; it is given at the end of this subsection.
+
+\subsubsection{Isomorphism and transfer}
+
+\begin{lemma}\label{pf:galred:repiso}
+Let $F$ be a number field and $r,r'\colon G_F\to\GL_a(\Qlbar)$ continuous and semisimple, such that for all but finitely
+many places $w$ of $F$ of prime norm there is a multiset $S$ with $\galredFr_w(r)=\galredFr_w(r')=S$. Then $r\cong r'$. In
+particular two representations weakly attached to the same cuspidal $\pi$ are isomorphic, and if $r\cong r'$ then each
+clause of \cref{pf:galred:clauses} holds for $r'$ whenever it holds for $r$.
+\formallabel{UpperTheory.Gal.Int.Core.isoOne_holds}
+\end{lemma}
+
+\begin{proof}
+The places of prime norm have Dirichlet density one, so by Chebotarev's theorem the inverses of their Frobenius elements,
+outside a finite set of places, form a dense subset of $G_F$ (\lref{GlobalTheory.Published.chebotarevDegreeOne'}). At
+these elements $r$ and $r'$ have the same characteristic polynomials, so $\galredtr r=\galredtr r'$ by continuity, and $r\cong
+r'$ since semisimple representations in characteristic $0$ are determined by their traces
+\cite[\S30]{CurtisReiner1962}. Weakly attached representations
+satisfy the hypothesis. The clauses are invariant under conjugation by an element of $\GL_a(\Qlbar)$: (unr) because
+characteristic polynomials are, the others because the notions of $\ell$-adic Hodge theory and Fontaine's Weil--Deligne
+representation are.
+\end{proof}
+
+\subsubsection{Frobenius at \texorpdfstring{$\ell$}{l} in the limit}
+
+\begin{theorem}[$\sfname{ClosedPhi}$]\label{pf:galred:closedphi}
+Let $r\colon G_E\to\GL_a(\Qlbar)$, $a\ge1$, be continuous and semisimple, $w$ a place, $A$ a place above $w$ with a frame at
+$A$, $\sigma\in W_A$, $J(\tau)$ a multiset of integers for every embedding $\tau$, $\mathcal C$ a set of continuous
+representations which are crystalline at the frame with $\tau$-Hodge--Tate multiset $J(\tau)$ for every $\tau$ induced by the
+frame, and $S\colon\N\to\Qlbar$ such that $r$ and $S$ are jointly approximated by $\mathcal C$ and the power sums
+$j\mapsto\iota^{-1}p_j(\sigma,\galredWD(\rho|_{D_A}))$, $\rho\in\mathcal C$: for every $n$ and $\varepsilon>0$ there are
+finitely many $\rho\in\mathcal C$ and $c_\rho$ with $|\galredtr r(h)-\sum c_\rho\galredtr\rho(h)|\le\varepsilon$ for all
+$h\in G_E$ and $|S(j)-\sum c_\rho\iota^{-1}p_j(\sigma,\galredWD(\rho|_{D_A}))|\le\varepsilon$ for $j\le n$. Then
+$p_n(\sigma,\galredWD(r|_{D_A}))=\iota(S(n))$ for all $n$.
+\formallabel{UpperTheory.Gal.ClosedPhiFromClosedTrace.congPhi_holds}
+\end{theorem}
+
+\begin{proof}
+For $x\in\galredWD_A$, the eigenvalues of $\rho_x(\sigma^n)=\rho_x(\sigma)^n$ are the $n$-th powers of those of
+$\rho_x(\sigma)$, so $p_n(\sigma,x)$ is the trace of $\sigma^n$ on $x$, i.e.\ minus the subleading coefficient of
+$P_x(\sigma^n)$. Fix $n$. The members of $\mathcal C$ are crystalline, hence semistable. The hypothesis, for the index $n$,
+is the joint approximation of \cref{pf:galred:closedtr} for $g=\sigma^n$ and $\theta=S(n)$, so
+\cref{pf:galred:closedtr} gives $\iota^{-1}p_n(\sigma,\galredWD(r|_{D_A}))=S(n)$.
+\end{proof}
+
+Let $\sfname{LimU}$ be $\sfname{LimFinOdd}$ with (L3) replaced by: $\sfname{Phi}(r,w,B)$ for every $w\mid\ell$ apart from
+$w_0,v'$ at which $U$ is spherical with Satake parameter $B$.
+
+\begin{lemma}\label{pf:galred:limU}
+$\sfname{LimFinOdd}\wedge\sfname{ClosedPhi}$ implies $\sfname{LimU}$.
+\formallabel{UpperTheory.Gal.Int.Core.limU_of_limOdd}
+\end{lemma}
+
+\begin{proof}
+Given the joint approximation (L3) for $\sigma\in W_A$, $\sfname{ClosedPhi}$ gives $p_n(\sigma,\galredWD(r|_{D_A}))=
+p_n(\sigma,\galredsph_A(B))$ for all $n\ge0$, and power sums determine characteristic polynomials in characteristic $0$.
+\end{proof}
+
+\subsubsection{All places above \texorpdfstring{$\ell$}{l}}
+
+For a CM field $E$, $\sfname{FieldOK}'(\ell,E)$ means: $\sqrt{-d}\in E$ for some integer $d>0$; $[E^+:\Q]$ is even; $E/E^+$ is
+unramified at all finite places; every place above $\ell$ is split; and there are three places above $\ell$ which are
+pairwise apart. For a set $Q$ of places and $m\ge1$, $\sfname{CoreAt}(Q,m)$ states: every automorphic $U$ of $\galredU_m$ with
+weights $\lambda_\tau$ has a continuous semisimple $r$ satisfying the four clauses at every $w\in Q$ where $U$ is spherical,
+with $B=\galredSat_w(U)$, the clause (dR) being taken with the infinitesimal characters $\galredinf(\lambda_\tau)$. Let
+$\sfname{CoreUd}$ be: $\sfname{CoreAt}(\{d\text{-usable places}\},m)$ for every odd $m$, every $E$ with
+$\sfname{FieldOK}'(\ell,E)$ and every $d$ with $\sqrt{-d}\in E$ and $-d$ a square in $\Q_\ell$.
+
+\begin{theorem}\label{pf:galred:joinU}
+$\sfname{LimU}$ implies $\sfname{CoreUd}$.
+\formallabel{UpperTheory.Gal.Int.Core.joinU_holds}
+\end{theorem}
+
+\begin{proof}
+Let $U$ be automorphic on $\galredU_m$, $m$ odd. Then $U$ is unramified off a finite set $T$ of non-split places
+(\lref{UpperTheory.Gal.Int.Core.autT_holds}), and $\sfname{FieldOK}'(\ell,E)$ implies $\sfname{FieldOK}(E,\ell,d)$. For
+any two places $u,v$ above $\ell$ which are apart, $\sfname{LimU}$ gives $r_{u,v}$ with (L1), (L2) and $\sfname{Phi}$ at the
+places above $\ell$ apart from $u,v$ where $U$ is spherical; together these are the four clauses at such places (the clause
+(unr) being vacuous above $\ell$; $\sfname{Phi}$ is equivalent to (phi)). Let $w_1,w_2,w_3$ be three pairwise apart places
+above $\ell$, and put $r=r_{w_2,w_1}$; it satisfies the clauses at all $d$-usable places prime to $\ell$ by (L1).
+Let $w\mid\ell$ be a place where $U$ is spherical. Among $w_1,w_2,w_3$ at most one lies over the same place of $E^+$ as $w$,
+so two of them, $u,v$, are apart from $w$ and from each other. The representations $r$ and $r_{u,v}$ have the same Frobenius
+multisets at all $d$-usable places prime to $\ell$ where $U$ is spherical. $U$ is spherical at almost all split places
+(\lref{UpperTheory.Gal.TP.Sub.satAE_holds}), and almost all places of prime norm are $d$-usable (indeed a place $w$ of prime norm $q$ which is unramified over $E^+$ is split,
+since an inert place has norm a square, and $-d$ is a square in $E_w=\Q_q$ because $\sqrt{-d}\in E$). Hence $r\cong r_{u,v}$ by
+\cref{pf:galred:repiso}, and the clauses at $w$ transfer from $r_{u,v}$ to $r$.
+\end{proof}
+
+\subsubsection{From odd to even rank}\label{sec:pf:galred:twoup}
+
+For a CM field $E$, $\sfname{InertOK}(E)$ means that every non-split place of $E$ lies over a place of $E^+$ which is prime to
+$2$, has norm $>3$ and is prime to the different of $E^+$. An algebraic Hecke character $\psi$ of $E$ (of infinity type
+$p$, i.e.\ $\psi_\infty(x)=\prod_\tau\tau(x)^{p(\tau)}$ on totally positive units, in the sense of
+\cref{pf:galred:isweight}) has an $\ell$-adic character $L(\psi)\colon G_E\to\Qlbar^\times$, continuous, with
+$\galredFr_w(L(\psi))=\{\psi(\varpi_w)\}$ at places where $\psi$ is unramified, with the expected behaviour at $\ell$, and
+$\psi\mapsto L(\psi)$ is injective (\cite{Serre1968}; \lref{UpperTheory.Gal.TP.Sub.charEx}).
+
+\begin{definition}[Lifting data]\label{pf:galred:twoupdef}
+Let $n$ be even and $U$ automorphic on $\galredU_n$ with weights $\lambda$. A \emph{lift} of $U$ of size $t$, with twist
+$\kappa$ and auxiliary characters $\psi=(\psi_1,\dots,\psi_t)$, is an automorphic $U'$ of $\galredU_{n+t}$, with weights
+$\lambda'$, such that $\kappa$ and the $\psi_i$ are algebraic Hecke characters of $E$, the Hodge--Tate multisets satisfy
+$J_{\lambda'_\tau}=(J_{\lambda_\tau}+m_\tau)\cup\{-p_i(\tau)\}_i$ ($m$ the infinity type of $\kappa$, $p_i$ that of $\psi_i$), and
+at every split place $w$ where $\kappa$ and the $\psi_i$ are unramified and $U$ is spherical, $U'$ is spherical and
+\[
+  \galredSat_w(U')^{(n+t)}_w=\{b\,\kappa(\varpi_w)^{-1}:b\in\galredSat_w(U)^{(n)}_w\}\cup\{\psi_i(\varpi_w)\}_i.
+\]
+$\sfname{TwoUpOK}$ states: for every CM field $E$ with $E/E^+$ unramified at all finite places, $\sqrt{-d}\in E$ for some
+$d>0$, $[E^+:\Q]$ even and $\sfname{InertOK}(E)$, every even $n\ge1$, every automorphic $U$ of $\galredU_n$ and every split
+place $w_0$, there are $t$ with $n+t$ odd, an algebraic Hecke character $\kappa$, and two lifts $U_1,U_2$ of $U$ of size $t$
+with twist $\kappa$ and auxiliary characters $\psi^{(1)},\psi^{(2)}$ such that $\psi^{(1)}_i\ne\psi^{(2)}_j$ for all $i,j$, and
+$\kappa$, $\psi^{(1)}_i$ are unramified at $w_0$.
+\formallabel{UpperTheory.Gal.TP.TwoUpOK}
+\end{definition}
+
+\begin{theorem}\label{pf:galred:twoup}
+$\sfname{TLiftK}$ implies $\sfname{TwoUpOK}$.
+\formallabel{UpperTheory.Gal.TP.twoUpOK_of_k}
+\end{theorem}
+
+\begin{proof}
+Let $E$, $n$, $U$ and $w_0$ be given. The hypotheses on $E$ provide the base data of $\sfname{TLiftK}$ (a CM type, a standard
+additive character unramified at the inert places, which are prime to $2$ and of norm $>3$ by $\sfname{InertOK}$), the
+hermitian space $E^n$ with its standard form and self-dual lattice, and skew-hermitian spaces $(E^{d},\delta\sum x_i\bar y_i)$
+with self-dual lattices for all $d$ (\cref{pf:galred:basedata}). Let $d_0$ be the threshold given by
+$\sfname{TLiftK}$ for $n$, and $t=2(d_0+n)+1$; then $n+t\ge d_0$ and $n+t$ is odd. Let $b$ be a lower bound for the weights
+$\lambda_{w,k}$. There are an algebraic Hecke character $\kappa$ and two pairs $(\chi_X^{(k)},\chi_W^{(k)})$, $k=1,2$, of unitary
+Hecke characters with $\chi_X^{(k)}|_{\A_{E^+}^\times}=\eta^n$, $\chi_W^{(k)}|_{\A_{E^+}^\times}=\eta^{n+t}$, archimedean exponents
+$m_X^{(k)},m_W^{(k)}$ with $m_W^{(k)}\le 2b-(n+t)$, and families $\psi^{(k)}$ of $t$ algebraic Hecke characters, with
+$\psi^{(1)}_i\ne\psi^{(2)}_j$, $\kappa$ and $\psi^{(1)}_i$ unramified at $w_0$, related to $(\chi_X^{(k)},\chi_W^{(k)})$ by a
+dictionary which, through the unramified type II correspondence, expresses Satake parameters of lifts in terms of $\kappa$
+and $\psi^{(k)}$ (\cref{pf:galred:chrpairs}, applied with the bound $2b-(n+t)$).
+The weight condition $n+t+m_W^{(k)}(w)\le2\lambda_{w,j}$ of $\sfname{TLiftK}$ holds, so $\sfname{TLiftK}$ gives automorphic
+representations $U_k$ of $\galredU_{n+t}$ with the weights of \cref{def:galois:tliftk}(i) and the local correspondence
+(ii) at split places. At split places where everything is unramified, the explicit type II correspondence for unramified
+representations computes the Satake parameters of $U_k$ as required, and the weights of $U_k$ give the Hodge--Tate
+multisets (\cref{pf:galred:upof}). Thus $U_1,U_2$ are lifts as required.
+\end{proof}
+
+A set $Q$ of places is a \emph{guard} if its members are split and, for every finite set $S$ of places, the inverses of the
+arithmetic Frobenius elements at the places of $Q\setminus S$ prime to $\ell$ are dense in $G_E$. If $\sqrt{-d}\in E$, the
+$d$-usable places form a guard (by the argument in the proof of \cref{pf:galred:joinU} and Chebotarev's theorem).
+
+\begin{lemma}[Subtraction]\label{pf:galred:subtract}
+Let $Q$ be a guard, $n$ even, and assume $\sfname{CoreAt}(Q,m)$ for all odd $m$ and the conclusion of $\sfname{TwoUpOK}$ for
+$E$ and $n$. Then $\sfname{CoreAt}(Q,n)$ holds.
+\formallabel{UpperTheory.Gal.Int.Core.subtractQ_holds}
+\end{lemma}
+
+\begin{proof}
+Let $U$ be automorphic on $\galredU_n$. Call $r$ \emph{$Q$-attached} to $U$ if it is continuous, semisimple, and has
+$\galredFr_w(r)=\galredSat_w(U)^{(n)}_w$ at almost all $w\in Q$ prime to $\ell$ where $U$ is spherical. Two $Q$-attached
+representations are isomorphic (as $Q$ is a guard; compare \cref{pf:galred:repiso}), and clauses transfer along
+isomorphisms; so it suffices to construct, for every $w_0\in Q$, a $Q$-attached $r$ satisfying the four clauses at $w_0$.
+
+Fix $w_0$ and take $t$, $\kappa$, $U_1,U_2$, $\psi^{(1)},\psi^{(2)}$ from $\sfname{TwoUpOK}$. By $\sfname{CoreAt}(Q,n+t)$ there
+are representations $r_1,r_2$ of dimension $n+t$, $Q$-attached to $U_1,U_2$, satisfying the clauses at the places of $Q$. Put
+$a^{(k)}_i=L(\psi^{(k)}_i)$ and write $\galredcp(r)(g)=\det(X-r(g))$. At almost all $w\in Q$, the descriptions of the Satake
+parameters of $U_1$ and $U_2$ show that $\galredcp(r_1)\prod_j(X-a^{(2)}_j)$ and $\galredcp(r_2)\prod_i(X-a^{(1)}_i)$ agree at
+the inverses of Frobenius elements at $w$: both are $\prod(X-\iota^{-1}c)$ over the multiset
+$\{b\kappa(\varpi_w)^{-1}\}\cup\{\psi^{(1)}_i(\varpi_w)\}\cup\{\psi^{(2)}_j(\varpi_w)\}$. These elements are dense, so
+\begin{equation}\label{eq:pf:galred:cpid}
+  \galredcp(r_1)(g)\prod_j\bigl(X-a^{(2)}_j(g)\bigr)=\galredcp(r_2)(g)\prod_i\bigl(X-a^{(1)}_i(g)\bigr)\qquad(g\in G_E).
+\end{equation}
+The characters $a^{(1)}_i$ and $a^{(2)}_j$ are distinct, since $L$ is injective. We peel off the $a^{(1)}_i$ one at a time
+(\lref{UpperTheory.Gal.TP.Sub.peelAll}): by \eqref{eq:pf:galred:cpid} the semisimple representations $r_1\oplus
+\bigoplus_ja^{(2)}_j$ and $r_2\oplus\bigoplus_ia^{(1)}_i$ have the same characteristic polynomials, hence are isomorphic; so the
+character $a^{(1)}_t$ occurs in $r_1\oplus\bigoplus_ja^{(2)}_j$, and since it differs from all $a^{(2)}_j$ it occurs in $r_1$:
+$r_1\cong s_1\oplus a^{(1)}_t$ by semisimplicity, and \eqref{eq:pf:galred:cpid} holds with $(r_1,\psi^{(1)})$ replaced by
+$(s_1,(\psi^{(1)}_i)_{i<t})$. After $t$ steps, $r_1\cong s\oplus\bigoplus_ia^{(1)}_i$ with $s$ continuous, semisimple, of
+dimension $n$. The clauses at a place $w$ for $r_1$, with Frobenius multiset and Hodge--Tate multisets that are unions of
+those of $s$ and of the $a^{(1)}_i$, imply those for $s$ (\lref{UpperTheory.Gal.TP.Sub.clSub}). Put $r=s\otimes L(\kappa)$.
+At $w\in Q$ where $\kappa$ and the $\psi^{(1)}_i$ are unramified, the clauses for $r_1$ (with $\galredSat_w(U_1)$ and the
+weights of $U_1$) give those for $s$ with Frobenius multiset $\{b\kappa(\varpi_w)^{-1}\}$ and Hodge--Tate multisets
+$J_{\lambda_\tau}+m_\tau$, hence those for $r$ with $\galredSat_w(U)^{(n)}_w$ and $J_{\lambda_\tau}$
+(\lref{UpperTheory.Gal.TP.Sub.clTw}). This applies at $w_0$ and at almost all $w\in Q$, so $r$ is $Q$-attached to $U$ and
+satisfies the clauses at $w_0$.
+\end{proof}
+
+Let $\sfname{AllUd}$ be the statement: $\sfname{CoreAt}(\{d\text{-usable places}\},n)$ for every $n\ge1$, every $E$ with
+$\sfname{FieldOK}'(\ell,E)$ and $\sfname{InertOK}(E)$, and every $d$ with $\sqrt{-d}\in E$ and $-d$ a square in $\Q_\ell$.
+
+\begin{theorem}\label{pf:galred:joinAll}
+$\sfname{TwoUpOK}\wedge\sfname{CoreUd}$ implies $\sfname{AllUd}$.
+\formallabel{UpperTheory.Gal.Int.Core.joinAll_holds}
+\end{theorem}
+
+\begin{proof}
+The $d$-usable places form a guard. For odd $n$ use $\sfname{CoreUd}$; for even $n$ apply \cref{pf:galred:subtract}, with
+$\sfname{TwoUpOK}$ (whose hypotheses on $E$ are contained in $\sfname{FieldOK}'(\ell,E)\wedge\sfname{InertOK}(E)$) and
+$\sfname{CoreUd}$ in all odd ranks.
+\end{proof}
+
+\subsubsection{From unitary groups to \texorpdfstring{$\GL_a$}{GL(a)}}
+
+$\sfname{DescOffT}$ is the statement: for every CM field $E$, prime $\ell$, $a\ge1$, good conjugate self-dual $\pi$ (in scope
+$\mathrm{csd}$ with $\chi=\eta^a$) and finite set $Z$ of places, there are a finite set $T$ of non-split places disjoint from
+$Z$ and an automorphic $U$ of $\galredU_a$, unramified off $T$, such that every local component of $\pi$ at a split place is a
+local component of $U$ there, and $\galredinf_\tau(\pi)=\galredinf(\lambda)$ for every weight $\lambda$ of $U$ at $\tau$. It is
+proved in the development, from the Jacquet--Shalika bound and multiplicity one, in the style of
+\cite{Labesse2011,ClozelHarrisLabesse2011} (\lref{UpperTheory.Gal.Desc.descOffT}, which states exactly this).
+
+Let $\sfname{CoreGLu}$ be the statement: for every $E$ with $\sfname{FieldOK}'(\ell,E)$ and $\sfname{InertOK}(E)$, every $d$ with
+$\sqrt{-d}\in E$ and $-d$ a square in $\Q_\ell$, and every $\pi$ in scope $\mathrm{csd}$ (with $\chi=\eta^a$), there is a continuous
+semisimple $r$ satisfying the four clauses at every $d$-usable place $w$ where $\pi$ is unramified, with
+$B=\galredSat_w(\pi)$.
+
+\begin{theorem}\label{pf:galred:joinGL}
+$\sfname{DescOffT}\wedge\sfname{AllUd}$ implies $\sfname{CoreGLu}$.
+\formallabel{UpperTheory.Gal.Int.Core.joinGL_holds}
+\end{theorem}
+
+\begin{proof}
+Descend $\pi$ to $U$ by $\sfname{DescOffT}$ (with $Z=\emptyset$), let $\lambda$ be the weights of $U$, and take $r$ from
+$\sfname{AllUd}$ for $U$. Let $w$ be $d$-usable with $\galredSat_w(\pi)=B$. A local component of $\pi$ at $w$ is a local
+component of $U$ at $w$, spherical with Satake parameter $B$, so $\galredSat_w(U)=B$ and the clauses for $U$ at $w$ hold; they
+are the clauses for $\pi$, because $\galredinf_\tau(\pi)=\galredinf(\lambda_\tau)$.
+\end{proof}
+
+\subsubsection{Removing the conditions on the field}
+
+Let $\sfname{RowCsd}$ be the statement: for every CM field $E$, $a\ge1$ and every regular algebraic $\pi$ polarized by
+$\eta^a$ (in scope $\mathrm{all}$ with $\chi=\eta^a$), there is a continuous semisimple $r$ satisfying the four clauses at
+\emph{every} place $w$ where $\pi$ is unramified. Let $\sfname{QuadLift}$ be the statement: if $M/K$ is a quadratic extension of
+totally complex fields and $\pi$ is cuspidal on $\GL_a(\A_K)$, and $M/K$ is ramified at some place where $\pi$ is unramified,
+then $\pi$ has a cuspidal lift to $M$ (\cref{pf:galred:lifts}). It follows from the strong form of cyclic base change
+\cite{ArthurClozel1989} and Jacquet--Shalika rigidity \cite{JacquetShalika1981}
+(\lref{GlobalTheory.QuadLiftBridge.quadLift}; the ramification hypothesis excludes that $\pi$ is a twist of itself by the
+quadratic character of $M/K$).
+
+For a number field $F$, a \emph{quadratic CM extension} is a quadratic extension $K/F$ inside $\Omega$ which is a CM field. We
+use the following results of the development.
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.Int.Core.patchOne_holds}) \emph{Patching.} Let $\mathcal B$ be a property of pairs (place of $F$,
+  multiset), with at most one multiset for each place, $\mathcal S$ an infinite set of quadratic CM extensions $K/F$, and
+  for each $K\in\mathcal S$ let $r_K\colon G_K\to\GL_a(\Qlbar)$ be continuous and semisimple, such that at almost all places $u$
+  of $K$ of prime norm, $\galredFr_u(r_K)=B^{(a)}_u$ for the multiset $B$ with $\mathcal B(u|_F,B)$. Then there is a continuous
+  semisimple $\rho\colon G_F\to\GL_a(\Qlbar)$ with $r_K\cong\rho|_{G_K}$ for all but finitely many $K\in\mathcal S$. The proof
+  extends each $r_K$ to $G_F$ using the invariance of its trace under conjugation, and patches the extensions along the
+  infinitely many quadratic characters (\lref{GlobalTheory.IndexTwoPatch.main}, which states: for infinitely many distinct
+  quadratic characters $\eta_K$ of a topological group $\Gamma$ with open kernels and continuous semisimple representations of
+  the kernels whose traces are invariant under conjugation by $\Gamma$ and agree on intersections of kernels, there is a
+  continuous semisimple representation of $\Gamma$ whose trace agrees with almost all of them); the hypotheses on traces
+  follow from \cref{pf:galred:repiso} applied over $K$ and over the compositum of two such fields.
+\item \emph{Descent of clauses} (\lref{UpperTheory.Gal.Int.Core.downUnr_holds} and its analogues for (dR), (crys), (phi)).
+  If $P$ is a lift of $\pi$ to a quadratic CM extension $K/E$, $w$ a place of $E$ whose decomposition groups lie in $G_K$, and
+  the clause $(c)$ holds for $P$ and $\rho|_{G_K}$ at every place $u$ of $K$ above $w$, then it holds for $\pi$ and $\rho$ at $w$.
+\end{enumerate}
+
+A quadratic CM extension $K/E$ \emph{serves} $\pi$ at $w_0$ if the decomposition groups at $w_0$ lie in $G_K$, $K/E$ is
+ramified at some place where $\pi$ is unramified, and for every lift $P$ of $\pi$ to $K$ there are a set $p$ of places of $K$
+containing almost all places of prime norm and all places above $w_0$, and a continuous semisimple representation of
+$G_K$ satisfying the clauses for $P$ at the places of $p$ where $P$ is unramified.
+
+\begin{lemma}[Step down]\label{pf:galred:stepdown}
+Assume $\sfname{QuadLift}$. Let $\pi$ be cuspidal on $\GL_a(\A_E)$ such that for every place $w_0$ infinitely many quadratic CM
+extensions serve $\pi$ at $w_0$. Then there is a continuous semisimple $\rho$ satisfying the four clauses for $\pi$ at every
+place where $\pi$ is unramified.
+\formallabel{UpperTheory.Gal.Int.Core.stepDown_holds}
+\end{lemma}
+
+\begin{proof}
+For $K$ serving $\pi$ at some place, $\sfname{QuadLift}$ gives a lift $P$ of $\pi$ to $K$, and the definition gives $r_K$; at
+almost all places $u$ of $K$ of prime norm, $u$ has residue degree one over $E$, $\pi$ is unramified at the place below with
+Satake parameter $B$, $P$ is unramified at $u$ with Satake parameter $B$, and $\galredFr_u(r_K)=B^{(a)}_u$. Let $\mathcal S$ be
+the (infinite) set of such $K$. Patching (i) gives $\rho$ with $r_K\cong\rho|_{G_K}$ for almost all $K\in\mathcal S$. Given a place
+$w$ where $\pi$ is unramified and a clause $c$, choose $K$ serving $\pi$ at $w$ outside the finite exceptional set, with lift
+$P$ and representation $r'_K$. The representations $r'_K$ and $r_K$ are both Frobenius-compatible with $P$ at almost all
+places of prime norm, so $r'_K\cong r_K\cong\rho|_{G_K}$ (\cref{pf:galred:repiso}), and the clause holds for $P$ and
+$\rho|_{G_K}$ at the places of $K$ above $w$; by descent (ii) it holds for $\pi$ and $\rho$ at $w$.
+\end{proof}
+
+\begin{theorem}\label{pf:galred:joinUp}
+Jacquet--Shalika rigidity, the Gelfand--Kazhdan theorem, $\sfname{QuadLift}$ and $\sfname{CoreGLu}$ imply
+$\sfname{RowCsd}$.
+\formallabel{UpperTheory.Gal.Int.Core.joinUp_holds}
+\end{theorem}
+
+\begin{proof}
+Let $\pi$ be regular algebraic and polarized by $\eta^a$ over $E$. If $P$ is a lift of such a $\pi$ to a CM extension, then $P$
+is regular algebraic and polarized by $\eta^a$ (\lref{UpperTheory.Gal.Int.Core.csdLift_holds}, from Jacquet--Shalika
+rigidity and the Gelfand--Kazhdan theorem). We apply \cref{pf:galred:stepdown} three times, along towers of quadratic CM
+extensions constructed in the development:
+\begin{enumerate}[label=(\alph*),nosep]
+\item for every CM field $F$ and finite set $S$ of places of $F$ there are infinitely many \emph{real quadratic steps}
+  $K=F(\delta)$, $\delta^2$ a positive integer, which are CM fields in which the places of $S$ split (and the places of $F^+$ below
+  them split in $F^+(\delta)$), and which are ramified at some place outside $S$
+  (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.infinitely_many_real_quadratic_steps});
+\item if $E\subset K_1\subset K_2$ are two such steps, split at a place above $\ell$, then every CM extension of $K_2$ has three
+  pairwise apart places above $\ell$ (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.threeApart_holds});
+\item if $K_2$ is a real quadratic step over a CM field, then for every finite set $S$ of places of $K_2$ there is a quadratic CM
+  extension $K/K_2$, ramified at some place outside $S$, in which the places of $S$ split, with $\sqrt{-d}\in K$ for some $d>0$,
+  $[K^+:\Q]$ even, $\sfname{InertOK}(K)$, every non-split place of $K$ unramified over $K^+$ and lying over a place outside
+  $S$, and every place of $K$ above $S$ $d$-usable (\lref{UpperTheory.Gal.Int.Core.exists_quadratic_CM_ext_split_at}); $K/K^+$
+  is then unramified at all finite places (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.allUnr_holds}).
+\end{enumerate}
+A step which is ramified at a place outside a set containing the places where $\pi$ is ramified is ramified at a place where
+$\pi$ is unramified, so $\sfname{QuadLift}$ applies. In the innermost step
+(c), over $K_2$ and for a lift $P_2$ of $\pi$ to $K_2$, the set $S$ is taken to contain the given place $w_0$, the places above
+$\ell$ and the places where $P_2$ is ramified. Then $K$ satisfies $\sfname{FieldOK}'(\ell,K)$, $-d$ is a square in $\Q_\ell$,
+and every non-split place of $K$ is prime to $\ell$, unramified over $K^+$ and a place where the lift $P$ of $P_2$ to $K$ is
+unramified, so $P$ is good and conjugate self-dual; $\sfname{CoreGLu}$ gives a representation satisfying the clauses for $P$ at
+the $d$-usable places, which include almost all places of prime norm (see the proof of \cref{pf:galred:joinU}) and the
+places above $w_0$. So $K$ serves $P_2$ at $w_0$, and \cref{pf:galred:stepdown} applies over $K_2$ (for every $P_2$), then over
+$K_1$ with the steps of (a) as serving extensions, then over $E$.
+\end{proof}
+
+\begin{lemma}\label{pf:galred:joinEnd}
+$\sfname{RowCsd}$ implies $\sfname{Core}$.
+\formallabel{UpperTheory.Gal.Int.Core.joinEnd_holds}
+\formallabel{GlobalTheory.RoadW.core_of_rowStarCore}
+\end{lemma}
+
+\begin{proof}
+Let $(\pi,\chi)$ be in scope $\mathrm{csd}$; then $\chi=\eta^a$ and $\sfname{RowCsd}$ gives $r$ satisfying the clauses at all
+places where $\pi$ is unramified. Since $\pi$ is unramified at almost all places and almost all places are prime to $\ell$, the
+clause (unr) shows that $r$ is weakly attached to $\pi$; this is $\sfname{Ex}(\mathrm{csd})$. If $r'$ is weakly attached to
+$\pi$, then $r'\cong r$ by \cref{pf:galred:repiso}, and the clauses transfer from $r$ to $r'$; this is
+$\sfname{SLC}(\mathrm{csd},c)$ for all $c$.
+\end{proof}
+
+\begin{theorem}\label{pf:galred:toCoreK}
+$\sfname{TLiftK}\wedge\sfname{ClosedPhi}\wedge\sfname{DescOffT}\wedge\sfname{LimFinOdd}$ implies $\sfname{Core}$.
+\formallabel{UpperTheory.Gal.Int.Core.toCoreK}
+\end{theorem}
+
+\begin{proof}
+$\sfname{LimFinOdd}\wedge\sfname{ClosedPhi}$ gives $\sfname{LimU}$ (\cref{pf:galred:limU}), hence $\sfname{CoreUd}$
+(\cref{pf:galred:joinU}); $\sfname{TLiftK}$ gives $\sfname{TwoUpOK}$ (\cref{pf:galred:twoup}), hence $\sfname{AllUd}$
+(\cref{pf:galred:joinAll}); with $\sfname{DescOffT}$ we get $\sfname{CoreGLu}$ (\cref{pf:galred:joinGL}). Jacquet--Shalika
+rigidity, the Gelfand--Kazhdan theorem \cite{JacquetShalika1981,GelfandKazhdan1975} and $\sfname{QuadLift}$ are proved in the
+development, so \cref{pf:galred:joinUp} gives $\sfname{RowCsd}$, and \cref{pf:galred:joinEnd} gives $\sfname{Core}$.
+\end{proof}
+
+\subsubsection{From \texorpdfstring{$\sfname{Core}$}{Core} to \texorpdfstring{$\sfname{CoreAll}$}{CoreAll}}
+
+\begin{theorem}\label{pf:galred:coreallofcore}
+$\sfname{Core}$ implies $\sfname{CoreAll}$.
+\formallabel{UpperTheory.Gal.Int.Inp.coreAll_of_core}
+\end{theorem}
+
+\begin{proof}
+We use the package $\sfname{Inp}$ of \cref{sec:pf:galred:R1}. There are four steps.
+
+\emph{From $\mathrm{csd}$ to $\mathrm{good}$} (\lref{GlobalTheory.GalCut.ex_good_of_ex_csd}). Let $(\pi,\chi)$ be in scope
+$\mathrm{good}$, and $w_0$ a place above $\ell$ (split, by goodness). There is an algebraic Hecke character $\kappa$ of $E$,
+unramified at $w_0$, such that $(\pi\otimes\kappa,\eta^a)$ is in scope $\mathrm{csd}$
+(\lref{GlobalTheory.T.exists_good_conjSelfDual_twist_split_unramified}). $\sfname{Ex}(\mathrm{csd})$ gives $r'$ weakly
+attached to $\pi\otimes\kappa$, and $r'\otimes L(\kappa^{-1})$, $L(\kappa^{-1})$ the $\ell$-adic character of $\kappa^{-1}$
+\cite{Serre1968}, is weakly attached to $\pi$. So $\sfname{Ex}(\mathrm{good})$ holds. In the same way the four clauses pass from
+level $\mathrm{csd}$ to level $\mathrm{good}$ (\lref{UpperTheory.Gal.Int.Inp.holdsS_good_unr}, \lref{UpperTheory.Gal.Int.Inp.holdsS_good_crys}, \lref{UpperTheory.Gal.Int.Inp.holdsS_good_dR_of_csd}, and \lref{UpperTheory.Gal.Int.Inp.holdsS_good_phi}),
+using at $\ell$ the Weil--Deligne representations of the characters $L(\kappa)$ and the theorem that de Rham representations are
+potentially semistable \cite{Berger2002}.
+
+\emph{Existence at level $\mathrm{all}$} (\lref{UpperTheory.Gal.Int.Inp.ex_all_of_good}). Let $(\pi,\chi)$ be in scope
+$\mathrm{all}$. For every place $w_0$ there are infinitely many quadratic CM extensions $K/E$ such that the decomposition groups at
+$w_0$ lie in $G_K$, the places of $K$ above $w_0$ are split over $K^+$, $K/E$ is ramified at some place where $\pi$ is unramified,
+and every lift of $\pi$ to $K$ is good (\lref{GlobalTheory.GalCut.infinite_qcm_split_good}). By $\sfname{QuadLift}$, $\pi$ has
+a lift $P_K$ to each such $K$; $P_K$ is regular algebraic and polarized (\lref{GlobalTheory.LiftPolar.main}), hence in scope
+$\mathrm{good}$, and $\sfname{Ex}(\mathrm{good})$ gives $r_K$ weakly attached to $P_K$. Patching
+(\lref{GlobalTheory.CMBasePatch.main}, the analogue of (i) above) gives $\rho\colon G_E\to\GL_a(\Qlbar)$, continuous and
+semisimple, with $r_K\cong\rho|_{G_K}$ for almost all $K$. Then $\rho$ is unramified at almost all places, since a representation
+of $G_E$ whose restriction to $G_K$ is unramified at the places above $w$ is unramified at $w$ when $w$ is unramified in $K$ (then $I_A\subset G_K$). At a place $w\nmid\ell$ where $\pi$ is unramified with Satake parameter
+$B$ and $\rho$ is unramified, choose $K$ as above for $w_0=w$, outside the exceptional set: the places $u$ of $K$ above $w$ are split
+over $K^+$, $P_K$ is unramified at $u$ with Satake parameter $B$ (residue degree one), $\sfname{SLC}(\mathrm{good},\mathrm{unr})$
+gives $\galredFr_u(r_K)=B^{(a)}_u$, and as $D_A\subset G_K$ this gives $\galredFr_w(\rho)=B^{(a)}_w$
+(an arithmetic Frobenius at $A$ for $E$ is one for $K$, and $\rho|_{G_K}\cong r_K$). So $\rho$ is weakly attached to $\pi$.
+
+\emph{The clauses at level $\mathrm{all}$} (\lref{UpperTheory.Gal.Int.Inp.holdsS_all_unr} and its analogues
+\lref{UpperTheory.Gal.Int.Inp.holdsS_dR_all_of_good}, \lref{UpperTheory.Gal.Int.Inp.holdsS_all_crys}, and \lref{UpperTheory.Gal.Int.Inp.holdsS_all_phi}).
+Let $r$ be weakly attached to $\pi$ in scope $\mathrm{all}$, and $w$ a place where $\pi$ is unramified with Satake parameter $B$.
+Choose $K$ as above for $w_0=w$ and a lift $P$ of $\pi$ to $K$; $P$ is in scope $\mathrm{good}$ and $r|_{G_K}$ is weakly attached to
+$P$. Since $D_A\subset G_K$, the place $u$ of $K$ below $A$ has $q_u=q_w$; at $u$,
+$P$ is unramified with Satake parameter $B$; $u$ is split over $K^+$, so the clauses at level $\mathrm{good}$ hold for $P$ and
+$r|_{G_K}$ at $u$, and since $D_A\subset G_K$ they are the clauses for $\pi$ and $r$ at $w$. For (unr): $r(I_A)=1$ and
+$\iota\det(X-r(\sigma^{-1}))=\prod_{B^{(a)}_w}(X-b)$ for every arithmetic Frobenius $\sigma$ at $A$, because $I_A$ and $\sigma$ lie in
+$G_K$ and $\sigma$ is an arithmetic Frobenius at $A$ for $K$. The clauses (dR), (crys) and (phi) are transferred in the same way from
+level $\mathrm{good}$; the transfer of (phi) also uses (crys) at level $\mathrm{good}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:galred:coreallof}]
+$\sfname{SeedFinOdd}\wedge\sfname{CongFinOdd}$ implies $\sfname{LimFinOdd}$ (\cref{pf:galred:lim}). $\sfname{ClosedPhi}$ holds
+(\cref{pf:galred:closedphi}) and $\sfname{DescOffT}$ holds
+(\lref{UpperTheory.Gal.Desc.descOffT}), so with $\sfname{TLiftK}$, \cref{pf:galred:toCoreK} gives $\sfname{Core}$, and
+\cref{pf:galred:coreallofcore} gives $\sfname{CoreAll}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:galred:seedcong}]
+The first assertion is proved in \cref{sec:pf:galred:seeds}. For the second, $\sfname{CongFinOdd}$ is the instance, for the
+type condition ``type of $\ell$-power order at $w_0$'', genericity defined by $D_a$, and lacunary weights, of a statement
+proved for arbitrary rank (\cref{sec:pf:galred:cong}); the lacunary weight families exist (\cref{pf:galred:wtlac}).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proofs of the auxiliary results}\label{sec:pf:galred:aux}
+
+This subsection proves the auxiliary results to which the preceding subsections refer: facts about places, CM
+extensions and local components used in \cref{sec:pf:galred:rest}; the division theorem, the density and family
+statements of the congruence argument and the pseudo-character and closedness statements of the limit argument
+(\cref{sec:pf:galred:odd}); and the data for the two theta lifts of \cref{pf:galred:twoup}. In each proof the steps are
+given in full, and the deeper ingredients proved in the development are stated and cited.
+
+\subsubsection{Places of degree one}
+
+\begin{lemma}\label{pf:galred:gnotsq}
+Let $E$ be a number field, $w$ a finite place of $E$ and $g$ a prime. If there is a continuous ring isomorphism
+$i\colon\Q_g\to E_w$, then $g\notin w^2$, i.e.\ $w$ is unramified over $g$.
+\formallabel{DiscreteGroups.sglob.DzType.g_not_mem_sq}
+\end{lemma}
+
+\begin{proof}
+Let $\varpi\in\OO_E$ have $w$-adic valuation $1$ and put $x=i^{-1}(\varpi)\in\Q_g$. A continuous ring isomorphism of
+nonarchimedean local fields preserves the condition $|y|<1$ (\lref{DiscreteGroups.sglob.DzIso.norm_lt_iff}) and maps
+elements of absolute value at most $1$ to such elements (\lref{DiscreteGroups.sglob.DzIso.norm_le_of_le}). Hence
+$|x|_g<1$, so $|x|_g\le g^{-1}$ and $x/g\in\Z_g$, and $i(x/g)$ is integral in $E_w$. Now $\varpi=i(x)=g\cdot i(x/g)$, so
+$1=\ord_w(\varpi)\ge\ord_w(g)$. If $g\in w^2$ then $\ord_w(g)\ge2$, a contradiction.
+\end{proof}
+
+\subsubsection{CM extensions for spherical lifts}
+
+\begin{lemma}\label{pf:galred:cmlift}
+Assume $\sfname{Inq}$. Let $E$ be a CM field, $(\pi,\chi)$ in scope $\mathrm{all}$ on $\GL_n$, $n\ge1$, $r$ weakly
+attached to $\pi$, $A$ a place of $\Omega$ above a finite place $w$ of $E$, $\xi_1,\dots,\xi_n$ smooth characters of
+$E_w^\times$, $a$ a local Artin map at $A$ and $g\in W_A$ with $\deg g\ne0$. There are a CM field $M$ with $E\subset
+M\subset\Omega$, fixed by $g$, and a cuspidal character lift $P$ of $\pi$ to $M$, with $(P,\chi')$ in scope
+$\mathrm{all}$ for some $\chi'$, such that $\xi_j(a(t))=1$ for all $j$ and every $t\in W_A$ of degree $0$ fixing $M$.
+\formallabel{GalTw.GlobalTheory.RoadU.TorLiftC.exists_cm_lift_fix_charKer}
+\end{lemma}
+
+\begin{proof}
+For a field $K\subset\Omega$ and an open normal subgroup $N$ of $G_K$, call a Galois extension $M/K$ \emph{disjoint
+from $N$} if it is solvable and $G_K=G_MN$. We use the following results of the development.
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{GlobalTheory.T.exists_solvable_cm_extension_split_place}) For a CM field $K$, a place $A$ and an open
+  normal subgroup $N$ of $G_K$ there is a CM extension $M_0/K$ disjoint from $N$ such that $D_A$ fixes $M_0$ and the
+  decomposition group of $A$ over $M_0^+$ fixes $M_0$.
+\item (\lref{GalTw.GlobalTheory.T.exists_cuspidal_charLift_of_solvable_cmExtension}; uses $\sfname{Inq}$) If $(\pi,\chi)$
+  is in scope $\mathrm{all}$ over $K$, $r$ is weakly attached to $\pi$, $N$ is an open normal subgroup of $G_K$ on which
+  $\galredtr r$ does not vanish, and $M/K$ is a CM extension disjoint from $N$, then $\pi$ has a cuspidal character lift
+  $P$ to $M$ with $(P,\chi')$ in scope $\mathrm{all}$ for some $\chi'$.
+\item (\lref{GlobalTheory.T.exists_open_subgroup_weilElement_characterKernel}) For a local Artin map $a_0$ at $A$ for a
+  field $K$, finitely many smooth characters $\zeta_j$ of $K_{v}^\times$ ($v$ below $A$) and $g\in W_A(K)$, there is an
+  open subgroup $V$ of $D_A(K)$ containing $g$ and the closure of the commutator subgroup, with $\zeta_j(a_0(t))=1$ for
+  all $j$ and $t\in V\cap I_A(K)$.
+\item (\lref{GlobalTheory.T.exists_solvable_cm_extension_abelianCompletion}) For a CM field $K$, an open normal
+  subgroup $N$ of $G_K$ and an open subgroup $V$ of $D_A(K)$ containing the commutator subgroup, there is a CM extension
+  $M/K$ disjoint from $N$ such that an element of $D_A(K)$ fixes $M$ if and only if it lies in $V$.
+\item (\lref{GlobalTheory.T.cuspRep_characterSupportLift_trans_tower}) Character lifts compose along towers.
+\end{enumerate}
+Since $\galredtr r$ is continuous on the profinite group $G_E$ and equals $n\ne0$ at $1$, there is an open normal
+subgroup $N_0$ of $G_E$ on which $\galredtr r$ does not vanish. Take $M_0$ by (i) for $N_0$, and a character lift $\pi_0$
+of $\pi$ to $M_0$ by (ii). Let $v_0$ be the place of $M_0$ below $A$; since $D_A$ fixes $M_0$, we have $W_A(M_0)=W_A$, and
+we choose a local Artin map $a_0$ at $A$ for $M_0$ (\lref{GlobalTheory.localArtinExists_holds}). Apply (iii) to
+$a_0$, the characters $\zeta_j=\xi_j\circ\Nm_{(M_0)_{v_0}/E_w}$ and $g$, giving $V$. The restriction $r_0=r|_{G_{M_0}}$ is
+weakly attached to $\pi_0$ (\lref{GlobalTheory.GalCut.weak_comp_res}); choose, as before, an open normal subgroup
+$N_1$ of $G_{M_0}$ on which $\galredtr r_0$ does not vanish. Take $M$ by (iv) for $M_0$, $N_1$ and $V$, a character lift
+$P$ of $\pi_0$ to $M$ by (ii), which is a character lift of $\pi$ by (v). Since $g\in V$, $g$ fixes $M$. If $t\in W_A$ has
+degree $0$ and fixes $M$, then $t\in D_A(M_0)$ fixes $M$, so $t\in V$, and $t\in I_A(M_0)$; local Artin maps are
+compatible with norms (\lref{GlobalTheory.T.localArtin_comp_norm_compat}), so
+$\xi_j(a(t))=\xi_j(\Nm(a_0(t)))=\zeta_j(a_0(t))=1$.
+\end{proof}
+
+\subsubsection{Unramified abelian CM extensions}
+
+\begin{definition}[Towers adapted to a set of places]\label{pf:galred:tower}
+Let $E$ be a CM field and $S$ a finite set of finite places of $E$. A CM field $X\subset\Omega$ abelian over $E$ is
+\emph{reached by a tower adapted to $S$} if there is a chain $E=X_0\subset X_1\subset\dots\subset X_k=X$ of CM fields
+abelian over $E$ such that each $X_{i+1}/X_i$ is Galois of prime degree and there are a place $u\notin S$ of $E$ which
+splits completely in $X_i$ and a place $A$ of $\Omega$ above $u$ whose inertia group in $G_{X_i}$ does not fix $X_{i+1}$.
+\formallabel{UpperTheory.Gal.UnramifiedFromSplittingCriterion.Tower}
+\end{definition}
+
+\begin{theorem}\label{pf:galred:unrfield}
+Let $E$ be a CM field, $w$ a split place of $E$, $f\ge1$ and $S$ a finite set of finite places of $E$. There is a CM field
+$X\subset\Omega$, abelian over $E$ and reached by a tower adapted to $S$, such that for every place $A$ of $\Omega$ above
+$w$ the inertia group $I_A$ fixes $X$ and the place of $X$ below $A$ has norm $q_w^f$, and for every non-split place $u$
+of $E$ and every $A$ above $u$ the inertia group $I_A$ fixes $X$.
+\formallabel{UpperTheory.Gal.UnramifiedFromSplittingCriterion.unrField_holds}
+\end{theorem}
+
+\begin{proof}
+Let $F=E^+$ and $v$ the place of $F$ below $w$. A subgroup $H$ of $G_F$ is \emph{good} if it is open, contains the
+commutator subgroup and contains every complex conjugation (every $c\in G_F$ acting as complex conjugation through some
+embedding $\Omega\to\C$); it is \emph{split-ramified} if for every place $t$ of $F$ and every $A$ above $t$, either the
+inertia group $I_A(F)$ lies in $H$ or $D_A(F)$ fixes $E$. Good and split-ramified subgroups are stable under finite
+intersections and under enlargement. For good $H$ the field $X_H$ fixed by $\{x\in G_E:x|\in H\}$ is a CM field abelian
+over $E$ (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.exFld}). Recall that $w$ is split if and only if
+$D_A(F)$ fixes $E$ for one, or every, $A$ above $w$, since the decomposition group of $w$ in $\Gal(E/F)$ is the image of
+$D_A(F)$. We use:
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.unrCharPP}, built on
+  \lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.ordPrime}) For every prime power $f$ there is a character
+  $r\colon G_F\to\C^\times$ with good and split-ramified kernel such that, for every $A$ above $v$, $I_A(F)\subset\ker r$
+  and $r(\phi)$ has order exactly $f$ for every arithmetic Frobenius $\phi$ at $A$.
+\item (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.freshChar_holds}) For every open subgroup $U$ of $G_F$,
+  finite set $T$ of places of $F$ and $m\ge2$, there are a character $\psi$ of $G_F$ with good and split-ramified kernel and
+  $\psi^m=1$, trivial on the decomposition groups at the places of $T$, and a place $u\notin T$ of $F$ whose decomposition
+  groups lie in $U$ and such that $\psi(\tau)$ has order $m$ for some inertia element $\tau$ at each $A$ above $u$.
+\item (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.layerOf_holds}) Let $H'\subset H$ be good subgroups with
+  $H'$ of prime index in $H$, and $u$ a place of $F$ not below $S$ whose decomposition groups fix $E$ and lie in $H$, such
+  that some inertia element at some $A$ above $u$ is not in $H'$. Then $X_{H'}/X_H$ is a step of a tower adapted to $S$.
+\item (\lref{UpperTheory.Gal.UnramifiedFromSplittingCriterion.groupStep}) An abstract lemma on groups: let $\Gamma$
+  be a group with a class of good subgroups stable under finite intersections and enlargement, a property $\mathcal P$ of
+  subgroups, a subset $D$, and families $(D_u)$, $(I_u)$, $I_u\subset D_u$, of subsets indexed by a set of ``places''.
+  Assume that for every good $U$ and $m\ge1$ there are a character $\psi$ with good kernel, $\psi^m=1$, $\psi|_D=1$, and a
+  place $u$ with $D_u\subset U$ and $\psi(\tau)$ of order $m$ for some $\tau\in I_u$; and that $\mathcal P(H)$ implies
+  $\mathcal P(H')$ for good $H'\subset H$ of prime index such that some place $u$ has $D_u\subset H$ and $I_u\not\subset H'$.
+  Then for every good $H_0$ with $\mathcal P(H_0)$ and every character $r$ of finite order with good kernel there is a
+  character $r'$ with good kernel, $r'=r$ on $D$, and $\mathcal P(H_0\cap\ker r')$.
+\item Let $K\subset M$ be number fields, $A$ a place
+  above places $v$ of $K$ and $u$ of $M$ such that $I_A(K)$ fixes $M$, $\phi$ an arithmetic Frobenius at $A$ for $K$ and
+  $d\ge1$ such that $\phi^k$ fixes $M$ if and only if $d\mid k$. Then $q_u=q_v^d$. (Indeed $I_A(M)=I_A(K)$, and the image of
+  the open subgroup $D_A(M)=D_A(K)\cap G_M$ in $D_A(K)/I_A(K)\cong\hat\Z$, topologically generated by $\phi$, is the open
+  subgroup $e\hat\Z$ with $e$ the residue degree of $u$ over $v$; it contains $\phi^k$ exactly when $e\mid k$, so $e=d$.)
+\end{enumerate}
+\emph{Step 1.} There is a character $r$ as in (i) for $f$ itself: write $f$ as a product of prime powers, take characters
+$r_p$ by (i) and let $r=\prod r_p$; its kernel contains $\bigcap\ker r_p$, so it is good and split-ramified, it contains
+$I_A(F)$, and $r(\phi)$ has order $f$ because the $r_p(\phi)$ commute and have pairwise coprime orders.
+
+\emph{Step 2.} Apply (iv) with $\Gamma=G_F$, the good and split-ramified subgroups as good subgroups, $\mathcal P(H)$:
+``$X_H$ is reached by a tower adapted to $S$'', $D$ the union of the decomposition groups $D_A(F)$ at the places $A$ above
+$v$, the places $u$ of $F$ not below $S$ whose decomposition groups fix $E$, with $D_u$, $I_u$ the unions of the
+decomposition and inertia groups at the places above $u$, $H_0=G_F$ (so $X_{H_0}=E$) and $r$ from Step 1 (of finite
+order, as its kernel is open). The first hypothesis of (iv) holds by (ii) with $T=\{v\}\cup\{\text{places below }S\}$ (for
+$m=1$ take $\psi=1$ and the place given by (ii) for $m=2$): the place $u$ of (ii) has decomposition groups fixing $E$, because $\psi$ is nontrivial on inertia
+at $u$ and $\ker\psi$ is split-ramified. The second holds by (iii). We obtain $r'$ with good and split-ramified kernel,
+$r'=r$ on the decomposition groups above $v$, such that $X=X_{\ker r'}$ is reached by a tower adapted to $S$; an element
+$x\in G_E$ fixes $X$ if and only if $r'(x|_F)=1$.
+
+\emph{Step 3.} Let $A$ lie above $w$. For $t\in I_A$, $t|_F\in I_A(F)\subset D_A(F)$, so $r'(t|_F)=r(t|_F)=1$ and $t$ fixes
+$X$. As $w$ is split, $D_A(F)$ fixes $E$, so by (v) (with $d=1$) $q_w=q_v$; hence an arithmetic Frobenius $\phi$ at $A$
+for $E$ is one for $F$, and $\phi^k$ fixes $X$ if and only if $r(\phi)^k=1$, i.e.\ $f\mid k$. By (v), the place of $X$
+below $A$ has norm $q_w^f$. Finally let $u$ be non-split, $A$ above $u$ and $t\in I_A$. As $\ker r'$ is split-ramified,
+either $I_A(F)\subset\ker r'$, and then $t$ fixes $X$, or $D_A(F)$ fixes $E$, which would make $u$ split.
+\end{proof}
+
+\subsubsection{Supports under unramified base change}
+
+For a totally complex field $K\subset\Omega$ and a cuspidal $\pi$ on $\GL_n(\A_K)$, a cuspidal $P$ on $\GL_n(\A_X)$,
+$K\subset X\subset\Omega$, is a \emph{weak base change of $\pi$ along a chain of prime degree} if there are totally
+complex fields $K=X_0\subset\dots\subset X_k=X$ with $X_{i+1}/X_i$ Galois of prime degree and cuspidal $P_i$ on
+$\GL_n(\A_{X_i})$, $P_0=\pi$, $P_k=P$, such that the Satake parameters of $P_{i+1}$ at almost all places are those of
+$P_i$, raised to the power of the residue degree. The lifts of (iii) in \cref{sec:pf:galred:R2} are of this kind.
+
+\begin{theorem}[Supports under unramified base change]\label{pf:galred:suppbc}
+Let $E$ be a totally complex number field, $\pi$ cuspidal on $\GL_n(\A_E)$, $n\ge1$, and $P$ on $\GL_n(\A_X)$ a weak base
+change of $\pi$ along a chain of prime degree. Let $A$ be a place of $\Omega$ above places $v$ of $E$ and $u$ of $X$,
+such that $E_v\cong\Q_g$ continuously for a prime $g$ and $I_A$ fixes $X$. Let $\tau,\tau'$ be local components of $\pi$
+at $v$ and of $P$ at $u$, with $\tau$ of depth zero, and let $f$ satisfy $q_u=g^f$ and be divisible by the dimension of
+every member of every supercuspidal support of $\tau$. Then there are tamely ramified characters $\xi_1,\dots,\xi_n$ of
+$X_u^\times$ with $\supp(\tau')=\{\xi_1,\dots,\xi_n\}$ and
+\[
+  P_{\galredrc(\tau)}(t)=\prod_j\bigl(X-\xi_j(a'(t))\bigr)\qquad(t\in I_A)
+\]
+for every local parameter map $\galredrc$ of $E_v$ and every local Artin map $a'$ of $X_u$ at $A$. If $\tau$ is mixed, then
+$\{\xi_1,\dots,\xi_n\}$ is unlinked.
+\formallabel{UpperTheory.Gal.InertialTypesAlt.suppBC_outright}
+\end{theorem}
+
+\begin{proof}
+For a nonarchimedean local field $k$ we write $\tau^{K_1}$ for the representation of $\GL_n(k_k)$ on the vectors of a
+representation $\tau$ of $\GL_n(k)$ fixed by $K_1=\ker(\GL_n(\OO_k)\to\GL_n(k_k))$ ($k_k$ the residue field). If $k'/k$ is
+finite with residue fields $\F_q\subset\F_{q'}$, Shintani's norm map relates conjugacy classes of $\GL_n(\F_{q'})$ up to
+Frobenius-twisted conjugacy with conjugacy classes of $\GL_n(\F_q)$, and gives the \emph{Shintani lift} of class functions
+from $\GL_n(\F_q)$ to $\GL_n(\F_{q'})$ \cite{Shintani1976}. The proof combines the following results of the development.
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.InertialTypesAlt.L.inflMatch}) \emph{Matching for inflated functions.} Let $k'/k$ be an
+  unramified extension of $p$-adic fields of characteristic $0$ with Frobenius $s$, and $f_b$ a class function on
+  $\GL_n(k_k)$. For $\delta\in\GL_n(k')$ with regular semisimple norm $\delta s(\delta)\cdots s^{[k':k]-1}(\delta)$ and
+  $\gamma\in\GL_n(k)$ with the same characteristic polynomial, the $s$-twisted orbital integral at $\delta$ of the
+  inflation to $\GL_n(\OO_{k'})$ of the Shintani lift of $f_b$ equals the orbital integral at $\gamma$ of the inflation of
+  $f_b$; and a regular semisimple $\gamma$ at which the latter integral is nonzero has the characteristic polynomial of a
+  norm.
+\item (\lref{UpperTheory.Gal.InertialTypesAlt.L.finTrace_of_matching}) \emph{Transfer of level-zero traces.} From
+  (i) and the comparison of trace formulas underlying cyclic base change: in a step $X_{i+1}/X_i$ of prime degree, at a
+  place which is inert and unramified, if a class function $f$ on $\GL_n$ of the residue field satisfies
+  $\sum_\gamma f(\gamma)\galredtr\tau_i^{K_1}(\gamma)\ne0$ for the local component $\tau_i$ of $P_i$, then the Shintani lift
+  of $f$ acts on $\tau_{i+1}^{K_1}$ by a nonzero operator.
+\item (\lref{UpperTheory.Gal.InertialTypesAlt.suppAny_of}) \emph{Toral supports.} If (ii) holds, then in the
+  situation of the theorem there are tame characters $\xi_j$ with $\supp(\tau')=\{\xi_j\}$ and the displayed identity on
+  inertia. The proof follows the level-zero types of the local components along the chain (at the places above $v$ every
+  step is split or inert and unramified, as $I_A$ fixes $X$) by (ii), using Green's parametrization of the irreducible
+  characters of $\GL_n(\F_q)$ \cite{Green1955}, Shintani's description of the lifts of cuspidal characters (the lift of
+  a cuspidal character of $\GL_m(\F_q)$ to $\GL_m(\F_{q^f})$, $m\mid f$, is orthogonal to all products of cuspidal
+  characters of proper Levi subgroups, \lref{UpperTheory.Gal.InertialTypesAlt.killsAll_holds}), and the type law
+  (L12) for the local parameter maps.
+\item (\lref{UpperTheory.Gal.InertialTypesAlt.mixType_of}) \emph{Types in the mixed case.} If (ii) holds and $\tau$ is
+  mixed, then $\tau'$ contains the character $\theta_1\otimes\dots\otimes\theta_c$ (through determinants of the blocks) of
+  the parahoric subgroup attached to a decomposition $n=d_1+\dots+d_c$, for pairwise distinct characters $\theta_b$ of
+  $k_u^\times$.
+\item (\lref{UpperTheory.Gal.TypesAndIwahori.unlinked_of_typeVec}) A generic irreducible representation containing such
+  a type with pairwise distinct $\theta_b$ has unlinked supercuspidal support.
+\end{enumerate}
+By (i) and (ii), the hypothesis of (iii) and (iv) holds. Then (iii) gives the characters $\xi_j$ and the identity on
+inertia. If $\tau$ is mixed, $\tau'$ contains a type as in (iv); being a local component of a cuspidal representation,
+$\tau'$ is generic (\lref{GlobalTheory.CuspRep.Generic.isGeneric_of_isLocComp}), so by (v) every support of $\tau'$, in
+particular $\{\xi_j\}$, is unlinked.
+\end{proof}
+
+\subsubsection{Counting depth-zero cuspidal representations}
+
+\begin{proposition}\label{pf:galred:dzcount}
+Let $F$ be a nonarchimedean local field with residue field $k_F$, $n\ge1$, $\varpi$ a uniformizer of $F$ and
+$c\in\C^\times$, and let $\mathcal L$ be the set of monic irreducible polynomials of degree $n$ in $k_F[X]$ other than
+$X$. There is a map $Y$ from $\mathcal L$ to $\galredIrr(F)$, injective, such that every $Y(P)$ is a cuspidal
+representation of $\GL_n(F)$ with nonzero vectors fixed by $K_1=\ker(\GL_n(\OO_F)\to\GL_n(k_F))$, whose central character
+$\omega$ satisfies $\omega(\varpi)=c$.
+\formallabel{PositivityTheory.Rg.DzCount.depth_zero_count_holds}
+\end{proposition}
+
+\begin{proof}
+Representations of $\GL_n(k_F)$ are regarded as representations of $\GL_n(\OO_F)$ through reduction. We use:
+\begin{enumerate}[label=(\alph*),nosep]
+\item (\lref{PositivityTheory.Rg.DzCount.st7}) There are irreducible cuspidal representations $\tau_P$ of
+  $\GL_n(k_F)$, $P\in\mathcal L$, which are pairwise non-isomorphic (Green's parametrization \cite{Green1955}).
+\item (\lref{PositivityTheory.Rg.DzCount.st4}) For every irreducible representation $\tau$ of $\GL_n(k_F)$ there are an
+  irreducible smooth representation $\sigma$ of $\GL_n(F)$ with a central character $\omega$, $\omega(\varpi)=c$, and an
+  injective $\GL_n(\OO_F)$-equivariant map $j\colon\tau\to\sigma$.
+\item (\lref{PositivityTheory.Rg.DzCount.st5}) If moreover $\tau$ is cuspidal, then $\sigma$ is cuspidal
+  \cite{MoyPrasad1996}.
+\item (\lref{PositivityTheory.Rg.DzCount.B.st6}) If $\tau$ is cuspidal and $\sigma$, with a central character,
+  contains $\tau$ through $j$, then the space of $K_1$-fixed vectors of $\sigma$ is $j(\tau)$.
+\end{enumerate}
+For $P\in\mathcal L$ choose $\sigma_P,\omega_P,j_P$ by (b) for $\tau_P$, and put $Y(P)=\sigma_P$. By (c), (b) and (d),
+$Y(P)$ is cuspidal, has central character $\omega_P$ with $\omega_P(\varpi)=c$, and its $K_1$-fixed vectors form
+$j_P(\tau_P)\ne0$. If $Y(P)\cong Y(P')$, an isomorphism maps $K_1$-fixed vectors onto $K_1$-fixed vectors,
+$\GL_n(\OO_F)$-equivariantly, and by (d) it induces an isomorphism $\tau_P\cong\tau_{P'}$; so $P=P'$ by (a).
+\end{proof}
+
+\subsubsection{Proof of the division theorem}\label{sec:pf:galred:divproof}
+
+We prove \cref{pf:galred:division}. Let the data be as there. For a subset $\Sigma\subset M_N(K)$, the polynomial functions
+on $M_N(K)$ (polynomials in the entries, with coefficients in $K$) vanishing on $\Sigma$ form an ideal $I(\Sigma)$, and the
+\emph{tangent space} of $\Sigma$ at $1$ is the space of $Y\in M_N(K)$ with $d_1f(Y)=0$ for all $f\in I(\Sigma)$. Let
+$\mathfrak g$ be the tangent space of $\rho(\Gamma)$ at $1$ (the Lie algebra of the Zariski closure of $\rho(\Gamma)$) and
+$\mathcal A$ the $K$-subalgebra of $M_N(K)$ generated by $\mathfrak g$. A matrix has \emph{degree at most $n$} if a
+nonzero polynomial of degree at most $n$ annihilates it.
+
+\emph{Step 1: an element of $\mathfrak g$ with lacunary eigenvalues.} The space $\mathfrak g$ is cut out in $M_N(K)$ by
+finitely many linear forms $d_1f_1,\dots,d_1f_m$, $f_i\in I(\rho(\Gamma))$, and by hypothesis $Z\in M_N(K')$ satisfies
+them. The conditions ``$X_0$ satisfies $d_1f_i(X_0)=0$, $\det(e_i-X_0)=0$ for all $i$, and $(e_i)$ is lacunary'' form a
+finite system of polynomial equations and inequations with coefficients in $K$ in the unknowns $(X_0,e)$; it has the
+solution $(Z,(e_i))$ over $K'$, hence a solution $(X_0,(e_{0,i}))$ over the algebraically closed field $K$ (Hilbert's
+Nullstellensatz). So $X_0\in\mathfrak g$ has the lacunary eigenvalues $e_{0,1},\dots,e_{0,n}$; they are distinct, since
+lacunarity with $A=\{i\}$, $B=\{j\}$ gives $e_{0,i}\ne e_{0,j}$.
+
+\emph{Step 2: degrees.} Every $\rho(g)$ has degree at most $n$. Indeed, $y$ has degree at most $n$ if and only if
+$1,y,\dots,y^n$ are linearly dependent, i.e.\ all $(n+1)$-minors of the matrix with columns $y^0,\dots,y^n$ (as vectors
+of length $N^2$) vanish; this is a closed condition on $y$, it holds for $\rho(s)$, $s\in S$, because $P_s(\rho(s))=0$, and
+$S$ is dense and $\rho$ continuous.
+
+\emph{Step 3: idempotents.} (\lref{LateralTheory.Fin.Struct.intersectionNumber_baseChange}) Since $\rho$ is semisimple,
+every $\rho(g)$ has degree at most $n$ and $X_0\in\mathfrak g$ has the $n$ lacunary eigenvalues $e_{0,i}$, there are
+nonzero pairwise orthogonal idempotents $p_1,\dots,p_n$ with $\sum p_i=1$ such that $\sum_ie_{0,i}p_i\in\mathfrak g$, $p_i\in
+\mathcal A$, $p_i\mathcal Ap_i\subset Kp_i$, and $p_iap_j\in\mathfrak g$ for $a\in\mathcal A$ and $i\ne j$. Moreover
+$\mathcal A$ is normalized by $\rho(\Gamma)$ and preserves every $\rho(\Gamma)$-stable subspace of $K^N$.
+
+\emph{Step 4: the key property.} (\lref{LateralTheory.Fin.Key.intersectionNumber_baseChange}) For every normal
+subgroup $U$ of finite index of $\Gamma$ and every $g\in\Gamma$: (a) there is $m$ in the Zariski closure of $\rho(U)$ such
+that $\rho(g)m$ has $n$ distinct eigenvalues; (b) for each $i$, if $p_ia\rho(g)p_i\ne0$ for some $a\in\mathcal A$, then
+$p_i\rho(g)=p_iy$ for some $y\in\mathcal A$.
+
+\emph{Step 5: an algebra containing the image.} (\lref{LateralTheory.Fin.BigCorner.intersectionNumber_baseChange})
+By Step 3 and Step 4(b) there is a $K$-subalgebra $R\subset M_N(K)$ containing $\rho(\Gamma)$ and the $p_i$, with
+$p_iRp_i\subset Kp_i$, normalized by $\rho(\Gamma)$ and preserving every $\rho(\Gamma)$-stable subspace.
+
+\emph{Step 6: $R$ is semisimple.} Let $J$ be the set of $Y\in R$ such that $aY$ is nilpotent for all $a\in R$; it is the
+radical of the finite-dimensional algebra $R$, a nilpotent two-sided ideal, and it is stable under conjugation by
+$\rho(\Gamma)$. Hence $W=JK^N$ is $\rho(\Gamma)$-stable. As $\rho$ is semisimple, $K^N=W\oplus W'$ with $W'$
+$\rho(\Gamma)$-stable, hence $R$-stable; then $JW'\subset W\cap W'=0$, so $JK^N=JW=J^2K^N$, and by induction
+$JK^N=J^kK^N=0$ for large $k$. Thus $J=0$.
+
+\emph{Step 7: matrix units.} (\lref{LateralTheory.Fin.MatrixUnits₂.intersectionNumber_baseChange}) As $p_iRp_i\subset
+Kp_i$ and $R$ has no nonzero radical, there are $E_{ij}\in R$ with $E_{ii}=p_i$, $p_iE_{ij}p_j=E_{ij}$, $p_iap_j\in KE_{ij}$
+for $a\in R$, $E_{ji}\ne0$ whenever $E_{ij}\ne0$, and $E_{ij}E_{jk}=E_{ik}\ne0$ whenever $E_{ij},E_{jk}\ne0$.
+
+\emph{Step 8: the representation.} (\lref{LateralTheory.Fin.Rep.intersectionNumber_baseChange}) From the matrix units
+one obtains a representation $r\colon\Gamma\to\GL_n(K)$ and matrices $M\in M_{N\times n}(K)$, $B\in M_{n\times N}(K)$ with
+$BM=1$ and $\rho(g)M=Mr(g)$ for all $g$, such that the images of all $T\in M_{N\times n}(K)$ with $\rho(g)T=Tr(g)$ for all
+$g$ span $K^N$.
+
+\emph{Step 9: consequences.} $r(g)=B\rho(g)M$, so $r$ is continuous; $M$ has rank $n$; $r$ is isomorphic to a
+subrepresentation of $\rho$, hence semisimple. A polynomial $q$ annihilates $\rho(g)$ if and only if it annihilates
+$r(g)$: if $q(\rho(g))=0$ then $Mq(r(g))=q(\rho(g))M=0$, so $q(r(g))=0$; if $q(r(g))=0$ then $q(\rho(g))T=Tq(r(g))=0$ for
+all intertwiners $T$ as in Step 8, whose images span $K^N$, so $q(\rho(g))=0$. In particular $P_s(r(s))=0$ for $s\in S$, and
+the characteristic polynomial of $r(g)$, which annihilates $r(g)$, annihilates $\rho(g)$.
+
+\emph{Step 10: separability.} (\lref{LateralTheory.Fin.DenseAlg.intersectionNumber_baseChange}) By Step 4(a), for
+every normal subgroup $U$ of finite index and every $g$ there is $u\in U$ with $\det(X-r(gu))$ separable; and then
+(\lref{LateralTheory.Fin.FinDense.intersectionNumber_baseChange}) for a continuous representation of a compact group
+with this property, the set of $g$ with separable characteristic polynomial is open and dense.
+
+\emph{Step 11: characteristic polynomials and determinant.} If a monic $P$ of degree $n$ annihilates $x\in M_n(K)$ and
+$\det(X-x)$ is separable, then $\det(X-x)=P$: the minimal polynomial of $x$ has the $n$ distinct eigenvalues as roots, so
+it is $\det(X-x)$, and it divides $P$. Hence $\det(X-r(s))=P_s$ for $s\in S$ with $\det(X-r(s))$ separable. The set of
+such $s$ is dense, as the intersection of the dense set $S$ with an open dense set, and there $\det r(s)=(-1)^nP_s(0)=
+\psi(s)$; by continuity $\det r=\psi$. If a monic $P$ of degree $n$ is product-generic, annihilates $x$ and
+$\det x=(-1)^nP(0)$, then the eigenvalues of $x$ are $n$ roots of $P$ with the product of all roots of $P$, so they are the
+roots of $P$ and $\det(X-x)=P$; this applies to $x=r(s)$, $s\in S$, as $\det r(s)=\psi(s)=(-1)^nP_s(0)$.
+
+\emph{Step 12: covering.} (\lref{LateralTheory.Fin.FinEmbed.intersectionNumber_baseChange}) As $\rho$ and $r$ are
+semisimple and the intertwiners from $r$ to $\rho$ span, there are $T_1,\dots,T_k\in M_{n\times N}(K)$ with
+$T_j\rho(g)=r(g)T_j$ and $T'_1,\dots,T'_k\in M_{N\times n}(K)$ with $\rho(g)T'_j=T'_jr(g)$, such that $\sum_jT'_jT_j=1$. The
+$(nk)\times N$ matrix $M'$ obtained by stacking the $T_j$ satisfies $(r(g)\otimes1_k)M'=M'\rho(g)$ and has rank $N$, since
+$\sum_jT'_jT_j=1$. So $r$ is inside $\rho$ (Step 8) and covers $\rho$. Together with Steps 9--11 this proves
+\cref{pf:galred:division}.
+
+\subsubsection{Density of generic Satake parameters}
+
+Recall from \cref{sec:pf:galred:cong} the spaces $\mathcal A(W,K)$ and $\mathcal A_{\mathcal P}(W,K)$ and the notion of
+density. A level $K$ is \emph{away from} $w_0$ if it is an open compact subgroup of $\galredU_a(\A_{E^+,f})$ of the type
+used there; for a split place $w$, $K$ is \emph{hyperspecial at $w$} if its component at $w$ is $\GL_a(\OO_{E_w})$.
+
+\begin{theorem}\label{pf:galred:densegen}
+Let $E$ be a CM field, $\ell$ a prime, $\iota\colon\Qlbar\to\C$, $a\ge1$, $w_0\mid\ell$ a split place, $K$ a level away
+from $w_0$, $W$ a weight, $S$ a finite set of split places apart from $w_0$ at which $K$ is hyperspecial, and $\Phi_w\in
+\C[X_1,\dots,X_a]$, $w\in S$, nonzero polynomials. Then the property ``$\Phi_w(z)\ne0$ for every $w\in S$ and every Satake
+parameter $z$ of $U$ at $w$'' is dense at $(W,K)$.
+\formallabel{UpperTheory.Gal.Gen.denseGen_holds}
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal P$ be the property in question; by definition $\mathcal A_{\mathcal P}(W,K)$ is a subspace of
+$\mathcal A(W,K)$. The main input is the following step
+(\lref{UpperTheory.Gal.Gen.step_holds}): for every $f\in\mathcal A(W,K)$ there are $G\in\mathcal A_{\mathcal P}(W,K)$
+and a function $e$ on $\galredU_a(\A_{E^+})$ with $|\iota^{-1}e(g)|^2\le|\ell|$ for all $g$ and $f-G=e\cdot f$. Its proof
+uses global Hecke operators built from local ones at the places of $S$ and a Plancherel-type count of generic Satake
+parameters (\lref{UpperTheory.Gal.Gen.globOp_holds} and \lref{UpperTheory.Gal.Gen.planch_holds}).
+
+We show by induction on $m$: for every $f\in\mathcal A(W,K)$ there are $G\in\mathcal A_{\mathcal P}(W,K)$ and $e$ with
+$|\iota^{-1}e(g)|\le|\ell|^{m/2}$ and $f-G=e\cdot f$. For $m=0$ take $G=0$, $e=1$. Given $G,e$ for $m$, apply the step to
+$f-G\in\mathcal A(W,K)$: there are $G'\in\mathcal A_{\mathcal P}(W,K)$ and $e'$ with $|\iota^{-1}e'|\le|\ell|^{1/2}$
+and $(f-G)-G'=e'(f-G)=e'e f$. Then $G+G'\in\mathcal A_{\mathcal P}(W,K)$ and $e'e$ has the bound for $m+1$. Given
+$\varepsilon>0$, choose $m$ with $|\ell|^{m/2}<\varepsilon$.
+\end{proof}
+
+\subsubsection{Lacunary weight families}
+
+We use the notation of \cref{sec:pf:galred:cong}. For an embedding $\tau\colon E\to\C$ and $x\in\galredU_a(E^+\otimes\R)$ let
+$\tau(x)\in\galredU_a(\C)\subset\GL_a(\C)$ be the component of $x$ at $\tau$. A weight $W$ is an algebraic representation,
+on a space $W_{\mathrm{sp}}$, of the archimedean group; an algebraic automorphic form of weight $W$ is a linear map $F$
+from $W_{\mathrm{sp}}$ to functions on $\galredU_a(\A_{E^+})$, left invariant under $\galredU_a(E^+)$, with
+$F(v)(gx)=F(W(x)v)(g)$ for archimedean $x$. For $k\le a$ and $z\in\C$
+with $|z|=1$ let $t_k(z)=\mathrm{diag}(z,\dots,z,1,\dots,1)$ ($k$ entries $z$); an \emph{archimedean circle} at $\tau$ is a
+map $z\mapsto x(z)$ into the archimedean group with $\tau(x(z))=t_k(z)$. For a dominant weight $\nu$ of $\GL_a$ let
+$\chi_\nu$ be the corresponding character of the upper triangular Borel subgroup of $\GL_a(\C)$ and
+$|\nu|_k=\nu_0+\dots+\nu_{k-1}$. A function $\phi$ on the unit circle has \emph{exponents $\le s$} (resp.\ $\ge s$) if it is
+a finite sum of monomials $cz^j$ with $j\le s$ (resp.\ $j\ge s$).
+
+\begin{definition}[Families]\label{pf:galred:fam}
+Let $\tau\colon E\to\C$, $W$ a weight, $K$ a level, $\nu$ a dominant weight of $\GL_a$ and $d\ge0$. A \emph{$\nu$-family
+of defect $d$ at $\tau$ and level $K$} is a map $B$ assigning to $y_1,y_2\in\GL_a(\C)$ a linear map $B(y_1,y_2)$ from
+$W_{\mathrm{sp}}$ to functions on $\galredU_a(\A_{E^+})$ such that: (F1) all $B(y_1,y_2)(v)$ are automorphic forms, right
+invariant under $K$, lying in a fixed finite-dimensional space; (F2) for archimedean $x$, the right translate of
+$B(y_1,y_2)(v)$ by $x$ is $B(\tau(x)y_1,\tau(x)y_2)(W(x)v)$; (F3) $B(y_1b,y_2)=\chi_\nu(b)B(y_1,y_2)$ for upper triangular
+$b$; (F4) for every archimedean circle $x(z)$ at $\tau$ for $t_k$, every $v$ and $g$, the function $z\mapsto
+B(t_k(z)y_1,t_k(z)y_2)(W(x(z))v)(g)$ has exponents $\le|\nu|_k+d$, and $z\mapsto B(1,t_k(z)y_2)(W(x(z))v)(g)$ has exponents
+$\ge-d$.
+\formallabel{UpperTheory.Gal.Wt.Fam}
+\end{definition}
+
+\begin{proposition}\label{pf:galred:famex}
+Let $E$ be a CM field, $\ell$, $\iota$, $a\ge1$, $w_0\mid\ell$ and $v'$ split places which are apart, $K$ a level away from
+$w_0$ whose component at $v'$ contains $\GL_a(\OO_{E_{v'}})$, $K_{v'}$ an open subgroup of $\GL_a(E_{v'})$ and $K^\circ$
+the subgroup of elements of $K$ with component at $v'$ in $K_{v'}$. Let $f\in\mathcal A(W,K^\circ)$, $\tau$ an embedding
+lying over $v'$, $\mathcal X$ a set and $b\colon\galredU_a(\A_{E^+})\times\mathcal X\to W_{\mathrm{sp}}$ such that for every
+algebraic form $F$ of weight $W$ the values $\iota^{-1}F(b(g,i))(g)$ are bounded. For every $\varepsilon>0$ there are $d\ge0$
+and $M\colon\galredU_a(\A_{E^+})\to\GL_a(\C)$, invariant under right translation by finite adeles with trivial component at
+$v'$, such that for every dominant $\nu$ there is a $\nu$-family $B$ of defect $d$ at $\tau$ and level $K$ with
+\[
+  \bigl|\iota^{-1}\bigl(f(b(g,i))(g)-B(M(g),M(g))(b(g,i))(g)\bigr)\bigr|\le\varepsilon\qquad\text{for all }g,i.
+\]
+\formallabel{UpperTheory.Gal.Wt.famEx_holds}
+\end{proposition}
+
+\begin{proof}
+For a dominant $\nu$ let $\delta_\nu(h)$ be the highest weight matrix coefficient of $h\in\GL_a(\C)$ on the irreducible
+representation of highest weight $\nu$. We use:
+\begin{enumerate}[label=(\alph*),nosep]
+\item (\lref{UpperTheory.Gal.Wt.neatLev_holds}) There is a neat level $C\supset K$ (if $\gamma g=gcx$ with $\gamma$
+  rational, $c\in C$, $x$ archimedean, then $c=1$) whose component at $v'$ lies in $\GL_a(\OO_{E_{v'}})$ and such that $f$ is
+  fixed by $C\cap K^\circ$.
+\item (\lref{UpperTheory.Gal.Wt.ellC_holds}) As $C$ is neat, there is $\lambda\colon\galredU_a(\A_{E^+})\to C$ with
+  $\lambda(\gamma g)=\lambda(g)$, $\lambda(gx)=\lambda(g)$ and $\lambda(gc)=\lambda(g)c$ for rational $\gamma$, archimedean
+  $x$ and $c\in C$.
+\item (\lref{UpperTheory.Gal.Wt.twist_holds} and \lref{UpperTheory.Gal.Wt.twistBd_holds}) For $c\in C$ the function
+  $F_c(v)(g)=f(v)(g\lambda(g)^{-1}c)$ is an algebraic form of weight $W$ and level $C$, and there is $R>0$ with
+  $|\iota^{-1}F_c(b(g,i))(g)|\le R$ for all $c,g,i$.
+\item (\lref{UpperTheory.Gal.Wt.ladic_weight_embedding_over_place}) There is a homomorphism
+  $\kappa\colon\galredU_a(\A_{E^+})\to\GL_a(\C)$ with $\kappa(\gamma)=\tau(\gamma)$ for rational $\gamma$, trivial on the
+  archimedean group, with $\kappa(g)=1$ if and only if $g_{v'}=1$, such that $\iota^{-1}\circ\kappa$ is continuous and
+  $\iota^{-1}\kappa(g)$ is integral when $g_{v'}\in\GL_a(\OO_{E_{v'}})$ (it is $g\mapsto\iota(\tau'(g_{v'}))$ for the
+  embedding $\tau'$ of $E_{v'}$ inducing $\tau$).
+\item (\lref{UpperTheory.Gal.Wt.pieces_holds}) For the continuous integral homomorphism $\phi=\kappa|_C$, the open
+  subgroup $C'=C\cap K^\circ\supset\ker\phi$ and $\eta>0$ there are $c_1,\dots,c_Q\in C$ and polynomials $P_1,\dots,P_Q$ in
+  the matrix entries such that for every $c\in C$ there is $q_0$ with $c_{q_0}^{-1}c\in C'$,
+  $|\iota^{-1}(P_{q_0}(\phi(c))-1)|\le\eta$, $|\iota^{-1}P_q(\phi(c))|\le\eta$ for $q\ne q_0$, and
+  $|\iota^{-1}(\phi(c_{q_0}^{-1}c)-1)|\le\eta$ entrywise.
+\item (\lref{UpperTheory.Gal.Wt.deltaNear_holds}) If $\iota^{-1}h$ is integral then $|\iota^{-1}\delta_\nu(h)|\le1$, and if
+  moreover $|\iota^{-1}(h-1)|\le\eta$ entrywise then $|\iota^{-1}(\delta_\nu(h)-1)|\le\eta$.
+\item (\lref{UpperTheory.Gal.Wt.famOf_holds}) Let $\mathfrak n\colon\galredU_a(\A_{E^+})\to\GL_a(\C)$ satisfy
+  $\mathfrak n(\gamma g)=\mathfrak n(g)$, $\mathfrak n(gc)=\mathfrak n(g)$ and $\mathfrak n(gx)=\mathfrak n(g)\tau(x)$ for
+  rational $\gamma$, $c\in C$ and archimedean $x$. For forms $F_1,\dots,F_Q$ of weight $W$ and level $C$ and polynomials
+  $P_q$ there is $d$ such that for all $\nu$ and $X_1,\dots,X_Q\in\GL_a(\C)$ the map
+  $B(y_1,y_2)(v)(g)=\sum_qP_q(\mathfrak n(g)y_2)\,\delta_\nu(X_q\mathfrak n(g)y_1)\,F_q(v)(g)$ is a $\nu$-family of defect
+  $d$ at $\tau$ and level $C$.
+\end{enumerate}
+Take $C,\lambda,R$ by (a)--(c), $\kappa$ by (d), and $c_q,P_q$ by (e) with $\eta=\varepsilon/R$; put $F_q=F_{c_q}$. Let
+$M(g)=\tau(g_\infty)^{-1}\kappa(g)$ and $\mathfrak n(g)=\phi(\lambda(g))M(g)^{-1}$. Then $\mathfrak n$ satisfies the
+hypotheses of (g): for rational $\gamma$ the factors $\tau(\gamma)$ of $\kappa(\gamma g)$ and $\tau((\gamma g)_\infty)$
+cancel; for $c\in C$, $\phi(\lambda(gc))=\phi(\lambda(g))\kappa(c)$ and $\kappa(gc)=\kappa(g)\kappa(c)$; for archimedean $x$,
+$\lambda$ and $\kappa$ are unchanged and $\tau((gx)_\infty)=\tau(g_\infty)\tau(x)$. $M(gh)=M(g)$ for finite $h$ with
+$h_{v'}=1$. Let $d$ be given by (g), and for $\nu$ let $B$ be the family of (g) with $X_q=\phi(c_q)^{-1}$; it has level
+$C\supset K$. As $\mathfrak n(g)M(g)=\phi(\lambda(g))$,
+\[
+  B(M(g),M(g))(v)(g)=\sum_qP_q(\phi(\lambda(g)))\,\delta_\nu(\phi(c_q^{-1}\lambda(g)))\,F_q(v)(g).
+\]
+Fix $g$, let $q_0$ be given by (e) for $c=\lambda(g)$. Since $c_{q_0}^{-1}\lambda(g)\in C'$ fixes $f$,
+$f(v)(g)=f(v)(g(c_{q_0}^{-1}\lambda(g))^{-1})=F_{q_0}(v)(g)$. Hence $f(v)(g)-B(M(g),M(g))(v)(g)=\sum_q\beta_qF_q(v)(g)$ with
+$\beta_{q_0}=1-P_{q_0}\delta_\nu=-((P_{q_0}-1)\delta_\nu+(\delta_\nu-1))$ and $\beta_q=-P_q\delta_\nu$ for $q\ne q_0$
+(evaluated at $\phi(\lambda(g))$, resp.\ $\phi(c_q^{-1}\lambda(g))$). By (e) and (f), $|\iota^{-1}\beta_q|\le\eta$ for all $q$;
+with (c) and the ultrametric inequality the difference at $v=b(g,i)$ is at most $\eta R=\varepsilon$.
+\end{proof}
+
+\begin{theorem}[Lacunary weight families]\label{pf:galred:wtlac}
+Let $E,\ell,\iota,a,w_0,v',K,K_{v'},K^\circ$ be as in \cref{pf:galred:famex}, $\lambda=(\lambda_\tau)$ a weight, and
+$(t_j)_{j\in J}$ Hecke operators of level $K^\circ$, $\ell$-adically integral for $\lambda$, supported on elements whose
+components at the places not apart from $w_0$ and at the places not apart from $v'$ are trivial, and acting on the
+$K^\circ$-fixed vectors of every automorphic $U$ by scalars $\eta_j(U)$. Let $\tau_0$ lie over $v'$ and let $U$ have weight
+$\lambda$ and nonzero $K^\circ$-fixed vectors. Then $(\iota^{-1}\eta_j(U))_j$ is polynomially approximable by the systems
+$(\iota^{-1}\eta_j(U'))_j$ of the automorphic $U'$ with nonzero $K$-fixed vectors and weights $\mu$ such that
+$\mu_\tau=\lambda_\tau$ unless $\tau$ lies over $v'$ or $c(v')$, and $J_{\mu_{\tau_0}}$ is gapped.
+\formallabel{UpperTheory.Gal.Wt.wtLacEx_holds}
+\end{theorem}
+
+\begin{proof}
+We use, besides \cref{pf:galred:famex}:
+\begin{enumerate}[label=(\alph*),nosep]
+\item (\lref{GlobalTheory.T.exists_algebraicForm_weight_level_smooth_at_place}) $U$ contains a nonzero algebraic form
+  $f\in\mathcal A(\lambda,K^\circ)$.
+\item (\lref{UpperTheory.Gal.Gen.Loc.frame}) There are a set $\mathcal X$ and $b\colon\galredU_a(\A_{E^+})\times
+  \mathcal X\to W_{\mathrm{sp}}$ such that an algebraic form $F$ of weight $\lambda$ vanishing at all $(b(g,i),g)$ is zero,
+  the values $\iota^{-1}F(b(g,i))(g)$ of every $F$ are bounded, and if they are bounded by $R'$ then so are those of
+  $t_jF$ (this uses the integrality of the $t_j$).
+\item (\lref{UpperTheory.Gal.Wt.famProj_holds}) A $\nu$-family $B$ of defect $d$ at $\tau_0$ and level $K$ is a finite sum
+  $\sum_VF_V$ over automorphic representations $V$, where $F_V$ is a $\nu$-family of defect $d$ at $\tau_0$ and level $K$ with
+  values in $V$.
+\item (\lref{UpperTheory.Gal.Wt.famWt_holds}) If a $\nu$-family of defect $d$ at $\tau_0$ and level $K$ is nonzero with
+  values in $V$, then $V$ has nonzero $K$-fixed vectors and a weight $\mu$ with $\mu_\tau=\lambda_\tau$ for
+  $\tau\notin\{\tau_0,\bar\tau_0\}$ and $|\mu_{\tau_0,i}-\nu_i|\le2d$ for all $i$.
+\item (\lref{GlobalTheory.T.eigenvector_small_sub_finite_eigen_approx_inequality}) Let operators $t_j$ on a space $\mathcal V$
+  and linear forms $\mathrm{ev}_x$ ($x\in\mathcal X'$) be such that $|\iota^{-1}\mathrm{ev}_x(F)|\le R'$ for all $x$ implies the
+  same for $t_jF$. Let $f_1$ be a common eigenvector with eigenvalues $\theta_j$ and $|\iota^{-1}\mathrm{ev}_{x_0}(f_1)|=1$ for
+  some $x_0$, and $G_1,\dots,G_k$ common eigenvectors with eigenvalue systems $\eta^{(i)}$, such that
+  $|\iota^{-1}\mathrm{ev}_x(f_1+\sum_iG_i)|\le\varepsilon$ for all $x$. Then there are $c_i$ with
+  $|P(\iota^{-1}\theta)-\sum_ic_iP(\iota^{-1}\eta^{(i)})|\le\varepsilon$ for all $P\in\Z[X_j:j\in J]$.
+\end{enumerate}
+Let $\varepsilon>0$. Take $f$ by (a) and $\mathcal X,b$ by (b); some value $z_0=f(b(g_0,i_0))(g_0)$ is nonzero, and
+$f_1=z_0^{-1}f$ has $|\iota^{-1}f_1(b(g_0,i_0))(g_0)|=1$. \Cref{pf:galred:famex} gives $d$ and $M$; let $\mu^0_k=-(a+1)^k$
+($0\le k<a$, a dominant weight), $N=(a+1)(4d+a)+1$, $\nu=N\mu^0$, and $B$ the $\nu$-family with
+$|\iota^{-1}(f_1-B(M(g),M(g)))|\le\varepsilon$ at all evaluation points. Decompose $B=\sum_VF_V$ by (c) and put
+$G_V(v)(g)=-F_V(M(g),M(g))(v)(g)$, for the $V$ with $F_V\ne0$. As $t_j$ is supported on elements $h$ with $h_{v'}=1$, and
+$M(gh)=M(g)$ for those, $t_jG_V=\eta_j(V)G_V$; also $t_jf_1=\eta_j(U)f_1$. So (e) applies with the evaluation forms
+$F\mapsto F(b(g,i))(g)$, and gives the approximation of $(\iota^{-1}\eta_j(U))_j$ with error $\varepsilon$ by systems of
+these $V$. By (d) each such $V$ has nonzero $K$-fixed vectors and a weight $\mu$ which agrees with $\lambda$ except at
+$\tau_0$ and $\bar\tau_0$, which lie over $v'$ or $c(v')$, with $|\mu_{\tau_0,k}+N(a+1)^k|\le2d$.
+
+It remains to see that $J_{\mu_{\tau_0}}$ is gapped. Write $\mu=\mu_{\tau_0}$ and $j_k=k-\mu_k$, which increase strictly in
+$k$ as $\mu$ is dominant; put $m_k=(a+1)^k$, so $Nm_k-2d\le-\mu_k\le Nm_k+2d$. For $i+1<a$,
+\[
+  (j_{i+1}-j_0)-a(j_i-j_0)\ge N\bigl(m_{i+1}-1-a(m_i-1)\bigr)+\bigl(1-(a-1)i\bigr)-4d(a+1)\ge N-a^2-4d(a+1)>0,
+\]
+since $m_{i+1}-1-a(m_i-1)=m_i+a-1\ge1$, $(a-1)i\le a^2-1$ and $N>(a+1)(4d+a)$.
+\end{proof}
+
+\subsubsection{Pseudo-characters}
+
+\begin{definition}[Pseudo-characters]\label{pf:galred:pschar}
+Let $\Gamma$ be a monoid (or a $k$-algebra), $k$ a field and $T\colon\Gamma\to k$. Define functions
+$\mathrm{alt}_m(T)$ of $m$ arguments by $\mathrm{alt}_0(T)=1$ and
+\[
+  \mathrm{alt}_{m+1}(T)(x_0,\dots,x_m)=T(x_0)\,\mathrm{alt}_m(T)(x_1,\dots,x_m)
+  -\sum_{i=1}^m\mathrm{alt}_m(T)(x_1,\dots,x_0x_i,\dots,x_m).
+\]
+$T$ is a \emph{pseudo-character of dimension $d$} if $T(1)=d$, $T(xy)=T(yx)$ and $\mathrm{alt}_{d+1}(T)=0$.
+\formallabel{GlobalTheory.PsChar.IsPsChar}
+\end{definition}
+
+Unwinding the
+recursion, $\mathrm{alt}_m(T)(x_1,\dots,x_m)=\sum_{\sigma\in S_m}\mathrm{sgn}(\sigma)\prod_{(i_1\cdots i_r)}T(x_{i_1}\cdots x_{i_r})$,
+the product over the cycles of $\sigma$; for the trace of a representation on a space $V$ this is $m!$ times the trace
+of $x_1\otimes\dots\otimes x_m$ on $\bigwedge^mV$, so the trace of a $d$-dimensional representation is a pseudo-character
+of dimension $d$ \cite{Taylor1991}. Each of the three conditions is a polynomial identity with integer coefficients in
+finitely many values of $T$.
+
+\begin{theorem}\label{pf:galred:ssrep}
+Let $\Gamma$ be a group, $k$ an algebraically closed field of characteristic $0$ and $T\colon\Gamma\to k$ a
+pseudo-character of dimension $d$. There is a semisimple representation $r\colon\Gamma\to\GL_d(k)$ with $\galredtr r=T$.
+\formallabel{GlobalTheory.PsChar.exists_ssRep}
+\end{theorem}
+
+\begin{proof}
+We use three results of the development, for a $k$-algebra $R$ and a $k$-linear pseudo-character $S\colon R\to k$ of
+dimension $d$:
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{GlobalTheory.PsChar.cayleyHamilton}) \emph{Cayley--Hamilton.} For every $x\in R$ there is a monic $p\in
+  k[X]$ of degree $d$ with $S(p(x)y)=0$ for all $y\in R$.
+\item (\lref{GlobalTheory.T.pseudoCharacter_eq_zero_of_isNilpotent} and \lref{GlobalTheory.T.pseudoCharacter_apply_idempotent_nat_le})
+  $S(x)=0$ for nilpotent $x$; for an idempotent $e$, $S(e)$ is a natural number at most $d$, and if $S(e)=0$ then $S(ey)=0$
+  for all $y$.
+\item (\lref{GlobalTheory.T.finite_and_isSemisimpleRing_of_no_nil_ideals_bounded_idempotents}) A $k$-algebra in which
+  every element is algebraic, which has no nonzero $x$ with $yx$ nilpotent for all $y$, and in which sets of nonzero
+  pairwise orthogonal idempotents have bounded size, is finite-dimensional and semisimple.
+\end{enumerate}
+Extend $T$ linearly to $T'\colon k[\Gamma]\to k$. Then $T'(xy)=T'(yx)$, and $\mathrm{alt}_{d+1}(T')=0$ since
+$\mathrm{alt}_{d+1}$ is multilinear in its arguments (by induction on the recursion); so $T'$ is a pseudo-character of
+dimension $d$. The set $I$ of $x$ with $T'(xy)=0$ for all $y$ is a two-sided ideal (as $T'(axy)=T'(xya)$); let
+$R=k[\Gamma]/I$. $T'$ induces $S\colon R\to k$, again a pseudo-character of dimension $d$, whose trace form is
+nondegenerate: $S(xy)=0$ for all $y$ implies $x=0$.
+
+$R$ is finite-dimensional and semisimple by (iii): every $x$ is algebraic, as $p(x)=0$ for $p$ from (i) by nondegeneracy;
+if $yx$ is nilpotent for all $y$, then $S(xy)=S(yx)=0$ for all $y$ by (ii), so $x=0$; and if $e_1,\dots,e_m$ are nonzero
+pairwise orthogonal idempotents, then $S(e_i)\ge1$ (by (ii) and nondegeneracy), $e=\sum e_i$ is idempotent and
+$m\le\sum S(e_i)=S(e)\le d$.
+
+By Wedderburn's theorem $R\cong\prod_{i=1}^tM_{n_i}(k)$ \cite{CurtisReiner1962}. A linear form on this product vanishing on
+commutators is $\sum_ic_i\galredtr_i$, $\galredtr_i$ the trace of the $i$-th factor, because the commutators of $M_{n}(k)$
+span the matrices of trace zero. The matrix unit $e_{11}$ of the $i$-th factor is an idempotent with $S(e_{11})=c_i$, so
+$c_i=m_i\in\N$ by (ii), and $d=S(1)=\sum_im_in_i$. The algebra homomorphism $\rho_0\colon\prod M_{n_i}(k)\to M_d(k)$
+sending $(x_i)$ to the block diagonal matrix with $m_i$ copies of each $x_i$ has $\galredtr\rho_0(x)=\sum m_i\galredtr x_i$.
+The composite $\rho\colon k[\Gamma]\to R\cong\prod M_{n_i}(k)\to M_d(k)$ satisfies $\galredtr\rho=T'$, and its restriction
+to $\Gamma$ is a representation $r\colon\Gamma\to\GL_d(k)$ with $\galredtr r=T$. The image of $\rho$ is a quotient of the
+semisimple algebra $R$, hence semisimple, so $k^d$ is a semisimple module over it; as the $r(\Gamma)$-stable subspaces are
+the submodules for this image, $r$ is semisimple.
+\end{proof}
+
+\begin{theorem}\label{pf:galred:limrep}
+Let $\Gamma$ be a compact group, $x\colon J\to\Gamma$ a map with dense image, $L\subset\Qlbar$ a finite extension of $\Ql$,
+$\theta\colon J\to L$, and $\mathcal C$ a set of continuous representations $\Gamma\to\GL_a(\Qlbar)$ such that $\theta$ is
+polynomially approximable by the functions $j\mapsto\galredtr\rho(x_j)$, $\rho\in\mathcal C$. Then there is a continuous
+semisimple $r\colon\Gamma\to\GL_a(\Qlbar)$ with $\galredtr r(x_j)=\theta_j$ for all $j$ such that $\galredtr r$ is polynomially
+approximable by $\{\galredtr\rho:\rho\in\mathcal C\}$.
+\formallabel{GlobalTheory.Cong.exists_limit_rep}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1.} For $\varepsilon>0$ and $g\in\Gamma$ there is a neighbourhood $V$ of $g$ with $|\theta_i-\theta_j|\le\varepsilon$
+whenever $x_i,x_j\in V$. Indeed, take $\rho_1,\dots,\rho_s\in\mathcal C$ and $c_1,\dots,c_s$ approximating $\theta$ with error
+$\varepsilon$, apply this to the polynomial $X_i-X_j$, and choose $V$ such that the continuous function $h\mapsto\sum_k
+c_k\galredtr\rho_k(h)$ varies by at most $\varepsilon$ on $V$; then use the ultrametric inequality.
+
+\emph{Step 2.} There is a continuous $T\colon\Gamma\to L$ with $T(x_j)=\theta_j$: by Step 1 the values $\theta_j$, for $x_j$
+in the neighbourhoods of $g$, form a Cauchy filter, which converges in the complete field $L$; let $T(g)$ be the limit.
+Step 1 at $g=x_j$ gives $T(x_j)=\theta_j$, and for $V$ as in Step 1 and $h\in V$ (open), $|T(h)-T(g)|\le\varepsilon$.
+
+\emph{Step 3.} $T$ is polynomially approximable by $\{\galredtr\rho\}$, with the same $\rho_k,c_k$ as for $\theta$ and the same
+error. Let $P$ be an integral polynomial in the variables $X_{h_1},\dots,X_{h_m}$, $h_i\in\Gamma$. The function
+$F(y)=P(T(y_1),\dots,T(y_m))-\sum_kc_kP(\galredtr\rho_k(y_1),\dots,\galredtr\rho_k(y_m))$ on $\Gamma^m$ is continuous; at points
+$y=(x_{j_1},\dots,x_{j_m})$, which are dense, it is the corresponding expression for $\theta$ and the polynomial obtained by
+renaming the variables, so $|F(y)|\le\varepsilon$ there and hence everywhere.
+
+\emph{Step 4.} $T$ is a pseudo-character of dimension $a$: each defining identity has the form $Q(T)=0$ for an integral
+polynomial $Q$ in finitely many values with $Q(\galredtr\rho)=0$ for every $a$-dimensional $\rho$; by Step 3,
+$|Q(T)|=|Q(T)-\sum_kc_kQ(\galredtr\rho_k)|\le\varepsilon$ for every $\varepsilon$.
+
+\emph{Step 5.} By \cref{pf:galred:ssrep} there is a semisimple $r$ with $\galredtr r=T$. It is continuous. Let
+$R\subset M_a(\Qlbar)$ be the span of $r(\Gamma)$; as $\Qlbar^a$ is a faithful semisimple $R$-module, $R$ is semisimple, and
+the trace form of $R$ is nondegenerate (the $x$ with $\galredtr(xy)=0$ for all $y\in R$ form an ideal of nilpotent elements,
+since $\galredtr(x^m)=0$ for $m\ge1$ in characteristic $0$). Choose $g_1,\dots,g_m$ with $r(g_i)$ a basis of $R$ and the dual
+basis $y_i=\sum_la_{il}r(g_l)$; then $r(g)=\sum_i\galredtr(r(g)y_i)r(g_i)$ and $\galredtr(r(g)y_i)=\sum_la_{il}T(gg_l)$ is
+continuous in $g$. Finally $\galredtr r(x_j)=T(x_j)=\theta_j$, and Step 3 is the last assertion.
+\end{proof}
+
+\subsubsection{Closedness at \texorpdfstring{$\ell$}{l}}
+
+Let $A$ be a place of $\Omega$ above a finite place $w$ of a number field $E$, with a frame at $A$; let $K$ be the finite
+extension of $\Ql$ and $D_A\cong G_K$ the identification given by the frame, and $L_0\subset\Qlbar$ a finite extension
+containing all conjugates of $K$. For a continuous $\rho\colon G_E\to\GL_a(\Qlbar)$ a \emph{model} over a finite extension
+$L\supset L_0$ is a representation on $L^a$ with the same matrices. A \emph{cover} of a continuous semisimple $r$ by a set
+$\mathcal C$ of continuous representations consists of: a continuous $\rho\colon G_E\to\GL_{d}(\Zl)$ and $b_1,\dots,b_d\in
+M_a(\Qlbar)$, $e\in\Zl^d$ with $r(g)b_j=\sum_i\rho(g)_{ij}b_i$ and $\sum_ie_ib_i=1$ (a lattice in the $\Ql$-span of $r(G_E)$
+under left multiplication); for every $n$ a continuous $\rho'_n\colon G_E\to\GL_{d'_n}(\Zl)$ with a map $\Pi_n$ from $\rho'_n$ to
+$\rho$ which is equivariant and surjective modulo $\ell^n$, compatible in $n$; and for every $n$ finitely many members
+$\rho_{n,1},\dots,\rho_{n,m}$ of $\mathcal C$ such that $\rho'_n$ is a lattice, in the same sense, for $\bigoplus_k\rho_{n,k}$,
+together with coefficients $c_{n,k}$ approximating the traces read through $\Pi_n$ up to $\ell^{-n}$.
+
+\begin{theorem}[Closedness at $\ell$]\label{pf:galred:closedAtL}
+Let $r\colon G_E\to\GL_a(\Qlbar)$, $a\ge1$, be continuous and semisimple, $A$ a place above $w$ with a frame at $A$, $J(\tau)$
+a multiset of integers for every embedding $\tau\colon E\to\Qlbar$, and $\mathcal C$ a set of continuous representations
+which are semistable at the frame with $\tau$-Hodge--Tate multiset $J(\tau)$ for every $\tau$ induced by the frame, such that
+$r$ is linearly approximable by $\mathcal C$. Then $r$ is de Rham at the frame with $\tau$-Hodge--Tate multiset $J(\tau)$ for
+every induced $\tau$, and if every member of $\mathcal C$ is crystalline at the frame, so is $r$.
+\formallabel{GlobalTheory.LimitTop.closedAtL}
+\end{theorem}
+
+\begin{proof}
+We use:
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{GlobalTheory.TraceConjugationCover.cover_exists}) A continuous semisimple representation of a compact group
+  which is linearly approximable by a set of continuous representations has a cover by it.
+\item (\lref{GlobalTheory.SstModel.main} and \lref{GlobalTheory.Pst.IsJumpsAt.count_eq}) Semistability of $\rho|_{D_A}$ and its
+  Hodge--Tate multiplicities may be computed on any model, through $D_A\cong G_K$.
+\item (\lref{GlobalTheory.CovClose.closed_of_cover}) Let $r'$ be a continuous representation of $G_K$ with a cover by a set
+  of representations all of whose models over extensions of $L_0$ are semistable with Hodge--Tate multiplicities given by
+  $J$. Then every model of $r'$ is de Rham with these Hodge--Tate multiplicities, and it is crystalline if all models of the
+  members of the set are. (It is proved with Breuil--Kisin modules, using frames of height bounded in terms of $J$,
+  uniformly in $n$, for the lattice representations of the cover; compare \cite{Berger2004,Kisin2008}.)
+\item (\lref{GlobalTheory.CompactRepField.exists_finExt_entries_mem} and \lref{GlobalTheory.DeRhamRead.exists_model_of_mem}) A
+  continuous representation of a compact group into $\GL_a(\Qlbar)$ has its entries in a finite extension $L$ of $\Ql$,
+  which may be taken to contain any given finite extension, and then has a model over $L$.
+\end{enumerate}
+By (i), $r$ has a cover by $\mathcal C$; restricting along the continuous embedding $G_K\cong D_A\subset G_E$ gives a cover
+of $r|_{D_A}$ by the restrictions of the members of $\mathcal C$. By (ii) the hypothesis of (iii) holds, with $J$ transported
+to the embeddings of $K$ through the frame. Take a model $r_1$ of $r$ over a finite extension $L\supset L_0$ by (iv),
+containing a given finite extension $L'$; by (iii), $r_1|_{D_A}$ is de Rham with the Hodge--Tate multiplicities given by
+$J$, and crystalline if all members of $\mathcal C$ are crystalline. An embedding $\tau$ induced by the frame comes from an
+embedding of $K$ into some such $L'$, so the $\tau$-Hodge--Tate multiset of $r$ is $J(\tau)$.
+\end{proof}
+
+For $g\in W_A$ and a representation $\rho$ of $G_E$ put $t_g(\rho)=\iota^{-1}\galredtr(g\mid\galredWD(\rho|_{D_A}))$, the
+image under $\iota^{-1}$ of minus the subleading coefficient of $P_{\galredWD(\rho|_{D_A})}(g)$.
+
+\begin{theorem}\label{pf:galred:closedtr}
+In the situation of \cref{pf:galred:closedAtL}, assume that the members of $\mathcal C$ are semistable and crystalline at
+the frame with $\tau$-Hodge--Tate multisets $J(\tau)$, and let $g\in W_A$ and $\theta\in\Qlbar$ be such that $r$ and
+$\theta$ are jointly approximated by $\mathcal C$ and $t_g$: for every $\varepsilon>0$ there are finitely many
+$\rho\in\mathcal C$ and $c_\rho$ with $|\galredtr r(h)-\sum c_\rho\galredtr\rho(h)|\le\varepsilon$ for all $h\in G_E$ and
+$|\theta-\sum c_\rho t_g(\rho)|\le\varepsilon$. Then $t_g(r)=\theta$.
+\formallabel{UpperTheory.Gal.ClosedPhiFromClosedTrace.ClosedTr_holds}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:galred:closedAtL} (joint approximation implies linear approximation), $r$ is crystalline at the frame with
+$\tau$-Hodge--Tate multisets $J(\tau)$. Let $\alpha(g)\in\Z$ be such that $g$ acts on the maximal unramified extension of
+$\Ql$ as the $\alpha(g)$-th power of the arithmetic Frobenius, $n_1=\max(-\alpha(g),0)$ and $n_2=\max(\alpha(g),0)$. We use:
+\begin{enumerate}[label=(\roman*),nosep]
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.coverJ_holds}) There is a cover of $r$ by $\mathcal C$ whose
+  coefficients also approximate $\theta$: $|\theta-\sum_kc_{n,k}t_g(\rho_{n,k})|\le\ell^{-n}$ for all $n$.
+\item (\lref{GlobalTheory.BSP.nonempty_bk_of_finExt} and \lref{GlobalTheory.BSP.exists_isPer}) $K$ has Breuil--Kisin data (a
+  Breuil--Kisin ring with an Eisenstein element and its map to $A_{\inf}$) and an associated period.
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.frEx_holds}) If the members of $\mathcal C$ are semistable with
+  multiplicities $J$ and crystalline, then there are $N$ and crystalline Breuil--Kisin frames of height at most $N$ for the
+  lattice representations $\rho'_m$ of the cover and for $\rho$, which are linked: for every $n'$ there is $m\ge n'$ such that
+  $\Pi_m$ relates the frames of $\rho'_m$ and $\rho$ modulo $\ell^{n'}$, up to a fixed power of $\ell$.
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.fixOf_holds}) The $|\alpha(g)|$-th power of the Frobenius fixes the
+  maximal unramified subfield of $K$.
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.opEx_holds}) From (iii) and (iv): there are $s\in A_{\mathrm{cris}}$,
+  invertible in $B_{\mathrm{cris}}$, and matrices $V$, $V'_m$ over $A_{\mathrm{cris}}$ such that $V\varphi^{n_2}(\Lambda)=s
+  \varphi^{n_1}(\Lambda)$ for a matrix $\Lambda$ of crystalline periods of $\rho$, similarly for $V'_m$ and $\rho'_m$, and for
+  every $M$ there is $m\ge M$ with $V\Pi_m\equiv\Pi_mV'_m\pmod{\ell^M}$.
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.tie_holds}) For a representation $r'$ crystalline at the frame,
+  read through a lattice representation as in a cover, and $(s,V)$ as in (v), the vector $V\cdot e$ and the traces of the
+  $b_i$ determine $t_g(r')$: $\sum_i(Ve)_i\,\lambda(\galredtr b_i)=s\,\lambda(t_g(r'))$ for every linear map $\lambda$ from
+  $\Qlbar$ to the maximal unramified extension of $\Ql$. This applies to $r$ and to every $\rho_{m,k}$.
+\item (\lref{UpperTheory.Gal.ClosedPhiFromClosedTrace.trLim_holds}) The identities of (vi) for $r$ and for the
+  $\rho_{m,k}$, the congruences of (v) and the approximations of (i) imply $t_g(r)=\theta$.
+\end{enumerate}
+Take the cover by (i), restrict it to $D_A\cong G_K$, take the data of (ii)--(v), and conclude by (vi) and (vii).
+\end{proof}
+
+\subsubsection{Data for the two theta lifts}
+
+We use the notation of \cref{def:galois:tliftk,pf:galred:twoupdef}. For an algebraic Hecke character $\psi$ of $E$ we write
+$\psi(\varpi_w)$ for its value at a uniformizer at a place $w$ where it is unramified, and its \emph{infinity type} is the
+function $p$ on embeddings $\tau\colon E\to\C$ with $\psi_\infty(x)=\prod_\tau\tau(x)^{p(\tau)}$ on the units in question.
+Fix a CM type $(\tau_v)_{v\mid\infty}$ of $E$; the archimedean exponent of a unitary Hecke character is taken with respect
+to it.
+
+\begin{proposition}\label{pf:galred:basedata}
+Let $E$ be a CM field with $E/E^+$ unramified at all finite places and $\sfname{InertOK}(E)$. There are a CM type, a
+standard additive character $\psi_0$ of $\A_{E^+}/E^+$, an element $\delta\in E$ with $\bar\delta=-\delta$ and a fractional
+ideal $\mathfrak a$ of $E$ such that: every place of $E^+$ inert in $E$ is prime to $2$, has norm $>3$, and $\psi_0$ is
+unramified at it; for every $n$ the hermitian space $(E^n,\sum_ix_i\bar y_i)$ has a self-dual lattice; and for every $d$
+the skew-hermitian space $(E^d,\delta\sum_ix_i\bar y_i)$ is definite at the CM type and $\mathfrak a^d$ is a self-dual
+lattice in it. These are the base data required by $\sfname{TLiftK}$.
+\formallabel{UpperTheory.Gal.TP.Sub.baseNG}
+\end{proposition}
+
+\begin{proof}
+By \lref{UpperTheory.Gal.TP.Skew.skewLine_holds}, applied to the CM extension $E/E^+$, which is unramified at all
+finite places, there are a CM type, a standard additive character $\psi_0$ (with empty set of exceptional places), $\delta$
+and $\mathfrak a$ such that $\bar\delta=-\delta$, $\delta$ is positive for the CM type, the standard hermitian spaces have
+self-dual lattices, and the skew-hermitian spaces $(E^d,\delta\sum x_i\bar y_i)$ have the self-dual lattices
+$\mathfrak a^d$. Let $v$ be a place of $E^+$ inert in $E$. By $\sfname{InertOK}(E)$, $v$ is prime to $2$, has norm $>3$ and
+is prime to the different of $E^+$, and a standard additive character is unramified at the places prime to the different
+(\lref{PositivityTheory.Mix.psiUnr_of_not_le}).
+\end{proof}
+
+\begin{proposition}\label{pf:galred:chrpairs}
+Let $E$ be a CM field with $E/E^+$ unramified at all finite places, $n$ even, $t$ odd, $(\tau_v)$ a CM type, $b\in\Z$ and
+$w_0$ a split place. There are an algebraic Hecke character $\kappa$ of $E$ with infinity type $m$ and, for $k=1,2$, unitary
+Hecke characters $\chi^{(k)}_X,\chi^{(k)}_W$ of $E$ with $\chi^{(k)}_X|_{\A_{E^+}^\times}=\eta^n$,
+$\chi^{(k)}_W|_{\A_{E^+}^\times}=\eta^{n+t}$ and archimedean exponents $m^{(k)}_X,m^{(k)}_W$ with $m^{(k)}_W(v)\le b$ for all
+$v$, and algebraic Hecke characters $\psi^{(k)}_0,\dots,\psi^{(k)}_{t-1}$ with infinity types $p^{(k)}_i$, such that
+$\psi^{(1)}_i\ne\psi^{(2)}_j$ for all $i,j$, $\kappa$ and the $\psi^{(1)}_i$ are unramified at $w_0$, and for each $k$ the
+following \emph{dictionary} holds (we omit the index $k$): for every $v\mid\infty$ and $0\le i<t$,
+\begin{gather*}
+  2m(\tau_v)=m_W(v)-m_X(v)+t,\qquad 2m(\bar\tau_v)=m_X(v)-m_W(v)+t,\\
+  2p_i(\tau_v)=m_X(v)+2i-(n+2t-2),\qquad 2p_i(\bar\tau_v)=-m_X(v)+2i-(n+2t-2),
+\end{gather*}
+and at every finite place $w$ where $\kappa$ and all $\psi_i$ are unramified, $\chi_X$ and $\chi_W$ are unramified and
+\[
+  \kappa(\varpi_w)=\chi_W(\varpi_w)\chi_X(\varpi_w)^{-1}q_w^{-t/2},\qquad
+  \psi_i(\varpi_w)=\chi_X(\varpi_w)\,q_w^{(n+2t-2)/2-i}.
+\]
+\formallabel{UpperTheory.Gal.TP.Chr.chrPairs_holds}
+\end{proposition}
+
+\begin{proof}
+By \lref{UpperTheory.Gal.TP.Chr.chrEx_holds}, applied with all exponents equal to $-1$, there are a unitary character
+$\chi$ of $\A_E^\times/E^\times$, unramified at $w_0$, and algebraic Hecke characters $\psi(k,s)$ ($k\in\N$, $s\in\Z$) such
+that: for every $k$, $\chi^k$ is a Hecke character with archimedean exponent $-k$ at every $v$ whose restriction to
+$\A_{E^+}^\times$ is $\eta^j$ for every $j\equiv k\pmod2$; $\psi(k,s)$ is unramified exactly where $\chi^k$ is, with
+$\psi(k,s)(\varpi_w)=\chi(\varpi_w)^kq_w^{-s/2}$; for $k+s$ even, $\psi(k,s)$ has infinity type $(s-k)/2$ at $\tau_v$ and
+$(s+k)/2$ at $\bar\tau_v$; and $\psi(k,s)=\psi(k',s')$ implies $k=k'$.
+
+Choose an odd $K\ge1$ with $-K\le b$, and for $k=1,2$ put $j=k-1$, $s_i=2i-(n+2t-2)$ and
+\begin{gather*}
+  \kappa=\psi(K,t),\qquad\chi^{(k)}_X=\chi^{2j},\qquad\chi^{(k)}_W=\chi^{K+2j},\\
+  m^{(k)}_X=-2j,\qquad m^{(k)}_W=-(K+2j),\qquad\psi^{(k)}_i=\psi(2j,s_i).
+\end{gather*}
+As $K+t$ is even, $\kappa$ is algebraic with $2m(\tau_v)=t-K=m_W-m_X+t$ and $2m(\bar\tau_v)=t+K=m_X-m_W+t$. As $2j\equiv n$ and
+$K+2j\equiv n+t\pmod2$, the restrictions are $\eta^n$ and $\eta^{n+t}$, and $m_W\le-K\le b$. As $s_i$ is even,
+$\psi^{(k)}_i$ is algebraic with $2p_i(\tau_v)=s_i-2j=m_X+2i-(n+2t-2)$ and $2p_i(\bar\tau_v)=s_i+2j=-m_X+2i-(n+2t-2)$. If
+$\kappa$ and $\psi_0$ are unramified at $w$, then so are $\chi^K$ and $\chi^{2j}$, hence $\chi_X$ and $\chi_W$, and
+$\kappa(\varpi_w)=\chi(\varpi_w)^Kq_w^{-t/2}=\chi_W(\varpi_w)\chi_X(\varpi_w)^{-1}q_w^{-t/2}$,
+$\psi_i(\varpi_w)=\chi(\varpi_w)^{2j}q_w^{-s_i/2}=\chi_X(\varpi_w)q_w^{(n+2t-2)/2-i}$. The $\psi^{(1)}_i=\psi(0,s_i)$ differ
+from the $\psi^{(2)}_{i'}=\psi(2,s_{i'})$. Since $\chi$ is unramified at $w_0$, so are $\chi^K$ and $\chi^0$, hence $\kappa$
+and the $\psi^{(1)}_i$.
+\end{proof}
+
+\begin{proposition}\label{pf:galred:upof}
+Let $E$ be a CM field with base data as in \cref{pf:galred:basedata}, $1\le n<t$, $\chi_X,\chi_W$ unitary Hecke characters
+with archimedean exponents $m_X,m_W$, $U$ automorphic on $\galredU_n$ with weights $\lambda_\tau$, and $U'$ automorphic on
+$\galredU_{n+t}$ satisfying (i) and (ii) of \cref{def:galois:tliftk} with $d=n+t$. Let $\kappa,m,\psi_i,p_i$ satisfy the
+dictionary of \cref{pf:galred:chrpairs} with $\chi_X,\chi_W,m_X,m_W$. Then $U'$ is a lift of $U$ of size $t$ with twist
+$\kappa$ and auxiliary characters $(\psi_i)$ in the sense of \cref{pf:galred:twoupdef}.
+\formallabel{UpperTheory.Gal.TP.Sub.upOf}
+\end{proposition}
+
+\begin{proof}
+\emph{Weights.} Every embedding $E\to\C$ is $\tau_v$ or $\bar\tau_v$ for a unique $v$, and these are distinct. For a
+dominant $\mu\in\Z^a$ let $\mu^\vee_k=-\mu_{a-1-k}$; then $J_{\mu^\vee}=(a-1)-J_\mu$. Let $\lambda'_v$ be the weight of $U'$
+at $\tau_v$ given by (i), and put $\lambda'_{\tau_v}=\lambda'_v$, $\lambda'_{\bar\tau_v}=(\lambda'_v)^\vee$. The weights of an
+automorphic representation of a definite unitary group at conjugate embeddings are dual to each other
+(\lref{GlobalTheory.DefiniteBC.hasWeightAt_conjugate}) and unique (\lref{GlobalTheory.DefU.hasWeightAt_unique});
+so $U'$ has weight $\lambda'_\tau$ at every $\tau$, and $\lambda_{\bar\tau_v}=\lambda_{\tau_v}^\vee$. Let $\lambda=\lambda_{\tau_v}$,
+$\lambda'=\lambda'_v$. By (i), for $k<n$, $k-\lambda'_k=(k-\lambda_k)+(t+m_W-m_X)/2=(k-\lambda_k)+m(\tau_v)$, and for
+$k=n+t-1-i$, $0\le i<t$, $k-\lambda'_k=n+t-1-i-(n+m_X)/2=-p_i(\tau_v)$. So
+$J_{\lambda'}=(J_\lambda+m(\tau_v))\cup\{-p_i(\tau_v)\}$. Then
+$J_{\lambda'^\vee}=(n+t-1)-J_{\lambda'}=(J_{\lambda^\vee}+t-m(\tau_v))\cup\{n+t-1+p_i(\tau_v)\}$, and by the dictionary
+$t-m(\tau_v)=m(\bar\tau_v)$ and $n+t-1+p_i(\tau_v)=-p_{t-1-i}(\bar\tau_v)$; this is the identity at $\bar\tau_v$.
+
+\emph{Satake parameters.} Let $w$ be split, with $\kappa$ and the $\psi_i$ unramified at $w$, and $U$ spherical at $w$ with
+Satake parameter $B$; write $q=q_w$, $x=\chi_X(\varpi_w)$, $y=\chi_W(\varpi_w)$. By the dictionary $\chi_X,\chi_W$ are
+unramified at $w$. By the explicit type II correspondence for unramified representations
+(\lref{UpperTheory.Gal.TP.Loc.liftSatU_holds}; here $2n<n+t$), $U'$ is spherical at $w$ with Satake parameter
+$B'=\{bxy^{-1}:b\in B\}\cup\{xq^{(t-1)/2-i}:0\le i<t\}$. Multiplying by $q^{(n+t-1)/2}$,
+\[
+  B'^{(n+t)}_w=\{b'\,q^{t/2}xy^{-1}:b'\in B^{(n)}_w\}\cup\{xq^{(n+2t-2)/2-i}\}_i
+  =\{b'\kappa(\varpi_w)^{-1}:b'\in B^{(n)}_w\}\cup\{\psi_i(\varpi_w)\}_i
+\]
+by the dictionary. The $\psi_i$ are algebraic of infinity type $p_i$, so $U'$ is a lift as claimed.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:galred:remarks}
+
+\begin{remark}\label{pf:galred:rem}
+\begin{enumerate}[label=(\alph*),nosep]
+\item The statement proved is $\sfname{Row0}(\mathrm{recT})$, which is stronger than $\sfname{Row0b}(\mathrm{recT})$ in the
+  tame clause: compatibility on inertia holds at all places $w$ with $E_w\cong\Q_g$, without the condition $g>16a^2$. The
+  condition of $\sfname{Row0b}$ is not used.
+\item In the formal statements the hypothesis ``$\sfname{GeoOne}$'' enters only through $\sfname{SeedFinOdd}$, and in the proof of
+  $\sfname{SeedFinOdd}$ the auxiliary set $Z_0$ of places of genericity is empty: the seeds need not be generic at auxiliary
+  places, genericity is required only at the places where exact Frobenius compatibility is claimed.
+\item The clauses (dR), (crys) and (phi) are quantified over frames; frames inducing a place $A$ exist only above $\ell$, so these
+  clauses are vacuous at places prime to $\ell$ (as intended), and (unr) is vacuous above $\ell$.
+\item $\galredWD_\iota(r|_{W_A})$ and $\galredWD(r|_{D_A})$ have default values (the trivial representation of dimension $a$,
+  resp.\ the trivial class) when the corresponding construction does not apply; the dimension clause of $\sfname{Away}$ holds for
+  the default value as well.
+\item The definition of a polarized pair requires a nondegenerate invariant pairing between $\pi\otimes\psi^{-1}$ and $\pi$ with
+  respect to complex conjugation; the proof of \cref{pf:galred:isweight} uses only the resulting relation between infinitesimal
+  characters.
+\end{enumerate}
+\end{remark}

@@ -1,0 +1,2010 @@
+\section{Member bundles with large unramified exponents}\label{sec:pf:bundles}
+
+\providecommand{\bundK}{\mathcal K}
+\providecommand{\bundS}{\mathcal S}
+\providecommand{\bundp}{\mathfrak p}
+\providecommand{\bundc}{\mathfrak c}
+\providecommand{\bundw}{\mathfrak w}
+\providecommand{\bundt}{\mathbf t}
+
+% ---------------------------------------------------------------------------
+\subsection{Introduction}\label{pf:bundles:intro}
+
+This section proves \cref{thm:member-bundles} and \cref{prop:families:mass}. The theorem has three conclusions:
+the Siegel mass ratio for standard hermitian lattices, the member-existence statement $\sfname{MemberE}$ and the
+bundle-existence statement $\sfname{ExBL}$ for the parameter $\bundp_A$ obtained from the origin extension by adjoining an
+at-property $A$. All objects are records of the formal development \cite{LeanSource2026}; \cref{pf:bundles:framework}
+recalls them, unfolded as far as the proofs of this section need, and introduces short notation for them.
+
+\paragraph{Structure of the proof.}
+The proof is an assembly. From the first bundle $P$ of classical results of \cref{sec:families:theta} and from
+$\sfname{RowRat}$ one forms three \emph{hypothesis packages} (\cref{pf:bundles:packages}); one component of the first
+package is the mass ratio, which is a theorem (\cref{pf:bundles:mass}). Four inputs are then supplied to a member-existence
+theorem proved elsewhere (\lref{GlobalTheory.Mem.Top.Bl.exists_baseLattice_of_prime_alt}):
+\begin{enumerate}[label=(\roman*)]
+\item the packages;
+\item the existence, eventually and for large twisting data, of \emph{unlocalised saturated states} at every starting
+column witness (\cref{pf:bundles:saturated});
+\item the \emph{multiplicity condition}: equality of cuspidal multiplicities of the definite group $\Uni(Y_0)$ and of the
+groups $\Uni(W_i)$ at every weighted point (\cref{pf:bundles:multcond});
+\item the elliptic and local Langlands packages, obtained elsewhere from two components of $P$
+(\lref{GlobalTheory.T.hyps_e_third_layer_ser_n_of_geometric_galois}).
+\end{enumerate}
+The member-existence statement so obtained concerns the origin extension; it is transported to the extension by the
+at-property $A$ by a logical argument (\cref{pf:bundles:atprop}). The bundle statement is proved directly for the enriched
+parameter (\cref{pf:bundles:exbl}): at every good point a bundle of every size is assembled from a reciprocity record
+compatible with the weighted point, the zeta constants of the point and a selected realisation.
+
+\paragraph{Mathematical content.}
+Most of the part of the formal proof treated here consists of constructions of large records (stages, pre-data, states,
+levels) and of transport lemmas between them. Its analytic core is a \emph{Rallis inner product formula along twisted
+theta chains} (\cref{pf:bundles:chains}): along the chain of theta lifts $\Uni(Y_0)\to\Uni(Y_1)\to\dots\to\Uni(X')$ between
+definite unitary groups, the Petersson norm of the lift of an eigenform equals its norm times a positive constant times a
+partial twisted standard $L$-value at the point $(1+t)/2$, the constants being independent of the eigenform and of the
+twisting characters. It enters the member construction through the lower unitary case of the construction of states.
+
+\paragraph{Organisation.}
+\Cref{pf:bundles:framework} recalls the framework (eventual quantifiers, twisting data, cores and slots, member
+existence, bundles). \Cref{pf:bundles:mass} proves the mass ratio, \cref{pf:bundles:packages} builds the hypothesis
+packages, \cref{pf:bundles:transfer} proves the transfer lemmas (at-properties, movement of positions, multiplicity
+condition), \cref{pf:bundles:exbl} the existence of linked bundles and \cref{pf:bundles:saturated} the existence of
+unlocalised saturated states. \Cref{pf:bundles:chains} treats the inner product formula along theta chains, and
+\cref{pf:bundles:proofmain} assembles the proof of \cref{thm:member-bundles}.
+
+\paragraph{Scope.}
+The part of the formal proof treated here comprises about $106\,000$ lines besides the member-existence theorem cited above.
+We give complete proofs of the assembly, of the transfer lemmas, of the reductions of the bundle statement and
+of the existence of saturated states to their inputs, and of the inner product formula along theta chains from its step
+statements. We also prove the principal constructions used as inputs: fine real data and their extension to larger
+coefficient fields, the weight case, saturation and starting choices (\cref{pf:bundles:saturated}), the computations at the
+twisted places of the theta chains (\cref{pf:bundles:twisted}), and columns, spectral data and realisations at weighted points
+(\cref{pf:bundles:exbl}). The deeper constructions on which these rest are cited with their statements.
+
+% ---------------------------------------------------------------------------
+\subsection{The membership framework}\label{pf:bundles:framework}
+
+The data types of this part of the development are records with many components. We name the components that the proofs
+below manipulate and describe the others by their role; the logical structure (order of quantifiers, thresholds,
+exceptional sets) is reproduced exactly.
+
+\paragraph{Scale contexts and eventual quantifiers.}
+A \emph{scale context} $\bundK$ consists of a scale $s=(x,\eps,J)$ with $x>1$, $0<\eps<1/52$, $J\ge1$, a standard record $C$
+of family constants, two reals $c_D,c_h$, a pre-character datum (ranks, host, words and level primes), integer data, a sign
+pattern, a level datum and compatibility conditions between them; we write $x(\bundK)$ and $\eps(\bundK)$. A pre-base (see
+below) \emph{lies under} $\bundK$ if it is obtained from the pre-character datum and the level datum of $\bundK$ for some
+choice of hermitian spaces with diagonal Gram matrices. For reals $C_5,c_6,C_b$ the context is \emph{$(C_5,c_6,C_b)$-good} if
+a fixed list of inequalities between its numerical data holds.
+
+\begin{definition}[Eventual quantifiers]\label{pf:bundles:def:ev}
+Let $p$ be a predicate on scale contexts.
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{Ev}(p)$ (``$p$ holds eventually'') means: there is $\eps_0>0$ such that for all $\eps$ with $0<\eps\le\eps_0$,
+$\eps<1/52$, and all $C_8\ge1$ there is a transported threshold $K_0$ such that for every standard constant record $C$ whose
+constant $C_{\mathrm{pde}}$ equals $C_8$ and which is large with respect to $K_0$ there is $c_1$ such that for all $c_D\ge c_1$
+there is $c_2$ such that for all $c_h\ge c_2$ there is $x_0$ with $p(\bundK)$ for all contexts $\bundK$ with constants
+$(C,c_D,c_h)$, $\eps(\bundK)=\eps$ and $x(\bundK)\ge x_0$.
+\item $\mathrm{Ev}^{\mathrm g}(p)$ is defined in the same way, with three further reals $C_5,c_6,C_b$ quantified universally
+together with $C_8$ and with the further premise that $\bundK$ is $(C_5,c_6,C_b)$-good.
+\item For a predicate $p(\kappa,\bundK)$ on parameter tuples $\kappa=(\eps,C,c_D,c_h,C_5,c_6,C_b)$ and contexts,
+$\mathrm{Ev}^{\mathrm p}(p)$ has the quantifier prefix of $\mathrm{Ev}^{\mathrm g}$ up to $c_h$, followed by: if
+$C_5,c_6,C_b>0$, there is $x_0$ such that $p(\kappa,\bundK)$ holds for all $(C_5,c_6,C_b)$-good contexts $\bundK$ with
+constants $(C,c_D,c_h)$, exponent $\eps$ and $x(\bundK)\ge x_0$.
+\end{enumerate}
+\end{definition}
+
+\paragraph{Bases, frames and twisting data.}
+A \emph{pre-base} fixes the ranks, the host (a CM extension $E/F$ with its auxiliary primes), hermitian spaces and the words
+with their Harish-Chandra parameters and level primes. A \emph{base} $B$ over a pre-base adds a coefficient field
+$\mathit{LL}$, Galois over $\Q$, with an embedding into $\C$ and subfields $K_s\subseteq\mathit{LL}_0\subseteq\mathit{LL}$
+subject to richness conditions; we write $\mathit{LL}_\C$ and $\mathit{LL}_{0,\C}$ for the images in $\C$ of $\mathit{LL}$ and
+of the fixed coefficient field. A \emph{frame} $f$ is a Hecke-character frame of the host (characters
+$\mu_0,\eta,\chi_\Psi,\delta,\delta'$ of $E$ and auxiliary data). A base $B'$ \emph{enlarges} $B$, written $B\preceq B'$, if
+both lie over the same pre-base, the images of $K_s$ and of $\mathit{LL}_0$ in $\C$ agree, and
+$\mathit{LL}_\C\subseteq\mathit{LL}'_\C$.
+
+Twisting data are those of \cref{def:families:twist}: a twisting datum $T$ over $B$ consists of a finite set
+$T.\mathrm{pl}$ of rational primes and, for each finite place $w$ of $\mathit{LL}$ with residue characteristic $\ell_w$, a
+finite set $Q_w$ of primes of $\OO_E$ not above $\ell_w$, an exponent $k_w\in\N$ and a Hecke character $\psi_w$ of $E$ of
+order dividing $\ell_w^{k_w}$, which is a twist character for the host and is related to $(\ell_w,Q_w)$ by a fixed
+condition; $\psi_w=1$ and $k_w=0$ if $\ell_w\notin T.\mathrm{pl}$, and $\psi_w,k_w$ are invariant under conjugation of places.
+The datum is \emph{untwisted} if $Q_w=\emptyset$, $k_w=0$ and $\psi_w=1$ for all $w$; we write $T^\circ$ for the untwisted
+datum with the prime set of $T$. For a function $\mathcal A$ from $\N$ to finite subsets of $\N$, $T$ \emph{avoids}
+$\mathcal A$ if no $v\in Q_w$ has absolute norm in $\mathcal A(\ell_w)$. For a frame $f$ let $\Xi(T,f)=\{1,\delta,\delta'\}\cup\{$the
+twisted characters of $(T,f)\}$. Finally $T$ is \emph{forced} for $(\bundK,B)$ if every prime which is one of the auxiliary
+primes $g_0,g_1,d$ of the host or is at most the size $X''(n)$ of the scale of $\bundK$ lies in $T.\mathrm{pl}$.
+
+\begin{definition}[Large twisting data]\label{pf:bundles:def:large}
+Let $\bundK$ be a context and $p(B,f,T)$ a predicate on bases, frames and twisting data. $\mathrm{Lg}_\bundK(p)$ (``$p$
+holds for large twisting data at $\bundK$'') means: there are functions $S_1,S_2$ with values finite sets of algebraic
+numbers, $P_1$ with values finite sets of rational primes and $\mathcal A$ with values functions from $\N$ to finite subsets
+of $\N$, depending on the pre-base, the frame and the relevant subfields of $\C$ (and, for $S_2$, on a set of characters),
+such that $p(B,f,T)$ holds for every base $B$ whose pre-base lies under $\bundK$, every frame $f$ and every twisting datum $T$
+with $S_1\subseteq\mathit{LL}_{0,\C}$ and $S_2(\Xi(T,f))\subseteq\mathit{LL}_\C$, $P_1\subseteq T.\mathrm{pl}$, and $T$
+avoiding $\mathcal A$. Put
+\[
+\sfname{EvLgG}(p)=\mathrm{Ev}^{\mathrm g}\bigl(\bundK\mapsto\mathrm{Lg}_\bundK(p_\bundK)\bigr),\qquad
+\mathrm{Ev}\,\mathrm{Lg}(p)=\mathrm{Ev}\bigl(\bundK\mapsto\mathrm{Lg}_\bundK(p_\bundK)\bigr).
+\]
+A predicate $A(\bundK,B,f,T)$ is called an \emph{at-property}.
+\end{definition}
+
+\begin{remark}\label{pf:bundles:rem:closure}
+The quantifiers $\mathrm{Ev},\mathrm{Ev}^{\mathrm g},\mathrm{Ev}^{\mathrm p},\sfname{EvLgG}$ are monotone and closed under
+finite conjunctions, and $\mathrm{Ev}(p)$ implies $\mathrm{Ev}^{\mathrm g}(p)$ and $\mathrm{Ev}^{\mathrm p}(p)$: for a
+conjunction one takes the minimum of the two bounds $\eps_0$, the supremum of the two transported thresholds and the maxima
+of the thresholds $c_1,c_2,x_0$, and for $\mathrm{Lg}$ the unions of the exceptional sets. These routine verifications are
+used below without comment.
+\end{remark}
+
+\paragraph{Column witnesses, stages, cores and slots.}
+A \emph{column witness} $w$ for $(B,f,T)$ is a record of column input data whose frame is $f$ and whose characters range
+over $\Xi(T,f)$, together with pins, column laws, a field datum for which $K_s$ is exact, and valuation conditions. It has a
+type of \emph{levels} $Z$; each level determines a \emph{stage tuple} $X_w(Z)=(B,C,W,V,S,N,G)$ (columns, row rest, division
+stage, $S$-stage, norm stage and volume--jet stage over $B$) and hence a global datum $D_w(Z)$ of
+\cref{sec:families:theta}. A \emph{core} $\gamma$ over a stage tuple $X$ consists of the statement that the pre-base of $B$ lies
+under $\bundK$, characters, a set $W_t$ of places, the forcing condition, vanishing conditions off $W_t$, an object
+$\gamma.O$ over the datum of $X$ (with its norm choice $\gamma.O.\mathrm{nch}$, theta data $\gamma.O.\mathrm{xd}$ and column, row,
+lattice and gauge layers) and compatibility conditions. A \emph{slot} is a predicate $Q(\bundK,X,f,T,\gamma)$ on cores; for
+slots $Q,R$ we write $Q\wedge R$ for their conjunction and $Q^\exists(\bundK,B,f,T)$ for ``there are stages over $B$ and a
+core $\gamma$ over them with $Q$''. A \emph{slot family} $\bundS$ consists of four families of types of requirements (on row,
+norm-choice, spectral and object data).
+
+\begin{definition}[Built and good cores]\label{pf:bundles:def:built}
+Let $\bundS$ be a slot family, $w$ a column witness, $Z$ a level and $\gamma$ a core over $X_w(Z)$. A \emph{building} of
+$\gamma$ for $\bundS$ consists of a column pin, coherence, column data at split primes, row data, elements of the four
+requirement types of $\bundS$, kernel families, division, theta and object data, all compatible with $\gamma$.
+$\mathrm{Built}_\bundS(w,Z,\gamma)$ means that there is a building whose kernel entries satisfy the \emph{entry condition} of
+the development, and $\mathrm{Good}_\bundS(w,Z,\gamma)$ means $\mathrm{Built}_\bundS(w,Z,\gamma)$ together with the
+\emph{goodness condition} on $(\gamma.O.\mathrm{nch},\gamma.O.\mathrm{xd})$ (existence of a good twist input and pairwise
+disjointness of the twisting sets). For a predicate $P$ on $(\bundK,B,f,T,w,Z,\gamma)$ the slot $\mathrm{pos}(P)$ holds at
+$(\bundK,X,f,T,\gamma)$ if there are a column witness $w$ for $(B,f,T)$, a level $Z$ and a core $\gamma'$ over $X_w(Z)$ with
+$P(\bundK,B,f,T,w,Z,\gamma')$ such that $(X,\gamma)$ and $(X_w(Z),\gamma')$ coincide. Following \cref{def:families:rows},
+\[
+\sfname{IsBuiltE}(\bundS)=\mathrm{pos}(\mathrm{Built}_\bundS),\qquad \sfname{IsGoodE}(\bundS)=\mathrm{pos}(\mathrm{Good}_\bundS).
+\]
+\end{definition}
+
+\paragraph{Steps, passes and member existence.}
+A \emph{base predicate} is a predicate $\kappa(B,f)$. Let $\kappa_0(B,f)$ be: there is a field datum for which $K_s$ is exact
+with respect to $f$, and the pre-base of $B$ is pinned. The \emph{export condition} of a core $\gamma$ over $X$ consists of the
+good-twist and Bloch--Kato conditions at the twisted places for the assembled datum of $X$ and
+$(\gamma.O.\mathrm{nch},\gamma.O.\mathrm{xd})$.
+
+\begin{definition}[Member existence]\label{pf:bundles:def:memberE}
+Let $\kappa$ be a base predicate, $p,q,r$ at-properties and $Q,Q'$ slots.
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{Step}(\kappa,p,q)=\sfname{EvLgG}\bigl(\kappa(B,f)\wedge T\text{ forced}\wedge p(\bundK,B,f,T)\Rightarrow
+q(\bundK,B,f,T)\bigr)$.
+\item The \emph{base condition} $\mathrm{BC}(\kappa)$: $\mathrm{Ev}^{\mathrm g}$ of the statement that there are a pre-base $B_0$
+under $\bundK$ and a frame $f_0$ such that for all finite sets $S_1,S_2$ of algebraic numbers (depending on the relevant
+subfields) there is a base $B$ over $B_0$ with $\kappa(B,f_0)$, $S_1\subseteq\mathit{LL}_{0,\C}$ and $S_2\subseteq\mathit{LL}_\C$;
+and moreover $\kappa(B,f)$ implies $\kappa(B',f)$ whenever $B\preceq B'$.
+\item $\mathrm{Pass}(\kappa,Q,r)$: $\sfname{EvLgG}$ of the statement that if $\kappa(B,f)$ and $T=T^\circ$, then for every core
+$\gamma$ over $B$ in $Q$ satisfying the export condition, every function $\mathcal A$ and every function $S_2$ assigning finite
+sets of algebraic numbers to pre-bases, frames and sets of characters, there are a base $B'\succeq B$, the same frame and a
+twisting datum $T'$ over $B'$ with $T'.\mathrm{pl}=T.\mathrm{pl}$, avoiding $\mathcal A$, such that
+$S_2(B',f,\Xi(T',f))\subseteq\mathit{LL}'_\C$ and $r(\bundK,B',f,T')$.
+\item For a slot family $\bundS$, $\sfname{MemberE}(\bundS)$ is the conjunction of:
+\begin{enumerate}[label=(M\arabic*)]
+\item $\mathrm{BC}(\kappa_0)$;
+\item $\mathrm{Step}\bigl(\kappa_0,\ T=T^\circ,\ \sfname{IsBuiltE}(\bundS)^\exists\bigr)$ (first step);
+\item $\sfname{EvLgG}$ of: if $\kappa_0(B,f)$ and $T=T^\circ$, every core over $B$ in $\sfname{IsBuiltE}(\bundS)$ satisfies the
+export condition (export);
+\item $\mathrm{Pass}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS),\ (\sfname{IsBuiltE}(\bundS)\wedge\mathrm{tw}\wedge
+\sfname{IsGoodE}(\bundS))^\exists\bigr)$, where $\mathrm{tw}$ says that the norm choice of the core is twisted at all places
+(second pass).
+\end{enumerate}
+\end{enumerate}
+\end{definition}
+
+For predicates $p,q$ on $(\bundK,B,f,T,w)$ with $w$ a column witness let $[p\Rightarrow q]$ be the at-property ``$p\Rightarrow q$
+holds at every column witness $w$ for $(B,f,T)$'', and put $\mathrm{Step}_W(p,q)=\mathrm{Step}(\kappa_0,\top,[p\Rightarrow q])$. A
+witness is \emph{pinned} if it admits a column pin (a record of
+choices of places over the twisting primes, jets and roots of unity in $\mathit{LL}$), and \emph{starting} if it is pinned,
+$T$ is untwisted or the datum of $w$ is good at some level, and $(B,T)$ is coherent (places with the same valuations on
+$\mathit{LL}_0$ carry the same twisting data, and $\mathit{LL}$ contains primitive $\ell_w^{k_w}$-th roots of unity).
+
+\begin{lemma}[Composition of witness steps]\label{pf:bundles:lem:stepw}
+Let $p,q,r$ be predicates on $(\bundK,B,f,T,w)$. If $\mathrm{Step}_W(p,q)$ and $\mathrm{Step}_W(q,r)$, then $\mathrm{Step}_W(p,r)$.
+\formallabel{GlobalTheory.Mem.Top.Bl.StepW.trans}
+\end{lemma}
+
+\begin{proof}
+For a base predicate $\kappa$ and at-properties $p',q',r'$ the following rules hold: (i) $\mathrm{Step}(\kappa,p',q')$ and
+$\mathrm{Step}(\kappa,p',r')$ imply $\mathrm{Step}(\kappa,p',q'\wedge r')$; (ii) $\mathrm{Step}(\kappa,p',q')$ and
+$\mathrm{Step}(\kappa,q',r')$ imply $\mathrm{Step}(\kappa,p',r')$; (iii) if $p'\Rightarrow q'$ holds at every $(\bundK,B,f,T)$ such that the
+pre-base of $B$ lies under $\bundK$, $\kappa(B,f)$ holds and $T$ is forced, then $\mathrm{Step}(\kappa,p',q')$. In (i) and (ii) the two
+implications of the hypotheses hold simultaneously eventually and for large twisting data (\cref{pf:bundles:rem:closure}), and wherever
+both hold, the implication of the conclusion holds; in (iii) the implication holds at every context, with empty exceptional sets. Now (i)
+gives $\mathrm{Step}(\kappa_0,\top,[p\Rightarrow q]\wedge[q\Rightarrow r])$; the at-property $[p\Rightarrow q]\wedge[q\Rightarrow r]$
+implies $[p\Rightarrow r]$ everywhere, so (iii) and (ii) give $\mathrm{Step}(\kappa_0,\top,[p\Rightarrow r])=\mathrm{Step}_W(p,r)$.
+\end{proof}
+
+In the same way, $\mathrm{Step}_W(p,q)$ and $\mathrm{Step}_W(p,r)$ imply $\mathrm{Step}_W(p,q\wedge r)$, and $\mathrm{Step}_W(p,q)$ holds
+if $p\Rightarrow q$ at all witnesses. These rules are used below without comment.
+
+\paragraph{Tuple ties.}
+The columns of a stage tuple $X$ over $B$ carry a finite set of \emph{tuples}, among them $\mu_0,\mu^*,\mu^{*\prime}$ and a tuple
+$\mu^{\mathrm{tw}}_w$ for every finite place $w$ of $\mathit{LL}$; the row rest of $X$ assigns to every place $w$ a tuple $\mu_w$, and
+$\mu_{\bar w}=\mu_w$. For a frame $f$ and a twisting datum $T$ the \emph{twisted character} at $w$ is $\xi^{\mathrm{tw}}_w=\delta_{\ell_w}\psi_w$,
+where $\delta_\ell=\delta'$ if $\ell$ is the auxiliary prime $p_{\mathrm{de}}$ of the host and $\delta_\ell=\delta$ otherwise; thus
+$\Xi(T,f)=\{1,\delta,\delta'\}\cup\{\xi^{\mathrm{tw}}_w\}$. A \emph{norm choice} $n$ over the datum of $X$ assigns to every place $w$ a
+finite set $Q^n_w$ of primes of $\OO_E$. A \emph{tuple tie} for $(X,f,n)$ is a pair $(\xi,\psi)$ of an injective map $\xi$ from the
+tuples to Hecke characters of $E$ which have finite order, are tame at every place and have local components trivial on $F^\times$, and
+of characters $\psi_w$ of $E$, such that $\xi(\mu_0)=1$, $\xi(\mu^*)=\delta$, $\xi(\mu^{*\prime})=\delta'$ and
+$\xi(\mu^{\mathrm{tw}}_w)=\delta_{\ell_w}\psi_w$ for all $w$, $\psi_w$ is related to $(\ell_w,Q^n_w)$ by the condition of twisting data
+whenever $\mu_w\neq\mu_0$, and $\psi_w=1$ whenever $\mu_w=\mu_0$.
+
+\begin{lemma}[Twisted places of a tuple assignment]\label{pf:bundles:lem:tuptie}
+Let $X$ be a stage tuple over $B$, $f$ a frame, $T$ a twisting datum, $W_t$ a set of places of $\mathit{LL}$ and $\xi$ a map from the
+tuples of $X$ to Hecke characters of $E$. Assume that $\xi$ is injective with image $\Xi(T,f)$; that $\xi(\mu_0)=1$, $\xi(\mu^*)=\delta$,
+$\xi(\mu^{*\prime})=\delta'$ and $\xi(\mu^{\mathrm{tw}}_w)=\xi^{\mathrm{tw}}_w$ for all $w$; that $\mu_w=\mu^{\mathrm{tw}}_w$ for $w\in W_t$
+and $\mu_w=\mu_0$ for $w\notin W_t$; that $\ell_w\in T.\mathrm{pl}$ for $w\in W_t$; and that the characters $\psi_w$ of $T$ satisfy $\psi_w=1$
+for $w\notin W_t$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\mu_w\neq\mu_0$ if and only if $w\in W_t$;
+\item $W_t$ is finite and stable under complex conjugation;
+\item for every norm choice $n$ with $Q^n_w=Q_w$ for all $w\in W_t$, the pair $(\xi,(\psi_w)_w)$, with the characters $\psi_w$ of $T$, is
+a tuple tie for $(X,f,n)$.
+\end{enumerate}
+\formallabel{GlobalTheory.Mem.Top.TupTieW.tupTied_of_muIsW}
+\end{lemma}
+
+\begin{proof}
+The twisted characters $\xi^{\mathrm{tw}}_w$ are non-trivial, and only finitely many places of $\mathit{LL}$ have residue characteristic in
+$T.\mathrm{pl}$ (\lref{GlobalTheory.Mem.Top.TwFin.tw_fin}, which proves these finiteness and non-triviality properties of twisting data).
+
+(a) If $w\notin W_t$, then $\mu_w=\mu_0$ by hypothesis. If $w\in W_t$ and $\mu_w=\mu_0$, then $\mu^{\mathrm{tw}}_w=\mu_0$, so
+$\xi^{\mathrm{tw}}_w=\xi(\mu^{\mathrm{tw}}_w)=\xi(\mu_0)=1$, which is impossible.
+
+(b) $W_t$ is contained in the finite set of places with residue characteristic in $T.\mathrm{pl}$. If $w\in W_t$, then
+$\mu_{\bar w}=\mu_w\neq\mu_0$ by (a), so $\bar w\in W_t$ by (a).
+
+(c) The characters $1$, $\delta$, $\delta'$ and $\psi_w$ have finite order, are tame and have local components trivial on $F^\times$ (for
+$\delta,\delta'$ by the axioms of a frame, for $\psi_w$ because it is a twist character), and these properties are stable under
+products; hence every element of $\Xi(T,f)$, the image of $\xi$, has them. Injectivity and the values at $\mu_0,\mu^*,\mu^{*\prime}$ and
+$\mu^{\mathrm{tw}}_w$ hold by hypothesis, as $\xi^{\mathrm{tw}}_w=\delta_{\ell_w}\psi_w$. If $\mu_w\neq\mu_0$, then $w\in W_t$ by (a), so
+$Q^n_w=Q_w$, and $\psi_w$ is related to $(\ell_w,Q_w)$ because $T$ is a twisting datum. If $\mu_w=\mu_0$, then $w\notin W_t$ by (a), and
+$\psi_w=1$ by hypothesis.
+\end{proof}
+
+\paragraph{Parameters and norm-choice extensions.}
+A \emph{norm-choice extension} $N$ assigns to every configuration (a context, base, frame, twisting datum, column witness $w$,
+level $Z$, set $W_t$ of places, base-level row side, rows, norm choice with its data and theta data) and every norm-choice
+core over it a type of extra data. A \emph{parameter} consists of a row position, a norm-choice extension $N$, a spectral
+extension and a geometric predicate $\Gamma$; its slot family has the row requirement of the row position, the norm-choice
+requirement ``an element of $N$ exists'', the spectral requirement of the spectral extension and the object requirement of
+$\Gamma$. We write $\bundp(N,\Gamma)$ for the parameter with the fixed row position of the development, no spectral extension,
+the extension $N$ and the geometric predicate $\Gamma$, and $\bundS(N,\Gamma)$ for its slot family. The extensions used are:
+\begin{itemize}
+\item $N_{\mathrm{law}}$: the default extension together with the \emph{law} of the datum $D_w(Z)$ (if the values of the
+rational maps of the datum are rational, then so are the values of its Bessel functionals $B_u$);
+\item $N_{\mathrm{list}}(c)$, for $c\in\R$: $N_{\mathrm{law}}$ together with a list pin at $(c,b)$, where $b$ is the scale
+quantity of $\bundK$;
+\item the origin extension $N_{\mathrm{or}}(c)$, built from $h_L\in\sfname{RecTExists}$ (\cref{def:rectexists}):
+$N_{\mathrm{list}}(c)$ together with \emph{origin data}: a pre-datum $\mathcal P$ over $w$, a state $x$ of $\mathcal P$ which is
+listed for $c$, with $\mathcal P$ saturated, a strict-henselian acyclic level of $x$ whose character choice keeps the given norm
+choice, and $W_t=\mathcal P.W_t$ (pre-data and states are recalled in \cref{pf:bundles:saturated});
+\item $N\times A$, for an at-property $A$: $N$ together with a proof of $A(\bundK,B,f,T)$.
+\end{itemize}
+Let $\Gamma_{\mathrm{cl}}$ be the closure of the trivial geometric predicate. The parameter of \cref{thm:member-bundles} is
+$\bundp_A=\bundp(N_{\mathrm{or}}(c)\times A,\Gamma_{\mathrm{cl}})$. We say that $N$ \emph{yields} $N'$ if every element of $N$ at
+a configuration yields an element of $N'$ at the same configuration; $N_{\mathrm{or}}(c)$ and $N_{\mathrm{or}}(c)\times A$
+yield $N_{\mathrm{law}}$.
+
+\paragraph{Weighted points, bundles and linkage.}
+For a slot family $\bundS$ and a context $\bundK$, a \emph{witness} at $(w,Z,O)$, $O$ an object over $D_w(Z)$, records: the
+pre-base lies under $\bundK$, the forcing condition, a set $W_t$, a column pin, coherence, a volume tie, column data at split
+primes, rows, elements of the four requirement types of $\bundS$, kernel, division, theta and object data compatible with $O$,
+real ties and the goodness condition. A \emph{weighted point} $q$ is a tuple $(B,f,T,w,Z,O)$ with such a witness; we write
+$D_q=D_w(Z)$ and $O_q=O$. A \emph{bundle point} $\beta$ over $\bundK$ is a tuple of stages, frame, twisting datum and core, with a
+layer whose object is the object of the core and numerical conditions (size data at the scale of $\bundK$, weights, validity,
+goodness of $\bundK$, reciprocity and ledger conditions, use of all tuples, twisting at all places); it determines a datum
+$D_\beta$ and an object $O_\beta$, and $\beta$ \emph{lies in} a slot $Q$ if $Q$ holds at its core.
+
+\begin{definition}[Bundles and bundle existence]\label{pf:bundles:def:exbl}
+For a datum $D$, an object $O$ over $D$ and $a\in\R$, a \emph{bundle} $b\in\mathrm{Bd}(D,O,a)$ consists of a reciprocity record
+$b.R$, real spectral ties for $b.R$, a row-side family with a determination pin, a pair $(\Delta,h)\in\N^2$ with
+$D.s.\Delta=\Delta$ and $\eta$-size of $O$ equal to $mh$, square-integrable columns, and a bounded real realisation with the zeta
+scalar determined by $(\Delta,h,a)$. For a parameter $\bundp$ of slot family $\bundS$, $\sfname{BundleLinkage}(\bundp)(\bundK,\beta,a,b)$
+means: there are a weighted point $q$ for $\bundS$ and a bundle $b'\in\mathrm{Bd}(D_q,O_q,a)$ with a \emph{bundle witness} for
+$(q,b')$ such that $(D_\beta,O_\beta,b)$ and $(D_q,O_q,b')$ coincide; a bundle witness records twisted inputs, a twisted bundle,
+the compatibility of the record with $q$, the identification of the spectral ties with the saturation of $q$, and further ties
+between the realisation of the bundle and the data of $q$. For slots $Q,Q',R$, a base predicate $\kappa$ and a linkage
+$\mathrm{Lk}$:
+\begin{enumerate}[label=(\alph*)]
+\item the \emph{large-base condition} $\mathrm{LB}(\kappa,Q,R)$ is $\mathrm{Ev}\,\mathrm{Lg}$ of: if $\kappa(B,f)$, every core over
+$B$ in $Q$ lies in $R$; its variant $\mathrm{LB}^{\mathrm g}(\kappa,Q,R)$ uses $\sfname{EvLgG}$ instead;
+\item \emph{bundle existence} $\mathrm{BE}(Q,\mathrm{Lk})$ is $\mathrm{Ev}^{\mathrm p}$ of: for every bundle point $\beta$ in $Q$ and every
+$a\in\R$ there is $b\in\mathrm{Bd}(D_\beta,O_\beta,a)$ with $\mathrm{Lk}(\bundK,\beta,a,b)$;
+\item $\sfname{ExBL}(\kappa,Q,Q',\mathrm{Lk})$: there is a slot $R$ with $\mathrm{LB}(\kappa,Q,R)$ and $\mathrm{BE}(Q'\wedge R,\mathrm{Lk})$.
+\end{enumerate}
+With $\bundS_A=\bundS(N_{\mathrm{or}}(c)\times A,\Gamma_{\mathrm{cl}})$ the slot family of $\bundp_A$, the bundle statement of
+\cref{thm:member-bundles} is $\sfname{ExBL}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS_A),\sfname{IsGoodE}(\bundS_A),
+\sfname{BundleLinkage}(\bundp_A)\bigr)$, and its member statement is $\sfname{MemberE}(\bundS_A)$.
+\end{definition}
+
+\begin{definition}[Movement; equal multiplicities]\label{pf:bundles:def:mult}
+Let $\bundS$ be a slot family.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Movement of positions} $(\mathrm{Mv})$: for every witness at $(w,Z,O)$, every family $N$ of sublattices of the
+division modules and every function $h$ on words, every object $O'$ equal to the transported object $O.\mathrm{tr}(N,h)$ over the
+level $Z'=Z[N,h]$ with modified division data, every choice of column data at split primes at $Z'$ and every norm-choice datum
+$n$ at $Z'$, there are rows at $Z'$ for which the object condition holds and the four requirement types of $\bundS$ are inhabited
+at $Z'$ (with $n$).
+\item \emph{Movement of witnesses} $(\mathrm{WM})$: for every witness at $(w,Z,O)$ whose kernel satisfies the entry condition and
+all $(N,h)$ there is a witness at $(w,Z[N,h],O.\mathrm{tr}(N,h))$ whose kernel satisfies the entry condition. \emph{Witnesses at good
+bundle points} $(\mathrm{WE})$: for every bundle point $\beta$ in $\sfname{IsGoodE}(\bundS)$ there is a weighted point $q$ with
+$(D_q,O_q)=(D_\beta,O_\beta)$ whose kernel satisfies the entry condition.
+\item For real data $R$ of a datum $D$ (\cref{sec:families:theta}), \emph{equal multiplicities} $\mathrm{EM}(R)$ means: for every
+$i<m$, every discrete-series model $M_0$ at $Y_0$, every isomorphism $\Phi$ of the finite adelic groups of $\Uni(Y_0)$ and
+$\Uni(W_i)$ compatible with the level data of $R$, and every irreducible admissible representation $\sigma$ of the finite adelic
+group of $\Uni(Y_0)$ which is good for the type of $R$, the cuspidal multiplicity of $\sigma$ in $M_0$ equals that of
+$\sigma\circ\Phi^{-1}$ in the model at $W_i$ (\cref{rem:families:mult}).
+\item For a parameter $\bundp$, the \emph{multiplicity condition} $\mathrm{Mult}(\bundp)$ is $\mathrm{Ev}^{\mathrm p}$ of: $\mathrm{EM}(R_q)$
+for every weighted point $q$ for the slot family of $\bundp$, where $R_q$ is the real datum of the rows of $q$.
+\end{enumerate}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{The Siegel mass ratio}\label{pf:bundles:mass}
+
+Let $K$ be a number field with an involution $a\mapsto\bar a$ and $V$ a $K$-vector space with a sesquilinear form $h$. The
+isometry group $\Uni(h)$ consists of the $K$-linear automorphisms preserving $h$. Two $\OO_K$-lattices $L,M\subset V$ are in the
+same \emph{genus} if for every maximal ideal $\mathfrak p$ of $\OO_K$ there is $g\in\Uni(h)$ with $g(L_{(\mathfrak p)})=M_{(\mathfrak
+p)}$, where $L_{(\mathfrak p)}$ denotes the localisation. A finite set $s$ of lattices is a set of \emph{class representatives} of
+the genus of $L$ if every element of $s$ lies in the genus and every lattice of the genus is the image under $\Uni(h)$ of exactly one
+element of $s$. The \emph{mass} is
+\[
+\mathrm{mass}(h,L)=\sum_{M\in s}\frac{1}{|\{g\in\Uni(h):g(M)=M\}|}
+\]
+for such a set $s$ (chosen once and for all), and $\mathrm{mass}(h,L)=0$ if no finite set of class representatives exists. Write
+$\mathrm{mass}_M$ for the mass of the standard lattice $\OO_K^M$ with the form $h_M(x,y)=\sum_i\bar x_iy_i$.
+
+\begin{proposition}[\cref{prop:families:mass}]\label{pf:bundles:prop:mass}
+Let $K$ be a totally complex number field with an involution such that $\varphi(\bar a)=\overline{\varphi(a)}$ for every embedding
+$\varphi\colon K\to\C$ and all $a\in K$, and such that for every maximal ideal $\mathfrak P$ of $\OO_K$ there is $\theta\in\OO_K$
+with $\theta-\bar\theta\notin\mathfrak P$. Let $d$ be the number of infinite places of $K$, $v=|\mathrm{disc}\,K|^{1/(2d)}/2$ and
+$M\ge3$. Then
+\begin{equation}\label{pf:bundles:eq:mass}
+\frac{\mathrm{mass}_M}{\mathrm{mass}_{M-1}}=\frac{\bigl((M-1)!\,(v/\pi)^M\bigr)^{d}}{\sqrt{(2v)^{d}}}
+\prod_{\mathfrak P}e_M(\mathfrak P),\quad
+e_M(\mathfrak P)=\begin{cases}\bigl(1-(-1)^M\Nm\mathfrak P^{-M/2}\bigr)^{-1},&\bar{\mathfrak P}=\mathfrak P,\\
+\bigl(1-\Nm\mathfrak P^{-M}\bigr)^{-1/2},&\bar{\mathfrak P}\ne\mathfrak P,\end{cases}
+\end{equation}
+the product (an unconditional infinite product) running over the maximal ideals of $\OO_K$, and $\bar{\mathfrak P}$ denoting the
+ideal generated by the conjugates of the elements of $\mathfrak P$.
+\formallabel{GlobalTheory.Mass.massRatio_all_unramified_cmFields}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.Mass.siegelMassRatio_holds}, proved elsewhere in this part, the following holds for every field $K$ as in
+the statement and every $M\ge3$: if $h,h'$ are hermitian forms on $K$-vector spaces $V,V'$, and $L\subset V$, $L'\subset V'$ are the
+$\OO_K$-spans of $K$-bases $(e_i)_{i<M}$ of $V$, resp.\ $(e'_i)_{i<M-1}$ of $V'$, with $h(e_i,e_j)=\delta_{ij}$ and
+$h'(e'_i,e'_j)=\delta_{ij}$, then $\mathrm{mass}(h,L)/\mathrm{mass}(h',L')$ equals the right-hand side of \eqref{pf:bundles:eq:mass}.
+The standard form $h_M$ is hermitian, and the standard basis of $K^M$ is orthonormal for $h_M$ and spans $\OO_K^M$; the same holds for
+$M-1$. Applying the quoted statement to $(h_M,\OO_K^M)$ and $(h_{M-1},\OO_K^{M-1})$ gives the proposition (this specialisation is
+\lref{Formalism.MainNotions.StandardLattice.standardMassRatio_of_modelMassRatio}, which states the case of standard lattices of
+the general ratio).
+\end{proof}
+
+\begin{remark}\label{pf:bundles:rem:mass}
+(a) The hypotheses say that $K$ is a CM field whose involution is complex conjugation and that $K$ is unramified over its maximal
+totally real subfield $K^+$ at all finite primes; $d=[K^+:\Q]$. (b) In the formal statement the infinite product is the unconditional
+product of the library of the development; for $M\ge3$ the product $\prod_{\mathfrak P}e_M(\mathfrak P)$ converges absolutely. It is
+the value $L(M,\eta^M)$ of the Hecke $L$-function of the $M$-th power of the quadratic character $\eta$ of $K/K^+$, written as a
+product over the primes of $K$. (c) This is a ratio form of Siegel's mass formula for unimodular hermitian lattices
+\cite{Siegel1935,Prasad1989,GanHankeYu2001}; we have not compared the normalisations with the published ones. (d) In the proof of
+\cref{thm:member-bundles} the proposition is one of the components of the package $\mathcal H_A$ (\cref{pf:bundles:def:packages}); it is a
+theorem and does not depend on the hypotheses of that theorem. (e) In the definition of the mass, the cardinality of an infinite set is $0$ in
+the library of the development and $1/0$ is read as $0$; for the totally positive forms $h_M$ the stabilisers of lattices are finite, so this
+convention plays no role here.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Hypothesis packages}\label{pf:bundles:packages}
+
+The proof regroups the components of $P$ (the conjunction of classical results on unitary groups of \cref{sec:families:theta})
+into packages. Their components are statements of the literature, all proved in the development (\cref{sec:literature}), or
+theorems proved elsewhere in the development.
+
+\begin{definition}[Packages]\label{pf:bundles:def:packages}
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{automorphic package} $\mathcal H_A$ is the conjunction of: (A1) ray class fields; (A2) the principal ideal
+theorem; (A3) CM elliptic curves with good reduction outside a prime; (A4) Harish-Chandra modules; (A5) rapid decay of cusp forms;
+(A6) Casselman--Wallach globalisation; (A7) Weil representations of unitary dual pairs; (A8) existence of discrete series;
+(A9) Harish-Chandra finiteness; (A10) infinitesimal characters of discrete series; (A11) uniqueness of discrete series of
+$\Uni(p,q)$ with given parameter; (A12) finite-dimensionality of the row spaces; (A13) the Siegel--Weil formula in the convergent
+range, \cref{lit:families:sw}; (A14) existence of discrete series for the volume computations; (A15) a formal degree formula;
+(A16) the mass ratio \eqref{pf:bundles:eq:mass}; (A17)--(A18) for every Harish-Chandra parameter $\lambda\in\R^n$ and signs
+$\eps\in\{\pm\}^n$, existence and uniqueness up to unitary equivalence of a discrete-series representation of the group
+$\Uni(\eps)$ with parameter $\lambda$ on a Hilbert space; (A19) existence of a discrete-series representation with any given rational
+parameter for every real group datum of signature $(p,q)$; (A20) global Artin reciprocity; (A21) Weber's ray class fields.
+\item The \emph{member package} $\mathcal H_M$ is the conjunction of: Harish-Chandra's analyticity of admissible coefficients,
+the classification of discrete series, rapid decay, Harish-Chandra finiteness, the trace class property of cusp forms, the
+Dixmier--Malliavin factorisation, Flath's factorisation, Zelevinsky's polynomial ring, the geometric lemma of
+Bernstein--Zelevinsky and Green's cuspidal characters.
+\item The \emph{theta package} $\mathcal H_\Theta$ is the conjunction of: Howe's unramified statement, rapid decay,
+Harish-Chandra finiteness, Harish-Chandra modules, the discrete series cover, Casselman--Wallach, the Weil--Siegel formula for
+unitary groups, the Siegel--Weil formula for theta integrals on doubled spaces, the doubling package of
+\cref{pf:bundles:lem:dm}, the unramified doubling computation for $\GL_n$, Bernstein--Zelevinsky finiteness, Green's cuspidal
+characters, Weil representations of unitary pairs and Schur orthogonality for square-integrable representations.
+\item The \emph{multiplicity package} $\mathcal H_C$ is the conjunction of: the discrete series cover; $\mathcal H_\Theta$; the
+continuation of partial Hecke $L$-functions; and two step statements:
+\begin{enumerate}[label=(C\arabic*)]
+\item $\mathrm{Step}_W$ from pinned witnesses to: for every level $Z$ and every real datum $z$ at $Z$ satisfying the group,
+real-data and geometry conditions, $\mathrm{EM}(z.R)$;
+\item $\mathrm{Step}_W$ from starting witnesses to: for every level $Z$ and every real datum $z$ at $Z$ satisfying the conditions
+in the statement of $\sfname{RowRat}$ (\cref{sec:families:theta}), $\mathrm{EM}(z.R)$ and $\sfname{RowTest}(z)$.
+\end{enumerate}
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}\label{pf:bundles:lem:hypA}
+Global Artin reciprocity, CM curves with good reduction outside a prime, Weber's ray class fields, Harish-Chandra modules, rapid
+decay, Casselman--Wallach, Harish-Chandra finiteness, the classification of discrete series, existence of discrete-series covers, the
+formal degree of the compact dual and the Siegel--Weil formula in the convergent range imply $\mathcal H_A$. In particular $P$
+implies $\mathcal H_A$.
+\formallabel{GlobalTheory.T.compatibleSystem_member_hypotheses}
+\end{lemma}
+
+\begin{proof}
+(A1) and (A2) are components of global Artin reciprocity, and (A3), (A4), (A5), (A6), (A9), (A13), (A20), (A21) are hypotheses.
+(A7) is the published statement \lref{GlobalTheory.weilRepresentationUnitaryPair} (existence of Weil representations of unitary
+dual pairs), (A12) is \lref{GlobalTheory.rowsFinDim_link} (the row spaces are finite-dimensional) and (A16) is
+\cref{pf:bundles:prop:mass}. The classification of discrete series implies multiplicity one of lowest $K$-types, (A10), existence and
+uniqueness of discrete series with given parameter and the existence of discrete series of $\Uni(p,q)$
+(\lref{GlobalTheory.ClassificationConsequences.consequences_of_dsClass}, which derives these consequences from the classification),
+and (A11): a discrete series of $\Uni(p,q)$ is determined by its parameter (\lref{GlobalTheory.LowestKTypeDetermines.dsUnique_of_dsClass},
+which derives this from the classification; cf.\ \cite{HarishChandra1966}). The existence statements give (A8) and (A14), the formal degree of the
+compact dual gives (A15), and (A17)--(A19) are the existence and uniqueness statements together with the existence of discrete-series covers,
+repackaged.
+\end{proof}
+
+\begin{lemma}[Meromorphy of doubling zeta integrals]\label{pf:bundles:lem:zetacont}
+Let $V$ be a hermitian space over $E$, $\iota\colon\Uni(V)\times\Uni(V)\to\Uni(V\oplus(-V))$ the doubling embedding, $\mu$ a unitary
+Hecke character, $m$ a Haar measure on $\Uni(V)(\A_F)$, and $f_1,f_2$ automorphic functions on $\Uni(V)(\A_F)$ of rapid decay. For a
+function $\mathcal E$ on $\Uni(V\oplus(-V))(\A_F)$ put
+\[
+\mathcal Z(\mathcal E)=\int\!\!\int_{(\Uni(V)(F)\backslash\Uni(V)(\A_F))^2}\mathcal E(\iota(g_1,g_2))\,\overline{f_1(g_1)}\,f_2(g_2)\,
+\mu(\det g_2)^{-1}\,dm(g_1)\,dm(g_2).
+\]
+Let $\Phi(s)$ be a family of sections whose Eisenstein series $\mathcal E(s)$ has a continuation $\mathcal E^*(s)$, left invariant
+under the rational points, such that $s\mapsto\mathcal E(s)(g)$ is analytic on $\Re s>\rank V/2$ for every $g$, and such that
+$\mathcal E^*$ is regular of finite order everywhere: for every $s_0\in\C$ there are $k\in\N$, $r>0$ and a function $H(s,g)$ on
+$B(s_0,r)\times\Uni(V\oplus(-V))(\A_F)$, holomorphic in $s$, jointly continuous, with $|H(s,g)|\le C\,\mathrm{ht}(g)^N$ for some $C,N$,
+and $H(s,\cdot)=(s-s_0)^k\mathcal E^*(s)$ for $s\neq s_0$. If the integrals $\mathcal Z(\mathcal E(s))$ converge for $\Re s>\rank V/2$,
+then $s\mapsto\mathcal Z(\mathcal E(s))$ extends to a meromorphic function on $\C$.
+\formallabel{GlobalTheory.Eis.zetaContinues_of_eisRegularAt}
+\end{lemma}
+
+\begin{proof}
+There are $C',c'$ with $\mathrm{ht}(\iota(g_1,g_2))\le C'(\mathrm{ht}(g_1)\mathrm{ht}(g_2))^{c'}$
+(\lref{GlobalTheory.T.exists_height_doublingEmbedding_le_pow_mul_heights}, a polynomial bound for the height of the doubling
+embedding). Consequently, for all $C,N$ there is a function $\beta$, integrable on the square of the automorphic quotient, which
+bounds the integrand of $\mathcal Z(\mathcal E)$ for every left-invariant $\mathcal E$ with $|\mathcal E(g)|\le C\,\mathrm{ht}(g)^N$
+(\lref{GlobalTheory.T.exists_integrable_bound_doubling_integrand_quotient}, which states this domination for functions of
+rapid decay $f_1,f_2$).
+
+\emph{Claim.} If $H(s,\cdot)$, $s\in B(z,r)$, is a family of left-invariant functions, holomorphic in $s$, jointly continuous and
+bounded by $C\,\mathrm{ht}^N$ uniformly in $s$, then $\mathcal Z(H(s,\cdot))$ converges for $s\in B(z,r)$ and is holomorphic there.
+Indeed, the integrands are measurable (they are continuous, and the integral over the quotient is computed through a measurable
+section), holomorphic in $s$, and dominated by the single integrable function $\beta$; the theorem on holomorphy of parameter
+integrals with locally dominated holomorphic integrands
+(\lref{GlobalTheory.differentiableOn_integral_of_holomorphic_of_locally_dominated}) gives the claim.
+
+Put $Z(s)=\mathcal Z(\mathcal E^*(s))$. Fix $s_1$ and let $k,r,H$ be as in the hypothesis. The functions $H(s,\cdot)$ are left
+invariant: for $s\ne s_1$ because $\mathcal E^*(s)$ is, and for $s=s_1$ by continuity in $s$. By the claim, $s\mapsto\mathcal
+Z(H(s,\cdot))$ is holomorphic near $s_1$, and for $s\neq s_1$ near $s_1$ we have $\mathcal E^*(s)=(s-s_1)^{-k}H(s,\cdot)$, hence
+$Z(s)=(s-s_1)^{-k}\mathcal Z(H(s,\cdot))$ by linearity of $\mathcal Z$. Thus $Z$ is meromorphic at every point. For $\Re s>\rank V/2$
+the continuation agrees with the Eisenstein series (both are analytic there and agree on a non-empty open set), so
+$Z(s)=\mathcal Z(\mathcal E(s))$ there, and $Z$ is the required meromorphic extension.
+\end{proof}
+
+\begin{lemma}[Doubling zeta integrals]\label{pf:bundles:lem:dm}
+Rapid decay of cusp forms and the continuation of Siegel Eisenstein series imply the \emph{doubling package}: for every global
+datum, hermitian space $V$ of positive rank, majorant, Hecke character $\mu$ satisfying the residue condition of the hypothesis and
+section $\varphi$ of the degenerate principal series, (i) the Eisenstein series of the flat section of $\varphi$ continues and is
+regular of finite order at every point; (ii) the true proposition; and (iii) for every pair $f_1,f_2$ of cusp forms (with respect to a
+Cartan frame), the basic identity of the doubling method holds for $\Re s>\rank V/2$ and the doubling zeta integral of $(f_1,f_2)$
+continues meromorphically to $\C$.
+\formallabel{GlobalTheory.T.doubling_zeta_of_eisenstein_facts}
+\end{lemma}
+
+\begin{proof}
+Statement (i) is the hypothesis on Siegel Eisenstein series. Cusp forms are of rapid decay by the first hypothesis
+(\lref{GlobalTheory.Grow.rapidDec_of_cuspForm}, which deduces rapid decay of cusp forms from it). For $\Re s>\rank V/2$ the
+Eisenstein series of the flat section has moderate growth
+(\lref{GlobalTheory.T.siegelEisenstein_spherical_moderateGrowth_real_point}); hence the doubling integral of two rapidly
+decreasing cusp forms converges absolutely and satisfies the basic identity of the doubling method of Piatetski-Shapiro and Rallis
+\cite{PiatetskiShapiroRallis1987} (\lref{GlobalTheory.T.doubling_basicIdentity_unfolding}, which proves the unfolding
+identity in this form). The continuation of the zeta integral is \cref{pf:bundles:lem:zetacont}, whose hypotheses are (i), the
+analyticity of the Eisenstein series in its region of convergence and the convergence just proved. The formal statement has a third
+hypothesis, the component of $P$ named after the simple pole of Siegel Eisenstein series; its type is the true proposition and it is
+not used.
+\end{proof}
+
+\begin{lemma}[The theta package]\label{pf:bundles:lem:thetacond}
+Howe's unramified statement, rapid decay, Harish-Chandra finiteness, Harish-Chandra modules, the discrete series cover,
+Casselman--Wallach, the Weil--Siegel formula, the Siegel--Weil formula in the Schr\"odinger model, the continuation of Siegel
+Eisenstein series, the unramified doubling computation, Bernstein--Zelevinsky finiteness, Green's cuspidal characters and Schur
+orthogonality imply $\mathcal H_\Theta$.
+\formallabel{GlobalTheory.twisted_siegel_weil_identity_of_siegel_weil_formula}
+\end{lemma}
+
+\begin{proof}
+All components but two are hypotheses or the Weil representation (\lref{GlobalTheory.weilRepresentationUnitaryPair}). The
+doubling package is \cref{pf:bundles:lem:dm}. The Siegel--Weil formula for theta integrals on the doubled space $Y\oplus(-Y)$ is
+deduced from the Siegel--Weil formula in the Schr\"odinger model of the standard split space by
+\lref{GlobalTheory.T.siegelWeil_doubledSpace_of_standardUnitary}: one transports the Schr\"odinger model, the Schwartz--Bruhat
+functions, the height function and the Siegel parabolic subgroup along an isometry of the doubled space with the standard split
+space, composed with a translation by an element of the Siegel parabolic subgroup, and compares the two Eisenstein series as coset
+sums over the rational points of the parabolic subgroup.
+\end{proof}
+
+\begin{lemma}[Equal multiplicities at real data]\label{pf:bundles:lem:multat}
+$\mathcal H_M$ implies: eventually and for large twisting data, for every column witness $w$ (over a base satisfying $\kappa_0$),
+every level $Z$ and every real datum $z$ at $Z$ satisfying the group, real-data and geometry conditions of (C1), $\mathrm{EM}(z.R)$
+holds.
+\formallabel{GlobalTheory.Mem.R3.Rw.MultAt.twisted_local_multiplicity_eq}
+\end{lemma}
+
+\begin{proof}
+Eventually in the scale, two statements hold at every stage tuple over the context: there are size data at the scale with the ledger,
+size and parameter conditions (\lref{GlobalTheory.Mem.R3.LedRec.ev_exists_sizeData}), and the host hypotheses hold
+(\lref{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}). For large twisting data the coefficient field contains the values
+required by the type conditions (\lref{GlobalTheory.T.valsIn_and_fam3_ok_of_coefficientField}). Given $w,Z,z$, Green's cuspidal
+characters give a \emph{bare} level $Z'$ with the same group data as $Z$, with true types and vanishing $\eta$-components
+(\lref{GlobalTheory.Mem.R3.LedRec.exists_bare}). The real datum $z$ transports to $Z'$ with its conditions, and the statements
+$\mathrm{EM}$ at $Z$ and at $Z'$ are equivalent because the groups agree
+(\lref{GlobalTheory.T.equalMultiplicities_rowTest_of_sameGroupTransfer}, which states this equivalence for levels with the same
+group data). At $Z'$, $\mathrm{EM}$ is the twisted multiplicity theorem \lref{GlobalTheory.T.twisted_multiplicity_one} (equality
+of cuspidal multiplicities of $\Uni(Y_0)$ and $\Uni(W_i)$ for real data with good types, proved from the components of $\mathcal H_M$
+by a simple trace formula, \cref{rem:families:mult}), applied with the weak characterisation of the transported datum, the host
+hypotheses, the size data and parameter choice, the full class group condition of the base, the guard of the pins, and the good types
+obtained from the true types at $Z'$ (\lref{GlobalTheory.LiftRows.Inh.goodTypes_of_typesTrue}).
+\end{proof}
+
+\begin{lemma}\label{pf:bundles:lem:multcover}
+$\mathcal H_M$, Harish-Chandra modules, the discrete series cover, Casselman--Wallach, the Weil--Siegel formula, the Siegel--Weil
+formula in the Schr\"odinger model, the continuation of Siegel Eisenstein series, the unramified doubling computation,
+Bernstein--Zelevinsky finiteness, Schur orthogonality and $\sfname{RowRat}$ imply $\mathcal H_C$. (One further hypothesis, the
+component of $P$ named after the simple pole of Siegel Eisenstein series, is the true proposition.)
+\formallabel{GlobalTheory.T.compatibleSystem_member_rationalWeights}
+\end{lemma}
+
+\begin{proof}
+The theta package is \cref{pf:bundles:lem:thetacond}, with Howe's unramified statement supplied by
+\lref{GlobalTheory.Hk3.howeUnram_holds} (Howe's unramified computation, proved in the development); the continuation of partial
+Hecke $L$-functions is the published statement \lref{GlobalTheory.Published.HeckeLPartialContinuation_holds}. Let $\mathcal M$
+be the statement of \cref{pf:bundles:lem:multat}. Since a starting witness is pinned, (C1) follows from $\mathcal M$, and (C2) is the
+conjunction of $\mathcal M$, applied to starting witnesses, and of $\sfname{RowRat}$, whose hypotheses contain those of $\mathcal M$; this
+combination uses only the transitivity and conjunction rules for $\mathrm{Step}_W$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Transfer lemmas}\label{pf:bundles:transfer}
+
+\subsubsection{Adding an at-property}\label{pf:bundles:atprop}
+
+In this subsection $N$ is a norm-choice extension, $A$ an at-property, $\Gamma$ a geometric predicate, and the parameters may have
+an arbitrary spectral extension (we suppress it from the notation).
+
+\begin{lemma}\label{pf:bundles:lem:builtiff}
+For every core $\gamma$ over stages $X$ with base $B$,
+\[
+\sfname{IsBuiltE}(\bundS(N\times A,\Gamma))(\bundK,X,f,T,\gamma)\iff\sfname{IsBuiltE}(\bundS(N,\Gamma))(\bundK,X,f,T,\gamma)\wedge
+A(\bundK,B,f,T),
+\]
+and the same holds with $\sfname{IsGoodE}$ in place of $\sfname{IsBuiltE}$.
+\formallabel{GlobalTheory.Mem.LiteralAutomorphy.isBuiltE_extensionWithAtProperty_iff}
+\end{lemma}
+
+\begin{proof}
+A building of $\gamma$ for $\bundS(N\times A,\Gamma)$ differs from a building for $\bundS(N,\Gamma)$ only in its norm-choice requirement,
+which for $N\times A$ is a pair consisting of an element of $N$ and a proof of $A(\bundK,B,f,T)$. Dropping the second component turns a
+building for $N\times A$ into one for $N$ with the same kernel entries, and conversely a building for $N$ and a proof of $A$ give a
+building for $N\times A$. The goodness condition does not involve the requirement. The equivalences follow by unfolding the definition of
+$\mathrm{pos}$.
+\end{proof}
+
+\begin{lemma}[Adding an at-property]\label{pf:bundles:lem:atprop}
+If $\sfname{EvLgG}(A)$ and $\sfname{MemberE}(\bundS(N,\Gamma))$, then $\sfname{MemberE}(\bundS(N\times A,\Gamma))$.
+\formallabel{GlobalTheory.T.memberE_extensionWithAtProperty_of_evLgG}
+\end{lemma}
+
+\begin{proof}
+Write $Q=\sfname{IsBuiltE}(\bundS(N,\Gamma))$, $Q'=\sfname{IsGoodE}(\bundS(N,\Gamma))$, and $Q_A$, $Q'_A$ for the corresponding slots of
+$N\times A$. We check (M1)--(M4) of \cref{pf:bundles:def:memberE}. The base condition (M1) does not involve the slot family.
+
+(M2) $\sfname{EvLgG}(A)$ implies $\mathrm{Step}(\kappa_0,p,A)$ for every $p$. By (M2) for $N$ and closure under conjunction, eventually and
+for large twisting data the following holds: if $\kappa_0(B,f)$ and $T$ is forced and untwisted, then there is a core $\gamma$ over $B$ in
+$Q$, and $A(\bundK,B,f,T)$ holds. By \cref{pf:bundles:lem:builtiff}, $\gamma$ lies in $Q_A$.
+
+(M3) A core in $Q_A$ lies in $Q$ by \cref{pf:bundles:lem:builtiff}; hence (M3) for $N$ implies (M3) for $N\times A$, with the same thresholds
+and exceptional sets.
+
+(M4) Let $R$ be the slot ``$A(\bundK,B,f,T)$ holds''. The statement $\sfname{EvLgG}(A)$ implies $\mathrm{LB}^{\mathrm g}(\kappa_0,Q,R)$.
+By \lref{GlobalTheory.Mem.Top.GroupRetwisting.SecondG.sAnd_of_largeBase}, which states that the base condition, a large-base
+condition $\mathrm{LB}^{\mathrm g}(\kappa,Q,R)$ and the second pass $\mathrm{Pass}(\kappa,Q,(Q\wedge\mathrm{tw}\wedge Q')^\exists)$ imply
+$\mathrm{Pass}(\kappa,Q,(Q\wedge\mathrm{tw}\wedge Q'\wedge R)^\exists)$, we obtain the latter for $\kappa=\kappa_0$. Now let $\gamma$ be a core in
+$Q_A$ satisfying the export condition, and let $\mathcal A,S_2$ be given. Then $\gamma$ lies in $Q$, and the pass gives an enlarged base
+$B'$, the same frame, a twisting datum $T'$ with the same prime set, avoiding $\mathcal A$ and realising $S_2$, and a core $\gamma'$ over
+$B'$ which lies in $Q$, in $Q'$ and in $R$ and is twisted at all places. Since $A(\bundK,B',f,T')$ holds, \cref{pf:bundles:lem:builtiff}
+shows that $\gamma'$ lies in $Q_A$ and in $Q'_A$. This is (M4) for $N\times A$.
+\end{proof}
+
+\subsubsection{Movement of positions}\label{pf:bundles:mv}
+
+\begin{lemma}\label{pf:bundles:lem:mvor}
+Let $h_L\in\sfname{RecTExists}$, $c\in\R$, and let $\overline\Gamma$ be the closure of a geometric predicate $\Gamma$. Then
+$\bundS(N_{\mathrm{or}}(c),\overline\Gamma)$ satisfies movement of positions $(\mathrm{Mv})$; in particular so does
+$\bundS(N_{\mathrm{or}}(c),\Gamma_{\mathrm{cl}})$.
+\formallabel{GlobalTheory.T.slot_mv_extension_with_origin_geo_cl}
+\end{lemma}
+
+\begin{proof}
+Let a witness at $(w,Z,O)$, a modification $(N',h)$ of the division data, the transported object $O'=O.\mathrm{tr}(N',h)$ at
+$Z'=Z[N',h]$, column data at split primes at $Z'$ and a norm-choice datum $n$ at $Z'$ be given. The rows of the witness pass to rows
+$t'$ at $Z'$, with the same row side, geometry and package, for which the object condition and the row requirement hold
+(\lref{GlobalTheory.T.rows_pass_to_moved_divisionLatticesHeights}, which states this transfer of rows). The norm choice of $O$
+has a kept choice at the upper lattices (\lref{GlobalTheory.T.exists_kept_choice_upper_lattice_alt}, which also provides the
+norm-choice core at the moved level from that of the witness); comparing components shows that it is the norm choice of $O'$. The list
+pin passes to $t'$ because the rows are the same (\lref{GlobalTheory.Mem.GridMove.listPin_rowsSame}); the origin data (pre-datum,
+state, strict-henselian acyclic level) are unchanged, and the kept relation is transitive, so the origin data hold at $Z'$ for the norm
+choice of $O'$. The spectral stage data transfer along the change of lattices and heights
+(\lref{GlobalTheory.T.spectralStageData_transfer_lattices_heights}), and the division geometry scalars of the closed geometric
+predicate along the set division (\lref{GlobalTheory.T.divisionGeometryScalars_transfer_setDivision}). These give the four
+requirement types at $Z'$.
+\end{proof}
+
+\begin{lemma}\label{pf:bundles:lem:mvA}
+If $\bundS(N,\Gamma)$ satisfies $(\mathrm{Mv})$, so does $\bundS(N\times A,\Gamma)$, for every at-property $A$.
+\formallabel{GlobalTheory.Mem.LiteralAutomorphy.slot_mv_extension_with_at_property}
+\end{lemma}
+
+\begin{proof}
+A witness for $N\times A$ yields a witness for $N$ by dropping the proof of $A$ from its norm-choice requirement. Movement for $N$ gives
+rows and the four requirements for $N$ at the moved level; the norm-choice requirement for $N\times A$ is obtained by adjoining the proof
+of $A(\bundK,B,f,T)$ carried by the original witness ($B,f,T$ are unchanged by the movement).
+\end{proof}
+
+\subsubsection{The multiplicity condition}\label{pf:bundles:multcond}
+
+\begin{lemma}\label{pf:bundles:lem:multcond}
+$\mathcal H_M$ implies $\mathrm{Mult}(\bundp)$ for every parameter $\bundp=\bundp(N,\Gamma)$ (and every spectral extension).
+\formallabel{GlobalTheory.T.member_multiplicatively_closed_alt}
+\end{lemma}
+
+\begin{proof}
+By the $\mathrm{Ev}^{\mathrm p}$-versions of the two eventual statements used in the proof of \cref{pf:bundles:lem:multat} (size data with
+the ledger conditions, and the host hypotheses), it suffices to prove $\mathrm{EM}(R_q)$ for a weighted point $q$ at a context where both
+hold. Green's cuspidal characters give a bare level $Z'$ of the witness of $q$ with the same group data as the level of $q$ and with true
+types (\lref{GlobalTheory.Mem.R3.LedRec.exists_bare}); by the same-group transfer
+(\lref{GlobalTheory.T.equalMultiplicities_rowTest_of_sameGroupTransfer}) it suffices to prove $\mathrm{EM}$ for the copy of the real
+datum of $q$ at $Z'$. This is the twisted multiplicity theorem \lref{GlobalTheory.T.twisted_multiplicity_one}, applied as in the proof
+of \cref{pf:bundles:lem:multat}; its family hypothesis is the intersection-number condition of the rows of $q$, transported to $Z'$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Existence of linked bundles}\label{pf:bundles:exbl}
+
+In this subsection $h_L$ is fixed, $N$ is a norm-choice extension which yields $N_{\mathrm{law}}$, $\Gamma$ is a geometric predicate,
+$\bundp=\bundp(N,\Gamma)$ and $\bundS=\bundS(N,\Gamma)$.
+
+\paragraph{Data at weighted points.}
+Let $q$ be a weighted point for a slot family. Its witness contains rows $t_q$, which carry a real datum $z_q$ (\cref{pf:bundles:saturated})
+with face $F_q$, together with a column pin and the object $O_q$ with its extra data (theta data, kernel family, norm choice and twisting
+inputs). A datum $D$ is \emph{level tied} if the level primes of its host are exactly $g_0,g_1,p_{\mathrm{de}},p'_{\mathrm{de}}$, the
+primes $T_u$ attached to the words $u$, and $q_0$. We use the following records of the development.
+\begin{itemize}
+\item A \emph{face datum} $(D_c,\mathrm{Sp},Z_{\mathrm{sc}})$ consists of column definitions $D_c$ over the defining subspaces of the
+ambient family of $t_q$, spectral periods $\mathrm{Sp}$ for them and a scale $Z_{\mathrm{sc}}$; \emph{re-facing} replaces the face of $z_q$
+by it. A \emph{column reading} of a re-faced real datum consists of a word map $w_U$, a bijection and an eigen-normalisation $e_\nu$, read
+off from the columns.
+\item \emph{Twisted arguments} for $O_q$ and $t_q$ consist of a \emph{twisted input} $x$ (columns with a column reading, real data, a face
+with column definitions, spectral periods and a scale, and an evaluation map) together with ties of $x$ to the rows $t_q$; the \emph{division
+pair} of $x$ is the pair of adelic forms attached to the face columns of $x$.
+\item \emph{Tied data} over $O_q$ are spectral data together with a kernel. For tied data and a division pair, \emph{square-integrable columns}
+are columns with a face, spectral periods, weights and characters whose column functions are square-integrable; their column characters are
+\emph{compatible} if they agree with the characters of the tied data.
+\item \emph{Spectral data compatible with $q$} are tied spectral data whose host, columns, theta data, twisting inputs, normalised characters
+with their tuple tie, Galois data, exponents, types, cover, geometry and twisting are those of $q$, and whose class field pieces are the images
+of the ray class field and of the field $M_\Delta$ of the column witness. A reciprocity record $R$ over the extra data of $O_q$ is
+\emph{compatible with $q$} if its spectral data are compatible with $q$, its kernel is pinned to that of $q$, its coordinates are $1$, the
+kernel of $q$ satisfies the entry condition, and the kernel of $R$ is standard and read in the standard way.
+\end{itemize}
+
+\begin{lemma}[Square-integrable columns]\label{pf:bundles:lem:sqcols}
+Let $q$ be a weighted point for a slot family and $\tau$ a tied kernel entry of $O_q$ which is pinned for $q$, and assume that the rows
+$t_q$ admit a row extension. There are a face datum $(D_c,\mathrm{Sp}_0,Z_{\mathrm{sc},0})$ and a column reading $C_0$ of the re-faced real
+datum of $q$ such that for all tied data $\mathcal T$ with kernel $\tau$ and all twisted arguments with input $x$ whose column definitions are
+$D_c$ and whose column reading agrees with $C_0$ in $w_U$ and $e_\nu$, there are square-integrable columns for $\mathcal T$ and the division
+pair of $x$ whose face and spectral periods are those of $x$, whose weights are those of the base and whose characters are those of $z_q$, with
+compatible column characters.
+\formallabel{GlobalTheory.Mem.R3.SelC.square_integrable_columns_of_witnesses}
+\end{lemma}
+
+\begin{proof}
+From a row extension, the column pin and $\tau$ one obtains the column record of the witness with kernel $\tau$; its face, with trivial
+spectral periods and the scale of the face of $z_q$, is a face datum, and there is a column reading $C_0$ of the re-faced real datum whose
+word map is the identity (\lref{GlobalTheory.Mem.R3.SelC.exists_readC_wU_eq_id}, which constructs this reading from the column
+record). Let
+$\mathcal T$ and $x$ be as in the statement. The components of the twisted arguments agree with those of the column record of the witness at the
+defining subspace of $z_q$, the column definitions of $x$ are $D_c$, and the word map of $x$ is the identity. Hence the tied column construction
+applies (\lref{GlobalTheory.Mem.R3.SelC.exists_rowsKC_colPins_alt}, which builds pinned columns for tied data with a standard kernel
+from these agreements); it gives columns for $\mathcal T$ and the division pair of $x$ with the face and spectral periods of $x$, the weights of
+the base, the characters of $z_q$ and compatible column characters. Both constructions rest on the column-factor hypotheses of twisted column
+inputs (\lref{GlobalTheory.Mem.Col2.TC.RcHyp.hyps_of_isTw}: the column factors and the evaluation datum at the base tuple are admissible,
+the index matrices are in normal form, and the kernel equivalences hold). The columns so obtained, regarded as square-integrable columns, are
+as required.
+\end{proof}
+
+\begin{definition}\label{pf:bundles:def:zeta}
+A datum $D$ is \emph{zeta compatible} if for every word $u$, every tuple $\mu$ and every $z\in\C$ the following holds: if the period
+columns of $D$ satisfy $\mathrm{per}(u,\mu,\varphi,F)=z\,B_u\bigl(\varphi,\iota_\mu(\mathrm{pr}_\mu F)\bigr)$ for all $\varphi$ and all
+$F$ in the space $V_0(\mu)$, where $B_u$ is the Bessel functional of $u$, $\mathrm{pr}_\mu$ the orthogonal projection onto the
+$\mu$-part and $\iota_\mu$ the corresponding inclusion, and some period column $\mathrm{per}(u,\mu,\varphi,F)$ with $F\in V_0(\mu)$ is
+non-zero, then the recorded zeta constant $\zeta_D(u,\mu)$ equals $z$.
+\end{definition}
+
+\begin{lemma}[Zeta constants at weighted points]\label{pf:bundles:lem:zeta}
+Assume the discrete series cover, Harish-Chandra modules, Casselman--Wallach, Harish-Chandra finiteness and rapid decay. Then for
+every context and every weighted point $q$ for $\bundS$ (with any spectral extension), the datum $D_q$ is zeta compatible.
+\formallabel{GlobalTheory.T.zeta_uniform_of_extension'}
+\end{lemma}
+
+\begin{proof}
+The kernel family of the witness of $q$ has a tied entry $\tau$ which is standard and pinned
+(\lref{GlobalTheory.Mem.Col2.TC.kerEntTied_true_ent}, which produces such an entry from the kernel, division and object data of a
+witness). The witness also contains a row extension, so \cref{pf:bundles:lem:sqcols} gives a face datum $(D_c,\mathrm{Sp}_0,Z_{\mathrm{sc},0})$
+and a column reading $C_0$ of the re-faced real datum. Re-facing the real data of the rows along $D_c$ and $\mathrm{Sp}_0$
+gives scalars, errors and readings (\lref{GlobalTheory.Mem.R3.reFace_scalars_errors_readings}) and an updated reading of the
+columns (\lref{GlobalTheory.Mem.R3.readC_reFace_updS}). Since $N$ yields $N_{\mathrm{law}}$, the norm-choice requirement of $q$
+provides the law of $D_q$. The division pairing is rational on rational points
+(\lref{GlobalTheory.Mem.R3.divisionPairing_rational_on_rationalPoints}), so by the law the Bessel values are rational, which is
+the hypothesis of the reading lemma \lref{GlobalTheory.Mem.R3.zeTied_of_read}; that lemma concludes that the recorded zeta constants
+are the proportionality constants of \cref{pf:bundles:def:zeta}, i.e.\ that $D_q$ is zeta compatible.
+\end{proof}
+
+\begin{lemma}[Compatible spectral data]\label{pf:bundles:lem:specdata}
+Assume global Artin reciprocity and Weber's ray class fields. Let $\bundp'$ be any parameter and $q$ a weighted point for its slot family such
+that $D_q$ is level tied and zeta compatible. Then there are spectral data compatible with $q$.
+\formallabel{GlobalTheory.T.exists_spectral_data_compatible}
+\end{lemma}
+
+\begin{proof}
+The components are produced separately and then assembled. The witness of $q$ provides extra tied data with a column and hermitian forms
+(\lref{GlobalTheory.Mem.Top.Bl.WPt.extraTied_col}, which extracts them from the column data of the witness). There are twisted inputs and
+normalised tied data whose Galois data, exponents, characters, types, cover and places agree with the core data of $q$, with good twisting inputs and
+with the character frame and tuple tie of $q$ (\lref{GlobalTheory.Mem.Top.Bl.exists_core_parameters_agree}, which reads them off the core
+of $q$). The twisting datum of $O_q$ is that of the column witness at the level of $q$, and it is standard and tied to the column data
+(\lref{GlobalTheory.Mem.Top.Bl.WPt.colsTwTied}), and the $D_t$-components can be tied to the classes of the given elements
+(\lref{GlobalTheory.Mem.Col2.TC.dtTied_true}). Global Artin reciprocity and Weber's ray class fields realise the class field pieces inside
+the small field $K_s$, which is exact for the frame: there is an $O$-tie whose ray class field piece and $M_\Delta$-piece are the images of the
+ray class field and of the field $M_\Delta$ of the field datum of the witness (\lref{GlobalTheory.Mem.CyclotomicFieldContainment.oTied_of_ksExact},
+which constructs the class field pieces in $K_s$ from reciprocity). The character values of the witness lie in $\mathit{LL}_0$, and the Galois
+frame of the normalised data is the frame of the host. These components, with level tying and zeta compatibility (which enter the $O$-tie),
+assemble to spectral data having exactly these components (\lref{GlobalTheory.Mem.Top.Bl.tiedDataS_assemble_alt}); comparing components,
+they are compatible with $q$.
+\end{proof}
+
+\begin{lemma}[Reciprocity records at weighted points]\label{pf:bundles:lem:rec}
+Assume global Artin reciprocity, Weber's ray class fields and ray class fields. Let $\bundp'$ be any parameter and $q$ a weighted point
+for its slot family such that $D_q$ is level tied and zeta compatible and the kernel of the witness of $q$ satisfies the entry
+condition. Then there is a reciprocity record over the extra data of $O_q$ which is compatible with $q$.
+\formallabel{GlobalTheory.T.exists_reciprocity_record_compatible}
+\end{lemma}
+
+\begin{proof}
+Spectral data compatible with $q$ exist by \cref{pf:bundles:lem:specdata}. The kernel of $q$ has a standard tie
+(\lref{GlobalTheory.Mem.Top.Bl.WPt.exists_kerTie}, which uses the entry condition). From the spectral data and the tie one obtains
+tied data at the witnesses with the given spectral data and kernel, coordinates $1$, a pin and the remaining components of a
+reciprocity record (\lref{GlobalTheory.Mem.Top.Bl.exists_kernel_spectral_data_at_witnesses}). The host pins of $q$
+(\lref{GlobalTheory.Mem.Top.Bl.hostPins_wpt}, from ray class fields) and reciprocity give a host datum
+(\lref{GlobalTheory.HostDatumExists.exists_hostDatum_alt}). These components form the required record.
+\end{proof}
+
+\begin{lemma}[Selected realisations]\label{pf:bundles:lem:selreal}
+Assume the discrete series cover, Harish-Chandra modules, Casselman--Wallach, Weil representations of unitary pairs, existence of discrete
+series, Harish-Chandra finiteness, rapid decay, global Artin reciprocity and ray class fields. Let $q$ be a weighted point for $\bundS$ over a
+context at which the host hypotheses hold, with $\mathrm{EM}(R_q)$; let $R$ be a reciprocity record compatible with $q$, $(P,S)$ the spectral
+package and spectral rest of the saturation of $q$ (for the forms of $R$), and $M$ the real spectral matching of $R$ and $S$; assume that the
+period vectors of $M$ lie in its Hilbert space. Then for all $\Delta,h_0\in\N$ and $c\in\R$ there are twisted arguments with input $x$ and
+square-integrable columns for the tied data of $R$ and the division pair of $x$, with the properties stated in \cref{pf:bundles:lem:sqcols},
+such that moreover the scale of the face of $x$ is the scale of the division pair of $x$ determined by $(\Delta,h_0,c)$, the spectral periods of
+$x$ at its scale point are those read off from $M$, and for some $\kappa>0$ the evaluation map of $x$ is $\kappa$ times the standard evaluation
+on the vectors of the level part.
+\formallabel{GlobalTheory.T.exists_selected_realization_alt}
+\end{lemma}
+
+\begin{proof}
+The parameter $\bundp$ has no spectral extension, so the witness of $q$ contains a row extension. The kernel of $R$ is pinned to that of $q$,
+and \cref{pf:bundles:lem:sqcols}, applied to this kernel, gives a face datum $(D_c,\mathrm{Sp}_0,Z_{\mathrm{sc},0})$ and a column reading $C_0$
+with the property stated there. Further:
+\begin{enumerate}[label=(\roman*)]
+\item by Weil representations, existence of discrete series, Harish-Chandra finiteness, rapid decay and $\mathrm{EM}(R_q)$, at every place
+where the third-level eigenspace of $z_q$ is non-zero all the row spaces of $z_q$ are non-zero and the row parts are present at every place
+of the family other than its base place (\lref{GlobalTheory.Mem.R3.SelectionPairing.wp3_ne_bot_and_piece_at_of_multEq}, a consequence of the
+row-part theorem for real data with equal multiplicities and good generic characters);
+\item the saturation of $q$ provides an evaluation tie between the base forms of $z_q$ and the Hida setting of $P$, with an element $g$ and a
+constant $c_q>0$; since the forms of $R$ are the column forms of $q$, it is an evaluation tie for the package $P$ of the statement
+(\lref{GlobalTheory.Mem.R3.SelectionPairing.ev_at_join_pinned});
+\item the selection construction (\lref{GlobalTheory.Mem.R3.SelectionPairing.selection_group_ambient_tie}, which uses the discrete series
+cover, Harish-Chandra modules, Casselman--Wallach, Harish-Chandra finiteness and rapid decay, and builds twisted arguments from the ambient and
+group ties of the witness, a face datum with a column reading, an evaluation tie and period weights) applied with (i), (ii), the face datum and
+$C_0$ of \cref{pf:bundles:lem:sqcols}, the period weights of $M$ and the size data of $O_q$, gives twisted arguments with input $x$ whose column
+definitions are $D_c$, whose column reading agrees with $C_0$ in $w_U$ and $e_\nu$, whose face scale is the scale determined by
+$(\Delta,h_0,c)$, whose spectral periods at the scale point are read off from $M$, and whose evaluation map is $\kappa$ times the standard
+evaluation on the level part for some $\kappa>0$.
+\end{enumerate}
+The conclusion of \cref{pf:bundles:lem:sqcols}, applied to the tied data of $R$ (whose kernel is the given one) and $x$, gives the
+square-integrable columns.
+\end{proof}
+
+\begin{lemma}[The realisation side]\label{pf:bundles:lem:selside}
+Assume Green's cuspidal characters and the hypotheses of \cref{pf:bundles:lem:selreal}, and let $q,R,P,S,M$ be as there. For all twisted
+arguments with input $x$ and every real input $y$ of $x$ for $R$ and $M$ there is a recursive input over $y$ whose realisation recursion has
+its rows partitioned into parts.
+\formallabel{GlobalTheory.T.selected_realization_side_alt}
+\end{lemma}
+
+\begin{proof}
+The twisted arguments carry the level data of $q$: the character frame of the real data of $x$ is the column frame of the witness, and the
+tuple characters of $x$ at the used tuples are those of the witness (\lref{GlobalTheory.Mem.R3.twArgs_lev}); and the two readings required
+of a recursive input (of the twisted pairing of the division pair of $x$, and of the realisation of $y$) hold by the primitive row conditions of
+$x$ (\lref{GlobalTheory.Mem.R3.Reads.mt_mj_read_alt}). Since $R$ is compatible with $q$, its character frame and tuple tie
+are those of $q$, whose characters are those of the witness. Hence the frame of the real data of $x$ is that of $R$, and the tuple tie of $R$,
+transported to this frame, agrees with the tuple characters of $x$ at the used tuples.
+
+The parts theorem (\lref{GlobalTheory.T.partsRow_of_eigensystemIndex_goodCharacters}: under Weil representations, existence of discrete
+series, Harish-Chandra finiteness and rapid decay, real data with pins, primitive rows and the host hypotheses admit an eigensystem index, labels
+and local parameters for which the rows are partitioned into parts, provided every character of the family has non-zero product of its
+idempotent with the level idempotent, and the logarithmic eigenvalues of the division datum on the isotypic parts are the logarithms of the
+third-level eigenvalues of the real data at $\mu_0$) applies to the real data of $x$. Indeed, the primitive row conditions are part of the
+twisted arguments; the host hypotheses hold at the context; the idempotent condition holds by reciprocity
+(\lref{GlobalTheory.T.geometric_parameter_of_reciprocity_alt}, which deduces it from the reciprocity data of the weighted point); and the
+eigenvalue condition holds by discrete-series reciprocity (\lref{GlobalTheory.T.parameter_of_discrete_series_reciprocity_alt}, which
+identifies the eigenvalues of the division datum with those of the real data, using Green's cuspidal characters). The eigensystem index,
+labels and parameters so obtained, with the transported tuple tie and the readings of $y$, form a recursive input over $y$ whose realisation
+recursion is the parts recursion.
+\end{proof}
+
+\begin{lemma}[Bundle witnesses]\label{pf:bundles:lem:bwit}
+Assume Green's cuspidal characters, the discrete series cover, Harish-Chandra modules, Casselman--Wallach, Weil representations of
+unitary pairs, existence of discrete series, Harish-Chandra finiteness, rapid decay, global Artin reciprocity and ray class fields. If
+$\mathrm{Mult}(\bundp)$ holds, then the following holds $\mathrm{Ev}^{\mathrm p}$: for every weighted point $q$ for $\bundS$, every
+reciprocity record $R$ compatible with $q$, every $a\in\R$ and every $(\Delta,h)\in\N^2$ with $D_q.s.\Delta=\Delta$ and $\eta$-size of
+$O_q$ equal to $mh$, if the size data of $O_q$ have the scale of $\bundK$ and are valid for its constants, there is a bundle
+$b\in\mathrm{Bd}(D_q,O_q,a)$ with $b.R=R$ and a bundle witness for $(q,b)$.
+\formallabel{GlobalTheory.T.local_langlands_prm_reduction_alt}
+\end{lemma}
+
+\begin{proof}
+We work at a context at which the host hypotheses hold (an eventual statement,
+\lref{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}) and $\mathrm{EM}$ holds at all weighted points. The columns of $R$ are those
+of the witness of $q$, so the saturation at the weighted point (part of the data of $q$) provides a spectral package and a spectral rest
+for the forms of $R$; the period vectors of the real spectral matching of $R$ and the spectral rest lie in its Hilbert space (a
+finiteness property of the spectral package). From these data a selected realisation is constructed in five steps:
+twisted inputs with their arguments, square-integrable columns at the face of the inputs, and spectral, zeta and Bessel data matching
+the constraints of a bundle (\cref{pf:bundles:lem:selreal}); its geometric part, a realisation of the input
+with the ties to the point required in a bundle witness (\lref{GlobalTheory.T.selected_realization_geometric_alt}); its realisation
+side, a recursion whose rows are partitioned into parts (\cref{pf:bundles:lem:selside}); the lower map pin
+(\lref{GlobalTheory.T.selected_lower_map_holds_alt}); and the selected side of the realisation
+(\lref{GlobalTheory.T.selected_side_realization_holds_alt}), with a host datum from
+\lref{GlobalTheory.HostDatumExists.exists_hostDatum_alt}. The bundle $b$ consists of $R$, the real spectral matching obtained from
+the spectral rest, the division pair of the adelic forms of the inputs, the pin, $(\Delta,h)$, the columns and the bounded realisation;
+the ties between the selected data and $b$ are identities between the constructions. These data form a bundle witness for $(q,b)$.
+\end{proof}
+
+\begin{lemma}[Reduction of bundle existence]\label{pf:bundles:lem:exblred}
+Assume global Artin reciprocity, Weber's ray class fields and ray class fields. Let $\bundp'$ be a parameter with slot family $\bundS'$
+satisfying $(\mathrm{WE})$, such that $\mathrm{Ev}^{\mathrm p}$ of ``$D_q$ is zeta compatible for every weighted point $q$'' holds, and
+such that the conclusion of \cref{pf:bundles:lem:bwit} holds for $\bundp'$. Then $\sfname{ExBL}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS'),
+\sfname{IsGoodE}(\bundS'),\sfname{BundleLinkage}(\bundp')\bigr)$.
+\formallabel{GlobalTheory.T.eta_size_recursion_alt}
+\end{lemma}
+
+\begin{proof}
+Take for $R$ the slot ``true''; the large-base condition $\mathrm{LB}(\kappa_0,\sfname{IsBuiltE}(\bundS'),R)$ holds trivially. It remains
+to prove bundle existence. By closure of $\mathrm{Ev}^{\mathrm p}$ under conjunction we may fix $\kappa$ and a context $\bundK$ of $\kappa$
+at which both $\mathrm{Ev}^{\mathrm p}$ hypotheses hold. Let $\beta$ be a bundle point in $\sfname{IsGoodE}(\bundS')$ and $a\in\R$.
+
+By $(\mathrm{WE})$ there is a weighted point $q$ with $(D_q,O_q)=(D_\beta,O_\beta)$ whose kernel satisfies the entry condition. Since
+$\beta$ is a bundle point, the context is $(C_5,c_6,C_b)$-good for some constants; in particular the level primes of the host of the context are
+$\{g_0,g_1,p_{\mathrm{de}},p'_{\mathrm{de}},q_0\}$. The core of $\beta$ lies over the pre-base of the context, so the level primes of the host of
+$D_\beta$ are those of the context together with the primes $T_u$ of the words; thus $D_\beta$ is level tied
+(\lref{GlobalTheory.Mem.HD.levEx_of_over}, which proves this description of the level primes of a datum over a context), hence so is
+$D_q$. \Cref{pf:bundles:lem:rec} gives a
+reciprocity record $R'$ compatible with $q$. The size data of the layer of $\beta$ are valid and have the scale of $\bundK$, and validity
+gives $(\Delta,h)\in\N^2$ with $D_\beta.s.\Delta=\Delta$ and $\eta$-size $mh$. The conclusion of \cref{pf:bundles:lem:bwit} gives a
+bundle $b'$ at $q$ with $b'.R=R'$ and a bundle witness. Transporting $R'$ and $b'$ along the identification of $(D_q,O_q)$ with
+$(D_\beta,O_\beta)$ gives $b\in\mathrm{Bd}(D_\beta,O_\beta,a)$ with $\sfname{BundleLinkage}(\bundp')(\bundK,\beta,a,b)$.
+\end{proof}
+
+\begin{proposition}[Linked bundles exist]\label{pf:bundles:prop:exbl}
+Assume Green's cuspidal characters, the discrete series cover, Harish-Chandra modules, Casselman--Wallach, Weil representations of
+unitary pairs, existence of discrete series, Harish-Chandra finiteness, rapid decay, global Artin reciprocity, Weber's ray class fields
+and ray class fields. If $N$ yields $N_{\mathrm{law}}$ and $\bundS$ satisfies $(\mathrm{Mv})$ and $\mathrm{Mult}(\bundp)$ holds, then
+\[
+\sfname{ExBL}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS),\sfname{IsGoodE}(\bundS),\sfname{BundleLinkage}(\bundp)\bigr).
+\]
+\formallabel{GlobalTheory.T.geometric_parameter_uniform_alt}
+\end{proposition}
+
+\begin{proof}
+We verify the hypotheses of \cref{pf:bundles:lem:exblred}. Movement of positions implies movement of witnesses
+(\lref{GlobalTheory.T.witnesses_pass_along_set_division}, which states $(\mathrm{Mv})\Rightarrow(\mathrm{WM})$ for every slot family).
+Movement of witnesses implies $(\mathrm{WE})$: a bundle point in $\sfname{IsGoodE}(\bundS)$ has a core with a building whose kernel satisfies
+the entry condition and with the goodness condition, and these data form a witness at the level of the core; movement of witnesses
+transports it to the datum and object of the ledger part of the bundle point, with the entry condition. Zeta compatibility holds at all
+weighted points and all contexts by \cref{pf:bundles:lem:zeta}, a fortiori eventually. The bundle statement is \cref{pf:bundles:lem:bwit}.
+\end{proof}
+
+\begin{corollary}\label{pf:bundles:cor:exbl}
+Assume $\mathcal H_A$, $\mathcal H_C$ and $\mathcal H_M$. Let $N$ yield $N_{\mathrm{law}}$ and assume that $\bundS(N,\Gamma)$ satisfies
+$(\mathrm{Mv})$. Then for every at-property $A$,
+\[
+\sfname{ExBL}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS(N\times A,\Gamma)),\sfname{IsGoodE}(\bundS(N\times A,\Gamma)),
+\sfname{BundleLinkage}(\bundp(N\times A,\Gamma))\bigr).
+\]
+\formallabel{GlobalTheory.T.compatibleSystem_weilBlock_ne_alt}
+\end{corollary}
+
+\begin{proof}
+Apply \cref{pf:bundles:prop:exbl} to $N\times A$. The classical hypotheses are components of the packages (Green's characters from
+$\mathcal H_M$, the cover from $\mathcal H_C$, and (A4)--(A9), (A20), (A21), (A1) from $\mathcal H_A$). An element of $N\times A$ contains
+an element of $N$, so $N\times A$ yields $N_{\mathrm{law}}$. Movement of positions for $N\times A$ is \cref{pf:bundles:lem:mvA}, and the
+multiplicity condition is \cref{pf:bundles:lem:multcond}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Unlocalised saturated states}\label{pf:bundles:saturated}
+
+\paragraph{Real data, pre-data and states.}
+For a column witness $w$, a level $Z$ and a set $W$ of places of the coefficient field, a \emph{real datum} $z$ at $(Z,W)$ is the record
+of \cref{sec:families:theta} (realisation of the theta data at $Z$, with its face and geometry, the twisted characters being those at the
+places of $W$) together with a character core and pins. It is \emph{fine} if it satisfies the real-data condition (existence of the
+archimedean intertwiners and lifts), the geometry condition, the core condition (the laws of its core, canonicity of its parameters,
+non-degeneracy of the signatures and agreement of its pre-base data with the frame) and standardness. Let $W_1^0(z)$ be the set of places
+$v$ of $\mathit{LL}$ such that, at $v$ or at $\bar v$, one of the lattice indices of $z$ is non-zero (for some row $j$: the index of the
+lattice of the division datum relative to the image of the type lattice $T_j$, or the index of $T_j$ relative to its dual for the hermitian
+form $H_j$); let $W_1^{\mathrm f}$ be the set of places $v$ such that the forced content $\Phi_\bundK(j,\ell_v)$ of the scale of $\bundK$ is
+non-zero for some $j$ (it depends only on $\ell_v=\ell_{\bar v}$; we write $\Phi_\bundK$ also for the finite set of primes $\ell$ with
+$\Phi_\bundK(j,\ell)\neq0$ for some $j$); and put $W_1(z)=W_1^0(z)\cup W_1^{\mathrm f}$.
+
+For a level $Z$ of $w$ we use: the \emph{group conditions} (the types of the norm stage are the true types of the frame, and the group
+conditions hold at the stage tuple); the \emph{$\kappa$-condition} (the $\kappa$-values of the datum are the numbers $a^{\pm}$ of its
+Harish-Chandra parameters); the \emph{volume tie} (the automorphic quotients have the volumes prescribed by the datum); and the
+\emph{volume condition} (every level with the volume--jet stage of $Z$ satisfies the volume tie and the numerical condition of the scale
+of $\bundK$, and admits column data at split primes).
+
+We write $B\preceq_0B'$ if $B$ and $B'$ lie over the same pre-base, the images of $K_s$ agree, $\mathit{LL}_{0,\C}\subseteq
+\mathit{LL}'_{0,\C}$ and $\mathit{LL}_\C\subseteq\mathit{LL}'_\C$; then a place $v'$ of $\mathit{LL}'$ \emph{lies over} a place $v$ of
+$\mathit{LL}$ if $v'$ restricts to $v$ under the embedding $\mathit{LL}\hookrightarrow\mathit{LL}'$ compatible with the embeddings into
+$\C$. For real data $z$ over $B$ and $z'$ over $B'$, $z'$ \emph{extends $z$ except for the places} if the cores of $z$ and $z'$ coincide
+and their real data agree component by component (characters, Weil representations and theta data, lattices and frames, measures, forms,
+reference vectors and jets, values in the coefficient fields being compared in $\C$); $z'$ \emph{extends} $z$ if moreover $v\in W_1^0(z)$
+if and only if $v'\in W_1^0(z')$, whenever $v'$ lies over $v$.
+
+A \emph{pre-datum} $\mathcal P$ over $w$ consists of
+a level $Z_0$, a set $W_t$ of places, a real datum $z$ at $(Z_0,W_t)$ with a row package, together with the conditions: the volume and
+group conditions at $Z_0$, coherence of $(B,T)$, the $\kappa$-condition, the primitive row conditions for $z$, the real-data and geometry
+conditions, the core condition, $W_t=W_1(z)$, every place of $W_t$ has residue characteristic in $T.\mathrm{pl}$, $\psi_v=1$ for
+$v\notin W_t$, and standardness of $z$. A \emph{state} $x$ of $\mathcal P$ consists of stages $(V,S,N,G)$ over the row package of
+$\mathcal P$ (division stage, $S$-stage, norm stage and volume--jet stage) which \emph{fit} the row package, with $G$ the stage of $Z_0$,
+the division factor $\eta_F=6x^{-C_F}$, the law of the resulting datum, and a moved copy with coherence, a side, a reading and a pin.
+The state is \emph{unlocalised} if its norm stage has no localisation primes and all its $\eta$-components $\eta_j(v)$ vanish. The
+pre-datum is \emph{saturated} if, when $T$ is untwisted, any two places of $\mathit{LL}$ above the same place of $\mathit{LL}_0$ lie
+both in $W_t$ or both outside $W_t$.
+
+\begin{definition}\label{pf:bundles:def:US}
+\emph{Unlocalised saturated states exist}, $(\mathrm{US})$, if $\mathrm{Step}_W$ holds from starting witnesses to: there are a
+saturated pre-datum $\mathcal P$ over $w$ and an unlocalised state of $\mathcal P$.
+\end{definition}
+
+\paragraph{The inputs.}
+The proof uses four conditions on real data. In the first two, $z$ ranges over real data at levels $Z$ of $w$ satisfying the group, real-data
+and geometry conditions (and, for the first, the further conditions in the statement of $\sfname{RowRat}$).
+\begin{enumerate}[label=(\textsc{\roman*})]
+\item \emph{Weight case} (WC): $\mathrm{Step}_W$ from starting witnesses to: the primitive row conditions hold for $z$.
+\item \emph{Lower unitary case} (LU): $\mathrm{Step}$ to: for every pinned witness $w$, the lift conditions hold for $z$ (Hecke rationality and
+adjoint-closedness of the rows and lifts at inert places, the Hecke condition, the unit and equivariance conditions, the block condition, two lift
+tests, surjectivity of the lifts, uniformity, the modular lattice condition, the level condition, the scalar condition at the type parts (the lift
+composed with its adjoint acts on each type part by a scalar), the parts condition and type separation).
+\item \emph{Fine adelic data} (FA): $\mathrm{Step}_W$ from pinned witnesses to: for every level $Z$ satisfying the group conditions and
+the volume tie there is a fine real datum at $(Z,\{v:\ell_v\in T.\mathrm{pl}\})$.
+\item \emph{Extension to enlarged bases} (FE): $\mathrm{Step}_W$ from pinned witnesses $w'$ over $(B',f',T')$ to: for every base $B$ with
+$B\preceq_0B'$, the frame $f=f'$, every twisting datum $T$ over $B$, every pinned witness $w$ for $(B,f,T)$ with the same prime data as $w'$
+(the generators of the auxiliary primes and the bounds fixed by a column witness), every level $Z$ of $w$ satisfying the group conditions,
+every fine real datum $z$ at $(Z,W)$ (for any $W$) satisfying the lift conditions, and every level $Z'$ of $w'$ satisfying the group conditions
+and the volume tie, there is a fine real datum $z'$ at $(Z',\{v':\ell_{v'}\in T'.\mathrm{pl}\})$ which extends $z$.
+\end{enumerate}
+(LU) follows from $\mathcal H_\Theta$, the continuation of partial Hecke $L$-functions and (C1)
+(\lref{GlobalTheory.T.lu_of_multiplicity_equal}: the lift conditions are proved at a bare level with the same group data, from the ties of
+the real datum and equal multiplicities, and transported to the given level; the proof at the bare level uses the scalar identity and the matching
+of the lifts, which rest on the adjoint scalar formula \cref{pf:bundles:cor:bform} with the Rallis inner product formula supplied by $\mathcal
+H_\Theta$). The other three conditions are proved in the following lemmas.
+
+\begin{lemma}[Fine real data]\label{pf:bundles:lem:FA}
+The discrete series cover, Harish-Chandra modules, rapid decay, Casselman--Wallach, Weil representations of unitary pairs, existence of
+discrete series and Harish-Chandra finiteness imply (FA).
+\formallabel{GlobalTheory.T.exists_fineAdelicDatum_of_hypotheses}
+\end{lemma}
+
+\begin{proof}
+Three statements hold eventually and for large twisting data: the host hypotheses at all stage tuples over the pre-base, including the
+diagonal positive definite forms with standard lattices and orthonormal frames of the definite spaces
+(\lref{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}, which proves this eventual statement); the standardness and largeness of the
+definite spaces (\lref{GlobalTheory.T.eventually_definiteSpaces_standard_and_large}); and, for column inputs whose characters range
+over $\Xi(T,f)$, the containment of the character values in the coefficient field together with the admissibility of the type families
+(\lref{GlobalTheory.T.valsIn_and_fam3_ok_of_coefficientField}). Fix $\bundK,B,f,T$ at which they hold, a pinned witness $w$ and a level
+$Z$ satisfying the group conditions and the volume tie, and let $W=\{v:\ell_v\in T.\mathrm{pl}\}$. We construct a fine real datum at $(Z,W)$.
+
+The column pin selects one place in each pair of conjugate places over the twisting primes
+(\lref{GlobalTheory.Mem.R3.Rw.selHalf_of_pin}); the set $W$ is finite (finitely many places of $\mathit{LL}$ lie over the finite set
+$T.\mathrm{pl}$) and stable under conjugation. Since $K_s$ is exact for $f$, the character field of the frame lies in $K_{s,\C}$, and by the
+valuation conditions of $w$ the values of the frame characters lie in $\mathit{LL}_0$. From this and the volume tie one obtains a \emph{core pin}: a character core $\gamma_0$ whose
+coefficient field embeds into $\mathit{LL}$ compatibly with the embeddings into $\C$, with values in $\mathit{LL}_0$ and image containing
+$K_s$ and $E$, satisfying the core laws and pinned to the pre-base data of $f$, such that the character values at ideles with trivial
+infinity part lie in its coefficient field (\lref{GlobalTheory.T.character_value_mem_smallField_of_infPart_eq_one}, which constructs it).
+Next, the analytic data at the column choices exist: characters $X_g$, a trace datum, a first real datum $R_0$ and a group identification,
+with the clauses of the column choices (level data, identities, good characters, the $\mu$-condition, the idempotent condition, the
+pre-condition, and the input, tuple and keeping clauses) (\lref{GlobalTheory.T.exists_analyticData_kept_clauses_columnChoices}). For
+real data with these clauses the archimedean intertwiners and lifts exist, by the discrete series cover, Harish-Chandra modules, rapid decay and
+Casselman--Wallach (\lref{GlobalTheory.T.intertwinersAndLifts_exist_at_choices}); and rapid decay gives the geometric existence of the
+core forms (\lref{GlobalTheory.T.geometricExistence_core_forms_analytic_phaseOne}, which constructs the forms and frames of a geometry
+from the analytic data and the core pin). Weil representations, existence of discrete series, Harish-Chandra finiteness and rapid decay
+supply the analytic links of the realisation (\lref{GlobalTheory.T.linksAnalyticHypotheses_of_weilRep_harishChandra}), and with them
+the standard weight-character construction (\lref{GlobalTheory.StandardWeightCharacter.charW_seed_std}, which completes the analytic
+data to a real datum) gives a trace datum, a dictionary, characters $\mu$, $\chi_W$ and $c_E$, a base point $x_0$, a real datum $R$ with the
+level data of $R_0$, pins, the real-data condition and a geometry. Let $z$ be the real datum at $(Z,W)$ with these components, whose core is
+$\gamma_0$ enlarged by the dictionary, $\mu$, $\chi_W$, $x_0$ and $c_E$.
+
+The datum $z$ is fine: the real-data condition holds by construction; the core laws, canonicity, the signature condition and the pre-base
+condition follow from the core pin and the laws of the geometry; standardness is provided by the construction; and the geometry condition
+follows from rapid decay and the pre-character conditions of $R$ (\lref{GlobalTheory.RealGeoIn.inGeo_and_lUnif_and_lIntegral}, which
+proves the geometry condition together with the uniformity and integrality of the lifts).
+\end{proof}
+
+\begin{lemma}[Extension to enlarged bases]\label{pf:bundles:lem:FE}
+The discrete series cover, Harish-Chandra modules, rapid decay, Casselman--Wallach, Weil representations of unitary pairs, existence of
+discrete series and Harish-Chandra finiteness imply (FE).
+\formallabel{GlobalTheory.T.adelicData_extend_largerFields_of_hypotheses}
+\end{lemma}
+
+\begin{proof}
+We prove two statements of the form $\mathrm{Step}_W$ from pinned witnesses $w'$, with the data $B\preceq_0B'$, $f$, $T$, $w$, $Z$, $z$, $Z'$
+as in (FE); together they give (FE).
+
+(i) \emph{There is a fine real datum $z'$ at $(Z',\{v':\ell_{v'}\in T'.\mathrm{pl}\})$ which extends $z$ except for the places.} First the core
+of $z$ is transported to the enlarged base: there is a character core $\gamma'$ over the stage tuple of $Z'$ whose coefficient field embeds
+into $\mathit{LL}'$ compatibly with the embeddings into $\C$, with values in $\mathit{LL}'_0$ and image containing $K'_s$, whose components
+coincide with those of the core of $z$, and which satisfies the core laws, canonicity, the signature condition and the pre-base condition
+(\lref{GlobalTheory.T.exists_adelicCore_transport_enlargedCoefficientBase_alt}, which deduces this from $B\preceq_0B'$, $f'=f$ and the core
+condition of $z$). The seven classical inputs then give a real datum $z'$ at $(Z',\{v':\ell_{v'}\in T'.\mathrm{pl}\})$ with core $\gamma'$,
+satisfying the real-data, geometry and standardness conditions, which extends $z$ except for the places
+(\lref{GlobalTheory.T.exists_extendedAdelicData_with_intertwiners_over_enlargedCore}, which rebuilds the analytic data, the characterised Weil
+data and the geometric half of $z$ over the enlarged coefficient field with the same values). The core condition of $z'$ is that of $\gamma'$, so
+$z'$ is fine.
+
+(ii) \emph{If $z'$ is a fine real datum at $(Z',\{v':\ell_{v'}\in T'.\mathrm{pl}\})$ which extends $z$ except for the places, then $v\in W_1^0(z)$
+if and only if $v'\in W_1^0(z')$ whenever $v'$ lies over $v$.} Let $\varphi\colon\mathit{LL}\to\mathit{LL}'$ be the embedding compatible with the
+embeddings into $\C$. The lattices whose indices define $W_1^0$ (for each row $j$, the lattice of the division datum and the image of the type
+lattice $T_j$; and $T_j$ and its dual for $H_j$) are, for $z'$, the base changes along $\varphi$ of those for $z$: for the lattice of lifted
+forms and for the definite lift lattice this holds for every extension of fine real data satisfying the lift conditions
+(\lref{GlobalTheory.T.liftFormsLattice_definiteLattice_baseChange_extended} and \lref{GlobalTheory.T.extendedData_definiteLiftLattice_baseChange},
+which prove these two base change statements from the seven classical inputs), and the hermitian dual of a base change is the base change of the
+hermitian dual (\lref{GlobalTheory.T.hermitianDualLattice_baseChange}). For finitely generated lattices over $\OO_{\mathit{LL}}$ and a place
+$v'$ over $v$, the index of one lattice relative to another is non-zero at $v$ if and only if the index of their base changes is non-zero at $v'$
+(\lref{GlobalTheory.T.lattice_index_nonzero_iff_under_field_map}). Hence each defining index of $W_1^0(z)$ at $v$ is non-zero exactly
+when the corresponding index of $z'$ at $v'$ is non-zero; the same holds for $\bar v$ and $\bar v'$, and the assertion follows.
+
+By (i) and (ii), the datum $z'$ of (i) extends $z$.
+\end{proof}
+
+\begin{lemma}[The weight case]\label{pf:bundles:lem:WC}
+$\mathcal H_\Theta$, the continuation of partial Hecke $L$-functions and (C2) imply (WC).
+\formallabel{GlobalTheory.T.w_of_weight_residue_char}
+\end{lemma}
+
+\begin{proof}
+Starting witnesses are pinned. By (C2) it therefore suffices to prove $\mathrm{Step}_W$ from pinned witnesses to: for every level $Z$ with the
+group conditions and every real datum $z$ at $Z$ satisfying the real-data and geometry conditions, $\mathrm{EM}(z.R)$ and $\sfname{RowTest}(z)$
+imply the primitive row conditions for $z$. We use the following statements, each of which holds eventually and for large twisting data:
+\begin{enumerate}[label=(\roman*)]
+\item the \emph{sized criterion for primitive rows}: for every $\eps>0$ there is $x_0$ such that for every stage tuple, every real datum $z$
+and every size datum $L$ of scale $(\eps,x)$ with $x\ge x_0$, satisfying the size conditions and admitting a parameter choice, the base and
+geometric ties of $z$, $\mathrm{EM}(z.R)$, $\sfname{RowTest}(z)$ and the integrality of the lifts imply the primitive row conditions
+(\lref{GlobalTheory.T.rational_data_sized_family_alt}, derived from $\mathcal H_\Theta$ and the continuation of partial Hecke
+$L$-functions); eventually it applies with $\eps=\eps(\bundK)$ and $x_0\le x(\bundK)$;
+\item size data with the ledger, size and parameter conditions and with the scale of $\bundK$ exist at every stage tuple over $\bundK$ with
+division factor $\eta_F=6x^{-C_F}$ (\lref{GlobalTheory.Mem.R3.LedRec.ev_exists_sizeData});
+\item the host hypotheses (\lref{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}, recalled in the proof of \cref{pf:bundles:lem:FA});
+\item the coefficient-field statement of the proof of \cref{pf:bundles:lem:FA}
+(\lref{GlobalTheory.T.valsIn_and_fam3_ok_of_coefficientField}), and the Weber level condition, which holds for large twisting data
+(\lref{GlobalTheory.Mem.Top.Bl.CoverAt.lg_weberLev});
+\item at pinned witnesses, every real datum with the real-data and geometry conditions has uniform and integral lifts
+(\lref{GlobalTheory.Mem.Top.Bl.lUnif_atDat} and \lref{GlobalTheory.Mem.Top.Bl.atDat_lIntegral}, which read these properties off the
+geometry of the datum).
+\end{enumerate}
+Fix data at which all of them hold, a pinned witness $w$, a level $Z$ with the group conditions, and $z$ with the real-data and geometry
+conditions, $\mathrm{EM}(z.R)$ and $\sfname{RowTest}(z)$. Green's cuspidal characters (a component of $\mathcal H_\Theta$) give a bare level
+$Z'$ of $w$ with the same group data as $Z$, true types and division factor $6x^{-C_F}$ (\lref{GlobalTheory.Mem.R3.LedRec.exists_bare}), and
+(ii) gives size data $L$ at
+the stage tuple of $Z'$ with the scale of $\bundK$. Let $y$ be the copy of $z$ at $Z'$. Since $Z$ and $Z'$ have the same group data, the
+real-data condition, the uniformity and integrality of the lifts, $\mathrm{EM}$ and $\sfname{RowTest}$ pass from $z$ to $y$, and the primitive
+row conditions for $y$ imply those for $z$. For $y$: the types are true; the orthonormal frames of (iii) and the characterisation contained in
+the pins give the extension property of the archimedean data (\lref{GlobalTheory.T.ioExt_of_weakCharacterisation_of_orthonormal_frames});
+with the phases of the geometry this gives the one-form map rows at the three levels
+(\lref{GlobalTheory.OneMapRow3.oneFormMapRow_threeLevel_of_characterisation}); together with the uniformity of the lifts and the cover field
+of the Weber level condition these form the geometric ties of $y$. The base ties of $y$ consist of the coefficient-field statement (iv), the
+pins, the real-data condition, the host hypotheses, the parameter choice of $L$, the class group condition of the base, the guard, good types and
+the series clause (both from the true types; \lref{GlobalTheory.LiftRows.Inh.goodTypes_of_typesTrue}), the inert clause, and the trace,
+standardness and phase conditions of the pins. Hence (i) applies to $y$ and $L$: the primitive row conditions hold for $y$, hence for $z$.
+\end{proof}
+
+\begin{lemma}[Saturation over the fixed field]\label{pf:bundles:lem:sat}
+Green's cuspidal characters, (FA), (LU) and (FE) imply $\mathrm{Step}_W$ from pinned witnesses to: if $T$ is untwisted, there are a level $Z$
+and a fine real datum $z$ at $(Z,\{v:\ell_v\in T.\mathrm{pl}\})$ such that $Z$ satisfies the volume, group and $\kappa$-conditions, all places
+of $W_1(z)$ have residue characteristic in $T.\mathrm{pl}$, $\psi_v=1$ for $v\notin W_1(z)$, and $W_1(z)$ is a union of fibres of the places of
+$\mathit{LL}$ over those of $\mathit{LL}_0$: if $v\in W_1(z)$ and $v'$ lies over the same place of $\mathit{LL}_0$ as $v$, then $v'\in W_1(z)$.
+\formallabel{GlobalTheory.T.untwisted_adelic_data_saturated_over_fixed_field}
+\end{lemma}
+
+\begin{proof}
+\emph{Seeds.} For a context $\bundK$, a pre-base $P$, a frame $f$, subfields $F,F_0,L$ of $\C$, prime data $\pi$ and a set $S$ of primes, a
+\emph{seed} consists of a base $B_0$ over $P$ with $K_{s,\C}=F$ and $\mathit{LL}_{0,\C}=F_0$, a twisting datum $T_0$, a pinned witness $w_0$
+for $(B_0,f,T_0)$ with prime data $\pi$, a level $Z_0$ of $w_0$ with the group conditions, and a fine real datum $z_0$ at some $(Z_0,W_0)$
+satisfying the lift conditions, such that all places of $W_1^0(z_0)$ have residue characteristic in $S$ and $\mathit{LL}_\C(B_0)\subseteq L$.
+Seeds are monotone in $S$ and $L$. For all $\bundK,P,f,F$ there are a finite set $S(P,f,F)$ of primes and a finite set $S_2(P,f,F)$ of
+algebraic numbers such that for every $\pi$: if a seed exists for some $F_0$, with $S$ the set of all primes and $L=\C$, then one exists for
+some $F_0$ with $S=S(P,f,F)$ and $L=\Q(S_2(P,f,F))$ (\lref{GlobalTheory.T.exists_uniform_normalisedAdelicSeeds}, the uniform
+normalisation of seeds). We use these sets as exceptional sets in the definition of large twisting data (\cref{pf:bundles:def:large}): the
+prime set $S(P,f,K_{s,\C})\cup\Phi_\bundK$ and the set $S_2(P,f,K_{s,\C})$ of algebraic numbers. Hence, for large twisting data,
+$\Phi_\bundK\subseteq T.\mathrm{pl}$ and, by monotonicity, for every $\pi$: if a seed with $F=K_{s,\C}$ exists, then one exists with
+$F=K_{s,\C}$, $S=T.\mathrm{pl}$ and $L=\mathit{LL}_{0,\C}$ (the \emph{seed condition}).
+
+\emph{Construction.} The conditions (FA), (LU), (FE), the seed condition and the existence of a true volume stage hold simultaneously; the
+last is the statement $\mathrm{Step}_W$ from pinned witnesses to: there is a volume--jet stage $G$ over the columns of $w$ such that every
+level with volume--jet stage $G$ satisfies the volume condition (\lref{GlobalTheory.Mem.Top.Bl.TrueLocal.exists_trueVolumeStage_columnChoiceStep}).
+Let $w$ be a pinned witness for $(B,f,T)$ at such data, with $T$ untwisted.
+\begin{enumerate}[label=(\arabic*)]
+\item Green's cuspidal characters give a level $Z$ with volume--jet stage $G$ satisfying the group and $\kappa$-conditions
+(\lref{GlobalTheory.Mem.R3.Rw.exists_lt_grpTrue}, which constructs a level with true group data over any volume--jet stage); it
+satisfies the volume condition, hence the volume tie.
+\item (FA) gives a fine real datum $z_1$ at $(Z,\{v:\ell_v\in T.\mathrm{pl}\})$, and (LU) the lift conditions for $z_1$. Thus $(B,T,w,Z,z_1)$
+is a seed with $F=K_{s,\C}$, $F_0=\mathit{LL}_{0,\C}$, all primes as $S$ and $L=\C$.
+\item By the seed condition there is a seed $(B_0,T_0,w_0,Z_0,z_0)$ with $K_{s,\C}(B_0)=K_{s,\C}(B)$, the prime data of $w$, residue
+characteristics of $W_1^0(z_0)$ in $T.\mathrm{pl}$ and $\mathit{LL}_\C(B_0)\subseteq\mathit{LL}_{0,\C}(B)$. Then $B_0\preceq_0B$: the pre-bases
+and the images of $K_s$ agree, and $\mathit{LL}_{0,\C}(B_0)\subseteq\mathit{LL}_\C(B_0)\subseteq\mathit{LL}_{0,\C}(B)\subseteq\mathit{LL}_\C(B)$.
+\item (FE), applied to $w'=w$, $Z'=Z$ and the seed, gives a fine real datum $z$ at $(Z,\{v:\ell_v\in T.\mathrm{pl}\})$ which extends $z_0$.
+\end{enumerate}
+
+\emph{Verification.} $Z$ satisfies the volume, group and $\kappa$-conditions, and $z$ is fine. As $\mathit{LL}_\C(B_0)\subseteq\mathit{LL}_\C(B)$,
+every place $v$ of $\mathit{LL}$ lies over a unique place $v_0$ of the coefficient field of $B_0$, and $\ell_v=\ell_{v_0}$. Let $v\in W_1(z)$.
+If $v\in W_1^0(z)$, then $v_0\in W_1^0(z_0)$ because $z$ extends $z_0$, so $\ell_v=\ell_{v_0}\in T.\mathrm{pl}$; if $v\in W_1^{\mathrm f}$, then
+$\ell_v\in\Phi_\bundK\subseteq T.\mathrm{pl}$. Since $T$ is untwisted, $\psi_v=1$ for all $v$. For saturation let $v\in W_1(z)$, and let $v'$ lie
+over the same place of $\mathit{LL}_0$ as $v$. If $v\in W_1^0(z)$, then $v_0\in W_1^0(z_0)$; since the coefficient field of $B_0$ embeds into
+$\mathit{LL}_0$ (as $\mathit{LL}_\C(B_0)\subseteq\mathit{LL}_{0,\C}(B)$), the restrictions of $v$ and $v'$ to it are the restrictions of their
+common restriction to $\mathit{LL}_0$, so $v'_0=v_0$, and $v'\in W_1^0(z)$ because $z$ extends $z_0$. If $v\in W_1^{\mathrm f}$, then
+$v'\in W_1^{\mathrm f}$, since $\ell_{v'}=\ell_v$ and membership in $W_1^{\mathrm f}$ depends only on the residue characteristic.
+\end{proof}
+
+\begin{lemma}[Starting choices]\label{pf:bundles:lem:start}
+Weil representations of unitary pairs, existence of discrete series, Harish-Chandra finiteness, rapid decay and (WC) imply $\mathrm{Step}_W$
+from starting witnesses to: for every level $Z$ satisfying the volume, group and $\kappa$-conditions and every fine real datum $z$ at
+$(Z,\{v:\ell_v\in T.\mathrm{pl}\})$ such that all places of $W_1(z)$ have residue characteristic in $T.\mathrm{pl}$ and $\psi_v=1$ for
+$v\notin W_1(z)$, there is a pre-datum $\mathcal P$ with $Z_0=Z$ and $W_t=W_1(z)$ whose real datum extends $z$.
+\formallabel{GlobalTheory.T.constructionStartingChoices_of_fine_adelicData}
+\end{lemma}
+
+\begin{proof}
+Weil representations, existence of discrete series, Harish-Chandra finiteness and rapid decay give the analytic inputs of the row
+constructions (\lref{GlobalTheory.LinksInputs.inputs_of_hypotheses}, which assembles them). We may work at a starting witness $w$ at which
+(WC) and the host hypotheses hold (the latter hold eventually, \lref{GlobalTheory.Mem.HostFrames.hostHyp_frames_ev}). Let $Z$ and $z$ be as
+in the statement and $W_t=W_1(z)$; then $W_t\subseteq\{v:\ell_v\in T.\mathrm{pl}\}$, and $W_t$ is stable under conjugation, since the conditions
+defining $W_1$ are symmetric in $v$ and $\bar v$.
+
+\emph{Restriction.} Let $z'$ be the restriction of $z$ to $W_t$: the real datum at $(Z,W_t)$ with the same core, analytic data and geometry, in
+which the twisted characters are kept at the places of $W_t$ only (\lref{GlobalTheory.Mem.R3.ResStd.res}, which constructs it for a
+conjugation-stable subset of the twisted places). The lattice indices defining $W_1$ are unchanged by the restriction, so $W_1(z')=W_1(z)$
+(\lref{GlobalTheory.Mem.R3.ResStd.restrictAdelicDataTwistedPlaces_nonzeroIndexPlaces}); the real-data, geometry, core and standardness
+conditions pass to $z'$, so $z'$ is fine; and $z'$ extends $z$ (\lref{GlobalTheory.Mem.R3.ResStd.res_ext}).
+
+\emph{Primitive rows.} The datum $z'$ satisfies the hypotheses of (WC): the volume, group, $\kappa$-, real-data, geometry and core conditions,
+$W_t=W_1(z')$, and the residue characteristics of $W_t$ lie in $T.\mathrm{pl}$. Hence the primitive row conditions hold for $z'$.
+
+\emph{Row package.} The host hypotheses give the maximal frame and the stage conditions of the stage tuple of $Z$. From these, the analytic inputs,
+the primitive row conditions and the conjugation stability of $W_1(z')$ one obtains a row package for $z'$, i.e.\ a family of row lifts over the
+column choices (\lref{GlobalTheory.T.nonempty_rowLiftFamily_over_columnChoices}, which constructs the row lifts of a real datum with primitive
+rows).
+
+\emph{Assembly.} The level $Z$, the set $W_t$, the datum $z'$ with its row package and the conditions --- the volume condition, coherence of $(B,T)$
+(part of being starting), the group and $\kappa$-conditions, the primitive row conditions, the real-data, geometry and core conditions,
+$W_t=W_1(z')$, the residue characteristics, $\psi_v=1$ off $W_t$ (a hypothesis) and standardness --- form a pre-datum $\mathcal P$ with $Z_0=Z$
+and $W_t=W_1(z)$, whose real datum $z'$ extends $z$.
+\end{proof}
+
+\begin{lemma}[$S$-stages with the true Haar data]\label{pf:bundles:lem:sstage}
+Let $\bundK$ be a context over the pre-base of $B$, $C$ columns over $B$ with positive column data, $W$ a row rest over $C$ whose number of rows
+is at most its total dimension, and $c$ a Haar datum. There is an $S$-stage $S$ over $(B,C,W)$ whose gap parameter is $\Delta(\bundK)$, whose
+column scale is the true scale of $c$ and whose archimedean densities are the true densities of the Harish-Chandra parameters of $B$, such
+that for all division, norm and volume--jet stages $V,N,G$ and every prime $\mathfrak p$ of $F$ the datum assembled from $(B,C,W,V,S,N,G)$ is
+locally isomorphic at $\mathfrak p$ to its local model.
+\formallabel{GlobalTheory.Mem.SProv.exists_sStage_true}
+\end{lemma}
+
+\begin{proof}
+Write $\Delta=\Delta(\bundK)>0$. Since $\bundK$ lies over the pre-base, its code is an injective map $\mathrm{cd}_\bundK$ from the words of the
+pre-base to binary strings of length $k-2$ such that, for every word $\omega$ and infinite place $\tau$, the Harish-Chandra parameters
+$(u_l,v_l)$ of $\omega$ at $\tau$ satisfy $v_l-v_{l+1}=4\Delta$ and $u_{l+1}=v_l-\frac12-\Delta\,\mathrm{cd}_\bundK(\omega)_l$; this follows from
+the formula for the parameters of the words over a context (\lref{GlobalTheory.Mem.SProv.code_of_over}). The unconditional construction of $S$-stages
+(\lref{GlobalTheory.Mem.SpectralModel.exists_sStage}: for a code of the words with these relations, positive column data, a row rest with at
+most as many rows as its total dimension and any positive archimedean densities there is an $S$-stage with these densities, built from the inner
+products of the column spaces and an isometry of the row space onto a standard space) applies with the code of $\bundK$ and the true densities,
+which are positive. In the resulting $S$-stage we replace the column scale by the true scale of $c$, the gap parameter by $\Delta$, and the local
+datum at each prime $\mathfrak p$ of $F$ by the standard local datum of $E/F$ at $\mathfrak p$ together with split data, which we choose to exist
+exactly when the residue characteristic of $\mathfrak p$ is one of the auxiliary primes $g_0,g_1$: these primes split in $E$, so that there are
+two primes of $E$ above $\mathfrak p$, and split data exist (\lref{GlobalTheory.Mem.SProv.exists_split}). The relations between code,
+gap parameter and parameters are those of $\Delta$, so this is again an $S$-stage. Finally, for all $V,N,G$ and $\mathfrak p$ the local datum of
+the assembled datum at $\mathfrak p$ is the standard local datum with the chosen split data, which is locally isomorphic to the local model
+(\lref{Formalism.L2.S.loc_of_adj}, which constructs the isomorphism).
+\end{proof}
+
+\begin{proposition}\label{pf:bundles:prop:US}
+$\mathcal H_A$ and $\mathcal H_C$ imply $(\mathrm{US})$.
+\formallabel{GlobalTheory.T.compatibleSystem_weightOne_saturated}
+\end{proposition}
+
+\begin{proof}
+The classical inputs of \cref{pf:bundles:lem:FA,pf:bundles:lem:FE,pf:bundles:lem:WC,pf:bundles:lem:sat,pf:bundles:lem:start} and of (LU) are
+components of $\mathcal H_A$ and $\mathcal H_C$, so (WC), (LU), (FA) and (FE) hold, and with them the conclusion (a) of \cref{pf:bundles:lem:sat}
+and the conclusion (b) of \cref{pf:bundles:lem:start}. We also use (c), \emph{localisation-free norm stages}
+(\lref{GlobalTheory.T.localizationFreeStage_trueGroup_columnChoiceStep}, which states the following):
+$\mathrm{Step}_W$ from pinned witnesses admitting a pre-datum to: for every pre-datum $\mathcal P$ there is a norm stage over its row
+package without localisation primes, with true group data, such that the group conditions hold at every stage tuple built from it and
+the centre condition holds for every standard isomorphism.
+
+\emph{Step 1: saturated pre-data.} We show $\mathrm{Step}_W$ from starting witnesses to ``$w$ is pinned and there is a saturated
+pre-datum''. Starting witnesses are pinned, so (a) and (b) apply. Let $w$ be a starting witness. If $T$ is untwisted, (a) gives $Z$ and $z$,
+and (b) gives a pre-datum $\mathcal P$ with $Z_0=Z$ and $W_t=W_1(z)$; since $W_1(z)$ is a union of fibres, $\mathcal P$ is saturated. If
+$T$ is not untwisted, then, $w$ being starting, the datum of $w$ is good at some level: there are a level $Z$ and a real datum $z$ at
+$(Z,\{v:\ell_v\in T.\mathrm{pl}\})$ satisfying the volume, group, $\kappa$-, real-data and geometry conditions, the core condition and
+standardness (so $z$ is fine) and the conditions on $W_1(z)$; (b) gives a pre-datum, which is saturated because the premise ``$T$
+untwisted'' of saturation fails.
+
+\emph{Step 2: norm stages.} A pinned witness with a pre-datum satisfies the hypothesis of (c); composing with Step~1 gives
+$\mathrm{Step}_W$ from starting witnesses to: there is a saturated pre-datum $\mathcal P$, and for every pre-datum there is a norm stage
+$N$ as in (c).
+
+\emph{Step 3: states.} Let $\mathcal P$ be saturated and $N$ the norm stage of (c) for $\mathcal P$. There is a division stage $V$ over the
+row package with prescribed $\eta$-components $\eta=0$, division factor $\eta_F=6x^{-C_F}$ and a division lattice given by the level-$0$
+lattices of the columns, such that the Bessel values of $V$ are rational whenever they lie in the image of $\mathit{LL}$
+(\lref{GlobalTheory.Mem.R3.Rw.exists_divStage_of_pk}, which constructs division stages with prescribed data), and there is an
+$S$-stage over the rows with the true Haar data of the volume--jet stage of $Z_0$ (\cref{pf:bundles:lem:sstage}; the column data of a
+pinned witness are positive, and the row package has at most as many rows as its total dimension). The
+stages $(V,S,N,G)$, with $G$ the stage of $Z_0$, fit the row package (the division, group and centre conditions come from the choices of $V$
+and $N$), have $\eta_F=6x^{-C_F}$, and the law of the datum holds by the rationality property of $V$. Hence they form a state $x$ of
+$\mathcal P$ (\lref{GlobalTheory.T.fittingLaterStages_row_is_constructionState}: fitting stages with these properties are the
+underlying stages of a state). The norm stage of $x$ is $N$, which has no localisation primes, and its $\eta$-components are those of $V$,
+which vanish. This proves $(\mathrm{US})$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Inner products along twisted theta chains}\label{pf:bundles:chains}
+
+This subsection proves the inner product formula along the chain of theta lifts of a datum, and its consequence for the composite of the
+chain lift with its adjoint. Both are used in the proof of the lower unitary case (LU) of \cref{pf:bundles:saturated}.
+
+\subsubsection{Parameter families and partial $L$-functions}
+
+A \emph{parameter family} $B$ over $E$ assigns to each finite place $w$ of $E$ a finite multiset $B_w$ of non-zero complex numbers. For a
+set $S$ of finite places of $F$ let $S_E$ be the set of places of $E$ above $S$; put
+\[
+L^S(B,s)=\prod_{w\notin S_E}\ \prod_{b\in B_w}\bigl(1-b\,\Nm w^{-s}\bigr)^{-1}
+\]
+(an unconditional product; it is a convergent Euler product at $s$ if no factor vanishes and $\sum_w|\prod_b(1-b\Nm w^{-s})-1|<\infty$).
+$B$ is \emph{bounded with exponent $\kappa$ outside $S$} (with respect to $r$) if $|B_w|\le r$ and $|b|\le\Nm w^{\kappa}$ for $b\in B_w$,
+$w\notin S_E$. For a unitary Hecke character $\chi$ of $E$ write $\chi(w)$ for its value at a uniformiser of $E_w$ and
+$L^S(B\otimes\chi^{-1},s)$ for $L^S$ of the family $w\mapsto\chi(w)^{-1}B_w$. The \emph{segment} of length $t$ at $w$ with centre $z$ is
+$\mathrm{seg}_w(z,t)=\{z\Nm w^{(t-1)/2-i}:0\le i<t\}$ (\cref{def:families:string}). A function $h$ has \emph{holomorphic value} $c$ at
+$s_0$ if there is a function $H$ which agrees with $h$ on a right half-plane, is meromorphic on a connected open set containing that
+half-plane and $s_0$, is analytic at $s_0$, and satisfies $H(s_0)=c$. Finally, for $a,b\in\N$ and a place $\mathfrak P$ put
+$\zeta_{\mathfrak P}(a,b)=\prod_{a<n\le b}(1-\Nm\mathfrak P^{-n})$, and let $d^S_{a,b}(s)$ be the partial normalising factor of the
+Siegel Eisenstein series on $\Uni(a,a)$ relevant to the pair of ranks $(a,b)$, a product over the places $v\notin S$ of products of
+local $L$-factors of powers of the quadratic character of $E/F$.
+
+\subsubsection{Chain data, stages and steps}
+
+Fix a global datum $D$; its ranks satisfy $t\ge r+5$ and $m\ge2$, and the spaces $Y_j$ ($0\le j<m$) of the chain have rank $r+jt$.
+\begin{itemize}
+\item A \emph{chain datum} $\bundc$ consists of archimedean data, an additive character $\psi$, unitary Hecke characters $\mu_j$ ($j\ge1$)
+and $\eta$ of $E$, a finite set $P_\bundc$ of finite places of $E$ with level data and characters $\chi_j(\mathfrak P)$ of the residue fields
+($\mathfrak P\in P_\bundc$); $S_\bundc$ is the set of places of $F$ below $P_\bundc$. The \emph{splitting characters} of step $j$ are
+$(\chi^S_j,\chi^T_j)=(\mu_j\eta^{-1},\mu_j)$ for $j$ odd and $(\mu_j,\mu_j\eta^{-1})$ for $j$ even. Admissibility requires among others
+that $\mu_{j+1}$ has infinity type $-e_j(\tau)$ at each infinite place $\tau$, is unramified outside $S_\bundc$, and restricts to
+$\chi_{j+1}(\mathfrak P)^{-1}$ at $\mathfrak P\in P_\bundc$.
+\item A \emph{twist} $\bundw$ of $\bundc$ is a decomposition $P_\bundc=P_g\sqcup Q$ into untwisted and twisted places, with characters
+$\xi_{\mathfrak P}\ne1$ of the residue fields at $\mathfrak P\in Q$ such that $\chi_j(\mathfrak P)=\xi_{\mathfrak P}^{-1}$ there; $S_0$ is the
+set of places of $F$ below $P_g$.
+\item A \emph{stage} $s$ consists of a hermitian space $V_s$, a discrete-series model $(H_{s,\tau})_\tau$ at the infinite places, a
+self-dual lattice, a frame, a level datum, a Haar measure $\nu_s$ on $\Uni(V_s)(\A_F)$ and a fundamental domain $\mathcal F_s$. Its space
+$C(s)$ consists of the automorphic maps of the given level and character: linear maps $u$ from the smooth vectors of $\bigotimes_\tau
+H_{s,\tau}$ to functions on $\Uni(V_s)(\A_F)$. The Petersson pairing is $\mathrm{pet}_s(f_1,f_2)=\int_{\mathcal F_s}f_1\bar f_2\,d\nu_s$.
+A stage is \emph{at step $j$} of $(\bundc,\bundw)$ if $V_s$ has the rank and signature of $Y_j$, the discrete-series parameters of step
+$j$, and the level datum of step $j$ with the twisted places $Q$.
+\item A \emph{metric} on a stage is a pair $(\langle\,,\rangle_D,\langle\,,\rangle)$: $\langle\,,\rangle_D$ is the hermitian form on the
+vectors which is the product of the Hilbert inner products on pure tensors, and $\langle\,,\rangle$ is a positive definite hermitian form
+on $C(s)$ satisfying the Schur relation $\mathrm{pet}_s(u(v),u'(v'))=\langle u,u'\rangle\,\langle v,v'\rangle_D$.
+\item A \emph{step} $p$ from $s$ to $s'$ consists of a Weil representation $\omega$ of $\Uni(V_s)\times\Uni(V_{s'})$ with the splitting
+characters of the step, a step vector, polynomial test functions $\Phi_\phi$ attached to polynomials $\phi$, archimedean intertwiners
+$I_\phi$ from the vectors of $s'$ to those of $s$, and the \emph{downward lift} $\iota_p\colon C(s')\to C(s)$, characterised by
+\[
+\int_{\mathcal F_{s'}}\theta(g,h;\Phi_\phi)\,y(v)(h)\,d\nu_{s'}(h)=\iota_p(y)(I_\phi v)(g).
+\]
+The \emph{upward lift} of a function $F$ on $\Uni(V_s)(\A_F)$ is $\theta_\phi(F)(h)=\int_{\mathcal F_s}\overline{\theta(g,h;\Phi_\phi)}F(g)\,
+d\nu_s(g)$.
+\item For $u\in C(s)$, $u$ \emph{has parameters} $B$ if $u\ne0$ and every non-zero component $u(v)$ is a Hecke eigenfunction outside
+$S_\bundc$ with Satake parameters $B$. At the twisted places, $u$ \emph{has the twisted local parameters of step $k$} if at each
+$\mathfrak P\in Q$ the conjugates of its components are generalised eigenvectors of the parahoric Hecke operators of the charts
+$\GL_{r+kt}\to\Uni(V_s)$ at the place below $\mathfrak P$, of type a lift of $\xi_{\mathfrak P}$ and with parameters $q_k(\mathfrak P)$, where
+$q_0=\emptyset$ and $q_{i+1}=q_i\cdot\chi^S_{i+1}(\varpi)\chi^T_{i+1}(\varpi)^{-1}+\mathrm{seg}(\chi^S_{i+1}(\varpi),t)$ (see
+\cref{pf:bundles:twisted} for the precise definition).
+\item The \emph{chain parameters} are $\mathrm{ch}_0(B)=B$ and $\mathrm{ch}_{k+1}(B)=\mathrm{st}_{k+1}(\mathrm{ch}_k(B))$, where
+$\mathrm{st}_{j}(B)_w=B_w\,\chi^S_{j}(w)\chi^T_{j}(w)^{-1}+\mathrm{seg}_w(\chi^S_{j}(w),t)$.
+\end{itemize}
+
+For the real data $R$ of the datum and a \emph{tuple} $\bundt$ (an index of the twisted characters of $R$), $R$ provides a chain datum
+$\bundc_\bundt$ with $P_{\bundc_\bundt}=P_g\cup Q_\bundt$, a twist $\bundw_\bundt$, stages $s_{\bundt,j}$ ($0\le j<m$) on the spaces $Y_j$,
+a top stage $s_{\bundt,m}$ on $X'$, and steps $p_{\bundt,k}$ from $s_{\bundt,k}$ to $s_{\bundt,k+1}$. The archimedean intertwiners of the
+steps and the discrete-series models do not depend on $\bundt$, and $\mu_{\bundt,j}=\mu_{0,j}\,\xi_\bundt$ for a character $\xi_\bundt$ which does
+not depend on $j$, so that the ratios $\mu_{\bundt,i}\mu_{\bundt,j}^{-1}$ do not depend on $\bundt$. Let $S_\bundt$ be the set of places of $F$ below $P_g\cup Q_\bundt$, and $H_X(\bundt)$
+the Hilbert space of the top stage, with the map $\Theta_\bundt\colon H_X(\bundt)\to H_E$ to the base Hilbert space of forms on $Y_0$.
+
+\begin{definition}[Lifts and scalars]\label{pf:bundles:def:scalars}
+Let $\bundt$ be a tuple and $\lambda$ a system of Hecke eigenvalues at the places of $E$ outside $S_\bundt$.
+\begin{enumerate}[label=(\alph*)]
+\item For automorphic maps $u,u'$ at stage $k$, $\langle u,u'\rangle_k=a$ means: $\int_{\mathcal F_k}\overline{u(v)}\,u'(v')\,d\nu_k=a\prod_\tau
+\langle v_\tau,v'_\tau\rangle$ for all pure tensors $v,v'$.
+\item The \emph{row part} $E_\lambda(\bundt)$ is the space of base-level maps of the type of the datum whose components are eigenfunctions
+with eigenvalues $\lambda$ outside $S_\bundt$.
+\item $x$ is a \emph{lift} of $u$ at step $k$ ($k+1<m$) if $x\in C(s_{\bundt,k+1})$ and $\langle x,y\rangle_{k+1}=\langle
+u,\iota_{p_{\bundt,k}}(y)\rangle_k$ for all $y\in C(s_{\bundt,k+1})$; a \emph{top lift} of $u$ at stage $m-1$ is $x\in H_X(\bundt)$ with
+$\langle u,\iota(y)\rangle_{m-1}=\langle x,y\rangle$ for all $y\in H_X(\bundt)$, $\iota$ the downward lift of the top step.
+\item The \emph{reached} vectors: $\mathcal R_0=E_\lambda(\bundt)$ and $\mathcal R_{k+1}=\{$lifts of elements of $\mathcal R_k\}$.
+\item $L$-values: $l$ is the $L$-value of $(\bundt,B,j)$ if $L^{S_\bundt}(B\otimes\mu_{\bundt,j}^{-1},s)$ is a convergent Euler product at
+$s=(1+t)/2$, $l>0$, and $L^{S_\bundt}(B\otimes\mu_{\bundt,j}^{-1},(1+t)/2)=l$.
+\item The datum has \emph{chain scalars} if there are $\kappa_1,\dots,\kappa_m>0$ such that for every tuple $\bundt$ and every $\lambda$ with
+$E_\lambda(\bundt)\ne0$: there is a family $B$ of Satake parameters of length $r$ of $\lambda$ outside $S_\bundt$; and for every such $B$, (i)
+for every $k$ with $k+1<m$ there is an $L$-value $l$ of $(\bundt,B,k+1)$ such that every $u\in\mathcal R_k$ has a lift and $\langle
+x_1,x_2\rangle_{k+1}=\kappa_{k+1}l\,\langle u_1,u_2\rangle_k$ for all $u_1,u_2\in\mathcal R_k$ and lifts $x_1,x_2$; (ii) there is an
+$L$-value $l$ of $(\bundt,B,m)$ such that every $u\in\mathcal R_{m-1}$ has a top lift and $\langle x_1,x_2\rangle=\kappa_m l\,\langle
+u_1,u_2\rangle_{m-1}$ for top lifts $x_i$ of $u_i\in\mathcal R_{m-1}$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Rallis inner product formula for one step]\label{pf:bundles:def:rallis}
+The datum $D$ satisfies the \emph{Rallis inner product formula} if the following holds for every pair $(V,V')$ of hermitian spaces with a
+Weil representation $\omega$ of $\Uni(V)\times\Uni(V')$ with splitting characters $(\chi_V,\chi_{V'})$, $\rank V'=\rank V+t$, $t\ge2$, and the Witt
+index of $V'$ zero or less than $t$; self-dual lattices, a finite set $S$ of places outside of which all data are unramified, Fock test
+vectors $\Phi_1,\Phi_2$, Haar measures $m,m'$, cusp forms $u_1,u_2$ on $\Uni(V)$ with $u_1$ of Satake parameters $B$ outside $S$ and $u_2$
+spherical outside $S$, a split place $q\notin S$ at which $\beta\chi_{V'}(w)^{-1}\neq\Nm w^{k/2}$ for all $\beta\in B_w$, $w\mid q$ and
+$k\in\{\pm(t-1),\pm(t+1)\}$, and integrability of the doubling integrand at some $s_1<t/2$: the lifts $\theta_{\Phi_i}(u_i)$ converge, the
+product of the Weil coefficient $\langle\omega(g)\Phi_1,\Phi_2\rangle$ and the matrix coefficient of $(u_1,u_2)$ is integrable on the set
+$\mathcal O_S$ of elements integral outside $S$, and for every holomorphic value $l$ at $t/2$ of $z\mapsto L^S(B\otimes\chi_{V'}^{-1},z+\frac12)$,
+\[
+\mathrm{pet}\bigl(\theta_{\Phi_1}(u_1),\theta_{\Phi_2}(u_2)\bigr)=\vol(V')\,\frac{l}{d^S_{\rank V,\rank V'}(t/2)}\int_{\mathcal O_S}
+\langle\omega(g)\Phi_1,\Phi_2\rangle\,\langle u_1,u_2\rangle(g)\,dm(g),
+\]
+$\vol(V')$ denoting the total mass of the automorphic quotient of $\Uni(V')$ for $m'$.
+\end{definition}
+
+This is the Rallis inner product formula in the form given by the doubling method \cite{Rallis1987,PiatetskiShapiroRallis1987,KudlaRallis1994}; it
+is derived from the theta package $\mathcal H_\Theta$ in \lref{GlobalTheory.Core.Rk.IP.heckeForm_of_doubling'} (from the doubling
+package, the Siegel--Weil formula and the unramified doubling computation), and it is a hypothesis of the theorem below.
+
+\begin{theorem}[Inner products along twisted theta chains]\label{pf:bundles:thm:chain}
+Assume Harish-Chandra finiteness, rapid decay of cusp forms, the discrete series cover, Harish-Chandra modules, Casselman--Wallach, Howe's
+unramified statement and the unramified doubling computation for $\GL_n$. Let $D$ be a datum with real data $R$ and face satisfying the
+standing hypotheses of the development (core conditions, a parameter choice, absolutely irreducible characters, good types, the guard,
+and gaps of at least $100r^4$ between consecutive Harish-Chandra parameters), the node gap condition (there is $N\ge\rank X'+1$ such that
+consecutive entries $b_i(\tau)<b_{i+1}(\tau)$ of the Harish-Chandra parameters of the chain differ by at least $t+2N^3+1$) and the Rallis
+inner product formula (\cref{pf:bundles:def:rallis}). Then $D$ has chain scalars.
+\formallabel{GlobalTheory.T.thetaChain_steps_positive_multiple_of_LValue}
+\end{theorem}
+
+\subsubsection{Step statements}
+
+The proof of \cref{pf:bundles:thm:chain} reduces it to a list of statements about the steps of chain data. In the following
+definition, a \emph{step configuration} consists of an admissible chain datum $\bundc$ with a twist $\bundw$, an integer $k<m$, stages
+$s,s'$ at steps $k$ and $k+1$ and a step $p$ from $s$ to $s'$ of index $k+1$; metrics $(\,,)_s$, $(\,,)_D$ are linear in the first and
+conjugate-linear in the second variable. Given metrics on $s$ and $s'$, an element $x\in C(s')$ is an \emph{adjoint lift} of $u\in C(s)$ if
+$(y,x)_{s'}=(\iota_p y,u)_s$ for all $y\in C(s')$; for a polynomial $\phi$ and a vector $v$ of $s$, a vector $w_0$ of $s'$ is \emph{adjoint
+to $v$} if $w_0$ is $K$-finite and $(w,w_0)_D=(I_\phi w,v)_D$ for all $K$-finite $w$. We use the local quantities at a place
+$\mathfrak P\in Q$, with $N=\Nm\mathfrak P$ and $z_i=(\mu_i\mu_{k+1}^{-1})(\mathfrak P)$:
+\begin{gather*}
+\mathrm{bl}_k(\mathfrak P)=\prod_{i=1}^k\prod_{n=1}^t\bigl((1-z_iN^{-n})(1-z_i^{-1}N^{-n})\bigr)^{-1},\qquad
+\mathrm{loc}_k=\prod_{\mathfrak P\in Q}\mathrm{bl}_k(\mathfrak P)\,\zeta_{\mathfrak P}(t,(k+1)t),\\
+\mathrm{idx}_{\mathfrak P}(j)=\frac{N^{rjt}\,\zeta_{\mathfrak P}(0,r+jt)}{\zeta_{\mathfrak P}(0,r)\,\zeta_{\mathfrak P}(0,jt)},\qquad
+\mathrm{v}_{\mathfrak P}(j)=\zeta_{\mathfrak P}(0,r)\,N^{-rjt}.
+\end{gather*}
+A number $H$ is an \emph{$H$-value} of $(\bundc,S,k)$ if $H=\prod_{i=1}^k\prod_{n=1}^t\Lambda_i(n)$ for entire functions $\Lambda_i$ with
+$\Lambda_i(s)=L^S(s,\mu_i\mu_{k+1}^{-1})$ (the Euler product over the places of $E$ above places outside $S$) for $\Re s>1$. For a
+Haar measure $m$ of covolume one on the space of the Weil representation, a Haar measure $m_\R$ on the real group adapted to the level
+(integrals of level-invariant functions over the level set equal integrals over the real group), a polynomial $\phi$ and a pure tensor $v$
+of $K$-finite vectors, let
+\[
+I(p,\phi,v)=\int\langle\omega(g)\Phi_\phi,\Phi_\phi\rangle\,\overline{\textstyle\prod_\tau\langle v_\tau,\pi_\tau(g_\tau)v_\tau\rangle}\,dm_\R(g)
+\]
+(\emph{real zeta integral}), where real convergence of $(\phi,v)$ means that the integrand times a power $\mathrm{ht}^{s_1-t/2}$ of the
+height is integrable for some $s_1<t/2$ and every majorant, and put
+\[
+\kappa(p,\phi,v,H_0)=\frac{\vol(s')}{\prod_{\mathfrak P\in Q}\mathrm{idx}_{\mathfrak P}(k+1)}\cdot\frac{H_0}{d^{S_0}(t/2)}\cdot
+\frac{I(p,\phi,v)}{\prod_{\mathfrak P\in Q}\mathrm v_{\mathfrak P}(k+1)},
+\]
+with $d^{S}=d^S_{\rank V_s,\rank V_{s'}}$.
+
+\begin{definition}[Step statements]\label{pf:bundles:def:steps}
+The following are statements about all step configurations (for (S1) and (S7), about all stages at steps $j\le m$).
+\begin{enumerate}[label=(S\arabic*)]
+\item \emph{Soft properties}: $C(s)$ is finite-dimensional and carries a metric; if $x(w)=0$ for some $w\ne0$ then $x=0$; if a non-zero
+component $x(w)$ has parameters $B$, then $x$ has parameters $B$.
+\item \emph{Span}: upward lifts $\theta_\phi(u(v))$ of components at $K$-finite vectors lie in the span of the components of $C(s')$ at
+$K$-finite vectors.
+\item \emph{Adjointness}: $\mathrm{pet}_{s'}(y(w),\theta_\phi(u(v)))=\mathrm{pet}_s(\iota_p(y)(I_\phi w),u(v))$ for $K$-finite $v,w$.
+\item \emph{Value of the lift}: for metrics on $s,s'$ and $K$-finite $v$: if $\theta_\phi(u(v))\ne0$ for some $u$, there is $w_0\ne0$ adjoint to
+$v$; and for every $w_0$ adjoint to $v$ and every adjoint lift $x$ of $u$, $\theta_\phi(u(v))=x(w_0)$.
+\item \emph{Parameters of lifts}: if $u$ has parameters $B$ and $\theta_\phi(u(v))\ne0$, then $\theta_\phi(u(v))$ has parameters
+$\mathrm{st}_{k+1}(B)$, where $\mathrm{st}_{j}(B)_w=B_w\chi^S_{j}(w)\chi^T_{j}(w)^{-1}+\mathrm{seg}_w(\chi^S_{j}(w),t)$.
+\item \emph{Twisted parameters of lifts}: if $u$ has the twisted local parameters of step $k$, then so have the components
+$\theta_\phi(u(v))$ for step $k+1$.
+\item \emph{Twisted parameters from one value}: if a non-zero component of $x\in C(s)$ has the twisted local parameters of step $j$, so has
+$x$; for $j=0$ every $x$ has them.
+\item \emph{Peeling the twisted places}: for $u_1$ with the twisted parameters of step $k$ and real $z>t/2-1$, integrability of the doubling
+integrand $\mathcal I_z$ of $(u_1(v_1),u_2(v_2))$ on the level set implies its integrability on the set $\mathcal O_S$ of elements integral outside
+$S_\bundc$, and for $z=t/2$, $\int_{\mathcal O_S}\mathcal I_{t/2}=\mathrm{loc}_k\int_{\mathrm{lev}}\mathcal I_{t/2}$.
+\item \emph{Level integral}: for real convergent $(\phi,v)$ there is $s_1<t/2$ such that the doubling integrands of $(u_1(v),u_2(v))$ are
+integrable on the level set for $z\ge s_1$, and $\int_{\mathrm{lev}}\mathcal I_{t/2}=I(p,\phi,v)\,\overline{(u_1,u_2)_s}$.
+\item \emph{Real zeta integrals}: for every $m$ of covolume one there are $\phi,v$ such that $I(p,\phi,v)\ne0$ and $(\phi,v)$ is real convergent,
+for every Haar measure $m_\R$.
+\item \emph{Factorisation of $L$-values} (\cref{pf:bundles:lem:lfull} below).
+\item \emph{Restoring Euler factors}: if $H$ and $H_0$ are $H$-values of $(\bundc,S_\bundc,k)$ and $(\bundc,S_0,k)$, then
+$H_0=H\prod_{\mathfrak P\in Q}\mathrm{bl}_k(\mathfrak P)$; some $H$-value $H_0$ of $(\bundc,S_0,k)$ is non-zero; $d^{S_0}(t/2)\ne0$; and
+$d^{S_\bundc}(t/2)=d^{S_0}(t/2)\prod_{\mathfrak P\in Q}\zeta_{\mathfrak P}(t,r+(k+1)t)$.
+\item \emph{Positivity at the base}: if $u\in C(s)$, $s$ at step $0$, has parameters $B$, then $B$ is bounded with exponent $r/2$ outside
+$S_\bundc$, and for every $k<m$ the value $L^{S_\bundc}(B\otimes\mu_{k+1}^{-1},(1+t)/2)$ is a positive real number.
+\end{enumerate}
+For the real data $R$ of the datum we use further statements about all tuples $\bundt$; $\bundt_0$ denotes the base tuple of $R$.
+\begin{enumerate}[label=(R\arabic*)]
+\item the top stage is the image of $H_X(\bundt)$, and the stages and steps of $R$ form an admissible chain with its twist;
+\item there is $\delta>0$ such that $H_X(\bundt)\to C(s_{\bundt,m})$ is bijective and $\langle x,y\rangle=\delta\,(y,x)$ for every metric of
+the top stage;
+\item for every $u$ in the row part $E_\lambda(\bundt)$, $u\in C(s_{\bundt,0})$, and $u$ has parameters $B$ for every family $B$ of Satake
+parameters of $\lambda$ if $u\ne0$; and $E_\lambda(\bundt)\neq0$ implies that $\lambda$ has such a family;
+\item for every metric of the stage $s_{\bundt,k}$, the Petersson product of \cref{pf:bundles:def:scalars} is $\langle u,u'\rangle_k=(u',u)$;
+\item for every $j<m$ there is a Haar measure on the real group adapted to the level of $s_{\bundt,j}$ for every $\bundt$;
+\item $\vol(s_{\bundt,j})=\vol(s_{\bundt_0,j})\prod_{\mathfrak P\in Q_\bundt}\mathrm{idx}_{\mathfrak P}(j)>0$ for $j<m$, and the same for the top
+stage with $j=m$;
+\item for every $m$ of covolume one, the norm $\|\mathrm v_{\bundt,k}\|^2$ of the step vector of $p_{\bundt,k}$ equals
+$\|\mathrm v_{\bundt_0,k}\|^2\prod_{\mathfrak P\in Q_\bundt}\mathrm v_{\mathfrak P}(k+1)$, and the same for the top step.
+\end{enumerate}
+\emph{Uniformity in the tuple} (U) is the statement: for every step $k$ there are $K\ne0$, $\phi$ and $v$ such that for every $\bundt$ there are
+$m,m_\R$ and an $H$-value $H_0$ of $(\bundc_\bundt,S_0,k)$ with $(\phi,v)$ real convergent for $p_{\bundt,k}$ and $\kappa(p_{\bundt,k},\phi,v,H_0)=K$;
+and the same for the top step.
+\end{definition}
+
+\begin{lemma}[Adjointness of the lifts]\label{pf:bundles:lem:adj}
+Rapid decay of cusp forms implies (S3).
+\formallabel{GlobalTheory.T.chainThetaLiftsAdjoint_of_cuspRapidDecay}
+\end{lemma}
+
+\begin{proof}
+Let $u\in C(s)$, $y\in C(s')$ and $K$-finite $v,w$. By definition of the upward lift,
+\[
+\mathrm{pet}_{s'}\bigl(y(w),\theta_\phi(u(v))\bigr)=\int_{\mathcal F_{s'}}\int_{\mathcal F_s}\theta(g,h;\Phi_\phi)\,y(w)(h)\,
+\overline{u(v)(g)}\,d\nu_s(g)\,d\nu_{s'}(h).
+\]
+The components $u(v)$ and $y(w)$ are of rapid decay (they are components of automorphic maps of the stages, and the first hypothesis
+applies), so the two integrations may be interchanged (\lref{GlobalTheory.T.thetaKernel_iterated_integrals_swap}, which proves
+the interchange for the theta kernel of a Weil representation and functions of rapid decay on the two fundamental domains). After the
+interchange the inner integral is $\int_{\mathcal F_{s'}}\theta(g,h;\Phi_\phi)y(w)(h)\,d\nu_{s'}(h)=\iota_p(y)(I_\phi w)(g)$ by the defining
+property of the downward lift, and the outer integral is $\mathrm{pet}_s(\iota_p(y)(I_\phi w),u(v))$.
+\end{proof}
+
+\begin{lemma}[Value of the lift]\label{pf:bundles:lem:upval}
+(S1), (S2) and (S3) imply (S4).
+\formallabel{GlobalTheory.T.chain_theta_lift_up_eq_adjoint_value}
+\end{lemma}
+
+\begin{proof}
+Fix a step configuration with metrics on $s$ and $s'$, a polynomial $\phi$ and a $K$-finite $v$; put $l(w)=(I_\phi w,v)_D$. Let $u\in C(s)$,
+let $x$ be an adjoint lift of $u$, and put $F=\theta_\phi(u(v))$. For $y\in C(s')$ and $K$-finite $w$, (S3) and the Schur relation give
+\begin{equation}\label{pf:bundles:eq:upval}
+\mathrm{pet}_{s'}(y(w),F)=\mathrm{pet}_s(\iota_p(y)(I_\phi w),u(v))=(\iota_py,u)_s\,l(w)=(y,x)_{s'}\,l(w).
+\end{equation}
+By (S2), $F$ lies in the span of the components $y(w)$ ($y\in C(s')$, $w$ $K$-finite). The following linear-algebra fact applies
+(\lref{GlobalTheory.ChainOnto.value_of_adjoint_of_mem_span}, proved by expanding $F$ in an orthonormal basis of $C(s')$ and using the
+Schur relation): if $F\neq0$ lies in this span and satisfies \eqref{pf:bundles:eq:upval} for all $y,w$, then $x\ne0$ and $F=x(w_1)$ for
+some $K$-finite $w_1$. Such a $w_1$ is adjoint to $v$: for $K$-finite $w$, \eqref{pf:bundles:eq:upval} with $y=x$ and the Schur relation
+give $(x,x)_{s'}(w,w_1)_D=\mathrm{pet}_{s'}(x(w),x(w_1))=(x,x)_{s'}l(w)$, and $(x,x)_{s'}\ne0$.
+
+First assertion of (S4): if $F\ne0$ for some $u$, take for $x$ the adjoint lift of $u$, which exists because the metrics are positive definite
+and $C(s')$ is finite-dimensional (\lref{GlobalTheory.hermitian_adjoint_exists_unique}); the vector $w_1$ obtained above is adjoint to $v$ and
+non-zero, as $F=x(w_1)\ne0$.
+
+Second assertion: let $w_0$ be adjoint to $v$ and $x$ an adjoint lift of $u$. If $F=0$, then \eqref{pf:bundles:eq:upval} with $y=x$, $w=w_0$ gives
+$0=(x,x)_{s'}\,l(w_0)=(x,x)_{s'}(w_0,w_0)_D$, so $x=0$ or $w_0=0$, and in both cases $x(w_0)=0=F$. If $F\neq0$, then $F=x(w_1)$ with $w_1$ adjoint to
+$v$; adjoint vectors are unique (if $w_0,w_1$ are adjoint to $v$, then $(w_1-w_0,w_1-w_0)_D=0$), so $w_1=w_0$ and $F=x(w_0)$.
+\end{proof}
+
+\begin{lemma}[Factorisation of $L$-values]\label{pf:bundles:lem:lfull}
+Let $\bundc$ be an admissible chain datum, $S=S_\bundc$, $B$ a parameter family bounded with exponent $r/2$ outside $S$, and $k<m$. There is
+a non-zero $H$-value $H$ of $(\bundc,S,k)$ such that $L^S(B\otimes\mu_{k+1}^{-1},s)$ is a convergent Euler product at $s=(1+t)/2$ with
+non-zero value $L$, and the function $z\mapsto L^S(\mathrm{ch}_k(B)\otimes(\chi^T_{k+1})^{-1},z+\frac12)$ has holomorphic value $L\cdot H$ at
+$z=t/2$.
+\formallabel{GlobalTheory.T.twistedThetaChain_LValue_quotientFactorization}
+\end{lemma}
+
+\begin{proof}
+For $1\le i\le k$ the partial $L$-function $L^S(s,\mu_i\mu_{k+1}^{-1})$ extends to an entire function $\Lambda_i$ with $\Lambda_i(n)\ne0$ for
+$1\le n\le t$ (\lref{GlobalTheory.T.thetaChain_char_quotient_LFunction_entire_ne_zero}, which proves this for the non-trivial
+characters $\mu_i\mu_j^{-1}$, $1\le i<j\le m$). Put $A=B\otimes\mu_{k+1}^{-1}$; it is bounded with exponent $r/2$ outside $S$, because the
+values of a unitary character have absolute value $1$. The parameter family of step $k$ twisted by $(\chi^T_{k+1})^{-1}$ decomposes as
+\begin{equation}\label{pf:bundles:eq:chtwist}
+\mathrm{ch}_k(B)\otimes(\chi^T_{k+1})^{-1}=A+\sum_{i=1}^k\mathrm{seg}\bigl(\mu_i\mu_{k+1}^{-1},t\bigr)
+\end{equation}
+(\lref{GlobalTheory.T.thetaLiftChainHeckeParameter_twist_next_target_char}, a computation with the recursion defining
+$\mathrm{ch}_k$ and the splitting characters). Euler products of sums of families are products of Euler products where they converge, and
+the Euler product of a segment family at $s$ is $\prod_{l=0}^{t-1}L^S(s+\frac{t-1}2-l,\cdot)$
+(\lref{GlobalTheory.ChainOnto.eulerProd_add_segFam}). Hence the function
+\[
+G(x)=L^S(A,x+\tfrac12)\prod_{i=1}^k\prod_{l=0}^{t-1}\Lambda_i\bigl(x+\tfrac12+\tfrac{t-1}2-l\bigr)
+\]
+agrees with $L^S(\mathrm{ch}_k(B)\otimes(\chi^T_{k+1})^{-1},x+\frac12)$ for $\Re x>r+t+2$: there $\Re(x+\frac12+\frac{t-1}2-l)>1$ for $l<t$,
+so all Euler products converge. Since $A$ is bounded with exponent $r/2$, $L^S(A,s)$ is holomorphic on $\Re s>\frac r2+1$; hence $G$ is
+holomorphic on $\Re x>\frac{r+1}2$, a right half-plane containing $t/2$ (as $t\ge r+5$). At $x=t/2$ the reindexing $n=t-l$ gives
+$G(t/2)=L^S(A,\frac{1+t}2)\,H$ with $H=\prod_{i=1}^k\prod_{n=1}^t\Lambda_i(n)$, an $H$-value of $(\bundc,S,k)$, non-zero by the choice of the
+$\Lambda_i$. Finally $\Re\frac{1+t}2>\frac r2+1$, so $L^S(A,s)$ is a convergent Euler product at $\frac{1+t}2$, and a convergent Euler product
+with non-vanishing factors is non-zero.
+\end{proof}
+
+\begin{lemma}[The inner product at one step]\label{pf:bundles:lem:exact}
+Assume the Rallis inner product formula for $D$, (S1), (S8) and (S9). Then for every step configuration, metric on $s$, $m$ of covolume one,
+adapted $m_\R$, real convergent $(\phi,v)$, $u_1,u_2\in C(s)$ and family $B$ such that $u_1$ has parameters $B$ and the twisted parameters of
+step $k$, if there is a split place $q\notin S_\bundc$ at which $B$ avoids the values excluded in \cref{pf:bundles:def:rallis} for
+$\chi^T_{k+1}$, and $l$ is a holomorphic value at $t/2$ of $z\mapsto L^{S_\bundc}(B\otimes(\chi^T_{k+1})^{-1},z+\frac12)$, then
+\begin{equation}\label{pf:bundles:eq:exact}
+\mathrm{pet}_{s'}\bigl(\theta_\phi(u_1(v)),\theta_\phi(u_2(v))\bigr)=\overline{\vol(s')\,\frac{l}{d^{S_\bundc}(t/2)}\,\mathrm{loc}_k\,
+I(p,\phi,v)}\;(u_1,u_2)_s .
+\end{equation}
+\formallabel{GlobalTheory.T.thetaLiftChainStep_exact_innerProduct}
+\end{lemma}
+
+\begin{proof}
+If the pure tensor $v$ is $0$, some $v_\tau$ is $0$; then the integrand of $I(p,\phi,v)$ vanishes and both sides of \eqref{pf:bundles:eq:exact}
+are $0$. Otherwise $u_1(v)\ne0$ by (S1), since $u_1\ne0$, so $u_1(v)$ has parameters $B$. We apply the Rallis inner product formula to the pair
+$(V_s,V_{s'})$ (of ranks $r+kt$ and $r+(k+1)t$, $t\ge2$), the Weil representation of the step, the test vectors $\Phi_1=\Phi_2=\Phi_\phi$ and the
+functions $\overline{u_1(v)},\overline{u_2(v)}$. Its hypotheses hold: the forms of a stage of the twisted level are forms of the finer level
+(\lref{GlobalTheory.T.chain_stage_forms_twisted_level_le_finer_level}), and the conjugates of their components are cusp forms with respect
+to a Cartan frame, with a majorant (\lref{GlobalTheory.ChainOnto.conj_stage_val_mem_A0_and_cartan_frame}); the Witt index of $V_{s'}$ is less
+than $t$ (\lref{GlobalTheory.ChainOnto.WittTwo.wittIndex_lt_and_two_split}); the test vectors are Fock vectors, spherical outside
+$S_\bundc$ (\lref{GlobalTheory.T.twistedChainStep_fockVectors_spherical_offS}); $\overline{u_2(v)}$ is spherical outside $S_\bundc$ by the
+level conditions of the stage; and the doubling integrand is integrable on $\mathcal O_S$ at some $z<t/2$ by (S9) and (S8) (take
+$z=\max(s_1,\frac t2-\frac12)$). The formula gives
+\[
+\mathrm{pet}\bigl(\theta_\phi(\overline{u_1(v)}),\theta_\phi(\overline{u_2(v)})\bigr)=\vol(s')\frac{l}{d^{S_\bundc}(t/2)}\int_{\mathcal O_S}
+\mathcal I_{t/2},
+\]
+since at $z=t/2$ the doubling integrand is the product of the Weil coefficient and the matrix coefficient. By (S8) and (S9),
+$\int_{\mathcal O_S}\mathcal I_{t/2}=\mathrm{loc}_k\,I(p,\phi,v)\,\overline{(u_1,u_2)_s}$. The upward lift of the conjugate of a left-invariant
+function is the conjugate of its upward lift, and $\mathrm{pet}(\bar f_1,\bar f_2)=\overline{\mathrm{pet}(f_1,f_2)}$ for left-invariant
+functions (both by the invariance of the theta kernel and of the fundamental domain). Taking complex conjugates gives
+\eqref{pf:bundles:eq:exact}.
+\end{proof}
+
+\begin{lemma}[The step scalar]\label{pf:bundles:lem:steplam}
+Assume (S1), (S4)--(S7), (S11), (S12) and the conclusion of \cref{pf:bundles:lem:exact}. Let a step configuration with metrics on $s$ and $s'$,
+$m$, $m_\R$, real convergent $(\phi,v)$ and an $H$-value $H_0$ of $(\bundc,S_0,k)$ with $\kappa=\kappa(p,\phi,v,H_0)\ne0$ be given, let $B$ be
+bounded with exponent $r/2$ outside $S_\bundc$, and let $u_1\in C(s)$ have parameters $\mathrm{ch}_k(B)$ and the twisted parameters of step $k$.
+Put $L=L^{S_\bundc}(B\otimes\mu_{k+1}^{-1},\frac{1+t}2)$. There is $w_0\ne0$ adjoint to $v$ such that every adjoint lift $x_1$ of $u_1$ has
+parameters $\mathrm{ch}_{k+1}(B)$ and the twisted parameters of step $k+1$, and for all $u_2\in C(s)$ with adjoint lift $x_2$,
+\begin{equation}\label{pf:bundles:eq:steplam}
+(x_1,x_2)_{s'}\,(w_0,w_0)_D=\overline{\kappa\,L}\,(u_1,u_2)_s .
+\end{equation}
+\formallabel{GlobalTheory.T.twistedThetaChain_step_adjoint_scalar}
+\end{lemma}
+
+\begin{proof}
+Write $S=S_\bundc$. By \cref{pf:bundles:lem:lfull} there is an $H$-value $H$ of $(\bundc,S,k)$ with $L\ne0$ such that
+$z\mapsto L^S(\mathrm{ch}_k(B)\otimes(\chi^T_{k+1})^{-1},z+\frac12)$ has holomorphic value $LH$ at $t/2$. The family inverse to $B$ is bounded
+(\lref{GlobalTheory.ChainTw.invFam_bounded}), and therefore there is a split place $q\notin S$ at which $\mathrm{ch}_k(B)$ avoids the excluded
+values for $\chi^T_{k+1}$ (\lref{GlobalTheory.T.chain_each_step_splitPlace_without_excludedParams}). \Cref{pf:bundles:lem:exact}, applied to
+$\mathrm{ch}_k(B)$ and $l=LH$, gives for every $u_2$
+\[
+\mathrm{pet}_{s'}\bigl(\theta_\phi(u_1(v)),\theta_\phi(u_2(v))\bigr)=\overline{\vol(s')\,\frac{LH}{d^S(t/2)}\,\mathrm{loc}_k\,I}\,(u_1,u_2)_s,
+\qquad I=I(p,\phi,v).
+\]
+The constant equals $\kappa L$. Indeed, by (S12), $H_0=H\prod_{\mathfrak P}\mathrm{bl}_k(\mathfrak P)$ and $d^S=d^{S_0}\prod_{\mathfrak
+P}\zeta_{\mathfrak P}(t,r+(k+1)t)$, and from the definitions
+\[
+\mathrm{idx}_{\mathfrak P}(k+1)\,\mathrm v_{\mathfrak P}(k+1)=\frac{\zeta_{\mathfrak P}(0,r+(k+1)t)}{\zeta_{\mathfrak P}(0,(k+1)t)}=
+\frac{\zeta_{\mathfrak P}(t,r+(k+1)t)}{\zeta_{\mathfrak P}(t,(k+1)t)},
+\]
+so that $\vol(s')\frac{LH}{d^S}\mathrm{loc}_kI=\vol(s')\frac{LH_0}{d^{S_0}}\prod_{\mathfrak P}\frac{\zeta_{\mathfrak P}(t,(k+1)t)}{\zeta_{\mathfrak
+P}(t,r+(k+1)t)}I=\kappa L$. Thus
+\begin{equation}\label{pf:bundles:eq:ex}
+\mathrm{pet}_{s'}\bigl(\theta_\phi(u_1(v)),\theta_\phi(u_2(v))\bigr)=\overline{\kappa L}\,(u_1,u_2)_s\qquad(u_2\in C(s)).
+\end{equation}
+For $u_2=u_1$ the right-hand side is non-zero, as $\kappa L\ne0$ and $(u_1,u_1)_s>0$; hence $\theta_\phi(u_1(v))\ne0$. By (S4) there is
+$w_0\ne0$ adjoint to $v$, and for every adjoint lift $x$ of an element $u$ we have $\theta_\phi(u(v))=x(w_0)$. Let $x_1$ be an adjoint lift of $u_1$.
+Then $x_1(w_0)=\theta_\phi(u_1(v))$ is non-zero and has parameters $\mathrm{ch}_{k+1}(B)$ by (S5) and the twisted parameters of step $k+1$ by (S6);
+by (S1) and (S7), $x_1$ has the same properties. For $u_2$ with adjoint lift $x_2$, \eqref{pf:bundles:eq:ex} and the Schur relation of the
+metric give $(x_1,x_2)_{s'}(w_0,w_0)_D=\mathrm{pet}_{s'}(x_1(w_0),x_2(w_0))=\overline{\kappa L}(u_1,u_2)_s$.
+\end{proof}
+
+\begin{lemma}[Uniformity in the tuple]\label{pf:bundles:lem:unif}
+Assume the standing hypotheses, the node gap condition, (S10), (S12), (R1) and (R5)--(R7). Then (U) holds.
+\formallabel{GlobalTheory.T.twistedChain_step_constants_tuple_indep}
+\end{lemma}
+
+\begin{proof}
+We treat a step $k$ with $k+1<m$; the top step is identical. Choose $m$ of covolume one (it exists). By (S10) for the base tuple $\bundt_0$ there
+are $\phi,v$ with $I(p_{\bundt_0,k},\phi,v)\ne0$ and $(\phi,v)$ real convergent for every Haar measure; let $m_\R$ be the measure of (R5), adapted
+to the level for all tuples. By (S12) for $\bundt_0$ there is a non-zero $H$-value $H_0$ of $(\bundc_{\bundt_0},S_0,k)$, and $d^{S_0}(t/2)\ne0$.
+Since the $H$-values only involve the ratios $\mu_i\mu_{k+1}^{-1}$, which do not depend on the tuple, $H_0$ is an $H$-value of
+$(\bundc_\bundt,S_0,k)$ for every $\bundt$; likewise $S_0$ and $d^{S_0}$ do not depend on $\bundt$.
+
+For every tuple the Weil representation of $p_{\bundt,k}$ has the same exponents and its step vector $\mathrm v_{\bundt,k}$ is a vacuum vector
+(\lref{GlobalTheory.ChainTw.StepExpTw.twStepExpVac}). For two such Weil representations the Weil coefficients of the polynomial test
+vectors are proportional, with the squares of the norms of the step vectors as factors:
+\[
+\langle\omega_\bundt(g)\Phi^\bundt_\phi,\Phi^\bundt_\phi\rangle\,\|\mathrm v_{\bundt_0,k}\|^2=\langle\omega_{\bundt_0}(g)\Phi^{\bundt_0}_\phi,
+\Phi^{\bundt_0}_\phi\rangle\,\|\mathrm v_{\bundt,k}\|^2
+\]
+(\lref{GlobalTheory.FockCoefIndep.coef_indep_exponents}, which proves this identity for Weil representations with the same exponents
+and vacuum step vectors); the norms are non-zero (\lref{GlobalTheory.FockProdCoef.ipTh_ptOf_glue}, which computes them as Gaussian
+integrals). Consequently the integrands of $I(p_{\bundt,k},\phi,v)$ and $I(p_{\bundt_0,k},\phi,v)$ are proportional, $(\phi,v)$ is real
+convergent for every $\bundt$, and by (R7)
+\[
+I(p_{\bundt,k},\phi,v)=I(p_{\bundt_0,k},\phi,v)\prod_{\mathfrak P\in Q_\bundt}\mathrm v_{\mathfrak P}(k+1),
+\]
+where the product is non-zero because the norm of $\mathrm v_{\bundt,k}$ is. By (R6), $\vol(s_{\bundt,k+1})=\vol(s_{\bundt_0,k+1})\prod_{\mathfrak
+P}\mathrm{idx}_{\mathfrak P}(k+1)$ with non-zero product. Substituting into the definition of $\kappa$,
+\[
+\kappa(p_{\bundt,k},\phi,v,H_0)=\vol(s_{\bundt_0,k+1})\,\frac{H_0}{d^{S_0}(t/2)}\,I(p_{\bundt_0,k},\phi,v)=:K,
+\]
+which does not depend on $\bundt$, and $K\ne0$ because $\vol(s_{\bundt_0,k+1})>0$, $H_0\ne0$, $d^{S_0}(t/2)\neq0$ and
+$I(p_{\bundt_0,k},\phi,v)\ne0$.
+\end{proof}
+
+\begin{proposition}[Assembly of the chain scalars]\label{pf:bundles:prop:assembly}
+Let $D$, $R$ satisfy the standing hypotheses and the node gap condition, and assume (S1), (S7), (S11), (S13), the conclusion of
+\cref{pf:bundles:lem:steplam} for all step configurations, (R1)--(R4) and (U). Then $D$ has chain scalars.
+\formallabel{GlobalTheory.T.chainStep_scalars_of_realisation}
+\end{proposition}
+
+\begin{proof}
+Fix a tuple $\bundt$, a system $\lambda$ and a family $B$ of Satake parameters of $\lambda$ outside $S_\bundt$, bounded with exponent $r/2$. By
+(R4), $x$ is a lift of $u$ at step $k$ if and only if $x$ is an adjoint lift of $u$ for the metrics of the stages; the metrics are positive
+definite and the spaces finite-dimensional (S1), so every $u$ has a unique adjoint lift, namely the value at $u$ of the adjoint of
+$\iota_{p_{\bundt,k}}$ (\lref{GlobalTheory.hermitian_adjoint_exists_unique}, existence and uniqueness of adjoints for positive definite
+hermitian forms).
+
+\emph{Claim.} For every $k<m$: every $u\in\mathcal R_k$ lies in $C(s_{\bundt,k})$ and is either $0$ or has parameters $\mathrm{ch}_k(B)$ and the
+twisted parameters of step $k$; and if $E_\lambda(\bundt)\ne0$ then $\mathcal R_k$ contains a non-zero element. For $k=0$ this is (R3) and (S7).
+Let $x\in\mathcal R_{k+1}$ be a lift of $u\in\mathcal R_k$. If $u=0$ then $(y,x)=(\iota y,0)=0$ for all $y$, so $x=0$. Otherwise the
+conclusion of \cref{pf:bundles:lem:steplam}, applied with the data $K\neq0,\phi,v$ and $m,m_\R,H_0$ of (U), shows that $x$ has parameters
+$\mathrm{ch}_{k+1}(B)$ and the twisted parameters of step $k+1$. If $u\in\mathcal R_k$ is non-zero, its adjoint lift lies in $\mathcal R_{k+1}$
+and has parameters, so it is non-zero.
+
+\emph{Middle steps.} Let $k+1<m$ and let $K,\phi,v$ be given by (U). Let $(\,,)_D$, $(\,,)'_D$ be the forms on the vectors of the stages $k$,
+$k+1$; they are determined by their values on pure tensors and do not depend on $\bundt$. Assume $E_\lambda(\bundt)\ne0$. Choose $0\ne u_0\in
+E_\lambda(\bundt)$; by (R3) it has parameters $B$, so by (S13) $B$ is bounded with exponent $r/2$ and $l=L^{S_\bundt}(B\otimes\mu_{\bundt,k+1}^{-1},
+\frac{1+t}2)$ is positive, and by \cref{pf:bundles:lem:lfull} it is a convergent Euler product: $l$ is an $L$-value of $(\bundt,B,k+1)$. By the
+claim there is $0\ne u_1\in\mathcal R_k$, and \cref{pf:bundles:lem:steplam} gives $w_0\ne0$ adjoint to $v$. An adjoint vector is unique (if $w_0,w_1$
+are adjoint to $v$, then $(w_0-w_1,w_0-w_1)'_D=0$), and the defining property of adjoint vectors involves only $(\,,)_D$, $(\,,)'_D$, $v$ and the
+intertwiner $I_\phi$, none of which depends on $\bundt$, $\lambda$ or $B$. Hence $w_0$ is the same for all $(\bundt,\lambda,B)$. For the adjoint lift
+$x_1$ of $u_1$, \eqref{pf:bundles:eq:steplam} gives $(x_1,x_1)'(w_0,w_0)'_D=\overline{Kl}(u_1,u_1)$ with all three forms positive on non-zero
+vectors and $l>0$; therefore $q_k=K/(w_0,w_0)'_D$ is a positive real number. If $(\bundt,\lambda,B)$ as above do not exist, put $q_k=1$.
+
+Now let $(\bundt,\lambda,B)$ be arbitrary with $E_\lambda(\bundt)\ne0$, and $l$ as above. Every $u\in\mathcal R_k$ has a lift. Let $u_1,u_2\in\mathcal
+R_k$ with lifts $x_1,x_2$. If $u_1=0$ then $x_1=0$ and the identity below is trivial. Otherwise \eqref{pf:bundles:eq:steplam}, with the same
+$w_0$, gives $(x_1,x_2)'=\overline{q_kl}\,(u_1,u_2)=q_kl\,(u_1,u_2)$; by (R4) and hermitian symmetry this is $\langle x_1,x_2\rangle_{k+1}=q_kl\,\langle
+u_1,u_2\rangle_k$. So the step statement holds with $\kappa_{k+1}=q_k$.
+
+\emph{Top step.} The same argument for the top step, with the top stage, (R2) and top lifts: by (R2), $x$ is a top lift of $u$ if and only if
+$\delta$ times its image in the top stage is the adjoint lift of $u$. It gives $q>0$ such that $\langle x_1,x_2\rangle=(q/\delta)\,l\,\langle
+u_1,u_2\rangle_{m-1}$ for top lifts, with $l$ the $L$-value of $(\bundt,B,m)$; put $\kappa_m=q/\delta$.
+
+The numbers $\kappa_1,\dots,\kappa_m$ are positive and independent of $(\bundt,\lambda,B)$; together with the existence of Satake families when
+$E_\lambda(\bundt)\ne0$ (R3), this is the statement that $D$ has chain scalars.
+\end{proof}
+
+\subsubsection{The twisted places}\label{pf:bundles:twisted}
+
+We prove the statements (S6), (S8) and (R7), which concern the twisted places. Let $\mathfrak P\in Q$ lie over the place $v$ of $F$. Then $v$
+splits in $E$, and a \emph{split projection} at $\mathfrak P$ identifies $E_v$ with $F_v\times F_v$, the first factor corresponding to
+$\mathfrak P$, and hence $\Uni(V_s)(F_v)$ with $\GL_n(F_v)$, $n=\rank V_s$. For a stage $s$ at step $k$, a \emph{chart} is a homomorphism
+$\iota\colon\GL_{A\sqcup D_k}(F_v)\to\Uni(V_s)(F_v)$ compatible with a split projection, where $|A|=r$ and $D_k$ is the set of $k$ blocks of
+size $t$, so that $|D_k|=kt$. Let $\varpi$ be a uniformiser of $F_v$, $q_v=\Nm\mathfrak P$ the residue cardinality, and $\xi^\flat$ a tame
+character of $F_v^\times$ lifting $\xi_{\mathfrak P}$.
+
+For a representation $\pi$ of $\GL_{A\sqcup D}(F_v)$ and a multiset $B$ of $|D|$ non-zero complex numbers, a vector $x$ is a
+\emph{generalised eigenvector of type $\xi^\flat$ with parameters $B$} if $\pi(g)x=\xi^\flat(\det g_{DD})\,x$ for all $g$ in the parahoric
+subgroup $\mathcal P_{A,D}$ of the decomposition $A\sqcup D$ ($g_{DD}$ denoting the $D\times D$ block of $g$), and for every subset
+$\sigma\subseteq D$ the $\xi^\flat$-twisted Hecke operator of the double coset $\mathcal P_{A,D}\,\varpi^{1_\sigma}\mathcal P_{A,D}$ maps $x$ to
+$q_v^{(|A||\sigma|+|\sigma|(|D|-|\sigma|))/2}\,e_{|\sigma|}(B)\,x$; here $\varpi^{1_\sigma}$ is the diagonal matrix with entries $\varpi$ on
+$\sigma$ and $1$ elsewhere, and $e_j$ is the $j$-th elementary symmetric function. A function $F$ on $\Uni(V_s)(\A_F)$ has the \emph{twisted
+local parameters of step $k$} if for every $\mathfrak P\in Q$, split projection, uniformiser $\varpi$, tame lift $\xi^\flat$ of
+$\xi_{\mathfrak P}$ and chart $\iota$ of $s$, the conjugate $\bar F$ is a generalised eigenvector of type $\xi^\flat$ with parameters
+$q_k(\mathfrak P)$ for right translation through $\iota$. In the recursion defining $q_k(\mathfrak P)$, $\chi(\varpi)$ denotes the value of
+$\chi$ at the idele which is $\varpi$ at $\mathfrak P$ and $1$ elsewhere, and $\mathrm{seg}(z,t)=\{z\,q_v^{(t-1)/2-i}:0\le i<t\}$.
+
+\begin{lemma}[Twisted parameters of lifts]\label{pf:bundles:lem:S6}
+Rapid decay of cusp forms implies (S6).
+\formallabel{GlobalTheory.T.chainThetaLiftUpLowerBlockParameter_proof}
+\end{lemma}
+
+\begin{proof}
+Fix a step configuration, $u\in C(s)$ with the twisted local parameters of step $k$, a polynomial $\phi$ and a $K$-finite vector $v_0$; put
+$F=u(v_0)$ and $G=\theta_\phi(F)$. Let $\mathfrak P\in Q$ over $v$, a split projection, a uniformiser $\varpi$, a tame lift $\xi^\flat$ and a
+chart $\iota'$ of $s'$ be given. We must show that $\bar G$ is a generalised eigenvector of type $\xi^\flat$ with parameters $q_{k+1}(\mathfrak P)$
+for right translation through $\iota'$.
+
+(1) \emph{Local characters.} The stage $s$ has a chart $\iota$ at $\mathfrak P$, and there are characters $\mu_S,\mu_T$ of $F_v^\times$, the local
+components of $\chi^S_{k+1}$ and $\chi^T_{k+1}$ at $\mathfrak P$, with $\mu_S(\varpi)=\chi^S_{k+1}(\varpi)$ and $\mu_T(\varpi)=\chi^T_{k+1}(\varpi)$
+(\lref{GlobalTheory.TwistChart.charts_at_twist}, which provides charts and local characters at the twisted places). By admissibility the
+restrictions of $\chi^S_{k+1}$ and $\chi^T_{k+1}$ to the units at $\mathfrak P$ are given by the residue character
+$\chi_{k+1}(\mathfrak P)^{-1}=\xi_{\mathfrak P}$ (\lref{GlobalTheory.ChainOnto.levRes_step}, the residue condition of the steps), so $\mu_S$
+and $\mu_T$ lift $\xi_{\mathfrak P}$ (\lref{GlobalTheory.T.liftsChar_of_residueChar_at_splitPlace}). As $\xi^\flat$ lifts $\xi_{\mathfrak P}$ as
+well, the characters $\mu_S(\xi^\flat)^{-1}$ and $\mu_T(\xi^\flat)^{-1}$ are unramified; and $\xi^\flat$ is tame
+(\lref{GlobalTheory.tameLift_isTame_not_isUnram}).
+
+(2) \emph{Linear model.} Let $a=r+kt$ and $b=r+(k+1)t$. There are a space $\mathcal W$ of functions on $(A\sqcup D_{k+1})\times(A\sqcup
+D_k)$-matrices over $F_v$, stable under the action
+$\omega_2(g,h)\varphi(x)=\mu_T(\det g)^{-1}\mu_S(\det h)\,|\det g|^{b/2}|\det h|^{-a/2}\,\varphi(h^{-1}xg)$ of
+$\GL_{A\sqcup D_k}(F_v)\times\GL_{A\sqcup D_{k+1}}(F_v)$,
+and a linear map $\mathcal T$ from $\mathcal W$ to the space of test functions of the Weil representation $\omega$ of the step, such that
+$\omega(\iota(g),\iota'(h))\circ\mathcal T=\mathcal T\circ\omega_2(g,h)$, and such that $\mathcal W$ contains the function $\Phi^\flat$ which equals
+$\xi^\flat(\det x_{AA})$ on integral matrices $x$ whose $A\times A$ block $x_{AA}$ is invertible over $\OO_v$ and whose $D_{k+1}\times A$ block has
+entries in $\mathfrak p_v$, and $0$ elsewhere, with $\mathcal T(\Phi^\flat)=\Phi_\phi$ (\lref{GlobalTheory.T.linearModel_twistPlace_in_thetaFunctions},
+the linear model of the Weil representation at a twisted place).
+
+(3) \emph{The representation of the source.} Let $X$ be the span of the right translates of $\bar F$ through $\iota$; it is stable under right
+translation through $\iota$, and we write $\rho$ for the resulting representation of $\GL_{A\sqcup D_k}(F_v)$. By hypothesis $\bar F$ is a generalised
+eigenvector of type $\xi^\flat$ with parameters $q_k(\mathfrak P)$ in the space of all functions, hence also in $X$.
+
+(4) \emph{The pairing.} For $\varphi\in\mathcal W$ and $y\in X$ put $\beta(\varphi,y)(h)=\int_{\mathcal F_s}\theta(g,h;\mathcal T\varphi)\,y(g)\,d\nu_s(g)$.
+The integrals converge: $y$ is a combination of right translates of $\bar F$, and $\theta(\cdot,h;\mathcal T\varphi)$ times a right translate of $\bar F$
+is integrable on $\mathcal F_s$ by rapid decay (\lref{GlobalTheory.ChainOnto.ThetaFirstVar.thetaKO_mul_conj_integrableOn}); moreover every
+$y\in X$ is left invariant under $\Uni(V_s)(F)$. The map $\beta$ is bilinear, and it is equivariant:
+$\beta(\omega_2(g,h)\varphi,\rho(g)y)=\beta(\varphi,y)(\,\cdot\,\iota'(h))$. Indeed, by (2) and the transformation law of the theta kernel,
+$\theta(g',h';\mathcal T\omega_2(g,h)\varphi)=\theta(g'\iota(g),h'\iota'(h);\mathcal T\varphi)$, and the substitution $g'\mapsto g'\iota(g)^{-1}$ is
+allowed for integrals over $\mathcal F_s$ of left-invariant integrable functions (\lref{GlobalTheory.ChainOnto.setIntegral_fd_mul_right}).
+
+(5) \emph{Local transfer.} The lower-block transfer theorem (\lref{GlobalTheory.T.lowerBlockParameter_transfer_invariantPairing}: for a
+non-archimedean local field with uniformiser $\varpi$, finite sets $A,D,D'$ with $|D'|=|D|+t$, a tame character $\xi$, characters $\mu_S,\mu_T$ with
+$\mu_S\xi^{-1}$ and $\mu_T\xi^{-1}$ unramified, a space $\mathcal W$ as in (2) containing $\Phi^\flat$, a representation $\rho$ of
+$\GL_{A\sqcup D}$ with a generalised eigenvector $x$ of type $\xi$ with parameters $B$, and an equivariant bilinear map $\beta$ into a representation
+of $\GL_{A\sqcup D'}$, the vector $\beta(\Phi^\flat,x)$ is a generalised eigenvector of type $\xi$ with parameters
+$B\cdot\mu_S(\varpi)\mu_T(\varpi)^{-1}+\mathrm{seg}(\mu_S(\varpi),t)$) applies with $D=D_k$, $D'=D_{k+1}$, $x=\bar F$ and $B=q_k(\mathfrak P)$, by
+(1)--(4). By (1) and the recursion, the resulting parameters are
+$q_k(\mathfrak P)\cdot\chi^S_{k+1}(\varpi)\chi^T_{k+1}(\varpi)^{-1}+\mathrm{seg}(\chi^S_{k+1}(\varpi),t)=q_{k+1}(\mathfrak P)$.
+
+(6) Finally $\beta(\Phi^\flat,\bar F)(h)=\int_{\mathcal F_s}\theta(g,h;\Phi_\phi)\overline{F(g)}\,d\nu_s(g)=\overline{G(h)}$ by the definition of the upward
+lift. Hence $\bar G$ is a generalised eigenvector of type $\xi^\flat$ with parameters $q_{k+1}(\mathfrak P)$ for right translation through $\iota'$.
+\end{proof}
+
+\begin{lemma}[Peeling the twisted places]\label{pf:bundles:lem:S8}
+The unramified doubling computation for $\GL_n$ and rapid decay of cusp forms imply (S8).
+\formallabel{GlobalTheory.T.chainTwistPlacesIntegralPeel_of_doubling}
+\end{lemma}
+
+\begin{proof}
+Fix a step configuration, a Haar measure $m_W$ of covolume one on the space of the Weil representation, a majorant, a polynomial $\phi$, $u_1,u_2\in C(s)$ such that $u_1$ has the twisted
+local parameters of step $k$, $K$-finite $v_1,v_2$ and $z>t/2-1$, and let $\mathcal I=\mathcal I_z$ be the doubling integrand of
+$(u_1(v_1),u_2(v_2))$, a function on $G(\A_F)$, $G=\Uni(V_s)$. For a finite place $v$ of $F$ let $L_v\subseteq G(F_v)$ be the local level group of
+$s$, and $g_v$ the component of $g$. The level set is $\mathrm{lev}=\{g\in\mathcal O_S:g_v\in L_v\text{ for all }v\in S_\bundc\}$, and
+$\mathrm{lev}$ and $\mathcal O_S$ are measurable (\lref{GlobalTheory.T.thetaChainStage_finiteLevel_eq_product_localLevels}, which describes
+the finite level of a stage as the product of its local levels). For $\mathfrak P\in Q$ let $v(\mathfrak P)\in S_\bundc$ be the place below;
+distinct elements of $P_\bundc$ lie over distinct places of $F$.
+
+\emph{Local factors.} For each $\mathfrak P\in Q$, with $v=v(\mathfrak P)$, there are an open subgroup $J_{\mathfrak P}$ of $G(F_v)$, a Haar
+measure $\mu_{\mathfrak P}$ on $G(F_v)$ with $\mu_{\mathfrak P}(J_{\mathfrak P})=1$ and an integrable function $\lambda_{\mathfrak P}$ on $G(F_v)$
+equal to $1$ on $J_{\mathfrak P}$, such that: $g_v\in L_v$ if and only if $g_v\in J_{\mathfrak P}$; $\mathcal I(xy)=\lambda_{\mathfrak P}(y)\,
+\mathcal I(x)$ for $x\in\mathcal O_S$ with $x_v=1$ and $y\in G(F_v)$; and, if $z=t/2$, $\int\lambda_{\mathfrak P}\,d\mu_{\mathfrak P}=
+\mathrm{bl}_k(\mathfrak P)\,\zeta_{\mathfrak P}(t,(k+1)t)$ (\lref{GlobalTheory.T.flatIntegrand_localFactor_splits_twistPlace}, which
+deduces this from the unramified doubling computation for $\GL_n$, applied at the split place $v$ to the generalised eigenvectors of type
+$\xi^\flat$ given by the twisted local parameters of $u_1$, and from rapid decay).
+
+\emph{Induction.} For $T\subseteq Q$ let $E(T)=\{g\in\mathcal O_S:g_{v(\mathfrak P)}\in L_{v(\mathfrak P)}\text{ for all }\mathfrak P\in T\}$, a
+measurable set. We show by induction on $T$: if $\mathcal I$ is integrable on $E(Q)$, then it is integrable on $E(Q\setminus T)$, and for $z=t/2$
+\[
+\int_{E(Q\setminus T)}\mathcal I\,d\nu_s=\Bigl(\prod_{\mathfrak P\in T}\mathrm{bl}_k(\mathfrak P)\,\zeta_{\mathfrak P}(t,(k+1)t)\Bigr)
+\int_{E(Q)}\mathcal I\,d\nu_s .
+\]
+For $T=\emptyset$ there is nothing to prove. Let $T'=T\cup\{\mathfrak P\}$ with $\mathfrak P\notin T$, $v=v(\mathfrak P)$ and $E'=E(Q\setminus T')$.
+The set $E'$ is invariant under right multiplication by $G(F_v)$: membership in $\mathcal O_S$ involves only places outside $S_\bundc$, while
+$v\in S_\bundc$, and the remaining conditions concern the places $v(\mathfrak P')$, $\mathfrak P'\in Q\setminus T'$, which differ from $v$.
+Moreover $E'\cap\{g:g_v\in J_{\mathfrak P}\}=E(Q\setminus T)$. The one-place Fubini lemma
+(\lref{GlobalTheory.T.integral_split_finite_place_fubini}: if $E'$ is a measurable set invariant under $G(F_v)$, $J$ an open subgroup with
+$\mu(J)=1$ for a Haar measure $\mu$, $\lambda$ integrable with $\lambda=1$ on $J$, $\mathcal I(xy)=\lambda(y)\,\mathcal I(x)$ for $x\in E'$ with
+$x_v=1$, and $\mathcal I$ integrable on $E'\cap\{g_v\in J\}$, then $\mathcal I$ is integrable on $E'$ and $\int_{E'}\mathcal I=\int\lambda\,d\mu
+\cdot\int_{E'\cap\{g_v\in J\}}\mathcal I$) and the induction hypothesis give the assertion for $T'$.
+
+\emph{Conclusion.} If $g\in E(Q)\setminus\mathrm{lev}$, then $g_v\notin L_v$ for some $v\in S_\bundc$; the place $v$ lies below an element of
+$P_\bundc=P_g\sqcup Q$, but not below an element of $Q$ because $g\in E(Q)$; so $v$ lies below an element of $P_g$. At such places the Weil
+coefficient $\langle\omega(g)\Phi_\phi,\Phi_\phi\rangle$ vanishes unless $g_v\in L_v$
+(\lref{GlobalTheory.T.twistedChain_coefficient_supported_principal_level}, which shows that at the untwisted places the coefficient is
+supported on the level group), and $\mathcal I$ contains this coefficient as a factor; hence $\mathcal I(g)=0$. Since $\mathrm{lev}\subseteq E(Q)$,
+integrability on $\mathrm{lev}$ implies integrability on $E(Q)$, and the integrals over $\mathrm{lev}$ and $E(Q)$ agree. Taking $T=Q$, for which
+$E(\emptyset)=\mathcal O_S$, gives (S8), as $\mathrm{loc}_k=\prod_{\mathfrak P\in Q}\mathrm{bl}_k(\mathfrak P)\,\zeta_{\mathfrak P}(t,(k+1)t)$.
+\end{proof}
+
+\begin{lemma}[Norms of the step vectors]\label{pf:bundles:lem:R7}
+Under the standing hypotheses, the realisation $R$ satisfies (R7).
+\formallabel{GlobalTheory.T.realDatumNormShrink_of_scalarHypotheses}
+\end{lemma}
+
+\begin{proof}
+The base tuple has no twisted places, $Q_{\bundt_0}=\emptyset$ (\lref{GlobalTheory.ChainTw.RModel.Q_base}). Fix a tuple $\bundt$, a step $k$
+with $k+1<m$ and a Haar measure $m_W$ of covolume one on the space of the Weil representation; the top step is treated in the same way, with the pair $(Y_{m-1},X')$ and $\rank X'=r+mt$. Put
+$Q=Q_\bundt$. By the chain conditions of $R$, $\mathrm v_{\bundt,k}$ and $\mathrm v_{\bundt_0,k}$ are step vectors of the pair $(Y_k,Y_{k+1})$, with
+its Cartan-invariant frames and the self-dual lattices given by the frames of the level conditions, for the level data of step $k+1$ with twisted
+places $Q$ and $\emptyset$ respectively; $P_g$ and $Q$ are disjoint (\lref{GlobalTheory.ChainTw.RModel.disjoint_Pg_Q}), and by the guard no
+element of $Q$ divides $Q_Sq\Nm(\mathfrak c_K)$.
+
+A step vector is a pure tensor $\bigotimes_px_p$ over the places $p$ of $F$ whose component is the vacuum vector $f_0$ at the infinite places and at
+the finite places not below $P_g\cup Q$, and at the place below $\mathfrak P\in P_g\cup Q$ is a local theta datum determined by the level data at
+$\mathfrak P$ (\lref{GlobalTheory.StepVec.stepVecLocal}, the local description of step vectors); the places of $F$ below distinct elements
+of $P_g\cup Q$ are distinct. For pure tensors the inner product is the finite product of the local inner products
+(\lref{GlobalTheory.PlaceTensor.PureScalar.ip_pure_eq_finprod}), and $\langle f_0,f_0\rangle=1$ since $m_W$ has covolume one. Let $(x_p)$ be a
+local decomposition of $\mathrm v_{\bundt,k}$, and put $x'_p=x_p$ for $p$ below $P_g$ and $x'_p=f_0$ otherwise. The family $(x'_p)$ satisfies the
+local conditions for the twisted places $\emptyset$, so it is a local decomposition of $\mathrm v_{\bundt_0,k}$. As $x_p=x'_p$ except at the places
+$v(\mathfrak P)$ below $\mathfrak P\in Q$, where $x'_p=f_0$,
+\[
+\|\mathrm v_{\bundt,k}\|^2=\prod_p\langle x_p,x_p\rangle=\|\mathrm v_{\bundt_0,k}\|^2\prod_{\mathfrak P\in Q}\langle x_{v(\mathfrak P)},
+x_{v(\mathfrak P)}\rangle .
+\]
+Let $\mathfrak P\in Q$ lie over $v$. The place $v$ splits, and by the guard the ideal of the lattice of homomorphisms is a unit at $\mathfrak P$
+(\lref{GlobalTheory.T.homLatticeIdeal_isUnit_splitPlace}). In the mixed model at the split place, $x_v$ is the function on $b\times a$ matrices
+($b=\rank Y_{k+1}$, $a=\rank Y_k$) which equals $\mu(\det x_r)^{-1}$ on integral matrices whose upper left $r\times r$ block $x_r$ is invertible over
+$\OO_v$ and whose lower left $(b-r)\times r$ block has entries in $\mathfrak p_v$, and $0$ elsewhere, for a unitary character $\mu$ lifting
+$\xi_{\mathfrak P}^{-1}$. Its squared norm is the volume of its support, $\zeta_{\mathfrak P}(0,r)\,\Nm\mathfrak P^{-r(b-r)}$
+(\lref{GlobalTheory.T.normSq_thetaLocalDatum_at_twistPlace}, which carries out this computation in the Weil representation). Since
+$b-r=(k+1)t$, this is $\mathrm v_{\mathfrak P}(k+1)$, and (R7) follows for the step $k$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:bundles:thm:chain}]
+The statements used by \cref{pf:bundles:prop:assembly} and its lemmas are established as follows; the classical hypotheses of the theorem are
+used where indicated (rapid decay for (S6), the unramified doubling computation and rapid decay for (S8)).
+\begin{itemize}
+\item (S1): \lref{GlobalTheory.T.twistedChain_stage_soft_properties} (from Harish-Chandra finiteness and rapid decay); the level laws of the
+Weil representations, used below: \lref{GlobalTheory.T.twistedChain_datum_laws_under_levels}.
+\item (S2): \lref{GlobalTheory.T.twistedChain_thetaLiftUpSpan} (discrete series cover, Harish-Chandra modules, rapid decay, Casselman--Wallach
+and the level laws); (S3): \cref{pf:bundles:lem:adj}; (S4): \cref{pf:bundles:lem:upval}.
+\item (S5): \lref{GlobalTheory.T.chainThetaLiftUp_parameter_of_transfer} (rapid decay and Howe's unramified statement); (S6):
+\cref{pf:bundles:lem:S6}; (S7): \lref{GlobalTheory.T.lowerBlockParameter_of_one_nonzeroValue}.
+\item (S8): \cref{pf:bundles:lem:S8}; (S9): \lref{GlobalTheory.T.chainLevelIntegralRealZeta_of_twisted_transform_laws} (from the level
+laws); (S10): \lref{GlobalTheory.T.twistedChain_realZeta_nonvanishing} (Harish-Chandra modules and the archimedean theta correspondence of
+\lref{GlobalTheory.T.archimedeanThetaCorrespondence_towers_real_data}).
+\item (S11) is \cref{pf:bundles:lem:lfull}; (S12): \lref{GlobalTheory.T.chainTwistEulerFactorsRestore_proof} (the places of $Q$ lie over split
+places of $F$, distinct for distinct elements of $Q$, outside $S_0$, with $\Nm\mathfrak P$ equal to the norm of the place below, and the Euler
+factors of $d^S$ and of the $L^S(n,\mu_i\mu_{k+1}^{-1})$ at these places are the stated ones); (S13):
+\lref{GlobalTheory.T.chain_first_stage_L_values_positive} (rapid decay gives boundedness and stability of the parameters under conjugation of
+places, and an Euler product of conjugation-stable bounded parameters twisted by a conjugation-stable character is a positive real number in the
+region of absolute convergence).
+\item (R1): \lref{GlobalTheory.T.realFormsRangeMultiplicity_of_scalarHypotheses} and
+\lref{GlobalTheory.T.realTupleTwistedChain_of_scalarHypotheses}; (R2): \lref{GlobalTheory.T.realLastStageNormalized_of_scalarHypotheses};
+(R3): \lref{GlobalTheory.T.rows_of_part_have_part_params_first_chain_member} (rapid decay); (R4):
+\lref{GlobalTheory.T.schurProduct_typings_agree_thetaChain}; (R5)--(R7): \lref{GlobalTheory.T.realMeasureUniformInTuple_of_thetaLiftScalar},
+\lref{GlobalTheory.T.realQuotientVolumeGrowth_of_scalarHypotheses} and \cref{pf:bundles:lem:R7}.
+All of these are statements about the realisation $R$ under the standing hypotheses.
+\end{itemize}
+The conclusion of \cref{pf:bundles:lem:exact} holds by that lemma, using the Rallis inner product formula, (S1), (S8) and (S9); the conclusion of
+\cref{pf:bundles:lem:steplam} holds by that lemma; (U) holds by \cref{pf:bundles:lem:unif}. \Cref{pf:bundles:prop:assembly} concludes.
+\end{proof}
+
+\begin{corollary}[The adjoint scalar formula]\label{pf:bundles:cor:bform}
+Assume the discrete series cover, Harish-Chandra finiteness, Harish-Chandra modules, Casselman--Wallach, rapid decay, Howe's unramified
+statement, the Weil--Siegel formula, the Rallis inner product formula for all data, the continuation of Siegel Eisenstein series and the unramified
+doubling computation. Let $D$, $R$ satisfy the standing hypotheses, with full class group condition and $S_b=P_g$, and such that for every tuple $\bundt$ and every
+place $\mathfrak P$ of $E$ with $\bar{\mathfrak P}=\mathfrak P$ which neither lies in nor is conjugate to a place of $P_g\cup Q_\bundt$, the vacuum
+vectors of all the Weil representations of $R$ are fixed at $\mathfrak P$. Let $S_F$ be the set of places of $F$ below $P_g$, and
+$E_\lambda\subseteq H_E$ the $\lambda$-eigenspace of the base Hilbert space outside $S_F$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item there is $\kappa_0>0$ such that for every tuple $\bundt$, every $\lambda$ and all $z_1,\dots,z_m$ such that, for each $j$, $z_j$ is the
+$L$-value of $(\bundt,B_j,j)$ for some family $B_j$ of Satake parameters of $\lambda$, the composite $\Theta_\bundt\Theta_\bundt^*$ acts on
+$E_\lambda$ as multiplication by $\kappa_0\prod_jz_j$;
+\item $\Theta_\bundt^*$ is injective for every $\bundt$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.thetaLift_adjoint_scalarFormula_injective}
+\end{corollary}
+
+\begin{proof}
+The datum has chain scalars by \cref{pf:bundles:thm:chain}; the node gap condition follows from the gap condition of the parameter choice
+(\lref{GlobalTheory.Core.Rk.GapOfNodes.harishChandraNodesFarApart_of_cubic_node_gap}, which deduces it from a cubic gap between the
+Harish-Chandra nodes). The Weil--Siegel formula, the continuation of Siegel Eisenstein series, the full class group condition and the condition
+$S_b=P_g$ are not used.
+
+(a) Put $\kappa_0=\prod_{j=1}^m\kappa_j>0$. Let $\bundt,\lambda,(z_j)$ be as in (a); we may assume $E_\lambda\ne0$, so the row part
+$E_\lambda(\bundt)\supseteq E_\lambda$ is non-zero. For $0\le k<m$ let $\Lambda_k=\kappa_{k+1}z_{k+1}$; since $L$-values are unique, the chain scalars
+(applied with the family $B_{k+1}$) give the step statements with the constants $\Lambda_k$ for $k+1<m$, and the top statement with $\Lambda_{m-1}$.
+Iterating along the chain (the lifts of the reached vectors compute $\Theta_\bundt^*$ on the eigenspace), one obtains
+$\langle\Theta_\bundt^*u_1,\Theta_\bundt^*u_2\rangle=\bigl(\prod_k\Lambda_k\bigr)\langle u_1,u_2\rangle$ for non-zero $u_1,u_2\in E_\lambda$
+(\lref{GlobalTheory.ChainScalar.inner_adjoint}, which carries out this iteration using Schur orthogonality,
+\lref{GlobalTheory.Hk3.schurAll_of_cuspRapidDecay}). The composite $\Theta_\bundt\Theta_\bundt^*$ preserves $E_\lambda$
+(\lref{GlobalTheory.T.thetaLift_adjoint_keeps_spherical_parts_off_tuple}, which uses rapid decay, Howe's unramified statement and the fixed
+vacuum vectors). For $x\in E_\lambda$ and every $y\in E_\lambda$ we get $\langle\Theta\Theta^*x-cx,y\rangle=\langle\Theta^*x,\Theta^*y\rangle-c\langle
+x,y\rangle=0$ with $c=\kappa_0\prod_jz_j=\prod_k\Lambda_k$ (for $x$ or $y$ zero this is trivial), and $\Theta\Theta^*x-cx\in E_\lambda$; hence
+$\Theta\Theta^*x=cx$.
+
+(b) For each $\lambda$ with $E_\lambda(\bundt)\neq0$ the chain scalars provide $L$-values $z_1,\dots,z_m>0$, so by (a) $\Theta_\bundt\Theta_\bundt^*$
+acts on $E_\lambda$ by a positive scalar $c_\lambda$; if $E_\lambda(\bundt)=0$ then $E_\lambda=0$. The eigenspaces $E_\lambda$ span $H_E$
+(\lref{GlobalTheory.Hk3.OpsRows.exists_opsE}, which provides commuting Hecke operators with this spectral decomposition). Hence every
+$x\in H_E$ is of the form $\Theta w$: write $x=\sum_\lambda x_\lambda$ and $w=\sum_\lambda c_\lambda^{-1}\Theta^*x_\lambda$. If $\Theta^*x=0$, then
+$\langle x,x\rangle=\langle\Theta w,x\rangle=\langle w,\Theta^*x\rangle=0$, so $x=0$
+(\lref{GlobalTheory.AdjointInjectiveOfParts.adjoint_inj_of_parts}, which states this linear-algebra fact).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the member-bundle theorem}\label{pf:bundles:proofmain}
+
+\begin{theorem}[\cref{thm:member-bundles}]\label{pf:bundles:main}
+Assume $P$ and $\sfname{RowRat}$. Let $h_L\in\sfname{RecTExists}$, $c\in\R$, and let $A$ be an at-property with $\sfname{EvLgG}(A)$. Then the
+Siegel mass ratio \eqref{pf:bundles:eq:mass} holds for every CM field unramified over its maximal totally real subfield and every $M\ge3$, and,
+with $\bundS_A$ the slot family of $\bundp_A=\bundp(N_{\mathrm{or}}(c)\times A,\Gamma_{\mathrm{cl}})$,
+\[
+\sfname{MemberE}(\bundS_A)\qquad\text{and}\qquad\sfname{ExBL}\bigl(\kappa_0,\sfname{IsBuiltE}(\bundS_A),\sfname{IsGoodE}(\bundS_A),
+\sfname{BundleLinkage}(\bundp_A)\bigr).
+\]
+\formallabel{GlobalTheory.T.large_unramified_exponent_bundles_exist_alt}
+\end{theorem}
+
+\begin{proof}
+\emph{Packages.} By \cref{pf:bundles:lem:hypA}, $P$ gives $\mathcal H_A$ (with the Siegel--Weil formula in the convergent range taken from the
+second of the two Siegel--Weil components of $P$). The member package $\mathcal H_M$ consists of components of $P$. By
+\cref{pf:bundles:lem:multcover}, $\mathcal H_M$, further components of $P$ and $\sfname{RowRat}$ give $\mathcal H_C$.
+
+\emph{Mass ratio.} The first assertion is the component (A16) of $\mathcal H_A$, i.e.\ \cref{pf:bundles:prop:mass}.
+
+\emph{Member existence.} By \cref{pf:bundles:prop:US}, $\mathcal H_A$ and $\mathcal H_C$ give the existence $(\mathrm{US})$ of unlocalised saturated
+states. By \cref{pf:bundles:lem:multcond}, $\mathcal H_M$ gives the multiplicity condition for $\bundp(N_{\mathrm{or}}(c),\Gamma_{\mathrm{cl}})$. Two
+further components of $P$ (the non-endoscopic literature package and the compatibility of geometric Galois representations) give, by
+\lref{GlobalTheory.T.hyps_e_third_layer_ser_n_of_geometric_galois}, the elliptic package $\mathcal H_E$ and a local Langlands package
+$\mathcal H_L(h_L')$ for some $h_L'\in\sfname{RecTExists}$; this theorem states that these components imply $\mathcal H_E$, a third-layer package, a
+series package, and the existence of a proof $h'_L$ of $\sfname{RecTExists}$ with $\mathcal H_L(h'_L)$. Since $\sfname{RecTExists}$ is a proposition,
+$h_L'$ and $h_L$ are equal proofs, so $\mathcal H_L(h_L)$ holds. The member-existence theorem
+\lref{GlobalTheory.Mem.Top.Bl.exists_baseLattice_of_prime_alt} states: $\mathcal H_A$, $\mathcal H_E$, $\mathcal H_C$, $(\mathrm{US})$, $\mathcal
+H_L(h_L)$ and the multiplicity condition for $\bundp(N_{\mathrm{or}}(c),\Gamma_{\mathrm{cl}})$ imply $\sfname{MemberE}(\bundS(N_{\mathrm{or}}(c),
+\Gamma_{\mathrm{cl}}))$ (and the bundle statement for this parameter, which is not used here). Applying it with the inputs just obtained gives
+$\sfname{MemberE}(\bundS(N_{\mathrm{or}}(c),\Gamma_{\mathrm{cl}}))$, and \cref{pf:bundles:lem:atprop}, with $\sfname{EvLgG}(A)$, gives
+$\sfname{MemberE}(\bundS_A)$.
+
+\emph{Bundles.} The extension $N_{\mathrm{or}}(c)$ yields $N_{\mathrm{law}}$ (an element of $N_{\mathrm{or}}(c)$ contains an element of
+$N_{\mathrm{list}}(c)$, which contains one of $N_{\mathrm{law}}$), and $\bundS(N_{\mathrm{or}}(c),\Gamma_{\mathrm{cl}})$ satisfies movement of positions
+by \cref{pf:bundles:lem:mvor}. \Cref{pf:bundles:cor:exbl}, applied with $\mathcal H_A,\mathcal H_C,\mathcal H_M$, $N=N_{\mathrm{or}}(c)$,
+$\Gamma=\Gamma_{\mathrm{cl}}$ and the at-property $A$, gives the bundle statement for $\bundp_A$.
+\end{proof}
+
+\begin{remark}\label{pf:bundles:rem:peculiar}
+We record some features of the formal statements.
+\begin{enumerate}[label=(\alph*)]
+\item The mass ratio in the conclusion of \cref{pf:bundles:main} is proved unconditionally (\cref{pf:bundles:prop:mass}); it is listed as a
+conclusion because it is a component of the package $\mathcal H_A$. The mass of a lattice is defined to be $0$ if its genus has no finite set of
+class representatives.
+\item The component of $P$ named after the simple pole of Siegel Eisenstein series has the true proposition as its type; it is passed to
+\cref{pf:bundles:lem:multcover,pf:bundles:lem:dm} and not used. The doubling package used here is derived from rapid decay and the continuation of
+Siegel Eisenstein series (\cref{pf:bundles:lem:dm}); the component of $P$ of the same type is not used in this proof.
+\item In \cref{pf:bundles:cor:bform} four hypotheses (the Weil--Siegel formula, the continuation of Siegel Eisenstein series, the full class group
+condition and $S_b=P_g$) are not used. The Rallis inner product formula enters \cref{pf:bundles:thm:chain} as a hypothesis; in the proof of
+\cref{pf:bundles:main} it is supplied through the theta package (\cref{pf:bundles:saturated}).
+\item The constant $c$ and the at-property $A$ enter only through the norm-choice extension: $c$ through the list pin and the origin data, $A$
+through \cref{pf:bundles:lem:atprop,pf:bundles:lem:mvA}. The words ``large unramified exponents'' in the formal names refer to the quantifier
+$\sfname{EvLgG}$ (``eventually, for large twisting data''); the exponents $k_w$ of the twisting data are not required to be large.
+\item In \cref{pf:bundles:lem:exblred} the slot of the large-base condition is the trivial slot, so the bundle statement proved is the existence of
+linked bundles at all good bundle points.
+\end{enumerate}
+\end{remark}
+

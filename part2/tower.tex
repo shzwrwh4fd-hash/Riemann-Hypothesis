@@ -1,0 +1,2262 @@
+\section{The good tower volume theorem}\label{sec:pf:tower}
+
+\providecommand{\towerG}{\mathbf G}
+\providecommand{\towerII}{\mathrm{II}}
+\providecommand{\towerHT}{\mathrm{HT}}
+\providecommand{\towerdR}{\mathrm{dR}}
+\providecommand{\towerInt}{\mathrm{Int}}
+\providecommand{\towerev}{\mathcal F}
+\providecommand{\towerTw}{\mathrm{Tw}}
+\providecommand{\towerNb}{\mathbf N}
+
+This section proves \cref{thm:tower}: ten inputs, each of them a published theorem or a consequence of
+published theorems, imply the two tower propositions $\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$
+of \cref{def:covolume:tower}.
+
+\subsection{Introduction}\label{pf:tower:sec-intro}
+
+\subsubsection*{What is proved}
+The central step of the proof of \cref{thm:tower} is the theorem of \cref{sec:pf:towergeo}
+(\lref{GlobalTheory.CompanionTheory.Ar.Top.goodTower_and_volume}), which deduces both tower propositions
+from six hypotheses: the geometric package $\towerG$ of \cref{def:pf:deepstr:given}, the integrability of
+points (PI), the avoidance statement (Av), the Weil pairing statement (W), the statement (F) on Lie lattice
+families (called positivity of families in \cref{sec:pf:towergeo}), and the comparison of pairs (CP). This
+section derives these six hypotheses from the ten inputs of \cref{thm:tower}. Three of them, $\towerG$, (PI)
+and (W), are supplied by results proved elsewhere, and (Av) by an elementary lemma; (F) and (CP), and the
+statements on which they rest, require arguments of their own:
+\begin{enumerate}[label=(\arabic*)]
+\item\emph{Torsion of abelian schemes over $p$-adic integers.} Let $C$ be an algebraically closed field of
+  characteristic $0$ with a valuation of rank one for which $v(p)<1$ and whose valuation ring $\OO_C$ is
+  $p$-adically complete. The $p$-torsion of a principally polarised abelian scheme over $\OO_C$ admits a
+  \emph{Hodge--Tate datum}: an explicit linear-algebraic model of its coordinate ring, its Weil pairing and its
+  Hodge--Tate map (\cref{pf:tower:htd}). As a consequence there is an elliptic curve over $\OO_C$ whose
+  $p$-torsion is $\mu_p\times\Z/p$ (\cref{pf:tower:ord}).
+\item\emph{Lie lattice families.} At an odd prime $p$ unramified in the CM field, the de Rham and
+  Hodge--Tate lattices of a Hodge component fit, chart by chart, into a system of lattices satisfying a
+  list of exactness relations, and further relations at all ``test points'' (\cref{pf:tower:fam}). This is
+  statement (F), and it is the part of the proof that uses the Hodge--Tate statement, the quotient
+  statement and Zarhin's trick.
+\item\emph{Comparison of realisations.} Two analytic realisations of one arithmetic variety with the same
+  singularities have arithmetic intersection numbers with the same limit (\cref{pf:tower:cs}). Applied to
+  root models exchanged by a twist of the host, this gives (CP) (\cref{pf:tower:cp}). Along the way we prove
+  that every datum is locally isometric to its twist by an automorphism of the host (\cref{pf:tower:twiso}),
+  which is used in \cref{sec:pf:towergeo}.
+\end{enumerate}
+
+\subsubsection*{Organisation}
+\Cref{pf:tower:sec-statements} lists the inputs and the intermediate statements and gives the proof of
+\cref{thm:tower} assuming the results of the later subsections. \Cref{pf:tower:sec-elem} treats (Av), (W) and
+(PI). \Cref{pf:tower:sec-htd} constructs Hodge--Tate data and \cref{pf:tower:sec-ord} the ordinary
+elliptic curves. \Cref{pf:tower:sec-fam} proves (F), using the structure theory of Hopf orders with an action of a
+finite field (\cref{pf:tower:sec-hopf}), the test-point lemma (\cref{pf:tower:sec-test}) and the chart lemmas
+(\cref{pf:tower:sec-chart}). \Cref{pf:tower:sec-cs} proves the comparison statement,
+\cref{pf:tower:sec-twist} the results on twists, the Hodge compatibility and (CP).
+\Cref{pf:tower:sec-remarks} collects remarks on the formal statements.
+
+\subsubsection*{Scope}
+The formal proof of the results of this section, beyond those proved in \cref{sec:pf:towergeo} and
+\cref{sec:pf:deepstr}, has about $53{,}000$ lines in \cite{LeanSource2026}; almost half of it is the proof of (F), and
+a quarter a single lemma on test points in that proof. We give in full: the assembly of every statement, the avoidance
+lemma, the reductions in the construction of Hodge--Tate data and of ordinary elliptic curves over $\OO_C$, the
+exactness relations of the Lie lattice data, the flag comparison theorem for Hopf orders with a field action and the
+generation statement for abelian factors, the main steps of the test-point lemma and of the chart lemmas, the comparison
+of realisations on one model, the reduction of the local isometry of a datum and its twist to standard forms, the existence
+of twisting isomorphisms and the comparison of pairs from the comparison statement. Lemmas that are long constructions of
+commutative algebra, of $p$-adic Hodge theory or of transport of structure are stated precisely and cited by the formal
+names of their proofs.
+
+% ---------------------------------------------------------------------------
+\subsection{The statements and the proof of the main theorem}\label{pf:tower:sec-statements}
+
+\subsubsection*{The inputs}
+The inputs of \cref{thm:tower} are the following propositions of the development; they are stated in
+\cref{def:covolume:hs} and \cref{sec:pf:deepstr}.
+\begin{enumerate}[label=(I\arabic*)]
+\item\label{I:pf:tower:ais} (AIS) There exists a full intersection system (\cref{def:covolume:hs}(c)).
+\item\label{I:pf:tower:hs} $\sfname{HSUse}$ (\cref{def:covolume:hs}(d)).
+\item\label{I:pf:tower:mor} $\sfname{MoriwakiBigStatement}$ (\cref{def:covolume:hs}(d)).
+\item\label{I:pf:tower:rpc} (RPC) Resolution in projective coordinates (\cref{def:pf:deepstr:resk}(a)).
+\item\label{I:pf:tower:sah} (SAH) Extension of homomorphisms of semi-abelian schemes over a dense open
+  subset of a normal noetherian base (\cref{lit:pf:deepstr:sah}).
+\item\label{I:pf:tower:ht} (HT) The sharp Hodge--Tate statement for $p$-divisible groups over $\OO_C$
+  (\ref{G:pf:deepstr:ht} of \cref{def:pf:deepstr:given}).
+\item\label{I:pf:tower:gaga} (GAGA) GAGA for sections of line bundles on smooth proper complex schemes
+  (\ref{G:pf:deepstr:gaga} of \cref{def:pf:deepstr:given}).
+\item\label{I:pf:tower:lld} (LLD) Lines of large degree (\cref{def:pf:deepstr:resk}(b)).
+\item\label{I:pf:tower:q} (Q) Quotients: for every commutative ring $R$, abelian scheme $A$ over $R$ with a
+  relatively ample line bundle and finite flat subgroup scheme $G\subseteq A$ there is a finite flat
+  surjective homomorphism $A\to A'$ onto an abelian scheme with a relatively ample line bundle, with kernel
+  $G$ (\cref{lem:pf:deepstr:quot}(a)).
+\item\label{I:pf:tower:z} (Z) Zarhin's trick: over the valuation ring of an algebraically closed valued field,
+  every abelian scheme with a relatively ample line bundle is a retract of a principally polarised one
+  (\ref{H:pf:deepstr:zar} of \cref{hyp:pf:deepstr:inputs}).
+\end{enumerate}
+Here a \emph{principally polarised abelian scheme} over $S$ (in the development: a polarised abelian
+variety over $S$) is an abelian scheme $A\to S$ of relative dimension $g$ with a rigidified, symmetric,
+relatively ample line bundle $L$ such that every point $x$ of $A$ with $t_x^*L\otimes L^{-1}$ locally
+trivial is the unit section.
+
+\begin{theorem}[\cref{thm:tower}]\label{pf:tower:main}
+Assume \ref{I:pf:tower:ais}--\ref{I:pf:tower:z}. Then $\sfname{GoodTowerExistsX}$ and
+$\sfname{VolumeTheoremX}$ hold.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Link.good_tower_volume_theorem_bis}
+\end{theorem}
+
+\subsubsection*{The intermediate statements}
+We use the notation of \cref{pf:towergeo:sec-statements} for the hypotheses of
+\lref{GlobalTheory.CompanionTheory.Ar.Top.goodTower_and_volume}: the geometric package $\towerG$
+(\cref{def:pf:deepstr:given}, components \ref{G:pf:deepstr:tor}--\ref{G:pf:deepstr:anti}), (PI), (Av), (W),
+(F) and (CP). Six further statements occur in the proof:
+\begin{itemize}
+\item (TU) the theta uniformisation statement (\cref{pf:tower:def-tu});
+\item (HTD) the Hodge--Tate datum statement (\cref{pf:tower:def-htd});
+\item (Ord) the ordinary curve statement (\cref{pf:tower:def-ord});
+\item (CS) the comparison statement (\cref{pf:tower:def-cs});
+\item (HCC) the Hodge comparison compatibility (\cref{pf:tower:def-hcc});
+\item (CP) the comparison of pairs, restated in \cref{pf:tower:def-cp}.
+\end{itemize}
+
+\begin{definition}[Theta uniformisation]\label{pf:tower:def-tu}
+The statement (TU) asserts: for every principally polarised abelian variety $(A,L)$ of dimension $g$ over
+$\C$ and every generator of the fibre of $L$ at the origin, there are a holomorphic uniformisation
+$u\colon\C^g/\Lambda\xrightarrow{\sim}A(\C)$, a positive definite Hermitian matrix $H$ and a function $\chi\colon\Lambda\to\C$
+with $|\chi|=1$ such that $u$ realises $L$ as the Appell--Humbert line bundle of $(H,\chi)$ compatibly with the
+rigidification (the local frames $f_i$ of $L$, pulled back to $\C^g$, satisfy
+$f_i(z)=\chi(l)\exp\bigl(\pi z^{\mathsf T}H\bar l+\tfrac\pi2 l^{\mathsf T}H\bar l\bigr)f_i(z+l)$ for $l\in\Lambda$);
+tangent vectors at the origin correspond bijectively to differentials of $u$; homomorphisms $A\to A$ lift to
+$\C$-linear maps of $\C^g$; for every $n$, sections of $L^{\otimes n}$ correspond bijectively to theta functions
+of level $n$ for $(H,\chi)$; the integral form $E$ on $\Lambda$ with $E(a,b)=\Im H(a,b)$ is perfect; and for
+$k\ge1$ and $a,b\in\Lambda$ the Weil pairing of the $k$-torsion points $u(a/k)$, $u(b/k)$ is
+$\exp(-2\pi i\,E(a,b)/k)$. This is the theorem of Appell--Humbert with the classical description of theta
+functions and of the Weil pairing \cite[\S\S2--3, \S24]{Mumford1970}.
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.ThetaUnifAV}
+\end{definition}
+
+\subsubsection*{The proof of \cref{thm:tower}}
+The proof is a reduction to the theorem of \cref{sec:pf:towergeo}; the statements used are proved in the
+later subsections.
+
+\begin{theorem}\label{pf:tower:gtv}
+$\towerG$, \textup{(PI)}, \textup{(Av)}, \textup{(W)}, \textup{(F)} and \textup{(CP)} imply
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$.
+\formallabel{GlobalTheory.T.good_tower_volume_theorem}
+\end{theorem}
+
+\begin{proof}
+This is \cref{pf:towergeo:main} (\lref{GlobalTheory.CompanionTheory.Ar.Top.goodTower_and_volume}). Its
+hypotheses are derived from the inputs of \cref{thm:tower} in the proofs of \cref{pf:tower:reduced} and
+\cref{pf:tower:main} below.
+\end{proof}
+
+\begin{theorem}\label{pf:tower:reduced}
+Assume the components \ref{G:pf:deepstr:tor}--\ref{G:pf:deepstr:resk}, \ref{G:pf:deepstr:ht},
+\ref{G:pf:deepstr:gaga} and \ref{G:pf:deepstr:pb}--\ref{G:pf:deepstr:zhang} of $\towerG$ (all components
+except strong approximation, the Lie slope bound and the antisymmetric perturbation statement), and
+\textup{(LLD)}, \textup{(PI)}, \textup{(Av)}, \textup{(Q)}, \textup{(Z)} and \textup{(TU)}. Then
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$ hold.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.goodTower_volume_of_reduced}
+\formallabel{GlobalTheory.T.final_theorem_of_inputs_right}
+\end{theorem}
+
+\begin{proof}
+By \lref{GlobalTheory.T.final_theorem_of_inputs_left} (\cref{thm:pf:deepstr:given}), the eleven
+components of $\towerG$ assumed and (LLD) imply $\towerG$: the three missing components are proved in the
+development, the Lie slope bound being a consequence of (LLD). We now supply the hypotheses of
+\cref{pf:tower:gtv}.
+\begin{enumerate}[label=(\alph*)]
+\item (W) holds (\cref{pf:tower:weil}).
+\item (HTD) holds (\cref{pf:tower:htd}), hence so does (Ord) (\cref{pf:tower:ord}).
+\item (F) follows from (HT), (Q), (Z), (HTD) and (Ord) (\cref{pf:tower:fam}); (HT) is the component
+  \ref{G:pf:deepstr:ht} of $\towerG$.
+\item (CS) follows from the potential-theoretic inputs \ref{G:pf:deepstr:pb} of $\towerG$, (Av) and (RPC)
+  (\cref{pf:tower:cs}); (RPC) is the component \ref{G:pf:deepstr:resk} of $\towerG$.
+\item (HCC) holds (\cref{pf:tower:hcc}).
+\item (CP) follows from \ref{G:pf:deepstr:pb}, (CS), (HCC) and (TU) (\cref{pf:tower:cp}).
+\end{enumerate}
+\Cref{pf:tower:gtv} now applies, with (PI) and (Av) among the hypotheses.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:tower:main}]
+By \lref{GlobalTheory.CompanionTheory.Ar.Link.given_of_use} (\cref{thm:pf:deepstr:given}),
+\ref{I:pf:tower:ais}--\ref{I:pf:tower:lld} imply $\towerG$, in particular its components used in
+\cref{pf:tower:reduced}. (PI) follows from (RPC) by
+\lref{GlobalTheory.T.points_integrable_of_resolution_statement}, which states that (RPC) implies the
+integrability of the fibre sums of $\log\|s\|$ against products of Chern forms over good linear projections
+of arithmetic varieties. (Av) holds by \cref{pf:tower:avoid}. (TU) holds by
+\lref{GlobalTheory.thetaUnifAV_closed}, which derives it in the development from the laws of
+abelian schemes (cube theorem, multiplication by $n$, Weil pairing and its nondegeneracy, rank of the space
+of global sections). With (LLD), (Q) and (Z), \cref{pf:tower:reduced} gives the conclusion.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Avoidance and Weil pairings}\label{pf:tower:sec-elem}
+
+Let $R$ be a commutative ring, $K$ a finite set and $(\iota_k)_{k\in K}$ finite sets, and let
+$R[x]=R[x_{k,i}:k\in K,\,i\in\iota_k]$ with its $\N^K$-grading by multidegrees. An element is
+\emph{multihomogeneous of multidegree $d$} if all its monomials have multidegree $d$ (so $0$ is
+multihomogeneous of every multidegree). An ideal $W\subseteq R[x]$ is \emph{relevant} if for every $k\in K$
+some variable $x_{k,i}$ does not lie in $W$, and a \emph{multiprojective prime} is a prime ideal generated
+by multihomogeneous elements which is relevant.
+
+\begin{definition}[Avoidance statement]\label{pf:tower:def-av}
+The statement (Av) asserts: for every commutative ring $R$, all finite $K$, $(\iota_k)$ and every finite set
+$\mathcal W$ of multiprojective primes of $R[x]$ there is $d_0\in\N^K$ such that for every multidegree
+$d\ge d_0$ (componentwise) there is a multihomogeneous $s\in R[x]$ of multidegree $d$ with $s\notin W$ for all
+$W\in\mathcal W$.
+\formal{ReciprocityTheory.ChartRestriction.G.AI.I2.AvoidStatement}
+\end{definition}
+
+\begin{lemma}[Graded avoidance]\label{pf:tower:avoid}
+\textup{(Av)} holds.
+\formallabel{GroundTheory.Heights₂.Heights.Inter.AvoidRing.exists_form_avoid}
+\formallabel{GroundTheory.Heights₂.Heights.ForSecondHalf.avoid}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Giv.topAvoid}
+\end{lemma}
+
+\begin{proof}
+Let $T\subseteq\mathcal W$ be the set of maximal elements of $\mathcal W$ for inclusion; every
+$W\in\mathcal W$ is contained in some $W'\in T$, so it suffices to avoid the elements of $T$. For distinct
+$W,W'\in T$ there is a multihomogeneous $g_{W,W'}\in W'\smallsetminus W$, of some multidegree
+$a_{W,W'}$: otherwise every multihomogeneous generator of $W'$ would lie in $W$, so $W'\subseteq W$, and
+$W'=W$ by maximality. For $W\in T$ put $a_W=\prod_{W'\in T\smallsetminus\{W\}}g_{W,W'}$, of multidegree
+$\delta_W=\sum_{W'\ne W}a_{W,W'}$; then $a_W\notin W$ since $W$ is prime, and $a_W\in W''$ for every
+$W''\in T\smallsetminus\{W\}$. Let $d_0=\sum_{W\in T}\delta_W$ and $d\ge d_0$. Since $W$ is relevant, choose
+for each $k$ an index $i_k(W)$ with $x_{k,i_k(W)}\notin W$ and put
+$m_W=\prod_kx_{k,i_k(W)}^{d_k-\delta_{W,k}}$, which is multihomogeneous of multidegree $d-\delta_W$ and not in
+$W$ (a prime). Then $s=\sum_{W\in T}a_Wm_W$ is multihomogeneous of multidegree $d$. For $W_0\in T$ all terms
+with $W\ne W_0$ lie in $W_0$, while $a_{W_0}m_{W_0}\notin W_0$; hence $s\notin W_0$.
+\end{proof}
+
+\begin{definition}[Weil pairing statement]\label{pf:tower:def-weil}
+The statement (W) asserts: for every locally noetherian scheme $S$, principally polarised abelian scheme
+$(A,L)$ over $S$, integer $k\ge0$ and $S$-scheme $T$, (i) for all $x,y\in A(T)$ with $kx=ky=0$ there is a
+unique unit $c=e_k(x,y)\in\Gamma(T,\OO_T)^\times$ which is the value of the Weil pairing of $x$ and $y$
+defined by $L$; (ii) $e_k(x+x',y)=e_k(x,y)e_k(x',y)$; (iii) $e_k(x,x)=1$; (iv) if $kl$ is invertible on $T$,
+$klx=0$ and $ky=0$, then $e_{kl}(x,y)=e_k(lx,y)$.
+\formal{ReciprocityTheory.ChartRestriction.G.Out.WeilSt}
+\end{definition}
+
+\begin{lemma}\label{pf:tower:weil}
+\textup{(W)} holds.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Link.weilSt}
+\end{lemma}
+
+\begin{proof}
+(W) is one of the laws of abelian schemes established in the development
+(\lref{GlobalTheory.allSixLaws}, whose first component contains the cube theorem, the properties of
+multiplication by $n$ and the existence and properties (i)--(iv) of the Weil pairing); for the classical
+statements see \cite[\S\S6, 10, 20, 23]{Mumford1970}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Hodge--Tate data}\label{pf:tower:sec-htd}
+
+Throughout this subsection and the next, $p$ is a prime, $C$ is an algebraically closed field of
+characteristic $0$ with a valuation $v\colon C\to\R_{\ge0}$ (written multiplicatively), and $R\subseteq C$
+is its valuation ring $\{v\le1\}$; we assume $v(p)<1$ and that $R$ is $p$-adically complete. Then $R$ is
+a local domain in which $p$ is not a unit. For $g\ge0$ put $\towerNb_g=(\Z/p)^{2g}$, indexed by
+$\{1,\dots,g\}\sqcup\{1,\dots,g\}$, and for $t\in\Z_p^{2g}$ write $\bar t$ for its image in $\towerNb_g$.
+
+\begin{definition}[Torsion representations and torsion points]\label{pf:tower:def-tors}
+Let $A$ be a commutative group scheme over $R$ and $N$ an abelian group.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{representation of the $p$-torsion} $T$ of $A$ is a finite free $R$-algebra $T.A$ with a point
+  $y\in A(T.A)$, $py=0$, which is universal: for every $R$-algebra $S$ and $z\in A(S)$ with $pz=0$ there is a
+  unique $R$-algebra map $\varphi\colon T.A\to S$ with $A(\varphi)(y)=z$. Thus $\Spec T.A=A[p]$.
+\item A family $\mathrm{pt}\colon N\to A(R)$ is a \emph{family of $p$-torsion points} if it is injective and
+  additive and its image is the set of $z\in A(R)$ with $pz=0$.
+\item For such $T$ and $\mathrm{pt}$ let $\varphi_x\colon T.A\to R$ be the map corresponding to $\mathrm{pt}(x)$.
+  The \emph{evaluation module} $\towerev(T,\mathrm{pt})\subseteq C^N$ is the $R$-module of the functions
+  $x\mapsto\varphi_x(a)$, $a\in T.A$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.TorsRep}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.IsTorsPts}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.torsFun}
+\end{definition}
+
+\begin{definition}[Hopf orders]\label{pf:tower:def-hopf}
+For a finite abelian group $N$, a \emph{Hopf order} on $N$ is an $R$-submodule $\mathcal A\subseteq C^N$ spanned by the
+columns of a matrix in $\GL_N(C)$, consisting of $R$-valued functions, containing $1$, closed under products, under
+$f\mapsto f(-x)$, and such that $f(x+y)$ lies in the $R$-span of the functions $g(x)h(y)$, $g,h\in\mathcal A$, for every
+$f\in\mathcal A$. Its \emph{augmentation ideal} is $I_{\mathcal A}=\{f\in\mathcal A:f(0)=0\}$, and $I_{\mathcal A}^2$ is
+the $R$-span of the products of two elements of $I_{\mathcal A}$.
+\formal{ReciprocityTheory.PGsh.L2.HopfOrder}
+\end{definition}
+
+If $A[p]$ is finite flat of order $|N|$ and $\mathrm{pt}$ identifies $N$ with $A[p](R)$, then $\towerev(T,\mathrm{pt})$ is
+the image of the coordinate ring of $A[p]$ in the functions on its $R$-points; this is the situation of the following
+definition.
+
+\begin{definition}[Hodge--Tate data]\label{pf:tower:def-htdatum}
+Let $\OO'$ be a commutative $\Z_p$-algebra with a $\Z_p$-algebra involution $\sigma$, $g\ge0$ and $c_p\in R$.
+(a)~$(R,\OO',\sigma,c_p)$ is a \emph{Hodge--Tate setting} if $v(p)\ne0$, $v(p)<1$ and $v(c_p)^{p-1}=v(p)$.
+(b)~A \emph{Hodge--Tate datum} of genus $g$ for this setting consists of
+\begin{itemize}
+\item $\Z_p$-algebra maps $\rho\colon\OO'\to M_{2g}(\Z_p)$, ring maps $\rho_L\colon\OO'\to M_g(R)$ and
+  projectors $P\in M_{2g}(\Z_p)$, $P_L\in M_g(R)$ commuting with them, with $P^{\mathsf T}E=EP$;
+\item an alternating matrix $E\in M_{2g}(\Z_p)$ with unit determinant and $\rho(a)^{\mathsf T}E=E\rho(\sigma a)$;
+\item matrices $H_t,B_t\in M_{g\times2g}(R)$ with $H_t\rho(a)=\rho_L(\sigma a)^{\mathsf T}H_t$,
+  $H_tP=P_L^{\mathsf T}H_t$ and
+  \begin{equation}\label{pf:tower:eq-htform}
+  B_t^{\mathsf T}H_t-H_t^{\mathsf T}B_t=c_p\,E;
+  \end{equation}
+\item a Hopf order $\mathcal A$ on $\towerNb_g$, stable under $f\mapsto f\circ\rho(a)$, such that for each
+  $k\le g$ the functions $t\mapsto(H_tt)_k$ and $t\mapsto(B_tt)_k$ on $\Z_p^{2g}$ are congruent modulo $pR$ to
+  functions $t\mapsto f(\bar t)$ with $f\in\mathcal A$, and, if $p=2$, containing the characters
+  $t\mapsto(-1)^{s^{\mathsf T}Et}$ for all $s\in\Z_2^{2g}$;
+\item a surjective $R$-linear map $\varphi\colon I_{\mathcal A}\to(R/pR)^g$ with kernel $I_{\mathcal A}^2$,
+  semilinear for $\rho$ and $\rho_L^{\mathsf T}$.
+\end{itemize}
+\formal{ReciprocityTheory.PGsh.Up.HodgeTateSetting}
+\formal{ReciprocityTheory.PGsh.Up.HodgeTateDatum}
+\end{definition}
+
+So a Hodge--Tate datum is a linear-algebraic model of a finite flat group scheme of order $p^{2g}$ with an
+alternating pairing $E$ (the Weil pairing on $T_pA$ in a basis), the identification $\varphi$ of its
+cotangent space at the origin with $(R/p)^g$, and two maps $H_t,B_t\colon R^{2g}\to R^g$ tied to $E$ by
+\eqref{pf:tower:eq-htform}; in the construction below, $H_t$ is the Hodge--Tate map in the sense of
+\cite{Fontaine1982fd,Faltings1988}.
+
+\begin{definition}[Hodge--Tate datum statement]\label{pf:tower:def-htd}
+The statement (HTD) asserts: for all $p,C,v,R$ as above, every $\Z_p$-algebra structure on $R$ and every
+principally polarised abelian scheme $(A,L)$ of relative dimension $g$ over $R$,
+(i)~the $p$-torsion of $A$ has a representation, and (ii)~there are $c_p\in R$ such that
+$(R,\Z_p,\mathrm{id},c_p)$ is a Hodge--Tate setting, a Hodge--Tate datum $H$ of genus $g$ for it and a family
+$\mathrm{pt}\colon\towerNb_g\to A(R)$ of $p$-torsion points with $\mathcal A_H=\towerev(T,\mathrm{pt})$ for every
+representation $T$ of the $p$-torsion.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.HodgeTateDatumStatement}
+\end{definition}
+
+\begin{lemma}\label{pf:tower:torsrep}
+Let $R$ be a local ring, $p\ge1$ and $A$ an abelian scheme over $R$ with a relatively ample line bundle. Then
+the $p$-torsion of $A$ has a representation.
+\formallabel{GlobalTheory.T.abelian_scheme_torsion_representation}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.torsRep_nonempty_of_relAmple}
+\formallabel{PositivityTheory.HtPt.Rg.torsrep_ex}
+\end{lemma}
+
+\begin{proof}
+Multiplication by $p$ on $A$ is finite, flat and surjective
+(\lref{GlobalTheory.ChF.exists_gen_theta_tensor_and_finite_flat_surjective_pow}, which states this for
+all $p\ge1$ for abelian schemes with a relatively ample line bundle; over a field compare
+\cite[\S6, Application~2]{Mumford1970}),
+and if multiplication by $p$ on a smooth commutative group scheme over a local ring is finite and flat, its kernel is
+represented by a finite free algebra with a universal point
+(\lref{GlobalTheory.finRep_kernel_mul_finite_free}).
+\end{proof}
+
+\begin{proposition}[Formal group charts]\label{pf:tower:fgchart}
+Let $p,C,v,R$ be as above, with a $\Z_p$-algebra structure on $R$; let $(A,L)$ be a principally polarised
+abelian scheme over $R$ of relative dimension $g\ge1$, $\OO_E$ a commutative ring with an involution $*$ and
+$o$ an action of $\OO_E$ on $A$ by endomorphisms, compatible with $*$ and the Rosati involution. Let $F$ be a
+formal group law of dimension $g$ over $R$ with a \emph{chart} $X$ of $A$ (for every $R$-algebra $S$, a map
+$X_S$ from $g$-tuples of nilpotent elements of $S$ to $A(S)$, natural, injective, with $X_S(0)=0$, onto the
+points that become $0$ modulo a nilpotent ideal with a section, and transforming $F$ into the group law),
+and let $\alpha(a)$ be $g$-tuples of power series without constant term with $o(a)\circ X=X\circ\alpha(a)$.
+Then there are $c_p\in R$ such that $(R,\Z_p\otimes\OO_E,\mathrm{id}\otimes*,c_p)$ is a Hodge--Tate setting, a
+Hodge--Tate datum $H$ of genus $g$ for it, $S\in\GL_g(R)$ and a family $\mathrm{pt}$ of $p$-torsion points of
+$A$ such that: $P=0$ and $P_L=0$; $\alpha(a)_{\mathrm{lin}}S=S\rho_L(1\otimes a)$ for the linear parts;
+for every index $i$ of $\towerNb_g$ there is a power series $u$ with $u(0)=1$ and $u(F(X,Y))=u(X)u(Y)$ (a
+character of $F$) whose vector of linear coefficients $du$ satisfies $S^{\mathsf T}du=(H_t)_{\cdot,i}$;
+$\mathcal A_H=\towerev(T,\mathrm{pt})$ for every representation $T$; and
+$\mathrm{pt}(\overline{\rho(1\otimes a)t})=o(a)(\mathrm{pt}(\bar t))$.
+\formallabel{GlobalTheory.T.formal_group_chart_family}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.exists_htd_act}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.htd_of_tower}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.thetaBar_surj}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.thetaBar_mul}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.ptOf_act}
+\end{proposition}
+
+In words, $H_t$ is the classical Hodge--Tate map: the $i$-th column of $H_t$ is the differential at the origin
+of a character of the formal group of $A$, expressed in the basis of invariant differentials given by $S$
+(compare \cite[\S4]{Tate1967pdiv}, \cite{Fontaine1982fd}).
+
+\begin{proof}
+We describe the construction; its steps are results of the development.
+(1)~By \lref{GlobalTheory.KeyTf.exists_polAV_finiteType_subring}, $(A,L)$ is the base change of a
+principally polarised abelian scheme over a subring $R_0\subseteq R$ of finite type over $\Z$, in particular
+noetherian. (2)~Choose $\eps\in R^\flat$ (the tilt) such that $(\eps^{1/p})^\sharp$ is a primitive $p$-th root
+of unity, let $A_{\inf}=W(R^\flat)$, $\xi\in A_{\inf}$ the corresponding generator of the kernel of Fontaine's map
+$\theta\colon A_{\inf}\to R$, and $R'=A_{\inf}/\xi^2$ \cite{Fontaine1982,Fontaine1994}. The map
+$\bar\theta\colon R'\to R$ induced by $\theta$ is surjective with square-zero kernel, since $\theta$ is surjective and
+$\xi$ generates its kernel \cite{Fontaine1994}; so $R'$ is local. (3)~By \lref{GlobalTheory.T.exists_lift_principally_polarised_abelian_square_zero},
+$A$ lifts along $\bar\theta$ to an abelian scheme $G$ over $R'$ with a symmetric line bundle $Q$ on $G\times G$,
+trivial on $G\times0$ and $0\times G$, whose pull-back to $A\times A$ is the Mumford bundle of $L$, whose
+restriction to the diagonal is relatively ample and whose associated homomorphism has trivial kernel
+(deformation of principally polarised abelian schemes along square-zero thickenings). $G$ is smooth of relative
+dimension $g$, multiplication by $p$ on $G$ is finite flat surjective, $G[p](C)$ has $p^{2g}$ points, and the
+action of $\OO_E$ has Rosati-adjoint generators
+(\lref{GlobalTheory.T.smoothOfRelativeDimension_of_grpPullback_localRing},
+\lref{GlobalTheory.T.cube_trivial_and_finite_flat_surjective_mul_abelianScheme},
+\lref{GlobalTheory.T.card_torsion_of_polarisedAbelianScheme_lift},
+\lref{GlobalTheory.T.exists_generator_of_rosatiAdjoint_lambdaBundle}). (4)~The period tower theorem \lref{GlobalTheory.T.exists_periodTowerDatum_of_abelianScheme_symmetricBundle}
+describes the group functor of $G$ on local $R'$-algebras by a functor $B$ with a natural additive bijection onto
+the points of $G$, describes the action of $\OO_E$ by adjoint pairs, and provides a \emph{period tower datum}
+$D$ over the tower of rings $A_{\inf}/(\xi^2,p^{n+1})\to R/p^{n+1}$ and its dual tower. The datum consists of
+compatible systems $(\tau_i(n))_n$ of $p^{n+1}$-torsion points ($i$ running over the $2g$ indices of
+$\towerNb_g$) such that $t\mapsto\sum_it_i\tau_i(0)$ is a bijection of $\towerNb_g$ onto the $p$-torsion
+points; of a matrix $E$ such that the Weil pairing of $\tau_i(n)$ and $\tau_j(n)$ is $\zeta_n^{E_{ij}}$; of
+matrices $H_t$ (the heights of the $\tau_i(n)$ relative to the dual tower, evaluated on a fixed basis) and
+$B_t$ (obtained by lifting $\tau_i(n)$ to $A_{\inf}/(\xi^2,p^{n+1})$ and dividing $p^{n+1}$ times the lift by
+$\xi$); of representations $\rho,\rho_L$ of $\Z_p\otimes\OO_E$ describing the action on the $\tau_i(0)$ and on
+the Lie algebra; and of a finite flat model of the $p$-torsion. These satisfy the conditions of
+\cref{pf:tower:def-htdatum} other than those on the Hopf order, with $P=P_L=0$ and with the constant $c_p$
+of the tower, for which $v(c_p)^{p-1}=v(p)$ (\lref{GlobalTheory.T.hodgeTate_datum_hypotheses_period_tower}).
+(5)~The chart $X$ of $A$ induces a chart of $B$ (\lref{GlobalTheory.T.abelianFunctorNilChart_of_nilpotent_chart}).
+(6)~From these data, \lref{GlobalTheory.CompanionTheory.Ar.GR.htd_of_dat} produces the Hodge--Tate datum
+$H$, whose Hopf order is the $R$-span of the evaluations of the finite flat model at the points
+$\sum_it_i\tau_i(0)$, and the matrix $S$, with $P=P_L=0$, the intertwining property of $S$ and the description of
+the columns of $H_t$ by characters of $F$;
+\lref{GlobalTheory.T.dual_tower_hodge_tate_datum} produces the points $\mathrm{pt}(t)$ (the images in
+$A(R)$ of $\sum_it_i\tau_i(0)$) and shows that this Hopf order is $\towerev(T,\mathrm{pt})$ for every
+representation $T$; and the compatibility of the points with the action of $\OO_E$ follows from the
+description of the action on the $\tau_i(0)$ by $\rho$: if an additive map $f$ satisfies
+$f(\tau_j(0))=\sum_k\overline{M_{kj}}\,\tau_k(0)$ for a matrix $M$ over $\Z_p$, then
+$f(\sum_j\bar t_j\tau_j(0))=\sum_k\overline{(Mt)_k}\,\tau_k(0)$, by linearity and because the $\tau_k(0)$ are killed by $p$,
+so that only residues modulo $p$ matter.
+\end{proof}
+
+\begin{theorem}[Hodge--Tate data exist]\label{pf:tower:htd}
+\textup{(HTD)} holds.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.Top.main}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.Top.exists_cp}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.Top.hopf_carrier_g_zero}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.Top.torsFun_one_eq}
+\formallabel{GlobalTheory.T.hodge_tate_datum_reduce_scalars}
+\formallabel{GlobalTheory.T.polarised_variety_integer_action}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.Top.pt_eq_one_of_g_zero}
+\formallabel{GlobalTheory.T.trivial_polarized_abelian_point_eq_one}
+\formallabel{GlobalTheory.CompanionTheory.Ar.DimZero.eq_one_of_g_eq_zero}
+\formallabel{GlobalTheory.CompanionTheory.Ar.DimZero.isIso_hom_of_relDim_zero}
+\end{theorem}
+
+\begin{proof}
+Let $p,C,v,R$, a $\Z_p$-algebra structure on $R$ and $(A,L)$ of relative dimension $g$ be given. By
+\cref{pf:tower:torsrep} the $p$-torsion has a representation; this is (i).
+
+\emph{Case $g=0$.} Then the structure morphism $\pi\colon A\to\Spec R$ is an isomorphism, so every point of $A$ with
+values in $R$ is the unit section $e$. Indeed, $\pi$ is proper with geometrically connected fibres and, being smooth of
+relative dimension $0$, \'etale. Hence $e$ is a closed immersion (a section of a separated morphism) and an open
+immersion (a section of an \'etale morphism, whose diagonal is an open immersion), so $e(\Spec R)$ is open and closed in
+$A$. Every fibre of $\pi$ is connected and meets $e(\Spec R)$, hence lies in it; so $e$ is a surjective open immersion,
+hence an isomorphism, and so is $\pi$. Since $C$ is algebraically closed there is $c_p\in C$ with
+$c_p^{p-1}=p$; it lies in $R$ as $v(c_p)^{p-1}=v(p)<1$, and $(R,\Z_p\otimes\Z,\mathrm{id}\otimes\mathrm{id},c_p)$ is a
+Hodge--Tate setting. A Hodge--Tate datum of genus $0$ exists (\lref{GlobalTheory.ChF.htd_dim_zero}); composing its
+maps $\rho,\rho_L$ with $\Z_p\to\Z_p\otimes\Z$ gives a datum $H$ for $(R,\Z_p,\mathrm{id},c_p)$ with the same
+$\mathcal A,H_t,B_t,E$ (all conditions of \cref{pf:tower:def-htdatum} are preserved by restricting the coefficients). Let
+$\mathrm{pt}$ be the constant family $0$ on the one-point group $\towerNb_0$; it is a family of $p$-torsion points because
+$A(R)=0$. A Hopf order on the one-point group is a lattice of rank $1$ in $C$ consisting of elements of $R$ and containing
+$1$, hence equal to $R$; and $\towerev(T,0)=\{\varphi_0(a):a\in T.A\}=R$, since $\varphi_0$ is an $R$-algebra map. Hence
+$\mathcal A_H=\towerev(T,\mathrm{pt})$.
+
+\emph{Case $g\ge1$.} The formal group of $A$ has a formal group law $F$ with a chart $X$
+(\lref{GlobalTheory.ChF.exists_nilChart}, for smooth commutative group schemes over local rings). Let $\Z$
+act on $A$ by multiplication; every endomorphism is read in the chart by power series
+(\lref{GlobalTheory.ChF.exists_reads}). \Cref{pf:tower:fgchart} with $\OO_E=\Z$ gives $c_p$, a Hodge--Tate datum for
+$(R,\Z_p\otimes\Z,\mathrm{id},c_p)$ and points $\mathrm{pt}$ with $\mathcal A_H=\towerev(T,\mathrm{pt})$; restricting
+coefficients to $\Z_p$ as above preserves $\mathcal A_H$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Ordinary elliptic curves over \texorpdfstring{$\OO_C$}{O\_C}}\label{pf:tower:sec-ord}
+
+We keep the notation $p,C,v,R$ of \cref{pf:tower:sec-htd}. Let $\mathcal X_p\subseteq C^{\Z/p}$ be the
+$R$-span of the characters $x\mapsto\psi(x)$, $\psi\colon\Z/p\to C^\times$, and $\towerInt_p\subseteq C^{\Z/p}$
+the module of $R$-valued functions. For $R$-modules $M\subseteq C^X$, $M'\subseteq C^Y$ let
+$M\otimes M'\subseteq C^{X\times Y}$ be the $R$-span of the functions $(x,y)\mapsto f(x)f'(y)$, $f\in M$,
+$f'\in M'$. Thus $\mathcal X_p$ is the image of the coordinate ring of $\mu_p$ in the functions on
+$\mu_p(R)\cong\Z/p$, and $\mathcal X_p\otimes\towerInt_p$ is the corresponding module for $\mu_p\times\Z/p$.
+
+\begin{definition}[Ordinary curve statement]\label{pf:tower:def-ord}
+The statement (Ord) asserts: for all $p,C,v,R$ as above there are an abelian scheme $A$ over $R$ with a
+relatively ample line bundle, a representation $T$ of its $p$-torsion and a family
+$\mathrm{pt}\colon\Z/p\times\Z/p\to A(R)$ of $p$-torsion points with
+$\towerev(T,\mathrm{pt})=\mathcal X_p\otimes\towerInt_p$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdinaryCurveStatement}
+\end{definition}
+
+For $\tau$ in a ring let $W_\tau$ be the Weierstrass curve $y^2+xy=x^3+\tau$, with discriminant
+\begin{equation}\label{pf:tower:eq-disc}
+\Delta(W_\tau)=-\tau-432\tau^2
+\end{equation}
+(a direct computation with the formulas for $b_2,b_4,b_6,b_8$ \cite[\S III.1]{Silverman2009}: here $b_2=1$, $b_4=0$,
+$b_6=4\tau$, $b_8=\tau$), and let $\Psi_n^2(W)$
+denote the squared $n$-division polynomial of $W$ as a polynomial in $x$ \cite[Ex.~3.7]{Silverman2009}; its
+formation commutes with ring homomorphisms. The curve $W_0$ is nodal, and over an algebraically closed field
+of characteristic $p$
+\begin{equation}\label{pf:tower:eq-nodal}
+\Psi_p^2(W_0)=X^{p^2-p}
+\end{equation}
+(\lref{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.ΨSq_fam_zero}, computed in the development by expressing
+the division polynomials of $W_0$ through a Lucas sequence).
+
+\begin{lemma}\label{pf:tower:ordinary}
+Let $B$ be a local ring whose residue field $k$ is algebraically closed of characteristic $p$. There is
+$t\in B$ such that $\Delta(W_t)$ and the coefficient of $X^{p^2-p}$ in $\Psi_p^2(W_t)$ are units.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.exists_ordinary}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.Δ_fam}
+\end{lemma}
+
+\begin{proof}
+Let $c(\tau)\in k[\tau]$ be the coefficient of $X^{p^2-p}$ in $\Psi_p^2(W_\tau)$ over $k[\tau]$; specialising
+$\tau$ commutes with forming $\Psi_p^2$, so $c(\tau_0)$ is the corresponding coefficient for $W_{\tau_0}$, and
+$c(0)=1$ by \eqref{pf:tower:eq-nodal}. Hence $c\cdot\tau(432\tau+1)$ is a nonzero polynomial, and since $k$ is
+infinite there is $\tau_0\in k$ where it does not vanish. Let $t\in B$ lift $\tau_0$. The residue of
+$\Delta(W_t)$ is $-\tau_0(1+432\tau_0)\ne0$ by \eqref{pf:tower:eq-disc}, and the residue of the coefficient of
+$X^{p^2-p}$ in $\Psi_p^2(W_t)$ is $c(\tau_0)\ne0$; both are therefore units of the local ring $B$.
+\end{proof}
+
+\begin{lemma}\label{pf:tower:root}
+Let $f\in R[X]$ have a unit coefficient in some degree $d>0$. Then $f$ has a root in $R$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.exists_root_of_isUnit_coeff}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.coeff_prod_lt}
+\end{lemma}
+
+\begin{proof}
+Suppose not. Then $f\ne0$, and since $C$ is algebraically closed, $f=a\prod_{i=1}^n(X-r_i)$ in $C[X]$ with
+$a\ne0$ and $v(r_i)>1$ for all $i$ (a root with $v\le1$ would lie in $R$). The coefficient of $X^j$ of
+$\prod_i(X-r_i)$ is, up to sign, the elementary symmetric function of degree $n-j$ in the $r_i$; each of its
+terms omits $j$ of the roots, so by the ultrametric inequality its valuation is $<\prod_iv(r_i)$ for $j>0$,
+while the constant coefficient has valuation exactly $\prod_iv(r_i)$. Hence $1=v(f_d)<v(f_0)\le1$, a
+contradiction.
+\end{proof}
+
+\begin{lemma}[Division points]\label{pf:tower:divpts}
+Let $W$ be a Weierstrass curve over a field $k$, $P_0=(x_0,y_0)$ a nonsingular point of $W$ and $n\in\Z$. Then $nP_0=0$ in the
+group of points of $W$ if and only if $\Psi_n^2(x_0)=0$.
+\formallabel{GroundTheory.Arith.Abelian.zsmul_eq_zero_iff}
+\formallabel{GroundTheory.Arith.Abelian.good}
+\formallabel{GroundTheory.Arith.Abelian.good_nat}
+\formallabel{GroundTheory.Arith.Abelian.good_succ}
+\formallabel{GroundTheory.Arith.Abelian.psiAt_eq_zero_iff}
+\end{lemma}
+
+\begin{proof}
+Let $\psi_n\in k$ be the value at $(x_0,y_0)$ of the $n$-th division polynomial: $(\psi_n)_n$ is the normalised elliptic
+divisibility sequence with $\psi_0=0$, $\psi_1=1$, $\psi_2=b:=2y_0+a_1x_0+a_3$, $\psi_3=\Psi_3(x_0)$, $\psi_4=b\,\Psi'_4(x_0)$ (where
+$\Psi_4=\psi_2\Psi'_4$), $\psi_{-n}=-\psi_n$, and it satisfies
+$\psi_{n+2}\psi_{n-2}=b^2\psi_{n+1}\psi_{n-1}-\psi_3\psi_n^2$. Since $(x_0,y_0)$ lies on $W$, $\psi_n^2=\Psi_n^2(x_0)$. Write $x(P)$
+for the first coordinate of an affine point. We show for all $n$ the statement
+\begin{equation}\label{pf:tower:eq-good}
+\text{(G$_n$)}\qquad nP_0=0\iff\psi_n=0,\qquad\text{and if }\psi_n\ne0\text{ then } x(nP_0)=x_0-\frac{\psi_{n+1}\psi_{n-1}}{\psi_n^2},
+\end{equation}
+which gives the lemma. (G$_0$) is trivial, and (G$_{-n}$) follows from (G$_n$) since $x(-P)=x(P)$ and $\psi_{-m}=-\psi_m$. For
+$n\ge1$ we use strong induction. (G$_1$) is clear. (G$_2$): $2P_0=0$ if and only if the tangent at $P_0$ is vertical, i.e.\
+$b=0$, and otherwise the duplication formula gives $x(2P_0)=x_0-\psi_3/b^2$. For $n\ge2$, (G$_{n+1}$) follows from
+(G$_n$), (G$_{n-1}$), (G$_{n-2}$) and (G$_{n-3}$) by a direct computation with the addition formula
+\[
+\bigl(x(P+Q)+x(P-Q)\bigr)(x_P-x_Q)^2=2x_Px_Q(x_P+x_Q)+b_2x_Px_Q+b_4(x_P+x_Q)+b_6\qquad(x_P\ne x_Q),
+\]
+applied to $P=nP_0$ and $Q=P_0$, together with the recursion above and the identity
+$\psi_3(\psi_{n+2}\psi_{n-1}^2+\psi_{n-2}\psi_{n+1}^2)=(b^4+\Psi'_4(x_0))\psi_{n-1}\psi_n\psi_{n+1}-b^2\psi_3\psi_n^3$; the degenerate
+cases ($x(nP_0)=x_0$, $\psi_n=0$ or $\psi_{n-1}=0$) are treated separately, using that $\psi_3=0$ forces $b\ne0$ and
+$\Psi'_4(x_0)\ne0$ at a nonsingular point. Compare \cite[Ex.~3.7]{Silverman2009}.
+\end{proof}
+
+\begin{lemma}\label{pf:tower:polav}
+Let $R$ be a domain with an injective map $R\to C$, $W$ a Weierstrass curve over $R$ with $\Delta(W)\in R^\times$, and
+$(x,y)\in R^2$ a point of the affine curve $W$ with $\Psi_p^2(x)=0$ in $C$. Then the projective curve $W$ over $R$, with the
+line bundle of its origin, is a principally polarised abelian scheme of relative dimension $1$, and $z=[x:y:1]\in W(R)$
+satisfies $pz=0$, and its image in $W(k)$ is nonzero for every field $k$ over $R$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.exists_polAV_of_root}
+\end{lemma}
+
+\begin{proof}
+As $\Delta(W)$ is a unit, $W$ is an elliptic curve over $R$; by
+\lref{GlobalTheory.WeierstrassCurve.polarised_of_grpObj} it is an abelian scheme of relative dimension $1$, and
+the line bundle of the origin is rigidified, symmetric and relatively ample with trivial $K(L)$, i.e.\ a principal polarisation.
+The vector $(x,y,1)$ is unimodular, so $z=[x:y:1]$ is an $R$-point. Over $C$ the point $(x,y)$ is nonsingular, because $\Delta(W)$
+is a unit, so $p\cdot(x,y)=0$ by \cref{pf:tower:divpts}. Thus the morphisms $pz$ and $0$ from $\Spec R$ to $W$ agree after
+composition with $\Spec C\to\Spec R$, which is dominant since $R\to C$ is injective; as $W$ is separated over $R$, $pz=0$. If the
+image of $z$ in $W(k)$ were the origin $[0:1:0]$, then $(x,y,1)=u(0,1,0)$ in $k^3$ for a unit $u$, which is impossible in the
+third coordinate.
+\end{proof}
+
+\begin{lemma}[Hopf orders of order $p^2$ and extremal colength]\label{pf:tower:op2}
+Let $N$ be an abelian group of order $p^2$ killed by $p$, and $\mathcal A$ a Hopf order on $N$ of colength $c_N$ with
+$c_N^2=v(p)^{p^2}$. Suppose that $v(g(t)-g(0))=1$ for some $t\in N$ and $g\in\mathcal A$. Then there is a group isomorphism
+$e\colon\Z/p\times\Z/p\to N$ with $\{g\circ e:g\in\mathcal A\}=\mathcal X_p\otimes\towerInt_p$.
+\formallabel{GlobalTheory.T.order_p_squared_extremal_colength}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdSplit.ord_split}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdSplit.nearZero}
+\end{lemma}
+
+\begin{proof}
+Let $K=\{x\in N:v(g(x)-g(0))<1\text{ for all }g\in\mathcal A\}$, the points reducing to the origin. Since $\mathcal A$ is stable
+under translations, the ultrametric inequality shows that $K$ is a subgroup, and $t\notin K$. The indicator function of $K$
+lies in $\mathcal A$ (\lref{GlobalTheory.CompanionTheory.Ar.GR.OrdSplit.indicator_mem}), hence so do the indicator
+functions of all cosets of $K$. If $K=0$, then $\mathcal A$ contains the indicator functions of all points, hence all
+$R$-valued functions; so $\mathcal A=R^N$ has colength $1$, contradicting $c_N^2=v(p)^{p^2}<1$. Choose $k\in K$, $k\ne0$. As
+$K$ is an $\F_p$-subspace of the plane $N$ not containing $t$, $e(a,b)=ak+bt$ is an isomorphism with $e(a,b)\in K$ if and only
+if $b=0$. Let $Q=\{g\circ e:g\in\mathcal A\}$; it is closed under products. It contains $(a,b)\mapsto\psi(a)$ for every additive
+character $\psi$ of $\Z/p$, because every additive character of $N$ lies in $\mathcal A$
+(\lref{GlobalTheory.T.hopf_order_contains_add_characters}), applied to $\psi$ composed with the first coordinate of
+$e^{-1}$. It contains $(a,b)\mapsto h(b)$ for every $h\colon\Z/p\to R$, since $(a,b)\mapsto[b=b_0]$ is the indicator of the coset
+$e(0,b_0)+K$ composed with $e$. Hence $\mathcal X_p\otimes\towerInt_p\subseteq Q$. The lattice $\mathcal X_p\otimes\towerInt_p$ has
+colength $c$ with $c^2=v(p)^{p^2}$, because the character matrix $(\psi_i(j))$ of $\Z/p$ has $\det^2$ of valuation $v(p)^p$
+(\lref{GlobalTheory.CompanionTheory.Ar.GR.OrdSplit.exists_hasColen_tens}); and $Q$ has colength $c_N=c$. A lattice
+containing another lattice of the same nonzero colength equals it, so $Q=\mathcal X_p\otimes\towerInt_p$.
+\end{proof}
+
+\begin{proposition}[An elliptic curve with an \'etale point of order $p$]\label{pf:tower:ordpoint}
+There are a principally polarised abelian scheme $(A,L)$ of relative dimension $1$ over $R$ and $z\in A(R)$ with
+$pz=0$ whose image in $A(k)$ is nonzero for every field $k$ over $R$.
+\formallabel{GlobalTheory.T.polarised_abelian_variety_p_torsion}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.exists_ord_point}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdPt.isAlgClosed_residueField}
+\end{proposition}
+
+\begin{proof}
+$R$ is local, and its residue field $k_R$ is algebraically closed: a monic polynomial over $k_R$ lifts to a monic
+polynomial over $R$, whose roots in $C$ are integral over $R$ and hence lie in $R$. As $v(p)<1$, $k_R$ has
+characteristic $p$. By \cref{pf:tower:ordinary} there is $t\in R$ with $\Delta(W_t)\in R^\times$ and with a unit
+coefficient of $\Psi_p^2(W_t)$ in degree $p^2-p>0$. By \cref{pf:tower:root} there is $x\in R$ with
+$\Psi_p^2(W_t)(x)=0$, and since $Y^2+xY-(x^3+t)\in R[Y]$ is monic of degree $2$, a second application gives $y\in R$
+with $(x,y)$ on $W_t$. By \cref{pf:tower:polav}, applicable since $R\to C$ is injective and $\Psi_p^2(W_t)(x)=0$, the
+projective Weierstrass curve $W_t$ over $R$, with the line bundle of its origin, is a principally polarised abelian scheme
+of relative dimension $1$, and the point $z=[x:y:1]$ satisfies $pz=0$ and is nonzero in every fibre.
+\end{proof}
+
+\begin{theorem}\label{pf:tower:ord}
+\textup{(HTD)} implies \textup{(Ord)}. Hence \textup{(Ord)} holds.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.ordinaryCurve_of_hodgeTate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Link.ordinaryCurveStatement}
+\formallabel{GlobalTheory.T.ordinary_curve_statement_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdCurve.reindex}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdCurve.exists_colen}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdCurve.exists_far}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OrdCurve.nonempty_padicInt_hom}
+\end{theorem}
+
+\begin{proof}
+Let $p,C,v,R$ be given. Since $R$ is $p$-adically complete there is a ring map
+$\Z_p=\varprojlim\Z/p^n\to\varprojlim R/p^nR=R$; fix it. Let $(A,L)$ and $z$ be as
+in \cref{pf:tower:ordpoint}. By (HTD) there are a representation $T$ of $A[p]$, $c_p$, a Hodge--Tate datum $H$
+of genus $1$ for $(R,\Z_p,\mathrm{id},c_p)$ and a family $\mathrm{pt}\colon\towerNb_1\to A(R)$ of $p$-torsion
+points with $\mathcal A_H=\towerev(T,\mathrm{pt})$.
+
+\emph{Colength.} By the polarised augmentation statement
+(\lref{GlobalTheory.T.polarised_augmentation_theorem}, which describes the lattice of linear functions
+congruent to elements of the Hopf order of any Hodge--Tate datum), the Hopf order $\mathcal A_H$ is tight
+(\cref{pf:tower:def-tight}); in particular it is spanned by the columns of a matrix $B$ with $v(\det B)^2=c_O^{|\towerNb_1|}$,
+where $c_O=\lambda(I/I^2)$ is the product of the valuations of the elementary divisors of the cotangent module $I/I^2$,
+$I=I_{\mathcal A_H}$.
+By the map $\varphi$ of the datum, $I/I^2\cong R/pR$, so $c_O=v(p)$ and
+$v(\det B)^2=v(p)^{p^2}$.
+
+\emph{A function separating $0$ and $z$.} As $pz=0$, $z=\mathrm{pt}(t)$ for some $t\in\towerNb_1$. Let
+$\varphi_x\colon T.A\to R$ correspond to $\mathrm{pt}(x)$. If $\varphi_t$ and $\varphi_0$ had the same
+composite with $R\to k_R$, then $z$ and $\mathrm{pt}(0)=0$ would have the same image in $A(k_R)$, contrary to
+the choice of $z$. Hence there is $a\in T.A$ with $\varphi_t(a)-\varphi_0(a)\notin\mathfrak m_R$, i.e.\ a unit;
+the function $f=(x\mapsto\varphi_x(a))\in\towerev(T,\mathrm{pt})$ satisfies $v(f(t)-f(0))=1$.
+
+\emph{Classification.} The group $\towerNb_1=(\Z/p)^2$ is killed by $p$ and has $p^2$ elements. By \cref{pf:tower:op2}
+there is an isomorphism $e\colon\Z/p\times\Z/p\to\towerNb_1$ with $\{f\circ e:f\in\mathcal A_H\}=\mathcal X_p\otimes\towerInt_p$
+(compare the classification of group schemes of order $p$ \cite{TateOort1970}). Then $\mathrm{pt}'=\mathrm{pt}\circ e$ is a family of $p$-torsion points, and
+$\towerev(T,\mathrm{pt}')=\{f\circ e:f\in\towerev(T,\mathrm{pt})\}=\mathcal X_p\otimes\towerInt_p$.
+
+Finally (HTD) holds by \cref{pf:tower:htd}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Lie lattice families}\label{pf:tower:sec-fam}
+
+In this subsection $E,H,D,l,X^o,c$ are as in \cref{pf:towergeo:sec-unitary}, $N=p_D+q_D$, $Y$ is a model of
+$X^o$ over a ring $O_0$, $S$ a finite set of primes, $y$ coordinates (indexed by $\bigsqcup_kJ_k$) in a field
+$\Omega$ defining an arithmetic variety of dimension $d+1$, and $\mathcal M$ a Hodge component of $Y$ with
+primes $S$ and coordinates $y$ (\cref{pf:towergeo:def-hodgecpt}), with Lie algebra $\mathrm{Li}$, generic
+eigenspaces $V^{\mathrm{gen}}_s$, de Rham lattices $\towerdR_s$, Hodge--Tate lattices $\towerHT_{p,s}$ and
+torsion exponents $R(p)\ge4$. For a label $s$ let $r_s\in\{p_D,q_D\}$ be its rank and $s^\vee$ the dual label.
+A \emph{chart} is a multi-index $c\in\prod_kJ_k$ with Segre coordinate $y^c=\prod_ky_{k,c_k}\ne0$; for a ring
+$O\to\Omega$ the chart ring is $O[y]_c=O[y^{c'}/y^c:c']\subseteq\Omega$. For a subring $R'\subseteq\Omega$ and
+$n\in\N$ write $R'^n\subseteq\Omega^n$ for the standard lattice, and for a subgroup $\Gamma\subseteq\Omega^n$
+let $\Gamma^{*}=\{x:\ x\cdot\gamma\in R'\ \forall\gamma\in\Gamma\}$ be its dual for the dot product.
+
+\begin{definition}[Lattice families; local freeness]\label{pf:tower:def-latfam}
+Let $O\to\Omega$ be a ring map and $V$ an $\Omega$-vector space.
+(a)~A \emph{lattice family} is a family $(\Gamma(c))_c$ of subgroups of $V$ indexed by the charts such that
+$\Gamma(c)$ is an $O[y]_c$-module and for all charts $c,c'$ and $\gamma\in\Gamma(c)$ some
+$(y^c/y^{c'})^m\gamma$ lies in $\Gamma(c')$.
+(b)~For a subring $R'\subseteq\Omega$, a subgroup $\Gamma\subseteq V$ is \emph{locally free of rank $r$ over
+$R'$} if it is an $R'$-module and there are $f_1,\dots,f_k\in R'$ generating the unit ideal such that for each
+$l$ there is an $\Omega$-basis $(b_q)_{q\le r}$ of $V$ with: $f_l^n\gamma\in\Gamma$ for some $n$ if and only if
+$\gamma=\sum_qa_qb_q$ with $f_l^{n_q}a_q\in R'$ for some $n_q$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.IsLatFamily}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.LocFree}
+\end{definition}
+
+\begin{definition}[Lie lattice data]\label{pf:tower:def-lld}
+Let $F$ be a finite field, $\Sigma$ a finite set and $r,s\colon\Sigma\to\N$. A \emph{Lie lattice datum} $\mathcal D$
+of rank $N$ over $\Omega$ consists of subgroups $M\subseteq\Omega^{F^N}$ and, for $\tau\in\Sigma$,
+$\mathfrak l_\tau,W_\tau\subseteq\Omega^{r(\tau)}$, $\omega_\tau,\omega^{\towerHT}_\tau\subseteq\Omega^{s(\tau)}$,
+$\Gamma_\tau\subseteq\Omega^{r(\tau)}\times\Omega^N$, $\Delta_\tau\subseteq\Omega^N\times\Omega^{s(\tau)}$ and
+$\Theta_\tau\subseteq\Omega^{F^N}\times\Omega^{r(\tau)}$. Let $R'\subseteq\Omega$ be a subring, $p$ a prime and
+$w\in R'$. The datum satisfies the \emph{base relations} for $(R',p,w)$ if, for all $\tau$,
+\begin{enumerate}[label=(B\arabic*)]
+\item $M$ is locally free of rank $|F|^N$ over $R'$, $p^mR'^{F^N}\subseteq M\subseteq R'^{F^N}$ for some $m$, and
+  $1\in M$;
+\item $\mathfrak l_\tau,W_\tau$ are locally free of rank $r(\tau)$ and $\omega_\tau,\omega^{\towerHT}_\tau$ of
+  rank $s(\tau)$; $\mathfrak l_\tau\subseteq W_\tau\subseteq w^{-1}\mathfrak l_\tau$ and
+  $\omega^{\towerHT}_\tau\subseteq\omega_\tau\subseteq w^{-1}\omega^{\towerHT}_\tau$;
+\item $\Gamma_\tau,\Delta_\tau,\Theta_\tau$ are $R'$-modules;
+\item ($\Gamma$) the first projection of $\Gamma_\tau$ is $w^{-1}W_\tau$, $\Gamma_\tau\cap(0\times\Omega^N)=0\times R'^N$
+  and $\Gamma_\tau\cap(\Omega^{r(\tau)}\times0)=W_\tau\times0$;
+\item ($\Delta$) the projections of $\Delta_\tau$ are $w^{-1}R'^N$ and $w^{-1}\omega^{\towerHT}_\tau$,
+  $\Delta_\tau\cap(0\times\Omega^{s(\tau)})=0\times\omega^{\towerHT}_\tau$, and
+  $\Delta_\tau\cap(\Omega^N\times0)=\mathrm{pr}_2(\Gamma_\tau)\times0$;
+\item ($\Theta$) the first projection of $\Theta_\tau$ is $\{g\in M:g(0)=0\}$, the second is $\mathfrak l_\tau^{*}$, and
+  $\Theta_\tau\cap(0\times\Omega^{r(\tau)})=0\times p\,\mathfrak l_\tau^{*}$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.LieLatticeData}
+\end{definition}
+
+Thus $\Gamma_\tau$ is the graph of an injective map $w^{-1}W_\tau/W_\tau\to w^{-1}R'^N/R'^N$, $\Delta_\tau$ the graph of
+a surjective map $w^{-1}R'^N/R'^N\to w^{-1}\omega^{\towerHT}_\tau/\omega^{\towerHT}_\tau$ whose kernel is the image of the
+first, and $\Theta_\tau$ the graph of a map from the augmentation ideal of $M$ onto
+$\mathfrak l_\tau^{*}/p\,\mathfrak l_\tau^{*}$ (a cotangent map).
+
+\begin{definition}[Test points and test relations]\label{pf:tower:def-test}
+(a)~Let $R'\subseteq\Omega$ be a subring. A \emph{test point} for $(p,R')$ is a field $C\supseteq\Omega$ with a subring
+$R_C$ such that $C$ is algebraically closed, $R_C=\{v\le1\}$ for a valuation $v\colon C\to\R_{\ge0}$ with $v(p)<1$,
+$R_C$ is $p$-adically complete, and $R'\subseteq R_C$.
+(b)~Let $\mathcal D$ be a Lie lattice datum over $C$ and $R_C$, $p$, $w$ as above, $\chi=(\chi_\tau)_{\tau\in\Sigma}$ maps
+$F\to C$, and $\phi$ a permutation of $\Sigma$. For a map $\chi\colon F\to C$ put
+$\ell_\chi(x)=(a\mapsto\sum_ix_i\chi(a_i))$ for $x\in C^N$, let $V_i\subseteq C^{F^N}$ be the functions vanishing on
+$\{a:a_j=0\ \forall j\ge i\}$, and define
+\begin{gather*}
+\mathfrak a(\chi)=\{x\in C^N:\ \ell_\chi(x)\in M+pR_C^{F^N}\},\qquad\mathfrak h(\chi)=\mathfrak a(\chi)^{*},\\
+d_i(\chi)=\{x_i:\ x\in\mathfrak a(\chi),\ x_j=0\ \forall j<i\},\qquad
+x_i(\chi)=\{\lambda\in C:\ \lambda\,(a\mapsto\chi(a_i))\in M+V_{i+1}\},\\
+\mathrm{st}_{\tau,i}(\chi)=\{(\lambda,m)\in C\times C^{r(\tau)}:\ (\lambda\,(a\mapsto\chi(a_i)),m)\in\Theta_\tau+V_{i+1}\times0\},\\
+\kappa_{\tau,i}=\mathrm{pr}_2\bigl(\Theta_\tau\cap(V_i\times C^{r(\tau)})\bigr).
+\end{gather*}
+The datum satisfies the \emph{test relations} for $(R_C,p,w,\chi,\phi)$ if for all $\tau\in\Sigma$ and $i<N$:
+$wR_C^N\subseteq\mathfrak a(\chi_\tau)$; $\mathrm{pr}_2(\Delta_\tau\cap(\mathfrak h(\chi_\tau)\times C^{s(\tau)}))=\omega_\tau$;
+$\mathrm{pr}_1(\Gamma_\tau\cap(C^{r(\tau)}\times\mathfrak h(\chi_\tau)))=w^{-1}\mathfrak l_\tau$;
+$d_i(\chi_\tau)=x_i(\chi_\tau)$; $\mathrm{pr}_2(\mathrm{st}_{\tau,i}(\chi_\tau))=\kappa_{\tau,i}$; and
+$\{\lambda:(\lambda,0)\in\mathrm{st}_{\phi\tau,i}(\chi_{\phi\tau})\}$ is the $R_C$-span of the $p$-th powers of the
+elements of $x_i(\chi_\tau)$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.IsTestPt}
+\end{definition}
+
+\begin{definition}[Pre-families; the statement (F)]\label{pf:tower:def-fam}
+Let $O$ be a discrete valuation ring with $O\to\Omega$, $p$ a prime, $w\in O$, $\Sigma$ finite with a permutation
+$\phi$, $F$ a finite field, $\sigma_\tau\colon F\to k_O$ ($\tau\in\Sigma$) embeddings into the residue field, and
+$(\mathcal D(c))_c$ Lie lattice data indexed by the charts. They form a \emph{pre-family} if
+(i)~each of $M$, $\mathfrak l_\tau$, $W_\tau$, $\omega_\tau$, $\omega^{\towerHT}_\tau$, $\Gamma_\tau$, $\Delta_\tau$,
+$\Theta_\tau$, as a function of $c$, is a lattice family; (ii)~$p\ne0$ and $p$ is not a unit in $O$, and
+$w^{p-1}=u\,p$ with $u\in O^\times$; (iii)~$\mathcal D(c)$ satisfies the base relations for $(O[y]_c,p,w)$; and
+(iv)~for every chart $c$, test point $(C,R_C)$ for $(p,O[y]_c)$ and every family $\chi_\tau\colon F\to C$ of
+multiplicative maps with $\chi_\tau(0)=0$ lifting $\sigma_\tau$ (i.e.\ $\chi_\tau(a)-o\in\mathfrak m_{R_C}$ whenever
+$o\in O$ has residue $\sigma_\tau(a)$), the base change of $\mathcal D(c)$ (the $R_C$-spans of the images) satisfies
+the test relations for $(R_C,p,w,\chi,\phi)$.
+
+A permutation $\phi$ of the labels is a \emph{Frobenius at $p$} if for every prime ideal $\mathfrak n$ of $\OO_{F_c}$
+containing $p$, every label $s$ and every $a\in\OO_E$, the images $u,v\in\OO_{F_c}$ of $a$ under the embeddings of
+labels $\phi(s)$ and $s$ satisfy $u\equiv v^p\bmod\mathfrak n$.
+
+The statement (F) asserts: in the situation above with $N>0$, for all bases $b_s$ of the $V^{\mathrm{gen}}_s$, every
+$p\in S$ at which $\mathcal M$ is Hodge--Tate free with $p\ne2$ and $p\nmid d_E$, every Frobenius $\phi$ at $p$ on the
+labels, every discrete valuation ring $O$ of $\Omega$ which is the localisation of the integral closure of $\Z$ in
+$\Omega$ at a prime over $p$, and every label $t_0$, there are $\Sigma$, $e\colon\Sigma\to\{\text{labels}\}$ with $t_0$
+in its image, a permutation $\phi'$ of $\Sigma$ with $e\phi'=\phi e$, a finite field $F$ of characteristic $p$, $w\in O$,
+embeddings $\sigma_\tau$ and a pre-family $(\mathcal D(c))_c$ of rank $N$ with $r=r_{e(\cdot)}$,
+$s=r_{e(\cdot)^\vee}$, such that in every chart $c$: $\mathfrak l_\tau$ and $W_\tau$ are the coordinate lattices, in the
+basis $b_{e\tau}$, of the sections over $O[y]_c$ of $\towerdR_{e\tau}$ and $\towerHT_{p,e\tau}$, and $\omega_\tau$,
+$\omega^{\towerHT}_\tau$ are the duals of the coordinate lattices of $\towerdR_{(e\tau)^\vee}$ and
+$\towerHT_{p,(e\tau)^\vee}$ in the basis $b_{(e\tau)^\vee}$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.IsPreFamily}
+\formallabel{GlobalTheory.CompanionTheory.Ar.IsFamilyOf}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamilyExistsPos}
+\formallabel{GlobalTheory.CompanionTheory.Ar.IsFrobLabels}
+\end{definition}
+
+This is the statement (F) of \cref{pf:towergeo:def-fam}; the condition $N>0$ is the ``positivity'' in its formal
+name. It is used in \cref{sec:pf:towergeo} to derive the Hodge comparison.
+
+\subsubsection*{The construction}
+Fix the data of (F). The pre-family is built chart by chart from the following three objects.
+
+\begin{definition}[Orbit data, generic torsion, chart packs]\label{pf:tower:def-orbit}
+(a)~\emph{Orbit data} consist of a finite set $\Sigma$ with an injection $e$ into the labels and a permutation $\phi'$ with
+$e\phi'=\phi e$, a surjection $\varpi_F\colon\OO_E/p\to F$ onto a finite field with an additive section $s_F$
+($\varpi_F\circ s_F=\mathrm{id}$ and $u\,s_F(a)=0$ whenever $\varpi_F(u)=0$), an element $w\in O$ and embeddings
+$\sigma_\tau\colon F\to k_O$ such that: $t_0\in e(\Sigma)$; for every $\tau$ and $a\in\OO_E$ the image of $a$ under the
+embedding of label $e(\tau)$ lies in $O$ with residue $\sigma_\tau(\varpi_F(a))$; every label whose embedding has, modulo
+$\mathfrak m_O$, the same kernel as $\varpi_F$ lies in $e(\Sigma)$; $p\ne0$ is not a unit in $O$ and $w^{p-1}\in pO^\times$;
+and $w=\zeta-1$ for a primitive $p$-th root of unity $\zeta\in\Omega$ (as $p\ne2$). Thus $\Sigma$ is the Frobenius orbit of
+$t_0$ and $F$ the residue field of $\OO_E$ at the corresponding prime above $p$.
+
+(b)~\emph{Generic torsion data} consist of $\OO_E$-linear isomorphisms $(\OO_E/p)^N\to\mathcal M.t[p](\xi)$ and
+$(\OO_E/p^{R(p)})^N\to\mathcal M.t[p^{R(p)}](\xi)$, compatible via multiplication by $p^{R(p)-1}$, a primitive
+$p^{R(p)}$-th root of unity $\zeta\in\Omega$ and a perfect alternating pairing $E_0\colon\OO_E^N\times\OO_E^N\to\Z/p^{R(p)}$
+with $E_0(ax,x')=E_0(x,\bar ax')$, such that at every geometric point the Weil pairing of the images of $x,x'$ is
+$\zeta^{E_0(x,x')}$.
+
+(c)~A \emph{chart pack} at a chart $c$ consists of an extension of the generic point $\xi$ of $\mathcal M$ to
+$\Spec O[y]_c$; a finitely generated projective $O[y]_c$-module $L$ with an action of $\OO_E$, which is a model of the Lie
+algebra of the semi-abelian scheme over this extension, with $L\otimes\Omega=\mathrm{Li}$ and the induced identification
+$j\colon L^\vee\otimes\Omega\cong\mathrm{Li}^\vee$; finite flat models $\Gamma_1,\Gamma_2$ over $O[y]_c$ of the $p$- and
+$p^{R(p)}$-torsion along the extension, whose points are those of the generic torsion data; a unit of $O[y]_c$ equal to
+$\zeta$; and a \emph{Hodge--Tate chart}: an additive map $h\colon\OO_E^N\to\mathrm{Li}^\vee$ into a projective
+$O[y]_c$-lattice, $\OO_E$-linear modulo $p^{R(p)}$ for the action through conjugation, attached to $\Gamma_2$, $L$ and
+$\zeta$ (the Hodge--Tate map of the $p^{R(p)}$-torsion in the chart).
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.IsOrbit}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.IsSec}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.GenTors}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.ChartPack}
+\end{definition}
+
+\begin{lemma}[Orbit data exist]\label{pf:tower:orbit}
+In the situation of (F), with $O$ and $t_0$ given, orbit data exist.
+\formallabel{GlobalTheory.T.arith_variety_hodge_prime_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Orbit.orbit_exists}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Orbit.orbit_abstract}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.unramified_prime_idempotent}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Orbit.sub_one_pow_eq}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Orbit.exists_hom}
+\end{lemma}
+
+\begin{proof}
+\emph{The element $w$.} Since $N>0$ and $\mathcal M.t$ has full $p^{R(p)}$-torsion at $\xi$, the Weil pairing provides a
+primitive $p$-th root of unity $\zeta\in\Omega$ (\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Orbit.exists_root}). It is
+integral over $\Z$, and $O$ is integrally closed in $\Omega$ (a localisation of the integral closure of $\Z$), so $\zeta\in O$;
+put $w=\zeta-1$. Since $p=\prod_{k=1}^{p-1}(1-\zeta^k)$ and each $(1-\zeta^k)/(1-\zeta)=1+\zeta+\dots+\zeta^{k-1}$ is a unit
+(its inverse is $(1-\zeta)/(1-\zeta^k)=(1-\zeta^{kk'})/(1-\zeta^k)$ for $kk'\equiv1\bmod p$), $w^{p-1}=u\,p$ with $u\in O^\times$.
+As $\Omega$ has characteristic $0$, $p\ne0$ in $O$, and $p\in\mathfrak m_O$ since $O$ lies over $p$.
+
+\emph{Residue maps.} For a label $t$ the embedding of label $t$ maps $\OO_E$ to integral elements of $\Omega$, hence into $O$;
+let $r_t\colon\OO_E\to k_O$ be its composite with the residue map. The constants embed $\OO_{F_c}$ into $O$ in the same way, and
+$\mathfrak n=\OO_{F_c}\cap\mathfrak m_O$ is a prime of $\OO_{F_c}$ containing $p$. As $\phi$ is a Frobenius at $p$, the
+embeddings of labels $\phi(s)$ and $s$ satisfy $u\equiv v^p\bmod\mathfrak n$, hence $r_{\phi(s)}(a)=r_s(a)^p$ for all $s$ and $a$.
+
+\emph{The orbit.} Let $\mathfrak P=\ker r_{t_0}$, a prime of $\OO_E$ above $p$, $F=\OO_E/\mathfrak P$ (a finite field of
+characteristic $p$) and $\varpi_F\colon\OO_E/p\to F$ the projection. As $p\nmid d_E$, $p$ is unramified in $E$, so
+$p\OO_E=\prod_{\mathfrak P'\mid p}\mathfrak P'$ with distinct factors, and by the Chinese remainder theorem there is
+$\eps\in\OO_E$ with $\eps\equiv1\bmod\mathfrak P$ and $\eps\in\mathfrak P'$ for $\mathfrak P'\ne\mathfrak P$; then
+$\eps^2-\eps\in p\OO_E$, and $\eps a\in p\OO_E$ if and only if $a\in\mathfrak P$. Put $s_F(\varpi_F(a))=\eps a\bmod p$; this is
+well defined and additive, $\varpi_F\circ s_F=\mathrm{id}$, and $u\,s_F(x)=0$ whenever $\varpi_F(u)=0$. Let
+$\Sigma=\{t:\ker r_t=\mathfrak P\}$, which contains $t_0$ and is stable under $\phi$ because $\ker r_{\phi(t)}=\ker r_t$ (the
+$p$-th power map of $k_O$ is injective); let $e$ be the inclusion, $\phi'=\phi|_\Sigma$, and $\sigma_\tau\colon F\to k_O$ the map
+induced by $r_{e(\tau)}$. All conditions of orbit data hold by construction.
+\end{proof}
+
+\begin{definition}[The Lie lattice datum of a chart]\label{pf:tower:def-chartD}
+Given orbit data, generic torsion data, a chart pack $P$ at $c$ and $\Omega$-linear maps
+$i_\tau\colon\Omega^{r(\tau)}\to\Omega^N$, let $R'=O[y]_c$ and define the datum $\mathcal D_P$ by:
+\begin{itemize}
+\item $M=\{a\mapsto f(s_F(a)):\ f\text{ in the coordinate ring of }\Gamma_1\}$, functions on $F^N$
+  obtained from the functions on $(\OO_E/p)^N$ through $s_F$;
+\item $\mathfrak l_\tau,W_\tau$, $\omega_\tau,\omega^{\towerHT}_\tau$ as in (F);
+\item $\Gamma_\tau=\{(a,b):\ wa\in W_\tau,\ b-i_\tau(a)\in R'^N\}$ and
+  $\Delta_\tau=\{(b,c):\ wb\in R'^N,\ c-q_\tau(b)\in\omega^{\towerHT}_\tau\}$, where
+  $q_\tau(b)_k=\sum_ib_i\,h(e_i)(b_{(e\tau)^\vee,k})$ is the Hodge--Tate chart in coordinates;
+\item $\Theta_\tau$ the subgroup generated by the pairs $(g,m)$ with $g\in M$, $g(0)=0$, $g$ obtained through
+  $s_F$ from a function $f$ on $\Gamma_1$ which is a derivation at the origin with differential $u\in L^\vee$,
+  and $m=(j(u)(b_{e\tau,k}))_k$.
+\end{itemize}
+For a family of chart packs $P(c)$ and maps $i_\tau(c)$, $\mathcal D(c)=\mathcal D_{P(c)}$ if $y^c\ne0$ and
+$\mathcal D(c)=0$ otherwise.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.chartD}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.famD}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.gamLat}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.delLat}
+\end{definition}
+
+The maps $i_\tau$ are chosen so that the following \emph{sequence hypotheses} hold.
+
+\begin{definition}[Sequence hypotheses]\label{pf:tower:def-seq}
+Let $R'\subseteq\Omega$ be a subring, $w\in R'$, $W\subseteq\Omega^r$, $\omega\subseteq\Omega^s$ subgroups and
+$i\colon\Omega^r\to\Omega^N$, $q\colon\Omega^N\to\Omega^s$ linear. $\mathrm{SH}(R',w,W,\omega,i,q)$ means:
+(S1)~$i(W)\subseteq R'^N$; (S2)~$q(R'^N)\subseteq\omega$; (S3)~if $a\in W$ and $i(a)\in wR'^N$ then $a\in wW$;
+(S4)~for $b\in R'^N$: $q(b)\in w\,\omega$ if and only if $b-i(a)\in wR'^N$ for some $a\in W$; (S5)~for every
+$z\in\omega$ there is $b\in R'^N$ with $z-q(b)\in w\,\omega$.
+In other words, $0\to W/wW\xrightarrow{i}(R'/w)^N\xrightarrow{q}\omega/w\,\omega\to0$ is exact.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqHyp}
+\end{definition}
+
+\begin{lemma}\label{pf:tower:gamdel}
+Let $R',w,W,\omega,i,q$ be as in \cref{pf:tower:def-seq} with $w\ne0$, $W$ and $\omega$ $R'$-modules, and
+$\mathrm{SH}(R',w,W,\omega,i,q)$. Then $\Gamma=\{(a,b):wa\in W,\ b-i(a)\in R'^N\}$ and
+$\Delta=\{(b,c):wb\in R'^N,\ c-q(b)\in\omega\}$ are $R'$-modules and satisfy the relations \textup{($\Gamma$)} and
+\textup{($\Delta$)} of \cref{pf:tower:def-lld} (with $\omega$ in place of $\omega^{\towerHT}_\tau$).
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.gamDel_of_seqHyp}
+\end{lemma}
+
+\begin{proof}
+Both sets are $R'$-modules since $W$, $R'^N$, $\omega$ are and $i,q$ are linear. ($\Gamma$): if $wa\in W$ then
+$(a,i(a))\in\Gamma$, so the first projection is $w^{-1}W$; $(0,b)\in\Gamma$ iff $b\in R'^N$. If $a\in W$ then
+$wa\in W$ and $i(a)\in R'^N$ by (S1), so $(a,0)\in\Gamma$. Conversely if $(a,0)\in\Gamma$, then $a'=wa\in W$ and
+$i(a')=w\,i(a)\in wR'^N$, so $a'\in wW$ by (S3), and $a\in W$ as $w\ne0$.
+($\Delta$): if $wb\in R'^N$ then $(b,q(b))\in\Delta$. If $(b,c)\in\Delta$ then
+$wc=w(c-q(b))+q(wb)\in\omega$ by (S2); conversely, if $wc\in\omega$, (S5) gives $b'\in R'^N$ with
+$wc-q(b')=wz$, $z\in\omega$, and $b=b'/w$ satisfies $wb\in R'^N$ and $c-q(b)=z$; so the second projection is
+$w^{-1}\omega$. $(0,c)\in\Delta$ iff $c\in\omega$. Finally let $(b,0)\in\Delta$, i.e.\ $b'=wb\in R'^N$ and
+$q(b)\in\omega$; then $q(b')=wq(b)\in w\,\omega$ and (S4) gives $a'\in W$ with $b'-i(a')=wr$, $r\in R'^N$; for
+$a=a'/w$ we get $wa\in W$ and $b-i(a)=r\in R'^N$, so $b\in\mathrm{pr}_2(\Gamma)$. Conversely let $(a,b)\in\Gamma$. Then
+$wb=w(b-i(a))+i(wa)\in R'^N$ by (S1). Moreover $q(b-i(a))\in\omega$ by (S2), and $q(i(wa))\in w\,\omega$ by (S4)
+applied to $i(wa)\in R'^N$ (take $a''=wa$); hence $q(i(a))\in\omega$ and $q(b)\in\omega$, i.e.\ $(b,0)\in\Delta$.
+\end{proof}
+
+\subsubsection*{The theorem}
+
+\begin{theorem}\label{pf:tower:fam}
+\textup{(HT)}, \textup{(Q)}, \textup{(Z)}, \textup{(HTD)} and \textup{(Ord)} imply \textup{(F)}.
+\formallabel{GlobalTheory.T.family_pos_of_hodge_tate_inputs}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.familyExistsPos_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.famD_pos}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.isLatFamily_congr}
+\end{theorem}
+
+\begin{proof}
+Fix the data of (F), a discrete valuation ring $O$ of $\Omega$ over $p$ as there and a label $t_0$; $p$ is prime as
+$p\in S$.
+
+\emph{Step 1 (orbit, torsion and charts).} By \cref{pf:tower:orbit} there are orbit data, with the notation of
+\cref{pf:tower:def-orbit}. There are generic torsion data $G$, by
+\lref{GlobalTheory.T.arith_variety_hodge_prime_degree}, and for every chart $c$ there is a chart pack $P(c)$ for $G$
+and $O$, by \lref{GlobalTheory.T.arith_variety_hodge_prime_height}.
+Since $p\ne2$, $w=\zeta-1$ with $\zeta$ a primitive $p$-th root of unity, so $w\ne0$; and $w\in O\subseteq O[y]_c$.
+
+\emph{Step 2 (de Rham and Hodge--Tate lattices).} By \cref{pf:tower:mpbound}, which
+uses (HT), for every label $t$ the coordinate lattices of $\towerdR_t$ and $\towerHT_{p,t}$ in the basis $b_t$ and their
+duals are lattice families, and in every chart $c$ they are locally free over $O[y]_c$ of rank $r_t$ and satisfy
+$\towerdR\subseteq\towerHT\subseteq w^{-1}\towerdR$ and the dual inclusions; this gives (B2) and the corresponding part of
+(i) of \cref{pf:tower:def-fam}.
+
+\emph{Step 3 (the sequences).} By \cref{pf:tower:mpdegree}, which uses (HT), for every
+chart $c$ and $\tau\in\Sigma$ there is a linear map $i_\tau(c)\colon\Omega^{r(\tau)}\to\Omega^N$ with
+$\mathrm{SH}(O[y]_c,w,W_\tau,\omega^{\towerHT}_\tau,i_\tau(c),q_\tau)$ and a congruence, modulo $p^{R(p)-2}O[y]_c$,
+between $i_\tau(c)$ composed with the Gram matrix of $E_0$ and the Hodge--Tate chart, for every embedding of $E$ inducing
+the label $e(\tau)$. Let $\mathcal D(c)$ be the data of \cref{pf:tower:def-chartD} for these choices.
+
+\emph{Step 4 (base relations).} By \cref{pf:tower:hpcount}, in every chart $M$ satisfies
+(B1), and $\Theta_\tau$ is an $O[y]_c$-module satisfying ($\Theta$). By Step~3 and \cref{pf:tower:gamdel} (applied with
+$R'=O[y]_c$, $W=W_\tau$, $\omega=\omega^{\towerHT}_\tau$, both $O[y]_c$-modules by Step~2), $\Gamma_\tau$ and
+$\Delta_\tau$ are $O[y]_c$-modules satisfying ($\Gamma$) and ($\Delta$). With Step~2, $\mathcal D(c)$ satisfies the base
+relations for $(O[y]_c,p,w)$.
+
+\emph{Step 5 (families).} By \cref{pf:tower:hptotal}, $M$ and the $\Theta_\tau$ are lattice
+families, and by \cref{pf:tower:mpheight} (using the sequence hypotheses of Step~3), so
+are the $\Gamma_\tau$ and $\Delta_\tau$. Together with Step~2 this is (i). (Since $\mathcal D(c)$ agrees with
+$\mathcal D_{P(c)}$ on all charts, the lattice family property may be checked on the latter.) Condition (ii) is part of
+the orbit data.
+
+\emph{Step 6 (test points).} Let $c$ be a chart, $(C,R_C)$ a test point for $(p,O[y]_c)$ and $\chi$ a family of
+multiplicative lifts of the $\sigma_\tau$. By the test-point lemma \cref{pf:tower:testpt} (\cref{pf:tower:sec-test}), which uses
+(HT), (Q), (Z), (HTD), (Ord), the sequence hypotheses and dual congruences of Step~3 and the base relations of Step~4, the base
+change of $\mathcal D(c)$ satisfies the test relations for $(R_C,p,w,\chi,\phi')$. This is (iv).
+
+Finally $t_0\in e(\Sigma)$ and $e\phi'=\phi e$ by the orbit data, and the identifications of $\mathfrak l_\tau$, $W_\tau$,
+$\omega_\tau$, $\omega^{\towerHT}_\tau$ hold by construction.
+\end{proof}
+
+The following lemma on the constants of a Hodge component is used in \cref{sec:pf:towergeo} (in the proof of the Hodge
+comparison).
+
+\begin{lemma}[Constants of Hodge components]\label{pf:tower:coordideal}
+In the situation of this subsection, let $A$ be the integral closure of $\Z$ in $\Omega$. Then $A$ is a Dedekind domain, finite
+over $\Z$, contained in every chart ring $\Z[y]_c$; and for every prime $\mathfrak m$ of $A$ and the discrete valuation ring
+$O=A_{\mathfrak m}$ (if it is one), $O$ is integrally closed in $\Omega$ and $\Omega$ is generated as a field by $O$ and the
+ratios $y_{k,i}/y_{k,j}$.
+\formallabel{GlobalTheory.T.arith_variety_coord_ideal}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.ConstClosure.const_closure}
+\end{lemma}
+
+\begin{proof}
+$\Omega$ has characteristic $0$ since $P_y$ is an arithmetic variety. The Hodge component provides a chart $c_0$ in which the
+ratios $y^{c}/y^{c_0}$ of Segre coordinates generate $\Omega$ as a field; hence $\Omega$ is finitely generated over $\Q$, and the
+algebraic closure of $\Q$ in $\Omega$ is a number field
+(\lref{GroundTheory.Heights₂.Heights.Inter.RelAlgClosureFinite.proof}). Thus $A$ is its ring of integers, a Dedekind
+domain finite over $\Z$. Every chart ring is integrally closed at the points of $\mathcal M.X$ ($\mathcal M.X$ is normal and its
+local rings are given by the Segre coordinates), so the elements of $A$, being integral over $\Z$, lie in every chart ring. A
+localisation of an integral closure is integrally closed, and the ratios $y^c/y^{c_0}$ are products of ratios of coordinates
+in the same block, so they and $O$ generate $\Omega$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Hopf orders with an action of a finite field}\label{pf:tower:sec-hopf}
+
+This subsection and the next prove the test-point lemma used in Step~6 of the proof of \cref{pf:tower:fam}. Its
+algebraic core is a structure theorem for Hopf orders on vector spaces over a finite field $F$ that are stable under
+the action of $F$, in the spirit of Raynaud's description of group schemes of type $(p,\dots,p)$ \cite{Raynaud1974}:
+along a flag, such a Hopf order is described by principal ideals $c_i(s)R$ with $c_i(s)^p=\delta_i(s)c_i(s+1)$, and the
+eigenspaces of its cotangent module have the lengths predicted by the $\delta_i(s)$. We keep the conventions of
+\cref{pf:tower:sec-htd} on $p$, $C$, $v$ and $R$.
+
+\begin{definition}[Lengths, almost additive functions, tightness]\label{pf:tower:def-tight}
+Let $N$ be a finite abelian group and $\mathcal B\subseteq C^N$ an $R$-submodule.
+\begin{enumerate}[label=(\alph*)]
+\item An $R$-module $M$ has \emph{$v$-length} $x\in\R_{\ge0}$ if $M\cong\bigoplus_{k\le m}R/c_kR$ for some
+  $c_1,\dots,c_m\in R$ with $\prod_kv(c_k)=x$; then $x$ is determined by $M$, because $\prod_kc_k$ generates the
+  $0$-th Fitting ideal of $M$, and we write $\lambda(M)=x$. The module $\mathcal B$ has \emph{colength} $c$ if it is
+  spanned by the columns of a matrix $B\in M_N(C)$ with $v(\det B)=c$.
+\item A function $f\colon N\to C$ is \emph{almost additive} if $f(x+y)-f(x)-f(y)\in pR$ for all $x,y\in N$. Let
+  $\mathcal L_N$ be the $R$-module of almost additive functions $N\to R$, $\mathcal B^{\mathrm{af}}$ the set of almost
+  additive elements of $\mathcal B$, and
+  $Q_{\mathcal B}=\mathcal L_N/\bigl(\mathcal L_N\cap(\mathcal B^{\mathrm{af}}+(pR)^N)\bigr)$.
+\item For a subgroup $K\subseteq N$ let $\mathcal B^K=\{g\in\mathcal B:g(x+k)=g(x)\ \forall x\in N,k\in K\}$. We say
+  that $\mathcal B$ is \emph{generated by almost additive functions relative to $K$} if $\mathcal B^K$ is contained in
+  the $R$-subalgebra of $C^N$ generated by $(\mathcal B^K)^{\mathrm{af}}$.
+\item Let $I_{\mathcal B}=\{g\in\mathcal B:g(0)=0\}$ and $I_{\mathcal B}^2$ the $R$-span of the products of two of its
+  elements. A Hopf order $\mathcal A$ on $N$ is \emph{tight} if there are $c_A,c_N,c_O\in\R_{\ge0}$ such that
+  $\lambda(Q_{\mathcal A})=c_A$, $\lambda(I_{\mathcal A}/I_{\mathcal A}^2)=c_O$, $\mathcal A$ has colength $c_N$, and
+  $c_A^{|N|(p-1)}=c_N^2$ and $c_O^{|N|}=c_N^2$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.addFun}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.linFun}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.afFun}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.AFQuot}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.invFun}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.GenAF}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.IsTight}
+\formal{ReciprocityTheory.PGsh.Up.HasLen}
+\formal{ReciprocityTheory.PGsh.L2.HasColen}
+\formal{ReciprocityTheory.PGsh.Up.OmAA}
+\end{definition}
+
+For a lattice the colength exists and is unique: if $\mathcal B$ is spanned by the columns of $B$ and of $B'$ with
+$\det B\ne0$, then $B'=BU$ with $U\in\GL_N(R)$, and $v(\det U)=1$.
+
+\begin{definition}[Action of a finite field; the flag conclusion]\label{pf:tower:def-flag}
+Let $F$ be a finite field of characteristic $p$, with $|F|=p^f$, and $N$ a finite-dimensional $F$-vector space.
+\begin{enumerate}[label=(\alph*)]
+\item An $R$-submodule $\mathcal B\subseteq C^N$ is \emph{$F$-stable} if $x\mapsto g(ax)$ lies in $\mathcal B$ for all
+  $g\in\mathcal B$ and $a\in F$. A \emph{character} of $F$ is a multiplicative map $\chi\colon F\to R$ with $\chi(0)=0$ and
+  $\chi(1)=1$; it is \emph{fundamental} if $\chi(a+b)-\chi(a)-\chi(b)\in pR$ for all $a,b\in F$. The
+  \emph{$\chi$-eigenspace} of $\mathcal B$ is $\mathcal B(\chi)=\{g\in\mathcal B:g(ax)=\chi(a)g(x)\ \forall a,x\}$, and
+  $\omega_{\mathcal B}(\chi)=\mathcal B(\chi)/(\mathcal B(\chi)\cap I^2_{\mathcal B})$ is the $\chi$-part of the cotangent
+  module.
+\item For an $R$-submodule $\mathcal S\subseteq C^F$ and a character $\chi$ let $X_{\mathcal S}(\chi)=\{r\in R:r\chi\in\mathcal S\}$.
+\item Let $\mathcal B\subseteq C^N$, $K\subseteq N$ an $F$-subspace and $t\in N$. The \emph{step orders} are
+  $\mathcal S_{\mathcal B}(K,t)=\{a\mapsto g(at):g\in\mathcal B^K\}$ and
+  $\mathcal S'_{\mathcal B}(K,t)=\{h\colon F\to C:\exists g\in\mathcal B\ \forall a\in F,k\in K:\ g(at+k)=h(a)\}$. Put
+  $X_{\mathcal B}(K,t,\chi)=X_{\mathcal S_{\mathcal B}(K,t)}(\chi)$, and let $D_{\mathcal B}(K,t,\chi)$ be the ideal of the
+  $c\in R$ for which there is an almost additive $g\in\mathcal B$ with $g(ax)\equiv\chi(a)g(x)$ for all $a,x$,
+  $g(k)\equiv0$ for $k\in K$, and $g(t)\equiv c$, all congruences modulo $pR$.
+\item For a basis $b=(b_0,\dots,b_{n-1})$ of $N$ let $K_i=\langle b_j:j<i\rangle$ ($i\ge0$). For a fundamental character
+  $\sigma$, the \emph{flag conclusion} $\mathrm{FC}(\mathcal B,b,\sigma)$ asserts that there are $c_i(s),\delta_i(s)\in R$
+  ($i<n$, $s\ge0$) such that for all $i$ and $s$:
+  \begin{enumerate}[label=(FC\arabic*)]
+  \item $c_i(s)\ne0$ and $X_{\mathcal B}(K_i,b_i,\sigma^{p^s})=X_{\mathcal S'_{\mathcal B}(K_i,b_i)}(\sigma^{p^s})
+    =D_{\mathcal B}(K_i,b_i,\sigma^{p^s})=c_i(s)R$;
+  \item $c_i(s)^p=\delta_i(s)c_i(s+1)$ and $\lambda\bigl(\omega_{\mathcal S_{\mathcal B}(K_i,b_i)}(\sigma^{p^{s+1}})\bigr)=v(\delta_i(s))$;
+  \item $\lambda\bigl(\omega_{\mathcal B}(\sigma^{p^{s+1}})\bigr)=\prod_iv(\delta_i(s))$, and for every $j\ge0$,
+    $\lambda\bigl(\omega_{\mathcal B|K_j}(\sigma^{p^{s+1}})\bigr)=\prod_{i<j}v(\delta_i(s))$, where
+    $\mathcal B|K_j\subseteq C^{K_j}$ is the module of restrictions to $K_j$.
+  \end{enumerate}
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.FStable}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.IsFund}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.eig}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.OmType}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.xIdeal}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.stepOrder}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.stepOrderRes}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.idealX}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.idealD}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.flagSub}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.FlagConcl}
+\end{definition}
+
+A fundamental character reduces modulo $p$ to an embedding of $F$ into $R/pR$; the Teichm\"uller lifts are the
+examples. The step order $\mathcal S_{\mathcal B}(K,t)$ consists of the restrictions to the line through $t$ of the
+$K$-invariant elements of $\mathcal B$, and $\mathcal S'_{\mathcal B}(K,t)$ of the functions on the image of $Ft$ in
+$N/K$ induced by elements of $\mathcal B$ that are constant on the cosets $at+K$.
+
+\begin{lemma}[Almost additive generation and the ideals $X\subseteq D$]\label{pf:tower:xled}
+Let $F$ be a finite field of characteristic $p$, $N$ a finite-dimensional $F$-vector space, $\mathcal A$ an $F$-stable Hopf order
+on $N$, $K\subseteq N$ an $F$-subspace and $t\notin K$. If $\mathcal A$ is generated by almost additive functions relative to
+$K$, then $X_{\mathcal A}(K,t,\tau)\subseteq D_{\mathcal A}(K,t,\tau)$ for every fundamental character $\tau$.
+\formallabel{GlobalTheory.T.stable_hopf_order_subgroup_generation}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.idealX_le_idealD}
+\end{lemma}
+
+\begin{proof}
+Let $|F|=p^f$ and write $X(\chi)=X_{\mathcal A}(K,t,\chi)$, $D(\chi)=D_{\mathcal A}(K,t,\chi)$. We use three results of the
+development, valid under the hypotheses of the lemma: (a)~if $X(\tau')=c'R$ and $X(\tau'^p)=cR$ for a fundamental $\tau'$ and
+$v(c')^p<v(c)$, then $c\in D(\tau'^p)$ (\lref{GlobalTheory.T.stable_hopf_order_subgroup_quotient}); (b)~if $c\in D(\chi)$
+then $c^p\in D(\chi^p)$, as the $p$-th power of an almost additive $\chi$-eigenfunction modulo $p$ is an almost additive
+$\chi^p$-eigenfunction modulo $p$ (\lref{GlobalTheory.T.stable_hopf_order_subgroup_length}); (c)~if $X(\chi)=R$ for some
+character $\chi$, then $D(\tau')=R$ for some fundamental $\tau'$ (\lref{GlobalTheory.T.hopf_order_ideals_eq_top}).
+
+By \lref{GlobalTheory.T.stable_hopf_order_subgroup_translation}, $\mathcal S=\mathcal S_{\mathcal A}(K,t)$ is an $F$-stable Hopf
+order on $F$, and $X(\chi)=X_{\mathcal S}(\chi)$. By \lref{GlobalTheory.T.character_ideal_principal_eigen} let
+$X(\tau^{p^n})=c(n)R$ with $c(n)\ne0$, and put $y(n)=v(c(n))\in(0,1]$. By
+\lref{GlobalTheory.T.fundamental_ideal_frobenius_product}, $c(n)^p=\delta c(n+1)$ for some $\delta\in R$, so
+$y(n)^p\le y(n+1)$. As $\tau$ has order $p^f-1$ (\lref{GlobalTheory.T.teichmuller_character_order_generates}),
+$\tau^{p^f}=\tau$, and we may take $c(n)$ to depend only on $n$ modulo $f$. The powers $\tau^{p^n}$ are fundamental.
+
+\emph{Propagation.} If $y(n)^p<y(n+1)$, then $c(n+1)\in D(\tau^{p^{n+1}})$ by (a). If $y(n)^p=y(n+1)$ and
+$c(n)\in D(\tau^{p^n})$, then $v(\delta)=1$, so $\delta$ is a unit, and $c(n+1)=\delta^{-1}c(n)^p\in D(\tau^{p^{n+1}})$ by (b). Hence,
+once $c(n)\in D(\tau^{p^n})$ for some $n$, the same holds for all larger $n$.
+
+\emph{A starting point.} If $y(n)^p<y(n+1)$ for some $n$, then $c(n+1)\in D(\tau^{p^{n+1}})$. Otherwise $y(n)=y(0)^{p^n}$ for
+all $n$, and periodicity gives $y(0)^{p^f}=y(0)$; as $0<y(0)\le1$ and $p^f>1$, $y(0)=1$, so $c(0)$ is a unit and $X(\tau)=R$. By
+(c) there is a fundamental $\tau'$ with $D(\tau')=R$; by \lref{GlobalTheory.T.teichmuller_character_order_generates},
+$\tau'=\tau^{p^n}$ for some $n$, and then $c(n)\in D(\tau^{p^n})$.
+
+\emph{Conclusion.} Let $n$ be a starting point. By propagation $c(fn)\in D(\tau^{p^{fn}})=D(\tau)$, and $c(fn)R=c(0)R=X(\tau)$ by
+periodicity. Hence $X(\tau)\subseteq D(\tau)$.
+\end{proof}
+
+\begin{theorem}[Flag comparison]\label{pf:tower:flag}
+Let $F$ be a finite field of characteristic $p$, $N$ a finite-dimensional $F$-vector space with a basis
+$b=(b_0,\dots,b_{n-1})$, and $\mathcal A$ an $F$-stable tight Hopf order on $N$ which is generated by almost additive
+functions relative to each $K_i$, $i<n$. Then $\mathrm{FC}(\mathcal A,b,\sigma)$ holds for every fundamental character
+$\sigma$ of $F$.
+\formallabel{GlobalTheory.T.flag_comparison_theorem}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.FlagStatement}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.flagStatement_holds}
+\formallabel{GlobalTheory.T.product_inequalities_force_equality}
+\end{theorem}
+
+\begin{proof}
+Let $|F|=p^f$ ($f\ge1$). The proof compares several invariants of $\mathcal A$ which, by tightness, are forced to be
+equal. We use the following results of the development; in all of them $\mathcal A$ denotes an $F$-stable Hopf order
+on $N$, $\mathcal S$ an $F$-stable Hopf order on the additive group of $F$, and $\sigma$ a fundamental character.
+\begin{enumerate}[label=(\roman*)]
+\item\label{pf:tower:fl-teich} \lref{GlobalTheory.T.teichmuller_character_order_generates}: $\sigma$ has order
+  $p^f-1$, every character is $\sigma^m$ for some $1\le m\le p^f-1$, the characters $\sigma^{p^s}$ are fundamental, every
+  fundamental character is $\sigma^{p^s}$ for some $s<f$, and $v(\sigma(a)-\sigma(a'))=1$ for $a\ne a'$.
+\item\label{pf:tower:fl-trans} \lref{GlobalTheory.T.stable_hopf_order_subgroup_translation}: if $t\notin K$, then
+  $\mathcal S_{\mathcal A}(K,t)$ is an $F$-stable Hopf order on $F$, equal to $\mathcal S'_{\mathcal A}(K,t)$.
+\item\label{pf:tower:fl-princ} \lref{GlobalTheory.T.character_ideal_principal_eigen}: for every character $\chi$,
+  $X_{\mathcal S}(\chi)=cR$ for some $c\ne0$, and $\mathcal S(\chi)=\{r\chi:r\in X_{\mathcal S}(\chi)\}$.
+\item\label{pf:tower:fl-frob} \lref{GlobalTheory.T.fundamental_ideal_frobenius_product}: if
+  $X_{\mathcal S}(\sigma^{p^s})=c(s)R$ for all $s$, then for every $s$: $r\sigma^{p^{s+1}}\in I_{\mathcal S}^2$ if and only if
+  $r\in c(s)^pR$; $c(s)^p\in c(s+1)R$; and $\lambda(\omega_{\mathcal S}(\sigma^{p^{s+1}}))=v(\delta)$ for every $\delta$ with
+  $c(s)^p=\delta c(s+1)$.
+\item\label{pf:tower:fl-val} \lref{GlobalTheory.T.fundamental_ideal_frobenius_valuation}: in the situation of
+  \ref{pf:tower:fl-frob}, $\mathcal S$ is spanned by the products $\prod_{s<f}(c(s)\sigma^{p^s})^{e_s}$, $0\le e_s<p$, and
+  if $\mathcal S$ has colength $c$ then $c^2=\bigl(\prod_{s<f}v(c(s))\bigr)^{p^f(p-1)}$.
+\item\label{pf:tower:fl-nonf} \lref{GlobalTheory.T.non_fundamental_eigen_le_square_augmentation}: if $\chi$ is not
+  fundamental, then $\mathcal S(\chi)\subseteq I_{\mathcal S}^2$.
+\item\label{pf:tower:fl-len} \lref{GlobalTheory.T.stable_hopf_order_fundamental_lengths}: there are $d_i(s)\in R$
+  ($i<n$, $s<f$) with $D_{\mathcal A}(K_i,b_i,\sigma^{p^s})=d_i(s)R$ and $\lambda(Q_{\mathcal A})=\prod_{i,s}v(d_i(s))$.
+\item\label{pf:tower:fl-cot} \lref{GlobalTheory.T.stable_hopf_order_fundamental_ideal}: every
+  $\omega_{\mathcal A}(\chi)$ has a nonzero $v$-length, and if $\lambda(\omega_{\mathcal A}(\sigma^m))=r_m$ for
+  $1\le m\le p^f-1$, then $\lambda(I_{\mathcal A}/I_{\mathcal A}^2)=\prod_mr_m$.
+\item\label{pf:tower:fl-blen} \lref{GlobalTheory.T.stable_hopf_order_basis_lengths}: for every character $\chi$, if
+  $\lambda(\omega_{\mathcal S_{\mathcal A}(K_i,b_i)}(\chi))=s_i$ for all $i$ and $\lambda(\omega_{\mathcal A}(\chi))=r$, then
+  $\prod_is_i\le r$.
+\item\label{pf:tower:fl-bcol} \lref{GlobalTheory.T.stable_hopf_order_basis_colength}: if moreover $r=\prod_is_i$, then
+  $\lambda(\omega_{\mathcal A|K_j}(\chi))=\prod_{i<j}s_i$ for every $j$.
+\item\label{pf:tower:fl-bid} \lref{GlobalTheory.T.stable_hopf_order_basis_ideals}: if $\mathcal S_{\mathcal A}(K_i,b_i)$
+  has colength $e_i$ for all $i$ and $\mathcal A$ has colength $c_N$, then $c_N^{p^f}=(\prod_ie_i)^{|N|}$.
+\item\label{pf:tower:fl-gen} \cref{pf:tower:xled}: if $t\notin K$ and
+  $\mathcal A$ is generated by almost additive functions relative to $K$, then
+  $X_{\mathcal A}(K,t,\tau)\subseteq D_{\mathcal A}(K,t,\tau)$ for every fundamental $\tau$.
+\end{enumerate}
+
+\emph{Step 1 (the step orders).} Since $b_i\notin K_i$, \ref{pf:tower:fl-trans} shows that
+$\mathcal S_i=\mathcal S_{\mathcal A}(K_i,b_i)$ is an $F$-stable Hopf order on $F$ equal to $\mathcal S'_{\mathcal A}(K_i,b_i)$.
+By \ref{pf:tower:fl-princ} there are $c_i(s)\ne0$ with $X_{\mathcal S_i}(\sigma^{p^s})=c_i(s)R$; this is
+$X_{\mathcal A}(K_i,b_i,\sigma^{p^s})=X_{\mathcal S'_{\mathcal A}(K_i,b_i)}(\sigma^{p^s})$. By \ref{pf:tower:fl-frob} there are
+$\delta_i(s)$ with $c_i(s)^p=\delta_i(s)c_i(s+1)$ and $\lambda(\omega_{\mathcal S_i}(\sigma^{p^{s+1}}))=v(\delta_i(s))$. This
+proves (FC2) and the first two equalities of (FC1). As $\sigma^{p^f}=\sigma$ by \ref{pf:tower:fl-teich}, $c_i(s)R$ depends only
+on $s$ modulo $f$; in particular $v(c_i(f))=v(c_i(0))$, and $v(c_i(s))\ne0$ since $R\to C$ is injective.
+
+\emph{Step 2 (the invariants).} Let $c_A,c_N,c_O$ be as in the definition of tightness; $c_N\ne0$ since $\mathcal A$ is
+spanned by the columns of an invertible matrix. Let $d_i(s)$ be as in \ref{pf:tower:fl-len}, so that
+$\prod_{i,s<f}v(d_i(s))=c_A$. By \ref{pf:tower:fl-cot} let $L(\chi)=\lambda(\omega_{\mathcal A}(\chi))\ne0$. If $\chi$ is not
+fundamental, then $\omega_{\mathcal S_i}(\chi)=0$ for all $i$ by \ref{pf:tower:fl-nonf}, so \ref{pf:tower:fl-blen} gives
+$1\le L(\chi)$; as $v\le1$ on $R$, $L(\chi)=1$. By \ref{pf:tower:fl-teich} the fundamental characters are the $f$ distinct
+characters $\sigma^{p^s}$, $s<f$, and every character is a power of $\sigma$; hence \ref{pf:tower:fl-cot} gives
+\begin{equation}\label{pf:tower:eq-fl1}
+\textstyle\prod_{s<f}L(\sigma^{p^{s+1}})=\prod_{s<f}L(\sigma^{p^s})=c_O .
+\end{equation}
+
+\emph{Step 3 (four relations).} (a)~By \ref{pf:tower:fl-gen} applied to $K_i$, $b_i$ and $\tau=\sigma^{p^s}$,
+$c_i(s)R\subseteq d_i(s)R$, hence $v(c_i(s))\le v(d_i(s))$ for $s<f$.
+(b)~Let $e_i$ be the colength of the lattice $\mathcal S_i$. By \ref{pf:tower:fl-val},
+$e_i^2=(\prod_{s<f}v(c_i(s)))^{p^f(p-1)}$, and by \ref{pf:tower:fl-bid}, $c_N^{p^f}=(\prod_ie_i)^{|N|}$. Raising
+$x=\prod_{i,s<f}v(c_i(s))$ to the power $|N|(p-1)p^f$ we get $(\prod_ie_i^2)^{|N|}=c_N^{2p^f}$, hence
+\begin{equation}\label{pf:tower:eq-fl2}
+x^{|N|(p-1)}=c_N^2 .
+\end{equation}
+(c)~Multiplying $v(c_i(s))^p=v(\delta_i(s))v(c_i(s+1))$ over $s<f$ and using $v(c_i(f))=v(c_i(0))$, we get
+$(\prod_{s<f}v(c_i(s)))^p=\prod_{s<f}v(\delta_i(s))\cdot\prod_{s<f}v(c_i(s))$, so
+$\prod_{i,s<f}v(\delta_i(s))=x^{p-1}$.
+(d)~By \ref{pf:tower:fl-blen} and Step~1, $\prod_iv(\delta_i(s))\le L(\sigma^{p^{s+1}})$ for every $s$.
+
+\emph{Step 4 (equality).} By (a), $x\le\prod_{i,s<f}v(d_i(s))=c_A$, and $x^{|N|(p-1)}=c_N^2=c_A^{|N|(p-1)}$ by
+\eqref{pf:tower:eq-fl2} and tightness; as $c_N\ne0$, $x=c_A\ne0$, and since all factors are positive, the inequalities (a) are
+equalities: $v(c_i(s))=v(d_i(s))$. Similarly, by (c), \eqref{pf:tower:eq-fl1} and tightness,
+$\bigl(\prod_{s<f}\prod_iv(\delta_i(s))\bigr)^{|N|}=x^{|N|(p-1)}=c_N^2=c_O^{|N|}=\bigl(\prod_{s<f}L(\sigma^{p^{s+1}})\bigr)^{|N|}$,
+so the inequalities (d) for $s<f$ are equalities as well.
+
+\emph{Step 5 (conclusion).} In the valuation ring $R$, $c_i(s)R\subseteq d_i(s)R$ and $v(c_i(s))=v(d_i(s))\ne0$ imply
+$c_i(s)R=d_i(s)R$. Hence $D_{\mathcal A}(K_i,b_i,\sigma^{p^s})=c_i(s)R$ for $s<f$, and for all $s$ by periodicity; this
+completes (FC1). For $s<f$, Step~4 gives $\lambda(\omega_{\mathcal A}(\sigma^{p^{s+1}}))=L(\sigma^{p^{s+1}})=\prod_iv(\delta_i(s))$;
+for general $s$ both sides depend only on $s$ modulo $f$ (the right side because $v(\delta_i(s))=\lambda(\omega_{\mathcal S_i}(\sigma^{p^{s+1}}))$).
+This is the first part of (FC3), and the second follows from \ref{pf:tower:fl-bcol}.
+\end{proof}
+
+\begin{definition}[Abelian factors; the subquotient statement]\label{pf:tower:def-abfactor}
+Let $N$ be an abelian group. An $R$-submodule $\mathcal B\subseteq C^N$ is an \emph{abelian factor} if there are an abelian
+scheme $A$ over $R$ with a relatively ample line bundle, a representation $T$ of $A[p]$, a family of $p$-torsion points
+$\mathrm{pt}\colon N'\to A(R)$ and additive maps $i\colon N\to N'$, $\pi\colon N'\to N$ with $\pi i=\mathrm{id}$, such
+that $g\circ i\circ\pi\in\towerev(T,\mathrm{pt})$ for all $g\in\towerev(T,\mathrm{pt})$ and
+$\mathcal B=\{g\circ i:g\in\towerev(T,\mathrm{pt})\}$. The \emph{subquotient statement} (SQ) asserts: if $R$ is
+$p$-adically complete, then every abelian factor $\mathcal B\subseteq C^N$ is generated by almost additive functions
+relative to every subgroup of $N$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.IsAbFactor}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.SubquotientStatement}
+\end{definition}
+
+\begin{theorem}[The subquotient statement]\label{pf:tower:subquot}
+\textup{(Q)}, \textup{(Z)} and \textup{(HTD)} imply \textup{(SQ)}.
+\formallabel{GlobalTheory.T.quotient_zarhin_hodge_tate_subquotient}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.subquotientStatement_of_quotient_zarhin_hodgeTate}
+\formallabel{GlobalTheory.T.abelian_scheme_torsion_augmentation}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.sub_abelianScheme}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.gp_polAV}
+\formallabel{GlobalTheory.T.generation_along_invariants}
+\end{theorem}
+
+\begin{proof}
+Let $R$ be $p$-adically complete and $\mathcal B=\{g\circ i:g\in\towerev(T,\mathrm{pt})\}$ an abelian factor, with
+$A,L,T,\mathrm{pt}\colon N'\to A(R),i,\pi$ as in \cref{pf:tower:def-abfactor}, and let $K\subseteq N$ be a subgroup. The group
+$N'$ is finite (\lref{GlobalTheory.T.torsion_points_finite}: the $p$-torsion points of a group scheme with a
+representation of its $p$-torsion over a domain form a finite set), and by
+\lref{GlobalTheory.T.torsion_points_hopf_order} the evaluation module $\mathcal A=\towerev(T,\mathrm{pt})$ is a Hopf order
+on $N'$, and $N'$ is killed by $p$.
+
+\emph{Claim: $\mathcal A$ is generated by almost additive functions relative to every subgroup $K'\subseteq N'$.} Let
+$J\subseteq T.A$ be the ideal of the elements vanishing at the points $\mathrm{pt}(k)$, $k\in K'$ (that is, $\varphi_k(a)=0$).
+\begin{enumerate}[label=(\alph*)]
+\item By \lref{GlobalTheory.T.torsion_points_finite_flat_subgroup}, $\Spec(T.A/J)\to A$ is a finite flat subgroup scheme
+  $G_{K'}$ of $A$ (in the sense required by (Q)).
+\item By (Q) there is a finite flat surjective homomorphism $q\colon A\to A'$ onto an abelian scheme with a relatively ample
+  line bundle whose kernel is $G_{K'}$: a point $z\in A(S)$ satisfies $q(z)=0$ if and only if it factors through $T.A/J$.
+\item By (Z), $A'$ is a retract of a principally polarised abelian scheme $P$: there are homomorphisms $i'\colon A'\to P$ and
+  $r\colon P\to A'$ with $ri'=\mathrm{id}$. Put $j=i'q\colon A\to P$. As $i'$ has a left inverse, $j(z)=0$ if and only if
+  $q(z)=0$; so $\ker j=G_{K'}$.
+\item By (HTD) for $P$ there are a representation $T'$ of $P[p]$, $c_p$, a Hodge--Tate datum $H$ of genus $g=\dim P$ and a
+  family of $p$-torsion points $\mathrm{pt}_0\colon\towerNb_g\to P(R)$ with $\mathcal A_H=\towerev(T',\mathrm{pt}_0)$. By the
+  polarised augmentation theorem \lref{GlobalTheory.T.polarised_augmentation_theorem} (for every Hodge--Tate datum
+  $H$, the linear forms congruent modulo $p$ to elements of $\mathcal A_H$ are the $R$-span of the rows of $H_t$ and $B_t$,
+  $\lambda(Q_{\mathcal A_H})=v(c_p)^g$, and $\mathcal A_H$ is tight and generated by almost additive functions relative to
+  $0$), $\mathcal A'=\towerev(T',\mathrm{pt}_0)$ is generated by almost additive functions relative to $0$. (Any other family
+  of $p$-torsion points of $P$ is $\mathrm{pt}_0\circ e$ for a group isomorphism $e$, and both properties are invariant
+  under such $e$.)
+\item By \lref{GlobalTheory.T.torsion_points_isogeny_hopf_order}, $j$ induces an additive map
+  $j_N\colon N'\to\towerNb_g$ with $\mathrm{pt}_0(j_N(x))=j(\mathrm{pt}(x))$ and $g'\circ j_N\in\mathcal A$ for
+  $g'\in\mathcal A'$. By \lref{GlobalTheory.T.torsion_points_homomorphism_compatible}, which uses (c), $\ker j_N=K'$,
+  and every $g\in\mathcal A$ vanishing on $K'$ lies in the ideal $j_N^*(I_{\mathcal A'})\cdot\mathcal A$ generated by the
+  pull-backs of the augmentation ideal of $\mathcal A'$.
+\item By \lref{GlobalTheory.T.hopf_order_pullback_along_hom} (for Hopf orders $\mathcal A,\mathcal A'$ and an additive
+  map $j_N$ such that $j_N^*\mathcal A'\subseteq\mathcal A$ and the elements of $\mathcal A$ vanishing on $\ker j_N$ lie in
+  $j_N^*(I_{\mathcal A'})\mathcal A$, one has $j_N^*\mathcal A'=\mathcal A^{\ker j_N}$), $\mathcal A^{K'}=j_N^*\mathcal A'$.
+\item Composition with $j_N$ is a ring homomorphism $C^{\towerNb_g}\to C^{N'}$ which maps almost additive functions to almost
+  additive functions. By (d), $\mathcal A'$ lies in the $R$-algebra generated by $\mathcal A'^{\mathrm{af}}$, so
+  $\mathcal A^{K'}=j_N^*\mathcal A'$ lies in the $R$-algebra generated by $j_N^*(\mathcal A'^{\mathrm{af}})\subseteq
+  (\mathcal A^{K'})^{\mathrm{af}}$. This proves the claim.
+\end{enumerate}
+Apply the claim to $K'=i(K)$. By \lref{GlobalTheory.T.hopf_order_retract_restriction} (for a Hopf order $\mathcal A$ on
+$N'$ and a retraction $(i,\pi)$ with $g\circ i\circ\pi\in\mathcal A$ for $g\in\mathcal A$: the restriction
+$\{g\circ i\}$ is a Hopf order on $N$, $h\circ\pi\in\mathcal A$ for every restriction $h$, and if $\mathcal A$ is generated by
+almost additive functions relative to $i(K)$, then the restriction is so relative to $K$), $\mathcal B$ is generated by almost
+additive functions relative to $K$.
+\end{proof}
+
+\begin{theorem}[Abelian factors with an action of a finite field]\label{pf:tower:abfactor}
+Assume \textup{(SQ)}, and let $R$ be $p$-adically complete. Let $N$ be a finite abelian group killed by $p$ and
+$\mathcal A$ a Hopf order on $N$ which is a tight abelian factor. Let $F$ be a finite field of characteristic $p$, $N_w$ a
+finite $F$-vector space and $i\colon N_w\to N$, $\pi\colon N\to N_w$ additive maps with $\pi i=\mathrm{id}$, such that
+$g\circ i\circ\pi\in\mathcal A$ for $g\in\mathcal A$ and $\mathcal A_w=\{g\circ i:g\in\mathcal A\}$ is $F$-stable. Then
+$\mathrm{FC}(\mathcal A_w,b,\sigma)$ holds for every basis $b$ of $N_w$ and every fundamental character $\sigma$ of $F$.
+\formallabel{GlobalTheory.T.abelian_factor_tight_field_action}
+\formallabel{GlobalTheory.CompanionTheory.Ar.GR.flagConcl_directFactor_of_subquotient}
+\end{theorem}
+
+\begin{proof}
+By \lref{GlobalTheory.T.hopf_order_retract_restriction} (see the end of the proof of \cref{pf:tower:subquot}),
+$\mathcal A_w$ is a Hopf order on $N_w$, and it is generated by almost additive functions relative to a subgroup $K'$ as soon
+as $\mathcal A$ is so relative to $i(K')$. By \lref{GlobalTheory.T.hopf_order_retract_elementary} (restrictions of tight
+Hopf orders on groups killed by $p$ along retractions are tight), $\mathcal A_w$ is tight. By (SQ), $\mathcal A$ is generated
+by almost additive functions relative to every subgroup of $N$, so $\mathcal A_w$ is so relative to each $K_k$. Now
+\cref{pf:tower:flag} applies to $\mathcal A_w$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The test-point lemma}\label{pf:tower:sec-test}
+
+Throughout this subsection we assume (HT), (Q), (Z), (HTD) and (Ord), and we fix the following data, as in the proof of
+\cref{pf:tower:fam}: the data of (F) with a prime $p\in S$, $p\ne2$, $p\nmid d_E$, a Frobenius $\phi$ at $p$, a discrete
+valuation ring $O$ of $\Omega$ over $p$ and a label $t_0$; orbit data $(\Sigma,e,\phi',F,\varpi_F,s_F,w,\sigma)$ and generic
+torsion data $G$ (\cref{pf:tower:def-orbit}); a chart $c$ with a chart pack $P$; and linear maps
+$i_\tau\colon\Omega^{r(\tau)}\to\Omega^N$ satisfying, for every $\tau\in\Sigma$, the sequence hypotheses
+$\mathrm{SH}(O[y]_c,w,W_\tau,\omega^{\towerHT}_\tau,i_\tau,q_\tau)$ and the dual congruences of Step~3 of the proof of
+\cref{pf:tower:fam}, such that $\mathcal D=\mathcal D_P$ satisfies the base relations for $(O[y]_c,p,w)$. We also fix a test
+point $(C,R_C)$ for $(p,O[y]_c)$ with its valuation $v$, and multiplicative lifts $\chi_\tau\colon F\to C$ of the
+$\sigma_\tau$ with $\chi_\tau(0)=0$. Let $\mathcal D_C$ be the base change of $\mathcal D$ to $R_C$; we keep the names
+$M,\mathfrak l_\tau,W_\tau,\omega_\tau,\omega^{\towerHT}_\tau,\Gamma_\tau,\Delta_\tau,\Theta_\tau$ for its components and write
+$q_\tau\colon C^N\to C^{s(\tau)}$ for the base change of the Hodge--Tate chart. Put $N_E=(\OO_E/p)^N$, a group killed by $p$.
+
+\begin{definition}[Test orders]\label{pf:tower:def-testord}
+The \emph{test order} $\mathcal A_C\subseteq C^{N_E}$ is the $R_C$-span of the functions $x\mapsto f(x)$, $f$ in the coordinate
+ring of the finite flat model $\Gamma_1$ of the $p$-torsion in the chart pack (whose points are indexed by $N_E$ through the
+generic torsion data), and $\mathcal A_{C,W}=\{g\circ s_F^N:g\in\mathcal A_C\}\subseteq C^{F^N}$, where
+$s_F^N\colon F^N\to N_E$ and $\varpi_F^N\colon N_E\to F^N$ act coordinatewise.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.testOrd}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.testOrdW}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.NAdd}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.toNAdd}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.fromNAdd}
+\end{definition}
+
+\begin{lemma}[Test orders]\label{pf:tower:testord}
+$\mathcal A_C$ and $\mathcal A_{C,W}$ are Hopf orders on $N_E$ and $F^N$; $\mathcal A_{C,W}=M$; $g\circ s_F^N\circ\varpi_F^N\in\mathcal A_C$
+for $g\in\mathcal A_C$; $\mathcal A_{C,W}$ is $F$-stable; and $\mathcal A_C$ is a tight abelian factor.
+\end{lemma}
+
+\begin{proof}
+The first four assertions are \lref{GlobalTheory.T.arith_variety_prime_global_relay}. The last is
+\lref{GlobalTheory.T.arith_variety_model_hodge_relay}, which uses (HTD) and (Ord): $\mathcal A_C$ is an abelian factor
+(\cref{pf:tower:def-abfactor}), i.e.\ it is obtained along a retraction from the evaluation module of the $p$-torsion of an
+abelian scheme over $R_C$ with a relatively ample line bundle, and it is tight.
+\end{proof}
+
+\begin{theorem}[Hodge--Tate lattices at test points]\label{pf:tower:relay}
+Let $\tau\in\Sigma$ and let $h\colon C^{r(\tau)}\to C^N$ be an injective linear map with image $\ker q_\tau$ such that
+$h^{-1}(R_C^N)=W_\tau$ and $h(a)-i_\tau(a)\in wR_C^N$ for all $a\in W_\tau$. Then
+\[
+q_\tau\bigl(\mathfrak h(\chi_\tau)\bigr)=\omega_\tau,\qquad h^{-1}\bigl(\mathfrak h(\chi_\tau)\bigr)=w^{-1}\mathfrak l_\tau .
+\]
+\formallabel{GlobalTheory.T.ordinary_curve_model_relay}
+\formallabel{GlobalTheory.CompanionTheory.Relay.ordinary_curve_model_relay}
+\formallabel{PositivityTheory.Xgn.test_group_point_exists}
+\end{theorem}
+
+Recall (\cref{pf:tower:def-test}) that $\mathfrak h(\chi)$ is the dual of
+$\mathfrak a(\chi)=\{x\in C^N:\ell_\chi(x)\in M+pR_C^{F^N}\}$. The theorem identifies the image of $\mathfrak h(\chi_\tau)$
+under the Hodge--Tate chart with the de Rham lattice $\omega_\tau$, and its intersection with the kernel of the chart with
+$w^{-1}\mathfrak l_\tau$. The proof compares two descriptions of the linear forms congruent modulo $p$ to elements of the test
+order: one through the Hodge--Tate decomposition at the test point, the other through the labels.
+
+\begin{proof}
+\emph{Step 1 (the Hodge--Tate decomposition at the test point).} By
+\lref{PositivityTheory.Xgn.TestGroupPoint.point_data}, which uses (HT) and $w^{p-1}\in pO^\times$, there are $g\ge0$, an
+$R_C$-semilinear map $\iota$ from the Hodge--Tate lattice $\omega^P\subseteq\mathrm{Li}^\vee$ of the chart pack onto a spanning
+set of $R_C^g$, $C$-linear maps $\mathrm{ev}_x\colon C^g\to C$ ($x\in\mathrm{Li}$) with $\mathrm{ev}_x(\iota(u))=u(x)$, and
+matrices $H\in M_{g\times I}(R_C)$, $E\in M_{I\times I}(R_C)$, where $I$ is an index set with $|I|=2g$ indexing a $\Z$-basis of
+$\OO_E^N$, such that: $E^{\mathsf T}=-E$ and $E$ is invertible with inverse $E'$; $HE'H^{\mathsf T}=0$; $E$ is congruent modulo
+$p$ to the matrix of the pairing $E_0$ of the generic torsion data; and $H$ is congruent modulo $p$ to the matrix of the
+Hodge--Tate chart $h$ of $P$ followed by $\iota$. (The matrix $H$ comes from (HT) at the test point; the relation
+$HE'H^{\mathsf T}=0$ says that its rows are isotropic for $E'$.)
+
+\emph{Step 2 (the test order and its linear forms).} By \cref{pf:tower:testord}, $\mathcal A_C$ is a tight Hopf order on $N_E$.
+Transport it along a group isomorphism $\varphi\colon(\Z/p)^I\to N_E$ compatible with the chosen basis, and let
+$\mathrm{AF}\subseteq R_C^I$ be the module of linear forms $l$ such that $x\mapsto\sum_jl_jx_j$ is congruent modulo $p$ to an
+element of the transported order. By \lref{PositivityTheory.Xgn.TestGroupPoint.kernel_mem}, the function
+$(x,x')\mapsto\zeta_p^{E_0(x,x')}$, $\zeta_p=\zeta^{p^{R(p)-1}}$, lies in the tensor square of $\mathcal A_C$; and by
+\lref{PositivityTheory.Xgn.TestGroupPoint.exists_der} there is a derivation at the origin $\partial\colon
+\mathcal A_C\to(R_C/p)^g$ such that every class $[\iota(u)]$, $u\in\omega^P$, is $\partial f$ for some $f$ with $f(0)=0$, and
+$\partial f=[\iota(h(x))]$ for every $f\in\mathcal A_C$ with $f(x')=\zeta_p^{E_0(x,x')}$ for all $x'$. By
+\lref{PositivityTheory.HtPt.Sgp.core_pull} (for a tight Hopf order with such a Weil tensor and such a derivation, and
+matrices $H,E$ as in Step~1), there is $c\in R_C$ with $v(c)^{p-1}=v(p)$ such that:
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:tower:rl-a} $c\,l\in\mathrm{AF}$ for every $l\in R_C^I$, and the rows of $H$ lie in $\mathrm{AF}$;
+\item\label{pf:tower:rl-b} if $yE\in\mathrm{AF}$ then $Hy\in cR_C^g$; and for every $u\in R_C^g$ there are $y,u'$ with
+  $yE\in\mathrm{AF}$ and $Hy=cu+pu'$;
+\item\label{pf:tower:rl-c} for every $u\in R_C^g$ there is $x\in C^I$ with $v(\sum_jl_jx_j)\le1$ for all $l\in\mathrm{AF}$ and
+  $Hx=u$.
+\end{enumerate}
+
+\emph{Step 3 (the label $\tau$).} Let $\sigma_E\colon E\to\Omega$ be the embedding inducing the label $e(\tau)$; composed
+with complex conjugation it induces $e(\tau)^\vee$ (\lref{PositivityTheory.Xgn.exists_cm_type_embedding}). As
+$p\nmid d_E$, $\sigma_E$ maps $\OO_E$ and the dual basis of the trace form into $O$
+(\lref{PositivityTheory.Xgn.SequenceDifferentials.main}, using an element of the different which is a unit at $p$), hence
+there are a ring map $\sigma'\colon\OO_E\to R_C$ and the values $s_k$ of the dual basis with which one forms matrices
+$P_m\in M_{N\times I}(R_C)$, $J_m\in M_{I\times N}(R_C)$ with $P_mJ_m=1$ (\lref{PositivityTheory.HtPt.Sgp.exists_dualOf}).
+By \lref{PositivityTheory.Xgn.TestGroupPoint.chi_cong}, $\chi_\tau$ takes values in $R_C$ and
+$\chi_\tau(\varpi_F(\bar a))\equiv\sigma'(a)\bmod pR_C$ for $a\in\OO_E$; since the test order is stable under the action of
+$\OO_E$, $\mathrm{AF}$ is stable under $l\mapsto lJ_mP_m$ (\lref{PositivityTheory.HtPt.Sgp.afLat_stable}); and by
+\lref{GlobalTheory.CompanionTheory.Ar.Num.pt_af_type_main}, applied to the retraction $(s_F^N,\varpi_F^N)$ and these
+congruences,
+\begin{equation}\label{pf:tower:eq-hhAF}
+\mathfrak h(\chi_\tau)=\Bigl\{u\in C^N:\ \textstyle\sum_jl_j(J_mu)_j\in R_C\ \text{for all }l\in\mathrm{AF}\Bigr\}.
+\end{equation}
+
+\emph{Step 4 (the lattices of the label).} By \lref{PositivityTheory.Xgn.TestGroupPoint.lattices}, in the bases $b_t$ the
+base changes of the duals of the coordinate lattices of $\towerdR_t$ are the images $\{(\mathrm{ev}_{b_{t,k}}(u))_k:u\in R_C^g\}$,
+and the base changes of the coordinate lattices of $\towerdR_t$ are the $a$ with $\sum_ka_k\mathrm{ev}_{b_{t,k}}(u)\in R_C$ for all
+$u\in R_C^g$. For $t=e(\tau)^\vee$ and $t=e(\tau)$ this describes $\omega_\tau$ and $\mathfrak l_\tau$. By the base relations,
+$\mathfrak l_\tau\subseteq W_\tau\subseteq w^{-1}\mathfrak l_\tau$.
+
+\emph{Step 5 (two congruences).} By \lref{PositivityTheory.Xgn.TestGroupPoint.hq_chart}, for every column index $m$ the
+vector $(\mathrm{ev}_{b_{e(\tau)^\vee,k}}(H_{\cdot,m}))_k$ is congruent modulo $p$ (in the lattice $\omega_\tau$) to
+$q_\tau$ applied to the $m$-th column of $P_m$. By \lref{PositivityTheory.Xgn.TestGroupPoint.hdual_chart}, which uses the
+dual congruences for $i_\tau$, the congruences of Step~1 and $v(p)\le v(w)^2$, for $a\in W_\tau$ and every $m$,
+\[
+v\Bigl(\sum_{m'}E_{mm'}(J_m\,i_\tau(a))_{m'}+\sum_ka_k\,\mathrm{ev}_{b_{e(\tau),k}}(H_{\cdot,m})\Bigr)\le v(w).
+\]
+Here $v(w)^{p-1}=v(p)$ because $w^{p-1}\in pO^\times$, so $v(w)<1$, $v(c)=v(w)$, and $v(p)=v(w)^{p-1}\le v(w)^2$ as $p\ge3$.
+
+\emph{Step 6 (linear algebra).} \Lref{PositivityTheory.Xgn.TestGroupPoint.typed} is a statement about lattices over the
+valuation ring $R_C$: given $\mathrm{AF}$, $H$, $E$ with \ref{pf:tower:rl-a}--\ref{pf:tower:rl-c} for an element $c$ with
+$v(c)=v(w)$, matrices $P_m,J_m$ with $P_mJ_m=1$ and $\mathrm{AF}J_mP_m\subseteq\mathrm{AF}$, a group $\mathfrak h$ described
+by \eqref{pf:tower:eq-hhAF}, lattices $\omega,\mathfrak l\subseteq W\subseteq w^{-1}\mathfrak l$ described as in Step~4, a linear
+map $q$ and maps $i,h$ with the congruences of Step~5, $h^{-1}(R_C^N)=W$ and $h(a)-i(a)\in wR_C^N$ on $W$, it concludes
+$q(\mathfrak h)=\omega$ and $h^{-1}(\mathfrak h)=w^{-1}\mathfrak l$. All its hypotheses have been verified in Steps~1--5 and
+in the hypotheses of the theorem, which proves the theorem.
+\end{proof}
+
+\begin{theorem}[The test-point lemma]\label{pf:tower:testpt}
+$\mathcal D_C$ satisfies the test relations for $(R_C,p,w,\chi,\phi')$ (\cref{pf:tower:def-test}).
+\formallabel{GlobalTheory.T.ordinary_curve_hodge_prime}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.testFacts}
+\formallabel{GlobalTheory.T.hodge_kernel_image_lattice}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.TestPt.af_le_stdLat}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1 (base change).} Write $w^{p-1}=up$ with $u\in O^\times$; then $p=u^{-1}w^{p-2}\cdot w\in wO[y]_c$, and the
+characters $a\mapsto[a\ne0]$ take values in $O[y]_c$. Hence the base relations of $\mathcal D$ persist under base change:
+$\mathcal D_C$ satisfies the base relations for $(R_C,p,w)$
+(\lref{GlobalTheory.T.lattice_base_change_larger_ring_holds}). Moreover $w\ne0$ in $C$, since $w^{p-1}=up\ne0$.
+
+\emph{Step 2 (the flag conclusion for the test order).} By
+\lref{GlobalTheory.T.arith_variety_prime_hodge_total} there are a fundamental character $\sigma'$ of $F$ with values in
+$R_C$ and integers $e(\tau)\ge0$ with $\chi_\tau=\sigma'^{p^{e(\tau)}}$ and $\sigma'^{p^{e(\phi'\tau)}}=\sigma'^{p^{e(\tau)+1}}$
+for all $\tau$ (the $\chi_\tau$ are the Teichm\"uller lifts of the embeddings $\sigma_\tau$, which form a Frobenius orbit). By
+\cref{pf:tower:testord}, $\mathcal A_C$ is a tight abelian factor on the group $N_E$, killed by $p$, and the retraction
+$(s_F^N,\varpi_F^N)$ satisfies the hypotheses of \cref{pf:tower:abfactor} with $N_w=F^N$. By \cref{pf:tower:subquot}, (SQ)
+holds. Hence \cref{pf:tower:abfactor} gives $\mathrm{FC}(\mathcal A_{C,W},b,\sigma')$ for the standard basis $b$ of $F^N$.
+
+\emph{Step 3 (Teichm\"uller test functions).} By
+\lref{GlobalTheory.T.chartD_th_sqIdeal_mem_and_smul_mem_and_eig_mem_sqIdeal}, for every $\tau$: $(g,0)\in\Theta_\tau$
+for $g\in I^2_{\mathcal A_{C,W}}$; if $(g,m)\in\Theta_\tau$ then $(x\mapsto g(ax),\chi_\tau(a)m)\in\Theta_\tau$ for $a\in F$; and
+if $g\in\mathcal A_{C,W}(\sigma'^{p^{e(\tau)}})$ and $(g,0)\in\Theta_\tau$, then $g\in I^2_{\mathcal A_{C,W}}$.
+
+\emph{Step 4 (the first relation and a bound).} By \lref{GlobalTheory.T.arith_variety_model_prime_total}, which uses (Z),
+(HTD) and the fact that $\mathcal A_C$ is an abelian factor, $wR_C^N\subseteq\mathfrak a(\chi_\tau)$ for every $\tau$: this is the
+first test relation. Conversely $\mathfrak a(\chi_\tau)\subseteq R_C^N$: if $x\in\mathfrak a(\chi_\tau)$, then
+$\ell_{\chi_\tau}(x)\in M+pR_C^{F^N}\subseteq R_C^{F^N}$ by (B1), and its value at the $i$-th standard basis vector of $F^N$ is
+$\sum_jx_j\chi_\tau(\delta_{ij})=x_i$, as $\chi_\tau(0)=0$ and $\chi_\tau(1)=1$. Dually, $R_C^N\subseteq\mathfrak h(\chi_\tau)\subseteq
+w^{-1}R_C^N$.
+
+\emph{Step 5 (the second and third relations).} Fix $\tau$. By
+\lref{GlobalTheory.T.arith_variety_prime_hodge_estimate} there is an injective linear map $h\colon C^{r(\tau)}\to C^N$ with
+image $\ker q_\tau$ such that $q_\tau(R_C^N)=\omega^{\towerHT}_\tau$, $h^{-1}(R_C^N)=W_\tau$, $h(a)-i_\tau(a)\in wR_C^N$ for
+$a\in W_\tau$, and
+\[
+\Delta_\tau=\{(b,c):wb\in R_C^N,\ c-q_\tau(b)\in\omega^{\towerHT}_\tau\},\qquad
+\Gamma_\tau=\{(a,b):wa\in W_\tau,\ b-h(a)\in R_C^N\}.
+\]
+By \cref{pf:tower:relay}, $q_\tau(\mathfrak h)=\omega_\tau$ and $h^{-1}(\mathfrak h)=w^{-1}\mathfrak l_\tau$, where
+$\mathfrak h=\mathfrak h(\chi_\tau)$. Since $\mathfrak h\subseteq w^{-1}R_C^N$, every $b\in\mathfrak h$ satisfies $wb\in R_C^N$, so
+$\mathrm{pr}_2(\Delta_\tau\cap(\mathfrak h\times C^{s(\tau)}))=q_\tau(\mathfrak h)+\omega^{\towerHT}_\tau$; as
+$\omega^{\towerHT}_\tau=q_\tau(R_C^N)\subseteq q_\tau(\mathfrak h)$, this is $\omega_\tau$. Next,
+$a\in\mathrm{pr}_1(\Gamma_\tau\cap(C^{r(\tau)}\times\mathfrak h))$ if and only if $wa\in W_\tau$ and $h(a)\in\mathfrak h$ (as
+$R_C^N\subseteq\mathfrak h$, the condition $b-h(a)\in R_C^N$ with $b\in\mathfrak h$ is equivalent to $h(a)\in\mathfrak h$, and one may
+take $b=h(a)$). If $h(a)\in\mathfrak h\subseteq w^{-1}R_C^N$, then $h(wa)\in R_C^N$, i.e.\ $wa\in W_\tau$. Hence the first
+projection is $h^{-1}(\mathfrak h)=w^{-1}\mathfrak l_\tau$.
+
+\emph{Step 6 (the last three relations).} The three remaining test relations, $d_i(\chi_\tau)=x_i(\chi_\tau)$,
+$\mathrm{pr}_2(\mathrm{st}_{\tau,i}(\chi_\tau))=\kappa_{\tau,i}$ and the description of $\{\lambda:(\lambda,0)\in
+\mathrm{st}_{\phi'\tau,i}(\chi_{\phi'\tau})\}$ as the $R_C$-span of the $p$-th powers of the elements of $x_i(\chi_\tau)$, are
+\lref{GlobalTheory.CompanionTheory.Ar.Num.PtDx.main},
+\lref{GlobalTheory.CompanionTheory.Ar.Num.stepGraph_snd_eq_kk} and
+\lref{GlobalTheory.CompanionTheory.Ar.Num.PtInj.kernel_stepGraph}. These are statements about a Lie lattice datum
+satisfying the base relations over $R_C$ whose $M$ is an $F$-stable Hopf order on $F^N$ with the flag conclusion for a
+fundamental character $\sigma'$, whose characters are $\chi_\tau=\sigma'^{p^{e(\tau)}}$ with
+$\sigma'^{p^{e(\phi'\tau)}}=\sigma'^{p^{e(\tau)+1}}$, and whose $\Theta_\tau$ satisfy the three properties of Step~3; all of this
+was established in Steps~1--3 and \cref{pf:tower:testord}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The chart lemmas}\label{pf:tower:sec-chart}
+
+We prove the five results used in Steps~1--5 of the proof of \cref{pf:tower:fam}. The setting is that of
+\cref{pf:tower:sec-fam}: the data of (F), a prime $p\in S$ at which $\mathcal M$ is Hodge--Tate free with $p\ne2$ and
+$p\nmid d_E$, the integral closure $A$ of $\Z$ in $\Omega$ and the discrete valuation ring $O=A_{\mathfrak m}$ at a prime
+$\mathfrak m\ni p$, and bases $b_t$ of the $V^{\mathrm{gen}}_t$. For a family of lattices $L=(L(q))_q$ in $\mathrm{Li}$ indexed by
+the points $q$ of $\mathcal M.X$ and a chart $c$, the \emph{coordinate lattice} of $L$ in the basis $b_t$ is the set of
+$a\in\Omega^{r_t}$ such that $\sum_ka_kb_{t,k}\in L(q)$ for every point $q$ of the chart whose local ring contains $O$; we write
+$\towerdR_t(c)$ and $\towerHT_{p,t}(c)$ for the coordinate lattices of $\towerdR_t$ and $\towerHT_{p,t}$. Every prime $\ell\ne p$ is a
+unit in $O$, so a point whose local ring contains $O$ lies over $p$.
+
+\begin{lemma}[De Rham and Hodge--Tate lattices]\label{pf:tower:mpbound}
+Assume \textup{(HT)}, and let $w\in O$ be $\zeta-1$ for a primitive $p$-th root of unity $\zeta$. For every label $t$, the
+families $\towerdR_t(c)$, $\towerHT_{p,t}(c)$ and their duals are lattice families; for every chart $c$ with $y^c\ne0$ they
+are locally free of rank $r_t$ over $O[y]_c$; and
+\[
+\towerdR_t(c)\subseteq\towerHT_{p,t}(c)\subseteq w^{-1}\towerdR_t(c),\qquad
+\towerHT_{p,t}(c)^*\subseteq\towerdR_t(c)^*\subseteq w^{-1}\towerHT_{p,t}(c)^*.
+\]
+\formallabel{GlobalTheory.T.arith_variety_model_prime_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamLat.lat_main}
+\end{lemma}
+
+\begin{proof}
+\emph{Pointwise comparison.} By \lref{GlobalTheory.T.exists_sandwich_of_hodge_tate_free}, which uses (HT) and the
+Hodge--Tate freeness at $p$, there is $\kappa\in\Omega$ of the form $\zeta'-1$, $\zeta'$ a primitive $p$-th root of unity, such
+that at every point $q$ in the fibre over $p$: $\kappa$ is regular at $q$, the Hodge--Tate $\omega$-module and the de Rham
+$\omega$-lattice at $q$ are contained in each other up to the factor $\kappa$, and for every label $s$,
+$\towerdR_s(q)\subseteq\towerHT_{p,s}(q)$ and $\kappa\towerHT_{p,s}(q)\subseteq\towerdR_s(q)$. By
+\lref{GlobalTheory.T.cp_ratio_unramified_odd_prime} the same holds with $w$ in place of $\kappa$ at the points $q$ of the
+fibre over $p$ at which $w$ is regular. Generic torsion data exist (\lref{GlobalTheory.T.arith_variety_hodge_prime_degree}),
+and by \lref{GlobalTheory.T.generic_torsion_unramified_prime}, which uses them and $p\nmid d_E$,
+$\towerHT_{p,t}(q)=\towerdR_t(q)$ at the points $q$ lying in no fibre over a prime. Hence at every point $q$ whose local ring
+contains $O$, $\towerdR_t(q)\subseteq\towerHT_{p,t}(q)$ and $w\towerHT_{p,t}(q)\subseteq\towerdR_t(q)$.
+
+\emph{Vector bundles.} By \lref{GlobalTheory.T.cm_flag_unramified_prime}, which uses the last equality, $\towerdR_t$ and
+$\towerHT_{p,t}$ are vector bundles of rank $r_t$ on $V^{\mathrm{gen}}_t$ at the points over $p$, in particular at the points whose
+local ring contains $O$.
+
+\emph{Coordinate lattices.} The Hodge component is tied to its Segre coordinates, and its constants lie in $A$
+(\cref{pf:tower:coordideal}). For a vector bundle $L$ of rank $r_t$ on $V^{\mathrm{gen}}_t$ at these points, the coordinate lattices
+in the basis $b_t$ form a lattice family (\lref{GlobalTheory.CompanionTheory.Ar.Num.FamLat.coordLat_family}) and are locally
+free of rank $r_t$ over each chart ring $O[y]_c$, $y^c\ne0$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamLat.coordLat_locFree}: the chart ring is noetherian and normal, and a local
+basis of $L$ at the points of the chart yields a local basis of the coordinate lattice after inverting suitable elements generating
+the unit ideal); and then so are the duals (\lref{GlobalTheory.T.dot_dual_lattice_family}). Finally the pointwise inclusions
+pass to the coordinate lattices by their definition, and dualising reverses them.
+\end{proof}
+
+\begin{lemma}[The sequences]\label{pf:tower:mpdegree}
+Assume \textup{(HT)} and let $w$ be as in \cref{pf:tower:mpbound}. Let $G$ be generic torsion data, $c$ a chart with
+$y^c\ne0$, $P$ a chart pack at $c$ and $t$ a label, and let $q_t$ be the Hodge--Tate chart of $P$ in the basis $b_{t^\vee}$. Then
+there is a linear map $i\colon\Omega^{r_t}\to\Omega^N$ with
+$\mathrm{SH}(O[y]_c,w,\towerHT_{p,t}(c),\towerHT_{p,t^\vee}(c)^*,i,q_t)$ such that, for every embedding $\sigma_E\colon E\to\Omega$
+inducing the label $t$, every $a\in\towerHT_{p,t}(c)$ and every $j$,
+\[
+\textstyle\sum_li(a)_l\,\mathrm{Gr}_{\sigma_E}(l,j)\equiv h(e_j)\bigl(\sum_ka_kb_{t,k}\bigr)\bmod p^{R(p)-2}O[y]_c,
+\]
+where $h$ is the Hodge--Tate chart of $P$ and $\mathrm{Gr}_{\sigma_E}$ the Gram matrix of its pairing for $\sigma_E$.
+\formallabel{GlobalTheory.T.arith_variety_model_prime_degree}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Seq.seq_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.DualSeq}
+\end{lemma}
+
+\begin{proof}
+\emph{The chart ring.} $R'=O[y]_c$ is noetherian and integrally closed with fraction field $\Omega$ of characteristic $0$, and the
+Hodge component is regular at its points (\lref{GlobalTheory.T.arith_variety_prime_hodge_relay}). Let $\sigma$ be the
+embedding of $E$ inducing $t$; then $\sigma$ composed with complex conjugation induces $t^\vee$
+(\lref{GlobalTheory.T.cm_embedding_conjugate_compat}), and as $p\nmid d_E$ the image under every embedding of a suitable
+element of the different is a unit times an element of $O$ (\lref{GlobalTheory.T.arith_variety_prime_hodge_degree}).
+
+\emph{The Hodge--Tate chart.} By \lref{GlobalTheory.T.arith_variety_prime_hodge_height} and
+\lref{GlobalTheory.T.arith_variety_prime_hodge_value} the eigencomponents of the Hodge--Tate lattice of $P$ for $\sigma$ and
+$\sigma\circ c$ are projective $R'$-modules. By \lref{GlobalTheory.T.arith_variety_model_prime_relay}, which uses (HT), the
+Hodge--Tate chart of $P$ has test points at $w$: its cokernel is killed by $w$ at every test point.
+
+\emph{Exactness modulo $p^{R(p)-2}$.} Write $R(p)=n+4$. As $w^{p-1}\in pO^\times$ and $p\ge3$, $w$ divides $p^2$ in $R'$, so
+$wp^{R(p)-2}$ divides $p^{R(p)}$ and $p^{R(p)-2}=wv$ with $v\in R'$. By \lref{GlobalTheory.T.chart_sequence_holds}, applied
+with these test points and divisibility, there is a map $i_0$ which is dual, modulo $p^{R(p)-2}$, to the $\sigma\circ c$-component
+of the Hodge--Tate chart and makes the resulting sequence exact modulo $p^{R(p)-2}$. The coordinate lattices
+$\towerHT_{p,t}(c)$ and $\towerHT_{p,t^\vee}(c)$ are the sets of $a$ on which all elements of the Hodge--Tate lattice of $P$ take
+integral values on $\sum_ka_kb_{t,k}$ (resp.\ $b_{t^\vee}$) (\lref{GlobalTheory.T.arith_variety_prime_hodge_count}). Now
+\lref{GlobalTheory.T.hodge_chart_exists_seqHyp_gram_congr_mod_pow} (for a Hodge--Tate chart with an exact dual sequence
+modulo $p^m$ and projective eigencomponents, bases of the two eigenspaces, the lattices just described, and $w\in R'$ dividing
+$p^m$: there is $i$ with the sequence hypotheses and the Gram congruence modulo $p^m$), applied with $m=R(p)-2$, gives $i$.
+\end{proof}
+
+\begin{lemma}[Functions and cotangent data in a chart]\label{pf:tower:hpcount}
+Let orbit data and generic torsion data be given, $c$ a chart with $y^c\ne0$, $P$ a chart pack at $c$ and $i_\tau$ arbitrary
+linear maps. Then $\mathcal D_P$ satisfies \textup{(B1)} over $R'=O[y]_c$, and for every $\tau$, $\Theta_\tau$ is an $R'$-module
+satisfying \textup{($\Theta$)}.
+\formallabel{GlobalTheory.T.arith_variety_hodge_prime_count}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.chartD_fun_clauses}
+\end{lemma}
+
+\begin{proof}
+$R'$ is noetherian and normal (\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.chartRing_noetherian_normal_fraction}). Let
+$B$ be the coordinate ring of the finite flat model $\Gamma_1$ of the $p$-torsion in $P$, a finite locally free $R'$-algebra whose
+points are indexed by $N_E=(\OO_E/p)^N$. By \lref{GlobalTheory.CompanionTheory.Ar.BT.lemmaBT_holds}, the functions of $B$ on
+these points form a Hopf algebra, and there is a surjection $\theta$ from the dual $L^\vee$ of the Lie model $L$ of $P$ onto the
+cotangent module $I_B/I_B^2$ whose kernel is $pL^\vee$ and such that $\theta(u)$ is the class of the functions whose differential
+at the origin is $u$. Since $p$ kills $I_B/I_B^2$, some power $p^m$ times every function on the points lies in $B$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.FunAlg.exists_pow_smul_mem}).
+
+\emph{(B1).} Let $\eps\in\OO_E$ lift $s_F(1)$; then multiplication by $\eps$ on $\OO_E/p$ is $s_F\circ\varpi_F$, and the action of
+$\eps$ on the semi-abelian scheme shows that the functions of $B$ are stable under composition with $s_F^N\circ\varpi_F^N$. As
+$M$ is the module of functions $a\mapsto f(s_F(a))$, $f\in B$, \lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.FunAlg.lat_clauses}
+(for a Hopf order containing $p^m$ times all functions and a retraction compatible with it) shows that $M$ is locally free of
+rank $|F|^N$, lies between $p^mR'^{F^N}$ and $R'^{F^N}$, and contains $1$.
+
+\emph{($\Theta$).} For $u\in L^\vee$ let $\mathrm{ev}(u)=(j(u)(b_{e\tau,k}))_k$. Then $\mathrm{ev}(u)$ lies in the dual of the
+coordinate lattice $\towerdR_{e\tau}(c)$, and every element of this dual is $\mathrm{ev}(u)$ for some $u$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.FunPart.exists_form}). Moreover $\theta(u)$ is represented by a function invariant
+under $s_F^N\circ\varpi_F^N$: the image of $\eps$ under the embedding of label $e\tau$ is $1+p\kappa$ with $\kappa\in R'$ (as
+$\eps^2-\eps\in p\OO_E$ and this image is a unit of $O$), so $u\circ\rho(\eps)=u+p\kappa u$ and
+$\theta(u\circ\rho(\eps))=\theta(u)$; and if $f$ represents $\theta(u)$, then $f\circ s_F^N\circ\varpi_F^N$ represents
+$\theta(u\circ\rho(\eps))$, because derivations at the origin are compatible with endomorphisms. With these facts,
+\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.FunAlg.th_clauses} (a formal statement on the group generated by the pairs
+$(f\circ s_F^N,\mathrm{ev}(u))$ with $\theta(u)=[f]$) gives that $\Theta_\tau$ is an $R'$-module whose first projection is
+$\{g\in M:g(0)=0\}$, whose second projection is $\mathfrak l_\tau^*$, and whose intersection with $0\times\Omega^{r(\tau)}$ is
+$0\times p\,\mathfrak l_\tau^*$, the last because $\ker\theta=pL^\vee$.
+\end{proof}
+
+\begin{lemma}[Lattice families of functions]\label{pf:tower:hptotal}
+Let chart packs $P(c)$ at all charts $c$ with $y^c\ne0$ and maps $i_\tau(c)$ be given, and let $\mathcal D(c)$ be as in
+\cref{pf:tower:def-chartD}. Then $M$ and the $\Theta_\tau$, as functions of $c$, are lattice families.
+\formallabel{GlobalTheory.T.arith_variety_hodge_prime_total}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Over.funfam_holds}
+\end{lemma}
+
+\begin{proof}
+The module properties are clear. Let $s,t$ be charts with $y^s,y^t\ne0$ and $R_{st}$ the ring of the overlap of the two charts,
+noetherian with fraction field $\Omega$. The $p$-torsion of the semi-abelian scheme of $\mathcal M$ has at most one finite flat
+model over $R_{st}$ with the given generic points (\lref{GlobalTheory.T.semiabelian_torsion_injective}); hence the models
+$\Gamma_1$ of $P(s)$ and $P(t)$ become isomorphic over $R_{st}$, compatibly with their points
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Over.overlap_group}). Consequently a function of $\Gamma_1(P(s))$ is, after
+multiplication by a power of $y^s/y^t$, a function of $\Gamma_1(P(t))$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Over.funLat_overlap}), which gives the property for $M$. For $\Theta_\tau$
+the same comparison is applied to the Lie models and the derivations at the origin of the two chart packs
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.Over.thLat_overlap}).
+\end{proof}
+
+\begin{lemma}[Lattice families of graphs]\label{pf:tower:mpheight}
+Assume \textup{(HT)}. Let orbit data, generic torsion data, chart packs $P(c)$ and maps $i_\tau(c)$ be given which satisfy, in
+every chart, the sequence hypotheses and the dual congruences of \cref{pf:tower:mpdegree}. Then $\Gamma_\tau$ and $\Delta_\tau$,
+as functions of $c$, are lattice families.
+\formallabel{GlobalTheory.T.arith_variety_model_prime_height}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam.seqfam_holds}
+\end{lemma}
+
+\begin{proof}
+The module properties follow from those of $W_\tau$, $\omega^{\towerHT}_\tau$ and the standard lattices. For the overlaps, write
+$p=wt_O$ with $t_O\in O$ (possible as $w^{p-1}\in pO^\times$), so that $p^{R(p)}=w^2Q$ and $p^{R(p)-2}=wP_w$ with
+$Q,P_w\in O$. We use: (a)~\cref{pf:tower:mpbound}, in particular that $W_\tau$ and $\omega^{\towerHT}_\tau$ are lattice families;
+(b)~the Gram matrix $\mathrm{Gr}_{\sigma_E}$, which is the same for all chart packs (it is built from the pairing $E_0$ of the generic
+torsion data and the dual basis of the trace form), is invertible over $O$ as $p\nmid d_E$
+(\lref{GlobalTheory.T.hermitian_pairing_torsion_free}); (c)~for charts $s,t$, the Hodge--Tate charts of $P(s)$ and $P(t)$
+agree modulo $p^{R(p)}$ after multiplication by a power of $y^s/y^t$
+(\lref{GlobalTheory.T.arith_variety_prime_hodge_bound}); (d)~elements $u$ of the Hodge--Tate lattice of a chart pack take
+integral values on the de Rham lattices (\lref{GlobalTheory.T.arith_variety_prime_hodge_final}), so that by (a),
+$w\,u(\sum_ka_kb_{t,k})\in O[y]_c$ for $a\in\towerHT_{p,t}(c)$. From the dual congruences, (b), (c) and (d) one obtains, for every
+$a$ with $wa\in W_\tau(s)$, an $m$ with $(y^s/y^t)^m\bigl(i_\tau(s)(a)-i_\tau(t)(a)\bigr)\in O[y]_t^N$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam.gam_key}); and from (c) and (d), for every $b$ with
+$wb\in O[y]_s^N$, an $m$ with $(y^s/y^t)^m\bigl(q_\tau(s)(b)-q_\tau(t)(b)\bigr)\in\omega^{\towerHT}_\tau(t)$
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam.del_key}). Since $W_\tau$, $\omega^{\towerHT}_\tau$ and the standard
+lattices are lattice families, an elementary argument
+(\lref{GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam.graph_step}) then gives, for $(a,b)\in\Gamma_\tau(s)$, some $m$
+with $(y^s/y^t)^m(a,b)\in\Gamma_\tau(t)$, and likewise for $\Delta_\tau$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Comparison of realisations}\label{pf:tower:sec-cs}
+
+We use the coordinate framework of \cref{def:covolume:hs} and \cref{pf:towergeo:setting}: coordinates $y$ in a field
+$\Omega$ of characteristic $0$, indexed by $\bigsqcup_kJ_k$, their coordinate ideal $P_y$, Hermitian lines (a multidegree
+with a positive function on the complex multicone), intersection systems $\towerII$ and the full ones among them. A
+\emph{block map} $(\kappa,v)$ from $(K,(\iota_k))$ to $(K',(\iota'_{k'}))$ consists of injections
+$\kappa\colon K\to K'$ and $v\colon\bigsqcup_k\iota_k\to\bigsqcup_{k'}\iota'_{k'}$ with $v(k,i)$ in the block $\kappa(k)$
+and every coordinate of a block $\kappa(k)$ in the image of $v$; then $y\circ v$ is the \emph{block projection} of
+coordinates $y$ indexed by $\bigsqcup\iota'$. Hermitian lines pull back along block maps
+(\lref{GlobalTheory.T.block_pullback_herm_line}: the pull-back exists, is unique and preserves smoothness). Let
+$\Q(y)\subseteq\Omega$ be the field generated by the ratios of coordinates in the same block, and
+$\deg(y/y\circ v)=[\Q(y):\Q(y\circ v)]$. A full intersection system satisfies the \emph{projection formula for block
+maps} \cite{GilletSoule1990,BostGilletSoule1994}: if $P_y$ and $P_{y\circ v}$ are arithmetic varieties of the same dimension
+$n$ and $L'_j$ are pull-backs of smooth lines $L_j$, then
+\begin{equation}\label{pf:tower:eq-pf}
+\towerII(P_y;L'_1,\dots,L'_n)=\deg(y/y\circ v)\,\towerII(P_{y\circ v};L_1,\dots,L_n).
+\end{equation}
+
+\subsubsection*{Analytic systems and realisations}
+
+\begin{definition}[Analytic systems; realisations]\label{pf:tower:def-ansys}
+An \emph{analytic system} $\mathcal S$ of dimension $D$ indexed by a set $\sigma$ is a compact complex manifold $X$ of
+dimension $D$ with a finite holomorphic atlas, a positive reference potential, a line with a section $s$ of norm $\le1$
+whose divisor has simple normal crossings (the \emph{boundary} is its zero set), and for each $a\in\sigma$ a singular weight
+$\phi_a$ on $X$ with a family of regularisations $\phi_{a,t}$, $0<t\le t_0$, with prescribed bounds. A \emph{realisation}
+$\mathrm{Re}$ of $\mathcal S$ on an arithmetic variety $P$ of dimension $D+1$ is a logarithmic resolution of $P$ with a
+holomorphic map $\pi$ to $X$ of some degree $\deg\mathrm{Re}>0$ (off a small set), smooth reference lines $\mathrm{ref}(a)$
+whose potentials are pull-backs of those of $\mathcal S$, and for $0<t\le t_0$ smooth lines $\mathrm{line}(a,t)$ of the
+multidegree of $\mathrm{ref}(a)$ with
+\[
+\log h_{\mathrm{line}(a,t)}=\log h_{\mathrm{ref}(a)}+\phi_{a,t}\circ\pi
+\]
+on the resolution. For $w\in\sigma^{D+1}$ put
+$\mathrm{num}_t(w)=\towerII(P;\mathrm{line}(w_0,t),\dots,\mathrm{line}(w_D,t))/\deg\mathrm{Re}$.
+\formal{GlobalTheory.CompanionTheory.Ar.PB.AnSys}
+\formal{GlobalTheory.CompanionTheory.Ar.PB.Realis}
+\end{definition}
+
+\begin{definition}[Algebraic realisations; same singularities]\label{pf:tower:def-samesing}
+(a)~$\mathrm{Re}$ is \emph{algebraic} if there are a block map $(\kappa,v)$ into the coordinates of $P$ and an embedding of
+$X$ into the complex points of the block projection of $P$, compatible with $\pi$ up to scalars, and a multihomogeneous
+element not in the projected ideal vanishing on the boundary.
+(b)~Let $\mathrm{Re}_1,\mathrm{Re}_2$ be realisations of $\mathcal S_1,\mathcal S_2$ on $P_{y\circ v_1}$, $P_{y\circ v_2}$,
+for block maps $(\kappa_i,v_i)$ into the coordinates of $y$, and $\beta$ multihomogeneous. For $a_i\in\sigma_i$, they have
+the \emph{same singularities} at $(a_1,a_2)$ on $\{\beta\ne0\}$ if there are $f,g$ defining an isomorphism on $P_y$ between
+the lines of the multidegrees of the pull-backs of $\mathrm{ref}_1(a_1)$ and $\mathrm{ref}_2(a_2)$, such that for every
+complex point $z$ of $P_y$ with $\beta(z)\ne0$, all $u,u'$ with $uf-u'g\in P_y$ and $u(z)\ne0$, and all points $x_i$ of the
+resolutions over $z\circ v_i$ whose images are off the boundaries,
+\[
+\log\Bigl(\frac{|u'(z)|}{|u(z)|}\cdot\frac{h_{\mathrm{ref}_2(a_2)}(z\circ v_2)}{h_{\mathrm{ref}_1(a_1)}(z\circ v_1)}\Bigr)
+=\phi_{1,a_1}(\pi_1x_1)-\phi_{2,a_2}(\pi_2x_2).
+\]
+In other words, the singular metrics $h_{\mathrm{ref}_i(a_i)}e^{\phi_{i,a_i}}$ define the same singular Hermitian line on
+$\{\beta\ne0\}$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.AlgOver}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.SameSing}
+\end{definition}
+
+\begin{definition}[Comparison statement]\label{pf:tower:def-cs}
+The statement (CS) asserts: for every full intersection system $\towerII$, coordinates $y$ in a field of characteristic $0$
+with $P_y$ an arithmetic variety of dimension $D+1$, block maps $(\kappa_i,v_i)$ ($i=1,2$), algebraic realisations
+$\mathrm{Re}_i$ on $P_{y\circ v_i}$ of analytic systems $\mathcal S_i$ indexed by the same finite set $\sigma$, and a
+multihomogeneous $\beta\notin P_y$ such that the realisations have the same singularities at $(a,a)$ on $\{\beta\ne0\}$
+for every $a\in\sigma$: for every $w\in\sigma^{D+1}$, as $t\to0^+$,
+\[
+\deg(y/y\circ v_1)\,\towerII\bigl(P_{y\circ v_1};(\mathrm{line}_1(w_j,t))_j\bigr)
+-\deg(y/y\circ v_2)\,\towerII\bigl(P_{y\circ v_2};(\mathrm{line}_2(w_j,t))_j\bigr)\longrightarrow0.
+\]
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.CmpSt}
+\end{definition}
+
+\subsubsection*{One model}
+For an analytic system with potentials $\theta_1,\dots,\theta_D$ and a function $f$ on $X$, let
+$\mathrm{MI}(\theta;f)=\int_Xf\,dd^c\theta_1\wedge\dots\wedge dd^c\theta_D$ be the mixed integral (computed in the charts
+of the atlas).
+
+\begin{lemma}[Change of one metric]\label{pf:tower:step}
+Assume \textup{(Av)} and the rationality statement for arithmetic intersection numbers among the potential-theoretic inputs
+\ref{G:pf:deepstr:pb}. Let $\towerII$ be an intersection family, $\mathrm{Re}$ a realisation of $\mathcal S$ on $P$,
+$a_1,a_2\in\sigma$, and let
+$f,g$ define an isomorphism on $P$ between the lines of the multidegrees of $\mathrm{ref}(a_1)$ and $\mathrm{ref}(a_2)$. Let
+$d$ be a smooth function on $X$ with
+$d(\pi x)=\log\bigl(\frac{|u'|}{|u|}\frac{h_{\mathrm{ref}(a_2)}}{h_{\mathrm{ref}(a_1)}}\bigr)$ at the lift of $x$ whenever
+$uf-u'g\in P$ and $u$ does not vanish there. Then for $u_1,\dots,u_D\in\sigma$ and $0<t\le t_0$
+\begin{multline*}
+\towerII\bigl(P;\mathrm{line}(u_1,t),\dots,\mathrm{line}(u_D,t),\mathrm{line}(a_1,t)\bigr)
+-\towerII\bigl(P;\mathrm{line}(u_1,t),\dots,\mathrm{line}(u_D,t),\mathrm{line}(a_2,t)\bigr)\\
+=\deg\mathrm{Re}\cdot\mathrm{MI}\bigl((\theta_{u_j,t})_j;\ \phi_{a_1,t}-\phi_{a_2,t}-d\bigr),
+\end{multline*}
+where $\theta_{u,t}$ are the potentials of the regularised lines.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.OneModel.step_eq}
+\end{lemma}
+
+\begin{proof}
+By the defect formula for intersection families
+(\lref{GlobalTheory.T.intersection_family_defect_formula}, which assumes (Av), the rationality statement and two
+statements on resolutions and good projections proved in the development,
+\lref{ReciprocityTheory.ChartRestriction.G.Geo.resBridge} and
+\lref{ReciprocityTheory.ChartRestriction.G.Geo.goodProjExists}: if two smooth lines $A,B$ are isomorphic on
+$P$ through $(f,g)$ with defect function $\omega=\log(\frac{|u'|}{|u|}\frac{h_B}{h_A})$, then
+$\towerII(P;L,A)-\towerII(P;L,B)=-\mathrm{MI}(\mathrm{pot}(L);\omega)$, the integral being over a logarithmic
+resolution; this is the change-of-metric formula for arithmetic intersection numbers \cite{GilletSoule1990,BostGilletSoule1994})
+the difference is $-\mathrm{MI}$ of the defect of $\mathrm{line}(a_1,t)$ and $\mathrm{line}(a_2,t)$ on the resolution.
+By the defining relation of the lines, this defect is
+$\phi_{a_2,t}\circ\pi-\phi_{a_1,t}\circ\pi+d\circ\pi$; the potentials of the lines are pull-backs along $\pi$, and the
+integral of a pull-back along $\pi$ is $\deg\mathrm{Re}$ times the integral on $X$.
+\end{proof}
+
+\begin{proposition}[One model]\label{pf:tower:cmpone}
+Assume \ref{G:pf:deepstr:pb} and \textup{(Av)}. Let $\towerII$ be a full intersection system, $\mathcal S$ an analytic system
+indexed by $\sigma\sqcup\sigma$ and
+$\mathrm{Re}$ a realisation of $\mathcal S$ on $P$. Suppose that for each $a\in\sigma$ there are $f_a,g_a$ defining an
+isomorphism on $P$ between the lines of the multidegrees of $\mathrm{ref}(a,1)$ and $\mathrm{ref}(a,2)$ (the two copies of
+$a$) and a smooth function $d_a$ on $X$ with $\phi_{(a,1)}=\phi_{(a,2)}+d_a$ off the boundary and with $d_a$ related to
+$f_a,g_a$ as in \cref{pf:tower:step}. Then for every $w\in\sigma^{D+1}$,
+$\mathrm{num}_t((w_j,1)_j)-\mathrm{num}_t((w_j,2)_j)\to0$ as $t\to0^+$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.OneModel.cmp_one}
+\formallabel{GlobalTheory.T.intersection_family_symmetric}
+\formallabel{GlobalTheory.T.telescoping_coordinate_difference}
+\end{proposition}
+
+\begin{proof}
+For $0\le i\le D$ let $c_i(j)=(w_j,2)$ for $j<i$ and $(w_j,1)$ for $j\ge i$, and $c'_i(j)=(w_j,2)$ for $j\le i$ and
+$(w_j,1)$ for $j>i$. Then $c_0=(w_j,1)_j$, $c'_D=(w_j,2)_j$ and $c'_i=c_{i+1}$, so
+\[
+\mathrm{num}_t((w_j,1)_j)-\mathrm{num}_t((w_j,2)_j)=\sum_{i=0}^D\bigl(\mathrm{num}_t(c_i)-\mathrm{num}_t(c'_i)\bigr).
+\]
+The words $c_i$ and $c'_i$ differ only at the position $i$. Intersection numbers are symmetric in the lines
+(\cref{def:covolume:hs}(c)), so we may move this position to the end, and
+\cref{pf:tower:step}, applied with $a_1=(w_i,1)$, $a_2=(w_i,2)$ and $u$ the common other letters, gives for small $t>0$
+\[
+\mathrm{num}_t(c_i)-\mathrm{num}_t(c'_i)=\mathrm{MI}\bigl((\theta_{u_j,t})_j;\ \phi_{(w_i,1),t}-\phi_{(w_i,2),t}-d_{w_i}\bigr).
+\]
+By \lref{GlobalTheory.T.monge_ampere_difference_tendsto_zero} (a consequence of the signed convergence statement among
+the potential-theoretic inputs \ref{G:pf:deepstr:pb}: if two singular weights differ by a smooth function $d$ off the
+boundary, the mixed integrals of the difference of their regularisations minus $d$, against the regularised potentials,
+tend to $0$; compare the convergence theorems of Bedford and Taylor \cite{BedfordTaylor1982}), each term tends to $0$ as
+$t\to0^+$.
+\end{proof}
+
+\begin{theorem}[Comparison of realisations]\label{pf:tower:cs}
+The potential-theoretic inputs \ref{G:pf:deepstr:pb}, \textup{(Av)} and \textup{(RPC)} imply \textup{(CS)}.
+\formallabel{GlobalTheory.T.comparison_of_inputs_avoidance}
+\formallabel{GlobalTheory.CompanionTheory.Relay.comparison_of_inputs_avoidance}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.CoordK.side_eq}
+\end{theorem}
+
+\begin{proof}
+Let $\towerII,y,(\kappa_i,v_i),\mathrm{Re}_i,\beta,w$ be as in (CS). By
+\lref{GlobalTheory.CompanionTheory.Ar.Cmp.BuildK.joint_system}, which uses \ref{G:pf:deepstr:pb} and (RPC), there are a
+block map $(\kappa,v)$ into new coordinates $y'$ with $y'\circ v=y$ and $\Q(y')=\Q(y)$, an analytic system $\mathcal S$
+indexed by $\sigma\sqcup\sigma$ with $t_0(\mathcal S)\le\min(t_0(\mathcal S_1),t_0(\mathcal S_2))$ and a realisation
+$\mathrm{Re}$ of $\mathcal S$ on $P_{y'}$ of degree $1$, such that the lines $\mathrm{line}_1(a,t)$ and $\mathrm{line}_2(a,t)$
+pull back along $v\circ v_1$, $v\circ v_2$ to $\mathrm{line}((a,1),t)$ and $\mathrm{line}((a,2),t)$, together with $f_a,g_a,d_a$
+satisfying the hypotheses of \cref{pf:tower:cmpone} (this is where the same singularities, the algebraicity and $\beta$
+are used: the two families of singular weights become comparable on the joint model). By \cref{pf:tower:cmpone} (which uses \ref{G:pf:deepstr:pb} and (Av)),
+$\mathrm{num}_t((w_j,1)_j)-\mathrm{num}_t((w_j,2)_j)\to0$.
+
+For $0<t\le\min(t_0(\mathcal S_1),t_0(\mathcal S_2))$ the composite $(\kappa\circ\kappa_i,v\circ v_i)$ is a block map,
+$y'\circ v\circ v_i=y\circ v_i$, and $P_{y\circ v_i}$ is the image of $P_{y'}$ under it. By the projection formula
+\eqref{pf:tower:eq-pf} for this block map, $\deg\mathrm{Re}=1$ and $\Q(y')=\Q(y)$,
+\[
+\deg(y/y\circ v_i)\,\towerII\bigl(P_{y\circ v_i};(\mathrm{line}_i(w_j,t))_j\bigr)=\mathrm{num}_t((w_j,i)_j)\qquad(i=1,2).
+\]
+Hence the difference in (CS) equals $\mathrm{num}_t((w_j,1)_j)-\mathrm{num}_t((w_j,2)_j)$ for small $t>0$, and tends to $0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Twists of the host and the comparison of pairs}\label{pf:tower:sec-twist}
+
+We use the notation of \cref{pf:towergeo:sec-unitary,pf:towergeo:sec-statements}: a host $H$ on a CM field $E$ (so $E$ is
+unramified over its maximal real subfield $E^+$ at all finite places), complex conjugation $a\mapsto\bar a$ on $\OO_E$, data
+$D=(\Lambda,B)$ ($\Lambda$ finitely generated projective over $\OO_E$, $B$ a unimodular alternating $\Z$-bilinear form with
+$B(ax,y)=B(x,\bar ay)$), and \emph{host automorphisms} $g$: field automorphisms $\sigma_g$ of $E$ fixing $\sqrt{-d}$.
+
+\begin{definition}[Twisted modules and pro-isometries]\label{pf:tower:def-twist}
+Let $O$ be a commutative ring and $L,L'$ $O$-modules with $\Z$-bilinear forms $B,B'$.
+(a)~For a ring automorphism $s$ of $O$, the \emph{twisted module} $L^s$ is the group $L$ with $a\cdot x=s(a)x$; for a datum
+$D$ and a host automorphism $g$, $\Lambda^g$ is $\Lambda$ twisted by $\sigma_g|_{\OO_E}$, with the same form $B$.
+(b)~For a prime $p$, a \emph{pro-isometry at $p$} is a sequence of $O$-linear maps $a_k\colon L\to L'$ ($k\ge0$) such that for
+all $k$: $a_k(x)\in p^kL'$ if and only if $x\in p^kL$; $L'=a_k(L)+p^kL'$; $p^k$ divides $B'(a_kx,a_ky)-B(x,y)$; and
+$a_{k+1}(x)\in a_k(x)+p^kL'$.
+(c)~A \emph{pro-isometry} is a family $(a_n)_{n\ge1}$ with the same properties for all $n\ge1$ in place of $p^k$, and
+$a_{nm}(x)\in a_n(x)+nL'$.
+(d)~$\towerTw(D,g)$ is the set of pro-isometries from $(\Lambda,B)$ to $(\Lambda^g,B)$, the twisting isomorphisms of
+\cref{pf:towergeo:sec-statements}; a twist $o^{g,a}$ of an object $o$ by $a\in\towerTw(D,g)$ is \emph{admissible} if the
+twisted level structure $\eta\circ a_M$ kills $\mathfrak M\Lambda$ and, at every geometric point, the determinant condition and
+a Tate isomorphism compatible with the twisted level structures exist for the twisted action.
+\formallabel{GlobalTheory.CompanionTheory.Ar.HostAut}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwMod}
+\formallabel{GlobalTheory.CompanionTheory.Ar.twForm}
+\formallabel{GlobalTheory.CompanionTheory.Ar.ProIsoAt}
+\formallabel{GlobalTheory.CompanionTheory.Ar.ProIso}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwIso}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwOK}
+\end{definition}
+
+\begin{lemma}\label{pf:tower:twmod}
+Let $O$ be a domain, $s$ a ring automorphism of $O$ and $L$ a finitely generated projective $O$-module. Then $L^s$ is finitely
+generated and projective, of the same rank as $L$.
+\formallabel{GlobalTheory.T.twisted_module_finite_projective_rank}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwModule.twMod_finite_projective_finrank}
+\end{lemma}
+
+\begin{proof}
+A generating family of $L$ generates $L^s$, since $s$ is surjective. If $L\oplus L'\cong O^n$, then
+$L^s\oplus L'^s\cong(O^n)^s$, and $(O^n)^s\cong O^n$ by $(x_i)\mapsto(s^{-1}(x_i))$; so $L^s$ is projective. A basis of a free
+module stays a basis after twisting, so ranks of free modules are preserved; applied after localisation at the generic point
+this gives the equality of ranks.
+\end{proof}
+
+\subsubsection*{Local isometries}
+
+\begin{lemma}\label{pf:tower:theta}
+Let $H$ be a host on $E$ and $p$ a prime.
+(a)~The elements $x-\bar x$, $x\in\OO_E$, generate the unit ideal; there is $\theta\in\OO_E$ with $\theta-\bar\theta$ prime to
+$p$.
+(b)~There is a $\Z_p$-linear form $\lambda\colon\Z_p\otimes\OO_E\to\Z_p$ with $\lambda(\bar r)=-\lambda(r)$ such that
+$r\mapsto\lambda(r\,\cdot)$ is a bijection from $\Z_p\otimes\OO_E$ onto its $\Z_p$-dual.
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_diff}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_theta}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_lam}
+\formallabel{PositivityTheory.UnitarySelfGeneration.differentiable_schwartz_translate}
+\formallabel{PositivityTheory.UnitarySelfGeneration.trace_form_mulLeft_bijective}
+\end{lemma}
+
+\begin{proof}
+(a)~Let $\sigma$ be complex conjugation, a nontrivial automorphism of $\OO_E$ over $\OO_{E^+}$, and $I$ the ideal generated
+by the $x-\sigma(x)$. As $\OO_E$ is unramified over $\OO_{E^+}$ (part of the definition of a host), there is
+$t\in\OO_E\otimes_{\OO_{E^+}}\OO_E$ with $\mu(t)=1$ and $(1\otimes s-s\otimes1)t=0$ for all $s\in\OO_E$, where $\mu$ is the
+multiplication map. Let $\varphi(a\otimes b)=a\sigma(b)$. Applying $\varphi$ gives $(\sigma(s)-s)\varphi(t)=0$; taking $s$ with
+$\sigma(s)\ne s$ we get $\varphi(t)=0$, as $\OO_E$ is a domain. Since $\mu(u)-\varphi(u)\in I$ for every $u$ (for $u=a\otimes b$
+it is $a(b-\sigma(b))$), $1=\mu(t)-\varphi(t)\in I$. By the avoidance lemma
+\lref{PositivityTheory.UnitarySelfGeneration.anti_ded} (for a conjugation-stable ideal $I\ne0$ of $\OO_E$ such that the
+$x-\bar x$ generate the unit ideal and $p\ne0$, there is $x\in I$ with $x-\bar x\notin\mathfrak PI$ for every maximal
+$\mathfrak P\ni p$), applied to $I=\OO_E$, there is $\theta$ with $\theta-\bar\theta$ in no maximal ideal containing $p$.
+(b)~By \lref{PositivityTheory.UnitarySelfGeneration.tw_g_xi} there is $\xi\in E$ with $\bar\xi=-\xi$,
+$\Tr_{E/\Q}(\xi\OO_E)\subseteq\Z$, such that every $\Z$-linear form on $\OO_E$, multiplied by a suitable integer prime to $p$,
+is $a\mapsto\Tr(\xi ba)$ for some $b\in\OO_E$ ($\xi$ is obtained from the same avoidance lemma applied to the conjugation-stable
+ideal $\OO_E\cap c\,\mathfrak D^{-1}$, $\mathfrak D$ the different and $c$ a nonzero conjugation-invariant element of $\OO_E$
+clearing denominators: it generates $\mathfrak D^{-1}$ at $p$). Let $\lambda$ be the $\Z_p$-linear extension of
+$a\mapsto\Tr(\xi a)$. As $\Tr$ is invariant under conjugation, $\lambda(\bar a)=\Tr(\xi\bar a)=\Tr(\bar\xi a)=-\lambda(a)$,
+and $r\mapsto\lambda(r\,\cdot)$ is bijective. Indeed, let $(b_i)$ be a $\Z$-basis of $\OO_E$ with coordinate forms $f_i$, and
+write $m_if_i=\Tr(\xi\beta_i\,\cdot)$ with $p\nmid m_i$ and $\beta_i\in\OO_E$. A $\Z_p$-linear form $f$ on $\Z_p\otimes\OO_E$
+equals $\lambda(r\,\cdot)$ for $r=\sum_if(1\otimes b_i)m_i^{-1}\otimes\beta_i$ (evaluate both at the basis $1\otimes b_j$), so
+the map is surjective. Composed with the isomorphism of the dual with $\Z_p\otimes\OO_E$ given by the dual basis, it becomes a
+surjective endomorphism of a finitely generated $\Z_p$-module, hence it is injective.
+\end{proof}
+
+\begin{lemma}[Unimodular hermitian matrices]\label{pf:tower:semi}
+Let $R$ be a commutative ring which is finite over $\Z_p$, $\sigma$ a $\Z_p$-algebra involution of $R$, and suppose that
+$\theta-\sigma(\theta)\in R^\times$ for some $\theta\in R$. For every $A\in M_n(R)$ with $\sigma(A)^{\mathsf T}=A$ and
+$\det A\in R^\times$ there is $g\in M_n(R)$ with $\det g\in R^\times$ and $\sigma(g)^{\mathsf T}Ag=1$.
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_semi}
+\formallabel{PositivityTheory.UnitarySelfGeneration.semi_main}
+\end{lemma}
+
+\begin{proof}
+We show, for every $\sigma$-stable ideal $I$, that there is $g$ with $\sigma(g)^{\mathsf T}Ag\equiv1\bmod I$; for $I=0$ this
+gives the lemma, and $\det g$ is then a unit since $\sigma(g)^{\mathsf T}Ag=1$. As $R$ is noetherian we may argue by
+noetherian induction, assuming the claim for all $\sigma$-stable ideals strictly larger than $I$; the case $I=R$ is trivial.
+If there is $e\in R$ with $e^2-e\in I$, $\sigma(e)-e\in I$, $e\notin I$ and $1-e\notin I$, then $I+(e)$ and $I+(1-e)$ are
+$\sigma$-stable and strictly larger than $I$, so there are $g_1,g_2$ with $\sigma(g_1)^{\mathsf T}Ag_1\equiv1$ modulo
+$I+(e)$ and $\sigma(g_2)^{\mathsf T}Ag_2\equiv1$ modulo $I+(1-e)$. For $g=(1-e)g_1+eg_2$ we have $g\equiv g_1$ modulo
+$I+(e)$ and $g\equiv g_2$ modulo $I+(1-e)$, hence (as $g\mapsto\sigma(g)^{\mathsf T}Ag$ respects congruences modulo
+$\sigma$-stable ideals) $x=(\sigma(g)^{\mathsf T}Ag-1)_{ij}$ satisfies $x=a+re$ and $x=a'+s(1-e)$ with $a,a'\in I$; then
+$x=(1-e)x+ex\equiv(1-e)a+ea'-(r+s)(e^2-e)\equiv0$ modulo $I$. Otherwise $R/I$ is nonzero and has no nontrivial
+$\sigma$-invariant idempotent, and the image of $\theta$ still has $\theta-\sigma(\theta)$ invertible; in this case
+\lref{PositivityTheory.UnitarySelfGeneration.semi_local} (the case of a finite $\Z_p$-algebra without nontrivial
+$\sigma$-invariant idempotents; compare \cite{Jacobowitz1962} for the classification of unimodular hermitian lattices over
+unramified and split quadratic extensions) gives $g$ over $R/I$, which we lift to $R$.
+\end{proof}
+
+\begin{lemma}[Standard forms]\label{pf:tower:std}
+Let $Z\to R$ be commutative rings, $\sigma$ a $Z$-algebra involution of $R$ and $\lambda\colon R\to Z$ a $Z$-linear form with
+$\lambda\circ\sigma=-\lambda$ such that $r\mapsto\lambda(r\,\cdot)$ is a bijection $R\to\Hom_Z(R,Z)$. Let $\psi$ be a
+$Z$-bilinear form on $R^n$ which is alternating, perfect (induces a bijection onto the $Z$-dual) and satisfies
+$\psi(ax,y)=\psi(x,\sigma(a)y)$.
+(a)~There is $A\in M_n(R)$ with $\sigma(A)^{\mathsf T}=A$, $\det A\in R^\times$ and
+$\psi(x,y)=\lambda\bigl(\sum_{i,j}x_iA_{ij}\sigma(y_j)\bigr)$.
+(b)~If every such $A$ satisfies $\sigma(g)^{\mathsf T}Ag=1$ for some $g$ with unit determinant, then any two forms $\psi,\psi'$ as
+above are isometric by an $R$-linear automorphism of $R^n$.
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_herm}
+\formallabel{PositivityTheory.UnitarySelfGeneration.hermitian_form_standard_basis}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_std}
+\end{lemma}
+
+\begin{proof}
+(a)~Since $\psi$ is alternating, $\psi(x,y)=-\psi(y,x)$. For $i,j$ the map $r\mapsto\psi(re_i,e_j)$ is $Z$-linear, so by
+hypothesis there is a unique $A_{ij}\in R$ with $\lambda(A_{ij}r)=\psi(re_i,e_j)$ for all $r$. Then
+$\psi(x_ie_i,y_je_j)=\psi(\sigma(y_j)x_ie_i,e_j)=\lambda(x_iA_{ij}\sigma(y_j))$, and summing gives the formula. For all $r$,
+$\lambda(\sigma(A_{ji})r)=-\lambda(A_{ji}\sigma(r))=-\psi(\sigma(r)e_j,e_i)=-\psi(e_j,re_i)=\psi(re_i,e_j)=\lambda(A_{ij}r)$, so
+$\sigma(A_{ji})=A_{ij}$ by injectivity. To see that $A$ is invertible we show that $w\mapsto wA$ is surjective: given $w\in R^n$,
+the $Z$-linear form $x\mapsto\sum_j\lambda(w_j\sigma(x_j))$ is $\psi(x',\cdot)$ for some $x'$, since $\psi$ is perfect; evaluating
+at $x=\sigma(r)e_j$ and using the formula gives $\lambda((x'A)_jr)=\lambda(w_jr)$ for all $r$, hence $x'A=w$.
+(b)~Let $A,A'$ be the matrices of $\psi,\psi'$ and $g,g'$ as in the hypothesis. The automorphism $x\mapsto\sigma(g)x$ of $R^n$
+transforms $\sum x_iA_{ij}\sigma(y_j)$ into $\sum x_i\sigma(y_i)$, as $\sigma(g)^{\mathsf T}Ag=1$ implies
+$(Ag)^{\mathsf T}\sigma(g)=1$. Thus both forms are isometric to $\lambda(\sum_ix_i\sigma(y_i))$, and composing gives the isometry.
+\end{proof}
+
+\begin{proposition}[Local isometry]\label{pf:tower:padic}
+Let $H$ be a host on $E$, $p$ a prime, and $(L,B)$, $(L',B')$ finitely generated projective $\OO_E$-modules of the same rank with
+unimodular alternating $\Z$-bilinear forms satisfying $B(ax,y)=B(x,\bar ay)$. Then there is a $\Z_p$-linear isomorphism
+$\varphi\colon\Z_p\otimes L\to\Z_p\otimes L'$ which is $\OO_E$-linear and isometric for the forms extended to $\Z_p$.
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_padic}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_g_free}
+\end{proposition}
+
+\begin{proof}
+Let $R=\Z_p\otimes\OO_E$, finite over $\Z_p$, with the involution $\sigma=\mathrm{id}\otimes\bar{\ }$. The modules
+$\Z_p\otimes L$ and $\Z_p\otimes L'$ are free over $R$ of rank $n=\rank L$. Indeed, $R$ is semilocal, being finite over
+$\Z_p$, and $\Z_p\otimes L=R\otimes_{\OO_E}L$ is finite and flat over $R$, with fibres of dimension $n$ at all maximal ideals
+since $L$ is projective of rank $n$ over the domain $\OO_E$; and a finite flat module over a semilocal ring whose fibres at all
+maximal ideals have the same dimension $n$ is free of rank $n$. The forms transport to alternating perfect $\Z_p$-bilinear
+forms $\psi,\psi'$ on $R^n$ with
+$\psi(ax,y)=\psi(x,\sigma(a)y)$ (\lref{PositivityTheory.UnitarySelfGeneration.padic_form}; perfectness is preserved by the
+flat base change to $\Z_p$). By \cref{pf:tower:theta}, $\lambda$ exists and $1\otimes\theta-\sigma(1\otimes\theta)$ is a unit
+of $R$ (an element of $\OO_E$ prime to $p$ is a unit of $R$). So \cref{pf:tower:semi} applies, and \cref{pf:tower:std}(b)
+gives an $R$-linear isometry $R^n\to R^n$ from $\psi$ to $\psi'$; composing with the identifications gives $\varphi$.
+\end{proof}
+
+\begin{lemma}[From local to global pro-isometries]\label{pf:tower:proiso}
+Let $O$ be a commutative ring and $(L,B)$, $(L',B')$ $O$-modules with $\Z$-bilinear forms.
+(a)~If $L$ is projective over $O$ and $L,L'$ are finitely generated free $\Z$-modules, every $O$-linear isometric isomorphism
+$\Z_p\otimes L\to\Z_p\otimes L'$ gives a pro-isometry at $p$.
+(b)~If there is a pro-isometry at every prime $p$, there is a pro-isometry.
+\formallabel{GlobalTheory.T.padic_isometry_equivariance}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_lift}
+\formallabel{GlobalTheory.T.pro_isometry_of_local_isometries}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_crt}
+\end{lemma}
+
+\begin{proof}
+(a)~Let $\varphi$ be the isomorphism. For $k\ge0$ the $O$-submodule
+$G_k=\{(y,x)\in L'\times L:\ 1\otimes y-\varphi(1\otimes x)\in p^k(\Z_p\otimes L')\}$ surjects onto $L$, because $L'$ is dense in
+$\Z_p\otimes L'$; as $L$ is projective, the projection has an $O$-linear section, whose first component is an $O$-linear
+$a_k\colon L\to L'$ with $1\otimes a_k(x)\equiv\varphi(1\otimes x)$ modulo $p^k$. Since $\varphi$ is an isometric isomorphism and
+$\Z_p\otimes L/p^k=L/p^kL$, the four conditions of a pro-isometry at $p$ follow.
+(b)~By the Chinese remainder theorem there are $O$-linear $a_n\colon L\to L'$ with $a_n\equiv a^{(p)}_k$ modulo $p^kL'$ for every
+prime power $p^k$ dividing $n$, where $a^{(p)}$ is the given pro-isometry at $p$. Each condition of a pro-isometry for $a_n$
+is a divisibility by $n$, which holds because it holds modulo every prime power dividing $n$.
+\end{proof}
+
+\begin{theorem}[Twisting isomorphisms exist]\label{pf:tower:twiso}
+For every host $H$ on $E$, datum $D$ and host automorphism $g$, the set $\towerTw(D,g)$ is nonempty.
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_iso}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:tower:twmod}, $\Lambda^g$ is finitely generated projective over $\OO_E$ of the same rank as $\Lambda$; both are free of
+finite rank over $\Z$. The form $B$ on $\Lambda^g$ is unimodular and alternating, and $B(a\cdot_gx,y)=B(\sigma_g(a)x,y)
+=B(x,\overline{\sigma_g(a)}y)=B(x,\bar a\cdot_gy)$, since $\sigma_g$ commutes with complex conjugation on $\OO_E$. By
+\cref{pf:tower:padic}, for every prime $p$ there is an $\OO_E$-linear isometric isomorphism
+$\Z_p\otimes\Lambda\to\Z_p\otimes\Lambda^g$, hence a pro-isometry at $p$ by \cref{pf:tower:proiso}(a), and a pro-isometry by
+\cref{pf:tower:proiso}(b).
+\end{proof}
+
+\begin{proposition}[Twists are admissible]\label{pf:tower:twistok}
+For every object $o$ over a scheme $S$ (for a datum $D$ and a level $l$), every host automorphism $g$ and every
+$a\in\towerTw(D,g)$, the twist $o^{g,a}$ is admissible.
+\formallabel{GlobalTheory.T.twist_ok_all}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TwistOk.twOK_obj}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_ok}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_mb}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_det}
+\formallabel{PositivityTheory.UnitarySelfGeneration.tw_tate}
+\end{proposition}
+
+\begin{proof}
+The ideal $\mathfrak M$ of the level is generated by elements of $\Z[w_0]$, $w_0=(1+\sqrt{-d})/2$, and $g$ fixes $\sqrt{-d}$, so
+$\sigma_g(\mathfrak M)=\mathfrak M$ and $\sigma_g(\bar{\mathfrak M})=\bar{\mathfrak M}$. As $a_M$ is $\OO_E$-linear into
+$\Lambda^g$, $a_M(mx)=\sigma_g(m)a_M(x)$, so $a_M(\mathfrak M\Lambda)\subseteq\mathfrak M\Lambda$, which is killed by $\eta$; the
+same argument with $\bar{\mathfrak M}$ applies to the level condition at geometric points. The determinant condition for the
+twisted action at an embedding $\tau$ is the determinant condition of $o$ at $\tau\circ\sigma_g^{-1}$, which induces the same
+square root of $-d$ since $\sigma_g$ fixes $\sqrt{-d}$; so it holds. A Tate isomorphism $I$ of $o$ at a geometric point gives
+the Tate isomorphism $J=I\circ a$ for the twisted action (with the same root of unity), compatible with the twisted level
+structures and with the Weil pairing because $a$ is a pro-isometry.
+\end{proof}
+
+\subsubsection*{The Hodge compatibility}
+Let $g$ be a host automorphism and $\Phi$ an automorphism of $X^o$ over its base, with a map of semi-abelian schemes
+$n\colon\mathrm{univ}^g\to\mathrm{univ}$ over $\Phi$ from the universal object with the action twisted by $g$ (as provided by
+the twisting statement (TA) of \cref{pf:towergeo:def-twistaut}).
+
+\begin{definition}[Hodge comparison compatibility]\label{pf:tower:def-hcc}
+The statement (HCC) asserts: in this situation, for models $Y$, $Y'$ of $X^o$ over rings $O,O'$ whose structure maps
+$O\to F_c$, $O'\to F_c$ to the coefficient field are epimorphisms of rings (i.e.\ $\Spec F_c\to\Spec O$ is a monomorphism, as
+for a localisation), a finite set $S$ of primes, coordinates $y$ in a field $\Omega$, Hodge components $\mathcal M$ of $Y$
+and $\mathcal M'$ of $Y'$ with primes $S$ and coordinates $y$, the same constants and the same torsion exponents $R(p)$ for
+$p\in S$, an isomorphism $e\colon\mathcal M'.X\to\mathcal M.X$ matching the generic points, and points $x,x'$ of $X^o$ over
+$\Omega$ under the generic points of $\mathcal M,\mathcal M'$ with $x'=\Phi\circ x$ (and the same constants), there is an
+$\Omega$-linear isomorphism $\varphi\colon\mathrm{Li}_{\mathcal M}\to\mathrm{Li}_{\mathcal M'}$ of the Lie algebras at the
+generic points such that:
+(i)~the tangent vectors defined by $v$ and $\varphi(v)$ on $Y$ and $Y'$ correspond under $n$;
+(ii)~$\varphi(\rho_{\mathcal M}(\sigma_g(a))v)=\rho_{\mathcal M'}(a)\varphi(v)$;
+(iii)~for labels $s,s'$ with $\mathrm{emb}_{s'}=\mathrm{emb}_s\circ\sigma_g$ and every point $q$ of $\mathcal M'.X$ under the
+generic point, $\varphi$ maps the patched lattice of label $s$ at $e(q)$ onto that of label $s'$ at $q$;
+(iv)~a complex point $z$ of $\mathcal M'.X$ is interior if and only if $e\circ z$ is, and then the Gram matrices of the
+polarisation in a family $b$ at $e\circ z$ and in $\varphi\circ b$ at $z$ coincide.
+\formallabel{GlobalTheory.CompanionTheory.Ar.HodgeComparisonCompatibility}
+\end{definition}
+
+\begin{proposition}\label{pf:tower:hcc}
+\textup{(HCC)} holds.
+\formallabel{GlobalTheory.T.CmpHodgeTied_holds}
+\formallabel{GlobalTheory.CompanionTheory.Ar.CmpTied.cmpHodgeTied}
+\end{proposition}
+
+\begin{proof}
+This is transport of structure along $n$. By \lref{GlobalTheory.T.hodge_component_twist_automorphism} there are a
+semi-abelian scheme $t$ over $\mathcal M'.X$ with a map to the semi-abelian scheme of $\mathcal M$ over $e$, a semi-abelian
+scheme $t_\Omega$ over $\Omega$ with maps to $t$, to the semi-abelian scheme of $\mathcal M$ and (after twisting by $g$) to that
+of $\mathcal M'$, and to the universal objects of $Y$, $Y'$ over $x,x'$, all compatible with $n$; a Lie model of $t$ on
+$\mathrm{Li}_{\mathcal M}$ and the isomorphism $\varphi$ through which tangent vectors of $t_\Omega$ are read in both Lie
+algebras. Moreover full torsion, the regularity of the points, the de Rham lattices and the Hodge--Tate $\omega$-modules of
+$t$ at the points $q$ coincide with those of $\mathcal M$ at $e(q)$. Then (i) is a direct computation with these maps;
+(ii) is \lref{GlobalTheory.T.lie_model_twisted_comparison} (the action read through $t_\Omega$ is twisted by $g$);
+(iii) is \lref{GlobalTheory.T.hodge_component_twist_lattice_compat} (the patched lattices are built from the de Rham and
+Hodge--Tate modules, which correspond, and the eigenspace of $s$ is mapped to that of $s'$ by (ii)); and (iv) follows from
+\lref{GlobalTheory.T.hodge_component_twist_frame_compat} (interior points correspond) together with
+\lref{GlobalTheory.T.lie_model_base_change_iso_compat} and \lref{GlobalTheory.T.hodge_component_twist_eigen_compat}
+(the Gram matrices of the polarisation are computed through the same Lie model and are preserved by the maps of polarised
+semi-abelian schemes).
+\end{proof}
+
+\subsubsection*{Comparison of pairs}
+Recall from \cref{def:pf:deepstr:rootmodel} the root models $M$ of type $(\Psi,N)$, with coordinates $y_M$, ideal $P_M$, degree
+$\delta_M$ and Chern-root lines $M.x(t,r)$ ($r\in\Psi\times\{0,\dots,N-1\}$), and put $D_{\mathrm{Fl}}=\dim\mathrm{Fl}(\Psi,N)$. For
+root indices $r=(\tau,i)$, $a=(\tau',i')$ put
+\[
+\mathrm{rf}(r,a)=[\tau'=\tau]\bigl([i'+1=i]-[i'=i]\bigr),\qquad\mathrm{fr}(a,r)=-[\tau=\tau',\ i\le i'].
+\]
+These are inverse matrices, and they are invariant under permutations of $\Psi$ (a direct computation: for fixed $\tau$,
+$\mathrm{rf}$ is the matrix of first differences and $-\mathrm{fr}$ that of partial sums). For a family $\ell$ of Hermitian lines and
+integers $m(a)$, $\ell^m$ denotes the line $\bigotimes_a\ell(a)^{\otimes m(a)}$.
+
+\begin{definition}[Hodge ties]\label{pf:tower:def-tie}
+Let $Y$ be a model of $X^o$, $S$ a finite set of primes, $n\in\N$ and $M$ a root model of type $(\Psi_H,N)$. A \emph{Hodge tie}
+$T$ of $M$ on $Y$ consists of a Hodge component $\mathcal M_T$ of $Y$ with primes $S$ and the coordinates of $M$; a flag of
+$\mathcal M_T$ with root lines of the multidegrees of $M$; singular Hermitian lines $\mathrm{sing}(r)$ of these multidegrees which
+are the Hodge lines of the flag; an analytic system $\mathcal S_T$ of dimension $D_{\mathrm{Fl}}$ indexed by the root indices and
+an algebraic realisation $\mathrm{Re}_T$ of it on $P_M$ with reference lines of the multidegrees of the \emph{fundamental lines}
+$\mathrm{sing}^{\mathrm{fr}(a,\cdot)}$, such that $\log h_{\mathrm{sing}^{\mathrm{fr}(a,\cdot)}}=\log h_{\mathrm{ref}(a)}+\phi_a\circ\pi$
+off the boundary; such that, for small $t>0$, $M.x(t,r)$ agrees on the complex points of $P_M$ with
+$\mathrm{line}(\cdot,t)^{\mathrm{rf}(r,\cdot)}$; with $\delta_M=n\deg\mathrm{Fl}$; every prime dividing $d_E$ lying in $S$; and the
+Hodge--Tate $\omega$-modules at the primes of $S$ being vector bundles of the expected ranks. Two Hodge components are
+\emph{exchanged by $\Phi$} if their generic points lie over points $x,x'$ of $X^o$ with $x'=\Phi\circ x$ (up to an isomorphism of
+residue fields) and the same constants.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.HodgeTie}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.IsImageCpt}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.rootOnFund}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.fundOnRoot}
+\end{definition}
+
+\begin{definition}[Comparison of pairs]\label{pf:tower:def-cp}
+The statement (CP) asserts: for every full intersection system $\towerII$, host $H$ on $E$, datum $D$, level, moduli space
+$X^o$, coefficient field, model $Y$ over a ring $O$ whose structure map to the coefficient field is an epimorphism of rings,
+host automorphism $g$, automorphism $\Phi$ of
+$X^o$ over its base with a map $\mathrm{univ}^g\to\mathrm{univ}$ over $\Phi$, permutation $\pi$ of $\Psi_H$ with
+$\pi(\tau)=\tau\circ\sigma_g$, finite set $S$, $n\in\N$, root models $M,M'$ of type $(\Psi_H,N)$ with Hodge ties $T,T'$ on $Y$
+for $(S,n)$ whose Hodge components are exchanged by $\Phi$ and have the same torsion exponents on $S$: for every word
+$w\in(\Psi_H\times\{0,\dots,N-1\})^{D_{\mathrm{Fl}}+1}$, as $t\to0^+$,
+\[
+\frac{\towerII(P_M;(M.x(t,w_j))_j)}{\delta_M}-\frac{\towerII(P_{M'};(M'.x(t,(\pi(\tau_j),i_j)))_j)}{\delta_{M'}}\longrightarrow0,
+\qquad w_j=(\tau_j,i_j).
+\]
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.CmpPair}
+\end{definition}
+
+\begin{lemma}[Words in combined lines]\label{pf:tower:rootcmp}
+Assume \ref{G:pf:deepstr:pb}. Let $\towerII$ be a full intersection system, $M_1,M_2$ root models of type $(\Psi,N)$, $\sigma$ a
+finite set, $\ell_1(t),\ell_2(t)$ families of Hermitian lines indexed by $\sigma$, $m\colon(\Psi\times\{0,\dots,N-1\})\times\sigma\to\Z$,
+$s$ a permutation of the root indices, and $e_1,e_2\in\N$ with $e_1\ne0$ and $e_1\delta_{M_1}=e_2\delta_{M_2}$. Suppose that for
+small $t>0$ the lines $\ell_i(t,a)$ are smooth, $M_1.x(t,s(r))$ agrees in multidegree and on the complex points of $P_{M_1}$
+with $\ell_1(t)^{m(r,\cdot)}$, and $M_2.x(t,r)$ likewise with $\ell_2(t)^{m(r,\cdot)}$, and that for every word
+$u\in\sigma^{D_{\mathrm{Fl}}+1}$
+\[
+e_1\towerII(P_{M_1};(\ell_1(t,u_j))_j)-e_2\towerII(P_{M_2};(\ell_2(t,u_j))_j)\to0.
+\]
+Then $\towerII(P_{M_1};(M_1.x(t,s(w_j)))_j)/\delta_{M_1}-\towerII(P_{M_2};(M_2.x(t,w_j))_j)/\delta_{M_2}\to0$ for every word $w$.
+\formallabel{GlobalTheory.T.root_model_comparison_limit}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.Root.cmp_root}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.Root.word_expand}
+\end{lemma}
+
+\begin{proof}
+By the locality of intersection numbers in the metrics (part of \ref{G:pf:deepstr:pb}) and multilinearity of full intersection
+systems (\lref{GlobalTheory.T.arith_intersection_multilinear_all}),
+\[
+\towerII(P_{M_1};(M_1.x(t,s(w_j)))_j)=\sum_u\prod_km(w_k,u_k)\,\towerII(P_{M_1};(\ell_1(t,u_j))_j),
+\]
+the sum over $u\in\sigma^{D_{\mathrm{Fl}}+1}$, and similarly for $M_2$. Hence, using $e_1\delta_{M_1}=e_2\delta_{M_2}$,
+$e_1\delta_{M_1}$ times the difference in question is the finite combination
+\[
+\sum_u\prod_km(w_k,u_k)\bigl(e_1\towerII(P_{M_1};\ell_1(t,u))-e_2\towerII(P_{M_2};\ell_2(t,u))\bigr),
+\]
+which tends to $0$; and $e_1\delta_{M_1}\ne0$.
+\end{proof}
+
+\begin{lemma}[Joint models of twisted Hodge ties]\label{pf:tower:tiecmp}
+Assume \textup{(HCC)} and \textup{(TU)}. Let $Y$, $g$, $\Phi$ with the map $\mathrm{univ}^g\to\mathrm{univ}$, $\pi$, $S$, $n$, root
+models $M,M'$ and Hodge ties $T,T'$ be as in \textup{(CP)}. Then there are coordinates $y$ in a field $\Omega_3$ of
+characteristic $0$, block maps $(\kappa,v)$ from the coordinates of $M$ and $(\kappa',v')$ from those of $M'$ to those of $y$,
+and a multihomogeneous $\beta$ such that: $P_{y\circ v}=P_M$, $P_{y\circ v'}=P_{M'}$, and $P_y$ is an arithmetic variety of
+dimension $D_{\mathrm{Fl}}+1$; $\beta\notin P_y$; $e_1=\deg(y/y\circ v)\ne0$ and $e_1\deg\mathrm{Fl}_T=e_2\deg\mathrm{Fl}_{T'}$ with
+$e_2=\deg(y/y\circ v')$; and for every root index $r=(\tau,i)$, the pull-backs to $y$ of $\mathrm{sing}_T(r)$ and
+$\mathrm{sing}_{T'}(\pi(\tau),i)$ are isomorphic on $\{\beta\ne0\}$.
+\formallabel{GlobalTheory.T.twisted_hodge_tie_compare}
+\formallabel{GlobalTheory.CompanionTheory.Relay.twisted_hodge_tie_compare}
+\formallabel{PositivityTheory.UnitarySelfGeneration.pair_iso}
+\formallabel{GlobalTheory.CompanionTheory.Ar.PairIsoK.pair_iso}
+\end{lemma}
+
+\begin{proof}
+The idea is to pull both Hodge components back to a joint model over a common field containing both function fields, with
+matched generic flags, and to compare them there by (HCC).
+
+\emph{Step 1 (function fields and generic Lie models).} As the Hodge component of $T'$ is the image of that of $T$ under
+$\Phi$, there are points $x_0,x'_0$ of the generic fibres and an isomorphism $\psi\colon\Omega_0\to\Omega'_0$ of the function
+fields compatible with $\Phi$. The permutation of the labels induced by $g$ is $\pi$
+(\lref{GlobalTheory.T.cm_type_host_aut_permutation}). By \lref{GlobalTheory.T.twisted_hodge_cpt_compare} there is a
+$\psi$-semilinear additive isomorphism $\theta$ between the models of the Lie algebras over $\Omega_0$ and $\Omega'_0$ which
+intertwines the action of $\OO_E$ on the first with the action twisted by $g$ on the second and maps the generic eigenspace
+of each label $s$ onto that of $\pi(s)$. Hence the flag of $T'$, transported by $\theta$, and the flag of $T$ are two generic
+flags of the same model of the Lie algebra.
+
+\emph{Step 2 (a common field and joint coordinates).} By \lref{PositivityTheory.UnitarySelfGeneration.l_genflag} there
+are a field $\Omega_3$ and embeddings $i_1,i_2$ of the function fields $\Omega_M,\Omega_{M'}$ of the coordinates of $M,M'$ into
+$\Omega_3$, agreeing on $\Omega_0$ (through $\psi$), such that $\Omega_3$ has finite degrees $n_1,n_2>0$ over their images,
+$n_1\deg\mathrm{Fl}_T=n_2\deg\mathrm{Fl}_{T'}$, and the two generic flags become equal over $\Omega_3$, row by row. By
+\lref{PositivityTheory.UnitarySelfGeneration.j_normal} there are coordinates $y$ in $\Omega_3$ with block maps
+$(\kappa,v),(\kappa',v')$ such that $y\circ v$ and $y\circ v'$ are the images of the coordinates of $M$ and $M'$, $P_y$ is an
+arithmetic variety of dimension $D_{\mathrm{Fl}}+1$ with $\deg(y/y\circ v)=n_1$ and $\deg(y/y\circ v')=n_2$, and a normal model
+$Z$ with a point over $\Omega_3$ mapping to the schemes of both Hodge components. In particular $P_{y\circ v}=P_M$ and
+$P_{y\circ v'}=P_{M'}$ (\lref{PositivityTheory.UnitarySelfGeneration.t_ideal}), $e_1=n_1\ne0$, and
+$e_1\deg\mathrm{Fl}_T=e_2\deg\mathrm{Fl}_{T'}$.
+
+\emph{Step 3 (pull-back).} By \lref{GlobalTheory.CompanionTheory.Ar.PairIsoK.pull_both}, applied to each tie, the two
+Hodge components with their flags pull back to Hodge components $A_1,A_2$ on $Z$ with flags $\mathrm{Fl}_1,\mathrm{Fl}_2$, whose
+root lattices have the multidegrees and Hodge metrics of the pull-backs of the root lines of $T$ and $T'$, and the flags
+$\mathrm{Fl}_1,\mathrm{Fl}_2$ are related through $\theta$ as in Step~2. The points of $A_1,A_2$ in $Y$ are exchanged by $\Phi$ and
+their constants agree.
+
+\emph{Step 4 (comparison).} By (HCC), applied to $A_1,A_2$, there is an $\Omega_3$-linear isomorphism $\varphi$ of their Lie
+algebras which intertwines the action of $\OO_E$ with the action twisted by $g$, maps the de Rham and Hodge--Tate lattices of
+$A_1$ at every point onto those of $A_2$, and preserves the Gram matrices of the polarisation at interior points. By
+\lref{GlobalTheory.T.twisted_hodge_cpt_flag}, $\varphi$ maps the steps of the flag of $\mathrm{Fl}_1$ of each label $s$ onto
+those of $\mathrm{Fl}_2$ of label $\pi(s)$. By \lref{GlobalTheory.T.hodge_compactification_interior_point}, which uses (TU),
+the interior points carry Gram frames of the polarisation, and by \lref{GlobalTheory.T.hodge_cpt_multihomog_form} there is
+a multihomogeneous $\beta\notin P_y$ whose nonvanishing locus on the complex points of $P_y$ consists of interior points.
+Finally \lref{GlobalTheory.T.hodge_cpt_iso_compare}, applied for each root index $r$ to these data (equal lattices,
+matching flag steps, equal Gram matrices, the multidegrees and Hodge metrics of Step~3 and the Gram frames), shows that the
+pulled-back root lines of $r$ and of $(\pi(\tau),i)$ are isomorphic on $\{\beta\ne0\}$.
+\end{proof}
+
+\begin{theorem}[Comparison of pairs]\label{pf:tower:cp}
+\ref{G:pf:deepstr:pb}, \textup{(CS)}, \textup{(HCC)} and \textup{(TU)} imply \textup{(CP)}.
+\formallabel{GlobalTheory.T.cmpPair_of_inputs}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.PairTop.cmpPair}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Cmp.PairTop.cmpSt_of_eq}
+\formallabel{GlobalTheory.T.root_fundamental_weight_duality}
+\end{theorem}
+
+\begin{proof}
+Let the data of (CP) be given and let $f(\tau,i)=(\pi(\tau),i)$. By \cref{pf:tower:tiecmp} there are coordinates $y$ in a field
+of characteristic $0$ with block maps $(\kappa,v)$ from the coordinates of $M$ and $(\kappa',v')$ from those of $M'$ such that
+$P_{y\circ v}=P_M$, $P_{y\circ v'}=P_{M'}$, $P_y$ is an arithmetic variety of dimension $D_{\mathrm{Fl}}+1$; a multihomogeneous
+$\beta\notin P_y$; $e_1=\deg(y/y\circ v)\ne0$ and $e_1\deg\mathrm{Fl}_T=e_2\deg\mathrm{Fl}_{T'}$ with $e_2=\deg(y/y\circ v')$; and for
+every root index $r$ the pull-backs to $y$ of $\mathrm{sing}_T(r)$ and $\mathrm{sing}_{T'}(f(r))$ are isomorphic on
+$\{\beta\ne0\}$.
+
+Isomorphism on $\{\beta\ne0\}$ is an equivalence relation compatible with integral combinations, and pull-back along block maps
+commutes with combinations (\lref{GlobalTheory.T.iso_line_on_equivalence}). Since $\mathrm{fr}(f(a),f(\cdot))=\mathrm{fr}(a,\cdot)$,
+the pull-backs of the fundamental lines $\mathrm{sing}_T^{\mathrm{fr}(a,\cdot)}$ and $\mathrm{sing}_{T'}^{\mathrm{fr}(f(a),\cdot)}$
+are isomorphic on $\{\beta\ne0\}$. By \lref{GlobalTheory.T.realisation_fibre_product_compatible} (if the pull-backs of two
+singular lines realised by $\mathrm{Re}_1$, $\mathrm{Re}_2$ through their reference lines and weights are isomorphic on
+$\{\beta\ne0\}$, the realisations have the same singularities there) the realisations $\mathrm{Re}_T$ and $\mathrm{Re}_{T'}\circ f$
+(the latter with its indices relabelled by $f$) have the same singularities at $(a,a)$ on $\{\beta\ne0\}$ for every root index $a$.
+Both are algebraic. By (CS), for every word $u$,
+\[
+e_1\towerII\bigl(P_M;(\mathrm{line}_T(u_j,t))_j\bigr)-e_2\towerII\bigl(P_{M'};(\mathrm{line}_{T'}(f(u_j),t))_j\bigr)\to0.
+\]
+By the Hodge ties, $\delta_M=n\deg\mathrm{Fl}_T$ and $\delta_{M'}=n\deg\mathrm{Fl}_{T'}$, so $e_1\delta_M=e_2\delta_{M'}$. For small
+$t>0$ the lines are smooth, $M.x(t,f^{-1}(r))$ agrees with $\mathrm{line}_T(\cdot,t)^{\mathrm{rf}(f^{-1}r,\cdot)}$ and $M'.x(t,r)$
+with $\mathrm{line}_{T'}(f(\cdot),t)^{\mathrm{rf}(f^{-1}r,\cdot)}$ (by invariance of $\mathrm{rf}$ under $f$), in degree and on the
+complex points. \Cref{pf:tower:rootcmp}, applied with $\ell_1=\mathrm{line}_T$, $\ell_2=\mathrm{line}_{T'}\circ f$,
+$m(r,a)=\mathrm{rf}(f^{-1}r,a)$, $s=f^{-1}$ and the word $f\circ w$, gives the conclusion.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:tower:sec-remarks}
+
+\begin{remark}\label{pf:tower:rem-formal}
+(1)~\emph{Redundant inputs.} The input (LLD) of \cref{pf:tower:main} is a consequence of \ref{I:pf:tower:ais}--\ref{I:pf:tower:rpc}
+(\lref{GlobalTheory.CompanionTheory.Ar.Giv.lineOfLargeDegree_of_use}, \cref{thm:pf:deepstr:lld}); and (SAH), (GAGA) and (Q)
+are proved in the development (\cref{sec:pf:deepstr}). They are hypotheses of the formal statement nevertheless.
+
+(2)~\emph{A detour.} The formal proof of \cref{pf:tower:main} first derives $\towerG$, then forgets three of its fourteen components
+(strong approximation, the Lie slope bound and the antisymmetric perturbation statement) and reassembles $\towerG$ from the
+remaining components and (LLD) (\cref{pf:tower:reduced}). This has no mathematical content.
+
+(3)~\emph{Statements proved outright.} (W), (TU), (HTD), (Ord) and (HCC) are theorems of the development, and (Av) is proved
+above; they are not hypotheses of \cref{thm:tower}. The positivity in the formal name of (F) refers to the hypothesis $N>0$ on
+the rank.
+
+(4)~\emph{Hodge--Tate data.} In the Hodge--Tate data constructed in \cref{pf:tower:fgchart}, the projectors $P$ and $P_L$ are
+zero, so the conditions involving them (idempotence, commutation with $\rho$ and $\rho_L$, $P^{\mathsf T}E=EP$ and
+$H_tP=P_L^{\mathsf T}H_t$) reduce to $0=0$. The statement (Ord) does not record the relative dimension of the
+abelian scheme, which is $1$ in the construction.
+
+(5)~\emph{Test characters.} In \cref{pf:tower:def-fam}(iv) the maps $\chi_\tau$ are multiplicative, vanish at $0$ and lift
+$\sigma_\tau$; since $|F^\times|$ is prime to $p$ and distinct roots of unity of order prime to $p$ have distinct images in the
+residue field of $R_C$, $\chi_\tau$ is the Teichm\"uller lift of $\sigma_\tau$ when it exists.
+
+(6)~\emph{Limits.} In (CS) and (CP) the intersection numbers of the lines at parameter $t$ are only asserted to have the same
+limit behaviour as $t\to0^+$; the limits themselves need not exist.
+
+(7)~\emph{Theta uniformisation.} In (TU) the function $\chi$ is only required to have absolute value $1$ and to enter the
+transformation law of the frames; the semicharacter property of $\chi$ is not part of the statement.
+\end{remark}

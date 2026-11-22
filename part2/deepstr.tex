@@ -1,0 +1,1957 @@
+\section{Mean slopes on deep covers}\label{sec:pf:deepstr}
+
+\providecommand{\deepstrMeanAll}{\operatorname{MeanAll}}
+\providecommand{\deepstrMeanGe}{\operatorname{MeanGe}}
+\providecommand{\deepstrWtGap}{\operatorname{WtGap}}
+\providecommand{\deepstrbnd}{\operatorname{bnd}}
+\providecommand{\deepstrerr}{\operatorname{err}}
+\providecommand{\deepstrcost}{\operatorname{cost}}
+\providecommand{\deepstrclear}{\operatorname{clr}}
+\providecommand{\deepstrex}{\operatorname{ex}}
+\providecommand{\deepstrspread}{\operatorname{spread}}
+\providecommand{\deepstrflagdeg}{\operatorname{fdeg}}
+\providecommand{\deepstrdegFl}{\operatorname{deg_{Fl}}}
+\providecommand{\deepstrlin}{\operatorname{lin}}
+\providecommand{\deepstrslope}{\operatorname{slope}}
+\providecommand{\deepstrvol}{\operatorname{vol}}
+\providecommand{\deepstrcvol}{\operatorname{cvol}}
+\providecommand{\deepstrvsl}{\operatorname{vslope}}
+\providecommand{\deepstrtop}{\operatorname{tdeg}}
+\providecommand{\deepstrsmall}{\operatorname{Small}}
+\providecommand{\deepstrmsmall}{\operatorname{MSmall}}
+\providecommand{\deepstrcusp}{\operatorname{Cusp}}
+\providecommand{\deepstrComp}{\operatorname{Comp}}
+\providecommand{\deepstrlogc}{\operatorname{lc}}
+\providecommand{\deepstrII}{\mathrm{II}}
+\providecommand{\deepstrarvol}{\widehat{\operatorname{vol}}}
+\providecommand{\deepstrgdeg}{\operatorname{gdeg}}
+\providecommand{\deepstrrd}{\operatorname{rd}}
+\providecommand{\deepstrPrimes}{\mathcal{P}}
+\providecommand{\deepstrtr}{\operatorname{tr}}
+\providecommand{\deepstrev}{\operatorname{ev}}
+\providecommand{\deepstrDim}{D_{\mathrm{Fl}}}
+
+This section proves \cref{thm:deepstr}: the eight published inputs listed there imply the proposition
+$\sfname{DeepStR}$ of \cref{def:covolume:deepstr}, a uniform lower bound for the mean, over the connected
+components of a deep cover, of arithmetic volume slopes of automorphic line bundles.
+
+\subsection{Introduction}\label{sec:pf:deepstr:intro}
+
+\subsubsection*{What is proved}
+The proposition $\sfname{DeepStR}$ is a statement about the unitary moduli spaces $X^o$ of
+\cref{sec:covolume}: for every weight $u$ with a gap $g$, the arithmetic volume slopes
+$\deepstrvsl(Z,u)$ of the automorphic line bundle of weight $u$ on the components $Z$ of $X^o$ (counting
+cusp forms that are small at the archimedean places and integral for prescribed families of valuations at
+the finite places) have a mean bounded below by $-C\,\deepstrerr(u,g)$, where the error is linear in the
+size $\|u\|_1$ of the weight, logarithmic in the gap, and depends on the host field only through
+$\log\deepstrrd_E+|\frac{L'}{L}(1,\chi_d)|$. The constant $C$ is uniform over all global data, core data,
+levels and deep covers.
+
+The proof has two parts of very different nature.
+\begin{enumerate}[label=(\Alph*)]
+\item\emph{Transport from root towers.} The good tower volume theorem (\cref{thm:tower},
+\lref{GlobalTheory.CompanionTheory.Ar.Link.good_tower_volume_theorem_bis}) provides, for every level
+with good reduction everywhere, a \emph{root tower}: for every bound $B\in\N$ and every component $c$, an
+arithmetic variety in multiprojective coordinates (a \emph{root model}) realising a finite cover of a flag
+bundle over the component, on which arithmetic intersection numbers of the Chern-root line bundles are
+defined; and, for abelian CM fields, it proves a lower bound for the mean of their slopes
+(\cref{def:pf:deepstr:towerstatements}). The main step of this section
+(\cref{thm:pf:deepstr:comparison}) compares the slope of a root model with the volume slope of the
+corresponding component: by an arithmetic Hilbert--Samuel inequality the slope bounds the counting volume
+of small sections of the model from below, and these sections are transported, by a trace map, to small
+cusp forms on the component; denominators at the finitely many relevant primes are cleared at an explicit
+cost $2\deepstrcost(l,B)\|u\|_1$, which is $O((\log B+\log\deepstrrd_E)\|u\|_1)$
+(\cref{lem:pf:deepstr:costbound}). Averaging over components and inserting the parameters of deep covers
+gives $\sfname{DeepStR}$ (\cref{thm:pf:deepstr:meanall,thm:pf:deepstr:ofvolume}).
+\item\emph{Supply of the inputs.} The good tower volume theorem and the comparison need a package of
+fourteen arithmetic-geometric statements ($\sfname{Given}$, \cref{def:pf:deepstr:given}), the existence of
+lines of large degree, the existence of a full arithmetic intersection system, resolution in projective
+coordinates, quotients of abelian schemes by finite flat subgroups and a sharp form of the Hodge--Tate
+statement. These are derived from the eight inputs of \cref{thm:deepstr} together with statements proved
+in the development.
+\end{enumerate}
+
+\subsubsection*{Organisation}
+\Cref{sec:pf:deepstr:conv} fixes conventions on counting volumes and recalls the volume slopes of
+\cref{sec:covolume}. \Cref{sec:pf:deepstr:towers} defines root models, root towers and their origins, and
+states the two tower propositions. \Cref{sec:pf:deepstr:inputs} defines the package $\sfname{Given}$ and
+derives all inputs from the eight hypotheses; it ends with the proof of the main theorem.
+\Cref{sec:pf:deepstr:volume} reduces $\sfname{DeepStR}$ to a comparison theorem, which is proved in
+\cref{sec:pf:deepstr:comparison}. \Cref{sec:pf:deepstr:further} proves further results used here and in other
+sections of Part II (symmetry and multilinearity of intersection numbers, intersection numbers of
+combinations of lines, nefness on the generic fibre, flag varieties, Hodge--Tate points and charts).
+\Cref{sec:pf:deepstr:remarks} collects remarks on the formal statements.
+
+\subsubsection*{Scope of the conversion}
+Part (A) is given in full down to the following geometric statements about root models and their origins,
+which are cited with their formal statements: the identification of the top degree of a component with
+the volume of the root model (\lref{GlobalTheory.T.uniform_norm_degree_bound}), the existence of
+generic frames and of a small basis (\lref{GlobalTheory.T.tower_origin_component_bound},
+\lref{GlobalTheory.T.generic_frame_component_bound}), the descent of small model sections to cusp forms
+(\lref{GlobalTheory.T.uniform_norm_all_tower_bound}), the comparison of the two valuation families
+(\lref{GlobalTheory.T.low_height_of_given}), the approximation of the Chern-root metrics by integral
+combinations (\lref{GlobalTheory.T.strict_weight_growth_bound}); the identities for intersection numbers
+of combinations on root models are proved in \cref{sec:pf:deepstr:further}.
+In part (B) the reductions are given in full; the proofs of the derived statements (lines of large degree,
+the Lie slope bound of $\sfname{Given}$, the provisions of Hilbert--Samuel type, the Poincar\'e--Lelong formula
+in coordinates, quotients by finite flat group schemes, the sharp Hodge--Tate statement) are cited. In
+\cref{sec:pf:deepstr:further} the nef polarisation statement and the two Hodge--Tate results are reduced to
+cited lemmas on analytic systems, $p$-divisible groups and Hodge components; the other results there are
+proved in full, citing besides general facts from the shared part only the symmetry in the last two entries
+of field intersection numbers and two integrality statements for chart algebras.
+
+% ---------------------------------------------------------------------------
+\subsection{Conventions and volume slopes}\label{sec:pf:deepstr:conv}
+
+\subsubsection*{Counting volumes}
+For $m\in\N\cup\{\infty\}$ put $\deepstrlogc(m)=\max(\log m,0)\in[0,\infty]$ (so $\deepstrlogc(0)=0$ and
+$\deepstrlogc(\infty)=\infty$). For $D,\delta,a\in\N$ and a sequence $m\colon\N\to\N\cup\{\infty\}$ the
+\emph{counting volume} is
+\begin{equation}\label{eq:pf:deepstr:countvol}
+\deepstrcvol(D,\delta,a;m)=\limsup_{k\to\infty}\frac{D!\,\deepstrlogc(m(ak))}{\delta\,(ak)^{D+1}}
+\in[0,\infty],
+\end{equation}
+and for $\delta>0$ and $v\colon\R\to[0,\infty]$ the \emph{volume slope} is
+$\deepstrvsl(\delta,v)=\inf_{t\in\R}\bigl(v(t)/\delta-t\bigr)\in[-\infty,\infty]$. These are the counting volume
+and the volume slope used in the proof of \cref{thm:covol} (\lref{GlobalTheory.CompHt.countVol} and
+\lref{GlobalTheory.CompHt.volSlope} define them by the two formulas just displayed). For a real number $a$,
+\begin{equation}\label{eq:pf:deepstr:volslopeiff}
+a\le\deepstrvsl(\delta,v)\iff\text{for all }t\in\R:\ \max\bigl(\delta(a+t),0\bigr)\le v(t);
+\end{equation}
+this equivalence, immediate from the definition since $\delta>0$, is
+\lref{GlobalTheory.CompHt.le_volSlope_iff}.
+
+\subsubsection*{Weights}
+
+\begin{definition}[Weights]\label{def:pf:deepstr:weights}
+Let $\Psi$ be a finite set and $N\ge1$. A (real) \emph{weight} is $\lambda\in\R^{\Psi\times\{0,\dots,N-1\}}$; put
+$\|\lambda\|=\max_{\tau,i}|\lambda_{\tau,i}|$, $\|\lambda\|_1=\sum_{\tau,i}|\lambda_{\tau,i}|$ and
+$\deepstrspread(\lambda)=\sum_\tau(\max_i\lambda_{\tau,i}-\min_i\lambda_{\tau,i})$. The \emph{flag
+dimension} is $\deepstrDim=\deepstrDim(\Psi,N)=|\Psi|\,N(N-1)/2$, the dimension of a product over $\Psi$ of
+full flag varieties of $\C^N$. Let $\R[X]=\R[X_{\tau,i}]$ be the polynomial ring in the \emph{Chern roots};
+put $\deepstrlin(\lambda)=-\sum_{\tau,i}\lambda_{\tau,i}X_{\tau,i}$,
+\[
+\deepstrdegFl(F)=(-1)^{\deepstrDim}\sum_{\sigma\colon\Psi\to S_N}\Bigl(\prod_\tau\operatorname{sgn}\sigma_\tau\Bigr)
+\operatorname{coeff}_{X^{\sigma}}(F)\qquad(F\in\R[X]),
+\]
+where $X^\sigma=\prod_{\tau,i}X_{\tau,i}^{N-1-\sigma_\tau(i)}$ (this Weyl-alternating coefficient extraction computes
+degrees on the flag variety, see \cref{prop:pf:deepstr:flagdeg}), and $\deepstrflagdeg(\lambda)=\deepstrdegFl(\deepstrlin(\lambda)^{\deepstrDim})$;
+let $\rho_{\tau,i}=N-1-i$. For $1\le j<N$, $\lambda$ is \emph{regular dominant} if $\lambda_{\tau,b}<\lambda_{\tau,a}$
+for $a<b$; its \emph{gap} at $\tau$ is $\lambda_{\tau,j-1}-\lambda_{\tau,j}$; the \emph{small block} is
+$\{i<j\}$ if $j\le N-j$ and $\{i\ge j\}$ otherwise. For $g,B,r>0$ and $L\in\R$ put
+\begin{equation}\label{eq:pf:deepstr:bnd}
+\deepstrbnd_0(\lambda,g)=4|\Psi|N^2\bigl(1+\|\lambda\|/g\bigr),\qquad\Lambda(B,r,L)=\log(Br)+|L|.
+\end{equation}
+The \emph{weight hypothesis} $\mathrm{WH}(j,\lambda,g)$ means: $g>0$, $\lambda$ is regular dominant, all its
+gaps are $\ge g$, and $|\lambda_{\tau,a}-\lambda_{\tau,b}|\ge g$ whenever $a$ is in the small block and $b\ne a$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.dimFl}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.linRoot}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.degFl}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.flagDeg}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RegDominant}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.gap}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.InSmall}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.spread}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.bigB0}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.bigLam}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.WeightHyp}
+\end{definition}
+
+\subsubsection*{Arithmetic varieties in coordinates}
+We use the coordinate framework of \cref{def:covolume:hs}: a finite family of blocks of variables
+$x_{k,i}$, the multigraded ring $R=\Z[x_{k,i}]$, a point $y$ of a field $\Omega$ with coordinates $y_{k,i}$,
+its ideal $P=P_y$ (kernel of $x_{k,i}\mapsto y_{k,i}T_k$), Hermitian lines $A=(a,h)$ (a multidegree and a
+positive homogeneous function on the complex multicone), and intersection systems $\deepstrII$. We write
+$\deepstrII(P;A^{D+1})$ for the self-intersection of $A$ on an arithmetic variety $P$ of dimension $D+1$
+and $\deepstrgdeg(P,A)$ for the geometric degree of $A$ on its generic fibre. For a multidegree $a$ and
+$\tau\in\N$, the \emph{chart lattice} $\Lambda_\tau(y,a)\subseteq\Omega$ is the group of $s\in\Omega$ such that
+$s\prod_ky_{k,c_k}^{-\tau a_k}$ is integral over the chart ring $\Z[y_{k,i}/y_{k,c_k}]$ for every chart
+$c$ with all $y_{k,c_k}\ne0$. An element of $\Lambda_\tau(y,a)$ is \emph{small of degree $\tau$} for $A=(a,h)$ if
+its supremum norm for the metric $h^\tau$ on the complex points is at most $1$; the \emph{arithmetic volume}
+$\deepstrarvol(A)$ is the $\limsup_\tau$ of the logarithm of the number of small elements of degree $\tau$
+divided by $\tau^{D+1}/(D+1)!$. For $t\in\R$ the \emph{shift} $A(t)$ is $A$ with $h$ replaced by $e^th$.
+A Hermitian line is \emph{nef} on $P$ if it is semipositive relative to some ideal $P_0\subseteq P$, nef on
+the fibres and conjugation-invariant.
+
+\subsubsection*{Unitary moduli spaces and volume slopes}
+We recall, in the form needed here, the objects of \cref{def:covolume:deepstr}; their formal definitions
+belong to the proof of \cref{thm:covol}. Let $E$ be a CM field with a host structure $H$
+(\cref{def:host}), $\Psi=\Psi_H$ the CM type of $H$, $D_w$ a datum of signature $(p,q)$, $N=p+q$, $l$ a
+level with level modulus $M'$ and $A$-part $l_A$, $X^o$ a unitary moduli space, $c$ a coefficient datum
+with field $F_c\subset\C$ (finite over $\Q$), and $\deepstrComp=\deepstrComp(X^o,c)$ the set of irreducible
+components of the generic fibre $X^o_{F_c}$. A family $U=(U_\sigma)_{\sigma\colon F_c\to\C}$ of complex
+uniformisations, with base points $\xi_0$, provides frames on each component and Hodge-type norms
+$\|f\|_{G,\sigma,z}$ of rational sections $f$ at frames $z$, for weights $G$ of automorphic forms; to an
+integer weight $u\in\Z^{\Psi\times\{0,\dots,N-1\}}$ is attached an automorphic weight $G_u$, with
+$G_{nu}=nG_u$ for $n\in\N$. For a component $Z$, $\deepstrcusp(Z,G)$ is the $F_c$-space of cusp forms of weight
+$G$ supported on $Z$.
+
+The development attaches to each height-one prime $\lambda$ of $\OO_{F_c}$ two sets $\mathcal V^{\mathrm{ht}}(\lambda)$,
+$\mathcal V^{\mathrm{rec}}(\lambda)$ of extended valuations $w$ on rational sections ($w(0)=+\infty$,
+$w(f+f')\ge\min(w(f),w(f'))$, $w(ff')=w(f)+w(f')$, $w(af)=v_\lambda(a)+w(f)$ for $a\in F_c^\times$); the
+first comes from Hodge--Tate frames, the second from reductions. For $B>0$ let
+\begin{equation}\label{eq:pf:deepstr:htprimes}
+\deepstrPrimes(l,B)=\{p\text{ prime}:\ p\le B\ \text{or}\ p\mid2|d_E|M'\},
+\end{equation}
+and let $\mathcal V_B(\lambda)$ be $\mathcal V^{\mathrm{ht}}(\lambda)$ if $\lambda$ lies over a prime of
+$\deepstrPrimes(l,B)$ and $\mathcal V^{\mathrm{rec}}(\lambda)$ otherwise. For $R\in\R$ put
+\begin{multline*}
+\deepstrsmall_B(Z,G,R)=\bigl\{f\in\deepstrcusp(Z,G):\ w(f)\ge0\text{ for all }\lambda\text{ and }w\in\mathcal V_B(\lambda),\\
+\|f\|_{G,\sigma,z}\le R\ \text{for all good }\sigma\text{ and frames }z\text{ on }Z\bigr\},
+\end{multline*}
+the \emph{small cusp forms}. Write
+\[
+\mathrm{vdm}(u)=\prod_\tau\prod_{i<i'}(u_{\tau,i}-u_{\tau,i'}),\qquad
+\mathrm{gr}(Z,G)=\limsup_{\tau\to\infty}\frac{\deepstrDim!\,\dim_{F_c}\deepstrcusp(Z,\tau G)}{\tau^{\deepstrDim}}.
+\]
+The \emph{top degree} is $\deepstrtop(Z,u)=v_0(Z)\,\mathrm{vdm}(u)$, where
+$v_0(Z)=\mathrm{gr}(Z,G_{u_0})/\mathrm{vdm}(u_0)$ for a fixed standard weight $u_0$. With
+\[
+\mathrm{cv}_{Z,u}(t)=\deepstrcvol\bigl(\deepstrDim,[F_c:\Q],8;\ \tau\mapsto\#\deepstrsmall_B(Z,\tau G_u,e^{\tau t})\bigr),
+\]
+the \emph{volume slope} of $Z$ at $u$ is
+\begin{equation}\label{eq:pf:deepstr:compvol}
+\deepstrvsl(Z,u)=\deepstrvsl\bigl(\deepstrtop(Z,u),\mathrm{cv}_{Z,u}\bigr)
+\end{equation}
+(\lref{GlobalTheory.CompHt.compVolSlope} defines it by this formula). With
+\begin{gather*}
+\deepstrbnd(u,g)=4|\Psi|N^2\bigl(1+\max_{\tau,i}|u_{\tau,i}|/g\bigr),\qquad
+\deepstrerr_s(u,g)=(\log\deepstrbnd(u,g)+s)\|u\|_1+q\,\deepstrspread(u),
+\end{gather*}
+$\deepstrWtGap(u,g)$ means $g>0$, every $u_\tau$ strictly decreasing, and $|u_{\tau,a}-u_{\tau,b}|\ge g$
+whenever $a\ge p$ and $b\ne a$; $\deepstrMeanGe(u,B,X)$ means that there are real numbers
+$\mathrm{sl}(Z)\le\deepstrvsl(Z,u)$, $Z\in\deepstrComp$ (computed with $\mathcal V_B$), with
+$\frac1{\#\deepstrComp}\sum_Z\mathrm{sl}(Z)\ge-X$; and $\deepstrMeanAll(s,C)$ means
+$\deepstrMeanGe(u,\deepstrbnd(u,g),C\,\deepstrerr_s(u,g))$ for all $(u,g)$ with $\deepstrWtGap(u,g)$
+(\lref{GlobalTheory.CovHt.MeanAll} is this definition). $\sfname{DeepStR}$ is then the statement of
+\cref{def:covolume:deepstr}, with $\ell(\mathcal D)=\log\deepstrrd_E+|\frac{L'}{L}(1,\chi_d)|$
+(\lref{GlobalTheory.CompanionTheory.Ar.Plug.DeepStR}).
+
+\begin{definition}[Conditions on uniformisations]\label{def:pf:deepstr:unifconditions}
+Let $(X^o,c,U)$ be as above.
+\begin{enumerate}[label=(\alph*)]
+\item $U$ satisfies the \emph{composition laws} (CL) with respect to a choice $h$ of generic frames of the
+components and of sections $e$ if, among other conditions, the number of components of the uniformisation at
+the identity embedding equals the number of components of $X^o_{F_c}$, $X^o_{F_c}$ has a component, the generic
+frames are obtained from test frames, evaluation of sections at frames is well defined, and the $U_\sigma$ for
+good $\sigma$ are uniformisations by test frames.
+\item $(X^o,c)$ has the \emph{uniformisation property} (UP) if every algebraic integral frame over a
+complete discrete valuation ring above a height-one prime of $\OO_{F_c}$ becomes, after a finite extension of
+the ring, an algebraic frame which admits a Mumford-type degeneration datum with a positive semi-definite
+monodromy form.
+\item $(X^o,c)$ is \emph{geometrically irreducible} (GI) if $F_c$ is algebraically closed in the function
+field of every component.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Rec.CompLaws}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Ref.UnifAll}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{Root models, root towers and the tower propositions}\label{sec:pf:deepstr:towers}
+
+\begin{definition}[Root models]\label{def:pf:deepstr:rootmodel}
+Let $\Psi$ be a finite set, $N\ge1$, $\deepstrDim=\deepstrDim(\Psi,N)$, and let $\mathcal R=(\Psi\times\{0,\dots,N-1\})\sqcup\{\ast\}$.
+A \emph{root model} $M$ of type $(\Psi,N)$ consists of
+\begin{enumerate}[label=(\roman*)]
+\item coordinates (finite sets $K$ and $\iota_k$, $k\in K$), a field $\Omega_M$ and a point $y\in\Omega_M^{\sqcup_k\iota_k}$
+whose ideal $P_M=P_y$ is an arithmetic variety of dimension $\deepstrDim+1$, $y$ being \emph{birational}
+(every element of $\Omega_M$ is a quotient of two multihomogeneous polynomials of the same multidegree
+evaluated at $y$);
+\item multidegrees $a_r\in\Z^K$ and, for every $t\in\R$, smooth conjugation-invariant Hermitian lines
+$x_t(r)$ of multidegree $a_r$, for $r\in\Psi\times\{0,\dots,N-1\}$ (the \emph{Chern-root lines});
+\item a positive integer $k_A$ and a smooth conjugation-invariant Hermitian line $A$; we put
+$x_t(\ast)=A$;
+\item a positive integer $\delta_M$.
+\end{enumerate}
+For $n\in\Z^{\mathcal R}$ let $L_t(n)=\bigotimes_rx_t(r)^{\otimes n_r}$ (multidegree $\sum_rn_ra_r$, metric
+$\prod_rh_{x_t(r)}^{n_r}$). For a weight $\lambda$ and $s\in\R$ let $\mathrm{coef}(\lambda,s)\in\R^{\mathcal R}$ be
+$-\lambda_r$ at $r\ne\ast$ and $s/k_A$ at $\ast$. On the polynomial ring $\R[X_r:r\in\mathcal R]$, an
+intersection system $\deepstrII$ and $t\in\R$ define linear functionals $\mathrm{ar}_t$ and $\mathrm{geo}$
+by their values on monomials $X^m$: $\mathrm{ar}_t(X^m)=\deepstrII(P_M;(x_t(r))^{m})/(\delta_Mk_A^{m_\ast})$
+if $\deg m=\deepstrDim+1$ (each line repeated $m_r$ times), and $\mathrm{geo}(X^m)$ is the integral over the
+complex points of $P_M$ of the product of the Chern forms of the lines $x_1(r)$, repeated $m_r$ times,
+divided by $\delta_Mk_A^{m_\ast}$, if $\deg m=\deepstrDim$; both vanish on monomials of other degrees.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RootModel}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RootModel.geoFun}
+\end{definition}
+
+The \emph{limit functional} $\mathrm{PP}=\mathrm{PP}_M(\deepstrII)$ is defined on monomials by
+$\mathrm{PP}(X^m)=\lim_{t\to0^+}\mathrm{ar}_t(X^m)$ and extended linearly
+(\lref{GlobalTheory.CompanionTheory.Ar.Top.RootModel.PP} is this definition, the value being an
+unspecified real number when the limit does not exist).
+
+\begin{definition}[Root towers]\label{def:pf:deepstr:roottower}
+A \emph{root tower} $T$ of type $(\Psi,N)$ consists of an integer $j$ with $1\le j<N$, a finite nonempty
+set $\deepstrComp(T)$ of \emph{components}, a finite set $\mathrm{bad}(T)\subset\N$ containing $2$, a
+rational weight $\nu$, and a root model $M(B,c)$ of type $(\Psi,N)$ for every $B\in\N$ and
+$c\in\deepstrComp(T)$. Put $S_T(B)=\{p\text{ prime}:\ p\le B\text{ or }p\in\mathrm{bad}(T)\}$, and, for an
+intersection system $\deepstrII$, a weight $\lambda$ and $s>0$ (all functionals being those of $M(B,c)$),
+\begin{gather*}
+\deepstrvol_T(c)=\frac{\mathrm{geo}_{M(2,c)}(\deepstrlin(\rho)^{\deepstrDim})}{\deepstrflagdeg(\rho)},\qquad
+\deepstrslope_T(B,c,\lambda)=\frac{\mathrm{PP}_{M(B,c)}(\deepstrlin(\lambda)^{\deepstrDim+1})}
+{(\deepstrDim+1)\,\deepstrvol_T(c)\,\deepstrflagdeg(\lambda)},\\
+\lambda_s=\lambda-s\nu,\qquad \ell_s(\lambda)=\deepstrlin(\lambda_s)+sX_\ast,\\
+\overline m(B,c,\lambda,s)=\mathrm{ar}_{\varsigma(s)}\bigl(\ell_s(\lambda)^{\deepstrDim+1}\bigr),\qquad
+m(B,c,\lambda,s)=\mathrm{geo}\bigl(\ell_s(\lambda)^{\deepstrDim}\bigr),
+\end{gather*}
+with $\varsigma(s)=\exp(-s^{-2})$, and for $r,L\in\R$
+\[
+\beta_T(r,L,B,\lambda)=\Lambda(B,r,L)\,\|\lambda\|_1+\min(j,N-j)\,\deepstrspread(\lambda).
+\]
+We use the following conditions on $T$ and a full intersection system $\deepstrII$.
+\begin{itemize}
+\item \emph{Proportionality}: $\deepstrvol_T(c)>0$, $\mathrm{geo}_{M(B,c)}(F)=\deepstrvol_T(c)\deepstrdegFl(F)$ for
+all $F\in\R[X]$, and $\mathrm{geo}_{M(B,c)}$ does not depend on $B$.
+\item \emph{Equality of volumes}: $\deepstrvol_T(c)$ does not depend on $c$.
+\item The \emph{limit conditions} $\mathrm{(LC)}$: for all $(\lambda,g)$ with $\mathrm{WH}(j,\lambda,g)$, all
+$B\in\N$ with $\deepstrbnd_0(\lambda,g)<B+1$ and all $c$: for all sufficiently small $s>0$ the model $M(B,c)$
+is nef on the fibres and semipositive at $(\lambda_s,s)$; as $s\to0^+$,
+$\overline m(B,c,\lambda,s)\to\mathrm{PP}(\deepstrlin(\lambda)^{\deepstrDim+1})$,
+$m(B,c,\lambda,s)\to\deepstrvol_T(c)\deepstrflagdeg(\lambda)$ and
+$\overline m/((\deepstrDim+1)m)\to\deepstrslope_T(B,c,\lambda)$; and
+$\deepstrvol_T(c)\deepstrflagdeg(\lambda)>0$.
+\item The \emph{mean-slope bound} $\mathrm{(MS)}$ with constants $(C,r,L)$: for all $(\lambda,g)$ with
+$\mathrm{WH}(j,\lambda,g)$ and all $B\in\N$ with $B\ge128$, $\deepstrbnd_0(\lambda,g)<B+1$ and
+$\#\mathrm{bad}(T)\le B$,
+\begin{equation}\label{eq:pf:deepstr:meanslope}
+\frac1{\#\deepstrComp(T)}\sum_{c}\deepstrslope_T(B,c,\lambda)\ \ge\ -C\,\beta_T(r,L,B,\lambda).
+\end{equation}
+\end{itemize}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RootTower}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RootTower.InS}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RootTower.bracket}
+\formal{GlobalTheory.CompanionTheory.Ar.Top.RootTower.T1}
+\formal{GlobalTheory.CompanionTheory.Ar.Top.RootTower.MeanSlope}
+\end{definition}
+
+The volume, the slope and proportionality are defined in \lref{GlobalTheory.CompanionTheory.Ar.Top.RootTower.vol},
+\lref{GlobalTheory.CompanionTheory.Ar.Top.RootTower.slope} and
+\lref{GlobalTheory.CompanionTheory.Ar.Top.RootTower.Proportional} by the formulas above.
+
+\begin{definition}[Origins, small model sections and readings]\label{def:pf:deepstr:origins}
+Let $(E,H,D_w,l,X^o,c)$ be as in \cref{sec:pf:deepstr:conv} and let $Y$ be a model of $X^o$ over $\OO_{F_c}$
+(a normal scheme, projective and flat over $\OO_{F_c}$, with an identification of its generic fibre with
+$X^o_{F_c}$). Let $T$ be a root tower of type $(\Psi_H,p+q)$.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{root origin} $\mathrm{Or}$ of a root model $M$ over $Y$, relative to a finite set $S$ of
+primes and to fixed data $F_x$ on $Y$, consists of a Hodge component of $Y$ at $S$ with a flag $\mathrm{Fl}$
+of degree $\deg\mathrm{Fl}\ge0$; a field embedding of the function field $\Omega_f$ of $F_x$ into $\Omega_M$ with
+$[\Omega_M:\Omega_f]=\deg\mathrm{Fl}$, compatible with the flag; the identity
+\begin{equation}\label{eq:pf:deepstr:deltaeq}
+\delta_M=[F_c:\Q]\cdot\deg\mathrm{Fl};
+\end{equation}
+Hermitian lines $\mathrm{sing}(r)$ of multidegree $a_r$ which are the Hodge lines of the flag; the
+identification of $A$ with the pull-back of the Hodge-type line of $F_x$; an effectivity condition; and a
+realisation of the analytic system of $F_x$ on the complex points of $P_M$, relating the lines
+$\mathrm{sing}(r)$ and $x_t(r)$ through fundamental weights.
+\item A \emph{tower origin} $o$ of $T$ on $Y$ consists of: the equality $j=p$; the equivalence
+$r\in\mathrm{bad}(T)\iff r$ prime and $r\mid2d_EM'$; the sets $S(B)=S_T(B)$; for each $a\in\deepstrComp(T)$
+fixed data $F_x(a)$ on $Y$, whose generic points are pairwise distinct and exhaust the generic points of
+$Y$; a compatibility of $\nu$ with $F_x(a)$; and root origins $\mathrm{Or}(B,a)$ of $M(B,a)$ relative to
+$S(B)$ and $F_x(a)$. A bijection $\kappa\colon\deepstrComp(X^o,c)\to\deepstrComp(T)$ is \emph{compatible} with $o$ if,
+for every component $Z$, the generic point of $F_x(\kappa(Z))$ is the image in $Y$ of the generic point of $Z$.
+\item A \emph{good origin} is a tower origin whose Hodge components carry vector bundles, whose
+realisation is smooth and flat, together with reference root models $R(a)$, root origins of degree $1$
+over $S=\varnothing$ and with an ample line $A$. The \emph{immersion condition} $\mathrm{(IC)}$ on a good
+origin is a local immersion condition on the analytic systems together with a numerical condition at the
+primes of $S(B)$.
+\item For an integer weight $u$ let $n_u\in\Z^{\mathcal R}$ be $n_u(r)=-u_r$ for $r\ne\ast$ and $n_u(\ast)=0$,
+and $a_u=\sum_rn_u(r)a_r$. The \emph{small model sections} are
+$\deepstrmsmall(\mathrm{Or},u,R)$ is the set of $s\in\Lambda_1(y,a_u)$ such that, for some multihomogeneous form
+$w\notin P_M$,
+\[
+|s|(z)\le R\prod_rh_{\mathrm{sing}(r)}(z)^{n_u(r)}\qquad\text{at all complex points $z$ of $P_M$ with }w(z)\ne0,
+\]
+$|s|(z)$ being the value of $s$ as a section of multidegree $a_u$.
+\item Let $Z$ be a component of $X^o_{F_c}$ and $\Omega(Z)$ its function field; for a rational section $f$ let
+$\deepstrev(f)\in\Omega(Z)$ be its value at the generic frame of $Z$. A \emph{reading} of a generic frame of
+$\mathrm{Or}$ on $Z$ consists of a field embedding $\varphi\colon\Omega(Z)\to\Omega_M$, compatible with constants, with
+$[\Omega_M:\varphi\Omega(Z)]=\deg\mathrm{Fl}$, and units of $\Omega_M$ relating the frame to $\varphi\circ\deepstrev$. For an
+integer weight $v$ it defines the \emph{trace} $\deepstrtr_v(s)=\Tr_{\Omega_M/\Omega(Z)}(s/\gamma_v)$, $s\in\Omega_M$, with
+a gauge $\gamma_v\in\Omega_M^\times$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.RootOrigin}
+\formallabel{GlobalTheory.CompanionTheory.Ar.TowerOrigin}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GoodOrigin}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.degOf}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.HodgeLe}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.modelSmall}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Rec.Reading}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.trOf}
+\end{definition}
+
+\begin{definition}[The tower propositions]\label{def:pf:deepstr:towerstatements}
+For a host $H$ of $E$ let $\deepstrrd_E=|d_E|^{1/[E:\Q]}$ and $L_H=\Re\frac{L'(1,\chi_d)}{L(1,\chi_d)}$,
+$\chi_d=(\frac{\cdot}{d})$. A model $Y$ of $X^o_l$ is \emph{global} if $l$ has good reduction at all primes,
+$l_A=1$, and $Y$ descends and dominates the local models provided by the toroidal package
+(\cref{def:pf:deepstr:given}\ref{G:pf:deepstr:tor}) at every prime.
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{GoodTowerExistsX}$: for every CM field $E$, host $H$, datum $D_w$ with $p,q\ge1$, family
+$(X^o_{l'})_{l'}$ of moduli spaces indexed by the levels, level $l$, coefficient datum $c$ and global model
+$Y$ of $X^o_l$ over $\OO_{F_c}$ with split components, there are a root tower $T$ of type $(\Psi_H,p+q)$ and a
+good origin $o$ of $T$ on $Y$ satisfying $\mathrm{(IC)}$.
+\item $\sfname{VolumeTheoremX}$: there is $C\ge0$ such that for every \emph{abelian} CM field $E$, every
+$H,D_w,(X^o_{l'}),l,c$, global model $Y$, root tower $T$ with a good origin $o$ satisfying $\mathrm{(IC)}$, and
+full intersection system $\deepstrII$: if $q\ge1$, $3q+1\le p+q$ and $\#\mathrm{bad}(T)\le4|\Psi_H|(p+q)^2$,
+then $T$ satisfies proportionality, equality of volumes, $\mathrm{(LC)}$, an asymptotic formula for the limit
+functionals, a lower bound for their sum over the components, and $\mathrm{(MS)}$ with constants
+$(C,\deepstrrd_E,L_H)$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GoodTowerExistsX}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.VolumeTheoremX}
+\end{definition}
+
+The tower propositions are the content of \cref{thm:tower}: under the hypotheses listed there,
+$\sfname{GoodTowerExistsX}\wedge\sfname{VolumeTheoremX}$ holds
+(\lref{GlobalTheory.CompanionTheory.Ar.Link.good_tower_volume_theorem_bis}). Of
+$\sfname{VolumeTheoremX}$ this section uses only proportionality, $\mathrm{(LC)}$ and $\mathrm{(MS)}$.
+
+% ---------------------------------------------------------------------------
+\subsection{The inputs and the proof of the main theorem}\label{sec:pf:deepstr:inputs}
+
+\begin{hypothesis}[The eight inputs]\label{hyp:pf:deepstr:inputs}
+The following statements are those of \cref{thm:deepstr}, in the form of the development; schemes are
+over a field $k$ of characteristic $0$ in (H1), (H2).
+\begin{enumerate}[label=(H\arabic*)]
+\item\label{H:pf:deepstr:res} \emph{Resolution}: every reduced scheme $X$, locally of finite type,
+quasi-compact and separated over $k$, admits a sequence of blow-ups $s\colon X'\to X$ with $X'$ smooth over
+$k$, $s$ an isomorphism over the smooth locus of $X$, and the reduced preimage of the non-smooth locus a
+divisor with strict normal crossings \cite{Hironaka1964,BierstoneMilman1997,Wlodarczyk2005,Kollar2007}.
+\item\label{H:pf:deepstr:princ} \emph{Principalisation}: for $X$ smooth of pure relative dimension $d$,
+quasi-compact and separated over $k$, an ideal sheaf $I$ whose support contains no irreducible component of
+$X$, and a closed subset $F$ with strict normal crossings, there is a sequence of blow-ups $s\colon X'\to X$
+with centres having strict normal crossings with the boundary, $X'$ smooth, $I\OO_{X'}$ an effective Cartier
+divisor with strict normal crossings support, and $s$ an isomorphism over the complement of the support of
+$I$ (same references).
+\item\label{H:pf:deepstr:pl} \emph{Poincar\'e--Lelong}: an integrated form of the arithmetic
+Poincar\'e--Lelong formula in coordinates: for an arithmetic variety $P$ of dimension $n+2$, smooth
+conjugation-invariant Hermitian lines $L_1,\dots,L_n,A,B$ with $B$ of multidegree $0$, and a section $s$ of
+$A$ on $P$, the integral of $\log\|s\|_A$ against $dd^c\log h_B\wedge c_1(L_1)\wedge\dots\wedge c_1(L_n)$ over
+the complex points of $P$ equals $\sum_W\mathrm{mult}_W(P+(s))\int_{W(\C)}\log h_B\,c_1(L_1)\cdots c_1(L_n)$,
+the sum over the horizontal components $W$ of $P+(s)$, minus $\int_{P(\C)}\log h_B\,c_1(A)c_1(L_1)\cdots c_1(L_n)$
+\cite{GilletSoule1990,BostGilletSoule1994}.
+\item\label{H:pf:deepstr:hs} $\sfname{HSUse}$ (\cref{def:covolume:hs}(d)).
+\item\label{H:pf:deepstr:mor} $\sfname{MoriwakiBigStatement}$ (\cref{def:covolume:hs}(d)) \cite{Moriwaki2009,Yuan2008}.
+\item\label{H:pf:deepstr:far} \emph{Exactness of the Hodge--Tate sequence}: for a prime $p$, an
+algebraically closed field $C$ of characteristic $0$ with a valuation $v$ (written multiplicatively),
+$v(p)<1$, whose valuation ring $\OO$ is $p$-adically complete, a $p$-divisible group $G$ over $\OO$, a
+compatible system $(\zeta_n)$ of $p$-power roots of unity with $\zeta_1\ne1$, and the $\OO$-bilinear form on
+$(T_pG\otimes\OO)\times(T_pG^D\otimes\OO)$ induced by the Weil pairing: an element lies in the kernel of the
+Hodge--Tate map $\alpha_G\otimes\OO$ if and only if it is orthogonal to the kernel of the dual map
+$\mathrm{dlog}$ \cite{Faltings1988,FarguesGenestierLafforgue2008}.
+\item\label{H:pf:deepstr:zar} \emph{Zarhin's trick}: over the valuation ring $R$ of an algebraically closed
+valued field, every abelian scheme with a relatively ample line bundle is a retract, by homomorphisms
+$i\colon A\to A'$, $r\colon A'\to A$ with $r\circ i=\mathrm{id}$, of a principally polarised abelian scheme $A'$
+\cite{Zarhin1975,Zarhin1985}.
+\item\label{H:pf:deepstr:nef} \emph{Asymptotic Riemann--Roch for nef divisors}: for an arithmetic variety
+$P=P_y$ of dimension $D+1$ with $y$ birational over a field of characteristic $0$, and a multidegree $a$ nef on
+the generic fibre, the $\Q$-spans $V_\tau$ of $\Lambda_\tau(y,a)$ are finite-dimensional and
+$D!\dim_\Q V_\tau/\tau^D$ tends to the geometric degree of $a$ \cite{Lazarsfeld2004}.
+\end{enumerate}
+\formal{GlobalTheory.CompanionTheory.Hypotheses₂.ResolutionCharZero}
+\formal{GlobalTheory.CompanionTheory.Hypotheses₂.PrincipalisationCharZero}
+\formal{GlobalTheory.CompanionTheory.Hypotheses₂.PoincareLelongInv}
+\formal{GlobalTheory.CompanionTheory.Ar.HT.FarguesExact}
+\formal{GlobalTheory.CompanionTheory.Ar.GR.ZarhinStatement}
+\formal{GlobalTheory.CompanionTheory.Ar.Pub.NefRR}
+\end{hypothesis}
+
+\begin{theorem}[\cref{thm:deepstr}]\label{pf:deepstr:main}
+Assume \ref{H:pf:deepstr:res}--\ref{H:pf:deepstr:nef}. Then $\sfname{DeepStR}$ holds: there is $C\ge0$ such
+that for every global datum $\mathcal D$, every core datum $T$ of $\mathcal D$ satisfying $\mathsf{LawsJ}$ with
+$m^2\le k$, every $1\le j<m$ and every deep cover $Y$ of $T$ at level $j$ which is good for some parameters
+and whose level modulus has at most $15$ prime factors, $\deepstrMeanAll(\ell(\mathcal D),C)$ holds on $Y$.
+\formallabel{PositivityTheory.HtPt.Ah.deep_slim_use}
+\end{theorem}
+
+The proof is given at the end of this subsection, after the derivation of the intermediate inputs.
+
+\subsubsection*{The package $\sfname{Given}$}
+
+\begin{definition}[$\sfname{Given}$]\label{def:pf:deepstr:given}
+$\sfname{Given}$ is the conjunction of the following fourteen statements.
+\begin{enumerate}[label=(G\arabic*)]
+\item\label{G:pf:deepstr:tor} \emph{The toroidal package}: a moduli space exists for every level; families
+of complex uniformisations of every admissible type exist; for every prime $p$ and valuation subring
+$W\subset\C$ over $p$ there are local systems of integral models with split fibres, and global models
+dominate them; for every host and datum, change-of-level maps are finite \'etale and surjective on generic
+fibres with fibres the orbits of the level group (\emph{level compatibility}), and points have unique
+Hecke translates by subgroups of the $p$-torsion at split primes $p\nmid M'$ (\emph{Hecke compatibility}).
+\item\label{G:pf:deepstr:key} \emph{The theta-constant formula}: the existence of a function on principally
+polarised abelian varieties with theta structure, rigidification and Lie basis, with a transformation law
+under change of theta function and Lie basis, compatible with base change, integral over discrete valuation
+rings, and normalised by the classical theta functions with characteristics over $\C$.
+\item\label{G:pf:deepstr:sah} \emph{Extension of homomorphisms} of semi-abelian schemes over a dense open
+subset of a normal noetherian base \cite[Ch.~I, Prop.~2.7]{FaltingsChai1990}.
+\item\label{G:pf:deepstr:segre} \emph{The Segre formula}: a formula for intersection numbers on projective
+bundles in coordinates in terms of Segre-type sums over the base.
+\item\label{G:pf:deepstr:resk} \emph{Resolution in projective coordinates} $\mathrm{(RPC)}$
+(\cref{def:pf:deepstr:resk}).
+\item\label{G:pf:deepstr:sa} \emph{Strong approximation} for special unitary groups: if $E/F$ is a
+quadratic extension of number fields and $J\in\GL_N(E)$ is hermitian and isotropic, then
+$\mathrm{SU}(J)(\A_{F,f})$ is contained in the closure of $\mathrm{SU}(J)(F)$ \cite{Kneser1966,PlatonovRapinchuk1994}.
+\item\label{G:pf:deepstr:ht} \emph{The sharp Hodge--Tate statement}: the conclusion of \ref{H:pf:deepstr:far},
+and in addition $\kappa\cdot\omega_{G^D}\subseteq\operatorname{im}(\alpha_G\otimes\OO)$ for every $\kappa\in\OO$ with
+$v(\kappa)^{p-1}\le v(p)$ if $p$ is odd and $v(\kappa)\le v(4)$ if $p=2$ \cite{Faltings1988,FarguesGenestierLafforgue2008}.
+\item\label{G:pf:deepstr:gaga} \emph{GAGA for sections}: on a smooth proper complex scheme, every family of
+local holomorphic functions compatible with the transition functions of a line bundle is an algebraic
+section \cite{Serre1956}.
+\item\label{G:pf:deepstr:slope} \emph{The Lie slope bound}: there is $C\ge0$ such that for every CM field $E$,
+host $H$, number field $L$ and semi-abelian scheme $t$ over $\OO_L$ with $H$-action and principally polarised
+generic fibre, every Hermitian bundle $\overline{\mathcal B}$ over $L$ which is a fibre of the Hodge inner product
+on the Lie algebra of $t$ satisfies $\mu_{\max}(\overline{\mathcal B})\le
+C\log\bigl(2+\rank\mathcal B+\max(-\widehat{\deg}_n\overline{\mathcal B},0)\bigr)$, $\widehat{\deg}_n$ the normalised
+Arakelov degree (compare \cite{Bost1996}).
+\item\label{G:pf:deepstr:pb} \emph{Potential-theoretic inputs}: fifteen statements on Green potentials in
+coordinates (convergence, signed convergence and its rate, uniform integrability, pull-back, global
+regularisation), on resolution and degrees, on non-negativity, rationality and locality of arithmetic
+intersection numbers, on the projection formula, fibre lines and fibre dimensions, two Kleiman-type
+statements and a Siu-type statement for nef lines.
+\item\label{G:pf:deepstr:provhs} \emph{Hilbert--Samuel provisions}: nine statements: the lower and upper
+successive-minima bounds of Zhang \cite{Zhang1995}, non-negativity of arithmetic self-intersections, a lower
+bound of arithmetic volumes by self-intersections, the volume inequality $\mathrm{(VI)}$ of
+\cref{def:pf:deepstr:bppf}, two arithmetic Hilbert--Samuel upper bounds, a comparison of the
+self-intersections of two lines related by injections of section lattices with dominated norms, and a
+variant of this comparison involving arithmetic volumes.
+\item\label{G:pf:deepstr:provan} \emph{Analytic provisions}: seven statements on Green potentials (tail bounds,
+convergence, signed convergence, convergence rate, uniform integrability, pull-back, global regularisation).
+\item\label{G:pf:deepstr:zhang} \emph{Zhang-type provisions}: the conjunction of Zhang's lower bound, a
+dimension statement, the true proposition, a push-down statement and a Grassmannian height bound.
+\item\label{G:pf:deepstr:anti} \emph{Antisymmetric perturbation}: if a real polynomial $h$ in the variables
+$X_{\tau,i}$ vanishes on compact sets $K_\tau$ contained in the hyperplanes $X_{\tau,j-1}=X_{\tau,j}$ and
+containing nonempty relatively open subsets of them, there is $C$ such that every polynomial $P$ with
+$P-vh$ antisymmetric and $|P|\le\eps$ on all $K_\tau$ differs from $vh+\Delta\cdot l$, for some invariant
+$l$ ($\Delta$ the Vandermonde product), by a polynomial whose coefficients are at most $C\eps$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.Given}
+\formallabel{GroundTheory.Heights₂.Heights.NumbersDVR.NumericalSegre.Statement}
+\formallabel{ReciprocityTheory.ChartRestriction.G.SA.SAStatement}
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.FarguesHodgeTate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.SlopeBoundSt}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Prov.HS}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Prov.An}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Prov.ZhangDimensionPushDownGrassmannianHeightBounds}
+\formallabel{GroundTheory.Heights₂.Heights.AntisymPerturbation.Statement}
+\end{definition}
+
+The components \ref{G:pf:deepstr:tor}, \ref{G:pf:deepstr:key} and \ref{G:pf:deepstr:pb} are the shared
+statements \lref{ReciprocityTheory.ChartRestriction.G.Geo.Tor.PartI} (with the level, Hecke and
+uniformisation statements next to it), \lref{ReciprocityTheory.ChartRestriction.G.Geo.Tor.KeyFormula}
+and \lref{GlobalTheory.CompanionTheory.Ar.PB.Inputs}, whose precise formulations we have summarised.
+
+\begin{definition}[The volume inequality]\label{def:pf:deepstr:bppf}
+The \emph{volume inequality} $\mathrm{(VI)}$ is the statement: for every arithmetic variety $P=P_y$ of
+dimension $D+1\ge2$ with $y$ birational, every intersection system $\deepstrII$ and every conjugation-invariant
+Hermitian line $A$ which is nef on the fibres and semipositive relative to some $P_0\subseteq P$,
+\[
+\deepstrII(P;A^{D+1})\le\deepstrarvol(A),
+\]
+the arithmetic volume being computed with the chart lattices $\Lambda_\tau(y,a)$.
+\formallabel{ReciprocityTheory.ChartRestriction.G.Geo.BirationalPullbackPushforwardFormula}
+\end{definition}
+
+\begin{definition}[Resolution in projective coordinates; lines of large degree]\label{def:pf:deepstr:resk}
+(a) \emph{Resolution in projective coordinates} $\mathrm{(RPC)}$: for every field $K$ of characteristic $0$ and
+every closed subscheme $i\colon X\hookrightarrow\mathbb P^M_K$ which is reduced and has a dense open subset $U$ smooth of
+relative dimension $D$, there are $r\in\N$, a closed subscheme $j\colon X'\hookrightarrow\mathbb P^M_K\times\mathbb P^r_K$ and a
+morphism $f\colon X'\to X$ with $i\circ f=\mathrm{pr}_1\circ j$ which is a \emph{resolution with coordinates} of
+$(X,U)$: $X'$ is smooth of relative dimension $D$, $f$ is an isomorphism over $U$, $f^{-1}(U)$ is dense, and
+$X'$ is covered by finitely many affine opens $V$ with coordinates $z_1,\dots,z_D$ such that
+$(X'\smallsetminus f^{-1}(U))\cap V$ is the union of the zero loci of $z_1,\dots,z_k$ for some $k\le D$.
+
+(b) \emph{Lines of large degree} $\mathrm{(LLD)}$: for every number field $K$, $i\ge1$, Hermitian lattice
+$\overline F$ of rank $i$ over $\OO_K$ and $\eps>0$, there are a finite extension $K'/K$ and $0\ne v\in K'^i$ such
+that the normalised Arakelov degree of the line spanned by $v$ in $\overline F\otimes\OO_{K'}$ is at least
+$\mu(\overline F)-\frac12\log i-\eps$, $\mu$ the normalised slope (an absolute Siegel lemma in the sense of
+\cite{Zhang1995,RoyThunder1996}).
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKStatement}
+\formallabel{GroundTheory.Heights₂.Heights.LineOfLargeDegree.Statement}
+\end{definition}
+
+\subsubsection*{Derivation of the inputs}
+
+\begin{lemma}[Resolution in projective coordinates]\label{lem:pf:deepstr:resk}
+\ref{H:pf:deepstr:res} and \ref{H:pf:deepstr:princ} imply $\mathrm{(RPC)}$.
+\formallabel{GlobalTheory.CompanionTheory.Hypotheses₂.ResKSide.resK_of_resolution_principalisation}
+\formallabel{PositivityTheory.HtPt.Ah.resK}
+\end{lemma}
+
+\begin{proof}
+Let $i\colon X\hookrightarrow\mathbb P^M_K$ and $U$ be as in \cref{def:pf:deepstr:resk}(a), and $g\colon X\to\Spec K$
+the structure map; $g$ is projective, hence proper. By \ref{H:pf:deepstr:res} (in the projective form, the blow-up
+sequence of a projective scheme being projective) there is a sequence of blow-ups $s\colon X_1\to X$ with $X_1$
+smooth and projective over $K$, $s$ an isomorphism over the smooth locus of $X$, and the reduced preimage of
+the non-smooth locus a divisor with strict normal crossings. As $U$ is smooth, it lies in the smooth locus,
+so $s$ is an isomorphism over $U$; the complement of a divisor with strict normal crossings is dense, so
+$s^{-1}(U)$ is dense in $X_1$, and $X_1$ is smooth of relative dimension $D$ (it is so on the dense open
+$s^{-1}(U)\cong U$). Let $I$ be the ideal sheaf of the reduced preimage of $X\smallsetminus U$; its support
+$s^{-1}(X\smallsetminus U)$ contains no irreducible component of $X_1$, since $s^{-1}(U)$ is dense; $X_1$ is
+noetherian. By \ref{H:pf:deepstr:princ} applied to $I$ and $F=\varnothing$ there is a sequence of blow-ups
+$t\colon X_2\to X_1$ with $X_2$ smooth, $I\OO_{X_2}$ effective Cartier with support of strict normal
+crossings, and $t$ an isomorphism over $X_1\smallsetminus\operatorname{supp}I=s^{-1}(U)$. Hence $f=s\circ t$ is an
+isomorphism over $U$, $f^{-1}(X\smallsetminus U)=\operatorname{supp}(I\OO_{X_2})$ has strict normal crossings, its
+complement $f^{-1}(U)$ is dense, and $X_2$ is projective over $K$ (a sequence of smooth blow-ups of a projective
+scheme), smooth of relative dimension $D$. Since $X_2$ is quasi-compact and smooth, $f^{-1}(U)$ is dense and
+smooth of relative dimension $D$ and $f^{-1}(X\smallsetminus U)$ has strict normal crossings,
+\lref{GlobalTheory.T.coords_statement} shows that $X_2$ is covered by finitely many affine opens $V$ with
+coordinates $z_1,\dots,z_D$ such that $f^{-1}(X\smallsetminus U)\cap V$ is the union of the zero loci of
+$z_1,\dots,z_k$ for some $k\le D$; this is the condition of adapted coordinates. Finally, $X_2$ being
+projective over $K$, it has a closed immersion $e$ into some $\mathbb P^r_K$, and $j=(i\circ f,e)\colon
+X_2\to\mathbb P^M_K\times\mathbb P^r_K$ is a closed immersion with $\mathrm{pr}_1\circ j=i\circ f$, because
+$\mathrm{pr}_2\circ j=e$ is one and $\mathbb P^M_K$ is separated
+(\lref{GlobalTheory.CompanionTheory.Hypotheses₂.exists_closed_in_prod}).
+\end{proof}
+
+\begin{lemma}[Full intersection systems]\label{lem:pf:deepstr:ais}
+\ref{H:pf:deepstr:res}, \ref{H:pf:deepstr:princ} and \ref{H:pf:deepstr:pl} imply the existence of a full
+intersection system. \formallabel{PositivityTheory.HtPt.Ah.ais}
+\end{lemma}
+
+\begin{proof}
+By \cref{lem:pf:deepstr:resk}, $\mathrm{(RPC)}$ holds. From $\mathrm{(RPC)}$ and \ref{H:pf:deepstr:pl} the
+development derives the arithmetic Poincar\'e--Lelong formula in coordinates in its standard form
+(independence of the recursion of \cref{def:covolume:hs}(c) from the chosen section),
+\lref{GlobalTheory.CompanionTheory.Ar.Tw.Main.poincareLelong_of_inv}; from this formula and
+$\mathrm{(RPC)}$, \lref{GlobalTheory.CompanionTheory.Ar.Pub.arithIntersectionSystem_of_poincareLelong_resK}
+constructs a full intersection system (by the recursion of Bost, Gillet and Soul\'e
+\cite{BostGilletSoule1994}).
+\end{proof}
+
+\begin{lemma}[The volume inequality]\label{lem:pf:deepstr:vi}
+\ref{H:pf:deepstr:mor} implies $\mathrm{(VI)}$.
+\formallabel{GlobalTheory.T.big_line_implies_height_positivity}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Small.selfIntersection_le_volNm_of_moriwakiBig}
+\end{lemma}
+
+\begin{proof}
+Let $P=P_y$, $D\ge1$, $\deepstrII$ and $A=(a,h)$ be as in \cref{def:pf:deepstr:bppf}. A Hermitian line which is
+semipositive relative to some $P_0\subseteq P$ is nef on the generic fibre
+(\lref{GroundTheory.Heights₂.Heights.HilbertSamuel.NefOnGenericOfSemipos.proof}), so
+\ref{H:pf:deepstr:mor} applies and gives $\deepstrII(P;A^{D+1})\le\deepstrarvol'(A)$, where $\deepstrarvol'$ is the
+arithmetic volume computed with the groups $\Lambda'_\tau(y,a)\subseteq\Lambda_\tau(y,a)$ of elements $s$ with
+$s\prod_ky_{k,c_k}^{-\tau a_k}$ \emph{in} the chart rings (rather than integral over them). By the packing
+statement \lref{GlobalTheory.T.packing'} (for a smooth line, the sets of small elements of degree $\tau$ of
+$\Lambda_\tau(y,a)$ are finite, and the logarithms of their cardinalities are at most $C(\tau+1)^{D+1}$ for some
+$C$), the number of small elements of $\Lambda'_\tau(y,a)$ is at most that of $\Lambda_\tau(y,a)$, and the two
+sequences whose $\limsup$ define the volumes are bounded; hence $\deepstrarvol'(A)\le\deepstrarvol(A)$.
+\end{proof}
+
+\begin{lemma}[Quotients and the sharp Hodge--Tate statement]\label{lem:pf:deepstr:quot}
+\textup{(a)} For every commutative ring $R$, every abelian scheme $A$ over $R$ with a relatively ample line
+bundle and every finite flat subgroup scheme $G\subseteq A$, there is a finite flat surjective homomorphism
+$q\colon A\to A'$ onto an abelian scheme with a relatively ample line bundle, whose kernel is $G$ (as a functor on
+$R$-algebras).
+
+\textup{(b)} \ref{H:pf:deepstr:far} implies the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht}.
+\formallabel{PositivityTheory.HtPt.Ah.quot}
+\formallabel{GlobalTheory.CompanionTheory.Relay.hodge_tate_of_fargues_exact}
+\formallabel{PositivityTheory.Xgn.farguesHodgeTate_of_farguesExact}
+\end{lemma}
+
+\begin{proof}
+(a) The development proves that quotients of schemes by free actions of finite flat group schemes, with
+orbits contained in affine opens, exist and are finite flat
+(\lref{GlobalTheory.CompanionTheory.Hypotheses₂.FreeQuotientScheme_holds}), and deduces (a)
+(\lref{GlobalTheory.CompanionTheory.Ar.GR.QuotSide.quotientByFiniteFlat_of_freeQuotient}); compare
+\cite[\S12]{Mumford1970}. (b) The second half of the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht} is \ref{H:pf:deepstr:far}. For the
+first half, \lref{GlobalTheory.CompanionTheory.Ar.HT.hodge_tate_cokernel_sharp} states that
+$\kappa\,\omega_{G^D}\subseteq\operatorname{im}(\alpha_G\otimes\OO)$ whenever $v(\kappa)^{p-1}\le v(p)$. For odd $p$ this is the
+required statement; for $p=2$ the hypothesis $v(\kappa)\le v(4)=v(2)^2$ implies $v(\kappa)\le v(2)$, since
+$v(2)<1$.
+\end{proof}
+
+\begin{littheorem}[{\cite[Ch.~I, Prop.~2.7]{FaltingsChai1990}}]\label{lit:pf:deepstr:sah}
+Let $S$ be a normal noetherian scheme, $U\subseteq S$ a dense open subscheme and $G,H$ semi-abelian schemes
+over $S$. Every homomorphism $G_U\to H_U$ extends uniquely to a homomorphism $G\to H$.
+\formallabel{GlobalTheory.CompanionTheory.SAH.semiAbelianHomExtension}
+\end{littheorem}
+
+The development proves this statement from the case of a discrete valuation ring.
+
+\begin{theorem}[Lines of large degree]\label{thm:pf:deepstr:lld}
+The existence of a full intersection system, $\sfname{HSUse}$, $\sfname{MoriwakiBigStatement}$ and $\mathrm{(RPC)}$
+imply $\mathrm{(LLD)}$. \formallabel{GlobalTheory.CompanionTheory.Ar.Giv.lineOfLargeDegree_of_use}
+\end{theorem}
+
+\begin{proof}
+By \lref{GlobalTheory.CompanionTheory.Ar.Giv.hsLinks_of_use}, $\sfname{MoriwakiBigStatement}$ implies the
+successive-minima upper bound: if $A$ is nef on the fibres, semipositive and conjugation-invariant on an
+arithmetic variety $P$ of dimension $D+1$, and a Zariski-dense family of arithmetic curves $W\supseteq P$
+satisfies $\deepstrII(W;A)\le e'\deg W$, then $\deepstrII(P;A^{D+1})\le(D+1)e'\,\deepstrgdeg(P,A)$; and
+$\sfname{HSUse}$ implies the corresponding lower bound (with $e\deg W\le\deepstrII(W;A)$ for all arithmetic
+curves $W\supseteq P$) \cite{Zhang1995}. A full
+intersection system provides the existence and uniqueness of intersection numbers, their push-forward
+formula, a degree formula and coordinate projections of Grassmannian lines
+(\lref{GlobalTheory.T.intersection_exists_of_arith_system},
+\lref{GlobalTheory.T.generic_degree_of_arith_system},
+\lref{GlobalTheory.T.coordinate_projection_of_arith_system}); $\mathrm{(RPC)}$ provides the
+integrability and the independence of points (\lref{GlobalTheory.T.points_integrable_of_resolution_statement}).
+Together with statements on vertical points, charts, chart energies and dual Grassmannian models proved in
+the development, these are the hypotheses of
+\lref{GroundTheory.Heights₂.Heights.LineOfLargeDegreeFromZ.ofOpen}, which yields $\mathrm{(LLD)}$.
+\end{proof}
+
+\begin{theorem}[Slope bound]\label{thm:pf:deepstr:slopebound}
+$\mathrm{(LLD)}$ implies the Lie slope bound (\ref{G:pf:deepstr:slope}).
+\formallabel{GlobalTheory.T.slope_bound_of_line_large_degree}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Sl.slopeBound_and_lemmaS_of_siegel}
+\end{theorem}
+
+\begin{proof}
+The formal statement asserts the Lie slope bound twice (the second copy is a synonym used elsewhere in
+the development). It is obtained from
+\lref{GlobalTheory.T.slope_bound_of_large_degree_line}, which derives the Lie slope bound from
+$\mathrm{(LLD)}$ and a bound for the key degree of abelian schemes in terms of their bad reduction, and from
+\lref{GlobalTheory.T.key_degree_of_bad_reduction} with
+\lref{GlobalTheory.T.key_bad_reduction_holds}, which provide that bound.
+\end{proof}
+
+\begin{theorem}[The package $\sfname{Given}$]\label{thm:pf:deepstr:given}
+The existence of a full intersection system, $\sfname{HSUse}$, $\sfname{MoriwakiBigStatement}$, $\mathrm{(RPC)}$,
+\cref{lit:pf:deepstr:sah}, the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht}, GAGA for sections and $\mathrm{(LLD)}$ imply
+$\sfname{Given}$. \formallabel{GlobalTheory.CompanionTheory.Ar.Link.given_of_use}
+\formallabel{GlobalTheory.T.final_theorem_of_inputs_left}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.given_of_inputs}
+\end{theorem}
+
+\begin{proof}
+The components \ref{G:pf:deepstr:sah}, \ref{G:pf:deepstr:resk}, \ref{G:pf:deepstr:ht}, \ref{G:pf:deepstr:gaga}
+are hypotheses, and \ref{G:pf:deepstr:slope} follows from $\mathrm{(LLD)}$ by \cref{thm:pf:deepstr:slopebound}.
+The others are proved in the development: \ref{G:pf:deepstr:tor} is
+\lref{GlobalTheory.CompanionTheory.Ar.Top.modelClause_holds}; \ref{G:pf:deepstr:key} is
+\lref{GlobalTheory.KeyFam.keyFormula_holds}; \ref{G:pf:deepstr:segre} is
+\lref{GlobalTheory.CompanionTheory.Segre.numericalSegre_closed}; \ref{G:pf:deepstr:sa} is
+\lref{GlobalTheory.T.semi_abelian_statement_holds}; \ref{G:pf:deepstr:anti} is
+\lref{GlobalTheory.T.antisymmetric_perturbation_holds}; \ref{G:pf:deepstr:provan} is
+\lref{GlobalTheory.T.analytic_provision_holds}; and \ref{G:pf:deepstr:pb}, \ref{G:pf:deepstr:provhs},
+\ref{G:pf:deepstr:zhang} follow from the existence of a full intersection system, $\sfname{HSUse}$,
+$\sfname{MoriwakiBigStatement}$ and $\mathrm{(RPC)}$ by
+\lref{GlobalTheory.CompanionTheory.Ar.Giv.inputs_of_use},
+\lref{GlobalTheory.CompanionTheory.Ar.Link.provHS_of_use} and
+\lref{GlobalTheory.CompanionTheory.Ar.Link.nineFree_of_use}. (The formal proof first states the
+implication with \ref{G:pf:deepstr:tor}, \ref{G:pf:deepstr:key}, \ref{G:pf:deepstr:segre},
+\ref{G:pf:deepstr:pb}--\ref{G:pf:deepstr:zhang} as hypotheses and then supplies them.)
+\end{proof}
+
+\begin{theorem}\label{thm:pf:deepstr:ofuse}
+The existence of a full intersection system, $\sfname{HSUse}$, $\sfname{MoriwakiBigStatement}$, $\mathrm{(RPC)}$,
+\cref{lit:pf:deepstr:sah}, the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht}, GAGA for sections, the existence of quotients by finite
+flat subgroups (\cref{lem:pf:deepstr:quot}(a)), \ref{H:pf:deepstr:zar} and \ref{H:pf:deepstr:nef} imply
+$\sfname{DeepStR}$. \formallabel{GlobalTheory.CompanionTheory.Ar.Plug.deepStR_of_use}
+\end{theorem}
+
+\begin{proof}
+By \cref{thm:pf:deepstr:lld}, $\mathrm{(LLD)}$ holds, hence $\sfname{Given}$ by \cref{thm:pf:deepstr:given}.
+The good tower volume theorem \lref{GlobalTheory.CompanionTheory.Ar.Link.good_tower_volume_theorem_bis}
+(\cref{thm:tower}), whose hypotheses are the existence of a full intersection system, $\sfname{HSUse}$,
+$\sfname{MoriwakiBigStatement}$, $\mathrm{(RPC)}$, \cref{lit:pf:deepstr:sah}, the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht},
+GAGA for sections, $\mathrm{(LLD)}$, the quotient statement and \ref{H:pf:deepstr:zar}, gives
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$. The statement $\mathrm{(VI)}$ is the fifth
+component of the Hilbert--Samuel provisions \ref{G:pf:deepstr:provhs} (it also follows directly from
+\ref{H:pf:deepstr:mor} by \cref{lem:pf:deepstr:vi}, which is how the development proves that component). Now \cref{thm:pf:deepstr:ofvolume} below,
+applied with \ref{H:pf:deepstr:nef}, $\sfname{Given}$, the full intersection system, $\mathrm{(VI)}$ and the
+two tower propositions, gives $\sfname{DeepStR}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:deepstr:main}]
+By \cref{lem:pf:deepstr:ais,lem:pf:deepstr:resk}, \ref{H:pf:deepstr:res}--\ref{H:pf:deepstr:pl} give a full
+intersection system and $\mathrm{(RPC)}$. \Cref{lit:pf:deepstr:sah} holds; GAGA for sections is proved in
+the development (\lref{GlobalTheory.CompanionTheory.Gaga.gagaSections}); the quotient statement is
+\cref{lem:pf:deepstr:quot}(a); and the sharp Hodge--Tate statement \ref{G:pf:deepstr:ht} follows from \ref{H:pf:deepstr:far} by
+\cref{lem:pf:deepstr:quot}(b). With \ref{H:pf:deepstr:hs}, \ref{H:pf:deepstr:mor}, \ref{H:pf:deepstr:zar}
+and \ref{H:pf:deepstr:nef}, \cref{thm:pf:deepstr:ofuse} gives $\sfname{DeepStR}$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{From the volume theorem to \texorpdfstring{$\sfname{DeepStR}$}{DeepStR}}\label{sec:pf:deepstr:volume}
+
+\subsubsection*{The uniform mean-slope bound}
+
+\begin{theorem}[Mean slopes on unitary moduli spaces]\label{thm:pf:deepstr:meanall}
+Assume \ref{H:pf:deepstr:nef}, $\sfname{Given}$, the existence of a full intersection system, $\mathrm{(VI)}$,
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$. There is $C\ge0$ with the following property. Let
+$E$ be an abelian CM field with host $H$, $D_w$ a datum of signature $(p,q)$, $l$ a level, $X^o$ a moduli
+space, $c$ a coefficient datum, $r\in\N$ and $U$ uniformisations with the composition laws $\mathrm{(CL)}$ for some
+$h,e$, such that $\mathrm{(UP)}$ and $\mathrm{(GI)}$ hold, $l$ has good reduction at every prime,
+$l_A=1$, $q\ge1$, $3q+1\le p+q$, $|\Psi_H|\ge2$ and
+\begin{equation}\label{eq:pf:deepstr:badhyp}
+\#\{p\text{ prime}:\ p\mid2|d_E|\ \text{or}\ p\mid M'\}\le4|\Psi_H|(p+q)^2.
+\end{equation}
+Let $x\in\R$ with $|\tau(\xi_0)|=x$ for the base points $\xi_0$ of all $U_\sigma$ with $\sigma$ good and all
+$\tau\colon E\to\C$. Then $\deepstrMeanAll(\log\deepstrrd_E+|L_H|,C)$ holds for $(X^o,c,U,x)$.
+\formallabel{GlobalTheory.T.abelian_cm_comp_laws_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.top_meanAll}
+\end{theorem}
+
+The proof uses three results proved below: a uniform version of the tower propositions
+(\cref{prop:pf:deepstr:vstower}), the comparison theorem (\cref{thm:pf:deepstr:comparison}) and the bound
+for the cost of clearing denominators (\cref{lem:pf:deepstr:costbound}).
+
+\begin{proposition}\label{prop:pf:deepstr:vstower}
+Assume $\sfname{Given}$, $\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$. There is $C_T\ge0$ such
+that for all $E,H,D_w,l,X^o,c$ with $E$ abelian, every full intersection system $\deepstrII$, and under the
+hypotheses $\mathrm{(GI)}$, good reduction of $l$ at every prime, $l_A=1$, $q\ge1$, $3q+1\le p+q$ and
+$\#\{p\text{ prime}:p\mid2d_EM'\}\le4|\Psi_H|(p+q)^2$, there are a model $Y$ of $X^o$ over $\OO_{F_c}$, a root
+tower $T$ of type $(\Psi_H,p+q)$, a good origin $o$ of $T$ on $Y$ and a bijection
+$\kappa\colon\deepstrComp(X^o,c)\to\deepstrComp(T)$ such that $o$ satisfies $\mathrm{(IC)}$, $\kappa$ is compatible
+with $o$, $\mathrm{bad}(T)$ is the set of
+prime divisors of $2d_EM'$, and $T$ satisfies proportionality, $\mathrm{(LC)}$, equality of volumes and
+$\mathrm{(MS)}$ with constants $(C_T,\deepstrrd_E,L_H)$.
+\formallabel{GlobalTheory.T.full_intersection_good_level}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.vs_tower}
+\end{proposition}
+
+\begin{proof}
+Let $C_T$ be the constant of $\sfname{VolumeTheoremX}$. Given the data, note $p+q\ge1$ and $p\ge1$ (as
+$3q+1\le p+q$). Choose for every level $l'$ a moduli space $X^o_{l'}$, with $X^o_l=X^o$; they exist by
+\lref{GlobalTheory.Moduli.moduli_scheme_exists}. Since $l$ has good reduction everywhere and $l_A=1$,
+the toroidal package \ref{G:pf:deepstr:tor} gives a global model $Y$ of $X^o$ over $\OO_{F_c}$
+(\lref{GlobalTheory.CompanionTheory.Ar.Rec.exists_isGlobal}, which states that a global model exists for
+every level with good reduction everywhere and trivial $A$-part). By $\mathrm{(GI)}$ the components of $Y$ are split
+(\lref{GlobalTheory.T.split_components_of_alg_closed}, which deduces split components of every model
+from (GI)), so $\sfname{GoodTowerExistsX}$ gives a root tower
+$T$ and a good origin $o$ with $\mathrm{(IC)}$, and \lref{GlobalTheory.T.tower_components_equiv_of_given}, which
+states that under $\sfname{Given}$ every tower origin admits a compatible bijection of components, gives
+$\kappa$.
+
+By definition of a tower origin, $r\in\mathrm{bad}(T)$ if and only if $r$ is a prime dividing $2d_EM'$. If
+$2d_EM'$ were $0$, every prime would lie in the finite set $\mathrm{bad}(T)$, which is absurd; hence
+$2d_EM'\ne0$ and $\mathrm{bad}(T)$ is its set of prime divisors. In particular
+$\#\mathrm{bad}(T)\le4|\Psi_H|(p+q)^2$, and $\sfname{VolumeTheoremX}$ (applicable as $E$ is abelian, $Y$ is
+global, $\mathrm{(IC)}$ holds, $\deepstrII$ is full, $q\ge1$ and $3q+1\le p+q$) gives proportionality,
+equality of volumes, $\mathrm{(LC)}$ and $\mathrm{(MS)}$ with constants $(C_T,\deepstrrd_E,L_H)$.
+\end{proof}
+
+\begin{lemma}[Integer weights]\label{lem:pf:deepstr:intweights}
+Let $u$ be an integer weight for a datum of signature $(p,q)$, $N=p+q$, and let $\lambda=u$ viewed as a real
+weight. Then $\|u\|_1=\|\lambda\|_1$, $\deepstrbnd(u,g)=\deepstrbnd_0(\lambda,g)$ for all $g$, and if $1\le q<p$
+and $\deepstrWtGap(u,g)$ holds, then $\mathrm{WH}(p,\lambda,g)$ holds.
+\formallabel{GlobalTheory.T.tower_weight_of_zero}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.integer_weights_vocab}
+\end{lemma}
+
+\begin{proof}
+The first two identities hold by definition ($\|\lambda\|$ is the maximum of the $|u_{\tau,i}|$). Let
+$1\le q<p$ and $\deepstrWtGap(u,g)$. Then $g>0$, and $\lambda$ is regular dominant because each $u_\tau$ is
+strictly decreasing. As $j=p>q=N-j$, the small block of $j=p$ is $\{i\ge p\}$, so the last condition of
+$\mathrm{WH}$ is the gap condition of $\deepstrWtGap$. Finally the gap of $\lambda$ at $\tau$ is
+$u_{\tau,p-1}-u_{\tau,p}=|u_{\tau,p}-u_{\tau,p-1}|\ge g$, by $\deepstrWtGap$ with $a=p$ (which exists as
+$q\ge1$) and $b=p-1$.
+\end{proof}
+
+The formal statement of \cref{lem:pf:deepstr:intweights} also contains four identities relating $u$ to the
+coefficient vectors of root models, to the Vandermonde product and to the automorphic weight $G_u$, which are
+not used in this section.
+
+\begin{proof}[Proof of \cref{thm:pf:deepstr:meanall}]
+Fix a full intersection system $\deepstrII$, let $C_T$ be as in \cref{prop:pf:deepstr:vstower} and put
+$C=C_T+120$. Let the data be as in the statement, and write $\Psi=\Psi_H$, $N=p+q$, $\deepstrrd=\deepstrrd_E$,
+$L=L_H$. Then $q<p$ and $N\ge4$ (from $q\ge1$ and $3q+1\le N$). The set of prime divisors of $2d_EM'$ is
+contained in the set in \eqref{eq:pf:deepstr:badhyp}, so \cref{prop:pf:deepstr:vstower} applies and gives
+$Y,T,o,\kappa$; we have $j=p$ for $T$, and $\min(j,N-j)=q$.
+
+Let $(u,g)$ satisfy $\deepstrWtGap(u,g)$ and put $\lambda=u$ (real), $B=\deepstrbnd(u,g)$ and $B_0=\lfloor B\rfloor$.
+By \cref{lem:pf:deepstr:intweights}, $\mathrm{WH}(p,\lambda,g)$ holds and $B=\deepstrbnd_0(\lambda,g)$. As
+$|\Psi|\ge2$ and $N\ge4$, $B\ge4|\Psi|N^2\ge128$, so $B_0\ge128$, $B<B_0+1$, and $4|\Psi|N^2\le B_0$ (since
+$4|\Psi|N^2$ is an integer $\le B$). Hence $\#\mathrm{bad}(T)\le4|\Psi|N^2\le B_0$, and
+$\mathrm{(MS)}$ at $B_0$ gives
+\begin{equation}\label{eq:pf:deepstr:hM}
+S:=\frac1{\#\deepstrComp(T)}\sum_{c}\deepstrslope_T(B_0,c,\lambda)\ge-C_T\bigl(\Lambda(B_0,\deepstrrd,L)\|u\|_1+q\,\deepstrspread(u)\bigr).
+\end{equation}
+For $Z\in\deepstrComp(X^o,c)$ put
+$\mathrm{sl}(Z)=\deepstrslope_T(B_0,\kappa(Z),\lambda)-2\deepstrcost(l,B)\|u\|_1$, with $\deepstrcost(l,B)$ as in
+\cref{def:pf:deepstr:cost}. By \cref{thm:pf:deepstr:comparison} (applicable: $E$ is Galois over $\Q$, each
+$u_\tau$ is strictly decreasing, $\mathrm{WH}(p,\lambda,g)$ holds and $\deepstrbnd_0(\lambda,g)\le B$),
+$\mathrm{sl}(Z)\le\deepstrvsl(Z,u)$ for the valuation family $\mathcal V_B$. As $\kappa$ is a bijection,
+\[
+\frac1{\#\deepstrComp(X^o,c)}\sum_Z\mathrm{sl}(Z)=S-2\deepstrcost(l,B)\|u\|_1.
+\]
+By \cref{lem:pf:deepstr:costbound} (applicable since $B\ge128$ and the set in \eqref{eq:pf:deepstr:badhyp} has at
+most $4|\Psi|N^2\le B_0$ elements), $0\le\deepstrcost(l,B)\le60(\log B+\log\deepstrrd)$. Moreover
+$\Lambda(B_0,\deepstrrd,L)=\log B_0+\log\deepstrrd+|L|\le\log B+\log\deepstrrd+|L|=:\Lambda'$, and
+$\Lambda'\ge0$ because $B\ge1$ and $\deepstrrd\ge1$. Hence, with $\|u\|_1\ge0$ and $q\,\deepstrspread(u)\ge0$,
+\begin{align*}
+S-2\deepstrcost(l,B)\|u\|_1&\ge-C_T\bigl(\Lambda'\|u\|_1+q\,\deepstrspread(u)\bigr)-120(\log B+\log\deepstrrd)\|u\|_1\\
+&\ge-(C_T+120)\bigl(\Lambda'\|u\|_1+q\,\deepstrspread(u)\bigr)=-C\,\deepstrerr_{\log\deepstrrd+|L|}(u,g),
+\end{align*}
+the last equality being the definition of $\deepstrerr$ with $\log\deepstrbnd(u,g)=\log B$. This is
+$\deepstrMeanGe(u,B,C\,\deepstrerr_{\log\deepstrrd+|L|}(u,g))$.
+\end{proof}
+
+\subsubsection*{Deep covers}
+
+\begin{lemma}[Parameters of deep covers]\label{lem:pf:deepstr:params}
+Assume $\sfname{Given}$. Let $\mathcal D$ be a global datum with ranks $k,m$, $n\ge1$ and $f=2n$ as in
+\cref{sec:families}, $r=k+m-1$, $T$ a core datum of $\mathcal D$ satisfying $\mathsf{LawsJ}$, $1\le j<m$, and $Y$
+a deep cover of $T$ at level $j$ which is good for some parameters. Then the uniformisations of $Y$ satisfy
+the composition laws $\mathrm{(CL)}$ for suitable generic frames, the level of $Y$ has good reduction at
+every prime, the datum $D_w(j)$ of $T$ at level $j$ has signature $(p,q)$ with $q=m-j$ and $p+q=r$,
+$|\Psi_H|=f$, $\deepstrrd_E$ is the root discriminant of the host field of $\mathcal D$, and
+$L_H=\Re\frac{L'}{L}(1,\chi_d)$ is the value used in the definition of $\ell(\mathcal D)$
+(\cref{def:covolume:deepstr}).
+\formallabel{GlobalTheory.T.good_datum_parameters}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.vs_laws}
+\end{lemma}
+
+\begin{proof}
+The laws $\mathsf{LawsJ}$ fix the signature of $D_w(j)$ to be $(k+j-1,m-j)$, whence $q=m-j$ and
+$p+q=k+m-1=r$. They also make the modulus of the level $l$ of $T$ the product $g_0g_1$ of the two type primes
+of the host; \lref{Formalism.L2.Pj.goodAt_of_two_primes} states that a level whose modulus is a product
+of two distinct primes has good reduction at every prime. Goodness of $Y$ makes the modulus of the level of $Y$ a multiple of that of $l$, and
+\lref{GlobalTheory.LawsDeep.goodAt_of_mul} states that good reduction at every prime passes to such a
+level. The composition laws follow from the existence statements for moduli spaces and uniformisations in
+\ref{G:pf:deepstr:tor} and the conditions imposed by goodness on the uniformisations of $Y$
+(\lref{GlobalTheory.CompanionTheory.Ar.Plug.VsLaws.compLaws_of}, which derives (CL) from these data).
+The identity $|\Psi_H|=f$ is a property of the CM type of the host,
+\lref{GlobalTheory.CompanionTheory.Ar.Plug.VsLaws.hostLval_eq} identifies $L_H$ with the logarithmic
+derivative used in $\ell(\mathcal D)$, and the identity for $\deepstrrd_E$ holds by definition.
+\end{proof}
+
+\begin{theorem}\label{thm:pf:deepstr:ofvolume}
+Assume \ref{H:pf:deepstr:nef}, $\sfname{Given}$, the existence of a full intersection system, $\mathrm{(VI)}$,
+$\sfname{GoodTowerExistsX}$ and $\sfname{VolumeTheoremX}$. Then $\sfname{DeepStR}$ holds.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.deepStR_of_volume}
+\end{theorem}
+
+\begin{proof}
+Let $C$ be the constant of \cref{thm:pf:deepstr:meanall}. Let $\mathcal D,T,j,Y$ be as in $\sfname{DeepStR}$:
+$T$ satisfies $\mathsf{LawsJ}$, $m^2\le k$, $1\le j<m$, $Y$ is good for some parameters, and the level modulus
+$M'$ of $Y$ has at most $15$ prime factors. The host field $E$ of $\mathcal D$ is abelian over $\Q$
+(\lref{GlobalTheory.CompanionTheory.Ar.Rec.field_of_datum_abelian}: it is Galois over $\Q$ with commutative
+Galois group). By \cref{lem:pf:deepstr:params}, the datum of $Y$ has $q=m-j$ and $p+q=r=k+m-1$, and
+$|\Psi_H|=2n$. We check the hypotheses of \cref{thm:pf:deepstr:meanall}.
+\begin{itemize}
+\item $q=m-j\ge1$ since $j<m$.
+\item $3q+1\le p+q$: as $m\ge2$, $k\ge m^2\ge2m$, so $3q+1=3m-3j+1\le3m-2\le k+m-1$.
+\item $|\Psi_H|=2n\ge2$ since $n\ge1$.
+\item \eqref{eq:pf:deepstr:badhyp}: let $\mathcal S$ be the set of primes dividing $2|d_E|$ or $M'$.
+\Lref{Formalism.BasicNotions.Host.card_bad_gt_le} states that for every finite set $S'$ and every
+$B\ge n$ at most $\#S'+3$ primes $p>B$ divide $2|d_E|$ or lie in $S'$ (the prime divisors of $2|d_E|$ lie in the
+set of small primes of the host, at most one of which exceeds $n$, together with its distinguished primes
+$q,d$; \cref{sec:families}). With $S'$ the set of prime factors of $M'$ and $B=n$, at most $15+3$ elements of
+$\mathcal S$ exceed $n$, and at most $n+1$ elements are $\le n$. So
+$\#\mathcal S\le n+19\le128n=4\cdot2n\cdot16\le4|\Psi_H|(p+q)^2$, using $n\ge1$ and $p+q=k+m-1\ge4$.
+\end{itemize}
+The remaining hypotheses are supplied by the deep cover: (CL) and good reduction everywhere by
+\cref{lem:pf:deepstr:params}; (UP) by \lref{GlobalTheory.CompanionTheory.Ar.Ref.unifAll_holds}, which
+states that (UP) holds for every moduli space and coefficient datum; (GI), $l_A=1$ and the normalisation
+$|\tau(\xi_0)|=\xi_R(\mathcal D)$ of the base points by the conditions of goodness. Hence
+$\deepstrMeanAll(\log\deepstrrd_E+|L_H|,C)$ holds on $Y$ with $x=\xi_R(\mathcal D)$, and
+$\log\deepstrrd_E+|L_H|=\ell(\mathcal D)$ by \cref{lem:pf:deepstr:params}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The comparison theorem}\label{sec:pf:deepstr:comparison}
+
+\subsubsection*{The cost of clearing denominators}
+
+\begin{definition}[Cost]\label{def:pf:deepstr:cost}
+Let $E$ be a number field, $l$ a level with modulus $M'$ and $B>0$. For a prime $p$ put
+\[
+\deepstrex(p)=\frac1{p-1}+\frac{40\,v_p(|d_E|)}{[E:\Q]}+\begin{cases}1&p=2,\\0&p\ne2,\end{cases}\qquad
+\deepstrcost(l,B)=\sum_{p\in\deepstrPrimes(l,B)}\deepstrex(p)\log p,
+\]
+with $\deepstrPrimes(l,B)$ as in \eqref{eq:pf:deepstr:htprimes}. For a finite set $S$ of primes and an
+integer weight $u$ put $\deepstrclear(S,u)=\prod_{p\in S}p^{\lceil2\deepstrex(p)\|u\|_1\rceil}\in\Z_{\ge1}$.
+Finally, the \emph{valuation comparison} $\mathrm{(VC)}$ for $(X^o,c)$ is the condition: for every prime $p$,
+every height-one prime $\lambda\ni p$ of $\OO_{F_c}$ and every $w\in\mathcal V^{\mathrm{ht}}(\lambda)$ there is
+$v\in\mathcal V^{\mathrm{rec}}(\lambda)$ such that $v(f)\le w(f)+v_\lambda(p)\,\deepstrex(p)\,\|u\|_1$ for every
+integer weight $u$ and every section $f$ of weight $G_u$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.exTwo}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.costTwo}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVol.clearN}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.HTLow}
+\end{definition}
+
+The first two terms of $\deepstrex(p)$ form the exponent of the primes in the covolume bound
+(\lref{GlobalTheory.CovHt.htEx} defines it by this formula).
+
+\begin{lemma}[A Mertens-type bound]\label{lem:pf:deepstr:mertens}
+For every integer $N\ge1$, $\displaystyle\sum_{p\le N}\frac{\log p}{p-1}\le\log N+2.2$.
+\formallabel{ReciprocityTheory.ChartRestriction.G.H1.primeLogSum_nat}
+\end{lemma}
+
+\begin{proof}
+For $N=1$ the sum is empty. Let $N\ge2$. Write $\frac{\log p}{p-1}=\frac{\log p}p+\frac{\log p}{p(p-1)}$.
+For $p\le N$, Legendre's formula gives $v_p(N!)\ge\lfloor N/p\rfloor\ge N/p-1$, so
+$N\frac{\log p}p\le v_p(N!)\log p+\log p$; summing over $p\le N$,
+\[
+N\sum_{p\le N}\frac{\log p}p\le\log N!+\sum_{p\le N}\log p\le(N+1)\log N-N+1+N\log4,
+\]
+where $\log N!\le(N+1)\log N-N+1$ (as $\log k\le\int_k^{k+1}\log x\,dx$, $\sum_{k=2}^{N-1}\log k\le\int_1^N\log x\,dx=N\log N-N+1$) and $\prod_{p\le N}p\le4^N$ (the classical bound,
+proved by induction from $\prod_{m+1<p\le2m+1}p\mid\binom{2m+1}m\le4^m$). Since $\log N\le\log2+N/2-1$
+(from $\log x\le x-1$ at $x=N/2$),
+\[
+\sum_{p\le N}\frac{\log p}p\le\log N+\frac{\log N+1}N-1+\log4\le\log N-\tfrac12+\log4+\frac{\log2}N
+\le\log N+1.2329.
+\]
+For the second part, bound $\log p\le k\log2$ for $p\le2^k$; the primes $p\le30$ contribute at most
+$\log2\,(\frac12+\frac26+\frac3{20}+\frac3{42}+\frac4{110}+\frac4{156}+\frac5{272}+\frac5{342}+\frac5{506}+\frac5{812})
+\le0.8081$, and for the integers $n\ge31$, by summation by parts with $\frac1{n(n-1)}=\frac1{n-1}-\frac1n$ and
+$\log(n+1)-\log n\le\frac1n$,
+\[
+\sum_{n=31}^N\frac{\log n}{n(n-1)}\le\frac{\log31}{30}+\sum_{n\ge31}\frac1{n^2}\le\frac{5\log2+1}{30}\le0.1489.
+\]
+The total is at most $\log N+1.2329+0.8081+0.1489\le\log N+2.2$.
+\end{proof}
+
+\begin{lemma}[Cost bound]\label{lem:pf:deepstr:costbound}
+Let $E$ be a CM field with host $H$, $l$ a level and $B\ge128$ such that at most $\lfloor B\rfloor$ primes divide
+$2|d_E|$ or $M'$. Then $0\le\deepstrcost(l,B)\le60(\log B+\log\deepstrrd_E)$.
+\formallabel{GlobalTheory.T.cost_two_log_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.costTwo_bound}
+\end{lemma}
+
+\begin{proof}
+Let $N=\lfloor B\rfloor\ge128$, $\mathcal P=\{p\le N\}$ and $\mathcal Q$ the set of primes dividing $2|d_E|$ or
+$M'$, so that $\deepstrPrimes(l,B)=\mathcal P\cup\mathcal Q$ (an integer $p$ satisfies $p\le B$ if and only if
+$p\le N$). Put $n=[E:\Q]$. Then
+\[
+\deepstrcost(l,B)=\sum_{p\in\mathcal P\cup\mathcal Q}\frac{\log p}{p-1}
++\frac{40}n\sum_{p\in\mathcal P\cup\mathcal Q}v_p(|d_E|)\log p+\log2,
+\]
+the last term because $2\in\mathcal Q$. All terms are non-negative, whence $\deepstrcost(l,B)\ge0$. Every prime
+divisor of $d_E$ lies in $\mathcal Q$, so the middle sum is $\frac{40}n\log|d_E|=40\log\deepstrrd_E$, and
+$\log\deepstrrd_E\ge0$. By \cref{lem:pf:deepstr:mertens} the primes of $\mathcal P$ contribute at most $\log N+2.2$ to
+the first sum. Each prime $p\in\mathcal Q\smallsetminus\mathcal P$ satisfies $p\ge N+1$, so
+$\frac{\log p}{p-1}\le\frac{\log(N+1)}N$ (the function $x\mapsto\log x/(x-1)$ decreases on $x>1$), and there are at most
+$N$ of them by hypothesis; they contribute at most $\log(N+1)\le\log N+1$. Hence
+\[
+\deepstrcost(l,B)\le2\log N+3.2+\log2+40\log\deepstrrd_E\le2\log B+3.9+40\log\deepstrrd_E
+\le60(\log B+\log\deepstrrd_E),
+\]
+since $\log B\ge7\log2>4.8$.
+\end{proof}
+
+\begin{lemma}[Clearing denominators]\label{lem:pf:deepstr:clear}
+\textup{(a)} For a finite set $S$ of primes and an integer weight $u$,
+$\deepstrclear(S,u)\le\exp\bigl(2\|u\|_1\sum_{p\in S}\deepstrex(p)\log p+\sum_{p\in S}\log p\bigr)$.
+
+\textup{(b)} Assume $\mathrm{(VC)}$, let $B>0$ and let $S=\deepstrPrimes(l,B)$ (a finite set). Let $f$ be a cusp
+form of weight $G_u$ on a component $Z$ such that $v(f)\ge-v_\lambda(p)\,\deepstrex(p)\,\|u\|_1$ for every prime
+$p\in S$, every $\lambda\ni p$ and every $v\in\mathcal V^{\mathrm{rec}}(\lambda)$, and $v(f)\ge0$ for every prime
+$p\notin S$, every $\lambda\ni p$ and every $v\in\mathcal V^{\mathrm{rec}}(\lambda)$. Then $w(\deepstrclear(S,u)f)\ge0$
+for every $\lambda$ and every $w\in\mathcal V_B(\lambda)$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVol.clearN_le}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVol.clear_integral}
+\end{lemma}
+
+\begin{proof}
+(a) For $p\in S$, $p^{\lceil a\rceil}\le p^{a+1}=\exp((a+1)\log p)$ with $a=2\deepstrex(p)\|u\|_1\ge0$; take the
+product. (b) Put $N=\deepstrclear(S,u)$; then $w(Nf)=v_\lambda(N)+w(f)$. Let $\lambda$ lie over the prime $p$.
+If $p\in S$, then $\mathcal V_B(\lambda)=\mathcal V^{\mathrm{ht}}(\lambda)$, and $\mathrm{(VC)}$ gives
+$v\in\mathcal V^{\mathrm{rec}}(\lambda)$ with $v(f)\le w(f)+v_\lambda(p)\deepstrex(p)\|u\|_1$; with the hypothesis,
+$w(f)\ge-2v_\lambda(p)\deepstrex(p)\|u\|_1$, while $v_\lambda(N)\ge\lceil2\deepstrex(p)\|u\|_1\rceil v_\lambda(p)\ge
+2v_\lambda(p)\deepstrex(p)\|u\|_1$, the other factors of $N$ having non-negative valuation. If $p\notin S$, then
+$\mathcal V_B(\lambda)=\mathcal V^{\mathrm{rec}}(\lambda)$, $w(f)\ge0$ by hypothesis and $v_\lambda(N)\ge0$. In both cases
+$w(Nf)\ge0$ (trivially if $w(f)=+\infty$).
+\end{proof}
+
+\subsubsection*{Counting lemmas}
+
+\begin{lemma}\label{lem:pf:deepstr:counting}
+\textup{(a)} Let $\mathcal A,\mathcal B$ be sets, $d\ge1$, and $\mathsf P(a,i,b)$ a relation ($a\in\mathcal A$,
+$1\le i\le d$, $b\in\mathcal B$) such that every $a$ and $i$ admit some $b\in\mathcal B$ with $\mathsf P(a,i,b)$, and
+$a=a'$ whenever for every $i$ some $b$ satisfies $\mathsf P(a,i,b)$ and $\mathsf P(a',i,b)$. Then
+$\#\mathcal A\le(\#\mathcal B)^d$ (cardinalities in $\N\cup\{\infty\}$).
+
+\textup{(b)} Let $\Omega$ be a field, $\Lambda\subseteq\Omega$ a subgroup, $\mathcal S\subseteq\Omega$, $\theta\in\Omega^\times$, and $\mathsf Q$ a
+property of elements of $\Lambda$ such that $\sigma\theta\in\mathcal S$ whenever $\mathsf Q(\sigma)$. Then the number of
+$\sigma\in\Lambda$ with $\mathsf Q(\sigma)$, taken to be $0$ if infinite, is at most $\#\mathcal S$.
+
+\textup{(c)} Let $D\in\N$, $n,d\ge1$, $k_0\in8\N$, and
+$m,m'\colon\N\to\N\cup\{\infty\}$ with $m(\tau)\le m'(\tau+k_0)^d$ for all large $\tau$. Then
+$\deepstrcvol(D,nd,8;m)\le\deepstrcvol(D,n,8;m')$.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVol.encard_le_pow_of_rel}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.card_le_encard_of_mul}
+\formallabel{GlobalTheory.T.count_volume_power_comparison}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.countVol_le_of_le_shift_pow}
+\end{lemma}
+
+\begin{proof}
+(a) Choose $b(a,i)\in\mathcal B$ with $\mathsf P(a,i,b(a,i))$; the map $a\mapsto(b(a,i))_i\in\mathcal B^d$ is injective
+by the second hypothesis. (b) Multiplication by $\theta$ is injective. (c) Write $k_0=8j$. For large $k$,
+$m(8k)\le m'(8(k+j))^d$, hence $\deepstrlogc(m(8k))\le d\,\deepstrlogc(m'(8(k+j)))$ (both sides are
+monotone in their arguments and $\deepstrlogc(x^d)=d\,\deepstrlogc(x)$), and
+\[
+\frac{D!\,\deepstrlogc(m(8k))}{nd\,(8k)^{D+1}}\le b_{k+j}\Bigl(1+\frac jk\Bigr)^{D+1},\qquad
+b_k=\frac{D!\,\deepstrlogc(m'(8k))}{n\,(8k)^{D+1}}.
+\]
+As $(1+j/k)^{D+1}\to1$, the $\limsup$ of the right-hand side is at most $\limsup_kb_{k+j}=\limsup_kb_k$
+(the product of a sequence in $[0,\infty]$ with a sequence tending to $1$; the case $\limsup b=\infty$ being
+trivial).
+\end{proof}
+
+\subsubsection*{Geometric inputs}
+
+\begin{proposition}[Inputs on root models and origins]\label{prop:pf:deepstr:geominputs}
+The following statements are proved in the development; each item cites its formal proof. Let $E$ be a CM field Galois over $\Q$ with host $H$, $D_w,l,X^o,c$ as before, $U$ uniformisations with
+the composition laws $\mathrm{(CL)}$, $x$ with $|\tau(\xi_0)|=x$ as in \cref{thm:pf:deepstr:meanall}, $Y$ a model, $T$ a
+root tower with a good origin $o$, $\kappa$ a bijection compatible with $o$, and $\deepstrII$ a full intersection
+system such that $T$ is proportional and satisfies $\mathrm{(LC)}$. Assume $\sfname{Given}$. For
+$B\in\N$ and $b\in\deepstrComp(T)$ write $\mathrm{Or}=\mathrm{Or}(B,b)$, $M=M(B,b)$, $d=\deg\mathrm{Fl}$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{gi:topdeg} If \ref{H:pf:deepstr:nef} holds, then for every component $Z$ and every integer weight $u$
+with strictly decreasing $u_\tau$: $\mathrm{gr}(Z,G_u)=\deepstrtop(Z,u)=\deepstrvol_T(\kappa(Z))\,\deepstrflagdeg(u)>0$
+(\lref{GlobalTheory.T.uniform_norm_degree_bound}).
+\item\label{gi:frame} For every $B$ and $Z$, with $b=\kappa(Z)$, there are a generic frame $\mathrm{Fr}$ of
+$\mathrm{Or}$ and a reading $\mathrm{Rd}$ of it on $Z$ (\cref{def:pf:deepstr:origins}(e)) which is
+\emph{geometric}: the image under $\varphi$ of the generic frame of $Z$ differs from $\mathrm{Fr}$ by the units of
+the reading (\lref{GlobalTheory.T.tower_origin_component_bound}).
+\item\label{gi:basis} For $(\mathrm{Fr},\mathrm{Rd})$ as in \ref{gi:frame}, every integer weight $u$ and $g,B$ with
+$\mathrm{WH}(j,u,g)$ and $\deepstrbnd_0(u,g)<B+1$, there are $k_0\in8\N$, $R_0>0$ and
+$f_1,\dots,f_d\in\deepstrmsmall(\mathrm{Or},k_0u,R_0)$, linearly independent over $\varphi\Omega(Z)$, such that for every
+integer weight $v$ and $s\in\Omega_M$: if $\deepstrtr_v(sf_i)=0$ for all $i$, then $s=0$
+(\lref{GlobalTheory.T.generic_frame_component_bound}).
+\item\label{gi:htlow} $\mathrm{(VC)}$ holds (\lref{GlobalTheory.T.low_height_of_given}).
+\item\label{gi:mul} $\deepstrmsmall(\mathrm{Or},u,R)\cdot\deepstrmsmall(\mathrm{Or},v,R')\subseteq\deepstrmsmall(\mathrm{Or},u+v,RR')$ for
+$R,R'\ge0$ (\lref{GlobalTheory.T.model_small_sections_mul}).
+\item\label{gi:descent} \emph{Descent.} If $\mathrm{(UP)}$ holds and $(\mathrm{Fr},\mathrm{Rd})$ is as in
+\ref{gi:frame}, then for every integer weight $u$ with strictly decreasing $u_\tau$, every $R\ge0$ and every
+$s\in\deepstrmsmall(\mathrm{Or},u,R)$ there is $f\in\deepstrcusp(Z,G_u)$ with $\deepstrev(f)=\deepstrtr_u(s)$,
+$\|f\|_{G_u,\sigma,z}\le dR$ for all good $\sigma$ and frames $z$ on $Z$, and
+$v(f)\ge-v_\lambda(p)\,[p\in S(B)]\,\deepstrex(p)\,\|u\|_1$ for all primes $p$, all $\lambda\ni p$ and all
+$v\in\mathcal V^{\mathrm{rec}}(\lambda)$ (\lref{GlobalTheory.T.uniform_norm_all_tower_bound}).
+\item\label{gi:approx} \emph{Integral approximation.} For every integer weight $u$ with strictly decreasing
+$u_\tau$ there are $C\ge0$, $s_n>0$ with $s_n\to0$, integers $q_n>0$ divisible by $8$, $\theta_n\in\Omega_M^\times$ and
+$m_n\in\Z^{\mathcal R}$ with $m_n=q_n\,\mathrm{coef}(u_{s_n},s_n)$, such that, with
+$L_n=L_{\varsigma(s_n)}(m_n)$: for all $n,\tau\in\N$ and $t\in\R$, every $\sigma\in\Lambda_\tau(y,a_{L_n})$ which is
+small of degree $\tau$ for the shifted line $L_n(q_nt)$ satisfies
+$\sigma\theta_n^\tau\in\deepstrmsmall\bigl(\mathrm{Or},\tau q_nu,\exp(\tau q_n(t+Cs_n))\bigr)$
+(\lref{GlobalTheory.T.strict_weight_growth_bound}).
+\end{enumerate}
+\end{proposition}
+
+Statement \ref{gi:descent} is the heart of the transport: a small section of the root model, divided by the gauge and
+traced down to the function field of $Z$, is the value of a cusp form whose Hodge norms are controlled by the
+degree of the flag and whose poles at the primes of $S(B)$ are bounded by the exponents $\deepstrex(p)$.
+
+\subsubsection*{The arithmetic Hilbert--Samuel lower bound on root models}
+
+\begin{lemma}\label{lem:pf:deepstr:shift}
+\textup{(a)} For an intersection system $\deepstrII$, an arithmetic variety $P$ of dimension $D+1$, a smooth
+Hermitian line $A$ and $t\in\R$, $\deepstrII(P;A(t)^{D+1})=\deepstrII(P;A^{D+1})+(D+1)\,t\,\deepstrgdeg(P,A)$.
+
+\textup{(b)} Let $M$ be a root model, $\deepstrDim\ge1$, $\deepstrII$ an intersection system, $A$ a Hermitian line which
+is nef on $P_M$ (semipositive relative to some $P_0\subseteq P_M$, nef on the fibres, conjugation-invariant),
+$\kappa\in\R$, $r\ge1$, and $m\colon\N\to\N\cup\{\infty\}$ such that for every $\tau$ the number of $\sigma\in\Lambda_\tau(y,a_A)$
+which are small of degree $\tau$ for $A(\kappa)$ is at most $m(8r\tau)$. If $\mathrm{(VI)}$ holds, then
+\[
+\max\Bigl(\frac{\deepstrII(P_M;A^{\deepstrDim+1})+(\deepstrDim+1)\kappa\,\deepstrgdeg(P_M,A)}
+{(\deepstrDim+1)\,\delta_M\,(8r)^{\deepstrDim+1}},0\Bigr)\le\deepstrcvol(\deepstrDim,\delta_M,8;m).
+\]
+\formallabel{GlobalTheory.CompanionTheory.Ar.Small.selfInt_shiftH}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.le_countVol_of_nef}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.arithmeticVolume_div_le_countingVolume}
+\end{lemma}
+
+\begin{proof}
+(a) $A(t)$ is $A\otimes\OO(-t)$ for the trivial line with constant metric; by the telescoping formula for
+intersection systems (\lref{GroundTheory.Heights₂.Heights.Telescope.proof}) the difference of the two
+self-intersections is a sum of $D+1$ integrals of the constant $t$ against products of Chern forms, each equal
+to $t\,\deepstrgdeg(P,A)$ (\lref{GroundTheory.Heights₂.Heights.HilbertSamuel.TopConstantTwist.proof}).
+
+(b) Write $D=\deepstrDim$. The shifted line $A(\kappa)$ is again nef
+(\lref{GlobalTheory.T.hermitian_line_shift_properties}), so $\mathrm{(VI)}$ and (a) give
+$\deepstrII(P_M;A^{D+1})+(D+1)\kappa\,\deepstrgdeg(P_M,A)\le\deepstrarvol(A(\kappa))$. Let $n_\tau$ be the number of small
+$\sigma$ of degree $\tau$ ($n_\tau\ge1$ as $0$ is small). For $k=r\tau$,
+\[
+\frac{\log n_\tau}{\tau^{D+1}/(D+1)!}\cdot\frac1{(D+1)\,\delta_M\,(8r)^{D+1}}
+=\frac{D!\,\log n_\tau}{\delta_M\,(8k)^{D+1}}\le\frac{D!\,\deepstrlogc(m(8k))}{\delta_M\,(8k)^{D+1}},
+\]
+and the $\limsup$ over the subsequence $k=r\tau$ is at most $\deepstrcvol(D,\delta_M,8;m)$. Hence
+$\deepstrarvol(A(\kappa))/((D+1)\delta_M(8r)^{D+1})\le\deepstrcvol(D,\delta_M,8;m)$.
+\end{proof}
+
+\begin{lemma}[Limits along integral approximations]\label{lem:pf:deepstr:towerseq}
+Let $T$ be a root tower, $\deepstrII$ a full intersection system with $\mathrm{(LC)}$, $(\lambda,g)$ with
+$\mathrm{WH}(j,\lambda,g)$, $B$ with $\deepstrbnd_0(\lambda,g)<B+1$, $c\in\deepstrComp(T)$, $M=M(B,c)$, and let
+$s_n>0$, $s_n\to0$, $q_n\ge1$ and $m_n=q_n\,\mathrm{coef}(\lambda_{s_n},s_n)\in\Z^{\mathcal R}$. Put
+$L_n=L_{\varsigma(s_n)}(m_n)$ and $D=\deepstrDim$. Then $L_n$ is nef on $P_M$ for all large $n$, and as
+$n\to\infty$
+\[
+\frac{\deepstrgdeg(P_M,L_n)}{q_n^{D}}\to\delta_M\,\deepstrvol_T(c)\,\deepstrflagdeg(\lambda),\qquad
+\frac{\deepstrII(P_M;L_n^{D+1})}{(D+1)\,\deepstrgdeg(P_M,L_n)\,q_n}\to\deepstrslope_T(B,c,\lambda);
+\]
+moreover $\deepstrvol_T(c)\deepstrflagdeg(\lambda)>0$.
+\formallabel{GlobalTheory.T.weight_threshold_limit_coefficients}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Small.tower_seq}
+\end{lemma}
+
+\begin{proof}
+For all $n$, \cref{prop:pf:deepstr:combroot} gives
+$\deepstrgdeg(P_M,L_n)=\delta_Mq_n^{D}\,m(B,c,\lambda,s_n)$ and
+$\deepstrII(P_M;L_n^{D+1})=\delta_Mq_n^{D+1}\,\overline m(B,c,\lambda,s_n)$, which express intersection numbers of
+integral combinations of the Chern-root lines through the functionals of \cref{def:pf:deepstr:rootmodel}. By
+the limit conditions $\mathrm{(LC)}$, for large $n$ the model is nef on the fibres and semipositive at
+$(\lambda_{s_n},s_n)$; then $L_n$ is nef on the fibres, semipositive and conjugation-invariant by
+\cref{lem:pf:deepstr:nefcomb}, i.e.\ nef. The limits follow from those of $\mathrm{(LC)}$ along $s_n\to0^+$: the
+first is $\delta_M\,m(B,c,\lambda,s_n)\to\delta_M\deepstrvol_T(c)\deepstrflagdeg(\lambda)$, and the second quotient equals
+$\overline m/((D+1)m)$ at $s_n$ (with the convention $x/0=0$ of the development, both sides vanish if
+$m(B,c,\lambda,s_n)=0$).
+\end{proof}
+
+\begin{proposition}[Volume of small model sections]\label{prop:pf:deepstr:volslope}
+Assume $\sfname{Given}$ and $\mathrm{(VI)}$. In the situation of \cref{prop:pf:deepstr:geominputs}, let $u$ be an
+integer weight, $\lambda=u$, $(g,B)$ with $\mathrm{WH}(j,\lambda,g)$ and $\deepstrbnd_0(\lambda,g)<B+1$, and
+$b\in\deepstrComp(T)$. Then for every $t\in\R$
+\begin{multline*}
+\max\bigl(\deepstrvol_T(b)\,\deepstrflagdeg(\lambda)\,(\deepstrslope_T(B,b,\lambda)+t),0\bigr)\\
+\le\deepstrcvol\bigl(\deepstrDim,\delta_{M(B,b)},8;\ \tau\mapsto\#\deepstrmsmall(\mathrm{Or}(B,b),\tau u,e^{\tau t})\bigr).
+\end{multline*}
+\formallabel{GlobalTheory.T.full_intersection_weight_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.volume_ge_slope}
+\end{proposition}
+
+\begin{proof}
+Write $D=\deepstrDim$, $M=M(B,b)$, $\delta=\delta_M$, $V=\deepstrvol_T(b)\deepstrflagdeg(\lambda)$ and
+$m(\tau)=\#\deepstrmsmall(\mathrm{Or},\tau u,e^{\tau t})$. Since $\lambda$ is regular dominant, each $u_\tau$ is strictly
+decreasing. Take $C,s_n,q_n,\theta_n,m_n$ from \cref{prop:pf:deepstr:geominputs}\ref{gi:approx}, $L_n$ as there, $r_n=q_n/8$
+and $t_n=t-Cs_n$. Note $D\ge1$: $\Psi_H\ne\varnothing$ and $p+q\ge2$ as $1\le j<p+q$. By \cref{lem:pf:deepstr:towerseq},
+$L_n$ is nef for large $n$, and $G_n=\deepstrgdeg(P_M,L_n)>0$ for large $n$, as $G_n/q_n^D\to\delta V>0$.
+
+\emph{Counting.} For every $\tau$, the map $\sigma\mapsto\sigma\theta_n^\tau$ sends the elements of $\Lambda_\tau(y,a_{L_n})$
+which are small of degree $\tau$ for $L_n(q_nt_n)$ into $\deepstrmsmall(\mathrm{Or},\tau q_nu,\exp(\tau q_n(t_n+Cs_n)))
+=\deepstrmsmall(\mathrm{Or},(q_n\tau)u,e^{q_n\tau t})$, whose cardinality is $m(q_n\tau)=m(8r_n\tau)$. By
+\cref{lem:pf:deepstr:counting}(b), the hypothesis of \cref{lem:pf:deepstr:shift}(b) holds for $A=L_n$,
+$\kappa=q_nt_n$, $r=r_n$. Hence, for large $n$, with $I_n=\deepstrII(P_M;L_n^{D+1})$,
+\[
+\max\Bigl(\frac{I_n+(D+1)q_nt_nG_n}{(D+1)\,\delta\,q_n^{D+1}},0\Bigr)\le\deepstrcvol(D,\delta,8;m).
+\]
+\emph{Limit.} With $h_n=I_n/((D+1)G_n)$, a direct computation gives
+\[
+\frac{I_n+(D+1)q_nt_nG_n}{(D+1)\,\delta\,q_n^{D+1}}=\frac1\delta\Bigl(\frac{h_n}{q_n}\cdot\frac{G_n}{q_n^{D}}
++t_n\frac{G_n}{q_n^{D}}\Bigr)
+\]
+by a direct computation. By \cref{lem:pf:deepstr:towerseq} and $t_n\to t$ the
+right-hand side tends to $\frac1\delta(\deepstrslope_T(B,b,\lambda)\,\delta V+t\,\delta V)=V(\deepstrslope_T(B,b,\lambda)+t)$.
+Since $x\mapsto\max(x,0)$ is continuous and the inequality holds for all large $n$, it holds in the limit.
+\end{proof}
+
+\subsubsection*{Transport to cusp forms}
+
+\begin{proposition}[Transport of small sections]\label{prop:pf:deepstr:transport}
+Assume $\sfname{Given}$, $\mathrm{(UP)}$ and $\mathrm{(VC)}$, in the situation of
+\cref{prop:pf:deepstr:geominputs}. Let $Z$ be a component, $B_0\in\N$, $b=\kappa(Z)$, $\mathrm{Or}=\mathrm{Or}(B_0,b)$,
+$(\mathrm{Fr},\mathrm{Rd})$ as in
+\ref{gi:frame}, $u$ an integer weight with strictly decreasing $u_\tau$, $B_d>0$ with
+$\deepstrPrimes(l,B_d)=S(B_0)$, $d=\deg\mathrm{Fl}>0$, and $k_0\in8\N$, $R_0\ge0$ and $f_1,\dots,f_d$ as in
+\ref{gi:basis}. Let
+$\tau\ge1$, $R\ge0$, $R'\in\R$ with $\deepstrclear(S(B_0),(\tau+k_0)u)\,d\,RR_0\le R'$. Then
+\[
+\#\deepstrmsmall(\mathrm{Or},\tau u,R)\le\bigl(\#\deepstrsmall_{B_d}(Z,(\tau+k_0)G_u,R')\bigr)^d.
+\]
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVol.modelSmall_encard_le}
+\end{proposition}
+
+\begin{proof}
+Put $S=S(B_0)$, $u'=(\tau+k_0)u$ (so $(\tau+k_0)G_u=G_{u'}$ and $u'_\tau$ is strictly decreasing) and
+$N=\deepstrclear(S,u')\ge1$. Consider the relation $\mathsf P(s,i,f')$: \emph{$f'=Nf$ for a rational section
+$f$ with $\deepstrev(f)=\deepstrtr_{u'}(sf_i)$}. We check the hypotheses of \cref{lem:pf:deepstr:counting}(a)
+with $\mathcal A=\deepstrmsmall(\mathrm{Or},\tau u,R)$ and $\mathcal B=\deepstrsmall_{B_d}(Z,G_{u'},R')$.
+
+\emph{Existence.} Let $s\in\mathcal A$ and $1\le i\le d$. By \ref{gi:mul}, $sf_i\in\deepstrmsmall(\mathrm{Or},u',RR_0)$. By
+\ref{gi:descent} there is $f\in\deepstrcusp(Z,G_{u'})$ with $\deepstrev(f)=\deepstrtr_{u'}(sf_i)$,
+$\|f\|_{G_{u'},\sigma,z}\le dRR_0$ and $v(f)\ge-v_\lambda(p)[p\in S]\deepstrex(p)\|u'\|_1$ for $v\in\mathcal
+V^{\mathrm{rec}}(\lambda)$. By \cref{lem:pf:deepstr:clear}(b) (with $S=\deepstrPrimes(l,B_d)$), $w(Nf)\ge0$ for all
+$w\in\mathcal V_{B_d}(\lambda)$, and $\|Nf\|_{G_{u'},\sigma,z}=N\|f\|_{G_{u'},\sigma,z}\le NdRR_0\le R'$. So
+$f'=Nf\in\mathcal B$ and $\mathsf P(s,i,f')$.
+
+\emph{Injectivity.} Let $s,s'\in\mathcal A$ and suppose that for every $i$ some $f'$ satisfies $\mathsf P(s,i,f')$
+and $\mathsf P(s',i,f')$: $f'=Nf=Ng$ with $\deepstrev(f)=\deepstrtr_{u'}(sf_i)$ and $\deepstrev(g)=\deepstrtr_{u'}(s'f_i)$.
+As $N\ne0$, $f=g$, so $\deepstrtr_{u'}((s-s')f_i)=0$ for all $i$ (the trace is additive), and $s=s'$ by
+\ref{gi:basis}. \Cref{lem:pf:deepstr:counting}(a) gives the claim.
+\end{proof}
+
+\subsubsection*{The comparison theorem}
+
+\begin{theorem}[Comparison of slopes]\label{thm:pf:deepstr:comparison}
+Assume \ref{H:pf:deepstr:nef}, $\sfname{Given}$ and $\mathrm{(VI)}$. Let $E$ be a CM field Galois over $\Q$ with
+host $H$; $D_w,l,X^o,c$; $r\in\N$ and uniformisations $U$ with the composition laws $\mathrm{(CL)}$; assume $\mathrm{(UP)}$;
+let $x$ with $|\tau(\xi_0)|=x$ for all good $\sigma$; let $Y$ be a model of $X^o$ over $\OO_{F_c}$, $T$ a root tower of
+type $(\Psi_H,p+q)$ with a good origin $o$, $\kappa\colon\deepstrComp(X^o,c)\to\deepstrComp(T)$ a bijection compatible
+with $o$, and $\deepstrII$ a full intersection system such that $T$ is proportional and satisfies
+$\mathrm{(LC)}$. Let $Z$ be a component, $u$ an integer weight with strictly decreasing $u_\tau$, $\lambda=u$,
+and $g,B\in\R$ with $\mathrm{WH}(j,\lambda,g)$ and $\deepstrbnd_0(\lambda,g)\le B$. Then
+\[
+\deepstrslope_T(\lfloor B\rfloor,\kappa(Z),\lambda)-2\deepstrcost(l,B)\,\|u\|_1\le\deepstrvsl(Z,u),
+\]
+the volume slope \eqref{eq:pf:deepstr:compvol} being computed with $\mathcal V_B$.
+\formallabel{GlobalTheory.T.uniform_all_norm_height_bound}
+\formallabel{GlobalTheory.CompanionTheory.Relay.uniform_all_norm_height_bound}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Plug.SlopeVolM.slope_sub_cost_le_compVolSlope}
+\end{theorem}
+
+\begin{proof}
+Put $B_0=\lfloor B\rfloor$, $b=\kappa(Z)$, $\mathrm{Or}=\mathrm{Or}(B_0,b)$, $M=M(B_0,b)$, $D=\deepstrDim$, $n=[F_c:\Q]$,
+$d=\deg\mathrm{Fl}$, $S=S(B_0)$, $L=\|u\|_1$ and $\sigma_0=\deepstrslope_T(B_0,b,\lambda)-2\deepstrcost(l,B)L$.
+
+\emph{Preliminaries.} By \cref{prop:pf:deepstr:geominputs}\ref{gi:topdeg}, $\deepstrtop(Z,u)=\deepstrvol_T(b)\deepstrflagdeg(\lambda)>0$.
+As $\deepstrbnd_0(\lambda,g)\le B<B_0+1$, \ref{gi:frame} and \ref{gi:basis} provide $(\mathrm{Fr},\mathrm{Rd})$ and $k_0\in8\N$,
+$R_0>0$, $f_1,\dots,f_d$; \ref{gi:htlow} gives $\mathrm{(VC)}$. We have $\deepstrPrimes(l,B)=S$: a prime $p$
+satisfies $p\le B$ if and only if $p\le B_0$, and $p\in\mathrm{bad}(T)$ if and only if $p\mid2d_EM'$, i.e.\ $p\mid2|d_E|M'$.
+Consequently $\deepstrcost(l,B)=\sum_{p\in S}\deepstrex(p)\log p$. By \eqref{eq:pf:deepstr:deltaeq}, $\delta_M=nd$, and
+$\delta_M>0$ gives $d>0$.
+
+\emph{Reduction.} By \eqref{eq:pf:deepstr:volslopeiff} we must show, for every $t\in\R$,
+$\max(\deepstrtop(Z,u)(\sigma_0+t),0)\le\mathrm{cv}_{Z,u}(t)$, with $\mathrm{cv}_{Z,u}$ as in
+\cref{sec:pf:deepstr:conv}. By continuity it suffices to show
+$\max(\deepstrtop(Z,u)(\sigma_0+t-\eps),0)\le\mathrm{cv}_{Z,u}(t)$ for every $\eps>0$. Fix $t$ and $\eps>0$, put
+$t'=t-2\deepstrcost(l,B)L-\eps$, and note
+\[
+\deepstrtop(Z,u)(\sigma_0+t-\eps)=\deepstrvol_T(b)\deepstrflagdeg(\lambda)\bigl(\deepstrslope_T(B_0,b,\lambda)+t'\bigr).
+\]
+By \cref{prop:pf:deepstr:volslope} (at $B_0$, $b$ and $t'$), the positive part of this number is at most
+$\deepstrcvol(D,nd,8;m)$ with $m(\tau)=\#\deepstrmsmall(\mathrm{Or},\tau u,e^{\tau t'})$. Let
+$m'(\tau)=\#\deepstrsmall_B(Z,\tau G_u,e^{\tau t})$; then $\mathrm{cv}_{Z,u}(t)=\deepstrcvol(D,n,8;m')$, and by
+\cref{lem:pf:deepstr:counting}(c) it suffices to show $m(\tau)\le m'(\tau+k_0)^d$ for all large $\tau$.
+
+\emph{Transport.} Let $c_S=\sum_{p\in S}\log p$. Choose $\tau\ge1$ so large that
+$2k_0L\deepstrcost(l,B)+c_S+\log(dR_0)-k_0t\le\tau\eps$. By \cref{lem:pf:deepstr:clear}(a) and $\|(\tau+k_0)u\|_1=(\tau+k_0)L$,
+\[
+\deepstrclear(S,(\tau+k_0)u)\,d\,e^{\tau t'}R_0\le\exp\bigl(2(\tau+k_0)L\deepstrcost(l,B)+c_S+\tau t'+\log(dR_0)\bigr)
+\le e^{(\tau+k_0)t},
+\]
+because $2(\tau+k_0)L\deepstrcost(l,B)+\tau t'=\tau t-\tau\eps+2k_0L\deepstrcost(l,B)$. Hence
+\cref{prop:pf:deepstr:transport} (with $B_d=B$, $R=e^{\tau t'}$, $R'=e^{(\tau+k_0)t}$) gives $m(\tau)\le m'(\tau+k_0)^d$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proofs of further results}\label{sec:pf:deepstr:further}
+
+This subsection proves further results of the formal development which are used above and in other
+sections of Part II: symmetry and multilinearity of geometric intersection numbers; constant metrics, fibre
+degrees and expansions of arithmetic intersection numbers and Chern-form integrals of integral combinations of
+lines on root models; nefness statements; facts on generic flags and flag varieties; the existence of an
+integral section attached to an origin; and two Hodge--Tate statements. For smooth Hermitian lines $L_1,\dots,L_e$ on an arithmetic variety $P$ of dimension $e+1$ we
+write $\int_Pc_1(L_1)\cdots c_1(L_e)$ for the integral over the complex points of $P$ of the product of their
+Chern forms (the quantity used in \cref{def:pf:deepstr:rootmodel}). For lines $\ell=(\ell_j)_{j\in J}$ and
+$n\in\Z^J$ put $\ell(n)=\bigotimes_j\ell_j^{\otimes n_j}$ (multidegree $\sum_jn_ja_{\ell_j}$, metric $\prod_jh_{\ell_j}^{n_j}$).
+For an ideal $V\subseteq R$ and multidegrees $a_1,\dots,a_n\in\Z^K$ the \emph{geometric degree}
+$\deg_V(a_1,\dots,a_n)\in\Z$ is defined recursively: it is $0$ if $V$ is not relevant; otherwise choose for each
+block $k$ a variable $x_{k,i_k}\notin V$, let $\deg_V()$ be the length of the $\Z$-module $R/(V+(x_{k,i_k}-1)_k)$, and put
+\[
+\deg_V(a_1,\dots,a_{n+1})=\sum_ka_{n+1,k}\sum_W\mathrm{mult}_W\bigl(V+(x_{k,i_k})\bigr)\deg_W(a_1,\dots,a_n),
+\]
+the inner sum over the relevant primes $W$ minimal over $V+(x_{k,i_k})$.
+
+\subsubsection*{Geometric intersection numbers}
+
+\begin{definition}[Field intersection families]\label{def:pf:deepstr:fieldint}
+Let $F$ be a field and $F[x]=F[x_{k,i}]$ the multigraded polynomial ring of \cref{sec:pf:deepstr:conv}. A
+multihomogeneous prime $V\subset F[x]$ is a \emph{projective variety of dimension $d$} if it is relevant and
+$\dim F[x]/V=d+|K|$. A \emph{rational section} of multidegree $a\in\Z^K$ on $V$ is a pair of multihomogeneous
+$f,g\notin V$ with $\deg f-\deg g=a$; its divisor $\mathrm{div}_V(f/g)=\mathrm{div}_V(f)-\mathrm{div}_V(g)$ is a finite
+formal sum of primes $W$, $\mathrm{div}_V(f)$ being supported on the relevant primes minimal over $V+(f)$. A
+\emph{field intersection family} assigns an integer $I(V;L_1,\dots,L_n)$ to every
+multihomogeneous ideal $V$ and $L_1,\dots,L_n\in\Z^K$ such that: (i) for $V$ of dimension $0$, $I(V;\varnothing)$
+is the degree of the point $V$; (ii) for $V$ of dimension $n+1$ and every rational section $f/g$ of
+multidegree $A$ on $V$,
+\[
+I(V;L_1,\dots,L_n,A)=\sum_W\mathrm{ord}_W(f/g)\,I(W;L_1,\dots,L_n).
+\]
+This is the definition \lref{ReciprocityTheory.ChartRestriction.G.AI.I1.IsFieldIntersection}.
+\end{definition}
+
+\begin{lemma}[Standard sections and divisors]\label{lem:pf:deepstr:stdsec}
+Let $V\subset F[x]$ be a relevant multihomogeneous prime.
+\begin{enumerate}[label=(\alph*)]
+\item For every $a\in\Z^K$ there is a rational section $f/g$ of multidegree $a$ on $V$ with $f$ and $g$ monomials. If
+$V$ is a projective variety of dimension $n+1$, then for every field intersection family $I$ and
+$L_1,\dots,L_n\in\Z^K$ we have $I(V;L_1,\dots,L_n,a)=\sum_W\mathrm{ord}_W(f/g)\,I(W;L_1,\dots,L_n)$.
+\item Let $V$ be a projective variety of dimension $n+1$. If $f\notin V$ is multihomogeneous, every relevant prime
+$W$ minimal over $V+(f)$ is a projective variety of dimension $n$. Consequently, if $f/g$ is a rational section on
+$V$ and $\mathrm{ord}_W(f/g)\ne0$, then $W$ is a projective variety of dimension $n$.
+\end{enumerate}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.isRatSection_sec}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.multi_eval_sec}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.isProjVarF_of_mem_divSupp}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.mem_of_ratDiv_ne_zero}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.multi_isProjVarF_of_ratDiv}
+\end{lemma}
+
+\begin{proof}
+(a) As $V$ is relevant, for each block $k$ there is a variable $x_{k,i_k}\notin V$. Put
+$f=\prod_kx_{k,i_k}^{\max(a_k,0)}$ and $g=\prod_kx_{k,i_k}^{\max(-a_k,0)}$; they are multihomogeneous, not in $V$ because $V$
+is prime, and $\deg f-\deg g=a$. The formula is (ii) for this section.
+(b) The minimal primes over the multihomogeneous ideal $V+(f)$ are multihomogeneous
+(\lref{ReciprocityTheory.ChartRestriction.G.AI.I1.cyc_isMultiHomogIdeal_of_mem_minimalPrimes}). By Krull's
+principal ideal theorem in the domain $F[x]/V$, which is finitely generated over $F$, every prime $W$ minimal over
+$V+(f)$ satisfies $\dim F[x]/W+1=\dim F[x]/V$
+(\lref{ReciprocityTheory.ChartRestriction.G.AI.I1.cyc_dim_quot_minimal_add_one}); so $\dim F[x]/W=n+|K|$, and $W$
+is a projective variety of dimension $n$ if it is relevant. If $\mathrm{ord}_W(f/g)=\mathrm{ord}_W(f)-\mathrm{ord}_W(g)\ne0$, then $W$
+lies in the support of $\mathrm{div}_V(f)$ or of $\mathrm{div}_V(g)$, that is, it is a relevant prime minimal over $V+(f)$ or
+over $V+(g)$, where $f,g\notin V$ are multihomogeneous.
+\end{proof}
+
+\begin{theorem}[Symmetry]\label{thm:pf:deepstr:fieldsym}
+Let $I$ be a field intersection family, $V$ a projective variety of dimension $n$, $L\in(\Z^K)^n$ and $\sigma$ a
+permutation of $\{1,\dots,n\}$. Then $I(V;L_{\sigma(1)},\dots,L_{\sigma(n)})=I(V;L_1,\dots,L_n)$.
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.intersection_symmetric}
+\end{theorem}
+
+\begin{proof}
+Induction on $n$; the case $n=0$ is trivial. Let $V$ have dimension $n+1$. (a) \emph{Transpositions of two
+of the first $n$ entries.} By \cref{lem:pf:deepstr:stdsec}(a), applied to a rational section of multidegree
+$L_{n+1}$, $I(V;L)=\sum_W\mathrm{ord}_W\,I(W;L_1,\dots,L_n)$, and every $W$ with nonzero coefficient is a projective
+variety of dimension $n$ by \cref{lem:pf:deepstr:stdsec}(b); by induction each term is unchanged.
+(b) \emph{The transposition of the last two entries}: $I(V;L',a,b)=I(V;L',b,a)$ for every projective variety
+$V$ of dimension $m+2$ is \lref{ReciprocityTheory.ChartRestriction.G.AI.I1.multi_swap_last_two} (the
+commutativity of the intersection of two divisors, compare \cite[Thm.~2.4]{Fulton1998}). (c) A transposition
+$(x,n+1)$ with $x<n$ equals $(n,n+1)(x,n)(n,n+1)$; apply (b), (a) and (b). (d) Every permutation is a
+product of transpositions.
+\end{proof}
+
+\begin{theorem}[Multilinearity]\label{thm:pf:deepstr:fieldmultilin}
+Let $I$ be a field intersection family, $V$ a projective variety of dimension $n$, $L\in(\Z^K)^n$, $1\le j\le n$ and
+$a,b\in\Z^K$. Then the value of $I(V;L)$ with $L_j$ replaced by $a+b$ is the sum of the values with $L_j$ replaced
+by $a$ and by $b$.
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.multilin_thm}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.intersection_multilinear}
+\formallabel{ReciprocityTheory.ChartRestriction.G.AI.I1.multilin_last}
+\end{theorem}
+
+\begin{proof}
+First let $j=n$. If $f/g$ and $f'/g'$ are rational sections of multidegrees $a$ and $b$, then $ff'/gg'$ is a
+rational section of multidegree $a+b$ and $\mathrm{div}_V(ff'/gg')=\mathrm{div}_V(f/g)+\mathrm{div}_V(f'/g')$, the orders
+being valuations; so (ii) and the linearity of $D\mapsto\sum_W\mathrm{ord}_W(D)\,I(W;L_1,\dots,L_{n-1})$ give the claim.
+For general $j$, move the $j$-th entry to the last position by the transposition $(j,n)$, which does not
+change the values by \cref{thm:pf:deepstr:fieldsym}.
+\end{proof}
+
+\subsubsection*{Arithmetic intersection numbers of combinations}
+
+\begin{lemma}[One slot]\label{lem:pf:deepstr:oneslot}
+Let $\deepstrII$ be a full intersection system, $P$ an arithmetic variety of dimension $d$, $L_1,\dots,L_d$
+smooth Hermitian lines, $1\le k\le d$, $\ell=(\ell_j)_{j\in J}$ smooth lines and $n\in\Z^J$. Then
+$\deepstrII(P;L)$ with $L_k$ replaced by $\ell(n)$ equals $\sum_jn_j\,\deepstrII(P;L)$ with $L_k$ replaced by $\ell_j$.
+\formallabel{RootFieldNumerics.intersection_multilinear_one_position}
+\end{lemma}
+
+\begin{proof}
+For a full system, $\varphi(A)=\deepstrII(P;L)$ with $L_k$ replaced by $A$ satisfies $\varphi(A\otimes B)=\varphi(A)+\varphi(B)$
+for smooth $A,B$ (multilinearity, part of the definition of a full system). The lines $\ell(m+m')$ and
+$\ell(m)\otimes\ell(m')$ have the same multidegree and the same metric, so $m\mapsto\varphi(\ell(m))$ is a homomorphism
+$\Z^J\to\R$; as $\ell(e_j)=\ell_j$ for the basis vectors, $\varphi(\ell(n))=\sum_jn_j\varphi(\ell_j)$.
+\end{proof}
+
+\begin{corollary}[Expansion]\label{cor:pf:deepstr:expansion}
+In the situation of \cref{lem:pf:deepstr:oneslot}, for $n_1,\dots,n_d\in\Z^J$,
+\[
+\deepstrII\bigl(P;\ell(n_1),\dots,\ell(n_d)\bigr)=\sum_{w\in J^d}\Bigl(\prod_{k=1}^dn_k(w_k)\Bigr)\deepstrII(P;\ell_{w_1},\dots,\ell_{w_d}).
+\]
+\formallabel{RootFieldNumerics.intersection_multilinear_expansion}
+\formallabel{GlobalTheory.T.arith_intersection_multilinear_all}
+\end{corollary}
+
+\begin{proof}
+Apply \cref{lem:pf:deepstr:oneslot} successively in the slots $1,\dots,d$ (all lines $\ell(m)$ are smooth) and
+expand the product of the sums.
+\end{proof}
+
+\begin{lemma}[Constant metrics and fibre degrees]\label{lem:pf:deepstr:constmetric}
+Let $\deepstrII$ be a full intersection system, $P$ an arithmetic variety of dimension $e+1$ and $L_1,\dots,L_e$ smooth
+Hermitian lines. For $c\in\R$ let $O_c$ be the line of multidegree $0$ with the constant metric $h\equiv e^{-c}$.
+\begin{enumerate}[label=(\alph*)]
+\item $\deepstrII(P;L_1,\dots,L_e,O_c)=-c\int_Pc_1(L_1)\cdots c_1(L_e)$.
+\item For every prime $p$,
+\[
+\int_Pc_1(L_1)\cdots c_1(L_e)=\sum_V\mathrm{mult}_V(P+(p))\,\deg_V(\deg L_1,\dots,\deg L_e),
+\]
+the sum over the relevant primes $V$ minimal over $P+(p)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.arith_intersection_constant_metric}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.intersection_snoc_constWeight}
+\formallabel{RootFieldNumerics.intersection_constant_metric_line}
+\formallabel{GlobalTheory.T.intersection_system_degree}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.degreeStatement_of_intersectionSystem}
+\end{lemma}
+
+\begin{proof}
+(a) The line $O_c$ is smooth, its metric being constant. Apply the recursion of \cref{def:covolume:hs}(c) to the
+last line $O_c$ and its section $s=1$, which is multihomogeneous of multidegree $0$ and not in $P$. The ideal $P+(1)$
+is the unit ideal, so there are no components $W$, and $\log\|1\|=\log(1/h)=c$ identically; hence
+$\deepstrII(P;L_1,\dots,L_e,O_c)=-\int_Pc\,c_1(L_1)\cdots c_1(L_e)$.
+(b) Apply the recursion to the line $O_0$ (trivial metric) and its section $p$, which is multihomogeneous of
+multidegree $0$ and not in $P$ because $P\cap\Z=0$. Every component $V$ of $P+(p)$ lies over $p$ and contributes
+$\mathrm{mult}_V(P+(p))\deg_V(\deg L_1,\dots,\deg L_e)\log p$, and $\log\|p\|=\log p$ identically. By (a) with $c=0$ the
+left-hand side of the recursion vanishes, so
+\[
+0=\log p\Bigl(\sum_V\mathrm{mult}_V(P+(p))\deg_V(\deg L_1,\dots,\deg L_e)-\int_Pc_1(L_1)\cdots c_1(L_e)\Bigr).
+\]
+In the development, (b) is obtained from the conservation of degrees in the fibres for full intersection systems
+(\lref{GlobalTheory.CompanionTheory.Ar.Giv.degree_of_isIntersectionSystem}, a result of the shared part
+stating (b) for every full intersection system).
+\end{proof}
+
+\begin{lemma}[Chern-form integrals]\label{lem:pf:deepstr:chernint}
+Let $\deepstrII$ be a full intersection system, $P$ an arithmetic variety of dimension $e+1$ and
+$\ell=(\ell_j)_{j\in J}$ smooth lines.
+\begin{enumerate}[label=(\alph*)]
+\item For $n_1,\dots,n_e\in\Z^J$,
+\[
+\int_Pc_1(\ell(n_1))\cdots c_1(\ell(n_e))=\sum_{w\in J^e}\Bigl(\prod_kn_k(w_k)\Bigr)\int_Pc_1(\ell_{w_1})\cdots c_1(\ell_{w_e}).
+\]
+\item If $L_1,\dots,L_e$ and $L'_1,\dots,L'_e$ are smooth lines and $\sigma$ is a permutation with
+$\deg L'_k=\deg L_{\sigma(k)}$ for all $k$, then $\int_Pc_1(L'_1)\cdots c_1(L'_e)=\int_Pc_1(L_1)\cdots c_1(L_e)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.log_integral_multilinear}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.geo_multilin}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GeoMix.pts_eq_II}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GeoMix.pts_comb}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GeoMix.pts_perm}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.GeoMix.pts_deg}
+\end{lemma}
+
+\begin{proof}
+With $O_c$ as in \cref{lem:pf:deepstr:constmetric}, part (a) of that lemma with $c=-1$ gives
+\begin{equation}\label{eq:pf:deepstr:ptsII}
+\int_Pc_1(L_1)\cdots c_1(L_e)=\deepstrII(P;L_1,\dots,L_e,O_{-1}).
+\end{equation}
+(a) Extend $\ell$ by $\ell_\ast=O_{-1}$ and the exponent vectors by $0$ at $\ast$, and let the last slot carry the
+exponent vector $e_\ast$. By \eqref{eq:pf:deepstr:ptsII} and \cref{cor:pf:deepstr:expansion}, the left-hand side is
+a sum over words $v$ of length $e+1$ in $J\sqcup\{\ast\}$; the coefficient $\prod_kn_k(v_k)\cdot e_\ast(v_{e+1})$ vanishes
+unless $v_{e+1}=\ast$ and $v_k\in J$ for $k\le e$, and the remaining terms are, by \eqref{eq:pf:deepstr:ptsII} again,
+those of the right-hand side.
+(b) By \cref{lem:pf:deepstr:constmetric}(b) the integral depends only on the multidegrees; so
+$\int_P\prod_kc_1(L'_k)=\int_P\prod_kc_1(L_{\sigma(k)})$. The latter equals $\int_P\prod_kc_1(L_k)$ by
+\eqref{eq:pf:deepstr:ptsII} and the symmetry of intersection systems under permutations of the lines (the
+permutation fixing the last slot, which carries $O_{-1}$).
+\end{proof}
+
+\begin{proposition}[Combinations on root models]\label{prop:pf:deepstr:combroot}
+Let $\deepstrII$ be a full intersection system, $M$ a root model with $D=\deepstrDim$, $t\in\R$ and $q\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item If $\lambda$ is a weight, $s\in\R$ and $n=q\,\mathrm{coef}(\lambda,s)\in\Z^{\mathcal R}$, then
+$\deepstrII(P_M;L_t(n)^{D+1})=\delta_Mq^{D+1}\,\mathrm{ar}_t\bigl(\ell_s(\lambda)^{D+1}\bigr)$, with $\ell_s(\lambda)=\deepstrlin(\lambda)+sX_\ast$.
+\item If $\lambda_1,\dots,\lambda_D$ are weights, $s_1,\dots,s_D\in\R$ and $n_k=q\,\mathrm{coef}(\lambda_k,s_k)\in\Z^{\mathcal R}$,
+then $\int_{P_M}c_1(L_t(n_1))\cdots c_1(L_t(n_D))=\delta_Mq^D\,\mathrm{geo}\bigl(\prod_k\ell_{s_k}(\lambda_k)\bigr)$.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.top_comb_eq_arFun}
+\formallabel{RootFieldNumerics.root_model_arithmetic_intersection}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.geoFun_comb_mixed}
+\formallabel{RootFieldNumerics.root_model_points_integral}
+\end{proposition}
+
+\begin{proof}
+(a) By \cref{cor:pf:deepstr:expansion}, $\deepstrII(P_M;L_t(n)^{D+1})=\sum_w\prod_kn(w_k)\,\deepstrII(P_M;x_t(w_1),\dots,x_t(w_{D+1}))$,
+the sum over words $w\in\mathcal R^{D+1}$. Write $\ell_s(\lambda)=\sum_rc_rX_r$ with $c_r=-\lambda_r$ for $r\ne\ast$ and
+$c_\ast=s$, so that $c_r=\mathrm{coef}(\lambda,s)_r$ for $r\ne\ast$ and $c_\ast=k_A\,\mathrm{coef}(\lambda,s)_\ast$. Expanding,
+$\ell_s(\lambda)^{D+1}=\sum_w\prod_kc_{w_k}X^{m(w)}$, where $m(w)_r$ is the number of $k$ with $w_k=r$. The lines of
+the monomial $X^{m(w)}$, listed in the order used in \cref{def:pf:deepstr:rootmodel}, are a permutation of
+$x_t(w_1),\dots,x_t(w_{D+1})$, so by the symmetry of intersection systems
+$\mathrm{ar}_t(X^{m(w)})=\deepstrII(P_M;x_t(w_1),\dots,x_t(w_{D+1}))/(\delta_Mk_A^{m(w)_\ast})$. Since
+$\prod_kc_{w_k}=k_A^{m(w)_\ast}\prod_k\mathrm{coef}(\lambda,s)_{w_k}$ and $\prod_kn(w_k)=q^{D+1}\prod_k\mathrm{coef}(\lambda,s)_{w_k}$,
+\[
+\delta_Mq^{D+1}\,\mathrm{ar}_t(\ell_s(\lambda)^{D+1})=\sum_wq^{D+1}\prod_k\mathrm{coef}(\lambda,s)_{w_k}\,
+\deepstrII(P_M;x_t(w_1),\dots)=\deepstrII(P_M;L_t(n)^{D+1}).
+\]
+(b) The same computation with \cref{lem:pf:deepstr:chernint}(a) in place of \cref{cor:pf:deepstr:expansion};
+for each word $w\in\mathcal R^D$, \cref{lem:pf:deepstr:chernint}(b) replaces the lines $x_t(w_k)$ by the lines
+$x_1(r)$ of the monomial $X^{m(w)}$ (they have the same multidegrees up to the permutation), whence
+$\int_{P_M}\prod_kc_1(x_t(w_k))=\delta_Mk_A^{m(w)_\ast}\,\mathrm{geo}(X^{m(w)})$.
+\end{proof}
+
+\begin{lemma}[Nefness and semipositivity of combinations]\label{lem:pf:deepstr:nefcomb}
+Let $M$ be a root model, $t\in\R$, $\lambda$ a weight, $s\in\R$, $q\in\N$ and $n=q\,\mathrm{coef}(\lambda,s)\in\Z^{\mathcal R}$. For an
+ideal $W$ let $\deg_W$ be the geometric degree with one argument, and put
+$\mathrm{cd}(\lambda,s,W)=\sum_r\mathrm{coef}(\lambda,s)_r\deg_W(a_r)$.
+\begin{enumerate}[label=(\alph*)]
+\item $\deg_W$ is linear: $\deg_W(\sum_jm_jb_j)=\sum_jm_j\deg_W(b_j)$ for $m\in\Z^J$ and $b_j\in\Z^K$. In particular
+$\deg_W(\deg L_t(n))=q\,\mathrm{cd}(\lambda,s,W)$ for every $W$; hence, if $\mathrm{cd}(\lambda,s,W)\ge0$ for every vertical curve
+$W\supseteq P_M$ (\emph{$M$ is nef on the fibres at $(\lambda,s)$}), then $L_t(n)$ is nef on the fibres.
+\item If the Levi form of $w_{t,\lambda,s}=\sum_r\mathrm{coef}(\lambda,s)_r\log h_{x_t(r)}$ is non-negative on the cone-tangent
+vectors at the complex points of $P_M$ (\emph{$M$ is semipositive at $(t,\lambda,s)$}), then $L_t(n)$ is semipositive
+on $P_M$ and conjugation-invariant.
+\end{enumerate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.nefFib_integral_multiple}
+\formallabel{RootFieldNumerics.curveDeg_eq_and_nefOnFibres_of_coef}
+\formallabel{RootFieldNumerics.root_model_line_semipositive}
+\formallabel{RootFieldNumerics.geoNum_linear_combination}
+\formallabel{RootFieldNumerics.geoNum_one_linear_in_degree}
+\end{lemma}
+
+\begin{proof}
+(a) By the definition of the geometric degree with one argument, $\deg_W(b)=\sum_kb_k\,d_k(W)$, where
+$d_k(W)=\sum_V\mathrm{mult}_V(W+(x_{k,i_k}))\deg_V()$ if $W$ is relevant and $d_k(W)=0$ otherwise; so $\deg_W$ is linear,
+with $d_k(W)=\deg_W(e_k)$. The multidegree of $L_t(n)$ is $\sum_rn_ra_r$, independent of $t$; substitute
+$n_r=q\,\mathrm{coef}(\lambda,s)_r$. A vertical curve $W\supseteq P_M$ has prime characteristic $p$, so the hypothesis applies
+and $\deg_W(\deg L_t(n))=q\,\mathrm{cd}(\lambda,s,W)\ge0$. (b) $L_t(n)$ is smooth and conjugation-invariant as a
+tensor product of such lines. Near every complex point of the multicone with non-vanishing blocks,
+$\log h_{L_t(n)}=\sum_rn_r\log h_{x_t(r)}=q\,w_{t,\lambda,s}$, so its Levi form is $q$ times that of $w_{t,\lambda,s}$, hence
+non-negative.
+\end{proof}
+
+\subsubsection*{Nefness on the generic fibre}
+
+\begin{definition}[Analytic systems, realisations and real towers]\label{def:pf:deepstr:ansys}
+(a) An \emph{analytic system} $S$ of dimension $D$ with index set $\sigma$ consists of a compact Hausdorff space
+$X_S$ with a holomorphic atlas of dimension $D$, a positive potential, a line potential with a section whose
+divisor has strict normal crossings, and for each $a\in\sigma$ a singular weight and a family of regularised
+potentials $\mathrm{pot}(a,t)$, $0<t\le t_0$; it has a \emph{degree polynomial} $\deg_S\in\R[X_a:a\in\sigma]$.
+(b) A \emph{realisation} $\mathrm{Re}$ of $S$ on an arithmetic variety $P$ of dimension $D+1$ consists of a
+logarithmic resolution of $P$ along an ideal $J$, a holomorphic map $\pi$ from it to $X_S$ of degree
+$\deg\mathrm{Re}>0$, smooth \emph{reference lines} $\mathrm{ref}(a)$ on $P$ whose potentials are the pull-backs of the
+singular weights, and regularised lines with the same multidegrees. Put $\mathrm{ref}(n)=\bigotimes_a\mathrm{ref}(a)^{\otimes n_a}$.
+(c) A \emph{real tower} $R$ over a root tower $T$ of type $(\Psi,N)$ consists of an analytic system $S_c$ with
+index set $\mathcal R$ for each component $c$ and, for all $B$ and $c$, a realisation of $S_c$ on $P_{M(B,c)}$ whose
+reference lines satisfy $\deg\mathrm{ref}(\tau,i)=-\sum_{k\le i}a_{(\tau,k)}$ and $\deg\mathrm{ref}(\ast)=\deg A$; $R$ is \emph{smooth} if $J=(1)$ and the generic fibres of the models are smooth, and \emph{flat} if the
+potentials of the indices $(\tau,N-1)$ are pluriharmonic.
+(d) A weight $\lambda$ is \emph{dominant} if $\lambda_{\tau,b}\le\lambda_{\tau,a}$ for $a\le b$. A root model $M$ is \emph{nef on the
+generic fibre} at $(\lambda,s)$ if $\sum_r\mathrm{coef}(\lambda,s)_r\,\deepstrgdeg(W,x_1(r))\ge0$ for every arithmetic curve
+$W\supseteq P_M$.
+(e) The \emph{nef polarisation statement} is the statement of \cref{thm:pf:deepstr:nefpol} below for all
+data.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.RealTower}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.Dominant}
+\formallabel{GlobalTheory.CompanionTheory.Ar.PB.NefPol}
+\end{definition}
+
+\begin{lemma}[Chern-form integrals and the generic fibre]\label{lem:pf:deepstr:genericfibre}
+Assume \ref{G:pf:deepstr:pb}. Let $I$ be a field intersection family over $\Q$, $P$ an arithmetic variety of dimension
+$D+1$ with generic fibre $P_\Q=P\cdot\Q[x]$, and $L_1,\dots,L_D$ smooth Hermitian lines. Then
+$\int_Pc_1(L_1)\cdots c_1(L_D)=I(P_\Q;\deg L_1,\dots,\deg L_D)$.
+\formallabel{GlobalTheory.T.generic_intersection_equals_points_integral}
+\formallabel{GlobalTheory.CompanionTheory.Ar.PB.curvatureIntegral_eq_genericIntersection}
+\formallabel{PositivityTheory.Xgp.t_deg_generic}
+\end{lemma}
+
+\begin{proof}
+The generic fibre $P_\Q$ is a projective variety of dimension $D$ over $\Q$
+(\lref{GroundTheory.Heights₂.Heights.HilbertSamuel.isProjVarF_map_of_isArithVar}, which states this for every
+arithmetic variety). Two field intersection families agree on projective varieties: by induction on the
+dimension, (i) fixes the values in dimension $0$, and in dimension $n+1$ \cref{lem:pf:deepstr:stdsec} expresses both
+values through values on projective varieties of dimension $n$ (this uniqueness is part of
+\lref{GroundTheory.Heights₂.Heights.Targets.ExistsUnique.full}). The intersection numbers of the development
+form a field intersection family over $\Q$
+(\lref{GroundTheory.Heights₂.Heights.NumbersDVR.IntNumIsFieldIntersection.full}), so $I(P_\Q;\cdot)$ equals them.
+Finally, the inputs \ref{G:pf:deepstr:pb} contain the statement of \cref{lem:pf:deepstr:constmetric}(b), and
+\lref{GlobalTheory.CompanionTheory.Ar.Giv.degreeGeneric_of_degree} deduces from it (at $p=2$, with the equality of
+the degree of the generic fibre and the weighted sum of the degrees of the components of a fibre) that
+$\int_Pc_1(L_1)\cdots c_1(L_D)$ is the intersection number of the development of $\deg L_1,\dots,\deg L_D$ on $P_\Q$.
+\end{proof}
+
+\begin{theorem}[Nef polarisation]\label{thm:pf:deepstr:nefpol}
+Assume the potential-theoretic inputs \ref{G:pf:deepstr:pb}. Let $S$ be an analytic system of dimension $D$ with
+index set $\sigma$, $\mathrm{Fl}\subseteq\sigma$ a set of indices whose regularised potentials are pluriharmonic, $y$ a
+birational point over a field of characteristic $0$, $\mathrm{Re}$ a realisation of $S$ on $P_y$ with $J=(1)$, and $I$
+a field intersection family over $\Q$. Let $n\in\Z^\sigma$ with $n_a\ge0$ for $a\notin\mathrm{Fl}$, and $\alpha=\deg\mathrm{ref}(n)$.
+\begin{enumerate}[label=(\alph*)]
+\item $\alpha$ is nef on the generic fibre: $I(W;\alpha)\ge0$ for every projective curve $W$ over $\Q$ containing the
+generic fibre of $P_y$.
+\item If $\deg_S(n)>0$, then for every multihomogeneous $\beta\notin P_y$ of multidegree $d_\beta$ there are $k\ge1$ and
+$0\ne e\in\Lambda'_1(y,k\alpha-1-d_\beta)$ (the group of \cref{lem:pf:deepstr:vi}).
+\end{enumerate}
+\formallabel{GlobalTheory.T.nef_polarization}
+\formallabel{GlobalTheory.CompanionTheory.Ar.PB.nefPol}
+\end{theorem}
+
+\begin{proof}
+(a) Let $W$ be such a curve. It is the generic fibre of an arithmetic curve $W'\supseteq P_y$
+(\lref{GlobalTheory.T.arithmetic_variety_generic_fibre_projective}: projective varieties over $\Q$ and
+arithmetic varieties correspond under base change and contraction). The geometric degree of $\mathrm{ref}(n)$
+on $W'$ is non-negative (\lref{GlobalTheory.T.geometric_degree_nonnegative_psh}: for $n_a\ge0$ off
+$\mathrm{Fl}$ the metric of $\mathrm{ref}(n)$ is plurisubharmonic, the indices in $\mathrm{Fl}$ being pluriharmonic, so its
+degree on every horizontal curve is $\ge0$), and it equals $I(W;\alpha)$ by
+\cref{lem:pf:deepstr:genericfibre}.
+(b) The top geometric degree of $\mathrm{ref}(n)$ on $P_y$ is $\deg\mathrm{Re}\cdot\deg_S(n)>0$
+(\lref{GlobalTheory.T.realisation_potential_degree_compatibility}, which computes the Chern-form
+integrals of reference lines through the realisation), so $I(\text{generic fibre};\alpha^D)>0$ by the same
+equality. With (a), the Siu-type statement among \ref{G:pf:deepstr:pb} (a multidegree which is nef on the
+generic fibre and has positive top self-intersection there admits, for some $k\ge1$, a nonzero element of
+$\Lambda'_1(y,k\alpha-1)$) applies, and \lref{GlobalTheory.T.chart_lattice_shift_nonzero} (which
+subtracts any multidegree $d_\beta$ at the cost of increasing $k$) gives $e$.
+\end{proof}
+
+\begin{theorem}[Generic nefness on real towers]\label{thm:pf:deepstr:realnef}
+Assume the nef polarisation statement and \ref{G:pf:deepstr:pb}. Let $\deepstrII$ be a full intersection system, $T$
+a root tower of type $(\Psi,N)$ and $R$ a smooth and flat real tower over $T$. Then for all $B$ and $c$, the model
+$M(B,c)$ is nef on the generic fibre at $(\lambda,0)$ for every dominant weight $\lambda$, and at $(0,1)$.
+\formallabel{GlobalTheory.T.real_tower_nef_general}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.rt_nefgen}
+\formallabel{RootFieldNumerics.tower_nef_generic_dominant}
+\end{theorem}
+
+\begin{proof}
+Let $M=M(B,c)$, $\mathrm{Re}$ the realisation of $R$, $I$ the field intersection family over $\Q$ given by the
+intersection numbers of the development (\lref{GroundTheory.Heights₂.Heights.NumbersDVR.IntNumIsFieldIntersection.full},
+which states that they form such a family), and $\mathrm{Fl}=\{(\tau,N-1)\}$, whose potentials are pluriharmonic by
+flatness. Fix an arithmetic curve $W\supseteq P_M$ and put $d(\alpha)=I(W_\Q;\alpha)$; $d$ is additive by
+\cref{thm:pf:deepstr:fieldmultilin}, and $\deepstrgdeg(W,L)=d(\deg L)$ for smooth $L$
+(\lref{GlobalTheory.CompanionTheory.Ar.Giv.degreeGeneric_of_degree}). By \cref{thm:pf:deepstr:nefpol}(a),
+$d(\deg\mathrm{ref}(n))\ge0$ whenever $n_a\ge0$ for $a\notin\mathrm{Fl}$. Taking $n=e_a$ gives $d(\deg\mathrm{ref}(a))\ge0$ for all $a$,
+and taking $n=-e_a$ for $a\in\mathrm{Fl}$ gives $d(\deg\mathrm{ref}(a))=0$ there.
+
+For a dominant $\lambda$, $\mathrm{coef}(\lambda,0)_\ast=0$, and with $u_{\tau,k}=-d(a_{(\tau,k)})$ we must show
+$\sum_\tau\sum_k\lambda_{\tau,k}u_{\tau,k}\ge0$. The partial sums $U_{\tau,i}=\sum_{k\le i}u_{\tau,k}=d(\deg\mathrm{ref}(\tau,i))$ are $\ge0$, and
+$U_{\tau,N-1}=0$. By Abel summation,
+$\sum_k\lambda_{\tau,k}u_{\tau,k}=\sum_{i<N-1}(\lambda_{\tau,i}-\lambda_{\tau,i+1})U_{\tau,i}+\lambda_{\tau,N-1}U_{\tau,N-1}\ge0$, since $\lambda$ is
+dominant. At $(0,1)$ the sum reduces to $k_A^{-1}\deepstrgdeg(W,A)=k_A^{-1}d(\deg\mathrm{ref}(\ast))\ge0$.
+\end{proof}
+
+\subsubsection*{Flag varieties}
+
+\begin{proposition}[Flag degree]\label{prop:pf:deepstr:flagdeg}
+For every weight $\lambda$,
+\[
+\deepstrflagdeg(\lambda)=\deepstrDim!\prod_\tau\prod_{0\le i<k\le N-1}\frac{\lambda_{\tau,i}-\lambda_{\tau,k}}{k-i};
+\]
+in particular $\deepstrflagdeg(\lambda)>0$ if $\lambda$ is regular dominant and $\deepstrflagdeg(\lambda)\ge0$ if $\lambda$ is dominant.
+\formallabel{GlobalTheory.CompanionTheory.Ar.Top.flagDeg_eq_weyl}
+\formallabel{Formalism.DegreeFormula.flagDegFormula_statement}
+\end{proposition}
+
+\begin{proof}
+Write $D=\deepstrDim$. By the multinomial formula, the coefficient of $X^\sigma=\prod_{\tau,i}X_{\tau,i}^{N-1-\sigma_\tau(i)}$ in
+$\deepstrlin(\lambda)^D=(-\sum\lambda_{\tau,i}X_{\tau,i})^D$ is $(-1)^DD!\prod_{\tau,i}\lambda_{\tau,i}^{N-1-\sigma_\tau(i)}/\prod_{\tau,i}(N-1-\sigma_\tau(i))!$, and
+$\prod_i(N-1-\sigma_\tau(i))!=\prod_{k=0}^{N-1}k!=:s_N$ for every $\tau$. Hence
+\[
+\deepstrflagdeg(\lambda)=\frac{D!}{s_N^{|\Psi|}}\prod_\tau\sum_{\sigma_\tau\in S_N}\operatorname{sgn}(\sigma_\tau)\prod_i\lambda_{\tau,i}^{N-1-\sigma_\tau(i)}
+=\frac{D!}{s_N^{|\Psi|}}\prod_\tau\prod_{i<k}(\lambda_{\tau,i}-\lambda_{\tau,k})
+\]
+by the Vandermonde determinant, and $\prod_{i<k}(k-i)=s_N$. If $\lambda$ is regular dominant all factors are positive; if
+$\lambda$ is dominant they are non-negative.
+\end{proof}
+
+\begin{lemma}[Points of given transcendence degree]\label{lem:pf:deepstr:trdegpt}
+Let $y=(y_{k,i})$ be a point with coordinates in a field $\Omega$ of characteristic $0$, with at least one block, and
+$c$ a chart with $y_{k,c_k}\ne0$ for all $k$. If the subfield of $\Omega$ generated by the ratios $y_{k,i}/y_{k,c_k}$ has
+transcendence degree $d$, then $P_y$ is an arithmetic variety of dimension $d+1$.
+\formallabel{PositivityTheory.Xgp.fl_arith.arith_of_trdeg}
+\end{lemma}
+
+\begin{proof}
+The ideal $P_y$ is the kernel of $x_{k,i}\mapsto y_{k,i}T_k$ from $R$ to the domain $\Omega[T_k:k]$, so it is prime; it is
+multihomogeneous for the grading by the degrees in the $T_k$, relevant since $x_{k,c_k}\notin P_y$, and $P_y\cap\Z=0$
+since $\Omega$ has characteristic $0$. Rescaling $T_k$ by $y_{k,c_k}$ does not change $P_y$, so we may replace $y_{k,i}$ by
+$y_{k,i}/y_{k,c_k}$; then the fraction field of $R/P_y$ is $L(T_k:k)$, with $L$ the field of ratios, of transcendence
+degree $d+|K|$ (\lref{GroundTheory.Heights₂.Heights.ConeTrdeg.full}, which computes the transcendence degree
+of a multicone in this way). As $R/P_y$ is a finitely generated domain containing $\Z$, its Krull dimension is its
+transcendence degree plus one (\lref{GroundTheory.Heights₂.Heights.IntDomainDim.full}); so
+$\dim R/P_y=d+1+|K|$.
+\end{proof}
+
+\begin{lemma}[Generic flags]\label{lem:pf:deepstr:genflag}
+Let $F$ be a field, $\Psi$ a finite set, $N\in\N$, and $X_\tau=(X_{\tau,a,b})$, $\tau\in\Psi$, generic $N\times N$ matrices over
+$F$. For a block $q=(\tau,k)$, $0\le k\le N-2$, and a $(k+1)$-subset $I\subseteq\{0,\dots,N-1\}$ let $y_{q,I}\in F(X)$ be the
+minor of $X_\tau$ on the rows $0,\dots,k$ and the columns $I$, and $y_{q,\mathrm{lead}}=y_{q,\{0,\dots,k\}}$.
+\begin{enumerate}[label=(\alph*)]
+\item The leading minors $y_{q,\mathrm{lead}}$ are nonzero.
+\item The ratios $y_{q,I}/y_{q,\mathrm{lead}}$ generate a field of transcendence degree $|\Psi|\binom N2$ over $F$.
+\end{enumerate}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBoundFree.GenLeadMinorNeZero.full}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBoundFree.FlagRatioTrdeg.full}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBoundFree.FlagRatioTrdeg.proof}
+\end{lemma}
+
+\begin{proof}
+(a) Specialising every $X_\tau$ to the identity matrix maps a leading minor to $1$, so it is a nonzero polynomial.
+(b) By the same specialisation all leading principal minors of $X_\tau$, of orders $1,\dots,N$, are nonzero, so Gaussian
+elimination without row exchanges over $F(X)$ gives $X_\tau=\Lambda_\tau U_\tau$ with $\Lambda_\tau$ lower triangular and invertible
+and $U_\tau$ upper unitriangular, with entries in $F(X)$. The entries of the $\Lambda_\tau$ on and below the diagonal and of
+the $U_\tau$ above it, $|\Psi|N^2$ elements in all, generate $F(X)$ (as $X_\tau=\Lambda_\tau U_\tau$), whose transcendence degree
+is $|\Psi|N^2$; hence they are algebraically independent. For $q=(\tau,k)$, the rows $0,\dots,k$ of $X_\tau$ are the upper
+left $(k+1)\times(k+1)$ block $\Lambda_{\tau,k}$ of $\Lambda_\tau$ times the rows $0,\dots,k$ of $U_\tau$. Writing $U_\tau(k;I)$ for the
+submatrix of $U_\tau$ on the rows $0,\dots,k$ and the columns $I$, we get $y_{q,I}=\det\Lambda_{\tau,k}\cdot\det U_\tau(k;I)$, and
+since $U_\tau(k;\{0,\dots,k\})$ is unitriangular, $y_{q,I}/y_{q,\mathrm{lead}}=\det U_\tau(k;I)$. So all ratios lie in the field
+generated by the entries $U_{\tau,a,b}$, $a<b$. Conversely, $U_{\tau,a,b}$ is the ratio for $q=(\tau,a)$ and
+$I=\{0,\dots,a-1,b\}$ (here $a\le N-2$ as $b\le N-1$): the matrix $U_\tau(a;I)$ is unitriangular in its first $a$ columns
+and its last column is $(U_{\tau,0,b},\dots,U_{\tau,a,b})$. Hence the ratios generate the field generated by the
+$|\Psi|\binom N2$ algebraically independent elements $U_{\tau,a,b}$, $a<b$.
+\end{proof}
+
+\begin{proposition}[Dimension drop at the boundary of the flag variety]\label{prop:pf:deepstr:flagdrop}
+Let $\Psi\ne\varnothing$ and $N\ge2$. For $\tau\in\Psi$ let $X_\tau=(X_{\tau,a,b})$ be a generic $N\times N$ matrix over $\Q$; for a
+\emph{block} $q=(\tau,k)$, $0\le k\le N-2$, and a $(k+1)$-subset $I\subseteq\{0,\dots,N-1\}$ let $y_{q,I}\in\Q(X)$ be the minor of
+$X_\tau$ on the rows $0,\dots,k$ and the columns $I$ (the Pl\"ucker coordinates of the generic flag), and let $P_{\mathrm{Fl}}$ be
+the ideal of this point. Then $P_{\mathrm{Fl}}$ is an arithmetic variety of dimension $\deepstrDim+1$, and for every block
+$q_0$ such that another block exists, the image of $P_{\mathrm{Fl}}$ under the coordinate projection forgetting the block
+$q_0$ is an arithmetic variety of dimension $<\deepstrDim+1$.
+\formallabel{GlobalTheory.T.flag_variety_boundary_dimension_drop}
+\formallabel{GlobalTheory.CompanionTheory.Ar.PB.flag_isArithVar_and_image}
+\formallabel{PositivityTheory.Xgp.t_fl_arith}
+\formallabel{PositivityTheory.Xgp.fl_arith.trdeg_lt}
+\formallabel{GroundTheory.Heights₂.Heights.LowerBoundFree.FlagArithVar.proof}
+\end{proposition}
+
+\begin{proof}
+Note $\deepstrDim=|\Psi|\binom N2$. By \cref{lem:pf:deepstr:genflag} with $F=\Q$, the leading minors $y_{q,\mathrm{lead}}$
+(columns $0,\dots,k$) are nonzero and the field $L$ generated by all ratios $y_{q,I}/y_{q,\mathrm{lead}}$ has transcendence
+degree $\deepstrDim$; so the first assertion follows from \cref{lem:pf:deepstr:trdegpt}. For the second, the ideal of the
+image is the ideal of the point obtained by forgetting the coordinates of $q_0$. Let $L'\subseteq L$ be generated by the
+ratios of the blocks $q\ne q_0$, and $t=y_{q_0,\mathrm{next}}/y_{q_0,\mathrm{lead}}\in L$, where $\mathrm{next}$ is the set of columns
+$\{0,\dots,k-1,k+1\}$ for $q_0=(\tau_0,k)$. For $c\in\Q$ let $\sigma_c$ be the automorphism of $\Q(X)$ adding $c$ times the
+row $k+1$ of $X_{\tau_0}$ to its row $k$. It fixes every minor of a block $q\ne q_0$: for $q=(\tau,j)$ with $\tau\ne\tau_0$ or
+$j<k$ the rows involved are unchanged, and for $j>k$ both rows $k$ and $k+1$ are among the rows $0,\dots,j$, so the
+minor is unchanged. Hence $\sigma_c$ fixes $L'$, while an evaluation of the variables shows that the values
+$\sigma_n(t)$, $n\in\N$, are pairwise distinct. Therefore $t$ has infinitely many conjugates over $L'$, so it is
+transcendental over $L'$, and $\operatorname{trdeg}L'=d<\deepstrDim$ because $L'(t)\subseteq L$. Finally, the point
+obtained by forgetting $q_0$ has nonzero leading coordinates and its ratios generate $L'$, so by \cref{lem:pf:deepstr:trdegpt}
+the image is an arithmetic variety of dimension $d+1<\deepstrDim+1$.
+\end{proof}
+
+\subsubsection*{An integral section attached to an origin}
+
+\begin{proposition}[Weight section]\label{prop:pf:deepstr:weightsection}
+Let $\mathrm{Or}$ be a root origin of a root model $M$ over a model $Y$, relative to a finite set $S$ of primes and
+fixed data $F_x$ with integers $k_A,q'\ge1$, exponents $n_r$, $r\in\Psi\times\{0,\dots,N-1\}$, and a nonzero element $s_E$, and
+let $\nu$ be a weight with $n_r=k_Aq'\nu_r$ for all $r$. Put $n_0(r)=-n_r$ for $r\ne\ast$ and $n_0(\ast)=-q'$, so that
+$n_0=k_Aq'\,\mathrm{coef}(\nu,-1)$. Then there is an integer $N_0\ge1$ such that
+$\varepsilon=N_0\,g(s_E)\prod_re_r^{n_r}\in\Omega_M$ is nonzero and lies in $\Lambda_1(y,\deg L_1(n_0))$, where $g$ and $e_r$ are the field
+embedding and the root elements of the origin.
+\formallabel{GlobalTheory.T.root_origin_weight_identity}
+\formallabel{GlobalTheory.CompanionTheory.Ar.Small.OriginEps.section_on_model}
+\end{proposition}
+
+\begin{proof}
+The identity $n_0=k_Aq'\,\mathrm{coef}(\nu,-1)$ holds by the definitions ($k_A$ of $M$ equals that of $F_x$). The element
+$s_0=g(s_E)\prod_re_r^{n_r}$ is nonzero since $s_E\ne0$ and the $e_r$ are nonzero. Let $c'$ be a chart with all
+$y_{k,c'_k}\ne0$ and $a=\deg L_1(n_0)=-\sum_rn_ra_r-q'\deg A$. A direct computation, using that the line $A$ has degree $1$ in the
+block $k_0$ of the coordinates of $F_x$ and $0$ in the others, gives
+\[
+s_0\prod_ky_{k,c'_k}^{-a_k}=\frac{g(s_E)\,g(y_f)^{q'}}{\prod_r\bigl(\prod_ky_{k,c'_k}^{(a_r)_k}\cdot e_r\bigr)^{-n_r}},
+\]
+with $y_f$ the coordinate of $F_x$ in the chart. At every point of the chart outside the closed fibres this
+quotient is regular, by the effectivity condition of the root origin. Elements regular at all such points
+lie in the $\Q$-algebra generated by the chart ratios
+(\lref{GlobalTheory.CompanionTheory.Ar.Small.OriginEps.mem_adjoin_rat_of_regular}), and the latter is contained
+in the algebra generated by the ratios $y_p/y_{p,c'}$, so $s_0\prod_ky_{k,c'_k}^{-a_k}$ is integral over that algebra.
+By \lref{GlobalTheory.T.integral_section_lattice_multiple} (an element integral over the rational chart
+algebras on all charts has a positive integer multiple in $\Lambda_1(y,a)$) there is $N_0\ge1$ with $N_0s_0\in\Lambda_1(y,a)$.
+\end{proof}
+
+\subsubsection*{Hodge--Tate points and charts}
+
+\begin{definition}[Hodge--Tate points]\label{def:pf:deepstr:pointht}
+The \emph{Hodge--Tate point statement} $\mathrm{(HTP)}$ is: let $p$ be a prime, $C$ an algebraically closed field of characteristic $0$
+with a valuation $v$, $v(p)<1$, whose valuation ring $\OO$ is a $p$-adically complete domain; $E$ a number field with
+an involution $c$; $G$ a commutative semi-abelian group scheme over a locally noetherian scheme $S$, and
+$y\in S(\OO)$; $\Lambda$ a lattice with an $\OO_E$-action and an alternating form $\langle\ ,\ \rangle$ which is polarised at $p$ with
+respect to a basis $u_1,\dots,u_N$; $X$ a tower of level structures identifying the $p$-power torsion of $G_y$ with
+$\Lambda$, compatible with an $\OO_E$-action on $G$ and on a Lie model $\mathcal L$ of $G$ at $y$ with
+$2\rank_{\OO}\mathcal L=\rank_\Z\Lambda$; and $(\zeta_n)$ a compatible system of primitive $p^n$-th roots of unity for which the
+Weil pairing of $X$ is regular. Then for every $\kappa\in\OO$ with $\kappa\ne0$ and $v(\kappa)^{p-1}\le v(p)$ there is a
+\emph{Hodge--Tate point} of level $\kappa$ for $(C\otimes\Lambda,C\otimes\mathcal L^\vee)$ attached to $X$: its lattice has basis
+$1\otimes u_i$, its form is $\langle\ ,\ \rangle$, its Hodge lattice is $\OO\otimes\mathcal L^\vee$, its $\OO_E$-actions are the given ones
+(twisted by $c$ on $\mathcal L^\vee$), and its Hodge--Tate map sends $1\otimes x$ into $1\otimes w+p^n\cdot(\text{Hodge lattice})$ whenever
+$w$ is the derivative at level $n$ of the character $\zeta_n^{\langle x,\cdot\rangle}$ of the level group.
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.PointHT}
+\end{definition}
+
+\begin{lemma}[Integers of complete algebraically closed fields]\label{lem:pf:deepstr:integers}
+Let $p$ be a prime, $C$ an algebraically closed field of characteristic $0$ with a valuation $v\colon C\to\R_{\ge0}$
+such that $v(p)<1$, and $\OO=\{v\le1\}$ its ring of integers, assumed $p$-adically complete. Then $\OO$ is a valuation
+ring with fraction field $C$, hence integrally closed with algebraically closed fraction field; it is a Henselian
+local ring and a $\Z_p$-algebra.
+\formallabel{GlobalTheory.T.complete_integers_properties}
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.padicComplete_integers_structure}
+\formallabel{PositivityTheory.HtPt.Twhopf.padic_alg}
+\end{lemma}
+
+\begin{proof}
+For $x\in C^\times$ we have $v(x)\le1$ or $v(x^{-1})\le1$, so $\OO$ is a valuation ring with fraction field $C$; valuation
+rings are local and integrally closed. Let $f\in\OO[X]$ be monic and $a_0\in\OO$ with $f(a_0)$ in the maximal ideal
+$\mathfrak m$ and $f'(a_0)\notin\mathfrak m$. Over $C$, $f=\prod_i(X-\alpha_i)$, and the $\alpha_i$ are integral over $\OO$, hence in $\OO$.
+Modulo $\mathfrak m$, $\bar f=\prod_i(X-\bar\alpha_i)$ has the simple root $\bar a_0$, so exactly one $\alpha_i$ reduces to $\bar a_0$, and it is a
+root of $f$ lifting $a_0$; thus $\OO$ is Henselian. Finally the maps $\Z\to\OO/p^n\OO$ factor through $\Z/p^n\Z$ and are
+compatible, so they define $\Z_p=\varprojlim\Z/p^n\Z\to\varprojlim\OO/p^n\OO=\OO$, the last equality because $\OO$ is $p$-adically
+complete (\lref{GlobalTheory.ChF.padicInt_algebra_of_isAdicComplete_and_matrix_unique}, which constructs
+this algebra structure).
+\end{proof}
+
+\begin{theorem}[Hodge--Tate points]\label{thm:pf:deepstr:pointht}
+The sharp Hodge--Tate statement \ref{G:pf:deepstr:ht} implies $\mathrm{(HTP)}$.
+\formallabel{GlobalTheory.T.pointHT_of_fargues_hodge_tate}
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.Fargues.pointHT}
+\end{theorem}
+
+\begin{proof}
+Let the data be as in \cref{def:pf:deepstr:pointht}. By \cref{lem:pf:deepstr:integers}, $\OO$ is a Henselian local
+$\Z_p$-algebra with algebraically closed fraction field $C$; since $G$ is smooth and $\OO$ is local, the Lie model
+$\mathcal L$ is free of finite rank. From $X$ one forms the tower of $p$-power torsion of $G$ at $y$
+over $\OO$ (\lref{GlobalTheory.CompanionTheory.Ar.HT.Fargues.ordTower}). The $\OO_E$-action is compatible with
+this tower (\lref{GlobalTheory.T.semiabelian_adic_torsion_four}, which transports homomorphisms of $G$
+inducing the given maps on $\Lambda$ and $\mathcal L$ to the tower), and the pairing extends with values in powers of
+$\zeta_n$ (\lref{GlobalTheory.T.exists_prodSpan_torsion_pairing_eq_zeta_pow}). The existence of the
+Hodge--Tate point is then \lref{GlobalTheory.T.polarised_divisible_group_exists}, which constructs it
+from a polarised $p$-divisible group with these structures, using the sharp Hodge--Tate statement for the
+cokernel of the Hodge--Tate map.
+\end{proof}
+
+\begin{theorem}[Hodge--Tate charts]\label{thm:pf:deepstr:htcharts}
+Let $(E,H,D_w,l,X^o,c)$ be as in \cref{sec:pf:deepstr:conv}, $Y$ a model of $X^o$ over a ring mapping to $F_c$, $S$ a
+finite set of primes, $y$ a point in coordinates with field $\Omega$, $\mathfrak M$ a Hodge component of $Y$ at $S$ in these
+coordinates, $p\in S$ with $p+q>0$, and $o\subseteq\Omega$ the ring of fractions $a/b$ with $p\nmid b$. Then there is a family
+$(\mathrm{Dc}_s)$ of Hodge--Tate charts of level $p^{R(p)}$ and rank $p+q$, one over the chart ring of each standard chart
+$s$ of the multicone (with values in the dual of the Lie module of $\mathfrak M$), which forms a Hodge--Tate family for
+$\mathfrak M$ at $p$, and, if $\mathrm{(HTP)}$ holds, each $\mathrm{Dc}_s$ has test points at every element of its chart ring
+which is a $\C_p$-element.
+\formallabel{GlobalTheory.T.hodge_tate_free_flag_lattice_lower}
+\formallabel{GlobalTheory.CompanionTheory.Ar.HT.hodgeTate_family_exists}
+\formallabel{GlobalTheory.CompanionTheory.HtLink.htat_link_of}
+\end{theorem}
+
+\begin{proof}
+Generic properties of the Hodge component (among them properness of the semi-abelian scheme over its
+base, Tate isomorphisms, the rank of the Lie module and a description of each standard chart) are
+\lref{PositivityTheory.HtPt.Hcptgen.hcpt_generic}; the Hodge component also has full $p^{R(p)}$-torsion.
+They provide a level parameter (\lref{PositivityTheory.HtPt.Htat.exists_isParam}); the lattice of the datum
+has a basis polarised at $p$ (\lref{PositivityTheory.HtPt.Htat.pol_lattice}), which gives a level pairing
+(\lref{PositivityTheory.HtPt.Htat.exists_levPairing}). For each standard chart $s$,
+\lref{GlobalTheory.CompanionTheory.HtLink.exists_chart} constructs a Hodge--Tate chart over the chart ring
+from these data and the existence of Hodge--Tate charts (\lref{GlobalTheory.T.HTChartExists_holds}); its
+Hodge lattice spans the Hodge lattices of $\mathfrak M$ at the points of the chart over $\Z_p$, and its Hodge--Tate map
+describes the Hodge--Tate condition at these points. The charts share the same level pairing, and the compatibility conditions of a
+Hodge--Tate family follow from these descriptions, the chart rings being contained in the local rings of the
+points (\lref{PositivityTheory.HtPt.Htat.chart_le_regAt}). The test points come from
+\lref{GlobalTheory.CompanionTheory.Ar.HT.hasTestPoints_of_tate}, which deduces them from $\mathrm{(HTP)}$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:deepstr:remarks}
+
+\begin{remark}[Use of the hypotheses]\label{rem:pf:deepstr:hyps}
+(1) Within the proof of \cref{pf:deepstr:main}, asymptotic Riemann--Roch \ref{H:pf:deepstr:nef} is used only
+through \cref{prop:pf:deepstr:geominputs}\ref{gi:topdeg}, the identification of the top degree of a component
+with the volume of the corresponding root model. Zarhin's trick \ref{H:pf:deepstr:zar} and the existence of
+quotients by finite flat subgroups enter only through the good tower volume theorem.
+
+(2) Of the hypothesis $m^2\le k$ of $\sfname{DeepStR}$ only the consequence $k\ge2m-1$ is used: at level $j\ge1$
+the condition $3q+1\le p+q$ reads $2m-3j+2\le k$. The bound $15$ on the number of prime factors of the level
+modulus enters only through the inequality $\#\mathcal S\le n+19\le128n$ in the proof of
+\cref{thm:pf:deepstr:ofvolume}.
+
+(3) The constant of $\sfname{DeepStR}$ is $C_T+120$, where $C_T$ is the constant of $\sfname{VolumeTheoremX}$;
+the summand $120=2\cdot60$ comes from \cref{lem:pf:deepstr:costbound}.
+\end{remark}
+
+\begin{remark}[Peculiarities]\label{rem:pf:deepstr:peculiar}
+(1) The volume inequality $\mathrm{(VI)}$ of \cref{def:pf:deepstr:bppf} is called a birational pull-back and
+push-forward formula in the development; its content is the inequality between arithmetic self-intersection
+and arithmetic volume stated there. It is used in this section only through \cref{lem:pf:deepstr:shift}(b),
+and in the development it is a consequence of $\sfname{MoriwakiBigStatement}$ (\cref{lem:pf:deepstr:vi}).
+
+(2) The third component of the Zhang-type provisions \ref{G:pf:deepstr:zhang} is the true proposition and
+plays no role. The formal conclusion of \cref{thm:pf:deepstr:slopebound} states the Lie slope bound twice.
+
+(3) In \cref{lem:pf:deepstr:counting}(b) the number of elements of an infinite set is taken to be $0$, as in
+the development; the inequality then holds trivially. Divisions by $0$ have the value $0$; in
+\cref{lem:pf:deepstr:towerseq} this convention makes both sides of the second limit vanish when the geometric
+degree vanishes, which happens only for finitely many $n$.
+
+(4) The limit functional $\mathrm{PP}$ of a root model is defined as a limit as $t\to0^+$; when the limit
+does not exist its value is an unspecified real number. In this section $\mathrm{PP}$ is only used through
+the limit conditions $\mathrm{(LC)}$ of the good tower volume theorem, which include the convergence of the
+relevant limits.
+
+(5) $\sfname{DeepStR}$ is a statement about the volume slopes $\deepstrvsl(Z,u)$ of \eqref{eq:pf:deepstr:compvol},
+which are defined with the counting volumes at the step $a=8$ and the valuation families $\mathcal V_B$ with
+$B=\deepstrbnd(u,g)$; the error term involves $\log\deepstrbnd(u,g)$ through this choice of $B$.
+
+(6) Two proofs in \cref{sec:pf:deepstr:further} take a shorter route than the development. The development
+obtains \cref{lem:pf:deepstr:constmetric}(b) from the conservation of degrees in the fibres rather than from part
+(a) and the recursion, and it obtains \cref{lem:pf:deepstr:genflag}(b) from the algebraic independence of the
+minors on the rows $0,\dots,a$ and the columns $\{0,\dots,a-1,b\}$, $a\le b$, rather than from the factorisation
+$X_\tau=\Lambda_\tau U_\tau$; the two routes prove the same statements.
+\end{remark}
+

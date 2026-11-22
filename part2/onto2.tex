@@ -1,0 +1,2025 @@
+\section{Surjectivity II: geometric pages and exponent bounds}\label{sec:pf:onto2}
+
+\providecommand{\ontoIIix}{\operatorname{ix}}
+\providecommand{\ontoIITw}{\mathrm{Tw}}
+\providecommand{\ontoIIcut}{\operatorname{cut}}
+\providecommand{\ontoIIeig}{\operatorname{eig}}
+\providecommand{\ontoIIexp}{\operatorname{ex}}
+\providecommand{\ontoIIJA}{J^{\mathrm{A}}}
+\providecommand{\ontoIIJr}{J^{\mathrm{rec}}}
+\providecommand{\ontoIIJu}{J^{\mathrm{u}}}
+\providecommand{\ontoIIloc}[2]{{#2}_{(#1)}}
+\providecommand{\ontoIIRB}{\mathrm{RB}}
+\providecommand{\ontoIIPN}{\mathrm{PN}}
+\providecommand{\ontoIICl}{\mathrm{Cl}}
+\providecommand{\ontoIILI}{\mathrm{LI}}
+
+This section proves two of the statements about \emph{record objects} from which the surjectivity estimate
+$\sfname{SurjectiveOntoX}$ of \cref{prop:families:points} is assembled
+(\lref{GlobalTheory.BigOn.ontoX_of_twist_shares_exp_alt}):
+\begin{enumerate}[label=(\Alph*)]
+\item the \emph{page statement} implies the \emph{geometric statement} (\cref{pf:onto2:thmA});
+\item eight published results (Clozel's purity theorem, the $\ell$-adic characters attached to algebraic Hecke
+  characters and their behaviour above $\ell$, Chebotarev's theorem with degree-one primes, Galois representations of
+  polarised cuspidal representations, base change for definite unitary groups, the Bhatt--Scholze theorem on
+  crystalline lattices, and the existence of local Langlands parameters) imply the \emph{exponent statement}
+  (\cref{pf:onto2:thmB}); the first of them is not used (\cref{pf:onto2:rem:unused}).
+\end{enumerate}
+All three statements are \emph{closed statements over record objects} (\cref{pf:onto2:forall}): for every family of
+the class $\sfname{FamHyp}$ which is large in the sense of the quantifier $\sfname{Closed}$ (\cref{def:families:closed}),
+for all large constants and all large scales $x$, they assert a list of explicit conditions (``leaves'') for every
+record object $O$ attached to a point $p$ of the family and to a pair of runs. The geometric statement consists of
+lattice leaves (the lattices attached to $O$ are lattices, stable under the relevant finite group, and suitably
+nested), a local index bound, and four \emph{depth leaves} bounding the normalised exponents $e_0(w,j)$ of $O$ at
+twisted places $w$ by the content $F_0(w,j)$ of the point plus explicit error terms, separately at good primes, at
+the ramified primes $q$ and $d$ of the host, at the small primes, and at the two level primes. The exponent statement
+asserts that the exponents $J_0$ of the numbers of the two-sided reduction are non-negative at twisted places and are
+dominated by a function $J_p(j,\ell)$ of the residue characteristic whose weighted sums
+$\sum_{\ell\in Q}J_p(j,\ell)\log\ell$ are bounded independently of the finite set of primes $Q$.
+
+\paragraph{The idea.} The geometric statement is a reduction to three inputs proved elsewhere: the index-bound
+hypotheses along runs (\lref{GlobalTheory.FinalJoin.runHolds_of_parOK}), the identification of the lattices of
+$O$ with lattices of modular forms (the \emph{form ties} contained in the record relation), and local depth bounds for
+integral points of the relevant moduli spaces. The two pieces of lattice theory proved here in full are a
+local--global passage (\cref{pf:onto2:l5}), which converts a bound for the index of a theta lattice at the places of a
+number field $K_0$ into local index bounds at the places of an extension $K$, and the averaging argument for the
+eigen-part of a lattice (\cref{pf:onto2:avg}). The local depth bounds at good primes rest on \emph{depth packages} extracted
+from the jets of integral charts (\cref{pf:onto2:packages,pf:onto2:nugood}). The exponent statement compares, at a twisted place $w$ of residue
+characteristic $\ell$, the normalised $\ell$-adic exponent $\ontoIIJu$ of the inclusion of a ``Weyl-type'' block lattice
+into a ``dual-Weyl-type'' one with an explicit integer $\ontoIIJr(\ell)$ built from exponents of Weyl modules. Outside an
+explicit range of $\ell$ the comparison follows from an inclusion whose exponent is the sum of the Weyl exponents of the weights
+(\cref{pf:onto2:sumexp}); in the range, the coarse bound defining $\ontoIIJr(\ell)$ rests
+on \emph{local models}: Hida-type settings over $\ell$-adic integers covering the block, in which a lattice inclusion with the coarse
+exponent holds (\cref{pf:onto2:lincl}); their inputs are obtained from the Galois representations attached to the automorphic
+eigensystems of the block via base change, together with Chebotarev's theorem and the Bhatt--Scholze theorem
+(\cref{pf:onto2:latlink,pf:onto2:winputs,pf:onto2:model}). Summing over $\ell$ uses the cut inequality for Weyl
+modules and the prime number bound $\pi(y)<1.26\,y/\log y$ of Rosser and Schoenfeld.
+
+\paragraph{Organisation.} \Cref{sec:pf:onto2:setup} recalls record objects, the leaves and the three statements.
+\Cref{sec:pf:onto2:geo} proves (A): runs (\cref{sec:pf:onto2:runs}), lattice leaves (\cref{sec:pf:onto2:lat}), the
+index bound (\cref{sec:pf:onto2:index}), the depth leaves (\cref{sec:pf:onto2:depth}) and the assembly
+(\cref{sec:pf:onto2:geoproof}). \Cref{sec:pf:onto2:exp} proves (B): weight dictionaries (\cref{sec:pf:onto2:dict}), the
+reduction to four statements (\cref{sec:pf:onto2:red}), the numerical and exponent-sum statements
+(\cref{sec:pf:onto2:sum}), and the smallness, frame, Galois and model statements (\cref{sec:pf:onto2:four}).
+\Cref{sec:pf:onto2:remarks} collects remarks on the formal statements. Lemmas of the formal development whose proofs
+are not reproduced here are cited by their labels together with their statements.
+
+%======================================================================
+\subsection{Record objects, leaves and the three statements}\label{sec:pf:onto2:setup}
+
+\paragraph{Conventions.} Throughout, $K$ is a number field with an involution $a\mapsto\bar a$ (in the applications
+$K$ is the CM coefficient field $\mathrm{LL}$ of a datum $D$ and the involution is complex conjugation). For a finite
+place $w$ of $K$ (a non-zero prime of $\OO_K$) we write $p_w$ for its residue characteristic, $v_w$ for the normalised
+valuation (with the convention $v_w(0)=0$ of the formal development), $e_w=v_w(p_w)$ for the absolute ramification
+index, $\ell_w=\log\Nm w/[K:\Q]$, and $\bar w$ for the conjugate place. For an $\OO_K$-submodule $A$ of a $K$-vector
+space $Z$, $\ontoIIloc{w}{A}$ denotes the localisation of $A$ at $w$ (the $\OO_{K,(w)}$-span of $A$), and for two such
+submodules
+\begin{equation}\label{eq:pf:onto2:ix}
+\ontoIIix_w(A,B)=\len\bigl(\ontoIIloc{w}{A}/\ontoIIloc{w}{(A\cap B)}\bigr)-\len\bigl(\ontoIIloc{w}{B}/\ontoIIloc{w}{(A\cap B)}\bigr)\in\Z ,
+\end{equation}
+lengths being lengths of $\OO_K$-modules, with the convention that a module of infinite length contributes $0$
+(\cref{pf:onto2:rem:len}). For full lattices this is the $w$-adic valuation of the generalised index $[A:B]$. For a
+$K$-subspace $W\subseteq Z$, $A$ is a \emph{lattice in $W$} if $A$ is finitely generated and spans $W$; we write
+$\ontoIIcut_W(A)=A\cap W$ and $aA$ for the image of $A$ under multiplication by $a\in K$. For a representation $\rho$ of a
+group $P$ on $Z$, a subgroup $U\le P$ and a function $\psi:P\to\OO_K$, we put
+$\ontoIIeig(\rho,U,\psi)=\{z\in Z:\rho(u)z=\psi(u)z\ \text{for all }u\in U\}$.
+
+An \emph{indefinite datum} $S$ (Part~I, \cref{sec:families:nonempty}) carries in particular a finite set $\ontoIITw(S)$ of
+finite places of $K$ (the \emph{twisted places}), a type $\mu(w)$ at every finite place, an integer $D(S)$ and an index
+set $J$; its \emph{numbers} $N$ contain real functions $F_0(w,j)$ (the \emph{content}), $J_0(t,w,j)$ (the
+\emph{exponents}) and $E_1(j)$.
+
+\begin{definition}[Record objects]\label{pf:onto2:onobj}
+Let $S$ be an indefinite datum over $K$ with index set $J$, let $P$ be a finite group and $c=(C,C_{b1},C_{b2})$ a
+triple of reals. A \emph{record object} $O\in\mathcal O(S,P,c)$ (\lref{Formalism.L2.Indef.Tree.OnObj}) consists
+of the following data, of which we list those used in this section. For each $j\in J$: an integer $n_Z(j)$, a
+representation $\rho_j$ of $P$ on $K^{n_Z(j)}$, an $\OO_K$-submodule $M_s(j)\subseteq K^{n_Z(j)}$, and an element
+$\mathrm{nn}_K(j)\in K$; a subgroup $U\le P$ and a function $\psi:P\to\OO_K$; for each finite place $v$ and $j\in J$:
+$\OO_K$-submodules $T_{h1}(v,j)$, $T_h(v,j)$, $T_{hK}(v,j)$, $T_{h0}(v,j)$ of $K^{n_Z(j)}$, elements
+$\sigma(v,j),a(v,j)\in K$, an integer $E(v,j)\ge0$ and reals $r_1(v,j),r_2(v,j)$; a prime $p_{\mathrm{de}}$; real
+functions $J_p(j,\ell)$, $\theta(\ell)$, $\alpha(\ell)$ ($\ell\in\N$) and $\mathrm{wt}(j)$; reals
+$k,m,f,b',S_c,\eta,T,D_F,X_2,x,\varepsilon,v_d,r_r,\delta_{e2},N_c$; and natural numbers $T_2,g_1,g_2,q_1,d$ and a finite
+set $s_m$ of natural numbers. Derived quantities are
+\begin{gather*}
+e_0(v,j)=\frac{E(v,j)-v_v(\sigma(v,j))}{e_v},\qquad \mathrm{nn}(v,j)=\frac{v_v(\mathrm{nn}_K(j))}{e_v},\\
+x_e=x^{\varepsilon},\quad b=e^{x_e},\quad L=\log b,\quad Y=C D_F,\qquad
+r(v,j)=\begin{cases} r_2(v,j)&p_v=p_{\mathrm{de}},\\ r_1(v,j)&\text{otherwise},\end{cases}\\
+S_e=S_c+\eta,\qquad s_B(j)=\mathrm{wt}(j)+fS_e,\qquad s_C(j)=Cm(2+v_d)\,s_B(j),\\
+A_1(j)=C\bigl(\log k\cdot m\,\mathrm{wt}(j)+fkS_e\bigr),\qquad A_{kw}(j)=Ck\,\mathrm{wt}(j),\\
+a_E(j,\ell)=\frac{A_1(j)}{\ell}+A_{kw}(j)\theta(\ell)+T\alpha(\ell)+[X_2<\ell]\frac{A_{kw}(j)}{\ell^2},\\
+E_J=30\,T_2\,m\,b\,x_e^2+2mb,\qquad E_{1u}=x_e(fmbL+N_c),
+\end{gather*}
+where $[\cdot]$ is $1$ if the condition holds and $0$ otherwise.
+\end{definition}
+
+\begin{definition}[Leaves]\label{pf:onto2:leaves}
+Let $O\in\mathcal O(S,P,c)$ and let $N$ be numbers for $S$. Write ``at pairs'' for ``for every $w\in\ontoIITw(S)$ and both
+$v\in\{w,\bar w\}$''. The \emph{leaves} used here are the following conditions (\lref{Formalism.L2.Indef.Tree.OnObj}).
+\begin{enumerate}[label=(L\arabic*)]
+\item\label{pf:onto2:L1} \emph{Stable lattices}: for all $j$, $M_s(j)$ is a lattice in $K^{n_Z(j)}$ and $\rho_j(g)M_s(j)\subseteq
+  M_s(j)$ for all $g\in P$.
+\item\label{pf:onto2:L2} \emph{Theta lattices}: at pairs, $T_h(v,j)$ and $T_{hK}(v,j)$ are lattices in $K^{n_Z(j)}$ for all $j$.
+\item\label{pf:onto2:L3} \emph{Nesting}: at pairs, for all $j$: $T_h(v,j)\subseteq M_s(j)$, $T_h(v,j)$ is $\rho_j(P)$-stable,
+  $\sigma(v,j)\ne0$ and $T_h(v,j)\subseteq\sigma(v,j)\,T_{hK}(v,j)$.
+\item\label{pf:onto2:L4} \emph{Eigen-part}: at pairs, for all $j$: $T_{h0}(v,j)$ is finitely generated,
+  $T_{h0}(v,j)\subseteq\ontoIIeig(\rho_j,U,\psi)$, and $|U|\cdot\bigl(T_{hK}(v,j)\cap\ontoIIeig(\rho_j,U,\psi)\bigr)\subseteq
+  T_{h0}(v,j)$.
+\item\label{pf:onto2:L5} \emph{Index bound}: there are $T_{h1},a,r_1,r_2,\delta_{e2}$ (replacing the corresponding data of $O$)
+  such that: at pairs, for all $j$, $T_{h1}(v,j)$ is a lattice contained in $T_h(v,j)$, $a(v,j)\ne0$, $v_v(a(v,j))=E(v,j)$, and
+  for every $K$-subspace $W\subseteq K^{n_Z(j)}$
+  \begin{equation}\label{eq:pf:onto2:LIB}
+  \ontoIIix_v\bigl(\ontoIIcut_W M_s(j),\ontoIIcut_W T_{h1}(v,j)\bigr)\le E(v,j)\dim W+r(v,j);
+  \end{equation}
+  moreover $0\le\delta_{e2}\le1$, $r_1,r_2\ge0$, and for every $j$ and every finite set $S'$ of finite places,
+  $\sum_{v\in S'}\ell_v r_i(v,j)\le n_Z(j)\,fmb\,\delta_{e2}$ for $i=1,2$.
+\item\label{pf:onto2:L6} \emph{Depth at good primes} (for $N$): $\theta(\ell),\alpha(\ell)\ge0$ for all $\ell$;
+  $\sum_{p\in Q}\theta(p)\log p\le C/k$ and $T\sum_{p\in Q}\alpha(p)\log p\le Cmb$ for every finite set $Q$ of primes; and for
+  every $w\in\ontoIITw(S)$ with $p_w\notin s_m\cup\{q_1,d,g_1,g_2\}$ and every $j$: if $p_w\le Y$ then $e_0(v,j)\le
+  F_0(w,j)+a_E(j,p_w)+1$ for $v\in\{w,\bar w\}$, and if $p_w>Y$ then $e_0(w,j)=e_0(\bar w,j)=0\le F_0(w,j)$.
+\item\label{pf:onto2:L7} \emph{Depth at $q_1$ and $d$}: for $w\in\ontoIITw(S)$ with $p_w\in\{q_1,d\}$ and all $j$:
+  $e_0(v,j)\le s_B(j)+T+1$ for $v\in\{w,\bar w\}$; $F_0(w,j)=0$ if $p_w=q_1$; and $-2fkb'\le F_0(w,j)\le0$ if $p_w=d$.
+\item\label{pf:onto2:L8} \emph{Depth at small primes}: for $w\in\ontoIITw(S)$ with $p_w\in s_m$ and all $j$: $e_0(v,j)\le
+  s_C(j)+T+1$ for $v\in\{w,\bar w\}$, and $F_0(w,j)=0$.
+\item\label{pf:onto2:L9} \emph{Depth at level primes}: for $w\in\ontoIITw(S)$ with $p_w\in\{g_1,g_2\}$ and all $j$:
+  $e_0(v,j)\le 2T-\mathrm{nn}(v,j)$ for $v\in\{w,\bar w\}$, and $\mathrm{nn}(w,j)+\mathrm{nn}(\bar w,j)=-2F_0(w,j)$.
+\item\label{pf:onto2:L10} \emph{Exponent bound}: $J_0(\mu(w),w,j)\ge0$ for $w\in\ontoIITw(S)$ and all $j$, and there is a
+  function $J_p(j,\ell)\ge0$ (replacing that of $O$) such that $\sum_{p\in Q}J_p(j,p)\log p\le E_J$ for every finite set $Q$
+  of primes and every $j$, and $J_0(\mu(w),w,j)\le J_p(j,p_w)$ for $w\in\ontoIITw(S)$ and all $j$.
+\end{enumerate}
+The \emph{page leaves} are:
+\begin{enumerate}[label=(P\arabic*)]
+\item\label{pf:onto2:P1} $C,k,m\ge1$, $f\ge8$, $T,S_c,\eta,b',v_d,N_c\ge0$, $x\ge1$; $g_1,g_2,q_1,d$ are primes with $g_1\ne
+  g_2$, $q_1\ne d$, $\{q_1,d\}\cap\{g_1,g_2\}=\emptyset$, and none of them lies in $s_m$;
+\item\label{pf:onto2:P2} $0\le\mathrm{wt}(j)\le2fb$, $1<Y$, $\log Y\le 2L$, $Y\le mb$, $kS_eL\le mb$, $k\le X_2$, $\log k\le L$,
+  $1\le L$;
+\item\label{pf:onto2:P3} $\log x\le x_e$ and $T_2\le f$;
+\item\label{pf:onto2:P4} three inequalities bounding $\log(q_1d)$, $\sum_{p\in s_m}\log p$ and $\log(g_1g_2)$ against
+  $C_{b1}fmb$, $C_{b2}fmbL$ and $4b$, and $C_{b1},C_{b2}\ge0$;
+\item\label{pf:onto2:P5} a condition on the residue fields of the places of $R.P_g$ (each has $g_1$ or $g_2$ elements, $f$ of each);
+\item\label{pf:onto2:P6} $2f/(\min(g_1,g_2)-1)\le 1/(4(fk)^3)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Closed statements over record objects]\label{pf:onto2:forall}
+For a point $p$ (\cref{sec:families:nonempty}) let $\mathcal M(p)$ denote the \emph{extra point conditions}: every place at
+which the complex of $p$ has a single index is twisted, the core of $p$ is tied to the two-sided reduction $R_2(p)$ (the
+\emph{core ties}), and the record ties of $p$ hold (\lref{GlobalTheory.BigOn.More}). For a pair of runs $r$ for the
+core of $p$ (\lref{GlobalTheory.BigOn.TwoRuns}), a \emph{record object of $p$ along $r$} is a record object $O$ for
+the false side $S_2(p)$ of $R_2(p)$, the group $\mathrm{Mir}(R_2(p))$ and constants $c$, which satisfies the record relation
+(\cref{pf:onto2:isrec}) for the parameters of the family and the own-prime pin of $r$. Let $Q$ be a property of a family
+$\mathcal F$, a scale $x$, an index $i$, a point $p\in\mathrm{Pt}(\mathcal F,x,i)$, constants $c$ and a record object $O$. Then
+$\mathrm{Rec}(Q)$ (\lref{GlobalTheory.BigOn.ForallRecordObjects}) is the statement
+\begin{multline*}
+\sfname{Closed}\Bigl(\sfname{FamHyp},\ \exists c_0\ \forall c:\ \bigl(c_0\le C\wedge 14\le C_{b1}\wedge
+66C+4\le C_{b2}\bigr)\Rightarrow{}\\ \mathrm{Ev}\bigl(\mathcal F,\ p\mapsto \mathcal M(p)\Rightarrow\forall r\ \forall O\
+\text{record object of $p$ along $r$}:\ Q(\mathcal F,x,i,p,c,O)\bigr)\Bigr),
+\end{multline*}
+where $\mathrm{Ev}(\mathcal F,\cdot)$ means ``there is $x_0$ such that for all $x>x_1(\mathcal F)$ with $x\ge x_0$, all $i$ and all
+points $p$ over $(x,i)$ satisfying the point conditions''. Similarly $\mathrm{AtPts}(Q')$
+(\lref{GlobalTheory.BigOn.AtPtsAlt}) is $\sfname{Closed}(\sfname{FamHyp},\mathrm{Ev}(\mathcal F,p\mapsto\mathcal
+M(p)\Rightarrow Q'(p)))$. For a point $p$ and reals $C,C_H$, $N_p(C,C_H)$ denotes the numbers of the two-sided reduction
+(\lref{GlobalTheory.BigOn.R2}).
+\begin{itemize}
+\item The \emph{page statement} is $\mathrm{Rec}$ of: the page leaves, $O.b=b(L)$ (where $b(L)$ is the scale $b$ of the size data
+  $L=L(x,i)$), $p.Z.E_{1u}\ge0$, and $E_1(N_p(C,C_H))(j)=C\cdot O.E_{1u}$ for all $C,C_H,j$
+  (\lref{GlobalTheory.BigOn.PageStatement}).
+\item The \emph{geometric statement} is $\mathrm{Rec}$ of: \ref{pf:onto2:L1}--\ref{pf:onto2:L5}, and
+  \ref{pf:onto2:L6}--\ref{pf:onto2:L9} for $N=N_p(C,C_H)$ for all $C,C_H$ (\lref{GlobalTheory.BigOn.GeometricStatement'}).
+\item The \emph{exponent statement} is $\mathrm{Rec}$ of: \ref{pf:onto2:L10} for $N=N_p(C,C_H)$ for all $C,C_H$
+  (\lref{GlobalTheory.BigOn.ExponentStatement}).
+\end{itemize}
+\end{definition}
+
+\begin{remark}[The record relation]\label{pf:onto2:isrec}
+The record relation (\lref{GlobalTheory.BigOn.IsRec}) ties a record object to the runs $r$ and to the parameters of the
+family. Its components are: (i) the \emph{run conditions} (\lref{GlobalTheory.BigOn.RunsOk}): the top structures of both
+runs have all their laws, one-cover conditions hold, the twist character is trivial on determinants of the rational subgroup,
+run, level and action pins hold at the twisted places, and the level ideal is the product of the places in $R.P_g$; (ii) the
+weight families $\kappa_i$ of the face are the run weights $\kappa R(i+1)$; (iii) a \emph{level compatibility}: the core has
+its laws, the map $\OO\to\mathrm{LL}$ is injective, and for every $j$ there are an isomorphism $z_j:K^{n_Z(j)}\cong
+K\otimes\mathrm{Cusp}_j$ with a space of cusp forms (of weight $\kappa R(j+1)$) and an action $\mathrm{act}_j$ of $P$ on these
+cusp forms, and for every place $v$ a further identification, such that the \emph{trace tie} holds at $(v,j)$ for the run
+$r_v$ \emph{used at $v$} (the second run of $r$ if $p_v=p_{\mathrm{de}}$, the first otherwise) and the prime $\mathrm{own}(v)$
+($p'_{\mathrm{de}}$ if $p_v=p_{\mathrm{de}}$, $p_{\mathrm{de}}$ otherwise); the trace tie (\lref{GlobalTheory.OnTies.OnTie})
+contains the \emph{form tie} of \cref{pf:onto2:formtie} and identifies $U$, $\psi$, $T_{h0}$ and the remaining lattices of $O$
+with objects defined from theta series; (iv) the \emph{depth tie} of \cref{pf:onto2:runtie}; (v) the identities
+$D_F=\max_j\deg(lR(j+1))$, $r_r=D.R.r$, $N_c=L.N_c$, $T_2=|D.\mathrm{host}.T_2|$ and $p_{\mathrm{de}}=D.\mathrm{host}.p_{\mathrm{de}}$.
+The \emph{own-prime pin} of $r$ (\lref{GlobalTheory.BigOn.OwnPin}) says that all auxiliary prime data of the run used at
+$v$ are located at $\mathrm{own}(v)$.
+\end{remark}
+%======================================================================
+\subsection{The geometric statement}\label{sec:pf:onto2:geo}
+
+\begin{theorem}[Page statement implies geometric statement]\label{pf:onto2:thmA}
+The page statement implies the geometric statement. In words: if, closedly over $\sfname{FamHyp}$, for large constants and
+eventually at points, every record object satisfies the page leaves, has $O.b=b(L)$ and $E_1=C\cdot O.E_{1u}$, then
+closedly over $\sfname{FamHyp}$, for large constants and eventually at points, every record object satisfies the lattice leaves
+\ref{pf:onto2:L1}--\ref{pf:onto2:L4}, the index bound \ref{pf:onto2:L5} and the depth leaves \ref{pf:onto2:L6}--\ref{pf:onto2:L9}
+for the numbers $N_p(C,C_H)$, for all $C,C_H$.
+\formallabel{GlobalTheory.BigOn.geoSt_of_pageSt_alt}
+\end{theorem}
+
+The proof (\cref{sec:pf:onto2:geoproof}) combines four results about a single record object, proved in
+\cref{sec:pf:onto2:runs,sec:pf:onto2:lat,sec:pf:onto2:index,sec:pf:onto2:depth}, with numerical conditions along families. In
+these four results we fix a datum $D$, a finite group $G$, a family $A$ of forms on $G$, a core $J$ with a real datum $R$, a
+face $F$, weight families $\kappa$ with vectors $v_0$ and a tie $\mathrm{fw}$, size data $L$, parameter choices with parameters
+$T_p$, the weight definition $\kappa_{\mathrm{def}}$ of $D$, an error datum $\mathrm{EX}$, a pair of runs $r$ for $J$ and
+constants $c$; $O$ is a record object for the false side of the complex of $R$ at $F$, the group $\mathrm{Mir}(R)$ and $c$; and
+$K=\mathrm{LL}$ is the coefficient field of $D$.
+
+\subsubsection{Index-bound hypotheses along runs}\label{sec:pf:onto2:runs}
+
+\begin{definition}[Run bounds and page-run conditions]\label{pf:onto2:runbounds}
+For a pair of runs $r$ and $C_K\in\R$, the \emph{run bounds} $\ontoIIRB(C_K,r)$ say: for every place $v$ such that the top
+structure of the run $r_v$ used at $v$ satisfies its laws, if $\OO\to\mathrm{LL}$ is injective, then for every
+admissible index $j$ the \emph{index-bound hypotheses} and the \emph{run conclusion}
+$\ontoIICl(X,S,\kappa,w_L,w_F,T,\nu_s,\beta)$ (\cref{pf:onto2:concl}) hold for the record $X$ of the run at $j$
+(\cref{pf:onto2:formtie}), the scalar datum $S$ of the run at the prime $\mathrm{own}(v)$, the run weights
+$(\kappa,w_L,w_F)=(\kappa R(j),lR(j),fR(j))$, the integer $T=T_O$ of the parameters, the local depths $\nu_s$ of the run, and
+\begin{equation}\label{eq:pf:onto2:beta}
+\beta=\rank_{K_0}\bigl(K_0\cdot\mathrm{Mlat}(\kappa)\bigr)\cdot f\,m\,b\,\delta_{e2},
+\end{equation}
+where $K_0$ is the coefficient field of the record, $f,m$ are ranks of $D$, $b$ is the scale of $L$ and $\delta_{e2}$ the thick
+density of $L$. The \emph{page-run conditions} $\ontoIIPN(x_1)$ (\lref{GlobalTheory.BigOn.PageNum}) are: the size conditions
+on $L$, $C_{nW}=10$, $\log g_i\le 9L+1$ for the two level primes, $1000\le C_P$, $C_P^{20}\le z_{\mathrm{Base}}(L)$ and $x_1\le x$.
+\formallabel{GlobalTheory.BigOn.RunsHold}
+\end{definition}
+
+\begin{lemma}[Index-bound hypotheses at a prime]\label{pf:onto2:hypconcl}
+There are constants $C_K$ and $x_1$ such that for every top structure $T$ satisfying its laws with $\OO\to\mathrm{LL}$ injective,
+every error datum $\mathrm{EX}$ and every prime $p$ for which the parameter conditions of $(T,\mathrm{EX},p)$ hold at all
+admissible indices: if
+$\ontoIIPN(x_1)$ holds and the field smallness of $(D,L)$ holds, then the index-bound hypotheses and the run conclusion (with
+the data of \cref{pf:onto2:runbounds} for the prime $p$) hold at every admissible index $j$.
+\formallabel{GlobalTheory.FinalJoin2.hyp_concl_at_run}
+\formallabel{GlobalTheory.T.exists_constants_indexBound_hypotheses_liftWeights}
+\end{lemma}
+
+\begin{proof}
+By \lref{GlobalTheory.FinalJoin.runHolds_of_parOK} there is a threshold function $x_0(\cdot,\cdot)$ such that for every top
+structure $T$ with its laws, every error datum and prime $p$ for which the parameter conditions of $(T,\mathrm{EX},p)$ hold at all
+admissible indices, and every record run satisfying the page-run hypotheses at a scale $x\ge x_0(20,C_K)$, both the
+index-bound hypotheses and the run conclusion hold for the record at $j$. By
+\lref{GlobalTheory.FinalJoin.RecordRun.exists_pageRun_record_sub_four} there is a constant $C_K$ such that the page-run
+hypotheses hold whenever the size conditions, $C_{nW}=10$, $\log g_i\le9L+1$, $x\ge10^{60}$, $C_P\ge1000$, $C_P^{20}\le
+z_{\mathrm{Base}}(L)$ and a smallness condition on the coefficient field hold; by
+\lref{GlobalTheory.FinalJoin2.fieldSmall_iff_opo} this smallness condition is equivalent to the field smallness of $(D,L)$.
+Put $x_1=\max(10^{60},x_0(20,C_K))$; then $x\ge x_1$ gives both scale conditions.
+\end{proof}
+
+\begin{proposition}[Runs satisfy the index-bound hypotheses]\label{pf:onto2:runshold}
+There are constants $C_K$ and $x_1$ such that for all data as above: if the core ties of $(L,\mathrm{EX},J,R)$, the run
+conditions, the own-prime pin and the page-run conditions $\ontoIIPN(x_1)$ hold, then the run bounds $\ontoIIRB(C_K,r)$ hold.
+\formallabel{GlobalTheory.BigOn.runsHold_of_ties}
+\end{proposition}
+
+\begin{proof}
+Let $C_K,x_1$ be the constants of \cref{pf:onto2:hypconcl}. Let $v$ be a place and apply \cref{pf:onto2:hypconcl} to the run
+$T=r_v$ and $p=\mathrm{own}(v)$. Field smallness is one of the core
+ties, and the laws of $T$ are part of the run conditions. It remains to check the parameter conditions for
+$(T,\mathrm{EX},\mathrm{own}(v))$. By \lref{GlobalTheory.FinalJoin2.liftIndexParameterConditions_of_coreAndShortLaws} they
+hold at all $j$ as soon as: $T$ has the laws of its core, the laws of the top structure and the short laws (all contained in
+the run conditions); the core of $T$ is $J$ and is canonical (core ties); the field conditions at $\mathrm{own}(v)$ hold (one of
+the core ties, for $p'_{\mathrm{de}}$ if $p_v=p_{\mathrm{de}}$ and for $p_{\mathrm{de}}$ otherwise); the error datum is
+half-compatible with the core (core ties); and every auxiliary prime datum $d_\delta(j,n)$ of $T$ has level $1$ and is located at
+$\mathrm{own}(v)$. The level statement is one of the laws in the run conditions, and the location statement is the own-prime pin.
+\end{proof}
+
+\subsubsection{Lattice leaves}\label{sec:pf:onto2:lat}
+
+\begin{definition}[Records of a run and form ties]\label{pf:onto2:formtie}
+The \emph{record} $X$ of a run at an admissible index $j$ (\lref{Formalism.MainNotions.WeightAlgebra.PJ}) has a coefficient
+field $K_0$ (a number field; $K$ is a $K_0$-algebra), a commutative $K_0$-algebra $\mathrm{Forms}$, for each weight $w$ a
+$K_0$-space $\mathrm{Cusp}(w)$ of cusp forms with an injective $K_0$-linear map $\iota_w:\mathrm{Cusp}(w)\to\mathrm{Forms}$, and
+$\OO_{K_0}$-submodules $\mathrm{Mlat}(w)$ (integral forms), $\mathrm{thAll}(w)$ (theta series) and $\mathrm{shortTh}(w)$ (short theta
+series) of $\mathrm{Cusp}(w)$. For $s\in\OO_{K_0}$ write $\mathrm{Thc}(s,w)=s\,(g_1g_2)^{frn(w)}\,\mathrm{shortTh}(w)$, where $n(w)$ is
+the size of $w$. For a scalar datum $S=(s_W,s_F,s_0,s_K)$, weights $\kappa,w_L,w_F$ and $T\in\N$, the \emph{theta lattice} is the
+$\OO_{K_0}$-submodule of $\mathrm{Forms}$
+\[
+\Theta=\iota(s_W\mathrm{thAll}(w_L))^{T}\iota(\mathrm{Thc}(s_F,w_F))+\iota(s_W\mathrm{thAll}(w_L))^{T-\dim Y}
+\iota(\mathrm{Thc}(s_0,w_{F0}))+\iota(\mathrm{Thc}(s_K,\kappa)),
+\]
+with $w_{F0}=w_F+(\dim Y)w_L$, and $\Theta^{\mathrm{pl}}$ is the same expression with all scalars removed and $\mathrm{Thc}(\cdot,w)$
+replaced by $\mathrm{shortTh}(w)$. For an isomorphism $z:K^n\cong
+K\otimes_{K_0}\mathrm{Cusp}(\kappa)$ and a subset $Y'\subseteq\mathrm{Cusp}(\kappa)$ let $\langle Y'\rangle_z$ be the $\OO_K$-span of
+$\{z^{-1}(1\otimes F):F\in Y'\}$. The \emph{form tie} at $(v,j)$ (\lref{GlobalTheory.FormTies.FormTieK}) says:
+\begin{equation}\label{eq:pf:onto2:formtie}
+\begin{gathered}
+M_s(j)=\langle\mathrm{Mlat}(\kappa)\rangle_z,\quad \rho_j(g)z^{-1}(1\otimes F)=z^{-1}(1\otimes\mathrm{act}_gF),
+\quad T_h(v,j)=\langle\{F:\iota_\kappa F\in\Theta\}\rangle_z,\\
+\sigma(v,j)=\sigma_{\mathrm{rec}},\qquad T_{hK}(v,j)=\langle\mathrm{shortTh}(\kappa)\rangle_z ,
+\end{gathered}
+\end{equation}
+for the run weights $(\kappa,w_L,w_F)=(\kappa R(j),lR(j),fR(j))$, $T=T_O$, the scalar datum of the run at $\mathrm{own}(v)$ and an
+explicit non-zero scalar $\sigma_{\mathrm{rec}}\in\OO_{K_0}$ (\lref{GlobalTheory.FormTies.sigRec}). The \emph{weak form tie}
+replaces the last identity by: $T_{hK}(v,j)$ is finitely generated and contains
+$\langle\{F:\iota_\kappa F\in\Theta^{\mathrm{pl}}\}\rangle_z$.
+\formallabel{GlobalTheory.FormTies.thetaPlain}
+\formallabel{GlobalTheory.FormTies.FormTie}
+\end{definition}
+
+We use the following facts about records, proved elsewhere or among the deferred results of this section. Let $(\kappa,w_L,w_F,T)$ be
+run weights at an admissible $j$; by \lref{GlobalTheory.RunDepth.run_weights_sum} they satisfy the \emph{weight relations}
+(a compatibility of the three weights, $n(\kappa)=n(w_F)+Tn(w_L)$, $\dim Y\le T$ and $r\le n(w_F)$), and $n(\kappa)=n_V$
+(\lref{Formalism.MainNotions.DIV.Cons.kaWt_n}).
+\begin{enumerate}[label=(F\arabic*)]
+\item\label{pf:onto2:F1} \emph{Integrality.} Under the integrality hypothesis of the record, $\Theta\subseteq
+  \iota_\kappa(\mathrm{Mlat}(\kappa))$ (\lref{Formalism.MainNotions.Gaps.T0.theta_le_msup}).
+\item\label{pf:onto2:F2} \emph{Scaling.} $\sigma_{\mathrm{rec}}\ne0$ and every element of $\Theta$ is $\sigma_{\mathrm{rec}}$ times an
+  element of $\Theta^{\mathrm{pl}}$ (\lref{GlobalTheory.T.theta_scaled_span_le_sigma_smul_unscaled_span}).
+\item\label{pf:onto2:F3} \emph{Products of short forms.} If the top structure has its laws and short laws, the one-cover condition
+  holds at $j$ and $d_\delta(j,0)$ has level $1$, then $\Theta^{\mathrm{pl}}\subseteq\iota_\kappa(\mathrm{shortTh}(\kappa))$; this is
+  \cref{pf:onto2:prodshort} below.
+\item\label{pf:onto2:F4} \emph{Level action.} The level action $\mathrm{act}$ attached to the level maps of the run preserves
+  $\mathrm{Mlat}(\kappa)$ (\lref{GlobalTheory.FormTies.levAct_mem_Mlat}) and, if the run has all laws and its twist character
+  is trivial on determinants of the rational subgroup, it preserves $\Theta$ (\lref{GlobalTheory.FormTies.levAct_theta}).
+\item\label{pf:onto2:F5} \emph{Finiteness and spanning.} If $\mathrm{Mlat}(\kappa)$ is a lattice and the integrality hypothesis
+  holds, $\mathrm{shortTh}(\kappa)$ is finitely generated (\lref{GlobalTheory.FormTies.shortTh_fg}). The index-bound
+  hypotheses of a run imply that $\mathrm{Mlat}(\kappa)$ is a lattice, that $\mathrm{shortTh}(\kappa)$ spans $\mathrm{Cusp}(\kappa)$
+  over $K_0$, and the integrality hypothesis (\lref{GlobalTheory.BigOn.lat_span_of_hypC}, from
+  \lref{GlobalTheory.latAt_record} and \lref{GlobalTheory.RunLat.spanAt_of_shortG}).
+\end{enumerate}
+
+\begin{lemma}[Lattice algebra under a form tie]\label{pf:onto2:latalg}
+Assume the weak form tie at $(v,j)$ for run weights as above and a prime $p>0$ (in the applications $p=\mathrm{own}(v)$), that
+$\mathrm{Mlat}(\kappa)$ is a lattice preserved by $\mathrm{act}$, that $\mathrm{shortTh}(\kappa)$ spans $\mathrm{Cusp}(\kappa)$, that
+the integrality hypothesis holds and that $\mathrm{act}$ preserves $\Theta$. Then: $M_s(j)$ is a lattice in $K^{n_Z(j)}$ stable
+under $\rho_j(P)$; $T_h(v,j)$ and $T_{hK}(v,j)$ are lattices in $K^{n_Z(j)}$; $T_h(v,j)\subseteq M_s(j)$, $T_h(v,j)$ is
+$\rho_j(P)$-stable, $\sigma(v,j)\ne0$ and $T_h(v,j)\subseteq\sigma(v,j)T_{hK}(v,j)$.
+\formallabel{GlobalTheory.FormTies.supLattice_isLatIn_stable}
+\formallabel{GlobalTheory.FormTies.theta_spans_isLatIn}
+\formallabel{GlobalTheory.scaledSpan_clauses}
+\end{lemma}
+
+\begin{proof}
+For a finitely generated $\OO_{K_0}$-module $Y'\subseteq\mathrm{Cusp}(\kappa)$ spanning it over $K_0$, $\langle Y'\rangle_z$ is a
+lattice in $K^{n}$: it is generated by the images of finitely many generators, and its $K$-span contains
+$z^{-1}(1\otimes\mathrm{Cusp}(\kappa))$, which spans $K^n$ since $z$ is a $K$-linear isomorphism. Moreover $\langle\cdot\rangle_z$ is
+monotone and $\langle aY'\rangle_z=a\langle Y'\rangle_z$ for $a\in K_0$.
+
+\emph{$M_s(j)$.} By \eqref{eq:pf:onto2:formtie} $M_s(j)=\langle\mathrm{Mlat}(\kappa)\rangle_z$, a lattice. For $g\in P$ and
+$F\in\mathrm{Mlat}(\kappa)$, $\rho_j(g)z^{-1}(1\otimes F)=z^{-1}(1\otimes\mathrm{act}_gF)\in M_s(j)$ since $\mathrm{act}_g$ preserves
+$\mathrm{Mlat}(\kappa)$; as $\rho_j(g)$ is $\OO_K$-linear, $\rho_j(g)M_s(j)\subseteq M_s(j)$.
+
+\emph{$T_h\subseteq M_s$ and stability.} If $\iota_\kappa F\in\Theta$ then by \ref{pf:onto2:F1} $\iota_\kappa F=\iota_\kappa G$ with
+$G\in\mathrm{Mlat}(\kappa)$, so $F=G$ by injectivity of $\iota_\kappa$. Hence $\{F:\iota_\kappa F\in\Theta\}\subseteq\mathrm{Mlat}(\kappa)$
+and $T_h(v,j)\subseteq M_s(j)$; in particular $T_h(v,j)$ is finitely generated ($\OO_K$ is noetherian). The same computation as
+for $M_s$, using that $\mathrm{act}$ preserves $\Theta$, shows that $T_h(v,j)$ is $\rho_j(P)$-stable.
+
+\emph{$T_h$ spans.} Let $c=s_K(g_1g_2)^{frn(\kappa)}\in\OO_{K_0}$; $c\ne0$ because $s_K\ne0$ for $p>0$
+(\lref{GlobalTheory.FormTies.scalOfP_sK_ne_zero}) and $g_1,g_2$ are primes. For $F\in\mathrm{shortTh}(\kappa)$ we have
+$cF\in\mathrm{Thc}(s_K,\kappa)$, so $\iota_\kappa(cF)$ lies in the third summand of $\Theta$ and $z^{-1}(1\otimes cF)\in T_h(v,j)$;
+hence $z^{-1}(1\otimes F)=c^{-1}z^{-1}(1\otimes cF)$ lies in the $K$-span of $T_h(v,j)$. Since $\mathrm{shortTh}(\kappa)$ spans
+$\mathrm{Cusp}(\kappa)$, $T_h(v,j)$ spans $K^{n_Z(j)}$.
+
+\emph{$T_{hK}$.} It is finitely generated by the weak form tie and contains
+$\langle\{F:\iota_\kappa F\in\Theta^{\mathrm{pl}}\}\rangle_z\supseteq\langle\mathrm{shortTh}(\kappa)\rangle_z$ (the third summand of
+$\Theta^{\mathrm{pl}}$ is $\iota(\mathrm{shortTh}(\kappa))$); hence $T_{hK}(v,j)$ spans.
+
+\emph{Scaling.} By \ref{pf:onto2:F2}, $\sigma(v,j)=\sigma_{\mathrm{rec}}\ne0$. Let $F$ with $\iota_\kappa F\in\Theta$ and write
+$\iota_\kappa F=\sigma_{\mathrm{rec}}G$ with $G\in\Theta^{\mathrm{pl}}$. Then $\iota_\kappa(\sigma_{\mathrm{rec}}^{-1}F)=G\in\Theta^{\mathrm{pl}}$,
+so $z^{-1}(1\otimes\sigma_{\mathrm{rec}}^{-1}F)\in T_{hK}(v,j)$ and $z^{-1}(1\otimes F)=\sigma(v,j)\,z^{-1}(1\otimes\sigma_{\mathrm{rec}}^{-1}F)\in
+\sigma(v,j)T_{hK}(v,j)$. Since the generators of $T_h(v,j)$ lie in the $\OO_K$-module $\sigma(v,j)T_{hK}(v,j)$, so does $T_h(v,j)$.
+\end{proof}
+
+\begin{lemma}[Averaging over $U$]\label{pf:onto2:avg}
+Let $\rho$ be a representation of a group $P$ on a $K$-vector space $Z$, $U\le P$ a finite subgroup and $\psi:P\to\OO_K$ with
+$\psi(1)=1$ and $\psi(ab)=\psi(a)\psi(b)$ for $a,b\in U$. Put $\mathrm{tr}_{U,\psi}=\sum_{u\in U}\psi(u)\rho(u)^{-1}$. Then
+$\mathrm{tr}_{U,\psi}(Z)\subseteq\ontoIIeig(\rho,U,\psi)$, and $\mathrm{tr}_{U,\psi}(y)=|U|\,y$ for $y\in\ontoIIeig(\rho,U,\psi)$.
+\formallabel{GlobalTheory.TraceLattice.trace_mem_eig}
+\formallabel{GlobalTheory.TraceLattice.trace_of_mem_eig}
+\end{lemma}
+
+\begin{proof}
+For $a\in U$, $\rho(a)\mathrm{tr}_{U,\psi}(y)=\sum_u\psi(u)\rho(au^{-1})y$; substituting $u=u'a$ gives
+$\sum_{u'}\psi(u'a)\rho(u'^{-1})y=\psi(a)\mathrm{tr}_{U,\psi}(y)$. If $y\in\ontoIIeig(\rho,U,\psi)$ then $\rho(u)^{-1}y=\psi(u^{-1})y$
+and $\psi(u)\psi(u^{-1})=\psi(1)=1$, so every term equals $y$.
+\end{proof}
+
+\paragraph{Products of short theta series.} For a top structure $T$ and an admissible index $j$, the \emph{theta series of
+weight $w_L$} are the sections of the moduli space $X_j$ attached to column vectors $x$ of rank $m=n(w_L)$ and harmonic
+polynomials $P$ of weight $w_L$ for the standard lattice of rank $m$ (\lref{Formalism.L2.Pj.thGen}: the section whose values
+at the points of $X_j$ are given by $P$ evaluated on the theta coordinates $x$), and the \emph{short theta series of weight $w$}
+are the sections attached to a unimodular lattice $\Lambda$ of rank $n=n(w)$ which is trivial at the bad primes, a level $N$
+compatible with the auxiliary datum $d_\delta(j,n)$, an admissible column vector $x_0$ and a harmonic polynomial $P$ of weight $w$
+for $\Lambda$, whose values on the cover of $d_\delta(j,n)$ are the \emph{short values} of $P$ normalised by the constant
+$\beta(\Lambda)$ (\lref{Formalism.L2.Pj.shortGen}, \lref{Formalism.L2.Pj.betaH}: $\beta(\Lambda)$ is a non-zero element of
+$K_0$ generating the quotient of the determinant ideals of the two lattices of $\Lambda$, of absolute value fixed by their index).
+The sets $\mathrm{thAll}(w)$ and $\mathrm{shortTh}(w)$ of the record are the $\OO_{K_0}$-modules generated by these sections. The
+\emph{chart-independence statement} says that the value of a harmonic polynomial on the germs of sections at a frame point does
+not depend on the chart; it is proved in the development (\lref{GlobalTheory.chartIndependence_unconditional}).
+
+\begin{proposition}[Short theta series times theta series]\label{pf:onto2:shortmul}
+Assume the chart-independence statement. Let $T$ be a top structure with its laws and its short laws, and $j$ an admissible index
+at which the one-cover condition holds and $d_\delta(j,0)$ has level $1$. Let $w,w_L$ be weights at $j$ with $r\le n(w)$, and such
+that $n(w_L)=0$ if $n(w)=n_V$. Then for every short theta series $g$ of weight $w$ and every theta series $f$ of weight $w_L$ the
+product $gf$ lies in the $\OO_{K_0}$-span of the short theta series of weight $w+w_L$.
+\formallabel{GlobalTheory.ShortTimesTheta.short_mul_theta_mem_span}
+\end{proposition}
+
+\begin{proof}
+Theta series and short theta series are sections of the relevant line bundles (\lref{GlobalTheory.thetaRule_mem_sec}), and
+two sections which agree at all points of $X_j$ over algebraically closed fields are equal
+(\lref{GlobalTheory.ClassSumUnique.sec_eq_of_geometric}). If $X_j$ has no such point, then $gf=0$ and there is nothing to prove.
+Assume from now on that there is one.
+
+\emph{Coefficients of the auxiliary data.} The pins of the laws and of the short laws give the same star structure on $\OO_E$, and
+the signature $(p,q)$ at $j$ satisfies $p+q=r\ge1$. Put $n=n(w)$, $m=n(w_L)$. The one-cover condition gives a coefficient function
+$\varphi'$ on $(\mathrm{La}/M\mathrm{La})^{n+m}$ such that $d_\delta(j,n+m)$ is $d_\delta(j,n)$ with coefficients $\varphi'$. The short
+laws provide, at the sizes $n$ and $n+m$, cover characters $\psi,\psi'$ with their defining identities; since a cover character is
+determined by these identities at a geometric point (\lref{GlobalTheory.CoverCharacter.psi_unique}), $\psi=\psi'$. Comparing the
+two coefficient identities (\lref{GlobalTheory.MoreColumns.coeff_more_columns}) gives a root of unity $\zeta\in K_0$ with
+\begin{equation}\label{eq:pf:onto2:phiprime}
+\varphi'(q)=\zeta\,\varphi_\delta\bigl(q|_{[1,n]}\bigr)\cdot\bigl[q_b\in I\cdot\mathrm{La}\ \text{for}\ b>n\bigr]\cdot|\mathrm{La}/I\,\mathrm{La}|^{m},
+\end{equation}
+where $\varphi_\delta$ are the coefficients of $d_\delta(j,n)$ and $I$ its ideal.
+
+\emph{The product formula} (\lref{GlobalTheory.ShortTimesTheta.mul_mem_span}). Let $g$ be attached to $(\Lambda,N,x_0,P')$ and $f$
+to $(x,P)$. The block lattice $\Lambda\oplus\mathrm{std}_m$ is again unimodular, trivial at the bad primes and of compatible level,
+and $P'P$ is harmonic of weight $w+w_L$ for it; moreover the short value of $P'P$ at a point of the cover is the product of the
+short value of $P'$ and the value of $P$ (\lref{GlobalTheory.shortSeries_blockProduct}). The constants satisfy
+$\beta(\Lambda\oplus\mathrm{std}_m)=\zeta'\beta(\Lambda)\beta(\mathrm{std}_m)$ with $\beta(\mathrm{std}_m)=1$ and a root of unity
+$\zeta'$ (\lref{GlobalTheory.BetaOfSum.blockBeta}). For every vector $x'$ of $m$ further columns, $x_0$ extended by $x'$ is
+admissible (\lref{GlobalTheory.ShortTimesTheta.admissibleColumns_append}), and the total short-value condition of the short laws
+provides a short theta series $F(x')$ of weight $w+w_L$ attached to $(\Lambda\oplus\mathrm{std}_m,N,(x_0,x'),P'P)$. We claim
+\begin{equation}\label{eq:pf:onto2:gfsum}
+gf=\sum_{x'}\zeta'\zeta^{-1}c(x')\,F(x'),\qquad c(x')=\zeta_M^{-\langle x',\,p_\delta x\rangle},
+\end{equation}
+where $\zeta_M$ is the primitive $M$-th root of unity of the coefficient field, $\langle\cdot,\cdot\rangle$ the level pairing and
+$p_\delta$ the integer of $d_\delta$. Both sides are sections, so it suffices to compare their values at a point $y$ of $X_j$ over an
+algebraically closed field. Lift $y$ to a point $y_2$ of the cover of $d_\delta(j,n)$. The value of $g$ at $y$ is a value of the
+short series of $P'$ at $y_2$, the value of $f$ at $y$ equals the short value at $y_2$ of the standard theta polynomial of $(x,P)$
+(\lref{GlobalTheory.T.standardCover_shortValue_eq_thetaValue}), and by \lref{GlobalTheory.shortSeries_blockProduct} their
+product is the short value of $P'P$ for the block lattice with the column-coefficient function of \eqref{eq:pf:onto2:phiprime}.
+Expanding the indicator in \eqref{eq:pf:onto2:phiprime} as a character sum over $x'$
+(\lref{GlobalTheory.ShortTimesTheta.sum_data}) and using the linearity of short values in the coefficient function
+(\lref{GlobalTheory.ShortTimesTheta.shortVal_sum}), this value equals the value of the right-hand side of
+\eqref{eq:pf:onto2:gfsum} multiplied by $\zeta\beta(\Lambda)$; cancelling the non-zero factor $\zeta\beta(\Lambda)$ proves the claim.
+Finally $\zeta$, $\zeta'$ and $c(x')$ are roots of unity, so the coefficients $\zeta'\zeta^{-1}c(x')$ are integral over $\Z$ and lie in
+$\OO_{K_0}$; hence \eqref{eq:pf:onto2:gfsum} exhibits $gf$ as an element of the $\OO_{K_0}$-span of short theta series of weight
+$w+w_L$.
+\end{proof}
+
+\begin{proposition}[Products of short forms]\label{pf:onto2:prodshort}
+Assume the chart-independence statement. Let $T$ be a top structure with its laws and short laws and $j$ an admissible index at
+which the one-cover condition holds and $d_\delta(j,0)$ has level $1$. Let $\kappa,w_L,w_F$ be weights and $T'\in\N$ satisfying the weight relations (in particular
+$\kappa=w_F+T'w_L$ entrywise), with $n(\kappa)=n(w_F)+T'n(w_L)=n_V$, $\dim Y\le T'$ and $r\le n(w_F)$. Then the plain theta lattice
+$\Theta^{\mathrm{pl}}$ of the record of $T$ at $j$ (formed with $T'$) satisfies $\Theta^{\mathrm{pl}}\subseteq\iota_\kappa(\mathrm{shortTh}(\kappa))$.
+\formallabel{GlobalTheory.FormTies.productsShort_rec}
+\end{proposition}
+
+\begin{proof}
+\emph{One factor.} Let $w$ be a weight with $r\le n(w)$ and such that $n(w_L)=0$ if $n(w)=n_V$. Then
+\begin{equation}\label{eq:pf:onto2:onefactor}
+\iota(\mathrm{thAll}(w_L))\cdot\iota(\mathrm{shortTh}(w))\subseteq\iota(\mathrm{shortTh}(w+w_L)).
+\end{equation}
+Indeed, the left-hand side is generated by the products $\iota(F)\iota(G)$ of generators $F$ of $\mathrm{thAll}(w_L)$ and $G$ of
+$\mathrm{shortTh}(w)$; the product $GF$ lies in the forms of weight $w+w_L$ by the multiplicativity law of the core, in the span of
+the short theta series of weight $w+w_L$ by \cref{pf:onto2:shortmul}, and $\iota(G)\iota(F)=\iota(GF)$ because the embeddings are
+compatible with products.
+
+\emph{Iteration.} Let $s\in\N$ and $w$ a weight with $r\le n(w)$ and $w+sw_L=\kappa$ (in degree). Then
+$\iota(\mathrm{thAll}(w_L))^s\iota(\mathrm{shortTh}(w))\subseteq\iota(\mathrm{shortTh}(\kappa))$. This follows by induction on $s$
+from \eqref{eq:pf:onto2:onefactor} applied to $w,w+w_L,\dots,w+(s-1)w_L$: these weights have size at least $n(w)\ge r$, and if
+$n(w+iw_L)=n_V$ for some $i<s$, then $n_V=n(\kappa)=n(w+iw_L)+(s-i)n(w_L)$ forces $n(w_L)=0$, so the side condition of
+\eqref{eq:pf:onto2:onefactor} holds at every step.
+
+\emph{Conclusion.} By definition $\Theta^{\mathrm{pl}}$ is the sum of
+$\iota(\mathrm{thAll}(w_L))^{T'}\iota(\mathrm{shortTh}(w_F))$, of $\iota(\mathrm{thAll}(w_L))^{T'-\dim Y}\iota(\mathrm{shortTh}(w_{F0}))$ with
+$w_{F0}=w_F+(\dim Y)w_L$, and of $\iota(\mathrm{shortTh}(\kappa))$. The iteration applies to the first with $(s,w)=(T',w_F)$, since
+$w_F+T'w_L=\kappa$, and to the second with $(s,w)=(T'-\dim Y,w_{F0})$, since $\dim Y\le T'$ gives $w_{F0}+(T'-\dim Y)w_L=\kappa$ and
+$n(w_{F0})\ge n(w_F)\ge r$. The third summand is trivially contained in $\iota(\mathrm{shortTh}(\kappa))$.
+\end{proof}
+
+\begin{lemma}[Lattice leaves from form ties]\label{pf:onto2:lemmaS}
+Assume the chart-independence statement. Suppose that for every place $v$ and every index $i$ there are a full top structure
+$T$ with its laws, an admissible index $j$, a prime $p>0$, identifications $z$, $\mathrm{act}$ and level maps such that: the form tie
+holds at $(v,i)$ for the record of $T$ at $j$, the run weights at $j$ and $p$; $\mathrm{act}$ is the level action of the level maps;
+$T$ has all its laws; the twist character is trivial on determinants of the rational subgroup; the one-cover condition holds at
+$j$; $\mathrm{Mlat}(\kappa)$ is a lattice; $\mathrm{shortTh}(\kappa)$ spans $\mathrm{Cusp}(\kappa)$; and the integrality hypothesis
+holds. Then $O$ satisfies \ref{pf:onto2:L1}, \ref{pf:onto2:L2} and \ref{pf:onto2:L3}.
+\formallabel{GlobalTheory.FormTies.leaves_sup_span_lemmaS_of_formTieK}
+\end{lemma}
+
+\begin{proof}
+Fix $(v,i)$ and the data of the hypothesis. The run weights at $j$ satisfy the weight relations
+(\lref{GlobalTheory.RunDepth.run_weights_sum}) and $n(\kappa)=n_V$ (\lref{Formalism.MainNotions.DIV.Cons.kaWt_n}). The form
+tie implies the weak form tie: $\mathrm{shortTh}(\kappa)$ is finitely generated by \ref{pf:onto2:F5}, and $T_{hK}(v,i)=\langle
+\mathrm{shortTh}(\kappa)\rangle_z$ contains $\langle\{F:\iota_\kappa F\in\Theta^{\mathrm{pl}}\}\rangle_z$ by \cref{pf:onto2:prodshort}
+(its hypotheses are the laws, the one-cover condition, the level law of all laws, and the weight relations). By \ref{pf:onto2:F4}
+the level action preserves $\mathrm{Mlat}(\kappa)$ and $\Theta$. Hence \cref{pf:onto2:latalg} applies at $(v,i)$: $M_s(i)$ is a
+$\rho_i(P)$-stable lattice, $T_h(v,i)$ and $T_{hK}(v,i)$ are lattices, and $T_h(v,i)\subseteq M_s(i)$ is $\rho_i(P)$-stable with
+$T_h(v,i)\subseteq\sigma(v,i)T_{hK}(v,i)$, $\sigma(v,i)\ne0$. Taking for $v$ any place (one exists,
+\lref{Formalism.L2.Indef.Tree.exists_place3}) gives \ref{pf:onto2:L1}; taking $v\in\{w,\bar w\}$ for $w\in\ontoIITw$ gives
+\ref{pf:onto2:L2} and \ref{pf:onto2:L3}.
+\end{proof}
+
+\begin{proposition}[The lattice leaves]\label{pf:onto2:latleaves}
+For every $C_K$ there is $x_1$ such that for all data as above: if the record relation, the core ties, the own-prime pin, the
+page-run conditions $\ontoIIPN(x_1)$, the run bounds $\ontoIIRB(C_K,r)$, the group condition of $(R,F)$ and the three tuple
+conditions of $R$ hold, then $O$ satisfies \ref{pf:onto2:L1}--\ref{pf:onto2:L4}.
+\formallabel{GlobalTheory.BigOn.leaves_sup_span_data}
+\end{proposition}
+
+\begin{proof}
+Take $x_1=0$. By component (ii) of the record relation the weights of the face are the run weights. Let $v$ be a place and $j$
+an index, let $T=r_v$ (a full top structure with its laws, by the run conditions) and let $z_j$, $\mathrm{act}_j$
+be the identifications of component (iii); the trace tie at $(v,j)$ contains the form tie and the statement that
+$\mathrm{act}_j$ is the level action of the level maps of $r$ composed with the inclusion $\mathrm{Mir}(R)\to G$. By the run bounds
+and \ref{pf:onto2:F5}, $\mathrm{Mlat}(\kappa)$ is a lattice, $\mathrm{shortTh}(\kappa)$ spans, and the integrality hypothesis holds;
+the rationality of the twist character and the one-cover condition are run conditions. Hence the hypotheses of
+\cref{pf:onto2:lemmaS} hold at every $(v,j)$, and the chart-independence statement holds
+(\lref{GlobalTheory.chartIndependence_unconditional}); \cref{pf:onto2:lemmaS} gives \ref{pf:onto2:L1}--\ref{pf:onto2:L3}.
+
+For \ref{pf:onto2:L4} let $w\in\ontoIITw$, $v\in\{w,\bar w\}$ and $j$. The trace tie identifies $U$ with the preimage of a subgroup
+$U'\le G$, $\psi$ with a character of $U'$ (so $\psi(1)=1$ and $\psi$ is multiplicative on $U$), and $T_{h0}(v,j)$ with a lattice
+$\Theta^{\mathrm{eig}}$ spanned by eigen-combinations of theta series (\lref{GlobalTheory.OnTies.thetaEig}). The group
+condition identifies the subgroup $F.P_0$ with the elements of $G$ whose images at all places of $R.P_g$ are unipotent, and with the
+level pins of the run conditions this gives that the level maps of $U'$ have determinant one
+(\lref{GlobalTheory.TraceLattice.detOneOn_of_pins}); moreover $\kappa$ has size $n_V$ and positive last entry
+(\lref{GlobalTheory.TraceLattice.kaR_lastPos}). Under these conditions
+(\lref{GlobalTheory.TraceLattice.clauses_of_onTie}): (a) $T_{h0}(v,j)\subseteq\ontoIIeig(\rho_j,U,\psi)$, since each generator of
+$\Theta^{\mathrm{eig}}$ is the image of a vector under $\mathrm{tr}_{U,\psi}$ and \cref{pf:onto2:avg} applies
+(\lref{GlobalTheory.TraceLattice.thetaEig_le_eig}); (b) $\mathrm{tr}_{U,\psi}$ maps $\langle\mathrm{shortTh}(\kappa)\rangle_z=T_{hK}(v,j)$
+into $T_{h0}(v,j)$ (\lref{GlobalTheory.TraceLattice.trace_mem_thetaEig}); (c) $T_{h0}(v,j)\subseteq T_{hK}(v,j)$, so $T_{h0}(v,j)$
+is finitely generated since $T_{hK}(v,j)$ is. Finally, for $y\in T_{hK}(v,j)\cap\ontoIIeig(\rho_j,U,\psi)$, \cref{pf:onto2:avg} and (b)
+give $|U|\,y=\mathrm{tr}_{U,\psi}(y)\in T_{h0}(v,j)$. This is \ref{pf:onto2:L4}
+(\lref{GlobalTheory.TraceLattice.leafData_of_onTie_of_leafSpan}).
+\end{proof}
+
+\begin{remark}\label{pf:onto2:rem:latunused}
+In \cref{pf:onto2:latleaves} the core ties, the own-prime pin, the page-run conditions and the three tuple conditions are not used,
+and $x_1=0$. The constant $C_K$ enters only through the run bounds $\ontoIIRB(C_K,r)$, of which only the index-bound hypotheses are
+used.
+\end{remark}
+
+\subsubsection{The local index bound}\label{sec:pf:onto2:index}
+
+The index bound \ref{pf:onto2:L5} is obtained from the run conclusion, which is a statement over the coefficient field $K_0$ of
+the record, by a local--global passage to the places of $K$.
+
+\begin{definition}[The run conclusion]\label{pf:onto2:concl}
+Let $X$ be a record with coefficient field $K_0$, $(S,\kappa,w_L,w_F,T)$ as in \cref{pf:onto2:formtie}, $\nu_s$ a real function on
+the finite places of $K_0$ and $\beta\in\R$. For a place $\lambda$ of $K_0$ let $K_{0,\lambda}$, $\OO_\lambda$ be the completions,
+$V_\lambda=K_{0,\lambda}\otimes_{K_0}\mathrm{Forms}$, and for an $\OO_{K_0}$-submodule $A\subseteq\mathrm{Forms}$ let $\widehat A_\lambda$ be
+the $\OO_\lambda$-span of $1\otimes A$. Then $\ontoIICl(X,S,\kappa,w_L,w_F,T,\nu_s,\beta)$
+means: there is $r_0:\{\lambda\}\to\R_{\ge0}$ such that
+$\sum_\lambda r_0(\lambda)\ell_\lambda$ converges with sum $\le\beta$ ($\ell_\lambda=\log\Nm\lambda/[K_0:\Q]$), and for every $\lambda$,
+every integer $e\ge T\nu_s(\lambda)$ and every $K_{0,\lambda}$-subspace $V'$ of the $K_{0,\lambda}$-span of $\widehat{M}_\lambda$, where
+$M=\iota_\kappa(\mathrm{Mlat}(\kappa))$, the $\OO_\lambda$-module $(\widehat M_\lambda\cap V')/(\widehat\Theta_\lambda\cap V')$ has finite
+length, at most $e\dim V'+r_0(\lambda)$.
+\formallabel{Formalism.MainNotions.WeightAlgebra.Concl}
+\end{definition}
+
+We use three standard facts about completion, for a Dedekind domain $R$ with fraction field $K_0$, a maximal ideal $\lambda$ and a
+$K_0$-vector space $F$: (i) for $R$-submodules $A,T\subseteq F$ and a subspace $W$, if $(\widehat A_\lambda\cap\widehat
+W_\lambda)/(\widehat T_\lambda\cap\widehat W_\lambda)$ has finite length, then $\len\bigl(\ontoIIloc{\lambda}{(A\cap
+W)}/\ontoIIloc{\lambda}{(A\cap W\cap T)}\bigr)$ is at most this length (\lref{Formalism.MainNotions.Gaps.LocalGlobalPassage.l1});
+(ii) $\dim_{K_{0,\lambda}}\widehat W_\lambda=\dim W$ for finite-dimensional $W$
+(\lref{Formalism.MainNotions.Gaps.LocalGlobalPassage.l1b}); (iii) if $W$ lies in the $K_0$-span of $A$ then $\widehat W_\lambda$ lies
+in the $K_{0,\lambda}$-span of $\widehat A_\lambda$ (\lref{Formalism.MainNotions.Gaps.LocalGlobalPassage.l1c}). These follow from the
+flatness of $\OO_\lambda$ over $R_{(\lambda)}$ and $\OO_\lambda/\lambda^n\OO_\lambda=R_{(\lambda)}/\lambda^nR_{(\lambda)}$
+\cite[Ch.~II]{Serre1979}, \cite[Thms.~7.2, 8.8]{Matsumura1989}. We also use the following facts on local indices of lattices in a
+finite-dimensional $K$-vector space $Z$: for lattices $A,B\subseteq Z$ with $B\subseteq A$, $a\in K^\times$ with $v_w(a)=E\in\N$ and
+$\rho\in\R$,
+\begin{equation}\label{eq:pf:onto2:threeforms}
+\Bigl(\forall W\subseteq Z:\ \ontoIIix_w(\ontoIIcut_WA,\ontoIIcut_WB)\le E\dim W+\rho\Bigr)\iff
+\ontoIIix_w(A,A\cap a^{-1}B)\le\rho
+\end{equation}
+(\lref{Formalism.EigenvalueLevelCeiling.three_forms}); $\ontoIIix_w(A,B')\le\ontoIIix_w(A,B)$ for lattices $B\subseteq B'$ in a
+common subspace with $A$ (\lref{Formalism.EigenvalueLevelCeiling.index_monotone}); and $A\cap aB$ is a lattice for lattices $A,B$
+and $a\ne0$ (\lref{Formalism.EigenvalueLevelCeiling.lattice_intersection}).
+
+\begin{lemma}[Base change of indices]\label{pf:onto2:l3}
+Let $K/K_0$ be an extension of number fields, $Z_0$ a finite-dimensional $K_0$-vector space and $\iota:Z_0\to K^n$ a $K_0$-linear
+map which sends $K_0$-linearly independent families to $K$-linearly independent families and whose image spans $K^n$ over $K$. For
+an $\OO_{K_0}$-submodule $A_0\subseteq Z_0$ let $\mathrm{up}(A_0)$ be the $\OO_K$-span of $\iota(A_0)$. Then for full lattices
+$A_0,C_0$ in $Z_0$ and every place $v$ of $K$ over the place $\lambda$ of $K_0$,
+\[
+\ontoIIix_v\bigl(\mathrm{up}(A_0),\mathrm{up}(C_0)\bigr)=e(v|\lambda)\,\ontoIIix_\lambda(A_0,C_0).
+\]
+Moreover $v(a)=e(v|\lambda)\lambda(a)$ for $a\in K_0^\times$, and $e(v|\lambda)\ne0$.
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l3}
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l3a}
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l3e}
+\end{lemma}
+
+\begin{proof}
+The valuation statement is the definition of the ramification index: $\lambda\OO_{K,(v)}=v^{e(v|\lambda)}\OO_{K,(v)}$, and
+$e(v|\lambda)\ge1$. By hypothesis $\iota$ extends to a $K$-linear isomorphism $K\otimes_{K_0}Z_0\cong K^n$. The local ring
+$R=\OO_{K_0,(\lambda)}$ is a discrete valuation ring with uniformiser $\pi$; the localisations $\ontoIIloc{\lambda}{A_0}$,
+$\ontoIIloc{\lambda}{C_0}$ are free $R$-modules of rank $d=\dim Z_0$, and by the elementary divisor theorem there are a basis
+$b_1,\dots,b_d$ of $\ontoIIloc\lambda{A_0}$ and integers $a_1,\dots,a_d$ such that $\pi^{a_1}b_1,\dots,\pi^{a_d}b_d$ is a basis of
+$\ontoIIloc\lambda{C_0}$; then $\ontoIIix_\lambda(A_0,C_0)=\sum_ia_i$ (both sides of \eqref{eq:pf:onto2:ix} are additive along the
+decomposition, and $\ontoIIix(R,\pi^aR)=a$). Localising $\mathrm{up}(A_0)$ at $v$ gives the $\OO_{K,(v)}$-span of
+$\iota(\ontoIIloc\lambda{A_0})$, which is free with basis $\iota(b_i)$ (these are $K$-linearly independent), and similarly
+$\ontoIIloc{v}{\mathrm{up}(C_0)}$ has basis $\pi^{a_i}\iota(b_i)$. Since $v(\pi)=e(v|\lambda)$, the same computation gives
+$\ontoIIix_v(\mathrm{up}A_0,\mathrm{up}C_0)=\sum_ie(v|\lambda)a_i$.
+\end{proof}
+
+\begin{lemma}[Sums over places]\label{pf:onto2:l4}
+Let $K/K_0$ be number fields and $r_0\ge0$ a function on the places of $K_0$ with $\sum_\lambda r_0(\lambda)\ell_\lambda<\infty$. Then
+for every finite set $S'$ of places of $K$,
+\[
+\sum_{v\in S'}\ell_v\,e(v|\lambda_v)\,r_0(\lambda_v)\le\sum_\lambda r_0(\lambda)\ell_\lambda ,
+\]
+where $\lambda_v$ is the place of $K_0$ below $v$.
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l4}
+\end{lemma}
+
+\begin{proof}
+For $v|\lambda$ with residue degree $f(v|\lambda)$ we have $\log\Nm v=f(v|\lambda)\log\Nm\lambda$, hence
+$\ell_v=f(v|\lambda)\,\ell_\lambda\,[K_0:\Q]/[K:\Q]$. Group the sum over $S'$ according to $\lambda_v$. For fixed $\lambda$,
+$\sum_{v\in S',v|\lambda}e(v|\lambda)f(v|\lambda)\le[K:K_0]$ \cite[Prop.~I.8.2]{Neukirch1999}, so the contribution of $\lambda$ is at
+most $r_0(\lambda)\ell_\lambda$. Summing over the finitely many $\lambda$ below $S'$ and using $r_0\ge0$ gives the claim.
+\end{proof}
+
+\begin{lemma}[Local--global passage]\label{pf:onto2:l5}
+Let $\iota:Z_0\to K^n$ be as in \cref{pf:onto2:l3}, let $M_0,N_0$ be $\OO_{K_0}$-submodules of $Z_0$ spanning $Z_0$ with $M_0$
+finitely generated and $N_0\subseteq M_0$, let $v$ be a place of $K$ above $\lambda$, $e_0\in\Z$, $\rho\in\R$ and $E\in\N$ with
+$E=e(v|\lambda)e_0$. Assume that for every $K_0$-subspace $W_0\subseteq Z_0$
+\[
+\ontoIIix_\lambda(M_0\cap W_0,N_0\cap W_0)\le e_0\dim W_0+\rho .
+\]
+Then for every $\OO_K$-submodule $T_h\supseteq\mathrm{up}(N_0)$ and every $K$-subspace $W\subseteq K^n$,
+\[
+\ontoIIix_v\bigl(\ontoIIcut_W\mathrm{up}(M_0),\ontoIIcut_WT_h\bigr)\le E\dim W+e(v|\lambda)\rho .
+\]
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l5}
+\end{lemma}
+
+\begin{proof}
+Write $e=e(v|\lambda)\ge1$. Since $E\ge0$ and $e>0$, $e_0\ge0$. Choose $a_0\in K_0^\times$ with $\lambda(a_0)=e_0$
+(a power of an element of $\lambda\setminus\lambda^2$); $N_0$ is finitely generated as a submodule of the
+noetherian module $M_0$, so $M_0$ and $N_0$ are full lattices. By \eqref{eq:pf:onto2:threeforms} over $K_0$ (with $a=a_0$, $E=e_0$),
+the hypothesis gives $\ontoIIix_\lambda(M_0,C_0)\le\rho$ for the lattice $C_0=M_0\cap a_0^{-1}N_0$. By \cref{pf:onto2:l3},
+$\ontoIIix_v(\mathrm{up}M_0,\mathrm{up}C_0)=e\,\ontoIIix_\lambda(M_0,C_0)\le e\rho$. Let $a$ be the image of $a_0$ in $K$; then
+$v(a)=ee_0=E$. If $x\in C_0$ then $a_0x\in N_0$, so $\iota(x)\in a^{-1}\mathrm{up}(N_0)$; hence $\mathrm{up}(C_0)\subseteq\mathrm{up}(M_0)\cap
+a^{-1}\mathrm{up}(N_0)$, a lattice, and by monotonicity
+\[
+\ontoIIix_v\bigl(\mathrm{up}M_0,\mathrm{up}M_0\cap a^{-1}\mathrm{up}N_0\bigr)\le\ontoIIix_v(\mathrm{up}M_0,\mathrm{up}C_0)\le e\rho .
+\]
+By \eqref{eq:pf:onto2:threeforms} over $K$ (with $a$, $E$) this gives, for every $W$,
+$\ontoIIix_v(\ontoIIcut_W\mathrm{up}M_0,\ontoIIcut_W\mathrm{up}N_0)\le E\dim W+e\rho$. Finally put $A=\ontoIIcut_W\mathrm{up}M_0$,
+$B'=\ontoIIcut_W\mathrm{up}N_0$ and $B=\ontoIIcut_WT_h$; $A$ and $B'$ are lattices in $W$, $B'\subseteq A$ and $B'\subseteq B$. Then
+$\ontoIIix_v(A,B)\le\len(\ontoIIloc vA/\ontoIIloc v{(A\cap B)})\le\len(\ontoIIloc vA/\ontoIIloc v{B'})=\ontoIIix_v(A,B')$
+(the first inequality because lengths are non-negative, the second because $B'\subseteq A\cap B$, so that the middle quotient is a
+quotient of $\ontoIIloc vA/\ontoIIloc v{B'}$, which has finite length as $A$ and $B'$ are lattices in $W$), which gives the claim.
+\end{proof}
+
+\begin{lemma}[Localising the run conclusion]\label{pf:onto2:l2}
+Let $X$ be a record, $M_0=\mathrm{Mlat}(\kappa)$ a lattice in $\mathrm{Cusp}(\kappa)$, $\Theta_0=\iota_\kappa^{-1}(\Theta)$, and assume
+$\ontoIICl(X,S,\kappa,w_L,w_F,T,\nu_s,\beta)$. Then there is $r_0\ge0$ on the places of $K_0$ with $\sum_\lambda
+r_0(\lambda)\ell_\lambda\le\beta$ such that for every $\lambda$: $M_0\cap\Theta_0$ spans $\mathrm{Cusp}(\kappa)$, and for every integer
+$e_0\ge T\nu_s(\lambda)$ and every $K_0$-subspace $W_0$,
+\[
+\ontoIIix_\lambda\bigl(M_0\cap W_0,M_0\cap\Theta_0\cap W_0\bigr)\le e_0\dim W_0+r_0(\lambda).
+\]
+\formallabel{Formalism.MainNotions.Gaps.LocalGlobalPassage.l2}
+\end{lemma}
+
+\begin{proof}
+Take $r_0$ from the run conclusion. Fix $\lambda$, $e_0\ge T\nu_s(\lambda)$ and $W_0$, and let $V'=\widehat{\iota W_0}$. Since $M_0$
+spans, $\iota W_0$ lies in the $K_0$-span of $M=\iota M_0$, so $V'$ lies in the span of $\widehat M_\lambda$ by fact (iii). By the run
+conclusion, $(\widehat M_\lambda\cap V')/(\widehat\Theta_\lambda\cap V')$ has finite length $\le e_0\dim V'+r_0(\lambda)$, and $\dim
+V'=\dim W_0$ by fact (ii). By fact (i) (with $A=M$, $T=\Theta$, $W=\iota W_0$) and the injectivity of $\iota$, which identifies
+$M\cap\iota W_0$ with $M_0\cap W_0$ and $M\cap\iota W_0\cap\Theta$ with $M_0\cap\Theta_0\cap W_0$, the length of
+$\ontoIIloc\lambda{(M_0\cap W_0)}/\ontoIIloc\lambda{(M_0\cap\Theta_0\cap W_0)}$ is finite and at most $e_0\dim W_0+r_0(\lambda)$; as
+$M_0\cap\Theta_0\cap W_0\subseteq M_0\cap W_0$, this length is the local index. Taking $W_0=\mathrm{Cusp}(\kappa)$ and an integer
+$e_0\ge T\nu_s(\lambda)$, the finiteness of $\ontoIIloc\lambda{M_0}/\ontoIIloc\lambda{(M_0\cap\Theta_0)}$ shows that $M_0$ lies in the
+$K_0$-span of $M_0\cap\Theta_0$ (a module of finite length over the discrete valuation ring $\OO_{K_0,(\lambda)}$ is torsion, so
+every element of $M_0$ has a non-zero multiple in $\ontoIIloc\lambda{(M_0\cap\Theta_0)}$), so $M_0\cap\Theta_0$ spans
+$\mathrm{Cusp}(\kappa)$.
+\end{proof}
+
+\begin{lemma}[Remainders from the run conclusion]\label{pf:onto2:rem}
+Let $X$ be a record, $z:K^n\cong K\otimes_{K_0}\mathrm{Cusp}(\kappa)$ a $K$-linear isomorphism such that
+$\langle\mathrm{Mlat}(\kappa)\rangle_z$ is a lattice in $K^n$, and assume $\ontoIICl(X,S,\kappa,w_L,w_F,T,\nu_s,\rho_X abcd)$ where
+$\rho_X$ is the $K_0$-rank of the span of $\mathrm{Mlat}(\kappa)$ and $a,b,c,d\in\R$. Then there is $r:\{v\}\to\R_{\ge0}$ on the
+places of $K$ with $\sum_{v\in S'}\ell_vr(v)\le n\,abcd$ for every finite $S'$, such that for every place $v$ of $K$, every $e\in\N$
+with $T\nu_s(\lambda_v)\le e$ and every $K$-subspace $W\subseteq K^n$,
+\[
+\ontoIIix_v\Bigl(\ontoIIcut_W\langle\mathrm{Mlat}(\kappa)\rangle_z,\ \ontoIIcut_W\langle\{F:\iota_\kappa F\in\Theta\}\rangle_z\Bigr)
+\le e(v|\lambda_v)\,e\,\dim W+r(v).
+\]
+\formallabel{GlobalTheory.BigOn.exists_rem_of_concl}
+\end{lemma}
+
+\begin{proof}
+Since $\langle\mathrm{Mlat}(\kappa)\rangle_z$ is a lattice, $M_0=\mathrm{Mlat}(\kappa)$ is a lattice in $\mathrm{Cusp}(\kappa)$
+(\lref{GlobalTheory.BigOn.isLattice_of_spanK}), so $\rho_X=\dim_{K_0}\mathrm{Cusp}(\kappa)=n$ because $z$ is an isomorphism. Let
+$r_0$ be given by \cref{pf:onto2:l2} and put $r(v)=e(v|\lambda_v)r_0(\lambda_v)\ge0$. By \cref{pf:onto2:l4}, $\sum_{v\in
+S'}\ell_vr(v)\le\sum_\lambda r_0(\lambda)\ell_\lambda\le n\,abcd$. Let $\iota:\mathrm{Cusp}(\kappa)\to K^n$, $F\mapsto z^{-1}(1\otimes
+F)$; it sends independent families to independent families and its image spans $K^n$
+(because $F\mapsto1\otimes F$ maps a $K_0$-basis of $\mathrm{Cusp}(\kappa)$ to a $K$-basis of $K\otimes_{K_0}\mathrm{Cusp}(\kappa)$ and $z$ is
+an isomorphism), and
+$\mathrm{up}(A_0)=\langle A_0\rangle_z$. Apply \cref{pf:onto2:l5} with $M_0$, $N_0=M_0\cap\Theta_0$ (which spans by \cref{pf:onto2:l2}),
+$e_0=e$, $\rho=r_0(\lambda_v)$, $E=e(v|\lambda_v)e$, and $T_h=\langle\{F:\iota_\kappa F\in\Theta\}\rangle_z\supseteq\mathrm{up}(N_0)$;
+the hypothesis of \cref{pf:onto2:l5} is the conclusion of \cref{pf:onto2:l2}.
+\end{proof}
+
+\begin{proposition}[The index bound]\label{pf:onto2:index}
+For every $C_K$ and all data as above: if the record relation, the core ties, the own-prime pin, the run bounds $\ontoIIRB(C_K,r)$,
+\ref{pf:onto2:L1}, \ref{pf:onto2:L2} and $O.b=b(L)$ hold, then $O$ satisfies \ref{pf:onto2:L5}.
+\formallabel{GlobalTheory.BigOn.hasIndexBound_of_runs}
+\end{proposition}
+
+\begin{proof}
+By the record relation the face weights are the run weights, and the depth tie gives $E(v,i)=e(v|\lambda_v)\,E^{*}(\lambda_v,i)$
+(\cref{pf:onto2:depdat,pf:onto2:runtie}). Let $q$ be a truth value and $i$ an index. We claim that there is $\rho_{q,i}\ge0$ on the
+places of $K$ with $\sum_{v\in S'}\ell_v\rho_{q,i}(v)\le n_Z(i)\,fmb\,\delta_{e2}$ for all finite $S'$, such that
+\eqref{eq:pf:onto2:LIB} holds with $T_{h1}=T_h$ and remainder $\rho_{q,i}(v)$ at every place $v$ with
+$(p_v=p_{\mathrm{de}})\Leftrightarrow q$. If there is no such place, $\rho_{q,i}=0$ works ($\delta_{e2}>0$, $b>0$). Otherwise fix such a
+place $v_1$. All places $v$ with $(p_v=p_{\mathrm{de}})\Leftrightarrow q$ have the same run $r_v=r_{v_1}$ and the
+same prime $\mathrm{own}(v)=\mathrm{own}(v_1)$. By the run bounds at $v_1$, the run conclusion holds for the record of this run with total
+\eqref{eq:pf:onto2:beta}. The form tie at $(v_1,i)$ identifies $M_s(i)$ with $\langle\mathrm{Mlat}\rangle_z$, which is a lattice by
+\ref{pf:onto2:L1}. \Cref{pf:onto2:rem} (with $(a,b,c,d)=(f,m,b,\delta_{e2})$, transported through the form tie) gives $\rho_{q,i}$ with the sum bound and, at every place $v$ where the form tie holds for
+this run and prime (in particular every $v$ with $(p_v=p_{\mathrm{de}})\Leftrightarrow q$), the bound
+$\ontoIIix_v(\ontoIIcut_WM_s(i),\ontoIIcut_WT_h(v,i))\le e(v|\lambda_v)e\dim W+\rho_{q,i}(v)$ for every integer $e\ge
+T_O\,\nu_s(\lambda_v)$, where $\nu_s$ are the local depths of the run. By
+\lref{GlobalTheory.RunDepthScale.nusOf_eq_ram_mul_nuStarAt}, $\nu_s(\lambda)=e_\lambda\nu^*(\lambda)$ with $\nu^*$ the normalised
+depth of \cref{pf:onto2:depdat} and $e_\lambda$ the absolute ramification index of $\lambda$, so $T_O\nu_s(\lambda)\le\lceil e_\lambda
+T_O(\nu^*(\lambda)+[p_\lambda\ \text{bad}])\rceil=E^{*}(\lambda)$ (\lref{GlobalTheory.BigOn.nusR_le_eLam}). Taking
+$e=E^{*}(\lambda_v,i)$ proves the claim.
+
+Now take $T_{h1}=T_h$, $r_1(v,i)=\rho_{\mathrm{false},i}(v)$, $r_2(v,i)=\rho_{\mathrm{true},i}(v)$, $\delta_{e2}$ the thick density of $L$
+(which lies in $[0,1]$), and $a(v,i)\in K^\times$ with $v(a(v,i))=E(v,i)$
+(a power of an element of $v\setminus v^2$). Then $r(v,i)=r_2(v,i)$ if $p_v=p_{\mathrm{de}}$ (recall that the
+record relation gives $O.p_{\mathrm{de}}=p_{\mathrm{de}}$) and $r_1(v,i)$ otherwise, so \eqref{eq:pf:onto2:LIB} holds at all places;
+$T_h(v,i)$ is a lattice at pairs by \ref{pf:onto2:L2}; and the sum bounds hold because $f$, $m$ and $b$ in the claim are those of $O$
+($O.f=D.R.f$, $O.m=D.R.m$ by the depth tie and $O.b=b(L)$ by hypothesis). This is \ref{pf:onto2:L5}.
+\end{proof}
+
+\subsubsection{The depth leaves}\label{sec:pf:onto2:depth}
+
+The depth leaves bound the normalised exponents $e_0(v,j)$ of a record object, whose numerators $E(v,j)$ and
+$v_v(\sigma(v,j))$ are fixed by the \emph{depth tie} in terms of local depths of integral points of the moduli spaces of the
+core.
+
+\begin{definition}[Depth data]\label{pf:onto2:depdat}
+Let $T$ be a core of $D$, with host $H$ (a CM field $E$ with complex conjugation $a\mapsto\bar a$ and primes $d,q$), level $M$,
+coefficient field $c.F$ and, for each index $j$, a moduli space $X_j$ with datum $D_{w,j}$ (\lref{Formalism.L2.Pj.Par}). Its
+\emph{depth datum} (\lref{GlobalTheory.RunDepth.depOf}, \lref{Formalism.L2.Pj.depRun}) consists of the integer $T=T_O$,
+the primes $g_1,g_2$ (the level primes of the host), $q_1=q$, $d$, the finite set $s_m$ of small primes of the host, the ranks
+$f,r$, a function $v_d$ on primes, weight vectors $a_L(j)$ (those of the run weight $lR(j)$) and $a_F(j)$ with degrees
+$\mathrm{DF}_L(j)$, $\mathrm{DF}_F(j)$, integers $n_W(j)$, $D_\pm(j)$, and elements $\pi_1,\pi_2\in\OO_E$. A prime is
+\emph{ramified} if it lies in $s_m\cup\{q_1,d\}$ and \emph{bad} if it is ramified or a level prime. For a place $\lambda$ of $c.F$
+with residue characteristic $p_\lambda$ and absolute ramification index $e_\lambda$:
+\begin{itemize}
+\item the \emph{local depth} $\nu_W(\lambda,j)\in[0,\infty]$ (\lref{Formalism.L2.Pj.nuW}) is $\max(0,\cdot)$ of the supremum,
+  over complete discrete valuation rings $T'$ over $\lambda$ and integral algebraic frame points $y$ of $X_j$ over $T'$, of the
+  infimum over integral charts at $y$ and over admissible test polynomials and integral power series of the normalised
+  valuations of the associated jet values of weight $a_L(j)$;
+\item the \emph{normalised depth} is $\nu^*(\lambda,j)=\mathrm{DF}_L(j)/(g-1)$ if $p_\lambda=g\in\{g_1,g_2\}$, and
+  $\nu^*(\lambda,j)=\nu_W(\lambda,j)/e_\lambda+c_P(p_\lambda)$ otherwise, where $c_P(p)=\lceil v_d(p)\,\mathrm{DF}_L(j)\rceil$ for
+  ramified $p$ and $c_P(p)=0$ otherwise (\lref{Formalism.L2.Pj.nuStarAt});
+\item $E^{*}(\lambda,j)=\bigl\lceil e_\lambda T\bigl(\nu^*(\lambda,j)+[p_\lambda\ \text{bad}]\bigr)\bigr\rceil$.
+\end{itemize}
+For a place $v$ of $K$ above the place $\lambda_v$ of $c.F$ put $E(v,j)=e(v|\lambda_v)\,E^{*}(\lambda_v,j)$
+(\lref{Formalism.L2.Pj.EAt}), $\mathrm{nn}_K(j)=\prod_{i=1,2}\bar\pi_i^{D_+(j)}\pi_i^{D_-(j)}$ and
+$\sigma(j)=\mathrm{nn}_K(j)\cdot N_\sigma(j)$ with the positive integer $N_\sigma(j)=(g_1g_2)^{fr(8fr+4)}\prod_{p\
+\text{ramified}}p^{Tc_P(\mathrm{DF}_L(j),p)+c_P(\mathrm{DF}_F(j),p)}$ (\lref{Formalism.L2.Pj.sigAt}).
+\end{definition}
+
+\begin{definition}[Depth tie and content tie]\label{pf:onto2:runtie}
+The \emph{depth tie} of a record object $O$ with the core $T$ and an index map $\iota$ ($\iota(j)=j+1$ in the applications)
+(\lref{GlobalTheory.RunDepth.RunTie}) says: the indices $\iota(j)$ are admissible; the involution of $\OO_E$ is the host
+conjugation (also after mapping to $K$); $E(v,j)$, $\sigma(v,j)$, $\mathrm{nn}_K(j)$ of $O$ are those of \cref{pf:onto2:depdat} at
+$\iota(j)$; $T=T_O$; $(g_1,g_2,q_1,d,s_m)$ are the host primes; $k,m,f,x,\varepsilon,S_c,\eta,b',X_2,v_d$ are the corresponding
+parameters of $D$ and $L$; $\mathrm{wt}(j)=2fb$; $\theta(\ell)=\mathrm{th}_k(\ell)$ and $\alpha(\ell)=0$; and $D_F\ge\deg lR(\iota(j))$.
+The numbers $N$ satisfy the \emph{content tie} if $F_0(w,j)=F_{\iota(j)}(p_w)$ for all $w,j$, where for the numerical datum
+$\mathrm{num}(D,L)$ of $(D,L)$ (\lref{GlobalTheory.RunDepth.numOf}) the content of a prime $p$ is
+(\lref{Formalism.L2.DIV.NumDatum.FjP})
+\[
+F_j(p)=\begin{cases}
+-\tfrac12\bigl(D_+(j)+D_-(j)\bigr)&p\in\{g_1,g_2\},\\
+-\tfrac{k-1}{2}\sum_{t}\min\bigl(w_j(0,t),w_j(1,t)\bigr)&p=d,\\
+F^{\mathrm{in}}_j(p)&p\ \text{inert or signal and}\ p\le X_2,\\
+0&\text{otherwise},
+\end{cases}
+\]
+with the weights $w_j$ of the datum and an explicit orbit average $F^{\mathrm{in}}_j(p)$.
+\end{definition}
+
+\begin{lemma}[Rounding inequalities]\label{pf:onto2:round}
+Let $e_1,e_2\ge1$ be integers; all other letters denote real numbers.
+\begin{enumerate}[label=(\roman*)]
+\item If $E\in\N$ and $E\le e_1\lceil e_2x\rceil$, then $E/(e_1e_2)<x+1/e_2$.
+\item If $g\ge3$, $T\ge0$, $\nu\le D/(g-1)$, $TD\le D'$ and $D'<(g-2)/2$, then $T\nu<1/2$.
+\item If $e_2\ge2$, $T\ge1$, $T\nu<1/2$, $s\ge0$ and $X<T(\nu+1)+1/e_2$, then $X-(n+s)\le2T-n$.
+\item If $l>1$, $T\ge0$, $\nu\le D/(l-1)$, $s'\ge0$, $TD\le D'\le CkB$, $Ck\le l-1$, $B\ge0$ and $X<T(\nu+s+1)+1$, then
+  $X-(Ts+s')\le B+T+1$.
+\end{enumerate}
+\formallabel{Formalism.L2.Indef.Tree.DepthCond.rounding_condition_holds}
+\formallabel{Formalism.L2.Indef.Tree.DepthCond.nu_level_condition_holds}
+\formallabel{Formalism.L2.Indef.Tree.DepthCond.level_condition_holds}
+\formallabel{Formalism.L2.Indef.Tree.DepthCond.ramification_condition_holds}
+\end{lemma}
+
+\begin{proof}
+(i) $\lceil e_2x\rceil<e_2x+1$, so $E<e_1(e_2x+1)$; divide by $e_1e_2$. (ii) $T\nu\le TD/(g-1)\le D'/(g-1)<1/2$ because
+$2D'<g-2<g-1$. (iii) $1/e_2\le1/2$, so $X<T\nu+T+1/2<T+1\le2T$, and $s\ge0$. (iv) $T\nu\le TD/(l-1)\le D'/(l-1)\le B$ since
+$D'\le CkB\le(l-1)B$; hence $X-(Ts+s')<T\nu+T+1\le B+T+1$.
+\end{proof}
+
+\begin{lemma}[Ramification at level primes]\label{pf:onto2:ramlevel}
+Let $\lambda$ be a place of the coefficient field $c.F$ of a core whose residue characteristic $p$ divides the level $M$. Then
+$e_\lambda\ge p-1$.
+\formallabel{GlobalTheory.RunDepth.resChar_sub_one_le_ramOverZ_of_dvd_level}
+\end{lemma}
+
+\begin{proof}
+The coefficient field contains a primitive $M'$-th root of unity for $M'=\mathrm{lcm}(M,A)$ (part of the definition of coefficient
+fields), hence a primitive $p$-th root of unity $\zeta$ (\lref{Formalism.L2.Pj.zeta_mem_of_dvd}). The prime $p$ is totally
+ramified in $\Q(\zeta)$ with ramification index $p-1$ \cite[Lemma~1.4]{Washington1997}, and ramification indices are
+multiplicative in towers, so $e_\lambda=e(\lambda|\mathfrak p)(p-1)\ge p-1$ for the place $\mathfrak p$ of $\Q(\zeta)$ below $\lambda$
+(\lref{GlobalTheory.RunDepth.resChar_sub_one_le_ramOverZ_of_primitiveRoot}).
+\end{proof}
+
+In the following four propositions we fix a core $T$ with its laws, an error datum, parameters, a number field $K$ over $c.F$ and
+$E$, an indefinite datum $S$ over $K$, a finite group $P$, constants $c$, a record object $O$, an index map $\iota$ and numbers
+$N$, and assume the depth tie, \ref{pf:onto2:P1}, \ref{pf:onto2:P2}, $3\le x$, $kb'\le b$ and the content tie for
+$\mathrm{num}(D,L)$. For $v$ above $\lambda_v$ we write $e_1(v)=e(v|\lambda_v)$ and $e_2(v)=e_{\lambda_v}$, so that $e_v=e_1(v)e_2(v)$
+(\lref{Formalism.L2.Indef.Tree.DepthTie.ramw_eq_below}). By \cref{pf:onto2:depdat}, for every $v$ and $j$,
+\begin{equation}\label{eq:pf:onto2:tieE}
+E(v,j)=e_1(v)\bigl\lceil e_2(v)\,T\bigl(\nu^*(\lambda_v,j)+[p_v\ \text{bad}]\bigr)\bigr\rceil
+\end{equation}
+(\lref{Formalism.L2.Indef.Tree.DepthTie.tieE}); here $p_v=p_{\lambda_v}$, as $v$ lies above $\lambda_v$.
+
+\begin{proposition}[Depth at the level primes]\label{pf:onto2:dlevel}
+Under these assumptions $O$ satisfies \ref{pf:onto2:L9} for $N$.
+\formallabel{GlobalTheory.RunDepth.leafDepthLevel_run}
+\end{proposition}
+
+\begin{proof}
+Let $w\in\ontoIITw(S)$ with $p_w=g\in\{g_1,g_2\}$, $v\in\{w,\bar w\}$ and $j$. Since $2\in s_m$ and $g\notin s_m$, $g\ge3$. Put
+$\mathrm{DF}=\mathrm{DF}_L(\iota j)$ and $D_k=\deg\kappa R(\iota j)$. (a) $\nu^*(\lambda_v,j)=\mathrm{DF}/(g-1)$
+(\lref{Formalism.L2.Indef.Tree.DepthTie.nuLevel}). (b) $T\,\mathrm{DF}\le D_k$ and $D_k<(g-2)/2$: the first by the degree identity
+for weight exponents (\lref{GlobalTheory.WeightExponents.weight_exponents}: the degree of a weight of the datum equals the degree
+of the associated weight on the embeddings) and the row bound $T_O\deg lR\le\deg\kappa R$
+(\lref{GlobalTheory.RunDepth.mul_rows_lR_le_kaR}), the second by the page bound $\deg\kappa R<(g_i-2)/2$
+(\lref{GlobalTheory.RunDepth.DF_kaR_le}, valid for $3\le x$ and $kb'\le b$). (c) By \cref{pf:onto2:ramlevel}, $e_2(v)\ge g-1\ge2$, since $g$ divides the
+level (\lref{Formalism.L2.Pj.level_M}). (d) $v_v(\sigma(v,j))/e_v=\mathrm{nn}(v,j)+s$ with $s=v_v(N_\sigma)/e_v\ge0$, because
+$\sigma=\mathrm{nn}_K\cdot N_\sigma$ with $N_\sigma$ a non-zero integer and $\mathrm{nn}_K\ne0$
+(\lref{Formalism.L2.Indef.Tree.DepthTie.sigmaLevel}). (e) $T\ge1$ (a law of the depth datum). By \cref{pf:onto2:round}(ii) with
+$D=\mathrm{DF}$, $D'=D_k$, $T\nu^*<1/2$; by \eqref{eq:pf:onto2:tieE} ($g$ is bad) and \cref{pf:onto2:round}(i), $X:=E(v,j)/e_v<T(\nu^*+1)+
+1/e_2(v)$; and \cref{pf:onto2:round}(iii) gives $e_0(v,j)=X-(\mathrm{nn}(v,j)+s)\le2T-\mathrm{nn}(v,j)$.
+
+For the content identity: the involution of $K$ restricts to the host conjugation, so $e_{\bar w}=e_w$ and
+$v_{\bar w}(\mathrm{nn}_K)=v_w(\overline{\mathrm{nn}_K})$, whence $\mathrm{nn}(w,j)+\mathrm{nn}(\bar w,j)=v_w(\mathrm{nn}_K
+\overline{\mathrm{nn}_K})/e_w$. By the splitting law of the depth datum, $\pi_i\bar\pi_i=g_i$, so
+$\mathrm{nn}_K\overline{\mathrm{nn}_K}=(g_1g_2)^{D_+(\iota j)+D_-(\iota j)}$, whose valuation at $w$ is $e_w(D_+(\iota j)+D_-(\iota j))$
+because $p_w$ is exactly one of the distinct primes $g_1,g_2$. Hence $\mathrm{nn}(w,j)+\mathrm{nn}(\bar w,j)=D_+(\iota j)+D_-(\iota j)$
+(\lref{Formalism.L2.Indef.Tree.DepthTie.nnLevel}, using that $D_\pm$ of the depth datum are those of the numerical datum,
+\lref{GlobalTheory.T.depthParams_plusMinusCounts_eq_kappa}). Since $F_0(w,j)=F_{\iota j}(g)=-\tfrac12(D_++D_-)$ by the content tie
+(\lref{Formalism.L2.Indef.Tree.DepthCond.content_prime_condition_holds}), $\mathrm{nn}(w,j)+\mathrm{nn}(\bar w,j)=-2F_0(w,j)$
+(\lref{Formalism.L2.Indef.Tree.DepthCond.leafDepthLevel_of}).
+\end{proof}
+
+\begin{proposition}[Depth at the ramified primes $q$ and $d$]\label{pf:onto2:dram}
+Under these assumptions $O$ satisfies \ref{pf:onto2:L7} for $N$.
+\formallabel{GlobalTheory.RunDepth.leafDepthRam_run}
+\end{proposition}
+
+\begin{proof}
+Let $w\in\ontoIITw(S)$ with $p_w=l\in\{q_1,d\}$, $v\in\{w,\bar w\}$, $j$, and $\mathrm{DF}=\mathrm{DF}_L(\iota j)$. Write $\nu^*=\nu_W/e_2+s_W$
+with $s_W=c_P(l)$ (\cref{pf:onto2:depdat}; $l$ is not a level prime) and $v_v(\sigma(v,j))/e_v=Ts_W+s'$. (a) $s'\ge0$, because the
+factor $l^{Tc_P(\mathrm{DF}_L,l)+c_P(\mathrm{DF}_F,l)}$ of $N_\sigma$ contributes at least $Ts_W$ and the remaining factors have
+non-negative valuation (\lref{Formalism.L2.Indef.Tree.DepthTie.sprimeRam}). (b) The crude depth bound: integral charts exist and
+are saturated (\lref{GlobalTheory.RunDepth.laws_and_nuFinAt}, \lref{Formalism.L2.Pj.SaturatedCharts.saturation_charts_holds}),
+and the weights are dominant with enough variables, so $\nu_W(\lambda_v,j)/e_2\le\mathrm{DF}/(l-1)$
+(\lref{Formalism.L2.Pj.nuW_le_crude}, \lref{Formalism.L2.Indef.Tree.DepthTie.crudeRam}). (c) $T\,\mathrm{DF}\le D_k\le k\,s_B(j)$
+with $D_k=\deg\kappa R(\iota j)$ (\lref{GlobalTheory.WeightExponents.weight_exponents}, \lref{GlobalTheory.RunDepth.mul_rows_lR_le_kaR},
+\lref{GlobalTheory.RunDepth.DF_kaR_le}). (d) $k\le l-1$ for $l\in\{q,d\}$, because $q$ and $d$ exceed $k$
+(\lref{GlobalTheory.RunDepth.k_le_sub_one_of_lt}). (e) $s_B(j)\ge0$ by \ref{pf:onto2:P1}, \ref{pf:onto2:P2}. As $l$ is bad,
+\eqref{eq:pf:onto2:tieE} and \cref{pf:onto2:round}(i) give $X:=E(v,j)/e_v<T(\nu_W/e_2+s_W+1)+1$, and \cref{pf:onto2:round}(iv) (with
+$\nu=\nu_W/e_2$, $s=s_W$, $C=1$, $B=s_B(j)$) gives $e_0(v,j)=X-(Ts_W+s')\le s_B(j)+T+1$.
+
+Content: by the content tie, $F_0(w,j)=F_{\iota j}(l)$. If $l=q$, then $l$ is not a level prime and is ramified in the host, so
+$F_{\iota j}(q)=0$; if $l=d$ then $F_{\iota j}(d)=-\frac{k-1}2\sum_t\min(w(0,t),w(1,t))$
+(\lref{Formalism.L2.Indef.Tree.DepthCond.content_prime_condition_holds}). The weights satisfy $w(\cdot,t)\ge0$ and
+$\min(w(0,t),w(1,t))\le2b'$ (\lref{GlobalTheory.RunDepth.sizes_le_two_mul}); summing over the $n=f/2$ values of $t$ gives
+$-n(k-1)b'\le F_{\iota j}(d)\le0$ (\lref{Formalism.L2.Indef.Tree.DepthCond.ramified_discriminant_condition_holds}), and
+$n(k-1)b'\le2fkb'$.
+\end{proof}
+
+\begin{proposition}[Depth at the small primes]\label{pf:onto2:d2}
+Assume moreover the formal-group statements $(\mathrm A_p)$ and $(\mathrm H_p)$ below for all primes $p$. Under these assumptions $O$
+satisfies \ref{pf:onto2:L8} for $N$.
+\formallabel{GlobalTheory.RunDepth.leafDepth2_run}
+\end{proposition}
+
+Here, for a complete noetherian local domain $T'$ of characteristic $0$ in which $p$ is not a unit, a commutative group object over
+$T'$ with a degeneration datum and a uniformisation, and a jet chart with formal group law $F$ of dimension $d$:
+$(\mathrm H_p)$ (\lref{GlobalTheory.ChF.hodgeTate_inclusion_chart}) says that over the valuation ring $\OO_C$ of every
+algebraically closed valued field $C$ of characteristic $0$ above $T'$ there are finitely many characters $u_k$ of $F$ such that
+$c\cdot f$ lies in the span of the logarithmic differentials $du_k$ for all $f\in\OO_C^d$ and all $c$ with $|c|^{p-1}\le|p|$; and
+$(\mathrm A_p)$ (\lref{GlobalTheory.ChF.colength_bound_split_place_chart}) says that, in the presence of a compatible action of
+the integers of a CM field and eigenbases $W_j$ of this action at a place over $p$, suitable invariants $x_j$ of the eigenbases
+satisfy $\prod_jx_j\ge|p|^{n r_m(1/(p-1)+v_d/2)}$. Both are proved in the development for every $p$.
+
+\begin{proof}
+Let $\lambda$ be a place of $c.F$ with $p=p_\lambda\in s_m$ and $j$ an index. By
+\lref{GlobalTheory.CharDepth.twoPlaces_host}, $d$ splits at $p$, the places of the host over $p$ satisfy the
+splitting condition with parameter $v_{dH}(p)$, and $0\le v_{dH}(p)\le v_{d2}$. By \lref{GlobalTheory.T.unscaledDepth_le_placeOverTwo}
+(a consequence of $(\mathrm A_p)$ and $(\mathrm H_p)$), for dominant weights $a$ with $a(\tau,0)\le A_p$ on the CM type $\Psi$,
+\[
+\nu_W(\lambda,j)\le e_\lambda\Bigl(f\,q_D\,(1+v_{dH}(p)/2)A_p+q_D\sum_{\tau\notin\Psi}a(\tau,0)\Bigr)=:e_\lambda B ,
+\]
+with $q_D$ the second signature entry of the datum; and by \lref{GlobalTheory.T.sizes_bound_at_two_first_rows_weights} there is
+$A_p$ with $T\,B\le Cm(2+v_{d2})(2fb+f(S_c+\eta))=s_C(j)$ (recall $\mathrm{wt}(j)=2fb$ and $v_d=v_{d2}$ by the depth tie, and $C\ge1$).
+Now let $w\in\ontoIITw(S)$ with $p_w\in s_m$ and $v\in\{w,\bar w\}$. As $p_w$ is bad, \eqref{eq:pf:onto2:tieE} and
+\cref{pf:onto2:round}(i) give $E(v,j)/e_v<T(\nu_W/e_2+c_P+1)+1/e_2$, while $v_v(\sigma)/e_v\ge Tc_P$ as in \cref{pf:onto2:dram}(a)
+(\lref{GlobalTheory.RunDepth.sprime_nonneg_two}); hence $e_0(v,j)<TB+T+1\le s_C(j)+T+1$. Finally $F_0(w,j)=F_{\iota j}(p_w)=0$ since
+$p_w\in s_m$ is neither a level prime nor $d$ (\lref{GlobalTheory.RunDepth.leafDepthTwo_of_unscaled_bound}).
+\end{proof}
+
+\paragraph{Depth packages.} The bound at good primes is proved in three steps: at an integral point over a good place, the jets
+of an integral chart provide \emph{depth packages} (\cref{pf:onto2:packages}); every package bounds the depth by a content-type
+quantity plus an error (\cref{pf:onto2:nugood}); and the resulting bound for the local depth is converted into the leaf
+\ref{pf:onto2:L6} (\cref{pf:onto2:leafgood,pf:onto2:leafgoodrun}). The input from the theory of formal groups is the statement
+$(\mathrm U_p)$ (\lref{GlobalTheory.ChF.unramified_companion_chart_characters}), the analogue of $(\mathrm A_p)$ at places of the
+CM field unramified over $p\ne2$, $p$ prime to the discriminant; it is proved in the development for every $p$.
+
+Throughout this paragraph, $E$ is a CM field with a host structure $H$, $D_w$ a datum for $H$ with signature $(p,q)$, $M$ a level,
+$X$ a moduli space with coefficient field $c.F$, and the involution of $\OO_E$ is the host conjugation. A \emph{good situation}
+$(N,j,\mathrm{pl},a,\lambda,T',y,C,n_W,\nu)$ consists of a numerical datum $N$ (with ranks $k,m,r=k+m-1,f$, weights $w_j$ and
+content $F_j$), an index $1\le j\le m$ with $(p,q)=\sigma_W(j)$, an injective map $\mathrm{pl}$ from the places of $N$ to the CM type
+of $H$ satisfying the place tie (\lref{GlobalTheory.GoodDepth.PlaceTie}: $E/\Q$ is abelian, the primes outside $s_m\cup\{q,d\}$
+are unramified in $E$, and the Frobenius congruences hold at inert primes), a weight $a$ dominant for $D_w$, a place $\lambda$ of
+$c.F$ whose residue characteristic $\ell$ is not in $s_m\cup\{q,d\}$, does not divide $M$, and is at least $5$ if it is inert, a
+complete discrete valuation ring $T'$ over $\lambda$ with ramification index $e$, an integral algebraic frame point $y$ of $X$
+over $T'$, an integral chart $C$ at $y$, an integer $n_W$, and a real $\nu$ with $e_\lambda\nu\le\nu_{\mathrm{loc}}(C)$, where
+$\nu_{\mathrm{loc}}(C)=\nu_{\mathrm{loc}}(C;e,M,a,n_W)$ is the depth of the chart (the infimum in the definition of the local depth,
+\cref{pf:onto2:depdat}). The class of $\ell$ for $N$ is \emph{inert}, \emph{signal} or \emph{split}; it is \emph{of conjugate type}
+if it is inert and the element $h_N(\ell)$ attached to it has odd additive order (then the orbit length $\mathrm{ord}_N(\ell)$ is
+odd), and of \emph{type $\Phi$} if it is inert and $h_N(\ell)=0$ (a special case of conjugate type). If $\ell$ is inert or signal
+and not of conjugate type, $\mathrm{ord}_N(\ell)$ is even.
+
+\begin{definition}[Depth packages]\label{pf:onto2:pkg}
+Let $P=(\mathrm{Pl},k,m,r,f,d,\mathrm{pos},w,S_E)$ be a \emph{row parameter}: a finite set $\mathrm{Pl}$ of places, integers, a
+permutation-like map $\mathrm{pos}:\mathrm{Pl}\times\N\to\mathrm{Pl}$ whose orbits have length $d$, positive weights $w$ and $S_E\ge0$
+(for $(N,j,\ell)$ one takes $P(N,j,\ell)$ with $d=\mathrm{ord}_N(\ell)$, $w=w_j$ and $S_E=S_c+\eta$). A set $Z\subseteq\mathrm{Pl}$ of
+\emph{representatives} meets every orbit of $\mathrm{pos}$ exactly once. A \emph{row family} for $(P,\ell,d)$ consists of a field $C$ with a valuation $V$ of residue characteristic $\ell$
+and, for every $z\in\mathrm{Pl}$, \emph{row data} $X_z$ over $(C,V)$ with $d$ \emph{types} and two \emph{groups} $g\in\{0,1\}$ of rows,
+of size $k-1$ and second size $m$, with a flag $F_z$ enumerating the rows of each type; $\mathrm{rk}_z(g,s)$ denotes the number of
+rows of group $g$ and type $s$. A \emph{gauge} is a function $\mathrm{ga}(z,g,s,k')\in\N$. For $n_W\in\N$ and $\nu\in\R$, the
+\emph{valuation-block property} of $(Z,n_W,\mathrm{ga},\nu)$ says: for every choice, for $z\in Z$, of finite lists of \emph{blocks}
+(polynomials in the rows of $X_z$ of three kinds: bi-blocks built from powers of maximal minors of two groups, character blocks
+built from powers of one maximal minor, and monomial blocks), each attaining a valuation bound $c$ on the integral germs of
+$X_z$, such that the total number of letters is at most $n_W$ and the total weights of the blocks equal $\mathrm{ga}$, the depth
+$\nu$ is at most the sum of the bounds $c$. The \emph{degree hypothesis} $\mathrm{DegHyp}(P,W,T,\theta_0,\rho,C_1)$
+for $W:\mathrm{Pl}\to\N$ is: $T\ge1$, $w>0$,
+$(1-\theta_0)w_z\le TW_z\le w_z+C_1S_E$, $0\le\theta_0\le1$, $(k-1)\theta_0\le5m$, $0\le\rho$ and $T\rho\le C_1fkS_E$.
+
+A \emph{package of inert type} with time $T$ and depth $\nu$ consists of a
+row family, representatives $Z$ whose rows are alternating, a gauge $\mathrm{ga}$, weights $W$, $n_W$, $\theta_0$ and $\rho$ such that:
+$\mathrm{ga}(z,g,s,k')\ne0$ implies $1\le k'\le\mathrm{rk}_z(g,s)$ for $z\in Z$; the main term $\mathrm{ga}(z,\mathrm{bg}(s),s,k-1)$ equals
+$W$ along the orbit of $z$ (where $\mathrm{bg}(s)=0$ for even $s$ and $1$ otherwise); $\rho$ is the sum over $z\in Z$ of
+$\sum_{g,s,k'}k'\mathrm{ga}(z,g,s,k')$ with the main terms omitted; $f\,i_0(k,\ell)(k-1)+2rf\le n_W$, where $i_0(k,\ell)$ is the least
+odd $i\ge3$ with $k^{3/2}<\ell^i$; $\mathrm{DegHyp}(P,W,T,\theta_0,\rho,C_1)$; and the valuation-block property of
+$(Z,n_W,\mathrm{ga},\nu)$. The other kinds are variants:
+packages of \emph{type $\Phi$} have $d=2$, all rows alternating and $8rf\le n_W$; \emph{split} packages have all rows of group $0$ big
+and $4rf\le n_W$; \emph{zero} packages (and their $d=2$ variant) have no main term and no degree hypothesis, a gauge supported in
+$1\le k'\le\min(\mathrm{rk},K)$ with $\sum_{k'}\mathrm{ga}(z,g,s,k')\le s_0(\ell-1)$, and $2Ks_0|Z|\le n_W$ (resp.\ $4Ks_0f\le n_W$);
+packages of \emph{conjugate type} (and their zero variant) are indexed by $Z\times\Z/2d$ and have
+$f\bigl((i_0(k,\ell)+1)(k-1)+4r\bigr)\le n_W$.
+
+The \emph{package statement} for $(X,c)$ says that in every good situation, for all $T,\theta_0,C_1$ with
+$\mathrm{DegHyp}(P(N,j,\ell),W_a,T,\theta_0,\rho_a,C_1)$, where $W_a(z)=a(\mathrm{pl}\,z,k-2)-a(\mathrm{pl}\,z,k-1)$ and
+$\rho_a=\deg(a)-(k-1)\sum_zW_a(z)$, and the respective size bound for $n_W$: (i) if $\ell$ is inert or signal and not of conjugate
+type, there is a package of inert type for $P(N,j,\ell)$ with time $T$ and depth $\nu$; (ii) if $\ell$ is of type $\Phi$, a package
+of type $\Phi$; (iii) if $\ell$ is split, a split package for some $(d,\mathrm{pos})$; (iv) if $\ell$ is not of conjugate type,
+$w_j\ge0$ and $a(\tau,0)\le s_0(\ell-1)$ for all $\tau$ with positive multiplicity, a zero package with depth $\nu$; (v) if $\ell$ is of type $\Phi$, $w_j\ge0$ and $a(\tau,0)\le s_0(\ell-1)$ for all $\tau$ with positive
+multiplicity, a zero package of the $d=2$ variant; (vi) if $\ell$ is inert and $\mathrm{ord}_N(\ell)$ is odd, a package of conjugate
+type; (vii) if $\ell$ is inert, $\mathrm{ord}_N(\ell)$ is odd, $w_j\ge0$ and $a(\tau,0)\le s_0(\ell-1)$ for all $\tau$ with positive
+multiplicity, a zero package of conjugate type. In (iv), (v) and (vii) the degree hypothesis is not assumed
+(and $T$ plays no role); in (iii) it is assumed for $P(N,j,1)$.
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.RowFam}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.DegHyp2}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.PkgInert}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.PkgPhiC}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.PkgSplit}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.PkgZero}
+\formallabel{Formalism.L2.FormalSeriesBounds.RF.PkgZeroC}
+\formallabel{UpperTheory.G2.PkgCs}
+\formallabel{UpperTheory.G2.PkgZeroCs}
+\formallabel{GlobalTheory.GoodDepth.AllPts}
+\formallabel{GlobalTheory.GoodDepth.PkgInertSt}
+\formallabel{GlobalTheory.GoodDepth.PkgSt}
+\end{definition}
+
+The gauges used below are the \emph{gaps} of the weights: for $r'\in\N$ and a sequence of natural numbers $a_0\ge a_1\ge\dots\ge
+a_{r'-1}$ put $a_{r'}=0$ and $\mathrm{gap}_{k'}(a)=a_{k'-1}-a_{k'}$ for $1\le k'\le r'$, and $\mathrm{gap}_{k'}(a)=0$ otherwise.
+
+\begin{lemma}[Gap identities]\label{pf:onto2:gaplem}
+For $a$ as above and every $K\ge r'$,
+\begin{equation}\label{eq:pf:onto2:gaps}
+\mathrm{gap}_{k'}(a)\ne0\Rightarrow1\le k'\le r',\qquad \sum_{k'=i+1}^{K}\mathrm{gap}_{k'}(a)=a_i\ (i<r'),\qquad
+\sum_{k'=1}^{K}k'\,\mathrm{gap}_{k'}(a)=\sum_{i<r'}a_i .
+\end{equation}
+\formallabel{GlobalTheory.RowAt.gap_sums}
+\end{lemma}
+
+\begin{proof}
+The first assertion is the definition. For $i<r'$ the sum telescopes: $\sum_{k'=i+1}^{r'}(a_{k'-1}-a_{k'})=a_i-a_{r'}=a_i$, and the terms
+with $k'>r'$ vanish. For the last identity write $k'=\#\{i:0\le i<k'\}$ and exchange the summations:
+$\sum_{k'=1}^K k'\,\mathrm{gap}_{k'}(a)=\sum_{i=0}^{K-1}\sum_{k'=i+1}^{K}\mathrm{gap}_{k'}(a)=\sum_{i<r'}a_i$, since the inner sum is $a_i$
+for $i<r'$ and $0$ for $i\ge r'$.
+\end{proof}
+
+\begin{theorem}[Depth packages at good primes]\label{pf:onto2:packages}
+Assume $(\mathrm U_p)$ for all primes $p$. Then for every CM field $E$ with a host structure, every datum, level, moduli space $X$ and
+coefficient datum $c$, the package statement for $(X,c)$ holds.
+\formallabel{GlobalTheory.goodPrime_packages}
+\formallabel{GlobalTheory.T.allGoodPrimeDepthDataExist_proof}
+\end{theorem}
+
+\begin{proof}
+The package statement is the conjunction of (i)--(vii); they are proved in
+\lref{GlobalTheory.T.inertPrimeDepthDataExistsAtPoints_proof} (i),
+\lref{GlobalTheory.T.packages_exist_frobeniusComplexConjugation} (ii) and (v),
+\lref{GlobalTheory.T.splitPrimeDepthDataExistsAtPoints_proof} (iii),
+\lref{GlobalTheory.T.largePrimeDepthDataExistsAtPoints_proof} (iv) and
+\lref{UpperTheory.exists_pkgCs_of_degree_bound_at_inert_primes} (vi) and (vii), all along the following steps. Fix a good situation.
+
+\emph{Step 1: a valued field.} There are a field $C$ of characteristic $0$ with a valuation $V$ of residue characteristic $\ell$ and
+an embedding of the fraction field of $T'$ into $C$ compatible with $\lambda$, in which the integers prime to $\ell$ (in particular
+$M$) are units and to which the chart depth transfers: $\nu\le\nu_{\mathrm{loc}}(C;e_V,M,a,n_W)$
+(\lref{GlobalTheory.PlaceClosedField.exists_closed_field_over_place}). Since $\ell\ne2$, the trace of the host idempotent is $1$
+(\lref{GlobalTheory.QuadTrace.cmHost_idempotent_trace_eq_one}) and $M$ is a unit, the chart $C$ admits a base change $Y$ to a
+formal chart over $C$ (\lref{GlobalTheory.ChartBaseChange.exists_baseChange}). By the place tie, $\ell$ is unramified in $E$.
+
+\emph{Step 2: labelling the CM embeddings.} The Frobenius at $\ell$ permutes the embeddings $E\to\C$; the orbits are labelled by
+representatives and positions: for inert $\ell$ by $Z\times\{0,1\}\times\Z/d$ with $d=\mathrm{ord}_N(\ell)$ even
+(\lref{GlobalTheory.InertLabelling.main}), for split $\ell$ by a labelling attached to the Frobenius orbits on the CM type
+(\lref{GlobalTheory.T.cmType_frobenius_orbits_label_at_split_prime}), for type $\Phi$ by $\mathrm{Pl}\times\Z/2$ via $z\mapsto
+\mathrm{pl}(z)$ and its conjugate, and for odd order by $Z\times\Z/2d$. In each case the labelling $\tau(z,g,s)$ is a bijection
+onto the embeddings, compatible with complex conjugation and with the Frobenius congruences $\tau(x)^\ell\equiv\tau'(x)$ modulo the
+maximal ideal of $C$; distinct CM embeddings stay distinct modulo the maximal ideal
+(\lref{GlobalTheory.EmbSep.cmEmbeddings_integral_and_distinct_mod_maximal'}), and every label has an idempotent at the
+corresponding unramified place (\lref{GlobalTheory.exists_idempotent_of_unramified_place}). Moreover the \emph{rank
+conditions} hold: $\mathrm{mult}(\tau)=p=k-1+j$ for embeddings of group $\mathrm{bg}(s)$ (which lie in the CM type) and
+$\mathrm{mult}(\tau)=q=m-j$ for the others, since $(p,q)=\sigma_W(j)$.
+
+\emph{Step 3: row data from jets.} For labellings by pairs of places (cases (i), (iii), (iv)), the jets of $Y$ supply row data
+$X_z$ for the representatives, with flags, of sizes $(k-1,m)$, with $\mathrm{rk}_z(g,s)=\mathrm{mult}(\tau(z,g,s))$, alternating (inert
+case) or big (split case), and with the valuation-block property of $(Z,n_W,\mathrm{ga}_a,\nu)$ for the gauge
+\[
+\mathrm{ga}_a(z,g,s,k')=\mathrm{gap}_{k'}\bigl(a(\tau(z,g,s),\cdot)\bigr)
+\]
+(\lref{GlobalTheory.T.rowData_supplied_at_pairs_of_places}); the row data extend from the representatives to all of
+$\mathrm{Pl}$ (\lref{GlobalTheory.RowAt.supply_extend}). The proof of this supply uses the nondegeneracy of the formal
+biextension of the chart modulo the maximal ideal (\lref{GlobalTheory.T.biextension_nondegenerate_mod_maximalIdeal_integral_chart}),
+the tangent condition of the raw chart (\lref{GlobalTheory.T.rawChart_tangent_maximalIdeal_of_nonDegenerate}), the Cartier
+hypothesis for integral gauged formal group laws (\lref{GlobalTheory.T.cartHyp_of_integralGaugedFormalGroupLaw}) and the
+character bound at pairs of places, which rests on $(\mathrm U_p)$. For type $\Phi$ (cases (ii), (v)) the row family over
+$\mathrm{Pl}\times\Z/2$ is supplied at self-conjugate places (\lref{GlobalTheory.PkgConj.exists_rowFam}, from
+\lref{GlobalTheory.T.rowData_supplied_at_selfConjugate_places}), and for odd order (cases (vi), (vii)) over $Z\times\Z/2d$ by the
+orbit-family restriction (\lref{UpperTheory.OrbitFamilyRestriction.exists_rowFamS}, whose main ingredient is the geometric
+label set for even orbits, \lref{UpperTheory.labelSetGeo_of_even_of_rankOK_of_not_dvd_discr}); in both cases the ranks are the
+multiplicities and the valuation-block property holds for the gauge of gaps.
+
+\emph{Step 4: the gauge.} By \cref{pf:onto2:gaplem}, applied to the non-increasing sequence $a(\tau,\cdot)$ of length
+$\mathrm{mult}(\tau)\le r$ (dominance of $a$): the gauge is supported in $1\le k'\le\mathrm{rk}$; for an embedding $\tau=\mathrm{pl}(z')$ of
+the CM type, $\mathrm{mult}(\tau)=k-1+j>k-1$ and the main term is $\mathrm{gap}_{k-1}=a(\tau,k-2)-a(\tau,k-1)=W_a(z')$; and, since the
+labelling is a bijection onto the embeddings,
+\[
+\sum_{z,g,s}\sum_{k'}k'\,\mathrm{ga}_a(z,g,s,k')=\sum_\tau\sum_{i<\mathrm{mult}(\tau)}a(\tau,i)=\deg(a),
+\]
+so that the sum with the main terms omitted is $\deg(a)-(k-1)\sum_zW_a(z)=\rho_a$ (\lref{GlobalTheory.RowAt.wtHyp_gap}). For the
+zero packages, $\sum_{k'}\mathrm{ga}_a(z,g,s,k')=a(\tau,0)\le s_0(\ell-1)$ by the second identity of \cref{pf:onto2:gaplem}.
+
+\emph{Step 5: assembly.} The degree hypothesis and the size bound for $n_W$ are hypotheses of the package statement, so Steps 1--4
+give the package of each kind with time $T$ and depth $\nu$ (for zero packages $K=r$ and time $1$). For (iv), the labelling is the
+inert labelling of Step 2 if $\ell$ is inert and not of conjugate type
+(\lref{GlobalTheory.T.realPlaceLabelling_inert_frobenius_not_conj}) and the split labelling otherwise, and the package is
+assembled from the labels by \lref{GlobalTheory.LargePkg.pkg_of_labels}, which performs Steps 3 and 4.
+\end{proof}
+
+\begin{theorem}[The depth bound at good places]\label{pf:onto2:nugood}
+For every $C_1\ge0$ there is $C_c>0$ with the following property. Let $(E,H,D_w,M,X,c)$ be as above, admitting integral charts at
+all integral algebraic frame points and satisfying the package statement. Let $N,j,\mathrm{pl},a$ be as in a good situation, $n_W,T\in
+\N$ and $b,L,w\in\R$ such that the good-page conditions hold (\lref{GlobalTheory.GoodDepth.GoodPage}: the degree hypothesis for
+$P(N,j,1)$ and $(W_a,\rho_a)$ with $C_1$, $Ta(\tau,0)\le3b$ for $\tau$ of positive multiplicity,
+$10r(f+f^2(k-1)^3L^2/m)\le n_W$, $3\le L$, $\log k\le L$, $\ell\ge5$ for inert primes, and $w_j(z')\le X''w_j(z)$), and
+$\sum_zw_j(z)\le w$, $b\le w$. Then for every place $\lambda$ of $c.F$ whose residue characteristic $\ell$ is not in
+$s_m\cup\{q,d,g_1,g_2\}$ and does not divide $M$: $\nu_W(\lambda)<\infty$,
+\[
+T\,\frac{\nu_W(\lambda)}{e_\lambda}\le F_j(\ell)+C_c\Bigl(\frac{\log k\cdot m\,w}{\ell}+\frac{fk(S_c+\eta)}{\ell}+k\,\mathrm{th}_k(\ell)\,w
++[X''<\ell]\frac{kw}{\ell^2}\Bigr),
+\]
+and $\nu_W(\lambda)=0$ if $\deg(a)<\ell$. Here $\nu_W(\lambda)$ is the local depth of $X$ at $\lambda$ for $(M,a,n_W)$ and
+$\mathrm{th}_k$ the level tail of the numerical datum.
+\formallabel{GlobalTheory.T.goodPlaceDepthBound_proof}
+\formallabel{GlobalTheory.GoodDepth.nuGood}
+\end{theorem}
+
+\begin{proof}
+\emph{Content bounds for packages.} For packages with parameters satisfying the parameter conditions ($|\mathrm{Pl}|=f$, $m\ge1$,
+$m+3\le k$, $r=k-1+m$, $S_E\ge0$) and $\ell\ge5$ prime, there are constants $C_I,C_P,C_S,C_C>0$ (depending on $C_1$) with
+\begin{gather*}
+T\nu\le\sum_{z\in Z}F^{\mathrm{num}}_\ell\bigl((k-1)w\ \text{along the orbit of}\ z\bigr)+C_I\,\mathrm{err}(T)\quad\text{(inert)},\\
+T\nu\le\frac{(k-1)\sum_zw_z}{\ell^2-1}+C_P\,\mathrm{err}(T)\quad(\Phi),\qquad
+T\nu\le C_S\,\frac{m\sum_zw_z+fkS_E}{\ell}\quad\text{(split)},\\ \nu\le0\quad\text{(zero packages)},
+\end{gather*}
+and the inert bound with $C_C$ for packages of conjugate type, where $F^{\mathrm{num}}_\ell(u)$ is the explicit orbit content of a
+function $u$ on $\Z/d$ (\lref{Formalism.IncomingBounds.Fnum}) and $\mathrm{err}(T)=\frac{\log k\cdot m\sum w}{\ell}+\frac{fkS_E}{\ell}
++k\,\mathrm{th}_k(\ell)\sum w+Tf(k-1)^3(\log k)^2$ (\lref{GlobalTheory.T.inertPrimeDepthContentBound_proof},
+\lref{GlobalTheory.T.complexConjFrobeniusDepthContentBound_proof}, \lref{GlobalTheory.T.splitPrimeDepthContentBound_proof},
+\lref{GlobalTheory.T.largePrime_packages_depth_nonpos}, \lref{UpperTheory.rowBound_le_Fnum_sum_add_error}; these bounds are
+obtained by inserting explicit block decompositions into the valuation-block property). Put $C_c=2C_I+2C_P+2C_C+C_S+2$.
+
+\emph{Content values.} For $\ell$ as in the statement (\lref{GlobalTheory.ContentValue.main}): $F_j(\ell)\ge0$; $\ell$ is inert,
+signal or split; $P(N,j,\ell)$ satisfies the parameter conditions; if $\ell$ is of type $\Phi$ then
+$\frac{(k-1)\sum w}{\ell^2-1}\le F_j(\ell)+2A_4$; and if $\ell$ is inert or signal but not of type $\Phi$, then for every set $Z$ of
+representatives $\sum_{z\in Z}F^{\mathrm{num}}_\ell(\dots)\le F_j(\ell)+2A_4$, where
+\[
+A_1=\frac{\log k\cdot m\,w}{\ell},\quad A_2=\frac{fk(S_c+\eta)}{\ell},\quad A_3=k\,\mathrm{th}_k(\ell)\,w,\quad A_4=[X''<\ell]\frac{kw}{\ell^2}.
+\]
+
+\emph{Row budgets.} From $10r(f+f^2(k-1)^3L^2/m)\le n_W$, $3\le L$ and $\log k\le L$ one obtains by elementary estimates
+(\lref{GlobalTheory.RowBudgets.main}, \lref{UpperTheory.f_mul_leastAdmissibleLevel_rows_le}, the latter using
+$i_0(k,\ell)\le3+2L$): $8rf\le n_W$; $fi_0(k,\ell)(k-1)+2rf\le n_W$ and $f((i_0(k,\ell)+1)(k-1)+4r)\le n_W$ for $\ell\ge5$; if
+$\ell\ge mb/(Tf(k-1)^3L)$ and $b\ge0$, there is $s_0$ with $4rs_0f\le n_W$ such that $Tx\le3b$ implies $x\le s_0(\ell-1)$; and if
+$\ell<mb/(Tf(k-1)^3L)$ and $b\le w$, then $Tf(k-1)^3(\log k)^2\le A_1$.
+
+\emph{Bound for chart depths.} Let $B=F_j(\ell)+C_c(A_1+A_2+A_3+A_4)\ge0$. We show that every $\nu$ occurring in a good situation at
+$\lambda$ satisfies $T\nu\le B$. If $b<0$, no $\tau$ has positive multiplicity (as $0\le Ta(\tau,0)\le3b$ would fail), and a zero
+package with $s_0=0$ gives $\nu\le0$. If $b\ge0$ and $\ell\ge mb/(Tf(k-1)^3L)$, take $s_0$ from the row budgets; then
+$a(\tau,0)\le s_0(\ell-1)$ by the first-row condition, and a zero package (of conjugate type if $\ell$ is of conjugate type) gives
+$\nu\le0$. Otherwise $\ell<mb/(Tf(k-1)^3L)$, and the row budgets give $\mathrm{err}(T)\le2(A_1+A_2+A_3)$ (with $\sum w\le w$). If $\ell$ is of
+type $\Phi$, the package of type $\Phi$ gives $T\nu\le F_j(\ell)+2A_4+2C_P(A_1+A_2+A_3)\le B$; if $\ell$ is of conjugate type, the
+package of conjugate type and the content values give $T\nu\le F_j(\ell)+2A_4+2C_C(A_1+A_2+A_3)\le B$; if $\ell$ is otherwise inert or
+signal, the same with the package of inert type and $C_I$; and if $\ell$ is split, the split package gives
+$T\nu\le C_S(A_1+A_2)\le B$, using $m\sum w\le\log k\cdot m\,w$ ($\log k\ge1$ as $k\ge5$). In each case the required package exists by
+the package statement: its degree hypothesis is the good-page condition (for $P(N,j,\ell)$ it follows from that for $P(N,j,1)$) and
+its size bound is one of the row budgets.
+
+\emph{Conclusion.} If every chart depth $\nu$ at $\lambda$ satisfies $\nu\le B/T$ with $B/T\ge0$, then the local depth, a supremum over
+points of an infimum over charts, is finite with $\nu_W(\lambda)/e_\lambda\le B/T$, and it vanishes if $B=0$
+(\lref{GlobalTheory.GoodDepth.nuW_bound_of_charts}; integral charts exist at all points). This gives the bound. If
+$\deg(a)<\ell$, then $a(\tau,0)\le\deg(a)\le\ell-1$ for $\tau$ of positive multiplicity, so the zero packages with $s_0=1$ (whose size
+bound $4rf\le n_W$ is a row budget) give $\nu\le0$ for every chart depth, hence $\nu_W(\lambda)=0$.
+\end{proof}
+
+\begin{theorem}[The good-prime leaf from depth bounds]\label{pf:onto2:leafgood}
+For every $C_1\ge0$ there is $C_0$ with the following property. Let $(E,H,M)$, data $D_w(j)$, moduli spaces $X_j$ and a coefficient
+datum $c$ be given, together with depth data, a number field $K$ over $c.F$, an indefinite datum $S$ over $K$, a record object $O$, an
+index map $\iota$, numbers $N_S$ for $S$, a numerical datum $N$ and a place map $\mathrm{pl}$, such that: $C_0\le C$; $E(v,j)$,
+$\sigma(v,j)$, $T$ and the primes $g_1,g_2,q_1,d,s_m$ of $O$ are those of the depth data at $\iota(j)$; the depth data split the
+level primes and have level $g_1g_2$; the involution of $\OO_E$ is the host conjugation; integral charts exist and the package
+statement holds for every $X_{\iota(j)}$; $\mathrm{pl}$ satisfies the place tie; for every $j$, $1\le\iota(j)\le m$, the signature is
+$\sigma_W(\iota j)$, the weight $a_L(\iota j)$ is dominant and the good-page conditions hold with $(b,L)=(O.b,O.L)$; $O$ is tied to $N$
+numerically ($k,m,f$ agree, $S_c+\eta\le S_e$, $X_2=X''$, $\theta=\mathrm{th}_k$, $\alpha=0$, $\sum_zw_{\iota j}(z)\le\mathrm{wt}(j)$,
+$b\le\mathrm{wt}(j)$, $\deg a_L(\iota j)\le D_F$); the page leaf \ref{pf:onto2:P1} holds; the content tie $F_0(w,j)=F_{\iota j}(p_w)$ holds;
+and the primes of $O$ are those of $N$. Then $O$ satisfies \ref{pf:onto2:L6} for $N_S$.
+\formallabel{GlobalTheory.T.depthTable_goodPrimeLeaf}
+\formallabel{GlobalTheory.GoodDepth.leafGood}
+\end{theorem}
+
+\begin{proof}
+Let $C_c$ be given by \cref{pf:onto2:nugood} for $C_1$ and put $C_0=\max(C_c,20)$. By the numerical tie, $\theta(\ell)=\mathrm{th}_k(\ell)\ge0$
+and $\alpha(\ell)=0$; hence $T\sum_{p\in Q}\alpha(p)\log p=0\le Cmb$, and
+$\sum_{p\in Q}\theta(p)\log p\le20/k\le C/k$ for every finite set $Q$ of primes
+(\lref{GlobalTheory.T.sum_level_tail_mul_log_primes_le}: $\sum_{p\in Q}\mathrm{th}_k(p)\log p\le20/k$).
+
+Let $w\in\ontoIITw(S)$ with $\ell=p_w\notin s_m\cup\{q_1,d,g_1,g_2\}$ and $j$ an index. Then $\ell$ does not divide the level $g_1g_2$. For
+$v\in\{w,\bar w\}$ the place $\lambda_v$ of $c.F$ below $v$ has residue characteristic $\ell$, and at such good places
+(\lref{GlobalTheory.T.onObj_exponent_eq_rounded_depth})
+\[
+e_0(v,j)\le T\,\frac{\nu_W(\lambda_v)}{e_{\lambda_v}}+1,\qquad \nu_W(\lambda_v)=0\Rightarrow e_0(v,j)=0,
+\]
+with $\nu_W$ the local depth of $X_{\iota j}$ for $(M,a_L(\iota j),n_W(\iota j))$; this is the formula of \cref{pf:onto2:depdat} at a
+good prime, where $c_P=0$ and the prime is not bad. \Cref{pf:onto2:nugood}, applied with $w=\mathrm{wt}(j)$ and $(b,L)=(O.b,O.L)$, gives
+$T\nu_W(\lambda_v)/e_{\lambda_v}\le F_{\iota j}(\ell)+C_c(\cdots)$, and the error term is at most $a_E(j,\ell)$, since $C_c\le C$, $S_c+\eta\le S_e$,
+$k,m\ge1$, $f\ge8$ and all terms are non-negative (\lref{GlobalTheory.GoodDepth.err_mono_leaf}). With the content tie,
+$e_0(v,j)\le F_0(w,j)+a_E(j,\ell)+1$. If $Y<\ell$, then $\deg a_L(\iota j)\le D_F\le CD_F=Y<\ell$ (as $C\ge20$), so
+$\nu_W(\lambda_v)=0$ by \cref{pf:onto2:nugood} and $e_0(w,j)=e_0(\bar w,j)=0$; finally $F_0(w,j)=F_{\iota j}(\ell)\ge0$ by the content values
+(\lref{GlobalTheory.T.forcedContent_bounds_programmeValue_goodPrime}). This is \ref{pf:onto2:L6}.
+\end{proof}
+
+\begin{proposition}[The good-prime leaf for record objects]\label{pf:onto2:leafgoodrun}
+There is $C_0$ such that, for a core with its laws and all data as before \cref{pf:onto2:dlevel}, if the depth tie holds, the package
+statement holds for the moduli spaces of the core at all indices $\iota(j)$, $C_0\le C$, \ref{pf:onto2:P1}, \ref{pf:onto2:P2},
+$10\le C_{nW}$, $3\le x^{e_z/5}$, $3\le x$, $kb'\le b$ and the content tie with $\mathrm{num}(D,L)$ hold, then $O$ satisfies
+\ref{pf:onto2:L6}.
+\formallabel{GlobalTheory.GoodDepth.leafGood_run}
+\formallabel{GlobalTheory.T.depthLeaf_goodPrimes_of_point_data}
+\end{proposition}
+
+\begin{proof}
+Apply \cref{pf:onto2:leafgood} with $C_1=100$, the depth datum of the core, $N=\mathrm{num}(D,L)$ and $\mathrm{pl}$ the composite of the
+place map of $D$ with the embeddings of its types, and check its hypotheses. By the depth tie, $O.x=x$ and $O.\varepsilon=\varepsilon$,
+so $O.b=b(L)$ and $O.L=L$; the depth tie also gives the identities for $E$, $\sigma$, $T$ and the primes, the splitting of the level
+primes and the level, and the star structure. Integral charts exist at all integral framed points
+(\lref{GlobalTheory.T.exists_integral_chart_integral_framed_point}), and the real places match the CM type through Frobenius
+(\lref{GlobalTheory.T.realPlaces_match_cmTypeFrobenius}), which is the place tie. At each $\iota(j)$, admissibility and the
+signature come from the pins of the laws, dominance from that of the run weight, and the good-page conditions with $C_1=100$ from the
+depth parameters (\lref{GlobalTheory.T.goodPrimeWeightHypotheses_of_depthParameters}, using $10\le C_{nW}$,
+$3\le x^{e_z/5}$, $3\le x$, $kb'\le b$ and $\log k\le L$ from \ref{pf:onto2:P2}). For the numerical tie: $k,m,f,X_2,\theta,\alpha$ agree by
+the depth tie, $S_c+\eta\le S_e$ (\lref{GlobalTheory.GoodDepth.numOf_sizes_le}), $w_{\iota j}(z)\le2b$ for all $z$
+(\lref{GlobalTheory.T.firstRows_bound_and_sizes_bounds}) so that $\sum_zw_{\iota j}(z)\le2fb=\mathrm{wt}(j)$, $b\le\mathrm{wt}(j)$ as
+$f\ge8$, and $\deg a_L(\iota j)\le D_F$ by the degree identity for weight exponents
+(\lref{GlobalTheory.WeightExponents.weight_exponents}) and the depth tie.
+\end{proof}
+
+\begin{proposition}[Depth at good primes]\label{pf:onto2:dgood}
+Assume the formal-group statement $(\mathrm U_p)$ for all primes $p$. There is $C_0$ such that, under these assumptions and
+$C_0\le C$, $10\le C_{nW}$ and $3\le x^{e_z/5}$, $O$ satisfies \ref{pf:onto2:L6} for $N$.
+\formallabel{GlobalTheory.leafDepthGood_of_chartForm}
+\formallabel{GlobalTheory.T.depthTable_goodPrimes_of_chartForm}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:onto2:packages}, $(\mathrm U_p)$ for all $p$ implies the package statement for every moduli space, in particular for the
+moduli spaces of the core at the indices $\iota(j)$. Take $C_0$ from \cref{pf:onto2:leafgoodrun}; its remaining hypotheses are among
+the assumptions fixed before \cref{pf:onto2:dlevel} and those of the statement.
+\end{proof}
+
+\begin{corollary}[Depth leaves for a core]\label{pf:onto2:depthrun}
+Assume $(\mathrm A_p)$, $(\mathrm H_p)$ and $(\mathrm U_p)$ for all primes $p$. There is $C_0$ such that, under the assumptions fixed
+before \cref{pf:onto2:dlevel} and $C_0\le C$, $10\le C_{nW}$ and $3\le x^{e_z/5}$, $O$ satisfies \ref{pf:onto2:L6}--\ref{pf:onto2:L9}
+for $N$.
+\formallabel{GlobalTheory.RunDepth.leafDepth_all_run}
+\end{corollary}
+
+\begin{proof}
+Take $C_0$ from \cref{pf:onto2:dgood}; then \cref{pf:onto2:dgood,pf:onto2:dram,pf:onto2:d2,pf:onto2:dlevel} give
+\ref{pf:onto2:L6}, \ref{pf:onto2:L7}, \ref{pf:onto2:L8} and \ref{pf:onto2:L9}.
+\end{proof}
+
+\begin{proposition}[The depth leaves]\label{pf:onto2:depthall}
+There is $C_0$ such that for all data as at the beginning of \cref{sec:pf:onto2:geo}, all numbers $N$ for the false side, and every
+record object $O$: if the record relation, \ref{pf:onto2:P1}, \ref{pf:onto2:P2}, $3\le x$, $kb'\le b$, the content tie of $N$ with
+$\mathrm{num}(D,L)$ for $\iota(j)=j+1$, $C_0\le C$, $10\le C_{nW}$ and $3\le x^{e_z/5}$ hold, then $O$ satisfies
+\ref{pf:onto2:L6}--\ref{pf:onto2:L9} for $N$.
+\formallabel{GlobalTheory.BigOn.leafDepth_all_record}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:onto2:depthrun}, whose hypotheses $(\mathrm A_p)$, $(\mathrm H_p)$ and $(\mathrm U_p)$ hold for every prime $p$
+(\lref{GlobalTheory.ChF.colength_bound_split_place_chart}, \lref{GlobalTheory.ChF.hodgeTate_inclusion_chart},
+\lref{GlobalTheory.ChF.unramified_companion_chart_characters}), it suffices to provide the data fixed before
+\cref{pf:onto2:dlevel}. For a
+record object as in the statement, component (iv) of the record relation provides a star structure on $\OO_E$ and the depth tie for
+the core $J$ of the runs and $\iota(j)=j+1$, and component (iii) provides the laws of $J$; we take $K=\mathrm{LL}$ with the algebra
+structure of the host.
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:onto2:thmA}}{Theorem A}}\label{sec:pf:onto2:geoproof}
+
+Let $C_K,x_a$ be the constants of \cref{pf:onto2:runshold}, $x_b$ the constant given by \cref{pf:onto2:latleaves} for $C_K$, and $C_d$
+the constant of \cref{pf:onto2:depthall}. By \lref{GlobalTheory.T.runNumericalConditions_hold_along_family}, for every $x_1$ the
+following statement $\mathrm{Num}(x_1)$ holds closedly over $\sfname{FamHyp}$: there is $y$ such that for all $x>x_1(\mathcal F)$ with
+$x\ge y$ and all $i$, the parameters of the family at $(x,i)$ satisfy $\ontoIIPN(x_1)$, $3\le x$, $kb'\le b$, $3\le x^{e_z/5}$ and
+$8fr+4\le n_V$. Closed statements are closed under conjunction and implication (\lref{Formalism.MainNotions.Closed.and},
+\lref{Formalism.MainNotions.Closed.imp}), so it suffices to show, for a fixed family $\mathcal F$ of $\sfname{FamHyp}$ and $C_H$,
+that the conjunction of the inner statements of the page statement, $\mathrm{Num}(x_a)$ and $\mathrm{Num}(x_b)$ implies the inner
+statement of the geometric statement.
+
+Let $c_0$ be the constant of the page statement and put $c_0'=\max(c_0,C_d)$. Let $c$ be constants with $c_0'\le C$, $14\le C_{b1}$
+and $66C+4\le C_{b2}$, let $x_0$ be the threshold of the page statement for $c$, and $y_a,y_b$ those of $\mathrm{Num}(x_a)$,
+$\mathrm{Num}(x_b)$. Let $x>x_1(\mathcal F)$ with $x\ge\max(x_0,y_a,y_b)$, $i$ an index, $p$ a point over $(x,i)$ satisfying the point
+conditions and $\mathcal M(p)$, $r$ a pair of runs and $O$ a record object of $p$ along $r$. The page statement gives \ref{pf:onto2:P1},
+\ref{pf:onto2:P2} and $O.b=b(L)$; $\mathrm{Num}(x_a)$ gives $\ontoIIPN(x_a)$, $3\le x$, $kb'\le b$ and $3\le x^{e_z/5}$;
+$\mathrm{Num}(x_b)$ gives $\ontoIIPN(x_b)$. From $\mathcal M(p)$ we get the core ties of the core of $p$ with $R_2(p)$, and $O$ satisfies
+the record relation and the own-prime pin. By \lref{GlobalTheory.T.links2_of_single_index_twisted} (the link conditions of the
+two-sided reduction hold at every point satisfying the point conditions at which every single-index place is twisted, the first
+component of $\mathcal M(p)$), $R_2(p)$ satisfies the group condition and the three tuple conditions.
+
+Now \cref{pf:onto2:runshold} gives the run bounds $\ontoIIRB(C_K,r)$ (with the weight definition of the auxiliary record of $\mathcal F$
+at $(x,i)$); \cref{pf:onto2:latleaves} gives \ref{pf:onto2:L1}--\ref{pf:onto2:L4}; \cref{pf:onto2:index} gives \ref{pf:onto2:L5}, using
+\ref{pf:onto2:L1}, \ref{pf:onto2:L2} and $O.b=b(L)$. Finally, for $C,C_H'\in\R$ the numbers $N_p(C,C_H')$ satisfy the content
+tie with $\mathrm{num}(D,L)$ for $\iota(j)=j+1$: both contents are, by definition, the content function of the numerical datum of the
+record of $p$ (\lref{GlobalTheory.BigOn.indefinitePoint_splitPartContent_eq_forcedContent}, which rewrites the content of
+$\mathrm{num}(D,L)$ with \lref{GlobalTheory.BigOn.numOf_Fj_eq_ofRecord} using the fields $\mathrm{Del}$, $h_0$ of the point).
+Since $C_d\le C$ and $C_{nW}=10$ by $\ontoIIPN(x_a)$, \cref{pf:onto2:depthall} gives \ref{pf:onto2:L6}--\ref{pf:onto2:L9} for
+$N_p(C,C_H')$. \qed
+
+%======================================================================
+\subsection{The exponent statement}\label{sec:pf:onto2:exp}
+
+\subsubsection{Weight dictionaries}\label{sec:pf:onto2:dict}
+
+\begin{definition}[Weyl exponents]\label{pf:onto2:weylexp}
+Let $N\ge1$ and let $\nu=(\nu_0\ge\dots\ge\nu_{N-1})$ be a dominant weight. In the polynomial ring $\Z[x_{ab}]_{a,b<N}$ let
+$\nabla_\Z(\nu)$ be the module of polynomials of column weight $\nu$ which are invariant under the column operations
+$x_{\cdot j}\mapsto x_{\cdot j}+t\,x_{\cdot l}$ ($l<j$), and $\Delta_\Z(\nu)\subseteq\nabla_\Z(\nu)$ the span of the iterated divided row
+operations applied to $\prod_{s<N}\det_{s+1}^{\nu_s-\nu_{s+1}}$, where $\det_s$ is the leading principal $s\times s$ minor
+(\lref{Formalism.GradedWeylDivisibility.dualWeyl}, \lref{Formalism.GradedWeylDivisibility.weyl}; these are integral models
+of the induced and Weyl modules of $\GL_N$ \cite{Jantzen2003}). For a prime $\ell$, the \emph{Weyl exponent} $\ontoIIexp_\ell(\nu)$ is
+the least $e\in\N$ such that $m\ell^e\nabla_\Z(\nu)\subseteq\Delta_\Z(\nu)$ for some $m$ prime to $\ell$, and $0$ if there is no such
+$e$ (\lref{Formalism.CohomologicalDescent.LA.exZ}). For $\lambda:\N\to\N$ we write $\lambda|_N$ for $(\lambda(0),\dots,\lambda(N-1))$
+and $U_N(\lambda,a)=\lambda(a)+N-1-a$.
+\end{definition}
+
+The \emph{cut inequality} (\lref{Formalism.CohomologicalDescent.E.ExCut}) is the statement: for all $N$, all $\lambda$ with
+$\lambda|_N$ antitone, every prime $\ell$, all $\mathrm{lo}\in\Z$ and $w\in\N$ with $\mathrm{lo}\le U_N(\lambda,a)\le\mathrm{lo}+w$ for
+$a<N$, and every $a\le N$,
+\begin{equation}\label{eq:pf:onto2:excut}
+\ontoIIexp_\ell(\lambda|_N)\le\ontoIIexp_\ell(\lambda|_a)+\ontoIIexp_\ell\bigl(\lambda(a+\cdot)|_{N-a}\bigr)+a(N-a)\lfloor\log_\ell w\rfloor .
+\end{equation}
+It is proved in \lref{GlobalTheory.LeviCut.exCut}, and implies (\lref{Formalism.CohomologicalDescent.E.exIntervalLt_of_exCut})
+the interval bound $\ontoIIexp_\ell(\lambda|_N)\le\binom N2\lfloor\log_\ell w\rfloor$, with $\ontoIIexp_\ell(\lambda|_N)=0$ if $w<\ell$.
+
+\begin{definition}[Parameters and weights]\label{pf:onto2:parwts}
+A \emph{parameter} $P$ (\lref{Formalism.CohomologicalDescent.LogSmallConstantBounds.Par}) consists of natural numbers
+$k,m,t,f,n,N_r$ and reals $L,x,b',\eta,S$; put $b=e^L$, $h=b+S+\eta+t+1$, $l^*=mb/\bigl(nt^2(k+m(t+1)+t)L^2+kn^2(S+t+L)\bigr)$,
+$l_J=mbL/\bigl(k(m+t)\log(3h)\bigr)$, $k_{\max}=\lfloor2b/l^*\rfloor$, and let $\mathrm{Excl}(\ell)$ mean that $\ell$ divides an integer
+in $[b-\tfrac{t-1}2-k_{\max},\,h+\tfrac{t-1}2+k_{\max}]$. The conditions $\mathrm{Hyp}(P)$ and $\mathrm{Large}(P)$ are explicit lists of
+inequalities between these numbers (for instance $N_r+1=k+m+t$, $t\ge k+m+4$, $3m<t$, $1\le m\le k$, $L\ge4$, $48k^2t^2<b$), and
+$\mathrm{Rows}(P,X',A)$, $\mathrm{Big}(L,x,X',A)$ are further explicit inequalities.
+
+\emph{Weights} $W$ on a finite set $\iota$ (\lref{Formalism.CohomologicalDescent.ShortWeightBounds.Wts}) consist of functions
+$\lambda_\tau:\N\to\N$ ($\tau\in\iota$), a subset $T_2\subseteq\iota$, integers $j_\tau,q_\tau,x^\pm_\tau$, reals $c_\tau,e_\tau$, maps
+$\mathrm{fr}:\N\times\iota\to\iota$, $\mathrm{cj}:\N\times\iota\to\{0,1\}$ and a finite set $S_p$ of primes. Put
+$U_\tau(a)=U_{N_r}(\lambda_\tau,a)$ and $h_0=\lfloor h\rfloor$. The condition $\mathrm{Ok}_P(W)$ requires $\lambda_\tau|_{N_r}$ antitone, a
+constant block of length $t$ starting at $k-1+j_\tau$ with $k-1+j_\tau+t+q_\tau=N_r$, and explicit position conditions on the values
+$U_\tau(a)$ relative to $c_\tau,e_\tau,x^\pm_\tau$ (\lref{Formalism.CohomologicalDescent.ShortWeightBounds.Wts.Ok}). The
+\emph{exponents} are
+\[
+\ontoIIexp(\tau,\ell)=\ontoIIexp_\ell(\lambda_\tau|_{N_r}),\qquad \ontoIIJA(\ell)=\sum_\tau\ontoIIexp(\tau,\ell);
+\]
+the prime $\ell$ is \emph{in range} if $l_J<\ell\le h$, $\neg\mathrm{Excl}(\ell)$ and $\ell\notin S_p$; the \emph{coarse bound}
+$J^{\mathrm{c}}(\ell)$ is an explicit integer built from the exponents $\ontoIIexp(\tau,\ell)$, the Weyl exponents of the first $k-1$
+entries of $\lambda_\tau$ and counts of the values $U_\tau(a)$ in residue classes modulo $\ell$; and the \emph{recursive exponent} is
+\[
+\ontoIIJr(\ell)=\begin{cases}\ontoIIJA(\ell)&\text{if }\ell\le l_J,\ \mathrm{Excl}(\ell)\text{ or }\ell\in S_p,\\
+J^{\mathrm{c}}(\ell)&\text{otherwise}\end{cases}
+\]
+The pair $(P,W)$ is \emph{admissible} if $\mathrm{Hyp}(P)$,
+$\mathrm{Large}(P)$, $\mathrm{Ok}_P(W)$ hold and $\mathrm{Rows}(P,X',A)$, $\mathrm{Big}(P.L,P.x,X',A)$ hold for some $X',A$.
+\formallabel{Formalism.CohomologicalDescent.LargeParameterEstimates.Rows}
+\formallabel{Formalism.CohomologicalDescent.LargeParameterEstimates.Big}
+\formallabel{Formalism.CohomologicalDescent.ShortWeightBounds.Wts.coarseWeightBound}
+\formallabel{Formalism.CohomologicalDescent.ShortWeightBounds.Wts.Jrec7}
+\formallabel{GlobalTheory.ExpTie.NumOk}
+\end{definition}
+
+\begin{definition}[Blocks and lattice inclusions]\label{pf:onto2:blocks}
+A \emph{block datum} $B$ over a number field $K$ with involution and a finite group $G$ (\lref{Formalism.L2.DIV.BlockDat}) consists
+of a space of class-sum forms with a representation of $G$, Hecke operators $B.\mathrm{op}(P,i)$ indexed by places $P$ and integers
+$i$, and block data; it carries two $\OO_K$-lattices of forms, $\nabla(B)$ and $\Delta(B)$. For a level $\ell_v$ (a finite set of
+functions on $G$ with a subgroup and a character) and a $K$-subspace $Z$ of forms, the \emph{cut lattices} $\mathrm{cut}_Z\nabla$ and
+$\mathrm{cut}_Z\Delta$ are the images of $\nabla(B)$, $\Delta(B)$ in coordinates for the good part of $Z$. For a place $w$ of $K$ with residue
+characteristic $\ell=p_w$ and $J\in\N$ we write
+\[
+\ontoIILI_w(J):\iff \ell^J\cdot\mathrm{cut}_Z\nabla\subseteq\ontoIIloc{w}{(\mathrm{cut}_Z\Delta)},
+\]
+and the \emph{normalised exponent} is
+\[
+\ontoIIJu(B,\ell_v,Z,w)=\frac{J_W}{e(w|\ell)},\qquad J_W=\min\{J:\ a\cdot\mathrm{cut}_Z\nabla\subseteq\ontoIIloc
+w{(\mathrm{cut}_Z\Delta)}\ \text{for all }a\in w^J\},
+\]
+with $\min\emptyset=0$. Clearly $\ontoIILI_w(J)\Rightarrow\ontoIILI_w(J+1)$. For a point $p$ of a family, an index $j$ and a type
+$t$, the point carries a block datum $\mathrm{blk}(p,j,t)$ (\lref{GlobalTheory.ExpTie.blk}), a level $\ell_v(p)$ and a subspace
+$Z(p,j,t)$, those of its two-sided reduction.
+\formallabel{Formalism.L2.DIV.BlockDat.cutZ}
+\formallabel{Formalism.L2.DIV.BlockDat.delZ}
+\formallabel{GlobalTheory.ExpTie.LIncl}
+\formallabel{Formalism.L2.DIV.BlockDat.JexpU}
+\formallabel{GlobalTheory.ExpTie.lvlL}
+\formallabel{GlobalTheory.ExpTie.subZ}
+\end{definition}
+
+By definition of the numbers of the two-sided reduction, their exponents are these normalised exponents:
+\begin{equation}\label{eq:pf:onto2:J0}
+J_0\bigl(N_p(C,C_H)\bigr)(t,w,j)=\ontoIIJu\bigl(\mathrm{blk}(p,j,t),\ell_v(p),Z(p,j,t),w\bigr)\qquad(C,C_H\in\R).
+\end{equation}
+
+\begin{definition}[Dictionaries]\label{pf:onto2:dictdef}
+For a datum $D$ with size data $L$, an index $j<m$, a parameter $P$ and weights $W$ on the type set $\mathrm{Tau}(D)$, $(P,W)$ is a
+\emph{dictionary at $j$} if: $(k,m,t,f)$ of $P$ are the ranks of $D$, $|\mathrm{Tau}|=f$,
+$N_r=\rank V_j$, $x=L.x$, $L=L.x^{L.\varepsilon}$ and $b=L.b$; each $\lambda_\tau$ is the shift by a constant of the forced weight
+$\lambda^{\mathrm{def}}_{j,\tau}$ of $D$ (\lref{Formalism.IndefR.Bridge.lamLdef}), which is a genuine weight of $D$; $0\le
+U_\tau(a)\le h_0$ for $a<N_r$; $|T_2|\le|T_2(D)|$; $S_p=s_m\cup\{q,d,p_{\mathrm{de}},p'_{\mathrm{de}}\}$; and $h<g_i$ for both level
+primes. The four statements used below are of the following form. We say that we are \emph{in range at $(p,j,P,W,w)$} if $p$ is a
+point satisfying the extra point conditions, $(P,W)$ is an admissible dictionary at $j$, $w$ is a twisted place of the reduction of $p$
+and $p_w$ is in range for $(P,W)$; a property $Q$ \emph{holds in range} if, closedly over $\sfname{FamHyp}$ and eventually at points,
+$Q(p,j,P,W,w)$ holds whenever we are in range at $(p,j,P,W,w)$.
+\begin{itemize}
+\item The \emph{numerical statement}: $\mathrm{AtPts}$ of ``for every $j$ there is an admissible dictionary at $j$''.
+\item The \emph{exponent-sum statement}: $\mathrm{AtPts}$ of ``for every admissible dictionary $(P,W)$ at $j$, every type $t$ and every
+  place $w$, $\ontoIILI_w(\ontoIIJA(p_w))$ holds for $(\mathrm{blk}(p,j,t),\ell_v(p),Z(p,j,t))$''.
+\item The \emph{smallness}, \emph{frame}, \emph{Galois} and \emph{model statements}: the conditions of
+  \cref{pf:onto2:small,pf:onto2:frame,pf:onto2:galois,pf:onto2:model} hold in range.
+\end{itemize}
+\formallabel{GlobalTheory.ExpTie.Dict}
+\formallabel{GlobalTheory.ExpTie.InRangeAlt}
+\end{definition}
+
+%----------------------------------------------------------------------
+\subsubsection{Reduction to four statements}\label{sec:pf:onto2:red}
+
+\begin{theorem}[The exponent statement]\label{pf:onto2:thmB}
+Assume the following published results, in the form in which they are fields of the package of Part~I (\cref{def:hyps}): (H1)
+Clozel's purity theorem for regular algebraic cuspidal representations \cite{Clozel1990}; (H2) the $\ell$-adic characters attached to
+algebraic Hecke characters \cite{Serre1968}; (H3) Chebotarev's density theorem with degree-one primes \cite{Chebotarev1926}; (H4)
+Galois representations for polarised regular algebraic cuspidal representations of $\GL_a$ over CM fields
+\cite{ClozelHarrisLabesse2011,Shin2011,ChenevierHarris2013,Caraiani2012,BarnetLambEtAl2014b}; (H5) base change from definite unitary groups
+\cite{Labesse2011}; (H6) the Bhatt--Scholze theorem on crystalline lattices \cite{BhattScholze2023}; (H7) the crystallinity of the
+$\ell$-adic characters above $\ell$ with the expected Hodge--Tate weights; and (H8) the existence of local Langlands parameters
+($\sfname{RecTExists}$, \cref{def:rectexists}). Then the exponent statement holds: closedly over $\sfname{FamHyp}$, for large constants
+and eventually at points, every record object $O$ at a point $p$ satisfies \ref{pf:onto2:L10} for $N_p(C,C_H)$, for all $C,C_H$.
+\formallabel{GlobalTheory.T.expSt_of_base_change_and_crystalline_lattices}
+\formallabel{GlobalTheory.BigOn.exponent_bound_of_unitaryThetaStandardTheorems_alt}
+\end{theorem}
+
+See \cref{sec:literature:aut,sec:literature:padic} for the published results formalised by (H1)--(H8).
+
+\begin{proof}
+By \cref{pf:onto2:small} the smallness statement holds unconditionally, so by \cref{pf:onto2:frame} the frame statement holds and by
+\cref{pf:onto2:galois} (which assumes (H1)--(H8); (H1) is not used, \cref{pf:onto2:rem:unused}) the Galois statement holds. By \cref{pf:onto2:model} (which uses (H3) and (H6)) the
+smallness, frame and Galois statements imply the model statement. The cut inequality holds
+(\lref{GlobalTheory.LeviCut.exCut}), the numerical
+statement holds by \cref{pf:onto2:numst} and the exponent-sum statement by \cref{pf:onto2:sumexp}. \Cref{pf:onto2:expst} now gives the
+exponent statement.
+\end{proof}
+
+\begin{lemma}[Exponents from inclusions]\label{pf:onto2:jexpU}
+If $\ontoIILI_w(J)$ holds for $(B,\ell_v,Z)$, then $0\le\ontoIIJu(B,\ell_v,Z,w)\le J$.
+\formallabel{GlobalTheory.ExpTie.LIncl.jexpU_bounds}
+\formallabel{GlobalTheory.T.exponent_datum_le_of_primePowerLatticeInclusion}
+\end{lemma}
+
+\begin{proof}
+Non-negativity is clear. Let $\ell=p_w$ and $e=e(w|\ell)$. Let $a\in w^{Je}$ and $z\in\mathrm{cut}_Z\nabla$. There are $t\in\OO_K\setminus w$
+and $b\in\OO_K$ with $ta=\ell^Jb$ (\lref{GlobalTheory.ExpTie.exists_mul_eq_prW_pow}: $a$ has $w$-adic valuation at least that of
+$\ell^J$). By hypothesis there is $s\in\OO_K\setminus w$ with $s\ell^Jz\in\mathrm{cut}_Z\Delta$; then $(st)(az)=b(s\ell^Jz)\in\mathrm{cut}_Z\Delta$
+and $st\notin w$, so $az$ lies in the localisation of $\mathrm{cut}_Z\Delta$ at $w$. Hence $J_W\le Je$ and $\ontoIIJu=J_W/e\le J$.
+\end{proof}
+
+\begin{lemma}[Recursive exponents versus formulas]\label{pf:onto2:recform}
+Assume the cut inequality, $\mathrm{Hyp}(P)$, $\mathrm{Large}(P)$ and $\mathrm{Ok}_P(W)$, and let $\ell$ be prime. If $\ell$ is not in range
+then $\ontoIIJA(\ell)\le\ontoIIJr(\ell)$; if $\ell$ is in range then $J^{\mathrm c}(\ell)=\ontoIIJr(\ell)$.
+\formallabel{GlobalTheory.exponent_of_record_vs_formulas}
+\end{lemma}
+
+\begin{proof}
+If $\ell$ is in range then none of $\ell\le l_J$, $\mathrm{Excl}(\ell)$, $\ell\in S_p$ holds, so $\ontoIIJr(\ell)=J^{\mathrm c}(\ell)$ by
+definition. Suppose $\ell$ is not in range. If $\ell\le l_J$, $\mathrm{Excl}(\ell)$ or $\ell\in S_p$, then $\ontoIIJr(\ell)=\ontoIIJA(\ell)$.
+Otherwise $l_J<\ell$, $\neg\mathrm{Excl}(\ell)$ and $\ell\notin S_p$, so not being in range means $h<\ell$. In that case
+$\ontoIIexp(\tau,\ell)=0$ for every $\tau$ by \lref{Formalism.CohomologicalDescent.E.beyond_height_exceptional} (for primes
+$\ell>\max(l_J,h)$ all the Weyl exponents $\ontoIIexp(\tau,\ell)$ vanish; this is proved from the cut inequality and its interval
+consequence), so $\ontoIIJA(\ell)=0\le\ontoIIJr(\ell)$.
+\end{proof}
+
+\begin{lemma}[The exponent at a place]\label{pf:onto2:jrec}
+Assume the cut inequality and that $(P,W)$ is admissible; let $B,\ell_v,Z$ be as in \cref{pf:onto2:blocks} and $w$ a place with
+$\ell=p_w$. Assume: if $\ell$ is not in range then $\ontoIILI_w(\ontoIIJA(\ell))$; if $\ell$ is in range then the local-model condition
+of \cref{pf:onto2:hida} holds at $(B,\ell_v,Z,w)$. Then $\ontoIIJu(B,\ell_v,Z,w)\le\ontoIIJr(\ell)$.
+\formallabel{GlobalTheory.ExpTie.Asm.jexpU_le_jrec7}
+\end{lemma}
+
+\begin{proof}
+If $\ell$ is in range, \cref{pf:onto2:lincl} gives $\ontoIILI_w(J^{\mathrm c}(\ell))$ from the local-model condition.
+Hence $\ontoIIJu\le J^{\mathrm c}(\ell)=\ontoIIJr(\ell)$ by \cref{pf:onto2:jexpU,pf:onto2:recform}. If $\ell$ is not in range, the
+hypothesis and \cref{pf:onto2:jexpU} give $\ontoIIJu\le\ontoIIJA(\ell)\le\ontoIIJr(\ell)$ by \cref{pf:onto2:recform}.
+\end{proof}
+
+\begin{lemma}[Summation with few exceptional primes]\label{pf:onto2:sumcut}
+Assume the cut inequality, $\mathrm{Hyp}(P)$, $\mathrm{Large}(P)$, $\mathrm{Rows}(P,X',A)$ and $\mathrm{Big}(P.L,P.x,X',A)$, and let $W$ be
+weights on a finite set $\iota$ with $\mathrm{Ok}_P(W)$, $|\iota|=P.f$ and $|S_p|\le5$. Then for every $T\ge|T_2|$ and every finite set
+$Q$ of primes
+\[
+\sum_{\ell\in Q}\ontoIIJr(\ell)\log\ell\le30\,T\,m\,b\,L^2+2mb .
+\]
+\formallabel{GlobalTheory.sum_exponent_log_le_of_cut}
+\end{lemma}
+
+\begin{proof}
+By \lref{Formalism.CohomologicalDescent.E.recursion_sum_exceptional}, the sum is at most an explicit quantity
+$B_{\mathrm{tot}}(P,|T_2|,30\,mbL^2)$ (\lref{Formalism.CohomologicalDescent.LogSmallConstantBounds.totalBound}); that result verifies
+that the recursive exponents satisfy the inputs of an elementary summation over primes, using the cut inequality, its interval
+consequence (\lref{Formalism.CohomologicalDescent.E.exIntervalLt_of_exCut}) and the prime number bound $\pi(y)<1.26\,y/\log y$ for
+$y>1$ (\cite[Cor.~1]{RosserSchoenfeld1962}; proved in the development as
+\lref{Formalism.CohomologicalDescent.Top.prime_count_bound_rs}), and it needs $|\iota|=P.f$ and $|S_p|\le5$. By the tail inequality
+\lref{Formalism.CohomologicalDescent.LargeParameterEstimates.tail_bound_holds}, which needs $|T_2|\le P.f$ (true since
+$T_2\subseteq\iota$) together with $\mathrm{Hyp}$, $\mathrm{Rows}$ and $\mathrm{Big}$, this quantity is at most $30|T_2|mbL^2+2mb$. Since
+$b>0$ under these hypotheses (\lref{Formalism.CohomologicalDescent.LargeParameterEstimates.large_parameter_facts_of_hyp}),
+$mbL^2\ge0$, and $|T_2|\le T$ gives the claim.
+\end{proof}
+
+\begin{proposition}[Summation of recursive exponents]\label{pf:onto2:sumlog}
+Assume the cut inequality, $\mathrm{Hyp}(P)$, $\mathrm{Large}(P)$, $\mathrm{Rows}(P,X',A)$, $\mathrm{Big}(P.L,P.x,X',A)$, $\mathrm{Ok}_P(W)$,
+$|\iota|=P.f=D.R.f$ and $S_p=s_m\cup\{q,d,p_{\mathrm{de}},p'_{\mathrm{de}}\}$ for a datum $D$. Then for every $T\ge|T_2|$ and every finite
+set $Q$ of primes
+\[
+\sum_{\ell\in Q}\ontoIIJr(\ell)\log\ell\le30\,T\,m\,b\,L^2+2mb .
+\]
+\formallabel{UpperTheory.ExcSet.sum_exponent_log_le}
+\end{proposition}
+
+\begin{proof}
+Let $W'$ be $W$ with $S_p$ replaced by $S'=\{q,d,p_{\mathrm{de}},p'_{\mathrm{de}}\}$; $\mathrm{Ok}_P(W')$ still holds (the set $S_p$ does
+not enter $\mathrm{Ok}_P$) and $|S'|\le5$. The recursive exponents of $W$ and $W'$ agree: the small primes of the host satisfy $\ell\le l_J$
+(\lref{UpperTheory.ExcSet.small_le_lJ}), so for every $\ell$ the disjunction ``$\ell\le l_J$ or $\mathrm{Excl}(\ell)$ or $\ell\in S_p$''
+is equivalent to the same disjunction with $S'$. Since $T_2$ is unchanged, \cref{pf:onto2:sumcut} applied to $W'$ gives the claim.
+\end{proof}
+
+\begin{lemma}[The exponent bound at a record object]\label{pf:onto2:hasexp}
+Assume the cut inequality. Let $p$ be a point and $O$ a record object for its two-sided reduction with $m=D.R.m$, $x=L.x$,
+$\varepsilon=L.\varepsilon$ and $T_2=|T_2(D)|$. Let $(P_j,W_j)_j$ be admissible dictionaries at the indices $j$, such that
+$\ontoIILI_w(\ontoIIJA_j(p_w))$ holds for $(\mathrm{blk}(p,j,t),\ell_v(p),Z(p,j,t))$ for all $j,t,w$, and such that the local-model
+condition holds for $(\mathrm{blk}(p,j,\mu(w)),\ell_v(p),Z(p,j,\mu(w)),w)$ at every twisted place $w$ with $p_w$ in range for $(P_j,W_j)$.
+Then $O$ satisfies \ref{pf:onto2:L10} for $N_p(C,C_H)$, for all $C,C_H$, with $J_p(j,\ell)=\ontoIIJr_j(\ell)$.
+\formallabel{GlobalTheory.ExpTie.Asm.hasExpBound_at}
+\end{lemma}
+
+\begin{proof}
+\emph{Non-negativity.} By \eqref{eq:pf:onto2:J0} and \cref{pf:onto2:jexpU} applied to the inclusion with $J=\ontoIIJA_j(p_w)$,
+$J_0(\mu(w),w,j)\ge0$. \emph{Summed bound.} $J_p(j,\ell)=\ontoIIJr_j(\ell)\ge0$. By the dictionary, $P_j.x=L.x$ and
+$P_j.L=L.x^{L.\varepsilon}=x^\varepsilon=x_e$, hence $P_j.b=e^{x_e}=O.b$, and $P_j.m=m=O.m$. \Cref{pf:onto2:sumlog} (with $T=O.T_2\ge|T_2(W_j)|$,
+by the dictionary) gives $\sum_{\ell\in Q}J_p(j,\ell)\log\ell\le30\,O.T_2\,O.m\,O.b\,x_e^2+2\,O.m\,O.b=E_J$. \emph{Domination.} For a twisted
+place $w$, \eqref{eq:pf:onto2:J0} and \cref{pf:onto2:jrec} give $J_0(\mu(w),w,j)=\ontoIIJu\le\ontoIIJr_j(p_w)=J_p(j,p_w)$.
+\end{proof}
+
+\begin{proposition}[Exponent statement from four statements]\label{pf:onto2:expst}
+The cut inequality, the numerical statement, the exponent-sum statement and the model statement imply the exponent statement.
+\formallabel{GlobalTheory.ExpTie.Asm.expSt_of_alt}
+\formallabel{GlobalTheory.T.expSt_of_num_sumExp_model}
+\end{proposition}
+
+\begin{proof}
+The three statements of the form $\mathrm{AtPts}$ combine to one (conjunction of closed statements). Given a family, take $c_0=0$, and
+for constants $c$ take a threshold $x\ge\max(x_1,x_2,x_3)$ for the three statements. Let $p$ be a point with $\mathcal M(p)$, $r$ runs and
+$O$ a record object of $p$ along $r$. By the numerical statement choose admissible dictionaries $(P_j,W_j)$ at every $j$. The depth tie
+of the record relation gives $O.m=D.R.m$, $O.x=L.x$, $O.\varepsilon=L.\varepsilon$, and the record relation gives $O.T_2=|T_2(D)|$. The
+exponent-sum statement gives the inclusions with $\ontoIIJA_j$, and the model statement gives the local-model condition at the twisted
+places in range. \Cref{pf:onto2:hasexp} concludes.
+\end{proof}
+
+%----------------------------------------------------------------------
+\subsubsection{The numerical and exponent-sum statements}\label{sec:pf:onto2:sum}
+
+\begin{definition}[The parameter of size data]\label{pf:onto2:parof}
+For size data $L$ and an index $j$, the \emph{parameter of $L$ at $j$} is $P(L,j)=(k,m,t,f,n,\rank V_j,L.L,L.x,L.b',L.\eta_{\mathrm{sz}},
+L.S_c)$, with $k,m,t,f,n$ the ranks of $D$.
+\formallabel{GlobalTheory.ExpTie.parOf}
+\end{definition}
+
+\begin{proposition}[The numerical statement]\label{pf:onto2:numst}
+Closedly over $\sfname{FamHyp}$, eventually at points $p$ satisfying the extra point conditions, for every index $j$ there is an
+admissible dictionary at $j$.
+\formallabel{GlobalTheory.ExpTie.numSt_alt}
+\end{proposition}
+
+\begin{proof}
+The following six statements of the form $\mathrm{AtPts}$ hold, for every $j$: $P(L,j)$ satisfies $\mathrm{Hyp}$
+(\lref{GlobalTheory.ExpTie.parOf_hyp_alt}) and $\mathrm{Large}$ (\lref{GlobalTheory.T.parameter_large_at_all_points}); there are
+$X',A$ with $\mathrm{Rows}(P(L,j),X',A)$ and $\mathrm{Big}(L,x,X',A)$ (\lref{GlobalTheory.T.exists_large_parameter_estimates_at_pts});
+$h<g_i$ for both level primes (\lref{GlobalTheory.T.parOf_height_lt_genus_at_pts}); every forced weight $\lambda^{\mathrm{def}}_{j,\tau}$
+is a genuine weight of $D$ (\lref{GlobalTheory.T.isLamPrime_at_all_points}); and there are weights $W$ with $\mathrm{Ok}_{P(L,j)}(W)$, each
+$\lambda_\tau$ a shift of $\lambda^{\mathrm{def}}_{j,\tau}$ by a constant, $0\le U_\tau(a)\le h_0$, $|T_2(W)|\le|T_2(D)|$ and
+$S_p(W)=s_m\cup\{q,d,p_{\mathrm{de}},p'_{\mathrm{de}}\}$ (\lref{GlobalTheory.T.weight_lambda_shift_nonneg'}). Statements of the form
+$\mathrm{AtPts}$ are closed under conjunction (take the larger of the two thresholds) and under pointwise implication (keep the
+threshold), because closed statements are closed under conjunction and implication (\lref{Formalism.MainNotions.Closed.and},
+\lref{Formalism.MainNotions.Closed.imp}). At a point where all six hold, $P=P(L,j)$ and this $W$ form a dictionary: the rank, size and
+scale conditions hold by definition of $P(L,j)$, $|\mathrm{Tau}(D)|=f$ by the datum, and the remaining conditions are the six statements.
+\end{proof}
+
+\begin{proposition}[The exponent-sum statement]\label{pf:onto2:sumexp}
+For every point $p$ of every family, every index $j$, every dictionary $(P,W)$ at $j$, every type $t$ and every place $w$,
+$\ontoIILI_w(\ontoIIJA(p_w))$ holds for $(\mathrm{blk}(p,j,t),\ell_v(p),Z(p,j,t))$:
+\[
+\ell^{\ontoIIJA(\ell)}\cdot\mathrm{cut}_Z\nabla\subseteq\ontoIIloc w{(\mathrm{cut}_Z\Delta)},\qquad \ell=p_w .
+\]
+In particular the exponent-sum statement holds.
+\formallabel{GlobalTheory.ExpTie.lIncl_sumExp}
+\formallabel{GlobalTheory.ExpTie.sumExpSt_alt}
+\formallabel{GlobalTheory.T.sum_expansion'}
+\end{proposition}
+
+\begin{proof}
+The block of a point is tied to its weight data: there are an isomorphism $e$ between the coefficient space of the block and the
+space of the relevant Hermitian data and, for every class $c$, identifications of the lattices $\nabla(B)_c$ and $\Delta(B)_c$ with the
+images of the $\nabla$- and $\Delta$-lattices attached to a Hermitian lattice of $V_j$, the forced weights
+$\lambda^{\mathrm{def}}_{j,\tau}$ and the embeddings $\tau$ (the tie of the character family of $p$). By
+\lref{GlobalTheory.OntoExponentsLat.exZ_sum_smul_mem_locP_delAtr}, for every place $w$ the element
+$\ell^{\sum_\tau\ontoIIexp_\ell(\lambda^{\mathrm{def}}_{j,\tau})}$ maps the $\nabla$-lattice of a Hermitian lattice into the localisation at
+$w$ of its $\Delta$-lattice. Transport along $e$ (\lref{GlobalTheory.SumExpAt.locIncl_of_equiv}) and passage to the cut lattices
+(\lref{GlobalTheory.SumExpAt.cutLat_locIncl}) give the inclusion with exponent $\sum_\tau\ontoIIexp_\ell(\lambda^{\mathrm{def}}_{j,\tau})$.
+Finally the Weyl exponent is invariant under shifting a weight by a constant (\lref{GlobalTheory.SumExpAt.exZ_res_eq_natW}), each
+$\lambda_\tau$ is such a shift of $\lambda^{\mathrm{def}}_{j,\tau}$ and $N_r=\rank V_j$ by the dictionary; hence the exponent equals
+$\ontoIIJA(\ell)$. The statement holds at every point, so the closed statement holds with arbitrary thresholds.
+\end{proof}
+
+%----------------------------------------------------------------------
+\subsubsection{Smallness, frames, Galois representations and local models}\label{sec:pf:onto2:four}
+
+In this subsection we are in range at $(p,j,P,W,w)$ (\cref{pf:onto2:dictdef}), we write $\ell=p_w$, $B=\mathrm{blk}(p,j,\mu(w))$,
+$Z=Z(p,j,\mu(w))$, $E$ for the host CM field and $\mathrm{Tau}=\mathrm{Tau}(D)$.
+
+\begin{proposition}[Smallness]\label{pf:onto2:small}
+In range, $\ell$ is a prime with $N_r+1<\ell$ and $\ell\nmid\mathrm{disc}(E)$, the subspace $Z$ is stable under all Hecke operators of
+$B$, and $Z$ lies in the block part of $B$.
+\formallabel{GlobalTheory.ExpTie.smallSt_alt}
+\formallabel{GlobalTheory.T.small_estimate}
+\end{proposition}
+
+\begin{proof}
+$\ell$ is prime as a residue characteristic. Since $\ell$ is in range, $l_J<\ell$, and for parameters with $\mathrm{Hyp}$ and $\mathrm{Large}$
+every prime $\ell>l_J$ satisfies $N_r+1<\ell$ (\lref{Formalism.CohomologicalDescent.LogSmallConstantBounds.paramsLargePrime_holds}, an
+explicit comparison of $l_J$ with $N_r$). Since $\ell\notin S_p$, which contains the primes ramified in the host
+(\lref{GlobalTheory.ExpTie.not_dvd_discr_host}), $\ell\nmid\mathrm{disc}(E)$. The point conditions contain the primitive row conditions
+and the separation of types, from which the complex data of the point satisfy the stability and block conditions at the base level
+(\lref{Formalism.IndefR.Links.complex_data_conditions_base_level_of_primitive_links}); these pass to the subspaces $Z(p,j,t)$ of the
+reduction and to all indices $j$, directly from the definitions of these subspaces as restrictions of the subspaces of the
+point. The conditions do not depend on the
+family or its constants, so the closed statement holds trivially.
+\end{proof}
+
+\begin{definition}[Frames, readings and ties]\label{pf:onto2:framedef}
+Let $\ell$ be a prime, $\iota$ a finite set and $N\ge1$. An \emph{$\ell$-adic frame} $F$ (\lref{GlobalTheory.ExpFrame.Frame}) consists
+of a discrete valuation ring $\OO_F$ of characteristic $0$ with a ring map $\OO_F\to\Qlbar$ (completed), a group $G$ with subgroups $\Gamma$
+and $K$, homomorphisms $\kappa:K\to\GL_N(\OO_F)^\iota$ and $\chi:K\to\OO_F^\times$, and an index set $I$ of Hecke operators with finite
+sets $\mathrm{tr}(i)\subseteq G$ and constants. It is \emph{admissible} if $\OO_F$ maps isomorphically onto the integers of a finite
+extension of $\Q_\ell$, $G=\Gamma S K$ for a finite set $S$, $\ell$ does not divide the (finite) orders of the groups
+$\Gamma\cap gKg^{-1}$, and the Hecke operators satisfy permutation and commutation conditions
+(\lref{GlobalTheory.ExpFrame.Frame.Ok}). For a weight $\mu$ on $\iota$, \emph{$F$-forms of weight $\mu$} are functions
+$f:G\to\nabla_{\Qlbar}(\mu)=\bigotimes_\tau\nabla(\mu_\tau)$, left $\Gamma$-invariant and right $K$-equivariant through $\chi$ and $\kappa$;
+an \emph{eigensystem} $\theta:I\to\Qlbar$ of weight $\mu$ is the system of Hecke eigenvalues of a non-zero $F$-form. A \emph{reading}
+$R$ of a block $B$ at a place $w$ through $F$ is an embedding $e_0:K\to\Qlbar$ inducing $w$
+with $e_0(\OO_K)\subseteq\OO_F$, a map from $I$ to the Hecke operators of $B$, and an $e_0$-semilinear map from the forms of $B$ to the
+$F$-forms of weight $\lambda$, preserving linear independence, compatible with the Hecke operators, mapping $\nabla(B)$ into the
+$\nabla$-lattice, and such that forms mapping into the $\Delta$-lattice lie in $\Delta(B)$ up to a unit at $w$. A \emph{tie} of $(F,R)$ to
+the point $p$ (\lref{GlobalTheory.ExpTie.Tied}) identifies $G$ with the finite-adelic unitary group of $V_j$, $\Gamma$ with its
+rational points, $K$ with the level group of $p$, $\kappa$ with the $\ell$-adic images of the level matrices under embeddings
+$\mathrm{inc}(\tau):E\to\Qlbar$ forming a \emph{half system} (one of each pair of conjugate embeddings), $\chi$ with the level character
+twisted by determinants, and the Hecke operators of $F$ with those of the block at the places prime to $\ell$.
+\formallabel{GlobalTheory.ExpFrame.Reads}
+\end{definition}
+
+\begin{proposition}[The frame statement]\label{pf:onto2:frame}
+In range, there are an admissible $\ell$-adic frame $F$ with $N=N_r$, a reading $R$ of $B$ at $w$ through $F$ and a half system
+$\mathrm{inc}$ such that $(F,R)$ is tied to $p$.
+\formallabel{GlobalTheory.FrameOf.frameSt_of_smallSt'}
+\formallabel{GlobalTheory.T.frame_statement_of_small_statement}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.FrameOf.frameAt_of}, the conclusion follows at $(p,j,P,W,w)$ from $N_r=\rank V_j$ and seven local statements:
+the embeddings $e_0\circ\mathrm{lab}$ and their conjugates form half systems; the $\ell$-adic level matrices are integral over the field
+generated by $e_0$; the level character has finite order; tameness ($\ell\nmid|\Gamma\cap gKg^{-1}|$); the permutation and commutation
+properties of the Hecke double cosets; and the existence of a reading. Each of the seven statements holds in range whenever the
+conditions of \cref{pf:onto2:small} hold (\lref{GlobalTheory.T.inRange_halfAt_of_smallAt},
+\lref{GlobalTheory.T.inRange_kapAt_of_smallAt}, \lref{GlobalTheory.T.chiAt_of_smallAt},
+\lref{GlobalTheory.T.tame_at_of_small_at}, \lref{GlobalTheory.T.permAt_of_smallAt},
+\lref{GlobalTheory.T.commAt_of_smallAt_in_range}, \lref{GlobalTheory.T.readsAt_of_smallAt}); combining them with
+\cref{pf:onto2:small} (conditions holding in range are closed under conjunction, by taking the larger threshold) and applying the
+combination pointwise to every dictionary gives the claim.
+\end{proof}
+
+\begin{definition}[Crystalline Galois sides]\label{pf:onto2:galside}
+Let $E$ be a CM field, $\ell$ a prime, $\mathrm{inc}$ a half system of embeddings $E\to\Qlbar$, $(P,W)$ a dictionary with
+$h_0=\lfloor h\rfloor$, $F$ an $\ell$-adic frame with $N=N_r$, and $\mathcal B$ a property of eigensystems. A Galois representation
+$r:G_E\to\GL_n(\Qlbar)$ is \emph{crystalline with jumps} $J(\tau)$ ($\tau:E\to\Qlbar$) if it is continuous and at every place above
+$\ell$ its restriction to the decomposition group is crystalline with Hodge--Tate multiset $J(\tau)$ at every embedding $\tau$.
+The \emph{Galois side} $\mathrm{Gal}(\mathrm{inc},P,W,F,\mathcal B)$ asserts the existence of labels $\mathrm{lab}(Q)$ (places of $E$), positions of the Hecke
+operators, a continuous character $\mathrm{tw}$ and $\epsilon\in\{\mathrm{id},c\}$ such that: (i) for every dominant $\mu$ and every
+eigensystem $\theta$ of weight $\mu$ there is $r:G_E\to\GL_{N_r}(\Qlbar)$, crystalline with jumps $J$ satisfying
+$J(\epsilon\,\mathrm{inc}\,\tau,a)=U(\mu_\tau,a)$ and $J(\epsilon\,c\,\mathrm{inc}\,\tau,a)=h_0-U(\mu_\tau,N_r-1-a)$, whose characteristic
+polynomials at Frobenius elements of the places $\mathrm{lab}(Q)$, twisted by $\mathrm{tw}$, are the Hecke polynomials of $\theta$; (ii)
+for every eigensystem $\theta$ of weight $\lambda$ with $\mathcal B(\theta)$ there are $a+t=N_r$, a continuous $\rho:G_E\to\GL_a(\Qlbar)$
+and characters $\chi_0,\dots,\chi_{t-1}$, $\chi_s$ crystalline with jump $\mathrm{bot}(\tau)+s$, where
+$\mathrm{bot}(\epsilon\,\mathrm{inc}\,\tau)=\mathrm{bot}_W(\tau)$ and $\mathrm{bot}(\epsilon\,c\,\mathrm{inc}\,\tau)=h_0-\mathrm{bot}_W(\tau)-t+1$
+($\mathrm{bot}_W(\tau)=U_\tau(k-2+j_\tau+t)$ the bottom of the block of $\lambda_\tau$), such that the Hecke polynomials of $\theta$ are, in
+the same sense, the characteristic polynomials of $\rho\oplus\bigoplus_s\chi_s$.
+\formallabel{GlobalTheory.ExpFrame.CrysWith}
+\formallabel{GlobalTheory.ExpFrame.GalSide}
+\end{definition}
+
+\begin{proposition}[Galois representations for definite unitary groups]\label{pf:onto2:galrep}
+Assume (H1)--(H8) of \cref{pf:onto2:thmB}. Let $E$ be a CM field with $E/E^+$ unramified at all finite places, $n\ge1$, $\pi$ an
+automorphic representation of the definite unitary group $\Uni(n)$ of $E/E^+$ whose archimedean weights are dominant weights
+$\lambda_\tau$ ($\tau:E\to\C$), $\ell$ a prime and $\iota:\Qlbar\cong\C$, and assume that $\pi$ is unramified at the places above $\ell$.
+Then:
+\begin{enumerate}[label=(\roman*)]
+\item there is $r:G_E\to\GL_n(\Qlbar)$, crystalline with jumps $J_{\iota,\lambda}(\tau)=\{k-\lambda_{\iota\tau}(k):k<n\}$, such that at every
+  split place $w\nmid\ell$ where $\pi$ is unramified, with Satake multiset $T_w$, and every Frobenius element $g$ at $w$,
+  $\det(X-r(g^{-1}))=\prod_{z\in T_w}\bigl(X-\iota^{-1}(z\,\Nm w^{(n-1)/2})\bigr)$;
+\item if $n<2t$, every $\lambda_\tau$ has a run of length $t$ (a maximal block of $t$ equal entries) and $\pi$ has a \emph{string} of
+  length $t$ (at some split place $w\nmid\ell$ where $\pi$ is unramified, the Satake multiset contains $\{\nu\Nm w^{(t-1)/2-c}:c<t\}$
+  with $|\nu|=1$), then there are a continuous $\rho:G_E\to\GL_{n-t}(\Qlbar)$ and characters $\chi_0,\dots,\chi_{t-1}$, $\chi_s$ crystalline
+  with jump $\mathrm{bot}(\tau)+s$ where $\mathrm{bot}(\tau)=p-\lambda_{\iota\tau}(p)$ for any run position $p$ of $\lambda_{\iota\tau}$, such
+  that the identity of (i) holds with $r$ replaced by $\rho\oplus\bigoplus_s\chi_s$.
+\end{enumerate}
+\formallabel{UpperTheory.GalN.galoisRep_definiteUnitary_alt}
+\end{proposition}
+
+\begin{proof}
+\emph{Base change.} By (H5) in the form \lref{UpperTheory.BaseChangeIdentities.base_change_speh_narrow_swap}, there are integers
+$a_i,d_i\ge1$ ($i<c$) with $\sum_id_ia_i=n$ and conjugate self-dual cuspidal representations $\Pi_i$ of $\GL_{a_i}(\A_E)$ with infinity
+types $m_i(\tau)$ (multisets of distinct numbers), such that the local components of $\pi$ at split places are the products of the
+Speh components of the $\Pi_i$ of lengths $d_i$, and $\sum_i\mathrm{Speh}_{d_i}(m_i(\tau))$ is the infinitesimal character of $\lambda_\tau$.
+
+\emph{Galois representations of the pieces.} For every $i$ and $k<d_i$, \lref{GlobalTheory.CsdTwistGal.exists_galRep_csd_twist_alt_alt}
+(under (H2)--(H4) and (H6)--(H8): Galois representations attached to the conjugate self-dual cuspidal representation $\Pi_i$,
+twisted by a power of the norm) gives a continuous $r_{i,k}:G_E\to\GL_{a_i}(\Qlbar)$
+which is crystalline with jumps $J_{i,k}(\tau)=\{f_{i,k}-z:z\in m_i(\iota\tau)\}$, $f_{i,k}=\tfrac{n-1}2+\tfrac{d_i-1}2-k$, as soon as
+$\Pi_i$ is spherical above $\ell$, and whose Frobenius polynomials at split places prime to $\ell$ are given by the Satake parameters
+of $\Pi_i$ scaled by $\Nm w^{f_{i,k}}$. The sphericity holds because $\pi$ is unramified above $\ell$
+(\lref{GlobalTheory.SphBC.isSpherical_of_isUnramU}).
+
+\emph{Assembly.} The direct sum $R=\bigoplus_{i,k}r_{i,k}$ is continuous, crystalline with jumps $\sum_{i,k}J_{i,k}$, and has
+$\det(X-R(g))=\prod_{i,k}\det(X-r_{i,k}(g))$ (\lref{GlobalTheory.BlockSum.main}: a block-diagonal sum of continuous
+representations is continuous, its characteristic polynomials are the products, and it is crystalline with the summed jumps when the
+summands are). The sum of the jumps is $J_{\iota,\lambda}$ by the identity of infinitesimal characters, and the Satake
+parameters of $\pi$ at a split place are the regrouped scaled Satake parameters of the $\Pi_i$
+(\lref{GlobalTheory.satake_linear_factors_regroup}); this gives (i).
+
+\emph{Strings.} For (ii), let $w$ be a place carrying a string of length $t$. The Satake parameters of the conjugate self-dual cuspidal
+pieces at $w$ have absolute value $<\Nm w^{1/2}$ (\lref{UpperTheory.GalN.satake_window}), so by
+\lref{UpperTheory.GalN.string_forces_long_part} (a string of length $t$ in a multiset made of segments of lengths $d_i$ centred at
+parameters of absolute value $<\Nm w^{1/2}$ forces some $d_{i_0}\ge t$) there is $i_0$ with $d_{i_0}\ge t$. Since $n<2t$ and the weights
+have runs of length $t$, \lref{GlobalTheory.GalDef.spehPart_is_run} gives $d_{i_0}=t$, $d_i<t$ for $i\ne i_0$, and $m_{i_0}(\tau)$ a
+single number determined by the run; hence $a_{i_0}=1$. Put $\rho=\bigoplus_{i\ne i_0,k}r_{i,k}$ (\lref{GlobalTheory.BlockSum.main})
+and $\chi_s=\det r_{i_0,t-1-s}$. These characters are crystalline with jumps $\mathrm{bot}(\tau)+s$
+(as $a_{i_0}=1$, the determinant of $r_{i_0,t-1-s}$ is this representation itself, whose single jump
+$f_{i_0,t-1-s}-m_{i_0}(\iota\tau)$ equals $\mathrm{bot}(\tau)+s$ by the value of $m_{i_0}$ given by the run), $\mathrm{bot}$ does not depend on the chosen run position, $(n-t)+t=n$, and the product formula for $\det(X-R(g))$ gives the
+identity in (ii).
+\end{proof}
+
+\begin{proposition}[The Galois statement]\label{pf:onto2:galois}
+Assume (H1)--(H8) of \cref{pf:onto2:thmB} and the smallness statement. In range, for every admissible $\ell$-adic frame $F$ with $N=N_r$,
+every reading $R$ of $B$ at $w$ and every half system $\mathrm{inc}$ such that $(F,R)$ is tied to $p$, the Galois side
+$\mathrm{Gal}(\mathrm{inc},P,W,F,\mathcal B_R)$ holds, where $\mathcal B_R(\theta)$ means that $\theta$ is read from a system of eigenvalues
+of $B$ of block shape.
+\formallabel{GlobalTheory.FrameGal.galois_steinberg_local_alt}
+\formallabel{GlobalTheory.T.galois_frame_compatibility_alt}
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (automorphy).} By \lref{GlobalTheory.T.frame_aut_of_small_estimate}, the smallness statement implies, in range: the
+places $Q$ of the block are labelled by split places $\mathrm{lab}(Q)$ of $E$ with $\Nm\,\mathrm{lab}(Q)=q_Q$, and the labels of the
+places prime to $\ell$ include all primes of $E$ of prime norm outside a finite set, the block parameters $\nu$ satisfy
+$|\nu|^2=q_Q^{N_r-t}$; and for every tied frame and reading, every dominant $\mu$ and every eigensystem $\theta$ of weight $\mu$, there is
+an automorphic representation $\pi$ of the definite unitary group of $V_j$ with weights $\mu_\tau+\mathrm{sh}(\tau)$ at the embeddings
+$\iota\circ\mathrm{inc}(\tau)$ and the dual weights at their conjugates, unramified above $\ell$ and at the places $\mathrm{lab}(Q)$, whose
+Satake parameters at $\mathrm{lab}(Q)$ give the eigenvalues $\theta$.
+
+\emph{Step 2 (a crystalline twist).} Put $c(\mathrm{inc}\,\tau)=h_0-N_r+1+\mathrm{sh}(\tau)$ and $c(c\,\mathrm{inc}\,\tau)=-\mathrm{sh}(\tau)$;
+then $c(\sigma)+c(c\sigma)=h_0-N_r+1$ for every embedding $\sigma$. There is an algebraic Hecke character of $E$ with infinity type $-c$,
+unramified above $\ell$ (\lref{GlobalTheory.AlgCharUnr.exists_algChar_unr}), and by (H2) and (H7) its $\ell$-adic realisation
+$\mathrm{tw}$ is continuous and crystalline with jump $c(\sigma)$ at $\sigma$ (\lref{GlobalTheory.FrameGal.exists_crys_char}).
+
+\emph{Step 3 (the Galois side).} Apply \cref{pf:onto2:galrep} to $E$ (unramified over $E^+$ at finite places,
+\lref{GlobalTheory.DefiniteBC.host_unramified}), $n=N_r$ and the representations $\pi$ of Step~1. For (i): given $\mu,\theta$, the
+twist $r\otimes\mathrm{tw}$ is crystalline with jumps $J$ as required (the jumps of $r$ are $k-\lambda(k)$, those of $\mathrm{tw}$ are $c$,
+and the identities $J(c\,\mathrm{inc}\,\tau,a)=U(\mu_\tau,a)$, $J(\mathrm{inc}\,\tau,a)=h_0-U(\mu_\tau,N_r-1-a)$ for $\epsilon=c$ are a direct
+computation), and its Frobenius characteristic polynomials read $\theta$ (\lref{GlobalTheory.FrameGal.SystemOf.reads}). For (ii): let
+$\theta$ be an eigensystem of weight $\lambda$ of block shape. The weights of $\pi$ have runs of length $t$, coming from the constant
+block of $\lambda_\tau$ (\lref{GlobalTheory.FrameGal.isRunAt_block}). By (H3) the set of primes of $E$ of degree one outside a
+finite set is non-empty, so some label $\mathrm{lab}(Q)$ is such a prime; at this place the Hecke polynomial of $\theta$ is divisible
+by a block polynomial with a root $\nu$ of absolute value $\Nm(\mathrm{lab}\,Q)^{(N_r-t)/2}$ (\lref{GlobalTheory.FrameGal.block_dvd}),
+which gives a string of length $t$ for $\pi$ (\lref{GlobalTheory.FrameGal.string_of_dvd}). Since $N_r<2t$ by $\mathrm{Hyp}(P)$, part
+(ii) of \cref{pf:onto2:galrep} gives $\rho$ and $\chi_s$, and twisting by $\mathrm{tw}$ yields the required data
+(\lref{GlobalTheory.FrameGal.galois_side_of_compatible_systems_alt},
+\lref{GlobalTheory.FrameGal.galois_at_place_of_automorphic_at_place_alt}).
+\end{proof}
+
+\begin{definition}[Hida settings and local models]\label{pf:onto2:hida}
+A \emph{Hida setting} $X$ for $(\iota,N,\lambda)$ consists of
+a noetherian local domain $\OO$ of characteristic $0$, an $\OO$-algebra $A$ acting on $\nabla_\OO(\lambda)=\bigotimes_\tau\nabla_\OO(\lambda_\tau)$,
+a group $G$ with subgroups $\Gamma,K$ and a homomorphism $j_K:K\to A$, a commutative $\OO$-algebra $T$ of Hecke operators acting on the
+$\nabla_\OO(\lambda)$-valued forms on $\Gamma\backslash G$ of type $j_K$, and a multiplicative set $S\subseteq T$. Its \emph{local
+inclusion with exponent $J$} says that after localisation at $S$,
+$\ell^J$ maps the $\nabla$-valued forms into the forms with values in $\bigotimes_\tau\Delta_\OO(\lambda_\tau)$. A family of Hida settings
+\emph{covers} $(B,\ell_v,Z,w)$ if $\ontoIILI_w(J)$ holds for every $J$ for which all members have
+the local inclusion with exponent $J$. The \emph{local-model condition} at $(B,\ell_v,Z,w)$ for $(P,W)$
+asserts the existence of $(\mathrm{fr},\mathrm{cj})$ and a family of Hida settings for
+$(\iota,N_r,\lambda)$ covering $(B,\ell_v,Z,w)$ such that in each of them $\ell$ is not a unit and the \emph{link inputs}
+hold for the weights obtained from $W$ by replacing
+$(\mathrm{fr},\mathrm{cj})$: $\OO/\ell$ is finite, $\ell$ divides a power of an element $\varpi$, there are weight projectors in $A$ and a
+family of $A$-modules $L_\mu$ (containing the simple subquotients of $\nabla_\OO(\lambda)/\varpi$) with Hecke-equivariant forms, and every
+$L_\mu$ which is a subquotient of $\nabla_\OO(\lambda)/\varpi$ with non-zero localised forms has, at every $\tau\in T_2$, a highest weight
+satisfying the \emph{lattice link} (the existence of Frobenius period-change data over a power series ring for that weight).
+\formallabel{Formalism.CohomologicalDescent.ShortWeightBounds.HidaSetting}
+\formallabel{Formalism.CohomologicalDescent.DepthNonnegative.TopIncl}
+\formallabel{GlobalTheory.ExpTie.Covers}
+\formallabel{GlobalTheory.ExpTie.ModelAt}
+\formallabel{Formalism.CohomologicalDescent.ShortWeightBounds.WInputsLink}
+\formallabel{Formalism.CohomologicalDescent.ShortWeightBounds.LatticeLink}
+\end{definition}
+
+\begin{proposition}[Lattice inclusions from local models]\label{pf:onto2:lincl}
+Let $(B,\ell_v,Z)$ and a place $w$ be as in \cref{pf:onto2:blocks}, with $\ell=p_w$ prime, let $(P,W)$ be admissible with $\ell$ in
+range, let $(\mathrm{fr},\mathrm{cj})$ be re-indexing maps and let $(X_i)_{i\in I}$ be a family of Hida settings for $(\iota,N_r,\lambda)$
+covering $(B,\ell_v,Z,w)$ such that in every $X_i$ the prime $\ell$ is not a unit and the link inputs hold for the weights $W'$
+obtained from $W$ by replacing $(\mathrm{fr},\mathrm{cj})$. Then $\ontoIILI_w(J^{\mathrm c}(\ell))$ holds.
+\formallabel{GlobalTheory.ExpTie.lIncl_of_models}
+\formallabel{GlobalTheory.T.primePowerLatticeInclusion_of_localModels}
+\end{proposition}
+
+\begin{proof}
+\emph{Re-indexing.} $\mathrm{Ok}_P(W')$ holds and, $\ell$ being in range, the coarse bounds of $W'$ and $W$ at $\ell$ coincide
+(\lref{GlobalTheory.expo_frob_indep}: the conditions $\mathrm{Ok}_P$ do not involve $(\mathrm{fr},\mathrm{cj})$, and for primes in range
+the coarse bound is unchanged by the re-indexing).
+
+\emph{Weight inputs.} Fix $i$. Since $l_J<\ell$, the link inputs of $X_i$ imply its \emph{weight inputs}
+(\lref{Formalism.CohomologicalDescent.ShortWeightBounds.weight_inputs_of_linkage_holds}): the frame conditions on the weight
+projectors and the Hecke operators and the description of the simple subquotients of $\nabla_\OO(\lambda)/\varpi$ are part of the link
+inputs, and the remaining \emph{first input of weight elimination} asks that, at every $\tau\in T_2$, the depth of the highest weight
+of every simple subquotient with non-zero localised forms be at most the integer $i_W(\ell,\tau)$ attached to the size data of
+$(P,W')$; this is deduced from the lattice link at $\tau$ (\lref{Formalism.CohomologicalDescent.ShortWeightBounds.depth_of_linkage_holds},
+through the orientation lattices of the Frobenius period-change data,
+\lref{Formalism.CohomologicalDescent.WorkedExample.orientation_lattice_holds}).
+
+\emph{The local inclusion.} For a Hida setting with its weight inputs, in which the prime $\ell>l_J$ is not a unit, the local inclusion
+holds with exponent $J^{\mathrm W}(\ell)=\sum_\tau c_\tau$, where $c_\tau=\ontoIIexp(\tau,\ell)$ for $\tau\notin T_2$ and $c_\tau$ is, for
+$\tau\in T_2$, an explicit floor-type quantity built from the Weyl exponent of the first $k_c$ entries of $\lambda_\tau$, the depth
+bound $i_W(\ell,\tau)$ and the block data of $W'$ at $\tau$ (\lref{Formalism.CohomologicalDescent.ShortWeightBounds.Wts.JW}). This is
+\lref{Formalism.CohomologicalDescent.ShortWeightBounds.inclusion_w_real_holds}, which derives the inclusion from a shape bound and
+the graded form of a Pieri-type lemma on products of column minors
+(\lref{Formalism.CohomologicalDescent.Down.hG}, proved from the Pieri rule). Moreover $J^{\mathrm W}(\ell)\le J^{\mathrm c}(\ell)$
+(\lref{Formalism.CohomologicalDescent.Down7.JW_le_coarseWeightBound}), and a local inclusion with exponent $J$ implies the one with
+exponent $J'\ge J$ (multiply by $\ell^{J'-J}$, which preserves the $\Delta$-valued forms). Hence every $X_i$ has the local inclusion with
+exponent $J^{\mathrm c}_{W'}(\ell)=J^{\mathrm c}(\ell)$ (\lref{Formalism.CohomologicalDescent.Top.inclusion_w_seven_real_holds}).
+
+\emph{Covering.} Since the family covers $(B,\ell_v,Z,w)$, the last statement gives $\ontoIILI_w(J^{\mathrm c}(\ell))$.
+\end{proof}
+
+\begin{proposition}[Crystalline block lattices over a power series ring]\label{pf:onto2:wach}
+Assume (H6). Let $E$ be a CM field, $\ell\ne2$ a prime unramified in $E$, and $\sigma$ a Frobenius permutation of the embeddings
+$E\to\Qlbar$ ($|\sigma(\tau)(x)-\tau(x)^\ell|<1$ for $x\in\OO_E$). Let $n,t,h\in\N$, let $J(\tau,a)\in[0,h]$ ($a<n$) and $\mathrm{bot}(\tau)$
+with $\mathrm{bot}(\tau)+s\in[0,h]$ for $s<t$, and assume that there is a \emph{crystalline block pair} for $(n,t,J,\mathrm{bot})$:
+continuous $r:G_E\to\GL_n(\Qlbar)$, crystalline with jumps $J$, a continuous $\rho:G_E\to\GL_{n-t}(\Qlbar)$ and characters $\chi_s$
+crystalline with jumps $\mathrm{bot}+s$ ($s<t$), such that the coefficients of $\det(X-r(g))-\det(X-\rho(g))\prod_s(X-\chi_s(g))$ have
+absolute value $<1$ for all $g$ (\lref{GlobalTheory.ExpFrame.BlockPair}). Then there are a domain $\OO'$ over $\Z_\ell$, complete
+for an ideal $I$, a field $F$ of characteristic $\ell$, a field $L'$ with $\OO'\to L'$, Frobenius period-change lattice data of
+type $(t,n)$ over $(\OO',F)$, a unit $u\in\Z_\ell^\times$, $c\in\Z_\ell$, integers $\kappa(\tau,s)$, $\zeta\in\OO'$ and maps of power series
+rings, which satisfy the inputs of the Frobenius period change for $(\sigma,\ell,h,u,c,J,\mathrm{bot}+s,\kappa)$
+(\lref{Formalism.CohomologicalDescent.FrobeniusPeriodChange.NInputs}).
+\formallabel{GlobalTheory.T.crystalline_block_lattices_over_power_series_ring}
+\formallabel{GlobalTheory.WachBlock.wach_inputs}
+\end{proposition}
+
+\begin{proof}
+The block pair yields integral crystalline block data whose reductions agree
+(\lref{GlobalTheory.T.integralCrystallineBlockData_of_reductionPair}). From these and (H6) one obtains Wach-type lattices over a power series ring over $\OO'$, rank-one models for the characters
+$\chi_s$ and a reduced \'etale filtration (\lref{GlobalTheory.T.wachLattices_rankOne_models_reducedFiltration}). Adapted bases put the Frobenius and the filtration in block-triangular form
+with the prescribed diagonal blocks (\lref{GlobalTheory.T.adaptedBases_blockTriangular_of_reducedEtaleFiltration}). The bounds
+$0\le J\le h$ and $0\le\mathrm{bot}+s\le h$, together with these bases and the data of the previous step, are exactly the inputs of the
+Frobenius period change.
+\end{proof}
+
+\begin{proposition}[Lattice links from crystalline block pairs]\label{pf:onto2:latlink}
+Assume (H6). Let $E$ be a CM field, $\ell\ne2$ a prime unramified in $E$, $\iota$ a finite set and $\mathrm{inc}:\iota\to\{E\to\Qlbar\}$
+a half system. Then there are re-indexing maps $(\mathrm{fr},\mathrm{cj})$ such that for every parameter $P$ with $\mathrm{Hyp}(P)$, all
+weights $W$ with $\mathrm{Ok}_P(W)$ and $0\le U_\tau(a)\le h_0$ for $a<N_r$, every $\mu$ \emph{linked} to $\lambda$ modulo $\ell$ (for
+every $\tau$: $\mu_\tau|_{N_r}$ is non-increasing, $\sum_a\mu_\tau(a)=\sum_a\lambda_\tau(a)$, $\lambda_\tau(N_r-1)\le\mu_\tau(a)\le
+\lambda_\tau(0)$, and the multisets $\{\lambda_\tau(a)-a\}$ and $\{\mu_\tau(a)-a\}$ coincide modulo $\ell$;
+\lref{GlobalTheory.ExpFrame.Linked}) for which there is a \emph{block datum} (\lref{GlobalTheory.ExpFrame.BlockFor}: a
+crystalline block pair with $\epsilon\in\{\mathrm{id},c\}$ and jumps $J(\epsilon\,\mathrm{inc}\,\tau,a)=U(\mu_\tau,a)$,
+$J(\epsilon\,c\,\mathrm{inc}\,\tau,a)=h_0-U(\mu_\tau,N_r-1-a)$, $\mathrm{bot}(\epsilon\,\mathrm{inc}\,\tau)=\mathrm{bot}_W(\tau)$,
+$\mathrm{bot}(\epsilon\,c\,\mathrm{inc}\,\tau)=h_0-\mathrm{bot}_W(\tau)-t+1$), and every $\tau$, the lattice link holds at $\tau$ for $\mu_\tau$
+and the weights $W'$ obtained from $W$ by replacing $(\mathrm{fr},\mathrm{cj})$.
+\formallabel{GlobalTheory.T.crystallineLatticeLink_of_blockData}
+\formallabel{GlobalTheory.ExpLink.latticeLink_of_blockFor}
+\end{proposition}
+
+\begin{proof}
+Since $\ell$ is unramified in $E$, there is a Frobenius permutation $\sigma$ of the embeddings $E\to\Qlbar$ commuting with complex
+conjugation (\lref{GlobalTheory.T.exists_arithFrobenius_embedding_perm_cmConj}). Every embedding is $\mathrm{inc}(\tau)$ or
+$c\,\mathrm{inc}(\tau)$ for a unique $\tau$; let $\mathrm{fr}(\tau)$ be the index with $\sigma(\mathrm{inc}\,\tau)\in\{\mathrm{inc}\,\mathrm{fr}(\tau),
+c\,\mathrm{inc}\,\mathrm{fr}(\tau)\}$, and $\mathrm{cj}(\tau)$ true if and only if $\sigma(\mathrm{inc}\,\tau)\ne\mathrm{inc}\,\mathrm{fr}(\tau)$.
+Then $\sigma(\mathrm{inc}\,\tau)$ is $c\,\mathrm{inc}\,\mathrm{fr}(\tau)$ or $\mathrm{inc}\,\mathrm{fr}(\tau)$ according to $\mathrm{cj}(\tau)$.
+
+Let $P,W,\mu$ and a block datum $(\epsilon,J,\mathrm{bot})$ be given. \emph{Bounds.} By the linkage, $\lambda_\tau(N_r-1)\le\mu_\tau(a)\le
+\lambda_\tau(0)$, so $0\le U(\mu_\tau,a)\le h_0$ follows from $0\le U_\tau(a)\le h_0$ at $a=0$ and $a=N_r-1$; hence $0\le J\le h_0$ at all
+embeddings (also at the conjugates, where $J=h_0-U(\mu_\tau,\cdot)$). The block of $\lambda_\tau$ is constant
+(\lref{GlobalTheory.ExpLink.U_block}), so $\mathrm{bot}_W(\tau)+s$ is a value of $U_\tau$, and $0\le\mathrm{bot}+s\le h_0$ at all
+embeddings. \emph{Lattices.} \Cref{pf:onto2:wach} (with $n=N_r$, $h=h_0$ and the block pair of the block datum) gives Frobenius
+period-change data with their inputs. \emph{The lattice link.} It remains to provide the labels of the lattice link: on the embeddings
+$\mathrm{inc}(\tau')$ and $c\,\mathrm{inc}(\tau')$ the labels take the values $U_{\tau'}$, $\mathrm{bot}_W(\tau')$ and $U(\mu_{\tau'},\cdot)$, and
+their conjugates $h_0-(\cdot)$ reversed; with these labels the reflection condition holds because $\sigma$ commutes with complex
+conjugation, the linkage condition modulo $\ell$ is the residue condition of the linkage of $\mu$ and $\lambda$ (rewritten with
+$U(\nu,a)+1-N_r=\nu(a)-a$), the carrying condition is the description of $J$ and $\mathrm{bot}$ in the block datum, the
+$\sigma$-compatibility of $\mathrm{inc}(\tau)$ is the definition of $(\mathrm{fr},\mathrm{cj})$, and the equality of the sums of $U(\mu_\tau,\cdot)$
+and $U_\tau$ follows from $\sum_a\mu_\tau(a)=\sum_a\lambda_\tau(a)$.
+\end{proof}
+
+\begin{proposition}[Link inputs from the Galois side]\label{pf:onto2:winputs}
+Assume (H3). Let $E$ be a CM field, $\ell$ a prime, $\mathrm{inc}:\iota\to\{E\to\Qlbar\}$, re-indexing maps $(\mathrm{fr},\mathrm{cj})$,
+a parameter $P$ and weights $W$ with $\mathrm{Ok}_P(W)$ such that the lattice links hold for all $\mu$ linked to $\lambda$ modulo
+$\ell$ with a block datum (as in the conclusion of \cref{pf:onto2:latlink}). Let $F$ be an admissible $\ell$-adic frame with $N=N_r$,
+$\mathcal B$ a property of eigensystems with the Galois side $\mathrm{Gal}(\mathrm{inc},P,W,F,\mathcal B)$, $j_K$ a level map for $F$
+and $\lambda$, and a Hecke module structure on the $\nabla$-valued $F$-forms with the Hecke property; assume $\OO_F/\ell$ finite and $\ell$
+not a unit in $\OO_F$. Let $\mathfrak m$ be a maximal ideal of the Hecke ring and $\theta_0$ an eigensystem of weight $\lambda$ with
+$\mathcal B(\theta_0)$ lying over $\mathfrak m$. Then the link inputs hold for the Hida setting of $F$ localised at $\mathfrak m$ and the
+weights $W'$.
+\formallabel{GlobalTheory.ExpModel.winputs_frame}
+\end{proposition}
+
+\begin{proof}
+Since $\OO_F$ is a discrete valuation ring in which $\ell$ is not a unit, there are an irreducible $\varpi$ and $n_0$ with $\varpi\mid\ell$
+and $\ell\mid\varpi^{n_0}$ (\lref{GlobalTheory.ExpModel.exists_unif_dvd}). The algebra generated by the group action and the weight
+projectors contains, for each $\tau$ and weight $w$, a unique projector $e(\tau,w)$ onto the weight-$w$ component at $\tau$
+(\lref{GlobalTheory.ExpFrame.exists_unique_isProj}); these projectors preserve the chain lattices
+(\lref{GlobalTheory.ExpFrame.alg_chainB_stable}), and the Hecke operators preserve the $\nabla$-valued forms
+(\lref{GlobalTheory.T.heckeStable_of_heckeFrame_polynomial_action}). By \lref{GlobalTheory.ExpModel.winputs_of_simple} it
+remains to show, for every simple subquotient $G$ of $\nabla_{\OO_F}(\lambda)/\varpi$: $G$ carries a Hecke module structure on its forms
+compatible with that of $\nabla$; $G$ has a highest weight $\mu$ with $e(\tau,\mu_\tau)G\ne0$ for all $\tau$; and if the forms with
+values in $G$ have non-zero localisation at $\mathfrak m$, then the lattice link holds at every $\tau$ for $\mu_\tau$.
+
+The Hecke structure comes from \lref{GlobalTheory.ExpFrame.HeckeMod.hecke_module}. A simple subquotient $G$ embeds into the reduction of
+the dual Weyl module of a highest weight $\mu$ with $\lambda_\tau(N_r-1)\le\mu_\tau(a)\le\lambda_\tau(0)$, $\sum_a\mu_\tau(a)=\sum_a\lambda_\tau(a)$
+and $\mu_\tau$ non-increasing, and the projector $e(\tau,\mu_\tau)$ does not kill $G$
+(\lref{GlobalTheory.T.simpleSubquotient_dualWeyl_embeds_highestWeight}). Assume that the localised forms of $G$ are non-zero
+(\lref{GlobalTheory.T.latticeLink_of_surviving_simple_subquotient}). Then: there is an eigensystem $\theta$ of weight $\mu$ in
+characteristic $0$ lying over $\mathfrak m$ (\lref{GlobalTheory.T.exists_charZero_eigenform_surviving_compositionFactor}); a Galois
+conjugate $\theta'$ of $\theta$ is congruent to $\theta_0$ modulo the maximal ideal
+(\lref{GlobalTheory.T.exists_galoisConj_eigenSystem_congruent}); by the Galois side for $\theta'$ and $\theta_0$ and Chebotarev's theorem
+(H3), the congruence of Hecke polynomials becomes a congruence of characteristic polynomials of the attached Galois representations,
+which is a block datum for $\mu$ (\lref{GlobalTheory.T.blockData_of_congruent_heckeSystem}); and since $G$ is a simple subquotient of
+the reduction of $\nabla(\lambda)$ with highest weight $\mu$, the residues of $\mu_\tau(a)-a$ and $\lambda_\tau(a)-a$ modulo $\ell$ agree as
+multisets (\lref{GlobalTheory.T.simpleModule_linkage_dualWeylLattice_reduction}), so $\mu$ is linked to $\lambda$ modulo $\ell$. The
+hypothesis on lattice links now gives the lattice link at every $\tau$.
+\end{proof}
+
+\begin{proposition}[The model statement]\label{pf:onto2:model}
+Assume (H3) and (H6) of \cref{pf:onto2:thmB}. If the smallness, frame and Galois statements hold, then the local-model condition holds
+in range (for $(B,\ell_v(p),Z,w)$ and $(P,W)$).
+\formallabel{GlobalTheory.ExpModel.modelSt_of_small_frame_gal}
+\formallabel{GlobalTheory.T.model_statement_of_crystalline_chebotarev_frame_gal}
+\end{proposition}
+
+\begin{proof}
+Fix $(p,j,P,W,w)$ in range. By \cref{pf:onto2:small} $\ell$ is a prime with $N_r+1<\ell$ (so $\ell\ne2$, as $N_r+1=k+m+t\ge3$),
+$\ell\nmid\mathrm{disc}(E)$, and $Z$ is Hecke-stable and contained in the block part. By the frame statement choose an admissible frame $F$,
+a reading $R$ and a half system $\mathrm{inc}$ tied to $p$; by the Galois statement the Galois side $\mathrm{Gal}(\mathrm{inc},P,W,F,\mathcal
+B_R)$ holds.
+
+\emph{Lattice links.} By \cref{pf:onto2:latlink}, applied to $E$, $\ell\ne2$ (unramified in $E$) and the half system
+$\mathrm{inc}$, there are $(\mathrm{fr},\mathrm{cj})$ such that the lattice links hold for all parameters with $\mathrm{Hyp}$, all
+$W$ with $\mathrm{Ok}$ and $0\le U_\tau(a)\le h_0$, and all $\mu$ linked to $\lambda$ modulo $\ell$ with a block datum.
+
+\emph{Hida settings.} Choose a level map $j_K$ realising $\chi\cdot\kappa$ in the algebra generated by the group action and the weight
+projectors (\lref{GlobalTheory.ExpFrame.levelMap_exists}) and the corresponding Hecke module structure on $F$-forms
+(\lref{GlobalTheory.ExpFrame.HeckeMod.hecke_module}). Let $I$ be the set of maximal ideals $\mathfrak m$ of the Hecke polynomial
+ring $T=\OO_F[x_i]_{i\in I_F}$ for which some eigensystem $\theta$ occurring in the reading of $Z$ lies over $\mathfrak m$, and let
+$X_{\mathfrak m}$ be the Hida setting of $F$ localised at $\mathfrak m$. These settings cover $(B,\ell_v(p),Z,w)$
+(\lref{GlobalTheory.T.maximalIdeals_meeting_subspace_cover}: an inclusion of $\nabla$- into $\Delta$-valued $F$-forms after localising at
+every such $\mathfrak m$ transports through the reading to the cut lattices of $Z$).
+
+\emph{Link inputs.} For $\mathfrak m\in I$ with an eigensystem $\theta_0$ over $\mathfrak m$ occurring in $Z$: $\ell$ is not a unit in
+$\OO_F$ (\lref{GlobalTheory.T.frameCoeffRing_prime_not_isUnit}) and $\OO_F/\ell$ is finite
+(\lref{GlobalTheory.T.finite_frameCoeffRing_quotient_prime}); since $Z$ lies in the block part and the Hecke operators of degree $0$ of
+$B$ are trivial, $\theta_0$ has block shape and is an eigensystem of weight $\lambda$
+(\lref{GlobalTheory.T.hasBlocks_of_system_occurs_in_block_part}). Then \cref{pf:onto2:winputs} (which uses (H3), the Galois side and the lattice links; the
+hypotheses $\mathrm{Ok}_P(W)$ and $0\le U_\tau(a)\le h_0$ are part of the dictionary) gives the link inputs for $X_{\mathfrak m}$.
+\end{proof}
+
+%======================================================================
+\subsection{Remarks on the formal statements}\label{sec:pf:onto2:remarks}
+
+\begin{remark}[Lengths, valuations and minima]\label{pf:onto2:rem:len}
+In the formal development the length of a module is a natural number, a module of infinite length being given length $0$, and
+the valuations are extended by $v_w(0)=0$. Thus \eqref{eq:pf:onto2:ix} is defined for arbitrary submodules; for lattices in a
+common subspace all lengths in it are finite and $\ontoIIix_w$ is the usual local index. In \cref{pf:onto2:l5} the module $T_h$ is
+arbitrary, and the inequality $\ontoIIix_v(A,B)\le\len(\ontoIIloc vA/\ontoIIloc v{(A\cap B)})$ used in its proof rests on the
+non-negativity of lengths under this convention. Likewise the Weyl exponent of \cref{pf:onto2:weylexp} and the exponent $J_W$ of
+\cref{pf:onto2:blocks} are defined to be $0$ when no exponent with the required property exists; the upper bounds of
+\cref{pf:onto2:jexpU,pf:onto2:jrec} are deduced from inclusions which are proved, so they are bounds for genuine exponents.
+\end{remark}
+
+\begin{remark}[Hypotheses which are not used]\label{pf:onto2:rem:unused}
+(i) Clozel's purity theorem (H1) is a hypothesis of \cref{pf:onto2:galrep,pf:onto2:galois,pf:onto2:thmB}, but it is not used:
+the formal proof of \cref{pf:onto2:galrep} does not use it, and it enters the proofs of \cref{pf:onto2:galois,pf:onto2:thmB} only
+as a hypothesis passed to \cref{pf:onto2:galrep}. Hence the exponent statement follows from (H2)--(H8).
+(ii) The lemma on direct sums \lref{GlobalTheory.BlockSum.main} used in the proof of \cref{pf:onto2:galrep} carries the
+Bhatt--Scholze theorem (H6) as a hypothesis which is not used in its proof; the direct sum of crystalline representations is
+treated directly. The theorem (H6) enters \cref{pf:onto2:model} through the lattice links
+(\cref{pf:onto2:latlink}).
+(iii) For the hypotheses of \cref{pf:onto2:latleaves} which are not used, see \cref{pf:onto2:rem:latunused}.
+\end{remark}
+
+\begin{remark}[Existentially quantified data]\label{pf:onto2:rem:exist}
+The leaves \ref{pf:onto2:L5} and \ref{pf:onto2:L10} assert the existence of data $T_{h1},a,r_1,r_2,\delta_{e2}$, respectively of a
+function $J_p$, with the stated properties; they do not involve the corresponding components of the record object $O$. In the
+proofs above these data are $T_{h1}=T_h$, the remainders $r_1,r_2$ constructed in \cref{pf:onto2:index}, the thick density of $L$,
+and $J_p(j,\ell)=\ontoIIJr_j(\ell)$ (\cref{pf:onto2:hasexp}).
+\end{remark}
+
+\begin{remark}[Inputs proved in the development]\label{pf:onto2:rem:proved}
+\Cref{pf:onto2:thmA} has no hypotheses besides the page statement: the formal-group statements $(\mathrm A_p)$, $(\mathrm H_p)$ and
+$(\mathrm U_p)$ used for the depth leaves are proved in the development for every prime $p$
+(\lref{GlobalTheory.ChF.colength_bound_split_place_chart}, \lref{GlobalTheory.ChF.hodgeTate_inclusion_chart},
+\lref{GlobalTheory.ChF.unramified_companion_chart_characters}). Similarly, the prime number bound $\pi(y)<1.26\,y/\log y$ used in
+\cref{pf:onto2:sumlog} is proved in the development (\lref{Formalism.CohomologicalDescent.Top.prime_count_bound_rs}) and is not
+a hypothesis.
+\end{remark}
+
+\begin{remark}[The functions $\theta$ and $\alpha$]\label{pf:onto2:rem:alpha}
+For the record objects considered here the depth tie gives $\alpha=0$ and $\theta=\mathrm{th}_k$ (see the proofs of
+\cref{pf:onto2:leafgood,pf:onto2:leafgoodrun}). Hence the conditions on $\alpha$ in \ref{pf:onto2:L6} hold trivially, and the
+condition on $\theta$ is the bound $\sum_{p\in Q}\mathrm{th}_k(p)\log p\le20/k$.
+\end{remark}
+
+\begin{remark}[Closed statements]\label{pf:onto2:rem:closed}
+\Cref{pf:onto2:thmA,pf:onto2:thmB} are implications between closed statements over $\sfname{FamHyp}$ (\cref{def:families:closed}):
+they concern only families of the class $\sfname{FamHyp}$ and, for each such family, only sufficiently large constants and scales.
+In \cref{pf:onto2:latleaves} the threshold is $x_1=0$, and the statements of \cref{pf:onto2:sumexp,pf:onto2:small} hold at every
+point, so that the thresholds play no role there.
+\end{remark}

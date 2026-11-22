@@ -1,0 +1,489 @@
+\section{Results from the literature}\label{sec:literature}
+% Published results used by the proof.  All of them are proved inside the formal development.
+\begingroup
+\emergencystretch=4em
+\providecommand{\literatureformin}[1]{\textup{[}\textit{#1}\textup{]}}
+\providecommand{\literatureform}[1]{\unskip\nobreak\hskip0.4em plus 0.2em\literatureformin{#1}}
+\providecommand{\literaturepar}[1]{\par\medskip\noindent\textit{#1.}\enspace}
+\providecommand{\literaturegroup}[1]{\multicolumn{4}{@{}l}{\textit{#1}}\\[1pt]}
+
+The proofs of Theorems~A and~B use a large body of published mathematics.  This section records
+the published results on which they rely, grouped by subject.  None of them is an axiom of the
+formal development or a hypothesis of the main theorems: each is stated as a proposition of the
+development \cite{LeanSource2026} and proved there (\cref{sec:verification}, \cite{Sutherland2026}).
+The citations identify the mathematical source of a statement; the formal proofs often follow
+routes different from the published ones.
+
+Most of these statements are definitions in the namespace \texttt{GlobalTheory.Published} (a few
+in \texttt{UpperTheory.V.Published}); we write $\sfname{X}$ for the statement named \texttt{X} in
+one of these namespaces, unless another place is indicated.  Of the $332$ statements so labelled, $250$
+are conclusions of theorems of the development; the others are components of larger statements or
+hypotheses of auxiliary results, and the prominent ones among them (for instance the full local
+Langlands correspondence for $\GL_n$) are replaced in the proof by the statements described in
+\cref{sec:literature:forms}.  Further classical theorems (the zero-free regions, Kottwitz's integral
+models, the comparison theorems of $p$-adic Hodge theory, resolution of singularities, \dots) are
+proved without this label.  The results enter the proof through two packages of propositions,
+\texttt{UnitaryGroupThirdPlaceHypotheses} ($60$ fields) and \texttt{ThetaLocalInputs} ($53$
+fields), from which the hypothesis package of \cref{sec:families} is built; through the fifteen
+inputs of the covolume bound of \cref{sec:covolume}, one of which is a package of $28$ statements;
+and inside the proofs in \cref{sec:top,sec:window,sec:galois}.
+
+For each result we give the statement in the form used, references, and a mark:
+\literatureform{same} if the formal statement is the published theorem in its stated generality,
+up to normalisations and the choice of formal models of the objects involved;
+\literatureform{special case} if it is restricted, for instance to the groups $\Uni(p,q)$, to
+particular number fields or to a range of absolute convergence; \literatureform{variant} if it is
+formulated differently, stronger in some respect, weaker in another, or packaged in another way.
+A comparison with the sources classifies $246$ of the $332$ labelled statements as of the first
+kind, $41$ as special cases and $41$ as variants; four have no precise published counterpart
+(\cref{sec:literature:forms}).  Some of the
+formalisations are long: those of the toroidal compactifications of unitary Shimura varieties, of
+the integral toroidal compactifications of Siegel moduli, of Kottwitz's integral models, of Weil's
+Siegel formula for unitary groups, of the arithmetic Hilbert--Samuel theorem and of the $p$-adic
+monodromy theorem use about $94$, $69$, $66$, $34$, $30$ and $24$ thousand lines of Lean that are
+not shared with other proofs.  \Cref{tab:literature} summarises the main results.
+
+\subsection{Analytic number theory}\label{sec:literature:ant}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Dirichlet $L$-functions] Mathlib \cite{Mathlib2020,LoefflerStoll2025}, \cite{Davenport2000}.
+  Continuation, change of level, the functional equation
+  $\Lambda(\chi,1-s)=N^{s-1/2}\varepsilon(\chi)\Lambda(\bar\chi,s)$ for primitive $\chi$ modulo $N$,
+  and $L(\chi,s)\neq0$ for $\Re s\ge1$ (Hadamard, de la Vall\'ee Poussin).  \literatureform{same}
+\item[Zero-free regions] \cite{delaValleePoussin1899}, \cite[Ch.~13--14]{Davenport2000}.
+  $\zeta(s)\neq0$ for $\Re s\ge1-c/\log(|\Im s|+2)$, $s\ne1$, and the prime number theorem with error
+  term $O(y\,e^{-c\sqrt{\log y}})$; for each $q$, at most one zero of $\prod_{\chi\bmod q}L(s,\chi)$
+  lies in $\Re s\ge1-c/\log(q(|\Im s|+2))$, and it is a simple real zero of a real character.
+  \literatureform{same}
+\item[Siegel's theorem and the Siegel--Walfisz theorem] \cite{Siegel1935b,Walfisz1936}.
+  $|L(1,\chi)|\ge c(\varepsilon)q^{-\varepsilon}$ for real non-principal $\chi$ modulo $q$, hence
+  $\beta\le1-c'(\varepsilon)q^{-\varepsilon}$ for real zeros; for every $A>0$,
+  $|\psi(x,\chi)-\delta_\chi x|\le C_Ax\,e^{-c_A\sqrt{\log x}}$ for characters $\chi$ modulo
+  $q\le(\log x)^A$, where $\delta_\chi=1$ if $\chi$ is principal and $0$ otherwise, and for
+  $q\le e^{c\sqrt{\log x}}$ once the term of a possible exceptional zero is removed.
+  \literatureform{same}
+\item[Zero repulsion and mean values] The supply of host fields (\cref{thm:supply}) also uses a
+  Deuring--Heilbronn type repulsion, a log-free zero-density estimate near $\Re s=1$ and a mean-value
+  estimate for real character sums, of the types in \cite[Ch.~18]{IwaniecKowalski2004} and
+  \cite{HeathBrown1995}, formulated as needed.  \literatureform{variant}
+\item[Linnik's theorem] \cite{Linnik1944}.  The least prime $p\equiv a\bmod q$ is at most $Cq^L$
+  ($\sfname{Linnik}$).  \literatureform{same}
+\item[Hecke $L$-functions] \cite{Hecke1920,Tate1967thesis}.  For a unitary Hecke character $\chi$
+  which is not of the form $|\cdot|^{it}$, $L(s,\chi)$ and its partial versions (finitely many
+  Euler factors removed) continue to entire functions, the latter without zeros on $\Re s\ge1$, and
+  $L(1,\chi)\neq0$ for $\chi\neq1$; Tate's functional equation with explicit $\varepsilon$-factors for
+  characters of CM type.  \literatureform{same}
+\item[Partial zeta functions] \cite{Klingen1962,Siegel1970,DeligneRibet1980}.  For totally real
+  fields: the functional equation, rationality of the values at negative integers, and the
+  $\ell$-adic congruences of Deligne--Ribet.  \literatureform{same; Deligne--Ribet: variant}
+\item[Chowla--Selberg formula] \cite{ChowlaSelberg1967}.  For imaginary quadratic $K$ of
+  discriminant $-d<-4$, the mean over the ideal classes of $\log(4\pi\Im\tau\,|\eta(\tau)|^4)$ equals
+  $\gamma+\log(2\pi/\sqrt d)-L'(1,\chi_{-d})/L(1,\chi_{-d})$; it gives the periods of CM elliptic
+  curves used in \cref{sec:covolume}.  \literatureform{same}
+\end{description}
+
+\subsection{Class field theory and Galois cohomology}\label{sec:literature:cft}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Class field theory] \cite{Artin1927,Tate1967gcft,Chevalley1951}.  The global Artin map
+  $\A_E^\times\to G_E^{\mathrm{ab}}$, an open quotient map with kernel the closure of
+  $E^\times(\A_{E,\infty}^\times)^\circ$ sending local units onto inertia and uniformisers to geometric
+  Frobenius elements ($\sfname{GlobalArtinReciprocity}$); ray class fields; Chevalley's theorem on
+  units, from which local class field theory is derived; the Hasse norm theorem for quadratic
+  extensions.  \literatureform{same}
+\item[Chebotarev's theorem] \cite{Chebotarev1926}.  In qualitative form: for $L/F$ finite Galois
+  (or $U\subset G_F$ open normal), $g$ and a finite set $S$, some unramified place $v\notin S$ of
+  degree one has Frobenius $g$ (resp.\ in $gU$) ($\sfname{ChebotarevDegreeOne}$).
+  \literatureform{special case}
+\item[Complex multiplication] \cite{Shimura1971,Silverman1994,SerreTate1968,Gross1980}.  Hilbert and
+  ray class fields of imaginary quadratic fields through $j$ and Weber functions, Shimura's
+  reciprocity law, good reduction of CM elliptic curves over $\Q_\ell^{\mathrm{ur}}$ for
+  $\ell\nmid6d_K$, Gross's curves with minimal discriminant $-p^3$.  \literatureform{same}
+\item[Hermitian forms, strong approximation]
+  \cite{Landherr1936,Jacobowitz1962,Kneser1966,PlatonovRapinchuk1994}.  Classification and Hasse
+  principle for hermitian forms over CM and $p$-adic fields; strong approximation for $\mathrm{SU}(J)$
+  with respect to $S$ when $\mathrm{SU}(J)(F_S)$ is non-compact.  \literatureform{same}
+\item[Local Galois cohomology] \cite{Tate1963,NeukirchSchmidtWingberg2008}.  For finite
+  $\Z/\ell^r$-modules of decomposition groups of number fields: finiteness, local duality, the
+  Euler characteristic formula, orthogonality of unramified classes.  \literatureform{same}
+\item[Global duality] \cite{Tate1963,Milne2006,Wiles1995}.  For finite $\Z/\ell^r$-modules $M$ of
+  $G_{F,S}$, $\ell$ odd or $F$ totally complex: the Poitou--Tate nine-term sequence with normalised
+  invariants, $\Sha^2(M)\cong\Sha^1(M^\vee(1))^\vee$ and $H^n(G_{F,S},M)=0$ for $n\ge3$
+  ($\sfname{PoitouTateNormalised}$); Tate's global Euler characteristic formula; the
+  Greenberg--Wiles formula.  \literatureform{same}
+\item[Ferrero--Washington theorem] \cite{FerreroWashington1979}.  For abelian $K\ni\mu_\ell$
+  ($\mu_4$ if $\ell=2$) the $\ell$-rank of the class group of $K(\mu_{\ell^n})$ is bounded in $n$.
+  \literatureform{same}
+\item[Kato's theorem] \cite[Thm.~14.2]{Kato2004}.  Vanishing of $H^1_f(\Q,W)$ and
+  $H^1_f(\Q,W\otimes\theta)$ for the twists $W$, with Hodge--Tate weights $\pm e$, of the
+  representations of $\ell$-ordinary newforms of weight $2e+1$ and quadratic nebentypus $\theta$, under
+  the conditions arising in \cref{sec:window}; the development constructs the Euler system.
+  \literatureform{special case}
+\end{description}
+
+\subsection{Representations of \texorpdfstring{$p$}{p}-adic, real and finite groups}\label{sec:literature:reps}
+
+For a prime $g$ and $d\ge1$, a character $\theta$ of $\F_{g^d}^\times$ is \emph{regular} if
+$\theta,\theta^g,\dots,\theta^{g^{d-1}}$ are pairwise distinct.
+
+\begin{littheorem}[Green {\cite{Green1955}}]\label{thm:literature:green}
+There is a map $\theta\mapsto\tau_\theta$ from characters of $\F_{g^d}^\times$ to functions on
+$\GL_d(\F_g)$ such that: for regular $\theta$, $\tau_\theta$ is an irreducible cuspidal character of
+degree $\prod_{i=1}^{d-1}(g^i-1)$, and $\tau_\theta(y)=(-1)^{d-1}\sum_{i=0}^{d-1}\theta(z^{g^i})$ for
+every $y$ with irreducible characteristic polynomial and every root $z$ of it; for regular
+$\theta,\theta'$, $\tau_\theta=\tau_{\theta'}$ if and only if $\theta'=\theta^{g^i}$ for some $i$; and every
+irreducible cuspidal character of $\GL_d(\F_g)$ is some $\tau_\theta$.
+\formal{GlobalTheory.greenRegularCharacters_holds}
+\end{littheorem}
+
+This is $\sfname{GreenRegularCharacters}$ \literatureform{same}.  It yields the proposition
+$\sfname{Green}$ of \cref{def:green}, gives the irreducibility link (\cref{thm:linkIRR}), and fixes
+the parameters of depth-zero supercuspidal representations in \cref{sec:galois}.
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Bernstein--Zelevinsky theory and Zelevinsky's classification]
+  \cite{BernsteinZelevinsky1976,BernsteinZelevinsky1977,Zelevinsky1980}.  For $\GL_n(F)$, $F$
+  non-archimedean: admissibility, finite length of Jacquet modules and induced representations, the
+  geometric lemma, irreducibility of $\pi_1\times\pi_2$ when no cuspidal representation in the
+  support of $\pi_1$ is an unramified twist of one in the support of $\pi_2$; the Grothendieck ring
+  is the polynomial ring on segments, every irreducible representation is $L(\mathfrak m)$ for a
+  unique multisegment $\mathfrak m$, and standard modules have irreducible cosocle.
+  \literatureform{same}
+\item[Unitary representations] \cite{Tadic1986,Bernstein1984}.  Generic unitary representations
+  of $\GL_N(F)$ are products of unitary square-integrable representations and complementary series;
+  products of irreducible unitary representations are irreducible.  \literatureform{same}
+\item[Depth zero] \cite{MoyPrasad1996,Borel1976,Casselman1980}.  A representation of $\GL_n(F)$ has
+  depth zero if and only if its cuspidal support has; vectors fixed by $K_1(N\cap\GL_n(\OO_F))$,
+  $K_1$ the first congruence subgroup, inject into the Jacquet module along $N$; Iwahori-fixed vectors
+  and Jacquet modules (Borel--Casselman).  \literatureform{same}
+\item[Gelfand--Kazhdan and Jacquet--Shalika]
+  \cite{GelfandKazhdan1975,JacquetShalika1981a,JacquetShalika1981b}.  Over totally complex fields:
+  $\pi^\vee\cong\pi\circ({}^t\cdot)^{-1}$ for cuspidal $\pi$ of $\GL_a$; strong multiplicity one for
+  isobaric sums; $\Nm(w)^{-1/2}<|\alpha|<\Nm(w)^{1/2}$ for the Satake parameters of unitary cuspidal
+  $\pi$.  \literatureform{special case}
+\item[Local converse theorem] \cite{Henniart1993}.  Henniart's theorem, that cuspidal
+  representations of $\GL_{m+1}(F)$ are determined by their $\varepsilon$-factors twisted by all
+  irreducible representations of $\GL_m(F)$, is also proved ($\sfname{LocalConverseGL}$).
+  \literatureform{same}
+\item[Real unitary groups]
+  \cite{HarishChandra1953,HarishChandra1966,HechtSchmid1975,Casselman1989,Wallach1992,DixmierMalliavin1978}.
+  For $\Uni(p,q)$ and its finite covers: Harish-Chandra modules of irreducible unitary
+  representations; discrete series for regular integral parameters $\lambda$, with lowest $K$-type
+  $\lambda+\rho_n-\rho_c$, formal degree and exhaustion; holomorphic discrete series; Casselman--Wallach
+  globalisation; Dixmier--Malliavin factorisation; Schur orthogonality.
+  \literatureform{special case}
+\item[Invariant theory and finite groups] \cite{Weyl1946,Howe1989a,Zelevinsky1981,Brauer1947}.
+  Branching from $\Uni(n+1)$ to $\Uni(n)$; Howe duality for $(\GL_n(\C),\GL_{n'}(\C))$ on
+  polynomials; restriction of cuspidal representations of $\GL_n(\F_q)$ to the mirabolic subgroup;
+  Brauer's induction theorem (variant).  \literatureform{same unless indicated}
+\end{description}
+
+\subsection{Theta correspondence}\label{sec:literature:theta}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Weil representation] \cite{Weil1964,MoeglinVignerasWaldspurger1987,Kudla1994}.  The
+  Stone--von Neumann theorem; the metaplectic representation of $\Sp_{2n}(\R)$; global Weil
+  representations of unitary dual pairs with splitting characters; Kudla's splitting in the
+  Schr\"odinger model for split $\Uni(\nu,\nu)$.  \literatureform{same}
+\item[Siegel--Weil formula] \cite{Weil1965,KudlaRallis1988,Ichino2004}.  In Weil's range of
+  absolute convergence: convergence of the theta integral and of the Siegel Eisenstein series, and
+  their identity at the Siegel--Weil point ($\sfname{WeilSiegelFormulaUnitary}$,
+  $\sfname{SiegelWeilUnitaryConvergent}$).  \literatureform{special case}  The regularised formula
+  \cite{KudlaRallis1994} is not used: the comparison of theta integrals of complementary spaces needed
+  in \cref{sec:families} is proved directly, by induction on the signature, from a Siegel--Weil
+  formula for definite spaces.
+\item[Howe duality] \cite{Howe1979,Howe1989}.  Archimedean Howe duality in the Fock model
+  ($\sfname{HoweDualityReal}$); in the unramified case, vectors fixed by the hyperspecial subgroup
+  of one member of the pair lie in the span of the translates of the vacuum vector by the other.
+  General $p$-adic Howe duality \cite{GanTakeda2016} is not used.  \literatureform{special case}
+\item[Rallis inner product formula] \cite{Rallis1984inj,GanQiuTakeda2014}.  In Weil's range of
+  convergence, theta lifts of cusp forms whose lower lifts vanish are square-integrable, with Petersson
+  products given by the doubling zeta integral ($\sfname{RallisInnerProductConvergent}$).
+  \literatureform{variant}
+\item[Doubling method] \cite{GelbartPiatetskiShapiroRallis1987,PiatetskiShapiroRallis1987,Langlands1976}.
+  Continuation of Siegel Eisenstein series on $\Uni(V\oplus-V)$ with singularities of finite order,
+  the basic identity and the continuation of the zeta integral (\literatureformin{variant},
+  \cref{sec:literature:forms}); the unramified doubling integral for $\GL_n$,
+  $L(s+\frac12,\alpha)L(s+\frac12,\alpha^{-1})\prod_{i=1}^n(1-q^{-2s-i})$ \literatureform{same}.
+\end{description}
+
+\subsection{Automorphic forms and base change}\label{sec:literature:aut}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Automorphic forms]
+  \cite{Borel1969,HarishChandra1968,MoeglinWaldspurger1995,Flath1979,Clozel1990}.  Reduction theory
+  for unitary groups; finite dimensionality of spaces of automorphic forms with fixed level,
+  $K_\infty$-type and infinitesimal character; rapid decay of cusp forms; trace class of
+  $R_{\mathrm{cusp}}(f)$; Flath's factorisation (variant); Clozel's purity lemma and cohomological
+  criterion.  \literatureform{same unless indicated}
+\item[Base change for unitary groups] \cite{Labesse2011}.  For a CM field $E$ with $E/E^+$
+  unramified at all finite places, every automorphic representation of a definite $\Uni(n)$ has a
+  weak base change to $\GL_n(\A_E)$, an isobaric sum of conjugate self-dual representations matching
+  it at split places, at unramified inert places and at infinity
+  ($\sfname{BaseChangeDefiniteUnitaryGroup}$).  The formal proof does not use the stabilised trace
+  formula; it works with systems of Hecke eigenvalues at bounded level.  \literatureform{special case}
+\item[Cyclic base change] \cite{ArthurClozel1989,Langlands1980}.  Base change and descent for
+  $\GL_a$ along cyclic extensions of prime degree of totally complex fields; descent of $\GL_2$-forms
+  from imaginary quadratic fields to $\Q$.  \literatureform{same}
+\item[Hecke characters] \cite{Weil1956,Serre1968}.  The $\ell$-adic character attached to an
+  algebraic Hecke character: existence, uniqueness, crystalline and de Rham properties with the
+  expected Hodge--Tate weights, local--global compatibility (variant).
+  \literatureform{same unless indicated}
+\end{description}
+
+\subsection{Shimura varieties and abelian varieties}\label{sec:literature:shimura}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Moduli spaces] \cite{MumfordFogartyKirwan1994,Kottwitz1992,HarrisTaylor2001,Zarhin1977}.
+  Representability of Siegel moduli (polarisations whose kernel is killed by $d$, level $M\ge3$ odd
+  and prime to $d$) by quasi-projective schemes over $\Z[\zeta_M,1/M]$; Kottwitz's integral models of unitary PEL Shimura varieties of the type of
+  \cite{HarrisTaylor2001}: smooth quasi-projective fine moduli schemes of relative dimension $a(n-1)$
+  over every Noetherian base ring carrying the base data; Zarhin's trick.
+  \formal{GlobalTheory.UPel.HT.model_nonempty} \literatureform{variant}
+\item[Semistable reduction] \cite{Grothendieck1972,SerreTate1968}.  An abelian variety over a
+  $p$-adic field acquires semi-abelian reduction with split toric part after a finite extension;
+  the N\'eron--Ogg--Shafarevich criterion.  \literatureform{same}
+\item[Congruence relation] \cite{Wedhorn2000}.  A pointwise Eichler--Shimura congruence relation on
+  Kuga--Sato varieties over integral models.  \literatureform{variant}
+  The proof of \cref{thm:geoone} also uses a holomorphic Lefschetz formula for finite \'etale correspondences
+  (\cref{thm:galois:hlf}). For the identity correspondence it is the formula of Atiyah and Bott
+  \cite{AtiyahBott1968}; for correspondences we know no published proof (compare \cite{Tu2023}), so it is not
+  listed here as a published result. It is proved in \cref{sec:pf:geo}.
+\item[Toroidal compactifications]
+  \cite{AshMumfordRapoportTai1975,FaltingsChai1990,Lan2013,Mumford1977,MoretBailly1985}.  Smooth
+  projective toroidal compactifications of unitary Shimura varieties with normal crossings boundary
+  and the logarithmic Kodaira--Spencer isomorphism ($\sfname{ToroidalForFanKS}$); integral toroidal
+  compactifications of Siegel moduli over $\Z[\zeta_n,1/n]$ with the semi-abelian extension of the
+  universal family and generated Hodge bundle ($\sfname{SiegelToroidalIntegral}$); Mumford's good
+  metrics; extension of homomorphisms of semi-abelian schemes; subbundles of $\Lie G$ of a
+  semi-abelian scheme over a curve have degree $\le0$.  \literatureform{same}
+\item[Abelian schemes] \cite{Mumford1970,BerthelotBreenMessing1982,Messing1972}.  Over arbitrary
+  rings, $H^1_{\mathrm{dR}}(A/R)$ is finite projective of rank $2g$ with Hodge filtration of rank
+  $g$, compatible with base change, crystalline, with the duality pairing
+  ($\sfname{AbelianDeRham}$); Grothendieck--Messing theory (\cref{thm:literature:gm}); dual abelian
+  schemes (\cref{thm:literature:dual}); the theorem of the cube.
+  \literatureform{same unless indicated}
+\end{description}
+
+\subsection{\texorpdfstring{$p$}{p}-adic Hodge theory and \'etale cohomology}\label{sec:literature:padic}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[\'Etale cohomology] \cite{ArtinGrothendieckVerdier1972,Deligne1977}.  Proper base change,
+  local acyclicity over absolutely integrally closed local domains (a case of smooth base change),
+  finiteness for proper varieties, the projective bundle formula, specialisation isomorphisms.
+  \literatureform{same; smooth base change: special case}
+\item[Comparison theorems] \cite{Faltings1988,Faltings1989,FontaineMessing1987,Tsuji1999}.
+  For smooth projective schemes over $\OO_K$, $K/\Q_\ell$ finite: the $\ell$-adic cohomology of the
+  generic fibre is crystalline, with de Rham comparison and Frobenius compatibility; the
+  Hodge--Tate decomposition.  \literatureform{special case}
+\item[$p$-adic monodromy theorem] \cite{Berger2002,Fontaine1994}.  De Rham representations are
+  potentially semistable ($\sfname{DeRhamPotSemistable}$); properties of $B_{\mathrm{cris}}$.
+  \literatureform{same}
+\item[Integral theory] \cite{BhattScholze2023,ScholzeWeinstein2013,AnschutzLeBras2023}.  Lattices in
+  crystalline representations are realised by prismatic $F$-crystals, fully faithfully (stated
+  through evaluation on the $A_{\inf}$-prism); prismatic Dieudonn\'e modules over $\OO_C$ with their
+  Hodge filtration.  For lattices with small Hodge--Tate weights, Wach modules
+  \cite{Wach1996,Berger2004} play the role of Fontaine--Laffaille theory \cite{FontaineLaffaille1982},
+  in formulations adapted to the use.  \literatureform{variant}
+\item[Local Bloch--Kato theory] \cite{BlochKato1990}.  The dimension formula for $H^1_f(K,V)$, $V$
+  de Rham, and exact orthogonality of $H^1_f(K,V)$ and $H^1_f(K,V^*(1))$, rationally and integrally.
+  \literatureform{same}
+\end{description}
+
+\subsection{Arithmetic and algebraic geometry}\label{sec:literature:geometry}
+
+\begin{description}[leftmargin=0pt,itemsep=1pt,parsep=0pt,font=\normalfont\itshape]
+\item[Arithmetic intersection theory] \cite{GilletSoule1990,BostGilletSoule1994,Philippon1991}.
+  Arithmetic intersection numbers of hermitian line bundles and heights of cycles, with their
+  calculus; Chow forms and their heights.  \literatureform{same}
+\item[Arithmetic Hilbert--Samuel theorem and volumes]
+  \cite{GilletSoule1992,AbbesBouche1995,Zhang1995,Moriwaki2009,Yuan2008}.  For a nef hermitian line
+  bundle $\overline L$ on an arithmetic variety of dimension $D+1$ and any $\overline N$,
+  $\log\#\{s\in H^0(L^m\otimes N):\|s\|_{\sup}\le1\}=\widehat{\deg}(\overline L^{D+1})\,m^{D+1}/(D+1)!+o(m^{D+1})$;
+  $\widehat{\vol}(\overline L)=\widehat{\deg}(\overline L^{D+1})$ for nef $\overline L$, with $\ge$
+  for relatively nef semipositive $\overline L$; Moriwaki's bigness criterion.
+  \literatureform{variant}
+\item[Resolution of singularities] \cite{Hironaka1964,BierstoneMilman1997,Wlodarczyk2005,Kollar2007}.
+  Functorial resolution and embedded principalisation in characteristic $0$; in the form used, a
+  reduced separated scheme of finite type over a field of characteristic $0$ is resolved by a
+  sequence of blow-ups, isomorphic over the smooth locus, with simple normal crossings exceptional
+  locus, and ideal sheaves on smooth varieties are principalised by blow-ups in smooth centres.
+  \formal{FunctorialResolution.functorialResolutionCharZero} \literatureform{same}
+\item[Vanishing and positivity]
+  \cite{Kawamata1982,Viehweg1982,Nadel1990,AngehrnSiu1995,OhsawaTakegoshi1987,Lazarsfeld2004}.
+  Kawamata--Viehweg vanishing, Kleiman's criterion and asymptotic Riemann--Roch for nef bundles
+  \literatureform{same}; Nadel vanishing for pairs, Angehrn--Siu point separation, an $L^2$
+  extension theorem of Ohsawa--Takegoshi type \literatureform{variant}; GAGA, Grothendieck's
+  existence theorem and the Chern--Weil and Poincar\'e--Lelong formulas \cite{Serre1956,Grothendieck1961}
+  \literatureform{same}.
+\end{description}
+
+\subsection{Statements in forms weaker or stronger than published}\label{sec:literature:forms}
+
+We describe the formal statements which differ from the published theorems in ways that matter
+for the proof or for reading the development.
+
+\literaturepar{Local Langlands parameters}  The local Langlands correspondence for $\GL_n$
+\cite{HarrisTaylor2001,Henniart2000,Scholze2013} is not used.  The proof uses instead the proposition
+$\sfname{RecTExists}$ (\cref{def:rectexists,thm:rectexists}; compare \cref{rem:galois:llc}): at every
+finite place $w$ of every number field
+there is a map $\mathrm{rc}$ from irreducible smooth representations of the groups $\GL_n(E_w)$ to
+Frobenius-semisimple Weil--Deligne representations which is local class field theory for $n=1$, is
+compatible with the Langlands classification and with unramified twists, sends supercuspidal
+representations to irreducible ones, and on \emph{good} representations (cuspidal support consisting
+of characters or, when $E_w\cong\Q_g$, of twists of depth-zero supercuspidals) is compatible with
+twists, central characters and contragredients, is injective, is tame in depth zero, and is given on
+depth-zero supercuspidals by Green's parametrisation (\Cref{thm:literature:green}).  Bijectivity and
+the preservation of $L$- and $\varepsilon$-factors of pairs are not required, and $\mathrm{rc}$ is
+determined only on good representations.  Up to normalisations, $\sfname{RecTExists}$ follows from
+the local Langlands correspondence together with its explicit description in depth zero
+\cite{BushnellHenniart2005}, and it asserts much less; this is all that is used.  It is proved
+directly from local class field theory, the theory of Bernstein--Zelevinsky and Zelevinsky,
+Moy--Prasad and Green.  \formal{UpperTheory.Zero.LLC.recTExists}
+
+\literaturepar{Galois representations}  In place of \cite[Thm.~2.1.1]{BarnetLambEtAl2014}
+(\cref{thm:galois:blggt}), building on
+\cite{HarrisTaylor2001,Shin2011,ChenevierHarris2013,Caraiani2012,Caraiani2014}, the proof uses the
+proposition $\sfname{Row0b}$ (\cref{def:row0b,thm:row0b}): for a CM field $E$, every regular algebraic
+cuspidal representation $\pi$ of $\GL_a(\A_E)$ polarised by a Hecke character of $E^+$ has a
+continuous semisimple $r:G_E\to\GL_a(\Qlbar)$ with the Hodge--Tate weights given by the infinitesimal
+character of $\pi$, such that $\mathrm{WD}(r|_{G_{E_v}})=\mathrm{rc}(\pi_v|\det|^{(1-a)/2})$ at places
+$v\nmid\ell$ where the right side is abelian with $N=0$ (in particular at all unramified places),
+the inertial characteristic polynomials agree at places $E_v\cong\Q_g$, $g>16a^2$, where it is tame
+with square-free inertial characteristic polynomial and $N=0$, and $r$ is crystalline with the
+expected weights at places above $\ell$ where $\pi$ is unramified (with a partial potentially
+semistable compatibility at tame places), for every $\mathrm{rc}$ as in $\sfname{RecTExists}$.  The
+polarisation of $r$, purity and local--global compatibility at general ramified places are not
+asserted.  The development proves $\sfname{Row0b}$ through theta lifts and Kuga--Sato varieties
+(\cref{sec:galois}), without the cited works.
+\formal{UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter}
+Formulations of the full published theorems ($\sfname{LocalLanglandsGL}$,
+$\sfname{GaloisRepOfPolarizedCuspidal}$) occur in the development but are not used; the structure
+\texttt{OpenLiteratureStatements} taken by the main reduction consists of $\sfname{Row0b}$ and
+$\sfname{RecTExists}$ and is instantiated by the two proofs cited.
+
+\literaturepar{Deformations and duals of abelian schemes}  The following two statements are used in
+the generality indicated.
+
+\begin{theorem}[Deformations of abelian schemes]\Fmark\label{thm:literature:gm}
+Let $R\to R_0$ be a surjection of commutative rings whose kernel carries nilpotent divided powers,
+and consider abelian schemes over $R$ and their reductions to $R_0$.  For every such abelian scheme
+the crystalline comparison map on its first de Rham cohomology is bijective and its Hodge filtration
+is admissible; every admissible filtration is the Hodge filtration of a lift of the reduction; and a
+homomorphism between reductions which respects the Hodge filtrations of two lifts lifts uniquely to a
+homomorphism between these lifts.
+\formal{GlobalTheory.Published.GrothendieckDeformation}
+\end{theorem}
+
+In \cite{Messing1972} a prime $p$ is assumed nilpotent on the base (the statement
+$\sfname{GrothendieckMessing}$); \cref{thm:literature:gm} makes no such assumption.  For abelian
+schemes the relevant crystal, defined through the universal vector extension, makes sense along
+arbitrary nilpotent divided-power thickenings \cite{MazurMessing1974}.  For an abelian scheme $A\to S$
+and an $S$-scheme $T$, call a line bundle $M$ on $A\times_ST$ \emph{additive} if
+$(a+a',t)^*M\cong(a,t)^*M\otimes(a',t)^*M$ for all $S$-schemes $Y$ and $a,a':Y\to A$, $t:Y\to T$.
+
+\begin{theorem}[Dual abelian schemes]\Fmark\label{thm:literature:dual}
+Let $S$ be a scheme and $A\to S$ an abelian scheme of relative dimension $g$.  There are an abelian
+scheme $B\to S$ of relative dimension $g$ and an additive line bundle $P$ on $A\times_SB$, trivial
+on $A\times\{0\}$, such that for every $S$-scheme $T$ and every additive line bundle $M$ on
+$A\times_ST$ there is a unique $x:T\to B$ with $M\cong(1\times x)^*P$; and the same holds with
+$A$ and $B$ exchanged.
+\formal{GlobalTheory.dualAbelianScheme}
+\end{theorem}
+
+The standard references construct the dual as a scheme when $A/S$ is projective
+\cite{MumfordFogartyKirwan1994} or $S$ is normal \cite{FaltingsChai1990}, and as an algebraic space
+in general; \cref{thm:literature:dual} ($\sfname{DualAbelianScheme}$) is stated and proved over an
+arbitrary base scheme.  It enters \cref{sec:covolume} through Zarhin's trick and
+\cref{thm:literature:gm}.
+
+\literaturepar{Other differences}  (a) The doubling method is used without the statement, part of
+\cite{GelbartPiatetskiShapiroRallis1987,PiatetskiShapiroRallis1987}, that the Siegel Eisenstein
+series has at most a simple pole at $(b-n)/2$ when $n=\dim V<b$; accordingly, the field of
+\texttt{UnitaryGroupThirdPlaceHypotheses} named after this simple pole has the true proposition as
+its type.  (b) The Siegel--Weil and Rallis formulas
+are used only in Weil's range of convergence; the archimedean theory only for $\Uni(p,q)$ and its
+covers; global results on $\GL_a$ only over totally complex (in a few cases totally real) fields;
+base change only when $E/E^+$ is unramified at all finite places.  (c) Kottwitz's models are
+constructed over general Noetherian base rings, not only over the localised ring of integers of the
+reflex field.  (d) Besides \cref{thm:literature:dual} and the field in~(a), two statements on theta
+functions ($\sfname{ComplementaryThetaInert}$, $\sfname{ThetaRationalInvariance}$) have no precise
+published counterpart.  (e) Some names in the development are historical:
+$\sfname{ComplexMultiplicationJSt}$ is the main theorem of complex multiplication,
+$\sfname{KStability}$ is homological stability for $\GL_n$, and several theorems whose names end in
+\texttt{\_of\_literature} are new results of the development.
+
+\subsection{Summary}\label{sec:literature:summary}
+
+\Cref{tab:literature} lists the main results, the form of the formal statement and the sections in
+which they are used.
+
+{\footnotesize
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTpre}{6pt}\setlength{\LTpost}{0pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.45\linewidth}>{\raggedright\arraybackslash}p{0.28\linewidth}>{\raggedright\arraybackslash}p{0.11\linewidth}>{\raggedright\arraybackslash}p{0.08\linewidth}@{}}
+\caption{Main published results used in the proof; all of them are proved in the formal
+development.}\label{tab:literature}\\
+\toprule
+Result & References & Form & Used in\\
+\midrule
+\endfirsthead
+\toprule
+Result & References & Form & Used in\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{4}{@{}l}{\textit{Analytic number theory}}\\*[1pt]
+Functional equation of $L(\chi,s)$; $L(\chi,s)\ne0$ on $\Re s\ge1$ & \cite{Davenport2000,LoefflerStoll2025} & same & \S\ref{sec:reduction}\\*
+Zero-free regions; Siegel; Siegel--Walfisz & \cite{delaValleePoussin1899,Siegel1935b,Walfisz1936} & same & \S\ref{sec:top}\\*
+Linnik's theorem & \cite{Linnik1944} & same & \S\ref{sec:families}\\*
+Hecke $L$-functions & \cite{Hecke1920,Tate1967thesis} & same & \S\S\ref{sec:families}--\ref{sec:window}\\
+Siegel--Klingen; Deligne--Ribet & \cite{Siegel1970,DeligneRibet1980} & same; variant & \S\S\ref{sec:families}--\ref{sec:window}\\
+Chowla--Selberg formula & \cite{ChowlaSelberg1967} & same & \S\ref{sec:covolume}\\
+\literaturegroup{Class field theory and Galois cohomology}
+Global and local class field theory & \cite{Artin1927,Tate1967gcft} & same & \S\S\ref{sec:families}, \ref{sec:galois}\\
+Chebotarev's theorem (qualitative) & \cite{Chebotarev1926} & special case & \S\S\ref{sec:families}--\ref{sec:galois}\\
+Complex multiplication & \cite{Shimura1971,Silverman1994} & same & \S\S\ref{sec:families}--\ref{sec:window}\\
+Hermitian forms; strong approximation & \cite{Landherr1936,Kneser1966} & same & \S\S\ref{sec:families}, \ref{sec:covolume}\\
+Local duality; Poitou--Tate; Euler characteristics & \cite{Tate1963,Milne2006} & same & \S\S\ref{sec:families}--\ref{sec:window}\\
+Ferrero--Washington theorem & \cite{FerreroWashington1979} & same & \S\ref{sec:window}\\
+Selmer groups of ordinary modular forms (Kato) & \cite{Kato2004} & special case & \S\ref{sec:window}\\
+\literaturegroup{Representations}
+Green's parametrisation of cuspidal characters & \cite{Green1955} & same & \S\S\ref{sec:top}, \ref{sec:families}, \ref{sec:galois}\\
+Bernstein--Zelevinsky; Zelevinsky's classification & \cite{BernsteinZelevinsky1977,Zelevinsky1980} & same & \S\S\ref{sec:families}, \ref{sec:galois}\\
+Generic unitary dual; unitary products & \cite{Tadic1986,Bernstein1984} & same & \S\ref{sec:families}\\
+Depth zero and Jacquet modules & \cite{MoyPrasad1996} & same & \S\S\ref{sec:families}, \ref{sec:galois}\\
+Gelfand--Kazhdan; Jacquet--Shalika & \cite{GelfandKazhdan1975,JacquetShalika1981a} & special case & \S\S\ref{sec:families}, \ref{sec:galois}\\
+Discrete series of $\Uni(p,q)$; Casselman--Wallach & \cite{HarishChandra1966,Casselman1989} & special case & \S\ref{sec:families}\\
+\literaturegroup{Theta correspondence and automorphic forms}
+Weil representation; Kudla's splitting & \cite{Weil1964,Kudla1994} & same & \S\ref{sec:families}\\
+Siegel--Weil formula (convergent range) & \cite{Weil1965,Ichino2004} & special case & \S\ref{sec:families}\\
+Howe duality (archimedean, unramified) & \cite{Howe1979,Howe1989} & special case & \S\ref{sec:families}\\
+Rallis inner product formula & \cite{Rallis1984inj,GanQiuTakeda2014} & variant & \S\ref{sec:families}\\
+Doubling method; unramified doubling integral & \cite{GelbartPiatetskiShapiroRallis1987} & variant; same & \S\ref{sec:families}\\
+Reduction theory; finiteness; rapid decay & \cite{Borel1969,HarishChandra1968} & same & \S\ref{sec:families}\\
+Base change from definite $\Uni(n)$ to $\GL_n$ & \cite{Labesse2011} & special case & \S\S\ref{sec:families}--\ref{sec:window}\\
+Cyclic base change and descent & \cite{ArthurClozel1989,Langlands1980} & same & \S\S\ref{sec:window}--\ref{sec:galois}\\
+\literaturegroup{Shimura varieties and abelian varieties}
+Siegel moduli; Kottwitz's integral models & \cite{MumfordFogartyKirwan1994,Kottwitz1992} & variant & \S\S\ref{sec:galois}--\ref{sec:covolume}\\
+Semistable reduction & \cite{Grothendieck1972} & same & \S\S\ref{sec:galois}--\ref{sec:covolume}\\
+Toroidal compactifications & \cite{AshMumfordRapoportTai1975,FaltingsChai1990,Lan2013} & same & \S\ref{sec:covolume}\\
+Grothendieck--Messing theory & \cite{Messing1972,MazurMessing1974} & same; variant & \S\S\ref{sec:galois}--\ref{sec:covolume}\\
+Dual abelian schemes & \cite{MumfordFogartyKirwan1994,FaltingsChai1990} & variant & \S\ref{sec:covolume}\\
+\literaturegroup{$p$-adic Hodge theory and \'etale cohomology}
+Base change and finiteness in \'etale cohomology & \cite{ArtinGrothendieckVerdier1972} & same & \S\ref{sec:galois}\\
+Crystalline comparison; Hodge--Tate decomposition & \cite{Faltings1988,Faltings1989} & special case & \S\ref{sec:galois}\\
+De Rham implies potentially semistable & \cite{Berger2002} & same & \S\S\ref{sec:families}, \ref{sec:galois}\\
+Crystalline lattices and prismatic $F$-crystals & \cite{BhattScholze2023} & variant & \S\ref{sec:families}\\
+Local Bloch--Kato theory & \cite{BlochKato1990} & same & \S\S\ref{sec:families}--\ref{sec:window}\\
+\literaturegroup{Arithmetic and algebraic geometry}
+Arithmetic intersection theory & \cite{GilletSoule1990,BostGilletSoule1994} & same & \S\ref{sec:covolume}\\
+Arithmetic Hilbert--Samuel; volumes; bigness & \cite{GilletSoule1992,Moriwaki2009} & variant & \S\ref{sec:covolume}\\
+Resolution and principalisation (characteristic $0$) & \cite{Hironaka1964,Kollar2007} & same & \S\ref{sec:covolume}\\
+Kawamata--Viehweg vanishing; nef numerics & \cite{Kawamata1982,Viehweg1982} & same & \S\ref{sec:covolume}\\
+Nadel vanishing; Angehrn--Siu & \cite{Nadel1990,AngehrnSiu1995} & variant & \S\ref{sec:covolume}\\
+\end{longtable}
+}
+
+\endgroup

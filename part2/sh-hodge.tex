@@ -1,0 +1,1305 @@
+\section{Shared results I: Hodge--Tate, Fontaine and comparison data}\label{sec:pf:sh-hodge}
+
+\providecommand{\shhodgeinv}{\operatorname{inv}}
+\providecommand{\shhodgeHf}{H^1_{f}}
+\providecommand{\shhodgeZf}{Z^1_{f}}
+\providecommand{\shhodgeHfD}{H^1_{f,\mathrm{div}}}
+\providecommand{\shhodgecl}{\operatorname{cl}}
+\providecommand{\shhodgelen}{\operatorname{len}}
+\providecommand{\shhodgeDec}{D}
+\providecommand{\shhodgeIne}{I}
+\providecommand{\shhodgeNm}{\mathrm{N}}
+\providecommand{\shhodgeTr}{\operatorname{Tr}}
+\providecommand{\shhodgeres}{\operatorname{res}}
+\providecommand{\shhodgeSel}{\operatorname{Sel}}
+\providecommand{\shhodgeBK}{\textup{(BK)}}
+\providecommand{\shhodgeLTD}{\textup{(LTD)}}
+\providecommand{\shhodgeLEC}{\textup{(LEC)}}
+\providecommand{\shhodgeGAR}{\textup{(GAR)}}
+
+\subsection{Introduction}\label{pf:sh-hodge:intro}
+
+This section proves sixteen results of the formal development \cite{LeanSource2026} which are used by several
+sections of Part~II and which concern the Galois-theoretic side of the proof: local Galois cohomology, the
+Hodge--Tate, Fontaine and comparison data of a datum, Wach modules, and three global statements. They are grouped as
+follows.
+
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Two classical statements} (\cref{pf:sh-hodge:classical}): a degree-one form of Chebotarev's density
+  theorem (\cref{pf:sh-hodge:cheb}), used in \cref{sec:pf:galred,sec:pf:kato}; and the deduction of Poitou--Tate
+  duality, in the form used by the development, from its \emph{normalised} form (\cref{pf:sh-hodge:pt}), used in
+  \cref{sec:pf:liftinj,sec:pf:modularity}.
+\item \emph{Local Galois cohomology at all places} (\cref{pf:sh-hodge:bk}): the five Bloch--Kato statements with
+  arbitrary coefficients at every prime (\cref{pf:sh-hodge:bkall}), used in \cref{sec:pf:liftinj}, two corollaries
+  used in \cref{sec:pf:linkN,sec:pf:linkN-adm,sec:pf:linkN-sel}, and the finiteness of local cohomology of lattices
+  (\cref{pf:sh-hodge:fin}).
+\item \emph{Hodge--Tate, Fontaine and comparison data} (\cref{pf:sh-hodge:hw}): their existence from the theorem of
+  Bhatt--Scholze on crystalline lattices (\cref{pf:sh-hodge:exhw}), used in \cref{sec:pf:linkN}; Herr's description of
+  lattice cohomology (\cref{pf:sh-hodge:herr}); and the \emph{later clauses of the Wach lattice theory}
+  (\cref{pf:sh-hodge:wach,pf:sh-hodge:used}), used in \cref{sec:pf:linkN-adm,sec:pf:linkN-sel}.
+\item \emph{Local torsion bounds} (\cref{pf:sh-hodge:loc}): a bound for the torsion of invariants
+  (\cref{pf:sh-hodge:tek}), the twisted torsion class theorem~TB (\cref{pf:sh-hodge:tb}) and the local lifting theory with
+  constants $(10,23,32,32)$ (\cref{pf:sh-hodge:lc}), used in \cref{sec:pf:linkN,sec:pf:linkN-adm,sec:pf:linkN-sel}.
+\item \emph{Three global statements} (\cref{pf:sh-hodge:glob}): the polynomial bound for the parameters of a family
+  (\cref{pf:sh-hodge:par}), the signature choice condition (\cref{pf:sh-hodge:js}) and the global lattice index theorem
+  (\cref{pf:sh-hodge:glit}), used in \cref{sec:pf:linkN,sec:pf:linkN-sel}.
+\end{enumerate}
+
+\paragraph{The literature hypotheses.}
+Most results are stated under some of the following hypotheses, which are propositions of the development
+recording published theorems; they are among the components of $\sfname{Hypotheses}_2$ and of the package $P$ of
+\cref{sec:families:galois}.
+\begin{itemize}
+\item[\shhodgeLTD] \emph{Local Tate duality} \cite{Tate1963}, \cite[Ch.~II, \S5]{Serre1997}: for every prime $\ell$, every
+  finite extension $K$ of $\Ql$ inside a fixed algebraic closure, every $r\ge1$ and every finite discrete continuous
+  $\Z/\ell^r[G_K]$-module $M$, the group $H^2(G_K,\Z/\ell^r(1))$ is isomorphic to $\Z/\ell^r$ and the cup products
+  $H^i(G_K,M)\times H^{2-i}(G_K,M^\vee(1))\to H^2(G_K,\Z/\ell^r(1))$, $i=0,1,2$, are perfect.
+  \formal{Formalism.GaloisCohomology.LocalTateDualityK}
+\item[\shhodgeLEC] \emph{The local Euler characteristic formula} \cite{Tate1963}: for the same $K$ and $M$,
+  $\#H^1(G_K,M)=\#H^0(G_K,M)\cdot\#H^2(G_K,M)\cdot(\#M)^{[K:\Ql]}$.
+  \formal{Formalism.GaloisCohomology.LocalEulerCharK}
+\item[\shhodgeBK] \emph{The local theory of Bloch--Kato} \cite{BlochKato1990}: for every prime $\ell$, every local theory at
+  $\ell$ with $A_{\inf}$-data which is \emph{tied} to Fontaine's period rings (\cref{pf:sh-hodge:def-loc}) and every finite
+  extension $K/\Ql$: the dimension formula for $H^1_f$ of de~Rham $\Ql$-representations, the rational duality of $H^1_f$,
+  and its integral form for $\Zl$-lattices (\cref{pf:sh-hodge:def-bk}).
+  \formal{GlobalTheory.Published.BlochKatoLocal}
+\item[\shhodgeGAR] \emph{Global Artin reciprocity} (component of $\sfname{Hypotheses}_2$).
+  \formal{GlobalTheory.Published.GlobalArtinReciprocity}
+\end{itemize}
+Two further published statements appear: the theorem of Bhatt--Scholze on crystalline lattices and prismatic
+$F$-crystals \cite{BhattScholze2023} (\cref{pf:sh-hodge:def-bs}), and a Chebotarev statement for open normal subgroups
+(\cref{pf:sh-hodge:js}).
+
+\paragraph{What is proved here and what is cited.}
+The arguments of \cref{pf:sh-hodge:classical,pf:sh-hodge:bk} and of the parameter bound are given in full, except for an
+analytic lemma (a Dirichlet theorem for primes of degree one, \cref{pf:sh-hodge:dirichlet}) and the auxiliary lemmas of the
+descent from $\Zl$ to $\OO$ and of the finite-level duality, which are stated where they are used. The other results are large
+assemblies: the formal proof of the global lattice index theorem alone has about $34\,000$ lines, the later clauses of the Wach
+lattice theory about $12\,000$, theorem~TB about $9\,300$, the existence of the Hodge--Tate, Fontaine and comparison data about
+$9\,000$ and the local lifting theory about $8\,000$. For these we state the results precisely, give the reduction to their
+constituents in full, prove the constituents with short proofs (among them four of the clauses of the Wach lattice theory and the
+bound for the torsion of invariants), and state the others, whose proofs are deferred. Peculiarities of the formal statements are
+recorded in remarks and collected in \cref{pf:sh-hodge:remarks}.
+
+% ---------------------------------------------------------------------------
+\subsection{Conventions}\label{pf:sh-hodge:conv}
+
+We use the notation of \cref{sec:pf:linkN-adm,sec:pf:linkN-sel,sec:pf:linkN} for data. A datum $D$ has rank parameters,
+among them $f,n,k,m,r,t$ and $n_V=r+t$, a host with a CM field $E$ of degree $2f$, class number $h_E$, primes $q,d$, type
+primes $g_0,g_1$, and a set of local indices $\iota$, each with a prime $\ell_\iota$, a complete discrete valuation ring
+$\OO_\iota$ finite over $\Z_{\ell_\iota}$ with fraction field $K_\iota$, eigensystems $X_\iota\supseteq Z_\iota\supseteq
+Z^{\mathrm{good}}_\iota$ and finite sets $S_\iota,Q_\iota$ of auxiliary places (\cref{sec:pf:linkN}). Normalised lengths are
+$\lambda_\iota(N)=\len_{\OO_\iota}(N)/\len_{\OO_\iota}(\OO_\iota/\ell_\iota)$ ($0$ if $N$ has infinite length).
+
+\begin{definition}[Local theories]\label{pf:sh-hodge:def-loc}
+Fix a prime $\ell$, an algebraic closure $\Omega_\ell$ of $\Ql$ and write $G_{\Ql}$ for its automorphism group; finite
+extensions $K,\mathit{LL}$ of $\Ql$ are subfields of $\Omega_\ell$, $K_0$ is the maximal unramified subextension of $K$,
+$G_K\subseteq G_{\Ql}$ the subgroup fixing $K$, $\OO_{\mathit{LL}}$ the integral closure of $\Zl$ in $\mathit{LL}$, and
+$K_s=K_0(\mu_{\ell^s})$.
+\begin{enumerate}[label=(\alph*)]
+\item A \emph{local theory} at $\ell$ consists of rings $B$, $B_{\mathrm{dR}}$ with actions of $G_{\Ql}$, a Frobenius
+  $\varphi$ of $B$, an injection $B\to B_{\mathrm{dR}}$, an element $t\in B$, a character $\chi\colon G_{\Ql}\to\Ql^\times$,
+  a compatible system $(\zeta_{\ell^j})_j$ of $\ell$-power roots of unity in $\Omega_\ell$, valuations $v_{\mathit{LL}}$ on
+  every $\mathit{LL}$ with $v_{\mathit{LL}}(\ell)=1$ and $\OO_{\mathit{LL}}=\{v_{\mathit{LL}}\ge0\}$, and for every $K$ a period datum
+  $\mathrm{PD}_K$ for $G_K$ with these rings (as in \cref{sec:pf:linkN-adm}, \S\ref{pf:linkN-adm:local}); $\chi$ is
+  cyclotomic: $g(\zeta)=\zeta^a$ for $\zeta^{\ell^j}=1$ and an integer $a$ with $|\chi(g)-a|\le\ell^{-j}$.
+  \formal{Formalism.BasicNotions.LocPrime}
+\item $A_{\inf}$-\emph{data} consist of an action of $G_{\Ql}$ on $\C_\ell$ and on the tilt $\OO_{\C_\ell^\flat}$, the element
+  $\eps=(\zeta_{\ell^j})_j$ of the tilt, and an injective $G_{\Ql}$- and Frobenius-equivariant map
+  $\iota_A\colon A_{\inf}=W(\OO_{\C_\ell^\flat})\to B$ with the usual compatibilities with $\mathrm{Fil}^0$, $\mathrm{Fil}^1$ and
+  Teichm\"uller representatives of roots of unity of order prime to $\ell$.
+  \formal{Formalism.BasicNotions.LocAinf}
+\item The theory with its $A_{\inf}$-data is \emph{tied} if there are ring isomorphisms $B\cong B_{\mathrm{cris}}$,
+  $B_{\mathrm{dR}}\cong B_{\mathrm{dR}}$ onto Fontaine's rings \cite{Fontaine1982,Fontaine1994} compatible with the inclusions
+  of $\Zl$, the Galois actions, Frobenius, the filtrations, $\theta$, the element $t=\log[\eps]$, and $\iota_A$.
+  \formal{Formalism.BasicNotions.LocTied}
+\end{enumerate}
+Every datum $D$ has a local theory $\mathrm{PD}^D$ at every prime, with $A_{\inf}$-data, and is tied
+(\cite{LeanSource2026}, fields of the datum). For a place $w$ of $E$ above $\ell$ the completion $E_w$ is identified with a
+finite extension $K_w$ of $\Ql$ and the decomposition group with $G_{K_w}$; the period datum at $w$ is $\mathrm{PD}^D_{K_w}$.
+\end{definition}
+
+\begin{definition}[Coefficients, lattices and cohomology]\label{pf:sh-hodge:def-coh}
+Let $\mathrm{PD}$ be a period datum for $G=G_K$. A \emph{good coefficient ring} is a pair $(\mathit{LL},\OO)$ with $\mathit{LL}$ a
+finite extension of $\Ql$ (with its module topology) and $\OO\subseteq\mathit{LL}$ an open discrete valuation ring with fraction
+field $\mathit{LL}$; for every finite $\mathit{LL}/\Ql$ the pair $(\mathit{LL},\OO_{\mathit{LL}})$ is good
+(\lref{GlobalTheory.T.padicIntegers_finiteExt_goodCoefficientRing}). A \emph{representation} is a finite-dimensional
+$\mathit{LL}$-vector space $V$ with a continuous $\mathit{LL}$-linear action of $G$, and a \emph{lattice} of $V$ is a $G$-stable
+finitely generated free $\OO$-submodule $T$ spanning $V$, as in \cref{pf:linkN-adm:def-col}. We write $Z^1(T)$, $B^1(T)$ and
+$H^1(T)=Z^1(T)/B^1(T)$ for the continuous cocycles with values in $T$, the coboundaries and the \emph{lattice cohomology};
+$\shhodgeZf(V)$ for the \emph{finite} cocycles $c\colon G\to V$ (those with $c(g)\otimes1=gy-y$ for some $y\in V\otimes B$)
+\cite{BlochKato1990}, $\shhodgeHf(V)$ for their classes, and $\shhodgeZf(T)=Z^1(T)\cap\shhodgeZf(V)$. For the discrete module
+$V/T$ we write $Z^1(V/T)$ for the locally constant cocycles, $B^1(V/T)$ for the coboundaries, and
+\[
+\shhodgeHfD(T)=\{\bar c:\ c\in\shhodgeZf(V)\}+B^1(V/T)\subseteq Z^1(V/T)
+\]
+for the module of \emph{finite cocycles of $V/T$} (images of finite cocycles of $V$). For $\varpi\in\OO$ a uniformiser and
+$r\ge1$, the finite cocycles of $T/\varpi^rT$ are the reductions of the elements of $\shhodgeZf(T)$, plus coboundaries.
+\formal{Formalism.WeaklyAdmissibleFiltrations.HfD}
+\formal{Formalism.WeaklyAdmissibleFiltrations.HfQ}
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{Two classical statements}\label{pf:sh-hodge:classical}
+
+\subsubsection{Chebotarev's theorem for places of degree one}
+
+For a number field $F$ with algebraic closure $\Omega$ and a finite place $v$ of $F$, a \emph{place of $\Omega$ above $v$} is a
+valuation ring $B$ of $\Omega$ whose maximal ideal meets $\OO_F$ in $v$. We write $\shhodgeDec_B\subseteq G_F$ for its
+decomposition group, $\shhodgeIne_B$ for the inertia group (the $\sigma\in\shhodgeDec_B$ with $\sigma x\equiv x$ modulo the
+maximal ideal for all $x\in B$), and say that $\sigma\in G_F$ is a \emph{Frobenius at $B$ for $q$} if $\sigma\in\shhodgeDec_B$
+and $\sigma x\equiv x^q$ modulo the maximal ideal of $B$ for all $x\in B$; $\shhodgeNm v=\#\OO_F/v$.
+
+\begin{theorem}[Chebotarev, degree one]\label{pf:sh-hodge:cheb}
+Let $F$ be a number field with algebraic closure $\Omega$, $L\subseteq\Omega$ a finite Galois extension of $F$,
+$g\in\Gal(L/F)$ and $S$ a finite set of finite places of $F$. There are a finite place $v\notin S$ of $F$ of absolute residue
+degree $1$, a place $B$ of $\Omega$ above $v$ with $\shhodgeIne_B$ fixing $L$, and $\sigma\in G_F$ which is a Frobenius at $B$ for
+$\shhodgeNm v$ and restricts to $g$ on $L$.
+\formallabel{GlobalTheory.Published.chebotarevDegreeOne'}
+\end{theorem}
+
+\begin{remark}[Relation to the literature]\label{pf:sh-hodge:chebrem}
+This is a consequence of Chebotarev's density theorem \cite{Chebotarev1926}, \cite[Ch.~VII, Thm.~13.4]{Neukirch1999}: the
+places of $F$ unramified in $L$ whose Frobenius class is the class of $g$ have Dirichlet density $\#\mathrm{cl}(g)/[L:F]>0$, and
+the places of residue degree $\ge2$ have density $0$, so infinitely many places of degree one have Frobenius class
+$\mathrm{cl}(g)$; choosing $B$ and conjugating the Frobenius gives the statement. The formal statement is weaker than the
+density theorem (it asserts existence outside a finite set), and the formal proof does not use the density theorem: it
+follows Chebotarev's original reduction to cyclotomic extensions (``crossing'' with a cyclotomic field) and proves the
+cyclotomic case by the analytic method of Dirichlet and Hecke. We give this proof.
+\end{remark}
+
+\begin{lemma}\label{pf:sh-hodge:primem}
+For a number field $K$ and $n\ge1$ there is a prime $m$ with $n\mid m-1$ such that the cyclotomic polynomial $\Phi_m$ is
+irreducible over $K$.
+\formallabel{GlobalTheory.T.exists_prime_dvd_sub_one_cyclotomic_irreducible_over}
+\formallabel{GlobalTheory.exists_prime_dvd_sub_one_irreducible_cyclotomic}
+\formallabel{GlobalTheory.irreducible_cyclotomic_of_not_dvd_discr}
+\end{lemma}
+
+\begin{proof}
+By Dirichlet's theorem there is a prime $m\equiv1\pmod n$ with $m>|d_K|$, so $m\nmid d_K$. Let $A=\Q(\zeta_m)$ and let $F_0$ be
+the intersection of $A$ and $K$ in a common extension. The discriminant of $F_0$ divides those of $A$ and of $K$; since
+$d_A=\pm m^{m-2}$, $d_{F_0}$ divides a power of $m$ and is prime to $m$, so $|d_{F_0}|=1$ and $F_0=\Q$ by Minkowski's
+theorem \cite[Ch.~III, Thm.~2.17]{Neukirch1999}. As $A/\Q$ is Galois, $A$ and $K$ are linearly disjoint, so $[K(\zeta_m):K]=
+[A:\Q]=m-1=\deg\Phi_m$, and $\Phi_m$ is the minimal polynomial of $\zeta_m$ over $K$.
+\end{proof}
+
+\begin{lemma}[Crossing field]\label{pf:sh-hodge:cross}
+Let $F,\Omega,L$ be as in \cref{pf:sh-hodge:cheb}, $g\in G_F$, and $m$ a prime with $[L:F]\mid m-1$ and $\Phi_m$ irreducible over
+$L$. There are a finite extension $Z\subseteq\Omega$ of $F$ and $\tau\in(\Z/m)^\times$ such that $\Phi_m$ is irreducible over
+$Z$ and every $\sigma\in G_Z$ with $\sigma(\zeta)=\zeta^\tau$ for all $\zeta\in\mu_m$ satisfies $\sigma g^{-1}\in G_L$.
+\formallabel{GlobalTheory.T.exists_cyclotomic_crossing_field_deciding_frobenius}
+\formallabel{GlobalTheory.ChebCross.cross}
+\end{lemma}
+
+\begin{proof}
+Let $\zeta$ be a primitive $m$-th root of unity, $\chi\colon G_F\to(\Z/m)^\times$ the character with $\sigma\zeta=\zeta^{\chi(\sigma)}$,
+and $\tau$ a generator of the cyclic group $(\Z/m)^\times$. Since $\Phi_m$ is irreducible over $L$, $\chi(G_L)=(\Z/m)^\times$, so
+there is $u\in G_L$ with $\chi(u)=\tau\chi(g)^{-1}$; put $h=ug$, so that $h|_L=g|_L$ and $\chi(h)=\tau$. Let $M=L(\zeta)$, a finite
+Galois extension of $F$, and $Z=M^{\langle h\rangle}$ the fixed field of $h$ in $M$. The powers $h^j$ fix $Z$ and $\chi(h^j)=\tau^j$
+runs through $(\Z/m)^\times$, so $\Phi_m$ is irreducible over $Z$. Let $\sigma\in G_Z$ act on $\mu_m$ by $\tau$. Since
+$\Gal(M/Z)$ is generated by $h|_M$, $\sigma|_M=h^k|_M$ for some $k$; comparing the actions on $\zeta$ gives $\tau^k=\tau$, so
+$k\equiv1$ modulo the order $m-1$ of $\tau$. The order of $h|_L$ divides $[L:F]$, which divides $m-1$, hence $h^k|_L=h|_L$ and
+$\sigma|_L=h|_L=g|_L$, i.e.\ $\sigma g^{-1}\in G_L$.
+\end{proof}
+
+\begin{lemma}[Primes of degree one in residue classes]\label{pf:sh-hodge:dirichlet}
+Let $Z$ be a number field, $m$ a prime with $\Phi_m$ irreducible over $Z$, $\tau\in(\Z/m)^\times$ and $S$ a finite set of finite
+places of $Z$. There is a place $w\notin S$ of $Z$ whose absolute norm $\shhodgeNm w$ is a prime number with $\shhodgeNm w\equiv\tau
+\pmod m$.
+\end{lemma}
+
+This is \lref{GlobalTheory.T.exists_prime_absNorm_eq_of_irreducible_cyclotomic'} (about $1\,300$ lines, deferred). Its
+formal proof is the classical one \cite{Hecke1920}: for a character $\chi\ne1$ of $(\Z/m)^\times$, irreducibility of $\Phi_m$
+over $Z$ provides a prime $P$ of $Z$ with $\chi(\shhodgeNm P)\ne1$
+(\lref{GlobalTheory.T.exists_prime_norm_cyclotomicChar_ne_one}), hence the $L$-function of the ideal character
+$\chi\circ\shhodgeNm$ is continuous and non-zero at $s=1$
+(\lref{GlobalTheory.T.exists_continuous_normCharLFunction_ne_zero_one}); together with the pole of the Dedekind zeta function
+of $Z$ at $s=1$ (\lref{GlobalTheory.T.exists_entire_sub_one_mul_euler_exp_ne_zero_one}) this shows that $\sum1/\shhodgeNm P$
+over the primes $P$ with $\shhodgeNm P\equiv\tau$ diverges (\lref{GlobalTheory.Mem.RayPrimes.not_summable_class}), whereas the
+primes whose norm is not prime contribute a convergent sum.
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:cheb}]
+Lift $g$ to $g'\in G_F$. By \cref{pf:sh-hodge:primem} (for $K=L$, $n=[L:F]$) choose a prime $m$ with $[L:F]\mid m-1$ and $\Phi_m$
+irreducible over $L$, and let $Z,\tau$ be as in \cref{pf:sh-hodge:cross} for $g'$. The set $S'$ of places of $F$ which lie in $S$ or
+have a place $B$ above them whose inertia group does not fix $L$ is finite, since only finitely many places ramify in $L$
+(\lref{GlobalTheory.T.finite_places_inertia_not_fixing_finiteExtension}); so is the set $S''$ of places of $Z$ above $S'$. By
+\cref{pf:sh-hodge:dirichlet} there is a place $w\notin S''$ of $Z$ with $p=\shhodgeNm w$ prime and $p\equiv\tau\pmod m$. Choose a place $B$
+of $\Omega$ above $w$ and a Frobenius $\sigma\in G_Z$ at $B$ for $p$. Let $v=w\cap\OO_F$. Since $\shhodgeNm w=(\shhodgeNm v)^{f(w|v)}$ is
+prime, $\shhodgeNm v=p$, $B$ lies above $v$, and $\sigma$, viewed in $G_F$, is a Frobenius at $B$ for $\shhodgeNm v$
+(\lref{GlobalTheory.T.isFrob_restrictScalars_of_prime_absNorm'}); $v$ has prime norm, i.e.\ absolute residue degree $1$
+(\lref{GlobalTheory.absNorm_prime_iff_inertiaDeg_eq_one_and_finite_ramified}). As $w\notin S''$, $v\notin S$ and
+$\shhodgeIne_B$ fixes $L$.
+
+It remains to show $\sigma|_L=g$. First, $m\notin w$: otherwise $\shhodgeNm w$ divides $m^{[Z:\Q]}$, so $p=m$, contradicting
+$p\equiv\tau\not\equiv0$. Hence $m$ is a unit at $B$, and two $m$-th roots of unity $a\ne b$ are not congruent modulo the maximal ideal of
+$B$, since $1-b/a$ divides $m=\prod_{\zeta'\in\mu_m\smallsetminus\{1\}}(1-\zeta')$. For $\zeta\in\mu_m$, $\sigma(\zeta)$ and
+$\zeta^p=\zeta^\tau$ are $m$-th roots of unity, congruent since $\sigma$ is a Frobenius for $p$; so $\sigma(\zeta)=\zeta^\tau$. By the
+choice of $Z$, $\sigma g'^{-1}\in G_L$, i.e.\ $\sigma|_L=g'|_L=g$.
+\end{proof}
+
+\subsubsection{Poitou--Tate duality from its normalised form}
+
+Let $F$ be a number field with algebraic closure $\Omega$, $\ell$ a prime and $r\ge1$, and let $\chi_r\colon G_F\to(\Z/\ell^r)^\times$
+be the cyclotomic character modulo $\ell^r$. For a place $A$ of $\Omega$ above a finite place of $F$ let $\mu_{A}$ be
+$\Z/\ell^r$ with the action of $\shhodgeDec_A$ through $\chi_r$, and $Z^2(\shhodgeDec_A,\mu_A)$, $H^2(\shhodgeDec_A,\mu_A)$ the
+continuous $2$-cocycles and the second cohomology. A \emph{family of invariant maps} is a family $\shhodgeinv=(\shhodgeinv_A)_A$
+of $\Z/\ell^r$-linear maps $\shhodgeinv_A\colon H^2(\shhodgeDec_A,\mu_A)\to\Z/\ell^r$, one for every valuation ring $A$ of $\Omega$.
+
+\begin{definition}[Normalised and compatible invariants]\label{pf:sh-hodge:def-inv}
+Let $\zeta\in\Omega$ be a primitive $\ell^r$-th root of unity.
+\begin{enumerate}[label=(\alph*)]
+\item $\shhodgeinv_A$ is \emph{normalised} at $A$ above $v$ if it takes the value $1$ on the class of every cocycle
+  $z(g,h)=\kappa(g)\chi(h)$ where: $\varpi\in\OO_F$ is a uniformiser at $v$ ($\varpi\in v\smallsetminus v^2$), $y\in\Omega$ satisfies
+  $y^{\ell^r}=\varpi$, $\kappa\colon\shhodgeDec_A\to\Z/\ell^r$ is the Kummer map $g(y)=\zeta^{\kappa(g)}y$, and $\chi\colon
+  \shhodgeDec_A\to\Z/\ell^r$ is a homomorphism vanishing on $\shhodgeIne_A$ and equal to $1$ on the Frobenius elements at $A$ for
+  $\shhodgeNm v$.
+\item The family is \emph{conjugation compatible} if for all field automorphisms $\sigma$ of $\Omega$ and $\tau$ of $F$ with
+  $\sigma|_F=\tau$, all $c\in\Z/\ell^r$ with $\sigma(\zeta)=\zeta^c$, all places $A$ above some $v$ and $A'=\sigma(A)$, and all cocycles $z$
+  on $\shhodgeDec_A$ and $z'$ on $\shhodgeDec_{A'}$ with $z'(g',h')=c\,z(g,h)$ whenever $g'\sigma=\sigma g$ and $h'\sigma=\sigma h$, we have
+  $\shhodgeinv_{A'}[z']=\shhodgeinv_A[z]$.
+\item The family is a family of \emph{local invariants} for $\zeta$ if every $\shhodgeinv_A$, for $A$ above some finite place $v$,
+  is bijective and normalised, and the family is conjugation compatible.
+\end{enumerate}
+\formal{GlobalTheory.Published.PoitouTate.IsNormalised}
+\formal{GlobalTheory.Published.PoitouTate.ConjCompatible}
+\formal{GlobalTheory.Published.PoitouTate.IsLocalInvariants}
+\end{definition}
+
+The proposition $\sfname{PoitouTateDuality}$ of the development states: for all $F,\Omega,\ell,r\ge1$ with $\ell\ne2$ or $F$
+totally complex, and every primitive $\ell^r$-th root of unity $\zeta$, there is a family of local invariants for $\zeta$ such that
+for every finite set $S$ of places containing those above $\ell$, every choice of places $A_v$ above $v\in S$, every lift of $\chi_r$
+to $G_{F,S}$, and every finite discrete continuous $\Z/\ell^r[G_{F,S}]$-module $M$, the nine-term Poitou--Tate sequence (built with
+these invariants) is exact, the Tate--Shafarevich groups $\Sha^1$ and $\Sha^2$ of $M$ and of its dual are dual, and
+$H^n(G_{F,S},M)=0$ for $n\ge3$ \cite[Ch.~I, Thm.~4.10]{Milne2006}, \cite[Ch.~VIII, \S6]{NeukirchSchmidtWingberg2008}. Its
+\emph{normalised form} $\sfname{PoitouTateNormalised}$ states the same with ``family of local invariants'' replaced by ``family
+whose members above finite places are bijective and normalised'', i.e.\ without conjugation compatibility.
+\formal{GlobalTheory.Published.PoitouTateDuality}
+\formal{GlobalTheory.Published.PoitouTateNormalised}
+
+\begin{theorem}\label{pf:sh-hodge:pt}
+$\sfname{PoitouTateNormalised}$ implies $\sfname{PoitouTateDuality}$. More precisely, every family of invariant maps whose members
+above finite places are bijective and normalised is conjugation compatible.
+\formallabel{GlobalTheory.PoitouTateConj.poitouTateDuality_of_normalised}
+\formallabel{GlobalTheory.PoitouTateConj.conjCompatible}
+\end{theorem}
+
+We use two standard facts, stated in the development as published results: for a place $A$ above $v$ and $n\ge2$ there is a
+continuous homomorphism $\chi\colon\shhodgeDec_A\to\Z/n$ vanishing on $\shhodgeIne_A$ and equal to $1$ on the Frobenius elements at $A$ for
+$\shhodgeNm v$ (\lref{GlobalTheory.Published.PoitouTate.Model.exists_unramified}; $\shhodgeDec_A/\shhodgeIne_A$ is procyclic, topologically generated
+by the Frobenius, \cite[Ch.~I, \S7]{Serre1979}); and for every continuous homomorphism
+$\chi\colon\shhodgeDec_A\to\Z/\ell^r$ there are a uniformiser $\varpi$ at $v$, a root $y$ of $Y^{\ell^r}=\varpi$ and its Kummer map
+$\kappa$, such that $z(g,h)=\kappa(g)\chi(h)$ is a $2$-cocycle on $\shhodgeDec_A$ with values in $\mu_A$
+(\lref{GlobalTheory.Published.PoitouTate.Model.exists_kummer}; Kummer theory, \cite[Ch.~IV, \S3]{Neukirch1999}).
+
+\begin{lemma}\label{pf:sh-hodge:placemap}
+Let $\sigma,\tau$ be as in \cref{pf:sh-hodge:def-inv}(b), $A$ a place above $v$ and $A'=\sigma(A)$. Then $A'$ lies above the place
+$v'=\tau(v)$, $\shhodgeNm v'=\shhodgeNm v$, and for every uniformiser $\varpi$ at $v$ the element $\varpi'=\tau(\varpi)$ is a uniformiser at $v'$
+with $\varpi'=\sigma(\varpi)$ in $\Omega$. The map $\psi\colon\shhodgeDec_{A'}\to\shhodgeDec_A$, $g'\mapsto\sigma^{-1}g'\sigma$, is a continuous
+homomorphism which maps $\shhodgeIne_{A'}$ into $\shhodgeIne_A$ and Frobenius elements at $A'$ for $q$ to Frobenius elements at $A$ for
+$q$, and $\chi_r\circ\psi=\chi_r$.
+\formallabel{GlobalTheory.PoitouTateConj.exists_place_map}
+\formallabel{GlobalTheory.PoitouTateConj.conjBack_mem_Dec}
+\formallabel{GlobalTheory.PoitouTateConj.conjBack_mem_Ine}
+\formallabel{GlobalTheory.PoitouTateConj.conjBack_isFrob}
+\formallabel{GlobalTheory.PoitouTateConj.cycMod_conjBack}
+\formallabel{GlobalTheory.PoitouTateConj.continuous_conjBack}
+\end{lemma}
+
+\begin{proof}
+$\tau$ restricts to a ring automorphism of $\OO_F$ mapping $v$ to the prime $v'=\tau(v)$, with $\OO_F/v\cong\OO_F/v'$; for
+$x\in\OO_F$, $x\in v'$ iff $\tau^{-1}(x)\in v$ iff $\tau^{-1}(x)$ lies in the maximal ideal of $A$ iff $x=\sigma(\tau^{-1}x)$ lies in
+that of $A'$. Uniformisers are mapped to uniformisers since $\tau$ maps $v^2$ to $v'^2$. For $g'\in\shhodgeDec_{A'}$, $\psi(g')$ fixes
+$F$ and preserves $A$; the conditions defining inertia and Frobenius elements are transported by $\sigma$. The map $\psi$ is continuous for the
+Krull topologies, since the preimage of the subgroup fixing a finite extension $M$ of $F$ contains the subgroup fixing $\sigma(M)$. Finally
+$\psi(g')$ acts on $\sigma^{-1}(\mu_{\ell^r})=\mu_{\ell^r}$ by $\sigma^{-1}\circ(x\mapsto x^{\chi_r(g')})\circ\sigma$, which is again
+$x\mapsto x^{\chi_r(g')}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:pt}]
+Let $\shhodgeinv$ be a family whose members above finite places are bijective and normalised, and let
+$\sigma,\tau,c,A,A',v,z,z'$ be as in \cref{pf:sh-hodge:def-inv}(b). Let $\psi$ be as in \cref{pf:sh-hodge:placemap}; then
+$z'(g',h')=c\,z(\psi g',\psi h')$. For a cochain $w$ on $\shhodgeDec_A$ put $Tw(g',h')=c\,w(\psi g',\psi h')$. Since $\psi$ is a
+continuous homomorphism preserving $\chi_r$, $T$ maps $2$-cocycles to $2$-cocycles, and $T(df)=d(c\,f\circ\psi)$ for every continuous
+$1$-cochain $f$, so $T$ maps coboundaries to coboundaries.
+
+By the first standard fact (with $n=\ell^r\ge2$) choose $\chi$ unramified with value $1$ on Frobenius elements, and by the second
+choose $\varpi,y,\kappa$ and the cocycle $z_0=\kappa\cup\chi$. By normalisation $\shhodgeinv_A[z_0]=1$. Put
+$a=\shhodgeinv_A[z]$; then $\shhodgeinv_A[z-az_0]=0$, so $z-az_0=df$ is a coboundary by injectivity. Hence
+$z'-aTz_0=T(z-az_0)$ is a coboundary on $\shhodgeDec_{A'}$, and $\shhodgeinv_{A'}[z']=a\,\shhodgeinv_{A'}[Tz_0]$.
+
+We show that $Tz_0$ is a normalising cocycle at $A'$, so that $\shhodgeinv_{A'}[Tz_0]=1$. With $v',\varpi'$ as in
+\cref{pf:sh-hodge:placemap}, $y'=\sigma(y)$ satisfies $y'^{\ell^r}=\sigma(\varpi)=\varpi'$; for $g'\in\shhodgeDec_{A'}$,
+\[
+g'(y')=\sigma(\psi(g')y)=\sigma(\zeta^{\kappa(\psi g')}y)=\zeta^{c\,\kappa(\psi g')}y',
+\]
+so $\kappa'=c\,\kappa\circ\psi$ is the Kummer map of $y'$; $\chi'=\chi\circ\psi$ is a homomorphism which vanishes on $\shhodgeIne_{A'}$
+and equals $1$ on the Frobenius elements at $A'$ for $\shhodgeNm v'=\shhodgeNm v$, by \cref{pf:sh-hodge:placemap}; and
+$Tz_0(g',h')=c\,\kappa(\psi g')\chi(\psi h')=\kappa'(g')\chi'(h')$. Hence $\shhodgeinv_{A'}[z']=a=\shhodgeinv_A[z]$, which is conjugation
+compatibility.
+
+Given the family provided by $\sfname{PoitouTateNormalised}$ for $(F,\Omega,\ell,r,\zeta)$, it is therefore a family of local invariants,
+and the remaining assertions (exactness of the nine-term sequence, duality of $\Sha$, vanishing of $H^n$ for $n\ge3$) are the same
+in both propositions.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Local Galois cohomology at all places}\label{pf:sh-hodge:bk}
+
+Throughout this subsection $\mathrm{PD}$ is a period datum for $G=G_K$, $K/\Ql$ finite, and $\chi$ its cyclotomic character. For a
+good coefficient ring $(\mathit{LL},\OO)$ we write $\mathit{LL}(1)$ for $\mathit{LL}$ with $G$ acting through $\chi$ and $\OO(1)\subseteq
+\mathit{LL}(1)$ for the lattice $\OO$. A bilinear map $P\colon V\times V'\to\mathit{LL}$ between representations is a \emph{twisted duality} if
+$P(gx,gy)=\chi(g)P(x,y)$, $P$ is non-degenerate on both sides and $\dim V=\dim V'$; lattices $T\subseteq V$, $T'\subseteq V'$ are
+\emph{dual} for $P$ if moreover $T'=\{y:\ P(T,y)\subseteq\OO\}$. For cochains $a\colon G\to V$, $b\colon G\to V'$ put $(a\cup b)(g,h)=
+P(a(g),g\,b(h))$; for $d\colon G\to T$ and $c\colon G\to V'/T'$ put $(d\cup c)(g,h)=P(d(g),g\,\tilde c(h))$ for any lift $\tilde c$, a
+cochain with values in $\mathit{LL}(1)/\OO(1)$. A $2$-cochain with values in $\mathit{LL}(1)$ is a \emph{coboundary} if it is $df$ for a
+continuous $f\colon G\to\mathit{LL}(1)$; a cochain with values in $\mathit{LL}(1)/\OO(1)$ is a coboundary if it is $df$ for some
+$f\colon G\to\mathit{LL}(1)/\OO(1)$.
+
+\begin{definition}[The Bloch--Kato statements]\label{pf:sh-hodge:def-bk}
+The following statements about $\mathrm{PD}$ quantify over all good coefficient rings $(\mathit{LL},\OO)$, all representations $V,V'$
+over $\mathit{LL}$ with $V$ de~Rham, and all twisted dualities $P\colon V\times V'\to\mathit{LL}$.
+\begin{enumerate}
+\item[(A)] \emph{Rational duality.} A continuous cocycle $a$ of $V$ is finite if and only if $a\cup b$ is a coboundary for every finite
+  cocycle $b$ of $V'$; and symmetrically for cocycles of $V'$.
+\item[(Ad)] \emph{Dimension formula.} $\dim\shhodgeHf(V)=\dim H^0(G,V)+\dim D_{\mathrm{dR}}(V)-\dim\mathrm{Fil}^0D_{\mathrm{dR}}(V)$.
+\item[(RE)] \emph{Right exactness.} If $f\colon V\to V'$ is a surjective $G$-map between crystalline representations, every finite
+  cocycle of $V'$ is cohomologous to $f\circ c$ for a finite cocycle $c$ of $V$.
+\item[(B)] \emph{Integral duality.} For dual lattices $T,T'$: a locally constant cocycle $c$ of $V'/T'$ lies in $\shhodgeHfD(T')$ if and
+  only if $d\cup c$ is a coboundary for every $d\in\shhodgeZf(T)$; and $d\in Z^1(T)$ lies in $\shhodgeZf(T)$ if and only if $d\cup c$ is a
+  coboundary for every locally constant $c\in\shhodgeHfD(T')$.
+\item[(C)] \emph{Finite level duality.} For dual lattices $T,T'$, a uniformiser $\varpi$ of $\OO$ and $r\ge1$: a cocycle $c$ of
+  $T/\varpi^rT$ is finite if and only if $\varpi^{-r}P(\tilde c,\tilde c')$ (computed on lifts) is a coboundary modulo $\OO(1)$ for every
+  finite cocycle $c'$ of $T'/\varpi^rT'$; and symmetrically.
+\end{enumerate}
+$\mathrm{bk}(\mathrm{PD})$ denotes the conjunction of the five statements. The hypothesis \shhodgeBK{} asserts, for every tied local
+theory and every $K$: (Ad) for $\Ql$-representations (with $\mathit{LL}=\Ql$), (A) for $\Ql$-representations, and (B) for $\Zl$-lattices
+in $\Ql$-representations, with $\Zl(1)\subseteq\Ql(1)$ in place of $\OO(1)$.
+\formal{Formalism.MainNotions.LocalSituation.bkAll}
+\formal{Formalism.MainNotions.N.bkACore}
+\formal{Formalism.MainNotions.N.bkBCore}
+\formal{GlobalTheory.Published.BlochKato.DimFormula}
+\formal{GlobalTheory.Published.BlochKato.RationalDuality}
+\formal{GlobalTheory.Published.BlochKato.IntegralDuality}
+\end{definition}
+
+In \cite{BlochKato1990} the statements over $\Ql$ are Cor.~3.8.4 (dimension formula) and Prop.~3.8 (the subspaces $H^1_f$ of $V$
+and $V^*(1)$ are exact annihilators of each other under local Tate duality); the integral statement is the corresponding
+statement for $H^1_f$ of lattices and of $V/T$ (compare \cite[\S3]{BlochKato1990}). The point of this subsection is to pass from $\Ql$
+to arbitrary coefficients and to finite level.
+
+\begin{theorem}[Bloch--Kato at all places]\label{pf:sh-hodge:bkall}
+Assume \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC. For every datum $D$, every prime $\ell$ and every finite extension $K/\Ql$, the
+statements $\mathrm{bk}(\mathrm{PD}^D_K)$ hold.
+\formallabel{GlobalTheory.BlochKatoLocalOfHyp.blochKatoLocal_allPrimes_of_blochKato}
+\formallabel{GlobalTheory.T.blochKatoLocal_all_of_tateDuality_eulerChar}
+\formallabel{GlobalTheory.BlochKatoLocalOfHyp.bkAll_of_blochKatoLocal}
+\end{theorem}
+
+\begin{remark}\label{pf:sh-hodge:bkrem}
+The two formal statements labelled here are identical (the second is proved by quoting the first); the conclusion is called
+\emph{Conclusion~5} in the development. Only the tied local theory of $D$ at $\ell$ enters; \shhodgeLTD{} and \shhodgeLEC{} are used only
+for (C) (and \shhodgeLEC{} not even there, see below).
+\end{remark}
+
+The proof treats the five statements separately. Fix $D,\ell,K$, write $\mathrm{PD}=\mathrm{PD}^D_K$, and let $(\mathit{LL},\OO)$ be a good
+coefficient ring. Every representation $V$ over $\mathit{LL}$ is also a $\Ql$-representation $V_{\Q}$ (restriction of scalars); a cocycle
+of $V$ is finite iff it is finite as a cocycle of $V_\Q$ (the condition $c(g)\otimes1=gy-y$ in $V\otimes_{\Ql}B$ does not involve
+$\mathit{LL}$), $V$ is de~Rham iff $V_\Q$ is, and $D_{\mathrm{dR}}(V_\Q)$, $\mathrm{Fil}^0D_{\mathrm{dR}}(V_\Q)$, $H^0(G,V_\Q)$ and
+$\shhodgeHf(V_\Q)$ are the corresponding $\mathit{LL}$-spaces for $V$, viewed over $\Ql$
+(\lref{GlobalTheory.PstCoeff.isDR_resQ_iff}).
+
+\begin{lemma}[(Ad) with coefficients]\label{pf:sh-hodge:bkdim}
+The $\Ql$-dimension formula of \shhodgeBK{} implies (Ad).
+\formallabel{GlobalTheory.T.blochKatoDim_of_Ql_dimensionFormula}
+\formallabel{GlobalTheory.bkADim_of_dimFormula}
+\end{lemma}
+
+\begin{proof}
+Apply the formula to $V_\Q$. By the remarks above each of the four $\Ql$-dimensions is $[\mathit{LL}:\Ql]$ times the corresponding
+$\mathit{LL}$-dimension (for $\shhodgeHf$ through the identification of finite cocycles and coboundaries); divide by
+$[\mathit{LL}:\Ql]\ne0$.
+\end{proof}
+
+\begin{lemma}[(A) with coefficients]\label{pf:sh-hodge:bkA}
+The rational duality of \shhodgeBK{} implies (A).
+\formallabel{GlobalTheory.T.blochKatoAnnihilator_of_rationalLocalDuality}
+\formallabel{GlobalTheory.bkACore_of_rationalDuality}
+\end{lemma}
+
+\begin{proof}
+Let $P$ be a twisted duality over $\mathit{LL}$ and $P_\Q=\shhodgeTr_{\mathit{LL}/\Ql}\circ P$. Then $P_\Q$ is a twisted duality between $V_\Q$
+and $V'_\Q$, since the trace form of the separable extension $\mathit{LL}/\Ql$ is non-degenerate
+(\lref{GlobalTheory.BkCoeff.isDual1_trPair}), and $a\cup_{P_\Q}(\lambda b)=\shhodgeTr(\lambda\,(a\cup_Pb))$ for $\lambda\in\mathit{LL}$. An
+$\mathit{LL}(1)$-valued $2$-cochain $z$ is a coboundary iff $\shhodgeTr(\lambda z)$ is a $\Ql(1)$-coboundary for every $\lambda\in\mathit{LL}$
+(\lref{GlobalTheory.BkCoeff.cobL_iff_trace}; write $z$ in a $\Ql$-basis of $\mathit{LL}$ and use the dual basis for the trace form).
+Let $a$ be a cocycle of $V$. By the $\Ql$-statement, $a$ is finite iff $a\cup_{P_\Q}b'$ is a coboundary for all finite $b'$ of $V'_\Q$. If
+this holds and $b$ is a finite cocycle of $V'$, then $\lambda b$ is finite for every $\lambda$, so all $\shhodgeTr(\lambda(a\cup_Pb))$ are
+coboundaries and $a\cup_Pb$ is a coboundary. Conversely, if $a\cup_Pb$ is a coboundary for all finite $b$, then so is
+$a\cup_{P_\Q}b=\shhodgeTr(a\cup_Pb)$, and $a$ is finite. The symmetric statement is proved in the same way.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:bkall}]
+By \shhodgeBK{} applied to the tied local theory of $D$ at $\ell$ we have the three $\Ql$-statements at $K$.
+(Ad) and (A) are \cref{pf:sh-hodge:bkdim,pf:sh-hodge:bkA}. (RE) holds for every tied local theory
+(\lref{GlobalTheory.BKRightExact.bkARightExact_of_tied}, whose proof lifts the periods of a finite cocycle of $V'$ along $f$, using
+the tie with Fontaine's rings and the fundamental exact sequence $0\to\Ql\to B_{\mathrm{cris}}^{\varphi=1}\oplus\mathrm{Fil}^0B_{\mathrm{dR}}
+\to B_{\mathrm{dR}}$). (B) follows from the integral statement over $\Zl$ by
+\cref{pf:sh-hodge:bkB}, and (C) from (A), (B) and \shhodgeLTD{} by \cref{pf:sh-hodge:bkC}.
+\end{proof}
+
+\begin{proposition}[(B) with coefficients]\label{pf:sh-hodge:bkB}
+The integral duality of \shhodgeBK{} over $\Zl$ implies (B).
+\formallabel{GlobalTheory.T.blochKato_annihilator_of_integralLocalDuality}
+\formallabel{GlobalTheory.BKIntDescent.bkBCore_of_integralDuality}
+\end{proposition}
+
+\begin{proof}
+The argument is a descent from $\OO$ to $\Zl$ through a dual functional. There are a $\Ql$-linear $\lambda\colon\mathit{LL}\to\Ql$ with
+$\lambda(\OO)\subseteq\Zl$ and elements $e_1,\dots,e_n,f_1,\dots,f_n\in\OO$ with $x=\sum_i\lambda(f_ix)e_i$ for all $x\in\mathit{LL}$
+(\lref{GlobalTheory.T.exists_integral_dual_functional}, deferred); in particular $x\in\OO$ iff $\lambda(ox)\in\Zl$ for all $o\in\OO$. Regard $T,T'$ as $\Zl$-lattices of $V_\Q,V'_\Q$
+(\lref{GlobalTheory.T.zlLattice_of_coefficientLattice}, deferred) and put $P_\Z=\lambda\circ P$. Then $P_\Z$ is a twisted duality and $T,T'$
+are dual for $P_\Z$ over $\Zl$, by the choice of $\lambda$ (\lref{GlobalTheory.BKIntDescent.dualLatZ}, deferred). Moreover a cochain $z$
+with values in $\mathit{LL}(1)/\OO(1)$ is a coboundary iff $\lambda(oz)$ is a coboundary in $\Ql(1)/\Zl(1)$ for every $o\in\OO$
+(\lref{GlobalTheory.BKIntDescent.cobO_iff}, deferred), and $d\cup_{P_\Z}c$ is $\lambda(d\cup_Pc)$ up to a $\Zl(1)$-valued cochain. With these
+dictionary entries the argument is that of \cref{pf:sh-hodge:bkA}: for the first assertion, if $c$ is finite then $\lambda(o\,(d\cup c))=
+\lambda((od)\cup c)$ is a coboundary for every finite $d$ and every $o$, because $od$ is finite and by the $\Zl$-statement; conversely if $d\cup c$
+is a coboundary for every finite $d$, so is $\lambda(d\cup c)=d\cup_{P_\Z}c$, and $c$ is finite by the $\Zl$-statement. The second assertion is
+proved in the same way, using that $\shhodgeHfD(T')$ is an $\OO$-module.
+\end{proof}
+
+\begin{proposition}[(C), finite level]\label{pf:sh-hodge:bkC}
+Assume \shhodgeLTD. If (A) and (B) hold for $\mathrm{PD}$, so does (C).
+\formallabel{GlobalTheory.T.breuilKisin_partC_of_partA_partB_finite_level}
+\formallabel{GlobalTheory.BKFinLevel.bkC_of_bkA_bkB}
+\end{proposition}
+
+\begin{proof}
+Fix dual lattices $T,T'$, $\varpi$ and $r$. Write $\iota\colon T/\varpi^rT\to V/T$ for $x\mapsto\varpi^{-r}x$ (the \emph{divisible image}),
+and similarly for $T'$. We use five lemmas of the development, whose proofs are deferred: (i) finite cocycles of $T/\varpi^rT$ and of
+$T'/\varpi^rT'$ are orthogonal for the pairing of (C), a consequence of (A)
+(\lref{GlobalTheory.T.blochKato_reductions_orthogonal_mod_pow}); (ii) a cocycle of $T'/\varpi^rT'$ (or of $T/\varpi^rT$) whose divisible
+image lies in $\shhodgeHfD(T')$ (resp.\ $\shhodgeHfD(T)$) is finite (\lref{GlobalTheory.T.blochKato_quotient_of_divisible_image_mem}); (iii) for $d\in Z^1(T)$ and a cocycle $c'$ of
+$T'/\varpi^rT'$, $d\cup\iota(c')$ is a coboundary iff the finite-level pairing of the reduction of $d$ with $c'$ is
+(\lref{GlobalTheory.T.cup_divisible_image_coboundary_iff_finite_level}), and similarly with the roles exchanged
+(\lref{GlobalTheory.T.finite_level_cup_swap_coboundary_iff}); (iv) \emph{Tate's double annihilator}: by \shhodgeLTD, if $S$ is an
+$\OO$-submodule of $Z^1(V/T)$ containing $B^1(V/T)$ and $x\in Z^1(V/T)$ is orthogonal to every $d\in Z^1(T')$ orthogonal to $S$, then
+$x\in S$ (\lref{GlobalTheory.T.lattice_dual_cyclotomic}).
+
+Orthogonality is (i). Let $c'$ be orthogonal to all finite $c$. For $d\in\shhodgeZf(T)$ the reduction of $d$ is finite, so by (iii) $d\cup
+\iota(c')$ is a coboundary; by (B), $\iota(c')\in\shhodgeHfD(T')$, and $c'$ is finite by (ii). Let now $c$ be orthogonal to all finite $c'$, and
+$S=\iota(\text{finite cocycles of }T/\varpi^rT)+B^1(V/T)$. If $d\in Z^1(T')$ is orthogonal to $S$, then by (iii) its reduction modulo
+$\varpi^r$, a cocycle of $T'/\varpi^rT'$, is orthogonal to all finite cocycles of $T/\varpi^rT$, hence finite by the previous step, and then
+(iii) and the hypothesis on $c$ show that $\iota(c)$ is orthogonal to $d$ (for the transposed pairing, for which $T',T$ are dual). By (iv), $\iota(c)\in S$: $\iota(c)=\iota(a)+b$ with $a$ finite and $b\in B^1(V/T)$. Then $\iota(c-a)\in\shhodgeHfD(T)$, so $c-a$ is finite by
+(ii) (for $T$), and $c$ is finite.
+\end{proof}
+
+\begin{remark}\label{pf:sh-hodge:bkC-rem}
+The hypothesis \shhodgeLEC{} of the formal statement of \cref{pf:sh-hodge:bkC} is not used in its proof, nor is the tie of the local
+theory, which is a hypothesis of the formal statement.
+\end{remark}
+
+\begin{corollary}[Bloch--Kato annihilators at all rows]\label{pf:sh-hodge:bka}
+Assume \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC. For every datum $D$, every local index $\iota$, every place $w$ of $E$ above
+$\ell_\iota$ and every coefficient extension $\mathit{LL}$ at $w$ (a finite extension of $\Q_{\ell_\iota}$ containing the coefficient field
+of $D$ at $w$), statement (A) holds for $\mathrm{PD}^D_{K_w}$ with the coefficient ring $(\mathit{LL},\OO_{\mathit{LL}})$.
+\formallabel{GlobalTheory.T.blochKatoAnnihilator_all_of_tateDuality_eulerChar}
+\formallabel{GlobalTheory.BKaRows.bkaAll_of_hypotheses}
+\formallabel{Formalism.MainNotions.N.bloch_kato_annihilator_above_l}
+\end{corollary}
+
+\begin{proof}
+By \cref{pf:sh-hodge:bkall}, (A) holds for $\mathrm{PD}^D_{K_w}$ and every good coefficient ring; specialise it to $(\mathit{LL},\OO_{\mathit{LL}})$, which
+is good (\lref{GlobalTheory.T.padicIntegers_finiteExt_goodCoefficientRing}).
+\end{proof}
+
+\begin{remark}
+The formal statement of \cref{pf:sh-hodge:bka} quantifies over \emph{good} coefficient extensions (containing the roots of unity of
+order dividing $\lcm(\ell,N)$, \cref{sec:pf:linkN-adm}); this hypothesis is not used.
+\end{remark}
+
+\begin{proposition}[Finiteness of local cohomology]\label{pf:sh-hodge:fin}
+Assume \shhodgeLTD. For every datum $D$, every local index $\iota$, every place $w$ of $E$ above $\ell_\iota$, every coefficient
+extension $\mathit{LL}$ at $w$, every representation $V$ of $G_{K_w}$ over $\mathit{LL}$ and every lattice $T$ of $V$ over
+$\OO_{\mathit{LL}}$, the lattice cohomology $H^1(G_{K_w},T)$ is a finitely generated $\OO_{\mathit{LL}}$-module.
+\formallabel{GlobalTheory.T.tateFinitenessAll_of_localTateDuality}
+\formallabel{GlobalTheory.finAll_of_localTateDuality}
+\end{proposition}
+
+\begin{proof}
+By \lref{GlobalTheory.T.finite_H1_period_datum}, \shhodgeLTD{} implies that for every local theory at every prime and every finite
+$K$, $H^1$ of every lattice over every good coefficient ring is finitely generated (compare \cite[Ch.~II, \S5.2]{Serre1997}). Apply
+this to the local theory of $D$ at
+$\ell_\iota$, $K=K_w$ and the good coefficient ring $(\mathit{LL},\OO_{\mathit{LL}})$
+(\lref{GlobalTheory.T.padicIntegers_finiteExt_goodCoefficientRing}).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Hodge--Tate, Fontaine and comparison data}\label{pf:sh-hodge:hw}
+
+\paragraph{Good triples and Wach structures.}
+Fix a local theory at $\ell$ with $A_{\inf}$-data. A triple $(K,s,\mathit{LL})$ of a finite extension $K/\Ql$, an integer $s$ and a finite
+extension $\mathit{LL}/\Ql$ is \emph{good} if $s\ge1$, $s\ge2$ when $\ell=2$, $K\subseteq K_s=K_0(\mu_{\ell^s})$ and $\mathit{LL}$ contains all
+conjugates of $K_s$; it is in \emph{case~A} if moreover $K$ is unramified, $s=1$ and $\ell\ne2$. A \emph{Wach structure} for $(K,s,\mathit{LL})$ is the
+axiomatised $(\varphi,\Gamma)$-module theory of \cref{pf:linkN-adm:wach}: the ring $A=\OO_{\mathit{LL}}[[\pi]]^{\Z/n}$ ($n=[K_0:\Ql]$ letters) with
+$\varphi$ and a quotient $\Gamma$ of $G_K$ (with elements $\gamma$, $\gamma_K$ and the torsion subgroup $\Delta$), the ring $\mathcal E\supseteq A$,
+for every lattice $T$ the \'etale module $D(T)$ and the Wach module $N(T)\subseteq D(T)$, the class maps $\shhodgecl$ (from Herr cocycles for
+$\gamma$ to $H^1(G_{K_s},T)$) and $\shhodgecl_K$ (from $\Delta$-invariant Herr cocycles for $\gamma_K$ to $H^1(G_K,T)$), the comparison map
+$N(T)\to D_{\mathrm{cris}}(V)$ and the level maps at $\ell$-power roots of unity. We write $\pi$ for the variable of every letter,
+$q_0=((1+\pi)^\ell-1)/\pi$, $X=\varphi^{s-1}(\pi)$, $Q=\varphi^{s-1}(q_0)$, and $N_i(T)$ for the part of $N(T)$ at the letter $i$; $\pi_0\in A$ is
+the element of the structure used in \cref{sec:pf:linkN-adm} (with $q_0$ a unit multiple of $\pi_0+\ell$ when $K=K_0$, $s=1$, $\ell\ne2$, by (P9)
+below).
+\formal{Formalism.BasicNotions.LocWach}
+
+\begin{definition}[Hodge--Tate, Fontaine and comparison data]\label{pf:sh-hodge:def-hw}
+Let $\mathcal L=(\mathrm{PD}^{(\ell)})_\ell$ be local theories at all primes, with $A_{\inf}$-data $\mathcal A=(A^{(\ell)})_\ell$.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Hodge--Tate data} $HW$ assign to every prime $\ell$ and every good triple $(K,s,\mathit{LL})$ a Wach structure
+  $W(K,s,\mathit{LL})$ for $\mathrm{PD}^{(\ell)}_K$ with coefficients $\OO_{\mathit{LL}}$, of level $s$, all of whose Wach modules are
+  projective over $\Zl[[\pi]]$ (acting diagonally on the letters).
+\item \emph{Fontaine data} for $HW$ assign to every good triple an \emph{\'etale tie} of $W(K,s,\mathit{LL})$: $\OO_{\mathit{LL}}$-algebra maps
+  $A\to\OO_{\mathit{LL}}\otimes A_{\inf}$ and $\mathcal E\to R_W=\OO_{\mathit{LL}}\otimes W(\C_\ell^\flat)$ sending $\pi$ to
+  $1\otimes([\eps^{1/\ell^s}]-1)$, and for every lattice $T$ an injective $\OO_{\mathit{LL}}$-linear map $j_T\colon D(T)\to R_W\otimes T$, semilinear
+  for $\mathcal E\to R_W$, compatible with $\varphi$ and with $G_K$ (acting on $D(T)$ through $\Gamma$), natural in $T$, whose image spans
+  $R_W\otimes T$; together with explicit cocycle formulas for $\shhodgecl$ and $\shhodgecl_K$ in terms of $j_T$, and the compatibility of
+  $A\to\OO_{\mathit{LL}}\otimes A_{\inf}$ with Teichm\"uller representatives of roots of unity of order prime to $\ell$. This is Fontaine's
+  description of \'etale $(\varphi,\Gamma)$-modules \cite{Fontaine1990}.
+\item \emph{Comparison data} for $(HW,\text{Fontaine data})$ assign to every good triple a \emph{comparison tie}: maps from $N(T)$ to the
+  $\tau$-components of $D_{\mathrm{cris}}(V)$ at every level and root of unity, compatible with the level maps, with $\varphi$, with $\Gamma$ and
+  with the comparison map, and a map $\beta_{\mathrm{dR}}\colon(\OO_{\mathit{LL}}\otimes A_{\inf})\otimes T\to V\otimes B_{\mathrm{dR}}$
+  relating them to $j_T$ modulo the filtration; and the two facts $\iota_A(\mu)-t\in\mathrm{Fil}^2$ for $\mu=[\eps]-1$, and
+  $\iota_A([\eps^{1/\ell}]-1)$ invertible in $\mathrm{Fil}^0B_{\mathrm{dR}}$.
+\item \emph{Ties} for these data are, for every prime $\ell$, a map $\theta\colon B_{\mathrm{dR}}\to\C_\ell$ which is a surjective ring
+  homomorphism on $\mathrm{Fil}^0$ with kernel $\mathrm{Fil}^1$, Galois equivariant, the identity on $\Omega_\ell$, integral on $A_{\inf}$, compatible
+  with Teichm\"uller lifts, with $\mathrm{Fil}^{a+1}=t\,\mathrm{Fil}^a$ and $\iota_A(\mu)-t\in\mathrm{Fil}^2$.
+\end{enumerate}
+\formal{Formalism.BasicNotions.HWOf}
+\formal{Formalism.BasicNotions.FonOf}
+\formal{Formalism.BasicNotions.CmpOf}
+\formal{Formalism.MainNotions.LocalSituation.Ties}
+\end{definition}
+
+\begin{definition}[The theorem of Bhatt--Scholze]\label{pf:sh-hodge:def-bs}
+$\sfname{BhattScholzeCrystallineLattices}$ is the following statement, for every prime $\ell$, every finite $K/\Ql$ and the
+$A_{\inf}$-prism of $\OO_K$: (i) for every tied local theory with $A_{\inf}$-data and every crystalline lattice $T$ of a representation of
+$G_K$ over a finite extension of $\Ql$, there is a prismatic $F$-crystal over $\OO_K$ \emph{realising} $T$, i.e.\ with an identification of
+its value on $A_{\inf}$, after extension to $W(\C_\ell^\flat)$, with $W(\C_\ell^\flat)\otimes_{\Zl}T$ compatible with Frobenius and the Galois
+actions; (ii) every $G_K$-equivariant map between realised $\Zl$-lattices comes from a unique map of $F$-crystals. This is a form of the
+equivalence between prismatic $F$-crystals on $\OO_K$ and crystalline $\Zl$-lattices \cite[Thm.~1.2 and \S5]{BhattScholze2023}.
+\formal{GlobalTheory.Published.BhattScholzeCrystallineLattices}
+\end{definition}
+
+\begin{theorem}[Existence of the data]\label{pf:sh-hodge:exhw}
+Assume $\sfname{BhattScholzeCrystallineLattices}$. For all local theories $\mathcal L$ with $A_{\inf}$-data $\mathcal A$ which are tied at every
+prime, there are Hodge--Tate data $HW$ and Fontaine data for $HW$ admitting comparison data and ties.
+\formallabel{GlobalTheory.HWL.exists_hw_fon_cmp_ties}
+\end{theorem}
+
+The proof combines three constructions, made separately at each prime $\ell$; their proofs are deferred.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Wach lattices exist at all layers} (\lref{GlobalTheory.T.wachLatticesExistAllLayers_of_bhattScholze}, about $2\,350$ lines):
+  under the theorem of Bhatt--Scholze (\cref{pf:sh-hodge:def-bs}), for every tied theory, every good triple and every choice of the auxiliary
+  layers of a
+  Wach structure (a $\Gamma$-structure, a ring of Wach series, an embedding layer into $A_{\inf}$ and an \'etale module), every crystalline
+  lattice has a Wach module, i.e.\ an $A$-submodule of $D(T)$ with the properties of $N(T)$. The construction evaluates the $F$-crystal realising
+  $T$ on a \emph{Wach prism} over $\OO_K$, a prism structure on a ring of power series in $\pi$
+  (\lref{GlobalTheory.T.exists_wach_prism_over_integers}), and descends the result to $A$ (\cite{Wach1996,Berger2004} for the classical
+  theory of Wach modules).
+\item \emph{Faithfulness of the cyclotomic kernel} (\lref{GlobalTheory.T.cyclotomicKernel_tilt_invariants_faithful}): if $g\in G_{\Ql}$ has
+  $\chi(g)=1$ and fixes every element of $\OO_{\C_\ell^\flat}$ fixed by $\{h\in G_L:\chi(h)=1\}$, then $g\in G_L$.
+\item \emph{The local Wach functor} (\lref{GlobalTheory.T.exists_local_wach_functor}, about $5\,700$ lines): for a tied theory satisfying the
+  conclusions of (a) and (b) there are Hodge--Tate data at $\ell$ and Fontaine data admitting comparison data. Its proof builds, for each good
+  triple, a $\Gamma$-structure (\lref{GlobalTheory.HWL.GroupLayer.nonempty_gamS}), the ring of Wach series
+  (\lref{GlobalTheory.HWL.Ser.nonempty_wSer}), the embedding into $A_{\inf}$ (\lref{GlobalTheory.HWL.IoLayer.main}), the \'etale modules
+  from a Frobenius-stable basis of $R_W\otimes T$ fixed by the cyclotomic kernel (\lref{GlobalTheory.EtaleBasis.exists_etBasis},
+  \lref{GlobalTheory.HWL.EtMod.nonempty_wEt}), the Wach modules from (a), the Herr class maps
+  (\lref{GlobalTheory.HerrClassMaps.exists_classMaps}) and the comparison maps (\lref{GlobalTheory.HWL.Cmp.nonempty_cmpS}).
+\end{enumerate}
+
+\begin{lemma}\label{pf:sh-hodge:exhw-lem}
+Let $\mathcal L,\mathcal A$ be tied local theories with $A_{\inf}$-data such that at every prime the conclusion of (a) holds. Then there are Hodge--Tate data,
+Fontaine data and comparison data for $(\mathcal L,\mathcal A)$.
+\formallabel{GlobalTheory.T.exists_hwOf_fonOf_cmpOf'}
+\formallabel{GlobalTheory.HWL.exists_hwOf_fonOf_cmpOf}
+\end{lemma}
+
+\begin{proof}
+At every prime $\ell$, (b) holds for every local theory, so (c) applies and gives Hodge--Tate data $HW_\ell$, Fontaine data $F_\ell$ and comparison data at
+$\ell$. Choosing these for every $\ell$ gives the three families.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:exhw}]
+By (a), the theory has Wach lattices at all layers at every prime, and \cref{pf:sh-hodge:exhw-lem} gives $HW$, Fontaine data and comparison data. The ties
+are provided at every $\ell$ by the tie of the local theory with Fontaine's rings, through which Fontaine's map $\theta$ \cite{Fontaine1994} has the required
+properties (\lref{GlobalTheory.T.nonempty_theta_deRhamFil_zero_concretePeriod}).
+\end{proof}
+
+\begin{theorem}[Herr's description of lattice cohomology]\label{pf:sh-hodge:herr}
+For every datum $D$, all Hodge--Tate data $HW$ and Fontaine data $F$ of the local theory of $D$, every prime $\ell$ and every good triple
+$(K,s,\mathit{LL})$, with Wach structure $W$:
+\begin{enumerate}[label=(\alph*)]
+\item if $\ell\ne2$ or $\sqrt{-1}\in K$: for every lattice $T$, $\shhodgecl_K$ is surjective onto $H^1(G_K,T)$, its kernel consists of the
+  pairs $(\varphi m-m,\gamma_Km-m)$ with $m\in D(T)^\Delta$, and $\shhodgecl_K$ is natural for lattice maps;
+\item for every lattice $T$, $\shhodgecl$ is surjective onto $H^1(G_{K_s},T)$ and its kernel consists of the pairs $(\varphi m-m,\gamma m-m)$,
+  $m\in D(T)$;
+\item $\shhodgecl$ is natural: for a lattice map $f$, $f_*\circ\shhodgecl=\shhodgecl\circ D(f)$.
+\end{enumerate}
+\formallabel{GlobalTheory.HerrFull.herr_part_a_every_record}
+\end{theorem}
+
+\begin{proof}
+This is \lref{GlobalTheory.HerrFull.herr_a_and_natural}, which derives (a)--(c) from the statement of Fontaine and decompletion for the data
+(\lref{GlobalTheory.HerrFull.fontaine_decompletion}) by Herr's computation of Galois cohomology through the complex
+$D\xrightarrow{(\varphi-1,\gamma-1)}D\oplus D\to D$ \cite{Herr1998}.
+\end{proof}
+
+\paragraph{The later clauses of the Wach lattice theory.}
+Let $W$ be a Wach structure of a good triple $(K,s,\mathit{LL})$, $p=\ell$, $u=\chi(\gamma)\in\OO^\times$, and let $T,T',T_0,T_1,T_2$ denote
+crystalline lattices. For maps $M,h$ from the letters to $\N$, $T$ has jumps \emph{within $(M,h)$} if the Hodge--Tate jumps of $T$ at every
+embedding over the letter $i$ lie in $[-M_i,h_i]$. The following clauses are the content of the norm bound for $\Delta$-invariant lattices
+used in \cref{sec:pf:linkN-adm,sec:pf:linkN-sel}; each holds for all crystalline lattices.
+\begin{enumerate}
+\item[(P1)] \emph{Letters.} $N(T)=\sum_iN_i(T)$ and each $N_i(T)$ is free over $\OO[[\pi]]$ (on the $i$-th factor).
+\item[(P2)] \emph{$\Gamma$-stability.} $N(T)$ is $\Gamma$-stable, $(g-1)N(T)\subseteq\pi N(T)$ for $g\in\Gamma$, and $(\gamma-1)N(T)\subseteq XN(T)$.
+\item[(P3)] \emph{Comparison.} The comparison map vanishes only on elements of $\pi N(T)$, its image spans $D_{\mathrm{cris}}(V)$ over
+  $\mathit{LL}$, and if $Q^k\varphi(x)\in N(T)$ its image is $p^k\varphi$ applied to the image of $x$.
+\item[(P4)] \emph{Levels.} The level maps at the letters and at $p$-power roots of unity take values in the images of the $\tau$-components of
+  $D_{\mathrm{cris}}$, vanish in negative degrees, span these images in degree $0$, and at the points of $HW$ are adapted to the Hodge
+  filtration at $\tau$.
+\item[(P5)] \emph{Heights.} If $T$ has jumps within $(M,h)$: $Q^{M_i}\varphi(N_{i-1}(T))\subseteq N(T)$, $Q^{h_i}N_i(T)\subseteq$ the span of
+  $\varphi(N_{i-1}(T))$, and an element $x$ with $Q^kx\in N(T)$ for some $k$ lies in $N(T)$ iff $Q^kx$ lies in the vanishing ideals of the level
+  maps at the roots of $Q$ times $N(T)$.
+\item[(P6)] \emph{Saturation and exactness.} $N(T)$ is $p$-saturated in $D(T)$; a bijective lattice map induces an injection on Wach modules
+  which is surjective up to powers of $p$; and a short exact sequence of crystalline lattices gives a sequence of Wach modules which is
+  injective, exact and surjective up to powers of $p$, strict on the left, and has a cokernel of finite length.
+\item[(P7)] \emph{Poles.} If $(y,z)$ is a Herr cocycle with $\prod_{j\in J}\varphi^j(Q)\,y\in N(T)$ for a multiset $J$ and $z\in\pi N(T)$, then
+  $\shhodgecl(y,z)\in\shhodgeHf(G_{K_s},T)$.
+\item[(P8)] \emph{Extensions of the unit.} For an extension $0\to T\to T_p\to\one\to0$ with $T_p$ crystalline and $T$ with jumps within $(M,h)$,
+  and $x\in N(T_p)$ mapping to a multiple of an element of $N(\one)$ fixed by $\varphi$ and $\Gamma$: $\varphi x-x\in Q^{-\max M}N(T)$ and
+  $\gamma x-x\in XN(T)$.
+\item[(P9)] \emph{Tame descent.} If $s=1$ and $p\ne2$: $\#\Delta=(p-1)/[K:K_0]$; there are $\pi'\in A^\Delta$ and polynomials $E_i$ of degree
+  $[K:K_0]$, coming from a polynomial over $K_0$ with a root in $K$ of valuation $1/[K:K_0]$, giving \emph{ring relations} ($A^\Delta$ is a
+  power series ring in $\pi'$, $\pi'$ is a unit times $\pi^{(p-1)/[K:K_0]}$, and $q_0$, $\varphi(\pi')$ and $\gamma\pi'-\pi'$ are unit multiples of
+  $E(\pi')$, $\pi'E(\pi')^{(p-1)/[K:K_0]}$ and $\pi'E(\pi')$); $N(T)$ has an $A$-basis in $N(T)^\Delta$ which spans $N(T)^\Delta$ over $A^\Delta$,
+  and $(\gamma-1)N(T)^\Delta\subseteq\pi'N(T)^\Delta$; for $K=K_0$ one may take $\pi'=\pi_0$ with the polynomial $X+p$.
+\item[(P10)] \emph{Characterisation.} $N(T)$ is the only free $A$-submodule $N_1$ of $D(T)$ with $\mathcal E\otimes N_1=D(T)$,
+  $\gamma N_1\subseteq N_1$, $(\gamma-1)N_1\subseteq\pi N_1$, and such that for every $x\in N_1$ some $Q^k\varphi(x)$ lies in $N_1$ and some
+  $Q^kx$ lies in the span of $\varphi(N_1)$.
+\item[($\Gamma$ss)] For $y\ge1$ the quotient $Q^{-y}N(T)/N(T)$ is free of finite rank over $\OO$ and $\gamma$ is annihilated on it by
+  $\prod_c(\gamma-c)$, $c$ running over the units $u^{-(a+j)}$ ($a$ a jump of $T$, $1\le j\le y$), each of which is an eigenvalue.
+\item[(H1)--(H4)] \emph{Herr complex.} (H1) is \cref{pf:sh-hodge:herr}(b) and, if $s=1$ and $p\ne2$, (a); (H2) a class of $H^1(G_K,T)$ is
+  finite iff its restriction to $G_{K_s}$ is; (H3) $\gamma(Q)=wQ$ with a unit $w\equiv1$ modulo $X$, and if $T$ has jumps within $(M,h)$, a Herr
+  cocycle $(y,z)$ with $y\in Q^{-\max M}N(T)$ and $z\in XN(T)$ has a finite class, which vanishes only if $(y,z)$ is the coboundary of an element of
+  $N(T)$; (H4) the analogous compatibility with the connecting map of a short exact sequence, up to a power of $p$.
+\item[(L3)] \emph{Length lemma.} If $F\colon T_1\to T_2$ is onto and $T_1$ has jumps within $(M,h)$, then $X^{\max(M+h)}N_i(T_2)\subseteq
+  F(N_i(T_1))$, and in case~$s=1$ a $\Delta$-version with $\pi'$.
+\item[(E)] \emph{\'Etale comparison.} For the \'etale tie: $N(T)$ has an $A$-basis whose image under $j_T$ is an $R_W$-basis of $R_W\otimes T$,
+  the $\varphi$-invariants of $R_W\otimes T$ are $1\otimes T$, and if $T$ has jumps within $(M,h)$ then $X^{\max h}$ maps $A_{\inf}\otimes T$ into
+  $A_{\inf}N(T)$ and $X^{\max M}$ maps $A_{\inf}N(T)$ into $A_{\inf}\otimes T$.
+\end{enumerate}
+The precise forms are the formal definitions cited below; the descriptions above are complete except that (P4), (P9), (H4) and (L3) are
+abbreviated.
+\formal{Formalism.MainNotions.DeltaInvariantLattices.DeltaInvariantNormBound}
+\formal{Formalism.MainNotions.DeltaInvariantLattices.UsedLocalConclusion}
+\formal{Formalism.MainNotions.DeltaInvariantLattices.ConclusionE}
+
+Four of the clauses have short proofs from other results, which we give.
+
+\begin{proposition}[Clause (P1)]\label{pf:sh-hodge:P1}
+For every datum $D$, all data $(HW,F)$, every good triple and every crystalline lattice $T$, $N(T)=\sum_iN_i(T)$ with $N_i(T)=e_iN(T)$ ($e_i$ the idempotent of the
+letter $i$), and if $b_1,\dots,b_r$ is an $A$-basis of $N(T)$ then $e_ib_1,\dots,e_ib_r$ is a basis of $N_i(T)$ over $\OO[[\pi]]$ acting on the letter $i$. An
+$A$-basis with $r=\rank_\OO T$ exists.
+\formallabel{GlobalTheory.NL.LetterFree.letters_free}
+\formallabel{GlobalTheory.NL.LetterFree.letters_loc}
+\formallabel{GlobalTheory.NL.LetterFree.isLetterBasis}
+\formallabel{GlobalTheory.NL.LetterFree.exists_letter_basis}
+\formallabel{GlobalTheory.NL.LetterFree.lettersDecompose}
+\end{proposition}
+
+\begin{proof}
+The existence of an $A$-basis of rank $\rank_\OO T$ is \lref{GlobalTheory.NL.N_basis_loc}, which deduces it from the finite generation of $N(T)$, the
+freeness of $\mathcal E\otimes N(T)=D(T)$ of that rank, and the projectivity of $N(T)$ over $\Zl[[\pi]]$ required in the definition of Hodge--Tate data. Since
+$\sum_ie_i=1$, $N(T)=\sum_ie_iN(T)$. If $y=\sum_ka_kb_k\in N(T)$ ($a_k\in A$) then $e_iy=\sum_k(a_k)_i\,e_ib_k$, where $(a_k)_i\in\OO[[\pi]]$ is the component at
+$i$, since $e_ia_k$ is the element $(a_k)_i$ placed at the letter $i$. If $\sum_kc_k\,e_ib_k=\sum_kc'_k\,e_ib_k$ with $c_k,c'_k\in\OO[[\pi]]$, then
+$\sum_k(c_k-c'_k)e_i\,b_k=0$ in $N(T)$, and the linear independence of the $b_k$ over $A$ gives $(c_k-c'_k)e_i=0$, i.e.\ $c_k=c'_k$.
+\end{proof}
+
+\begin{lemma}[Coboundaries on subgroups of finite index]\label{pf:sh-hodge:finind}
+Let a group $G$ act linearly on a vector space $M$ over a field of characteristic $0$, $H\subseteq G$ a subgroup of finite index and $c\colon G\to M$ a
+$1$-cocycle whose restriction to $H$ is a coboundary. Then $c$ is a coboundary.
+\formallabel{GlobalTheory.NL.FiniteRestrictionH1f.coboundary_of_finiteIndex}
+\formallabel{GlobalTheory.NL.FiniteRestrictionH1f.crisCob_of_finiteIndex}
+\end{lemma}
+
+\begin{proof}
+Let $c(h)=hb-b$ for $h\in H$, and $d(g)=c(g)-(gb-b)$. Then $d$ is a cocycle vanishing on $H$, so $d(gh)=d(g)+g\,d(h)=d(g)$ and $d$ induces a function
+$\bar d$ on $G/H$ with $\bar d(gq)=d(g)+g\,\bar d(q)$. Let $n=[G:H]$ and $S=\sum_{q\in G/H}\bar d(q)$. Summing over $q$ (and reindexing $q\mapsto gq$)
+gives $S=n\,d(g)+gS$, so $d(g)=g(-S/n)-(-S/n)$ and $c(g)=gx-x$ with $x=b-S/n$.
+\end{proof}
+
+\begin{proposition}[Clause (H2)]\label{pf:sh-hodge:H2}
+For every datum $D$, all data $(HW,F)$, every good triple and every lattice $T$ of a representation of $G_K$, a class $\kappa\in H^1(G_K,T)$ is finite if and
+only if its restriction to $G_{K_s}$ is finite.
+\formallabel{GlobalTheory.NL.FiniteRestrictionH1f.mem_H1f_iff_res_mem}
+\formallabel{GlobalTheory.NL.FiniteRestrictionH1f.mem_H1fT_iff_res}
+\formallabel{GlobalTheory.NL.FiniteRestrictionH1f.GKs_finiteIndex}
+\end{proposition}
+
+\begin{proof}
+$G_{K_s}$ has finite index in $G_K$, since $[K_s:\Ql]=[K_0:\Ql](\ell-1)\ell^{s-1}$ is finite. If $\kappa$ is represented by $z$ with $z(g)\otimes1=gx-x$ in
+$V\otimes B$, the restriction of $z$ satisfies the same identity on $G_{K_s}$. Conversely, let the restriction of $\kappa$ be represented by a finite cocycle
+$c'$ of $G_{K_s}$, $c'(h)\otimes1=hx-x$, and let $z$ represent $\kappa$. Then $z(h)-c'(h)=hy-y$ for some $y\in T$ and all $h\in G_{K_s}$, so $g\mapsto z(g)
+\otimes1$, a cocycle of $G_K$ in the $\Ql$-vector space $V\otimes B$, is a coboundary on $G_{K_s}$ (of $x+y\otimes1$). By \cref{pf:sh-hodge:finind} it is a
+coboundary on $G_K$, i.e.\ $z$ is finite.
+\end{proof}
+
+\begin{proposition}[Clause (P6)]\label{pf:sh-hodge:P6}
+For every datum $D$, all data $(HW,F,\mathrm{Cm})$ and every good triple, clause (P6) holds; in a short exact sequence $0\to T_0\xrightarrow{\iota}T_1
+\xrightarrow{\beta}T_2\to0$ of crystalline lattices the sequence of Wach modules is even exact at $N(T_1)$.
+\formallabel{GlobalTheory.T.wachModule_saturated_exactness_crystalline}
+\formallabel{GlobalTheory.NL.Exact.exactness_of_N}
+\formallabel{GlobalTheory.NL.Exact.length_cokN_lt_top}
+\formallabel{GlobalTheory.NL.Exact.finite_of_pi_pow}
+\formallabel{GlobalTheory.NL.Exact.finiteLength_of_killed}
+\end{proposition}
+
+\begin{proof}
+Saturation of $N(T)$ and the statement on bijective lattice maps are \lref{GlobalTheory.NL.Isog.saturated_and_isogeny_invariant} (deferred). Let a short
+exact sequence be given. The functor $D$ is exact on it (\lref{GlobalTheory.EtaleExact.DD_exact}, from the statement of Fontaine and decompletion), so
+$D(\iota)$ is injective, which gives injectivity on $N(T_0)$; and $\ker D(\beta)=\operatorname{im}D(\iota)$. If $\iota(x)\in N(T_1)$ for some $x\in D(T_0)$ then
+$x\in N(T_0)$ (\lref{GlobalTheory.T.mem_wachN_of_map_mem_saturated}, deferred); this is the strictness, and with $\ker D(\beta)=\operatorname{im}D(\iota)$ it gives
+exactness at $N(T_1)$. There is $c$ such that $p^cz$ and $\pi^cz$ lie in $\beta(N(T_1))$ for every $z\in N(T_2)$
+(\lref{GlobalTheory.T.wachN_cokernel_killed_by_power}, deferred, about $860$ lines); this is surjectivity up to $p^c$. The cokernel $C=N(T_2)/\beta(N(T_1))$ is
+a finitely generated $A$-module killed by $\pi^c$; since $A/\pi^cA=\prod_{\text{letters}}\OO[[\pi]]/(\pi^c)$ is generated over $\OO$ by the elements $e_i\pi^k$
+($e_i$ the idempotent of a letter, $k<c$), $C$ is finitely generated over $\OO$. It is killed by $p^c\ne0$, so it is a finitely generated module over
+$\OO/p^c\OO$, an Artinian ring, and has finite length.
+\end{proof}
+
+\begin{proposition}[Clause (P8)]\label{pf:sh-hodge:P8}
+For every datum $D$, all data $(HW,F,\mathrm{Cm})$ and every good triple, clause (P8) holds.
+\formallabel{GlobalTheory.T.p8_of_cmpOf}
+\formallabel{GlobalTheory.NL.NygaardFrobeniusPower.crystalline_extension_integral_cocycle_all_places}
+\formallabel{GlobalTheory.NL.NygaardFrobeniusPower.core}
+\formallabel{GlobalTheory.NL.NygaardFrobeniusPower.Q_pow_φ_mem}
+\formallabel{GlobalTheory.NL.NygaardFrobeniusPower.isUnit_X}
+\formallabel{GlobalTheory.NL.JumpsSES.jumps_ses_and_one}
+\end{proposition}
+
+\begin{proof}
+Let $0\to T\xrightarrow{\iota}T_p\xrightarrow{\beta}\one\to0$ be exact with $T_p$ crystalline and $T$ with jumps within $(M,h)$, let $e\in N(\one)$ be fixed by
+$\varphi$ and $\Gamma$, and let $x\in N(T_p)$ with $\beta(x)=ce$, $c\in\OO$. Sub- and quotient lattices of crystalline lattices are crystalline
+(\lref{GlobalTheory.Per.CrysSubQuot.crys_sub_quot}), and in a short exact sequence of crystalline lattices the jumps of the middle term at $\tau$
+are those of the two others (\lref{GlobalTheory.T.isJumpV_iff_of_exact_crystalline_lattices}); every jump of the unit object is $0\in[-M_i,h_i]$.
+Hence $T_p$ has jumps within
+$(M,h)$, and (P5) and (P2) apply to $T_p$ (\lref{GlobalTheory.T.wachLattice_heights_from_hodgeJumps},
+\lref{GlobalTheory.NL.WachLatticeTrivialModUniformizer.wachLattice_galois_trivial_mod_uniformizer}). Writing $x=\sum_ie_ix$ with $e_ix\in N_i(T_p)$, the
+first part of (P5) at the letter $i+1$ gives $Q^{M_{i+1}}\varphi(e_ix)\in N(T_p)$, hence $Q^{\max M}\varphi(x)\in N(T_p)$. We use that $D$ is exact (as in
+\cref{pf:sh-hodge:P6}) and that $\iota(y)\in N(T_p)$ implies $y\in N(T)$.
+
+Since $\beta(\varphi x-x)=c(\varphi e-e)=0$, there is $y\in D(T)$ with $\iota(y)=\varphi x-x$; then $\iota(Q^{\max M}y)=Q^{\max M}\varphi(x)-Q^{\max M}x\in N(T_p)$,
+so $Q^{\max M}y\in N(T)$, i.e.\ $y\in Q^{-\max M}N(T)$. By (P2), $\gamma x-x=Xw$ with $w\in N(T_p)$. Then $X\beta(w)=\beta(\gamma x-x)=c(\gamma e-e)=0$; as $X=
+\varphi^{s-1}(\pi)$ is a unit of $\mathcal E$ ($\pi$ is, and $\varphi$ is a ring endomorphism), $\beta(w)=0$, so $w=\iota(z)$ with $z\in D(T)$, and $z\in N(T)$ since
+$\iota(z)=w\in N(T_p)$. Thus $\gamma x-x=\iota(Xz)$ with $Xz\in XN(T)$.
+\end{proof}
+
+\begin{theorem}[The later clauses of the Wach lattice theory]\label{pf:sh-hodge:wach}
+For every datum $D$ and all Hodge--Tate, Fontaine and comparison data of its local theory, the clauses (P1)--(P10), ($\Gamma$ss), (H1)--(H4),
+(L3) and (E) hold for the Wach structures of all good triples.
+\formallabel{GlobalTheory.T.wachLattice_laterClauses_hold}
+\formallabel{GlobalTheory.NL.wach_used_clauses}
+\end{theorem}
+
+\begin{proof}
+The theorem is the conjunction of eighteen statements of the development, one for each clause; the proofs of (P1), (P6), (P8) and (H2) are given above, those of
+the others are deferred (together about $12\,000$ lines): (P1) \cref{pf:sh-hodge:P1}; (P2)
+\lref{GlobalTheory.NL.WachLatticeTrivialModUniformizer.wachLattice_galois_trivial_mod_uniformizer}; (P3)
+\lref{GlobalTheory.NL.CmpCris.wachLattice_comparison_dcris}; (P4) \lref{GlobalTheory.T.wach_lattice_expansion_at_low_level_points};
+(P5) \lref{GlobalTheory.T.wachLattice_heights_from_hodgeJumps}; (P6) \cref{pf:sh-hodge:P6}; (P7)
+\lref{GlobalTheory.T.herrCocycle_poles_frobeniusQ_crystalline};
+(P8) \cref{pf:sh-hodge:P8}; (P9) \lref{GlobalTheory.T.wachModule_descent_to_tame_subextension} (about $1\,950$ lines: the
+construction of $\pi'$ by an Eisenstein generator of $A^\Delta$ and of a $\Delta$-invariant basis); (P10)
+\lref{GlobalTheory.T.wachModule_uniqueness_characterisation}; ($\Gamma$ss) \lref{GlobalTheory.T.gammaSemisimpleQuotientD_statement}
+(about $1\,300$ lines, from the eigenvalues of $\gamma$ on $Q$-power quotients of Wach modules); (H1) \lref{GlobalTheory.NL.HerrComplexH1.herr_H1_description};
+(H2) \cref{pf:sh-hodge:H2}; (H3) \lref{GlobalTheory.T.wachIntegralComplex_cocycle_class_finite};
+(H4) \lref{GlobalTheory.T.defect_torsion_second_cohomology_kernel} (about $2\,800$ lines); (L3)
+\lref{GlobalTheory.T.cokernel_crystalline_surjection_killed_by_X_pow}; (E) \lref{GlobalTheory.NL.NygaardExtension.main} and
+\lref{GlobalTheory.T.local_comparison_of_cmpOf}.
+\end{proof}
+
+\begin{corollary}[The used forms]\label{pf:sh-hodge:used}
+For every datum $D$ and all Hodge--Tate, Fontaine and comparison data: at every good triple the ten clauses (P1)--(P10) hold (the
+\emph{$\Delta$-invariant lattice criterion}), and ($\Gamma$ss), (H1)--(H4), (L3) and (E) hold.
+\formallabel{GlobalTheory.T.wachModuleLocalConclusions_usedForms}
+\formallabel{GlobalTheory.NL.usedLocalConclusion_and_prvE}
+\end{corollary}
+
+\begin{proof}
+Regroup the clauses of \cref{pf:sh-hodge:wach} place by place; the four Herr clauses form the \emph{second proposition} of the development
+(\lref{Formalism.MainNotions.DeltaInvariantLattices.herr_prop_two_iff}, a restatement).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Local torsion bounds}\label{pf:sh-hodge:loc}
+
+Throughout, $D$ is a datum with Hodge--Tate, Fontaine and comparison data $(HW,F,\mathrm{Cm})$ of its local theory, $\ell$ a prime,
+$(K,s,\mathit{LL})$ a good triple with Wach structure $W$ and \'etale tie $j$, $\OO=\OO_{\mathit{LL}}$, $G=G_K$, and lattices are lattices of
+representations of $G$ over $\mathit{LL}$. For $a\in\Z$, $v_\ell(a)$ is the $\ell$-adic valuation ($v_\ell(0)=0$). The \emph{jump set} $J(T)$ of a
+lattice $T$ is the set of $a\in\Z$ with $\mathrm{Fil}^{a+1}D_{\mathrm{dR}}(V)\ne\mathrm{Fil}^aD_{\mathrm{dR}}(V)$, the union over the embeddings
+$\tau\colon K\to\mathit{LL}$ of the sets of Hodge--Tate jumps at $\tau$.
+
+\begin{definition}[The Wach hypothesis and the exponents]\label{pf:sh-hodge:def-hypw}
+Let $M_0,h_0\in\N$. A lattice $T$ satisfies $\mathrm{HypW}(M_0,h_0)$ if it is crystalline on $G_{K_s}$ (i.e.\ $\dim_{\mathit{LL}}(V\otimes
+B)^{G_{K_s}}=[K_0:\Ql]\dim V$), $J(T)\subseteq[-M_0,h_0]$, and there is an $A$-submodule $N\subseteq D(T)$ with an $A$-basis whose image under
+$j_T$ is an $R_W$-basis of $R_W\otimes T$, with $Q^{M_0}\varphi(N)\subseteq N$, $Q^{h_0}N\subseteq\mathrm{span}\,\varphi(N)$, stable under
+$G_{K_s}$ and under all endomorphisms of $T$, and with $(g-1)N\subseteq\pi N$ for $g\in G_{K_s}$. Put
+\[
+n_0=\min\{n:\ M_0+h_0\le\ell^n(\ell-1)\},\qquad m=2s+n_0+1,
+\]
+and for a finite set $U\subseteq\Z$ and integers $a<b$
+\[
+c(U;a,b)=v_\ell([K_m:\Ql])-v_\ell([K_s:\Ql])+\sum_{i=a}^{b-1}\Bigl(2+\max\Bigl(1,\sum_{u\in U,\,u\ne i}\bigl(m+v_\ell(u-i)\bigr)\Bigr)\Bigr).
+\]
+\formal{Formalism.MainNotions.LocalSituation.HypW}
+\formal{Formalism.MainNotions.LocalSituation.cLL}
+\end{definition}
+
+\subsubsection{Torsion of invariants}
+
+\begin{theorem}[Torsion exponent of invariants]\label{pf:sh-hodge:tek}
+Assume \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC. Let $T$ satisfy $\mathrm{HypW}(M_0,h_0)$ and suppose that $0$ is not a Hodge--Tate jump of
+$T$ at any embedding $K\to\mathit{LL}$. Then every $G_K$-invariant element $x$ of $V/T$ satisfies
+\[
+\ell^{\,c_{\mathrm{inv}}}x=0,\qquad c_{\mathrm{inv}}=v_\ell([K_m:\Ql])-v_\ell([K:\Ql])+2+\max\Bigl(1,\sum_{u\in J(T),\,u\ne0}\bigl(m+v_\ell(u)\bigr)\Bigr).
+\]
+\formallabel{GlobalTheory.T.torsion_exponent_kills_invariants_of_good}
+\formallabel{GlobalTheory.HubX.InvariantsNoJump.torsion_exponent_kills_invariants_no_jump_zero}
+\formallabel{GlobalTheory.HubX.InvariantsNoJump.two_add_sum_jumps_le_intervalExponent}
+\formallabel{GlobalTheory.T.invariants_vanish_at_prime_of_admissible}
+\formallabel{GlobalTheory.Cyc.InvKilled.invariants_killed}
+\formallabel{GlobalTheory.Cyc.InvKilled.killed_quot}
+\formallabel{GlobalTheory.Cyc.InvKilled.killed_of_coord}
+\end{theorem}
+
+\begin{remark}\label{pf:sh-hodge:tekrem}
+The three literature hypotheses and the comparison data are not used in the proof; the hypothesis on the jump $0$ is used at one
+embedding only. The result is a quantitative form of Tate's theorem $H^0(G_K,\C_\ell(j))=0$ for $j\ne0$ \cite[\S3]{Tate1967pdiv}, via
+Sen's theory \cite{Sen1980}.
+\end{remark}
+
+The proof rests on two lemmas, whose proofs are deferred. Let $\C_\ell$ carry the action of $G_{\Ql}$ of the $A_{\inf}$-data and let
+$\chi$ be the cyclotomic character. Choose a $\Zl$-basis of $T$ (of rank $d$) and let $M(\sigma)\in M_d(\C_\ell)$ be the matrix of
+$\sigma\in G_K$ in it (\lref{GlobalTheory.T.exists_continuous_galoisLatticeMatrix_integral}). Let $K_\infty=K_0(\mu_{\ell^\infty})$,
+$H_\infty=\Gal(\Omega_\ell/K_\infty)$ and $\rho_1=\ell^{-1/(\ell-1)}$. A \emph{Sen frame} of level $m$ is a map $\sigma\mapsto U(\sigma)$ from
+$G_{K_m}$ to $r\times r$ matrices with integral entries in $K_m$, continuous and multiplicative, trivial on $H_\infty$, together with
+$g\in G_{K_m}$ with $|\chi(g)-1|=\ell^{-m}$ and $|U(g)-1|<\rho_1$ entrywise. A \emph{Hodge--Tate basis} with weights in $J\subseteq\Z$ is a basis
+$e_1,\dots,e_r$ of $\C_\ell^r$ and $u_k\in J$ with $\chi(\sigma)^{u_k}U(\sigma)\sigma(e_k)=e_k$ for $\sigma\in G_{K_m}$. Write $B_r$ for the unit ball of
+$\C_\ell^r$.
+
+\begin{lemma}[Frames]\label{pf:sh-hodge:frame}
+For $T$ with $\mathrm{HypW}(M_0,h_0)$, $\tau\colon K\to\mathit{LL}$ and $m$ as above, there are $r$, a matrix $P\in M_{r\times d}(\C_\ell)$, a Sen frame
+$U$ of level $m$, a finite set $J$ of Hodge--Tate jumps of $T$ at $\tau$ and a Hodge--Tate basis for $U$ with weights in $J$, such that
+$PM(\sigma)=U(\sigma)\sigma(P)$ for $\sigma\in G_{K_m}$, $B_r\subseteq P(B_d)$, $\ell P(B_d)\subseteq B_r$, and every $y\in\Ql^d$ with $Py\in P(B_d)$
+lies in $\Zl^d$.
+\end{lemma}
+
+This is \lref{GlobalTheory.T.exists_tau_component_frame_of_lattice} (about $1\,200$ lines; its proof uses Fontaine's bounds
+\lref{GlobalTheory.Per.FontaineAll.fontaine_bounds} and the Wach module in $\mathrm{HypW}$).
+
+\begin{lemma}[Twisted invariants]\label{pf:sh-hodge:twinv}
+Let $U$ be a Sen frame of level $m\ge1$ ($m\ge2$ if $\ell=2$) with a Hodge--Tate basis with weights in a finite set $J$, let $i\notin J$, and
+let $\mathcal M\subseteq\C_\ell^r$ be an additive subgroup with $B_r\subseteq\mathcal M$ and $\ell\mathcal M\subseteq B_r$. If $y\in\C_\ell^r$ satisfies
+$\chi(\sigma)^iU(\sigma)\sigma(y)-y\in\mathcal M$ for all $\sigma\in G_{K_m}$, then
+\[
+\ell^{\,2+\max(1,\sum_{u\in J}(m+v_\ell(u-i)))}\,y\in\mathcal M .
+\]
+\end{lemma}
+
+This is \lref{GlobalTheory.T.prime_pow_smul_mem_of_twistedInvariant_mod_lattice} (about $300$ lines), an integral form of the
+vanishing of $H^0(G_{K_m},\C_\ell^r(i))$ for a representation with Hodge--Tate weights in $J\not\ni i$.
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:tek}]
+Fix an embedding $\tau\colon K\to\mathit{LL}$ (there are $[K:\Ql]\ge1$ of them, \lref{Formalism.MainNotions.N.JsetEmb.card_emb_good}) and put
+\[
+c_0=2+\sum_{u\text{ jump at }\tau}\bigl(m+v_\ell(u)\bigr).
+\]
+\emph{Step 1: reduction to coordinates.} It suffices to show: every $y\in\Ql^d$ with $M(\sigma)y-y\in B_d$ for all $\sigma\in G_K$ satisfies
+$\ell^{c_0}y\in\Zl^d$. Indeed, if $x\in V/T$ is invariant, lift it to $v\in V$; then $gv-v\in T$ for all $g$, and $v\in\ell^{-k}T$ for some $k$, so
+the coordinates $y$ of $v$ satisfy the hypothesis, hence $\ell^{c_0}v\in T$, i.e.\
+$\ell^{c_0}x=0$.
+
+\emph{Step 2.} Let $r,P,U,g,J$ be as in \cref{pf:sh-hodge:frame}. We have $m\ge s+1$, so $K\subseteq K_s\subseteq K_m$ and $G_{K_m}\subseteq G_K$; and
+$0\notin J$ since $0$ is not a jump at $\tau$. If $J=\emptyset$ then $r=0$ (the basis has weights in $J$), so $Py\in P(B_d)$ for every $y$ and every
+$y$ in Step~1 is integral. Otherwise put $\mathcal M=P(B_d)$ and $y'=Py$. For $\sigma\in G_{K_m}$, as $y$ has rational coordinates,
+\[
+U(\sigma)\sigma(y')-y'=U(\sigma)\sigma(P)y-Py=P\bigl(M(\sigma)y-y\bigr)\in P(B_d)=\mathcal M .
+\]
+\Cref{pf:sh-hodge:twinv} with $i=0$ gives $\ell^ey'\in\mathcal M$ with $e=2+\max(1,\sum_{u\in J}(m+v_\ell(u)))$. Since $J\ne\emptyset$ the sum is at
+least $1$, and it is at most the sum over all jumps at $\tau$; hence $e\le c_0$, and $\ell^{c_0}Py\in\mathcal M$ because $\mathcal M=P(B_d)$ is stable
+under multiplication by $\ell$. By the last property of $P$, $\ell^{c_0}y\in\Zl^d$.
+
+\emph{Step 3: the constant.} The jumps at $\tau$ are non-zero elements of $J(T)$, which is finite since $J(T)\subseteq[-M_0,h_0]$; so $c_0\le
+2+\max(1,\sum_{u\in J(T),u\ne0}(m+v_\ell(u)))\le c_{\mathrm{inv}}$, the last because $v_\ell([K_m:\Ql])\ge v_\ell([K:\Ql])$. Hence $\ell^{c_{\mathrm{inv}}}x=
+\ell^{c_{\mathrm{inv}}-c_0}\ell^{c_0}x=0$.
+\end{proof}
+
+\subsubsection{The twisted torsion class theorem}
+
+\begin{definition}[The admitted local statements]\label{pf:sh-hodge:def-adm}
+The \emph{admitted local statements} for $(D,HW,F)$ are, at every prime $\ell$ and every finite $K/\Ql$: (adm1) every $(u,w)\in B\times
+B_{\mathrm{dR}}$ is $(x-\varphi x,\,x-y)$ with $x\in B$, $y\in\mathrm{Fil}^0B_{\mathrm{dR}}$; (adm2) \shhodgeLTD; (adm3) $H^2(G_K,\mathit{LL}/\OO(1))\cong
+\mathit{LL}/\OO$ for every good coefficient ring; (adm4) \shhodgeLEC; (adm5) \emph{Tate's filtered invariants}: if $V$ is de~Rham and
+$z\in\mathrm{Fil}^a(V\otimes B_{\mathrm{dR}})$ satisfies $gz-z\in\mathrm{Fil}^b$ for all $g$, then $z\in(\mathrm{Fil}^aD_{\mathrm{dR}}(V))+\mathrm{Fil}^b$;
+(adm6) continuity of cocycles defined by periods; (adm7) Fontaine's bounds $\dim D_{\mathrm{cris}}(V)\le[K_0:\Ql]\dim V$, $\dim D_{\mathrm{dR}}(V)\le
+[K:\Ql]\dim V$, and crystalline $\Rightarrow$ de~Rham; (adm8) duals of de~Rham representations are de~Rham, and $\dim\mathrm{Fil}^0D_{\mathrm{dR}}(V)
++\dim\mathrm{Fil}^0D_{\mathrm{dR}}(V')=\dim D_{\mathrm{dR}}(V)$ for twisted duals; (adm9) at every good triple, Fontaine's statements on the \'etale tie
+($\varphi-1$ is onto $R_W\otimes T$, its kernel is $1\otimes T$, cocycles of the cyclotomic kernel come from $R_W\otimes T$) and the
+decompletion statement for $j$.
+\formal{Formalism.MainNotions.LocalSituation.admitted}
+\end{definition}
+
+The development proves the admitted local statements, and ties, from \shhodgeLTD{} and \shhodgeLEC{} for every datum and all $HW,F$
+(\lref{GlobalTheory.LocInputs.ties_and_inputs_of_duality_euler}); only (adm2) and (adm4) use these hypotheses.
+
+\begin{theorem}[Theorem TB]\label{pf:sh-hodge:tb}
+Assume \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC. For every datum $D$, all data $(HW,F,\mathrm{Cm})$, every prime $\ell$ and every good triple
+$(K,s,\mathit{LL})$ the following hold, where $e\in\N$ and $V_e$ denotes a representation of dimension one on which $g\in G$ acts by
+$\chi(g)^{-e}$, with a lattice $L_e$.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(Extension classes.)} Let $0\to Y\xrightarrow{\iota}\tilde Y\to Z\to0$ be a short exact sequence of lattices with $Z$ of rank one
+  and trivial action, $\tilde Y$ crystalline on $G_{K_s}$ and $Y$ satisfying $\mathrm{HypW}(M_0,h_0)$; let $\tilde y\in\tilde Y$ map to a generator
+  of $Z$, $f\colon G\to Y$ with $\iota(f(g))=g\tilde y-\tilde y$, and $\phi\colon Y\to V_e/L_e$ an $\OO$-linear $G$-map. Then
+  \[
+  \ell^{\,c_{TB}}\,(\phi\circ f)\in\shhodgeHfD(L_e),
+  \]
+  \[
+  c_{TB}=c(J(Y);0,e+1)+(e+2)s+v_\ell(e)+\lfloor e/(\ell-1)\rfloor+1+s+v_\ell(e+1)+v_\ell([K_s:\Ql])-v_\ell([K:\Ql]).
+  \]
+\item \emph{(Rank one twists.)} For every $n$, the $\ell^n$-torsion of $H^1(G,V_e/L_e)/\shhodgeHfD(L_e)$ (locally constant cocycles modulo the
+  finite ones) has $\OO$-length at most $([K:\Ql]+1)\,n\,\len_\OO(\OO/\ell)$; if $e>0$ then $\shhodgeHfD(L_e)=B^1(V_e/L_e)$; and if $e=0$, a cochain
+  $c$ lies in $\shhodgeHfD(L_0)$ iff it is a locally constant cocycle whose restriction to the inertia subgroup of $G_K$ is a coboundary.
+\end{enumerate}
+\formallabel{GlobalTheory.T.theorem_tb_of_local_blochKato_duality_euler}
+\formallabel{GlobalTheory.TheoremTBRecords.aux_of_blochKato_tateDuality_eulerChar}
+\formallabel{GlobalTheory.T.twistedTorsionClassTheorem_goodCase}
+\formallabel{GlobalTheory.TheoremTB.tb_assembled}
+\formallabel{GlobalTheory.T.weight_good_reduction_at_prime}
+\formallabel{GlobalTheory.TwistTors.twist_torsion_facts}
+\formallabel{GlobalTheory.TwistTors.tbe_of}
+\formallabel{GlobalTheory.TwistTors.exists_unr}
+\formallabel{GlobalTheory.T.crystalline_extension_class_bound}
+\formallabel{GlobalTheory.Cyc.ClassBound.class_bound}
+\end{theorem}
+
+\begin{remark}
+In the development (a) is the statement $\mathrm{TB}$ and (b) the statement $\mathrm{TBe}$ at the good triple (together \emph{Conclusion~4}).
+Part (b) for $e=0$ is the familiar identification of $H^1_f(K,\mathit{LL}/\OO)$ with the unramified classes, and for $e>0$ the vanishing of
+$H^1_f(K,\mathit{LL}(-e)/\OO(-e))$ \cite[\S3]{BlochKato1990}; part (a) bounds the failure of an integral extension class to be finite in terms
+of the Hodge--Tate jumps.
+\end{remark}
+
+\begin{proof}
+By \lref{GlobalTheory.LocInputs.ties_and_inputs_of_duality_euler} the admitted local statements hold for $(D,HW,F)$, and by
+\cref{pf:sh-hodge:bkall} the Bloch--Kato statements $\mathrm{bk}(\mathrm{PD}^D_K)$ hold for all $\ell,K$.
+
+\emph{Part (b).} $V_e$ is de~Rham with $D_{\mathrm{dR}}(V_e)\subseteq\mathrm{Fil}^0$
+(\lref{GlobalTheory.isDR_and_DdR_le_Fil_zero_of_twist}). If $e>0$ there is $g\in G_K$ with $\chi(g)^e\ne1$
+(\lref{GlobalTheory.Cyc.exists_mem_GK_chi_pow_ne_one}), so $V_e^{G}=0$, and by (adm5) and (adm7) every finite cocycle of $V_e$ is a coboundary
+(\lref{GlobalTheory.HfZero.z1f_le_b1}); hence $\shhodgeHfD(L_e)=B^1(V_e/L_e)$, which is non-zero. If $e=0$, $V_0$ is the trivial representation and (Ad)
+gives $\dim\shhodgeHf(V_0)=1+(1-1)=1$. Choose an unramified continuous homomorphism $\delta\colon G_K\to\Ql$ which is not zero; it is a finite cocycle of the
+trivial representation (\lref{GlobalTheory.UnramZl.exists_unramified_character} and \lref{GlobalTheory.UnramifiedCrys.unramified_mem_Z1f}). Since $G_K$ is
+topologically generated by a Frobenius lift and the inertia group (\lref{GlobalTheory.exists_topologicalClosure_zpowers_sup_inertia}),
+\lref{GlobalTheory.UnramifiedClasses.HfD_eq_unramified} identifies $\shhodgeHfD(L_0)$ with the locally constant cocycles that are coboundaries on
+inertia. Finally (adm2) and (adm4) bound the number of locally constant cocycles of a finite module $M$ killed by $\ell^r$ by $(\#M)^{[K:\Ql]+2}$
+(\lref{GlobalTheory.CocycleCount.cocycles_finite_ncard_le}); with $\shhodgeHfD(L_e)\ne0$ this gives the length bound for the $\ell^n$-torsion
+(\lref{GlobalTheory.TwistTors.len_part}), using $\len_\OO(\OO/\ell^n)=n\len_\OO(\OO/\ell)$.
+
+\emph{Part (a)} is the \emph{crystalline extension class bound}, which uses only the admitted statements. Its proof proceeds as follows (the three main
+steps are deferred). Let $\xi\in A_{\inf}$ be the standard generator of $\ker\theta$ and $Q_{a,b}=\xi^aA_{\inf}/\xi^bA_{\inf}$.
+\begin{enumerate}[label=(\arabic*)]
+\item $f$ is a continuous cocycle, and $f\otimes1$ is a cocycle of $G_{K_s}$ in $Y\otimes_{\Zl}Q_{0,e+1}$.
+\item Since $\tilde Y$ is crystalline on $G_{K_s}$, $\ell^k(f\otimes1)$ is a coboundary for some $k$
+  (\lref{GlobalTheory.T.ses_lattice_trivial_quotient}).
+\item The $\ell$-power torsion of the first cohomology of $G_{K_s}$ in $Y\otimes Q_{a,b}$ (computed with continuous cocycles) is killed by
+  $\ell^{c(J(Y);a,b)}$ when $Y$ satisfies $\mathrm{HypW}(M_0,h_0)$ (\lref{GlobalTheory.T.torsion_bound_of_weight_hyp}, about $2\,500$ lines);
+  hence $\ell^{c(J(Y);0,e+1)}(f\otimes1)$ is a coboundary.
+\item If $\ell^N(f\otimes1)$ is a coboundary in $Y\otimes Q_{0,e+1}$, then $\ell^{N+c'}\phi\circ f\in\shhodgeHfD(L_e)$ with $c'=c_{TB}-c(J(Y);0,e+1)$, by
+  (adm2) and (adm4) (\lref{GlobalTheory.Cyc.ClassBound.mem_HfD_of_lattice}, about $5\,700$ lines).
+\end{enumerate}
+\end{proof}
+
+\subsubsection{The local lifting theory}
+
+Let $W$ be a Wach structure, $T_1,T_2$ crystalline lattices and $F\colon T_1\to T_2$ a surjective lattice map, and let $T_1$ have jumps within
+$(M,h)$. Put $M_{\max}=\max_iM_i$, $h_{\max}=\max_ih_i$, $H=\max_i(M_i+h_i)$, let $J_1$ be the set of jumps of $T_1$ in $[-M_{\max},h_{\max}]$ and
+\[
+J(J_1,M)=\{a+j\ne0:\ a\in J_1,\ 1\le j\le M_{\max}\}\cup[1,M_{\max}],\qquad c_H=\lceil1+\log_\ell(H+1)\rceil,
+\]
+\[
+e_{WA}=\Bigl\lfloor\frac{H\ell}{(\ell-1)^2}+3+\log_\ell(H+1)\Bigr\rfloor,\qquad a_A=\Bigl\lfloor\frac{M_{\max}}{\ell-1}\Bigr\rfloor+1,
+\]
+\[
+e_{PA}=2e_{WA}+\sum_{j\in J(J_1,M)}v_\ell(j)+a_A+v_\ell(a_A!).
+\]
+$s_i$ denotes the least $k$ with $\pi^kN_i(T_2)\subseteq F(N_i(T_1))$.
+\formal{Formalism.MainNotions.LiftingTheory.ePA}
+
+\begin{theorem}[The local constants]\label{pf:sh-hodge:lc}
+Assume \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC. For every datum $D$ and all data $(HW,F,\mathrm{Cm})$, the \emph{local lifting theory with
+constants $(C_R,C_A,C_B,C_K)=(10,23,32,32)$} holds at every good triple: that is, the following eight packages.
+\begin{enumerate}[label=(\arabic*)]
+\item (L) An ideal statement: for disjoint finite $S_1,S_2\subseteq\Z$ and $c\colon\Z\to\OO$ with $v(c(a)-c(b))=s_g+v_\ell(a-b)$ for $a\ne b$ in
+  $S_1\cup S_2$, if $v(\prod_{b\in S_2}(c(a)-c(b)))+v(f_1'(c(a)))\le E$ for all $a\in S_1$, where $f_1=\prod_{b\in S_1}(X-c(b))$, then $p^E$ lies in
+  the ideal of $\OO[X]$ generated by $f_1$ and $\prod_{b\in S_2}(X-c(b))$.
+\item (WX) Wach modules kill cokernels: $X^H$ kills $N_i(T_2)/F(N_i(T_1))$ for every letter $i$; in case~A so does $p^{e_{WA}}$; in case~B
+  ($G_{K_s}=G_K$, $[K:K_0]=(\ell-1)\ell^{s-1}$) so does $p^{2Hs+v_\ell((2H)!)}$; and if $s=1$, $\ell\ne2$, $[K:K_0]=e$, a $\Delta$-statement with
+  $\pi'$ and the corresponding power of $p$.
+\item (W1) In case~A: $p^a\pi^j$ kills $N_i(T_2)/F(N_i(T_1))$ whenever $(s_i-j)\ell/(\ell-1)^2+c_H\le a$.
+\item (WR) In case~A: $s_{i-1}\le M_i+h_i+c_H+3+s_i/(\ell-1)$.
+\item (WC) In case~A, with $C_R=10$: explicit bounds for $s_i$, for the least $r_i$ with $p^{r_i}$ killing the $\Delta$-invariants, and for
+  $\lceil s_i/(\ell-1)\rceil+r_i$, among them $r_i\le C_R\bigl(G/\ell+H/(\ell-1)^{j+1}+1+\log(H+1)\bigr)$ when $M_{i+a}+h_{i+a}\le2G$ for
+  $1\le a\le j$.
+\item (H) In case~A: the action of $\gamma$ on $\pi_0^r$-multiples of $\Delta$-invariants, the valuations $v(u_1^r-1)=1+v_\ell(r)$ of
+  $u_1=\chi(\gamma)^{\ell-1}$, and bounds for the solutions of the associated recursions in a $\Delta$-frame.
+\item (Tr) In case~A: decompositions of $\varphi^k(\pi_0+p)$ and of $\varphi^j(\pi_0)^r$ in $A^\Delta$, with bounds for the denominators.
+\item (Lift) The lifting theorems: in case~A, $F$ lifts with exponent $e_{PA}$ (i.e.\ $\ell^{e_{PA}}\shhodgeZf(T_2)$ lies in the image of $\shhodgeZf(T_1)$
+  plus coboundaries, \cref{pf:linkN-adm:def-col}); in case~B with the analogous exponent $e_{PB}$; for crystalline $T_1$ with jumps within $(M,h)$,
+  the product $\prod_{j\in J(J_1,M)}(1-u^{-j})$ is associated to a power of $p$ in case~B, and $\prod_{j\in J(J_1,M)}\frac{u^{-j}-1}{p}=wp^k$ with
+  $w\in\OO^\times$, $k\in\Z$ in case~A, where $u=\chi(\gamma)$ as in \cref{pf:sh-hodge:hw}; the exponent bounds
+  \[
+  e_{PA}\le C_A\Bigl(1+\frac{H}{\ell}+1+\log_\ell(H+1)\Bigr)\ \text{in case~A},\qquad e_{PB}\le C_B(Hs+1),\quad e_{PB}\le C_KH\ \text{if }s=1,
+  \]
+  in case~B; and Galois descent of the lifting theorems to subfields $K'\subseteq K$ with $G_K$ normal in $G_{K'}$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.localConstants_from_admitted_local_Galois_statements}
+\formallabel{GlobalTheory.localConstants_from_admitted_local_Galois_statements_alt}
+\formallabel{Formalism.MainNotions.LiftingTheory.frobenius_lifting}
+\formallabel{Formalism.MainNotions.LiftingTheory.local_theory_of_admitted}
+\end{theorem}
+
+\begin{proof}
+The development defines twenty-three \emph{admitted hypotheses of the lifting theory}: the clauses (P1)--(P10), ($\Gamma$ss), (H1)--(H4) and (L3)
+of \cref{pf:sh-hodge:hw}, and seven further local statements (the Herr cocycle of an extension of the unit object, also in its $\Delta$-form; a
+descending sequence for $\gamma$ at the jumps; corestriction for subfields; the naturality of $\shhodgecl$ and $\shhodgecl_K$; Fontaine's
+inequality; and the exactness of Hodge--Tate jumps in short exact sequences). They hold for all data
+(\lref{GlobalTheory.T.liftingTheorem_wachModuleLemma_hypotheses_admitted}). From them, \lref{Formalism.MainNotions.LiftingTheory.local_parts_of_admitted}
+(deferred, about $1\,600$ lines) proves the packages (1)--(7), and \lref{Formalism.MainNotions.LiftingTheory.lifting_all_parts_of_admitted}
+(deferred, about $4\,500$ lines) proves (8): the case~A lifting theorem \lref{Formalism.MainNotions.LiftingTheory.lifting_case_A_of_admitted}, the
+case~B theorem \lref{Formalism.MainNotions.LiftingTheory.lifting_case_B_of_hypotheses}, the descent to subfields
+\lref{Formalism.MainNotions.LiftingTheory.lifting_descent_to_subfields} and the exponent shapes
+\lref{Formalism.MainNotions.LiftingTheory.lifting_exponent_shapes}.
+\end{proof}
+
+\begin{remark}
+The hypotheses \shhodgeBK, \shhodgeLTD{} and \shhodgeLEC{} of \cref{pf:sh-hodge:lc} are not used in its proof: the admitted hypotheses of the
+lifting theory are proved for all data without them.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Three global statements}\label{pf:sh-hodge:glob}
+
+\subsubsection{The parameters of a family grow polynomially}
+
+We use the notation of \cref{sec:pf:linkN,sec:pf:linkN-sel} for families: a family $\mathcal F\in\sfname{FamP}(\eps)$ has index sets $I_x$, a
+threshold $x_1$, members $D_{x,i}$ with size data $L_{x,i}$ of scale $(x,\eps)$ ($x>1$, $0<\eps<1/52$, $\Lambda=x^\eps$, $b=e^\Lambda$, and a
+size parameter $\delta_2>0$), a constant $C_t$, a list of constants from which the parameter choices of the members are read off (in particular
+two constants $C_{Lw},C_{YL}$), and the \emph{size conditions} of \cref{sec:families:galois}. Among them we use:
+\begin{equation}\label{eq:pf:sh-hodge:sizes}
+\begin{gathered}
+n\le x^{2+8\eps+\eps/100},\quad k\le x^{9/2+10\eps+\eps/100},\quad 1\le t\le x^{C_t+\eps/100},\quad x^{-\eps}\le\delta_2,\\
+\log q,\ \log d\le x^{\eps/5+\eps/100},\quad 1\le\mathrm{rd}_E\le\tfrac{Q_S}{2}\sqrt{qd},\quad (kb)^8\le g_j,\quad \log g_j\le x^{\eps/100}\Lambda\quad(j=0,1),
+\end{gathered}
+\end{equation}
+where $\mathrm{rd}_E=|d_E|^{1/[E:\Q]}$ is the root discriminant of $E$ and $Q_S\le n^2$ is the level of the host. Recall $f=2n$, $r=k+m-1$ and
+$m+3\le k$, so $r\le2k$; $\#G$ is the order \eqref{eq:pf:linkN:G} of the level group.
+
+\begin{theorem}[Parameter bound]\label{pf:sh-hodge:par}
+For every $\eps$ and every family $\mathcal F\in\sfname{FamP}(\eps)$ there are $C\ge1$ and $x_0$ such that for all $x\ge x_0$ with $x>x_1$ and all
+$i\in I_x$ the member $(D,L)=(D_{x,i},L_{x,i})$ satisfies
+\[
+C_{Lw}\le C,\quad C_{YL}\le C,\quad k,n,t\le x^C,\quad x^{-\eps}\le\delta_2,\quad \log h_E\le Cx^C,\quad \log\#G\le Cx^C\Lambda .
+\]
+\formallabel{GlobalTheory.T.admissible_parameters_family_const}
+\formallabel{GlobalTheory.NLink.admissible_parameters_design_family}
+\end{theorem}
+
+\begin{lemma}[Class number]\label{pf:sh-hodge:hE}
+For every $\eps$ and $\mathcal F\in\sfname{FamP}(\eps)$, with $A=|2+8\eps+\eps/100|+|\eps/5+\eps/100|+1$, every member with $x\ge1$, $x>x_1$ satisfies
+$\log h_E\le(30+3A)x^{30+3A}$.
+\formallabel{GlobalTheory.T.log_hostClassNumber_le_scale_pow_family}
+\formallabel{GlobalTheory.log_hE_le_pow}
+\formallabel{GlobalTheory.ClassNumHost.log_hE_le_lin}
+\formallabel{GlobalTheory.ClassNumHost.log_rd_le}
+\formallabel{GlobalTheory.ClassNumHost.log_hE_le_rd}
+\end{lemma}
+
+\begin{proof}
+$E$ is totally complex of degree $2f$, and \lref{GlobalTheory.log_classNumber_le_log_abs_discr_div} states that a totally complex field of
+degree $2f$ satisfies $\log h\le f\log\mathrm{rd}+2f\log(1+f\log\mathrm{rd})$ with $\log\mathrm{rd}=\log|d|/(2f)$. Since $\mathrm{rd}_E\ge1$ and
+$\log(1+y)\le y$ for $y\ge0$,
+\[
+\log h_E\le(1+2f)\,f\log\mathrm{rd}_E .
+\]
+From $\mathrm{rd}_E\le\frac{Q_S}2\sqrt{qd}\le n^2\sqrt{qd}$ and $\log n\le n$ we get $\log\mathrm{rd}_E\le2n+\frac12(\log q+\log d)$. Put $P=x^A\ge1$.
+By \eqref{eq:pf:sh-hodge:sizes}, $n\le P$ and $\log q,\log d\le P$ (the exponents are at most $A$ and $x\ge1$); hence $\log\mathrm{rd}_E\le3P$, $f=2n\le2P$,
+$f\log\mathrm{rd}_E\le6P^2$ and $1+2f\le5P$. Therefore $\log h_E\le30P^3=30x^{3A}\le(30+3A)x^{30+3A}$.
+\end{proof}
+
+\begin{lemma}[Level group]\label{pf:sh-hodge:G}
+For every $\eps$ and $\mathcal F\in\sfname{FamP}(\eps)$ there is $x_0$ such that every member with $x\ge x_0$, $x>x_1$ satisfies $\log\#G\le x^{15}$,
+$8fr/\min(g_0,g_1)\le1/3$ and $b\ge1$; in particular $\log\#G\le15x^{15}\Lambda$.
+\formallabel{GlobalTheory.T.exists_log_card_restRows_le_pow_mul_length}
+\formallabel{GlobalTheory.NLink.log_card_levelGroup_le_scale_pow_mul_length}
+\formallabel{GlobalTheory.log_levelGroup_le_and_level_large}
+\end{lemma}
+
+\begin{proof}
+By the size conditions there is $x_0'$ such that for $x\ge x_0'$, $x>x_1$, every member satisfies $f\le x^3$, $k\le x^5$ and $x^{C_t+6}\le b$, hence $b\ge1$
+(\lref{GlobalTheory.poly_sizes_ranks_weights}; for instance $f=2n\le2x^{2+8\eps+\eps/100}\le x^{1/2}x^{5/2}$ when $x\ge4$, as $\eps<1/52$).
+Let $x_0=\max(x_0',8)$. By \eqref{eq:pf:sh-hodge:sizes}, $g_j\ge(kb)^8\ge k^8>0$ and $\log g_j\le x^{\eps/100+\eps}\le x$. Since
+$\#\GL_r(\F_{g})\le g^{r^2}$, \eqref{eq:pf:linkN:G} gives $\#G\le(g_0g_1)^{r^2f}$, so
+\[
+\log\#G\le r^2f(\log g_0+\log g_1)\le(2x^5)^2\,x^3\,(2x)=8x^{14}\le x^{15}.
+\]
+Next $8fr\le8k\cdot2k=16k^2$ (as $f\le k$) and $\min(g_0,g_1)\ge k^8\ge5^6k^2$ (as $k\ge m+3\ge5$), so $8fr/\min(g_0,g_1)\le16/5^6\le1/3$. Finally
+$\log\#G\le x^{15}\le15x^{15}\le15x^{15}\Lambda$ since $\Lambda=x^\eps\ge1$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-hodge:par}]
+Let $C_1=30+3A$ and $y_1=1$ (\cref{pf:sh-hodge:hE}), $C_2=15$ and $y_2$ the threshold of \cref{pf:sh-hodge:G}, and
+\[
+C=\max\bigl(1,\ C_{Lw}(\mathcal F),\ C_{YL}(\mathcal F),\ 9/2+10\eps+\eps/100,\ 2+8\eps+\eps/100,\ C_t+\eps/100,\ C_1,\ C_2\bigr),
+\]
+where $C_{Lw}(\mathcal F),C_{YL}(\mathcal F)$ are the entries of the constant list of $\mathcal F$ which are the constants $C_{Lw},C_{YL}$ of every
+member's parameter choice. Let $x\ge x_0=\max(y_1,y_2)$, $x>x_1$; then $x\ge1$, and $x^a\le x^C$ for $a\le C$. The first two bounds hold by the choice
+of $C$; $k,n,t\le x^C$ and $x^{-\eps}\le\delta_2$ follow from \eqref{eq:pf:sh-hodge:sizes}; $\log h_E\le C_1x^{C_1}\le Cx^C$ and
+$\log\#G\le C_2x^{C_2}\Lambda\le Cx^C\Lambda$ by the lemmas, using $Cx^C\ge C_ix^{C_i}$ for $x\ge1$, $0\le C_i\le C$.
+\end{proof}
+
+\subsubsection{The signature choice condition}
+
+Let $D$ be a datum with a norm choice $\mathcal C$ (\cref{sec:families:galois}): for every twisted place $w$ of the coefficient field it provides a
+twisting character $\psi_w$ of a ray class group with values in a finite extension of $\Z_{\ell(w)}$, a side $\mathrm{sd}(w)$, an exponent $k'(w)$
+and a finite set $\mathcal Q(w)$ of auxiliary places. For a \emph{signature} $s$ of the twist at $w$, $\mathrm{sLen}(w,s)\in[0,\infty]$ denotes the
+length of the Selmer group of the Bloch--Kato reduction of the twist for $s$, relaxed at $\mathcal Q(w)$, for the character $\psi_w$ read at the side of
+$s$; and $\mathrm{tv}_w(P)$ the tame valuation of $\psi_w$ at $P$ (\cref{pf:linkN-sel:kill}).
+
+\begin{definition}[Signature choice condition]\label{pf:sh-hodge:def-sig}
+Let $\rho=(\rho_\iota)$ be a family of rank $r$. The \emph{signature choice condition} for $\rho$ and $\mathcal C$ holds if for every twisted local
+index $\iota$, with $w=w_\iota$: (a) for every $\pi\in Z^{\mathrm{good}}_\iota$ there is a good signature $s$ of the twist at $w$ such that
+$\mathrm{sLen}(w,s)<\infty$ implies that $\shhodgeSel(\iota,\rho,\pi)$ is finite, and $s_\Pi(\iota,\rho,\pi)\le\mathrm{sLen}(w,s)$; and (b)
+$\sum_{v\in Q_\iota}\lambda_\iota(\OO_\iota/(\zeta_{\iota,v}-1))\le\sum_{P\in\mathcal Q(w)}\mathrm{tv}_w(P)$.
+\formal{Formalism.MainNotions.N.KillingConditions.SignatureChoiceCondition}
+\end{definition}
+
+The Chebotarev statement used here, $\sfname{Cheb}$, is: for every number field $F$ with algebraic closure $\Omega$, every open normal subgroup
+$U\subseteq G_F$, every $g\in G_F$ and every finite set $A$ of finite places, there are $v\notin A$ of absolute residue degree and ramification index
+$1$, a place $B$ above $v$ with $\shhodgeIne_B\subseteq U$ and a Frobenius $\sigma$ at $B$ for $\shhodgeNm v$ with $\sigma g^{-1}\in U$. It is equivalent to
+the statement of \cref{pf:sh-hodge:cheb} (\lref{GlobalTheory.Published.chebotarevDegreeOne_iff_cheb}), and holds by that theorem
+(\lref{GlobalTheory.Published.cheb_holds}).
+\formal{GlobalTheory.TwSys.Cheb}
+
+\begin{theorem}[Signature choice]\label{pf:sh-hodge:js}
+Assume $\sfname{Cheb}$. Let $D$ be a datum with norm choice $\mathcal C$ and families $r,\rho$ of ranks $n_V,r$. Assume that $(r,\rho)$ is a
+\emph{point family}, that $\mathcal C$ is \emph{tied} to $D$, and the three conditions of the norm-choice facts on good triples, on the same twist and
+on the good-point rows, and residual absolute irreducibility at good points. Then the signature choice condition holds for $\rho$ and $\mathcal C$.
+\formallabel{GlobalTheory.JointSix.main}
+\formallabel{GlobalTheory.PtSel.selCore}
+\formallabel{GlobalTheory.JointSix.psiAt_psiW}
+\end{theorem}
+
+\begin{proof}
+Let $\iota$ be twisted and $w=w_\iota$. Since $\mathcal C$ is tied to $D$, the twisting index of $\iota$ is the index of $w$ and $\mathcal Q(w)=Q_\iota$.
+\emph{(a)} Let $\pi\in Z^{\mathrm{good}}_\iota$. The point family gives that $\rho_{\iota,\pi}$ is a point representation at $(\iota,\pi)$, and the same-twist
+condition gives a character $\psi$ and a ring map identifying the twisting character of $\iota$ with $\psi$ (the \emph{same character} condition). The
+statement \lref{GlobalTheory.PtSel.sel_at} (deferred, about $2\,060$ lines) provides a good signature $s$ whose side is the twist side of $\iota$,
+such that $\mathrm{sLen}<\infty$ implies finiteness of $\shhodgeSel(\iota,\rho,\pi)$ and $s_\Pi(\iota,\rho,\pi)\le\mathrm{sLen}$, where $\mathrm{sLen}$ is
+computed with $\psi$ and $Q_\iota$. Its proof: the good-point row data at $(\iota,\pi)$ and the good-triple condition provide $s$; by $\sfname{Cheb}$ and
+residual absolute irreducibility the twisted $\rho_{\iota,\pi}$ is conjugate to the representation on the lattice attached to $\psi$
+(\lref{GlobalTheory.PtCore.twistedRho_conj_latTpsi}, using that representations over a discrete valuation ring with the same traces and absolutely
+irreducible residual representation are conjugate, \lref{GlobalTheory.T.exists_conj_of_trace_eq_residually_absIrreducible_DVR}); Selmer lengths are
+invariant under this conjugation (\lref{GlobalTheory.ConjLatticeSelmer.sPiTop_eq_sTLoc}) and under the change of character
+(\lref{GlobalTheory.SelmerSameChar.sTLoc_eq}); and the Selmer group of the twist is compared with that of the Bloch--Kato reduction
+(\lref{GlobalTheory.SelTwistLe.sT_le_sLen}). Finally the character of the side of $s$ is $\psi_w$: reading $\psi_w$ at the side
+$\mathrm{sd}(w)$ gives the character $\psi_G$ used above, by inspection of the two cases of the side.
+\emph{(b)} For $v\in Q_\iota$, $\lambda_\iota(\OO_\iota/(\zeta_{\iota,v}-1))\le\mathrm{tv}_w(v)$ by
+\lref{GlobalTheory.T.conductorRoot_sub_one_length_le_tameValue} (deferred); sum over $v\in Q_\iota=\mathcal Q(w)$.
+\end{proof}
+
+\subsubsection{The global lattice index theorem}
+
+We use the notation of \cref{pf:linkN-sel:glit}. Let $D$ be a datum, $\iota$ a local index with $\ell=\ell_\iota$, $r$ and $\rho$ families of ranks $n_V$ and
+$r$ at $\iota$, $\pi\in X_\iota$, $\mathrm{dc}=(\mathrm{row},\mathrm{col})$ a partition of the places of $E$ above $\ell$, $\kappa_{\mathrm{row}}$ a rational
+function on places, $e'$ an integer function on places and $c_B\in\N$. The \emph{admitted conditions} at $(\iota,r,\rho,\pi,\mathrm{dc},\kappa_{\mathrm{row}},e',c_B)$ are the nineteen conditions of \cref{pf:linkN-sel:glit}:
+(G1) the coefficients of the characteristic polynomials of the $r_x(g)$, as functions of $x\in X_\iota$, lie in $T_\iota$; (G2) at the places above $\ell$, a
+gain bound and crystallinity of $r_x\chi_{\iota,1}^{-1}$; (G3) absolute irreducibility of the $r_x$, the residual characteristic polynomial of $r_x$ is that
+of $\rho_\pi$ times $\prod_{c=1}^t(X-\bar\chi_{\iota,c})$, and the residual image of $\rho_\pi$ spans the matrix algebra; (G4) unramifiedness outside $\ell$,
+$S_\iota$, $Q_\iota$; (G5) conditions on inertia at $S_\iota\cup Q_\iota$; (G6) if $r_x$ has an eigenvector with character $\chi_{\iota,1}$ then $x\in Z_\iota$;
+the tame generator conditions; local Bloch--Kato statements at the places above $\ell$ (top-degree duality, dimension formula, integral duality) and the
+Bloch--Kato annihilators there (\cref{pf:sh-hodge:bka}); continuity of the family; the semisimple decomposition $r_\pi\otimes K_\iota\cong\rho_\pi\oplus
+\bigoplus_{c=1}^t\chi_{\iota,c}$; Fontaine's statements and the finiteness of local cohomology at the places above $\ell$ (\cref{pf:sh-hodge:fin}); the
+compatibility of the local coefficients; a condition (G51) on $(r,\rho,\pi)$; the triviality of unramified finite classes at the columns; the row length bounds
+with $\kappa_{\mathrm{row}}$; the lift exponent conditions at the columns with $e'$; and the block condition with $c_B$.
+\formal{Formalism.MainNotions.TruncatedSeriesCountingIdentities.GlobalLatticeIndexTheorem}
+
+\begin{theorem}[Global lattice index theorem]\label{pf:sh-hodge:glit}
+Assume \shhodgeGAR, \shhodgeLTD{} and \shhodgeLEC, and let the data above satisfy the admitted conditions. If $\ell\notin\{g_0,g_1\}$, $\pi\in Z_\iota$,
+$\shhodgeSel(\iota,\rho,\pi)$ is finite and $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ is finite for $0<e<t$, then inequality \eqref{eq:pf:linkN-sel:glit}
+holds:
+\begin{multline*}
+v_{cc}(\iota,\pi)\le\sum_{w\in\mathrm{row}\cup\mathrm{col}}\kappa(w)+s_\Pi(\iota,\rho,\pi)+\sum_{0<e<t}\mathrm{sh}(\ell,e)+v_\ell(h_E)
++t\sum_{w\in\mathrm{row}}(n_w+2)c_B\\
++4n_V(\#\mathrm{col}+1)\delta_\iota+t\,\#\mathrm{col}\cdot h_0(\iota,\mathrm{col})+t\sum_{v\in Q_\iota}\lambda_\iota(\OO_\iota/(\zeta_{\iota,v}-1)),
+\end{multline*}
+where $\kappa(w)=\kappa_{\mathrm{row}}(w)$ for $w\in\mathrm{row}$ and $\kappa(w)$ is the column length defined from $e'$ for $w\in\mathrm{col}$.
+\formallabel{GlobalTheory.T.globalLatticeIndexTheorem_of_lengthBoundAtPlaces}
+\formallabel{GlobalTheory.SelmerBoundAtPoint.main}
+\end{theorem}
+
+\begin{proof}
+The proof assembles four results, whose proofs are deferred.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Local duality and class field facts} (\lref{GlobalTheory.T.local_duality_class_field_facts_of_artin_tate_euler}, about $7\,200$ lines): from
+  \shhodgeGAR, \shhodgeLTD{} and \shhodgeLEC{} the development derives thirteen statements used in the argument
+  (\lref{GlobalTheory.langRecCore_of_artinReciprocity}): the identification of decomposition groups with local Galois groups; from \shhodgeLTD{}
+  the invariant isomorphisms, also for cyclotomic twists, and the finite, rational and integral forms of local duality for dual lattices
+  (\lref{GlobalTheory.T.invIso_of_localTateDuality}, \lref{GlobalTheory.T.natInvIso_of_localTateDuality_cyclotomicTwist}, and \lref{GlobalTheory.T.integral_localDuality_of_localTateDuality}); from \shhodgeLTD{} and \shhodgeLEC{} the shape of local cohomology and of
+  homomorphisms modulo unramified ones (\lref{GlobalTheory.T.cohomology_shape_of_tate_duality_euler} and \lref{GlobalTheory.T.galoisHom_modulo_unramified_shape_of_localDuality}); from \shhodgeGAR{} the bound of the unramified homomorphisms of $G_E$
+  by the class number, which produces the term $v_\ell(h_E)$ (\lref{GlobalTheory.T.unramifiedGaloisHoms_bounded_classNumber_of_artinReciprocity});
+  and unramified decompositions and elementary facts on local cohomology and topologies
+  (\lref{GlobalTheory.T.unramified_padic_decomposition_hom_exists}).
+\item \emph{Finiteness of twisted invariants} (\lref{GlobalTheory.SelmerBoundAtPoint.finCore}): at the places above $\ell$ the invariants of the
+  twisted coefficient modules $K_\iota/\OO_\iota$ attached to $\rho_\pi$ and to the negative Tate twists have finite length.
+\item \emph{The unramified input} (\lref{Formalism.MainNotions.N.K.StD.unramified_input_of_admitted}), a reformulation of the triviality of unramified
+  finite classes at the columns.
+\item \emph{The theorem from the inputs} (\lref{Formalism.MainNotions.N.K.Closed.theorem_n5_from_inputs}, about $26\,500$ lines), which derives the
+  inequality from the admitted conditions and (1)--(3). Its proof first replaces $r_\pi$ by the block diagonal representation $\rho_\pi\oplus\bigoplus_c
+  \chi_{\iota,c}$ (permitted by the semisimple decomposition; \lref{Formalism.MainNotions.N.K.Norm.normAt_rN}); then establishes, for the normalised
+  family, five \emph{open inputs} (a statement on $\rho$, the block statement with $c_B$, a statement on the characters $\chi_{\iota,c}$, the first local
+  condition and the row tie-in; \lref{Formalism.MainNotions.N.K.Closed.open_inputs_at_normalized}); and finally derives the inequality from ring data
+  attached to the normalised family, in which the length of $\OO_\iota/\mathfrak c_\pi$ is compared with lengths of Selmer groups of the blocks
+  (\lref{Formalism.MainNotions.N.K.normalized_ring_data}, \lref{Formalism.MainNotions.N.K.St.selmer_inequality_three}, and \lref{Formalism.MainNotions.N.K.Final.theorem_n5_of_open_b}).
+\end{enumerate}
+Given (1) and (2), the theorem is (4) applied to the admitted conditions, with the unramified input (3) in place of the column triviality.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:sh-hodge:remarks}
+
+\begin{enumerate}
+\item Several hypotheses of the formal statements are not used in their proofs: in \cref{pf:sh-hodge:tek} the three literature hypotheses and the
+  comparison data; in \cref{pf:sh-hodge:lc} the three literature hypotheses; in \cref{pf:sh-hodge:tb} the comparison data; in \cref{pf:sh-hodge:bkC}
+  the local Euler characteristic formula and the tie of the local theory; in \cref{pf:sh-hodge:bka} the goodness of the coefficient extension.
+\item The admitted statement (adm4) of \cref{pf:sh-hodge:def-adm} is called \emph{Archimedean signature matching} in the development, but it is the local
+  Euler characteristic formula \shhodgeLEC; likewise the fourth admitted hypothesis of the lifting theory, so named, is the clause (P4).
+\item The formal statements \lref{GlobalTheory.T.blochKatoLocal_all_of_tateDuality_eulerChar} and
+  \lref{GlobalTheory.BlochKatoLocalOfHyp.blochKatoLocal_allPrimes_of_blochKato} are identical.
+\item The formal Chebotarev statement \cref{pf:sh-hodge:cheb} is an existence statement, weaker than the density theorem; it is proved without the
+  density theorem, by Chebotarev's cyclotomic crossing and Hecke's $L$-functions.
+\item The statement $\sfname{Cheb}$ used in \cref{pf:sh-hodge:js} is a hypothesis of that theorem; it is equivalent to \cref{pf:sh-hodge:cheb} and
+  is derived from it in the development.
+\item In \cref{pf:sh-hodge:glit}, global Artin reciprocity \shhodgeGAR{} is used only through the bound for the unramified homomorphisms of $G_E$
+  by the class number $h_E$.
+\item The results of \cref{pf:sh-hodge:hw,pf:sh-hodge:loc} are statements about arbitrary Hodge--Tate, Fontaine and comparison data of the local theory of a
+  datum (which exist by \cref{pf:sh-hodge:exhw}); the Wach structures are axiomatised, and the clauses (P1)--(P10) are theorems about every such
+  axiomatised structure arising from the data.
+\end{enumerate}

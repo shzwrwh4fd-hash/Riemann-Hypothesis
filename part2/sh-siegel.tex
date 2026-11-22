@@ -1,0 +1,1620 @@
+\section{Shared results VI: Siegel lattices, masses and period integrals}\label{sec:pf:sh-siegel}
+
+\providecommand{\shsiegelGap}{\mathrm{Gap}}
+\providecommand{\shsiegelGG}{\gamma}
+\providecommand{\shsiegelGam}{\Gamma}
+\providecommand{\shsiegelHS}[1]{\lVert #1\rVert_{\mathrm{HS}}}
+\providecommand{\shsiegelO}{\mathcal O}
+\providecommand{\shsiegelsd}{\mu^{\mathrm{sd}}}
+
+This section proves twenty-eight statements of the formal development \cite{LeanSource2026} which are used, as
+black boxes, by several of the preceding sections of Part~II. They concern the Siegel-type objects attached to a
+datum: Hida settings and their term systems, the local data at the infinite places, Gram matrices of
+Gelfand--Graev characters, masses and volumes of definite hermitian spaces, covolumes of unipotent radicals and local
+volumes at the type places, together with a few general facts (adjoints for positive definite hermitian forms, the
+Weil representation of unitary dual pairs, and the archimedean theta correspondence on the towers of real data).
+
+The statements are grouped by topic.
+\begin{itemize}
+\item \Cref{sec:pf:sh-siegel:gap}: numerical consequences of the standing hypotheses: the gap hypothesis, the node gap
+condition, and the closedness of the gap condition along classes of families. They are used in
+\cref{sec:pf:thmS,sec:pf:thmS-carrier,sec:pf:thmS-leaves,sec:pf:open0,sec:pf:open0a,sec:pf:rows,sec:pf:bundles}.
+\item \Cref{sec:pf:sh-siegel:adj}: existence of adjoints and a characterisation of values of adjoint lifts, for
+positive definite hermitian forms; used in \cref{sec:pf:bundles,sec:pf:fs}.
+\item \Cref{sec:pf:sh-siegel:theta}: the Weil representation of unitary dual pairs (a published result) and the
+archimedean theta correspondence on the towers of real data; used in
+\cref{sec:pf:bundles,sec:pf:liftinj,sec:pf:open0a}.
+\item \Cref{sec:pf:sh-siegel:inf}: the choices of local data at the infinite places and their Wu--Bessel vectors; used
+in \cref{sec:pf:thmS-carrier,sec:pf:thmS-leaves,sec:pf:thmS}.
+\item \Cref{sec:pf:sh-siegel:orb}: the closed statements on the orbital expansion of the Poincar\'e kernels (level
+subgroups, folding, integrability, absolute convergence, the kernel expansion, vanishing of the degenerate terms, the
+Gram expansions and row orthogonality); used in \cref{sec:pf:open0,sec:pf:thmS,sec:pf:thmS-leaves}.
+\item \Cref{sec:pf:sh-siegel:gg}: the bound for Gram matrices of Gelfand--Graev characters of $\prod_v\GL_k(\F_{q_v})$;
+used in \cref{sec:pf:open0,sec:pf:thmS-leaves}.
+\item \Cref{sec:pf:sh-siegel:mass}: volumes and masses of definite hermitian spaces; used in
+\cref{sec:pf:stageU,sec:pf:top-shape}.
+\item \Cref{sec:pf:sh-siegel:covol}: the covolume of the integral points of the unipotent radicals at infinity for the
+reference measures, and the local volumes at the type places; used in \cref{sec:pf:multnc,sec:pf:thmS-leaves}.
+\item \Cref{sec:pf:sh-siegel:branch}: the length formula on the second branch; used in \cref{sec:pf:top-shape}.
+\end{itemize}
+Several of the statements are \emph{closed statements}: the formal development phrases a property of all data as a
+proposition (for instance $\sfname{FoldOKC}$, ``folding holds for every Hida setting with normalised level subgroup and
+Wu decay'') and proves it once; the corresponding targets are these proofs. In such
+cases the statement is given in full and the proof assembles the ingredients, which are cited with a one-sentence
+statement when they are proved elsewhere. Where a target is a formalised classical theorem, we state it and give the
+reference.
+
+Several targets have very long formal proofs: the reference covolume identity (\cref{pf:sh-siegel:covolref}), the volume of
+definite spaces (\cref{pf:sh-siegel:volmass}), the kernel expansion (\cref{pf:sh-siegel:kexp}), the vanishing of the degenerate
+terms (\cref{pf:sh-siegel:kppoff}), the archimedean theta correspondence (\cref{pf:sh-siegel:arch}) and the second-branch length
+formula (\cref{pf:sh-siegel:secondbranch}). For these we give the complete structure of the argument and the arguments at the
+top levels, and cite the deepest computations (whose formal proofs are long verifications) by their formal statements.
+
+\subsection{Conventions}\label{sec:pf:sh-siegel:conv}
+
+We use the conventions of \cref{sec:pf:thmS:conv} and \cref{pf:multnc:def-bcf}. A \emph{datum} $D$ has ranks
+$k,m,f,t$ and $r=k+m-1$; $m\ge2$ is even, $k\ge m+3$, $t$ is odd, and $r_S=m/2-1$, so that $r=2r_S+k+1$. Its host is a
+CM field $E$ over a totally real field $F$, unramified over $F$ at all finite places, with complex conjugation
+$x\mapsto\bar x$; the two \emph{type primes} $g_0\ne g_1$ split completely in $E$, and $g_S=g_0g_1$. For every word $u$ of
+$D$, $T_u$ is its level prime. The \emph{Harish-Chandra parameters} of $D$ are rational numbers $b_0(\tau),\dots,
+b_{m-1}(\tau)$, one family for each embedding type $\tau$. Size data $L_2$ of $D$ carry a scale $L=L_2.L>1$.
+
+A \emph{Hida setting} $X$ for $D$ (as described before \cref{pf:multnc:def-bcf}) consists of the hermitian space $(E^n,J)$, $n=r$, with
+its lattice $L_X$ and unitary group $G$, a hyperbolic system $(e_a,f_a)_{a<r_S}$ and for every word $u$ a vector $z_u$
+orthogonal to it with $\langle z_u,z_u\rangle=-T_u$, the open compact subgroup $K=K_X\subseteq G(\A_{F,f})$ stabilising
+$L_X\otimes\widehat\OO$, a \emph{level subgroup} $K_2\subseteq K$ with a character $\chi_2$ (defined by congruences
+modulo the modulus $g$ of $X$ on a reference frame), a Haar measure $\mu_f$ on $G(\A_{F,f})$, Haar measures at the infinite places, and
+discrete series data and \emph{Wu functions} $W_u\colon G(F\otimes\R)\to V_u$ (with values in the finite-dimensional
+column spaces $V_u$). A \emph{full system} $Y$ over $X$ adds, for every word $u$, a flag $F_u$, a finite set $\mathcal
+R_u$ of row lattices, a column system, fundamental sets of the unipotent groups, and a \emph{typed reduction}: finitely
+many residue fields $\F_{q_v}$ at the places above $g_S$, with non-trivial additive characters $\psi_v$. For words
+$u,u'$ the full system defines the \emph{term system} $\mathcal T(u,u')=Y.t_O(u,u')$ in the sense of
+\cref{pf:thmS:terms}; we use the names introduced there ($\mathrm{op}$, $\mathrm{vec}$, rows, the type map $\iota$
+with values in the type group $I=\prod_v\GL_k(\F_{q_v})$, $G$, $\Gamma$, $\Gamma_1$, the sets $\mathcal T_{\mathrm{id}}$,
+$\mathcal T_{\mathrm{deg}}$, $\mathcal T_{\mathrm{ng}}$, $\mathcal T_{\mathrm{gen}}$). The pair $(X,Y)$ is
+\emph{concretely tied} if the level subgroup is normalised, the level subgroups are neat, the column spaces have the
+prescribed dimensions, the main term of $X$ is $D_*$, Wu decay and integrability of the phase function hold, the
+measures are tied to an adelic bridge and a standard additive character, $D$ is locally tied, and the trace frame
+holds (\cref{sec:pf:thmS:conv}).
+
+%==============================================================================
+\subsection{Numerical consequences of the standing hypotheses}\label{sec:pf:sh-siegel:gap}
+
+\begin{definition}[The gap hypothesis]\label{pf:sh-siegel:gapdef}
+The \emph{gap hypothesis} $\shsiegelGap(D)$ of a datum $D$ (stated before \cref{pf:baselat2:gap}) is the condition
+\begin{equation}\label{pf:sh-siegel:eq:gap}
+1801\le r\qquad\text{and}\qquad b_{j+1}(\tau)-b_j(\tau)\ \ge\ 16\,r^{19}\quad\text{for all $\tau$ and all $j$ with
+$j+1<m$.}
+\end{equation}
+\formal{Formalism.L2.SG.ConcreteSettingExists.GapHyp}
+\end{definition}
+
+Of the standing hypotheses $\mathrm{SH}(D,L_2;C',C_l,C_g,c_b,C_u,c_T,C_T)$ of \cref{pf:open0:def:standing} we use three
+components: $C'm^5fL\le k$, $m^4\le f$, and the gap inequality
+\begin{equation}\label{pf:sh-siegel:eq:shgap}
+C_l\,r^{19}f^5L\ \le\ b_{j}(\tau)-b_{j-1}(\tau)\qquad(1\le j,\ j+1\le m,\ \text{all }\tau).
+\end{equation}
+(In the formal statement \eqref{pf:sh-siegel:eq:shgap} reads $C_lr^{19}f^5L\le b^{(1)}(\tau,j+1)-b^{(1)}(\tau,j)$, where
+$b^{(1)}(\tau,j)=b_{j-1}(\tau)$ for $1\le j\le m$.)
+
+\begin{proposition}[The gap hypothesis from the standing hypotheses]\label{pf:sh-siegel:gaphyp}
+Let $D$ be a datum with size data $L_2$, and let $C',C_l,C_g,c_b,C_u,c_T,C_T$ be reals with $C_l\ge16$ and $C'\ge29$. If
+the standing hypotheses $\mathrm{SH}(D,L_2;C',C_l,C_g,c_b,C_u,c_T,C_T)$ hold, then $\shsiegelGap(D)$ holds.
+\formallabel{Formalism.L2.SG.ThmSOwn.gap_hypothesis_of_hypotheses}
+\end{proposition}
+
+\begin{proof}
+Write $L=L_2.L$; then $L>1$ (\lref{Formalism.MainNotions.S.one_lt_scL}: the scale of size data exceeds $1$). Since
+$m\ge2$ we have $f\ge m^4\ge16$ and $m^5\ge32$, hence
+\[
+k\ \ge\ C'm^5fL\ \ge\ 29\cdot32\cdot16\cdot1\ =\ 14848\ \ge\ 1801,
+\]
+and $r=k+m-1\ge k\ge1801$. Now let $\tau$ and $j$ with $j+1<m$. Applying \eqref{pf:sh-siegel:eq:shgap} with index
+$j+1$ (so that $1\le j+1$ and $j+2\le m$) gives $C_lr^{19}f^5L\le b_{j+1}(\tau)-b_j(\tau)$. Since $f^5\ge1$, $L\ge1$ and
+$C_l\ge16$, $16r^{19}\le C_lr^{19}\le C_lr^{19}f^5L$, which proves \eqref{pf:sh-siegel:eq:gap}.
+\end{proof}
+
+The \emph{cubic node gap} and the \emph{node gap condition} of a datum are those of \cref{sec:pf:open0a:points}. With
+$N_m=k+m(t+1)$, which equals $\rank(X')+1$ where $\rank(X')=r+mt$ (\lref{Formalism.BasicNotions.factXm}), the
+cubic node gap with constant $h=4N_m^3+2t+6$ says that $b_{j+1}(u,\tau)-b_j(u,\tau)\ge h$ for every word $u$, every
+$\tau$ and every $j$ with $j+1<m$, where $b_j(u,\tau)$ are the Harish-Chandra parameters of $u$; the node gap condition
+says that there is $N\ge\rank(X')+1$ with $b_{j+1}(\tau)-b_j(\tau)\ge t+2N^3+1$ for all $\tau$ and $j+1<m$.
+
+\begin{lemma}[Node gap from the cubic node gap]\label{pf:sh-siegel:nodegap}
+For every datum $D$, the cubic node gap with constant $4N_m^3+2t+6$ implies the node gap condition.
+\formallabel{GlobalTheory.Core.Rk.GapOfNodes.harishChandraNodesFarApart_of_cubic_node_gap}
+\end{lemma}
+
+\begin{proof}
+Take $N=N_m=\rank(X')+1$. The parameters of the base word $u_0$ of $D$ are those of $D$ (a defining property of data),
+so the hypothesis at $u_0$ gives $b_{j+1}(\tau)-b_j(\tau)\ge4N^3+2t+6\ge t+2N^3+1$, since $N^3\ge0$ and $t\ge0$.
+\end{proof}
+
+\begin{definition}[Eventual gap condition, size condition]\label{pf:sh-siegel:gapevdef}
+We use the notions of families, classes and closed statements of
+\cref{pf:thmS:closed}. For a family $\mathcal F$ the \emph{eventual gap condition} $\shsiegelGap_{\mathrm{ev}}(\mathcal F)$
+is: there is $y$ such that $\shsiegelGap(D_{x,i})$ holds for all $x\ge y$ and all $i\in I_x$. The \emph{size condition}
+$\sfname{TuSize}(\mathcal F)$ says that eventually the level primes of the members are bounded below as prescribed by the
+size data and $\log T_u\le C_{\mathrm{Tu}}\,m\,L$ for every word $u$. The \emph{residual standing
+conditions} of a family are $8C_\Gamma\le C_{k,\mathrm{low}}$, $\sfname{TuSize}(\mathcal F)$ and the eventual
+arithmetic conditions $\mathrm{ResidEv}(\mathcal F)$ (eventually the root discriminant of the host is at least $2$ and the
+arithmetic conditions of the datum hold).
+\formal{Formalism.L2.SG.LoopsTies.GapEv}\ \formal{Formalism.MainNotions.TuSize}\
+\formal{Formalism.MainNotions.S.ResidualStandingConditions}
+\end{definition}
+
+\begin{lemma}[Standing hypotheses along a family]\label{pf:sh-siegel:firstsection}
+If a family $\mathcal F$ satisfies the residual standing conditions, then eventually (for $x\ge x_0$ and all $i\in I_x$)
+the standing hypotheses $\mathrm{SH}(D_{x,i},L_{x,i};s_{C'}(\mathcal F),s_{C_l}(\mathcal F),C_{\mathrm{YL}}+1,\tfrac14,
+3,\tfrac12,C_{\mathrm{Tu}})$ hold.
+\formallabel{Formalism.MainNotions.Pk.SD.first_section_hypotheses_at_family_constants}
+\end{lemma}
+
+\begin{proof}
+The shared lemma \lref{Formalism.MainNotions.S.standing_hypotheses_of_bounds} derives the standing hypotheses at a
+member $(D,L)$ of a family, with constants $(C_{k,\mathrm{low}},s_{C_l},C_{\mathrm{YL}}+1,\frac14,3,\frac12,C_{\mathrm{Tu}})$,
+from: the parameter choice and size data of the member; the inequalities $s_{C_l}\le C_{\mathrm{Count}}$ and
+$s_{C_l}\le C_{\mathrm{gap}}$ and $0<s_{C_l}$ between the constants of the family
+(\lref{Formalism.MainNotions.S.sCl_le_CCount}, \lref{Formalism.MainNotions.S.sCl_le_Cgap}, and \lref{Formalism.MainNotions.S.sCl_pos});
+three lower bounds for the quantity $X(L)=x^{\eps/100}$ of the size data, namely $X(L)\ge2s_{C_l}$, $X(L)\ge2$ and
+$X(L)\ge5/\theta(L)$ with $\theta(L)=\eps/100$; the bound $8C_\Gamma\le C_{k,\mathrm{low}}$; the arithmetic conditions of
+the member; and the level-prime window, which follows from $\sfname{TuSize}$ (\lref{Formalism.MainNotions.S.tuWin_of}).
+Let $x_0$ be the maximum of the thresholds of $\mathrm{ResidEv}$ and $\sfname{TuSize}$, of $x_1+1$, and of a
+threshold $x_3$ beyond which $x^{\eps/100}\ge\max(2s_{C_l},2,500/\eps)$ (which exists since $\eps>0$). For $x\ge x_0$
+all inputs hold; the constants of the parameter choice of a member agree with those of the family, so the
+conclusion holds with $C_{k,\mathrm{low}}=s_{C'}(\mathcal F)$.
+\end{proof}
+
+\begin{proposition}[The gap condition is closed under $\sfname{TuSize}$]\label{pf:sh-siegel:gapclosed}
+Let $\mathcal C$ be a class of families such that every family of $\mathcal C$ satisfies $\sfname{TuSize}$. Then
+$\sfname{Closed}\bigl(\mathcal C,\ \mathcal F\mapsto(\mathcal F\in\mathcal C\Rightarrow
+\shsiegelGap_{\mathrm{ev}}(\mathcal F))\bigr)$.
+\formallabel{Formalism.L2.SG.GapClosed.gapEv_closed_of}
+\end{proposition}
+
+We first prove the corresponding statement for the class $\mathcal C^T$ of families of $\mathcal C$ satisfying
+$\sfname{TuSize}$.
+
+\begin{lemma}\label{pf:sh-siegel:gaprow}
+Let $\mathcal C$ be a class such that $\mathrm{ResidEv}$ is closed on $\mathcal C$. Then $\sfname{Closed}(\mathcal
+C^T,\mathcal F\mapsto(\mathcal F\in\mathcal C^T\Rightarrow\shsiegelGap_{\mathrm{ev}}(\mathcal F)))$.
+\formallabel{Formalism.L2.SG.ThmSOwn.gapRowT}
+\end{lemma}
+
+\begin{proof}
+Let $\eps_1$ and, for $\eps\le\eps_1$, the staged threshold $K_0=(K_{\mathrm{pre}},K_{\mathrm{mid}},K_{\mathrm{last}})$ be
+given by the closedness of $\mathrm{ResidEv}$. Keep $\eps_1$, $K_{\mathrm{pre}}$ and $K_{\mathrm{mid}}$, and replace the
+last threshold by
+\[
+K'_{\mathrm{last}}(l)=\max\Bigl(K_{\mathrm{last}}(l),\ 29,\ 8\sum_i|l_i|\Bigr).
+\]
+Let $\mathcal F\in\mathcal C^T$ have constants which are large for $(K',C_H)$. They are then large for $(K_0,C_H)$, so
+$\mathrm{ResidEv}(\mathcal F)$ holds. Every entry $c$ of the last list of constants satisfies $c\ge29$ and
+$c\ge8\sum_i|l_i|$ for $l=c_{\mathrm{out}}\mathbin{+\!\!+}c_{\mathrm{mid}}(C_H)$; since $C_\Gamma$ is an entry of
+$c_{\mathrm{mid}}(C_H)$, $8C_\Gamma\le8|C_\Gamma|\le c$. In particular $s_{C'}(\mathcal F)=C_{k,\mathrm{low}}\ge29$ and
+$8C_\Gamma\le C_{k,\mathrm{low}}$, and $s_{C_l}(\mathcal F)$, the minimum of six entries of the last list, is $\ge29\ge16$.
+Hence the residual standing conditions hold, and \cref{pf:sh-siegel:firstsection} gives $x_0$ such that for $x\ge x_0$ the
+standing hypotheses hold at $D_{x,i}$ with $C'=s_{C'}(\mathcal F)\ge29$ and $C_l=s_{C_l}(\mathcal F)\ge16$.
+\Cref{pf:sh-siegel:gaphyp} gives $\shsiegelGap(D_{x,i})$ for $x\ge x_0$, that is, $\shsiegelGap_{\mathrm{ev}}(\mathcal
+F)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-siegel:gapclosed}]
+$\mathrm{ResidEv}$ holds for every family (\lref{Formalism.L2.SG.ResidEvFree.residEv_closed_free}: the residual
+eventual conditions are closed on every class, because they hold for every family). Apply \cref{pf:sh-siegel:gaprow}
+and take the same $\eps_1$ and thresholds. If $\mathcal F\in\mathcal C$ has large constants, then $\mathcal F\in\mathcal
+C^T$ by hypothesis, so $\shsiegelGap_{\mathrm{ev}}(\mathcal F)$.
+\end{proof}
+
+
+%==============================================================================
+\subsection{Adjoints for positive definite hermitian forms}\label{sec:pf:sh-siegel:adj}
+
+In this subsection a \emph{sesquilinear form} on a complex vector space $C$ is a map $(x,y)\mapsto\langle x,y\rangle$
+which is linear in $x$ and conjugate-linear in $y$; it is \emph{hermitian} if $\langle x,y\rangle=\overline{\langle
+y,x\rangle}$ and \emph{positive definite} if $\Re\langle x,x\rangle>0$ for $x\ne0$.
+
+\begin{lemma}[Existence and uniqueness of adjoints]\label{pf:sh-siegel:adjoint}
+Let $A$ and $C$ be complex vector spaces with $C$ finite-dimensional, $\langle\cdot,\cdot\rangle_A$ a sesquilinear form on
+$A$, $\langle\cdot,\cdot\rangle_C$ a hermitian positive definite sesquilinear form on $C$, $\iota\colon C\to A$ a linear map
+and $u\in A$. There is a unique $x\in C$ such that $\langle y,x\rangle_C=\langle\iota(y),u\rangle_A$ for all $y\in C$.
+\formallabel{GlobalTheory.hermitian_adjoint_exists_unique}
+\end{lemma}
+
+\begin{proof}
+Let $C^\vee=\Hom_\C(C,\C)$ and $g\colon C\to C^\vee$, $g(x)(y)=\langle y,x\rangle_C$; $g$ is additive and
+$g(cx)=\bar c\,g(x)$, so it is $\R$-linear. It is injective: if $g(x)=0$ then $\langle x,x\rangle_C=0$, so $x=0$ by
+positivity. Since $\dim_\R C=2\dim_\C C=2\dim_\C C^\vee=\dim_\R C^\vee<\infty$, the injective $\R$-linear map $g$ is
+surjective. The map $y\mapsto\langle\iota(y),u\rangle_A$ belongs to $C^\vee$; its preimage under $g$ is the required $x$,
+and uniqueness is the injectivity of $g$.
+\end{proof}
+
+\begin{remark}\label{pf:sh-siegel:adjointrem}
+The hermitian symmetry of $\langle\cdot,\cdot\rangle_C$ is a hypothesis of the formal statement but is not used in its
+proof; no hypothesis on $\langle\cdot,\cdot\rangle_A$ is needed.
+\end{remark}
+
+\begin{lemma}[Orthonormal expansions]\label{pf:sh-siegel:onb}
+Let $C$ be a finite-dimensional complex vector space with a hermitian positive definite sesquilinear form. There are
+$b_1,\dots,b_n\in C$ with $\langle b_i,b_j\rangle=\delta_{ij}$ and $x=\sum_i\langle x,b_i\rangle\,b_i$ for every $x\in C$.
+\formallabel{GlobalTheory.ChainOnto.exists_orthonormal_expansion_of_sesq}
+\end{lemma}
+
+\begin{proof}
+The form $(x,y)\mapsto\langle y,x\rangle$ is an inner product in the usual convention (conjugate-linear in the first
+variable); an orthonormal basis $b_1,\dots,b_n$ for it (Gram--Schmidt) has the stated properties, the expansion being the
+expansion of $x$ in this basis.
+\end{proof}
+
+\begin{proposition}[Values of adjoint lifts]\label{pf:sh-siegel:adjval}
+Let $\mathcal X$ be a set, $W$ and $C$ complex vector spaces with $C$ finite-dimensional, and
+$\mathrm{ev}\colon C\times W\to\C^{\mathcal X}$ a bilinear map; write $y(w)=\mathrm{ev}(y,w)$. Let $K\subseteq W$ be a
+subspace, $\langle\cdot,\cdot\rangle_W$ and $\langle\cdot,\cdot\rangle_C$ hermitian positive definite sesquilinear
+forms on $W$ and $C$, and $\mathrm{pet}\colon\C^{\mathcal X}\times\C^{\mathcal X}\to\C$ any map satisfying the
+\emph{Schur relation}
+\begin{equation}\label{pf:sh-siegel:eq:schur}
+\mathrm{pet}\Bigl(y(w),\ \sum_{i=1}^Ny_i(w_i)\Bigr)=\sum_{i=1}^N\langle y,y_i\rangle_C\,\langle w,w_i\rangle_W
+\end{equation}
+for all $y,y_1,\dots,y_N\in C$ and $w,w_1,\dots,w_N\in W$. Let $x\in C$, $F\in\C^{\mathcal X}$ and $l\colon W\to\C$ be such
+that $F$ lies in the span of the functions $y(w)$ with $y\in C$ and $w\in K$, that
+$\mathrm{pet}(y(w),F)=\langle y,x\rangle_C\,l(w)$ for all $y\in C$ and $w\in K$, and that $F\ne0$. Then $x\ne0$ and $F=x(w_0)$
+for some $w_0\in K$.
+\formallabel{GlobalTheory.ChainOnto.value_of_adjoint_of_mem_span}
+\end{proposition}
+
+\begin{proof}
+Let $b_1,\dots,b_n$ be as in \cref{pf:sh-siegel:onb} for $\langle\cdot,\cdot\rangle_C$, and
+$\Phi\colon W^n\to\C^{\mathcal X}$, $\Phi(u)=\sum_jb_j(u_j)$. For $y\in C$ and $w\in K$,
+$y(w)=\sum_jb_j(\langle y,b_j\rangle w)=\Phi\bigl((\langle y,b_j\rangle w)_j\bigr)$, and $\langle y,b_j\rangle w\in K$; as
+$\Phi$ is linear, the span of these functions is contained in $\Phi(K^n)$. So $F=\sum_jb_j(u_j)$ with all $u_j\in K$.
+
+For every $k$ and $w\in K$, the hypothesis with $y=b_k$ and the Schur relation give
+\begin{equation}\label{pf:sh-siegel:eq:key}
+\langle w,u_k\rangle_W=\sum_j\langle b_k,b_j\rangle_C\langle w,u_j\rangle_W=\mathrm{pet}(b_k(w),F)=\langle b_k,x\rangle_C\,l(w).
+\end{equation}
+Since $F\ne0$, some $u_k\ne0$. Taking $w=u_k$ in \eqref{pf:sh-siegel:eq:key}, $\Re(\langle b_k,x\rangle_Cl(u_k))=
+\Re\langle u_k,u_k\rangle_W>0$; hence $a:=\langle b_k,x\rangle_C\ne0$, and in particular $x\ne0$. Put
+$w_0=\bar a^{-1}u_k\in K$. For $w\in K$, by \eqref{pf:sh-siegel:eq:key},
+$\langle w,w_0\rangle_W=a^{-1}\langle w,u_k\rangle_W=l(w)$. For every $j$ the vector $d_j=u_j-\overline{\langle
+b_j,x\rangle_C}\,w_0$ lies in $K$ and $\langle w,d_j\rangle_W=\langle b_j,x\rangle_Cl(w)-\langle b_j,x\rangle_Cl(w)=0$ for
+all $w\in K$; taking $w=d_j$ gives $d_j=0$. Therefore, using bilinearity, hermitian symmetry and \cref{pf:sh-siegel:onb},
+\[
+F=\sum_jb_j\bigl(\overline{\langle b_j,x\rangle_C}\,w_0\bigr)=\Bigl(\sum_j\langle x,b_j\rangle_C\,b_j\Bigr)(w_0)=x(w_0).
+\qedhere
+\]
+\end{proof}
+
+%==============================================================================
+\subsection{Weil representations and the archimedean theta correspondence}\label{sec:pf:sh-siegel:theta}
+
+\begin{definition}[Weil data]\label{pf:sh-siegel:weildatum}
+Let $D$ be a datum, $\psi$ a standard additive character of $\A_F/F$, $S$ and $T$ hermitian
+spaces over $E$ attached to $D$, and $\chi_S,\chi_T$ unitary Hecke characters of $\A_E^\times/E^\times$. Write
+$\mathbb W=M_{\dim T\times\dim S}(\A_E)$ and $G_S,G_T$ for the unitary groups of $S,T$. A \emph{Weil datum} for
+$(\psi,S,T,\chi_S,\chi_T)$ is a homomorphism $\omega\colon G_S(\A)\times G_T(\A)\to\End_\C(\C^{\mathbb W})$ such that:
+$\chi_S,\chi_T$ are Hecke characters whose restrictions to $\A_F^\times$ are $\eta^{\dim S}$, $\eta^{\dim T}$ ($\eta$ the
+quadratic character of $E/F$); $\omega$ preserves the space of theta functions on $\mathbb W$ and intertwines the
+Heisenberg action; $\omega(\gamma,\gamma')f(0)=f(0)$ for rational points $\gamma,\gamma'$ and theta functions $f$; the
+functions $p\mapsto\omega(p)f(w)$ are continuous; $\omega(p)$ preserves the $L^2$-norm over a fundamental domain of the
+rational lattice $M_{\dim T\times\dim S}(E)$ for every Haar measure; and at every split idempotent, elements supported
+there act on Heisenberg-invariant functionals by a positive constant times the splitting factor built from
+$\chi_S,\chi_T$.
+\formal{Formalism.IndefR.Datum.IsWeilDatumO}
+\end{definition}
+
+\begin{littheorem}[Existence of the Weil representation for unitary dual pairs \cite{Weil1964,Kudla1994,HarrisKudlaSweet1996}]
+\label{pf:sh-siegel:weil}
+For every datum $D$, standard additive character $\psi$, hermitian spaces $S,T$ of $D$ and unitary Hecke characters
+$\chi_S,\chi_T$ whose restrictions to $\A_F^\times$ are $\eta^{\dim S}$ and $\eta^{\dim T}$, there is a Weil datum for
+$(\psi,S,T,\chi_S,\chi_T)$.
+\formallabel{GlobalTheory.weilRepresentationUnitaryPair}
+\end{littheorem}
+
+This is the existence of the global Weil representation of the metaplectic group \cite{Weil1964} together with Kudla's
+splitting of the metaplectic cover over $G_S(\A)\times G_T(\A)$ attached to a pair of characters with the stated
+restrictions \cite{Kudla1994} (see also \cite[\S1]{HarrisKudlaSweet1996}), realised on theta functions on $\mathbb W$.
+The development labels it as a published statement, and also proves it: by
+\lref{GlobalTheory.WeilExist.exists_isWeilDatumO}, a Weil datum exists as soon as there is a character
+$\tilde\eta$ of the kind used to build the splitting at the unramified places (it is first constructed for the
+characters $(\tilde\eta^{\dim S},\tilde\eta^{\dim T})$ and then twisted by the Hecke characters
+$\tilde\eta^{-\dim S}\chi_S$, $\tilde\eta^{-\dim T}\chi_T$), and such a character exists by
+\lref{GlobalTheory.WeilParts.exists_isEtaTilde_unramified}.
+
+\begin{definition}[The archimedean properties of the real data]\label{pf:sh-siegel:archdef}
+The \emph{real data} of a datum $D$ are, at each embedding type $\tau$, the discrete series parameters prescribed by the
+Harish-Chandra parameters of $D$: the parameters $(p^A_k(\tau),p^A_{k+1}(\tau))$ and $(p^B_k(\tau),p^B_{k+1}(\tau))$ of the
+steps of the theta chain ($0\le k<m$), which concern arbitrary hermitian spaces $V,W$ of $D$ carrying discrete series models
+with these parameters; the parameters $p^{\mathrm{def}}_i(\tau)$, $p^{\mathrm{hol}}_i(\tau)$ of the pairs $(V^c_i,W^c_i)$ of a
+definite source and a holomorphic target ($i<m$); and the archimedean exponents $a^S_k(\tau),a^T_k(\tau)\in\{-e_k(\tau),
+-e_k(\tau)-\frac12\}$ of the splitting characters. For a Weil datum $\omega$ for a pair $(V,W)$, discrete series models
+$M_V,M_W$ of the unitary groups at $\tau$, and a Fock vector $f$ at $\tau$ (a non-zero theta function which is a vacuum
+vector for the Fock model attached to the Cartan involutions of $M_V,M_W$), the Lie algebras $\mathfrak u(V)_\tau$ and
+$\mathfrak u(W)_\tau$ act on the polynomial Fock space spanned by the vectors $P\cdot f$ ($P$ a polynomial in
+$\dim V\cdot\dim W$ variables). In these terms, the five properties of the real data are:
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:sh-siegel:arch:lift} \emph{Lift law} from $M_V$ to $M_W$: there is a non-zero \emph{joint harmonic}
+$\Phi$ (harmonic of the same degree for both Lie algebras, a lowest weight vector for $M_V$ and a highest weight vector for
+$M_W$), unique up to scalars; for every unitary action of $\mathfrak u(W)_\tau$ on a Hilbert space $U$ and every non-zero
+$\mathfrak u(V)_\tau$-invariant map $q$ from (Fock polynomials)$\otimes$($K$-finite vectors of $M_V$) to $U$ intertwining
+the $\mathfrak u(W)_\tau$-actions, the $K$-finite vectors of $M_W$ embed into $U$ onto the span of the image of $q$, $q$ does
+not vanish on $\Phi$ tensor a unit highest vector, and $q$ is determined by its values on $\Phi$; and the invariant maps
+with values in the $K$-finite vectors of $M_W$ form a line.
+\item\label{pf:sh-siegel:arch:zeta} \emph{Zeta law}: for a joint harmonic $\Phi$, a unit highest vector $v$ of $M_W$ and a
+Haar measure on the real unitary group of $W$, the matrix coefficient of $v$ and the function
+$g\mapsto\langle\omega(g)(\Phi f),\Phi f\rangle\overline{\langle\sigma(g)v,v\rangle}$ are integrable, the integral of the
+latter is a positive real number, and it equals $\langle\Phi f,\Phi f\rangle/d$ when $V$ is positive definite at $\tau$ and
+$d$ is the formal degree of $M_W$ for the chosen measure.
+\item\label{pf:sh-siegel:arch:nolift} \emph{No lower lifts}: for every member of the Witt tower strictly below the target
+(resp.\ source), every invariant map from the Fock polynomials tensor the $K$-finite vectors of the source (resp.\ target)
+model vanishes.
+\item\label{pf:sh-siegel:arch:it} \emph{Intertwiner law} $\mathrm{ItLaw}$: along every chain step, for Weil data with
+the prescribed exponents and Fock vectors at all $\tau$, the real theta intertwiner of the pure tensor exists and is unique
+up to a scalar.
+\item\label{pf:sh-siegel:arch:io} \emph{Lowest $K$-type law} $\mathrm{IoLaw}$: for the pairs $(V^c_i,W^c_i)$, the lowest
+$K$-type Fock map exists, is unique up to a scalar of absolute value $1$, and takes harmonic values of a fixed degree.
+\end{enumerate}
+$\mathrm{ChainLower}(D)$ is \ref{pf:sh-siegel:arch:nolift} for the chain steps (target and source), and
+$\mathrm{PairLower}(D)$ is \ref{pf:sh-siegel:arch:nolift} for the pairs (target); $\mathrm{ChainTop}(D)$ is
+\ref{pf:sh-siegel:arch:lift} to the target and to the source, and \ref{pf:sh-siegel:arch:zeta} on the source, for the
+chain steps; $\mathrm{PairTop}(D)$ is \ref{pf:sh-siegel:arch:lift} in both directions and \ref{pf:sh-siegel:arch:zeta} on
+the target for the pairs.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.ThetaSourceAction.ArchOnRecord}
+\end{definition}
+\begin{theorem}[Archimedean theta correspondence on the towers of real data]\label{pf:sh-siegel:arch}
+Assume the classification of discrete series of $\Uni(p,q)$ and their covers \textup{(\ref{pf:open0a:P3})} and the
+theory of Harish-Chandra modules \textup{(\ref{pf:open0a:P4})}. Then for every datum $D$: $\mathrm{ChainLower}(D)$ and
+$\mathrm{PairLower}(D)$ hold, and if the node gap condition holds for $D$, then $\mathrm{ChainTop}(D)$, $\mathrm{PairTop}(D)$,
+$\mathrm{ItLaw}(D)$ and $\mathrm{IoLaw}(D)$ hold.
+\formallabel{GlobalTheory.T.archimedeanThetaCorrespondence_towers_real_data}
+\end{theorem}
+
+These are the local statements of the theta correspondence for the real unitary dual pairs $(\Uni(p,q),\Uni(r,s))$ in
+the Fock model: existence and uniqueness of joint harmonics \cite{KashiwaraVergne1978,Howe1989}, the correspondence of
+$(\mathfrak g,K)$-modules \cite{Howe1989}, the theta lifts of discrete series in the stable range and their first
+occurrence \cite{Li1990,Paul1998}, and the formal-degree identity for the local zeta integrals. The theorem is their
+specialisation to the parameters of the towers of real data, deduced in the development from a package of local
+statements for general $(p,q,r,s)$.
+
+\begin{proof}
+The formal proof uses the following statements of the development, all of which assume \ref{pf:open0a:P3} and
+\ref{pf:open0a:P4}.
+\begin{enumerate}[label=(\roman*)]
+\item\label{pf:sh-siegel:arch:i} A package $X$ of discrete series of all $\Uni(p,q)$ and their covers with the
+prescribed parameters, satisfying Blattner's formula, admissibility, and the archimedean Rallis statements for the Fock
+model (first occurrence, up--down lines, \dots) (\lref{GlobalTheory.T.exists_provA_discreteSeries_archimedeanRallis}).
+\item\label{pf:sh-siegel:arch:ii} The discrete series models of $D$ are cover discrete series
+(\lref{GlobalTheory.T.thetaModels_are_coverDiscreteSeries_of_harishChandra}). With
+\ref{pf:sh-siegel:arch:i}, a package is \emph{good} for $D$.
+\item\label{pf:sh-siegel:arch:iii} The parameters of every chain step and of every pair are \emph{centred block
+parameters}: they are signed concatenations of lists $\alpha,\beta,\gamma,\delta$ of rationals and of the block of
+length $t$, centred with respect to the exponents, with all entries of absolute value at least $(t+3)/2$ and with the
+gap condition when the node gap condition holds
+(\lref{GlobalTheory.T.thetaChainStep_centred_block_parameters} and \lref{GlobalTheory.T.definiteSource_pair_centred_block_parameters}).
+\item\label{pf:sh-siegel:arch:iv} For a good package, a model of $D$ whose parameter is a small (resp.\ large) centred
+block parameter is tied, through its lowest $K$-type, to the corresponding discrete series of the package
+(\lref{GlobalTheory.ArchRec.tie_small} and \lref{GlobalTheory.ArchRec.tie_large}); for the lower members of the Witt towers
+there is no invariant theta pairing with these discrete series
+(\lref{GlobalTheory.T.no_invariant_theta_pairing_of_no_tensor_intertwiner}, which deduces this from the absence of
+tensor intertwiners, \lref{GlobalTheory.T.noThetaTensorIntertwiner_lowerTowerMembers}); and the absence of pairings
+transfers to the models (\lref{GlobalTheory.T.noThetaMap_models_of_noPairing_covers}).
+\item\label{pf:sh-siegel:arch:v} For chain steps the real theta intertwiner exists uniformly and real theta intertwiners
+are proportional (\lref{GlobalTheory.T.exists_uniformRealThetaIntertwiner_chainStep} and \lref{GlobalTheory.T.realThetaIntertwiners_proportional_of_harishChandra}).
+\item\label{pf:sh-siegel:arch:vi} For the pairs the lowest $K$-type Fock map exists, is unique up to a phase, and is
+harmonic (\lref{GlobalTheory.T.lowestKTypeFockMap_exists_of_discreteSeries}, \lref{GlobalTheory.T.lowestKTypeFockMap_unique_of_discreteSeries}, and \lref{GlobalTheory.T.lowestKTypeFockMap_harmonic_of_discreteSeries}).
+\end{enumerate}
+Fix $D$ and take a good package. \emph{Lower statements}: for a chain step $k$ and $\tau$, write the parameters as in
+\ref{pf:sh-siegel:arch:iii}; by \ref{pf:sh-siegel:arch:iv} the source model is tied to the discrete series of the small
+parameter, the target models have sign-compatible numberings, and the discrete series admit no invariant pairing with the
+Fock spaces of the lower tower members; hence every invariant map from the Fock polynomials of a lower member vanishes,
+which is $\mathrm{ChainLower}(D)$ (\lref{GlobalTheory.ArchRec.chainLower}); the same argument with the roles of
+small and large exchanged, for the pair parameters, gives $\mathrm{PairLower}(D)$
+(\lref{GlobalTheory.ArchRec.pairLower}). \emph{Top statements}: assume the node gap condition. Then the centred
+parameters satisfy the gap condition of the Rallis data, and the lift and zeta laws for the chain steps and for the pairs
+follow from the Rallis statements of \ref{pf:sh-siegel:arch:i} applied to the tied models
+(\lref{GlobalTheory.ArchRec.chainTop} and \lref{GlobalTheory.ArchRec.pairTop}); $\mathrm{ItLaw}(D)$ follows from
+\ref{pf:sh-siegel:arch:v} and the chain parameters (\lref{GlobalTheory.ArchRec.itLaw}); and $\mathrm{IoLaw}(D)$ is
+the conjunction of the three statements of \ref{pf:sh-siegel:arch:vi} (\lref{GlobalTheory.ArchRec.ioLaw}).
+\end{proof}
+
+
+%==============================================================================
+\subsection{Local data at the infinite places}\label{sec:pf:sh-siegel:inf}
+
+Let $X$ be a Hida setting for a datum $D$, and write $N=2r_S+k+1$ ($=n$, \lref{Formalism.L2.SG.Pf.NcReal.JX.nX}).
+For an embedding type $\tau$ let $v=v(\tau)$ be the corresponding infinite place of $F$, $J_v$ the diagonal signature
+matrix of $X$ at $v$, and $e_a(v),f_a(v),z_u(v)$ the images at $v$ of the hyperbolic system and of the vectors $z_u$;
+$w_1(u,v),\dots,w_k(u,v)$ are the orthonormal vectors completing the frame of $u$ at $v$. Let $H_{k,r}$ be the Gram
+matrix of the standard frame of size $N$ ($r_S$ hyperbolic pairs, $k$ orthonormal vectors and one vector of norm $-1$;
+its signature is $(k+r_S,r_S+1)$) and $\Uni(H_{k,r})$ its unitary group. The discrete series of $X$ at $v$ acts on a Hilbert space $H_v$ with
+base vector $w_v$; transported by a matrix $Q$ it gives the representation $\sigma_\tau(m)=\sigma_v(QmQ^{-1})$ of
+$\Uni(H_{k,r})$, and similarly $\pi_{u,\tau}$ on the local column space $V_{u,v}$. Put $\lambda_D=\kappa/(2\pi)$, $\kappa$ the
+real constant of the host.
+
+\begin{definition}[Choices at infinity]\label{pf:sh-siegel:choice}
+Let $\theta\in\R$. A \emph{choice} $\mathcal C$ for $(X,\theta)$ consists of, for every embedding type $\tau$:
+\begin{enumerate}[label=(C\arabic*)]
+\item\label{pf:sh-siegel:C1} a matrix $Q_\tau\in M_N(\C)$ with inverse $Q_\tau^{-1}$, such that $Q_\tau^*J_vQ_\tau=H_{k,r}$ and the
+columns of $Q_\tau$ at the positions of $e_a$ and $f_a$ in the standard basis are $\lambda_D^{r_S-a}e_a(v)$ and
+$\overline{\lambda_D^{r_S-a}}^{\,-1}f_a(v)$ ($a<r_S$);
+\item\label{pf:sh-siegel:C2} an element $y_\tau\in\Uni(H_{k,r})$ and a Cayley element $P$ such that $\sigma_\tau(y_\tau)w_v$
+lies in the lowest $K$-type subspace of the conjugate $g\mapsto\sigma_\tau(P^{-1}gP)$ (for the Harish-Chandra parameter
+$\lambda_D(\tau)$ of $D$);
+\item\label{pf:sh-siegel:C3} for every word $u$, a Haar probability measure $\mu_W(u,\tau)$ on the stabiliser $\Uni_W(z)$ of the
+transported vector $z=z_u(\tau)=Q_\tau^{-1}z_u(v)$;
+\item\label{pf:sh-siegel:C4} for every word $u$, a quotient measure $\nu_S(u,\tau)$ of the transported Haar measure
+$\mu_G(\tau)$ on $\Uni(H_{k,r})$ by the product $\mu_S(u,\tau)$ of $\mu_W(u,\tau)$ and the Haar measure $\mu_N(\theta)$ of the
+unipotent group $N$ normalised by $\theta$.
+\end{enumerate}
+\formal{Formalism.L2.SG.LocWSOf.Choice}
+\end{definition}
+
+\begin{proposition}[Existence of choices]\label{pf:sh-siegel:choiceexists}
+Let $X$ be a Hida setting for a datum $D$ with at least one word, and $\theta>0$. Then a choice for $(X,\theta)$ exists.
+\formallabel{Formalism.L2.SG.Pf.choiceExists}
+\end{proposition}
+
+\begin{lemma}[Transport matrices]\label{pf:sh-siegel:transp}
+Let $r,k\ge0$, $N=2r+k+1$, $J$ a diagonal signature matrix of size $N$ with hermitian form $\langle x,y\rangle=x^*Jy$, and
+$\lambda\in\C^\times$. Let $e_a,f_a$ ($a<r$), $w_j$ ($j<k$) and $z$ be vectors in $\C^N$ with $\langle e_a,e_b\rangle=
+\langle f_a,f_b\rangle=0$, $\langle e_a,f_b\rangle=\delta_{ab}$, $\langle w_i,w_j\rangle=\delta_{ij}$, $\langle z,z\rangle=-1$,
+and $e_a,f_a$ orthogonal to $z$ and to the $w_j$, and $z$ orthogonal to the $w_j$. Then there is an invertible $Q\in
+M_N(\C)$ with $Q^*JQ=H_{k,r}$ whose columns at the positions of $e_a$ and $f_a$ are $\lambda^{r-a}e_a$ and
+$\overline{\lambda^{r-a}}^{\,-1}f_a$. If moreover $\langle z_0,z_0\rangle=-T$ with $T>0$, the vector $z=T^{-1/2}z_0$
+satisfies $\langle z,z\rangle=-1$.
+\formallabel{Formalism.L2.SG.Pf.Choice.transp_exists}
+\formallabel{Formalism.L2.SG.Pf.Choice.transpC_exists}
+\end{lemma}
+
+\begin{proof}
+The rescaled vectors $\lambda^{r-a}e_a$, $\overline{\lambda^{r-a}}^{\,-1}f_a$, $w_j$, $z$ satisfy the same relations, since
+$\langle\lambda^{r-a}e_a,\overline{\lambda^{r-b}}^{\,-1}f_b\rangle=\overline{\lambda^{r-a}}\,\overline{\lambda^{r-b}}^{\,-1}
+\delta_{ab}=\delta_{ab}$ (the form is conjugate-linear in the first variable). Let $Q$ be the matrix whose columns are
+these vectors, in the order of the standard basis for $H_{k,r}$. Then $Q^*JQ$ is the Gram matrix of the frame, which is
+$H_{k,r}$; since $H_{k,r}$ is invertible, so is $Q$, with inverse $H_{k,r}^{-1}Q^*J$. For the last assertion,
+$\langle T^{-1/2}z_0,T^{-1/2}z_0\rangle=T^{-1}(-T)=-1$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-siegel:choiceexists}]
+Fix a word $u_0$. For each $\tau$, the vectors $e_a(v),f_a(v)$, $w_j(u_0,v)$ and $T_{u_0}^{-1/2}z_{u_0}(v)$ satisfy the
+hypotheses of \cref{pf:sh-siegel:transp} (the hyperbolic relations of $X$, the frame relations of the vectors $w_j$ and
+$\langle z_{u_0},z_{u_0}\rangle=-T_{u_0}$, $T_{u_0}>0$); with $\lambda=\lambda_D\ne0$ this gives \ref{pf:sh-siegel:C1}. For
+\ref{pf:sh-siegel:C2}, a Cayley element $P$ for the rows exists (\lref{Formalism.MainNotions.S.Inh.obj_cayleyU_rows}),
+and then an element $y_\tau$ of $\Uni(H_{k,r})$ moving the base vector into the lowest $K$-type subspace of the conjugated
+representation exists (\lref{Formalism.L2.SG.Pf.Choice.y_exists}, applied to the transported discrete series at $v$,
+whose signature and Harish-Chandra parameter are those of $D$ at $\tau$). For \ref{pf:sh-siegel:C3}: the transported vector
+$z=z_u(\tau)$ lies in the open cone $W_b$ with $T(z)=T_u>0$ (\lref{Formalism.L2.SG.Pf.Choice.zTr_of}), so its
+stabiliser $\Uni_W(z)$ is a compact subgroup (\lref{PI.QuotSetU.UnitaryGroupMassFormula.unitary_weyl_compact}), and a compact
+group carries a Haar probability measure (\lref{Formalism.MainNotions.S.Inh.haar_probability_compact_subgroup}). For
+\ref{pf:sh-siegel:C4}: $\mu_G(\tau)$ is a Haar measure on $\Uni(H_{k,r})$ (\lref{Formalism.L2.SG.Pf.Choice.haar_tr}),
+and the quotient measure exists (\lref{Formalism.L2.SG.Pf.QuotMeasExists.quotMeasExists}). Choosing these data for
+all $\tau$ and $u$ gives a choice.
+\end{proof}
+
+\begin{definition}[Wu--Bessel data, local factor conditions]\label{pf:sh-siegel:wubdef}
+Let $\mathcal C$ be a choice. The \emph{transported Wu function} of $(u,\tau)$ is the function
+$w_{u,\tau}$ on $M_N(\C)$ with $w_{u,\tau}(Q_\tau^{-1}\gamma Q_\tau)=W_{u,v}(\gamma)$ for $\gamma$ in the real unitary group at
+$v$, and $0$ off $\Uni(H_{k,r})$. \emph{Wu--Bessel data} for $\mathcal C$ are, for every
+$(u,\tau)$, a smooth Bessel map $B_{u,\tau}\colon H_v\to V_{u,v}$ for $(z_u(\tau),\psi_S,\sigma_\tau,\pi_{u,\tau})$ such that
+$W_{u,v}(\gamma)=B_{u,\tau}(\sigma_v(\gamma)w_v)$ for every $\gamma$. The associated \emph{local Bessel function} is
+$\varphi_B(u,\tau)(m)=B_{u,\tau}(\sigma_\tau(m)v_0)$ with $v_0=\sigma_\tau(y_\tau)w_v$. The \emph{local factor conditions}
+$\mathrm{LF}(\mathcal C)$ require, for all $(u,\tau)$: $w_v$ is a smooth unit vector; $\mu_S(u,\tau)$ is a Haar measure
+on the stabiliser $S(z_u(\tau))=\Uni_W(z_u(\tau))N$; $w_{u,\tau}$ is continuous on $\Uni(H_{k,r})$ and transforms under
+$S(z_u(\tau))$ by $\psi_S$ and $\pi_{u,\tau}$; $w_{u,\tau}$ is reproduced by convolution with the normalised matrix
+coefficient of $w_v$; and $\int|w_{u,\tau}|^2\,d\nu_S(u,\tau)$ is non-zero and finite.
+The \emph{Bessel-of-Whittaker statement} (BW) is the following local assertion, for all $k,r$. Let $\sigma$ be a discrete
+series of $\Uni(H_{k,r})$ on a Hilbert space $H$ whose Harish-Chandra parameter has an admissible gap, $w\in H$ a unit vector
+in the lowest $K$-type of a Cayley conjugate of $\sigma$ (as in \ref{pf:sh-siegel:C2}), $z\in W_b$ with $T(z)>0$, $c\ne0$,
+$\psi_{z,c}$ the associated character of $N$, $\pi$ a finite-dimensional representation of the Harish-Chandra type prescribed
+through a frame of $z$, and $\nu$ a quotient of a Haar measure of $\Uni(H_{k,r})$ by
+the product of Haar measures of $\Uni_W(z)$ and $N$. Then every function $W$ on $\Uni(H_{k,r})$ which is continuous,
+transforms under $S(z)$ by $\psi_{z,c}$ and $\pi$, is reproduced by convolution with the normalised matrix coefficient of
+$w$, and has non-zero finite $L^2(\nu)$-norm, is of the form $W(x)=B(\sigma(x)w)$ for a smooth Bessel map $B$ for
+$(z,\psi_{z,c},\sigma,\pi)$.
+\formal{Formalism.L2.SG.LocWSOf.WuBessel}\ \formal{Formalism.L2.SG.LocWSOf.LocFactor}\
+\formal{Formalism.L2.SG.LocWSOf.BesselOfW}
+\end{definition}
+
+\begin{proposition}[Wu--Bessel data from the local factors]\label{pf:sh-siegel:wubessel}
+Let $\mathcal C$ be a choice for $(X,\theta)$. If $\shsiegelGap(D)$ holds, the Bessel-of-Whittaker statement
+(BW) holds, $\mathrm{LF}(\mathcal C)$ holds, every transported representation $\sigma_\tau$ is a discrete
+series of $\Uni(H_{k,r})$ with parameter $\lambda_D(\tau)$, every $\mu_G(\tau)$ is a Haar measure and the column types are
+transported, then Wu--Bessel data for $\mathcal C$ exist.
+\formallabel{Formalism.L2.SG.Pf.wuBesselOfLoc_all}
+\end{proposition}
+
+\begin{proof}
+This is \lref{Formalism.L2.SG.Pf.WuBL.wuBesselOfLoc}, which derives the conclusion from three statements:
+the reproduction of the Wu function under translation (\lref{Formalism.L2.SG.Pf.WuBL.reproduction_translation}),
+the invariance of $L^2$-norms for the quotient measure under right translation by $\Uni(H_{k,r})$
+(\lref{Formalism.L2.SG.Pf.WuBL.l2RightTranslation_thm}), and the gap bound for the parameters under the gap
+hypothesis (\lref{Formalism.L2.SG.Pf.WuBL.parameter_gap_of_hypothesis}). For each $(u,\tau)$, (BW) is applied to
+$\sigma_\tau$, the vector $v_0=\sigma_\tau(y_\tau)w_v$ of \ref{pf:sh-siegel:C2}, the transported vector $z_u(\tau)$ and the right
+translate $x\mapsto w_{u,\tau}(xy_\tau)$ of the transported Wu function; the three statements turn the conditions
+$\mathrm{LF}(\mathcal C)$ into the hypotheses of (BW) for these data (the translate is still reproduced by convolution and has
+the same $L^2$-norm, and the parameter has an admissible gap). The resulting Bessel map $B$ satisfies
+$w_{u,\tau}(xy_\tau)=B(\sigma_\tau(xy_\tau)w_v)$ on $\Uni(H_{k,r})$, and taking $x=Q_\tau^{-1}\gamma Q_\tau y_\tau^{-1}$
+gives $W_{u,v}(\gamma)=B(\sigma_v(\gamma)w_v)$. All three statements are proved in the development, so the implication of
+the proposition holds for every choice.
+\end{proof}
+
+\begin{proposition}[Local Bessel functions have non-zero finite norm]\label{pf:sh-siegel:l2phi}
+Let $\mathcal C$ be a choice satisfying $\mathrm{LF}(\mathcal C)$, with Wu--Bessel data $B$. For every word $u$ and every
+$\tau$,
+\[
+0\ <\ \int\bigl\|\varphi_B(u,\tau)(m)\bigr\|^2\,d\nu_S(u,\tau)(m)\ <\ \infty .
+\]
+\formallabel{Formalism.L2.SG.Pf.GoodS.l2SG_phiOf_ne_zero_and_lt_infty}
+\end{proposition}
+
+\begin{proof}
+Write $z=z_u(\tau)$, $w=w_{u,\tau}$, $\nu=\nu_S(u,\tau)$. The vector $z$ lies in $W_b$ with $T(z)=T_u>0$
+(\lref{Formalism.L2.SG.Pf.zTr}), $\mu_G(\tau)$ is a Haar measure (\lref{Formalism.L2.SG.Pf.haarTr}), and $\nu$ is a
+quotient of $\mu_G(\tau)$ by a Haar measure on $S(z)$; hence $\nu$ is concentrated on $\Uni(H_{k,r})$
+(\lref{Formalism.L2.SG.Pf.GoodS.nu_conc}). For $s=h_0n_0\in S(z)$ and $x\in\Uni(H_{k,r})$ the transformation rule in
+$\mathrm{LF}(\mathcal C)$ gives $w(sx)=\psi_S(n_0)\,\pi_{u,\tau}(h_0)w(x)$; since $|\psi_S|=1$
+(\lref{Formalism.L2.SG.Pf.WuBL.norm_psi}) and $\pi_{u,\tau}(h_0)$ is unitary
+(\lref{Formalism.MainNotions.BridgeLemma₃.lbRepOfHC_proved}), $\|w(sx)\|=\|w(x)\|$. The function $w$ is continuous on
+$\Uni(H_{k,r})$ and vanishes off it (\lref{Formalism.L2.SG.Pf.WuBL.wT_off}), so the invariance of $L^2$-norms under right
+translation (\lref{Formalism.L2.SG.Pf.WuBL.l2RightTranslation_thm}) gives
+$\int\|w(xy_\tau)\|^2d\nu=\int\|w(x)\|^2d\nu$. Finally $\varphi_B(u,\tau)(x)=w(xy_\tau)$ for $x\in\Uni(H_{k,r})$
+(\lref{Formalism.L2.SG.Pf.GoodS.phi_eq}), hence $\nu$-almost everywhere, so the two integrals agree; the last one is
+non-zero and finite by $\mathrm{LF}(\mathcal C)$.
+\end{proof}
+
+\begin{remark}
+In \cref{pf:sh-siegel:l2phi} the non-vanishing and the finiteness of the norm are hypotheses of the local factor
+conditions, for the transported Wu function; the proposition transports them to the local Bessel function.
+\end{remark}
+
+
+%==============================================================================
+\subsection{The orbital expansion of the Poincar\'e kernels}\label{sec:pf:sh-siegel:orb}
+
+Throughout this subsection $X$ is a Hida setting for a datum $D$ and $Y$ a full system over $X$. We recall the objects of
+the orbital expansion (\cref{pf:thmS:terms} and the description following it).
+
+\begin{definition}[Level subgroups, folding, fundamental sets, orbital integrals]\label{pf:sh-siegel:folddef}
+\begin{enumerate}[label=(\alph*)]
+\item Let $g$ be the modulus of $X$ and $K(g)=\{x\in K:\ (x-1)L_{X,f}\subseteq g\,L_{X,f}\}$ the principal congruence
+subgroup of level $g$ ($L_{X,f}$ the finite adelic completion of the lattice). The level subgroup of $X$ is
+\emph{normalised} if every $x\in K(g)$ lies in $K_2$ and satisfies $\chi_2(x)=1$, $K_2\subseteq K$, and
+$0<\mu_f(K_2)<\infty$.
+\item For a word $u$, $S_{\mathrm{rat}}(u)\subseteq G(\A)$ is the rational subgroup attached to $u$ (the rational points of
+the stabiliser of the frame of $u$), and the \emph{phase functions} $\mathrm{Ph}(u,T)$ ($T$ in the column space
+$\mathcal C_u$ of $u$) are the functions on $G(\A)$ whose Poincar\'e series over $S_{\mathrm{rat}}(u)\backslash G(F)$ are
+the Poincar\'e series of $u$. \emph{Folding holds at $u$}, $\mathrm{Fold}(u)$, if $S_{\mathrm{rat}}(u)$ has a fundamental
+domain in $G(\A)$ for $\mu_f$ times the archimedean Haar measure, and there are a compact set $\Omega_0\ni1$ and $a\ge0$ such
+that, for every $T\in\mathcal C_u$, the phase function $\mathrm{Ph}(u,T)$ admits fold data with constant $a$ on every compact
+$\Omega\supseteq\Omega_0$, and its multiplicity integral over every compact set and every fundamental domain of
+$S_{\mathrm{rat}}(u)$ is finite.
+\item The terms of the expansion for the pair $(u,u')$ are triples $t=(\Lambda,\Lambda',[\gamma])$ with $\Lambda\in\mathcal
+R_u$, $\Lambda'\in\mathcal R_{u'}$ and a class of pairs $(x,\gamma)$ of an adelic point $x$ and a rational isometry $\gamma$
+with $\gamma\Lambda'=\Lambda$ which are rationally linked and whose frame $\gamma F_{u'}$ is admissible for $\Lambda$; $p_t$
+is the adelic point of a fixed representative. For each term, $R_O(t)\subseteq G(F\otimes\R)$ is the set of archimedean
+components of the rationally linked $(x,n)$ with $n$ in the unipotent stabilisers of $(\Lambda,F_u)$ and of
+$(\Lambda',F_{u'})$ (after conjugation by $\gamma$). \emph{Fundamental sets exist} for $(u,u')$, $\mathrm{FE}(u,u')$, if every
+term $t$ has a strict fundamental set $\Omega$ for $R_O(t)$ in $G(F\otimes\R)$ (measurable, meeting every orbit, and
+meeting each orbit at most once); $\Omega_t$ denotes a chosen one.
+\item The \emph{orbital integral} of $t$ over a set $\Omega$ is the operator
+$\mathrm{OO}_\Omega(t)=\int_\Omega W_u(x)\otimes W_{u'}(\gamma_t^{-1}x)^*\,dx\colon V_{u'}\to V_u$ (an integral of rank-one
+operators, $\gamma_t$ the archimedean component of $p_t$); the orbital integrals are \emph{integrable},
+$\mathrm{OI}(u,u')$, if the integrand is integrable on $\Omega_t$ for every term $t$. $\mathrm{AC}(u,u')$ is the absolute
+convergence of the term system $\mathcal T(u,u')$ (\cref{pf:thmS:terms}).
+\end{enumerate}
+\formal{Formalism.L2.SG.HidaSetting.HidaSetting.LevelSubgroupNormalized}\
+\formal{Formalism.L2.SG.WuDecay.FoldOK}\ \formal{Formalism.L2.SG.TermOp.FundExists}\
+\formal{Formalism.L2.SG.TermOp.OOIntAll}\ \formal{Formalism.L2.SG.TermOp.AbsConvT}
+\end{definition}
+
+The closed statements are the following: $\sfname{FoldOKC}$: for every $D,X,Y$ and word $u$, if the level subgroup of $X$
+is normalised and $X$ has Wu decay, then $\mathrm{Fold}(u)$; $\sfname{FundExistsC}$: for every $D,X,Y,u,u'$,
+$\mathrm{FE}(u,u')$; $\sfname{OOIntAllC}$: for every $D,X,Y,u,u'$, $\mathrm{Fold}(u)$, $\mathrm{Fold}(u')$ and
+$\mathrm{FE}(u,u')$ imply $\mathrm{OI}(u,u')$; $\sfname{AbsConvC}$: for every $D,X,Y,u,u'$, $\mathrm{Fold}(u)$,
+$\mathrm{Fold}(u')$, $\mathrm{FE}(u,u')$ and $\mathrm{OI}(u,u')$ imply $\mathrm{AC}(u,u')$.
+
+\begin{proposition}[Normalised level subgroups]\label{pf:sh-siegel:level}
+For every Hida setting $X$ the level subgroup is normalised.
+\formallabel{Formalism.L2.SG.Closed.level_subgroup_properties}
+\formallabel{Formalism.L2.SG.Pf.levelSubgroupNormalized_of_compact}
+\end{proposition}
+
+\begin{proof}
+The modulus $g$ is non-zero (\lref{Formalism.L2.SG.Pf.modulus_g_ne_zero}), and the reference vectors
+$e_0,f_0,z_0$ and the bases $b_w,b_w^\vee$ entering the definition of $K_2$ and $\chi_2$ lie in $L_{X,f}$ and satisfy the
+congruences of the reference frame (\lref{Formalism.L2.SG.Pf.reference_frame_congruences}). Let $x\in K(g)$. Then
+$x$ satisfies the congruence conditions defining $K_2$ (\lref{Formalism.L2.SG.Pf.unitaryCongruence.cong_Kg}: $(x-1)$ maps the lattice
+into $g$ times the lattice, so it preserves the congruence classes of the reference vectors), so $x\in K_2$. The value
+$\chi_2(x)$ is $\psi_{E,f}$ evaluated at $g^{-1}$ times a sum of hermitian products of reference vectors with
+$(x-1)$-translates of reference vectors (\lref{Formalism.L2.SG.Pf.unitaryCongruence.flagLevelCharacter_eq_psi_divN}); since
+$(x-1)L_{X,f}\subseteq gL_{X,f}$ this argument is integral (\lref{Formalism.L2.SG.Pf.unitaryCongruence.Afun_Kg}), and $\psi_{E,f}$ is
+trivial on integral elements (\lref{Formalism.L2.SG.Pf.unitaryCongruence.psi_Z}), so $\chi_2(x)=1$. By definition $K_2\subseteq K$.
+Finally, $K(g)$ is open (a property of the adelic instance, as $g\ne0$) and contains $1$, so
+$0<\mu_f(K(g))\le\mu_f(K_2)$ (a Haar measure is positive on non-empty open sets), and $K$ is compact
+(\lref{PI.WAU.maximal_compact_isCompact}), so $\mu_f(K_2)\le\mu_f(K)<\infty$.
+\end{proof}
+
+\begin{proposition}[Folding, fundamental sets, integrability, absolute convergence]\label{pf:sh-siegel:closed4}
+The statements $\sfname{FoldOKC}$, $\sfname{FundExistsC}$, $\sfname{OOIntAllC}$ and $\sfname{AbsConvC}$ hold.
+\formallabel{Formalism.L2.SG.Closed.FoldOKC_outright}
+\formallabel{Formalism.L2.SG.Closed.FundExistsC_holds}
+\formallabel{Formalism.L2.SG.Closed.OOIntAllC_outright}
+\formallabel{Formalism.L2.SG.Closed.AbsConvC_outright}
+\end{proposition}
+
+\begin{proof}
+$\sfname{FoldOKC}$ is \lref{Formalism.L2.SG.Closed.FoldOKC_holds} (folding follows from the finiteness of the
+Levi quotients, $\sfname{FinLeviC}$, together with the splitting of the level set, the unipotent elements in the level
+subgroup, the rational Levi decomposition, the product formula for the character and the unfolding of the integrals)
+applied to \lref{Formalism.L2.SG.Closed.FinLeviC_holds}. $\sfname{FundExistsC}$ is
+\lref{Formalism.L2.SG.Pf.fundExistsC_holds} (strict fundamental sets exist because the row representatives are
+lattices). $\sfname{OOIntAllC}$ and $\sfname{AbsConvC}$ are \lref{Formalism.L2.SG.Closed.OOIntAllC_holds} and
+\lref{Formalism.L2.SG.Closed.AbsConvC_holds}, which derive them from the finiteness of the sums of the integrals of the
+norms of the orbital integrands over the terms, $\sfname{OOLintSumC}$, which holds by
+\lref{Formalism.L2.SG.Closed.OOLintSumC_holds} (a pointwise majorant by columns and a count of slabs).
+\end{proof}
+
+\begin{corollary}[Absolute convergence for concretely tied pairs]\label{pf:sh-siegel:absconvtied}
+Assume $\sfname{FoldOKC}$, $\sfname{FundExistsC}$, $\sfname{OOIntAllC}$ and $\sfname{AbsConvC}$. Then for every datum $D$,
+every concretely tied pair $(X,Y)$ and all words $u,u'$, the term system $\mathcal T(u,u')$ is absolutely convergent.
+\formallabel{Formalism.L2.SG.RowsConc.absConvTied_of_full}
+\end{corollary}
+
+\begin{proof}
+A concrete tie contains the normalisation of the level subgroup and Wu decay, so $\sfname{FoldOKC}$ gives
+$\mathrm{Fold}(u)$ and $\mathrm{Fold}(u')$; $\sfname{FundExistsC}$ gives $\mathrm{FE}(u,u')$, then $\sfname{OOIntAllC}$ gives
+$\mathrm{OI}(u,u')$, and $\sfname{AbsConvC}$ gives $\mathrm{AC}(u,u')$.
+\end{proof}
+
+\subsubsection{The kernel expansion}
+
+\begin{definition}[Kernel forms and term operators]\label{pf:sh-siegel:kexpdef}
+Let $u,u'$ be words. For $T\in\mathcal C_u$ and a set $\Delta$ of representatives of $S_{\mathrm{rat}}(u)\backslash G(F)$
+the Poincar\'e series is $P_u(T)(x)=\sum_{\delta\in\Delta}\mathrm{Ph}(u,T)(\delta x)$. The \emph{Poincar\'e condition}
+$\mathrm{InHH}(u)$ requires that for all $T$ and $\Delta$ this series converges absolutely at every point, does not depend on
+$\Delta$, is square integrable on the fundamental domain of $G(F)$ in $G(\A)$, and is fixed by the projection onto the
+relevant space. The \emph{kernel form} is
+\begin{gather*}
+\mathrm{Kf}(T,T')=\bigl(c_0(u)c_0(u')\bigr)^{-1/2}\bigl\langle P_u(T),P_{u'}(T')\bigr\rangle,\\
+c_0(u)=\mu_f(K_2)\,\mu_N(u)(\mathrm{Fd}_N(u))\,\mu_H(u)(H_u)/\dim V_u ,
+\end{gather*}
+with $\mathrm{Fd}_N(u)$ the fundamental set of the unipotent group of $u$ chosen in $Y$. Let $\mathrm{CM}(u)=\bigoplus_\rho V_u$
+(the sum over the columns $\rho$ of the column system of $u$, with the $\ell^2$-norm), and $T\mapsto T^\sharp\in\mathrm{CM}(u)$
+the map sending $T$ to its values at the column representatives $h_\rho$ (identified with vectors by the Riesz map). For a
+term $t$ the \emph{term operator} $a_t\colon\mathrm{CM}(u')\to\mathrm{CM}(u)$ has $(\rho,\rho')$-block
+\[
+a_t(\rho,\rho')=
+\begin{cases}
+s_{u,u'}\ \chi_2(k_{\rho\rho'}(t))\ \mathrm{OO}_{\Omega_t}(t)&\text{if $(\Lambda_\rho,\Lambda'_{\rho'})=(\Lambda,\Lambda')$
+and $k_{\rho\rho'}(t)\in K_2$,}\\
+0&\text{otherwise,}
+\end{cases}
+\]
+with $s_{u,u'}=\bigl(c_0(u)c_0(u')\bigr)^{-1/2}\mu_f(K_2)$, where $k_{\rho\rho'}(t)=(h_\rho x_u)^{-1}p_{t,f}(h_{\rho'}x_{u'})$ is
+the finite part of $t$ seen from the columns; the
+operator $\mathrm{op}(t)$ of the term system is the image of $a_t$ in the Hilbert--Schmidt space. The \emph{kernel
+expansion} $\mathrm{KE}(u,u')$ holds if there is an operator $\mathcal K$ with $\sum_ta_t=\mathcal K$ (unconditional
+convergence) and $\mathrm{Kf}(T,T')=\langle\mathcal K(T'^\sharp),T^\sharp\rangle$ for all $T\in\mathcal C_u$, $T'\in\mathcal
+C_{u'}$. The \emph{fundamental-set independence} $\mathrm{FI}(u,u')$ requires that $\mathrm{OO}_\Omega(t)=\mathrm{OO}_{\Omega_t}(t)$
+for every strict fundamental set $\Omega$ of $R_O(t)$, and the \emph{well-definedness of the amplitudes}
+$\mathrm{AW}(u,u')$ requires that the products of $\chi_2$ (and of its factor $\chi_N$) with the orbital integrals do not
+depend on the representative of the class of a term.
+\formal{Formalism.L2.SG.PoincareInHH.PoincareSetting.InHH}\ \formal{Formalism.L2.SG.PoincareInHH.PoincareSetting.Kform}\
+\formal{Formalism.L2.SG.TermOp.aTerm}\ \formal{Formalism.L2.SG.TermOp.KExpansion}
+\end{definition}
+
+\begin{theorem}[The kernel expansion]\label{pf:sh-siegel:kexp}
+For every datum $D$, Hida setting $X$, full system $Y$ and words $u,u'$: if $\mathrm{Fold}(u)$, $\mathrm{Fold}(u')$,
+$\mathrm{InHH}(u)$, $\mathrm{InHH}(u')$, $\mathrm{FE}(u,u')$, $\mathrm{OI}(u,u')$, $\mathrm{FI}(u,u')$, $\mathrm{AW}(u,u')$ and
+$\mathrm{AC}(u,u')$ hold, then $\mathrm{KE}(u,u')$ holds.
+\formallabel{Formalism.L2.SG.Closed.KExpansionC_holds}
+\formallabel{Formalism.L2.SG.Pf.kExpansionC_holds_of}
+\formallabel{Formalism.L2.SG.TermOp.KExpCut.kExpansion_of_steps}
+\end{theorem}
+
+\begin{proof}
+The level subgroup is normalised (\cref{pf:sh-siegel:level}); hence $X$ is \emph{fold-ready}: $G(\A)$ is second countable
+and Borel, and the rational points form a discrete subgroup (\lref{Formalism.L2.SG.Pf.RegroupPf.foldReadyX_K2Level}).
+Choose:
+\begin{enumerate}[label=(\arabic*)]
+\item a double transversal $R$ for $S_{\mathrm{rat}}(u)\backslash G(F)/S_{\mathrm{rat}}(u')$
+(\lref{Formalism.L2.SG.Pf.Slab.exists_doubleTransversal});
+\item for each $r\in R$ a fundamental domain $F_r$ in $G(\A)$ of the stabiliser $S_{\mathrm{rat}}(u)\cap
+rS_{\mathrm{rat}}(u')r^{-1}$, which exists because this stabiliser is discrete
+(\lref{Formalism.L2.SG.Pf.exists_isFund});
+\item a fundamental domain $F_S$ of $S_{\mathrm{rat}}(u)$ (\lref{Formalism.L2.SG.Pf.exists_fund_srat_holds}) and, for
+every column $\rho$ of $u$, a strict fundamental set $\Omega_\rho$ of the integral unipotent group of the column
+(\lref{Formalism.L2.SG.Pf.Slab.exists_NOcol_fund}).
+\end{enumerate}
+The phase functions are well defined at $u$ and $u'$ (\lref{Formalism.L2.SG.Pf.phWellDef_holds}). With these choices,
+the kernel expansion is obtained in three steps:
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Entry unfolding} (\lref{Formalism.L2.SG.TermOp.KExpCut.entryUnfold_of}): by folding and the Poincar\'e
+conditions, each entry $\mathrm{Kf}(T,T')$ unfolds, through the double cosets $r\in R$ and the fundamental domains $F_r$, into
+a sum of integrals of $\mathrm{Ph}(u,T)\,\overline{\mathrm{Ph}(u',T')(r^{-1}\cdot)}$ over $F_r$; the unfolding of a single
+double coset is \lref{Formalism.L2.SG.Pf.Slab.double_coset_single_unfolding}.
+\item \emph{Double cosets to terms} (\lref{Formalism.L2.SG.TermOp.KExpCut.dcTerms_of}): integrating over the
+unipotent fibres (the slabs, using the slab cover property $\sfname{SlabCoverC}$, \lref{Formalism.L2.SG.Closed.SlabCoverC_holds},
+neatness of the level subgroups, \lref{Formalism.L2.SG.Closed.NeatKu_holds}, the fundamental bridge,
+\lref{Formalism.L2.SG.Pf.fundBridge_holds}, and the measurability of the Poincar\'e series,
+\lref{Formalism.L2.SG.Pf.pserMeas_holds}) and regrouping the double cosets according to the lattices and the classes
+of their frames (the regrouping statement $\sfname{RegroupC}$, \cref{pf:sh-siegel:regroup} below), the sum of
+\textup{(i)} becomes $\sum_t\langle a_t(T'^\sharp),T^\sharp\rangle$.
+\item \emph{Summation} (\lref{Formalism.L2.SG.TermOp.KExpCut.kExpansion_of_abs}): by absolute convergence
+$\sum_t\|\mathrm{op}(t)\|<\infty$; since the operator norm of a block operator is bounded by a constant times its
+Hilbert--Schmidt norm (\lref{Formalism.L2.SG.TermOp.KExpCut.summable_blk_of_abs}), the family $(a_t)$ is summable, with
+sum $\mathcal K$, and the identity of (ii) gives $\mathrm{Kf}(T,T')=\langle\mathcal K(T'^\sharp),T^\sharp\rangle$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{proposition}[Regrouping]\label{pf:sh-siegel:regroup}
+The regrouping statement $\sfname{RegroupC}$ holds: for every $D,X,Y,u,u'$ satisfying the hypotheses of
+\cref{pf:sh-siegel:kexp} with normalised level subgroup, every family of strict fundamental sets $\Omega_\rho$ of the integral
+unipotent groups of the columns $\rho$ of $u$, all $T\in\mathcal C_u$, $T'\in\mathcal C_{u'}$ and every column $\rho$,
+\[
+s_{u,u'}\int_{\Omega_\rho}\overline{\mathrm{Ph}(u,T)(y,h_\rho x_u)}\,P_{u'}(T')(y,h_\rho x_u)\,dy
+=\sum_{\rho'}\Bigl\langle\Bigl(\sum_ta_t(\rho,\rho')\Bigr)(T'^\sharp_{\rho'}),T^\sharp_\rho\Bigr\rangle ,
+\]
+where the sum over $t$ converges absolutely by $\mathrm{AC}(u,u')$
+(\lref{Formalism.L2.SG.TermOp.KExpCut.summable_blk_of_abs}).
+\formallabel{Formalism.L2.SG.Pf.RegroupPf.regroupC_all}
+\formallabel{Formalism.L2.SG.Pf.RegroupPf.regrouping_of_neatness}
+\end{proposition}
+
+\begin{proof}
+By \lref{Formalism.L2.SG.Pf.RegroupPf.regrouping_of_closed_lemmas}, regrouping follows from five statements: the phases
+are well defined at all words (\lref{Formalism.L2.SG.Pf.RegroupPf.phase_well_defined_all_words}); the column of a
+double coset is unique (\lref{Formalism.L2.SG.Pf.RegroupPf.column_uniqueness}); the columns cover the double cosets,
+which follows from strong approximation for the nilradical (\lref{Formalism.L2.SG.Pf.RegroupPf.colCoverC_of},
+\lref{Formalism.L2.SG.Pf.RegroupPf.nStrongApproxC_of}); absolute convergence over the slabs
+(\lref{Formalism.L2.SG.Pf.RegroupPf.slabAbsC_of}, from the slab cover property, fold readiness and neatness); and the
+orbit algebra, which identifies the double cosets inside a column with the classes of frames of the terms
+(\lref{Formalism.L2.SG.Pf.RegroupPf.orbit_algebra_of_stabilizer}, from the term carrier
+\lref{Formalism.L2.SG.Pf.RegroupPf.term_carrier_holds} and the description of stabilisers for neat level
+\lref{Formalism.L2.SG.Pf.RegroupPf.stabilizer_of_neat_level}). Fold readiness and neatness hold for normalised level
+subgroups (\lref{Formalism.L2.SG.Pf.RegroupPf.foldReadyX_K2Level} and \lref{Formalism.L2.SG.Pf.RegroupPf.neatKu_K2Level}).
+\end{proof}
+
+\subsubsection{Degenerate terms, identity terms and row orthogonality}
+
+\begin{definition}[Flags, weights and identity terms]\label{pf:sh-siegel:weightdef}
+Let $V$ be a hermitian space over $E$ with form $h$. A \emph{flag} $F$ of length $r$ and norm $T$ is a family
+$(e_1,\dots,e_r;z)$ of linearly independent isotropic vectors $e_a$, mutually orthogonal, and a vector $z$ orthogonal to
+all $e_a$ with $h(z,z)=-T$; write $F^\natural=(e_1,\dots,e_r,z)$, $X_j(F)=\langle e_1,\dots,e_j\rangle$ and
+$X(F)=X_r(F)$. For flags $F,F'$ of norms $T,T'$ let $\widehat Z(F,F')=\bigl(h(F^\natural_a,F'^\natural_b)\bigr)_{a,b}\in
+M_{r+1}(E)$, $D_l(F,F')$ its leading principal $l\times l$ minor, and
+\[
+G(F,F')=D_{r+1}\overline{D_{r+1}}-TT'\,D_r\overline{D_r} .
+\]
+For the term system $\mathcal T(u,u')$ the value $G(t)=G(F_u,F'_t)$, $F'_t$ the frame of a representative of $t$, does not
+depend on the representative (\lref{Formalism.L2.SG.Closed.TermFun_holds}, the first component of which is this
+invariance); the weight of $t$ in the term system is $0$ if $G(t)=0$ and $1$ otherwise. For a lattice $\Lambda$, $N_\Lambda(F)$
+is the set of automorphisms $n$ of $V$ preserving $\Lambda$ with $(n-1)X_{j+1}(F)\subseteq X_j(F)$ for all $j$ and
+$(n-1)X(F)^\perp\subseteq X(F)$. A term $t$ over $\Lambda$ is an \emph{identity term} if some representative frame $F'$
+satisfies $F'=nF_u$ modulo $X(F_u)$ for some $n\in N_\Lambda(F_u)$, i.e.\ $n(e_a)=e'_a$ for all $a$ and $n(z)-z'\in X(F_u)$.
+\formal{Formalism.MainNotions.S.Gflag}\ \formal{Formalism.L2.SG.FourParts.IsIdF}
+\end{definition}
+
+\begin{lemma}\label{pf:sh-siegel:inS}
+Let $F,F'$ be flags of length $r$ and norms $T,T'$ with $\bar T=T$ such that $e'_a-e_a\in X_{a-1}(F)$ for $1\le a\le r$ and
+$z'-z\in X(F)$. Then $G(F,F')=0$. If $F'=nF$ modulo $X(F)$ for some $n\in N_\Lambda(F)$, then these hypotheses hold.
+\formallabel{Formalism.L2.SG.FourParts.gval_eq_zero_of_inSF}
+\end{lemma}
+
+\begin{proof}
+If $r=0$, then $z'=z$, hence $-T'=h(z',z')=h(z,z)=-T$; so $D_1=h(z,z)=-T$, $D_0=1$ and $G=T\bar T-T^2=0$. If $r\ge1$, then
+$e'_1=e_1$ since $X_0(F)=0$. The first column of $\widehat Z(F,F')$ is $(h(F^\natural_a,e_1))_a$, which vanishes: the $e_a$
+are isotropic and mutually orthogonal, and $h(z,e_1)=\overline{h(e_1,z)}=0$. Hence $D_l=0$ for all $l\ge1$, in particular
+$D_{r+1}=D_r=0$ and $G=0$. The second assertion is the shared lemma \lref{Formalism.L2.SG.FourParts.inSF_of_isIdF}, whose
+short proof we include: $e'_a-e_a=(n-1)e_a\in X_{a-1}(F)$, and
+$z'-z=(nz-z)-(nz-z')\in X(F)$ because $z\in X(F)^\perp$.
+\end{proof}
+
+\begin{proposition}[Identity terms have weight $0$]\label{pf:sh-siegel:iddeg}
+For every Hida setting $X$, full system $Y$ and words $u,u'$, the term system $\mathcal T(u,u')$ satisfies $\mathrm{ID}$:
+every identity term has weight $0$.
+\formallabel{Formalism.L2.SG.Pf.SatGram.idDegenerate_tO}
+\formallabel{Formalism.L2.SG.FourParts.G_eq_zero_of_termInS}
+\formallabel{Formalism.L2.SG.FourParts.gt_eq_zero_of_isInS}
+\end{proposition}
+
+\begin{proof}
+Let $t$ be an identity term over $\Lambda\in\mathcal R_u$. The flag $F_u$ has norm $T_u\in\N$, so $\bar T_u=T_u$. By the second
+part of \cref{pf:sh-siegel:inS} a representative frame $F'$ of $t$ satisfies the hypotheses of the first part, so
+$G(F_u,F')=0$; since $\Lambda$ is a row lattice of $u$ ($Y$ is a full system), $G$ is constant on the class of $t$
+(\lref{Formalism.L2.SG.Closed.TermFun_holds}), so $G(t)=0$ and the weight of $t$ is $0$.
+\end{proof}
+
+\begin{proposition}[Row orthogonality]\label{pf:sh-siegel:roworth}
+For every Hida setting $X$, full system $Y$ and words $u,u'$ (indeed for every choice of the typed reduction, column systems
+and fundamental sets), the term system $\mathcal T(u,u')$ satisfies $\mathrm{RO}$.
+\formallabel{Formalism.L2.SG.TermOp.rowOrth}
+\end{proposition}
+
+\begin{proof}
+The row of a term $t=(\Lambda,\Lambda',[\gamma])$ is $(\Lambda,\Lambda',\iota(t))$, and $\mathrm{vec}(t)$ lies in the summand of
+$H_1=\bigoplus_{(\Lambda_1,\Lambda_1')}\mathrm{HS}(V_{u'},V_u)$ indexed by $(\Lambda,\Lambda')$: its component at
+$(\Lambda_1,\Lambda'_1)$ is $0$ unless $(\Lambda_1,\Lambda'_1)=(\Lambda,\Lambda')$. If $\iota(t)=\iota(t')$ and the rows of $t$
+and $t'$ differ, then $(\Lambda,\Lambda')\ne(\Lambda_{t'},\Lambda'_{t'})$, so for every index of the sum defining the inner
+product of $H_1$ one of the two components vanishes; hence $\langle\mathrm{vec}(t),\mathrm{vec}(t')\rangle=0$.
+\end{proof}
+
+\begin{theorem}[Vanishing of the degenerate terms]\label{pf:sh-siegel:kppoff}
+For all reals $C_g,c_b,C_w,c_T,C_T,C_0$ there are $C'_0,C_{l,0}$ (one may take $C'_0=C_{l,0}=0$) such that for all
+$C'\ge C'_0$, $C_l\ge C_{l,0}$, every datum $D$ with size data $L_2$, every concretely tied pair $(X,Y)$ and all words
+$u\ne u'$: if the $K_2$-hypotheses $\mathrm{H}_K(D,L_2;C',C_l,C_g,c_b,C_w,c_T,C_T,C_0)$ hold, then
+$\mathrm{op}(t)=0$ for every degenerate term $t\in\mathcal T_{\mathrm{deg}}(u,u')$.
+\formallabel{Formalism.L2.SG.Closed.KppOffC_holds}
+\formallabel{Formalism.L2.SG.FixedDecomposition.kppOffC_of_steps0}
+\end{theorem}
+
+\begin{proof}
+Let $t$ be degenerate; only $G(t)=0$ is used. A concrete tie gives the normalisation of the level subgroup and Wu decay, so
+$\mathrm{Fold}(u)$, $\mathrm{Fold}(u')$, $\mathrm{FE}(u,u')$ and $\mathrm{OI}(u,u')$ hold by \cref{pf:sh-siegel:closed4}.
+Under $\mathrm{H}_K$, distinct words have distinct parameter vectors $u_w(\tau)\in\R^k$ (the $u$-components of the
+Harish-Chandra data of the words) at every embedding type $\tau$
+(\lref{Formalism.L2.SG.KappaOffDiagonal.words_differ}). Two cases.
+
+\emph{$t$ is not relevant.} Then $a_t=0$ by \emph{Lemma V} (\lref{Formalism.L2.SG.Closed.LemmaVC_holds}: for terms which are
+not relevant, the level character averages to zero over a compact subgroup, so the term operator vanishes).
+
+\emph{$t$ is relevant.} We show that the orbital integral $\mathrm{OO}_{\Omega_t}(t)$ vanishes; then every block of $a_t$
+vanishes. By the covariance statement $\sfname{CovRep}_0$ (\lref{Formalism.L2.SG.FixedDecomposition.covariantRepZero_of_lemmaV}),
+for every element $h$ of the pointwise stabiliser at infinity of the representative frame of $t$,
+\[
+\pi_u(h)\circ\mathrm{OO}_{\Omega_t}(t)=\mathrm{OO}_{\Omega_t}(t)\circ\pi_{u'}(\gamma_t^{-1}h\gamma_t).
+\]
+(Its proof: $h$ and $\gamma_t^{-1}h\gamma_t$ fix the reference vectors of $u$ and $u'$, so they lie in the archimedean
+stabilisers, where the archimedean characters are trivial and the Wu functions are equivariant. If the character
+$r\mapsto\psi_{\infty,u}(r)\overline{\psi_{\infty,u'}(\gamma_t^{-1}r\gamma_t)}$ is non-trivial on the group containing
+$R_O(t)$ cocompactly, the orbital integral vanishes by averaging; otherwise the integrand is invariant under this group, and
+the invariance of the measure under shifts by $h$ gives the covariance. The inputs are the averaging lemma, unimodularity at
+infinity, the triviality of the level character on the relevant subgroups, and the closedness, discreteness and
+cocompactness of the subgroups involved:
+\lref{Formalism.L2.SG.Closed.AvgCore_holds}, \lref{Formalism.L2.SG.Pf.ginfUnimod_holds}, \lref{Formalism.L2.SG.Pf.nLamNinf_holds}, \lref{Formalism.L2.SG.Closed.ChiTrivialC_holds}, \lref{Formalism.L2.SG.Pf.psiInfChar_holds}, \lref{Formalism.L2.SG.Pf.rClosedC_holds}, \lref{Formalism.L2.SG.Pf.roDiscreteC_holds}, and \lref{Formalism.L2.SG.TermOp.Vanish.rational_cocompact_holds}.)
+By the Schur statement $\sfname{SchurNFC}$ (\lref{schurNFC}: for relevant frames with $G=0$ and words whose
+parameters differ at every $\tau$, every operator with this covariance property vanishes, by Schur's lemma for the discrete
+series with distinct parameters), $\mathrm{OO}_{\Omega_t}(t)=0$
+(\lref{Formalism.L2.SG.FixedDecomposition.OOt_eq_zero0}).
+
+In both cases $\mathrm{op}(t)$, the image of $a_t$ in the Hilbert--Schmidt space, is $0$.
+\end{proof}
+
+\subsubsection{The Gram expansions}
+
+\begin{lemma}[Independence of $\chi_N$ of the columns]\label{pf:sh-siegel:chiN}
+Let $X$ be a Hida setting and assume the frame tie for $(u,u')$ (the flags $F_u,F_{u'}$ of the full system have the reference
+vectors $e_a$ of $X$ and $z_u$, $z_{u'}$). Write $\chi_2=\chi_N\chi_L$ for the factorisation of the level character
+(\lref{Formalism.L2.SG.TermOp.level_char_eq_mul}). For every term $t$ and columns $\rho,\rho'$ over the lattices of $t$
+with $k_{\rho\rho'}(t)\in K_2$,
+\[
+\chi_N\bigl(k_{\rho\rho'}(t)\bigr)=\chi_N\bigl(k_{\rho_0\rho_0'}(t)\bigr),
+\]
+where $\rho_0,\rho'_0$ are the base columns of the lattices of $t$.
+\formallabel{Formalism.L2.SG.NormCut.chiNIndep_of_frameTie}
+\formallabel{Formalism.L2.SG.NormCut.chiN_colDiff}
+\end{lemma}
+
+\begin{proof}
+Write $c=(h_\rho x_u)^{-1}(h_{\rho_0}x_u)$ and $c'=(h_{\rho'_0}x_{u'})^{-1}(h_{\rho'}x_{u'})$; then
+$k_{\rho\rho'}(t)=c\,k_{\rho_0\rho'_0}(t)\,c'$. The column differences $c,c'$ lie in $K$ and stabilise the reference vectors
+modulo $g$ times the lattice (\lref{Formalism.L2.SG.Pf.colLatK}, \lref{Formalism.L2.SG.NormCut.colStab}); the base term
+element lies in $K$ and satisfies the congruence conditions of $\chi_N$ (\lref{Formalism.L2.SG.Pf.termK},
+\lref{Formalism.L2.SG.NormCut.adm_norm_of_fixed_frames}). On such elements $\chi_N$ is multiplicative
+(\lref{Formalism.L2.SG.Pf.ChiNMul.chiN_mul}), so it suffices that $\chi_N(c)=\chi_N(c')=1$. Now $\chi_N(c)$ is
+$\psi_{E,f}$ evaluated at $g^{-1}\sum_ah(f_{0,a},c\,\nu_a)$, where $\nu_a$ runs over the reference vectors $e_{0,a+1}$ and
+$z_0$; since $c\,\nu_a-\nu_a\in gL_{X,f}$, $f_{0,a}\in L_{X,f}$ and $g^{-1}h(f_{0,a},\nu_a)$ is integral, the argument is
+integral, and $\psi_{E,f}$ is trivial on integral elements (\lref{Formalism.L2.SG.Pf.unitaryCongruence.psi_Z}).
+\end{proof}
+
+\begin{proposition}[The Gram expansions]\label{pf:sh-siegel:normexp}
+For every datum $D$, every concretely tied pair $(X,Y)$ and all words $u,u'$, the term system $\mathcal T(u,u')$ satisfies
+$\mathrm{GE}(\mathcal T_{\mathrm{gen}})$ and $\mathrm{GE}(\mathcal T_{\mathrm{ng}})$:
+\[
+\Bigl\|\sum_{t\in S}\mathrm{op}(t)\Bigr\|^2=\Re\sum_{i,j\in I}\Gamma(i,j)\bigl\langle\mathrm{vp}(S,i),\mathrm{vp}(S,j)\bigr\rangle
+\qquad(S=\mathcal T_{\mathrm{gen}},\ \mathcal T_{\mathrm{ng}}).
+\]
+\formallabel{Formalism.L2.SG.RowsConc.normExpSatTied_holds}
+\formallabel{Formalism.L2.SG.NormCut.normExpSatC'_of_PD}
+\formallabel{Formalism.L2.SG.NormCut.normExpSatC'_of_acts}
+\formallabel{Formalism.L2.SG.NormCut.normExpSatC'_of}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:sh-siegel:closed4} and \cref{pf:sh-siegel:absconvtied}, a concrete tie gives $\mathrm{FE}(u,u')$, $\mathrm{Fold}(u)$,
+$\mathrm{Fold}(u')$, $\mathrm{OI}(u,u')$ and $\mathrm{AC}(u,u')$; the amplitudes are well defined
+(\lref{Formalism.L2.SG.Closed.AmpWellDefC_holds}) and the orbital integrals do not depend on the fundamental set
+(\lref{Formalism.L2.SG.Closed.OOFundIndepC_holds}). Under these conditions the Gram expansions follow, by
+\lref{Formalism.L2.SG.NormCut.normExpSat_of} (which expands $\|\sum_{t\in S}\mathrm{op}(t)\|^2$ block by block and sums the
+phases over the columns), from absolute convergence and the following seven facts.
+\begin{enumerate}[label=(\roman*)]
+\item The Hilbert--Schmidt inner product of two block operators is the sum over the blocks of the Hilbert--Schmidt inner
+products of the blocks (\lref{hilbert_schmidt_blocks}).
+\item $\gamma_\psi(x)=|U_I|^{-1}\sum_{y\in I}\prod_v\psi_{N,v}(y_vx_vy_v^{-1})$, where $U_I=\prod_vU_k(\F_v)$ is the unipotent
+group of $I$ and $|U_I|=\prod_v|U_k(\F_v)|$ (\lref{Formalism.L2.SG.NormCut.gamma_product_sum_holds}; see
+\cref{pf:sh-siegel:ggdef}).
+\item For unitriangular $w$: $\psi_N(xw)=\psi_N(x)\psi_N(w)$, $\psi_N(wx)=\psi_N(w)\psi_N(x)$ and $|\psi_N(w)|=1$
+(\lref{Formalism.L2.SG.NormCut.psi_natural_equiv_holds}).
+\item The $\chi_N$-factor of the blocks is independent of the columns (\cref{pf:sh-siegel:chiN}).
+\item \emph{Column phases}: there are labels $\mathrm{sc}(\rho)\in I$ of the columns such that, for columns $\rho,\rho'$ over the
+lattices of a term $t$, the value $\chi_L(k_{\rho\rho'}(t))$ (read as $0$ if $k_{\rho\rho'}(t)\notin K_2$) equals
+$\psi_I(\mathrm{sc}(\rho)^{-1}\iota(t)\mathrm{sc}(\rho'))$, $\psi_I$ the product of the extended characters $\psi_N$
+(\lref{Formalism.L2.SG.NormCut.colPhase_holds}).
+\item \emph{Column freeness}: for every row lattice $\Lambda$ there is a subset $A_\Lambda\subseteq I$ such that $(a,\rho,n)\mapsto
+a\,\mathrm{sc}(\rho)\,n$ is a bijection from $A_\Lambda\times\{\text{columns over }\Lambda\}\times U_I$ onto $I$, and the row
+weight of $\Lambda$ is $|A_\Lambda|^{-1}$ (\lref{Formalism.L2.SG.NormCut.colFree_steps}, from neatness
+\lref{Formalism.L2.SG.Closed.NeatC_holds}, the surjectivity of the Levi reduction
+\lref{Formalism.L2.SG.NormCut.leviOntoC_holds}, the lattice representatives of the columns
+\lref{Formalism.L2.SG.NormCut.colLatRepC} and the masses of the column sets \lref{Formalism.L2.SG.Pf.massAC_holds}).
+\item The saturated Gram identity $\sfname{SatGram}$ holds on the generic and on the non-generic terms
+(\lref{Formalism.L2.SG.NormCut.satGramC'_of}, from the left and right actions of the type group on the terms, which hold
+given the positive definite isomorphism of the data:
+\lref{Formalism.L2.SG.NormCut.leftActC'_of_PD}, \lref{Formalism.L2.SG.NormCut.rightActC'_holds}, and \lref{Formalism.L2.SG.Pf.positive_definite_isomorphism}).\qedhere
+\end{enumerate}
+\end{proof}
+
+
+%==============================================================================
+\subsection{Gram matrices of Gelfand--Graev characters}\label{sec:pf:sh-siegel:gg}
+
+\begin{definition}[Gelfand--Graev characters]\label{pf:sh-siegel:ggdef}
+Let $\F$ be a finite field with $q$ elements, $k\in\N$, $G_k=\GL_k(\F)$ and $U_k\subseteq G_k$ the group of upper
+unitriangular matrices. For an additive character $\psi_0$ of $\F$ let $\psi_N(u)=\psi_0\bigl(\sum_iu_{i,i+1}\bigr)$ on $U_k$
+(a character of $U_k$), extended by $0$ outside $U_k$, and
+\[
+\gamma_{\psi_0}(x)=\frac1{|U_k|}\sum_{y\in G_k}\psi_N(yxy^{-1})\qquad(x\in G_k),
+\]
+the character of the Gelfand--Graev representation $\Ind_{U_k}^{G_k}\psi_N$. A \emph{Whittaker functional} on a
+representation $(\pi,V)$ of $G_k$ is a linear form $\ell$ with $\ell(\pi(u)v)=\psi_N(u)\ell(v)$ for $u\in U_k$; $\pi$ is
+\emph{generic} if it has a non-zero Whittaker functional. For a finite family of finite fields $(\F_v)_{v\in P}$ with
+additive characters $\psi=(\psi_v)$ put $I=\prod_v\GL_k(\F_v)$ and $\gamma_\psi(x)=\prod_v\gamma_{\psi_v}(x_v)$ for
+$x\in I$.
+\formal{Formalism.L2.SG.GGMirabolic.gam}\ \formal{Formalism.L2.SG.GGMirabolic.gamProd}\
+\formal{Formalism.L2.SG.GGMirabolic.IsWhit}
+\end{definition}
+
+Since $y\mapsto y^{-1}$ permutes $G_k$ and $\psi_N(u^{-1})=\overline{\psi_N(u)}$, we have $\gamma_{\psi_0}(x^{-1})=
+\overline{\gamma_{\psi_0}(x)}$, and $\gamma_{\psi_0}(1)=|G_k|/|U_k|>0$ (\lref{Formalism.L2.SG.GGMirabolic.gam_one}).
+We use two classical facts, both of which are also proved in the development.
+
+\begin{littheorem}[Multiplicity one of Gelfand--Graev representations \cite{GelfandGraev1962,Zelevinsky1981}]
+\label{pf:sh-siegel:ggmult}
+If $\psi_0\ne1$ and $\pi$ is an irreducible finite-dimensional representation of $\GL_k(\F)$, then any two Whittaker
+functionals on $\pi$ are proportional; that is, $\Ind_{U_k}^{G_k}\psi_N$ is multiplicity free.
+\end{littheorem}
+
+In the development this is \lref{Formalism.L2.SG.Closed.GelfandGraevMultOne_holds}, obtained from the multiplicity
+one theorem \lref{Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.gelfand_graev_multiplicity_one} (proved by
+Gelfand's trick: using the Bruhat decomposition, an anti-involution of $G_k$ compatible with $\psi_N$ is shown to fix every
+double coset supporting a $\psi_N$-bi-equivariant function, so that the Hecke algebra of $\psi_N$ is commutative) through
+the duality \lref{whittaker_functional_dual}.
+
+\begin{littheorem}[Dimension of generic representations \cite{Gelfand1970,Zelevinsky1981}]\label{pf:sh-siegel:mirab}
+If $\psi_0\ne1$ and $\pi$ is an irreducible generic representation of $\GL_k(\F)$, then
+$\dim\pi\ge\prod_{i=1}^{k-1}(q^i-1)$.
+\end{littheorem}
+
+This follows from the restriction to the mirabolic subgroup: it contains the irreducible representation
+$\Ind_{U_k}^{P_k}\psi_N$ of the mirabolic subgroup $P_k$, of dimension $\prod_{i=1}^{k-1}(q^i-1)$. In the development it is
+\lref{Formalism.L2.SG.Closed.MirabolicBound_holds} (\lref{mirabolic_bound}).
+
+\begin{lemma}[The convolution scalar]\label{pf:sh-siegel:convscalar}
+Let $\psi_0\ne1$ and let $(\pi,V)$ be an irreducible finite-dimensional representation of $G_k=\GL_k(\F)$. Then
+\[
+\gamma_{\psi_0}(1)^{-1}\sum_{x\in G_k}\gamma_{\psi_0}(x)\,\pi(x)=
+\begin{cases}\dfrac{|U_k|}{\dim V}\,\mathrm{id}_V&\text{if $\pi$ is generic,}\\[1ex] 0&\text{otherwise.}\end{cases}
+\]
+\formallabel{convolution_scalar}
+\end{lemma}
+
+\begin{proof}
+Substituting $u=yxy^{-1}$,
+\begin{align*}
+\sum_x\gamma_{\psi_0}(x)\pi(x)&=\frac1{|U_k|}\sum_{y\in G_k}\sum_{u\in U_k}\psi_N(u)\,\pi(y^{-1}uy)=\sum_{y\in G_k}
+\pi(y)^{-1}\,\mathcal E\,\pi(y),\\
+\mathcal E&=\frac1{|U_k|}\sum_{u\in U_k}\psi_N(u)\pi(u)
+\end{align*}
+(\lref{PI.GGConvScalarW.representation_conjugate_gamma}). As $\psi_N$ is a character of $U_k$, $\mathcal E$ is an
+idempotent (\lref{PI.GGConvScalarW.averaging_operator_idempotent}); by multiplicity one (\cref{pf:sh-siegel:ggmult}) its
+rank is at most $1$, and it is $1$ exactly when $\pi$ is generic
+(\lref{PI.GGConvScalarW.generic_iff_criterion} and \lref{PI.GGConvScalarW.intertwiner_rank_le_one}). The operator $A=\sum_y
+\pi(y)^{-1}\mathcal E\pi(y)$ commutes with $\pi$ (\lref{PI.GGConvScalarW.representation_commutes_gamma}), hence is a
+scalar $c$ by Schur's lemma (\lref{PI.GGConvScalarW.schur_lemma_complex}); taking traces,
+$c\dim V=|G_k|\tr\mathcal E=|G_k|\rank\mathcal E$ (\lref{PI.GGConvScalarW.trace_representation_gamma} and \lref{PI.GGConvScalarW.idempotent_trace_formula}),
+with $\dim V>0$ (\lref{PI.GGConvScalarW.representation_dimension_pos}). Dividing by $\gamma_{\psi_0}(1)=|G_k|/|U_k|$
+gives $|U_k|\rank\mathcal E/\dim V$.
+\end{proof}
+
+\begin{lemma}[The generic ratio]\label{pf:sh-siegel:genratio}
+$|U_k|=q^{k(k-1)/2}$, and for $\psi_0\ne1$ and every irreducible generic representation $\pi$ of $\GL_k(\F)$,
+\[
+\frac{|U_k|}{\dim\pi}\ \le\ \prod_{i=1}^{k-1}\bigl(1-q^{-i}\bigr)^{-1}.
+\]
+If $q\ge3$, the right-hand side is at most $1+3/q$.
+\formallabel{generic_ratio_bound}
+\formallabel{mirabolic_card_unipotent}
+\formallabel{Formalism.L2.SG.GGMirabolic.ratio_numeric}
+\end{lemma}
+
+\begin{proof}
+A unitriangular matrix is determined by its $k(k-1)/2$ entries above the diagonal, which are arbitrary; so
+$|U_k|=q^{k(k-1)/2}=\prod_{i=1}^{k-1}q^i$. By \cref{pf:sh-siegel:mirab}, $\dim\pi\ge\prod_{i=1}^{k-1}(q^i-1)>0$, hence
+$|U_k|/\dim\pi\le\prod_{i=1}^{k-1}q^i/(q^i-1)=\prod_{i=1}^{k-1}(1-q^{-i})^{-1}$. The last assertion is the numerical
+inequality $\prod_{i=1}^{K}(1-q^{-i})^{-1}\le1+3/q$ for $q\ge3$ and all $K$
+(\lref{Formalism.FourierDecayAlt.P.GrowthPolynomialOperator.t_GGNumeric}), applied with $K=k-1$.
+\end{proof}
+
+\begin{theorem}[The Gram matrix bound]\label{pf:sh-siegel:ggmatrix}
+Let $(\F_v)_{v\in P}$ be a finite family of finite fields with $q_v=|\F_v|\ge3$, $\psi_v$ non-trivial additive characters,
+$k\in\N$ and $I=\prod_v\GL_k(\F_v)$. Let $\mathcal X$ be a finite set with a free right action of $I$, and
+$d\colon\mathcal X\times\mathcal X\to I$ a map with $j\cdot d(i,j)=i$ whenever $i$ and $j$ lie in the same orbit. Let
+$M(i,j)=\gamma_\psi(d(i,j))$ if $i,j$ lie in the same orbit and $M(i,j)=0$ otherwise. Then $M$ is positive semi-definite,
+and so is
+\[
+\Bigl(\prod_v\bigl(1+3/q_v\bigr)\Bigr)\,\Re\gamma_\psi(1)\cdot\one-\overline M .
+\]
+\formallabel{Formalism.L2.SG.Closed.GGMatrixBound_holds}
+\formallabel{Formalism.L2.SG.Closed.GGMatrixBoundOfLit_holds}
+\formallabel{gg_matrix_bound}
+\formallabel{PI.GGMatBoundW.eigBound_of}
+\formallabel{PI.GGMatBoundW.local_place_bound}
+\end{theorem}
+
+\begin{proof}
+Let $\pi$ be the permutation representation of $I$ on $\C^{\mathcal X}$ attached to the action, and
+$A=\sum_{x\in I}\gamma_\psi(x)\pi(x)$. By freeness, the only $x$ moving $j$ to $i$ is $d(i,j)$, so the matrix of $A$ in the
+standard basis is $M$, and its transpose is $\overline M$ (\lref{PI.GGMatBoundW.matrix_coefficient_equation}, using
+$\gamma_\psi(x^{-1})=\overline{\gamma_\psi(x)}$, \lref{PI.GGMatBoundW.gamProd_inv}); in particular $M$ is hermitian
+(\lref{PI.GGMatBoundW.totally_hermitian_form}).
+
+\emph{Eigenvalues.} Let $\mu$ be an eigenvalue of $A$. For each $v$ let $A_v=\sum_{x\in\GL_k(\F_v)}\gamma_{\psi_v}(x)\pi(x)$,
+where $\GL_k(\F_v)$ is embedded in $I$ as the $v$-component; the $A_v$ commute with each other and with $\pi$, and
+$A=\prod_vA_v$. The $\mu$-eigenspace of $A$ contains a non-zero joint eigenvector $x$ of the $A_v$, with eigenvalues $\mu_v$,
+and $\mu=\prod_v\mu_v$ (\lref{PI.GGMatBoundW.joint_eigenvector_exists} and \lref{PI.GGMatBoundW.prod_formula'}). Fix $v$.
+The restriction of $\pi$ to $\GL_k(\F_v)$ is a sum of irreducible representations; the eigenvector $x$ has a non-zero
+component in an irreducible subrepresentation $\sigma$ on which $A_v$ has the eigenvalue $\mu_v$
+(\lref{PI.GGMatBoundW.exists_irreducible_le}). By \cref{pf:sh-siegel:convscalar}, $A_v$ acts on $\sigma$ as
+$\gamma_{\psi_v}(1)c_v$ with $c_v=|U_k|/\dim\sigma$ if $\sigma$ is generic and $c_v=0$ otherwise, and by
+\cref{pf:sh-siegel:genratio}, $0\le c_v\le1+3/q_v$ (\lref{PI.GGMatBoundW.eig_place}). So $\mu_v=\gamma_{\psi_v}(1)c_v$
+with $\gamma_{\psi_v}(1)=|\GL_k(\F_v)|/|U_k|>0$, and
+\[
+\mu=\gamma_\psi(1)\prod_vc_v,\qquad0\le\prod_vc_v\le\prod_v(1+3/q_v),\qquad\gamma_\psi(1)=\Re\gamma_\psi(1)>0 .
+\]
+\emph{Conclusion.} $A$ is hermitian with eigenvalues in $[0,\prod_v(1+3/q_v)\Re\gamma_\psi(1)]$, so $A$ and
+$\prod_v(1+3/q_v)\Re\gamma_\psi(1)-A$ are positive semi-definite (\lref{PI.GGMatBoundW.spectrum_positive_semidefinite});
+these are the matrices $M$ and $c\cdot\one-M$, $c=\prod_v(1+3/q_v)\Re\gamma_\psi(1)$, and the transpose $c\cdot\one-\overline M$ of
+the latter is positive semi-definite as well.
+\end{proof}
+
+\begin{corollary}[The Gram bound for term systems]\label{pf:sh-siegel:termsgg}
+Let $(\F_v),\psi,k,I,\mathcal X,d$ be as in \cref{pf:sh-siegel:ggmatrix}. Every term system with type set $\mathcal X$ whose
+matrix is $\Gamma(i,j)=\overline{\gamma_\psi(d(i,j))}$ for $i,j$ in the same orbit and $0$ otherwise, and whose constant is
+$\Gamma_1=\Re\gamma_\psi(1)$, satisfies $\mathrm{GB}\bigl(\prod_v(1+3/q_v)\bigr)$.
+\formallabel{Formalism.L2.SG.Closed.TermsGGBound_holds}
+\formallabel{Formalism.L2.SG.GGMirabolic.termsGGBound_of_matrix}
+\end{corollary}
+
+\begin{proof}
+$\mathrm{GB}(P_g)$ says that $P_g\Gamma_1\cdot\one-\Gamma$ is positive semi-definite; with $P_g=\prod_v(1+3/q_v)$ this is the
+second assertion of \cref{pf:sh-siegel:ggmatrix}.
+\end{proof}
+
+\begin{proposition}[The Gram bound for the terms of a Hida setting]\label{pf:sh-siegel:ggbound}
+Let $X$ be a Hida setting, $Y$ a full system and $u,u'$ words, and let $(\F_v,\psi_v)_{v\in P}$ be the typed reduction of $Y$. If
+$\psi_v\ne1$ and $|\F_v|\ge3$ for every $v$, then the term system $\mathcal T(u,u')$ satisfies
+$\mathrm{GB}\bigl(\prod_v(1+3/|\F_v|)\bigr)$.
+\formallabel{Formalism.L2.SG.TermOp.ggBound}
+\end{proposition}
+
+\begin{proof}
+The type set of $\mathcal T(u,u')$ is $I=\prod_v\GL_k(\F_v)$, with $\Gamma(i,j)=\overline{\gamma_\psi(j^{-1}i)}$ and
+$\Gamma_1=\Re\gamma_\psi(1)$ by definition. Let $I$ act on itself by right multiplication; the action is free and transitive,
+and $d(i,j)=j^{-1}i$ satisfies $j\cdot d(i,j)=i$. \Cref{pf:sh-siegel:termsgg} (in the formal statement, the hypothesis
+$\sfname{TermsGGBound}$, which holds by \cref{pf:sh-siegel:termsgg}) gives the claim.
+\end{proof}
+
+
+%==============================================================================
+\subsection{Volumes and masses of definite hermitian spaces}\label{sec:pf:sh-siegel:mass}
+
+Let $D$ be a datum with host $E/F$. A hermitian space $W$ of $D$ comes with a basis, a distinguished lattice $L_0(W)$ and
+signatures $\mathrm{sig}_\tau(W)=(P_\tau,Q_\tau)$ at the embedding types; $W$ is \emph{positive definite} if
+$\mathrm{sig}_\tau(W)=(\dim W,0)$ for every $\tau$. The unitary group $U_W$ is viewed over the full ad\`eles $\A_F$, and
+$\Gamma_W=U_W(F)$; $K_0(W)\subseteq U_W(\A_F)$ is the stabiliser of the completion $\widehat L_0(W)$ (no condition at the
+infinite places).
+
+\begin{definition}[Volumes, masses]\label{pf:sh-siegel:massdef}
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{mass} of a lattice $L$ in a hermitian space is $\mathrm{mass}(L)=\sum_M|\Aut(M)|^{-1}$, the sum over a set of
+representatives $M$ of the isometry classes in the genus of $L$ (in the formal definition: if such a finite set of
+representatives exists, and $0$ otherwise). $\mathrm{mass}_n=\mathrm{mass}(\OO_E^n)$ for the standard form; it is positive
+(\lref{Formalism.MainNotions.StandardLattice.massI_pos}).
+\item $\vol(W)=\vol_D(W)>0$ is the volume attached to $W$ by $D$. A \emph{volume measure} for $W$ of signature $(P,Q)$ is a Haar
+measure $\mu$ on $U_W(\A_F)$ such that, for all archimedean embeddings and all frames $A_\rho$ at infinity with
+$A_\rho^*J_{P,Q}A_\rho$ equal to the Gram matrix, and all measurable $B_\rho\subseteq\Uni(P,Q)$, the set of $h$ with
+$h_f\widehat L_0(W)=\widehat L_0(W)$ and $A_\rho h_\rho A_\rho^{-1}\in B_\rho$ has measure $\prod_\rho c_{P,Q}(B_\rho)$, for fixed
+measures $c_{P,Q}$ of $D$ on $\Uni(P,Q)$ (probability measures when $Q=0$). The \emph{volume tie} $\sfname{VolTie}(D)$ says:
+for every $W$ of constant signature $(P,Q)$ volume measures exist, and for every volume measure $\mu$ fundamental domains $\mathcal
+F$ of $\Gamma_W$ in $U_W(\A_F)$ exist and all of them satisfy $\mu(\mathcal F)=\vol(W)$.
+\item $\mathrm{GM}(D,n)$: $\mathrm{mass}(L_0(W))=\mathrm{mass}_n$ for every positive definite $W$ of rank $n$;
+$\mathrm{VZ}(D,n)$: $\vol(W)=\mathrm{mass}_n$ for every positive definite $W$ of rank $n$.
+\end{enumerate}
+\formal{Formalism.HermitianLatticesTheory.mass}\ \formal{Formalism.MainNotions.StandardLattice.VolTie}\
+\formal{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.GenusMassAt}\
+\formal{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volumeAtLevelZero}
+\end{definition}
+
+The two classical inputs are the finiteness of the class number and the identification of the double cosets with the
+classes of the genus.
+
+\begin{littheorem}[Finiteness of class numbers \cite{Borel1963}]\label{pf:sh-siegel:classfin}
+Let $E/F$ be a CM extension, $J$ a positive definite hermitian matrix over $E$ and $L$ a lattice. Then there are finitely many
+$g_1,\dots,g_m\in U_J(\A_F)$ with $U_J(\A_F)=\bigsqcup_i U_J(F)\,g_i\,K_0(L)$.
+\end{littheorem}
+
+In the development this is \lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.class_number_finite_rank}
+(from \lref{unitary_class_set_finite}, which reduces it, by adelic bounds, to a finiteness statement for classes of
+hermitian lattices, \lref{hermitian_lattice_finite}).
+
+\begin{littheorem}[Double cosets and the genus \cite{GanHankeYu2001}]\label{pf:sh-siegel:classmass}
+In the situation of \cref{pf:sh-siegel:classfin}, for every such decomposition
+\[
+\sum_{i=1}^m\frac1{|\Gamma_i|}=\mathrm{mass}(L),\qquad\Gamma_i=\{\gamma\in U_J(F):\ g_i^{-1}\gamma g_i\in K_0(L)\},
+\]
+because $g\mapsto g\widehat L\cap V$ induces a bijection from $U_J(F)\backslash U_J(\A_F)/K_0(L)$ onto the isometry classes of
+the genus of $L$, under which $\Gamma_i$ is the automorphism group of the lattice attached to $g_i$.
+\end{littheorem}
+
+In the development this is \lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.classMass_of_D7} (from
+\lref{unitary_class_mass_hermitian}, whose proof establishes the bijection: hermitian approximation, lattice
+modification at finitely many places, and surjectivity onto the genus).
+
+\begin{proposition}[Volume from class data]\label{pf:sh-siegel:volclass}
+Let $D$ be a datum and $n\in\N$. Assume $\sfname{VolTie}(D)$, $\mathrm{GM}(D,n)$, and, for every positive definite $W$ of rank
+$n$, the conclusions of \cref{pf:sh-siegel:classfin,pf:sh-siegel:classmass} for $L_0(W)$. Then $\mathrm{VZ}(D,n)$.
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_mass_of_class_data}
+\end{proposition}
+
+\begin{proof}
+Let $W$ be positive definite of rank $n$. By the volume tie there are a volume measure $\mu$ and a fundamental domain
+$\mathcal F$ of $\Gamma_W$ with $\mu(\mathcal F)=\vol(W)$. As $W$ is definite, the set of the definition of volume measures with
+$B_\rho=\Uni(n)$ is $K_0(W)$ (\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.StabFin.KSub_eq}), so
+$\mu(K_0(W))=1$ (\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.measure_KSub}); $K_0(W)$ is open, hence
+measurable. Take the decomposition $U_W(\A_F)=\bigsqcup_i\Gamma_Wg_iK_0(W)$ of \cref{pf:sh-siegel:classfin}. The groups
+$\Gamma_i=\Gamma_W\cap g_iK_0(W)g_i^{-1}$ are finite (\cref{pf:sh-siegel:stabfin}), and $\Gamma_W$ is countable
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.Unfold.countableGamma}). Write $\Gamma=\Gamma_W$ and $K=K_0(W)$.
+For each $i$, $g_iK$ is stable under left multiplication by $\Gamma_i$, and two points of $g_iK$ lie in the same
+$\Gamma$-orbit only if they lie in the same $\Gamma_i$-orbit (if $\gamma g_ik=g_ik'$ then $g_i^{-1}\gamma g_i=k'k^{-1}\in K$). So a
+fundamental domain $F_i$ of the finite group $\Gamma_i$ in $g_iK$ is a fundamental domain of $\Gamma$ in the $\Gamma$-stable set
+$\Gamma g_iK$, and by left invariance $\mu(K)=\mu(g_iK)=|\Gamma_i|\,\mu(F_i)$. Since fundamental domains of a countable group of
+measure preserving maps have equal measure, and the sets $\Gamma g_iK$ partition $U_W(\A_F)$,
+\[
+\mu(\mathcal F)=\sum_i\mu(\mathcal F\cap\Gamma g_iK)=\sum_i\mu(F_i)=\sum_i\frac{\mu(K)}{|\Gamma_i|}=\sum_i\frac1{|\Gamma_i|}
+\]
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.Unfold.measure_fd_toReal}). Hence
+$\vol(W)=\sum_i|\Gamma_i|^{-1}=\mathrm{mass}(L_0(W))=\mathrm{mass}_n$, by \cref{pf:sh-siegel:classmass} and $\mathrm{GM}(D,n)$.
+\end{proof}
+
+\begin{lemma}[Finite stabilisers]\label{pf:sh-siegel:stabfin}
+Let $W$ be a positive definite hermitian space, $K\subseteq U_W(\A_F)$ a subgroup whose elements preserve the completion
+$\widehat L_0(W)$, and $g\in U_W(\A_F)$. Then $\{\gamma\in U_W(F):\ g^{-1}\gamma g\in K\}$ is finite.
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.StabFin.stab_finite}
+\end{lemma}
+
+\begin{proof}
+Write the elements of $U_W(F)$ as matrices in the basis of $W$. If $g^{-1}\gamma g$ preserves $\widehat L_0(W)$, then a fixed
+non-zero multiple $c\in\OO_F$ (depending on $g$ and the basis, not on $\gamma$) of every entry of $\gamma$ is integral
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.StabFin.core}). Since $W$ is positive definite at every embedding,
+the entries of elements of $U_W(F)$ are bounded at every complex embedding by a constant depending only on $W$
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.StabFin.unit_bound}). The elements of $c^{-1}\OO_E$ all of whose
+conjugates are bounded by a given constant form a finite set; hence there are finitely many such $\gamma$.
+\end{proof}
+
+\begin{theorem}[Volume of definite spaces at level zero]\label{pf:sh-siegel:volmass}
+Let $D$ be a datum and $n\in\N$. If $\sfname{VolTie}(D)$ and $\mathrm{GM}(D,n)$ hold, then $\vol(W)=\mathrm{mass}_n$ for every
+positive definite hermitian space $W$ of $D$ of rank $n$.
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_mass_of_genus_rank}
+\end{theorem}
+
+\begin{proof}
+Apply \cref{pf:sh-siegel:volclass}; its class hypotheses hold by \cref{pf:sh-siegel:classfin} and \cref{pf:sh-siegel:classmass}
+(\lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.class_number_finite_rank} and \lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.classMass_of_D7}),
+applied to the Gram matrix of $W$, which is positive definite at every infinite place, and to $L_0(W)$.
+\end{proof}
+
+\begin{definition}[Volume ratios and mass ratios]\label{pf:sh-siegel:vrdef}
+The \emph{volume ratio} statement $\mathrm{VR}(D)$ is: for every hermitian space $W$ of $D$
+of constant signature $(P,Q)$ with $\dim W\ge3$, and every sign $s\in\{+,-\}$ with $P\ge1$ (if $s=+$) or $Q\ge1$ (if $s=-$),
+there is $x\in W$ with $h(x,x)=\pm1$ (sign $s$) such that the orthogonal complement $W'=x^\perp$, with the induced form, is a
+hermitian space of $D$ of constant signature $(P-1,Q)$ (resp.\ $(P,Q-1)$) and $\vol(W)/\vol(W')=\mathrm{mr}(\dim W)$, where
+$\mathrm{mr}(M)$ is the right-hand side of the mass ratio of \cref{prop:families:mass} (\cref{pf:multnc:eq-mr}). The
+\emph{mass ratio} is $\mathrm{mass}_M/\mathrm{mass}_{M-1}=\mathrm{mr}(M)$ for $M\ge3$; given the representation property
+$\sfname{HermRepUnram}$ of CM fields (every totally positive element of $F$ is $aN(s)+bN(t)$ for totally positive $a,b$), it
+holds by \lref{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.standardLattice_aux2b} (the Siegel mass ratio).
+\formal{Formalism.MainNotions.StandardLattice.Conclusion2}
+\end{definition}
+
+\begin{theorem}[The base volume equals the mass]\label{pf:sh-siegel:baseVol}
+Assume $\sfname{HermRepUnram}$. Let $D$ be a datum satisfying $\mathrm{VR}(D)$ and $\mathrm{VZ}(D,2)$. Then the base space
+$Y_0$ of $D$, of signature $(k+r_S,r_S+1)$ at every $\tau$, satisfies $\vol(Y_0)=\mathrm{mass}_r$.
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_eq_mass_rank_two}
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.vol_indef}
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_mass_ge_two}
+\formallabel{Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.volume_mass_succ}
+\end{theorem}
+
+\begin{proof}
+For a hermitian space of constant signature $(P,Q)$ the rank is $P+Q$ (\lref{Formalism.BasicNotions.sig_sum}).
+
+\emph{Step 1: $\mathrm{VZ}(D,n)$ for all $n\ge2$.} By induction from $n=2$; assume $\mathrm{VZ}(D,n)$ with $n\ge2$ and let $W$ be
+positive definite of rank $n+1\ge3$. $\mathrm{VR}(D)$ with $s=+$ gives $W'$ of constant signature $(n,0)$, hence positive
+definite of rank $n$, with $\vol(W)/\vol(W')=\mathrm{mr}(n+1)$. By induction $\vol(W')=\mathrm{mass}_n$, and by the mass ratio
+$\mathrm{mr}(n+1)=\mathrm{mass}_{n+1}/\mathrm{mass}_n$; since $\mathrm{mass}_n>0$, $\vol(W)=\mathrm{mass}_{n+1}$.
+
+\emph{Step 2: indefinite spaces.} We show by induction on $Q$: every $W$ of constant signature $(P,Q)$ with $P\ge2$ has
+$\vol(W)=\mathrm{mass}_{P+Q}$. For $Q=0$, $W$ is positive definite of rank $P\ge2$, and Step 1 applies. For $Q+1$: $\dim
+W=P+Q+1\ge3$ and $Q+1\ge1$, so $\mathrm{VR}(D)$ with $s=-$ gives $W'$ of signature $(P,Q)$ with
+$\vol(W)/\vol(W')=\mathrm{mr}(P+Q+1)$; by induction $\vol(W')=\mathrm{mass}_{P+Q}$, and the mass ratio gives
+$\vol(W)=\mathrm{mass}_{P+Q+1}$.
+
+\emph{Step 3.} The base space $Y_0$ has constant signature $(k+r_S,r_S+1)$ with $k+r_S\ge2$ (as $k\ge5$), so
+$\vol(Y_0)=\mathrm{mass}_{k+2r_S+1}=\mathrm{mass}_r$.
+\end{proof}
+
+\begin{remark}
+\Cref{pf:sh-siegel:baseVol} uses $\mathrm{VZ}(D,n)$ only for $n=2$; the formal statement carries the representation property
+$\sfname{HermRepUnram}$ as an instance hypothesis, which the development proves
+(\lref{GlobalTheory.hermRepUnram}); it is a consequence of Landherr's theorem \cite{Landherr1936} (a ternary hermitian form
+which is indefinite at every real place is isotropic). The formal definition of the mass is $0$ for a lattice whose genus has no
+finite set of class representatives; by \cref{pf:sh-siegel:classfin} this case does not occur for definite spaces.
+\end{remark}
+
+
+%==============================================================================
+\subsection{Covolumes of unipotent radicals and local volumes}\label{sec:pf:sh-siegel:covol}
+
+\subsubsection{The reference covolume identity}
+
+Let $X$ be a Hida setting for $D$ and write $r=r_S$ in this subsection. For a word $u$ let $N_\infty(u)=\prod_vN_v(u)\subseteq
+G(F\otimes\R)$ be the unipotent group attached to the isotropic vectors $e_a$ and to $z_u$ (the group $N_u(F\otimes\R)$ of
+\cref{pf:multnc:def-bcf}), and $\Gamma_N(u)\subseteq N_\infty(u)$ its integral points: the archimedean components of the
+rational points $\gamma\in G(F)$ with $\gamma_\infty\in N_\infty(u)$, $\gamma_f$ in the finite unipotent group of $u$ and
+$x_u^{-1}\gamma_fx_u\in K_2$. A \emph{strict fundamental set} of $\Gamma_N(u)$ is a measurable $\mathrm{Fd}\subseteq
+G(F\otimes\R)$ meeting every orbit $\Gamma_N(u)x$ exactly once. A measure $\mu$ on $G(F\otimes\R)$ is \emph{Haar on}
+$N_\infty(u)$ if it is $\sigma$-finite, non-zero, concentrated on $N_\infty(u)$ and invariant under left translation by
+$N_\infty(u)$. For each infinite place $v$, $\mathrm{ref}_v(u)$ is the \emph{reference measure} on the real unitary group at
+$v$ attached to the frame $(e(v),f(v),w(u,v),T_u^{-1/2}z_u(v))$ of $u$; the product
+$\mathrm{ref}(u)=\prod_v\mathrm{ref}_v(u)$ is Haar on $N_\infty(w)$ for every word $w$
+(\lref{Formalism.L2.SG.Pf.NcReal.JX.refNX_haar}).
+
+\begin{definition}[Coordinates of the unipotent groups]\label{pf:sh-siegel:kapdef}
+For $s\in G(F\otimes\R)$, a word $u$ and an infinite place $v$ put, with $\langle\cdot,\cdot\rangle$ the hermitian form at $v$,
+\[
+x_{ba}=\langle f_b,se_a\rangle,\quad y_b=\langle f_b,sz_u\rangle,\quad\varphi_{bj}=\langle f_b,sw_j(u)\rangle,\quad
+A_{ba}=\langle f_b,sf_a\rangle,\quad m=x^{-1}A
+\]
+($a,b<r$, $j<k$). The \emph{coordinates} $\kappa_u(s)\in\R^{d}$, $d=f(2r^2+2kr+r)$, are, at every $v$: the real and imaginary
+parts of $x_{ba}$ ($b<a$), of $y_b$, of $\varphi_{bj}$ and of $\frac12(m_{ba}-\overline{m_{ab}})$ ($b<a$), and $\Im m_{aa}$. The
+\emph{unit box} is $\mathrm{Box}(u)=\{s\in N_\infty(u):\ \kappa_u(s)\in[0,1)^d\}$. Put
+\begin{gather*}
+c(r,k)=-\frac{8r^3+6r^2+6kr^2+r}{6},\\
+\mathrm{cov}_N(u)=T_u^{rf}\,2^{-f(rk+r(r-1)/2)}\,|d_F|^{c(r,k)},\qquad\mathrm{two}=2^{fr(r+1)/2}.
+\end{gather*}
+\formal{Formalism.L2.SG.Pf.LsNc5.kap}\ \formal{Formalism.L2.SG.Pf.LsNc5.boxN}\ \formal{Formalism.L2.SG.Pf.LsNc5.covolN}
+\end{definition}
+
+\begin{theorem}[The reference covolume identity]\label{pf:sh-siegel:covolref}
+Let $X$ be a Hida setting for a datum $D$ with an adelic bridge, $u,u'$ words and $\mathrm{Fd}_N,\mathrm{Fd}_{N'}$ subsets of
+$G(F\otimes\R)$. Assume that the measures of $X$ are tied to the bridge, the level subgroup is normalised, and
+$\mathrm{Fd}_N$, $\mathrm{Fd}_{N'}$ are strict fundamental sets of $\Gamma_N(u)$, $\Gamma_N(u')$. Then
+\[
+\mathrm{ref}(u)(\mathrm{Fd}_N)\cdot\mathrm{ref}(u)(\mathrm{Fd}_{N'})=|d_F|^{e_{DF}},\qquad
+e_{DF}=-\frac{8r_S^3+6r_S^2+6kr_S^2+r_S}{3}.
+\]
+\formallabel{Formalism.L2.SG.Closed.CovolRef_outright}
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.covolRef_of_steps}
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.covolRef_of}
+\end{theorem}
+
+The proof has four steps: a covolume in coordinates (\cref{pf:sh-siegel:coordcovol}), its conversion into a covolume for every
+Haar measure (\cref{pf:sh-siegel:covolN}), the reference measure of the unit box (\cref{pf:sh-siegel:refbox}), and the final
+computation.
+
+\begin{definition}[Block coordinates and block lattices]\label{pf:sh-siegel:blkdef}
+Group the coordinates into blocks $p$, with \emph{heights} $h(p)$: the blocks $x_{ba}$
+($b<a$, values in $\C^f$, height $a-b$), the row blocks $(\varphi_{b,\cdot},y_b)$ ($b<r$, values in $(\C^{k+1})^f$, height
+$2r-b$), the blocks $\frac12(m_{ba}-\overline{m_{ab}})$ ($b<a$, values in $\C^f$, height $2r+1+2r-a-b$), and the blocks
+$\Im m_{aa}$ ($a<r$, values in $\R^f$, height $2r+1+2r-2a$). Write $\mathrm{blk}_u(s)=(\mathrm{blk}_u(s)_p)_p$ and $V_p$ for
+the space of block $p$, with Lebesgue measure. Let $\mathfrak d=\mathfrak D_F\OO_E$, $\mathfrak D_F$ the different of $F$, and
+$\mathfrak a_a=\mathfrak d^{-(r-a)}$. The \emph{block lattices} $\Lambda_p\subseteq V_p$ are generated by the images, under the
+archimedean embeddings of $E$, of: $\mathfrak a_b\mathfrak a_a^{-1}$ (blocks $x_{ba}$); the $\OO_E$-module generated by
+$\mathfrak a_bL_b$, $L_b$ a lattice of $X$, mapped by $x\mapsto(\langle x,w_j(u)\rangle,\langle x,z_u\rangle)_v$ (row blocks);
+$\mathfrak a_b\mathfrak a_a$ (blocks $m_{ba}$); and the imaginary parts of the elements $t\in\mathfrak a_a^2$ with $\bar t=-t$
+(blocks $m_{aa}$). Put $\Delta=|d_F|$ and
+\begin{gather*}
+\mathrm{cv}(x_{ba})=2^{-f}\Delta^{1-2(a-b)},\qquad
+\mathrm{cv}(\mathrm{row}_b)=T_u^f\,2^{-f(k+1)}\Delta^{(k+1)(1-2(r-b))},\\
+\mathrm{cv}(m_{ba})=2^{-f}\Delta^{1-2(r-b)-2(r-a)},\qquad\mathrm{cv}(m_{aa})=\Delta^{\frac12-2(r-a)} .
+\end{gather*}
+\formal{Formalism.L2.SG.Pf.NcReal.JX.blk}\ \formal{Formalism.L2.SG.Pf.NcReal.JX.cLat}\ \formal{Formalism.L2.SG.Pf.NcReal.JX.cVal}
+\end{definition}
+
+The following four facts are proved in the development by long but direct verifications; we state them as used.
+\begin{enumerate}[label=(B\arabic*)]
+\item\label{pf:sh-siegel:B1} \emph{Triangular group law} (\lref{Formalism.L2.SG.Pf.NcReal.JX.kapLaw_holds}): there are
+measurable maps $B_p$ with $\mathrm{blk}_u(ss')_p=\mathrm{blk}_u(s)_p+\mathrm{blk}_u(s')_p+B_p(\mathrm{blk}_u(s),\mathrm{blk}_u(s'))$
+for $s,s'\in N_\infty(u)$, where $B_p(x,y)$ depends only on the blocks of height $<h(p)$ and $B_p(x,0)=0$.
+\item\label{pf:sh-siegel:B2} \emph{Sections} (\lref{Formalism.L2.SG.Pf.NcReal.JX.kapSurj_holds}): there is a measurable
+$\sigma\colon\prod_pV_p\to N_\infty(u)$ with $\mathrm{blk}_u(\sigma(t))=t$; and $\kappa_u$ is injective on $N_\infty(u)$
+(\lref{Formalism.L2.SG.Pf.LsNc5.kapInj}).
+\item\label{pf:sh-siegel:B3} \emph{Fibration of the integral points} (\lref{Formalism.L2.SG.Pf.NcReal.JX.NOf.nofib_holds}):
+$\Gamma_N(u)$ is a subgroup of $N_\infty(u)$, and there are maps $\tau_p$, depending only on the blocks of height $<h(p)$, such
+that $x\in\mathrm{blk}_u(\Gamma_N(u))$ if and only if $x_p-\tau_p(x)\in\Lambda_p$ for all $p$.
+\item\label{pf:sh-siegel:B4} \emph{Block covolumes} (\lref{Formalism.L2.SG.Pf.NcReal.JX.CovB.blockCovol_holds}): each
+$\Lambda_p$ is countable, has a measurable fundamental domain, and every measurable fundamental domain of $\Lambda_p$ has
+Lebesgue measure $\mathrm{cv}(p)$.
+\end{enumerate}
+
+\begin{lemma}[Product of the block covolumes]\label{pf:sh-siegel:cvprod}
+$\prod_p\mathrm{cv}(p)=\mathrm{cov}_N(u)/\mathrm{two}$.
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.cVal_prod}
+\end{lemma}
+
+\begin{proof}
+There are $\binom r2$ blocks of each of the types $x_{ba}$, $m_{ba}$ and $r$ of each of the types $\mathrm{row}_b$, $m_{aa}$. The
+power of $T_u$ is $T_u^{rf}$. The power of $2$ is $2^{-f(r(r-1)+r(k+1))}=2^{-f(rk+r^2)}$, and $2^{-f(rk+r(r-1)/2)}/\mathrm{two}=
+2^{-f(rk+r^2)}$. For the power of $\Delta$, with $j=r-b$ and $\sum_{b<a}(a-b)=\frac{r(r^2-1)}6$,
+$\sum_{b<a}\bigl((r-b)+(r-a)\bigr)=(r-1)\frac{r(r+1)}2$, the exponent is
+\[
+\Bigl[\tbinom r2-\tfrac{r(r^2-1)}3\Bigr]-(k+1)r^2+\Bigl[\tbinom r2-(r-1)r(r+1)\Bigr]+\Bigl[\tfrac r2-r(r+1)\Bigr]
+=-\tfrac43r^3-(k+1)r^2-\tfrac r6=c(r,k).\qedhere
+\]
+\end{proof}
+
+\begin{proposition}[Covolume in coordinates]\label{pf:sh-siegel:coordcovol}
+For every word $u$ and every strict fundamental set $\mathrm{Fd}_N$ of $\Gamma_N(u)$, the set $\kappa_u(\mathrm{Fd}_N\cap
+N_\infty(u))$ is measurable, of Lebesgue measure $\mathrm{cov}_N(u)/\mathrm{two}$.
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.coordCovol_of}
+\end{proposition}
+
+\begin{proof}
+By \lref{Formalism.L2.SG.Pf.NcReal.JX.coordCovol_of_cut}, the facts \ref{pf:sh-siegel:B1}--\ref{pf:sh-siegel:B4} imply that
+the image of a strict fundamental set has Lebesgue measure $\prod_p\mathrm{cv}(p)$. The argument is the usual one for
+unipotent groups: order the blocks by height. By \ref{pf:sh-siegel:B1}, left translation by $\delta\in\Gamma_N(u)$ acts in block
+coordinates by $x_p\mapsto x_p+\mathrm{blk}(\delta)_p+B_p(\mathrm{blk}(\delta),x)$, a translation in the block $p$ by an amount
+depending only on lower blocks; by \ref{pf:sh-siegel:B3} the translations occurring in block $p$, for fixed lower blocks, form a
+coset of $\Lambda_p$. Hence, using the section of \ref{pf:sh-siegel:B2}, the image of a strict fundamental set is, block by
+block and up to measure-preserving shears, a product of fundamental domains of the lattices $\Lambda_p$, and Fubini's theorem and
+\ref{pf:sh-siegel:B4} give the measure $\prod_p\mathrm{cv}(p)$. \Cref{pf:sh-siegel:cvprod} concludes.
+\end{proof}
+
+\begin{proposition}[Covolume for Haar measures]\label{pf:sh-siegel:covolN}
+For every word $u$, every measure $\mu$ which is Haar on $N_\infty(u)$, and every strict fundamental set $\mathrm{Fd}_N$ of
+$\Gamma_N(u)$,
+\[
+\mu(\mathrm{Fd}_N)=\frac{\mathrm{cov}_N(u)}{\mathrm{two}}\ \mu(\mathrm{Box}(u)).
+\]
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.covolN_of_coordCovol}
+\formallabel{Formalism.L2.SG.Pf.LsNc5.covolN_of_four}
+\end{proposition}
+
+\begin{proof}
+The map $\kappa_u$ is measurable and injective on the measurable set $N_\infty(u)$ (\ref{pf:sh-siegel:B2}). Haar measures on
+$N_\infty(u)$ are proportional (\lref{Formalism.L2.SG.Pf.NcReal.JX.haarUnique_holds}) and one of them has image Lebesgue
+measure under $\kappa_u$ (\lref{Formalism.L2.SG.Pf.NcReal.JX.lebHaar_holds}); as $\kappa_u(\mathrm{Box}(u))=[0,1)^d$ has
+Lebesgue measure $1$, the image of $\mu$ is $\mu(\mathrm{Box}(u))$ times Lebesgue measure. Since $\mu$ is concentrated on
+$N_\infty(u)$ and $\kappa_u$ is injective there,
+$\mu(\mathrm{Fd}_N)=\mu(\mathrm{Fd}_N\cap N_\infty(u))=\mu(\mathrm{Box}(u))\cdot\mathrm{Leb}(\kappa_u(\mathrm{Fd}_N\cap
+N_\infty(u)))$, and \cref{pf:sh-siegel:coordcovol} concludes.
+\end{proof}
+
+\begin{proposition}[Reference measure of the unit box]\label{pf:sh-siegel:refbox}
+For all words $u,w$, $\mathrm{ref}(u)(\mathrm{Box}(w))=T_w^{-rf}\,2^{f(rk+r^2)}$.
+\formallabel{Formalism.L2.SG.Pf.NcReal.JX.refNBox_of}
+\end{proposition}
+
+\begin{proof}
+At each infinite place $v$ the coordinates of $w$ are a linear image of those of $u$: $\kappa_w(s)_v=L_v(\kappa_u(s)_v)$ for a
+linear map $L_v$ with $|\det L_v|=(T_w/T_u)^r$ (\lref{Formalism.L2.SG.Pf.NcReal.JX.FR.frameRow_holds}: the frames of $u$ and
+$w$ differ only in the vector $z$, whose norms are $-T_u$ and $-T_w$). The image of $\mathrm{ref}_v(u)$ under the coordinates of
+$u$ at $v$ is $2^{r^2+rk}T_u^{-r}$ times Lebesgue measure (\lref{Formalism.L2.SG.Pf.NcReal.JX.refN_map_kapL}). Hence the
+$\mathrm{ref}_v(u)$-measure of $\{s_v:\kappa_w(s)_v\in[0,1)^{2r^2+2kr+r}\}$ is
+$2^{r^2+rk}T_u^{-r}\,|\det L_v|^{-1}=2^{r^2+rk}T_w^{-r}$. Since $\mathrm{ref}(u)$ is concentrated on $N_\infty(w)$ and
+$\mathrm{Box}(w)$ is $N_\infty(w)$ intersected with the product of these sets, the product over the $f$ places gives the claim.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-siegel:covolref}]
+Let $w\in\{u,u'\}$ and let $\mathrm{Fd}$ be the corresponding strict fundamental set. Since $\mathrm{ref}(u)$ is Haar on
+$N_\infty(w)$, \cref{pf:sh-siegel:covolN,pf:sh-siegel:refbox} give
+\[
+\mathrm{ref}(u)(\mathrm{Fd})=\frac{T_w^{rf}2^{-f(rk+r(r-1)/2)}\Delta^{c(r,k)}}{2^{fr(r+1)/2}}\cdot T_w^{-rf}2^{f(rk+r^2)}=
+\Delta^{c(r,k)},
+\]
+because $\frac{r(r-1)}2+\frac{r(r+1)}2=r^2$. Hence the product of the two measures is $\Delta^{2c(r,k)}=|d_F|^{e_{DF}}$. (Only the
+two fundamental-set hypotheses are used.)
+\end{proof}
+
+\subsubsection{Local volumes at the type places}
+
+Let $v$ be a finite place of $F$, $E_v=E\otimes_FF_v$, $\OO_{E_v}$ its integral elements, $\sigma$ the conjugation of $E_v$ and
+$d_v\in F_v$ an element generating the local different of $F$. For an additive character $\psi$ of $\A_F/F$ and a finite set
+$\iota$, $\shsiegelsd$ is the Haar measure on $E_v^\iota$ which is self-dual for $(x,y)\mapsto\psi_v(\sum_i\Tr_{E_v/F_v}(x_iy_i))$.
+Put $\alpha_a=d_v^{-(r-a)}$ for $a<r$ and $\alpha_r=1$, let $\mathcal U=\{(i,j):0\le i<j\le r\}$, and for a word $w$ let
+$\mathrm{TF}_w\in M_{r+1}(E_v)$ be the Gram matrix of the frame $(e_0,\dots,e_{r-1},z_w)$ of $w$. A finite place is \emph{typed}
+if it divides $g_S$; then $g=g_v\in\{g_0,g_1\}$ is the type prime below it.
+
+\begin{definition}[Local volumes]\label{pf:sh-siegel:locvoldef}
+At a typed place $v$ with type prime $g$, the \emph{local unipotent volume} is
+$\mathrm{lvu}_v=(\shsiegelsd\times\shsiegelsd)(\mathcal D)$, where $\mathcal D$ is the set of pairs $(x,x')$ of elements of
+$E_v^{\mathcal U}$ with $\alpha_i^{-1}\alpha_jx_{ij},\ \alpha_i^{-1}\alpha_jx'_{ij}\in\OO_{E_v}$ and
+$\alpha_i^{-1}\alpha_jg^{-1}(x_{ij}-x'_{ij})\in\OO_{E_v}$; and the \emph{Gram box volume} is $\mathrm{ZZ}_v=\shsiegelsd(\mathcal
+Z)$, where $\mathcal Z$ is the set of $z\in E_v^{(r+1)\times(r+1)}$ such that, with $\zeta_{ij}=g^{-1}(\alpha_i\alpha_jz_{ij}-
+\mathrm{TF}_{u,ij})$, all $\zeta_{ij}\in\OO_{E_v}$ and $g^{-1}\bigl(\zeta_{ij}+\sigma(\zeta_{ji})-g^{-1}(\mathrm{TF}_{u',ij}-
+\mathrm{TF}_{u,ij})\bigr)\in\OO_{E_v}$ for all $i,j$. (These are the quantities $\mathrm{lvu}_v$ and $\mathrm{ZZ}_v$ of
+\cref{pf:multnc:def-bcf}.)
+\formal{Formalism.L2.SG.LocVol.localVolumeUnit}\ \formal{Formalism.L2.SG.LocVol.ZZX}
+\end{definition}
+
+\begin{theorem}[Local volumes at the typed places]\label{pf:sh-siegel:voltyp}
+Let $X$ be a Hida setting for a datum $D$, $u,u'$ words and $\psi$ a standard additive character of $\A_F/F$. If
+$T_u\equiv T_{u'}\pmod{g_S^2}$, then for every typed place $v$ with type prime $g$,
+\[
+\mathrm{lvu}_v/\mathrm{ZZ}_v=g^{(r_S+1)(2r_S+3)} .
+\]
+\formallabel{Formalism.L2.SG.Pf.NcVal.volTypV_holds}
+\formallabel{Formalism.L2.SG.Pf.NcVal.volTypV_of_box}
+\formallabel{Formalism.L2.SG.Pf.NcVal.volTypV_of_herm}
+\formallabel{Formalism.L2.SG.Pf.NcVal.volTypV_of_cnt}
+\formallabel{Formalism.L2.SG.Pf.NcVal.volTypV_of_steps'}
+\formallabel{Formalism.L2.SG.Pf.NcVal.volU_steps_of}
+\end{theorem}
+
+\begin{proof}
+Write $r=r_S$, $O=\OO_{E_v}$, $|\cdot|_v$ for the normalised absolute value of $F_v$.
+
+\emph{Step 0: arithmetic of the typed places.} The type prime $g$ splits completely in $E$ (the number of primes of $E$ above
+$g$ is $[E:\Q]$, \lref{Formalism.L2.SG.Pf.NcVal.VolUT.gAt_split}), so the place $v$ of $F$ above $g$ has ramification index
+and residue degree $1$ and splits in $E$: $E_v\cong F_v\times F_v$, with $\sigma$ exchanging the factors. Its residue field has
+$g$ elements and $g\notin v^2$, so $|g|_v=g^{-1}$; and $v$ does not divide the different of $F$, so $d_v$ is a unit, $|d_v|_v=1$,
+and all $\alpha_a$ are units (\lref{Formalism.L2.SG.Pf.NcVal.VolUT.typ_arith}).
+
+\emph{Step 1: the self-dual measure.} Since $\psi$ is standard, its local component at $v$ has conductor the inverse different
+(\lref{Formalism.L2.SG.Pf.conductor_inverse_different}); as $d_v$ is a unit, the dual of $O$ for $(x,y)\mapsto
+\psi_v(\Tr(xy))$ is $d_v^{-1}O=O$ (\lref{Formalism.L2.SG.Pf.NcVal.VolUTr.annX_of}). Hence $O^\iota$ is self-dual, the
+self-dual measure exists and is a Haar measure, and $\shsiegelsd(O^\iota)=1$ for every finite $\iota$
+(\lref{Formalism.L2.SG.Pf.NcVal.VolUL.sd_facts}).
+
+\emph{Step 2: scaling.} For $b\in E_v^\iota$ and measurable $S$,
+$\shsiegelsd\{w:\ g^{-1}(w-b)\in S\}=g^{-2|\iota|}\shsiegelsd(S)$: the map $w\mapsto g^{-1}(w-b)$ is affine, with linear part
+multiplication by $g^{-1}$ on $E_v^\iota\cong F_v^{2|\iota|}$, of module $|g|_v^{-2|\iota|}=g^{2|\iota|}$
+(\lref{Formalism.L2.SG.Pf.NcVal.VolUL.volTAff_of}). Multiplying the coordinates by the units $\alpha_i\alpha_j$ preserves
+$\shsiegelsd$ (\lref{Formalism.L2.SG.Pf.NcVal.VolUL.volTLocPres_of}).
+
+\emph{Step 3: hermitian count.} Let $c\in M_{r+1}(O)$ with $c_{ji}=\sigma(c_{ij})$, and
+$\mathcal W(c)=\{Y\in O^{(r+1)\times(r+1)}:\ g^{-1}(Y_{ij}+\sigma(Y_{ji})-c_{ij})\in O\ \text{for all }i,j\}$. We claim
+$\shsiegelsd(\mathcal W(c))=g^{-(r+1)^2}$. As $c$ is hermitian, the condition for $(j,i)$ is the conjugate of the condition for
+$(i,j)$. For $i<j$, given $Y_{ij}\in O$ the condition says $Y_{ji}\in\sigma(c_{ij}-Y_{ij})+gO$, a set of measure $g^{-2}$. For
+$i=j$ the condition says $\Tr(Y_{ii})\in c_{ii}+gO_v$; in the decomposition $O=O_v\times O_v$ (Step 0) the trace is
+$(a,b)\mapsto a+b$ and $\shsiegelsd$ is the product of the Haar measures of $O_v$ of total mass $1$, so this set has measure
+$|g|_v=g^{-1}$. By Fubini,
+$\shsiegelsd(\mathcal W(c))=(g^{-2})^{r(r+1)/2}(g^{-1})^{r+1}=g^{-(r+1)^2}$. (The formal proof writes $\mathcal W(c)$ as a
+translate of the image of $O^{(r+1)\times(r+1)}$ under an explicit linear map built from an element $\theta\in O$ of trace $1$ and
+the element $\theta-\sigma(\theta)$, of determinant module $g^{-(r+1)^2}$:
+\lref{Formalism.L2.SG.Pf.NcVal.volUHermBox_holds} and \lref{Formalism.L2.SG.Pf.NcVal.VolUHm.volTHermCnt_of_box}.)
+
+\emph{Step 4: the Gram box.} The frames of $u$ and $u'$ differ only in the last vector, so $\mathrm{TF}_{u'}-\mathrm{TF}_u$ has the
+single non-zero entry $T_u-T_{u'}$ in position $(r,r)$; as $g^2\mid g_S^2\mid T_u-T_{u'}$, $c=g^{-1}(\mathrm{TF}_{u'}-\mathrm{TF}_u)$
+is hermitian with integral entries (\lref{Formalism.L2.SG.Pf.NcVal.volTTFCong_of}). By definition
+$z\in\mathcal Z$ if and only if $g^{-1}((\alpha_i\alpha_jz_{ij})_{ij}-\mathrm{TF}_u)\in\mathcal W(c)$. By Steps 2 and 3,
+\[
+\mathrm{ZZ}_v=g^{-2(r+1)^2}\,\shsiegelsd(\mathcal W(c))=g^{-3(r+1)^2}.
+\]
+\emph{Step 5: the unipotent volume.} As the $\alpha_a$ are units, $\mathcal D=\{(x,x'):\ x\in O^{\mathcal U},\ g^{-1}(x'-x)\in
+O^{\mathcal U}\}$ (\lref{Formalism.L2.SG.Pf.NcVal.volTUOEq_of}), and by Fubini and Steps 1--2,
+$\mathrm{lvu}_v=\shsiegelsd(O^{\mathcal U})\,g^{-2|\mathcal U|}=g^{-r(r+1)}$
+(\lref{Formalism.L2.SG.Pf.NcVal.VolUL.volTProdU_of'} and \lref{Formalism.L2.SG.Pf.NcVal.volU_two_card_uidx}).
+
+\emph{Step 6.} $\mathrm{lvu}_v/\mathrm{ZZ}_v=g^{3(r+1)^2-r(r+1)}=g^{(r+1)(2r+3)}$.
+\end{proof}
+
+
+%==============================================================================
+\subsection{The length formula on the second branch}\label{sec:pf:sh-siegel:branch}
+
+Let $D$ be a datum and $u$ a word, with member forms at level $0$: dominant weights $\lambda_0(\tau)$ ($\tau$ an embedding type),
+the space of forms of $u$ at level $0$, and for every place $w$ of the coefficient field $\mathit{LL}$ the localised lattice
+$S_0(w)$ of forms and the lattices $B_0(w,v)$ (for the indices $v$ of the level). For $\tau=\tau(w,v)$ put
+$b(\tau)=-\mathrm{ds}(\lambda_0(\tau))$ (minus the determinant shift of the weight) and $|\lambda_0(\tau)|$ the sum of its entries.
+For $\OO_w$-lattices $A,B$ let $\len_w(A,B)$ be the length of the $\OO_w$-module $A/(A\cap B)$, and for $n\in\Z$ let
+$T_u^n\cdot S_0(w)$ be the image of $S_0(w)$ under multiplication by $T_u^n$. A place $w$ \emph{lies over} $T_u$ if its residue
+characteristic is $T_u$; it is \emph{seen} by $u$ if the forms of $u$ record it; $e_w$ is its ramification index; and $d^S_u$ is
+the size of $u$.
+
+\begin{definition}[The second-branch length]\label{pf:sh-siegel:branchdef}
+The \emph{second-branch inclusion length} $\mathrm{SB}(D,u)$ is: for every place $w$ over $T_u$ which is seen by $u$ and every
+$v$ with $b=b(\tau(w,v))\ge0$, $T_u^b\cdot S_0(w)\subseteq B_0(w,v)$, and $\len_w(B_0(w,v),T_u^b\cdot S_0(w))$ is a natural number
+$n$ with
+\[
+n=e_w\cdot\frac{d^S_u\bigl(|\lambda_0(\tau)|+k\,b\bigr)}{k},\qquad\tau=\tau(w,v).
+\]
+The \emph{level-zero hypotheses} on $(D,u)$ are: the numerical conditions $2fN_m+1<T_u$, $4a_{\max}(u)<T_u$, the alcove condition
+and $b(\tau)\ge0$ for the top types $\tau$; and the concrete forms at level zero (compatibility of the forms with the twists
+along the family, and the admissibility of the size data $\mathrm{adm}_S(D,u)$).
+\formal{Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.SecondBranchInclusionLength}\
+\formal{Formalism.MainNotions.RT.SecondBranchIntegralityUnderForms}
+\end{definition}
+
+\begin{theorem}[The second-branch length formula]\label{pf:sh-siegel:secondbranch}
+For every datum $D$ and every word $u$ satisfying the level-zero hypotheses, $\mathrm{SB}(D,u)$ holds.
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.second_branch_all_members}
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.second_branch_of_rationality}
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.second_branch_of_surjectivity}
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.second_branch_of_coordinates_and_count}
+\end{theorem}
+
+The proof is a computation of lengths in coordinates. Let $\Delta(\lambda)\subseteq\C[x_{ab}]$ ($0\le a,b<N_0$) be the span of the
+products of leading principal minors attached to a dominant weight $\lambda$ (the highest weight module of $\lambda$), and
+$\Delta_\Z(\lambda)$ its integral form; the forms of $u$ at level $0$ are realised in the tensor product
+$\bigotimes_\tau\Delta(\lambda_0(\tau))$. Let $\mathrm{Rat}(\lambda_0)$ be the span of the forms with rational coefficients
+(over the coefficient field) and $\mathrm{CSpan}(\lambda_0)$ the complex span of the pure tensors of elements of the
+$\Delta(\lambda_0(\tau))$.
+
+\begin{lemma}[Rationality]\label{pf:sh-siegel:rat}
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{Rat}(\lambda_0)\subseteq\mathrm{CSpan}(\lambda_0)$.
+\item For every family $\gamma=(\gamma_\tau)$ in $\GL_{N_0}(E)$, with images $o_\tau$ at the infinite places, the substitution
+$P\mapsto\prod_\tau\det(o_\tau)^{s(\tau)}\cdot P(o\,\cdot)$, $s(\tau)$ the determinant shift of $\lambda_0(\tau)$, maps
+$\mathrm{Rat}(\lambda_0)$ into itself.
+\end{enumerate}
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.ratInC_holds}
+\formallabel{Formalism.L2.GlobalTheoryTheory.LemB.ratGL_holds}
+\end{lemma}
+
+\begin{proof}
+(a) $\mathrm{Rat}(\lambda_0)$ is the additive group generated by the multiples of pure tensors $\bigotimes_\tau f_\tau$ of
+Schur--Weyl images of integral elements; each $f_\tau$ lies in $\Delta(\lambda_0(\tau))$
+(\lref{Formalism.L2.G.Model.sw_weyl_map}), so each generator lies in $\mathrm{CSpan}(\lambda_0)$, and the claim follows by
+induction on the generation (closure under sums and negatives). (b) The images $o_\tau$ are the images of matrices $M_\tau$ over
+the coefficient field with non-zero determinant. On a generator, the substitution acts as a scalar times the tensor product of
+the row actions of the $M_\tau$ on the factors (\lref{Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.substitution_tensor}); the row
+action of an invertible matrix preserves the rational span of each $\Delta(\lambda_0(\tau))$
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.rat_rowAct_mem}), and tensor products of rational elements are rational
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.rat_ten}). Induction on the generation concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-siegel:secondbranch}]
+\emph{Step 1: surjectivity of coordinates.} For a place $w$ over $T_u$ seen by $u$, an index $v$ with $b\ge0$, and families $B,B'$
+of local bases (indexed by the classes at level $0$) of the lattices of $u$ at level $0$ and of the twisted lattices at $v$, the
+\emph{surjectivity condition} $\mathrm{Onto}(w,v,B,B')$ says that the images of the integral forms under the coordinate maps
+attached to $B$ contain, respectively, the $\det^{s}$-twisted substitution of the integral forms by $B^{-1}B'$ (inside the
+coordinates of $B_0(w,v)$) and the $T_u^b$-multiples of the integral forms (inside the coordinates of $T_u^b\cdot S_0(w)$). By
+\cref{pf:sh-siegel:rat} and \lref{Formalism.L2.GlobalTheoryTheory.LemB.ontoAll_of}, $\mathrm{Onto}(w,v,B,B')$ holds for all
+such data.
+
+\emph{Step 2: coordinates with determinant $T_u$.} Given the surjectivity of Step 1, there are local bases $B,B'$ such that
+$\det(B_c^{-1}B'_c)$, at the embedding $\tau(w,v)$, has the same $w$-adic valuation as $T_u$ for every class $c$
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.second_branch_coordinates_of_surjectivity}, using the vanishing of the valuation of
+basis changes at level zero, \lref{Formalism.L2.GlobalTheoryTheory.LemB.V0.det_basis_change_unit_zero}, and the second
+unramified condition of the host, \lref{Formalism.L2.Host.second_unramified_condition_holds}).
+
+\emph{Step 3: the count.} Under the forms at level zero and $\mathrm{adm}_S(D,u)$, $d^S_u$ equals the number of classes at level $0$
+times $\prod_\tau\rank_\Z\Delta_\Z(\lambda_0(\tau))$ (\lref{Formalism.L2.GlobalTheoryTheory.LemB.duCount_holds}).
+
+\emph{Step 4: lengths.} With the coordinates of Step 2, an injective semilinear coordinate map identifies $B_0(w,v)$ and
+$T_u^b\cdot S_0(w)$ with products over the classes $c$ of, respectively, the $\det^s$-twisted substitution by $B_c^{-1}B'_c$ of the
+integral forms and the $T_u^b$-multiples of the integral forms (injectivity of the coordinates,
+\lref{Formalism.L2.GlobalTheoryTheory.LemB.crdL_inj}, the two inclusions of Step 1 and the reverse inclusions
+\lref{Formalism.L2.GlobalTheoryTheory.LemB.crdL_Bw_le} and \lref{Formalism.L2.GlobalTheoryTheory.LemB.crdL_tL_le}). Lengths are
+preserved by injective semilinear maps and add over products
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.len_quot_semilinear} and \lref{Formalism.L2.GlobalTheoryTheory.LemB.len_pi_sum}). For
+each class the length $n_c$ of the quotient satisfies
+$k\,n_c=e_w\prod_\tau\rank_\Z\Delta_\Z(\lambda_0(\tau))\cdot(|\lambda_0(\tau(w,v))|+kb)$
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.cls_len_D}, computed in a homogeneous basis of the modules $\Delta_\Z(\lambda_0(\tau))$
+from the valuation of $\det(B_c^{-1}B'_c)$ of Step 2). Summing over the classes and using Step 3 gives the length
+$e_wd^S_u(|\lambda_0(\tau)|+kb)/k$, which is the seen-place length formula
+(\lref{Formalism.L2.GlobalTheoryTheory.LemB.lenLen2_of_coord} and \lref{Formalism.L2.GlobalTheoryTheory.LemB.lenLen2_of_coordOnto}).
+
+\emph{Step 5: inclusion.} The seen-place length formula, together with the inclusion $T_u^b\cdot S_0(w)\subseteq B_0(w,v)$ at level
+zero (\lref{Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.second_branch_incl_length_level_zero'}), gives $\mathrm{SB}(D,u)$
+(\lref{Formalism.MainNotions.lemmaB_second_branch_of_length_formula}).
+\end{proof}
+

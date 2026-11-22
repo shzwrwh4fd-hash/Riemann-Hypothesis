@@ -1,0 +1,2244 @@
+\section{The Galois link III: assembly}\label{sec:pf:linkN}
+
+\providecommand{\linkNup}{M^{\mathrm{up}}}
+\providecommand{\linkNlow}{M^{\mathrm{low}}}
+\providecommand{\linkNeS}{\eta\Sigma}
+\providecommand{\linkNloc}{\eta_{\mathrm{loc}}}
+\providecommand{\linkNvcc}{v_{\mathrm{cc}}}
+\providecommand{\linkNmult}{\mathrm{mult}}
+\providecommand{\linkNgood}{Z^{\mathrm{good}}}
+\providecommand{\linkNdZ}{d_{Z_0}}
+\providecommand{\linkNlw}{\mathrm{lw}}
+\providecommand{\linkNs}{s_\Pi}
+\providecommand{\linkNfin}{\mathrm{Fin}_{\Sha}}
+
+This section proves \cref{thm:linkN}, the Galois link. Part~(a) of that theorem says that a family of data all of
+whose members satisfy the \emph{Galois preconditions} and the condition $\sfname{Tie4}$ satisfies the link
+$\sfname{LinkN}$ of \cref{def:families:linkN}: the weighted divisibility defect $\linkNeS(L,j)$ at the twisted places is
+bounded by $\linkNdZ(j)\bigl(C(fmb\Lambda^2+(\log x)^2N_c)+\sum_\ell\log\ell\sum_{0<e<t}\mathrm{sh}(\ell,e)\bigr)$.
+Part~(b) transports this to the parameter sets of the construction of \cref{sec:families:nonempty}.
+
+\paragraph{The argument.}
+The local inequalities behind $\sfname{LinkN}$ have the shape \eqref{eq:families:bd}: the length of a congruence module at
+a good eigensystem is bounded by the length of a Selmer group plus error terms. They are established in
+\lref{GlobalTheory.NLinkClose.main_alt_alt} for every $\sfname{TwGood}$ family whose members carry the
+\emph{norm-choice facts} and two further conditions with uniform constants. The present section supplies everything
+around this input.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Uniform constants} (\cref{sec:pf:linkN:extra}). With $C_T=40$ and $C=320$, every datum carrying the
+norm-choice facts and $\sfname{Tie4}$ satisfies a commuting endomorphism condition and a paired character condition. The
+endomorphism comes from central elements of a group ring whose images are $\#G$ times central idempotents
+(\cref{pf:linkN:cenidem}); the paired character condition is reduced to local results of $p$-adic Hodge theory.
+\item \emph{Cuts} (\cref{sec:pf:linkN:lattice,sec:pf:linkN:cuts,sec:pf:linkN:goodcuts}). The Galois preconditions do not
+imply the norm-choice facts, but a \emph{good cut} of the datum does: one keeps the local indices having good
+eigensystems, restricts the Hecke algebras to a subset of eigensystems, and replaces each Hecke module $M$ by its quotient
+by the part lying in the eigenspaces of the discarded eigensystems. The vanishing of local Galois cohomology at
+auxiliary places of Taylor--Wiles type (\cref{pf:linkN:tamevanish}) enters here.
+\item \emph{Summation} (\cref{sec:pf:linkN:sum}). For a family satisfying the local bounds, the bounds are summed over the
+twisted places with the weights $\log\Nm w/[\mathit{LL}:\Q]$, giving $\sfname{LinkN}$ with constant $2000(|C|+1)^3$.
+\item \emph{Return from the cut} (\cref{sec:pf:linkN:cuts}). A lattice lemma (\cref{pf:linkN:lengthle}) shows that the
+$\eta$-invariants of a datum exceed those of its good cut by at most $\linkNdZ(j)\,v_\ell(\#G)$ at each twisted place
+above $\ell$, and $\log\#G$ is absorbed by the main term of $\sfname{LinkN}$. This proves part~(a).
+\item \emph{Rows} (\cref{sec:pf:linkN:b}). Part~(b) follows formally from part~(a), a transport of properties of the
+members of layer points to all linked bundles, and two theorems saying that the Galois preconditions and $\sfname{Tie4}$
+hold at all members.
+\end{enumerate}
+
+\paragraph{What is proved here and what is cited.}
+The local bounds are proved in \lref{GlobalTheory.NLinkClose.main_alt_alt}, and the bound at the primes $2$ and $3$ is
+\cref{lem:families:at23}. Several local results used for the uniform constants (the lifting theorem for crystalline lattices of tame
+type behind the crystalline period bound of \cref{sec:pf:linkN:thmT}, a local pushout bound, congruences at the type primes and a
+sixteen-step statement derived from Artin reciprocity), the estimates for the sums over primes in \cref{pf:linkN:pointbound}, and the
+large theorems asserting that the Galois preconditions and $\sfname{Tie4}$ hold at members, are cited with their statements. The
+algebraic and cohomological statements used in the proof of the local bounds are proved in \cref{sec:pf:linkN:congmod,sec:pf:linkN:cocycles}.
+Peculiarities of the formal statements are collected in \cref{sec:pf:linkN:remarks}.
+
+% ---------------------------------------------------------------------------
+\subsection{Data, invariants and hypotheses}\label{sec:pf:linkN:data}
+
+We use the notation of \cref{sec:families}, in particular of \cref{sec:families:galois}, and recall the components of a
+datum $D$ that occur below.
+
+\paragraph{Ranks, host and rows.}
+$D$ has rank parameters $k,m,t,f,n,r,n_V$ with $2\le m\le f$; a host with number fields $F\subset E$, $[E:\Q]=2f$,
+distinguished primes $q,d$, the \emph{type primes} $g_0,g_1$ (we write $\mathrm{gset}=\{g_0,g_1\}$), a finite set
+$\mathrm{small}$ of small primes containing $2$, a level $Q_S$, and the class number $h_E$ of $E$. A prime
+$p\notin\mathrm{small}\cup\{q,d\}$ is \emph{split} if the Jacobi symbol $\bigl(\frac{-d}{p}\bigr)$ equals $1$; otherwise the host assigns
+it one of two \emph{inert} classes. For a place $\lambda$ of $E$, $n_\lambda=e_\lambda f_\lambda$ denotes its local degree. Its rows datum
+contains the coefficient field $\mathit{LL}$, Galois over $\Q$, its finite places $w$ with residue characteristic
+$\ell(w)$ and ramification index $e(w)$, the characters $\mu_w\in\{\mu_0,\mu^{\mathrm{tw}}_w\}$ ($w$ is \emph{twisted} if
+$\mu_w\ne\mu_0$), complex spaces $Z_j(\mu)$, rational numbers $\eta_j(w)\ge0$ and $\mathrm{sh}(\ell,e)$, and the positive
+integer
+\begin{equation}\label{eq:pf:linkN:G}
+\#G=\prod_{k\in\{0,1\}}\bigl(\#\GL_r(\F_{g_k})\bigr)^{f},
+\end{equation}
+the order of $G=\prod_{k\in\{0,1\}}\prod_{v\in\mathrm{Pl}_k}\GL_r(\F_{g_k})$, where $\mathrm{Pl}_k$ is a fixed set of $f$
+places attached to $g_k$. We put $VV(\ell)=\sum_{0<e<t}\mathrm{sh}(\ell,e)$.
+
+\paragraph{Local indices.}
+The Galois data of $D$ contain an algebraic closure $\Omega$ of $E$, for each prime $p$ the set $S_p$ of places of $E$
+above $p$ with the cyclotomic character of $G_{E,S_p}$, and a finite set $\mathrm{Loc}(D)$ of \emph{local indices}. A
+local index $\iota$ carries: a prime $\ell=\ell_\iota$, an integer $1\le j_\iota\le m$ and a twisted place $w_\iota$ of
+$\mathit{LL}$ with $\ell(w_\iota)=\ell_\iota$; a complete discrete valuation ring $\OO_\iota$, finite over $\Zl$, with
+fraction field $K_\iota$ and an embedding of $\mathit{LL}$ into $K_\iota$; a finite non-empty set $X_\iota$
+(\emph{eigensystems}); a local $\OO_\iota$-subalgebra $T_\iota\subseteq\OO_\iota^{X_\iota}$ separating the points of
+$X_\iota$; a free $\OO_\iota$-module $M_\iota$ of finite rank with an injective homomorphism of $\OO_\iota$-algebras
+$T_\iota\to\End(M_\iota)$; finite subsets $\linkNgood_\iota\subseteq Z_\iota\subseteq X_\iota$; characters
+$\chi_{\iota,c}$ of $G_E$ with values in $\OO_\iota^\times$; and disjoint finite sets $S_\iota,Q_\iota$ of split places of
+$E$ not above $\ell$, with elements $\gamma_{\iota,v}$ of the inertia groups at $v$ generating tame inertia for
+$v\in S_\iota\cup Q_\iota$. We write $\mathrm{Loc}(j,w)$ for the set of $\iota$ with $(j_\iota,w_\iota)=(j,w)$.
+
+\begin{definition}[Hecke eigenspaces and local invariants]\label{pf:linkN:localinv}
+Let $\iota$ be a local index, $\OO=\OO_\iota$, $K=K_\iota$, $M=M_\iota$, $M_K=K\otimes_\OO M$, and let $M^\circ\subseteq M_K$
+be the lattice $1\otimes M$.
+\begin{enumerate}[label=(\alph*)]
+\item For $\pi\in X_\iota$ the \emph{Hecke eigenspace} is $M_K[\pi]=\{v\in M_K:\ tv=t(\pi)v\text{ for all }t\in T_\iota\}$,
+and $\linkNmult(\iota,\pi)=\dim_K M_K[\pi]$. For $Y\subseteq X_\iota$ put $M_K[Y]=\sum_{\pi\in Y}M_K[\pi]$.
+\item The \emph{normalised length} of an $\OO$-module $N$ is $\lambda_\iota(N)=\len_\OO(N)/\len_\OO(\OO/\ell\OO)$ if
+$\len_\OO(N)<\infty$, and $\lambda_\iota(N)=0$ otherwise.
+\item $\linkNup_\iota=M_K[\linkNgood_\iota]\cap\bigl(M^\circ+M_K[X_\iota\smallsetminus\linkNgood_\iota]\bigr)$,
+$\linkNlow_\iota=M^\circ\cap M_K[\linkNgood_\iota]$, and $\linkNloc(\iota)=\lambda_\iota(\linkNup_\iota/\linkNlow_\iota)$.
+\item Let $\mathfrak c_\iota\subseteq T_\iota$ be the kernel of $t\mapsto(t(y))_{y\notin Z_\iota}$, and for $\pi\in X_\iota$
+let $\mathfrak c_\pi\subseteq\OO$ be the ideal generated by the $t(\pi)$, $t\in\mathfrak c_\iota$. Then
+$\linkNvcc(\iota,\pi)=\lambda_\iota(\OO/\mathfrak c_\pi)$.
+\end{enumerate}
+\formal{Formalism.BasicNotions.NData.etaLoc}
+\formal{Formalism.BasicNotions.NData.vcc}
+\end{definition}
+
+When $M_K$ is the direct sum of the $M_K[\pi]$ (\cref{pf:linkN:decomp}), $\linkNup_\iota$ is the projection of the lattice
+to the $\linkNgood_\iota$-part and $\linkNlow_\iota$ its intersection with that part, so $\linkNup_\iota/\linkNlow_\iota$ is
+the congruence module of the lattice between the good eigensystems and the others; $\mathfrak c_\pi$ measures the
+congruences between $\pi$ and the eigensystems outside $Z_\iota$. Two compatibility conditions, which are part of the
+definition of a datum, tie these invariants to the rows datum:
+\begin{equation}\label{eq:pf:linkN:ties}
+\eta_j(w)=\sum_{\iota\in\mathrm{Loc}(j,w)}\linkNloc(\iota)\quad(1\le j\le m),
+\end{equation}
+and $\mathrm{sh}(p,e)=N$ whenever the $\Z_p$-length of $\Sha^1(G_{E,S_p},\Q_p/\Z_p(-e))$, $0<e<t$, is a natural number
+$N$. Every local index is twisted (its place $w_\iota$ is twisted). Given representations
+$\rho_{\iota,\pi}:G_E\to\GL_r(\OO_\iota)$, $\pi\in X_\iota$, the Selmer length $\linkNs(\iota,\rho,\pi)$ is the normalised
+length of the Selmer group with Bloch--Kato conditions at $\ell$, relaxed at $S_\iota\cup Q_\iota$, of
+\cref{sec:families:galois}.
+
+\paragraph{Size data and $\sfname{LinkN}$.}
+Size data $L$ for $D$ carry a scale $(x,\eps,J)$ with $x>1$ and $0<\eps<1/52$, a finite support $\supp(L)$ of places of
+$\mathit{LL}$, and derived quantities: $\Lambda=x^{\eps}$, $b=e^{\Lambda}$, a non-negative real $N_c$, the dimensions
+$\linkNdZ(j)=\dim_\C Z_j(\mu_0)$, the \emph{zero-space ranks} $\dim_\C Z_j(\mu^{\mathrm{tw}}_w)$ at twisted places $w$, and
+$\linkNlw(w)=\log\Nm w/[\mathit{LL}:\Q]$.
+
+\begin{lemma}[Host and sizes]\label{pf:linkN:hostsize}
+\begin{enumerate}[label=(\roman*)]
+\item Every prime $p\notin\mathrm{small}\cup\{q,d\}$ is split or inert.
+\item For every prime $\ell$, $\sum_{\lambda\mid\ell}n_\lambda\le2f$, the sum over the places $\lambda$ of $E$ above $\ell$.
+\item For size data $L$, $\Lambda=x^\eps\ge1$.
+\end{enumerate}
+\formallabel{Formalism.MainNotions.TwistedPlaces.split_or_inert}
+\formallabel{Formalism.MainNotions.TwistedPlaces.sum_nLam_le}
+\formallabel{Formalism.MainNotions.TwistedPlaces.L_ge_one}
+\end{lemma}
+
+\begin{proof}
+(i) holds by the definition of the classes. (ii) The places above $\ell$ correspond to the prime ideals of the ring of integers of $E$
+above $\ell$, and $\sum_{\mathfrak p\mid\ell}e_{\mathfrak p}f_{\mathfrak p}=[E:\Q]=2f$ \cite[Ch.~I, Prop.~8.2]{Neukirch1999} (so equality holds).
+(iii) $x>1$ and $\eps>0$.
+\end{proof}
+
+\begin{definition}[The link]\label{pf:linkN:LinkN}
+For size data $L$ of $D$ and $j\in\N$ put
+\begin{equation}\label{eq:pf:linkN:etaSum}
+\linkNeS(L,j)=\sum_{\substack{w\in\supp(L)\\ w\ \text{twisted}}}\linkNlw(w)\,e(w)\,\eta_j(w),\qquad
+\mathrm{vv}(D,\ell)=\begin{cases}VV(\ell)\log\ell,&\ell\text{ prime},\\0,&\text{otherwise}.\end{cases}
+\end{equation}
+For $C\in\R$ let $\mathrm{LN}(L,j,C)$ be the statement: if $\sum_{\ell\in\N}\mathrm{vv}(D,\ell)$ converges, then
+\begin{equation}\label{eq:pf:linkN:linkNat}
+\linkNeS(L,j)\le \linkNdZ(j)\Bigl(C\bigl(f\,m\,b\,\Lambda^2+(\log x)^2N_c\bigr)+\sum_{\ell}\mathrm{vv}(D,\ell)\Bigr).
+\end{equation}
+Let $\linkNfin(D)$ mean that $\Sha^1(G_{E,S_p},\Q_p/\Z_p(-e))$ has finite length for every prime $p$ and $0<e<t$. A
+family $\mathcal F$ satisfies $\sfname{LinkN}$ \emph{with constant $C$} if there is $x_0$ such that $\mathrm{LN}(L_{x,i},j,C)$
+holds for all $x\ge x_0$, all $i\in I_x$ with $\linkNfin(D_{x,i})$ and all $1\le j\le m$.
+\formal{Formalism.MainNotions.LinkN_at}
+\formal{Formalism.MainNotions.LinkN}
+\end{definition}
+
+\paragraph{Families and norm choices.}
+Families $\mathcal F\in\sfname{FamP}(\eps)$, classes, threshold packages, largeness and $\sfname{Closed}$ are those of
+\cref{def:families:closed}; $D3(3,\mathcal A)$ is the class of designed families of a class $\mathcal A$, and every member
+of $D3(3,\mathcal A)$ belongs to $\mathcal A$ and is $\sfname{TwGood}$. The member $(x,i)$ of $\mathcal F$ has datum
+$D_{x,i}$, size data $L_{x,i}$, and for $x>x_1$ an extra record with norm choice $\mathrm{nch}_{x,i}$ and a parameter
+choice $P_{x,i}$ (constants of the member).
+
+\paragraph{Hypotheses.}
+The following propositions occur as hypotheses of the formal statements. \Cref{pf:linkN:H2,pf:linkN:Hdec,pf:linkN:Hcheb,pf:linkN:Hdz}
+are classical theorems; all of them, and the packages of \cref{pf:linkN:Hlayer}, are proved elsewhere in the formal development
+\cite{LeanSource2026} (\cref{sec:families:theta}).
+
+\begin{hypothesis}[$\sfname{Hypotheses}_2$]\label{pf:linkN:H2}
+The conjunction of: the properties of Fontaine's period ring $B_{\mathrm{cris}}$ \cite{Fontaine1982,Fontaine1994}; global
+Artin reciprocity \cite{Artin1927,Neukirch1999}; the local Bloch--Kato theory (dimension formula and dualities for the
+finite parts $H^1_f$) \cite[\S3]{BlochKato1990}; finiteness of local Galois cohomology, local Tate duality and the local
+Euler characteristic formula for finite modules over finite extensions of $\Ql$ \cite{Tate1963},
+\cite[Ch.~II, \S5]{Serre1997}; and an integral comparison theorem of Bhatt--Scholze type for crystalline lattices
+\cite{BhattScholze2022,BhattScholze2023}.
+\formal{GlobalTheory.NLink.Hypotheses₂}
+\end{hypothesis}
+
+\begin{hypothesis}[Local cohomology of decomposition groups]\label{pf:linkN:Hdec}
+For every number field $F$, algebraic closure $\Omega$, prime $\ell$, $r\ge1$, finite discrete $\Z/\ell^r$-module $M$,
+finite place $v$ of $F$ and valuation ring $A$ of $\Omega$ above $v$, with decomposition group $D_A$, and every continuous
+action of $D_A$ on $M$: (finiteness) $H^0,H^1,H^2$ are finite and $H^n=0$ for $n\ge3$; (duality)
+$H^2(D_A,\mu_{\ell^r})\cong\Z/\ell^r$, and the cup products induce bijections
+$H^0(M)\to\Hom(H^2(M^\vee(1)),H^2(\mu_{\ell^r}))$, $H^1(M^\vee(1))\to\Hom(H^1(M),H^2(\mu_{\ell^r}))$ and its transpose,
+and $H^2(M)\to\Hom(H^0(M^\vee(1)),H^2(\mu_{\ell^r}))$, where $M^\vee(1)$ is $\Hom(M,\Z/\ell^r)$ twisted by the cyclotomic
+character; (Euler characteristic) $\#H^1=\#H^0\,\#H^2\,(\#M)^{[F_v:\Ql]}$ if $v\mid\ell$ and $\#H^1=\#H^0\,\#H^2$ if
+$v\nmid\ell$. These are Tate's theorems \cite{Tate1963}, \cite[Ch.~II, \S5]{Serre1997},
+\cite[Ch.~VII]{NeukirchSchmidtWingberg2008}.
+\formal{ReciprocityTheory.Gal.LocalFiniteness}
+\formal{ReciprocityTheory.Gal.LocalTateDuality}
+\formal{ReciprocityTheory.Gal.LocalEulerChar}
+\end{hypothesis}
+
+\begin{hypothesis}[Chebotarev]\label{pf:linkN:Hcheb}
+For every number field $F$, open normal subgroup $U\subseteq G_F$, $g\in G_F$ and finite set $A$ of finite places, there
+are a place $v\notin A$ of absolute degree one, unramified over $\Q$, a place of $\Omega$ above $v$ whose inertia group
+lies in $U$, and a Frobenius element $\sigma$ at it with $\sigma g^{-1}\in U$. This follows from the Chebotarev density
+theorem \cite{Chebotarev1926}, \cite[Ch.~VII, \S13]{Neukirch1999}.
+\formal{GlobalTheory.TwSys.Cheb}
+\end{hypothesis}
+
+\begin{hypothesis}[Automorphic packages]\label{pf:linkN:Hlayer}
+The three bundles of results of \cref{sec:families:theta} used for the construction: the \emph{third-layer inputs}
+$\mathcal P_3$ (which contain \cref{pf:linkN:Hcheb}, local theta inputs, Harish-Chandra finiteness and rapid decay of cusp
+forms); the \emph{compatibility package} $\mathcal P_{\mathrm{Gal}}$ for Galois representations attached to polarised
+cuspidal representations (which contains a height-counting statement); and the \emph{twist-series package}
+$\mathcal P_{\mathrm{ser}}$ (rationality and integrality of twist series).
+\formal{GlobalTheory.HeightCounting.Up.PublishedInputsThirdLayerAlt}
+\formal{GlobalTheory.NRows.GeometricGaloisRepCompatibility}
+\formal{GlobalTheory.HeightCounting.Up.SerN}
+\end{hypothesis}
+
+\begin{hypothesis}[Depth-zero support]\label{pf:linkN:Hdz}
+If a smooth irreducible representation of $\GL_n(k)$, $k$ a non-archimedean local field, has non-zero vectors fixed by
+$1+\varpi M_n(\OO_k)$, then so has every member of its cuspidal support. This is a consequence of the results of Moy and
+Prasad \cite{MoyPrasad1994,MoyPrasad1996}.
+\formal{GlobalTheory.Published.DepthZeroSupport}
+\end{hypothesis}
+
+Finally $h_L$ always denotes a proof of $\sfname{RecTExists}$ (\cref{def:rectexists}).
+
+\begin{remark}\label{pf:linkN:interp}
+The local inequality $\linkNvcc\le\linkNs+(\text{error})$ has the shape of the numerical criterion of Wiles and Lenstra
+\cite{Wiles1995,Lenstra1995} (see also \cite{TaylorWiles1995,DarmonDiamondTaylor1997}); this is an interpretation, and
+the arguments below do not use it.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Hecke modules and their cuts}\label{sec:pf:linkN:lattice}
+
+Throughout this subsection $\OO$ is a discrete valuation ring with fraction field $K$, $X$ is a finite set,
+$T\subseteq\OO^X$ is an $\OO$-subalgebra separating the points of $X$, $M$ is a finitely generated free $\OO$-module and
+$t\mapsto t_M$ is a homomorphism of $\OO$-algebras $T\to\End_\OO(M)$. We use $M_K$, $M^\circ$, $M_K[x]$, $M_K[Y]$ and
+$\linkNmult(x)=\dim_KM_K[x]$ as in \cref{pf:linkN:localinv}, and for $\phi\in\End_\OO(M)$ we write $\phi_K$ for its
+extension to $M_K$. For $Y\subseteq X$ put
+\[
+U_Y=M_K[Y]\cap\bigl(M^\circ+M_K[X\smallsetminus Y]\bigr),\qquad \mathit{Lo}_Y=M^\circ\cap M_K[Y].
+\]
+
+\begin{lemma}[Idempotents up to a scalar]\label{pf:linkN:decomp}
+There are $d\in\OO\smallsetminus\{0\}$ and elements $g_x\in T$ ($x\in X$) with $g_x(y)=0$ for $y\ne x$ and
+$dv=\sum_{x\in X}(g_x)_Mv$ for all $v\in M_K$. If $t\in T$ vanishes at every $y\ne x$, then $t_Mv\in M_K[x]$ for every
+$v\in M_K$. In particular $M_K=M_K[X]$.
+\formallabel{UpperTheory.GalC.Alg.decomp}
+\end{lemma}
+
+\begin{proof}
+Fix $x$. For $y\ne x$ choose $t_y\in T$ with $t_y(x)\ne t_y(y)$; then $f_x=\prod_{y\ne x}(t_y-t_y(y))\in T$ satisfies
+$f_x(x)\ne0$, as $\OO$ is a domain, and $f_x(y)=0$ for $y\ne x$. Put $d=\prod_xf_x(x)\ne0$ and
+$g_x=\bigl(\prod_{y\ne x}f_y(y)\bigr)f_x$. At a point $z$ only $g_z$ is non-zero, and $g_z(z)=d$; hence $\sum_xg_x=d\cdot1$
+in $T$, and $dv=\sum_x(g_x)_Mv$. If $t$ vanishes at every $y\ne x$, then $st=s(x)t$ in $\OO^X$ for all $s\in T$, so
+$s_M(t_Mv)=s(x)\,t_Mv$, i.e.\ $t_Mv\in M_K[x]$. The last assertion follows.
+\end{proof}
+
+\begin{definition}[The cut module]\label{pf:linkN:cutmodule}
+For $S\subseteq X$ let $\mathrm{out}_S\subseteq M$ be the set of $m\in M$ with $t_Mm=0$ for all $t\in T$ vanishing on
+$X\smallsetminus S$. Put $M_S=M/\mathrm{out}_S$, with quotient map $q$ and $q_K:M_K\to(M_S)_K$; let $T_S\subseteq\OO^S$ be the
+image of $T$ under restriction to $S$, acting on $M_S$ by $(t|_S)_{M_S}(q(m))=q(t_Mm)$.
+\formallabel{UpperTheory.GalC.Alg.cutM}
+\end{definition}
+
+The action is well defined: $\mathrm{out}_S$ is $T$-stable because $T$ is commutative, and if $u\in T$ vanishes on $S$ and
+$f\in T$ vanishes outside $S$ then $fu=0$, so $u_M(M)\subseteq\mathrm{out}_S$. If $a\in\OO\smallsetminus\{0\}$ and
+$am\in\mathrm{out}_S$, then $a\,t_Mm=0$, hence $t_Mm=0$, for every $t$ vanishing outside $S$; so $M_S$ is torsion free and
+therefore free. $T_S$ separates the points of $S$, and it is local if $T$ is.
+
+\begin{lemma}[Kernel of the cut]\label{pf:linkN:qK}
+Let $S\subseteq X$.
+\begin{enumerate}[label=(\roman*)]
+\item For $x\in S$, $q_K(M_K[x])$ lies in the eigenspace $(M_S)_K[x]$ of $T_S$.
+\item $\ker q_K=M_K[X\smallsetminus S]$.
+\item If $Y\subseteq X$ and $Y'\subseteq S$ satisfy $Y\cap S\subseteq Y'$, then $q_K(M_K[Y])\subseteq(M_S)_K[Y']$.
+\end{enumerate}
+\formallabel{UpperTheory.GalC.Alg.qK_eq_zero_iff}
+\end{lemma}
+
+\begin{proof}
+(i) For $t\in T$ and $v\in M_K[x]$, $(t|_S)_{M_S}q_K(v)=q_K(t_Mv)=t(x)q_K(v)$.
+(ii) Let $x\notin S$ and $v\in M_K[x]$. The element $f_x$ of the proof of \cref{pf:linkN:decomp} vanishes on $S$, so
+$q_K((f_x)_Mv)=(f_x|_S)_{M_S}q_K(v)=0$; as $(f_x)_Mv=f_x(x)v$ with $f_x(x)\ne0$, $q_K(v)=0$. Conversely let $q_K(v)=0$ and
+write $dv=\sum_x(g_x)_Mv$. If $x\in S$, then $g_x$ vanishes outside $S$, so $(g_x)_M$ kills $\mathrm{out}_S$ and factors as
+$\ell_x\circ q$ with $\ell_x:M_S\to M$ linear; hence $(g_x)_Mv=(\ell_x)_K(q_Kv)=0$. If $x\notin S$, then $(g_x)_Mv\in M_K[x]$.
+Thus $dv\in M_K[X\smallsetminus S]$, and so $v\in M_K[X\smallsetminus S]$.
+(iii) For $x\in Y\cap S$ use (i) and $x\in Y'$; for $x\in Y\smallsetminus S$, $q_K(M_K[x])=0$ by (ii).
+\end{proof}
+
+\begin{lemma}[Comparison of congruence modules]\label{pf:linkN:lengthle}
+Let $Z,S\subseteq X$, let $Z'=Z\cap S$, viewed as a subset of $S$, and let $U'_{Z'}$, $\mathit{Lo}'_{Z'}$ be the modules
+defined as above for $(M_S,T_S)$. Let $\alpha\in\End_\OO(M)$ and $A\in\OO\smallsetminus\{0\}$ be such that $\alpha_K$ is
+multiplication by $A$ on $M_K[x]$ for $x\in Z$ and $0$ on $M_K[x]$ for $x\notin S$. Then $U_Z/\mathit{Lo}_Z$ and
+$U'_{Z'}/\mathit{Lo}'_{Z'}$ have finite length and
+\[
+\len_\OO\bigl(U_Z/\mathit{Lo}_Z\bigr)\le\len_\OO\bigl(U'_{Z'}/\mathit{Lo}'_{Z'}\bigr)
++\Bigl(\sum_{x\in Z}\linkNmult(x)\Bigr)\len_\OO(\OO/A\OO).
+\]
+\formallabel{UpperTheory.GalC.Alg.length_le}
+\end{lemma}
+
+\begin{proof}
+\emph{Finiteness.} Let $d,g_x$ be as in \cref{pf:linkN:decomp}; $(g_y)_M$ acts on $M_K[x]$ by $g_y(x)$, which is $0$ for
+$x\ne y$. Let $u\in U_Z$, $u=m+w$ with $m\in M^\circ$ and $w\in M_K[X\smallsetminus Z]$. Then $(g_y)_Mu=0$ for $y\notin Z$ and
+$(g_x)_Mw=0$ for $x\in Z$, so $du=\sum_{x\in Z}(g_x)_Mm\in M^\circ\cap M_K[Z]=\mathit{Lo}_Z$. Hence $U_Z\subseteq d^{-1}M^\circ$ is
+finitely generated, and $U_Z/\mathit{Lo}_Z$ is finitely generated and killed by $d\ne0$, so it has finite length. The same
+argument applies to $M_S$, since $T_S$ separates the points of $S$.
+
+\emph{The map.} We have $q_K(M^\circ)=M_S^\circ$, and by \cref{pf:linkN:qK}(iii), applied to $(Z,Z')$ and to
+$(X\smallsetminus Z,S\smallsetminus Z')$, $q_K(U_Z)\subseteq U'_{Z'}$ and $q_K(\mathit{Lo}_Z)\subseteq\mathit{Lo}'_{Z'}$. Let
+$\Phi:U_Z/\mathit{Lo}_Z\to U'_{Z'}/\mathit{Lo}'_{Z'}$ be the induced map.
+
+\emph{$A$ kills $\ker\Phi$.} Let $u\in U_Z$ with $q_K(u)\in\mathit{Lo}'_{Z'}$. Then $q_K(u)=q_K(1\otimes m_0)$ for some $m_0\in M$,
+so $u-1\otimes m_0\in M_K[X\smallsetminus S]$ by \cref{pf:linkN:qK}(ii). By linearity $\alpha_K$ vanishes on
+$M_K[X\smallsetminus S]$ and is multiplication by $A$ on $M_K[Z]$; hence $Au=\alpha_K(u)=\alpha_K(1\otimes m_0)=1\otimes\alpha(m_0)\in
+M^\circ$. Since $Au\in M_K[Z]$ as well, $Au\in\mathit{Lo}_Z$.
+
+\emph{Length of the kernel.} Let $P\subseteq U_Z$ be the preimage of $\ker\Phi$. It is finitely generated and torsion free,
+hence free, and contained in $M_K[Z]$; a basis of $P$ is $K$-linearly independent, so
+$\rank P\le\dim_KM_K[Z]\le\sum_{x\in Z}\linkNmult(x)$. The module $\ker\Phi$ is generated by the images of a basis of $P$,
+each killed by $A$, so it is a quotient of $(\OO/A\OO)^{\rank P}$ and $\len(\ker\Phi)\le\rank P\cdot\len(\OO/A\OO)$.
+
+\emph{Conclusion.} By additivity of length on $0\to\ker\Phi\to U_Z/\mathit{Lo}_Z\to\operatorname{im}\Phi\to0$
+\cite[Prop.~6.9]{AtiyahMacdonald1969}, $\len(U_Z/\mathit{Lo}_Z)=\len(\ker\Phi)+\len(\operatorname{im}\Phi)$, and
+$\len(\operatorname{im}\Phi)\le\len(U'_{Z'}/\mathit{Lo}'_{Z'})$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:lenunit}
+Let $\iota$ be a local index of a datum, $\ell=\ell_\iota$, and $n\ge1$ an integer. Then
+$\lambda_\iota(\OO_\iota/n\OO_\iota)\le v_\ell(n)$.
+\formallabel{GlobalTheory.CutAtGood.lenUnit_natCast_le}
+\end{lemma}
+
+\begin{proof}
+Write $n=\ell^an'$ with $\ell\nmid n'$. Since $\OO=\OO_\iota$ is local and finite over $\Zl$, $n'$ is a unit of $\OO$, so
+$n\OO=\ell^a\OO$. If $\varpi$ is a uniformiser and $\ell\OO=\varpi^e\OO$, then $\len(\OO/\ell^a\OO)=ea=a\len(\OO/\ell\OO)$,
+so $\lambda_\iota(\OO/n\OO)=a=v_\ell(n)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Congruence modules}\label{sec:pf:linkN:congmod}
+
+This subsection proves a general bound for the length of congruence modules and two comparison statements; they are used
+in the proof of the local bounds. Throughout, $\OO$ is a discrete valuation ring with fraction field $K$ and normalised
+valuation $v$ (with $v(0)=\infty$), $X$ is a set, $T\subseteq\OO^X$ is an $\OO$-subalgebra, $V$ is a finite-dimensional
+$K$-vector space and $\mathrm{act}:T\to\End_K(V)$ is a ring homomorphism. Lengths are lengths of $\OO$-modules, with values in
+$\N\cup\{\infty\}$, and $0\cdot\infty=0$. For $x\in X$ and $S\subseteq X$ put
+\[
+V_x=\{u\in V:\ \mathrm{act}(f)u=f(x)u\text{ for all }f\in T\},\qquad V_S=\sum_{x\in S}V_x,
+\]
+and for an $\OO$-submodule $L\subseteq V$ define the \emph{congruence module}
+\[
+\mathrm{CM}(L,S)=L\big/\bigl((V_S\cap L)+(V_{X\smallsetminus S}\cap L)\bigr).
+\]
+If $V=M_K$ for a Hecke module $M$ as in \cref{sec:pf:linkN:lattice}, then $V_x=M_K[x]$ and $V_S=M_K[S]$. The first statement
+only rewrites \cref{pf:linkN:localinv}(c) in this notation.
+
+\begin{lemma}\label{pf:linkN:etaLoceq}
+For every local index $\iota$ of a datum,
+\[
+\linkNloc(\iota)=\lambda_\iota\Bigl(\bigl((M^\circ+M_K[X_\iota\smallsetminus\linkNgood_\iota])\cap M_K[\linkNgood_\iota]\bigr)\big/
+\bigl(M^\circ\cap M_K[\linkNgood_\iota]\bigr)\Bigr).
+\]
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.etaLoc_eq}
+\end{lemma}
+
+\begin{proof}
+The numerator is $\linkNup_\iota$ (intersection is commutative) and the denominator is $\linkNlow_\iota\subseteq\linkNup_\iota$.
+\end{proof}
+
+\begin{lemma}[Eigenspaces span]\label{pf:linkN:eigspan}
+Let $X$ be finite and suppose that $T$ separates the points of $X$.
+\begin{enumerate}[label=(\roman*)]
+\item There is $C\in\OO\smallsetminus\{0\}$ such that for every $Y\subseteq X$ some $e_Y\in T$ equals $C$ on $Y$ and $0$ on
+$X\smallsetminus Y$.
+\item Let $M$ be a finitely generated $\OO$-module with a homomorphism of $\OO$-algebras $T\to\End_\OO(M)$, and let $V=K\otimes_\OO M$
+with the induced action. Then $\mathrm{act}(e_{\{x\}})V\subseteq V_x$ for $x\in X$, and $V=V_X$.
+\end{enumerate}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.exists_ind}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.eigSpan}
+\end{lemma}
+
+\begin{proof}
+(i) As in the proof of \cref{pf:linkN:decomp}, choose $f_x\in T$ with $f_x(x)\ne0$ and $f_x(y)=0$ for $y\ne x$, put
+$C=\prod_xf_x(x)\ne0$ and $e_Y=\sum_{x\in Y}\bigl(\prod_{x'\ne x}f_{x'}(x')\bigr)f_x$.
+(ii) For $f\in T$ we have $fe_{\{x\}}=f(x)e_{\{x\}}$ in $\OO^X$, so $\mathrm{act}(f)\mathrm{act}(e_{\{x\}})u=f(x)\mathrm{act}(e_{\{x\}})u$,
+i.e.\ $\mathrm{act}(e_{\{x\}})u\in V_x$. Since $\sum_xe_{\{x\}}=C\cdot1$, every $u\in V$ satisfies $Cu=\sum_x\mathrm{act}(e_{\{x\}})u\in V_X$,
+and $C$ is invertible in $K$.
+\end{proof}
+
+\begin{lemma}[Projection to the good part]\label{pf:linkN:projcm}
+In the situation of \cref{pf:linkN:eigspan}(ii), let $L\subseteq V$ be an $\OO$-submodule and $S\subseteq X$. Then
+\[
+\len\Bigl(\bigl((L+V_{X\smallsetminus S})\cap V_S\bigr)\big/(L\cap V_S)\Bigr)\le\len\mathrm{CM}(L,S).
+\]
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.len_le}
+\formallabel{Formalism.MainNotions.TruncatedSeriesCountingIdentities.Br.quot_le}
+\end{lemma}
+
+\begin{proof}
+Let $C$ and $e_Y$ be as in \cref{pf:linkN:eigspan} and $P=C^{-1}\mathrm{act}(e_S)$, a $K$-linear endomorphism of $V$. On $V_x$,
+$\mathrm{act}(e_S)$ is multiplication by $e_S(x)$; hence $P$ is the identity on $V_S$ and $0$ on $V_{X\smallsetminus S}$. As
+$e_S=\sum_{x\in S}e_{\{x\}}$, \cref{pf:linkN:eigspan}(ii) gives $P(V)\subseteq V_S$, and since $e_S+e_{X\smallsetminus S}=C\cdot1$,
+$u-Pu=C^{-1}\mathrm{act}(e_{X\smallsetminus S})u\in V_{X\smallsetminus S}$. Write $A=V_S$ and $B=V_{X\smallsetminus S}$, and consider
+$L\to((L+B)\cap A)/(L\cap A)$, $u\mapsto Pu$. It is well defined, because $Pu=u-(u-Pu)\in L+B$ and $Pu\in A$. It is surjective: if
+$a=u+b\in A$ with $u\in L$ and $b\in B$, then $Pu=Pa-Pb=a$. It kills $(A\cap L)+(B\cap L)$, since $P(a+b)=a\in L\cap A$ for $a\in A\cap L$
+and $b\in B\cap L$. Hence the quotient on the left is a quotient of $\mathrm{CM}(L,S)$.
+\end{proof}
+
+The bound for congruence modules rests on the following three statements.
+
+\begin{lemma}\label{pf:linkN:split}
+Let $A\subseteq B$ be submodules of an $\OO$-module $N$, let $i:P\to N$ be $\OO$-linear and $C\subseteq P$ a submodule with $i(P)\subseteq B$,
+$i(C)\subseteq A$ and $B\subseteq A+i(P)$. Then $\len(N/A)\le\len(N/B)+\len(P/C)$.
+\formallabel{Formalism.NG.QuotientPowerLengths.split}
+\end{lemma}
+
+\begin{proof}
+The kernel of $N/A\to N/B$ is $B/A$, and $\len(N/A)=\len(N/B)+\len(B/A)$. Every element of $B$ is $a+i(p)$ with $a\in A$, so $B/A$ is
+contained in the image of the map $P/C\to N/A$ induced by $i$; hence $\len(B/A)\le\len(P/C)$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:freequot}
+Let $Q$ be a finitely generated torsion-free $\OO$-module and $l\in\OO$. Then $\len(Q/lQ)=\rank(Q)\,v(l)$.
+\formallabel{Formalism.NG.QuotientPowerLengths.length_quot_smulRange_free}
+\formallabel{Formalism.NG.QuotientPowerLengths.length_quot_smulRange_pi}
+\end{lemma}
+
+\begin{proof}
+$Q$ is free, $Q\cong\OO^n$ with $n=\rank Q$, so $Q/lQ\cong(\OO/l\OO)^n$, and $\len(\OO/l\OO)=v(l)$: for $l=u\varpi^k$ with $u$ a unit
+the chain $\varpi^j\OO/\varpi^k\OO$ is a composition series, and $\OO/0=\OO$ has infinite length because $\OO$ is not a field.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:core}
+Let $\mathcal E$ be a set of $K$-linear endomorphisms of $V$, $S$ a finite set, and for $x\in S$ let $W_x\subseteq V$ be a subspace and
+$w(x)\in\N\cup\{\infty\}$. Assume that every $g\in\mathcal E$ preserves every $W_x$, and that for every $x\in S$ there are $g\in\mathcal E$
+and $l\in\OO$ such that $g$ is multiplication by $l$ on $W_x$ and $v(l)\le w(x)$. Let $U\subseteq V$ be a subspace preserved by $\mathcal E$
+and $N\subseteq V$ a finitely generated $\OO$-submodule preserved by $\mathcal E$ with $N\subseteq\sum_{x\in S}W_x+U$. Let $\mathrm{img}(N)$ be
+the $\OO$-span of the $g(n)$, $g\in\mathcal E$, $n\in N$, and $D(N)=\mathrm{img}(N)+(U\cap N)\subseteq N$. Then
+\[
+\len\bigl(N/D(N)\bigr)\le\sum_{x\in S}\dim_KW_x\cdot w(x).
+\]
+\formallabel{Formalism.NG.QuotientPowerLengths.core}
+\formallabel{Formalism.NG.QuotientPowerLengths.step1}
+\end{lemma}
+
+\begin{proof}
+Induction on $\#S$. If $S=\emptyset$, then $N\subseteq U$, so $D(N)=N$. Let $S=S_0\cup\{x\}$ with $x\notin S_0$, and choose $g\in\mathcal E$ and
+$l\in\OO$ with $g|_{W_x}=l$ and $v(l)\le w(x)$. Put $U_1=\sum_{y\in S_0}W_y+U$, a subspace preserved by $\mathcal E$, and $N'=N\cap U_1$. Then
+$N'$ is finitely generated ($\OO$ is noetherian), preserved by $\mathcal E$ and contained in $\sum_{y\in S_0}W_y+U$, so by induction
+$\len(N'/D(N'))\le\sum_{y\in S_0}\dim W_y\,w(y)$.
+
+\emph{Step 1: $\len\bigl(N/(lN+N')\bigr)\le\dim W_x\cdot v(l)$.} Let $q:N\to V/U_1$ be the projection and $Q=q(N)$. Then $Q$ is finitely generated
+and torsion free, as $V/U_1$ is a $K$-vector space, and $N/(lN+\ker q)\cong Q/lQ$. Since $N\subseteq W_x+U_1$, $Q$ lies in the image of $W_x$
+in $V/U_1$, and an $\OO$-basis of $Q$ is $K$-linearly independent there; so $\rank Q\le\dim W_x$, and \cref{pf:linkN:freequot} gives the
+claim, as $\ker q=N'$.
+
+\emph{Step 2.} Apply \cref{pf:linkN:split} to $A=D(N)$, $B=D(N)+lN+N'$, the inclusion $i:N'\to N$ and $C=D(N')$. Clearly $i(N')\subseteq B$, and
+$D(N')\subseteq D(N)$ since $\mathrm{img}(N')\subseteq\mathrm{img}(N)$. It remains to see $lN\subseteq D(N)+N'$. Let $n\in N$ and write
+$n=a+b$ with $a\in W_x$, $b\in U_1$. Then $g(n)\in\mathrm{img}(N)$, and $g(n)-ln=g(b)-lb$ lies in $U_1$ and in $N$, hence in $N'$; so
+$ln=g(n)-(g(n)-ln)\in D(N)+N'$. Therefore
+\begin{align*}
+\len(N/D(N))&\le\len\bigl(N/(D(N)+lN+N')\bigr)+\len(N'/D(N'))\\
+&\le\dim W_x\,v(l)+\sum_{y\in S_0}\dim W_y\,w(y),
+\end{align*}
+using Step 1, and $v(l)\le w(x)$ concludes.
+\end{proof}
+
+\begin{theorem}[Length of congruence modules]\label{pf:linkN:congmodle}
+Assume $V=V_X$. Let $L\subseteq V$ be a finitely generated $\OO$-submodule, $S\subseteq X$ finite, $\mathcal E$ a set of $K$-linear
+endomorphisms of $V$ commuting with $\mathrm{act}(T)$ and mapping $L$ into $L\cap V_S$, and $w:X\to\N\cup\{\infty\}$ such that for every $x\in S$
+some $g\in\mathcal E$ is multiplication on $V_x$ by an element $l\in\OO$ with $v(l)\le w(x)$. Then
+\[
+\len\mathrm{CM}(L,S)\le\sum_{x\in S}\dim_KV_x\cdot w(x).
+\]
+\formallabel{Formalism.NG.QuotientPowerLengths.congMod_le}
+\end{theorem}
+
+\begin{proof}
+An endomorphism $g$ commuting with $\mathrm{act}(T)$ preserves every $V_x$: for $u\in V_x$, $\mathrm{act}(f)g(u)=g(\mathrm{act}(f)u)=f(x)g(u)$;
+hence it preserves every $V_Y$. Apply \cref{pf:linkN:core} with $W_x=V_x$ ($x\in S$), $U=V_{X\smallsetminus S}$ and $N=L$; the inclusion
+$L\subseteq V_S+V_{X\smallsetminus S}$ holds because $V=V_X$. Since $\mathcal E$ maps $L$ into $L\cap V_S$, $D(L)\subseteq(V_S\cap L)+(V_{X\smallsetminus S}\cap L)$,
+so $\mathrm{CM}(L,S)$ is a quotient of $L/D(L)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Automorphic data and the Galois preconditions}\label{sec:pf:linkN:gp}
+
+Besides the Galois data, a datum carries rows, automorphic and type data. We recall the parts used below.
+
+\paragraph{Rows.}
+For $1\le j\le m$ the rows datum has a finite-dimensional complex space $M_j$ with subspaces $M_j(\sigma)$ indexed by the
+\emph{rows} $\sigma$ (some rows are called \emph{good}), and for each character $\mu$ a complex space $M^t_{\mu,j}$ with a map
+$\theta^P_{\mu,j}:M^t_{\mu,j}\to M_j$; $\theta^T_{\mu,j}$ is the adjoint of $\theta^P_{\mu,j}$, and $Z_j(\mu)$ is its image. For a
+local index $\iota$ put $\mu_\iota=\mu^{\mathrm{tw}}_{w_\iota}$ and $M^t_\iota=M^t_{\mu_\iota,j_\iota}$.
+
+\paragraph{Automorphic points.}
+A local index $\iota$ has a set of \emph{automorphic points} $P$. Each has an eigensystem $\mathrm{pt}(P)\in X_\iota$ or none, and
+every $x\in X_\iota$ is the eigensystem of some point; each has a non-zero space $\mathrm{Typ}(P)\subseteq M^t_\iota$ of \emph{type
+vectors} and local parameters at the places of $E$. The \emph{admissibility clauses} (Adm) of the datum are conditions at the
+local indices; among other things they attach to each automorphic point base change parameters, compatible with the character
+choice, which determine its local parameters at the split places. The \emph{permutation provision} (Perm) (the forty-first
+provision of the datum) contains, among other things, the statement that two automorphic points with the same eigensystem
+have base change parameters which are permutations of each other, and the Galois family conditions. A local
+parameter at a place above a type prime is \emph{type-admissible} if it is tame, monomial of depth zero and squarefree, in the
+sense of the formal definition.
+
+A row $\sigma$ \emph{localises at} $\iota$ if one of its automorphic parameters has, at the relevant split places, Hecke
+polynomials congruent modulo the maximal ideal of $\OO_\iota$ to those of some eigensystem in $X_\iota$. Let $\mathrm{Rows}(\iota)$ be
+the set of good rows localising at $\iota$ and $d_M(\iota)=\dim_\C\sum_{\sigma\in\mathrm{Rows}(\iota)}M_{j_\iota}(\sigma)$. We consider
+the following conditions:
+\begin{itemize}[leftmargin=3.2em]
+\item[(ID)] (\emph{isotypic decomposition}) $M_j=\bigoplus_\sigma M_j(\sigma)$ for $1\le j\le m$;
+\item[(SC)] (\emph{scalar clause}) for every $\iota$ and every $\sigma$ with $M_{j_\iota}(\sigma)\ne0$, the operator
+$\theta^P_{\mu_\iota,j_\iota}\theta^T_{\mu_\iota,j_\iota}$ acts on $M_{j_\iota}(\sigma)$ as a positive real scalar;
+\item[(MS)] (\emph{multiplicity statement}) if $\linkNgood_\iota\ne\emptyset$, then
+$\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)=d_M(\iota)$;
+\item[(LU)] (\emph{uniqueness of localisations}) if $\iota,\iota'$ have the same pair $(j,w)$ and some good row lies in
+$\mathrm{Rows}(\iota)\cap\mathrm{Rows}(\iota')$, then $\iota=\iota'$.
+\end{itemize}
+In the formal development (SC) and (MS) are parts of longer statements.
+
+\paragraph{Type data.}
+The group $G$ of \eqref{eq:pf:linkN:G} acts on the rows modules: central elements $z$ of $\C[G]$ act on $M^t_\iota$ by operators
+$F\mapsto z\cdot F$. For $k\in\{0,1\}$ and a monic polynomial $f\in\F_{g_k}[X]$ (a \emph{label}) the type data contain a central
+idempotent $e_{\mathrm{Ser}}(k,f)\in\C[\GL_r(\F_{g_k})]$, the idempotent of the series labelled by $f$; for $v\in\mathrm{Pl}_k$ we
+write $e_{\mathrm{Ser}}(k,v,f)$ for its image in the factor of $\C[G]$ indexed by $(k,v)$. The \emph{good idempotent} is
+\[
+e_0=\sum_{p\ \mathrm{good}}\ \prod_{(k,v)}e_{\mathrm{Ser}}(k,v,p(k,v)),
+\]
+the sum over the good families $p=(p(k,v))$ of labels; it is central in $\C[G]$. The type data also contain \emph{parameters}
+$\sigma'$ with subspaces $M^t_\iota(\sigma')$ and labels $\mathrm{lab}(k,\sigma',v)$; a parameter is good if its labels form a good
+family. \emph{Series localisation} (Ser) is the condition: if $e_{\mathrm{Ser}}(k,v,f)\cdot F\ne0$ for some
+$F\in M^t_\iota(\sigma')$, then $f=\mathrm{lab}(k,\sigma',v)$.
+
+\paragraph{Pending data.}
+A \emph{pending datum} $Q$ for $D$ contains, among other data: for every $\iota$ an element $\zeta_\iota\in\OO_\iota$ whose image under
+the fixed embedding $\iota_\OO:\OO_\iota\to\C$ is a primitive $\#G$-th root of unity; an $\OO_\iota$-algebra homomorphism $z\mapsto z_Q$
+from the centre of $\OO_\iota[G]$ to $\End_{\OO_\iota}(M_\iota)$ whose image commutes with $T_\iota$; and an expression of each
+$e_{\mathrm{Ser}}(k,f)$ as the sum of the central idempotents of the irreducible representations $\tau$ of $\GL_r(\F_{g_k})$ with
+label $f$. A \emph{type} of an automorphic point $P$ at $(k,v)$ is such a $\tau$ whose idempotent, placed at $(k,v)$, acts non-trivially
+on some type vector of $P$. Two conditions on $Q$ are used:
+\begin{itemize}[leftmargin=3.2em]
+\item[(Eig)] (\emph{eigen-spanning}) for $\iota$, central $z\in\OO_\iota[G]$, $x\in X_\iota$ and $c\in\OO_\iota$: if $\iota_\OO(z)\cdot F=\iota_\OO(c)F$
+for every type vector $F$ of every automorphic point with eigensystem $x$, then $(z_Q)_K$ is multiplication by $c$ on $M_K[x]$
+(here $\iota_\OO(z)$ is obtained by applying $\iota_\OO$ to the coefficients);
+\item[(TA)] (\emph{type admissibility}) if $\tau$ is a type of $P$ at $(k,v)$ whose label $\mathrm{lab}(\tau)$ is squarefree and
+vanishes neither at a prescribed unit $u_0\in\F_{g_k}^\times$ nor at $u_0^{-1}$, then for $u=u_0$ or $u=u_0^{-1}$ the local
+parameter of $P$ at the place attached to $v$ is monomial of depth zero with polynomial $\mathrm{lab}(\tau)(X-u)^t$, and at
+the conjugate places it is monomial of depth zero, of degree $n_V$, with the inverse roots.
+\end{itemize}
+
+\begin{definition}[Galois preconditions, $\sfname{Tie4}$, norm-choice facts]\label{pf:linkN:GP}
+Let $D$ be a datum and $\mathrm{nch}$ a norm choice for $D$.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{Galois preconditions} $\mathrm{GP}(D,\mathrm{nch})$ are eighteen conditions: (GP1) the point conditions (rows
+conditions, non-vanishing of types, and $\mathrm{RE}(L)$ for all size data $L$); (GP2) admissibility of the datum, consisting of
+(Adm), a residual irreducibility clause (including the non-eigenvalue condition at the auxiliary places above the type primes
+used in \cref{pf:linkN:g5}) and (ID); (GP3) the first provision, consisting of (Perm), an unramifiedness statement for cuspidal
+Galois representations and (SC); (GP4) (MS); (GP5) irreducibility of the residual representations of rank $r$; (GP6)
+admissibility of residual tame eigenvalues; (GP7) a weight parameter condition; (GP8) a block character parameter condition;
+(GP9) unramifiedness of the characters $\mu$; (GP10) a depth-zero condition; (GP11) a spherical inert base change condition;
+(GP12) a condition on the parameters $\lambda$ used; (GP13) (LU); (GP14) largeness of the coefficient data (three conditions
+on the coefficient rings); (GP15) a tie between $\mathrm{nch}$ and $D$; (GP16) a condition on triples; (GP17) a same-twist
+condition for $\mathrm{nch}$; (GP18) a goodness condition for all rows.
+\item $\sfname{Tie4}(D)$ is the conjunction of the \emph{character tie} (Chi) (at local indices with $\ell_\iota=g_k$, the
+characters attached to the places $v\in\mathrm{Pl}_k$ are de Rham, with Weil--Deligne polynomial $X-u$ at the place attached to
+$v$ and $X-u^{-1}$ at the conjugate places, for a unit $u$ equal to a prescribed character value or its inverse); the existence
+of a pending datum $Q$ satisfying (TA) and (Eig); the \emph{inertia-polynomial tie} (Ine) (an annihilation statement for the
+inertia polynomials acting on crystalline periods of potentially crystalline representations); and (Ser).
+\item The \emph{norm-choice facts} $\mathrm{NF}(D,\mathrm{nch})$ consist of (GP1)--(GP3), (GP5)--(GP18); the
+\emph{auxiliary-place clauses} (AP) of \cref{pf:linkN:g5}; the \emph{eigenvector clause} (EV) (if $r_x$ has an eigenvector with
+eigencharacter $\chi_{\iota,1}$, then $x\in Z_\iota$ and its parameters are cuspidal); (MS); a de Rham condition (DR) (the good
+representation families are de Rham away from the bad places, with distinct jumps); admissibility of the $J$-parameters of all
+admissible size data; and the \emph{duties} (a hypothesis on the coefficient rings, absolute irreducibility with distinct
+eigenvalues of the good residual representations, all design conditions, and a type-prime wild idempotent choice).
+\end{enumerate}
+\formallabel{UpperTheory.GalC.GaloisPreconditions}
+\formallabel{UpperTheory.GalC.Tie4}
+\formal{GlobalTheory.NFacts.NormChoiceFacts}
+\end{definition}
+% ---------------------------------------------------------------------------
+\subsection{Cuts of data and the cut family}\label{sec:pf:linkN:cuts}
+
+\begin{definition}[Cuts]\label{pf:linkN:cut}
+A \emph{cut} $c$ of a datum $D$ consists of a set of \emph{kept} local indices and subsets $X^c_\iota\subseteq X_\iota$,
+non-empty for kept $\iota$. The datum $\mathrm{cut}(D,c)$ is obtained from $D$ as follows. Its local indices are the kept
+local indices of $D$; at a kept $\iota$ the set of eigensystems is $X^c_\iota$, the Hecke algebra is $(T_\iota)_{X^c_\iota}$
+acting on $(M_\iota)_{X^c_\iota}$ (\cref{pf:linkN:cutmodule}), and the distinguished subsets are $Z_\iota\cap X^c_\iota$ and
+$\linkNgood_\iota\cap X^c_\iota$; all other components of the local indices ($\ell_\iota,j_\iota,w_\iota,\OO_\iota$,
+characters, auxiliary places) and all data indexed by local indices are restricted to the kept indices; in particular the
+automorphic points at a kept $\iota$ are those of $D$, and such a point has eigensystem $x\in X^c_\iota$ in $\mathrm{cut}(D,c)$
+if and only if it has eigensystem $x$ in $D$ (it has no eigensystem in $\mathrm{cut}(D,c)$ if its eigensystem in $D$ does
+not lie in $X^c_\iota$); the values $\eta_j(w)$ are replaced by $\eta^c_j(w)=\sum\linkNloc^c(\iota)$, the sum over the kept
+$\iota\in\mathrm{Loc}(j,w)$ of the invariants of the cut; all other components of $D$ are unchanged.
+\formallabel{UpperTheory.GalC.cut}
+\formallabel{UpperTheory.GalC.ndCut}
+\end{definition}
+
+The construction checks that the cut Hecke data are again of the required kind: $(M_\iota)_{X^c_\iota}$ is free,
+$(T_\iota)_{X^c_\iota}$ is local and separates points, and its action is injective (if $t|_{X^c_\iota}$ acts by $0$, then by
+\cref{pf:linkN:qK}(i),(ii) $t(x)$ kills $q_K(M_K[x])\cong M_K[x]$ for each $x\in X^c_\iota$, and these eigenspaces are
+non-zero by the definition of a datum). Since the cut leaves the scale, the support, the twisted places, the dimensions
+$\linkNdZ(j)$, the quantities $N_c,b,\Lambda$, the numbers $\mathrm{sh}(\ell,e)$ and the Galois data of $E$ unchanged, the
+quantities $\mathrm{vv}(D,\ell)$ and the condition $\linkNfin$ are the same for $D$ and $\mathrm{cut}(D,c)$, and
+$\linkNeS$ changes only through the values $\eta_j(w)$.
+
+\begin{definition}[Good cuts]\label{pf:linkN:goodcut}
+A cut $c$ of $D$ is \emph{good} if
+\begin{enumerate}[label=(\alph*)]
+\item $\iota$ is kept if and only if $\linkNgood_\iota\ne\emptyset$;
+\item $\linkNgood_\iota\subseteq X^c_\iota$ and $Z_\iota\cap X^c_\iota\subseteq\linkNgood_\iota$;
+\item for every kept $\iota$ there is $\alpha\in\End_{\OO_\iota}(M_\iota)$ commuting with $T_\iota$ such that $\alpha_K$ is
+multiplication by $\#G$ on $M_K[\pi]$ for $\pi\in\linkNgood_\iota$ and $0$ on $M_K[\pi]$ for $\pi\notin X^c_\iota$;
+\item for every kept $\iota$, every automorphic point of $\iota$ with eigensystem in $X^c_\iota$, every $k\in\{0,1\}$ and every
+place $w$ of $E$ above $g_k$, the local parameter of the point at $w$ is type-admissible.
+\end{enumerate}
+The \emph{type-place condition} $\mathrm{TP}(D)$ is condition (d) for all local indices and all automorphic points having an
+eigensystem.
+\formal{UpperTheory.GalC.CutD.Good}
+\formallabel{UpperTheory.GalC.CutRec}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN:cutTP}
+If $c$ is a good cut of $D$, then $\mathrm{TP}(\mathrm{cut}(D,c))$ holds.
+\formallabel{UpperTheory.GalC.Tr.cutRec_cut}
+\end{lemma}
+
+\begin{proof}
+Let $\iota$ be a kept local index and $P$ an automorphic point of $\iota$ having an eigensystem $x$ in $\mathrm{cut}(D,c)$.
+Then $x\in X^c_\iota$, and by \cref{pf:linkN:cut} $P$ has eigensystem $x$ in $D$. Since the places above $g_k$ and the local
+parameters of $P$ are not changed by the cut, \cref{pf:linkN:goodcut}(d) gives the type-admissibility of the local parameter
+of $P$ at every place above $g_k$, for $k\in\{0,1\}$.
+\end{proof}
+
+\begin{definition}\label{pf:linkN:CGA}
+$\sfname{CutGivesAlt}$ is the statement: for every datum $D$ and norm choice $\mathrm{nch}$ with $\mathrm{GP}(D,\mathrm{nch})$
+and $\sfname{Tie4}(D)$ there is a good cut $c$ of $D$ such that $\mathrm{NF}(\mathrm{cut}(D,c),\mathrm{nch})$ and
+$\sfname{Tie4}(\mathrm{cut}(D,c))$ hold, the norm choice being transported unchanged.
+\formallabel{UpperTheory.GalC.CutGivesAlt}
+\end{definition}
+
+\begin{lemma}[$\eta$-invariants under a good cut]\label{pf:linkN:etale}
+Let $c$ be a good cut of $D$, and write $\linkNloc^c$ for the invariants of $\mathrm{cut}(D,c)$.
+\begin{enumerate}[label=(\roman*)]
+\item If $\linkNgood_\iota=\emptyset$ then $\linkNloc(\iota)=0$.
+\item For a kept local index $\iota$, with $\ell=\ell_\iota$,
+$\linkNloc(\iota)\le\linkNloc^c(\iota)+\bigl(\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)\bigr)v_\ell(\#G)$.
+\item For $1\le j\le m$ and every place $w$ of $\mathit{LL}$,
+\[
+\eta_j(w)\le\eta^c_j(w)+\Bigl(\sum_{\iota\in\mathrm{Loc}(j,w)}\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)\Bigr)
+v_{\ell(w)}(\#G).
+\]
+\end{enumerate}
+\formallabel{UpperTheory.GalC.eta_zero}
+\formallabel{UpperTheory.GalC.eta_le}
+\formallabel{UpperTheory.GalC.etaJ_le}
+\end{lemma}
+
+\begin{proof}
+(i) Then $M_K[\linkNgood_\iota]=0$, so $\linkNup_\iota=0$.
+(ii) Let $\alpha$ be as in \cref{pf:linkN:goodcut}(c). The integer $\#G$ is non-zero in $\OO_\iota$, since $\mathit{LL}$ embeds
+into $K_\iota$. Apply \cref{pf:linkN:lengthle} with $Z=\linkNgood_\iota$, $S=X^c_\iota$ and $A=\#G$. By (b),
+$Z\cap S=\linkNgood_\iota$, which is the good set of the cut, so the two quotients are those defining $\linkNloc(\iota)$ and
+$\linkNloc^c(\iota)$. All lengths are finite, so dividing by $\len(\OO/\ell\OO)$ gives
+$\linkNloc(\iota)\le\linkNloc^c(\iota)+(\sum_\pi\linkNmult(\iota,\pi))\lambda_\iota(\OO/\#G\OO)$, and \cref{pf:linkN:lenunit}
+concludes.
+(iii) By \eqref{eq:pf:linkN:ties}, $\eta_j(w)=\sum_{\iota\in\mathrm{Loc}(j,w)}\linkNloc(\iota)$, and by definition $\eta^c_j(w)$ is the
+sum of $\linkNloc^c(\iota)$ over the kept $\iota\in\mathrm{Loc}(j,w)$; for $\iota\in\mathrm{Loc}(j,w)$ we have $\ell_\iota=\ell(w)$.
+For kept $\iota$ use (ii). For $\iota$ not kept, $\linkNgood_\iota=\emptyset$ by \cref{pf:linkN:goodcut}(a), so
+$\linkNloc(\iota)=0$ by (i), and the added term is non-negative. Summing gives the claim.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:meanw}
+Let $L$ be size data for $D$ and $\ell$ a prime. Then $\sum_w\linkNlw(w)e(w)\le\log\ell$, the sum over the twisted places
+$w\in\supp(L)$ above $\ell$. Consequently, for every integer $N\ge1$,
+\[
+\sum_{\substack{w\in\supp(L)\\ w\text{ twisted}}}\linkNlw(w)\,e(w)\,v_{\ell(w)}(N)\le\log N.
+\]
+\formallabel{Formalism.MainNotions.TwistedPlaces.admissibleMeanCondition_holds}
+\formallabel{UpperTheory.GalC.sum_val_le}
+\end{lemma}
+
+\begin{proof}
+If $w\mid\ell$ has residue degree $f(w)$, then $\Nm w=\ell^{f(w)}$ and $\linkNlw(w)e(w)=e(w)f(w)\log\ell/[\mathit{LL}:\Q]$;
+since $\sum_{w\mid\ell}e(w)f(w)=[\mathit{LL}:\Q]$, the first claim follows. For the second, group the places according to
+$\ell(w)$: only primes $\ell\mid N$ contribute, and the sum is at most $\sum_{\ell\mid N}v_\ell(N)\log\ell=\log N$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:etaSumAdd}
+Let $L$ be size data for $D$, $j\in\N$, $\eta'$ a real function on the places of $\mathit{LL}$, $d\ge0$ and $N\ge1$, and
+suppose that $\eta_j(w)\le\eta'(w)+d\,v_{\ell(w)}(N)$ for every twisted place $w$. Then
+\[
+\linkNeS(L,j)\le\sum_{\substack{w\in\supp(L)\\ w\text{ twisted}}}\linkNlw(w)e(w)\eta'(w)+d\log N.
+\]
+\formallabel{UpperTheory.GalC.etaSum_le_add}
+\end{lemma}
+
+\begin{proof}
+Multiply the hypothesis by $\linkNlw(w)e(w)\ge0$, sum, and apply \cref{pf:linkN:meanw}.
+\end{proof}
+
+\paragraph{Multiplicities.}
+For size data $L$ of $D$ consider the \emph{multiplicity bound} $\mathrm{MB}(L)$ and the \emph{rank equality} $\mathrm{RE}(L)$:
+for $1\le j\le m$ and every twisted place $w$,
+\[
+\mathrm{MB}:\ \sum_{\iota\in\mathrm{Loc}(j,w)}\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)\le\dim_\C Z_j(\mu^{\mathrm{tw}}_w),
+\qquad \mathrm{RE}:\ \dim_\C Z_j(\mu^{\mathrm{tw}}_w)=\linkNdZ(j).
+\]
+The rank equality is one of the point conditions (GP1) of the Galois preconditions; the multiplicity bound follows from four
+other preconditions.
+
+\begin{lemma}\label{pf:linkN:multle}
+If $D$ satisfies (ID), (SC), (MS) and (LU), then $\mathrm{MB}(L)$ holds for all size data $L$ of $D$.
+\formallabel{GlobalTheory.T.goodPointMultiplicityLeRank_proof}
+\formallabel{GlobalTheory.NLink.multLe_of_rank}
+\end{lemma}
+
+\begin{proof}
+Fix $1\le j\le m$ and a twisted $w$; we may assume $\mathrm{Loc}(j,w)\ne\emptyset$. By (MS), and trivially when
+$\linkNgood_\iota=\emptyset$, $\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)\le d_M(\iota)$, and by (ID)
+$d_M(\iota)=\sum_{\sigma\in\mathrm{Rows}(\iota)}\dim M_j(\sigma)$. By (LU) the sets $\mathrm{Rows}(\iota)$, $\iota\in\mathrm{Loc}(j,w)$,
+are pairwise disjoint, so by (ID) again
+\[
+\sum_{\iota\in\mathrm{Loc}(j,w)}d_M(\iota)=\dim_\C\bigoplus_{\sigma\in\bigcup_\iota\mathrm{Rows}(\iota)}M_j(\sigma)\le\dim_\C M_j.
+\]
+Let $\mu=\mu_\iota=\mu^{\mathrm{tw}}_w$ for $\iota\in\mathrm{Loc}(j,w)$. By (SC), $\theta^P_{\mu,j}\theta^T_{\mu,j}$ preserves each
+$M_j(\sigma)$ and acts on it by a non-zero scalar, so by (ID) it is injective on $M_j$, and hence so is $\theta^T_{\mu,j}$.
+Therefore $\dim M_j=\dim Z_j(\mu^{\mathrm{tw}}_w)$.
+\end{proof}
+
+\begin{definition}[The cut family]\label{pf:linkN:gd}
+Let $\mathcal F\in\sfname{FamP}(\eps)$, and let $c_{x,i}$ be a cut of $D_{x,i}$ for every $x$ and $i\in I_x$. The family
+$\mathrm{gd}(\mathcal F,c)$ has the index sets, threshold and constants of $\mathcal F$, members
+$\mathrm{cut}(D_{x,i},c_{x,i})$, and size data, parameter choices, ties, lattice instances and extra records (with the norm
+choices) transported along the cuts.
+\formallabel{UpperTheory.GalC.gd}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN:twgd}
+If $\mathcal F$ is $\sfname{TwGood}$, so is $\mathrm{gd}(\mathcal F,c)$.
+\formallabel{UpperTheory.GalC.twGood_gd}
+\end{lemma}
+
+\begin{proof}
+The norm choices and the twisting data at twisted places are unchanged by the cuts. The only ingredient of the goodness
+conditions of \cref{sec:families:galois} that involves the local Galois data of a datum is a family of lengths of
+Selmer-type groups attached to the twisting characters (in the Bloch--Kato reduction conditions); these do not involve
+the local indices and coincide for $D$ and $\mathrm{cut}(D,c)$. Hence every condition of $\sfname{TwGood}$ at the members of
+$\mathcal F$ transfers to $\mathrm{gd}(\mathcal F,c)$, with the same threshold.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:evpow}
+For $C\in\R$ and $\eps>0$ there is $x_0$ such that $x^C\le\exp(x^\eps)$ and $1\le x^\eps$ for all $x\ge x_0$.
+\formallabel{UpperTheory.GalC.ev_pow_le_exp}
+\end{lemma}
+
+\begin{proof}
+Since $\log x=o(x^\eps)$, eventually $C\log x\le x^\eps$ and $x\ge1$.
+\end{proof}
+
+We use the polynomial bound for the parameters of a family proved in
+\lref{GlobalTheory.T.admissible_parameters_family_const}: \emph{for every family $\mathcal F$ there are $C_1\ge1$ and
+$x'_1$ such that for $x\ge x'_1$, $x>x_1$ and $i\in I_x$ the member satisfies $k,n,t\le x^{C_1}$, $\log h_E\le C_1x^{C_1}$ and}
+\begin{equation}\label{eq:pf:linkN:logG}
+\log\#G\le C_1x^{C_1}\Lambda .
+\end{equation}
+
+\begin{proposition}[Return from the cut family]\label{pf:linkN:return}
+Let $\mathcal F\in\sfname{FamP}(\eps)$, and let $c_{x,i}$ be cuts such that for all $x>x_1$ and $i\in I_x$ the cut $c_{x,i}$ is
+good and $\mathrm{MB}(L_{x,i})$ and $\mathrm{RE}(L_{x,i})$ hold. If $\mathrm{gd}(\mathcal F,c)$ satisfies $\sfname{LinkN}$ with
+constant $C$, then $\mathcal F$ satisfies $\sfname{LinkN}$ with constant $C+C_1$, where $C_1$ is the constant of
+\eqref{eq:pf:linkN:logG}.
+\formallabel{UpperTheory.GalC.linkN_of_gd}
+\end{proposition}
+
+\begin{proof}
+Let $x_0$ be the threshold of $\sfname{LinkN}$ for the cut family, $x'_1$ that of \eqref{eq:pf:linkN:logG}, and $x_2$ that of
+\cref{pf:linkN:evpow} for $(C_1,\eps)$; here $\eps>0$ because the scales have positive exponent. Let
+$x\ge\max(x_0,x'_1,x_2,x_1+1)$, $i\in I_x$ with $\linkNfin(D_{x,i})$, $1\le j\le m$, and assume that
+$\sum_\ell\mathrm{vv}(D_{x,i},\ell)$ converges. Write $D=D_{x,i}$ and $L=L_{x,i}$; $L$ has scale $(x,\eps)$, so $\Lambda=x^\eps\ge1$
+(\cref{pf:linkN:hostsize}(iii))
+and $x^{C_1}\le b$.
+
+By \cref{pf:linkN:etale}(iii), $\mathrm{MB}(L)$ and $\mathrm{RE}(L)$, for every twisted place $w$
+\[
+\eta_j(w)\le\eta^c_j(w)+\linkNdZ(j)\,v_{\ell(w)}(\#G).
+\]
+\Cref{pf:linkN:etaSumAdd} with $\eta'=\eta^c_j$, $d=\linkNdZ(j)$ and $N=\#G$ gives $\linkNeS(L,j)\le\linkNeS^c(L,j)+\linkNdZ(j)\log\#G$,
+where $\linkNeS^c$ is the $\eta$-sum of the cut member. The cut member has the same $\linkNfin$, $\mathrm{vv}$, $\linkNdZ$, $f$, $m$,
+$b$, $\Lambda$, $x$ and $N_c$ (\cref{pf:linkN:cut}), so the hypothesis gives
+$\linkNeS^c(L,j)\le\linkNdZ(j)\bigl(C(fmb\Lambda^2+(\log x)^2N_c)+\sum_\ell\mathrm{vv}(D,\ell)\bigr)$. Finally, by
+\eqref{eq:pf:linkN:logG}, $x^{C_1}\le b$, $\Lambda\le\Lambda^2$, $fm\ge1$ (as $1\le m\le f$) and $(\log x)^2N_c\ge0$,
+\[
+\log\#G\le C_1x^{C_1}\Lambda\le C_1\,b\Lambda^2\le C_1\bigl(fmb\Lambda^2+(\log x)^2N_c\bigr).
+\]
+Adding the two bounds gives $\mathrm{LN}(L,j,C+C_1)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Summation of the local bounds}\label{sec:pf:linkN:sum}
+
+In this subsection $D$ is a datum, $L$ size data with scale $(x,\eps)$, $P$ a parameter choice for $(D,L)$, and $C\in\R$.
+For a local index $\iota$ with $\ell=\ell_\iota$ and a function $f$ on the places of $E$ we write $\sum_{\lambda\mid\ell}f(\lambda)$
+for the sum over the places $\lambda$ of $E$ above $\ell$. For a prime $\ell$ and $1\le j\le m$ put
+\[
+\eta_\ell(j)=\sum_{\substack{w\in\supp(L)\text{ twisted}\\ w\mid\ell}}\linkNlw(w)e(w)\eta_j(w),\qquad\text{so that}\qquad
+\linkNeS(L,j)=\sum_{\ell\in S(L)}\eta_\ell(j),
+\]
+where $S(L)$ is the set of residue characteristics of the twisted places in $\supp(L)$. For a prime $\ell$ let
+$\nu_L(\ell)=\min_{g\in G_E}v_\ell\bigl(\chi_\ell(g)^{tr}-1\bigr)$, $\chi_\ell$ the $\ell$-adic cyclotomic character of $G_E$,
+and let $\nu_{\mathrm{budget}}(D)=\log Q_S+\log(tr)$. The size data provide further positive quantities: a threshold
+$\ell^*=\ell^*(L)$, two numbers $S_c(L)$ and $\eta_{\mathrm{sz}}(L)$, and the host provides a finite set $TT$. The
+\emph{polynomial parameter bound} $\mathrm{PB}(L,C)$ is the statement: the constants of $P$ are at most $C$ (one of them is
+positive), $k,n,t\le x^C$, $x^{-\eps}$ is at most a size quantity of $L$, $\log h_E\le Cx^C$ and $\log\#G\le Cx^C\Lambda$.
+
+\begin{definition}[The local bounds]\label{pf:linkN:Concl}
+For a family $\rho$ of representations $\rho_{\iota,\pi}$, a local index $\iota$ ($\ell=\ell_\iota$), $\pi\in X_\iota$ and $\beta\in\R$,
+the \emph{local bound with error $\beta$} is \eqref{eq:families:bd}:
+\[
+\mathrm{Bd}(\rho,\iota,\pi,\beta):\qquad\linkNvcc(\iota,\pi)\le\linkNs(\iota,\rho,\pi)+\beta+VV(\ell)+v_\ell(h_E)+\ell^{-2}.
+\]
+\emph{Hub data} $X$ for $D$ consist of representation families $r,\rho$, local lengths $\mathrm{len}_0(\iota,\pi,\lambda)$, error terms
+$\mathrm{err}(\iota,\pi)$, a predicate $\mathrm{band}(\iota,\lambda)$, a finite set $\mathrm{exc}$ of primes and further data. A prime
+$\ell$ is in the \emph{middle range} if $\ell\notin\mathrm{small}\cup\{3,q,d\}$ and not ($\ell>\ell^*$ and $\ell\notin\mathrm{exc}$). Put
+$\mathrm{mid}(\ell)=Cf\bigl(r(b/\ell+S_c+t+\eta_{\mathrm{sz}}+\Lambda)+mb\bigr)+C(frt)^C\Lambda$. The \emph{local bounds}
+$\mathcal T(L,P,X,C)$ are the following statements, where $\iota$ ranges over the local indices, $\ell=\ell_\iota$, and $\pi$ over
+$\linkNgood_\iota$:
+\begin{description}[style=nextline,leftmargin=1.2em,font=\normalfont\itshape]
+\item[positivity] $C\ge0$;
+\item[passage] if $\ell\notin\mathrm{gset}$: $\linkNloc(\iota)\le\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)
+\bigl(\linkNvcc(\iota,\pi)+v_\ell(\#G)\bigr)$;
+\item[multiplicity and rank] $\mathrm{MB}(L)$ and $\mathrm{RE}(L)$;
+\item[killing] the Selmer groups of the $\rho_{\iota,\pi}$ are finite, $\linkNs(\iota,\rho,\pi)\le\nu_L(\ell)+\ell^{-2}$, and
+$t\sum_{v\in Q_\iota}\lambda_\iota(\OO_\iota/(\zeta_v-1))\le\ell^{-2}$, where $\zeta_v=\chi_{\iota,1}(\gamma_{\iota,v})$;
+\item[numerical bounds] four explicit upper bounds for the lengths $\max_\pi\mathrm{len}_0(\iota,\pi,\lambda)$, at split primes
+$\ell\ge5$ and at inert primes in three ranges, and an approximation property of the band places;
+\item[middle range] if $\ell\notin\mathrm{gset}$ is in the middle range:
+$\linkNvcc\le\linkNs+\sum_{\lambda\mid\ell}\mathrm{len}_0(\iota,\pi,\lambda)+VV(\ell)+v_\ell(h_E)+\mathrm{err}(\iota,\pi)+\ell^{-2}$, and
+$\mathrm{err}(\iota,\pi)\le Cfnt^2n_V\Lambda^2$;
+\item[large primes] $\mathrm{Bd}(\rho,\iota,\pi,0)$ if $\ell>\ell^*$ and $\ell\notin\mathrm{gset}\cup\mathrm{exc}$;
+\item[exceptional primes] $\#\mathrm{exc}\le(\#TT+2)(S_c+3\eta_{\mathrm{sz}}+t+8b/\ell^*+9)$, and every element of $\mathrm{exc}$ is
+at most $3b$;
+\item[small primes] there is a table $\mathrm{tf}$ (\cref{pf:linkN:tab}) with
+$\sum_{\lambda\mid\ell}\mathrm{len}^{\mathrm{tf}}(\iota,\lambda)+BB^{\mathrm{tf}}(\iota)\le Cfmb\log x+Cx^C\Lambda^2$ and
+$\mathrm{Bd}\bigl(\rho,\iota,\pi,\sum_{\lambda\mid\ell}\mathrm{len}^{\mathrm{tf}}(\iota,\lambda)+BB^{\mathrm{tf}}(\iota)\bigr)$ for
+$\ell\in\mathrm{small}\cup\{3\}$;
+\item[ramified primes] $\mathrm{Bd}(\rho,\iota,\pi,\mathrm{mid}(\ell))$ for $\ell\in\{q,d\}$;
+\item[type primes] for $1\le j\le m$ and $\ell\in\mathrm{gset}$:
+$\eta_\ell(j)\le\log\ell\cdot\linkNdZ(j)\bigl(Cx^C\eta_{\mathrm{sz}}+VV(\ell)+v_\ell(h_E)+2\ell^{-2}\bigr)$;
+\item[parameters] $\mathrm{PB}(L,C)$;
+\item[sizes] $3,q,d\le\ell^*$, every small prime is $\le\ell^*$, $3$ is not inert in the imaginary quadratic field of the host,
+and $\mathrm{mid}(\ell)\le2Cfmb$ for $\ell\in\{q,d\}$.
+\end{description}
+A family $\mathcal F$ \emph{satisfies the local bounds with constant $C$} if there is $x_0$ such that for all $x\ge x_0$ with
+$x>x_1$ and all $i\in I_x$ with $\linkNfin(D_{x,i})$ there are hub data $X$ with $\mathcal T(L_{x,i},P_{x,i},X,C)$.
+\formallabel{GlobalTheory.NLink.Concl}
+\formallabel{GlobalTheory.NLink.ConclF}
+\end{definition}
+
+\begin{definition}[Tables and admitted statements]\label{pf:linkN:tab}
+A \emph{table} $\mathrm{tb}$ for $L$ consists of reals $s(\iota,\pi)$, $\mathrm{len}(\iota,\lambda)$, $BB(\iota)$,
+$\mathrm{gcost}(j,\ell)$, $\mathrm{gs}(j,\ell)$, a predicate $\mathrm{band}(\iota,\lambda)$ and a finite set $\mathrm{exc}$ of
+primes. The \emph{admitted statements} $\mathcal A(L,\mathrm{tb},C,P)$ are seventeen statements; with $\iota$, $\ell=\ell_\iota$ and
+$\pi\in\linkNgood_\iota$ as before, the ones used below are:
+\begin{enumerate}[label=(A\arabic*)]
+\item\label{pf:linkN:A1} the passage inequality of \cref{pf:linkN:Concl};
+\item\label{pf:linkN:A2} the inequality $\mathrm{MB}$ at twisted places $w$ with $\ell(w)\notin\mathrm{gset}$;
+\item\label{pf:linkN:A3} $\mathrm{RE}(L)$;
+\item\label{pf:linkN:A4} (\emph{signature matching}) for $\ell\notin\mathrm{gset}$:
+$\linkNvcc(\iota,\pi)\le s(\iota,\pi)+\sum_{\lambda\mid\ell}\mathrm{len}(\iota,\lambda)+VV(\ell)+v_\ell(h_E)+BB(\iota)+\ell^{-2}$;
+\item\label{pf:linkN:A5} $s(\iota,\pi)+\ell^{-2}\le\nu_L(\ell)+2\ell^{-2}$, and $\mathrm{gs}(j,\ell)+\ell^{-2}\le2\ell^{-2}$ for
+$\ell\in\mathrm{gset}$;
+\item\label{pf:linkN:A6} (\emph{type primes}) for $1\le j\le m$ and $\ell\in\mathrm{gset}$:
+$\eta_\ell(j)\le\log\ell\cdot\linkNdZ(j)\bigl(\mathrm{gcost}(j,\ell)+\mathrm{gs}(j,\ell)+VV(\ell)+v_\ell(h_E)+\ell^{-2}\bigr)$ and
+$\mathrm{gcost}(j,\ell)\le Cx^C\eta_{\mathrm{sz}}$;
+\item\label{pf:linkN:A7} $\mathrm{PB}(L,C)$;
+\end{enumerate}
+the others are: $BB(\iota)\le Cfnt^2n_V\Lambda^2$ for $\ell\notin\mathrm{small}\cup\{q,d\}\cup\mathrm{gset}$; the five numerical
+statements of \cref{pf:linkN:Concl} for the lengths $\mathrm{len}$; vanishing of $\mathrm{len}(\iota,\cdot)$ and $BB(\iota)$ for $\ell>\ell^*$,
+$\ell\notin\mathrm{gset}\cup\mathrm{exc}$, together with the bound for $\#\mathrm{exc}$; $\mathrm{exc}\subseteq[0,3b]$;
+$\sum_{\lambda\mid\ell}\mathrm{len}+BB\le Cfmb\log x+Cx^C\Lambda^2$ for $\ell\in\mathrm{small}\cup\{3\}$; and
+$\sum_{\lambda\mid\ell}\mathrm{len}+BB\le\mathrm{mid}(\ell)\le2Cfmb$ for $\ell\in\{q,d\}$.
+\formal{Formalism.MainNotions.TwistedPlaces.AdmT}
+\end{definition}
+
+\begin{lemma}[A table from the local bounds]\label{pf:linkN:admitted}
+If $\mathcal T(L,P,X,C)$ holds, then there is a table $\mathrm{tb}$ with $\mathcal A(L,\mathrm{tb},C,P)$.
+\formallabel{GlobalTheory.NLink.admittedStatements_of_localBoundsConclusion}
+\formallabel{GlobalTheory.T.admittedStatements_of_localBoundsConclusion_alt}
+\formallabel{GlobalTheory.NLink.admissible_table_of_conclusion}
+\end{lemma}
+
+\begin{proof}
+Let $\mathrm{tf}$ be the table of the small-prime clause, write $\mathrm{sup}_\iota(g)=\max_{\pi\in\linkNgood_\iota}g(\pi)$ ($0$ if
+$\linkNgood_\iota=\emptyset$), and define $\mathrm{tb}$ by $s(\iota,\pi)=\linkNs(\iota,\rho,\pi)$, $\mathrm{band}$ and $\mathrm{exc}$
+those of $X$, $\mathrm{gcost}(j,\ell)=Cx^C\eta_{\mathrm{sz}}$, $\mathrm{gs}(j,\ell)=\ell^{-2}$, and, by cases on $\ell=\ell_\iota$,
+\[
+\bigl(\mathrm{len}(\iota,\lambda),BB(\iota)\bigr)=\begin{cases}
+\bigl(0,\ \sum_{\lambda'\mid\ell}\mathrm{len}^{\mathrm{tf}}(\iota,\lambda')+BB^{\mathrm{tf}}(\iota)\bigr),&\ell\in\mathrm{small},\\
+\bigl((\sum_{\lambda'\mid3}\mathrm{len}^{\mathrm{tf}}(\iota,\lambda')+BB^{\mathrm{tf}}(\iota))/\#\{\lambda'\mid3\},\ 0\bigr),&\ell=3,\\
+\bigl(0,\ \mathrm{mid}(\ell)\bigr),&\ell\in\{q,d\},\\
+\bigl(\mathrm{sup}_\iota(\mathrm{len}_0(\iota,\cdot,\lambda)),\ \mathrm{sup}_\iota(\mathrm{err}(\iota,\cdot))\bigr),&\ell\text{ in the middle range},\\
+(0,0),&\text{otherwise}.
+\end{cases}
+\]
+(Here $q,d\ne3$ by the host axioms, and $q,d$ are not small.) The statements \ref{pf:linkN:A1}--\ref{pf:linkN:A3} and
+\ref{pf:linkN:A7} are clauses of $\mathcal T$. For \ref{pf:linkN:A4} let $\ell\notin\mathrm{gset}$ and $\pi\in\linkNgood_\iota$; in each
+case a local bound $\mathrm{Bd}(\rho,\iota,\pi,\beta)$ with $\beta\le\sum_{\lambda\mid\ell}\mathrm{len}(\iota,\lambda)+BB(\iota)$ is
+available, which is \ref{pf:linkN:A4} since $s(\iota,\pi)=\linkNs(\iota,\rho,\pi)$: for $\ell$ small or $\ell=3$ by the small-prime
+clause (for $\ell=3$ the sum over $\lambda\mid3$ of the constant length is the numerator); for $\ell\in\{q,d\}$ by the
+ramified-prime clause; in the middle range by the middle-range clause, as
+$\mathrm{len}_0(\iota,\pi,\lambda)\le\mathrm{sup}_\iota(\mathrm{len}_0(\iota,\cdot,\lambda))$ and $\mathrm{err}(\iota,\pi)\le\mathrm{sup}_\iota(\mathrm{err})$;
+otherwise $\ell>\ell^*$ and $\ell\notin\mathrm{exc}$, and the large-prime clause gives $\beta=0$. \ref{pf:linkN:A5} follows from
+the killing clause and the definition of $\mathrm{gs}$, and \ref{pf:linkN:A6} is the type-prime clause. Of the remaining
+statements, the bound for $BB$ follows from the middle-range clause; the numerical bounds hold in the middle range by the
+numerical clause (there $\mathrm{tb}$ agrees with the table of the hub data) and trivially elsewhere (there $\mathrm{len}=0$,
+since $3$ lies in none of the ranges concerned: the split range requires $\ell\ge5$, and $3$ is not inert by the size clause;
+and the right-hand sides are non-negative); the vanishing for
+$\ell>\ell^*$ outside $\mathrm{gset}\cup\mathrm{exc}$ holds by construction, since such $\ell$ is not small, not $3$, $q$ or
+$d$ (these are $\le\ell^*$) and not in the middle range; the statements on $\mathrm{exc}$ are the exceptional-prime clause;
+the bound at the small primes and $3$ is that of the small-prime clause; and at $q,d$ the first inequality holds by
+construction and the second is the size clause.
+\end{proof}
+
+\begin{lemma}[Bound at one prime]\label{pf:linkN:etaAt}
+Let $1\le j\le m$ and let $\ell$ be a prime.
+\begin{enumerate}[label=(\roman*)]
+\item If $\ell\notin\mathrm{gset}$, $U\ge0$, \ref{pf:linkN:A1}--\ref{pf:linkN:A3} hold, and
+$\linkNvcc(\iota,\pi)+v_\ell(\#G)\le U$ for all $\iota$ with $\ell_\iota=\ell$ and all $\pi\in\linkNgood_\iota$, then
+$\eta_\ell(j)\le\log\ell\cdot\linkNdZ(j)\,U$.
+\item If $\ell\in\mathrm{gset}$ and \ref{pf:linkN:A5}, \ref{pf:linkN:A6} hold, then
+$\eta_\ell(j)\le\log\ell\cdot\linkNdZ(j)\bigl(Cx^C\eta_{\mathrm{sz}}+2\ell^{-2}+VV(\ell)+v_\ell(h_E)\bigr)$.
+\end{enumerate}
+\formallabel{Formalism.MainNotions.TwistedPlaces.etaAt_le}
+\formallabel{Formalism.MainNotions.TwistedPlaces.etaAt_le_g}
+\end{lemma}
+
+\begin{proof}
+(i) Let $w\mid\ell$ be twisted. By \eqref{eq:pf:linkN:ties}, \ref{pf:linkN:A1}, \ref{pf:linkN:A2} and \ref{pf:linkN:A3},
+\[
+\eta_j(w)=\sum_{\iota\in\mathrm{Loc}(j,w)}\linkNloc(\iota)\le U\sum_{\iota\in\mathrm{Loc}(j,w)}\sum_{\pi\in\linkNgood_\iota}
+\linkNmult(\iota,\pi)\le U\dim Z_j(\mu^{\mathrm{tw}}_w)=\linkNdZ(j)\,U .
+\]
+Multiply by $\linkNlw(w)e(w)\ge0$, sum over $w$ and use \cref{pf:linkN:meanw}. (ii) is \ref{pf:linkN:A6} combined with
+\ref{pf:linkN:A5}.
+\end{proof}
+
+For a table $\mathrm{tb}$ define $\lambda_G(\ell)=Cx^C\eta_{\mathrm{sz}}$ if $\ell\in\mathrm{gset}$ and $\lambda_G(\ell)=\lambda_B(\ell)$
+otherwise, where
+\begin{equation}\label{eq:pf:linkN:lamB}
+\lambda_B(\ell)=\begin{cases}
+Cfmb\log x+Cx^C\Lambda^2,&\ell\in\mathrm{small}\cup\{3\},\\
+2Cfmb,&\ell\in\{q,d\},\\
+0,&\ell>\ell^*\text{ and }\ell\notin\mathrm{exc},\\
+Cfnt^2n_V\Lambda^2+\mathrm{len}_B(\ell),&\text{otherwise},
+\end{cases}
+\end{equation}
+with $\mathrm{len}_B(\ell)\ge0$ an explicit expression in $C$, the ranks and the size quantities of $L$, which distinguishes
+split primes and two classes of inert primes. Two estimates proved in the development are used. First, by
+\lref{Formalism.MainNotions.TwistedPlaces.loc_le_lamB}, \emph{if $C>0$ and the admitted statements about $BB$, the
+numerical bounds, large primes, small primes and $q,d$ hold, then
+$\sum_{\lambda\mid\ell}\mathrm{len}(\iota,\lambda)+BB(\iota)\le\lambda_B(\ell_\iota)$ for every $\iota$ with $\ell_\iota\notin\mathrm{gset}$}; in
+the last case of \eqref{eq:pf:linkN:lamB} this combines the bound for $BB$ with the numerical bounds and the identity
+$\sum_{\lambda\mid\ell}[E_\lambda:\Q_\ell]=2f$. Second, by \lref{UpperTheory.KStar.sum_nuL_le}, \emph{for every finite set
+$S$ of primes, $\sum_{\ell\in S}\nu_L(\ell)\log\ell\le\nu_{\mathrm{budget}}(D)$}; this follows from $\nu_L(\ell)\le v_\ell(Q_S)+v_\ell(tr)$
+for $\ell\ne q,d$ and $\nu_L(q)=\nu_L(d)=0$ (\lref{UpperTheory.Mu.nuLe} and \lref{UpperTheory.Mu.nuQD}).
+
+\begin{lemma}\label{pf:linkN:smallsums}
+For every finite set $S$ of integers $\ge2$, $\sum_{\ell\in S}\log\ell/\ell^2\le2$. For every finite set $S$ of primes and every
+integer $n\ge1$, $\sum_{\ell\in S}v_\ell(n)\log\ell\le\log n$.
+\formallabel{Formalism.MainNotions.TwistedPlaces.Sums.sum_log_div_sq_le}
+\formallabel{Formalism.MainNotions.TwistedPlaces.Sums.sum_padicVal_log_le}
+\end{lemma}
+
+\begin{proof}
+The first sum is at most $\sum_{n\ge2}\log n/n^2<1$. The second is at most $\sum_{\ell\mid n}v_\ell(n)\log\ell=\log n$.
+\end{proof}
+
+\begin{proposition}[Summation over primes]\label{pf:linkN:etaSumle}
+Assume $\mathcal A(L,\mathrm{tb},C,P)$ and that $\sum_\ell\mathrm{vv}(D,\ell)$ converges. Then for $1\le j\le m$
+\[
+\linkNeS(L,j)\le\linkNdZ(j)\Bigl(6+\nu_{\mathrm{budget}}(D)+\log h_E+\log\#G+\sum_{\ell\in S(L)}\log\ell\cdot\lambda_G(\ell)\Bigr)
++\linkNdZ(j)\sum_\ell\mathrm{vv}(D,\ell).
+\]
+\formallabel{Formalism.MainNotions.TwistedPlaces.etaSum_le}
+\end{proposition}
+
+\begin{proof}
+By \ref{pf:linkN:A7}, $C$ is at least a positive constant of $P$, so $C>0$. Put
+$U(\ell)=\nu_L(\ell)+2\ell^{-2}+\lambda_G(\ell)+VV(\ell)+v_\ell(h_E)+v_\ell(\#G)\ge0$. We claim that
+$\eta_\ell(j)\le\log\ell\cdot\linkNdZ(j)\,U(\ell)$ for $\ell\in S(L)$. If $\ell\in\mathrm{gset}$ this follows from
+\cref{pf:linkN:etaAt}(ii), since $\nu_L(\ell),v_\ell(\#G)\ge0$. If $\ell\notin\mathrm{gset}$, then for $\iota$ with $\ell_\iota=\ell$ and
+good $\pi$, \ref{pf:linkN:A4}, \ref{pf:linkN:A5} and the first estimate above give
+\[
+\linkNvcc(\iota,\pi)+v_\ell(\#G)\le\nu_L(\ell)+2\ell^{-2}+\lambda_B(\ell)+VV(\ell)+v_\ell(h_E)+v_\ell(\#G)=U(\ell),
+\]
+and \cref{pf:linkN:etaAt}(i) applies. Summing over $S(L)$: $\sum\log\ell\,(\nu_L(\ell)+2\ell^{-2})\le\nu_{\mathrm{budget}}(D)+4$ by the
+second estimate and \cref{pf:linkN:smallsums}; $\sum\log\ell\,VV(\ell)=\sum_{\ell\in S(L)}\mathrm{vv}(D,\ell)\le\sum_\ell\mathrm{vv}(D,\ell)$,
+the terms being non-negative and the series convergent; and $\sum\log\ell\,v_\ell(h_E)\le\log h_E$,
+$\sum\log\ell\,v_\ell(\#G)\le\log\#G$ by \cref{pf:linkN:smallsums}.
+\end{proof}
+
+\begin{definition}\label{pf:linkN:Large}
+$x$ is \emph{large for $(\eps,C)$}, written $\mathrm{Lg}(x,\eps,C)$, if $x\ge100$, $8x\le\exp(x^{\eps/3})$,
+$4\le\exp(x^\eps)$, $x^{C+2}\exp(x^{\eps/3})\le\exp(x^\eps)$, $48C\le x^{1/2}$, $(C+3)^2(1+\log x)^2\le x^\eps$,
+$x^{20C+40}\exp(20x^{\eps/4})\le\exp(x^{\eps/3})$ and $10^8(C+1)^3\le x$.
+\formallabel{Formalism.MainNotions.TwistedPlaces.Large}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN:largeev}
+For $\eps>0$ and $C\in\R$ there is $x_0$ with $\mathrm{Lg}(x,\eps,C)$ for all $x\ge x_0$.
+\formallabel{Formalism.MainNotions.TwistedPlaces.large_eventually}
+\end{lemma}
+
+\begin{proof}
+Each condition holds for large $x$ because $\log x=o(x^a)$ for every $a>0$. For instance,
+$x^{C+2}\exp(x^{\eps/3})\le\exp(x^\eps)$ follows from $(C+2)\log x\le x^{\eps/3}\le x^{\eps/3}(x^{2\eps/3}-1)$ once
+$x^{2\eps/3}\ge2$, and $x^{20C+40}\exp(20x^{\eps/4})\le\exp(x^{\eps/3})$ from $(20C+40)\log x\le x^{\eps/4}\le
+x^{\eps/4}(x^{\eps/12}-20)$ once $x^{\eps/12}\ge40$; the other conditions are similar or immediate.
+\end{proof}
+
+Put $U_b=x^{C+2}\exp(x^{\eps/4})$.
+
+\begin{proposition}[Point bound]\label{pf:linkN:pointbound}
+Assume $C>0$, $\mathrm{PB}(L,C)$, $\mathrm{Lg}(x,\eps,C)$ and $\mathcal A(L,\mathrm{tb},C,P)$, and let $S$ be a finite set of primes. Then
+\[
+6+\nu_{\mathrm{budget}}(D)+\log h_E+\log\#G+\sum_{\ell\in S}\log\ell\cdot\lambda_G(\ell)\le2000(C+1)^3\,fmb\Lambda^2.
+\]
+\formallabel{Formalism.MainNotions.TwistedPlaces.point_bound}
+\end{proposition}
+
+\begin{proof}
+Under these hypotheses the following estimates hold for every finite set $T$ of primes with the stated property:
+\begin{enumerate}[label=(\roman*)]
+\item if $T\subseteq\mathrm{gset}$: $\sum_{\ell\in T}\log\ell\cdot Cx^C\eta_{\mathrm{sz}}\le2(C+1)^2U_b^{18}$
+(\lref{Formalism.MainNotions.TwistedPlaces.sum_g});
+\item if $T\subseteq\mathrm{small}\cup\{3\}$: $\sum_{\ell\in T}\log\ell\,(Cfmb\log x+Cx^C\Lambda^2)\le8Cfmb\Lambda^2$
+(\lref{Formalism.MainNotions.TwistedPlaces.sum_23});
+\item if $T\subseteq\{q,d\}$: $\sum_{\ell\in T}\log\ell\cdot2Cfmb\le4Cfmb\Lambda^2$
+(\lref{Formalism.MainNotions.TwistedPlaces.sum_qd});
+\item if $T$ consists of primes $\ell\ne2,3$ with $\ell\le\ell^*$:
+$\sum_{\ell\in T}\log\ell\,(Cfnt^2n_V\Lambda^2+\mathrm{len}_B(\ell))\le1000(C+1)^3fmb\Lambda^2$
+(\lref{Formalism.MainNotions.TwistedPlaces.sum_small});
+\item if $T\subseteq\mathrm{exc}\cap(\ell^*,\infty)$, using the admitted statements on large primes and on $\mathrm{exc}$:
+$\sum_{\ell\in T}\log\ell\,(Cfnt^2n_V\Lambda^2+\mathrm{len}_B(\ell))\le1164000(C+1)^2U_b^{18}$
+(\lref{Formalism.MainNotions.TwistedPlaces.sum_exc});
+\item $6+\nu_{\mathrm{budget}}(D)+\log h_E+\log\#G\le20(C+1)^2U_b^{18}$ (\lref{Formalism.MainNotions.TwistedPlaces.glob_le});
+\item $4\cdot10^6(C+1)^2U_b^{18}\le b$ (\lref{Formalism.MainNotions.TwistedPlaces.big_le_b}).
+\end{enumerate}
+By \eqref{eq:pf:linkN:lamB}, for every prime $\ell$ the number $\log\ell\cdot\lambda_G(\ell)$ is at most the sum of the following
+non-negative terms: $\log\ell\cdot Cx^C\eta_{\mathrm{sz}}$ if $\ell\in\mathrm{gset}$; $\log\ell\,(Cfmb\log x+Cx^C\Lambda^2)$ if
+$\ell\in\mathrm{small}\cup\{3\}$; $\log\ell\cdot2Cfmb$ if $\ell\in\{q,d\}$; and $\log\ell\,(Cfnt^2n_V\Lambda^2+\mathrm{len}_B(\ell))$ if
+$\ell\ne2,3$ and $\ell\le\ell^*$, or if $\ell\in\mathrm{exc}$ and $\ell>\ell^*$. Indeed, if none of the first three cases applies
+($2$ is small), then either $\ell>\ell^*$ and $\ell\notin\mathrm{exc}$, where $\lambda_G(\ell)=0$, or one of the last two cases
+applies. Summing over $S$ and applying (i)--(vi) to the five corresponding subsets of $S$, the left-hand side is at most
+\[
+(20+2+1164000)(C+1)^2U_b^{18}+8CX+4CX+1000(C+1)^3X,\qquad X=fmb\Lambda^2 .
+\]
+Since $1\le m\le f$ and $\Lambda\ge1$, $b\le X$, so by (vii) the first term is at most $X$; and $1+12C+1000(C+1)^3\le2000(C+1)^3$
+for $C\ge0$.
+\end{proof}
+
+\begin{proposition}[Export bound]\label{pf:linkN:export}
+Assume $\mathrm{Lg}(x,\eps,C)$ and that $\linkNfin(D)$ implies the existence of a table $\mathrm{tb}$ with
+$\mathcal A(L,\mathrm{tb},C,P)$. If $\linkNfin(D)$ holds, then $\mathrm{LN}(L,j,2000(|C|+1)^3)$ holds for $1\le j\le m$.
+\formallabel{Formalism.MainNotions.TwistedPlaces.export_bound_of_admissible}
+\end{proposition}
+
+\begin{proof}
+Let $\mathrm{tb}$ be the table. By \ref{pf:linkN:A7}, $C>0$, so $|C|=C$. Combine \cref{pf:linkN:etaSumle} with
+\cref{pf:linkN:pointbound} for $S=S(L)$, and use $\linkNdZ(j)\ge0$ and $(\log x)^2N_c\ge0$.
+\end{proof}
+
+\begin{theorem}[Summation]\label{pf:linkN:sumthm}
+Let $\mathcal F\in\sfname{FamP}(\eps)$ satisfy the local bounds with constant $C$. Then $\mathcal F$ satisfies $\sfname{LinkN}$ with
+constant $2000(|C|+1)^3$.
+\formallabel{GlobalTheory.T.linkN_along_family_of_localBounds}
+\formallabel{GlobalTheory.LinkFam.main}
+\formallabel{Formalism.MainNotions.TwistedPlaces.stmtU_holds}
+\formallabel{Formalism.MainNotions.TwistedPlaces.stmtF_holds}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:linkN:admitted}, for $x\ge x_0$ with $x>x_1$ and every $i\in I_x$, $\linkNfin(D_{x,i})$ implies the existence of a
+table with $\mathcal A(L_{x,i},\cdot,C,P_{x,i})$. Since the scales of the members have exponent $\eps>0$,
+\cref{pf:linkN:largeev} gives $x_L$ with $\mathrm{Lg}(x,\eps,C)$ for $x\ge x_L$. For $x\ge\max(x_0,x_1+1,x_L)$ the size data
+$L_{x,i}$ have scale $(x,\eps)$, and \cref{pf:linkN:export} gives $\mathrm{LN}(L_{x,i},j,2000(|C|+1)^3)$ whenever
+$\linkNfin(D_{x,i})$, for $1\le j\le m$. This is $\sfname{LinkN}$ with threshold $\max(x_0,x_1+1,x_L)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Uniform constants: the commuting endomorphism and paired character conditions}\label{sec:pf:linkN:extra}
+
+\begin{lemma}[Integrality of central idempotents]\label{pf:linkN:cenidem}
+Let $\Gamma$ be a finite group of order $n$ and $\zeta\in\C$ a primitive $n$-th root of unity. If an endomorphism $\phi$ of a
+finite-dimensional complex vector space satisfies $\phi^{n+1}=\phi$, then $\tr\phi\in\Z[\zeta]$. If $e\in\C[\Gamma]$ is a central
+idempotent, then $n\cdot e(h)\in\Z[\zeta]$ for every $h\in\Gamma$, where $e(h)$ is the coefficient of $h$.
+\formallabel{GlobalTheory.CentralIdem.trace_mem_adjoin}
+\formallabel{GlobalTheory.CentralIdem.centralIdemCoeff}
+\end{lemma}
+
+\begin{proof}
+Every eigenvalue $\mu$ of $\phi$ satisfies $\mu^{n+1}=\mu$, so $\mu=0$ or $\mu$ is an $n$-th root of unity, a power of $\zeta$; the
+trace is the sum of the eigenvalues with multiplicity. For the second statement let $y=h^{-1}e$. Since $e$ is central and
+idempotent and $h^{-n}=1$, $y^{n+1}=h^{-(n+1)}e=y$, so the trace of left multiplication by $y$ on $\C[\Gamma]$ lies in $\Z[\zeta]$. In
+the basis $\Gamma$ all diagonal entries of this operator equal the coefficient $y(1)=e(h)$, so the trace is $n\,e(h)$.
+\end{proof}
+
+\begin{lemma}[Central lifts]\label{pf:linkN:centralelt}
+Let $D$ be a datum with a pending datum $Q$, $\iota$ a local index, and $s=(s(k,v))$ a family of labels. There is a central element
+$z$ of $\OO_\iota[G]$ with $\iota_\OO(z)=\#G\cdot\prod_{(k,v)}e_{\mathrm{Ser}}(k,v,s(k,v))$. More generally, if $y\in\C[G]$ is
+central and all its coefficients lie in $\iota_\OO(\OO_\iota)$, then $y=\iota_\OO(z)$ for a central $z\in\OO_\iota[G]$.
+\formallabel{GlobalTheory.Pass.CentralStep.main}
+\formallabel{GlobalTheory.CentralIdem.card_mul_idem_from_center}
+\formallabel{GlobalTheory.CentralIdem.exists_central_lift}
+\end{lemma}
+
+\begin{proof}
+For the second statement let $z$ be the coefficientwise preimage of $y$, which exists and is unique since $\iota_\OO$ is injective.
+The coefficientwise map $\OO_\iota[G]\to\C[G]$ is an injective ring homomorphism, and $\iota_\OO(zb)=y\,\iota_\OO(b)=\iota_\OO(b)\,y=\iota_\OO(bz)$
+for $b\in\OO_\iota[G]$, so $z$ is central. For the first statement, the factors $e_{\mathrm{Ser}}(k,v,s(k,v))$ are central
+idempotents of $\C[G]$ lying in different factors, so their product $e$ is a central idempotent. By \eqref{eq:pf:linkN:G}, $\#G$ is
+the order of $G$, and $\iota_\OO(\zeta_\iota)$ is a primitive $\#G$-th root of unity. By \cref{pf:linkN:cenidem} the coefficients of
+$\#G\cdot e$ lie in $\Z[\iota_\OO(\zeta_\iota)]\subseteq\iota_\OO(\OO_\iota)$, and the second statement applies to $y=\#G\cdot e$.
+\end{proof}
+
+\begin{corollary}\label{pf:linkN:goodelt}
+In the situation of \cref{pf:linkN:centralelt} there is a central element $z$ of $\OO_\iota[G]$ with $\iota_\OO(z)=\#G\cdot e_0$.
+\formallabel{UpperTheory.GalC.exists_unit_one_add_generator}
+\end{corollary}
+
+\begin{proof}
+Take the sum of the elements of \cref{pf:linkN:centralelt} over the good families $s$.
+\end{proof}
+
+The following lemma is proved in \lref{GlobalTheory.PassOp.onMt_e0_eq_self_of_mem_zgood_and_eq_zero_of_notMem}.
+
+\begin{lemma}[Type vectors]\label{pf:linkN:typevec}
+Assume (Ser), (Adm) and (Perm), and let $Q$ be a pending datum. Let $x\in Z_\iota$, let $P$ be an automorphic point with
+eigensystem $x$ and $F\in\mathrm{Typ}(P)$. Then $e_0\cdot F=F$ if $x\in\linkNgood_\iota$, and $e_0\cdot F=0$ if $x\notin\linkNgood_\iota$.
+\end{lemma}
+
+The mechanism is as follows: each type vector of $P$ lies in a subspace $M^t_\iota(\sigma')$ for a parameter $\sigma'$ matching
+the local parameters of $x$; by (Ser) the factors of $e_0$ act on $M^t_\iota(\sigma')$ through the labels of $\sigma'$, so that $e_0$
+acts as the identity if $\sigma'$ is good and as $0$ otherwise; and by the definition of the data, $x\in\linkNgood_\iota$ if and
+only if $x\in Z_\iota$ has a good parameter, which by (Perm) does not depend on the automorphic point over $x$.
+
+\begin{proposition}[The operator]\label{pf:linkN:operator}
+Assume the hypotheses of \cref{pf:linkN:typevec} and (Eig) for $Q$. For every local index $\iota$ there is
+$\alpha\in\End_{\OO_\iota}(M_\iota)$ commuting with $T_\iota$ such that $\alpha_K$ is multiplication by $\#G$ on $M_K[x]$ for
+$x\in\linkNgood_\iota$, and $\alpha_K=0$ on $M_K[x]$ for every $x$ such that $e_0$ kills all type vectors of all automorphic points
+with eigensystem $x$; in particular $\alpha_K=0$ on $M_K[x]$ for $x\in Z_\iota\smallsetminus\linkNgood_\iota$. Consequently $D$ satisfies
+the \emph{commuting endomorphism condition} $\mathrm{CE}(D)$: at every local index $\iota$ with $\ell_\iota\notin\mathrm{gset}$
+there is an endomorphism of $M_\iota$ commuting with $T_\iota$ which acts by $\#G$ on the eigenspaces of $\linkNgood_\iota$ and by
+$0$ on those of $Z_\iota\smallsetminus\linkNgood_\iota$.
+\formallabel{GlobalTheory.PassOp.main_alt_alt}
+\formallabel{GlobalTheory.T.commutingEndomorphismCondition_of_serLoc}
+\formallabel{Formalism.MainNotions.N.KillingConditions.CommutingEndomorphismCondition}
+\end{proposition}
+
+\begin{proof}
+Let $z$ be as in \cref{pf:linkN:goodelt} and $\alpha=z_Q$, which commutes with $T_\iota$. Since $e_0$ is central,
+$\iota_\OO(z)\cdot F=\#G\,(e_0\cdot F)$ for every $F$. If $x\in\linkNgood_\iota\subseteq Z_\iota$, then by \cref{pf:linkN:typevec}
+$\iota_\OO(z)\cdot F=\iota_\OO(\#G)F$ for all type vectors over $x$, and (Eig) with $c=\#G$ gives $\alpha_K=\#G$ on $M_K[x]$. If $e_0$
+kills all type vectors over $x$, then $\iota_\OO(z)\cdot F=0$, and (Eig) with $c=0$ gives $\alpha_K=0$ on $M_K[x]$; by
+\cref{pf:linkN:typevec} this applies to $x\in Z_\iota\smallsetminus\linkNgood_\iota$.
+\end{proof}
+
+\paragraph{The paired character condition.}
+At the type primes the bound for $\linkNloc$ is not obtained from congruence modules but from the following condition.
+
+\begin{definition}[Paired character condition]\label{pf:linkN:PCC}
+For $C\in\R$ and $C_T\in\N$, the \emph{paired character condition} $\mathrm{PC}(D,C,C_T)$ is the statement: for every local index
+$\iota$ with $\ell_\iota=g_k$ ($k\in\{0,1\}$, and $k'$ the other index), all families $r_\pi:G_E\to\GL_{n_V}(\OO_\iota)$ and
+$\rho_\pi:G_E\to\GL_r(\OO_\iota)$ ($\pi\in X_\iota$) such that $r$ is good and $r_\pi$ has a semisimple decomposition in terms of $\rho_\pi$
+for $\pi\in Z_\iota$, and all integers $\eta,s,S\ge0$, signs $\mathrm{sg}$ and finite sets $U_v$ of integers indexed by the places of
+$E$ satisfying
+\[
+\eta+t+1<s,\qquad\log g_{k'}\le2\log g_k,\qquad C_T\bigl((s+S)(n_V+1)^2+(n_V+1)^3\bigr)<g_k,
+\]
+a sign condition and a host condition on $(r,\eta,s,S,\mathrm{sg},U)$: if the Selmer groups of the $\rho_\pi$, $\pi\in\linkNgood_\iota$, are
+finite and $\Sha^1(G_{E,S_{g_k}},\Q_{g_k}/\Z_{g_k}(-e))$ is finite for $0<e<t$, then
+\[
+\begin{aligned}
+\linkNloc(\iota)\le\sum_{\pi\in\linkNgood_\iota}\linkNmult(\iota,\pi)\Bigl(&4fn_V\,Cn_V^2(n_V+\eta+t)+2fr^2+\linkNs(\iota,\rho,\pi)+VV(g_k)\\
+&+v_{g_k}(h_E)+4n_Vv_\delta(\iota)+t\sum_{v\in Q_\iota}\lambda_\iota\bigl(\OO_\iota/(\zeta_v-1)\bigr)\Bigr),
+\end{aligned}
+\]
+where $v_\delta(\iota)=\sum_{0<e<t}(s_0(\iota)+v_{g_k}(e))$ with the local level exponent $s_0(\iota)$, and $\zeta_v=\chi_{\iota,1}(\gamma_{\iota,v})$.
+\formallabel{Formalism.MainNotions.PairedCharacterCondition.PairedCharacterConditionAlt}
+\end{definition}
+
+\begin{definition}\label{pf:linkN:extraDef}
+For $C\in\R$ and $C_T\in\N$ let $\mathrm{E}(D,C,C_T)$ be the conjunction of $\mathrm{CE}(D)$ and $\mathrm{PC}(D,C,C_T)$. A family
+$\mathcal F$ \emph{has the facts with constants $(C,C_T)$} if every member with $x>x_1$ satisfies $\mathrm{NF}(D_{x,i},\mathrm{nch}_{x,i})$
+and $\mathrm{E}(D_{x,i},C,C_T)$.
+\formallabel{GlobalTheory.NLink.ExtraAlt}
+\formallabel{GlobalTheory.NLink.FactsFAlt}
+\end{definition}
+
+\begin{proposition}[Paired character condition from local inputs]\label{pf:linkN:closinglocal}
+Assume global Artin reciprocity, the Bhatt--Scholze comparison, Fontaine's $B_{\mathrm{cris}}$, the local Bloch--Kato theory,
+local Tate duality and the local Euler characteristic formula (all part of \cref{pf:linkN:H2}). Let $D$ be a datum with local
+Hodge--Witt, Fontaine and comparison data, let $C_T\ge40$ and $C\ge8C_T$, and assume that $D$ has a pending datum $Q$ with (TA)
+and (Eig), and satisfies (Adm), (Perm), (AP), (EV), irreducibility of the residual representations of rank $r$, (Ser), the type-prime
+wild idempotent choice, (Ine) and (Chi). Then $\mathrm{PC}(D,C,C_T)$ holds.
+\formallabel{GlobalTheory.ClosingLocalInputs.main_alt_alt}
+\formallabel{GlobalTheory.T.conclusion41_of_pAdicHodge_alt}
+\end{proposition}
+
+\begin{proof}
+The following statements about $D$ are established first:
+\begin{enumerate}[label=(\roman*)]
+\item by \cref{pf:linkN:thmT}, the local theory of $D$ satisfies the crystalline period bound $\mathcal T(K',L,C_T)$ at every
+prime (the development calls it Theorem~T), as $C_T\ge40$;
+\item by \lref{GlobalTheory.T.local_absorption_length_bound_of_blochKato}, a local pushout proposition (two length bounds of
+Bloch--Kato duality type) holds, by the local Bloch--Kato theory, local duality and the Euler characteristic formula;
+\item by \lref{GlobalTheory.Pass.residualRep_spans_matrixAlgebra_of_goodPoint}, the residual representations at good points
+are absolutely irreducible (their images span the matrix algebra), by residual irreducibility;
+\item by \lref{GlobalTheory.typePrimeCongruences_forall}, the congruence lemmas at the type primes (for good families: a
+characteristic-polynomial lemma, a wild idempotent choice, a vanishing lemma, a non-vanishing bound for quotient homomorphisms,
+and a coboundary lemma) hold, by (Adm), (Perm), residual irreducibility and the wild idempotent choice;
+\item by \lref{GlobalTheory.T.theorem_tb_of_local_blochKato_duality_euler} and
+\lref{GlobalTheory.T.blochKatoLocal_all_of_tateDuality_eulerChar}, two further local statements about the local theory of $D$
+and its Fontaine data hold, by the local Bloch--Kato theory, local duality and the Euler characteristic formula;
+\item the Galois family conditions, which are part of (Perm).
+\end{enumerate}
+The conclusion is then \lref{GlobalTheory.T.admT_of_artin_reciprocity_and_local_conditions}: from global Artin reciprocity
+one obtains a sixteen-step statement (\lref{GlobalTheory.T.no_cut_passes_of_artin_reciprocity}), which comprises the two
+statements of \cref{pf:linkN:cenidem,pf:linkN:centralelt}, local counts of direct and dual liftings, potentially crystalline type
+families with a common tame extension, a lifting step, residues and a global statement; together with $C\ge8C_T$, (i)--(vi) and the
+hypotheses, it yields a congruence statement at the type primes, an $\eta$-bound for the cut at the type locus, and finally the
+inequality of \cref{pf:linkN:PCC}.
+\end{proof}
+
+\begin{lemma}[Comparison data]\label{pf:linkN:wach}
+Assume the integral comparison theorem of Bhatt--Scholze type for $\Zl$-lattices in crystalline representations contained in
+$\sfname{Hypotheses}_2$. Then every datum admits local Hodge--Witt data, Fontaine data and comparison data for its local theory.
+\formallabel{GlobalTheory.T.exists_wachFunctor_comparison_of_bhattScholze}
+\formallabel{GlobalTheory.HWL.exists_hw_fon_cmp_of_integral}
+\end{lemma}
+
+\begin{proof}
+By \lref{GlobalTheory.T.bhattScholze_coefficients_of_padicInt_lattices}, the comparison statement for $\Zl$-lattices implies the
+corresponding statement for lattices over the rings of integers of finite extensions of $\Ql$. By
+\lref{GlobalTheory.HWL.exists_hw_fon_cmp_ties}, the latter provides, for every local theory with $A_{\inf}$-data satisfying the tie
+conditions, local Hodge--Witt data, Fontaine data and comparison data (together with further compatibilities, which are not used here). The
+local theory of a datum, with its $A_{\inf}$-data and its ties, is such a local theory.
+\end{proof}
+
+\begin{theorem}[Uniform constants]\label{pf:linkN:extra}
+Assume $\sfname{Hypotheses}_2$. Put $C_T=40$ and $C=8C_T=320$. Every datum $D$ which satisfies $\mathrm{NF}(D,\mathrm{nch})$ for some
+norm choice and $\sfname{Tie4}(D)$ satisfies $\mathrm{E}(D,C,C_T)$.
+\formallabel{GlobalTheory.ExtraFromFacts.main_alt_alt}
+\formallabel{GlobalTheory.T.exists_const_tieChi_bound_of_facts}
+\formallabel{GlobalTheory.T.exists_bound_tieChi_of_prints}
+\formallabel{GlobalTheory.NormFromFacts.main_alt_alt}
+\end{theorem}
+
+\begin{proof}
+$\sfname{Tie4}(D)$ provides (Chi), a pending datum $Q$ with (TA) and (Eig), (Ine) and (Ser). The norm-choice facts contain (Adm),
+(Perm), (AP), (EV), residual irreducibility and the duties, which contain the type-prime wild idempotent choice.
+
+\emph{Paired character condition.} By \cref{pf:linkN:wach}, the
+Bhatt--Scholze comparison provides every datum with local Hodge--Witt, Fontaine and comparison data. \Cref{pf:linkN:closinglocal}
+with $C_T=40$ and $C=320$ gives $\mathrm{PC}(D,320,40)$.
+
+\emph{Commuting endomorphism condition.} \Cref{pf:linkN:operator} applies with the pending datum $Q$, since (Ser), (Adm), (Perm) and
+(Eig) are available. (In the formal proof the central elements of \cref{pf:linkN:centralelt} are taken from the first two
+components of the sixteen-step statement.)
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The crystalline period bound}\label{sec:pf:linkN:thmT}
+
+This subsection gives the top level of the proof of the crystalline period bound used in \cref{pf:linkN:closinglocal}(i) (the
+development calls it Theorem~T). Its main ingredient, a lifting theorem for crystalline lattices of tame type proved with
+Breuil--Kisin modules, and three further steps are cited.
+
+\begin{definition}[Setting]\label{pf:linkN:Tsetting}
+Fix a prime $\ell$ and let $G_\ell=\Gal(\Qlbar/\Ql)$. The local theory of a datum provides period data at $\ell$ (Fontaine's rings
+$B_{\mathrm{cris}}\subseteq B_{\mathrm{dR}}$ with their actions of $G_\ell$, Frobenius and filtration); relative to them a continuous
+representation $V$ of $G_\ell$ over a finite extension $L$ of $\Ql$ is \emph{crystalline}, its \emph{Hodge--Tate jumps} at an embedding $\tau$ are
+defined, and so are the \emph{finite} (Bloch--Kato) cocycles $G_\ell\to V$. Let $K'/\Ql$ be a finite Galois extension whose maximal unramified
+subextension has $G_\ell$-stable image in $B_{\mathrm{cris}}$, $G_{K'}=\Gal(\Qlbar/K')$, and $I\subseteq G_\ell$ the inertia group. $V$ is
+\emph{potentially crystalline} if $V|_{G_{K'}}$ is crystalline; then $I$ acts on $D_{\mathrm{pcris}}(V)$. For a finite set $\Sigma$ of characters
+$I\to L^\times$, \emph{inertia acts through $\Sigma$} on $V$ if every $\chi\in\Sigma$ is trivial on $I\cap G_{K'}$ and of order prime to $\ell$, and
+$D_{\mathrm{pcris}}(V)$ is the sum of the $\chi$-eigenspaces of $I$, $\chi\in\Sigma$. For a Frobenius element $\mathrm{Fr}\in G_\ell$ and a character
+$\chi$ of $I$, $\mathrm{orb}(\chi)$ is the least $k\ge1$ with $\chi(\mathrm{Fr}^{-k}g\,\mathrm{Fr}^k)=\chi(g)$ for all $g\in I$, and
+$r'(\Sigma)=\max_{\chi,\psi\in\Sigma}\mathrm{orb}(\chi\psi^{-1})$.
+
+For $G_\ell$-stable $\OO_L$-lattices $T_i\subseteq V_i$, the \emph{lattice finite cocycles} of $T_i$ are the finite cocycles $G_\ell\to V_i$ with
+values in $T_i$. For a surjective homomorphism of lattices $F:T_1\to T_2$ and $e\in\N$, $\mathrm{Lift}_F(e)$ is the statement: for every lattice
+finite cocycle $c$ of $T_2$, $\ell^ec$ is the sum of the image under $F$ of a lattice finite cocycle of $T_1$ and a coboundary with values in
+$T_2$.
+\formal{Formalism.WeaklyAdmissibleFiltrations.PotCrysData}
+\formal{Formalism.WeaklyAdmissibleFiltrations.LatHom.LiftF}
+\formal{Formalism.MainNotions.ElementDenominator.rPrime}
+\end{definition}
+
+\begin{definition}\label{pf:linkN:Tstmt}
+For $K'$ as above, a finite extension $L$ of $\Ql$ and $C\in\N$, $\mathcal T(K',L,C)$ is the statement: let $T_1,T_2$ be lattices in
+potentially crystalline $L$-representations, $F:T_1\to T_2$ a surjective homomorphism of lattices, $N,\eta,H\in\N$, $U\subseteq\Z$ finite,
+$\Sigma$ a finite set of characters of $I$ and $\mathrm{Fr}$ a Frobenius element; if $\Sigma$ is stable under conjugation by $\mathrm{Fr}$,
+$1\in\Sigma$, $\#\Sigma\le N$, $N\ge2$, inertia acts through $\Sigma$ on $V_1$ and $V_2$, $U\subseteq[-\eta,H]$, $0\in U$, $\#U\le N+1$,
+$1\le\eta<H$, the Hodge--Tate jumps of $V_1$ and $V_2$ at every embedding lie in $U$, and $C(HN^2+N^3)<\ell$, then
+\[
+4r'(\Sigma)\le N^2\quad\text{and}\quad\mathrm{Lift}_F\bigl(C\,(N\,r'(\Sigma)+\eta\,(N+r'(\Sigma)))\bigr).
+\]
+\formal{Formalism.MainNotions.ElementDenominator.thmT}
+\formal{Formalism.MainNotions.ElementDenominator.CorollaryALocal}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN:liftmono}
+If $\mathrm{Lift}_F(e)$ holds and $e\le e'$, then $\mathrm{Lift}_F(e')$ holds.
+\formallabel{GlobalTheory.TheoremTClosing.liftF_of_le}
+\end{lemma}
+
+\begin{proof}
+$\ell^{e'}c=\ell^{e'-e}(\ell^ec)$, and the set of sums in the definition is an $\OO_L$-module.
+\end{proof}
+
+\begin{lemma}[Orbit lengths]\label{pf:linkN:orbits}
+Let $a\ge1$ and $e=\ell^a-1$, and for $c\in\Z/e$ let $\mathrm{per}(c)$ be the least period of $c$ under $x\mapsto\ell x$. Let $\Sigma'\subseteq\Z/e$
+be stable under multiplication by $\ell$, with $0\in\Sigma'$, $\#\Sigma'\le N$ and $N\ge2$, and let $m=\max_{c,c'\in\Sigma'}\mathrm{per}(c-c')$.
+Then $1\le m$, $4m\le N^2$, and $\mathrm{per}(c)\le m$ for $c\in\Sigma'$.
+\formallabel{GlobalTheory.T.maxFrobeniusOrbitLengthDiff_bounds_zmod}
+\formallabel{GlobalTheory.BK.maxPeriod_bounds}
+\end{lemma}
+
+\begin{proof}
+As $\ell^a=1$ in $\Z/e$, multiplication by $\ell$ is a permutation of $\Z/e$ and every $c$ is periodic, with $\mathrm{per}(c)\ge1$ equal to the
+length of its orbit; this gives $1\le\mathrm{per}(0)\le m$, and $\mathrm{per}(c)=\mathrm{per}(c-0)\le m$ for $c\in\Sigma'$. Let $c,c'\in\Sigma'$, with
+periods $p,q$. Since multiplication by $\ell$ is additive, $\ell^{\mathrm{lcm}(p,q)}(c-c')=c-c'$, so $\mathrm{per}(c-c')\le\mathrm{lcm}(p,q)$. The orbits
+of $c$ and $c'$ lie in $\Sigma'$, and the orbit of $0$ is $\{0\}$. If $c=0$ or $c'=0$, or if $c$ and $c'$ have the same orbit, then
+$\mathrm{per}(c-c')\le\max(p,q)\le\max(1,N-1)$; otherwise the two orbits are disjoint subsets of $\Sigma'\smallsetminus\{0\}$, so $p+q\le N-1$ and
+$\mathrm{lcm}(p,q)\le pq\le(N-1)^2/4$. In all cases $4\,\mathrm{per}(c-c')\le N^2$, since $4(N-1)\le N^2$.
+\end{proof}
+
+\begin{lemma}[Coefficients]\label{pf:linkN:tamecoeff}
+Let $a\ge1$ with $\ell\nmid a$, put $e=\ell^a-1$, and let $L$ be a finite extension of $\Ql$.
+\begin{enumerate}[label=(\roman*)]
+\item The compositum $L'$ of $L$ with the unramified extension of $\Ql$ of degree $a$ is a finite extension of $\Ql$ containing both.
+\item If $L$ contains the unramified extension of degree $a$, then $L$ contains a primitive $e$-th root of unity, so that $L$ carries
+\emph{tame descent data} of exponent $(e,a)$ (namely $e+1=\ell^a$, $\ell\nmid a$ and such a root of unity).
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_coeffField_containsUnramifiedWitt_tameDescent}
+\formallabel{GlobalTheory.TameCoeff.main}
+\end{lemma}
+
+\begin{proof}
+(i) is clear. (ii) The unramified extension of degree $a$ is generated by a primitive $(\ell^a-1)$-th root of unity
+\cite[Ch.~II, \S7]{Neukirch1999}.
+\end{proof}
+
+\begin{proposition}[Lifting step]\label{pf:linkN:liftstep}
+Assume the properties of $B_{\mathrm{cris}}$ and the comparison theorem of Bhatt--Scholze type for lattices over the rings of integers of finite
+extensions of $\Ql$. Let $D$ be a datum with local Hodge--Witt data and Fontaine data, and $C\ge40$ an integer. If the admitted local statements
+of $D$ hold (see the proof of \cref{pf:linkN:thmT}), then $\mathcal T(K',L,C)$ holds for the period data of $D$ at every prime $\ell$, for every
+$K'$ as above and every finite extension $L$ of $\Ql$.
+\formallabel{GlobalTheory.T.liftingStep_theoremT_of_bhattScholze_fontaine}
+\formallabel{GlobalTheory.TheoremTClosing.main}
+\end{proposition}
+
+\begin{proof}
+Fix $\ell$, $K'$ and $L$; put $a=(\ell-1)!$ and $e=\ell^a-1$, so $\ell\nmid a$.
+
+\emph{Coefficients.} Let $L'$ be the compositum of $L$ with the unramified extension of $\Ql$ of degree $a$; by \cref{pf:linkN:tamecoeff}, $L'$
+carries tame descent data of exponent $(e,a)$. By \lref{GlobalTheory.T.theoremT_descend_smaller_coefficients}, $\mathcal T(K',L',C)$ implies
+$\mathcal T(K',L,C)$ for $L\subseteq L'$; so we may replace $L$ by $L'$. Fix a compatible system $\varpi=(\varpi_n)$ in $\Qlbar$ with $\varpi_0^e=-\ell$ and
+$\varpi_{n+1}^\ell=\varpi_n$, and let $K_\varpi$ be the field generated by $\varpi_0$ over the unramified extension of degree $a$.
+
+\emph{Data.} Let $T_1,T_2,F,N,\eta,H,U,\Sigma,\mathrm{Fr}$ satisfy the hypotheses of $\mathcal T(K',L',C)$. Since $C\ge40$,
+$40(HN^2+N^3)<\ell$; in particular $N<\ell$. The characters of $\Sigma$ have order prime to $\ell$ and are trivial on $I\cap G_{K'}$.
+
+\emph{Tame field.} By \lref{GlobalTheory.T.exists_tameField_goodLattice_potentiallyCrystalline} (which uses the properties of
+$B_{\mathrm{cris}}$), there is $\Sigma'\subseteq\Z/e$, stable under multiplication by $\ell$, with $0\in\Sigma'$, $\#\Sigma'\le N$ and
+$\max_{c,c'\in\Sigma'}\mathrm{per}(c-c')=r'(\Sigma)$, such that every lattice $T$ in a potentially crystalline representation on which inertia acts
+through $\Sigma$ becomes crystalline over $K_\varpi$ and is \emph{of tame type $\Sigma'$}: for $g\in I$ and $w\in L'$ with $g(\varpi_0)=w\varpi_0$,
+$\prod_{c\in\Sigma'}(g-w^c)$ kills $D_{\mathrm{cris}}(V|_{\Gal(\Qlbar/K_\varpi)})$.
+
+\emph{Lifting.} The numerical conditions ($\Sigma'$ as above, $N\ge2$, $U\subseteq[-\eta,H]$, $0\in U$, $\#U\le N+1$, $1\le\eta<H$ and
+$40(HN^2+N^3)<\ell$) hold, and $T_1,T_2$ are of tame type $\Sigma'$ with Hodge--Tate jumps in $U$. The lifting theorem for good crystalline
+lattices, \lref{GlobalTheory.T.lift_surjection_good_crystalline_lattices} (proved with Breuil--Kisin modules with tame descent, from the
+comparison theorem and the properties of $B_{\mathrm{cris}}$), gives $\mathrm{Lift}_F\bigl(7(Nr'+\eta(N+r'))\bigr)$ with $r'=r'(\Sigma)$.
+
+\emph{Conclusion.} By \cref{pf:linkN:orbits}, $4r'(\Sigma)\le N^2$, and by \cref{pf:linkN:liftmono} with $7\le C$,
+$\mathrm{Lift}_F\bigl(C(Nr'+\eta(N+r'))\bigr)$ holds. The admitted local statements are not used.
+\end{proof}
+
+\begin{theorem}[Crystalline period bound]\label{pf:linkN:thmT}
+Assume the hypotheses of $\sfname{Hypotheses}_2$ on $B_{\mathrm{cris}}$, on the comparison theorem of Bhatt--Scholze type for $\Zl$-lattices, on the
+local Bloch--Kato theory, on local Tate duality and on the local Euler characteristic formula. Let $D$ be a datum with local Hodge--Witt data,
+Fontaine data and comparison data, and $C\ge40$ an integer. Then $\mathcal T(K',L,C)$ holds for the period data of $D$ at every prime $\ell$, every
+$K'$ as above and every finite extension $L$ of $\Ql$.
+\formallabel{GlobalTheory.T.crystallinePeriodBound_all_constant_ge_forty}
+\formallabel{GlobalTheory.InertiaEigenvalues.theoremT_all_records}
+\end{theorem}
+
+\begin{proof}
+By \lref{GlobalTheory.T.bhattScholze_coefficients_of_padicInt_lattices}, the comparison theorem for $\Zl$-lattices implies the version for
+lattices over the rings of integers of finite extensions of $\Ql$. The \emph{admitted local statements} of $D$ (five statements about the
+local theory of $D$, one of which involves its Hodge--Witt and Fontaine data, and the surjectivity of an Artin--Schreier--Witt
+map) follow from the local Bloch--Kato
+theory, local duality and the Euler characteristic formula by \lref{GlobalTheory.T.localLifting_admittedHypotheses_all}. Now
+\cref{pf:linkN:liftstep} applies.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Good cuts}\label{sec:pf:linkN:goodcuts}
+
+\paragraph{Vanishing at auxiliary places.}
+The following lemma is the classical vanishing of local cohomology at Taylor--Wiles type places
+\cite[\S2]{DarmonDiamondTaylor1997}.
+
+\begin{lemma}\label{pf:linkN:tamevanish}
+Assume the duality and Euler characteristic statements of \cref{pf:linkN:Hdec}. Let $F$ be a number field, $\ell$ a prime, $v$ a
+finite place of $F$ with $v\nmid\ell$, $A$ a valuation ring of $\Omega$ above $v$ with decomposition group $D_A$ and inertia group
+$I_A$, and $M$ a finite discrete $\F_\ell$-module with a continuous action $\rho$ of $D_A$. If there is $\gamma\in I_A$ such that
+$\rho(\gamma)-1$ is bijective on $M$, then $H^0(D_A,M)=H^1(D_A,M)=H^2(D_A,M)=0$.
+\formallabel{GlobalTheory.StringRepresentationDecomposition.tame_vanish}
+\formallabel{GlobalTheory.T.localCohomology_vanishes_tame_inertia_no_fixed}
+\end{lemma}
+
+\begin{proof}
+If $m$ is invariant, then $(\rho(\gamma)-1)m=0$, so $m=0$. Let $\chi$ be the cyclotomic character modulo $\ell$ restricted to $D_A$;
+since $v\nmid\ell$, the $\ell$-th roots of unity generate an extension unramified at $v$, so $\chi(\gamma)=1$. If $\varphi\in M^\vee(1)$
+is invariant, then $\varphi(m)=(\gamma\varphi)(m)=\chi(\gamma)\varphi(\rho(\gamma)^{-1}m)=\varphi(\rho(\gamma)^{-1}m)$ for all $m$;
+replacing $m$ by $\rho(\gamma)m$ gives $\varphi((\rho(\gamma)-1)m)=0$, and as $\rho(\gamma)-1$ is surjective, $\varphi=0$. Thus
+$H^0(D_A,M^\vee(1))=0$, and the injectivity of $H^2(M)\to\Hom(H^0(M^\vee(1)),H^2(\mu_\ell))$ gives $H^2(D_A,M)=0$. Finally the Euler
+characteristic formula for $v\nmid\ell$ gives $\#H^1=\#H^0\cdot\#H^2=1$.
+\end{proof}
+
+For a local index $\iota$ let $k_\iota$ be the residue field of $\OO_\iota$, $\bar\chi_1$ the reduction of $\chi_{\iota,1}$, and $\bar\eps$
+the reduction of the cyclotomic character with values in $\OO_\iota^\times$. A \emph{residual representation} of $\iota$ is a
+continuous representation $\bar\rho:G_E\to\GL_r(k_\iota)$ of the kind specified by the datum.
+
+\begin{lemma}[Vanishing for residual representations]\label{pf:linkN:h12}
+Assume \cref{pf:linkN:Hdec}. Let $\iota$ be a local index, $\bar\rho$ a residual representation of $\iota$ and $w\in S_\iota$, and put
+$\gamma=\gamma_{\iota,w}$. If $\bar\chi_1(\gamma)$ is not an eigenvalue of $\bar\rho(\gamma)$, then for every $e\in\Z$ the restriction to
+the decomposition group at $w$ of $\bar\rho\otimes\bar\chi_1^{-1}\bar\eps^{\,e}$ has vanishing $H^1$ and $H^2$.
+\formallabel{GlobalTheory.HOneTwoLevel.hOneTwo_holds}
+\formallabel{GlobalTheory.T.hOneTwo_of_localFiniteness_tateDuality_eulerChar}
+\formallabel{Formalism.MainNotions.N.CohomologyScalarsVanish.cohScalarsVanish}
+\end{lemma}
+
+\begin{proof}
+Let $M=k_\iota^r$ with the twisted action $\rho'$, viewed as an $\F_\ell$-module. The action is continuous, since the kernels of
+$\bar\rho$ and of $\bar\chi_1^{-1}\bar\eps^{\,e}$ are open. The place $w$ is not above $\ell$ (the places of $S_\iota$ are prime to
+$\ell_\iota$), and $\gamma$ lies in the inertia group at $w$; hence $\bar\eps(\gamma)=1$ and $\rho'(\gamma)=\bar\chi_1(\gamma)^{-1}\bar\rho(\gamma)$.
+As $\bar\chi_1(\gamma)$ is not a root of the characteristic polynomial of $\bar\rho(\gamma)$, the map
+$\rho'(\gamma)-1=\bar\chi_1(\gamma)^{-1}(\bar\rho(\gamma)-\bar\chi_1(\gamma))$ is bijective, and \cref{pf:linkN:tamevanish} gives the
+vanishing for the $\F_\ell$-structure. The continuous cochains, cocycles and coboundaries of $M$ are the same for the
+$k_\iota$-structure and the $\F_\ell$-structure, so the vanishing holds for the $k_\iota$-representation.
+\end{proof}
+
+\begin{lemma}[Auxiliary-place clauses]\label{pf:linkN:g5}
+Assume \cref{pf:linkN:Hdec}. Suppose that $D$ satisfies (GP2), that residual representations exist at the local indices with good
+eigensystems, and that $\mathrm{TP}(D)$ holds. Then $D$ satisfies the \emph{auxiliary-place clauses} (AP): at every local index
+$\iota$ with $\linkNgood_\iota\ne\emptyset$, for every good family $r$ and every place $w\in S_\iota\cup Q_\iota$ not above $\ell_\iota$,
+\begin{enumerate}[label=(\roman*)]
+\item if $w\in Q_\iota$ or $w$ lies above $p_{\mathrm{de}}$ (or above $p'_{\mathrm{de}}$ when $\ell_\iota=p_{\mathrm{de}}$): for every $x$ the
+inertia group at $w$ acts through $r_x$ by matrices simultaneously conjugate to $\mathrm{diag}(1,\dots,1,\chi_{\iota,1},\dots,\chi_{\iota,1})$,
+with $r$ entries equal to $1$;
+\item if $w\in S_\iota$ lies above $g_0$ or $g_1$: there is a polynomial over $T_\iota$, with unit value at $\chi_{\iota,1}(\gamma_{\iota,w})$,
+which evaluated at $r_x(\gamma_{\iota,w})$ annihilates $r_x(\gamma)-\chi_{\iota,1}(\gamma)$ for all $x$ and all $\gamma$ in the inertia group;
+\item if $w\in S_\iota$: an idempotent-choice vanishing statement holds, and the restrictions of the twisted residual representations
+$\bar\rho\otimes\bar\chi_1^{-1}\bar\eps^{\,e}$ ($e\in\Z$) to the decomposition group at $w$ have vanishing $H^0$, $H^1$ and $H^2$.
+\end{enumerate}
+\formallabel{UpperTheory.GalS.prvG5_of_admissible_cutRec}
+\end{lemma}
+
+\begin{proof}
+By \lref{UpperTheory.GalS.lgc_of_cut'_alt}, (GP2) and $\mathrm{TP}(D)$ imply local--global compatibility at the auxiliary
+places. By \lref{UpperTheory.GalS.eigPd_holds_alt}, (GP2), local--global compatibility and the existence of residual
+representations imply that $\bar\chi_1(\gamma_{\iota,w})$ is not an eigenvalue of $\bar\rho(\gamma_{\iota,w})$ for $w\in S_\iota$ above
+$p_{\mathrm{de}}$ (resp.\ $p'_{\mathrm{de}}$ when $\ell_\iota=p_{\mathrm{de}}$). By
+\lref{Formalism.MainNotions.SumRepresentations.galois_clause_of_sufficient_alt}, (AP) follows from (GP2) and a
+\emph{sufficient clause}: local--global compatibility at the auxiliary places, and, for $w\in S_\iota$, the existence of residual
+representations and, for each of them, the non-eigenvalue condition at $\gamma_{\iota,w}$ and the vanishing of \cref{pf:linkN:h12}.
+By definition, $w\in S_\iota$ means that $w$ lies above $g_0$, $g_1$ or $p_{\mathrm{de}}$ (resp.\ $p'_{\mathrm{de}}$) and not above
+$\ell_\iota$. Above $g_k$ the non-eigenvalue condition is part of the residual irreducibility clause of (GP2), as $\ell_\iota\ne g_k$;
+above $p_{\mathrm{de}}$ it was obtained above. \Cref{pf:linkN:h12} then gives the vanishing.
+\end{proof}
+
+\begin{theorem}[Facts from the preconditions]\label{pf:linkN:facts}
+Assume \cref{pf:linkN:Hcheb,pf:linkN:Hdec}. If $\mathrm{GP}(D,\mathrm{nch})$ and $\mathrm{TP}(D)$ hold, then $\mathrm{NF}(D,\mathrm{nch})$
+holds.
+\formallabel{UpperTheory.GalC.facts_of_galois_preconditions_of_cutRec}
+\end{theorem}
+
+\begin{proof}
+The conditions (GP1)--(GP3), (MS) and (GP5)--(GP18) are among the preconditions. Residual representations exist by a point
+condition (\lref{GlobalTheory.T.residualRankPartExists_of_jointCondition}). The de Rham condition (DR) holds by
+\lref{UpperTheory.GalS.de_rham_points_weight_jumps_alt}: (Adm) and $\mathrm{TP}(D)$ make the local parameters above the type
+primes type-admissible, which determines the de Rham property and the jumps. The auxiliary-place clauses hold by
+\cref{pf:linkN:g5}. The eigenvector clause (EV) follows from (GP2) and the existence of residual representations by
+\lref{GlobalTheory.T.prvG6_of_admissible'}. Admissibility of the $J$-parameters follows from (Adm), $\mathrm{TP}(D)$ and the
+weight and block character parameter conditions by \lref{UpperTheory.GalS.admJ_of_admPar}. The duties follow from (GP14),
+(Perm), the distinct-jumps part of (DR) and residual irreducibility, using \cref{pf:linkN:Hcheb} for the design conditions and the
+type-prime condition, by \lref{UpperTheory.GalS.duties_of_large_aux41}.
+\end{proof}
+
+\begin{proposition}[Existence of a good cut]\label{pf:linkN:existsgood}
+If $\mathrm{GP}(D,\mathrm{nch})$ and $\sfname{Tie4}(D)$ hold, then $D$ has a good cut.
+\formallabel{UpperTheory.GalC.exists_good_alt}
+\end{proposition}
+
+\begin{proof}
+Let $Q$ be the pending datum of $\sfname{Tie4}(D)$, with (TA) and (Eig); the preconditions give (Adm) and (Perm), and $\sfname{Tie4}$
+gives (Ser). Keep $\iota$ if and only if $\linkNgood_\iota\ne\emptyset$, and let $X^c_\iota$ be the set of $x\in X_\iota$ for which some
+automorphic point with eigensystem $x$ has a type vector $F$ with $e_0\cdot F\ne0$.
+
+(b) Let $x\in\linkNgood_\iota$. Choose an automorphic point $P$ with eigensystem $x$ and a non-zero type vector $F$ of $P$; by
+\cref{pf:linkN:typevec}, $e_0\cdot F=F\ne0$, so $x\in X^c_\iota$. If $x\in Z_\iota\cap X^c_\iota$ and $x\notin\linkNgood_\iota$, then
+\cref{pf:linkN:typevec} gives $e_0\cdot F=0$ for every type vector over $x$, contradicting $x\in X^c_\iota$. In particular $X^c_\iota\ne\emptyset$
+for kept $\iota$, so $c$ is a cut, and (a) holds by definition.
+
+(c) By \cref{pf:linkN:operator} there is $\alpha$ commuting with $T_\iota$, acting by $\#G$ on $M_K[x]$ for $x\in\linkNgood_\iota$ and by
+$0$ on $M_K[x]$ whenever $e_0$ kills every type vector over $x$, which is the case for every $x\notin X^c_\iota$.
+
+(d) Let $\iota$ be kept, $P$ an automorphic point with eigensystem $x\in X^c_\iota$, $k\in\{0,1\}$ and $w\mid g_k$. Choose an automorphic
+point $P_1$ with eigensystem $x$ and a type vector $F$ of $P_1$ with $e_0\cdot F\ne0$. Since $e_0$ is a sum of products over good
+families, there is a good family $s$ with $e_{\mathrm{Ser}}(k',v,s(k',v))\cdot F\ne0$ for all $(k',v)$
+(\lref{UpperTheory.GalC.exists_tuple}). Writing $e_{\mathrm{Ser}}(k',s(k',v))$ as a sum of central idempotents of irreducible
+representations with label $s(k',v)$, one of them acts non-trivially on $F$; it is a type of $P_1$ at $(k',v)$ with label $s(k',v)$
+(\lref{UpperTheory.GalC.exists_type}). By (TA) and (Adm) the local parameter of $P_1$ at every place above $g_k$ is
+type-admissible (\lref{UpperTheory.GalC.nc_of_type}). By (Adm), $P_1$ and $P$ carry base change parameters, which are
+permutations of each other by (Perm), since both points have eigensystem $x$. The places above $g_k$ are split, and the local
+parameters at split places are determined by the base change parameters up to such a permutation
+(\lref{GlobalTheory.RowThetaParam.isBCV_of_perm}). Hence the local parameter of $P$ at $w$ equals that of $P_1$ and is
+type-admissible.
+\end{proof}
+
+\begin{theorem}[Good cuts with facts]\label{pf:linkN:goodcutfacts}
+Assume \cref{pf:linkN:Hcheb,pf:linkN:Hdec}. Then $\sfname{CutGivesAlt}$ holds.
+\formallabel{UpperTheory.GalC.exists_good_cut_facts_tie4}
+\end{theorem}
+
+\begin{proof}
+Let $\mathrm{GP}(D,\mathrm{nch})$ and $\sfname{Tie4}(D)$ hold, and let $c$ be the good cut of \cref{pf:linkN:existsgood}. The Galois
+preconditions pass to $\mathrm{cut}(D,c)$ (\lref{UpperTheory.GalC.pre_cut_alt}): each of the eighteen conditions restricts to
+the kept local indices and to the eigensystems in $X^c_\iota$ (for (MS) and (LU) this uses (b) of \cref{pf:linkN:goodcut}), and the
+first provision (GP3) of the cut is re-derived from the restricted conditions by \lref{UpperTheory.GalS.Parts.main_alt_alt}.
+The cut satisfies $\mathrm{TP}$ by \cref{pf:linkN:cutTP}, so \cref{pf:linkN:facts} gives the norm-choice facts of the cut. Finally $\sfname{Tie4}$ passes to the cut by restriction of each component to the kept indices, the pending datum being
+restricted accordingly; (Eig) for the restricted datum follows from (Eig) for $D$ because the eigenspaces of the cut are images of
+eigenspaces of $D$ (\cref{pf:linkN:qK}(i)), by \lref{UpperTheory.GalC.compatibilityTies_eigenRestriction}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the Galois link}\label{sec:pf:linkN:b}
+
+We now restate and prove \cref{thm:linkN}, with the notation of \cref{sec:families:rows} and of this section. Recall that
+$\sfname{NL}(\mathcal C)=\sfname{Closed}(\mathcal C,\sfname{LinkN})$, and write
+\[
+p_{\mathrm{dep}}(h_L,c)=\sfname{parametersOfDependence}(h_L,c)
+\]
+for the parameter of \cref{sec:families:nonempty}.
+
+\begin{theorem}[\cref{thm:linkN}]\label{pf:linkN:main}
+\begin{enumerate}[label=(\alph*)]
+\item Assume \cref{pf:linkN:H2,pf:linkN:Hdec,pf:linkN:Hcheb}. Let $\mathcal F\in\sfname{FamP}(\eps)$ be $\sfname{TwGood}$, and suppose
+that $\mathrm{GP}(D_{x,i},\mathrm{nch}_{x,i})$ and $\sfname{Tie4}(D_{x,i})$ hold for all $x>x_1$ and $i\in I_x$. Then $\mathcal F$
+satisfies $\sfname{LinkN}$.
+\item Assume \cref{pf:linkN:H2,pf:linkN:Hdec,pf:linkN:Hlayer,pf:linkN:Hdz}. For every $h_L$ and $c\in\R$, the parameter
+$p=p_{\mathrm{dep}}(h_L,c)$ satisfies
+\[
+\begin{aligned}
+&\sfname{LinkedAt}\bigl(p,\ \sfname{Row}(\cdot,\cdot,\ \mathcal A\mapsto\sfname{Closed}(D3(3,\mathcal A),\sfname{BoundAtTwoThree}))\bigr)\\
+&\qquad\Longrightarrow\ \sfname{LinkedAt}\bigl(p,\ \sfname{Row}(\cdot,\cdot,\ \mathcal A\mapsto\sfname{NL}(D3(3,\mathcal A)))\bigr).
+\end{aligned}
+\]
+\end{enumerate}
+\formallabel{UpperTheory.GalC.final_alt_alt}
+\formallabel{GlobalTheory.NLink.Final.mainTheorem}
+\end{theorem}
+
+\paragraph{Part (a) with a cut hypothesis.}
+
+\begin{theorem}\label{pf:linkN:famthm}
+Assume $\sfname{Hypotheses}_2$ and $\sfname{CutGivesAlt}$. Let $\mathcal F\in\sfname{FamP}(\eps)$ be $\sfname{TwGood}$, and suppose that
+$\mathrm{GP}(D_{x,i},\mathrm{nch}_{x,i})$ and $\sfname{Tie4}(D_{x,i})$ hold for all $x>x_1$ and $i\in I_x$. Then $\mathcal F$
+satisfies $\sfname{LinkN}$, with constant $2000(|C_s|+1)^3+C_1$, where $C_s$ is the constant of the local bounds of the cut family
+below and $C_1$ that of \eqref{eq:pf:linkN:logG} for $\mathcal F$.
+\formallabel{UpperTheory.GalC.linkN_of_twGood_galoisPreconditions}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: constants.} Let $C=320$ and $C_T=40$ be the constants of \cref{pf:linkN:extra}.
+
+\emph{Step 2: cuts.} For $x>x_1$ and $i\in I_x$ let $c_{x,i}$ be a good cut of $D_{x,i}$ such that
+$\mathrm{NF}(\mathrm{cut}(D_{x,i},c_{x,i}),\mathrm{nch}_{x,i})$ and $\sfname{Tie4}(\mathrm{cut}(D_{x,i},c_{x,i}))$ hold; it exists by
+$\sfname{CutGivesAlt}$. For $x\le x_1$ let $c_{x,i}$ be the trivial cut (all local indices kept, $X^c_\iota=X_\iota$). Let
+$\mathcal F^c=\mathrm{gd}(\mathcal F,c)$ (\cref{pf:linkN:gd}).
+
+\emph{Step 3: the cut family.} By Step 2 and \cref{pf:linkN:extra}, $\mathcal F^c$ has the facts with constants $(C,C_T)$. By
+\cref{pf:linkN:twgd} it is $\sfname{TwGood}$, and by \cref{lem:families:at23} (which applies to every family under
+$\sfname{Hypotheses}_2$) it satisfies the bound at $2$ and $3$.
+
+\emph{Step 4: local bounds and summation.} By \lref{GlobalTheory.NLinkClose.main_alt_alt} (under $\sfname{Hypotheses}_2$, every
+$\sfname{TwGood}$ family which has the facts with constants $(C,C_T)$, $C\ge0$, and satisfies the bound at $2$ and $3$ satisfies the
+local bounds of \cref{pf:linkN:Concl} with some constant $C_s$), $\mathcal F^c$ satisfies the local bounds, and by
+\cref{pf:linkN:sumthm} it satisfies $\sfname{LinkN}$ with constant $2000(|C_s|+1)^3$.
+
+\emph{Step 5: return.} For $x>x_1$ the cut $c_{x,i}$ is good, $\mathrm{RE}(L_{x,i})$ is one of the point conditions (GP1), and
+$\mathrm{MB}(L_{x,i})$ holds by \cref{pf:linkN:multle}, since (ID), (SC), (MS) and (LU) are among the preconditions. By
+\cref{pf:linkN:return}, $\mathcal F$ satisfies $\sfname{LinkN}$ with constant $2000(|C_s|+1)^3+C_1$.
+\end{proof}
+
+\paragraph{Rows.}
+We make the notions of \cref{def:families:rows} precise. A \emph{parameter tuple} is
+$\kappa=(\eps,\mathbf C,c_D,c_h,C_5,c_6,C_b)$, with $\eps$ real, $\mathbf C$ a constant package and the other entries real; it is
+\emph{positive} if $C_5,c_6,C_b>0$. A context $K$ is \emph{of} $\kappa$ if its constants are those of $\kappa$ and it is good for
+$(C_5,c_6,C_b)$. For a property $p(\kappa,K)$ let $\mathrm{Ev}_{\mathrm{par}}(p)$ be the statement: there is $\eps_0>0$ such that for all
+$\eps\in(0,\eps_0]$ with $\eps<1/52$, all $C_8\ge1$ and all $C_5,c_6,C_b$ there is a threshold package $K_0$ such that for all standard
+constant packages $\mathbf C$ with parameter $C_8$ which are large for $K_0$ there is $c_1$ such that for all $c_D\ge c_1$ there is $c_2$
+such that for all $c_h\ge c_2$, if $\kappa=(\eps,\mathbf C,c_D,c_h,C_5,c_6,C_b)$ is positive, then there is $x_0$ with $p(\kappa,K)$
+for all contexts $K$ of $\kappa$ with scale $x\ge x_0$.
+
+\begin{definition}[Rows and linkedness]\label{pf:linkN:rows}
+Let $Q$ be a slot and $\mathrm{Lk}$ a linkage for the bundle type of \cref{sec:families:rows}.
+\begin{enumerate}[label=(\alph*)]
+\item For a property $E(\kappa,D,O,c,b)$ of bundles, $\mathrm{Ev}_{Q,\mathrm{Lk}}(E)$ is $\mathrm{Ev}_{\mathrm{par}}$ of the statement: for every
+point $\beta$ over $K$ lying in $Q$, every $c\in\R$ and every bundle $b$ over $(\beta.D,\beta.O,c)$ with $\mathrm{Lk}(K,\beta,c,b)$,
+$E(\kappa,\beta.D,\beta.O,c,b)$ holds.
+\item A \emph{raw selection} $\sigma$ for a class $\mathcal A$ assigns to every $\mathcal F\in\mathcal A$, $x>x_1$ and $i\in I_x$ a bundle
+$\sigma(\mathcal F,x,i)$ over $(D_{x,i},O_{x,i},C_{\mathrm{sz}}(\mathcal F))$, where the object $O_{x,i}$ of the member consists of its
+size data, lattice data and extra record (so its norm choice is $\mathrm{nch}_{x,i}$). It is a \emph{selection for $E$} if for every
+$\mathcal F\in\mathcal A$ there is $\kappa$ whose constants are those of $\mathcal F$ such that $\mathcal F$ satisfies the seven duties
+and every $\sigma(\mathcal F,x,i)$ is built from $Q$ (it is a bundle linked to a point in $Q$ over a context of $\kappa$) and satisfies
+$E(\kappa,\cdot)$.
+\item $\sfname{Row}(Q,\mathrm{Lk},H)$ means: there is $E$ with $\mathrm{Ev}_{Q,\mathrm{Lk}}(E)$ such that $H(\mathcal A,\sigma)$ holds for every
+class $\mathcal A$ and every selection $\sigma$ for $E$. For a property $R$ of bundles, $\mathrm{All}(R)(\mathcal A,\sigma)$ means that
+$R$ holds at every $\sigma(\mathcal F,x,i)$.
+\item For slots $Q,R$, $Q\preceq R$ means: eventually in the parameters (with the extra constants) and for large twisting data
+(\cref{def:families:twist}), for every base $B$ and frame $f$ admitting an exact field datum and a pin, every core over a stage tuple
+with base $B$ which lies in $Q$ also lies in $R$.
+\item For a parameter $p$ and a property $r$ of slots and linkages, $\sfname{LinkedAt}(p,r)$ means: there is a slot $R$ with
+$\sfname{IsBuiltE}(p)\preceq R$ and $r\bigl(\sfname{IsGoodE}(p)\wedge R,\ \sfname{BundleLinkage}(p)\bigr)$.
+\end{enumerate}
+\formal{GlobalTheory.Fc.EvP}
+\formal{GlobalTheory.Fc.RowE}
+\formal{GlobalTheory.Fc.Row}
+\formal{GlobalTheory.Fc.LargeBaseCondition}
+\formal{GlobalTheory.Fc.RL.LinkedAt}
+\end{definition}
+
+\begin{lemma}[Row calculus]\label{pf:linkN:rowcalc}
+Let $Q,Q'$ be slots and $\mathrm{Lk}$ a linkage.
+\begin{enumerate}[label=(\roman*)]
+\item If $p(\kappa,K)$ implies $q(\kappa,K)$ for all contexts $K$ of $\kappa$, then $\mathrm{Ev}_{\mathrm{par}}(p)$ implies $\mathrm{Ev}_{\mathrm{par}}(q)$.
+\item If $\mathrm{Ev}_{Q,\mathrm{Lk}}(R)$ holds for a property $R$ not depending on $\kappa$, then $\sfname{Row}(Q,\mathrm{Lk},\mathrm{All}(R))$.
+\item $\sfname{Row}(Q,\mathrm{Lk},H)$ and $\sfname{Row}(Q,\mathrm{Lk},H')$ imply $\sfname{Row}(Q,\mathrm{Lk},H\wedge H')$.
+\item If $\sfname{Row}(Q,\mathrm{Lk},H)$ and $H$ implies $H'$ for every class and every selection for the trivial property, then
+$\sfname{Row}(Q,\mathrm{Lk},H')$.
+\item If every core in $Q$ lies in $Q'$, then $\sfname{Row}(Q',\mathrm{Lk},H)$ implies $\sfname{Row}(Q,\mathrm{Lk},H)$.
+\item If $Q\preceq R$ and $Q\preceq R'$, then $Q\preceq R\wedge R'$.
+\end{enumerate}
+\formal{GlobalTheory.Fc.EvP.mono}
+\formal{GlobalTheory.Fc.RowE.row}
+\formal{GlobalTheory.Fc.Row.imp}
+\formallabel{GlobalTheory.Fc.Row.strengthen}
+\formal{GlobalTheory.Fc.LargeBaseCondition.and}
+\end{lemma}
+
+\begin{proof}
+(i) The same thresholds work. (ii) Take $E=R$; every bundle of a selection for $R$ satisfies $R$. (iii) is
+\lref{GlobalTheory.Fc.Row.and}: one takes the conjunction of the two properties $E,E'$, and a selection for $E\wedge E'$ is a
+selection for each of them. (iv) Keep $E$; a selection for $E$ is a selection for the trivial property. (v) Keep $E$: points in $Q$ are
+points in $Q'$, and bundles built from $Q$ are built from $Q'$. (vi) Both eventual statements hold simultaneously, with the smaller
+$\eps_0$, the later thresholds and the unions of the exceptional sets.
+\end{proof}
+
+\begin{proposition}[The slot statement]\label{pf:linkN:slot}
+Assume $\sfname{Hypotheses}_2$ and $\sfname{CutGivesAlt}$. Let $Q$ be a slot and $\mathrm{Lk}$ a linkage such that
+$\mathrm{Ev}_{Q,\mathrm{Lk}}\bigl(\mathrm{GP}(D,O.\mathrm{nch})\wedge\sfname{Tie4}(D)\bigr)$ and
+$\sfname{Row}\bigl(Q,\mathrm{Lk},\mathcal A\mapsto\sfname{Closed}(D3(3,\mathcal A),\sfname{BoundAtTwoThree})\bigr)$. Then
+$\sfname{Row}\bigl(Q,\mathrm{Lk},\mathcal A\mapsto\sfname{NL}(D3(3,\mathcal A))\bigr)$.
+\formallabel{UpperTheory.GalC.linkN_of_boundAtTwoThree_slot}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:linkN:rowcalc}(ii),(iii) we have $\sfname{Row}(Q,\mathrm{Lk},H)$ with
+$H(\mathcal A,\sigma)=\mathrm{All}(\mathrm{GP}\wedge\sfname{Tie4})(\mathcal A,\sigma)\wedge\sfname{Closed}(D3(3,\mathcal A),\sfname{BoundAtTwoThree})$.
+By \cref{pf:linkN:rowcalc}(iv) it suffices to show $\sfname{NL}(D3(3,\mathcal A))$ for every class $\mathcal A$ and raw selection
+$\sigma$ with $H(\mathcal A,\sigma)$. Let $\eps_1>0$ be given by the closedness in the second component of $H$, and for
+$\eps\in(0,\eps_1]$ let $K$ be the threshold package given there. Let $\mathcal F\in\sfname{FamP}(\eps)$ belong to $D3(3,\mathcal A)$
+and be large for $(K,C_H)$. Then $\mathcal F\in\mathcal A$ and $\mathcal F$ is $\sfname{TwGood}$, and by the first component of $H$,
+for every $x>x_1$ and $i\in I_x$ the selected bundle satisfies $\mathrm{GP}(D_{x,i},\mathrm{nch}_{x,i})\wedge\sfname{Tie4}(D_{x,i})$. By
+\cref{pf:linkN:famthm}, $\mathcal F$ satisfies $\sfname{LinkN}$.
+\end{proof}
+
+\begin{proposition}[Linkedness]\label{pf:linkN:linkedAt}
+Assume $\sfname{Hypotheses}_2$ and $\sfname{CutGivesAlt}$, and let $p$ be a parameter. If
+$\sfname{LinkedAt}\bigl(p,(Q,\mathrm{Lk})\mapsto\mathrm{Ev}_{Q,\mathrm{Lk}}(\mathrm{GP}(D,O.\mathrm{nch})\wedge\sfname{Tie4}(D))\bigr)$ and
+$p$ is linked for $\sfname{Row}(\cdot,\cdot,\mathcal A\mapsto\sfname{Closed}(D3(3,\mathcal A),\sfname{BoundAtTwoThree}))$, then $p$ is
+linked for $\sfname{Row}(\cdot,\cdot,\mathcal A\mapsto\sfname{NL}(D3(3,\mathcal A)))$.
+\formallabel{UpperTheory.GalC.linkedAt_linkN_of_boundAtTwoThree}
+\end{proposition}
+
+\begin{proof}
+Let $R_1$ and $R_3$ be the slots given by the two hypotheses, and $R=R_1\wedge R_3$. By \cref{pf:linkN:rowcalc}(vi),
+$\sfname{IsBuiltE}(p)\preceq R$. The slot $\sfname{IsGoodE}(p)\wedge R$ is contained in $\sfname{IsGoodE}(p)\wedge R_1$ and in
+$\sfname{IsGoodE}(p)\wedge R_3$, so the first hypothesis restricts to it by \cref{pf:linkN:rowcalc}(i), and the second by
+\cref{pf:linkN:rowcalc}(v). \Cref{pf:linkN:slot} for this slot and $\sfname{BundleLinkage}(p)$ concludes.
+\end{proof}
+
+\paragraph{Properties at members of layer points.}
+The construction produces data at \emph{layer points}: a context $K$, a base $B$, a frame $f$, twisting data $T$, a column choice
+$w$, a layer $Z$, a set of twisted places, rows, a norm choice $\mathrm{nch}$, norm data and a core datum; the datum at the point
+is the datum $w.D(Z)$ of the layer. For a property $P$ of such data, $\mathrm{Mem}(h_L,P)$ means: eventually in the parameters (with
+the extra constants) and for large twisting data, for every base and frame admitting an exact field datum and a pin, $P$ holds at
+all layer-point data whose default extension (built from $h_L$) and reading position are non-empty and whose column pin holds.
+If $\mathrm{Mem}(h_L,P)$ and $\mathrm{Mem}(h_L,P')$, then $\mathrm{Mem}(h_L,P\wedge P')$, by
+\lref{GlobalTheory.HeightCounting.Up.Model.AtMem.and_z} (one intersects the two eventual statements).
+
+\begin{proposition}[Transport to linked bundles]\label{pf:linkN:transport}
+Let $p$ be the parameter attached to a norm-choice extension $N$, an $S$-extension and a geometric property, and assume that the
+witnesses of $p$ move along set division and that every $N$-datum yields an extension-with-law datum. If $P(D,\mathrm{nch})$ is a
+property of data and norm choices with $\mathrm{Mem}(h_L,P(w.D(Z),\mathrm{nch}))$, then
+$\sfname{LinkedAt}\bigl(p,(Q,\mathrm{Lk})\mapsto\mathrm{Ev}_{Q,\mathrm{Lk}}(P(D,O.\mathrm{nch}))\bigr)$.
+\formallabel{GlobalTheory.Mem.AtPtTransport.atMem_at_wit_alt}
+\formallabel{GlobalTheory.NRows.AtPt.lg1_entry_of_atWit}
+\formallabel{GlobalTheory.NRows.AtPt.memSlot_entry_of_atWit}
+\formallabel{GlobalTheory.NRows.AtPt.exists_wPt_entC_atWit}
+\formallabel{GlobalTheory.NRows.AtPt.exists_wit_pt_alt}
+\end{proposition}
+
+\begin{proof}
+Let $R_P$ be the \emph{membership location} of $P$: the slot of cores over a stage tuple with base $B$ such that $P$ holds at all
+layer-point data over $B$ as in the definition of $\mathrm{Mem}$. By hypothesis, eventually in the parameters (with the extra
+constants) and for large twisting data, every core lies in $R_P$; so the slot $R$ of cores which lie in $R_P$ whenever their
+context is one at which this inclusion holds satisfies $\sfname{IsBuiltE}(p)\preceq R$, and eventually every context is of this kind
+(\lref{GlobalTheory.Fc.LgModel.largeBaseProperty_conditional}: such conditional slots always satisfy the large base condition).
+It therefore suffices to prove $P(D,O.\mathrm{nch})$ for every point $\beta$ in $\sfname{IsGoodE}(p)\wedge R_P$ and every bundle linked
+to it. A good point of $p$ carries a witnessed point of the slot data of $p$; moving its witness to the set-division lattices of its
+layer (possible by hypothesis) produces a witnessed point $q$ with the same datum $D$ and object $O$ as $\beta$ whose layer-point data
+have non-empty default extension (an extension-with-law datum gives a default-extension datum), non-empty reading position and
+column pin. Since $q$ lies over a base in $R_P$, $P$ holds at its layer-point data, i.e.\ $P(D,O.\mathrm{nch})$.
+\end{proof}
+
+\begin{lemma}[Moving positions]\label{pf:linkN:moving}
+For every $h_L$, $c\in\R$ and geometric property $\Gamma$, the slot data of the parameter attached to the norm-choice extension with
+list pin of level $c$, the trivial $S$-extension and the geometric closure of $\Gamma$ have the property that every position can be
+moved to the set-division lattices of its layer. Consequently the witnesses of $p_{\mathrm{dep}}(h_L,c)$ move along
+set division.
+\formallabel{GlobalTheory.NLink.Final.slot_mv_extension_with_list_geo_cl}
+\end{lemma}
+
+\begin{proof}
+Given a position, the rows pass to the moved division lattices and heights
+(\lref{GlobalTheory.T.rows_pass_to_moved_divisionLatticesHeights}); there is a kept norm choice with upper lattice data on the
+moved layer (\lref{GlobalTheory.T.exists_kept_choice_upper_lattice_alt}); the list pin is preserved, since the rows are the same
+(\lref{GlobalTheory.Mem.GridMove.listPin_rowsSame}); the spectral stage data transfer to the moved lattices
+(\lref{GlobalTheory.T.spectralStageData_transfer_lattices_heights}); and the division geometry scalars transfer along the set
+division (\lref{GlobalTheory.T.divisionGeometryScalars_transfer_setDivision}). This is the moving property. By
+\lref{GlobalTheory.T.witnesses_pass_along_set_division}, moving positions implies moving witnesses; and
+$p_{\mathrm{dep}}(h_L,c)$ is by definition the parameter of the lemma for the trivial geometric property.
+\end{proof}
+
+\paragraph{The preconditions at members.}
+The following two theorems are proved by combining member properties established elsewhere; we describe their structure and cite
+the ingredients.
+
+\begin{theorem}[Galois preconditions at members]\label{pf:linkN:GPmem}
+Assume \cref{pf:linkN:Hdec,pf:linkN:Hlayer,pf:linkN:Hdz}. For every $h_L$, $\mathrm{Mem}(h_L,\mathrm{GP}(w.D(Z),\mathrm{nch}))$.
+\formallabel{UpperTheory.GalS.galois_preconditions_at_mem}
+\formallabel{UpperTheory.GalS.core0_of_local_duality_inputs}
+\end{theorem}
+
+\begin{proof}
+Three member properties are combined by the conjunction rule:
+(i) the existence of \emph{linked inputs} for the datum, pinned at the character choice of the point, together with a count of
+ramification jumps (\lref{GlobalTheory.NRows.AtLayer.exists_inputs_pinAt_jumpsCard_at_mem}, from $\mathcal P_3$ and
+$\mathcal P_{\mathrm{Gal}}$); (ii) the condition on triples (GP16) (\lref{GlobalTheory.HeightCounting.Up.TripFin.finiteTriples_satisfy_condition_alt},
+from $\mathcal P_3$ and $\mathcal P_{\mathrm{ser}}$); (iii) the goodness condition (GP18)
+(\lref{GlobalTheory.T.goodFTAll_at_mem_of_inputs}). At a member carrying these, the conditions (GP1)--(GP12) are obtained as
+follows: the point conditions from the theta inputs, Harish-Chandra finiteness and rapid decay
+(\lref{GlobalTheory.T.theta_conditions_of_inputs_of_jumpsCard}); (Adm) and (ID) are components of the linked inputs, and the
+first provision follows from them by \lref{UpperTheory.GalS.Parts.main_alt_alt}; admissibility of the residual tame eigenvalues
+(\lref{GlobalTheory.AdmTame.main_alt_alt_alt}); residual irreducibility in rank $r$ from a three-prime theorem and the
+Brauer--Nesbitt theorem \cite{CurtisReiner1962}
+(\lref{Formalism.MainNotions.AdmissibleThreePrime.residual_irreducible_of_theorem_three_prime_alt}), which also gives the
+residual irreducibility clause of (GP2); (MS) from a reduced multiplicity statement
+(\lref{GlobalTheory.T.reducedMultiplicity_of_inputs}); the weight and block character parameter conditions from the character
+choice (\lref{GlobalTheory.T.weight_param_of_character_choice} and \lref{GlobalTheory.BlockCharInf.main}); unramifiedness of $\mu$
+from the finiteness of automorphic forms in $\mathcal P_3$ (\lref{GlobalTheory.MuUnrTie.main_alt_alt}); and the depth-zero
+condition from \cref{pf:linkN:Hdz} through canonical row modules
+(\lref{GlobalTheory.T.depthZeroG_of_rowMod} and \lref{GlobalTheory.RowModCanon.main_alt_alt}); (GP11) and (GP12) are components of the
+linked inputs. Finally (GP13) is a localisation-coincidence theorem (\lref{GlobalTheory.LocCoincide.main_alt_alt}), (GP14) is
+part of the default extension, (GP15) is part of the norm data, (GP16) and (GP18) are (ii) and (iii), and (GP17) holds by
+\lref{GlobalTheory.HeightCounting.SameTw.sameTwist_at_alt}.
+\end{proof}
+
+\begin{theorem}[$\sfname{Tie4}$ at members]\label{pf:linkN:Tie4mem}
+Assume $\mathcal P_3$, the height-counting statement contained in $\mathcal P_{\mathrm{Gal}}$, and \cref{pf:linkN:Hdz}. For every
+$h_L$, $\mathrm{Mem}(h_L,\sfname{Tie4}(w.D(Z)))$.
+\formallabel{GlobalTheory.T.tieChi_at_members_of_depthZero}
+\formallabel{GlobalTheory.TypePrimesFinished.locComp_of_isRc_classMapD_cenLoc}
+\end{theorem}
+
+\begin{proof}
+Three member properties are combined by the conjunction rule and \lref{GlobalTheory.HeightCounting.Up.Model.AtMem.at_member_imp}
+(member properties are closed under implication):
+(i) (Chi) together with a pending datum satisfying (TA) and (Eig), by \lref{GlobalTheory.T.tieChi_at_mem_of_depth_zero_inputs},
+which uses canonical row modules, Green's labelling of the characters of finite general linear groups \cite{Green1955}, depth-zero
+support, rationality of roots of unity and of series idempotents, and central-locality, $\Z_\ell$-stability and central integrality
+properties at all members (\lref{GlobalTheory.T.cenLoc_zlStable_cenInt_at_members});
+(ii) the existence of a pinned character choice (\lref{GlobalTheory.T.exists_character_choice_pin_at_of_third_layer}), which
+gives (Ine) by \lref{GlobalTheory.T.tieInePoly_of_characterChoice};
+(iii) (Ser), from $\mathcal P_3$ (\lref{GlobalTheory.T.serLoc_at_member_of_published_inputs}).
+\end{proof}
+
+\begin{proposition}\label{pf:linkN:finalOfAlt}
+Assume $\sfname{Hypotheses}_2$, $\sfname{CutGivesAlt}$, $\mathcal P_3$, $\mathcal P_{\mathrm{Gal}}$ and \cref{pf:linkN:Hdz}. Let $h_L$ be
+given and assume $\mathrm{Mem}(h_L,\mathrm{GP}(w.D(Z),\mathrm{nch}))$. Then for every $c\in\R$ the implication of
+\cref{pf:linkN:main}(b) holds for the parameter $p=p_{\mathrm{dep}}(h_L,c)$.
+\formallabel{UpperTheory.GalC.final_of_alt}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:linkN:moving} the witnesses of $p$ move along set division. By \cref{pf:linkN:Tie4mem}, the hypothesis and the
+conjunction rule,
+\[
+\mathrm{Mem}\bigl(h_L,\ \mathrm{GP}(w.D(Z),\mathrm{nch})\wedge\sfname{Tie4}(w.D(Z))\bigr).
+\]
+The norm-choice extension of $p$ consists of an extension-with-law datum and a list pin, so every datum of it yields an
+extension-with-law datum. \Cref{pf:linkN:transport} gives
+\[
+\sfname{LinkedAt}\bigl(p,\ (Q,\mathrm{Lk})\mapsto\mathrm{Ev}_{Q,\mathrm{Lk}}(\mathrm{GP}(D,O.\mathrm{nch})\wedge\sfname{Tie4}(D))\bigr),
+\]
+and \cref{pf:linkN:linkedAt} concludes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:linkN:main}]
+(a) Under \cref{pf:linkN:Hcheb,pf:linkN:Hdec}, $\sfname{CutGivesAlt}$ holds by \cref{pf:linkN:goodcutfacts}; apply
+\cref{pf:linkN:famthm}.
+(b) $\mathcal P_3$ contains \cref{pf:linkN:Hcheb}, so $\sfname{CutGivesAlt}$ holds by \cref{pf:linkN:goodcutfacts}, and
+\cref{pf:linkN:GPmem} gives $\mathrm{Mem}(h_L,\mathrm{GP}(w.D(Z),\mathrm{nch}))$. Apply \cref{pf:linkN:finalOfAlt}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Cocycle bounds}\label{sec:pf:linkN:cocycles}
+
+This subsection proves the statements about global Galois cocycles used in the global congruence count of the proof of the
+local bounds (\lref{GlobalTheory.NLinkClose.main_alt_alt}).
+
+\begin{definition}[Notation]\label{pf:linkN:cocnot}
+Let $D$ be a datum and $\iota$ a local index; write $\ell=\ell_\iota$, $\OO=\OO_\iota$, $K$ for its fraction field and $\varpi$ for a
+uniformiser. For $k\ge1$ let $W_k=K^k/\OO^k$, a discrete $\OO$-module. A homomorphism of monoids $\mathsf M:G_E\to M_k(\OO)$ defines an
+action $g\cdot x=\mathsf M(g)x$ of $G_E$ on $W_k$; $Z^1(\mathsf M)$ denotes the $\OO$-module of continuous maps $f:G_E\to W_k$ with
+$f(gh)=f(g)+g\cdot f(h)$, and $B^1(\mathsf M)\subseteq Z^1(\mathsf M)$ the coboundaries $g\mapsto g\cdot x-x$. For an $\OO$-module $C$ of maps
+$G_E\to W_k$ put $\len_{\mathrm{cob}}(C)=\len_\OO(C\cap B^1(\mathsf M))$. For $1\le c\le t$ let $\chi_c=\chi_{\iota,c}$; by the definition of a datum
+$\chi_c=\chi_1\cdot\chi_{\mathrm{cyc}}^{-(c-1)}$, where $\chi_{\mathrm{cyc}}:G_E\to\Zl^\times\to\OO^\times$ is the $\ell$-adic cyclotomic character, and
+we write $\mathsf M_c$ for the $1\times1$ matrix-valued character $\chi_c\chi_1^{-1}$ (so $\mathsf M_1$ is trivial).
+
+The Galois data of $D$ fix, for every finite place $v$ of $E$, a place of $\Omega$ above $v$, with absolute value $|\cdot|_v$; $D_v$ and $I_v$ are
+its decomposition and inertia groups in $G_E=\Gal(\Omega/E)$. For a module $C$ of maps $G_E\to W_k$ let $\mathrm{res}_v(C)=\{f|_{I_v}:f\in C\}$.
+An element $\sigma\in G_E$ is \emph{wild at $v$} if $|\sigma(y)/y-1|_v<1$ for all $y\in\Omega^\times$. An element $\gamma$ is a \emph{tame generator}
+at $v$ if $\gamma\in I_v$ and $I_v$ lies in the closure of the subgroup generated by $\gamma$ and the elements wild at $v$; the local index
+provides such elements $\gamma_{\iota,v}$ for $v\in S_\iota\cup Q_\iota$.
+\formal{Formalism.MainNotions.N.KOG}
+\formal{GlobalTheory.Cut.resIne}
+\formal{Formalism.MainNotions.N.wildSet}
+\formal{Formalism.BasicNotions.TameGenAt}
+\end{definition}
+
+\begin{lemma}\label{pf:linkN:cycunr}
+Let $v$ be a finite place of $E$ not above $\ell$ and $\gamma\in I_v$. Then $\chi_{\mathrm{cyc}}(\gamma)=1$ and $\chi_c(\gamma)=\chi_1(\gamma)$ for
+$1\le c\le t$.
+\formallabel{GlobalTheory.T.cyclotomicChar_unramified_away_from_ell}
+\formallabel{GlobalTheory.CycUnram.main}
+\end{lemma}
+
+\begin{proof}
+Let $n\ge1$ and $\zeta\in\Omega$ a primitive $\ell^n$-th root of unity, so $\gamma(\zeta)=\zeta^a$ with $a\equiv\chi_{\mathrm{cyc}}(\gamma)\bmod\ell^n$.
+As $\gamma$ is in the inertia group, $|\gamma(\zeta)-\zeta|_v<1$; since $\ell$ is a unit at $v$, the $\ell^n$-th roots of unity have distinct
+images in the residue field, so $\zeta^a=\zeta$ and $\chi_{\mathrm{cyc}}(\gamma)\equiv1\bmod\ell^n$. (Formally this is
+\lref{ReciprocityTheory.Gal.cycZ_toZModPow_eq}, which states that $\chi_{\mathrm{cyc}}(\sigma)\equiv q\bmod\ell^n$ whenever
+$|\sigma(x)-x^q|_v<1$ for all $x$ with $|x|_v\le1$, the place being prime to $\ell$.) Hence $\chi_{\mathrm{cyc}}(\gamma)=1$, and
+$\chi_c(\gamma)=\chi_1(\gamma)\chi_{\mathrm{cyc}}(\gamma)^{-(c-1)}=\chi_1(\gamma)$.
+\end{proof}
+
+\begin{lemma}[Wild elements]\label{pf:linkN:wildel}
+Let $\sigma$ be wild at $v$.
+\begin{enumerate}[label=(\roman*)]
+\item $\sigma^i$ is wild at $v$ for every $i\ge0$.
+\item $\sigma\in I_v$.
+\item If $k\in\N$ satisfies $|k|_v=1$ and $\sigma^k$ fixes $x\in\Omega$, then $\sigma$ fixes $x$.
+\end{enumerate}
+\formal{GlobalTheory.WildInertiaChar.wild_pow}
+\formal{GlobalTheory.WildInertiaChar.fixed_of_pow_fixed}
+\formal{GlobalTheory.TameCharUnique.mem_Ine_of_wild}
+\end{lemma}
+
+\begin{proof}
+(i) Induction on $i$: with $a=\sigma(\sigma^iy)/\sigma^iy-1$ and $b=\sigma^iy/y-1$ we have $\sigma^{i+1}y/y-1=ab+a+b$, of absolute value $<1$.
+(ii) For $y\ne0$, $|\sigma(y)|_v=|y|_v\,|1+(\sigma(y)/y-1)|_v=|y|_v$, so $\sigma$ preserves the valuation ring of the place, i.e.\
+$\sigma\in D_v$; and for $0\ne x$ with $|x|_v\le1$, $|\sigma(x)-x|_v=|x|_v|\sigma(x)/x-1|_v<1$, so $\sigma$ acts trivially on the residue
+field. (iii) Suppose $d=\sigma(x)-x\ne0$. Then $\sum_{i<k}\sigma^i(d)=\sigma^k(x)-x=0$, so $k=-\sum_{i<k}\bigl(\sigma^i(d)/d-1\bigr)$, and by (i)
+every term has absolute value $<1$; hence $|k|_v<1$, a contradiction.
+\end{proof}
+
+\begin{lemma}[Wild inertia]\label{pf:linkN:wildinertia}
+Let $v$ be a finite place of $E$ not above $\ell$, and let $f:G_E\to K/\OO$ be locally constant with $f(ab)=f(a)+f(b)$ for $a,b\in I_v$.
+Then $f(\sigma)=0$ for every $\sigma$ wild at $v$.
+\formallabel{GlobalTheory.T.wildInertia_killed_by_additive_locallyConstant}
+\formallabel{GlobalTheory.WildAdditive.main}
+\formallabel{GlobalTheory.WildAdditive.eq_zero_of_wild}
+\formallabel{GlobalTheory.WildAdditive.exists_pow_nsmul_eq_zero}
+\end{lemma}
+
+\begin{proof}
+First, every element of $K/\OO$ is killed by a power of $\ell$. Indeed $\ell$ is not a unit of $\OO$ (otherwise $\OO=\ell\OO$, and
+$\OO=0$ by Nakayama's lemma over $\Zl$, as $\OO$ is finite over $\Zl$), so $\ell\in\varpi\OO$; an element $a/b$ ($b\ne0$) of $K$ satisfies
+$b\OO=\varpi^j\OO$ for some $j$, and then $\ell^ja/b\in\OO$.
+
+By \cref{pf:linkN:wildel}(ii), $\sigma\in I_v$, and additivity gives $f(1)=0$ and $f(\sigma^n)=nf(\sigma)$. Since $f$ is locally constant,
+$f^{-1}(0)$ is an open neighbourhood of $1$ for the Krull topology, so it contains an open normal subgroup $H$ of finite index $n\ge1$; then
+$\sigma^n\in H$. Write $n=\ell^ad$ with $\ell\nmid d$. By \cref{pf:linkN:wildel}(i), $\tau=\sigma^d$ is wild at $v$, and $\tau^{\ell^a}=\sigma^n$
+fixes the fixed field of $H$. As $v\nmid\ell$, $|\ell^a|_v=1$, so \cref{pf:linkN:wildel}(iii) shows that $\tau$ fixes this field, i.e.\
+$\tau\in H$. Hence $d\,f(\sigma)=f(\sigma^d)=0$. Choosing $m$ with $\ell^mf(\sigma)=0$ and using $\gcd(\ell^m,d)=1$ we get $f(\sigma)=0$.
+\end{proof}
+
+\begin{lemma}[Tame generators]\label{pf:linkN:tamegen}
+Let $\gamma$ be a tame generator at $v$, $A$ an abelian group and $f:G_E\to A$ locally constant, with $f(ab)=f(a)+f(b)$ for $a,b\in I_v$,
+$f(\sigma)=0$ for every $\sigma$ wild at $v$, and $f(\gamma)=0$. Then $f$ vanishes on $I_v$.
+\formallabel{GlobalTheory.Cut.Quad.eq_zero_of_tameGen}
+\end{lemma}
+
+\begin{proof}
+By additivity, $\{g\in I_v:f(g)=0\}$ is a subgroup; it contains $\gamma$ and, by \cref{pf:linkN:wildel}(ii), the elements wild at $v$. Hence the
+subgroup generated by $\gamma$ and the wild elements lies in $f^{-1}(0)$, which is closed because $f$ is locally constant; so its closure,
+which contains $I_v$, lies in $f^{-1}(0)$.
+\end{proof}
+
+\begin{lemma}\label{pf:linkN:torsKO}
+Let $\OO$ be an integral domain with fraction field $K$ and $a\in\OO$, and assume that $a\ne0$ or that $\OO$ is a discrete valuation ring. Then
+the $a$-torsion submodule $(K/\OO)[a]$ satisfies $\len(K/\OO)[a]\le\len(\OO/a\OO)$.
+\formallabel{GlobalTheory.Cut.Quad.length_torsionBy_le}
+\formallabel{GlobalTheory.UnramHom.length_torsionBy_le}
+\end{lemma}
+
+\begin{proof}
+If $a=0$ and $\OO$ is a discrete valuation ring, $\OO/a\OO=\OO$ has infinite length. If $a\ne0$, the map $\OO\to(K/\OO)[a]$,
+$c\mapsto ca^{-1}\bmod\OO$, kills $a\OO$ and is surjective: if $ay\in\OO$ then $y=(ay)a^{-1}$.
+\end{proof}
+
+\begin{definition}[Cocycle modules of an idempotent choice datum]\label{pf:linkN:cocW}
+Let $r=(r_x)_{x\in X_\iota}$ be homomorphisms $G_E\to\GL_{n_V}(\OO)$, and $\tilde r_x=r_x\chi_1^{-1}$. An idempotent choice datum $\mathcal S$ at $\iota$
+provides, among other data, a finite set $X'$ with a map $p:X'\to X_\iota$, an $\OO$-subalgebra $T'\subseteq\OO^{X'}$ and matrices
+$\mathsf E(x')\in M_{n_V}(\OO)$ ($x'\in X'$). Let $R'\subseteq M_{n_V}(\OO)^{X'}$ be the set of finite sums of functions
+$x'\mapsto f(x')\,r_{p(x')}(g)$ with $f\in T'$ and $g\in G_E$. For $\gamma\in G_E$ let $y_\gamma\in M_{n_V}(\OO)^{X'}$,
+$y_\gamma(x')=\tilde r_{p(x')}(\gamma)\mathsf E(x')-\mathsf E(x')$, and let $Y$ be the set of finite sums $\sum_ja_jy_{\gamma_j}$ with $a_j\in R'$
+(products taken pointwise). For $X_s\subseteq X_\iota$, $k\ge1$ and a map $\psi:M_{n_V}(\OO)^{X'}\to M_k(\OO)$, let $\mathrm{Coc}_{X_s}(\psi)$ be the
+$\OO$-module of maps $G_E\to W_k$ spanned by the functions $\gamma\mapsto\phi(y_\gamma)$, where $\phi:M_{n_V}(\OO)^{X'}\to W_k$ runs over the
+$\OO$-linear maps such that
+\begin{enumerate}[label=(\alph*)]
+\item $\phi(ay)=\psi(a)\phi(y)$ for $a\in R'$ and $y\in Y$, and
+\item $\phi(y)=0$ for every $y\in Y$ which vanishes at all $x'$ with $p(x')\in X_s$.
+\end{enumerate}
+\formal{GlobalTheory.Cut.cocW}
+\end{definition}
+
+\begin{lemma}[Quadratic relation]\label{pf:linkN:cocquad}
+Let $v$ be a finite place such that $(r_x(\gamma)-1)(r_x(\gamma)-\chi_1(\gamma))=0$ for all $x\in X_s$ and $\gamma\in I_v$. Then for every
+$f\in\mathrm{Coc}_{X_s}(\psi)$ and $\gamma\in I_v$, $\psi(r(\gamma))f(\gamma)=f(\gamma)$, where $r(\gamma)=(r_{p(x')}(\gamma))_{x'}\in R'$.
+\formallabel{GlobalTheory.Cut.Check.cocW_quad}
+\end{lemma}
+
+\begin{proof}
+Both sides are $\OO$-linear in $f$, so it suffices to treat $f=\phi(y_\cdot)$ with $\phi$ as in the definition. The functions $r(\gamma)$ and
+$-1=(-1)\cdot r_{p(\cdot)}(1)$ lie in $R'$, so $z=r(\gamma)y_\gamma-y_\gamma\in Y$. For $x'$ with $x=p(x')\in X_s$,
+\[
+z(x')=(r_x(\gamma)-1)(\chi_1(\gamma)^{-1}r_x(\gamma)-1)\mathsf E(x')=\chi_1(\gamma)^{-1}(r_x(\gamma)-1)(r_x(\gamma)-\chi_1(\gamma))\mathsf E(x')=0 .
+\]
+By (b), $\phi(z)=0$, and by (a), $\phi(r(\gamma)y_\gamma)=\psi(r(\gamma))\phi(y_\gamma)$; hence $\psi(r(\gamma))f(\gamma)=f(\gamma)$.
+\end{proof}
+
+\begin{lemma}[Inertia away from $\ell$, $S_\iota$, $Q_\iota$]\label{pf:linkN:lgsel}
+Assume that $1\in R'$ and that $\tilde r_x(\gamma)=1$ for all $x\in X_s$, $\gamma\in I_v$ and all finite places $v$ not above $\ell$ and not in
+$S_\iota\cup Q_\iota$. Then $\mathrm{res}_v\mathrm{Coc}_{X_s}(\psi)=0$ for all such $v$.
+\formallabel{GlobalTheory.Proof.LocalGlobalSelmer.main}
+\end{lemma}
+
+\begin{proof}
+(The assumption $1\in R'$ always holds: $1=1\cdot r_{p(\cdot)}(1)$.) Let $\gamma\in I_v$. Then $y_\gamma=1\cdot y_\gamma\in Y$, and
+$y_\gamma(x')=(\tilde r_{p(x')}(\gamma)-1)\mathsf E(x')=0$ whenever $p(x')\in X_s$; so $\phi(y_\gamma)=0$ by (b). Thus every generator of
+$\mathrm{Coc}_{X_s}(\psi)$ vanishes on $I_v$.
+\end{proof}
+
+\begin{lemma}[Peeling]\label{pf:linkN:peel}
+Let $C$ be an $\OO$-module of maps $G_E\to W_k$ and $Q$ a finite set of finite places. There is $C'\subseteq C$ with $\mathrm{res}_v(C')=0$ for
+$v\in Q$ and $\len C\le\len C'+\sum_{v\in Q}\len\mathrm{res}_v(C)$.
+\formallabel{GlobalTheory.Cut.Peel.main}
+\formallabel{GlobalTheory.Cut.Peel.exists_le_map_eq_bot}
+\end{lemma}
+
+\begin{proof}
+More generally, for linear maps $f_q$ ($q\in Q$) on a module containing $C$, $C'=C\cap\bigcap_q\ker f_q$ satisfies
+$\len C\le\len C'+\sum_q\len f_q(C)$. By induction on $Q$: if $C_0$ works for $Q_0$ and $q\notin Q_0$, then
+$\len C_0=\len(C_0\cap\ker f_q)+\len f_q(C_0)$ and $\len f_q(C_0)\le\len f_q(C)$. Apply this to the restriction maps to $I_v$.
+\end{proof}
+
+\begin{definition}[Places above $\ell$]\label{pf:linkN:bridgedef}
+For every place $w$ of $E$ above $\ell$ the local theory of $D$ provides a \emph{local bridge}: a profinite group $G_w$ with an isomorphism
+$\iota_w$ onto $D_w$, under which we let $I^{\mathrm{loc}}_w=\iota_w^{-1}(I_w)$; a complete discrete valuation ring $\OO_w$ with fraction field $L_w$,
+algebraic over $\Ql$; a ring isomorphism $e_w:\OO\to\OO_w$ and a field homomorphism $K\to L_w$ extending it. It induces an $e_w$-semilinear map
+$\phi_w:W_k\to L_w^k/\OO_w^k$. For $\mathsf M:G_E\to M_k(\OO)$, $G_w$ acts on $L_w^k/\OO_w^k$ through $e_w\circ\mathsf M\circ\iota_w$, and the
+\emph{localisation} of $f:G_E\to W_k$ is $\mathrm{loc}_w(f)=\phi_w\circ f\circ\iota_w$. The local data provide $\OO_w$-modules
+$B_w(\mathsf M)\subseteq F_w(\mathsf M)$ of maps $G_w\to L_w^k/\OO_w^k$: the coboundaries, and the \emph{finite part}, the sum of the coboundaries and
+of the images of the Bloch--Kato finite cocycles of the period data of $D$ at $w$; and, for $r$ and $X_s$ as above, a set
+$\mathrm{Cut}_w(\mathsf M)$ of \emph{cut cocycles}. For $e\in\N$, $\mathrm{LB}_w(\mathsf M,e)$ is the statement
+$\len_{\OO_w}\bigl(\langle\mathrm{Cut}_w(\mathsf M)\rangle/(\langle\mathrm{Cut}_w(\mathsf M)\rangle\cap F_w(\mathsf M))\bigr)\le e\,\len(\OO_w/\ell\OO_w)$,
+where $\langle\cdot\rangle$ is the $\OO_w$-span. A map $c:G_w\to L_w^k/\OO_w^k$ is an \emph{unramified cut cocycle} if there is $x$ with
+$c(g)=g\cdot x-x$ for $g\in I^{\mathrm{loc}}_w$.
+\formal{Formalism.BasicNotions.LocBridge}
+\formal{GlobalTheory.Cut.locFun}
+\formal{Formalism.WeaklyAdmissibleFiltrations.HfD}
+\formal{GlobalTheory.Pass.LocBound}
+\end{definition}
+
+\begin{lemma}[Local bridges]\label{pf:linkN:bridge}
+Let $w\mid\ell$.
+\begin{enumerate}[label=(\roman*)]
+\item The homomorphism $K\to L_w$ is bijective, so $\phi_w$ is bijective and $\phi_w(g\cdot x)=\iota_w^{-1}(g)\cdot\phi_w(x)$ for
+$g\in D_w$.
+\item If $c:D_w\to W_k$ satisfies $\phi_w\circ c\circ\iota_w\in B_w(\mathsf M)$, then there is $m\in W_k$ with $c(g)=g\cdot m-m$ for all
+$g\in D_w$.
+\end{enumerate}
+\formallabel{GlobalTheory.CutTrivIne.eq_zero_of_phi}
+\formallabel{GlobalTheory.Cut.ShaBound.toLLK_surj}
+\formallabel{GlobalTheory.Cut.ShaBound.cob_of_bridge}
+\end{lemma}
+
+\begin{proof}
+(i) Injectivity holds for a field homomorphism. For $y\in L_w$ there is $0\ne d\in\Zl$ with $dy\in\OO_w$, as $L_w$ is algebraic over $\Ql$;
+writing $dy=e_w(n)$ with $n\in\OO$, the element $n/d\in K$ maps to $y$. An element of $K$ whose image lies in $\OO_w=e_w(\OO)$ therefore lies in
+$\OO$, so $\phi_w$ is injective, and it is surjective by the first part. The compatibility with the actions holds because the action on
+$L_w^k/\OO_w^k$ is through $e_w\circ\mathsf M\circ\iota_w$.
+(ii) If $\phi_w(c(\iota_w(h)))=h\cdot x-x$ for all $h\in G_w$, put $m=\phi_w^{-1}(x)$ and use (i).
+\end{proof}
+
+\begin{lemma}[Unramified cut cocycles]\label{pf:linkN:cuttrivine}
+Let $w\mid\ell$ and let $C$ be an $\OO$-module of maps $G_E\to W_1$ such that, for every $f\in C$, $\mathrm{loc}_w(f)$ is an unramified cut cocycle
+for the trivial character $\mathsf M_1$. Then $\mathrm{res}_w(C)=0$.
+\formallabel{GlobalTheory.CutTrivIne.main}
+\end{lemma}
+
+\begin{proof}
+Let $f\in C$ and $\gamma\in I_w$, and let $g=\iota_w^{-1}(\gamma)\in I^{\mathrm{loc}}_w$. As $\mathsf M_1$ is trivial, $g$ acts trivially, so
+$\phi_w(f(\gamma))=\mathrm{loc}_w(f)(g)=g\cdot x-x=0$, and $f(\gamma)=0$ by \cref{pf:linkN:bridge}(i).
+\end{proof}
+
+\begin{lemma}[Local conditions above $\ell$]\label{pf:linkN:countL}
+Let $\mathsf M:G_E\to M_k(\OO)$, $e\in\N$, and let $C$ be an $\OO$-module of maps $G_E\to W_k$. Assume that for every place $w\mid\ell$,
+$\mathrm{LB}_w(\mathsf M,e)$ holds and $\mathrm{loc}_w(f)\in\langle\mathrm{Cut}_w(\mathsf M)\rangle$ for all $f\in C$. Then there is $C'\subseteq C$ with
+$\mathrm{loc}_w(f)\in F_w(\mathsf M)$ for all $f\in C'$ and $w\mid\ell$, and
+\[
+\len C\le\#\{w\mid\ell\}\cdot e\cdot\len(\OO/\ell\OO)+\len C'.
+\]
+\formallabel{GlobalTheory.T.length_global_cocycles_le_sum_places_over}
+\formallabel{GlobalTheory.Cut.CountL.main}
+\formallabel{GlobalTheory.Cut.CountL.length_le_inf_comap_add}
+\formallabel{GlobalTheory.Cut.CountL.exists_le_forall_le}
+\end{lemma}
+
+\begin{proof}
+For $w\mid\ell$ let $\kappa_w=\{f:\mathrm{loc}_w(f)\in F_w(\mathsf M)\}$ and $A_w=\langle\mathrm{Cut}_w(\mathsf M)\rangle$. We claim that every
+submodule $C_0\subseteq C$ satisfies $\len C_0\le\len(C_0\cap\kappa_w)+e\len(\OO/\ell\OO)$. The map $C_0\to A_w/(A_w\cap F_w(\mathsf M))$,
+$f\mapsto\mathrm{loc}_w(f)$, is $e_w$-semilinear with kernel $C_0\cap\kappa_w$. Since $e_w$ is an isomorphism, an injective $e_w$-semilinear map
+carries strictly increasing chains of $\OO$-submodules to strictly increasing chains of $\OO_w$-submodules, so the length of $C_0/(C_0\cap\kappa_w)$
+is at most $\len_{\OO_w}(A_w/(A_w\cap F_w(\mathsf M)))\le e\len(\OO_w/\ell\OO_w)=e\len(\OO/\ell\OO)$, by $\mathrm{LB}_w$ and the isomorphism $e_w$; the
+claim follows from additivity of length. The set of places above $\ell$ is finite; applying the claim successively to
+$C$, $C\cap\kappa_{w_1}$, $C\cap\kappa_{w_1}\cap\kappa_{w_2}$, \dots\ gives the lemma with $C'=C\cap\bigcap_w\kappa_w$.
+\end{proof}
+
+\begin{definition}[Selmer groups]\label{pf:linkN:seldef}
+Let $\rho=(\rho_x)_{x\in X_\iota}$ be homomorphisms $G_E\to\GL_r(\OO)$, $\pi\in X_\iota$, and let $\mathsf M_{\rho,\pi}=\rho_\pi\chi_1^{-1}$, acting on
+$W_r$. The Selmer group $\mathrm{Sel}(\iota,\rho,\pi)\subseteq H^1(G_E,W_r)$ consists of the classes whose localisation at every $w\mid\ell$ lies in
+the image of $F_w(\mathsf M_{\rho,\pi})$, whose restriction to $I_v$ is trivial for every finite $v$ not above $\ell$ and not in
+$S_\iota\cup Q_\iota$, with no condition at $S_\iota\cup Q_\iota$.
+\formal{Formalism.MainNotions.N.Br.selPi}
+\end{definition}
+
+\begin{lemma}[Selmer bound]\label{pf:linkN:selclass}
+Let $C\subseteq Z^1(\mathsf M_{\rho,\pi})$ be a submodule such that $\mathrm{loc}_w(f)\in F_w(\mathsf M_{\rho,\pi})$ for all $f\in C$ and $w\mid\ell$, and
+$\mathrm{res}_v(C)=0$ for all finite $v$ not above $\ell$ and not in $S_\iota\cup Q_\iota$. Then
+$\len C\le\len_{\mathrm{cob}}(C)+\len\mathrm{Sel}(\iota,\rho,\pi)$.
+\formallabel{GlobalTheory.T.length_cocycles_le_coboundaries_add_selmer}
+\formallabel{GlobalTheory.Cut.SelClass.main}
+\formallabel{GlobalTheory.Cut.SelClass.length_le_cob_add}
+\formallabel{GlobalTheory.Cut.SelClass.mk_mem_selG}
+\end{lemma}
+
+\begin{proof}
+The class of every $f\in C$ lies in the Selmer group: the conditions above $\ell$ hold by assumption, and for $v$ not above $\ell$ and not in
+$S_\iota\cup Q_\iota$ the restriction of $f$ to $I_v$ is $0$. The map $C\to\mathrm{Sel}(\iota,\rho,\pi)$, $f\mapsto[f]$, has kernel
+$C\cap B^1(\mathsf M_{\rho,\pi})$, and additivity of length gives the claim.
+\end{proof}
+
+\begin{definition}[Tate--Shafarevich groups]\label{pf:linkN:shadef}
+The Galois data of $D$ at $\ell$ provide the quotient $G_{E,S_\ell}$ of $G_E$ by the closed normal subgroup $N_{S_\ell}$ generated by the inertia
+groups of all places of $\Omega$ above finite places of $E$ not above $\ell$, places of $\Omega$ above the places of $S_\ell$ (possibly different
+from those fixed above), and the module $\Ql/\Zl(-e)$, on which $G_{E,S_\ell}$ acts through $\chi_{\mathrm{cyc}}^{-e}$; $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$
+is the kernel of the restriction maps to the decomposition groups of these places, and we write $\mathrm{sha}(\ell,e)$ for its $\Zl$-length (in
+$\N\cup\{\infty\}$).
+\formal{Formalism.GaloisCohomology.Sha}
+\formal{Formalism.GaloisCohomology.shaLen}
+\end{definition}
+
+\begin{lemma}[Cyclotomic blocks]\label{pf:linkN:shabound}
+Let $2\le c\le t$ and let $C\subseteq Z^1(\mathsf M_c)$ be a submodule such that $\mathrm{loc}_w(f)\in B_w(\mathsf M_c)$ for all $f\in C$ and
+$w\mid\ell$, and $\mathrm{res}_v(C)=0$ for every finite $v$ not above $\ell$. Then
+\[
+\len C\le\len_{\mathrm{cob}}(C)+\len(\OO/\ell\OO)\cdot\mathrm{sha}(\ell,c-1).
+\]
+\formallabel{GlobalTheory.T.length_cyclotomic_block_cocycles_le_sha}
+\formallabel{GlobalTheory.Cut.ShaBound.main}
+\formallabel{GlobalTheory.Cut.ShaBound.length_le}
+\formallabel{GlobalTheory.Cut.ShaBound.length_quot}
+\formallabel{GlobalTheory.Cut.ShaBound.exists_coord}
+\formallabel{GlobalTheory.Cut.ShaBound.exists_toSha}
+\formallabel{GlobalTheory.Cut.ShaBound.mk_mem_Sha}
+\end{lemma}
+
+\begin{proof}
+\emph{Coordinates.} Let $d=[\OO:\Zl]$ and fix a $\Zl$-basis of $\OO$; it is a $\Ql$-basis of $K$, and the coordinates give a $\Zl$-linear
+bijection $p=(p_1,\dots,p_d):K/\OO\to(\Ql/\Zl)^d$. By the formula for $\chi_c$, $\mathsf M_c(g)=\chi_{\mathrm{cyc}}(g)^{-(c-1)}\in\Zl^\times$ acts on $K/\OO$
+as a $\Zl$-scalar, so $p_j(g\cdot x)=\chi_{\mathrm{cyc}}(g)^{-(c-1)}p_j(x)$. Hence for $f\in C$ each $a_j(f)=p_j\circ f$ is a continuous cocycle of $G_E$
+with values in $\Ql/\Zl(-(c-1))$, and $a_j$ is $\Zl$-linear.
+
+\emph{Local triviality.} Let $f\in C$ and $a=a_j(f)$. (1) $a$ vanishes on $I_v$ for $v\nmid\ell$. (2) For $w\mid\ell$, \cref{pf:linkN:bridge}(ii)
+gives $m$ with $f(g)=g\cdot m-m$ on $D_w$, so $a(g)=g\cdot p_j(m)-p_j(m)$ on $D_w$. (3) $a$ vanishes on $N_{S_\ell}$: the set
+$\{n\in N_{S_\ell}:a(n)=0\}$ is a subgroup (as $N_{S_\ell}$ acts trivially on $\Ql/\Zl(-(c-1))$, $a$ is additive on it), it is closed by
+continuity of $a$, and it is normal, since the cocycle relation gives $a(gng^{-1})=g\cdot a(n)$ for $n\in N_{S_\ell}$ (as $n$ acts trivially
+and $g\cdot a(g^{-1})=-a(g)$); it contains the inertia groups $I_v$ ($v\nmid\ell$) by (1), hence, being normal, all their conjugates, which are
+the inertia groups of the other places of $\Omega$ above $v$. So it equals $N_{S_\ell}$. Consequently $a$ factors through a cocycle $\bar a$ of
+$G_{E,S_\ell}$ (if $h^{-1}h'\in N_{S_\ell}$, then $a(h')=a(h)+h\cdot a(h^{-1}h')=a(h)$), and inflation is injective on cocycles. The decomposition groups of the places of $\Omega$ above
+$w\in S_\ell$ used for $\Sha^1$ are conjugate to $D_w$ \cite[Ch.~I, Prop.~9.1]{Neukirch1999}, and the restriction of a cocycle to a conjugate
+subgroup $gD_wg^{-1}$ is a coboundary if its restriction to $D_w$ is one (if $a(h)=h\cdot m-m$ on $D_w$, then
+$a(ghg^{-1})=ghg^{-1}\cdot m'-m'$ with $m'=g\cdot m-a(g)$). Hence the class of $\bar a$ lies in $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-(c-1)))$, and we
+obtain $\Zl$-linear maps $\Psi_j:C\to\Sha^1$, $f\mapsto[\overline{a_j(f)}]$, such that $\Psi_j(f)=0$ implies that $a_j(f)$ is a coboundary.
+
+\emph{Counting.} Let $\Psi=(\Psi_j)_j:C\to(\Sha^1)^d$. If $\Psi(f)=0$, choose $m_j$ with $a_j(f)(g)=g\cdot m_j-m_j$ and let $y=p^{-1}(m_1,\dots,m_d)$;
+since $p$ is bijective and compatible with the actions, $f(g)=g\cdot y-y$, so $f\in B^1$. Put $B=C\cap B^1(\mathsf M_c)$. Then $C/B$ is a quotient of
+$C/\ker\Psi$, which embeds into $(\Sha^1)^d$, so $\len_{\Zl}(C/B)\le d\cdot\mathrm{sha}(\ell,c-1)$. For an $\OO$-module $N$ of finite length,
+$\len_{\Zl}N=f_\OO\len_\OO N$, where $f_\OO$ is the residue degree, and $d=e_\OO f_\OO$ with $e_\OO=\len_\OO(\OO/\ell\OO)$ (indeed
+$\len_{\Zl}(\OO/\ell\OO)=d$, as $\OO/\ell\OO\cong\F_\ell^d$). Dividing by $f_\OO$ (the bound being trivial if $C/B$ has infinite length) gives
+$\len_\OO(C/B)\le e_\OO\,\mathrm{sha}(\ell,c-1)$, and $\len C=\len B+\len(C/B)$.
+\end{proof}
+
+\begin{lemma}[Unramified homomorphisms]\label{pf:linkN:unramhom}
+Assume global Artin reciprocity (as in \cref{pf:linkN:H2}). Let $C\subseteq Z^1(\mathsf M_1)$ be a submodule with $\mathrm{res}_v(C)=0$ for every finite
+place $v$ of $E$. Then $\len C\le\len(\OO/\ell\OO)\cdot v_\ell(h_E)$.
+\formallabel{GlobalTheory.UnramHom.length_le_classNumber}
+\formallabel{GlobalTheory.UnramHom.length_le}
+\formallabel{GlobalTheory.UnramHom.eq_one_of_class}
+\formallabel{GlobalTheory.UnramHom.index_dvd_classNumber}
+\end{lemma}
+
+\begin{proof}
+Since $\mathsf M_1$ is trivial, the elements of $C$ are continuous homomorphisms $G_E\to K/\OO$. Global Artin reciprocity, in the form of
+\cref{pf:linkN:H2}, provides a continuous open surjection $\mathrm{art}$ from the id\`ele group $\mathbb I_E$ onto $G_E^{\mathrm{ab}}$, trivial on $E^\times$,
+mapping the units $\OO_{E_v}^\times$ (placed at $v$) onto the image of $I_v$, for every finite place $v$. Let $\mathbb I^0\subseteq\mathbb I_E$ be the
+kernel of the map to the ideal class group; its index divides $h_E$, and $\mathbb I^0\subseteq U\cdot E^\times$, where $U$ is the group of unit
+id\`eles \cite[Ch.~VI, \S1]{Neukirch1999}. Let $H=\mathrm{art}(\mathbb I^0)\subseteq G_E^{\mathrm{ab}}$; as $\mathrm{art}$ is surjective, its index $n$
+divides $h_E$.
+
+\emph{Every $f\in C$ vanishes on the preimage of $H$.} Let $\psi=f\circ\mathrm{art}$, a continuous homomorphism to the discrete group $K/\OO$ with finite
+image (the image of the compact group $G_E$). It kills $\OO_{E_v}^\times$ for every finite $v$, since $f$ vanishes on $I_v$. It takes the same
+value at an id\`ele and at its finite part, by \lref{GlobalTheory.RingCls.map_finPartI} (for a totally complex field the archimedean
+components are $N$-th powers for every $N$, and the image of $\psi$ is finite). A unit id\`ele with trivial archimedean components is the limit
+of its partial products over finite sets of places (\lref{GlobalTheory.Mem.LocTriv.tendsto_part}), each killed by $\psi$, and $\ker\psi$ is
+open, hence closed; so $\psi$ kills $U$. It kills $E^\times$. Hence $\psi$ kills $\mathbb I^0$.
+
+\emph{Counting.} We show, by induction on $n$, that if $C$ is a module of homomorphisms $G_E\to K/\OO$ vanishing on the preimage of a subgroup
+$H$ of $G_E^{\mathrm{ab}}$ of finite index $n$, then $\len C\le\len(\OO/\ell\OO)\,v_\ell(n)$. If $n=1$ then $C=0$. Otherwise choose a prime
+$p\mid n$ and $a\in G_E$ whose image in $G_E^{\mathrm{ab}}/H$ has order $p$, and let $H'\supseteq H$ be the preimage of the subgroup generated by
+the image of $a$, of index $n/p$. Evaluation $\mathrm{ev}:C\to K/\OO$, $f\mapsto f(a)$, has kernel vanishing on the preimage of $H'$ (if $b\equiv a^j$
+modulo $H$, then $f(b)=jf(a)+f(a^{-j}b)=0$), so $\len\ker\mathrm{ev}\le\len(\OO/\ell\OO)v_\ell(n/p)$ by induction. Its image is killed by $p$,
+since $a^p$ maps into $H$. If $p\ne\ell$, $p$ is a unit in $\OO$ and the image is $0$; if $p=\ell$, the image has length at most
+$\len(\OO/\ell\OO)$ by \cref{pf:linkN:torsKO}. In both cases $\len C\le\len(\OO/\ell\OO)v_\ell(n)$. Finally $v_\ell(n)\le v_\ell(h_E)$ as $n\mid h_E$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:linkN:remarks}
+
+\begin{remark}[Use of the hypothesis of part (b)]\label{pf:linkN:remhyp}
+In the proof of \cref{pf:linkN:main}(b) the hypothesis that $p$ is linked for the bound at $2$ and $3$ is used through its auxiliary
+slot $R_3$ (\cref{pf:linkN:linkedAt}), through its row property, which becomes part of the selection property of the conclusion
+(\cref{pf:linkN:rowcalc}(iii)), and through the number $\eps_1$ and the threshold packages $K$ of its closedness statement
+(\cref{pf:linkN:slot}). The bound at $2$ and $3$ itself for the families of $D3(3,\mathcal A)$ is not used: the bound needed in Step~3
+of \cref{pf:linkN:famthm} is obtained for the cut family from \cref{lem:families:at23}, which holds for every family. By
+\cref{lem:families:at23} the hypothesis of (b) holds for every parameter (\cref{rem:families:linkN}).
+\end{remark}
+
+\begin{remark}[Largeness]\label{pf:linkN:remlarge}
+In \cref{pf:linkN:slot} the assumption that $\mathcal F$ is large for $(K,C_H)$ is not used: $\sfname{LinkN}$ holds for every
+$\mathcal F\in D3(3,\mathcal A)\cap\sfname{FamP}(\eps)$ with $\eps\le\eps_1$.
+\end{remark}
+
+\begin{remark}[Conditional conclusions and abstract data]\label{pf:linkN:remcond}
+$\sfname{LinkN}$ says nothing about members with $\linkNfin(D_{x,i})$ false or with $\sum_\ell\mathrm{vv}(D_{x,i},\ell)$ divergent. The
+invariants $\eta_j(w)$, $\mathrm{sh}(\ell,e)$, $\#G$ and the sets $\linkNgood_\iota\subseteq Z_\iota$ are components of the datum, tied to
+lattice indices and to lengths of Tate--Shafarevich groups only through the compatibility conditions \eqref{eq:pf:linkN:ties}; a
+normalised length of a module of infinite length is $0$ by convention (\cref{pf:linkN:localinv}(b)), and \cref{pf:linkN:lengthle}
+shows that the lengths entering $\linkNloc$ are finite. The main term $fmb\Lambda^2=fm\,e^{x^\eps}x^{2\eps}$ grows faster than any
+power of $x$.
+\end{remark}
+
+\begin{remark}[Unused hypotheses]\label{pf:linkN:remunused}
+The finiteness statement of \cref{pf:linkN:Hdec} is a hypothesis of \cref{pf:linkN:main} but is not used in its proof: it is passed
+only to \cref{pf:linkN:tamevanish}, whose proof uses only duality and the Euler characteristic formula, and to \cref{pf:linkN:GPmem},
+whose formal proof uses none of the three statements of \cref{pf:linkN:Hdec} (they are passed to the construction of the conditions
+(GP1)--(GP12), which does not use them). One hypothesis of the formal version of \cref{pf:linkN:operator}, a tie between labels, is
+not used either.
+\end{remark}
+
+\begin{remark}[Constants and names]\label{pf:linkN:remconst}
+The constants produced are explicit: $C_T=40$ and $C=320$ in \cref{pf:linkN:extra}; $2000(|C|+1)^3$ in \cref{pf:linkN:sumthm}; and the
+estimates of \cref{pf:linkN:pointbound} with the numerical constants $8$, $4$, $20$, $1000$, $1164000$ and $4\cdot10^6$. The formal
+statement of \cref{pf:linkN:lenunit} is an inequality although equality holds. The names of several formal results (for instance
+the one of \cref{pf:linkN:main}) do not describe their content, and the ``Theorem~T'' of \cref{pf:linkN:closinglocal} is an internal
+name of the development, not a published theorem.
+\end{remark}
+
+\begin{remark}[The crystalline period bound]\label{pf:linkN:remthmT}
+The lifting step \cref{pf:linkN:liftstep} is stated under the admitted local statements, but its proof does not use them; consequently
+the hypotheses on the local Bloch--Kato theory, local duality and the Euler characteristic formula, and the comparison data, enter
+\cref{pf:linkN:thmT} only through statements that are not used, and the conclusion of \cref{pf:linkN:thmT} does not involve the Hodge--Witt,
+Fontaine and comparison data. The lifting theorem gives the exponent $7(Nr'+\eta(N+r'))$; the assumption $C\ge40$ is used for the
+inequality $40(HN^2+N^3)<\ell$ required by it, and $7\le C$ for \cref{pf:linkN:liftmono}.
+\end{remark}
+
+\begin{remark}[Auxiliary statements]\label{pf:linkN:remaux}
+In \cref{pf:linkN:hostsize}(ii) the formal statement is an inequality, although the proof gives equality. The hypothesis $1\in R'$ of
+\cref{pf:linkN:lgsel} always holds. \Cref{pf:linkN:unramhom} assumes that the inertia restrictions vanish at every finite place, including the
+places above $\ell$. In \cref{pf:linkN:countL} the same number $e$ is used at all places above $\ell$.
+\end{remark}

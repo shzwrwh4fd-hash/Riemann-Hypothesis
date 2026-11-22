@@ -1,0 +1,2355 @@
+\section{Supply of hosts}\label{sec:pf:top-supply}
+
+\providecommand{\topsupplyJ}[2]{\left(\frac{#1}{#2}\right)}
+\providecommand{\topsupplyPP}{\operatorname{PP}}
+\providecommand{\topsupplyli}{\operatorname{li}}
+\providecommand{\topsupplyht}{\operatorname{ht}}
+\providecommand{\topsupplytw}{\operatorname{tw}}
+\providecommand{\topsupplytail}{\operatorname{tail}}
+\providecommand{\topsupplyodd}{\operatorname{odd}}
+\providecommand{\topsupplysout}{\operatorname{sq}}
+\providecommand{\topsupplyann}{\operatorname{ann}}
+\providecommand{\topsupplypat}{\operatorname{pat}}
+\providecommand{\topsupplyE}{\mathbf{E}}
+\providecommand{\topsupplyPr}{\mathbf{P}}
+\providecommand{\topsupplyBin}{\mathcal{B}}
+
+This section proves \cref{thm:supply}: for every primitive character $\psi$, the window bound
+$\sfname{VWinAt}(\psi,401)$ of \cref{def:vwin} implies host existence on windows of exponent $\frac32$ for the
+requirement $\mathcal G_\psi$ of \cref{def:requirement}. Together with the shape theorem (\cref{thm:shape}) and
+the deduction of \cref{thm:topg-to-zerofree}, this gives the top-level deduction \cref{thm:top-deduction}, whose
+proof we also give.
+
+\smallskip\noindent\emph{The difficulty.} A host for $\psi$ at a scale $x$ is the abelian number field
+$E\subset\Q(\zeta_{Q_Sqd})$ cut out by $\psi$ and two auxiliary primes $q\equiv3\pmod8$, $d\equiv7\pmod{16}$,
+together with a large amount of auxiliary data. The requirement $\mathcal G_\psi$ asks for the host conditions of
+\cref{def:hosts:EAtH}. Their condition (iii) is a square-root bound $|g_\chi(x)|\le x^{1/2+\eps}$, together with
+$|\ell(\chi)|\le4\log x$, for the $3o$ ``twisted'' characters $\chi$, i.e.\ the primitive characters attached to
+$\xi\topsupplyJ{\cdot}{q}^i\topsupplyJ{\cdot}{d}^j$ with $(i,j)\ne(0,0)$. For an individual character such a bound
+is of the strength of GRH. It is obtained here by \emph{choosing} $q$ and $d$: on average over primes $q$ in an
+arithmetic progression with $\log q\approx z=Y^{\eps/5}$, the quadratic twists of a fixed character behave as GRH
+predicts for $Y\le y\le Y^K$, because the mean square of the relevant prime sums over $q$ is dominated by its diagonal
+(\cref{sec:pf:top-supply:meansq}). The remaining analytic conditions of a good host (zero-free boxes near
+$\Re s=1$, a bound for $\ell(\chi)$, a prime number theorem at very large heights) follow from the classical theory
+of Dirichlet $L$-functions (\cref{sec:pf:top-supply:classical,sec:pf:top-supply:tail,sec:pf:top-supply:thin}).
+The bound on Tate--Shafarevich lengths in $\mathcal G_\psi$ is exactly what $\sfname{VWinAt}(\psi,401)$
+provides, on windows $[W,W^2]$ which contain windows of exponent $\frac32$ after a rescaling
+(\cref{sec:pf:top-supply:windows}). The remaining data of a host (auxiliary split primes, norm-one elements, the
+coset-distributed set $T$, the thick set $T_2$) are supplied by the host completion of
+\cref{sec:pf:top-supply:completion}.
+
+\smallskip\noindent\emph{Organisation.} \Cref{sec:pf:top-supply:stmt} fixes notation, recalls the objects of
+Part~I in the precise form used here and states the main results. \Cref{sec:pf:top-supply:classical} lists the
+classical analytic inputs. \Cref{sec:pf:top-supply:tail} treats the tail of a character in a zero-free box and the
+bound for $\ell(\chi)$. \Cref{sec:pf:top-supply:meansq} is the mean-square argument which produces good pairs
+$(q,d)$; it is the analytic core of the section. \Cref{sec:pf:top-supply:thin} proves the bound for the prime sums
+of all characters of a host at very large heights. \Cref{sec:pf:top-supply:hosts} constructs the hosts from groups of
+characters, \cref{sec:pf:top-supply:windows} produces the windows of good scales, \cref{sec:pf:top-supply:completion} completes
+the hosts (the coset-distributed set $T$ is chosen at random in \cref{sec:pf:top-supply:randomT}), and
+\cref{sec:pf:top-supply:proofs} proves the main results; \cref{sec:pf:top-supply:remarks} collects remarks on
+the formal statements.
+
+\subsection{Notation, the objects, and the main results}\label{sec:pf:top-supply:stmt}
+
+\subsubsection{Prime sums}
+Throughout, $\Lambda$ is the von Mangoldt function, $\gamma$ is Euler's constant, and for a Dirichlet character
+$\chi$ modulo $N$ we put $\ell(\chi)=L'(1,\chi)/L(1,\chi)$ (Mathlib's conventions, \cref{sec:prelim}).
+
+\begin{definition}[Prime sums]\label{pf:top-supply:primesums}
+For a Dirichlet character $\chi$ put
+\[
+R_\chi(y)=\sum_{n\le y}\Lambda(n)\chi(n)\Big(\frac yn-1\Big),\qquad
+\Psi_\chi(u)=\sum_{n\le u}\Lambda(n)\chi(n)-\delta_\chi u,
+\]
+where $\delta_\chi=1$ if $\chi$ is the trivial character $\one_1$ and $\delta_\chi=0$ otherwise. For $\chi\ne\one$ the
+function $g_\chi(y)=R_\chi(y)+y\,\ell(\chi)$ is that of \cref{def:landau:G}, and $g_{\one_1}=G$. For $y\ge0$ and
+$n\ge1$ put $c_y(n)=\Lambda(n)\min(1,y/n)$, and for $Z\ge1$
+\begin{equation}\label{eq:pf:top-supply:S}
+S_\chi(y,Z)=\sum_{n\le Z}c_y(n)\chi(n),\qquad
+\topsupplytail(\chi,Z)=-\ell(\chi)-\sum_{n\le Z}\frac{\Lambda(n)\chi(n)}{n}.
+\end{equation}
+For a function $\kappa:\N\to\C$ and an odd number $q$ put
+\begin{equation}\label{eq:pf:top-supply:Sq}
+S(Z,y,q,\kappa)=\sum_{n\le Z}c_y(n)\,\kappa(n)\topsupplyJ nq ,
+\end{equation}
+where $\topsupplyJ nq$ is the Jacobi symbol.
+\formallabel{Formalism.ZeroFreeDirichlet.Schi} \formallabel{PI.psi0} \formallabel{QH.G0}
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.Gchi}
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.logDerivLAtOne}
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.cN} \formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.Sz}
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.tailL} \formallabel{QH.S} \formallabel{QH.J}
+\end{definition}
+
+If $\chi(n)=\kappa(n)\topsupplyJ nq$ for all $n$, then $S_\chi(y,Z)=S(Z,y,q,\kappa)$.
+
+A primitive character $\chi$ modulo $N$ \emph{induces} a function $f:\N\to\C$ \emph{at level} $M$ if
+$\chi(n)=f(n)$ for all $n$ prime to $M$.
+
+\begin{lemma}[Twists by a Legendre symbol]\label{pf:top-supply:twistprim}
+\begin{enumerate}[label=(\roman*)]
+\item Let $q$ be an odd prime and $\xi$ a primitive character of conductor $f$ with $q\nmid f$. There is a primitive
+non-trivial character $\psi$ modulo $fq$ with $\psi(n)=\xi(n)\topsupplyJ nq$ for all $n$.
+\item If two primitive characters induce the same function at a level $M\ne0$, they have the same conductor and are
+equal.
+\item Let $\xi$ be a character modulo $N_0\ge1$ and $q\nmid N_0$ an odd prime. If a primitive character induces
+$n\mapsto\xi(n)\topsupplyJ nq$ at some level $M\ne0$, it induces this function at level $N_0q$.
+\end{enumerate}
+\formallabel{QH.twist_prim} \formallabel{QH.ind_unique} \formallabel{QH.ind_drop}
+\end{lemma}
+
+\begin{proof}
+(i) The Legendre symbol $\topsupplyJ{\cdot}q$ is a primitive character of conductor $q$, and the product of primitive
+characters of coprime conductors is primitive of the product conductor \cite[Ch.~5]{Davenport2000}; it is non-trivial as
+$fq>1$. (ii) Let $\chi,\chi'$ be primitive modulo $N,N'$ and agree on integers prime to $M$. Every residue class modulo
+$NN'$ prime to $NN'$ contains integers prime to $M$ (Chinese remainder theorem), so the characters modulo $NN'M$
+induced by $\chi$ and $\chi'$ coincide; a character determines its primitive character uniquely. (iii) Let $\xi^*$ be the
+primitive character inducing $\xi$ and $\psi$ the character of (i) for $\xi^*$. Then $\psi$ induces
+$\xi(n)\topsupplyJ nq$ at level $N_0q$, and by (ii) the given character equals $\psi$.
+\end{proof}
+
+\subsubsection{Zero-free boxes and boxed characters}
+
+\begin{definition}[Zero-free boxes]\label{pf:top-supply:box}
+Let $Q>0$ and let $\chi$ be a Dirichlet character modulo $N$. We say that $\chi$ is \emph{zero-free in the box of
+height $Q$} if $L(s,\chi)\ne0$ for all $s$ with $\Re s>1-\frac1{400}$ and $|\Im s|\le Q$. We call $\chi$
+\emph{$Q$-good} if $\chi\ne\one_N$, $N\le Q$ and $\chi$ is zero-free in the box of height $Q$. For $C,\tau>0$ and
+$1\le Y\le X$ we say that $\chi$ is \emph{$(C,\tau)$-boxed on $[Y,X]$ at height $Q$} if $\chi$ is $Q$-good,
+$|\ell(\chi)|\le C\log Y$, and $|g_\chi(y)|\le y^{1/2+\tau}$ for all $y\in[Y,X]$.
+For a function $f$ and a level $M$ we say that $f$ is $(C,\tau)$-boxed on $[Y,X]$ at height $Q$ if every
+primitive character inducing $f$ at level $M$ is.
+\formallabel{UpperTheory.Top.ZeroBox} \formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.ZeroFreeBox}
+\formallabel{QH.GoodC} \formallabel{QH.Box} \formallabel{QH.BoxAll} \formallabel{QH.Ind}
+\end{definition}
+
+\subsubsection{Window pairs and good pairs}
+
+For $\eps>0$ and $Y>1$ put $z=Y^{\eps/5}$ and $z'=Y^{\eps/5}\log^2Y$. Recall from \cref{def:vwin} that
+$\sfname{WinPair}(\eps,Y,q,d)$ means: $q\equiv3\pmod8$ and $d\equiv7\pmod{16}$ are primes with
+$\frac z2<\log q\le z$, $\frac{z'}2<\log d\le z'$, $q\mid d+1$, and every odd prime $p\le z$ divides $d+1$.
+For a function $\xi$ on $\N$, primes $q,d$ and $i,j\in\{0,1\}$ put
+\[
+\topsupplytw(\xi,q,d,i,j)(a)=\xi(a)\topsupplyJ aq^i\topsupplyJ ad^j .
+\]
+
+\begin{definition}[Good pairs]\label{pf:top-supply:pairgood}
+Let $M\ge1$, $\eps>0$ and $Y\le X$. For $j\in\{0,1\}$ put
+\[
+\topsupplyht(M,\eps,Y,j)=8M\,e^{z}\,e^{jz'}\qquad(z=Y^{\eps/5},\ z'=Y^{\eps/5}\log^2Y).
+\]
+A pair of natural numbers $(q,d)$ is \emph{good for $(M,\eps,Y,X)$} if
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{WinPair}(\eps,Y,q,d)$ holds and $\gcd(M,qd)=1$;
+\item for every Dirichlet character $\xi$ modulo $M$, every $(i,j)\ne(0,0)$, every primitive $\chi$ inducing
+$\topsupplytw(\xi,q,d,i,j)$ at level $2Mqd$ and every $y\in[Y,X]$:
+\[
+|g_\chi(y)|\le y^{1/2+\eps/2}\qquad\text{and}\qquad|\ell(\chi)|\le4\log y;
+\]
+\item for every real $\rho\in\mathcal P$ with $N_\rho\mid8M$, every $(i,j)\ne(0,0)$ and every primitive $\chi$ inducing
+$\topsupplytw(\rho,q,d,i,j)$ at level $2Mqd$, $\chi$ is zero-free in the box of height $\topsupplyht(M,\eps,Y,j)$.
+\end{enumerate}
+$\sfname{PairEx}$ is the statement: for all $M\ge1$, $\eps\in(0,\frac1{52})$ and $A\ge1$ there is $Y_1$ such that
+for every $Y\ge Y_1$ some pair is good for $(M,\eps,Y,Y^A)$.
+\formallabel{UpperTheory.Top.tw} \formallabel{UpperTheory.Top.height} \formallabel{UpperTheory.Top.PairGood}
+\formallabel{UpperTheory.Top.PairEx}
+\end{definition}
+
+Goodness for $(M,\eps,Y,X)$ implies goodness for $(M,\eps,Y,X')$ for $X'\le X$. In (b) the character $\xi$ runs
+over \emph{all} characters modulo $M$, and in (c) the height depends only on $j$.
+
+\subsubsection{Hosts cut out by a character}
+
+We use the frames and hosts of \cref{def:frame,def:host}. A host $H$ on a frame $\varphi$ has primes $q,d$, an
+integer $Q_S$, conductor $N_H=Q_Sqd$, a field $E=E_H$ with $\Gal(E/\Q)\cong\mathcal G_\varphi=\{\pm1\}\times\{\pm1\}\times A$
+and an Artin map $\mathrm{art}:(\Z/N_H)^\times\to\mathcal G_\varphi$. A \emph{character of $\varphi$} is a homomorphism
+$\theta:\mathcal G_\varphi\to\C^\times$; it is \emph{trivial on $A_0$} if it is trivial on
+$\{(1,1)\}\times A_0$, and $\mathrm{iod}\in\mathcal G_\varphi$ is the element $((1,-1),0)$ acting by $-1$ on
+$\sqrt{-d}$.
+
+\begin{definition}\label{pf:top-supply:kerchi}
+Let $\psi\in\mathcal P$ and let $H$ be a host on $\varphi$.
+\begin{enumerate}[label=(\roman*)]
+\item A primitive character $\chi$ is \emph{a character of $H$} if it induces $\theta\circ\mathrm{art}$ at level
+$N_H$ for some character $\theta$ of $\varphi$.
+\item $H$ is \emph{cut out by $\psi$} if $N_\psi\mid Q_S$ and, for $a$ prime to $N_H$, $\mathrm{art}(a)=1$ if and only
+if $a\equiv\pm1\pmod{2^{e+2}}$, $\psi(a)=1$ and $\topsupplyJ aq=\topsupplyJ ad=1$ (as in \cref{def:host}).
+\item $H$ has \emph{twist form for $\psi$} if for every character $\theta$ of $\varphi$ trivial on $A_0$ there
+are $\xi\in\langle\chi_\psi\rangle$ and $i,j\in\{0,1\}$ with $\theta(\mathrm{iod})=(-1)^j$ and
+$\theta(\mathrm{art}(a))=\topsupplytw(\xi,q,d,i,j)(a)$ for all $a$ prime to $N_H$.
+\end{enumerate}
+\formal{Formalism.HC.HostRaw.IsCharE} \formallabel{UpperTheory.Top.KerChi} \formallabel{UpperTheory.Top.TwistForm}
+\end{definition}
+
+\begin{lemma}\label{pf:top-supply:ischifield}
+If $H$ is a host on $\varphi$ cut out by $\psi$, then $E_H$ is a $\chi$-field for $(\psi,e(\varphi),q,d)$ in the sense
+of \cref{def:vwin}. \formallabel{UpperTheory.Top.isChiField}
+\end{lemma}
+
+\begin{proof}
+Take $N=N_H=Q_Sqd$, the embedding $E_H\hookrightarrow\Q(\zeta_N)$ and the primitive root $\zeta$ that are part of
+the host. Then $2^{e+2}\mid Q_S$, $N_\psi\mid Q_S$, $q\mid N$ and $d\mid N$. If $\tau$ is an automorphism of
+$\Q(\zeta_N)$ with $\tau(\zeta)=\zeta^a$, then $\zeta^a$ is a primitive $N$-th root of unity, so $a$ is prime to
+$N$; by the compatibility of the Artin map with the cyclotomic action, $\tau$ fixes $E_H$ if and only if
+$\mathrm{art}(a)=1$, and by \cref{pf:top-supply:kerchi}(ii) this holds if and only if $a\equiv\pm1\pmod{2^{e+2}}$,
+$\psi(a)=1$ and $\topsupplyJ aq=\topsupplyJ ad=1$.
+\end{proof}
+
+\subsubsection{Host existence and the requirement}
+
+\begin{definition}[Recollection of \cref{def:hostexw,def:requirement}]\label{pf:top-supply:hostexw}
+\begin{enumerate}[label=(\roman*)]
+\item A \emph{scale} is $s=(x,\eps,J)$ with $x>1$, $0<\eps<\frac1{52}$, $J\ge1$; put $\delta_1=x^{-\eps/8}$,
+$b=\exp(x^\eps)$ and $X'=\exp(x^{\eps/3})$. A \emph{scale set of exponent $\lambda$} is a pair $(J,W)$ with $J\ge1$
+and $W\subset\R$ having windows of exponent $\lambda$; $s$ belongs to it if $J(s)=J$ and $x(s)\in W$.
+\item \emph{Ranks} $R$ consist of a frame $\varphi_R$ and integers $k,m,t$ ($k,m$ even, $t$ odd, $m\ge2$); put
+$n=\mathrm{ord}(\varphi_R)$, $r=k+m-1$, $f=2n$, and let $n_0=|A_0|$. $\sfname{RankVal}(s,R)$ means
+\[
+x^{2+8\eps}\le n\le2x^{2+8\eps},\qquad\sqrt{x\delta_1}\le m\le2\sqrt{x\delta_1},
+\]
+\[
+x^{9/2+10\eps}\le k\le2x^{9/2+10\eps},\qquad r+t=8fr+4+T_0w_0,
+\]
+with $T_0=\lceil x^{377}\rceil$ and an explicit integer $w_0=w_0(R,s)$.
+\item A \emph{host of type $\mathrm{Host}(R)$} is a host on $\varphi_R$ together with \emph{choices}: a finite set of
+\emph{level primes} prime to $Q_S$; primes $g_0\ne g_1$; primes $p_\Delta\ne p'_\Delta$ with
+$p_\Delta\equiv p'_\Delta\equiv1\pmod{15}$, different from $g_0,g_1$; an ideal $\mathfrak c$ of the ring of integers of
+the CM subfield $K$ of $E$; finite sets $T\subset A$ and $T_2\subset\N$; an integer $L_w\ge2$ with $4L_wa<n_0$ for
+$a\in T_2$ such that $T_2$ has \emph{no relations of length $L_w$}: $j(s_2-s_1)\ne i(s_3-s_1)$ for pairwise distinct
+$s_1,s_2,s_3\in T_2$ and integers $i\ne j$ with $0<|i|,|j|\le L_w$; a real constant $C_{T2}$; a \emph{split bound}
+$b_s$ such that $\topsupplyJ{-d}{p}=1$ for all odd primes $p\le b_s$; and further fields which play no role here.
+\item $\sfname{HostExW}(\lambda,P)$, for a predicate $P(C_5,s,R,H,q_0)$, means: for every $\eps\in(0,\frac1{52})$
+there are $C_{T2}$, $C_8\ge1$, $C_5>0$, $c_6>0$, $C_b>0$, $x_0$ and a scale set of exponent $\lambda$ such that every
+scale $s$ in it with $\eps(s)=\eps$ and $x(s)\ge x_0$ admits ranks $R$, a host $H$ of type $\mathrm{Host}(R)$ and
+$q_0\in\N$ with $\sfname{RankVal}(s,R)$, $C_{T2}(H)=C_{T2}$, $\sfname{HostGood}(s,C_8,C_5,c_6,C_b,H,q_0)$
+(\cref{pf:top-supply:hostgood}) and $P(C_5,s,R,H,q_0)$.
+\item The \emph{requirement attached to $\psi\in\mathcal P$} is
+\[
+\mathcal G_\psi(s,\varphi,H,T,t)\iff\sfname{EAtH}(\mathcal K_\psi,H,T,x,\eps,4)\ \wedge\
+\sfname{VVle}\big(E_H,t,\sqrt{b}\big),
+\]
+where $\mathcal K_\psi$ is the cyclic level of $\psi$ (the primitive characters attached to the powers of
+$\chi_\psi$, with $o=\mathrm{ord}(\chi_\psi)$ and no exceptional character), $\sfname{VVle}$ is as in \cref{def:vwin}, and
+$\sfname{EAtH}(\mathcal K_\psi,H,T,x,\eps,C)$ are the host conditions of \cref{def:hosts:EAtH}: $o(\varphi)=o$; every
+character of $\mathcal K_\psi$ is attached to a character $\theta\in X_+$ (trivial on $A_0$, $\theta(\mathrm{iod})=1$);
+the exceptional-character condition (here: the primitive character attached to the sign character $\mathrm{ch}_Q$ of the first
+factor $\{\pm1\}$ of $\mathcal G_\varphi$ does not belong to $\mathcal K_\psi$); $T$ has shares within $x^{-1+\eps}$; and $|g_\chi(x)|\le x^{1/2+\eps}$, $|\ell(\chi)|\le C\log x$ for the
+primitive characters $\chi$ attached to the bounded characters $\theta$ (those trivial on $A_0$ with
+$\theta(\mathrm{iod})=-1$, or with $\theta(\mathrm{iod})=1$ and $\chi\notin\mathcal K_\psi$). Its host requirement is
+$\mathcal G_\psi.\mathrm{req}(C_5,s,R,H,q_0)=\mathcal G_\psi(s,\varphi_R,H,T_H,t_R)$.
+\end{enumerate}
+\formal{GlobalTheory.EX.RankVal} \formal{Formalism.BasicNotions.Host} \formallabel{HostParam.Seam.Choices}
+\formallabel{HostParam.Seam.HostNF}
+\formal{GlobalTheory.EX.HostExW} \formallabel{Formalism.HC.EAtH} \formallabel{UpperTheory.Top.GChi}
+\end{definition}
+
+\subsubsection{The main results}
+
+\begin{theorem}[\cref{thm:supply}]\label{pf:top-supply:main}
+For every $\psi\in\mathcal P$, $\sfname{VWinAt}(\psi,401)$ implies
+$\sfname{HostExW}(\frac32,\mathcal G_\psi.\mathrm{req})$. \formallabel{UpperTheory.Top.supplyChi}
+\end{theorem}
+
+\begin{theorem}[\cref{thm:top-deduction}]\label{pf:top-supply:root}
+Suppose that $\sfname{Green}$ and $\sfname{VWin}$ hold and that the hypothesis package
+$\sfname{HypsAlt}(N_{\rm link},\sfname{DefiniteSideCondition})$ is non-empty, where
+$N_{\rm link}(\mathcal C)$ is the closedness of $\sfname{LinkN}$ on $\mathcal C$. Then $\sfname{ZeroFreeAll}$
+(\cref{def:zerofreeall}) holds. \formallabel{UpperTheory.Top.zero_free_all_of_green_v_win}
+\end{theorem}
+
+\Cref{pf:top-supply:main} is proved in \cref{sec:pf:top-supply:proofs}. \Cref{pf:top-supply:root} only combines
+results proved elsewhere; we prove it now. We need the following bookkeeping statement.
+
+\begin{lemma}\label{pf:top-supply:shapeofhyps}
+For all propositions $V$, $N\!R$, $G$ and every predicate $N$ on family classes,
+$\sfname{TopShapeAlt}(V,N\!R,N,G)$, $V$, $N\!R$ and an element of $\sfname{HypsAlt}(N,\sfname{DefiniteSideCondition})$
+together imply $G$.
+\formallabel{GlobalTheory.Fc.goal_of_shape_of_hyps} \formallabel{GlobalTheory.Fc.forall_goal_of_shape_of_hyps}
+\formallabel{GlobalTheory.Cp.serv_t_iff_formalism_serv_t}
+\end{lemma}
+
+\begin{proof}
+$\sfname{TopShapeAlt}(V,N\!R,N,G)$ is a universally quantified implication whose premises are a family class
+$\mathcal A$, a function $c_T$, a selection and choices for $\mathcal A$, the propositions $V$ and $N\!R$, the
+statement $N(\cdot)$ for a class derived from $\mathcal A$, and about forty closedness and row conditions.
+Given an element $h$ of the hypothesis package, apply it to the family class,
+the function $c_T$ and the field $h_{\mathrm{Ex}}$ of $h$; the selection and the choices are those derived from the raw
+selection of $h$; the premises $V$ and $N\!R$ are the given proofs; all other premises are fields of $h$, except
+three which are obtained from fields of $h$ by reformulations: the divisibility-row premise by
+\lref{GlobalTheory.Cp.divRows3G_iff}, which states that the two formulations of the divisibility rows used in the
+package and in the shape statement are equivalent; the service premise by the analogous equivalence of the two
+formulations of the service condition; and the row premise by forgetting components of the field
+$\mathrm{rRows}$. The conclusion is $G$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:top-supply:root}]
+The non-emptiness hypothesis is used to obtain an element $h$ of the hypothesis package; since the conclusion is a
+proposition this is legitimate. The shape theorem of the formal development,
+\lref{UpperTheory.Top.shape_closed_link_n_of_green}, states that $\sfname{Green}$ implies
+$\sfname{TopShapeAlt}(\mathrm{True},\mathrm{True},N_{\rm link},\sfname{TopG})$. By \cref{pf:top-supply:shapeofhyps}
+with $V=N\!R=\mathrm{True}$ and $h$, $\sfname{TopG}$ holds (this is \cref{thm:shape}). By definition $\sfname{VWin}$
+is $\sfname{VWinAt}(\psi,401)$ for all $\psi\in\mathcal P$, so \cref{pf:top-supply:main} gives
+$\sfname{HostExW}(\frac32,\mathcal G_\psi.\mathrm{req})$ for every $\psi$. Now \cref{thm:topg-to-zerofree} with
+$\lambda=\frac32>1$ gives $\sfname{ZeroFreeAll}$.
+\end{proof}
+
+\subsubsection{The conditions of a good host}
+
+\begin{definition}[$\sfname{HostGood}$]\label{pf:top-supply:hostgood}
+Let $s=(x,\eps,J)$ be a scale, $R$ ranks, $H$ a host of type $\mathrm{Host}(R)$ with data as above,
+$N_H=Q_Sqd$, and $C_8,C_5,c_6,C_b\in\R$, $q_0\in\N$. Then $\sfname{HostGood}(s,C_8,C_5,c_6,C_b,H,q_0)$ is the
+conjunction of:
+\begin{enumerate}[label=(H\arabic*),leftmargin=*]
+\item \emph{(values)} there is $Y$ with $x^{1/J}\le Y\le x$ such that $q\equiv3\pmod8$, $d\equiv7\pmod{16}$ are primes
+with $e^{z/2}<q\le e^{z}$, $e^{z'/2}<d\le e^{z'}$ ($z=Y^{\eps/5}$, $z'=Y^{\eps/5}\log^2Y$), the Kronecker symbols
+$\topsupplyJ{-d}{q}$ and $\topsupplyJ{-d}{p}$ ($p\le z$ prime) equal $1$, and $\log N_H\le2Y^{\eps/5}\log^2Y$ (the
+\emph{pair row} $\sfname{PairRow}(Y,\eps,H)$); moreover $\frac12\delta_1n\le|T|\le2\delta_1n$, $x^{-\eps}n\le|T_2|$,
+$p_\Delta,p'_\Delta\le N_H^{C_8}$, $(kb)^8\le g_i\le2(kb)^8$, $L_w=10\lceil405\log x\rceil+2\lceil30/\eps\rceil+22$,
+$\mathfrak c$ is the unit ideal, the split bound is at least $\lfloor x^{\eps/(5J)}\rfloor$, and $J\le C_8$,
+$o(\varphi)\le C_8$, $Q_S\le C_8n$;
+\item \emph{(arithmetic)} each $g_i$ is a norm $\pi\bar\pi$ of an element $\pi$ of the CM subfield $K$ of $E$, each
+$g_i\equiv1\pmod{N_H}$, the primes $p_\Delta,p'_\Delta$ split completely in $E$, and every level prime is split in
+$K$ (class $\mathrm{splitK}$);
+\item $n_0\exp\big(-C_{T2}\sqrt{\log n_0\log L_w}\big)/L_w\le|T_2|$;
+\item $4L_w|T_2|\le n_0$;
+\item for each of the three functions $\topsupplyJ{-q}{\cdot}$, $\topsupplyJ{-d}{\cdot}$ and
+$\topsupplyJ{-d}{\cdot}\topsupplyJ{-q}{\cdot}$ (Kronecker symbols) and every primitive $\chi$ inducing it at level
+$8qd$: $|g_\chi(x)|\le x^{1/2+\eps}$ and $|\ell(\chi)|\le C_5\log x$ ($\sfname{QDq}$);
+\item \emph{(boxes)} there is $Y$ as in (H1) such that the primitive characters inducing $\topsupplyJ{-q}{\cdot}$,
+$\chi_8\topsupplyJ{-q}{\cdot}$ at level $8qd$ are zero-free in the box of height $8e^{z}$, those inducing
+$\topsupplyJ{-d}{\cdot}$, $\chi_8\topsupplyJ{-d}{\cdot}$, $\topsupplyJ{-d}{\cdot}\topsupplyJ{-q}{\cdot}$,
+$\chi_8\topsupplyJ{-d}{\cdot}\topsupplyJ{-q}{\cdot}$ are zero-free in the box of height $8e^{z}e^{z'}$ and of conductor at
+most this height ($\sfname{Boxq}$), and every real character $\chi$ of $H$ of conductor $N$ satisfies: if $d\mid N$
+it is primitive, real, of conductor $\le8\,\topsupplyodd(Q_S)e^ze^{z'}$ and zero-free in the box of that height,
+and if $q\mid N$, $d\nmid N$ the same with $8\,\topsupplyodd(Q_S)e^z$ ($\sfname{BoxH}$); here $\topsupplyodd(Q_S)$ is
+the odd part of $Q_S$;
+\item $|\Re\,\ell(\topsupplyJ{\cdot}{d})|\le x^\eps$;
+\item ($\sfname{ThinOK}$) every character $\chi$ of $H$ satisfies $|g_\chi(y)|\le y\exp(-c_6x^{\eps/8})$ for all
+$y\ge\frac13\exp(x^{\eps/3})$;
+\item ($\sfname{BadOK}$) a weighted count of the elements $t\in T$ whose Frobenius orbits are not \emph{good} is
+small: for the primes $p<X'$ in the residue class zero of the base datum of $H$ whose Frobenius image $h(p)\in A$
+has order at least $x^{\eps/4}$, the sum of $\frac{\log p}p$ times the number of $t\in T$ which are not good for $h(p)$
+relative to the base datum of $H$ (\cref{pf:top-supply:orbitpattern}) is at most $4C_bx^{-2}\delta_1n$ times the sum of
+$\frac{\log p}p$;
+\item the sets $BB(r,g_0)$ and $BB(r,g_1)$ are disjoint, where $BB(r,g)$ consists of $g$ and of the primes $\ell$
+with $g^{e}<\ell^{4v_\ell(g^{e}-1)}$ for some $1\le e\le r$;
+\item for each $i$ there is an integer $\pi$ of $E$ lying in $K$ with $\pi\bar\pi=g_i$ and $\pi\equiv1\pmod{N_H}$;
+\item $p_\Delta\equiv p'_\Delta\equiv1\pmod{\lcm(15,N_H)}$;
+\item $q_0$ is a prime with $q_0\equiv1\pmod{N_H}$, $q_0\le N_H^{C_8}$ and $q_0\ne p_\Delta,p'_\Delta$;
+\item the level primes are exactly $g_0,g_1,p_\Delta,p'_\Delta,q_0$.
+\end{enumerate}
+\formal{GlobalTheory.EX.HostGood} \formal{GlobalTheory.EX.BadOK}
+\end{definition}
+
+Conditions (H1)--(H14) are those of \cref{def:hostexw}; most of them are used only in the shape theorem. In the
+present section we only have to \emph{produce} hosts satisfying them.
+
+\subsection{Classical analytic inputs}\label{sec:pf:top-supply:classical}
+
+The following classical results are proved in the formal development \cite{LeanSource2026}. We state them in the
+form in which they are used and refer to the literature for proofs. Here $\chi$ is a Dirichlet character modulo
+$q$ (or $N$, $M$), and a \emph{zero} of $L(s,\chi)$ is a zero other than the point $s=1$ when $\chi$ is trivial.
+
+\begin{littheorem}[Zero-free region; Landau--Page {\cite[Ch.~14]{Davenport2000}, \cite[Ch.~11]{MontgomeryVaughan2007}}]
+\label{pf:top-supply:zfr}
+There is $c>0$ with the following property. If $\chi$ is a character modulo $q$ and $s$ is a zero of $L(s,\chi)$
+with $\Re s\ge1-c/\log\big(q(|\Im s|+2)\big)$, then $\chi$ is real and non-trivial, $s$ is real, $s$ is a simple
+zero, and $(\chi,s)$ is the only pair consisting of a character modulo $q$ and a zero in the part of the formal proof treated here.
+\formallabel{Formalism.ZeroFreeDirichlet.zFRDirichlet}
+\end{littheorem}
+
+\begin{littheorem}[Siegel {\cite{Siegel1935b}, \cite[Ch.~21]{Davenport2000}}]\label{pf:top-supply:siegel}
+For every $\eps>0$ there is $c>0$ such that $|L(1,\chi)|\ge cq^{-\eps}$ for every real non-trivial character
+$\chi$ modulo $q$, and every real zero $\beta$ of $L(s,\chi)$ satisfies $\beta\le1-cq^{-\eps}$.
+\formallabel{Formalism.ZeroFreeDirichlet.siegelLower} \formallabel{Formalism.ZeroFreeDirichlet.excBound}
+\end{littheorem}
+
+In this section Siegel's theorem is used only with $\eps=1$ (in \cref{pf:top-supply:counta}); that case also follows
+from the classical effective bound $1-\beta\gg q^{-1/2}(\log q)^{-2}$ \cite[Ch.~14]{Davenport2000}.
+
+For $X\ge2$ put $\topsupplyli(X)=\int_2^X\frac{dt}{\log t}$, and let $\pi(X;M,b)$ be the number of primes $p\le X$
+with $p\equiv b\pmod M$.
+
+\begin{littheorem}[Primes in progressions with exceptional zero {\cite{Gallagher1970}, \cite[Ch.~18]{IwaniecKowalski2004}}]
+\label{pf:top-supply:pnt}
+There are $c_3>0$, $A_0$ and $C_0$ with the following property. For every $M$ with $8\mid M$ there is either no
+\emph{exceptional pair} modulo $M$, or a distinguished one: an exceptional pair is a real non-trivial character $\chi_1$
+modulo $M$ with a zero $\beta_1$ of $L(s,\chi_1)$ such that $1-\frac1{8\log M}<\beta_1<1$. Put
+$\mathrm{main}(b,X)=\topsupplyli(X)/\varphi(M)$ in the first case and
+$\mathrm{main}(b,X)=\big(\topsupplyli(X)-\Re\chi_1(b)\topsupplyli(X^{\beta_1})\big)/\varphi(M)$ in the second. Then for
+all $X\ge2$ with $\log X\ge C_0\log M\log(\log M+2)$ and all $b$ prime to $M$,
+\[
+\big|\pi(X;M,b)-\mathrm{main}(b,X)\big|\le A_0\Big(e^{-c_3\log X/\log M}+e^{-\sqrt{c_3\log X}}\Big)\,\mathrm{main}(b,X).
+\]
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.PNTAPRelW}
+\formallabel{Formalism.HermitianLattices.Ext.PrimesInProgressions.pnt_progressions_relative_weak_holds}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.IsExcPair}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.mainAP}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.liX}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.piAP}
+\end{littheorem}
+
+This is a form of the prime number theorem for arithmetic progressions with the contribution of the exceptional
+zero, in the range $\log X\gg\log M\log\log M$ and with relative error; results of this type, in the wider range
+$X\ge M^{C}$, go back to Linnik and Gallagher. The formal proof follows the classical route: a smoothed explicit
+formula, a log-free zero-density estimate near $\Re s=1$, Tur\'an's power sum method and the Deuring--Heilbronn
+phenomenon.
+
+\begin{littheorem}[Zero density near $\Re s=1$ {\cite[Ch.~12]{Montgomery1971}}]\label{pf:top-supply:density}
+There is $C$ such that for every $Q\ge3$ and every finite set $\mathcal S$ of primitive characters of conductor at
+most $Q$, each of which has a zero $s$ with $\Re s>1-\frac1{400}$ and $|\Im s|\le Q$, one has
+$|\mathcal S|\le CQ^{1/4}$.
+\formallabel{Formalism.HermitianLattices.Ext.PrimitiveCharacterCasts.ZD.zero_density_box}
+\end{littheorem}
+
+This follows from the density estimate $\sum_{q\le Q}\sum^*_{\chi}N(\sigma,T,\chi)\ll(Q^2T)^{3(1-\sigma)/(2-\sigma)}
+(\log QT)^9$ of \cite[Ch.~12]{Montgomery1971} with $\sigma=1-\frac1{400}$, $T=Q$, which gives the much stronger bound
+$Q^{9/401}(\log Q)^9$; the formal proof is a self-contained argument with a mollifier and the duality principle.
+
+\begin{littheorem}[The prime number theorem for a character {\cite[Ch.~14, 17--20]{Davenport2000}}]\label{pf:top-supply:psithin}
+For every $c_0>0$ there are $C,c>0$ with the following property. Let $\chi$ be a primitive character modulo $N$
+and $\lambda\ge1$ with $\log N\le\lambda$, and assume that if $\chi$ is real and non-trivial, then $L(\beta,\chi)\ne0$
+for $1-c_0<\beta<1$. Then for all $u\ge e$
+\[
+|\Psi_\chi(u)|\le Cu(\log u+\lambda)^2\exp\Big(-\frac{c\log u}{\lambda+\sqrt{\log u}}\Big).
+\]
+\formallabel{QH.psi_thin} \formallabel{QH.NoExc}
+\end{littheorem}
+
+This is the classical consequence of the truncated explicit formula for $\psi(x,\chi)$ and of the zero-free region
+\cref{pf:top-supply:zfr}, the possible exceptional zero being excluded by the hypothesis (for $\chi=\one_1$ it is the
+prime number theorem with the de la Vall\'ee Poussin error term).
+
+\begin{littheorem}[Logarithmic derivative in a zero-free box {\cite[Ch.~16]{Davenport2000}}]\label{pf:top-supply:negLD}
+For every $\delta>0$ there is $K\ge0$ such that the following holds. Let $\chi\ne\one$ be a character modulo $N$ and
+$Q\ge2$ with $N\le Q$, and assume that $\chi$ is zero-free in the box of height $Q$. Then
+$|L'/L(s,\chi)|\le K\log Q$ for all $s$ with $\Re s\ge1-\frac1{400}+\delta$ and $|\Im s|\le Q-1$.
+\formallabel{Formalism.HermitianLattices.Ext.BoxTail.tail_box_negLD}
+\end{littheorem}
+
+This follows from the partial fraction expansion $L'/L(s,\chi)=\sum_{|\gamma-t|<1}(s-\rho)^{-1}+O(\log N(|t|+2))$
+and the bound $O(\log N(|t|+2))$ for the number of zeros with $|\gamma-t|<1$ \cite[Ch.~16]{Davenport2000}: in the box
+every zero is at distance at least $\delta$ from $s$. For $\Re s>1$ one has moreover the elementary bound
+$|L'/L(s,\chi)|\le|\zeta'/\zeta(\Re s)|$.
+
+\begin{lemma}[Mertens' estimate]\label{pf:top-supply:mertens}
+For $y\ge1$, $\sum_{n\le y}\Lambda(n)/n\le\log y+2$, and there is $C$ with $\sum_{n\le y}\Lambda(n)/n\le C\log y$
+for $y\ge2$. \formallabel{Formalism.HermitianLattices.Ext.BoxTail.tail_mertens} \formallabel{Deduction.mertens_upper}
+\end{lemma}
+
+\begin{proof}
+This is Mertens' first theorem \cite{Mertens1874} in a weak form; the second inequality follows from the first and
+$\log y\ge\log2$ (the formal proof deduces it from Chebyshev's bound $\psi(y)\le(\log4+4)y$ by partial summation).
+\end{proof}
+
+\begin{lemma}[Repulsion of exceptional zeros]\label{pf:top-supply:page}
+There is $c_0>0$ with the following property. Let $Z\ge3$, let $\chi_1,\chi_2$ be real non-trivial characters
+modulo $M_1,M_2\le Z$, and let $\beta_i$ be zeros of $L(s,\chi_i)$ with $1-c_0/\log Z<\beta_i<1$. Then
+$\chi_1(n)=\chi_2(n)$ for every $n$ prime to $M_1M_2$.
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.page_across}
+\end{lemma}
+
+\begin{proof}
+Let $c$ be the constant of \cref{pf:top-supply:zfr} and put $c_0=c/3$. Let $\chi_i'$ be the character modulo
+$M_1M_2$ induced by $\chi_i$. Since $L(s,\chi_i')=L(s,\chi_i)\prod_{p\mid M_1M_2}(1-\chi_i(p)p^{-s})$, $\beta_i$ is a
+zero of $L(s,\chi_i')$, and $\chi_i'$ is non-trivial. As $M_1M_2\le Z^2$ and $Z\ge3$ we have
+$\log(2M_1M_2)\le3\log Z$, so $\beta_i\ge1-c/\log(2M_1M_2)$: both zeros lie in the region of
+\cref{pf:top-supply:zfr} for the modulus $M_1M_2$. By the uniqueness assertion there, $\chi_1'=\chi_2'$, which is
+the claim.
+\end{proof}
+
+\subsection{The tail of a character in a zero-free box}\label{sec:pf:top-supply:tail}
+
+\begin{lemma}[Splitting]\label{pf:top-supply:split}
+Let $\chi\ne\one$ be a character and $0<y\le Z$. Then $g_\chi(y)=-S_\chi(y,Z)-y\,\topsupplytail(\chi,Z)$.
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.finite_splitting_of_group}
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.GFiniteSplit}
+\end{lemma}
+
+\begin{proof}
+For $n\le Z$ we have $\frac yn-\min(1,\frac yn)=\frac yn-1$ if $n\le y$ and $=0$ otherwise. Hence
+$R_\chi(y)=\sum_{n\le Z}\Lambda(n)\chi(n)\big(\frac yn-\min(1,\frac yn)\big)=y\sum_{n\le Z}\frac{\Lambda(n)\chi(n)}n-S_\chi(y,Z)$,
+and $g_\chi(y)=R_\chi(y)+y\ell(\chi)$ is as claimed by \eqref{eq:pf:top-supply:S}.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:taildiff}
+For every character $\chi$, $z\ge1$ and $h>0$,
+\[
+\Big|R_\chi(z+h)-R_\chi(z)-h\sum_{n\le z}\frac{\Lambda(n)\chi(n)}n\Big|\le\frac{h(h+1)\log(z+h)}z.
+\]
+\formallabel{Formalism.HermitianLattices.Ext.BoxTail.tail_diff_schi}
+\end{lemma}
+
+\begin{proof}
+The left-hand side equals $|\sum_{z<n\le z+h}\Lambda(n)\chi(n)(\frac{z+h}n-1)|$. Each term is at most
+$\log(z+h)\cdot\frac hz$ in absolute value, and there are at most $h+1$ terms.
+\end{proof}
+
+\begin{proposition}[The tail by contour integration]\label{pf:top-supply:contour}
+For every $\delta\in(0,\frac1{800}]$ there is $K\ge0$ such that the following holds. Let $\chi\ne\one$ be a character
+modulo $N$ and $Q\ge2$ with $N\le Q$, and assume that $\chi$ is zero-free in the box of height $Q$. Then for all
+$z\ge1$ and $0<\eta\le1$
+\[
+\big|R_\chi(z+z\eta)-R_\chi(z)+z\eta\,\ell(\chi)\big|\le K\log Q\Big(\eta\log Q\cdot z^{1-\frac1{400}+\delta}+\frac{z^2}Q\Big).
+\]
+\formallabel{Formalism.HermitianLattices.Ext.BoxTail.tail_contour}
+\end{proposition}
+
+\begin{proof}
+Put $\sigma_1=1-\frac1{400}+\delta\in[\frac12,1-\frac1{800}]$, $T=Q/2$, and for $y\ge1$ let
+$F_y(s)=-\frac{L'}L(s,\chi)\frac{y^s}{s(s-1)}$. Let $K_B$ be the constant of \cref{pf:top-supply:negLD} for $\delta$,
+and $C_0$ a bound for $|L'/L(s,\chi)|$ on $\Re s=2$ (by the last remark after \cref{pf:top-supply:negLD}, $C_0$ does
+not depend on $\chi$).
+
+\emph{Perron's formula.} For $y\ge1$, since $-\frac{L'}L(s,\chi)=\sum_n\Lambda(n)\chi(n)n^{-s}$ converges absolutely on
+$\Re s=2$ and $\frac1{2\pi i}\int_{(2)}\frac{(y/n)^s}{s(s-1)}ds=(\frac yn-1)^+$, we have
+$R_\chi(y)=\frac1{2\pi i}\int_{(2)}F_y(s)\,ds$.
+
+\emph{Contour shift.} The function $F_y$ is meromorphic on the rectangle $\sigma_1\le\Re s\le2$, $|\Im s|\le T$ with a
+single pole, at $s=1$, with residue $-\frac{L'}L(1,\chi)y=-\ell(\chi)y$: indeed $L(s,\chi)$ is entire and has no zero in
+the rectangle (it lies in the box, as $T\le Q$), and $s=0$ is outside. By the residue theorem,
+\[
+R_\chi(y)=-\ell(\chi)y+\frac1{2\pi i}\Big(\int_{|t|>T}F_y(2+it)\,i\,dt+\int_{\sigma_1-iT}^{\sigma_1+iT}F_y\,ds
++\int_{\sigma_1+iT}^{2+iT}F_y\,ds-\int_{\sigma_1-iT}^{2-iT}F_y\,ds\Big),
+\]
+the last two integrals being over horizontal segments. Apply this with $y=y_1=z(1+\eta)$ and with $y=z$ and subtract.
+The residues give $-\ell(\chi)z\eta$, and it remains to bound the four kinds of integrals; note $1\le z\le y_1\le2z$.
+
+\emph{The far part.} For $|t|>T$, $|F_y(2+it)|\le C_0y^2/t^2\le4C_0z^2/t^2$, so each far integral is at most
+$8C_0z^2/T=16C_0z^2/Q$.
+
+\emph{The horizontal segments.} For $\sigma_1\le\sigma\le2$ and $|t|=T\le Q-1$, \cref{pf:top-supply:negLD} gives
+$|F_y(\sigma+it)|\le K_B\log Q\cdot4z^2/T^2$; the segments have length at most $2$, so each horizontal integral is at most
+$32K_B\log Q\,z^2/Q^2\le16K_B\log Q\,z^2/Q$.
+
+\emph{The left side.} For $s=\sigma_1+iu$, $|u|\le T$, we have $|y_1^s-z^s|=z^{\sigma_1}|(1+\eta)^s-1|\le
+z^{\sigma_1}|s|\eta(1+\eta)^{\sigma_1}\le2\eta z^{\sigma_1}|s|$ and $|s-1|\ge\frac12(1-\sigma_1+|u|)$, hence
+\[
+|F_{y_1}(s)-F_z(s)|\le K_B\log Q\cdot\frac{4\eta z^{\sigma_1}}{1-\sigma_1+|u|}.
+\]
+Integrating over $|u|\le T$ and using $1-\sigma_1\ge\frac1{800}$ gives at most
+$K_B\log Q\cdot4\eta z^{\sigma_1}\cdot2\log(1+800T)$, and $\log(1+800T)=\log(1+400Q)\le10\log Q$ for $Q\ge2$.
+
+Collecting terms (and $\log Q\ge\frac12$), the claim holds with $K=160K_B+32(1+C_0)$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:tailK}
+For all $\eps\in(0,1]$ and $K\ge1$ there is $Y_0$ such that for all $Y\ge Y_0$, all $Q$ with
+$Y^{\eps/6}\le\log Q\le Y^{\eps/4}$ and every $Q$-good character $\chi$,
+$\big|Y^K\topsupplytail\big(\chi,Y^{400K}\big)\big|\le Y^\eps$.
+\formallabel{QH.tailK}
+\end{lemma}
+
+\begin{proof}
+Put $x=Y^K\ge Y$, $z=x^{400}$, $\eta=x^{-2}$, so that $z\eta=x^{398}$. By the definition
+\eqref{eq:pf:top-supply:S} of the tail,
+\[
+z\eta\,\topsupplytail(\chi,z)=\Big(R_\chi(z+z\eta)-R_\chi(z)-z\eta\sum_{n\le z}\frac{\Lambda(n)\chi(n)}n\Big)
+-\Big(R_\chi(z+z\eta)-R_\chi(z)+z\eta\,\ell(\chi)\Big).
+\]
+Apply \cref{pf:top-supply:taildiff} to the first bracket and \cref{pf:top-supply:contour} with
+$\delta=\eps/(1600K)\le\frac1{800}$ to the second, and divide by $z\eta/x=x^{397}$. Since
+$z^{1-1/400+\delta}=x^{399}x^{\eps/(4K)}=x^{399}Y^{\eps/4}$, we obtain
+\[
+|x\,\topsupplytail(\chi,z)|\le K'\log^2Q\cdot Y^{\eps/4}+K'\log Q\,\frac{x^{403}}Q+\frac{x^{398}(x^{398}+1)\log(2x^{400})}{x^{797}}.
+\]
+The first term is at most $K'Y^{3\eps/4}\le\frac13Y^\eps$ for large $Y$, as $\log Q\le Y^{\eps/4}$. The second is at
+most $K'Y^{404K}e^{-Y^{\eps/6}}\le\frac13$ for large $Y$, as $\log Q\le x$ and $Q\ge e^{Y^{\eps/6}}$. The third is
+at most $802\le\frac13Y^\eps$ for large $Y$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:kappaC}
+There is $C>0$ such that for every $\eps\in(0,1]$ there is $Y_0$ with the following property: for $Y\ge Y_0$, $Q$
+with $Y^{\eps/6}\le\log Q\le Y^{\eps/4}$ and every $Q$-good $\chi$, $|\ell(\chi)|\le C\log Y$.
+\formallabel{QH.kappaC}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:top-supply:tailK} with $K=1$, $Y|\topsupplytail(\chi,Y^{400})|\le Y^\eps\le Y$, so
+$|\topsupplytail(\chi,Y^{400})|\le1$. By \eqref{eq:pf:top-supply:S} and \cref{pf:top-supply:mertens},
+$|\ell(\chi)|\le1+\sum_{n\le Y^{400}}\Lambda(n)/n\le1+400C_M\log Y$, where $C_M$ is the constant of
+\cref{pf:top-supply:mertens}.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:kappa4}
+\begin{enumerate}[label=(\roman*)]
+\item There are $C$ and $l_0\ge1$ such that $|\ell(\chi)|\le1000\log\log Q+C$ for every $Q$ with $\log Q\ge l_0$ and
+every $Q$-good $\chi$.
+\item For all $\eps\in(0,\frac1{52})$ and $A>0$ there is $Y_0$ such that for $Y\ge Y_0$, all $Q$ with
+$Y^{\eps/6}\le\log Q\le AY^{\eps/5}\log^2Y$ and every $Q$-good $\chi$, $|\ell(\chi)|\le4\log Y$.
+\end{enumerate}
+\formallabel{QH.kappa4_loglog} \formallabel{QH.kappa4}
+\end{lemma}
+
+\begin{proof}
+(i) Let $K$ be the constant of \cref{pf:top-supply:contour} for $\delta=\frac1{4000}$. Choose $l_0\ge81$ such that
+$l^{1006}\le e^l$ for $l\ge l_0$. Given $Q$, put $s=(\log Q)^{1/4}\ge3$, $x=s^{10}$, $z=x^{400}=(\log Q)^{1000}$ and
+$\eta=x^{-2}$. Let $P=\sum_{n\le z}\Lambda(n)\chi(n)/n$. As in the proof of \cref{pf:top-supply:tailK},
+\cref{pf:top-supply:contour,pf:top-supply:taildiff} bound $z\eta\,|{-\ell(\chi)}-P|$; dividing by $z\eta$ and using
+$z^{1-1/400+\delta}=x^{399}s$ and $Q\ge(\log Q)^{1006}=s^{4024}$ one finds $|{-\ell(\chi)}-P|\le2K+802$. By
+\cref{pf:top-supply:mertens}, $|P|\le\log z+2=1000\log\log Q+2$, whence (i) with $C=2K+804$.
+
+(ii) Under the hypotheses $\log Q\ge Y^{\eps/6}\ge l_0$ for large $Y$, and
+$\log\log Q\le\log A+\frac\eps5\log Y+2\log\log Y$. Since $\eps<\frac1{52}$, $1000\cdot\frac\eps5<\frac{200}{52}<3.9$,
+and for large $Y$ the remaining terms $1000(\log A+2\log\log Y)+C$ are at most $\frac1{10}\log Y$.
+\end{proof}
+
+\begin{lemma}[A good box from a small prime sum]\label{pf:top-supply:boxofS}
+There is $C>0$ such that for all $\eps\in(0,\frac14]$, $\tau>0$ and $K\ge1$ there is $Y_0$ with the following property.
+Let $Y\ge Y_0$, $Q$ with $Y^{\eps/6}\le\log Q\le Y^{\eps/4}$, let $\chi$ be a $Q$-good character modulo $N$, and let $q\in\N$
+and $\kappa:\N\to\C$ with $\chi(n)=\kappa(n)\topsupplyJ nq$ for all $n$. If
+\[
+|S(Y^{400K},y,q,\kappa)|\le\tfrac12y^{1/2+\tau}\qquad\text{for all }y\in[Y,Y^K],
+\]
+then $\chi$ is $(C,\tau)$-boxed on $[Y,Y^K]$ at height $Q$. \formallabel{QH.box_of_S}
+\end{lemma}
+
+\begin{proof}
+Take $C$ from \cref{pf:top-supply:kappaC}; this gives $|\ell(\chi)|\le C\log Y$ for large $Y$. Let $y\in[Y,Y^K]$ and
+$Z=Y^{400K}\ge y$. By \cref{pf:top-supply:split}, $g_\chi(y)=-S_\chi(y,Z)-y\,\topsupplytail(\chi,Z)$, and
+$S_\chi(y,Z)=S(Z,y,q,\kappa)$. By \cref{pf:top-supply:tailK}, $|y\,\topsupplytail(\chi,Z)|\le
+|Y^K\topsupplytail(\chi,Z)|\le Y^\eps$, and $Y^\eps\le Y^{1/4}\le\frac12Y^{1/2}\le\frac12y^{1/2+\tau}$ for $Y\ge16$.
+Hence $|g_\chi(y)|\le y^{1/2+\tau}$.
+\end{proof}
+
+\subsection{Good pairs: the mean-square argument}\label{sec:pf:top-supply:meansq}
+
+In this subsection we prove $\sfname{PairEx}$ (\cref{pf:top-supply:pairEx}). The pairs $(q,d)$ are drawn from
+primes in arithmetic progressions. For $m_0,a_0\in\N$ and $U>0$ let
+\[
+\topsupplyPP(m_0,a_0,U)=\{q\le U\ \text{prime}:\ q\equiv a_0\pmod{m_0},\ q>\sqrt U\}.
+\]
+
+\begin{definition}\label{pf:top-supply:admitted}
+Let $\eps,Y,U>0$. A triple $(m_0,a_0,U)$ is \emph{$(\eps,Y)$-admissible} if $m_0>0$, $8\mid m_0$, $\gcd(a_0,m_0)=1$ and
+\[
+\tfrac14\log^2Y\cdot\log m_0\le\log U,\qquad Y^{\eps/6}\le\log U\le Y^{\eps/5}\log^2Y.
+\]
+For $C,Z\ge0$, a finite set $P$ of primes and $I\subset\R$, $\sfname{MeanSq}(C,Z,P,I)$ means: for every $y\in I$ and
+every $\kappa:\N\to\C$ with $|\kappa|\le1$,
+\[
+\sum_{q\in P}|S(Z,y,q,\kappa)|^2\le C\,y\log y\,|P|.
+\]
+\formallabel{QH.admitted} \formallabel{QH.MeanSq} \formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.PPset}
+\end{definition}
+
+\subsubsection{Counting primes in admissible progressions}
+
+\begin{lemma}\label{pf:top-supply:counta}
+For every $\eps>0$ there is $x_0$ such that $|\topsupplyPP(m_0,a_0,X)|\ge X^{9/10}$ for all $x\ge x_0$ and all
+$(\eps,x)$-admissible $(m_0,a_0,X)$.
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.count_a}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.count_pos}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.mainAP_lower}
+\end{lemma}
+
+\begin{proof}
+Write $M=m_0$, $u=\log X$ and $L=\log x$. Admissibility gives $\log M\le4u/L^2$ and $x^{\eps/6}\le u\le x^{\eps/5}L^2$.
+Apply \cref{pf:top-supply:pnt} with $b=a_0$. Its range condition $u\ge C_0\log M\log(\log M+2)$ holds for large $x$,
+because $\log M\le4u/L^2$ and $\log(\log M+2)\le\log(4x^{\eps/5}+2)=o(L^2)$. Since
+$\log X/\log M\ge L^2/4$ and $\sqrt{c_3\log X}\ge\sqrt{c_3}x^{\eps/12}$, the relative error is at most $\frac12$ for
+large $x$, so $\pi(X;M,a_0)\ge\frac12\mathrm{main}(a_0,X)$. We claim that
+\[
+\mathrm{main}(a_0,X)\ge\frac{c\,X}{2M^2\log X}\qquad(\log X\ge4),
+\]
+where $c\in(0,1]$ is the constant of \cref{pf:top-supply:siegel} for $\eps=1$. Without exceptional pair this follows from
+$\topsupplyli(X)\ge X/(2\log X)$ and $\varphi(M)\le M$. If there is a pair $(\chi_1,\beta_1)$, then $\beta_1\le1-c/M$ by
+\cref{pf:top-supply:siegel}, $\beta_1\ge\frac12$, and $\Re\chi_1(a_0)\le1$, so
+$\varphi(M)\mathrm{main}(a_0,X)\ge\int_{X^{\beta_1}}^X\frac{dt}{\log t}\ge\frac{X(1-e^{-(c/M)\log X})}{\log X}\ge\frac{cX}{2M\log X}$,
+using $1-e^{-a}\ge\frac12\min(a,1)$. Removing the primes $\le\sqrt X$ we obtain
+$|\topsupplyPP(M,a_0,X)|\ge\frac{cX}{4M^2\log X}-\sqrt X$. Finally $M^2\le X^{8/L^2}$ and $\log X\le X^{1/L}$ for large
+$x$, so the right-hand side is at least $X^{9/10}$ for large $x$.
+\end{proof}
+
+\subsubsection{Character sums over primes}
+
+\begin{lemma}\label{pf:top-supply:separate}
+Let $m_0\ge1$ and let $s_1,s_2$ be odd squarefree numbers prime to $m_0$ such that
+$\topsupplyJ u{s_1}=\topsupplyJ u{s_2}$ for every $u\equiv1\pmod{m_0}$ prime to $s_1s_2$. Then $s_1=s_2$.
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.jacobi_separate}
+\end{lemma}
+
+\begin{proof}
+By symmetry it suffices to show $s_1\mid s_2$. Otherwise, as $s_1$ is squarefree, there is a prime $p\mid s_1$ with
+$p\nmid s_2$; $p$ is odd and prime to $m_0$. By the Chinese remainder theorem there is $u$ with $u\equiv1\pmod{m_0s_2s_1/p}$
+and $u$ a quadratic non-residue modulo $p$. Then $u$ is prime to $s_1s_2$, $\topsupplyJ u{s_2}=1$ and
+$\topsupplyJ u{s_1}=\topsupplyJ up\topsupplyJ u{s_1/p}=-1$, a contradiction.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:twistone}
+Let $m_0\ge1$, let $s>1$ be odd, squarefree and prime to $m_0$, let $\gcd(a_0,m_0)=1$, $X\ge4$, and let
+$\mathcal C=\{b\bmod m_0s:\ b\equiv a_0\ (m_0),\ \gcd(b,s)=1\}$. Suppose that, for an exceptional datum modulo $m_0s$
+as in \cref{pf:top-supply:pnt} and some $k$ with $|k|\le\frac12$, $|\pi(X;m_0s,b)-\mathrm{main}(b,X)|\le
+k\,\mathrm{main}(b,X)$ for all $b\in\mathcal C$, and that $0\le r\le\frac12$ is such that
+$|\topsupplyli(X^{\beta_1})|\le r\topsupplyli(X)$ in case the datum is a pair $(\chi_1,\beta_1)$ for which $\chi_1(u)=
+\topsupplyJ us$ for all $u\equiv1\pmod{m_0}$ prime to $s$. Then
+\[
+\Big|\sum_{q\in\topsupplyPP(m_0,a_0,X)}\topsupplyJ qs\Big|\le(4r+2|k|)\big(|\topsupplyPP(m_0,a_0,X)|+\sqrt X\big)+\sqrt X.
+\]
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.twist_one}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.clsB}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.twist_decomp}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.main_twist_bound}
+\end{lemma}
+
+\begin{proof}
+Write $P=\topsupplyPP(m_0,a_0,X)$ and $n_b=|\{q\in P:q\equiv b\ (m_0s)\}|$. Primes $q\mid s$ contribute $0$ to the
+left-hand side and lie in no class of $\mathcal C$, so $\sum_{q\in P}\topsupplyJ qs=\sum_{b\in\mathcal C}\topsupplyJ bs\,n_b$.
+Moreover $0\le\pi(X;m_0s,b)-n_b$ and $\sum_b(\pi(X;m_0s,b)-n_b)\le\sqrt X$, since the difference counts primes
+$\le\sqrt X$. The hypothesis with $|k|\le\frac12$ gives $|\mathrm{main}(b,X)|\le2\pi(X;m_0s,b)$ and
+$|\pi(X;m_0s,b)-\mathrm{main}(b,X)|\le2|k|\pi(X;m_0s,b)$; hence $\sum_b|\mathrm{main}(b,X)|\le2(|P|+\sqrt X)$ and
+$|\sum_{q\in P}\topsupplyJ qs-\sum_{b\in\mathcal C}\topsupplyJ bs\mathrm{main}(b,X)|\le2|k|(|P|+\sqrt X)+\sqrt X$
+.
+
+It remains to show $|\sum_{b\in\mathcal C}\topsupplyJ bs\mathrm{main}(b,X)|\le2r\sum_b|\mathrm{main}(b,X)|$. By the
+Chinese remainder theorem, $b\mapsto b\bmod s$ is a bijection from $\mathcal C$ onto $(\Z/s)^\times$, and
+$\topsupplyJ{\cdot}s$ is a non-trivial character modulo $s$ (as $s>1$ is odd and squarefree), so
+$\sum_{b\in\mathcal C}\topsupplyJ bs=0$. This settles the case without exceptional pair. If there is a pair
+$(\chi_1,\beta_1)$, the remaining sum is $-\frac{\topsupplyli(X^{\beta_1})}{\varphi(m_0s)}\sum_{b\in\mathcal C}
+\topsupplyJ bs\Re\chi_1(b)$. Writing $\mathcal C=a_0H$ with $H=\{u:u\equiv1\ (m_0)\}$, the sum over $b$ is
+$\Re\big(\topsupplyJ{a_0}s\chi_1(a_0)\sum_{u\in H}\topsupplyJ us\chi_1(u)\big)$, which vanishes unless the real
+character $\topsupplyJ{\cdot}s\chi_1$ is trivial on $H$, i.e.\ unless $\chi_1(u)=\topsupplyJ us$ on $H$. In that case
+$|\topsupplyli(X^{\beta_1})|\le r\topsupplyli(X)$, so the sum is at most $r|\mathcal C|\topsupplyli(X)/\varphi(m_0s)$,
+while $\sum_b|\mathrm{main}(b,X)|\ge(1-r)|\mathcal C|\topsupplyli(X)/\varphi(m_0s)\ge\frac12|\mathcal C|\topsupplyli(X)/\varphi(m_0s)$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:lipow}
+If $X\ge4$ and $\frac12\le\beta\le1-\delta$, then $|\topsupplyli(X^\beta)|\le4\log X\,e^{-\delta\log X}\topsupplyli(X)$.
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.liX_pow_le}
+\end{lemma}
+
+\begin{proof}
+For $t\ge2$, $0\le\topsupplyli(t)\le2t$, and $\topsupplyli(X)\ge X/(2\log X)$ for $X\ge4$ (as $1/\log t\ge1/\log X$
+on $[2,X]$ and $X-2\ge X/2$). Hence $\topsupplyli(X^\beta)\le2X^{1-\delta}=4\log X\,e^{-\delta\log X}\cdot\frac
+X{2\log X}$; note $X^\beta\ge2$.
+\end{proof}
+
+\begin{proposition}[Twisted sums over admissible progressions]\label{pf:top-supply:twistK}
+For all $\eps,A,B>0$ there is $Y_0$ with the following property. For $Y\ge Y_0$ and every $(\eps,Y)$-admissible
+$(m_0,a_0,U)$ there is $n^*\in\N$ such that
+\[
+\Big|\sum_{q\in\topsupplyPP(m_0,a_0,U)}\topsupplyJ qs\Big|\le Y^{-B}\,|\topsupplyPP(m_0,a_0,U)|
+\]
+for every odd squarefree $s>1$ prime to $m_0$ with $s\le Y^A$ and $s\ne n^*$.
+\formallabel{QH.twistK} \formallabel{QH.final_ineqK}
+\end{proposition}
+
+\begin{proof}
+Let $c_0$ be the constant of \cref{pf:top-supply:page} and $c_3,A_0,C_0$ those of \cref{pf:top-supply:pnt}; for each
+modulus $M$ with $8\mid M$ fix the exceptional datum of \cref{pf:top-supply:pnt}. Put $L=\log Y$, $u=\log U$ and
+$Z=m_0Y^A$. Admissibility gives $\log m_0\le4u/L^2$, $\log m_0\le4e^{\eps L/5}$ and $u\ge Y^{\eps/6}$, which for large
+$Y$ exceeds any fixed multiple of $L^3$.
+
+Call $s$ \emph{bad} if $s>1$ is odd, squarefree, prime to $m_0$, $s\le Y^A$, and the datum modulo $m_0s$ is a pair
+$(\chi,\beta)$ with $1-\beta<c_0/\log Z$ and $\chi(u)=\topsupplyJ us$ for all $u\equiv1\pmod{m_0}$ prime to $s$. There
+is at most one bad $s$: if $s_1,s_2$ are bad, with pairs $(\chi_i,\beta_i)$, then $m_0s_i\le Z$ and
+\cref{pf:top-supply:page} shows that $\chi_1$ and $\chi_2$ agree on integers prime to $m_0^2s_1s_2$; restricting to
+$u\equiv1\pmod{m_0}$ prime to $s_1s_2$ we get $\topsupplyJ u{s_1}=\topsupplyJ u{s_2}$, so $s_1=s_2$ by
+\cref{pf:top-supply:separate}. Let $n^*$ be the bad number if there is one, and $n^*=0$ otherwise.
+
+Let $s\ne n^*$ be as in the statement and $M=m_0s$, so $8\mid M$ and $\log M\le\log Z\le\log m_0+AL$. Put
+\[
+k=A_0\big(e^{-c_3u/\log M}+e^{-\sqrt{c_3u}}\big),\qquad r=4u\,e^{-c_0u/\log Z}.
+\]
+A numerical verification using only $L\ge L_0(\eps,A,B,c_0,c_3,A_0,C_0)$, $u\ge(\frac A4+\frac{(B+1)^2}{c_3}+5(B+1))L^3$,
+$\frac14L^2\log m_0\le u$, $\log u\le(\frac\eps5+2)L$ and $\log m_0\le4e^{\eps L/5}$
+ shows: $u\ge C_0\log M\log(\log M+2)$; $16u\,e^{-c_0u/\log Z}\le\frac18Y^{-B}$;
+$2|k|\le\frac18Y^{-B}$; and $e^{-2u/5}\le\frac14Y^{-B}$. (The key point is that $u/\log Z$ and $u/\log M$ are at
+least $L^2/8$, because $u\gg L^3$ and $\log m_0\le4u/L^2$.) By the first inequality, \cref{pf:top-supply:pnt} applies
+modulo $M$ to every $b$ prime to $M$, with relative error $k$, and $|k|\le\frac12$, $r\le\frac12$. If the datum modulo
+$M$ is a pair $(\chi,\beta)$ with $\chi(u)=\topsupplyJ us$ on $u\equiv1\ (m_0)$, then $\beta\le1-c_0/\log Z$ because $s$
+is not bad, and $\beta\ge1-\frac1{8\log M}\ge\frac12$; hence $|\topsupplyli(U^\beta)|\le r\topsupplyli(U)$ by
+\cref{pf:top-supply:lipow}. Now \cref{pf:top-supply:twistone} gives, with $P=\topsupplyPP(m_0,a_0,U)$,
+\[
+\Big|\sum_{q\in P}\topsupplyJ qs\Big|\le\frac{Y^{-B}}4\big(|P|+\sqrt U\big)+\sqrt U.
+\]
+By \cref{pf:top-supply:counta}, $|P|\ge U^{9/10}$ for large $Y$, so $\sqrt U\le e^{-2u/5}|P|\le\frac14Y^{-B}|P|$, and
+the right-hand side is at most $Y^{-B}|P|$.
+\end{proof}
+
+\subsubsection{The mean square}
+
+\begin{definition}\label{pf:top-supply:sPRR}
+For $N\in\N$ let $\topsupplysout_{m_0}(N)$ be the product of the primes $p$ with $v_p(N)$ odd and $p\nmid m_0$.
+For a function $c\ge0$ on $\N$ supported on prime powers, $N\in\N$ and a prime $p$ put
+\[
+\mathrm{sP}(c,N,p)=\sum_{\substack{n\le N\\ n=p^k,\,k\ge1}}c(n),\qquad
+\mathrm{RR}(c,m_0,N)=\sum_{\substack{n=p^k\le N\\ k\text{ even or }p\mid m_0}}c(n).
+\]
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.soutPart}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.sP}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.RR}
+\end{definition}
+
+\begin{lemma}[Reciprocity]\label{pf:top-supply:jacclass}
+Let $8\mid m_0$, $\gcd(a_0,m_0)=1$ and $N\ge1$. There is $\sigma\in\{\pm1\}$ such that
+$\topsupplyJ Nq=\sigma\topsupplyJ q{\topsupplysout_{m_0}(N)}$ for every prime $q\equiv a_0\pmod{m_0}$ with $q>N$.
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.jacobi_class}
+\end{lemma}
+
+\begin{proof}
+For such $q$, $\topsupplyJ Nq\topsupplyJ q{\topsupplysout_{m_0}(N)}=\prod_{p\mid N}\topsupplyJ pq^{v_p(N)}
+\prod_{p\mid\topsupplysout_{m_0}(N)}\topsupplyJ qp$; all symbols are $\pm1$ since $q>N$ is a prime. We show that each
+factor depends only on $q\bmod m_0$; then the product is constant on the progression, equal to some $\sigma$, and the
+claim follows as all symbols square to $1$. If $p\mid m_0$: for $p=2$, $\topsupplyJ2q$ depends on $q\bmod8$, and
+$8\mid m_0$; for odd $p$, quadratic reciprocity gives $\topsupplyJ pq=(-1)^{\frac{p-1}2\frac{q-1}2}\topsupplyJ qp$,
+which depends on $q\bmod4$ and $q\bmod p$. If $p\nmid m_0$ and $v_p(N)$ is even, the factor is $1$. If $p\nmid m_0$
+and $v_p(N)$ is odd, then $p$ is odd and the factor is $\topsupplyJ pq\topsupplyJ qp=(-1)^{\frac{p-1}2\frac{q-1}2}$,
+which depends on $q\bmod4$.
+\end{proof}
+
+\begin{lemma}[Expansion of the mean square]\label{pf:top-supply:meansqabs}
+Let $8\mid m_0$, $\gcd(a_0,m_0)=1$, $y\ge0$, $\eta\ge0$, $Z\ge1$, $N=\lfloor Z\rfloor$, $n^*\in\N$ and $B\ge0$. Let
+$P$ be a finite set of primes $q\equiv a_0\pmod{m_0}$ with $q>N^2$, and $\kappa:\N\to\C$ with $|\kappa|\le1$. Assume
+$\mathrm{sP}(c_y,N,p)\le B$ for all primes $p$, and $|\sum_{q\in P}\topsupplyJ qs|\le\eta|P|$ for all odd squarefree
+$s>1$ prime to $m_0$ with $s\le N^2$ and $s\ne n^*$. Then, with $\mathrm{RR}=\mathrm{RR}(c_y,m_0,N)$,
+\[
+\sum_{q\in P}|S(Z,y,q,\kappa)|^2\le\Big(\sum_{p\le N}\mathrm{sP}(c_y,N,p)^2+\mathrm{RR}^2+2B^2+2B\,\mathrm{RR}
++\eta\Big(\sum_{n\le Z}c_y(n)\Big)^2\Big)|P|.
+\]
+\formallabel{QH.meanSq_abs}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.meansq_expand}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.meansq_split}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.pairs_one}
+\formallabel{Formalism.HermitianLattices.Ext.LogarithmicIntegralBounds.pairs_r}
+\end{lemma}
+
+\begin{proof}
+Expanding the square and using $|\kappa|\le1$, $c_y\ge0$,
+\[
+\sum_{q\in P}|S(Z,y,q,\kappa)|^2\le\sum_{n,n'\le N}c_y(n)c_y(n')\Big|\sum_{q\in P}\topsupplyJ{nn'}q\Big|.
+\]
+Since $nn'\le N^2<q$, \cref{pf:top-supply:jacclass} gives
+$|\sum_q\topsupplyJ{nn'}q|=|\sum_q\topsupplyJ qs|$ with $s=\topsupplysout_{m_0}(nn')$, which is odd, squarefree, prime
+to $m_0$ and at most $N^2$. This is at most $|P|$ in all cases, and at most $\eta|P|$ unless $s=1$ or $s=n^*$
+(we may assume $n^*\ge2$). Hence the double sum is at most $(\Sigma_1+\Sigma_{n^*}+\eta(\sum_nc_y(n))^2)|P|$, where
+$\Sigma_r=\sum c_y(n)c_y(n')$ over pairs with $\topsupplysout_{m_0}(nn')=r$. As $c_y$ is supported on prime powers,
+only $n=p^k$, $n'=p'^{k'}$ occur. If $p=p'$, then $\topsupplysout_{m_0}(nn')\in\{1,p\}$; if $p\ne p'$, then
+$\topsupplysout_{m_0}(nn')=t(n)t(n')$ where $t(p^k)=p$ if $k$ is odd and $p\nmid m_0$, and $t(p^k)=1$ otherwise. Hence
+$\Sigma_1\le\sum_p\mathrm{sP}(c_y,N,p)^2+\mathrm{RR}^2$, because pairs with $p\ne p'$ and $t(n)=t(n')=1$ have both $n,n'$ in
+the support of $\mathrm{RR}$. For a prime $r$, $\Sigma_r\le\mathrm{sP}(c_y,N,r)^2+2\,\mathrm{sP}(c_y,N,r)\mathrm{RR}\le
+B^2+2B\,\mathrm{RR}$; for composite $r$, $t(n)t(n')=r$ forces $\{p,p'\}=\{\ell,r/\ell\}$ with $\ell$ the least prime factor
+of $r$, so $\Sigma_r\le2B^2$.
+\end{proof}
+
+\begin{lemma}[The diagonal]\label{pf:top-supply:diag}
+There are constants $C_1,\dots,C_4>0$ such that for $y\ge3$, all $N$, $m_0$, all $w\ge1$ and $Z\ge2$:
+\begin{enumerate}[label=(\roman*)]
+\item $\mathrm{sP}(c_y,N,p)\le3\log y$ for every prime $p$;
+\item $\sum_{p\le N}\mathrm{sP}(c_y,N,p)^2\le C_1y\log y$;
+\item $\mathrm{RR}(c_y,m_0,N)\le C_2(\sqrt y+w\log y)$ if every prime $p\mid m_0$ with $p\le N$ satisfies $p\le w$;
+\item $\sum_{n\le Z}c_y(n)\le C_3y\log Z$ (for all $y\ge0$).
+\end{enumerate}
+\formallabel{QH.exists_primePowerSum_le_mul_log} \formallabel{QH.sPsq_le} \formallabel{QH.RR_le}
+\formallabel{QH.sum_cN_le}
+\end{lemma}
+
+\begin{proof}
+(i) If $p\le y$: $\mathrm{sP}=\log p\big(\#\{k:p^k\le y\}+\sum_{p^k>y}y/p^k\big)\le\log p\big(\frac{\log y}{\log p}+2\big)\le3\log y$.
+If $p>y$: $\mathrm{sP}\le\log p\sum_{k\ge1}y/p^k\le2y\frac{\log p}p\le2\log y$, as $t\mapsto\log t/t$ decreases for $t\ge e$.
+
+(ii) Split at $p\le y$ and $p>y$. The primes $p\le y$ contribute at most $9\log^2y\cdot\pi(y)\ll y\log y$ by (i) and
+Chebyshev's bound. For $p>y$, $\mathrm{sP}\le2y\log p/p$ and $\sum_{p>y}\log^2p/p^2\ll\log y/y$ by partial summation from
+Chebyshev's bound, so these primes contribute $\ll y\log y$.
+
+(iii) The prime powers $p^k$ with $k$ even are squares $m^2$, and $\sum_m\Lambda(m^2)\min(1,y/m^2)\le2\sum_{m\le\sqrt
+y}\log m+2y\sum_{m>\sqrt y}\log m/m^2\ll\sqrt y$. The prime powers of primes $p\mid m_0$, $p\le N$, have $p\le w$ and
+contribute $\sum_{p\le w}\mathrm{sP}(c_y,N,p)\le3w\log y$ by (i).
+
+(iv) $c_y(n)\le y\Lambda(n)/n$, and \cref{pf:top-supply:mertens}.
+\end{proof}
+
+\begin{proposition}[Mean square over admissible progressions]\label{pf:top-supply:meanSqK}
+There is $C>0$ such that for all $\eps\in(0,1]$ and $K\ge1$ there is $Y_0$ with the following property. Let $Y\ge Y_0$,
+$Z=Y^{400K}$, and let $(m_0,a_0,U)$ be $(\eps,Y)$-admissible such that every prime $p\mid m_0$ satisfies $p\le
+Y^{\eps/5}$ or $p>Z$. Then $\sfname{MeanSq}\big(C,Z,\topsupplyPP(m_0,a_0,U),[Y,Y^K]\big)$ holds.
+\formallabel{QH.meanSqK}
+\end{proposition}
+
+\begin{proof}
+Let $C_1,\dots,C_4$ be as in \cref{pf:top-supply:diag} and $C=C_1+25C_2^2+36+60C_2+C_3^2$. Take $Y_0\ge3$ so large
+that for $Y\ge Y_0$: $1600K\log Y\le Y^{\eps/6}$, $(400K\log Y)^2\le Y$, and \cref{pf:top-supply:twistK} applies with
+$(\eps,800K,K+1)$; let $n^*$ be the number it provides. Let $N=\lfloor Z\rfloor$ and $P=\topsupplyPP(m_0,a_0,U)$.
+
+Every $q\in P$ is a prime $\equiv a_0\pmod{m_0}$ with $q>\sqrt U\ge\exp(\frac12Y^{\eps/6})\ge Y^{800K}=Z^2\ge N^2$. Every odd
+squarefree $s\le N^2\le Y^{800K}$ prime to $m_0$ with $s>1$, $s\ne n^*$ satisfies
+$|\sum_{q\in P}\topsupplyJ qs|\le\eta|P|$ with $\eta=Y^{-(K+1)}$. Let $y\in[Y,Y^K]$ and $|\kappa|\le1$. By
+\cref{pf:top-supply:meansqabs} with $B=3\log y$ and \cref{pf:top-supply:diag}: the first term is $\le C_1y\log y$; with
+$w=Y^{\eps/5}\le y^{1/5}$ (every prime $p\mid m_0$ with $p\le N<Z$ satisfies $p\le w$), $w\log y\le4\sqrt y$, so
+$\mathrm{RR}\le5C_2\sqrt y$ and $\mathrm{RR}^2\le25C_2^2y\log y$; $2B^2+2B\,\mathrm{RR}\le(36+60C_2)y\log y$ using
+$\log y\le2\sqrt y$; finally $\eta(\sum_{n\le Z}c_y(n))^2\le Y^{-K-1}C_3^2y^2(400K\log Y)^2\le C_3^2y$, as
+$y\le Y^K$. Adding up gives $\sum_{q\in P}|S(Z,y,q,\kappa)|^2\le Cy\log y\,|P|$.
+\end{proof}
+
+\subsubsection{From the mean square to all $y$}
+
+\begin{proposition}\label{pf:top-supply:badshare}
+For all $C\ge0$, $\tau>0$ and $\eta>0$ there is $Y_0$ with the following property. Let $Y\ge Y_0$, $X,Z\in\R$, let
+$B\subset P$ be finite sets, $\kappa:\N\to\C$ with $|\kappa|\le1$, and assume $\sfname{MeanSq}(C,Z,P,[Y,X])$. If every
+$q\in B$ has some $y\in[Y,X]$ with $|S(Z,y,q,\kappa)|>\frac12y^{1/2+\tau}$, then $|B|\le\eta|P|$.
+\formallabel{QH.bad_share} \formallabel{QH.bs_block} \formallabel{QH.bs_markov}
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: a Sobolev inequality.} Fix $q$, and let $D(v)=\sum_{v<m\le Z}\Lambda(m)\kappa(m)\topsupplyJ mq/m$. The
+function $y\mapsto S(Z,y,q,\kappa)$ is continuous with right derivative $D(y)$ (since $\frac d{dy}\min(1,\frac ym)=\frac1m$
+for $y<m$ and $0$ for $y>m$), so $S(Z,y,q,\kappa)=S(Z,Y',q,\kappa)+\int_{Y'}^yD(v)\,dv$. By Cauchy--Schwarz, for
+$Y'\le y\le W\le2Y'$,
+\[
+|S(Z,y,q,\kappa)|^2\le2|S(Z,Y',q,\kappa)|^2+2Y'\int_{Y'}^W|D(v)|^2\,dv.
+\]
+\emph{Step 2: the derivative is a prime sum of the same kind.} For each $v>0$, $vD(v)=S(Z,v,q,\kappa_v)$ with
+$\kappa_v(m)=\kappa(m)$ for $m>v$ and $0$ otherwise. Hence $\sfname{MeanSq}(C,Z,P,[Y',W])$ gives
+$\sum_{q\in P}|D(v)|^2\le C\log v\,|P|/v$ for $v\in[Y',W]$.
+
+\emph{Step 3: blocks.} Let $2\le Y'\le W\le2Y'$ with $[Y',W]\subset[Y,X]$, and for each $q\in P$ let $w_q\in[Y',W]$.
+By Steps 1 and 2,
+\[
+\sum_{q\in P}|S(Z,w_q,q,\kappa)|^2\le2CY'\log Y'|P|+2Y'\int_{Y'}^W\frac{C\log(2Y')|P|}{Y'}dv\le4CY'\log(2Y')|P|.
+\]
+If $B'\subset P$ consists of $q$ having some $y\in[Y',W]$ with $|S(Z,y,q,\kappa)|>\frac12y^{1/2+\tau}$, choose $w_q$ to be
+such a $y$; then $|B'|\cdot\frac14Y'^{1+2\tau}\le4CY'\log(2Y')|P|$, and since $\log(2Y')\le2Y'^\tau/\tau$,
+\[
+|B'|\le\frac{32C}\tau\,Y'^{-\tau}|P|.
+\]
+\emph{Step 4: dyadic decomposition.} Cover $[Y,X]$ by the blocks $[2^iY,\min(2^{i+1}Y,X)]$, $i\ge0$. Each $q\in B$ lies
+in the set $B'_i$ of Step 3 for some block, so
+$|B|\le\frac{32C}\tau Y^{-\tau}\sum_{i\ge0}2^{-i\tau}|P|=\frac{32C}{\tau(1-2^{-\tau})}Y^{-\tau}|P|$, which is at most
+$\eta|P|$ for $Y$ large.
+\end{proof}
+
+\subsubsection{Zeros in the box}
+
+\begin{lemma}\label{pf:top-supply:countbad}
+There is $C$ such that for all $Q\ge3$, $F\in\R$ and every finite set $B$ of primes $q>F$, each of which admits
+$f\le F$ with $fq\le Q$ and a primitive character modulo $fq$ that is not zero-free in the box of height $Q$, one has
+$|B|\le CQ^{1/4}$. \formallabel{QH.count_bad} \formallabel{QH.count_bad_core}
+\end{lemma}
+
+\begin{proof}
+For $q\in B$ choose $f_q$ and a primitive character $\psi_q$ modulo $f_qq$ as in the statement. The map
+$q\mapsto\psi_q$ is injective: if $f_qq=f_{q'}q'$, then $q\mid f_{q'}q'$ and $q\nmid f_{q'}$ (as $f_{q'}\le F<q$), so
+$q=q'$. The characters $\psi_q$ have conductor at most $Q$ and a zero with $\Re s>1-\frac1{400}$, $|\Im s|\le Q$, so
+\cref{pf:top-supply:density} applies.
+\end{proof}
+
+\subsubsection{The stage lemma}
+
+\begin{proposition}[Most twists are boxed]\label{pf:top-supply:stage}
+There is $C>0$ such that for all $\eps\in(0,\frac14]$, $\tau>0$, $K\ge1$, $\eta>0$ and $R\in\N$ there is $Y_0$ with the
+following property. Let $Y\ge Y_0$, let $(m_0,a_0,U)$ be $(\eps,Y)$-admissible such that every prime $p\mid m_0$
+satisfies $p\le Y^{\eps/5}$ or $p>Y^{400K}$, let $1\le F\le\sqrt U$, and let $\Xi$ be a set of at most $R$ primitive
+characters of conductor at most $F$. Then $P=\topsupplyPP(m_0,a_0,U)$ is non-empty, and $|B|\le\eta|P|$ for every
+$B\subset P$ consisting of primes $q$ for which some $\xi\in\Xi$ and some level $M\ne0$ are such that the function
+$n\mapsto\xi(n)\topsupplyJ nq$ is not $(C,\tau)$-boxed on $[Y,Y^K]$ at height $FU$ at level $M$.
+\formallabel{QH.stage}
+\end{proposition}
+
+\begin{proof}
+Let $C$ be the constant of \cref{pf:top-supply:boxofS}, $C_m$ that of \cref{pf:top-supply:meanSqK} and $C_b$ that of
+\cref{pf:top-supply:countbad}. Take $Y_0$ so large that for $Y\ge Y_0$ the conclusions of
+\cref{pf:top-supply:boxofS,pf:top-supply:meanSqK,pf:top-supply:counta} hold, \cref{pf:top-supply:badshare} holds with
+$(C_m,\tau,\eta/(2R+2))$, $\frac32Y^{\eps/5}\log^2Y\le Y^{\eps/4}$, and $|C_b|U^{3/8}\le\frac\eta2U^{9/10}$ whenever
+$\log U\ge Y^{\eps/6}$. By \cref{pf:top-supply:counta}, $|P|\ge U^{9/10}>0$.
+
+Put $Q=FU$; then $Y^{\eps/6}\le\log U\le\log Q\le\frac32\log U\le Y^{\eps/4}$. Let $B_1$ be the set of $q\in B$ for which
+some primitive character of conductor $fq$ with $f\le F$, $fq\le Q$, is not zero-free in the box of height $Q$, and for
+$\xi\in\Xi$ let $B_2(\xi)$ be the set of $q\in B$ with $|S(Y^{400K},y,q,\xi)|>\frac12y^{1/2+\tau}$ for some
+$y\in[Y,Y^K]$. We claim $B\subset B_1\cup\bigcup_\xi B_2(\xi)$. Let $q\in B$, with $\xi$ of conductor $f\le F$ and $M$ as
+in the statement. Since $q>\sqrt U\ge F\ge f$ is prime, $q$ is odd and prime to $f$, so there is a primitive non-trivial
+$\psi$ modulo $fq$ with $\psi(n)=\xi(n)\topsupplyJ nq$ for all $n$ (\cref{pf:top-supply:twistprim}), and $fq\le Q$. If
+$q\notin B_1\cup B_2(\xi)$, then $\psi$ is $Q$-good and \cref{pf:top-supply:boxofS} shows that $\psi$ is
+$(C,\tau)$-boxed on $[Y,Y^K]$ at height $Q$. Every primitive character inducing $n\mapsto\xi(n)\topsupplyJ nq$ at level $M$
+agrees with $\psi$ on integers prime to $Mfq$, hence equals $\psi$ (\cref{pf:top-supply:twistprim}); so the function is boxed at
+level $M$, a contradiction.
+
+By \cref{pf:top-supply:countbad}, $|B_1|\le C_bQ^{1/4}\le|C_b|U^{3/8}\le\frac\eta2|P|$, as $Q\le U^{3/2}$. By
+\cref{pf:top-supply:meanSqK} and \cref{pf:top-supply:badshare} (with $\kappa=\xi$), $|B_2(\xi)|\le\frac\eta{2R+2}|P|$ for
+each $\xi$. Hence $|B|\le\eta|P|$.
+\end{proof}
+
+\subsubsection{The two stages}
+
+\begin{definition}\label{pf:top-supply:goodq}
+For $z>0$ and a prime $q$ let $m(z,q)=q\prod_{3\le p\le z}p$. Put
+\[
+\mathcal Q_1(z)=\topsupplyPP(8,3,e^z),\qquad
+\mathcal Q_2(z,z',q)=\{d\le e^{z'}\ \text{prime}:\ d\equiv7\ (16),\ m(z,q)\mid d+1,\ d>e^{z'/2}\}.
+\]
+For $N_0\ge1$, $C,\tau>0$ and $Y\le X$, a prime $q$ is \emph{good} if for every character $\xi$ modulo $N_0$ the function
+$n\mapsto\xi(n)\topsupplyJ nq$ is $(C,\tau)$-boxed on $[Y,X]$ at height $N_0e^z$ at level $N_0q$; a prime $d$ is
+\emph{good for $q$} if for every $\xi$ modulo $N_0$ and $a\in\{0,1\}$ the function
+$n\mapsto\xi(n)\topsupplyJ nq^a\topsupplyJ nd$ is $(C,\tau)$-boxed on $[Y,X]$ at height $N_0e^{z+z'}$ at level $N_0qd$.
+\formallabel{Formalism.HermitianLattices.ZeroFreeRegionGL2.oddM} \formallabel{QH.primePairSetFirst}
+\formallabel{QH.primeSetTwoBounds} \formallabel{QH.GoodQ} \formallabel{QH.GoodD}
+\end{definition}
+
+\begin{lemma}\label{pf:top-supply:stages}
+There is $C>0$ such that for all $\eps\in(0,\frac1{52})$, $\tau>0$, $K\ge1$, $\eta>0$ and $N_0\ge1$ there is $Y_0$ with the
+following property. Let $Y\ge Y_0$, $z=Y^{\eps/5}$, and $z'$ with $Y^{\eps/5}\log^2Y\le z'\le K^2Y^{\eps/5}\log^2Y$.
+\begin{enumerate}[label=(\roman*)]
+\item $\mathcal Q_1(z)\ne\emptyset$, and every subset of $\mathcal Q_1(z)$ consisting of primes that are not good (with
+$X=Y^K$) has at most $\eta|\mathcal Q_1(z)|$ elements.
+\item For every $q\in\mathcal Q_1(z)$, $\mathcal Q_2(z,z',q)\ne\emptyset$, and every subset of $\mathcal Q_2(z,z',q)$
+consisting of primes that are not good for $q$ (with $X=Y^K$) has at most $\eta|\mathcal Q_2(z,z',q)|$ elements.
+\end{enumerate}
+\formallabel{QH.stage1} \formallabel{QH.stage2} \formallabel{QH.exists_coprime_primePairSetSecond_eq_PPset}
+\formallabel{QH.log_oddM}
+\end{lemma}
+
+\begin{proof}
+(i) Apply \cref{pf:top-supply:stage} with $(\eps,\tau,K,\eta)$, $R$ the number of characters modulo $N_0$,
+$(m_0,a_0,U)=(8,3,e^z)$, $F=N_0$ and $\Xi$ the set of primitive characters inducing the characters modulo $N_0$ (their
+conductors are at most $N_0$). Admissibility: $8\mid8$, $\gcd(3,8)=1$, $\frac14\log^2Y\log8\le Y^{\eps/5}=\log U$ for
+large $Y$, and $Y^{\eps/6}\le Y^{\eps/5}\le Y^{\eps/5}\log^2Y$. The only prime dividing $8$ is $2\le Y^{\eps/5}$, and
+$N_0\le e^{z/2}=\sqrt U$ for large $Y$. If $q\in\mathcal Q_1(z)$ is not good, there are $\xi$ modulo $N_0$ and a primitive
+character inducing $\xi(n)\topsupplyJ nq$ at level $N_0q$ which is not boxed; it also induces
+$\xi^*(n)\topsupplyJ nq$ at level $N_0q$, where $\xi^*\in\Xi$ is the primitive character inducing $\xi$, so $q$ is in a set
+$B$ as in \cref{pf:top-supply:stage}.
+
+(ii) Let $q\in\mathcal Q_1(z)$; then $e^{z/2}<q\le e^z$, so $q>N_0$ and $q>Y^{400K}$ for large $Y$. Choose $a_0$ with
+$a_0\equiv7\pmod{16}$ and $a_0\equiv-1\pmod{m(z,q)}$; then $\mathcal Q_2(z,z',q)=\topsupplyPP(16m(z,q),a_0,e^{z'})$
+(Chinese remainder theorem). Apply \cref{pf:top-supply:stage} with $\eps'=\frac65\eps\le\frac14$
+in place of $\eps$, $(\tau,K,\eta)$, $R$ twice the number of characters modulo $N_0$, $(m_0,a_0,U)=(16m(z,q),a_0,e^{z'})$,
+$F=N_0e^z$, and $\Xi$ the set of primitive characters inducing $\xi(n)\topsupplyJ nq^a$ ($\xi$ modulo $N_0$, $a\in\{0,1\}$);
+their conductors are at most $N_0q\le F$ by \cref{pf:top-supply:twistprim}. Admissibility at $(\eps',Y)$:
+$\log(16m(z,q))\le4z$ by Chebyshev's bound $\sum_{p\le z}\log p\le2z\log2$, so
+$\frac14\log^2Y\log(16m(z,q))\le z\log^2Y\le z'$; $Y^{\eps'/6}=Y^{\eps/5}\le z'$; and
+$z'\le K^2Y^{\eps/5}\log^2Y\le Y^{\eps'/5}\log^2Y$ once $Y^{\eps/25}\ge K^2$. The primes dividing $16m(z,q)$ are $2$, the
+odd primes $\le z\le Y^{\eps'/5}$, and $q>Y^{400K}$. Finally $F=e^{\log N_0+z}\le e^{z'/2}=\sqrt U$ for large $Y$. If $d$ is
+not good for $q$, the witness $(\xi,a)$ gives a primitive character inducing $\xi(n)\topsupplyJ nq^a\topsupplyJ nd$ at level
+$N_0qd$ which is not boxed at height $N_0e^{z+z'}=FU$; it induces the corresponding function of the element of $\Xi$ at
+the same level, so $d$ is in a set $B$ as in \cref{pf:top-supply:stage}.
+\end{proof}
+
+\begin{proposition}[Good pairs exist]\label{pf:top-supply:pairexists}
+There is $C>0$ such that for all $\eps\in(0,\frac1{52})$, $\tau>0$, $K\ge1$ and $N_0\ge1$ there is $Y_0$ such that for
+all $Y\ge Y_0$, $X\le Y^K$ and $z'$ with $Y^{\eps/5}\log^2Y\le z'\le K^2Y^{\eps/5}\log^2Y$ there are primes $q,d$ with:
+$q\equiv3\pmod8$, $\frac z2<\log q\le z$, $d\equiv7\pmod{16}$, $\frac{z'}2<\log d\le z'$, $q<d$, every odd prime $p\le z$
+and $p=q$ divides $d+1$, $q>N_0$, $q$ is good and $d$ is good for $q$ (with $X$ in place of $Y^K$).
+\formallabel{QH.pair_share} \formallabel{QH.pair_exists} \formallabel{QH.Rows}
+\end{proposition}
+
+\begin{proof}
+Apply \cref{pf:top-supply:stages} with $\eta=\frac12$. By (i) the good primes form a subset of $\mathcal Q_1(z)$ with at
+least $\frac12|\mathcal Q_1(z)|>0$ elements (its complement consists of primes that are not good); pick a good $q$. By
+(ii) there is $d\in\mathcal Q_2(z,z',q)$ good for $q$. Goodness on $[Y,Y^K]$ implies goodness on $[Y,X]$ for $X\le Y^K$.
+Now $e^{z/2}<q\le e^z$ and $q\equiv3\pmod8$ by definition of $\mathcal Q_1(z)$; $d\equiv7\pmod{16}$,
+$e^{z'/2}<d\le e^{z'}$ and $m(z,q)\mid d+1$ by definition of $\mathcal Q_2$; $\log d>\frac{z'}2\ge z\ge\log q$; and
+$q>e^{z/2}>N_0$ for large $Y$.
+\end{proof}
+
+\begin{theorem}[$\sfname{PairEx}$]\label{pf:top-supply:pairEx}
+$\sfname{PairEx}$ holds: for all $M\ge1$, $\eps\in(0,\frac1{52})$ and $A\ge1$ there is $Y_1$ such that for every
+$Y\ge Y_1$ some pair $(q,d)$ is good for $(M,\eps,Y,Y^A)$. \formallabel{QH.pairEx}
+\end{theorem}
+
+\begin{proof}
+Apply \cref{pf:top-supply:pairexists} with $\tau=\eps/2$, $K=A$, $N_0=8M$, $X=Y^A$ and $z'=Y^{\eps/5}\log^2Y$, and let
+$C$ be its constant; take $Y_1$ also so large that \cref{pf:top-supply:kappa4}(ii) holds with $(\eps,3)$ and
+$Y\ge e^{1+\log8M}$. Let $(q,d)$ be the resulting primes; we check that the pair is good for $(M,\eps,Y,Y^A)$.
+
+(a) The congruence and size conditions of $\sfname{WinPair}(\eps,Y,q,d)$ hold, and $q\mid d+1$ and $p\mid d+1$ for odd
+primes $p\le z$. As $q>8M$ and $d>q$ are primes, $\gcd(M,qd)=1$.
+
+(b) and (c). Let $\xi$ be a character modulo $M$, $(i,j)\ne(0,0)$, and $\chi$ primitive inducing
+$\topsupplytw(\xi,q,d,i,j)$ at level $2Mqd$. Let $\xi'$ be the character modulo $8M$ induced by $\xi$; then $\chi$ induces
+$n\mapsto\xi'(n)\topsupplyJ nq^i\topsupplyJ nd^j$ at level $8Mqd$. If $j=0$ (so $i=1$), $\chi$ is primitive of conductor
+dividing $8Mq$ (it is the twist of the primitive character inducing $\xi'$ by $\topsupplyJ{\cdot}q$,
+\cref{pf:top-supply:twistprim}), so it induces $\xi'(n)\topsupplyJ nq$ at level $8Mq$
+(\cref{pf:top-supply:twistprim}(iii)); as $q$ is good, $\chi$ is $(C,\frac\eps2)$-boxed on $[Y,Y^A]$ at height $8Me^z$. If $j=1$, as $d$ is
+good for $q$, $\chi$ is $(C,\frac\eps2)$-boxed at height $8Me^{z+z'}$. In both cases the height is
+$Q=\topsupplyht(M,\eps,Y,j)$. Boxedness gives that $\chi$ is $Q$-good, hence $\chi\ne\one$ and $\chi$ is zero-free in
+the box of height $Q$; and $|g_\chi(y)|\le y^{1/2+\eps/2}$ for $y\in[Y,Y^A]$. For (c) the same argument applies, with
+$\xi'$ the character modulo $8M$ induced by the real character $\rho$ ($N_\rho\mid8M$). Finally $\log Q=\log8M+z+jz'$
+satisfies $Y^{\eps/6}\le\log Q\le3Y^{\eps/5}\log^2Y$ (as $\log Y\ge1+\log8M$), so \cref{pf:top-supply:kappa4}(ii)
+gives $|\ell(\chi)|\le4\log Y\le4\log y$ for $y\ge Y$.
+\end{proof}
+
+\begin{remark}\label{pf:top-supply:pairex-remark}
+In (b) of \cref{pf:top-supply:pairgood} the bound $|\ell(\chi)|\le4\log y$ does not come from the boxedness (which gives
+$|\ell(\chi)|\le C\log Y$ with an unspecified $C$), but from the separate estimate \cref{pf:top-supply:kappa4}, whose
+constant $4$ uses $\eps<\frac1{52}$. Conditions (b) and (c) are required for all characters $\xi$ modulo $M$ and all real
+$\rho$ with $N_\rho\mid8M$, not only for powers of a given character.
+\end{remark}
+
+\subsection{Characters of a host at very large heights}\label{sec:pf:top-supply:thin}
+
+Condition (H8) of a good host asks for a prime number theorem with a strong error term for all characters of the host,
+at heights $y\ge\frac13\exp(x^{\eps/3})$, which are enormous compared with the conductor $N_H\le\exp(2x^{\eps/5}\log^2x)$.
+This follows from \cref{pf:top-supply:psithin} once exceptional zeros are excluded.
+
+\begin{lemma}\label{pf:top-supply:gintegral}
+Let $\chi$ be a primitive character and $y\ge1$. Then $\int_y^\infty|\Psi_\chi(u)|u^{-2}du<\infty$ and
+\[
+g_\chi(y)=-y\int_y^\infty\frac{\Psi_\chi(u)}{u^2}\,du\qquad(\text{with }g_{\one_1}=G).
+\]
+\formallabel{QH.g_integral} \formallabel{Formalism.HermitianLattices.GL2a2.psi_zero_integral_constant}
+\end{lemma}
+
+\begin{proof}
+For a fixed $\chi$ there is $c_0>0$ such that $L(\beta,\chi)\ne0$ for $1-c_0<\beta<1$ if $\chi$ is real and non-trivial
+(as $L(1,\chi)\ne0$ and $L(\cdot,\chi)$ is continuous), so \cref{pf:top-supply:psithin} gives
+$\Psi_\chi(u)\ll_\chi u\,e^{-c\sqrt{\log u}}\log^2u$, and the integral converges absolutely. Since
+$\frac yn-1=y\int_n^yu^{-2}du$ for $n\le y$, we have $R_\chi(y)=y\int_1^y\big(\sum_{n\le u}\Lambda(n)\chi(n)\big)u^{-2}du$.
+For $\Re s>1$, $-\frac{L'}L(s,\chi)=s\int_1^\infty\big(\sum_{n\le u}\Lambda(n)\chi(n)\big)u^{-s-1}du$.
+
+If $\chi\ne\one$, then $\sum_{n\le u}\Lambda(n)\chi(n)=\Psi_\chi(u)$, and letting $s\to1^+$ (dominated convergence on the
+right, $L(1,\chi)\ne0$ on the left) gives $-\ell(\chi)=\int_1^\infty\Psi_\chi(u)u^{-2}du$. Hence
+$g_\chi(y)=R_\chi(y)+y\ell(\chi)=-y\int_y^\infty\Psi_\chi(u)u^{-2}du$.
+
+If $\chi=\one_1$, then $\sum_{n\le u}\Lambda(n)=\Psi_\chi(u)+u$, so $R(y)=y\int_1^y\Psi_\chi(u)u^{-2}du+y\log y$, and
+$-\frac{\zeta'}\zeta(s)-\frac s{s-1}=s\int_1^\infty\Psi_\chi(u)u^{-s-1}du$. As
+$-\frac{\zeta'}\zeta(s)=\frac1{s-1}-\gamma+O(s-1)$, letting $s\to1^+$ gives $\int_1^\infty\Psi_\chi(u)u^{-2}du=-1-\gamma$.
+Hence $G(y)=R(y)-y(\log y-1-\gamma)=-y\int_y^\infty\Psi_\chi(u)u^{-2}du$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:intthin}
+For all $\eps,c,C,A,c'>0$ there is $x_0$ with the following property. Let $x\ge x_0$, $y\ge\frac13\exp(x^{\eps/3})$,
+$1\le\lambda\le Ax^{\eps/5}\log^2x$, and let $\phi$ be a measurable function with
+$|\phi(u)|\le Cu(\log u+\lambda)^2\exp\big(-\frac{c\log u}{\lambda+\sqrt{\log u}}\big)$ for $u\ge y$. Then
+$\big|y\int_y^\infty\phi(u)u^{-2}du\big|\le y\exp(-c'x^{\eps/8})$.
+\formallabel{QH.int_thin}
+\end{lemma}
+
+\begin{proof}
+Substituting $u=e^v$, the integral is at most $C\int_{w}^\infty(v+\lambda)^2e^{-cv/(\lambda+\sqrt v)}dv$ with
+$w=\log y\ge\frac12x^{\eps/3}$ for large $x$. The function $v\mapsto v/(\lambda+\sqrt v)$ is increasing, so for $v\ge w$
+the exponent is at most $-\frac c2\frac w{\lambda+\sqrt w}-\frac c2\frac v{\lambda+\sqrt v}$. Splitting at $v=\lambda^2$
+(where $\frac v{\lambda+\sqrt v}\ge\frac v{2\lambda}$, respectively $\ge\frac{\sqrt v}2$),
+$\int_0^\infty(v+\lambda)^2e^{-\frac c2\frac v{\lambda+\sqrt v}}dv\le C'\lambda^5+C''$, a polynomial in $x$. On the other hand
+$\frac w{\lambda+\sqrt w}\ge\frac12\min\big(\frac w\lambda,\sqrt w\big)\ge\frac{x^{2\eps/15}}{4A\log^2x}$ for large $x$,
+because $\frac\eps3-\frac\eps5=\frac{2\eps}{15}<\frac\eps6$. Since $\frac2{15}>\frac18$, the product of the polynomial and
+$\exp\big(-\frac c2\frac{x^{2\eps/15}}{4A\log^2x}\big)$ is at most $\exp(-c'x^{\eps/8})$ for large $x$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:thin}
+For all $\eps,A,c,c_0>0$ there is $x_0$ such that for $x\ge x_0$ the following holds. Let $\chi$ be a primitive character
+modulo $N$ with $\log N\le Ax^{\eps/5}\log^2x$ such that, if $\chi$ is real and non-trivial, $L(\beta,\chi)\ne0$ for
+$1-c_0<\beta<1$. Then $|g_\chi(y)|\le y\exp(-cx^{\eps/8})$ for all $y\ge\frac13\exp(x^{\eps/3})$ (with $g_{\one_1}=G$).
+\formallabel{QH.thin}
+\end{lemma}
+
+\begin{proof}
+Let $C,c_1$ be the constants of \cref{pf:top-supply:psithin} for $c_0$, and put $\lambda=\max(1,\log N)\le(A+1)x^{\eps/5}\log^2x$.
+For large $x$, $y\ge e$; so the hypothesis of \cref{pf:top-supply:intthin} (with $c_1$, $C$, $A+1$ and $c'=c$) holds for
+$\phi=\Psi_\chi$, and \cref{pf:top-supply:gintegral} gives the claim.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:smallzeros}
+For every $N_0$ there is $c_0>0$ such that $L(\beta,\chi)\ne0$ for $1-c_0<\beta<1$ for every non-trivial character $\chi$
+modulo any $N\le N_0$. \formallabel{QH.small_zeros}
+\end{lemma}
+
+\begin{proof}
+For each non-trivial $\chi$, $L(\cdot,\chi)$ is continuous on $\R$ and $L(1,\chi)\ne0$, so it has no zero in some interval
+$(1-c_\chi,1]$. There are finitely many such $\chi$; take $c_0=\min c_\chi$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:realcond}
+Let $\chi$ be a real primitive character modulo $N$, $8\mid N_0$, $q,d$ primes, and suppose that every prime $p\mid N$ divides
+$N_0$ or equals $q$ or $d$. Then $N\mid N_0qd$. \formallabel{QH.real_cond}
+\end{lemma}
+
+\begin{proof}
+The conductor of a real primitive character is $2^a$ times an odd squarefree number, with $a\le3$
+\cite[Ch.~5]{Davenport2000}. Hence $v_2(N)\le3\le v_2(N_0)$, and $v_p(N)\le1$ for odd $p$, which divides $N_0$, $q$ or $d$.
+\end{proof}
+
+\begin{definition}\label{pf:top-supply:thinH}
+Let $H$ be a host. $\sfname{RealBox}(H)$ means: for every real primitive character $\chi$ of $H$ whose conductor is
+divisible by $q$ or by $d$, $L(\beta,\chi)\ne0$ for all real $\beta>1-\frac1{400}$. $\sfname{ThinH}$ is the statement:
+there is $c>0$ such that for all $B$ and $\eps\in(0,\frac1{52})$ there is $x_0$ such that for $x\ge x_0$ every host $H$
+with $\topsupplyodd(Q_S)\le B$, $\log N_H\le2x^{\eps/5}\log^2x$ and $\sfname{RealBox}(H)$ satisfies
+$|g_\chi(y)|\le y\exp(-cx^{\eps/8})$ for every character $\chi$ of $H$ and every $y\ge\frac13\exp(x^{\eps/3})$.
+\formallabel{UpperTheory.Top.RealBox} \formallabel{UpperTheory.Top.ThinH}
+\end{definition}
+
+\begin{proposition}\label{pf:top-supply:thinHprop}
+$\sfname{ThinH}$ holds, with $c=1$. \formallabel{QH.thinH}
+\end{proposition}
+
+\begin{proof}
+Given $B$ and $\eps$, let $c_0'$ be the constant of \cref{pf:top-supply:smallzeros} for $N_0=8\lfloor B\rfloor$,
+$c_0=\min(c_0',\frac1{400})$, and let $x_0$ be given by \cref{pf:top-supply:thin} for $(\eps,2,1,c_0)$. Let $\chi$ be a
+character of $H$, of conductor $N$. Then $N\mid N_H$ (a character of $H$ factors through $(\Z/N_H)^\times$), so
+$\log N\le2x^{\eps/5}\log^2x$. It remains to check the condition on real zeros for real non-trivial $\chi$. If $q\mid N$ or
+$d\mid N$, it holds with $\frac1{400}\ge c_0$ by $\sfname{RealBox}(H)$. Otherwise every prime $p\mid N$ divides
+$Q_S$, hence divides $8\,\topsupplyodd(Q_S)$; by \cref{pf:top-supply:realcond} (with $N_0=8\,\topsupplyodd(Q_S)$),
+$N\mid8\,\topsupplyodd(Q_S)qd$, and as $q,d\nmid N$, $N\mid8\,\topsupplyodd(Q_S)$, so $N\le8\lfloor B\rfloor$ and
+\cref{pf:top-supply:smallzeros} applies. Now \cref{pf:top-supply:thin} gives the bound.
+\end{proof}
+
+\begin{lemma}[Real characters of a host]\label{pf:top-supply:realbox}
+Let $M>0$, let $H$ be a host such that every prime dividing $Q_S$ divides $2M$ and $\topsupplyodd(Q_S)\mid M$, and let
+$(q,d)$ be good for $(M,\eps,Y,X)$. Let $\chi$ be a real primitive character of $H$ whose conductor $N$ is divisible by
+$q$ or $d$, and put $j=1$ if $d\mid N$ and $j=0$ otherwise. Then $\chi$ is zero-free in the box of height
+$\topsupplyht(M,\eps,Y,j)$, and $N\le\topsupplyht(\topsupplyodd(Q_S),\eps,Y,j)$. In particular $\sfname{RealBox}(H)$ holds.
+\formallabel{UpperTheory.Top.realBox_main} \formallabel{UpperTheory.Top.realBox}
+\end{lemma}
+
+\begin{proof}
+A real character of $(\Z/N_H)^\times=(\Z/Q_S)^\times\times(\Z/q)^\times\times(\Z/d)^\times$ is a product
+$\rho'\cdot\topsupplyJ{\cdot}q^i\topsupplyJ{\cdot}d^j$ with $\rho'$ a real character modulo $Q_S$, because the only real
+characters modulo a prime are the trivial one and the Legendre symbol. Let $\rho\in\mathcal P$ be the primitive character
+attached to $\rho'$; it is real, so by \cref{pf:top-supply:realcond} its conductor divides $8\,\topsupplyodd(Q_S)$, which
+divides $8M$. The primitive character $\chi$ then induces $\topsupplytw(\rho,q,d,i,j)$ at level $2Mqd$ (all primes of $Q_S$
+divide $2M$), and $q\mid N$ iff $i=1$, $d\mid N$ iff $j=1$; so $(i,j)\ne(0,0)$ and $j$ is as in the statement.
+Condition (c) of \cref{pf:top-supply:pairgood} gives the zero-free box. Moreover $N=N_\rho q^id^j\le
+8\,\topsupplyodd(Q_S)e^ze^{jz'}$, as $q\le e^z$ and $d\le e^{z'}$. Finally, for real $\beta>1-\frac1{400}$ the point $s=\beta$
+lies in the box, so $L(\beta,\chi)\ne0$.
+\end{proof}
+
+\subsection{Hosts cut out by a character}\label{sec:pf:top-supply:hosts}
+
+\begin{lemma}\label{pf:top-supply:pairhyp}
+If $\sfname{WinPair}(\eps,Y,q,d)$ holds, then $q,d$ are primes with $q\equiv3\pmod8$, $d\equiv7\pmod{16}$ and
+$\topsupplyJ{-d}q=1$; $\topsupplyJ{-d}p=1$ for every odd prime $p\le Y^{\eps/5}$; and for every odd $a$,
+$\topsupplyJ{-q}a=\topsupplyJ aq$ and $\topsupplyJ{-d}a=\topsupplyJ ad$. \formallabel{UpperTheory.Top.pairHyp}
+\end{lemma}
+
+\begin{proof}
+If an odd prime $p$ divides $d+1$, then $-d\equiv1\pmod p$ and $\topsupplyJ{-d}p=1$; this applies to $p=q$ and to the odd
+primes $p\le Y^{\eps/5}$. For odd $a$ and $n\in\{q,d\}$, $n\equiv3\pmod4$, so
+$\topsupplyJ{-n}a=\topsupplyJ{-1}a\topsupplyJ na=\topsupplyJ an$ by the reciprocity law for the Jacobi symbol (in both
+cases $a\equiv1$ and $a\equiv3\pmod4$).
+\end{proof}
+
+\subsubsection{The host attached to a group of characters}\label{sec:pf:top-supply:anyhost}
+
+In this subsection $M\ge1$ is an integer and $\Xi$ is a subgroup of the group of Dirichlet characters modulo $M$. For
+$e\ge2$ and primes $q,d$ as in \cref{def:host} we construct a frame $\varphi_e(\Xi)$ and a host $H_e(\Xi,q,d)$ on it
+whose kept characters are the primitive characters attached to the elements of $\Xi$; \cref{pf:top-supply:fieldchi}
+applies this to $\Xi=\langle\chi_\psi\rangle$. Put $H_e=(\Z/2^{e+2})^\times/\{\pm1\}$ and write $[v]\in H_e$ for the class
+of $v$. By the shared result \lref{Formalism.FrobeniusOrbits.hostGroup} (which states, besides facts on the groups
+$\mathcal G_\varphi$, that $H_e$ is cyclic of order $2^e$, generated by the class of $5$), $H_e$ is cyclic of order $2^e$.
+For $m'\mid m$ and $u\in(\Z/m)^\times$ we write $u\bmod m'$ for the reduction; the reduction map
+$(\Z/m)^\times\to(\Z/m')^\times$ is surjective. For a Dirichlet character $\chi$ we write $\chi^*$ for the primitive character
+inducing it.
+
+\begin{definition}[The level $Q_S(\Xi,e)$]\label{pf:top-supply:anyQSdef}
+Let $\topsupplyann(\Xi)=\{u\in(\Z/M)^\times:\ \chi(u)=1\text{ for all }\chi\in\Xi\}$ and
+$B(\Xi)=(\Z/M)^\times/\topsupplyann(\Xi)$. For $e\in\N$ let $L_e=\lcm(2^{e+2},M)$, and let
+$\xi_W:(\Z/L_e)^\times\to B(\Xi)$ be the reduction modulo $M$ followed by the projection. A divisor $m$ of $L_e$ is
+\emph{good} if $2^{e+2}\mid m$ and $\xi_W(u)=1$ for every $u\in(\Z/L_e)^\times$ with $u\equiv1\pmod m$. As $L_e$ is good,
+there is a least good integer; we denote it by $Q_S(\Xi,e)$. Since $Q_S(\Xi,e)$ is good, $\xi_W$ factors through the
+reduction modulo $Q_S(\Xi,e)$: there is a unique homomorphism $\xi_{\Xi,e}:(\Z/Q_S(\Xi,e))^\times\to B(\Xi)$ with
+$\xi_{\Xi,e}(u\bmod Q_S(\Xi,e))=\xi_W(u)$ for $u\in(\Z/L_e)^\times$.
+\formal{Formalism.HC.EvenGrp.ann} \formal{Formalism.HC.EvenGrp.B} \formal{Formalism.HC.EvenGrp.xiW}
+\formal{Formalism.HC.EvenGrp.Good} \formal{Formalism.HC.EvenGrp.QS} \formal{Formalism.HC.EvenGrp.xi}
+\end{definition}
+
+\begin{lemma}\label{pf:top-supply:anyQS}
+\begin{enumerate}[label=(\roman*)]
+\item A Dirichlet character modulo $M$ belongs to $\Xi$ if and only if it is trivial on $\topsupplyann(\Xi)$; and
+$|B(\Xi)|=|\Xi|$.
+\item $2^{e+2}\mid Q_S(\Xi,e)\mid L_e\mid2^{e+2}M$, and $\xi_{\Xi,e}$ is surjective.
+\item If $q,d$ are odd primes not dividing $M$, then $\gcd(Q_S(\Xi,e),qd)=1$; every odd prime dividing $Q_S(\Xi,e)$ divides
+$M$.
+\item (Chinese remainder theorem) If $a,b,c\ge1$ are pairwise coprime and $x,y,z$ are integers prime to $a,b,c$
+respectively, there is $u\in(\Z/abc)^\times$ with $u\equiv x\pmod a$, $u\equiv y\pmod b$ and $u\equiv z\pmod c$.
+\end{enumerate}
+\formallabel{Formalism.HC.EvenGrp.card_B} \formallabel{Formalism.HC.exists_unit_three}
+\end{lemma}
+
+\begin{proof}
+(i) The first assertion is the shared result \lref{Formalism.HC.EvenGrp.mem_iff}, which states exactly this (it is
+the duality between subgroups of the finite abelian group $(\Z/M)^\times$ and subgroups of its character group). Hence
+the characters of $B(\Xi)$, i.e.\ the characters of $(\Z/M)^\times$ trivial on $\topsupplyann(\Xi)$, are the elements of
+$\Xi$; and a finite abelian group has as many characters as elements.
+
+(ii) $2^{e+2}\mid Q_S$ and $Q_S\mid L_e$ hold because $Q_S$ is good, and $L_e\mid2^{e+2}M$ (these are the shared
+\lref{Formalism.HC.EvenGrp.QS_dvd}, which states $Q_S\mid L_e$, and \lref{Formalism.HC.EvenGrp.QS_dvd_mul}, which
+states $Q_S\mid2^{e+2}M$). The map $\xi_W$ is surjective because the reduction $(\Z/L_e)^\times\to(\Z/M)^\times$ is, and hence
+so is $\xi_{\Xi,e}$ (this is the shared \lref{Formalism.HC.EvenGrp.xi_surj}, which states that $\xi_{\Xi,e}$ is onto).
+
+(iii) By (ii), $Q_S\mid2^{e+2}M$, which is prime to $qd$; and an odd prime dividing $2^{e+2}M$ divides $M$ (these are the
+shared \lref{Formalism.HC.EvenGrp.coprime_QS}, which states $\gcd(Q_S,qd)=1$ when $\gcd(M,qd)=1$ for primes
+$q\equiv3\pmod8$, $d\equiv7\pmod{16}$, and \lref{Formalism.HC.EvenGrp.dvd_of_dvd_QS}, which states that odd primes
+dividing $Q_S$ divide $M$).
+
+(iv) Apply the Chinese remainder theorem to $a,b$ and then to $ab,c$; the resulting class is prime to $a$, $b$ and $c$,
+hence a unit modulo $abc$.
+\end{proof}
+
+\begin{definition}[The frame $\varphi_e(\Xi)$]\label{pf:top-supply:anyframe}
+Let $m=Q_S(\Xi,e)$, let $\mathrm{cl}:(\Z/m)^\times\to H_e$ be $\mathrm{cl}(u)=[u\bmod2^{e+2}]$, and let
+$\eta=(\mathrm{cl},\xi_{\Xi,e}):(\Z/m)^\times\to H_e\times B(\Xi)$. Let $R=\eta((\Z/m)^\times)$ and let $p_1:R\to H_e$ and
+$p_2:R\to B(\Xi)$ be the two projections. Then $p_1$ is surjective, as $\mathrm{cl}$ is; and $p_1$ is injective on
+$\ker p_2$, since an element of $R$ with trivial projections is trivial. Hence $\ker p_2$ is cyclic, $H_e$ being cyclic;
+fix a generator $g$ of $\ker p_2$. The frame $\varphi_e(\Xi)$ (\cref{def:frame}) has exponent $e$, group $A=R$ written
+additively, surjection $h=p_1:A\to H_e$ and cyclic subgroup $A_0=\langle g\rangle=\ker p_2$, on which $h$ is injective.
+Let $t:(\Z/m)^\times\to A$ be the homomorphism $u\mapsto\eta(u)$, and let $w:\{\pm1\}\to A$ be $w(s)=t(s\bmod m)$.
+\formallabel{Formalism.HC.ModData.cl} \formallabel{Formalism.HC.ModData.eta} \formallabel{Formalism.HC.ModData.frame}
+\formallabel{Formalism.HC.Frame.ofGroup} \formal{Formalism.HC.ModData} \formal{Formalism.HC.AnyGrp.data}
+\formal{Formalism.HC.AnyGrp.frame}
+\end{definition}
+
+By construction, for $u\in(\Z/m)^\times$, $a\in A$ and $s=\pm1$:
+\begin{enumerate}[label=(F\arabic*),leftmargin=*]
+\item $t$ is surjective, and $t(u)=0$ if and only if $\eta(u)=1$;
+\item $h(t(u))=\mathrm{cl}(u)$ and $p_2(t(u))=\xi_{\Xi,e}(u)$;
+\item $a\in A_0$ if and only if $p_2(a)=1$;
+\item $2w(s)=w(s^2)=0$, and $h(w(s))=0$ because $\mathrm{cl}(-1)=1$.
+\end{enumerate}
+
+\begin{lemma}[Order and index]\label{pf:top-supply:anyorder}
+$\mathrm{ord}(\varphi_e(\Xi))=|R|$ and $o(\varphi_e(\Xi))=|\Xi|$. Moreover $2^e\le\mathrm{ord}(\varphi_e(\Xi))$, and if
+$4M\le2^e$, then $Q_S(\Xi,e)\le\mathrm{ord}(\varphi_e(\Xi))^2$.
+\formallabel{Formalism.HC.ModData.ord_eq} \formallabel{Formalism.HC.ModData.o_eq} \formallabel{Formalism.HC.AnyGrp.o_eq}
+\formallabel{Formalism.HC.Frame.two_pow_le_ord} \formallabel{Formalism.HC.AnyGrp.QS_le}
+\end{lemma}
+
+\begin{proof}
+The order of the frame is $|A|=|R|$, and its index is $o=[A:A_0]=|R|/|\ker p_2|=|p_2(R)|$. Now
+$p_2(R)=\xi_{\Xi,e}((\Z/m)^\times)=B(\Xi)$ by \cref{pf:top-supply:anyQS}(ii), and $|B(\Xi)|=|\Xi|$ by
+\cref{pf:top-supply:anyQS}(i). Since $h:A\to H_e$ is surjective and $|H_e|=2^e$, $2^e$ divides $|A|$. Finally
+$Q_S\mid2^{e+2}M$ by \cref{pf:top-supply:anyQS}(ii), so $Q_S\le2^e\cdot4M\le2^e\cdot2^e\le\mathrm{ord}(\varphi_e(\Xi))^2$.
+\end{proof}
+
+\begin{lemma}[The order is eventually $c\,2^e$]\label{pf:top-supply:ordany}
+There are integers $c,e_0$ with $1\le c\le|\Xi|$ and $\mathrm{ord}(\varphi_e(\Xi))=c\,2^e$ for all $e\ge e_0$.
+\formallabel{UpperTheory.Top.ordAny}
+\end{lemma}
+
+\begin{proof}
+Write $\mathrm{cl}_e$, $\xi_e=\xi_{\Xi,e}$, $R_e$ for the objects attached to $e$, and put $n(e)=|\xi_e(\ker\mathrm{cl}_e)|$.
+The kernel of $p_1:R_e\to H_e$ consists of the elements $(1,\xi_e(u))$ with $\mathrm{cl}_e(u)=1$; so $|\ker p_1|=n(e)$ and,
+$p_1$ being onto, $\mathrm{ord}(\varphi_e(\Xi))=|R_e|=n(e)\,|H_e|=n(e)\,2^e$.
+
+We show $\xi_{e+1}(\ker\mathrm{cl}_{e+1})\subseteq\xi_e(\ker\mathrm{cl}_e)$. Let $u$ be a unit modulo $Q_S(\Xi,e+1)$ with
+$\mathrm{cl}_{e+1}(u)=1$, let $v\in(\Z/L_{e+1})^\times$ be a lift of $u$, and let $u'=v\bmod Q_S(\Xi,e)$ (note
+$Q_S(\Xi,e)\mid L_e\mid L_{e+1}$). As $2^{e+3}\mid Q_S(\Xi,e+1)$, we have $v\equiv u\equiv\pm1\pmod{2^{e+3}}$, so
+$u'\equiv\pm1\pmod{2^{e+2}}$ and $\mathrm{cl}_e(u')=1$; and $\xi_e(u')$ and $\xi_{e+1}(u)$ are both the class of
+$v\bmod M$ in $B(\Xi)$. Hence $n$ is non-increasing. Moreover $1\le n(e)\le|B(\Xi)|=|\Xi|$. Let $c=n(e_0)$ be the least
+value of $n$. For $e\ge e_0$ we get $n(e)\le n(e_0)\le n(e)$, so $n(e)=c$ and $\mathrm{ord}(\varphi_e(\Xi))=c\,2^e$.
+\end{proof}
+
+\begin{definition}[The host $H_e(\Xi,q,d)$]\label{pf:top-supply:anyhost}
+Let $e\ge2$, and let $q,d$ be primes with $q\equiv3\pmod8$, $d\equiv7\pmod{16}$ and $\topsupplyJ{-d}q=1$, such that
+$\gcd(M,qd)=1$ and $\topsupplyJ{-d}l=1$ for every odd prime $l\mid M$. Let $\varphi=\varphi_e(\Xi)$, $m=Q_S(\Xi,e)$ and
+$N=mqd$. Define $\mathrm{art}:(\Z/N)^\times\to\mathcal G_\varphi=\{\pm1\}\times\{\pm1\}\times A$ by
+\begin{equation}\label{eq:pf:top-supply:anyart}
+\mathrm{art}(u)=\Big(\topsupplyJ uq,\ \topsupplyJ ud,\ t(u\bmod m)+w\Big(\topsupplyJ uq\Big)\Big).
+\end{equation}
+The host $H_e(\Xi,q,d)$ is the host on $\varphi$ with the primes $q,d$, with $Q_S=m$, with the field
+$E\subset\Q(\zeta_N)$ fixed by the automorphisms $\tau_a:\zeta_N\mapsto\zeta_N^a$ of $\Q(\zeta_N)$ with $\mathrm{art}(a)=1$,
+with the isomorphism $\Gal(E/\Q)\cong\mathcal G_\varphi$ induced by $\tau_a\mapsto\mathrm{art}(a)$, and with the Artin map
+$\mathrm{art}$.
+\formallabel{Formalism.HC.AnyGrp.host} \formallabel{Formalism.HC.ModData.art_snd}
+\end{definition}
+
+We check that this is a host. By \cref{pf:top-supply:anyQS}(iii), $\gcd(m,qd)=1$ and $\topsupplyJ{-d}l=1$ for every odd
+prime $l\mid m$; also $2^{e+2}\mid m$. The map $\mathrm{art}$ is a homomorphism, since the Jacobi symbols, $t$ and $w$ are.
+It is surjective: given $((s_1,s_2),a)\in\mathcal G_\varphi$, choose $v\in(\Z/m)^\times$ with $t(v)=a+w(s_1)$ (by (F1)),
+and integers $y,z$ prime to $q$, resp.\ $d$, with $\topsupplyJ yq=s_1$ and $\topsupplyJ zd=s_2$ (by the shared
+\lref{Formalism.HC.D7.exists_sign}, which provides, for a prime $p\equiv3\pmod4$ and a sign $s$, an integer $y$ prime to
+$p$ with $\topsupplyJ yp=s$; one may take $y=1$ or $y=p-1$). By \cref{pf:top-supply:anyQS}(iv) there is
+$u\in(\Z/N)^\times$ with $u\equiv v\pmod m$, $u\equiv y\pmod q$ and $u\equiv z\pmod d$, and then
+$\mathrm{art}(u)=((s_1,s_2),a+2w(s_1))=((s_1,s_2),a)$ by (F4). Next, $\mathrm{art}(-1)=((-1,-1),0)$, the complex conjugation,
+because $q\equiv d\equiv3\pmod4$ and $t(-1)+w(-1)=2w(-1)=0$. By (F2) and (F4), $h$ maps the $A$-component of
+$\mathrm{art}(u)$ to $\mathrm{cl}(u\bmod m)=[u\bmod2^{e+2}]$: the Artin map is compatible with $h$ on the $2$-power part.
+If $u\equiv1\pmod{mq}$, then the first sign and the $A$-component of $\mathrm{art}(u)$ are trivial, so
+$\mathrm{art}(u)\in\{1,\mathrm{iod}\}$; if $u\equiv1\pmod{md}$, then $\mathrm{art}(u)=((s,s'),w(s))$ for signs $s,s'$, so
+$\mathrm{art}(u)^2=1$. Finally the second sign of $\mathrm{art}(u)$ is $\topsupplyJ ud$. From these properties the remaining
+data of the host are obtained by the general construction of hosts from Artin maps: $E$ is a Galois extension of $\Q$ and
+$\tau_a\mapsto\mathrm{art}(a)$ induces $\Gal(E/\Q)\cong\mathcal G_\varphi$ by Galois theory, as $\mathrm{art}$ is surjective;
+the Artin map is compatible with the cyclotomic action by construction; and a square root of $-d$ in $E$ on which
+$\Gal(E/\Q)$ acts by the second sign is obtained exactly as the square root of $-q$ in
+\cref{pf:top-supply:anyexact}(ii) below, using that the second sign of $\mathrm{art}(u)$ is $\topsupplyJ ud$.
+
+\begin{lemma}[Type $\mathrm{PsQ}$, the square root of $-q$, exactness]\label{pf:top-supply:anyexact}
+In the situation of \cref{pf:top-supply:anyhost}, let $H=H_e(\Xi,q,d)$.
+\begin{enumerate}[label=(\roman*)]
+\item $H$ is \emph{of type $\mathrm{PsQ}$}: the first sign of $\mathrm{art}(u)$ is $\topsupplyJ uq$ for every
+$u\in(\Z/N)^\times$.
+\item There is $s\in E$ with $s^2=-q$ and $\sigma(s)=\epsilon_1(\sigma)s$ for every $\sigma\in\Gal(E/\Q)$, where
+$\epsilon_1(\sigma)$ is the first sign of the image of $\sigma$ in $\mathcal G_\varphi$.
+\item $Q_S$ is \emph{exact}: for every prime $l\mid Q_S$ there is $u\in(\Z/N)^\times$ with $u\equiv1\pmod{N/l}$ and
+$\mathrm{art}(u)\ne1$.
+\end{enumerate}
+\formallabel{Formalism.HC.ModData.psQ} \formallabel{Formalism.HC.AnyGrp.psQ} \formallabel{Formalism.HC.ModData.exists_sqq}
+\formallabel{Formalism.HC.AnyGrp.exists_sqq} \formallabel{Formalism.HC.AnyGrp.exact_data}
+\formallabel{Formalism.HC.ModData.exact} \formallabel{Formalism.HC.AnyGrp.exact}
+\end{lemma}
+
+\begin{proof}
+(i) This is the definition \eqref{eq:pf:top-supply:anyart}.
+
+(ii) Let $\zeta_q=\zeta_N^{N/q}$ and let $s=\sum_{a=1}^{q-1}\topsupplyJ aq\zeta_q^a$ be the quadratic Gauss sum. Then
+$s^2=\topsupplyJ{-1}q\,q=-q$, as $q\equiv3\pmod4$, and $\tau_a(s)=\topsupplyJ aq s$ for $a$ prime to $N$
+\cite[Ch.~2]{Davenport2000}. If $\mathrm{art}(a)=1$, then $\topsupplyJ aq=1$ by (i), so $\tau_a$ fixes $s$; hence $s\in E$.
+Every $\sigma\in\Gal(E/\Q)$ is the restriction of some $\tau_a$, and its image in $\mathcal G_\varphi$ is $\mathrm{art}(a)$,
+whose first sign is $\topsupplyJ aq$ by (i); so $\sigma(s)=\topsupplyJ aq s=\epsilon_1(\sigma)s$.
+
+(iii) We first show: for every prime $l\mid m$ there is $v\in(\Z/m)^\times$ with $v\equiv1\pmod{m/l}$ and $\eta(v)\ne1$
+(only $e\ge1$ is used here). If $2^{e+2}\mid m/l$, then $m/l$ is a divisor of $L_e$ which is divisible by $2^{e+2}$ and
+smaller than $m=Q_S(\Xi,e)$; so it is not good, and there is $u\in(\Z/L_e)^\times$ with $u\equiv1\pmod{m/l}$ and
+$\xi_W(u)\ne1$. Then $v=u\bmod m$ satisfies $v\equiv1\pmod{m/l}$ and $\xi_{\Xi,e}(v)=\xi_W(u)\ne1$. If $2^{e+2}\nmid m/l$,
+then $l=2$, because for odd $l$ the divisibility $2^{e+2}\mid m$ would give $2^{e+2}\mid m/l$. Write $m=2^{e+2}c$ and put
+$v=2^{e+1}c+1$; it is odd and prime to $2^{e+1}c$, hence a unit modulo $m$, and $v\equiv1\pmod{m/2}$. If
+$\mathrm{cl}(v)=1$, then either $v\equiv1\pmod{2^{e+2}}$, i.e.\ $2^{e+2}\mid2^{e+1}c=m/2$, which is excluded, or
+$v\equiv-1\pmod{2^{e+2}}$, i.e.\ $2^{e+2}\mid2^{e+1}c+2$, which is impossible modulo $4$ as $e\ge1$. So $\eta(v)\ne1$.
+
+Now let $l\mid Q_S=m$ be a prime and $v$ as above. By \cref{pf:top-supply:anyQS}(iv) there is $u\in(\Z/N)^\times$ with
+$u\equiv v\pmod m$, $u\equiv1\pmod q$ and $u\equiv1\pmod d$; then $u\equiv1\pmod{(m/l)qd}$, i.e.\ $u\equiv1\pmod{N/l}$. If
+$\mathrm{art}(u)=1$, then its $A$-component $t(v)+w(1)=t(v)$ vanishes, so $\eta(v)=1$ by (F1), a contradiction.
+\end{proof}
+
+\begin{lemma}[Kept characters]\label{pf:top-supply:anykept}
+In the situation of \cref{pf:top-supply:anyhost}, let $H=H_e(\Xi,q,d)$, and let $\mathcal K(\Xi)=\{\chi^*:\ \chi\in\Xi\}$; the
+\emph{level of $\Xi$} has the kept set $\mathcal K(\Xi)$, index $|\Xi|$ and no exceptional character. For a character
+$\theta$ of $\varphi$ let $\theta^*$ be the primitive character attached to the character $\theta\circ\mathrm{art}$ modulo $N$,
+and let $X_+$ be the set of characters of $\varphi$ that are trivial on $A_0$ and satisfy $\theta(\mathrm{iod})=1$.
+\begin{enumerate}[label=(\roman*)]
+\item If $\theta,\theta'$ are characters of $\varphi$ with $\theta^*=\theta'^*$, then $\theta\circ\mathrm{art}=\theta'\circ\mathrm{art}$.
+\item For every $\chi\in\Xi$ there is $\theta_\chi\in X_+$ with $\theta_\chi^*=\chi^*$. In particular every element of
+$\mathcal K(\Xi)$ is attached to a character in $X_+$.
+\item Let $\mathrm{ch}_Q:\mathcal G_\varphi\to\{\pm1\}$ be the first sign. The primitive character attached to
+$\mathrm{ch}_Q\circ\mathrm{art}$ does not belong to $\mathcal K(\Xi)$.
+\end{enumerate}
+\formallabel{Formalism.HC.Level.ofSub} \formallabel{Formalism.HC.HostRaw.prim} \formallabel{Formalism.HC.Frame.Xp}
+\formallabel{Formalism.HC.Frame.psC} \formallabel{Formalism.HC.HostRaw.art_eq_of_prim_eq}
+\formallabel{Formalism.HC.AnyGrp.thetaA} \formallabel{Formalism.HC.AnyGrp.theta} \formallabel{Formalism.HC.AnyGrp.theta_mem}
+\formallabel{Formalism.HC.AnyGrp.thetaA_toA} \formallabel{Formalism.HC.AnyGrp.theta_art}
+\formallabel{Formalism.HC.AnyGrp.prim_theta} \formallabel{Formalism.HC.AnyGrp.keptInXp}
+\formallabel{Formalism.HC.AnyGrp.exceptional_character_condition}
+\end{lemma}
+
+\begin{proof}
+(i) The primitive character $\theta^*$ induces $\theta\circ\mathrm{art}$ at level $N$, and $\theta'^*=\theta^*$ induces
+$\theta'\circ\mathrm{art}$ at level $N$; so the two functions agree on the units modulo $N$.
+
+(ii) Let $\chi\in\Xi$. Since $\chi$ is trivial on $\topsupplyann(\Xi)$, it induces a character $\bar\chi$ of $B(\Xi)$. Put
+$\theta_A=\bar\chi\circ p_2:A\to\C^\times$ and $\theta_\chi((s_1,s_2),a)=\theta_A(a+w(s_1))$. Then:
+(a) $\theta_\chi\in X_+$: for $a\in A_0$, $\theta_\chi((1,1),a)=\bar\chi(p_2(a))=1$ by (F3), and
+$\theta_\chi(\mathrm{iod})=\theta_A(w(1))=\theta_A(0)=1$.
+(b) For $u\in(\Z/L_e)^\times$, $\theta_A(t(u\bmod m))=\bar\chi(\xi_{\Xi,e}(u\bmod m))=\bar\chi(\xi_W(u))=\chi(u\bmod M)$, by (F2).
+(c) For $u\in(\Z/N)^\times$, $\theta_\chi(\mathrm{art}(u))=\theta_A(t(u\bmod m)+2w(\topsupplyJ uq))=\theta_A(t(u\bmod m))$, by
+\eqref{eq:pf:top-supply:anyart} and (F4).
+(d) Let $a$ be an integer prime to $NM$. Then $a$ is prime to $L_e$, which divides $2^{e+2}M$ (and $2\mid m\mid N$); so
+$\theta_\chi(\mathrm{art}(a))=\chi(a)$ by (b) and (c). Thus $\chi^*$ and $\theta_\chi^*$ are primitive characters which both
+induce $a\mapsto\chi(a)$ at level $NM$, and they are equal by \cref{pf:top-supply:twistprim}(ii).
+
+(iii) Suppose that the primitive character attached to $\mathrm{ch}_Q\circ\mathrm{art}$ is $\chi^*$ with $\chi\in\Xi$. By (ii)
+and (i), $\mathrm{ch}_Q\circ\mathrm{art}=\theta_\chi\circ\mathrm{art}$. Choose $y$ prime to $q$ with $\topsupplyJ yq=-1$
+(\lref{Formalism.HC.D7.exists_sign}, as above) and, by \cref{pf:top-supply:anyQS}(iv), $u\in(\Z/N)^\times$ with
+$u\equiv1\pmod m$, $u\equiv y\pmod q$ and $u\equiv1\pmod d$. Then $\theta_\chi(\mathrm{art}(u))=\theta_A(t(1))=1$ by (c),
+whereas $\mathrm{ch}_Q(\mathrm{art}(u))=\topsupplyJ uq=\topsupplyJ yq=-1$; a contradiction.
+\end{proof}
+
+\begin{lemma}[Cut out by $\psi$; twist form]\label{pf:top-supply:anytwist}
+Let $\psi\in\mathcal P$, let $\Xi=\langle\chi_\psi\rangle$ (so $M=N_\psi$), and let $e,q,d$ be as in
+\cref{pf:top-supply:anyhost}. Then $N_\psi\mid Q_S(\Xi,e)$, and the host $H_e(\Xi,q,d)$ is cut out by $\psi$ and has twist
+form for $\psi$ (\cref{pf:top-supply:kerchi}).
+\formallabel{UpperTheory.Top.kerChiAny} \formallabel{UpperTheory.Top.twistAny}
+\end{lemma}
+
+\begin{proof}
+Write $Q=Q_S(\Xi,e)$. Here $\topsupplyann(\Xi)=\ker\chi_\psi$, since a unit killed by $\chi_\psi$ is killed by all powers
+of $\chi_\psi$.
+
+\emph{$N_\psi\mid Q$.} Let $g=\gcd(Q,N_\psi)$ and let $x\in(\Z/N_\psi)^\times$ with $x\equiv1\pmod g$. By the Chinese
+remainder theorem there is an integer $z$ with $z\equiv1\pmod Q$ and $z\equiv x\pmod{N_\psi}$. It is prime to $Q$, hence
+to $2^{e+2}$, and prime to $N_\psi$, hence prime to $L_e$. As $Q$ is good, $\xi_W(z)=1$, i.e.\
+$x=z\bmod N_\psi\in\topsupplyann(\Xi)=\ker\chi_\psi$. So $\chi_\psi$ factors through $(\Z/g)^\times$; as $\chi_\psi$ is
+primitive of conductor $N_\psi$, $N_\psi\le g$, so $g=N_\psi$ and $N_\psi\mid Q$. Consequently $L_e\mid Q$.
+
+\emph{Cut out by $\psi$.} Let $a$ be prime to $N=Qqd$. By \eqref{eq:pf:top-supply:anyart}, $\mathrm{art}(a)=1$ if and only if
+$\topsupplyJ aq=\topsupplyJ ad=1$ and $t(a\bmod Q)+w(1)=t(a\bmod Q)=0$, i.e., by (F1), if and only if
+$\topsupplyJ aq=\topsupplyJ ad=1$ and $\eta(a\bmod Q)=1$. Now $\eta(a\bmod Q)=1$ means $\mathrm{cl}(a\bmod Q)=1$, i.e.\
+$a\equiv\pm1\pmod{2^{e+2}}$, and $\xi_{\Xi,e}(a\bmod Q)=1$; since $a$ is prime to $L_e\mid Q$, the latter element is
+$\xi_W(a\bmod L_e)$, the class of $a\bmod N_\psi$ in $B(\Xi)$, which is trivial if and only if $\chi_\psi(a)=1$, i.e.\
+$\psi(a)=1$.
+
+\emph{Twist form.} Let $\theta$ be a character of $\varphi$ trivial on $A_0$. The character $u\mapsto\theta((1,1),t(u))$ of
+$(\Z/Q)^\times$ is trivial on $\ker\xi_{\Xi,e}$, because $\xi_{\Xi,e}(u)=1$ implies $t(u)\in A_0$ by (F2) and (F3). As
+$\xi_{\Xi,e}$ is surjective, this character is $\rho\circ\xi_{\Xi,e}$ for a character $\rho$ of $B(\Xi)$. The composite
+$\xi'$ of $\rho$ with the projection $(\Z/N_\psi)^\times\to B(\Xi)$ is a Dirichlet character modulo $N_\psi$ trivial on
+$\topsupplyann(\Xi)$, so $\xi'\in\Xi$ by \cref{pf:top-supply:anyQS}(i), and $\theta((1,1),t(u\bmod Q))=\xi'(u\bmod N_\psi)$
+for $u\in(\Z/L_e)^\times$. Next, $s\mapsto\theta((s,1),w(s))$ and $s\mapsto\theta((1,s),0)$ are characters of $\{\pm1\}$
+(by (F4)), so there are $i,j\in\{0,1\}$ with $\theta((s,1),w(s))=s^i$ and $\theta((1,s),0)=s^j$; in particular
+$\theta(\mathrm{iod})=(-1)^j$. For $a$ prime to $N$, \eqref{eq:pf:top-supply:anyart} gives the factorisation
+\[
+\mathrm{art}(a)=\Big(\Big(\topsupplyJ aq,1\Big),w\Big(\topsupplyJ aq\Big)\Big)\cdot\Big(\Big(1,\topsupplyJ ad\Big),0\Big)
+\cdot\big((1,1),t(a\bmod Q)\big)
+\]
+in $\mathcal G_\varphi$, hence
+$\theta(\mathrm{art}(a))=\topsupplyJ aq^i\topsupplyJ ad^j\xi'(a)=\topsupplytw(\xi',q,d,i,j)(a)$.
+\end{proof}
+
+The following proposition supplies, for every $\psi$, hosts cut out by $\psi$ with any admissible pair $(q,d)$; it is
+obtained by applying the construction above to the cyclic group $\langle\chi_\psi\rangle$.
+
+\begin{definition}[Field rows]\label{pf:top-supply:fieldrows}
+For a host $H$ and $b\in\N$, $\sfname{FieldRows}(H,b)$ is the conjunction of: the host is of \emph{type $\mathrm{PsQ}$};
+$-q$ has a square root $s\in E$ on which every $\sigma\in\Gal(E/\Q)$ acts by the first sign of $\sigma$; $Q_S$ is
+\emph{exact} (type $\mathrm{PsQ}$ and exactness are defined as in \cref{pf:top-supply:anyexact}(i),(iii)); $Q_S\le\mathrm{ord}^2$; $o(\varphi)^{64}\le2^{e}$; $q\ne3$; $\topsupplyJ{-d}p=1$ for all odd primes $p\le b$;
+and $4l\le b$ for every odd prime $l\mid Q_S$.
+\formallabel{HostParam.Seam.FieldRows}
+\end{definition}
+
+\begin{proposition}[Hosts for $\psi$]\label{pf:top-supply:fieldchi}
+For every $\psi\in\mathcal P$ there are $c\ge1$ and $e_0$ with the following property. Let $e\ge e_0$, and let $q,d,b$ be
+such that $q,d$ are primes, $q\equiv3\pmod8$, $d\equiv7\pmod{16}$, $\topsupplyJ{-d}q=1$, $q\ne3$, $\gcd(N_\psi,qd)=1$,
+$b\ge4N_\psi$ and $\topsupplyJ{-d}p=1$ for all odd primes $p\le b$. Then there are a frame $\varphi$ with $e(\varphi)=e$,
+$\mathrm{ord}(\varphi)=c2^e$ and $o(\varphi)=\mathrm{ord}(\chi_\psi)$, and a host $H$ on $\varphi$ with these $q,d$, such that:
+$\sfname{FieldRows}(H,b)$; $Q_S\mid\lcm(2^{e+2},N_\psi)$ and $Q_S\le4N_\psi\mathrm{ord}(\varphi)$; $H$ keeps the cyclic level of
+$\psi$ in $X_+$ and keeps its (absent) exceptional character; $H$ is cut out by $\psi$; and $H$ has twist form for $\psi$.
+\formallabel{UpperTheory.Top.fieldChi}
+\end{proposition}
+
+\begin{proof}
+Let $\Xi=\langle\chi_\psi\rangle$, so that $M=N_\psi$ and $|\Xi|=\mathrm{ord}(\chi_\psi)$. For $e\ge2$ and $q,d$ as in the
+statement, let $\varphi=\varphi_e(\Xi)$ and $H=H_e(\Xi,q,d)$ be the frame and host of
+\cref{pf:top-supply:anyframe,pf:top-supply:anyhost}; the hypothesis $\topsupplyJ{-d}l=1$ for the odd primes $l\mid N_\psi$
+holds as $l\le N_\psi\le b$. We use:
+\begin{itemize}
+\item there are $1\le c\le|\Xi|$ and $e_1$ with $\mathrm{ord}(\varphi_e(\Xi))=c2^e$ for all $e\ge e_1$
+(\cref{pf:top-supply:ordany});
+\item $o(\varphi)=|\Xi|=\mathrm{ord}(\chi_\psi)$, $2^e\le\mathrm{ord}(\varphi)$, and $Q_S\le\mathrm{ord}(\varphi)^2$ once
+$4N_\psi\le2^e$ (\cref{pf:top-supply:anyorder});
+\item $Q_S\mid\lcm(2^{e+2},N_\psi)$ (\cref{pf:top-supply:anyQS}(ii));
+\item $H$ is of type $\mathrm{PsQ}$, has the square root of $-q$ with the stated Galois action, and has exact $Q_S$
+(\cref{pf:top-supply:anyexact});
+\item $H$ keeps the cyclic level of $\psi$, which is the level of $\Xi$, in $X_+$, and satisfies the exceptional-character
+condition (\cref{pf:top-supply:anykept}(ii),(iii));
+\item $H$ is cut out by $\psi$ and has twist form for $\psi$ (\cref{pf:top-supply:anytwist}).
+\end{itemize}
+Take
+$e_0=\max(e_1,2,4N_\psi,64|\Xi|)$. For $e\ge e_0$: $4N_\psi\le2^e$; $o^{64}=|\Xi|^{64}\le2^{64|\Xi|}\le2^e$; every odd
+prime $l\mid Q_S$ divides $N_\psi$ (as $Q_S\mid\lcm(2^{e+2},N_\psi)$), so $4l\le4N_\psi\le b$; and
+$Q_S\le2^{e+2}N_\psi\le4N_\psi\mathrm{ord}(\varphi)$, as $2^e\le\mathrm{ord}(\varphi)$. With the given $q\ne3$ and the
+hypothesis on $\topsupplyJ{-d}p$ this gives $\sfname{FieldRows}(H,b)$ and all other assertions.
+\end{proof}
+
+\begin{lemma}[Bounded characters]\label{pf:top-supply:boundedtw}
+Let $\psi\in\mathcal P$, $H$ a host on $\varphi$ with twist form for $\psi$, $N_\psi\mid Q_S$, every prime dividing $Q_S$
+dividing $2N_\psi$, and let $(q,d)$ be good for $(N_\psi,\eps,Y,x)$ with $\eps>0$, $1\le x$, $Y\le x$. Then every primitive
+character $\chi$ attached to a bounded character $\theta$ of $H$ (a character trivial on $A_0$ such that
+$\theta(\mathrm{iod})=-1$, or $\theta(\mathrm{iod})=1$ and $\chi$ is not attached to a power of $\chi_\psi$) satisfies
+$|g_\chi(x)|\le x^{1/2+\eps}$ and $|\ell(\chi)|\le4\log x$. \formallabel{UpperTheory.Top.boundedTw} \formallabel{UpperTheory.Top.boundedTw_key}
+\end{lemma}
+
+\begin{proof}
+Let $\theta$ be such a character. By twist form, $\theta\circ\mathrm{art}=\topsupplytw(\xi,q,d,i,j)$ on integers prime to
+$N_H$, for some $\xi\in\langle\chi_\psi\rangle$ and $(i,j)$ with $\theta(\mathrm{iod})=(-1)^j$. If $(i,j)=(0,0)$, then
+$\theta(\mathrm{iod})=1$, so by assumption $\chi$ is not attached to a power of $\chi_\psi$; but $\chi$ induces $\xi$, so it
+is the primitive character attached to $\xi\in\langle\chi_\psi\rangle$, a contradiction. Hence $(i,j)\ne(0,0)$. An integer
+prime to $2N_\psi qd$ is prime to
+$N_H$ (every prime of $Q_S$ divides $2N_\psi$), so $\chi$ induces $\topsupplytw(\xi,q,d,i,j)$ at level $2N_\psi qd$.
+Condition (b) of \cref{pf:top-supply:pairgood} at $y=x\in[Y,x]$ gives $|g_\chi(x)|\le x^{1/2+\eps/2}\le x^{1/2+\eps}$ and
+$|\ell(\chi)|\le4\log x$.
+\end{proof}
+
+\begin{lemma}[Ranks]\label{pf:top-supply:ranks}
+For every $\eps\in(0,\frac1{52})$ there is $x_0$ such that for every scale $s$ with $\eps(s)=\eps$, $x(s)\ge x_0$:
+\begin{enumerate}[label=(\roman*)]
+\item every frame $\varphi$ with $x^{2+8\eps}\le\mathrm{ord}(\varphi)\le2x^{2+8\eps}$ is the frame of ranks $R$ with
+$\sfname{RankVal}(s,R)$;
+\item for all ranks $R$ with $\sfname{RankVal}(s,R)$, $t_R\le x^{400}$.
+\end{enumerate}
+Moreover, for all ranks $R$ and every host $H_0$ on $\varphi_R$, every $b\in\N$ and every choice datum, if
+$\sfname{FieldRows}(H_0,b)$ holds and $q,d>4t_Rr_R+1$, then there is a host of type $\mathrm{Host}(R)$ extending $H_0$ with
+split bound $b$ and the given choices.
+\formallabel{GlobalTheory.EX.exists_ranks_rankVal_frame}
+\formallabel{UpperTheory.Top.eventually_rank_le_rpow_of_lt_one_div_fiftytwo}
+\formallabel{UpperTheory.Top.admissibleClassesTwistedChar} \formallabel{UpperTheory.Top.admissible_ranks_of_CMDatum}
+\formallabel{HostParam.Seam.exists_host} \formallabel{HostParam.Seam.exists_hostNF}
+\end{lemma}
+
+\begin{proof}
+(i) For $x\ge16$ the intervals $[\sqrt{x\delta_1},2\sqrt{x\delta_1}]$ and $[x^{9/2+10\eps},2x^{9/2+10\eps}]$ have length at
+least $2$; choose even integers $m$ and $k$ in them, and put $t=8fr+4+T_0w_0-r$ with $r=k+m-1$, $f=2n$ and $w_0=w_0(R,s)$
+(which depends only on $k,m,n,s$). Since $r$ is odd and $w_0$ is a multiple of $8$, $t$ is odd, and the relation of
+$\sfname{RankVal}$ holds by construction. The side conditions on ranks ($m\ge2$, $m+3\le k$, $m\le2n\le k$, and a bound
+on $m^2$) follow from $x\ge16$ and $x^2\le n\le2x^3$.
+
+(ii) Write $Y=x^{1/100}\ge2$. From $\sfname{RankVal}$ and $\eps<\frac1{52}$: $n\le2Y^{216}$, $f=2n\le4Y^{216}$,
+$k\le2Y^{470}$, $r\le2k\le4Y^{470}$, $m\ge Y^{49}$, $x^{2\eps}\le Y^4$; hence the integer $w_0$, which is
+$8\lceil\frac{10r(f+f^2(k-1)^3x^{2\eps}/m)}8\rceil$, is at most $5288Y^{2267}$, and $T_0\le2Y^{37700}$. The relation gives
+$t\le8fr+4+T_0w_0\le10708\,Y^{39967}\le Y^{40000}=x^{400}$, as $Y^{33}\ge2^{33}$.
+
+The last assertion: the remaining fields of a host of type $\mathrm{Host}(R)$ are a CM type of $E$, which exists, and an
+ideal $\mathfrak b$ of $\OO_E$ with $\mathfrak d_{E/K}=\mathfrak b\bar{\mathfrak b}$, $\mathfrak b+\bar{\mathfrak b}=\OO_E$, stable
+under the relevant automorphisms, which is part of the derived properties of the host; the choices and the split bound are
+free, subject to $\sfname{FieldRows}(H_0,b)$ and $q,d>4tr+1$.
+\end{proof}
+
+\subsection{Windows}\label{sec:pf:top-supply:windows}
+
+\begin{definition}\label{pf:top-supply:windatum}
+Let $\psi\in\mathcal P$, $\eps\in(0,\frac1{52})$, $J\ge1$, $c\ge1$. A \emph{window datum} at $x$ is a tuple $(Y,q,d,e)$
+with $x^{1/J}\le Y\le x$, $(q,d)$ good for $(N_\psi,\eps,Y,x)$, $x^{2+8\eps}\le c2^e\le2x^{2+8\eps}$, and
+$\sfname{VVle}\big(E,\lfloor x^{400}\rfloor,\sqrt{\exp(x^\eps)}\big)$ for every $\chi$-field $E$ for $(\psi,e,q,d)$.
+\formallabel{UpperTheory.Top.WinDatum}
+\end{definition}
+
+\begin{lemma}\label{pf:top-supply:vvle}
+For every $\eps>0$ there is $e:\R\to\N$ with $\sfname{PageN}(\eps,x,e(x))$ for all $x\ge1$.
+\formallabel{UpperTheory.Top.exists_pageN}
+\end{lemma}
+
+\begin{proof}
+For $x\ge1$, $x^{2+8\eps}\ge1$; let $n$ be such that $2^n\le x^{2+8\eps}<2^{n+1}$ and put $e(x)=n+1$.
+\end{proof}
+
+We also use that $\sfname{VVle}(E,t,B)$ implies $\sfname{VVle}(E,t',B')$ for $t'\le t$ and $B\le B'$
+(\lref{UpperTheory.Top.VVle.mono}; the lengths are non-negative, so the sums decrease with $t$).
+
+\begin{proposition}[Windows of good scales]\label{pf:top-supply:winpairs}
+Let $\psi\in\mathcal P$, $\eps\in(0,\frac1{52})$ and $c\ge1$, and assume $\sfname{VWinAt}(\psi,401)$ and $\sfname{PairEx}$.
+There is $J\ge1$ such that for every $y$ there is $Z\ge y$ such that every $x\in[Z,Z^{3/2}]$ admits a window datum for
+$(\psi,\eps,J,c)$. \formallabel{UpperTheory.Top.winPairs}
+\end{proposition}
+
+\begin{proof}
+Let $e$ be as in \cref{pf:top-supply:vvle}, and let $J\ge1$ and $X_0$ be given by $\sfname{VWinAt}(\psi,401)$ for $\eps$
+and $e$. Let $Y_1$ be given by $\sfname{PairEx}$ for $(N_\psi,\eps,J)$. Put $k=c^{1/(2+8\eps)}\ge1$, so that
+$k^{2+8\eps}=c$. Given $y$, choose $M\ge\max(1,y,Y_1,k^3,k^{400})$ and $X\ge\max(X_0,M^J)$; then $X^{1/J}\ge M\ge Y_1$, so
+there is a pair $(q,d)$ good for $(N_\psi,\eps,X^{1/J},X)$; in particular $\sfname{WinPair}(\eps,X^{1/J},q,d)$. By
+$\sfname{VWinAt}$ there is $W$ with $X^{1/J}\le W$, $W^2\le X$, such that for all $x'\in[W,W^2]$ every $\chi$-field $E$ for
+$(\psi,e(x'),q,d)$ satisfies $\sfname{VVle}(E,\lfloor x'^{401}\rfloor,\sqrt{\exp(x'^\eps)})$. Put $Z=kW\ge W\ge M\ge y$.
+
+Let $x\in[Z,Z^{3/2}]$ and $x'=x/k$, so $W\le x'$. Since $k^3\le W$, $(kW)^{3/2}\le W^2$, so $x'\le x\le W^2$. We check
+that $(X^{1/J},q,d,e(x'))$ is a window datum at $x$. First $x^{1/J}\le X^{1/J}$ as $x\le W^2\le X$, and $X^{1/J}\le W\le x$.
+The pair is good for $(N_\psi,\eps,X^{1/J},X)$, hence for $(N_\psi,\eps,X^{1/J},x)$. Next
+$x^{2+8\eps}=c\,x'^{2+8\eps}$, and $\sfname{PageN}(\eps,x',e(x'))$ gives $x^{2+8\eps}\le c2^{e(x')}\le2x^{2+8\eps}$. Finally
+$x^{400}=k^{400}x'^{400}\le x'^{401}$ (as $k^{400}\le M\le x'$) and $\exp(x'^\eps)\le\exp(x^\eps)$, so the
+monotonicity of $\sfname{VVle}$ gives the required bound.
+\end{proof}
+
+The value $\frac32$ of the window exponent comes from this rescaling: $\sfname{VWinAt}$ provides windows $[W,W^2]$ at the
+scale $x'$, and the factor $c$ in $\mathrm{ord}=c2^e$ forces the passage from $x'$ to $x=kx'$.
+
+\subsection{Completion of a host}\label{sec:pf:top-supply:completion}
+
+In this subsection a host $H_0$ cut out by $\psi$ with a good pair is completed to a host of type $\mathrm{Host}(R)$
+satisfying $\sfname{HostGood}$. We first collect the inputs.
+
+\subsubsection{Pair rows and boxes}
+
+\begin{lemma}\label{pf:top-supply:pairrows}
+For all $\eps\in(0,\frac1{52})$ and $C_0$ there is $x_0$ with the following property. Let $s=(x,\eps,J)$ be a scale with
+$x\ge x_0$, $R$ ranks with $\sfname{RankVal}(s,R)$, $H$ a host of type $\mathrm{Host}(R)$ with $J\le C_0$, $o(\varphi_R)\le C_0$,
+$Q_S\le C_0n$, let $M>0$, $x^{1/J}\le Y\le x$, and let $(q,d)$ be good for $(M,\eps,Y,x)$. Then the pair row
+$\sfname{PairRow}(Y,\eps,H)$ of (H1), condition (H5) with $C_5=4$, and the first part of (H6) (the zero-free boxes for the
+six characters attached to $q,d$) hold.
+\formallabel{UpperTheory.Top.pairRows}
+\end{lemma}
+
+\begin{proof}
+Write $z=Y^{\eps/5}$, $z'=Y^{\eps/5}\log^2Y$. \emph{Pair row.} The sizes and congruences of $q,d$ are those of
+$\sfname{WinPair}$. By \cref{pf:top-supply:pairhyp}, $\topsupplyJ{-d}q=1$ and $\topsupplyJ{-d}p=1$ for odd primes $p\le z$;
+for $p=2$ the Kronecker symbol $\topsupplyJ{-d}2$ is $1$ because $-d\equiv1\pmod8$. Finally $\log x\le J\log Y\le
+C_0\log Y$, so $\log N_H\le\log(2C_0x^{3})+z+z'\le2Y^{\eps/5}\log^2Y$ for large $x$.
+
+\emph{(H5).} For odd $a$, $\topsupplyJ{-q}a=\topsupplyJ aq$ and $\topsupplyJ{-d}a=\topsupplyJ ad$
+(\cref{pf:top-supply:pairhyp}). Hence a primitive $\chi$ inducing $\topsupplyJ{-q}{\cdot}$, $\topsupplyJ{-d}{\cdot}$ or their
+product at level $8qd$ induces $\topsupplytw(\one,q,d,i,j)$ at level $2Mqd$ with $(i,j)=(1,0),(0,1),(1,1)$. Condition (b) of
+\cref{pf:top-supply:pairgood} at $y=x$ gives $|g_\chi(x)|\le x^{1/2+\eps}$ and $|\ell(\chi)|\le4\log x$.
+
+\emph{Boxes.} The six characters are $\rho\topsupplyJ{\cdot}q^i\topsupplyJ{\cdot}d^j$ with $\rho\in\{\one,\chi_8\}$ ($\chi_8$ the
+real primitive character of conductor $8$, so $N_\rho\mid8M$) and $(i,j)\in\{(1,0),(0,1),(1,1)\}$. Condition (c) of
+\cref{pf:top-supply:pairgood} gives zero-freeness in the box of height $8Me^ze^{jz'}\ge8e^ze^{jz'}$, and the conductors are
+at most $8qd\le8e^ze^{jz'}$ when $j=1$, resp.\ $8q\le8e^z$ when $j=0$.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:qdbig}
+For all $\eps\in(0,\frac1{52})$ and $C_0$ there is $x_0$ such that $q,d>4t_Rr_R+1$ and $d\ge100$ whenever $x(s)\ge x_0$,
+$\eps(s)=\eps$, $\sfname{RankVal}(s,R)$, $J\le C_0$, $x^{1/J}\le Y\le x$ and $\sfname{WinPair}(\eps,Y,q,d)$.
+\formallabel{UpperTheory.T3.qdBig}
+\end{lemma}
+
+\begin{proof}
+By $\sfname{RankVal}$, $r\le x^5$ and $t\le x^{401}$ for large $x$ (\lref{GlobalTheory.EX.rank_basic_bounds}, which
+states these and similar bounds for ranks satisfying $\sfname{RankVal}$). On the other hand $d>q>e^{z/2}$ with
+$z=Y^{\eps/5}\ge x^{\eps/(5C_0)}$, which exceeds $4x^{406}+1$ and $100$ for large $x$.
+\end{proof}
+
+\subsubsection{Auxiliary primes}
+
+\begin{littheorem}[Linnik {\cite{Linnik1944}, \cite[Ch.~18]{IwaniecKowalski2004}}]\label{pf:top-supply:linnik}
+There is $A\ge1$ such that for every $M\ge2$ there is a prime $p\equiv1\pmod M$ with $p\le M^A$.
+\formallabel{UpperTheory.T3.SmallOne} \formallabel{UpperTheory.T3.smallOne} \formallabel{UpperTheory.T3.smallOne_of}
+\formallabel{GlobalTheory.T.primesInProgressions_relativeError}
+\end{littheorem}
+
+The formal proof deduces this from the prime number theorem for arithmetic progressions with relative error in the range
+$X\ge M^{c}$ and the Deuring--Heilbronn bound $1-\beta\gg(M^2\log M)^{-1}$ for exceptional zeros
+(\lref{GlobalTheory.Lin.primesRel_holds}, which states exactly these facts, and
+\lref{GlobalTheory.Lin.primesAPInterval_of_primesRel}, which derives from them lower bounds for primes in residue
+classes in intervals).
+
+\begin{lemma}\label{pf:top-supply:threeprimes}
+There is $C_8\ge1$ such that for every $N\ge30$ there are pairwise distinct primes $p,p',q_0$ with
+$p\equiv p'\equiv1\pmod{15N}$, $q_0\equiv1\pmod N$ and $p,p',q_0\le N^{C_8}$.
+\formallabel{UpperTheory.T3.exists_three_primes_one_mod_le_rpow}
+\end{lemma}
+
+\begin{proof}
+Let $A$ be as in \cref{pf:top-supply:linnik}. Apply it to $15N\le N^2$, giving $p\le N^{2A}$; to $15Np$, giving
+$p'\equiv1\pmod{15Np}$, so $p'\ne p$ and $p'\le N^{(2+2A)A}$; and to $Npp'$, giving $q_0\equiv1\pmod{Npp'}$, so
+$q_0\ne p,p'$ and $q_0$ is bounded by a fixed power of $N$.
+\end{proof}
+
+\begin{lemma}[Choice count]\label{pf:top-supply:choicecount}
+For a prime $\ell$ and $g,d\ge1$ write $\mathrm{Exc}(g,d,\ell)$ if $g^d<\ell^{4v_\ell(g^d-1)}$, and let $BB(N,g)$ be the set
+consisting of $g$ and of the primes $\ell$ with $\mathrm{Exc}(g,d,\ell)$ for some $1\le d\le N$.
+\begin{enumerate}[label=(\roman*)]
+\item For $g\ge2$ and $d\ge1$ there are at most three primes $\ell$ with $\mathrm{Exc}(g,d,\ell)$; hence $|BB(N,g)|\le3N+1$.
+\item For a prime $\ell$, $w\ge1$ and $d\ge1$, the congruence $x^d\equiv1\pmod{\ell^w}$ has at most $2d$ solutions modulo
+$\ell^w$.
+\item Let $Y\ge2$, $N\ge1$, $g_1\in[Y,2Y]$, and let $S$ be a set of integers $g\in[Y,2Y]$ with
+$BB(N,g)\cap BB(N,g_1)\ne\emptyset$. Then $|S|\le(3N+1)\big(1+2N^2(Y^{3/4}+1)\big)$.
+\end{enumerate}
+\formal{Formalism.CyclotomicNorms.BB} \formallabel{Formalism.CyclotomicNorms.ChoiceCount}
+\formallabel{GlobalTheory.exceptional_primes_finite_card_le} \formallabel{GlobalTheory.exceptional_set_count}
+\formallabel{GlobalTheory.rootsOfUnityCount} \formallabel{GlobalTheory.card_exc_fixed_le}
+\formallabel{GlobalTheory.card_mem_BB_fixed_le} \formallabel{GlobalTheory.choiceCount_of}
+\formallabel{GlobalTheory.choice_count}
+\end{lemma}
+
+\begin{proof}
+(i) Put $m=g^d-1\ge1$. If $\mathrm{Exc}(g,d,\ell)$, then $\ell\mid m$ and $\ell^{v_\ell(m)}>(g^d)^{1/4}>m^{1/4}$. The numbers
+$\ell^{v_\ell(m)}$ for distinct such $\ell$ are pairwise coprime divisors of $m$, so their product divides $m$; four of them
+would have product $>m$. Since $BB(N,g)=\{g\}\cup\bigcup_{d\le N}\{\ell:\mathrm{Exc}(g,d,\ell)\}$, $|BB(N,g)|\le3N+1$.
+
+(ii) A solution is a unit. For odd $\ell$ the group $(\Z/\ell^w)^\times$ is cyclic, so it has at most $d$ elements of order
+dividing $d$; for $\ell=2$ it is a product of at most two cyclic groups, so it has at most $2d$ such elements.
+
+(iii) Fix a prime $\ell$ and $1\le d\le N$, and let $T$ be a set of integers $g\in[Y,2Y]$ with $\mathrm{Exc}(g,d,\ell)$. Let $w$ be
+the least value of $v_\ell(g^d-1)$ for $g\in T$, attained at $g_0$. Then $\ell^{4w}>g_0^d\ge Y$, so $\ell^w>Y^{1/4}$, and every
+$g\in T$ satisfies $g^d\equiv1\pmod{\ell^w}$. By (ii), $T$ lies in at most $2d$ residue classes modulo $\ell^w$, each of which
+contains at most $Y/\ell^w+1\le Y^{3/4}+1$ integers of $[Y,2Y]$; so $|T|\le2d(Y^{3/4}+1)$. Consequently, for a fixed $\ell$, the
+number of $g\in[Y,2Y]$ with $\ell\in BB(N,g)$ is at most $1+\sum_{d\le N}2d(Y^{3/4}+1)\le1+2N^2(Y^{3/4}+1)$ (the term $1$ for
+$g=\ell$). Every $g\in S$ has some $\ell\in BB(N,g_1)$ with $\ell\in BB(N,g)$, and $|BB(N,g_1)|\le3N+1$ by (i) (note
+$g_1\ge2$). Summing over $\ell\in BB(N,g_1)$ gives the claim.
+\end{proof}
+
+\begin{lemma}\label{pf:top-supply:typeprimes}
+For every $\eps>0$ there is $x_0$ with the following property. Let $x\ge x_0$, $k\ge1$, $1\le r\le x^5$, and let $N,d$ be such
+that $d$ is a prime, $d\equiv3\pmod4$, $d\ge100$, $d\mid N$ and $\log N\le3x^{\eps/5}\log^2x$. Put $B=(ke^{x^\eps})^8$. There
+are primes $g_0\ne g_1$ in $[B,2B]$ such that each $g_i$ is a \emph{norm-one prime for $(d,N)$}, i.e.\ $4g_i=A^2+dB_i^2$ with
+integers $A,B_i$, $N\mid B_i$ and $2N\mid A-2-B_i$, and such that $BB(r,g_0)\cap BB(r,g_1)=\emptyset$.
+\formallabel{UpperTheory.T3.typePrimesN} \formallabel{UpperTheory.T3.exists_pair_disjoint}
+\formallabel{UpperTheory.T3.excluded_lt}
+\end{lemma}
+
+\begin{proof}
+Since $\log B\ge8x^\eps$, the shared result \lref{UpperTheory.T3.normPrimesN} (which states that under these hypotheses
+on $N,d$ there are at least $B^{9/10}$ norm-one primes for $(d,N)$ in $(B,2B]$, for $x$ large; it is deduced from the
+short-interval statement \lref{UpperTheory.T3.shortNorm} on primes represented by the norm form with a congruence
+condition) gives a set $G$ of at least $B^{9/10}$ such primes. Suppose no two elements of $G$ have disjoint $BB$-sets, and fix
+$g_1\in G$. Then every $g\in G$ satisfies $BB(r,g)\cap BB(r,g_1)\ne\emptyset$, and \cref{pf:top-supply:choicecount}(iii) gives
+$|G|\le(3r+1)(1+2r^2(B^{3/4}+1))\le20r^3B^{3/4}$. As $20r^3\le20x^{15}<B^{3/20}$ for large $x$, this is $<B^{9/10}$, a
+contradiction.
+\end{proof}
+
+\begin{lemma}[Level data]\label{pf:top-supply:leveldata}
+There is $C_8\ge1$ such that for every $\eps\in(0,\frac1{52})$ there is $x_0$ with the following property. Let $s$ be a scale
+with $\eps(s)=\eps$, $x\ge x_0$, $R$ ranks with $\sfname{RankVal}(s,R)$, and $N,d$ as in \cref{pf:top-supply:typeprimes}. There
+are primes $g_0\ne g_1$ in $[(kb)^8,2(kb)^8]$ which are norm-one primes for $(d,N)$ with $BB(r,g_0)\cap BB(r,g_1)=\emptyset$, and
+pairwise distinct primes $p,p',q_0\le N^{C_8}$ with $p\equiv p'\equiv1\pmod{15N}$, $q_0\equiv1\pmod N$, and $p,p'\ne g_i$.
+\formallabel{UpperTheory.T3.levelData}
+\end{lemma}
+
+\begin{proof}
+Take $C_8$ from \cref{pf:top-supply:threeprimes}. For large $x$, $\sfname{RankVal}$ gives $k\ge1$ and $1\le r\le x^5$, and
+$N\ge d\ge100$; apply \cref{pf:top-supply:typeprimes} (with $b=e^{x^\eps}$) and \cref{pf:top-supply:threeprimes}. Finally
+$\log(N^{C_8})\le3C_8x^{\eps/5}\log^2x<x^\eps$ for large $x$, so $p,p'\le N^{C_8}<b\le(kb)^8\le g_i$.
+\end{proof}
+
+\subsubsection{Random subsets and good orbits}\label{sec:pf:top-supply:randomT}
+
+The set $T$ of a host is chosen at random: every element of $A$ is put into $T$ independently, with probability
+$\delta_1$ if it lies in $A_0$ and $\frac34\delta_1$ otherwise. A second-moment bound shows that the counts of $T$ in
+the cosets of $A_0$ are close to their means, which gives the size of $T$ and its shares $\frac4{3o+1}$, $\frac3{3o+1}$
+(\cref{rem:hosts:fourier}); a first-moment bound shows that the weighted number of $t\in T$ whose orbit pattern under a
+Frobenius element is not good (\cref{pf:top-supply:goodorbit}) is small, since a single orbit pattern violates one of the
+three conditions of a good orbit with probability $O(x^{-2})$.
+
+\begin{definition}[Bernoulli subsets; parameters]\label{pf:top-supply:bernoulli}
+Let $S$ be a finite set and $p:S\to[0,1]$. The \emph{Bernoulli measure} with parameters $p$ gives the subset $T\subseteq S$
+the weight $\varpi_p(T)=\prod_{a\in T}p(a)\prod_{a\in S\smallsetminus T}(1-p(a))$; for a function $f$ on subsets of $S$
+we put $\topsupplyE_{p,S}[f]=\sum_{T\subseteq S}\varpi_p(T)f(T)$ and $\topsupplyPr_{p,S}(\mathcal A)=\topsupplyE_{p,S}[\one[\mathcal A]]$,
+where $\one[\mathcal A]\in\{0,1\}$ is the indicator of a statement $\mathcal A$; for a constant $p=\delta$ we write
+$\topsupplyE_{\delta,S}$. For $G,K\in\N$ and $\delta\in[0,1]$ let
+$\topsupplyBin(G,\delta,K)=\sum_{K\le j\le G}\binom Gj\delta^j(1-\delta)^{G-j}$ be the probability that a binomial variable
+with parameters $(G,\delta)$ is at least $K$, and for $r,u\in\N$ let
+\[
+\mu(\delta,r,u)=\big((1-\delta)^u\big)^{3r+1}\Big(\Big\lfloor\frac u2\Big\rfloor\frac34\delta(1-\delta)^{u-1}\Big)^{3r}.
+\]
+For $\eps>0$ and $x>0$ put $h_\eps=2+8\eps$, $K_\eps=\lceil8(h_\eps+2)/\eps\rceil$, $r_\eps=K_\eps+1$ and $\delta=x^{-\eps/8}$;
+for a scale $s=(x,\eps,J)$ these are the parameters $h,K,r$ of the good orbits of the scale, and $\delta=\delta_1$.
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.pw} \formal{UpperTheory.BernoulliSumsFrobeniusOrbits.exP}
+\formallabel{GlobalTheory.RandomTops.ex} \formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.ind}
+\formallabel{GlobalTheory.RandomTops.ind} \formallabel{Formalism.G0.binUpper}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.markedLow} \formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.hE}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.KE} \formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.rE}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.dE} \formal{Formalism.MainNotions.G.hG}
+\formal{Formalism.MainNotions.G.KG} \formal{Formalism.MainNotions.G.rG}
+\end{definition}
+
+\begin{definition}[Good orbits]\label{pf:top-supply:goodorbit}
+Let $n\ge1$ and $T\subseteq\N$. For $i,L\in\N$ the \emph{window} of length $L$ at $i$ is
+$W(n,i,L)=\{(i+j)\bmod n:\ 0\le j<L\}$. For $r,u\in\N$ put $\ell=(6r+1)u$; the \emph{tile} $s\in\N$ is the interval
+$[s\ell,(s+1)\ell)$, and its \emph{cells} are $[s\ell+(c-1)u,\,s\ell+cu)$ for $1\le c\le6r+1$. The tile $s$ is \emph{marked}
+by $T$ if $T$ meets no cell with $c$ odd and meets each cell with $c$ even in exactly one point, which is even. For
+$L_2,K,M_0,G',N_1\in\N$, the set $T$ satisfies the \emph{good-orbit condition} $\mathrm{GO}(n;L_2,K,r,u,M_0,G',N_1)$ if
+\begin{enumerate}[label=(\Alph*),leftmargin=*]
+\item $|T\cap W(n,i,L_2)|\le K$ for all $i<n$;
+\item for every $s_0<\lfloor n/\ell\rfloor$ one of the tiles $(s_0+j)\bmod\lfloor n/\ell\rfloor$, $0\le j\le M_0$, is marked
+by $T$;
+\item $|T\cap W(n,i,G')|\le N_1$ for all $i<n$.
+\end{enumerate}
+For $\delta>0$, $r\in\N$ and $h,x\in\R$ put $u(\delta)=\lceil1/\delta\rceil$,
+$M_0(r,h,x)=\lceil10^{6r+1}(h+3)\log x\rceil$, $G'(r,\delta,h,x)=(M_0(r,h,x)+5)(6r+1)u(\delta)$ and
+$N_1(r,\delta,h,x)=\lceil\max(6\mathrm e\,G'(r,\delta,h,x)\,\delta,\ (h+3)\log_2x)\rceil+1$. A set
+$P\subseteq\{0,\dots,n-1\}$ is a \emph{good orbit for $(n,L_2,K,r,\delta,h,x)$} if it satisfies
+$\mathrm{GO}(n;L_2,K,r,u(\delta),M_0(r,h,x),G'(r,\delta,h,x),N_1(r,\delta,h,x))$.
+\formal{Formalism.MainNotions.G.IsGoodOrbit} \formal{Formalism.G0.GoodOrbitIntervalTileCondition}
+\formal{Formalism.G0.CondA} \formal{Formalism.G0.CondTiles} \formal{Formalism.G0.CondIntervals} \formal{Formalism.G0.Marked}
+\formal{Formalism.G0.cell} \formal{Formalism.G0.window} \formallabel{GlobalTheory.RandomTops.tile}
+\formal{Formalism.MainNotions.G.goodU} \formal{Formalism.MainNotions.G.goodEll}
+\formal{Formalism.MainNotions.G.orbitSmallMultiplicity} \formal{Formalism.MainNotions.G.goodG'}
+\formal{Formalism.MainNotions.G.orbitWindowCount}
+\end{definition}
+
+\begin{definition}[Orbit patterns]\label{pf:top-supply:orbitpattern}
+Let $A$ be a finite abelian group, $T\subseteq A$, and let $b:A\times A\to A$ be a map with $t\in b(h,t)+\N h$ for all
+$h,t\in A$. The \emph{orbit pattern} of $t$ under $h$ is $\topsupplypat_T(h,t)=\{i<\ord h:\ b(h,t)+ih\in T\}$. For a frame,
+$b(h,t)$ is the element of the coset $t+\langle h\rangle$ which comes first in the enumeration of $A$ underlying the frame
+(the \emph{base point}); only the property $t\in b(h,t)+\N h$ is used below. Let $\mathcal B$ be a base datum, with ranks
+$R$ (of rank $k$), scale $s=(x,\eps,J)$, classes of primes and a set $T\subseteq A$. Put
+$L_1(p)=\lceil\log_p((kx^{26})^4)\rceil$ and $L_2(\mathcal B)=2\sup\{L_1(p):\ p\text{ a prime of the inert class}\}$ (a
+supremum in $\N$). An element $t\in A$ is \emph{good for $h\in A$ relative to $\mathcal B$} if $\topsupplypat_T(h,t)$ is a
+good orbit for $(\ord h,L_2(\mathcal B),K_\eps,r_\eps,\delta_1,h_\eps,x)$. In condition (H9) of \cref{pf:top-supply:hostgood}
+the base point is taken for the step $2h(p)$ or $h(p)$ according as $p$ is in the signal class or not; for the primes of
+the inert class, the only ones occurring there, the condition is that $t$ is good for $h(p)$.
+\formallabel{Formalism.L2.GlobalTheoryTheory.Arith.Base.L1} \formallabel{Formalism.L2.GlobalTheoryTheory.Arith.Base.Ltwo}
+\formallabel{Formalism.L2.GlobalTheoryTheory.Arith.Base.IsSg} \formal{Formalism.L2.GlobalTheoryTheory.Arith.bsH}
+\formal{Formalism.L2.GlobalTheoryTheory.Arith.Loc.topsPos} \formal{Formalism.L2.GlobalTheoryTheory.Arith.Loc.Good}
+\formal{Formalism.L2.GlobalTheoryTheory.Arith.Loc.stepP}
+\end{definition}
+
+\begin{lemma}[Bernoulli expectations]\label{pf:top-supply:expect}
+Let $S\subseteq\N$ be finite and $p:\N\to\R$. Then, for functions $f,g$ on subsets of $\N$:
+\begin{enumerate}[label=(\alph*)]
+\item $\topsupplyE_{p,S}[c]=c$ for constants $c$, and $\topsupplyE_{p,S}$ is linear (also for finite sums $\sum_if_i$);
+\item if $0\le p\le1$ on $S$ and $f(T)\le g(T)$ for all $T\subseteq S$, then $\topsupplyE_{p,S}[f]\le\topsupplyE_{p,S}[g]$;
+\item $\topsupplyE_{p,\emptyset}[f]=f(\emptyset)$, and if $a\notin S$, then
+$\topsupplyE_{p,S\cup\{a\}}[f]=(1-p(a))\topsupplyE_{p,S}[f]+p(a)\topsupplyE_{p,S}[T\mapsto f(T\cup\{a\})]$;
+\item if $A'\subseteq S$, then $\topsupplyE_{p,S}[T\mapsto f(T\cap A')]=\topsupplyE_{p,A'}[f]$;
+\item if $A_j\subseteq S$ ($j\in J$) are pairwise disjoint, then
+$\topsupplyE_{p,S}[T\mapsto\prod_jg_j(T\cap A_j)]=\prod_j\topsupplyE_{p,A_j}[g_j]$;
+\item for $\delta\in[0,1]$, $Q\subseteq S$ and $K\in\N$: $\topsupplyPr_{\delta,S}(Q\subseteq T)=\delta^{|Q|}$ and
+$\topsupplyPr_{\delta,S}(|T|\ge K)=\topsupplyBin(|S|,\delta,K)$.
+\end{enumerate}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.expectation_spec} \formallabel{GlobalTheory.RandomTops.ex_const}
+\formallabel{GlobalTheory.RandomTops.ex_sum} \formallabel{GlobalTheory.RandomTops.ex_mono}
+\formallabel{GlobalTheory.RandomTops.ex_empty} \formallabel{GlobalTheory.RandomTops.ex_insert}
+\formallabel{GlobalTheory.RandomTops.ex_restrict} \formallabel{GlobalTheory.RandomTops.ex_contains}
+\formallabel{GlobalTheory.RandomTops.tail_eq}
+\end{lemma}
+
+\begin{proof}
+These are the standard properties of product measures. The weights satisfy $\sum_T\varpi_p(T)=\prod_{a\in S}(p(a)+1-p(a))=1$,
+which gives (a); they are non-negative if $0\le p\le1$, which gives (b). (c) splits the subsets of $S\cup\{a\}$ according to
+whether they contain $a$. (d) follows from (c) by induction on $|S\smallsetminus A'|$, since for $a\in S\smallsetminus A'$
+the two terms of (c) have the same value of $f(T\cap A')$ and $(1-p(a))+p(a)=1$. For (e), by (d) we may assume
+$S=\bigcup_jA_j$; then $\varpi_p(T)=\prod_j\varpi_p(T\cap A_j)$ and the sum over $T$ factors. (f): the first identity is the
+case $f=\one[Q\subseteq T]$, in which only the factors $p(a)=\delta$, $a\in Q$, remain; the second is obtained by grouping
+the subsets of $S$ according to their cardinality $j$, there being $\binom{|S|}j$ of them, each of weight
+$\delta^j(1-\delta)^{|S|-j}$.
+\end{proof}
+
+\begin{lemma}[Tails]\label{pf:top-supply:tails}
+Let $A'\subseteq\N$ be finite with $|A'|\le G$, let $0\le\delta\le1$ and $0\le p\le\delta$ on $A'$, and $K\in\N$. Then
+\[
+\topsupplyPr_{p,A'}(|T|\ge K)\le\binom GK\delta^K\qquad\text{and}\qquad\topsupplyPr_{p,A'}(|T|\ge K)\le\topsupplyBin(G,\delta,K).
+\]
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.tail_le} \formallabel{GlobalTheory.RandomTops.tail_le_choose}
+\formallabel{GlobalTheory.RandomTops.tail_le_binUpper}
+\end{lemma}
+
+\begin{proof}
+First, $\topsupplyE_{p,A'}[f]\le\topsupplyE_{\delta,A'}[f]$ for every monotone $f$ (i.e.\ $f(T)\le f(T')$ for
+$T\subseteq T'$). This holds for $A'=\emptyset$; if it holds for $S$ and $a\notin S$, then with $f^+(T)=f(T\cup\{a\})$,
+which is monotone and satisfies $f\le f^+$, \cref{pf:top-supply:expect}(c) and (b) give
+\begin{align*}
+\topsupplyE_{p,S\cup\{a\}}[f]&=(1-p(a))\topsupplyE_{p,S}[f]+p(a)\topsupplyE_{p,S}[f^+]
+\le(1-p(a))\topsupplyE_{\delta,S}[f]+p(a)\topsupplyE_{\delta,S}[f^+]\\
+&=(1-\delta)\topsupplyE_{\delta,S}[f]+\delta\topsupplyE_{\delta,S}[f^+]-(\delta-p(a))\big(\topsupplyE_{\delta,S}[f^+]-\topsupplyE_{\delta,S}[f]\big)
+\le\topsupplyE_{\delta,S\cup\{a\}}[f].
+\end{align*}
+Apply this to the monotone function $\one[|T|\ge K]$. For the first bound, $\one[|T|\ge K]\le\sum_{Q}\one[Q\subseteq T]$,
+the sum over the subsets $Q\subseteq A'$ with $|Q|=K$, so by \cref{pf:top-supply:expect}(f)
+$\topsupplyPr_{\delta,A'}(|T|\ge K)\le\binom{|A'|}K\delta^K\le\binom GK\delta^K$. For the second, choose a finite
+$A''\supseteq A'$ in $\N$ with $|A''|=G$; by \cref{pf:top-supply:expect}(d), (b) and (f),
+$\topsupplyPr_{\delta,A'}(|T|\ge K)=\topsupplyPr_{\delta,A''}(|T\cap A'|\ge K)\le\topsupplyPr_{\delta,A''}(|T|\ge K)
+=\topsupplyBin(G,\delta,K)$.
+\end{proof}
+
+\begin{lemma}[Marked tiles]\label{pf:top-supply:marked}
+Let $r,u,s\in\N$, $\ell=(6r+1)u$, and $0\le\delta\le1$.
+\begin{enumerate}[label=(\roman*)]
+\item Distinct tiles are disjoint; each cell has $u$ elements and lies in its tile; and whether the tile $s$ is marked by
+$T$ depends only on $T\cap[s\ell,(s+1)\ell)$.
+\item If $\frac34\delta\le p\le\delta$ on $\N$, then $\topsupplyPr_{p,[s\ell,(s+1)\ell)}(\text{the tile }s\text{ is marked by }T)
+\ge\mu(\delta,r,u)$.
+\item If $0<\delta\le\frac1{100}$ and $u=\lceil1/\delta\rceil$, then $10^{-(6r+1)}\le\mu(\delta,r,u)\le1$.
+\end{enumerate}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.marked_ge}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.markedLow_bounds} \formallabel{GlobalTheory.RandomTops.tile_disjoint}
+\formallabel{GlobalTheory.RandomTops.cell_card} \formallabel{GlobalTheory.RandomTops.cell_subset}
+\formallabel{GlobalTheory.RandomTops.ico_disjoint} \formallabel{GlobalTheory.RandomTops.marked_congr}
+\formallabel{GlobalTheory.RandomTops.prod_alternate}
+\end{lemma}
+
+\begin{proof}
+(i) is immediate from the definitions.
+
+(ii) Let $C_1,\dots,C_{6r+1}$ be the cells of the tile $s$; they are pairwise disjoint subsets of the tile. The tile is
+marked if $T\cap C_c=\emptyset$ for odd $c$ and $T\cap C_c=\{y\}$ with $y$ even for even $c$; by
+\cref{pf:top-supply:expect}(b),(e) the probability of this is at least the product over $c$ of the probabilities of these
+events for the single cells. For odd $c$, $\topsupplyPr(T\cap C_c=\emptyset)=\prod_{a\in C_c}(1-p(a))\ge(1-\delta)^u$. For
+even $c$, the cell $C_c$ contains at least $\lfloor u/2\rfloor$ even integers $y$, and the events $T\cap C_c=\{y\}$ are
+disjoint, each of probability $p(y)\prod_{a\in C_c\smallsetminus\{y\}}(1-p(a))\ge\frac34\delta(1-\delta)^{u-1}$. Among
+$1\le c\le6r+1$ there are $3r+1$ odd and $3r$ even values, which gives the bound $\mu(\delta,r,u)$.
+
+(iii) From $1/\delta\le u<1/\delta+1$ we get $1\le u\delta\le1+\delta$. Since $\log(1-\delta)\ge-\delta/(1-\delta)$ and
+$u\delta/(1-\delta)\le1.01/0.99\le1.03$, we have $(1-\delta)^{u-1}\ge(1-\delta)^u\ge e^{-1.03}\ge\frac3{10}$. Also
+$\lfloor u/2\rfloor\delta\ge\frac12(u-1)\delta\ge\frac12(1-\delta)\ge\frac{99}{200}$ and $\lfloor u/2\rfloor\delta\le\frac12u\delta\le1$.
+Hence the second factor of $\mu$ satisfies
+$\frac1{10}\le\frac34\cdot\frac{99}{200}\cdot\frac3{10}\le\lfloor u/2\rfloor\frac34\delta(1-\delta)^{u-1}\le1$, the first
+satisfies $\frac1{10}\le(1-\delta)^u\le1$, and so $10^{-(3r+1)}10^{-3r}\le\mu(\delta,r,u)\le1$.
+\end{proof}
+
+\begin{lemma}[Bad patterns]\label{pf:top-supply:notgood}
+Let $0\le\delta\le1$, $\frac34\delta\le p\le\delta$ on $\N$, and $r,u,M_0,n,i_0\in\N$ with $u\ge1$ and
+$(M_0+1)(6r+1)u\le n$. Let $U$ be a random subset of $S=\{0,\dots,n-1\}\smallsetminus\{i_0\}$ with law
+$\topsupplyPr_{p,S}$, and $\mu=\mu(\delta,r,u)$. Then:
+\begin{enumerate}[label=(\roman*)]
+\item the probability that $U\cup\{i_0\}$ violates condition (B) of \cref{pf:top-supply:goodorbit} is at most $n(1-\mu)^{M_0}$;
+\item for all $L_2,K,G',N_1\in\N$, the probability that $U\cup\{i_0\}$ does not satisfy $\mathrm{GO}(n;L_2,K,r,u,M_0,G',N_1)$
+is at most
+\[
+n\binom{L_2}K\delta^K+n(1-\mu)^{M_0}+n\,\topsupplyBin(G',\delta,N_1-1).
+\]
+\end{enumerate}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.tiles_le} \formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.not_good_le}
+\end{lemma}
+
+\begin{proof}
+(i) Put $\ell=(6r+1)u$ and $t_0=\lfloor n/\ell\rfloor\ge M_0+1$. The point $i_0$ lies in at most one tile, namely the tile
+$s^*=\lfloor i_0/\ell\rfloor$. For $s_0<t_0$ let $J(s_0)=\{(s_0+j)\bmod t_0:\ 0\le j\le M_0\}\smallsetminus\{s^*\}$; as
+$M_0+1\le t_0$, these $M_0+1$ residues are distinct, so $|J(s_0)|\ge M_0$. For $s\in J(s_0)$ the tile $s$ lies in $S$ (as
+$s<t_0$ and $t_0\ell\le n$) and does not contain $i_0$, so it is marked by $U\cup\{i_0\}$ if and only if it is marked by
+$U\cap[s\ell,(s+1)\ell)$ (\cref{pf:top-supply:marked}(i)). If (B) fails for $U\cup\{i_0\}$ at $s_0$, then no tile of
+$J(s_0)$ is marked; hence
+\[
+\one[\text{(B) fails}]\le\sum_{s_0<t_0}\ \prod_{s\in J(s_0)}\big(1-\one[\text{tile }s\text{ is marked by }U\cap[s\ell,(s+1)\ell)]\big).
+\]
+The tiles are disjoint, so by \cref{pf:top-supply:expect}(e) and \cref{pf:top-supply:marked}(ii) the expectation of the
+product is $\prod_{s\in J(s_0)}(1-\topsupplyPr(\text{tile }s\text{ marked}))\le(1-\mu)^{|J(s_0)|}\le(1-\mu)^{M_0}$, where
+$0\le\mu\le1$ (by \cref{pf:top-supply:marked}(ii) $\mu$ is at most a probability). Summing over $s_0<t_0\le n$ gives (i).
+
+(ii) The indicator of the failure of $\mathrm{GO}$ is at most the sum of the indicators of the failures of (A), (B) and (C),
+so it suffices to bound their probabilities by the three terms. If (A) fails, then $|(U\cup\{i_0\})\cap W(n,i,L_2)|\ge K+1$ for
+some $i<n$, so $|U\cap W'_i|\ge K$ for $W'_i=W(n,i,L_2)\cap S$, a set of at most $L_2$ elements. By
+\cref{pf:top-supply:expect}(d) and \cref{pf:top-supply:tails}, $\topsupplyPr(|U\cap W'_i|\ge K)\le\binom{L_2}K\delta^K$, and
+we sum over $i<n$. In the same way, if (C) fails, then $|U\cap W(n,i,G')\cap S|\ge N_1\ge N_1-1$ for some $i<n$, which has
+probability at most $\topsupplyBin(G',\delta,N_1-1)$ for each $i$. The term for (B) is (i).
+\end{proof}
+
+\begin{lemma}[Patterns along an orbit]\label{pf:top-supply:orbitsum}
+Let $A$ be a finite abelian group, $p:A\to\R$, and $b,h,t\in A$ with $t\in b+\N h$; let $\mathcal A$ be a property of subsets
+of $\N$, and put $n_h=\ord h$, $\topsupplypat(T)=\{i<n_h:\ b+ih\in T\}$ and $q(i)=p(b+ih)$. There is $i_0<n_h$ with
+$b+i_0h=t$ and
+\[
+\sum_{T\subseteq A}\varpi_p(T)\,\one\big[t\in T\text{ and }\mathcal A(\topsupplypat(T))\big]
+=p(t)\,\topsupplyE_{q,\{0,\dots,n_h-1\}\smallsetminus\{i_0\}}\big[U\mapsto\one[\mathcal A(U\cup\{i_0\})]\big].
+\]
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.orbit_sum}
+\end{lemma}
+
+\begin{proof}
+Write $t=b+ih$ and let $i_0$ be the residue of $i$ modulo $n_h$; then $b+i_0h=t$. The map $i\mapsto b+ih$ is injective on
+$\{0,\dots,n_h-1\}$. Hence the image of the Bernoulli measure $\varpi_p$ on subsets of $A$ under $T\mapsto\topsupplypat(T)$ is
+the Bernoulli measure with parameters $q$ on subsets of $\{0,\dots,n_h-1\}$ (as in \cref{pf:top-supply:expect}(d), after
+identifying $\{0,\dots,n_h-1\}$ with its image), and $t\in T$ if and only if $i_0\in\topsupplypat(T)$. Finally,
+\cref{pf:top-supply:expect}(c) applied to $a=i_0$ gives
+$\topsupplyE_{q,\{0,\dots,n_h-1\}}[V\mapsto\one[i_0\in V\text{ and }\mathcal A(V)]]=q(i_0)\topsupplyE_{q,\{0,\dots,n_h-1\}\smallsetminus\{i_0\}}[U\mapsto\one[\mathcal A(U\cup\{i_0\})]]$,
+and $q(i_0)=p(t)$.
+\end{proof}
+
+\begin{lemma}[Selection]\label{pf:top-supply:select}
+Let $\alpha$ and $\kappa$ be finite sets, $\mathrm{cl}:\alpha\to\kappa$ a map, $0\le\delta\le1$, $p:\alpha\to[0,\delta]$,
+$\beta\ge0$, $D>0$ with $2\delta|\alpha|\le D^2$, $I$ a finite set with weights $\omega_i\ge0$, and for $i\in I$, $t\in\alpha$
+and $T\subseteq\alpha$ let $\mathrm{BAD}(i,t,T)$ be a statement. Assume that
+$\sum_{T\subseteq\alpha}\varpi_p(T)\one[t\in T\text{ and }\mathrm{BAD}(i,t,T)]\le\beta\delta$ for all $i\in I$ and
+$t\in\alpha$. Then there is $T\subseteq\alpha$ with
+\begin{gather*}
+\Big|\,|T\cap\mathrm{cl}^{-1}(c)|-\sum_{a\in\mathrm{cl}^{-1}(c)}p(a)\Big|\le D\quad(c\in\kappa),\\
+\sum_{i\in I}\omega_i\,\#\{t\in T:\ \mathrm{BAD}(i,t,T)\}\le4\beta\delta|\alpha|\sum_{i\in I}\omega_i.
+\end{gather*}
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.select}
+\end{lemma}
+
+\begin{proof}
+All expectations are for $\varpi_p$ on subsets of $\alpha$. For $g:\alpha\to\R$ and $c_0\in\R$ we have the second-moment
+identity
+\[
+\topsupplyE\Big[\Big(c_0+\sum_{a\in T}g(a)\Big)^2\Big]=\Big(c_0+\sum_ag(a)p(a)\Big)^2+\sum_ag(a)^2p(a)(1-p(a)),
+\]
+proved by induction on $|\alpha|$ with \cref{pf:top-supply:expect}(c). For $c\in\kappa$ let
+$Y_c(T)=|T\cap\mathrm{cl}^{-1}(c)|-\sum_{a\in\mathrm{cl}^{-1}(c)}p(a)$; with $g=\one_{\mathrm{cl}^{-1}(c)}$ and
+$c_0=-\sum_{\mathrm{cl}(a)=c}p(a)$ the identity gives
+$\topsupplyE[Y_c^2]=\sum_{\mathrm{cl}(a)=c}p(a)(1-p(a))\le\delta|\mathrm{cl}^{-1}(c)|$, so
+$\topsupplyE[\sum_cY_c^2]\le\delta|\alpha|\le D^2/2$. Let $B(T)=\sum_i\omega_i\#\{t\in T:\ \mathrm{BAD}(i,t,T)\}$ and
+$m=\beta\delta|\alpha|\sum_i\omega_i$; by the hypothesis, $\topsupplyE[B]=\sum_i\omega_i\sum_t\topsupplyE[\one[t\in T\text{ and }
+\mathrm{BAD}(i,t,T)]]\le m$. If $m>0$ put $F(T)=\sum_cY_c(T)^2/D^2+B(T)/(4m)$, and $F(T)=\sum_cY_c(T)^2/D^2$ if $m=0$. Then
+$\topsupplyE[F]\le1$, and since $\sum_T\varpi_p(T)=1$ there is $T$ with $\varpi_p(T)>0$ and $F(T)\le\topsupplyE[F]\le1$. For
+this $T$, $Y_c(T)^2\le D^2$ for all $c$; and $B(T)\le4m$, by $F(T)\le1$ if $m>0$, and if $m=0$ because
+$\varpi_p(T)B(T)\le\topsupplyE[B]\le0$ with $\varpi_p(T)>0$ and $B\ge0$.
+\end{proof}
+
+\begin{lemma}[Shares from coset counts]\label{pf:top-supply:shares}
+Let $A$ be a finite abelian group, $A_0\le A$ a subgroup of index $o$ and order $n_0$, $T\subseteq A$, $\delta>0$,
+$\eta\le1$ and $D\ge0$ with $4oD\le\eta\delta n_0$. Assume that for every $\gamma\in A$
+\[
+\big|\,|T\cap(\gamma+A_0)|-c(\gamma)n_0\big|\le D,\qquad c(\gamma)=\delta\text{ if }\gamma\in A_0,\quad
+c(\gamma)=\tfrac34\delta\text{ otherwise}.
+\]
+Then $\frac12\delta|A|\le|T|\le2\delta|A|$, and $T$ has \emph{shares within $\eta$}: for every $\gamma\in A$,
+$\big|\,|T\cap(\gamma+A_0)|-\lambda(\gamma)|T|\big|\le\eta|T|$, where $\lambda(\gamma)=\frac4{3o+1}$ if $\gamma\in A_0$ and
+$\lambda(\gamma)=\frac3{3o+1}$ otherwise.
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.shares_of_counts} \formallabel{Formalism.HC.Frame.lam}
+\formal{Formalism.HC.Frame.Shares}
+\end{lemma}
+
+\begin{proof}
+Every $t\in A$ lies in $\gamma+A_0$ for exactly $n_0$ elements $\gamma$, so $\sum_{\gamma\in A}|T\cap(\gamma+A_0)|=n_0|T|$, while
+$\sum_\gamma c(\gamma)n_0=n_0\big(n_0\delta+(o-1)n_0\frac34\delta\big)=\frac{3o+1}4\delta n_0^2$. Summing the hypothesis over
+the $|A|=on_0$ elements $\gamma$ and dividing by $n_0$ gives
+\[
+\Big|\,|T|-\frac{3o+1}4\delta n_0\Big|\le oD\le\frac14\eta\delta n_0\le\frac14\delta n_0 .
+\]
+Hence $|T|\ge\frac34o\delta n_0\ge\frac12\delta|A|$ and $|T|\le\frac{3o+2}4\delta n_0\le2\delta|A|$. For the shares let
+$v=4$ if $\gamma\in A_0$ and $v=3$ otherwise, so that $c(\gamma)n_0=\frac v4\delta n_0$ and $\lambda(\gamma)=\frac v{3o+1}$.
+Then
+\[
+\lambda(\gamma)|T|=\frac v4\delta n_0+\frac v{3o+1}\Big(|T|-\frac{3o+1}4\delta n_0\Big),
+\]
+and the last term has absolute value at most $\frac{4oD}{3o+1}\le2D$. So
+$\big||T\cap(\gamma+A_0)|-\lambda(\gamma)|T|\big|\le3D$. Finally $\eta\ge0$ (as $0\le4oD\le\eta\delta n_0$) and
+$3D\le3o^2D=\frac34o\cdot4oD\le\frac34o\,\eta\delta n_0\le\eta|T|$.
+\end{proof}
+
+\begin{lemma}[Numerical bounds]\label{pf:top-supply:orbitterms}
+For all $\eps>0$ and $C_o,L_b\in\R$ there are $C_b>0$ and $x_0$ with the following property. Let $x\ge x_0$ and
+$n,L_2\in\N$ with $x^{\eps/4}\le n\le C_ox^{h_\eps}$ and $L_2\le L_b$; put $\delta=x^{-\eps/8}$, $K=K_\eps$, $r=r_\eps$,
+$h=h_\eps$, $u=u(\delta)$, $M_0=M_0(r,h,x)$, $G'=G'(r,\delta,h,x)$ and $N_1=N_1(r,\delta,h,x)$. Then $(M_0+1)(6r+1)u\le n$
+and
+\[
+n\binom{L_2}K\delta^K+n\big(1-\mu(\delta,r,u)\big)^{M_0}+n\,\topsupplyBin(G',\delta,N_1-1)\le C_bx^{-2}.
+\]
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.orbit_terms}
+\end{lemma}
+
+\begin{proof}
+We first note: if $G,N\in\N$, $0\le\delta\le1$ and $6\mathrm e\,G\delta\le N$, then $\topsupplyBin(G,\delta,N)\le e^{-N}$.
+For $N=0$ this holds as $\topsupplyBin(G,\delta,0)=1$. For $N\ge1$ and $j\ge N$, using $\binom Gj\le G^j/j!$ and
+$j^j/j!\le e^j$,
+\[
+\binom Gj\delta^j(1-\delta)^{G-j}\le\frac{(G\delta)^j}{j!}\le\Big(\frac{\mathrm eG\delta}j\Big)^j\le6^{-j},
+\]
+so $\topsupplyBin(G,\delta,N)\le\frac65\,6^{-N}\le e^{-N}$, as $\frac65\,2^{-N}\le1$ and $3^{-N}\le e^{-N}$.
+
+Let $P=10^{6r+1}$, $C_1=(h+3)P+2$, $A_1=|C_o|+1$ and $B_1=\max(L_b,1)^K$, and choose $x_0\ge\max(1,100^{8/\eps})$ such that
+$2(6r+1)C_1(\log x+1)\le x^{\eps/8}$ for $x\ge x_0$; put $C_b=A_1(B_1+2)$. Let $x\ge x_0$. Then $\delta\le\frac1{100}$,
+$u\le1/\delta+1\le2x^{\eps/8}$, and $(h+3)P\log x\le M_0\le(h+3)P\log x+1$, so $M_0+1\le C_1(\log x+1)$ and
+\[
+(M_0+1)(6r+1)u\le2(6r+1)C_1(\log x+1)x^{\eps/8}\le x^{\eps/4}\le n.
+\]
+For the three terms we use $n\le A_1x^h$. First, $\binom{L_2}K\le L_2^K\le B_1$ and, as $K\ge8(h+2)/\eps$,
+$\delta^K=x^{-\eps K/8}\le x^{-(h+2)}$; so the first term is at most $A_1B_1x^{-2}$. Second, by
+\cref{pf:top-supply:marked}(iii), $(1-\mu(\delta,r,u))^{M_0}\le(1-P^{-1})^{M_0}\le\exp(-M_0/P)\le\exp(-(h+3)\log x)=x^{-(h+3)}$,
+so the second term is at most $A_1x^{-3}\le A_1x^{-2}$. Third, $N_1-1=\lceil\max(6\mathrm eG'\delta,(h+3)\log_2x)\rceil\ge
+6\mathrm eG'\delta$, so by the first paragraph $\topsupplyBin(G',\delta,N_1-1)\le e^{-(N_1-1)}\le e^{-(h+3)\log_2x}\le x^{-(h+3)}$
+(as $\log_2x\ge\log x$), and the third term is at most $A_1x^{-2}$. The sum is at most $A_1(B_1+2)x^{-2}=C_bx^{-2}$.
+\end{proof}
+
+\begin{proposition}[Random sets in a group]\label{pf:top-supply:topsgroup}
+For all $\eps>0$ and $C_o,L_b\in\R$ there are $C_b>0$ and $x_0$ with the following property. Let $x\ge x_0$, let $A$ be a
+finite abelian group with a subgroup $A_0$ of index $o$, and let $L_2\in\N$, such that
+$\frac12x^{h_\eps}\le|A|\le C_ox^{h_\eps}$, $o\le C_o$ and $L_2\le L_b$. Let $b:A\times A\to A$ be a map with
+$t\in b(h,t)+\N h$ for all $h,t$, let $P\subset\N$ be finite, and let $p\mapsto h_p\in A$ and $\omega:P\to[0,\infty)$ be maps
+with $\ord h_p\ge x^{\eps/4}$ for $p\in P$. Put $\delta=x^{-\eps/8}$, and for $T\subseteq A$ call $t\in A$ \emph{bad for
+$p$} if $\topsupplypat_T(h_p,t)$ (\cref{pf:top-supply:orbitpattern}) is not a good orbit for
+$(\ord h_p,L_2,K_\eps,r_\eps,\delta,h_\eps,x)$. Then there is $T\subseteq A$ with $\frac12\delta|A|\le|T|\le2\delta|A|$, with
+shares within $x^{-1+\eps}$, and with
+\[
+\sum_{p\in P}\omega_p\,\#\{t\in T:\ t\text{ bad for }p\}\le4C_bx^{-2}\delta|A|\sum_{p\in P}\omega_p.
+\]
+The same holds for the group $A$ and the subgroup $A_0$ of a frame $\varphi$, for which $|A|=\mathrm{ord}(\varphi)$ and
+$o=o(\varphi)$.
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.topsGroup} \formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.topsFrame}
+\formallabel{Formalism.HC.Frame.natCard_A} \formallabel{Formalism.HC.Frame.index_A0_eq_o}
+\end{proposition}
+
+\begin{proof}
+Let $C_b,x_0'$ be given by \cref{pf:top-supply:orbitterms} for $(\eps,C_o,L_b)$, and let $x_0\ge\max(x_0',1)$ be such that
+$64C_o^4\le x^\eps$ for $x\ge x_0$. Let $\varrho(a)=\delta$ for $a\in A_0$ and $\varrho(a)=\frac34\delta$ otherwise; so
+$\frac34\delta\le\varrho\le\delta\le1$. Put $D=\sqrt{2\delta|A|}$ and $\beta=C_bx^{-2}$; probabilities refer to the Bernoulli
+measure $\varpi_\varrho$ on subsets $T\subseteq A$.
+
+\emph{The bad events.} Let $p\in P$ and $t\in A$, and let $n=\ord h_p$; then $x^{\eps/4}\le n\le|A|\le C_ox^{h_\eps}$. Let
+$\mathcal A$ be the property of not being a good orbit for $(n,L_2,K_\eps,r_\eps,\delta,h_\eps,x)$. By
+\cref{pf:top-supply:orbitsum} with $b=b(h_p,t)$ and $h=h_p$, the probability that $t\in T$ and $t$ is bad for $p$ equals
+$\varrho(t)$ times the probability that $U\cup\{i_0\}$ is not a good orbit, $U$ being a Bernoulli subset of
+$\{0,\dots,n-1\}\smallsetminus\{i_0\}$ with parameters $q(i)=\varrho(b+ih_p)\in[\frac34\delta,\delta]$. By
+\cref{pf:top-supply:orbitterms} the hypothesis $(M_0+1)(6r_\eps+1)u(\delta)\le n$ of \cref{pf:top-supply:notgood} holds, and
+\cref{pf:top-supply:notgood}(ii) and \cref{pf:top-supply:orbitterms} bound the latter probability by $C_bx^{-2}$. So the
+probability that $t\in T$ and $t$ is bad for $p$ is at most $\delta\beta$.
+
+\emph{Selection.} Apply \cref{pf:top-supply:select} with $\alpha=A$, $\kappa=A/A_0$, the projection $\mathrm{cl}$, the
+weights $\omega$ and these bad events; note $2\delta|A|=D^2$. We get $T$ with the asserted bound for the bad elements and
+with $\big||T\cap(\gamma+A_0)|-c(\gamma)|A_0|\big|\le D$ for every $\gamma$, since $\varrho$ is constant on cosets of $A_0$, equal to
+$c(\gamma)$ (as in \cref{pf:top-supply:shares}) on $\gamma+A_0$.
+
+\emph{Size and shares.} We check $4oD\le x^{-1}\delta|A_0|$, i.e.\ $4o\sqrt{2\delta N}\le x^{-1}\delta N/o$ with $N=|A|=o|A_0|$.
+Since $8\eps-\frac\eps8\ge\eps$, $\delta N\ge\frac12x^{2+8\eps-\eps/8}\ge\frac12x^{2+\eps}\ge32C_o^4x^2\ge32o^4x^2$; hence
+$2\delta N\cdot16o^4x^2\le(\delta N)^2$, i.e.\ $\sqrt{2\delta N}\le\delta N/(4o^2x)$, which is the claim. Now
+\cref{pf:top-supply:shares} with $\eta=x^{-1}\le1$ gives $\frac12\delta|A|\le|T|\le2\delta|A|$ and shares within
+$x^{-1}\le x^{-1+\eps}$.
+
+For a frame, $A$ has $\mathrm{ord}(\varphi)$ elements and $[A:A_0]=o(\varphi)$ by definition, and the shares of
+\cref{pf:top-supply:shares} are those of the host conditions.
+\end{proof}
+
+\begin{proposition}[The set $T$ for a base datum]\label{pf:top-supply:topsbase}
+For all $\eps\in(0,\frac1{52})$ and $C\ge1$ there are $C_b>0$ and $x_0$ with the following property. Let $\mathcal B$ be a base
+datum, with ranks $R$ (of order $n$, index $o$ and rank $k$) and scale $s=(x,\eps,J)$, and let $h:\N\to A$ be a map, such
+that $x\ge x_0$, $\frac12x^{2+8\eps}\le n\le Cx^{2+8\eps}$, $o\le C$, $k\le2x^{9/2+10\eps}$, and every prime of the inert
+class of $\mathcal B$ exceeds $x^{\eps/(5C)}$. Let $P$ be the set of primes $p<X'$ of the inert class with
+$\ord h(p)\ge x^{\eps/4}$. There is $T\subseteq A$ with $\frac12\delta_1n\le|T|\le2\delta_1n$ and shares within $x^{-1+\eps}$
+such that, if $\mathcal B_T$ denotes the base datum $\mathcal B$ with its set replaced by $T$,
+\[
+\sum_{p\in P}\frac{\log p}p\,\#\{t\in T:\ t\text{ is not good for }h(p)\text{ relative to }\mathcal B_T\}
+\le4C_bx^{-2}\delta_1n\sum_{p\in P}\frac{\log p}p .
+\]
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.topsBase}
+\end{proposition}
+
+\begin{proof}
+Let $L_b=2(\frac{620C}\eps+1)$, let $C_b,x_0'$ be given by \cref{pf:top-supply:topsgroup} for $(\eps,C,L_b)$, and
+$x_0=\max(x_0',16)$. We show $L_2(\mathcal B)\le L_b$. Let $p$ be a prime of the inert class, so $\log p>\frac\eps{5C}\log x$.
+We have $k\ge3$ (the ranks satisfy $m+3\le k$) and $\log k\le\log2+(\frac92+10\eps)\log x$; with $4\log2\le\log x$ (as
+$x\ge16$) and $40\eps<1$,
+\[
+\log\big((kx^{26})^4\big)=4\log k+104\log x\le124\log x=\frac{620C}\eps\cdot\frac\eps{5C}\log x<\frac{620C}\eps\log p .
+\]
+So $L_1(p)\le\lceil\frac{620C}\eps\rceil\le\frac{620C}\eps+1$, the set of the $L_1(p)$ is bounded by
+$\lfloor\frac{620C}\eps+1\rfloor$, and $L_2(\mathcal B)\le L_b$.
+
+Apply \cref{pf:top-supply:topsgroup} to the frame of $R$ (so $|A|=n$ and $h_\eps=2+8\eps$), to $L_2=L_2(\mathcal B)$, the base
+point map $b$ of the frame, the set $P$, $h_p=h(p)$ and $\omega_p=\frac{\log p}p\ge0$; the condition $\ord h(p)\ge x^{\eps/4}$
+holds by the definition of $P$. It gives $T$ with the asserted size and shares. For the scale $s$, $\delta_1=x^{-\eps/8}$ and
+the parameters of good orbits are $K_\eps$, $r_\eps$, $h_\eps$ (\cref{pf:top-supply:bernoulli}); and
+$L_2(\mathcal B_T)=L_2(\mathcal B)$, as $L_2$ does not depend on the set. Hence $t$ is bad for $p$ in the sense of
+\cref{pf:top-supply:topsgroup} if and only if $t$ is not good for $h(p)$ relative to $\mathcal B_T$, and the inequality of
+\cref{pf:top-supply:topsgroup} is the assertion.
+\end{proof}
+
+\subsubsection{The set $T$ and the thick set $T_2$}
+
+\begin{lemma}\label{pf:top-supply:tops}
+For all $\eps\in(0,\frac1{52})$ and $C_8$ there are $C_b>0$ and $x_0$ with the following property. Let $s$ be a scale with
+$\eps(s)=\eps$, $x\ge x_0$, $R$ ranks with $\sfname{RankVal}(s,R)$, and $H$ a host of type $\mathrm{Host}(R)$ with $J\le C_8$,
+$o\le C_8$, $Q_S\le C_8n$ and $\sfname{PairRow}(Y,\eps,H)$ for some $Y\in[x^{1/J},x]$. There is $T\subset A$ with
+$\frac12\delta_1n\le|T|\le2\delta_1n$, with shares within $x^{-1+\eps}$, such that the host obtained from $H$ by replacing its
+set $T$ satisfies $\sfname{BadOK}(s,C_b,\cdot)$.
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.topsChoiceH}
+\end{lemma}
+
+\begin{proof}
+The base datum of $H$ consists of $R$, $s$, $q,d$, the classes of the primes, the current set $T$ and two auxiliary parameters. A prime $p\le Y^{\eps/5}$ has $\topsupplyJ{-d}p=1$ by the pair row, so it is not in the
+inert class; hence every prime in the residue class zero (the inert class) of the base datum exceeds
+$Y^{\eps/5}\ge x^{\eps/(5J)}\ge x^{\eps/(5\max(C_8,2))}$. Also $\frac12x^{2+8\eps}\le n\le\max(C_8,2)x^{2+8\eps}$, $o\le C_8$ and
+$k\le2x^{9/2+10\eps}$. These are the hypotheses of \cref{pf:top-supply:topsbase} with $C=\max(C_8,2)$; let $C_b$ and $x_0$
+be given by it. Applied to the base datum of $H$ and to the Frobenius map $h$ of $H$, it gives $T\subset A$ with
+$\frac12\delta_1n\le|T|\le2\delta_1n$, shares within $x^{-1+\eps}$, and the inequality of \cref{pf:top-supply:topsbase}. The
+base datum of the host obtained from $H$ by replacing its set by $T$ is the base datum of $H$ with its set replaced by $T$,
+and for the primes of the inert class the condition of (H9) is goodness for $h(p)$ (\cref{pf:top-supply:orbitpattern}); so
+that inequality is $\sfname{BadOK}(s,C_b,\cdot)$ for this host.
+\end{proof}
+
+\begin{lemma}[The thick set]\label{pf:top-supply:thick}
+There is $C_{T2}$ such that for all $\eps\in(0,\frac1{52})$ and $C_o$ there is $x_0$ with the following property. For every
+scale $s$ with $\eps(s)=\eps$, $x\ge x_0$ and ranks $R$ with $\sfname{RankVal}(s,R)$ and $o\le C_o$, with
+$L_w=10\lceil405\log x\rceil+2\lceil30/\eps\rceil+22$, there is a finite set $T_2$ of positive integers with $4L_wa<n_0$ for
+$a\in T_2$, no relations of length $L_w$, and
+\[
+n_0e^{-C_{T2}\sqrt{\log n_0\log L_w}}/L_w\le|T_2|,\qquad x^{-\eps}n\le|T_2|,\qquad4L_w|T_2|\le n_0.
+\]
+\formallabel{UpperTheory.BernoulliSumsFrobeniusOrbits.thickFrame2}
+\end{lemma}
+
+\begin{proof}
+By the shared result \lref{Formalism.FrobeniusOrbits.hostThickExists} (a Behrend-type construction \cite{Behrend1946},
+which states: there is $C>0$ such that for all $n$ and $L\ge2$ there is a finite set $T$ of natural numbers with $4Ls<n$ for
+$s\in T$, no relations of length $L$, and $|T|\ge ne^{-C\sqrt{\log n\log L}}/L$), applied with $n=n_0$ and $L=L_w$, there is
+such a set $T$; put $T_2=T\smallsetminus\{0\}$ and $C_{T2}=2C$. Then $T_2$ has no relations, $4L_wa<n_0$, and $4L_w|T_2|\le n_0$
+because its elements are distinct positive integers below $n_0/(4L_w)$. Let $u=\sqrt{\log n_0\log L_w}$ and $E=e^{Cu}$. We have
+$L_w\le(4084+\frac{60}\eps)\log x$, $\log n_0\le\log C_o+3\log x$, and $n\le C_on_0$ (as $n=o\,n_0$). By the inequality
+$u\le\frac12(\delta\log n_0+\delta^{-1}\log L_w)$ with $\delta=\eps/(3C)$,
+$4C_oL_wE\le x^{\eps}$ for large $x$; also $E\ge2$. Hence $|T|\ge n_0/(L_wE)\ge4x^{-\eps}n$, so
+$|T_2|\ge|T|-1\ge x^{-\eps}n$ (note $x^{-\eps}n\ge1$), and $|T_2|\ge|T|-1\ge\frac12|T|\ge n_0E^{-2}/L_w$.
+\end{proof}
+
+\subsubsection{The completion}
+
+\begin{proposition}[Host completion]\label{pf:top-supply:hostoffield}
+For all $\eps\in(0,\frac1{52})$ and $C_0\ge1$ there are $C_{T2}$, $C_8\ge C_0$, $c_6>0$, $C_b>0$ and $x_0$ with the following
+property. Let $s=(x,\eps,J)$ be a scale with $x\ge x_0$, $R$ ranks with $\sfname{RankVal}(s,R)$, $H_0$ a host on $\varphi_R$,
+$M\in\N$ and $Y$ such that: $J\le C_0$, $o(\varphi_R)\le C_0$, $Q_S\le C_0n$, $0<M\le C_0$, $Q_S\mid\lcm(2^{e+2},M)$,
+$x^{1/J}\le Y\le x$, $(q,d)$ is good for $(M,\eps,Y,x)$, $\sfname{FieldRows}(H_0,\lfloor Y^{\eps/5}\rfloor)$, and $H_0$ can be
+completed with any choices (as in the last assertion of \cref{pf:top-supply:ranks}). Then there are a host $H$ of type
+$\mathrm{Host}(R)$ extending $H_0$ and a prime $q_0$ with $C_{T2}(H)=C_{T2}$, $\sfname{HostGood}(s,C_8,4,c_6,C_b,H,q_0)$, and such
+that the set $T$ of $H$ has shares within $x^{-1+\eps}$.
+\formallabel{UpperTheory.T3.hostOfFieldOf} \formallabel{UpperTheory.Top.hostOfField}
+\formallabel{HostParam.Seam.nonempty_choices}
+\end{proposition}
+
+\begin{proof}
+Let $C_1$ be the constant of \cref{pf:top-supply:leveldata}, $C_8=\max(C_0,C_1)$, $c_6=1$ (\cref{pf:top-supply:thinHprop}),
+$C_b$ from \cref{pf:top-supply:tops} (for $C_0$), $C_{T2}$ from \cref{pf:top-supply:thick}, and let $x_0$ be so large that
+all the lemmas of this subsection, \cref{pf:top-supply:thinHprop} (for $B=C_0$) and $4\log x\le x^\eps$ hold for $x\ge x_0$.
+Put $N=N_H=Q_Sqd$.
+
+\emph{Step 1: sizes.} By \cref{pf:top-supply:qdbig}, $q,d>4tr+1$ and $d\ge100$. Completing $H_0$ with arbitrary choices
+(a choice datum always exists, with level primes chosen among large primes $\equiv1\pmod{15}$) and applying
+\cref{pf:top-supply:pairrows} gives $\log N\le2Y^{\eps/5}\log^2Y\le2x^{\eps/5}\log^2x$. Since $d\equiv7\pmod{16}$, $d\equiv3\pmod4$.
+
+\emph{Step 2: auxiliary primes.} \Cref{pf:top-supply:leveldata} with $(N,d)$ gives $g_0,g_1,p,p',q_0$. As the $g_i$ are
+norm-one primes for $(d,N)$ and $d\equiv3\pmod4$, $g_i\equiv1\pmod N$ (\lref{GlobalTheory.Mem.An.normOne_modEq_one_and_of_dvd},
+which states that a norm-one prime for $(d,N)$ is $\equiv1\pmod N$ and is a norm-one prime for $(d,N')$ for $N'\mid N$). Also
+$p,p'\equiv1\pmod{\lcm(15,N)}$, $q_0\equiv1\pmod N$, and $p,p',q_0\le N^{C_1}\le N^{C_8}$. In particular all five primes are
+prime to $Q_S$.
+
+\emph{Step 3: the host.} Let $T_2$ and $L_w$ be as in \cref{pf:top-supply:thick} (with $C_o=C_0$). Complete $H_0$ with the
+split bound $\lfloor Y^{\eps/5}\rfloor$, $g_0,g_1$, $p_\Delta=p$, $p'_\Delta=p'$, level primes $\{g_0,g_1,p,p',q_0\}$,
+$\mathfrak c$ the unit ideal, the set $T_2$, $L_w$ and $C_{T2}$; the side conditions of a choice datum hold
+($p\equiv p'\equiv1\pmod{15}$, $p\ne p'$, $p,p'\ne g_i$, $g_0\ne g_1$, the level primes are prime to $Q_S$). Call the resulting
+host $D$, and let $H$ be $D$ with its set $T$ replaced by the set of \cref{pf:top-supply:tops} (which applies by
+\cref{pf:top-supply:pairrows}, with $C_8\ge C_0$).
+
+\emph{Step 4: the conditions.} We verify (H1)--(H14) for $H$ and $q_0$.
+(H1): the pair row by \cref{pf:top-supply:pairrows}; $|T|$ and the shares by \cref{pf:top-supply:tops}; $|T_2|\ge x^{-\eps}n$ by
+\cref{pf:top-supply:thick}; $p,p'\le N^{C_8}$; $g_i\in[(kb)^8,2(kb)^8]$; $L_w$ and $\mathfrak c$ by construction; the split bound
+$\lfloor Y^{\eps/5}\rfloor\ge\lfloor x^{\eps/(5J)}\rfloor$ as $Y\ge x^{1/J}$; and $J,o\le C_0\le C_8$, $Q_S\le C_0n\le C_8n$.
+(H2) and (H11): by the shared equivalence \lref{GlobalTheory.Mem.An.normOne_iff_host} (a prime $g$ is a norm-one prime for
+$(d,N)$ if and only if $g=\pi\bar\pi$ for an integer $\pi$ of $E$ lying in $K$ with $\pi\equiv1\pmod N$), each $g_i$ is such a norm;
+and by the shared \lref{GlobalTheory.HostSplit.split_of_one_mod} (a prime $\equiv1\pmod{N_H}$ splits completely in $E$ and has
+class $\mathrm{splitK}$), together with \lref{GlobalTheory.HostSplit.ncard_placesOver} (the places of $E$ above $p$
+correspond to the primes of $\OO_E$ above $p$), the primes $p,p'$ split completely and all five level primes have class
+$\mathrm{splitK}$. (H3), (H4): \cref{pf:top-supply:thick}. (H5): \cref{pf:top-supply:pairrows}. (H6): the boxes of
+\cref{pf:top-supply:pairrows}, and the condition on real characters of $H$ by \cref{pf:top-supply:realbox}: here every prime of
+$Q_S$ divides $2M$ and $\topsupplyodd(Q_S)\mid M$, because $Q_S\mid\lcm(2^{e+2},M)$, and the heights
+$8\topsupplyodd(Q_S)e^ze^{jz'}$ are at most those of the lemma. (H7): the Legendre symbol modulo $d$ is a primitive character
+inducing $\topsupplyJ{-d}{\cdot}$ at level $8qd$, so (H5) gives $|\Re\ell(\topsupplyJ{\cdot}d)|\le4\log x\le x^\eps$. (H8): by
+\cref{pf:top-supply:thinHprop} with $B=C_0$, since $\topsupplyodd(Q_S)\le M\le C_0$, $\log N\le2x^{\eps/5}\log^2x$, and
+$\sfname{RealBox}(H)$ holds by \cref{pf:top-supply:realbox}. (H9): \cref{pf:top-supply:tops}. (H10), (H12), (H13): Step 2.
+(H14): by construction.
+\end{proof}
+
+\subsection{Proof of the supply theorem}\label{sec:pf:top-supply:proofs}
+
+\begin{proposition}\label{pf:top-supply:supplyofadmof}
+Assume the statement of \cref{pf:top-supply:hostoffield}. Let $\psi\in\mathcal P$ and assume $\sfname{VWinAt}(\psi,401)$ and the
+following admissibility statement: for every $\eps\in(0,\frac1{52})$ there is $x_0$ such that for every scale $s$ with
+$\eps(s)=\eps$, $x\ge x_0$, every frame $\varphi$ with $x^{2+8\eps}\le\mathrm{ord}(\varphi)\le2x^{2+8\eps}$ and
+$o(\varphi)=\mathrm{ord}(\chi_\psi)$, and every host $H_0$ on $\varphi$ cut out by $\psi$, there are ranks $R$ on $\varphi$ with
+$\sfname{RankVal}(s,R)$ such that $H_0$ can be completed with any choices. Then
+$\sfname{HostExW}(\frac32,\mathcal G_\psi.\mathrm{req})$ holds.
+\formallabel{UpperTheory.T3.supplyOfAdmOf} \formallabel{UpperTheory.Top.supplyOfAdm} \formallabel{UpperTheory.Top.admitted}
+\end{proposition}
+
+\begin{proof}
+Fix $\eps\in(0,\frac1{52})$. Let $c\ge1$ and $e_0$ be given by \cref{pf:top-supply:fieldchi}, and $J\ge1$ by
+\cref{pf:top-supply:winpairs} (for $c$; $\sfname{PairEx}$ holds by \cref{pf:top-supply:pairEx}). Put
+$C_0=J+o+8N_\psi$ with $o=\mathrm{ord}(\chi_\psi)$, and let $C_{T2},C_8,c_6,C_b,x_A$ be given by \cref{pf:top-supply:hostoffield} for
+$(\eps,C_0)$, $x_B$ by the admissibility statement, and $x_T$ by \cref{pf:top-supply:ranks}(ii). Put $K=5+4N_\psi$ and
+$A=K^{5/\eps}$, so that $A^{\eps/5}=K$, and let $x_1\ge\max(x_A,x_B,x_T,A^J)$ with $x_1>c2^{e_0}$.
+
+The constants of $\sfname{HostExW}$ are $(C_{T2},C_8,4,c_6,C_b,x_1)$ and the scale set is $(J,W)$ with
+$W=\{x:\ x\text{ admits a window datum for }(\psi,\eps,J,c)\}$, which has windows of exponent $\frac32$ by
+\cref{pf:top-supply:winpairs}. Let $s=(x,\eps,J)$ with $x\ge x_1$ and a window datum $(Y,q,d,e)$ at $x$.
+
+\emph{The host $H_0$.} Since $Y\ge x^{1/J}\ge(A^J)^{1/J}=A$, we have $Y^{\eps/5}\ge K$, so $b=\lfloor Y^{\eps/5}\rfloor\ge4N_\psi$.
+By \cref{pf:top-supply:pairhyp} the pair $(q,d)$ satisfies the hypotheses on $q,d$ of \cref{pf:top-supply:fieldchi}, with
+$\topsupplyJ{-d}p=1$ for odd primes $p\le b$; $q\ne3$ since $\log q>\frac12Y^{\eps/5}\ge\frac52>\log3$; and
+$\gcd(N_\psi,qd)=1$ by goodness. If $e<e_0$, then $c2^e<c2^{e_0}<x_1\le x\le x^{2+8\eps}\le c2^e$, which is absurd; so
+$e\ge e_0$. Hence \cref{pf:top-supply:fieldchi} gives a frame $\varphi$ with $e(\varphi)=e$, $\mathrm{ord}(\varphi)=c2^e\in
+[x^{2+8\eps},2x^{2+8\eps}]$, $o(\varphi)=o$, and a host $H_0$ on $\varphi$ with $\sfname{FieldRows}(H_0,b)$,
+$Q_S\mid\lcm(2^{e+2},N_\psi)$, $Q_S\le4N_\psi\mathrm{ord}(\varphi)$, keeping the cyclic level of $\psi$ and its exceptional
+character, cut out by $\psi$ and in twist form for $\psi$.
+
+\emph{The ranks and the completion.} The admissibility statement gives ranks $R$ on $\varphi$ with $\sfname{RankVal}(s,R)$ such
+that $H_0$ can be completed with any choices. Now $J\le C_0$, $o\le C_0$, $0<N_\psi\le C_0$, and
+$Q_S\le4N_\psi c2^e\le8N_\psi x^{2+8\eps}\le8N_\psi n\le C_0n$. So \cref{pf:top-supply:hostoffield} applies with $M=N_\psi$ and
+gives $H$ of type $\mathrm{Host}(R)$ extending $H_0$ and $q_0$ with $C_{T2}(H)=C_{T2}$, $\sfname{HostGood}(s,C_8,4,c_6,C_b,H,q_0)$,
+and $T$ with shares within $x^{-1+\eps}$.
+
+\emph{The requirement.} We verify $\mathcal G_\psi(s,\varphi,H,T,t_R)$. The host conditions
+$\sfname{EAtH}(\mathcal K_\psi,H,T,x,\eps,4)$ consist of: $o(\varphi)=o$; $H$ keeps the cyclic level in $X_+$ and keeps its
+exceptional character (\cref{pf:top-supply:fieldchi}); the shares of $T$ (\cref{pf:top-supply:hostoffield}); and the bounds
+$|g_\chi(x)|\le x^{1/2+\eps}$, $|\ell(\chi)|\le4\log x$ for the bounded characters, which follow from
+\cref{pf:top-supply:boundedtw}: $N_\psi\mid Q_S$ since $H$ is cut out by $\psi$, every prime dividing $Q_S$ divides
+$2N_\psi$ since $Q_S\mid\lcm(2^{e+2},N_\psi)$, and $(q,d)$ is good for $(N_\psi,\eps,Y,x)$ with $Y\le x$. Finally, $E_H$ is a
+$\chi$-field for $(\psi,e,q,d)$ by \cref{pf:top-supply:ischifield}, so the window datum gives
+$\sfname{VVle}(E_H,\lfloor x^{400}\rfloor,\sqrt{\exp(x^\eps)})$; since $t_R\le x^{400}$ (\cref{pf:top-supply:ranks}(ii)) and
+$\sqrt b=\sqrt{\exp(x^\eps)}$, monotonicity gives $\sfname{VVle}(E_H,t_R,\sqrt b)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:top-supply:main}]
+\Cref{pf:top-supply:hostoffield} holds, and the admissibility statement of \cref{pf:top-supply:supplyofadmof} holds by
+\cref{pf:top-supply:ranks}: (i) provides the ranks, and the last assertion of that lemma shows that every host on $\varphi_R$
+can be completed with any choices. Hence \cref{pf:top-supply:supplyofadmof} gives $\sfname{HostExW}(\frac32,\mathcal
+G_\psi.\mathrm{req})$ for every $\psi\in\mathcal P$ with $\sfname{VWinAt}(\psi,401)$.
+\end{proof}
+
+\subsection{Remarks on the formal statements}\label{sec:pf:top-supply:remarks}
+
+\begin{remark}\label{pf:top-supply:remarks}
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item The admissibility hypothesis of \cref{pf:top-supply:supplyofadmof} is satisfied by all ranks and hosts: the completion
+of a host on the frame of $R$ requires only $\sfname{FieldRows}$ and $q,d>4tr+1$, and both are supplied separately
+(\cref{pf:top-supply:ranks}). The hypothesis of \cref{pf:top-supply:supplyofadmof} that the host completion holds is
+\cref{pf:top-supply:hostoffield}; the formal development states the supply theorem in this conditional form and then
+discharges the hypotheses.
+\item The exponent $401$ in $\sfname{VWinAt}(\psi,401)$ is used only through $t_R\le x^{400}\le x'^{401}$; the window exponent
+$\frac32$ results from the rescaling in \cref{pf:top-supply:winpairs}. Any exponent $\lambda>1$ would do for
+\cref{thm:topg-to-zerofree}.
+\item In the arguments of this section \cref{pf:top-supply:siegel} is used only with $\eps=1$ (in
+\cref{pf:top-supply:counta}); this case also follows from the classical effective lower bound for $1-\beta$.
+\item The zero-density statement \cref{pf:top-supply:density} with exponent $\frac14$ is much weaker than the known
+estimates, and the prime number theorem \cref{pf:top-supply:pnt} is used in the range $\log X\gg\log M\log\log M$ only.
+\item The constant $c$ of $\sfname{ThinH}$ is $1$, and $\sfname{ThinH}$ holds for every bound $B$ of the odd part of $Q_S$;
+the only role of the condition $\sfname{RealBox}$ is to exclude exceptional zeros of the real characters ramified at $q$ or
+$d$, whose conductors are unbounded.
+\item In the mean-square bound \cref{pf:top-supply:meanSqK} the twisting function $\kappa$ is arbitrary with $|\kappa|\le1$
+(it need not be multiplicative); this is used in \cref{pf:top-supply:badshare} for the truncated functions $\kappa_v$.
+\item The frame $\varphi_e(\Xi)$ of \cref{pf:top-supply:anyframe} involves the choice of a generator of $\ker p_2$; all
+assertions hold for any choice. The exactness of $Q_S$ (\cref{pf:top-supply:anyexact}(iii)) only uses $e\ge1$.
+\item The supremum defining $L_2(\mathcal B)$ (\cref{pf:top-supply:orbitpattern}) is taken in $\N$, where by convention the
+supremum of an empty or unbounded set is $0$; under the hypotheses of \cref{pf:top-supply:topsbase} the set is bounded by
+$\frac{620C}\eps+1$.
+\item In \cref{pf:top-supply:notgood}(ii) the failure of condition (C) is bounded with the threshold $N_1-1$ instead of
+$N_1$; this weaker bound suffices for \cref{pf:top-supply:orbitterms}. \Cref{pf:top-supply:topsgroup} gives shares within
+$x^{-1}$, which is stronger than the shares within $x^{-1+\eps}$ that are required.
+\end{enumerate}
+\end{remark}
+
+
+

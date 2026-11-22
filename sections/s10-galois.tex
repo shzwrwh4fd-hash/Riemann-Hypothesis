@@ -1,0 +1,742 @@
+\section{Galois representations and local parameters}\label{sec:galois}
+
+\providecommand{\galoisWD}{\mathrm{WD}}
+\providecommand{\galoisIrr}{\operatorname{Irr}}
+\providecommand{\galoisrc}{\mathrm{rc}}
+\providecommand{\galoisSp}{\operatorname{Sp}}
+\providecommand{\galoisHT}{\mathrm{HT}}
+\providecommand{\galoisinf}{\operatorname{inf}}
+\providecommand{\galoisrecT}{\mathrm{recT}}
+\providecommand{\galoisU}{\mathrm{U}}
+
+This section is devoted to the two inputs of the proof that involve $\ell$-adic Galois
+representations and local Langlands parameters:
+\begin{itemize}[nosep]
+\item $\sfname{RecTExists}$ (\cref{def:rectexists}, \cref{thm:rectexists}): at every finite place
+  $w$ of every number field $E$ there is a \emph{local parameter map}, i.e.\ a map from the
+  irreducible smooth representations of the groups $\GL_n(E_w)$, $n\ge0$, to Frobenius-semisimple
+  Weil--Deligne representations which obeys the twelve laws (L1)--(L12) of \cref{def:rectexists};
+\item $\sfname{Row0b}(\galoisrecT)$ (\cref{def:row0b}, \cref{thm:row0b}): every regular algebraic,
+  polarized, cuspidal automorphic representation $\pi$ of $\GL_a(\A_E)$, $E$ a CM field, has an
+  $\ell$-adic Galois representation with the expected Hodge--Tate weights which is compatible with
+  $\pi$, in a partial sense, with respect to \emph{every} local parameter map.
+\end{itemize}
+These are the only inputs of the top-level deduction (\cref{sec:top}) involving Galois
+representations and local Langlands parameters. \Cref{thm:row0b} is the input from which the window
+bound $\sfname{VWin}$ is derived (\cref{sec:window}), and local parameter maps are used in the
+construction of the hypothesis package (\cref{sec:families}).
+
+Both statements are modelled on published theorems, the local Langlands correspondence for $\GL_n$
+\cite{HarrisTaylor2001,Henniart2000,Scholze2013} and the existence of Galois representations attached
+to regular algebraic polarized cuspidal representations with local--global compatibility
+\cite{HarrisTaylor2001,TaylorYoshida2007,Shin2011,ChenevierHarris2013,Caraiani2012,Caraiani2014,BarnetLambEtAl2014},
+and both are weaker than these, as \cref{rem:galois:llc,rem:galois:blggt} make precise. The formal
+proof \cite{LeanSource2026} uses neither published theorem: local parameter maps are
+constructed explicitly (\cref{sec:galois:llcproof}), and the Galois representations are constructed
+(\cref{sec:galois:arch}) through totally definite unitary groups, by a geometric realization in the
+cohomology of Kuga--Sato varieties over Shimura varieties of Harris--Taylor type (\cref{thm:geoone}),
+$\ell$-adic congruences and limits, and theta lifts between definite unitary groups
+(\cref{thm:galois:tlift}), followed by descent and base change to $\GL_a$.
+
+% ---------------------------------------------------------------------------
+\subsection{Local parameter maps}\label{sec:galois:local}
+
+In \cref{sec:galois:local,sec:galois:llcproof}, $E$ is a number field, $\Omega$ an algebraic closure
+of $E$ and $G_E=\Aut_E(\Omega)$ with its Krull topology. A finite place of $E$ is a nonzero prime $w$
+of $\OO_E$; we write $F=E_w$ for the completion, $\OO_F$, $k_F$, $\ord_F$ and $|\cdot|$ for its
+valuation ring, residue field, normalized valuation and normalized absolute value, and $q=\Nm w=|k_F|$.
+A \emph{place of $\Omega$ above $w$} is a valuation ring $A\subset\Omega$ with
+$A\cap E=\OO_{E,(w)}$. It determines decomposition, inertia and wild inertia groups
+$D_A\supset I_A\supset P_A$ in $G_E$, and the \emph{Weil group} $W_A\subset D_A$ of the elements
+$\sigma$ that act on the residue field of $A$ as $x\mapsto x^{q^{\deg\sigma}}$ for some
+$\deg\sigma\in\Z$. As $D_A\cong\Gal(\overline F/F)$, these are models of the Galois, inertia and Weil
+groups of $F$; arithmetic Frobenius elements have degree $1$, and $I_A$ is the kernel of $\deg$.
+
+\begin{definition}[Weil--Deligne representations, local Artin maps]\label{def:galois:wd}
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\galoisWD_A$ is the set of isomorphism classes of Frobenius-semisimple Weil--Deligne
+  representations $(\rho,N)$ on the spaces $\C^n$, $n\ge0$: $\rho\colon W_A\to\GL_n(\C)$ is a
+  homomorphism, trivial on an open subgroup of $I_A$, with $\rho(\sigma)$ semisimple for all
+  $\sigma$, and $N$ is nilpotent with $\rho(\sigma)N\rho(\sigma)^{-1}=q^{\deg\sigma}N$. For $s\in\R$ we
+  write $V(s)=V\otimes(\sigma\mapsto q^{s\deg\sigma})$; $V^\vee$ is the dual, $\langle\xi\rangle$ the
+  one-dimensional representation of a smooth character $\xi$ of $W_A$, and $\galoisSp(m)$ is $\C^m$
+  with $\rho(\sigma)=\mathrm{diag}\bigl(q^{(i-(m-1)/2)\deg\sigma}\bigr)_{0\le i<m}$ and $Ne_i=e_{i+1}$.
+  $V$ is \emph{tame} if $\rho(P_A)=1$, and \emph{abelian} if $\rho$ factors through $W_A^{\mathrm{ab}}$.
+\item A \emph{local Artin map} is a surjective homomorphism $a\colon W_A\to F^\times$, continuous on
+  $I_A$, with $\ord_F(a(\sigma))=-\deg\sigma$, such that every smooth character of $W_A$ is $\chi\circ
+  a$ for a smooth character $\chi$ of $F^\times$, and such that $\mathrm{art}(a(\sigma))=\sigma^{\mathrm{ab}}$
+  for every global Artin map $\mathrm{art}\colon\A_E^\times\to G_E^{\mathrm{ab}}$ (with $F^\times\subset
+  \A_E^\times$ at $w$). Thus $a$ is the inverse of the local reciprocity map, normalized so that
+  uniformizers correspond to geometric Frobenius elements, as in \cite{Deligne1973,HarrisTaylor2001}.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Representations of $\GL_n(F)$; good representations]\label{def:galois:irr}
+$\galoisIrr(F)$ is the disjoint union over $n\ge0$ of the sets of isomorphism classes of smooth
+irreducible complex representations of $\GL_n(F)$. For $x\in\galoisIrr(F)$ we write $n(x)$ for its
+index, $x\nu^s=x\otimes|\det|^s$, $x\otimes\chi=x\otimes(\chi\circ\det)$ for smooth characters $\chi$
+of $F^\times$, $\omega_x$ for its central character and $x^\vee$ for its contragredient; \emph{cuspidal}
+means supercuspidal, and $x$ has \emph{depth zero} if it has a nonzero vector fixed by
+$K_1=\ker(\GL_n(\OO_F)\to\GL_n(k_F))$. For a cuspidal $\rho$ and $m\ge1$, $\Delta=[\rho,\rho\nu^{m-1}]$
+is a \emph{segment}, and for a finite multiset $\mathfrak m$ of segments $L(\mathfrak m)\in\galoisIrr(F)$
+denotes its Langlands quotient in the form of Zelevinsky and Rodier \cite{Zelevinsky1980,Rodier1982}:
+the irreducible cosocle of the product, taken in a standard order, of the essentially
+square-integrable representations $L(\Delta)$, $\Delta\in\mathfrak m$. Every $x$ is $L(\mathfrak m)$ for a
+unique $\mathfrak m$, and the supercuspidal support of $L(\mathfrak m)$ is the multiset of the terms
+$\rho,\dots,\rho\nu^{m-1}$ of its segments.
+
+A cuspidal $y\in\galoisIrr(F)$ is \emph{good} if $n(y)=1$, or if $F\cong\Q_g$ as topological fields
+for some prime $g$ and $y=y_0\otimes\chi$ with $y_0$ of depth zero and $\chi$ smooth. An arbitrary
+$x\in\galoisIrr(F)$ is \emph{good} if its supercuspidal support consists of good cuspidal
+representations.
+\end{definition}
+
+Thus, if $[F:\Q_p]>1$, the good representations are the irreducible subquotients of principal
+series; if $F\cong\Q_p$, the supercuspidal support of a good representation may also contain twists,
+by arbitrary (possibly wildly ramified) smooth characters, of depth-zero supercuspidal representations.
+
+\begin{definition}[Local parameter maps; $\sfname{RecTExists}$]\label{def:rectexists}
+Let $a$ be a local Artin map. A map $\galoisrc\colon\galoisIrr(F)\to\galoisWD_A$ satisfies
+$\sfname{LawsT}(a,\galoisrc)$ if the following laws hold for all $x,x',y\in\galoisIrr(F)$, all smooth
+characters $\chi$ of $F^\times$ and all $s\in\R$:
+\begin{enumerate}[label=(L\arabic*),leftmargin=3.2em,nosep]
+\item $\dim\galoisrc(x)=n(x)$;
+\item $\galoisrc(\chi)=\langle\chi\circ a\rangle$, where $\chi$ is viewed as an element of
+  $\galoisIrr(F)$ with $n=1$;
+\item $\galoisrc\bigl(L(\Delta_1,\dots,\Delta_k)\bigr)=\bigoplus_{i=1}^k\galoisrc(\rho_i)\bigl(\tfrac{m_i-1}2\bigr)
+  \otimes\galoisSp(m_i)$ for segments $\Delta_i=[\rho_i,\rho_i\nu^{m_i-1}]$;
+\item $\galoisrc(x)$ is irreducible if $x$ is cuspidal;
+\item $\galoisrc(x\nu^s)=\galoisrc(x)(s)$;
+\item $|\det\galoisrc(x)(\sigma)|=|\omega_x(a(\sigma))|$ for all $\sigma\in W_A$;
+\end{enumerate}
+if moreover $x$ and $y$ are good:
+\begin{enumerate}[label=(L\arabic*),leftmargin=3.2em,start=7,nosep]
+\item $\galoisrc(x\otimes\chi)=\galoisrc(x)\otimes\langle\chi\circ a\rangle$;
+\item $\det\galoisrc(x)=\omega_x\circ a$;
+\item $\galoisrc(x^\vee)=\galoisrc(x)^\vee$;
+\item if $\galoisrc(x')=\galoisrc(y)$ then $x'=y$;
+\item $\galoisrc(x)$ is tame if $x$ has depth zero;
+\end{enumerate}
+and the \emph{type law}:
+\begin{enumerate}[label=(L\arabic*),leftmargin=3.2em,start=12,nosep]
+\item suppose that $F\cong\Q_g$, $n\ge1$, $\theta$ is a regular character of $\F_{g^n}^\times$ (that
+  is, $\theta^{g^i}\ne\theta$ for $0<i<n$), $\tau$ is a cuspidal representation of $\GL_n(\F_g)$ whose
+  character is given by Green's formula $\tr\tau(y)=(-1)^{n-1}\sum_{j<n}\theta(z^{g^j})$ at every $y$
+  with irreducible characteristic polynomial and every root $z\in\F_{g^n}^\times$ of it, and
+  $\sigma\in\galoisIrr(F)$ with $n(\sigma)=n$ contains the inflation of $\tau$ to $\GL_n(\Z_g)$. Then
+  $\galoisrc(\sigma)$ has $N=0$, and for every $t\in I_A$ the characteristic polynomial of
+  $\galoisrc(\sigma)(t)$ is $\prod_{j<n}\bigl(X-\theta(z_t^{g^j})\bigr)$, where $z_t\in\F_{g^n}^\times$ is
+  the residue of $a_n(t)$ for the local Artin map $a_n$ of the unramified extension of $F$ of
+  degree $n$.
+\end{enumerate}
+A map $\galoisrc$ is a \emph{local parameter map} ($\galoisrecT(\galoisrc)$; $\sfname{IsRecT}$ in the
+development) if $\sfname{LawsT}(a,\galoisrc)$ holds for some local Artin map $a$. $\sfname{RecTExists}$
+is the proposition: for every number field $E$, algebraic closure $\Omega$, finite place $w$ of $E$
+and place $A$ of $\Omega$ above $w$, there is a local parameter map $\galoisIrr(E_w)\to\galoisWD_A$.
+\end{definition}
+
+In the formal statement of (L12) the unramified extension is realized as the completion of an
+auxiliary number field $E\subset E'\subset\Omega$ at the place below $A$; the law is required for all
+such realizations.
+
+\begin{theorem}[Existence of local parameter maps]\Fmark\label{thm:rectexists}
+$\sfname{RecTExists}$ holds. \formal{UpperTheory.Zero.LLC.recTExists}
+\end{theorem}
+%P2PTR thm:rectexists
+\begin{proof}See \cref{sec:pf:llc}.
+\end{proof}
+
+
+\begin{proposition}[Uniqueness on good representations]\Fmark\label{prop:galois:unique}
+Any two local parameter maps $\galoisrc,\galoisrc'\colon\galoisIrr(E_w)\to\galoisWD_A$ agree on all
+good representations. \formal{UpperTheory.Zero.LLC.recTUnique}
+\end{proposition}
+
+\begin{proofoutline}
+The local Artin map is unique (Step~0 of \cref{sec:galois:llcproof}), so both maps obey the laws for
+the same $a$; on characters both are given by (L2). For $F\cong\Q_g$ and $y$ cuspidal of depth zero,
+(L1), (L4), (L8), (L11) and (L12) say that $\galoisrc(y)$ and $\galoisrc'(y)$ are irreducible, tame, of
+dimension $n(y)$, with determinant $\omega_y\circ a$ and the restriction to $I_A$ prescribed by (L12),
+which determines them (Step~2 of \cref{sec:galois:llcproof}). Then (L7) and (L3) give the claim.
+
+%P2PTR prop:galois:unique
+A complete proof is given in \cref{sec:pf:llc}.
+\end{proofoutline}
+
+\begin{remark}[Comparison with the local Langlands correspondence]\label{rem:galois:llc}
+The local Langlands correspondence $\mathrm{rec}_F$ \cite{HarrisTaylor2001,Henniart2000,Scholze2013} is
+a bijection from the irreducible smooth representations of $\GL_n(F)$ onto the $n$-dimensional
+elements of $\galoisWD_A$, characterized \cite{Henniart1993} by class field theory, compatibility with
+twists, central characters and contragredients, and the preservation of $L$- and $\varepsilon$-factors
+of pairs; it satisfies (L3). The laws are much weaker: (i) no surjectivity is required, and
+injectivity only in the form (L10); (ii) no condition on $L$- or $\varepsilon$-factors of pairs is
+imposed, although for $\mathrm{rec}_F$ these determine the parameters of supercuspidal
+representations; (iii) arbitrary twists, central characters, contragredients and the implication
+``depth zero $\Rightarrow$ tame'' are controlled only on good representations, while for arbitrary $x$
+only the twists $\nu^s$ (L5) and $|\omega_x|$ (L6) are; (iv) cuspidal representations go to irreducible
+ones, but not conversely. On
+the other hand (L12) fixes, through Green's parametrization, the restriction to inertia of the
+parameters of depth-zero supercuspidal representations of $\GL_n(\Q_g)$. Thus a local parameter map is
+determined on good representations (\cref{prop:galois:unique}), where it is given by explicit formulas
+(on toral representations, like $\mathrm{rec}_F$, by class field theory and (L3)). On a cuspidal $x$ that
+is not good the laws only ask that $\galoisrc(x)$ be irreducible of dimension $n(x)$ with
+$|\det\galoisrc(x)|=|\omega_x\circ a|$, compatibly with the twists $\nu^s$, and distinct from the values
+at good representations; the map constructed below gives all such $x$ with the same $n(x)$ and
+$|\omega_x|$ one fixed auxiliary value (Step~4), so it is not $\mathrm{rec}_F$ there. (Maps satisfying
+the development's formalization of the full correspondence satisfy (L1)--(L11); this is not used.)
+\end{remark}
+
+\begin{remark}[Why the weak laws suffice]\label{rem:galois:suffices}
+Local parameter maps enter the proof only through the laws and \cref{prop:galois:unique}. In
+$\sfname{Row0b}(\galoisrecT)$ compatibility is required for every local parameter map, but
+$\sfname{AwayB}$ (\cref{def:galois:awayb}) constrains $y=\galoisrc(\sigma^\natural)$, $\sigma^\natural=
+\sigma\otimes|\det|^{(1-a)/2}$ for a local component $\sigma$, only if $N_y=0$ and $y$ is either
+abelian, or tame and squarefree at a place with $E_w\cong\Q_g$. In the first case (L1), (L3), (L4)
+force the support of $\sigma^\natural$ to consist of characters; in the second, the proof of
+\cref{thm:row0b} shows, using (L11), (L12) and a count of depth-zero supercuspidal representations,
+that $\sigma$ has depth zero. Either way $\sigma^\natural$ is good, and the requirement does not depend
+on $\galoisrc$. The auxiliary values of Step~4 below are irreducible of dimension $\ge2$ and wildly
+ramified, so for them only $\dim x=\dim y$ is required. Elsewhere (notably in \cref{sec:families}) a
+local parameter map is chosen at each place, and only its laws are used.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Construction of local parameter maps}\label{sec:galois:llcproof}
+
+The proof of \cref{thm:rectexists} is an explicit construction; no result on the local Langlands
+correspondence itself is used.
+
+\begin{proofoutline}
+Fix $E,\Omega,w,A$, and put $F=E_w$ and $q=\Nm w$.
+
+\emph{Step 0: local class field theory.} There is exactly one local Artin map $a$. Existence is local
+class field theory \cite{Serre1967,ArtinTate1968,Tate1979}, which the development derives from global
+Artin reciprocity. For uniqueness, two local Artin maps have the same composite with
+$F^\times\to\A_E^\times\to G_E^{\mathrm{ab}}$, which is injective on $F^\times$ by Chevalley's theorem on
+congruence subgroups of units \cite{Chevalley1951}.
+
+\emph{Step 1: characters.} Put $r(\chi)=\langle\chi\circ a\rangle$.
+
+\emph{Step 2: depth-zero cuspidal representations.} Assume $F\cong\Q_g$ and let $y$ be cuspidal of
+depth zero, $n=n(y)$. The $K_1$-invariants of $y$ form a cuspidal irreducible representation $\tau$ of
+$\GL_n(\F_g)$, unique up to isomorphism, and $y$ is determined by $\tau$ and $\omega_y$
+\cite{MoyPrasad1996,BushnellKutzko1993}. By Green's theorem \cite{Green1955}, $\tau$ satisfies Green's
+formula for a regular character $\theta$ of $\F_{g^n}^\times$, unique up to $\theta\mapsto\theta^{g^j}$
+(the development deduces the uniqueness from an elementary lemma on the sums
+$\sum_{j<n}\theta(z^{g^j})$). Reducing the local Artin map of the unramified extension of degree $n$
+gives a surjective character $R\colon I_A\to\F_{g^n}^\times$, trivial on $P_A$, with
+$R(\varphi t\varphi^{-1})=R(t)^g$ for $\deg\varphi=1$ and $\Nm_{\F_{g^n}/\F_g}R(t)\equiv a(t)\bmod g$. Let
+$r(y)$ be the representation induced from the Weil group of that extension: on the functions
+$f\colon\Z\to\C$ with $f(j+n)=b\,f(j)$, $t\in I_A$ acts by $(tf)(j)=\theta^{g^j}(R(t))f(j)$ and a fixed
+$\varphi$ of degree $1$ by $(\varphi f)(j)=f(j+1)$, with $b$ such that $\det r(y)(\varphi)=\omega_y(a(\varphi))$.
+It is irreducible ($\theta$ is regular), tame, with $N=0$ and
+determinant $\omega_y\circ a$ (on $I_A$ because scalars $u\in\Z_g^\times$ act on $\tau$ by
+$\theta(u\bmod g)$), and it satisfies (L12). Since an irreducible tame representation is determined by
+its restriction to inertia and its determinant, $r(y)$ is characterized by these properties, and
+$y\mapsto r(y)$ is injective on depth-zero cuspidal representations.
+
+\emph{Step 3: twists.} For a good cuspidal $y=y_0\otimes\chi$ with $y_0$ of depth zero put
+$r(y)=r(y_0)\otimes\langle\chi\circ a\rangle$. This is well defined: if $y_0\otimes\chi=y_1\otimes\chi_1$
+then $\chi\chi_1^{-1}$ is tame, and $r(y_0\otimes\chi')=r(y_0)\otimes\langle\chi'\circ a\rangle$ for tame
+$\chi'$, because twisting $\tau$ by $\bar\chi'\circ\det$ multiplies $\theta$ by
+$\bar\chi'\circ\Nm_{\F_{g^n}/\F_g}$.
+
+\emph{Step 4: auxiliary values.} For each $n\ge2$ fix an irreducible $J_n\in\galoisWD_A$ of dimension
+$n$ with $|\det J_n|=1$ on which $P_A$ does not act by scalars, so that $J_n$ is not a twist of a tame
+representation (it is induced, as in Step~2, from wildly ramified characters of $I_A$ built from an
+additive character of the residue field of the unramified extension of degree $n$). For every
+cuspidal $x$ which is not good (so $n(x)\ge2$) put $r(x)=J_{n(x)}(e(x))$, where
+$|\omega_x(z)|=|z|^{n(x)e(x)}$.
+
+\emph{Step 5: extension along the Langlands classification.} Define $\galoisrc$ by the formula (L3)
+with $r$ on the right-hand side; this is well defined by the uniqueness of $\mathfrak m$, and
+$\galoisrc=r$ on cuspidal representations. The laws hold for cuspidal representations by Steps 1--4
+((L10) for the values of Step~4 because $J_n$ is not a twist of a tame representation), and they
+propagate: (L1), (L6), (L8) because the support of $L(\mathfrak m)$ consists of the terms of its segments
+and the central character is the product of those of the support; (L5), (L7) because twisting
+commutes with Langlands data; (L9) because $L(\mathfrak m)^\vee=L(\mathfrak m^\vee)$ with
+$[\rho,\rho\nu^{m-1}]^\vee=[(\rho\nu^{m-1})^\vee,\rho^\vee]$; (L10) because a decomposition
+$\bigoplus_iV_i\otimes\galoisSp(m_i)$ with irreducible $V_i$ is unique up to order; (L11) because the
+support of a depth-zero representation consists of depth-zero representations \cite{MoyPrasad1996};
+and (L12) because a representation containing an inflated cuspidal type is cuspidal of depth zero.
+
+The classical inputs (global Artin reciprocity, Chevalley's theorem, the results of Bernstein and
+Zelevinsky \cite{BernsteinZelevinsky1976,BernsteinZelevinsky1977}, the Langlands classification,
+Zelevinsky's description of the Grothendieck ring and the contragredients of Langlands data
+\cite{Zelevinsky1980}, the depth-zero support theorem \cite{MoyPrasad1996} and Green's theorem
+\cite{Green1955}) are all proved in the formal development.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{Galois representations attached to polarized cuspidal representations}\label{sec:galois:row}
+
+From now on $E$ is a CM field with maximal totally real subfield $E^+$ and complex conjugation $c$,
+$\ell$ is a prime and $\iota\colon\Qlbar\to\C$ is a field isomorphism.
+
+\begin{definition}[Automorphic notions]\label{def:galois:aut}
+Let $a\ge1$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item A \emph{cuspidal automorphic representation} of $\GL_a(\A_E)$ is an irreducible
+  $(\mathfrak g_\infty,K_\infty)\times\GL_a(\A_{E,f})$-submodule $V_\pi$ of the space of smooth cusp forms
+  on $\GL_a(E)\backslash\GL_a(\A_E)$ (of moderate growth, $K_\infty$-finite, and finite under the
+  centre of the enveloping algebra, which is modelled by Capelli elements); no unitarity or central
+  character condition is imposed. A \emph{local component} of $\pi$ at a finite place $w$ is a smooth
+  irreducible representation $\sigma$ of $\GL_a(E_w)$ with a nonzero equivariant map $\sigma\to V_\pi$;
+  we put $\sigma^\natural=\sigma\otimes|\det|^{(1-a)/2}\in\galoisIrr(E_w)$.
+\item For $\tau\colon E\to\C$, $\galoisinf_\tau(\pi)$ is the multiset of $a$ complex numbers $z$ such
+  that the Capelli element $\mathrm{cap}_\tau(u)$ acts on $V_\pi$ by $\prod_z(u+z)$ for all $u\in\C$; it
+  is the Harish-Chandra parameter of $\pi_\infty$ at $\tau$, normalized so that the trivial
+  representation has parameter $\{\frac{a-1}2,\frac{a-3}2,\dots,\frac{1-a}2\}$. $\pi$ is \emph{regular
+  algebraic} if for every $\tau$ the multiset $\galoisinf_\tau(\pi)$ consists of $a$ distinct elements
+  of $\frac{a-1}2+\Z$ \cite{Clozel1990}.
+\item For a Hecke character $\chi\colon\A_{E^+}^\times/(E^+)^\times\to\C^\times$, the pair $(\pi,\chi)$ is
+  \emph{polarized} if $\chi_v(-1)=(-1)^a$ at every infinite place $v$ of $E^+$ and
+  $\pi^c\cong\pi^\vee\otimes(\chi\circ\Nm_{E/E^+}\circ\det)$, the latter being expressed by a
+  nondegenerate invariant pairing. This is the notion of \cite[\S2.1]{BarnetLambEtAl2014}.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Galois-side notions]\label{def:galois:awayb}
+Let $r\colon G_E\to\GL_a(\Qlbar)$ be a homomorphism, $w$ a finite place of $E$ and $A$ a place of
+$\Omega$ above $w$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item If $w\nmid\ell$, $\galoisWD_\iota(r|_{W_A})\in\galoisWD_A$ is the Frobenius-semisimplified
+  Weil--Deligne representation attached to $r|_{W_A}$ by Grothendieck's $\ell$-adic monodromy theorem,
+  transported to $\C$ by $\iota$ (with a default value if there is none).
+\item $y\in\galoisWD_A$ is \emph{squarefree} if, for every $\gamma\in I_A$ which together with $P_A$
+  topologically generates $I_A$, every multiple root of the characteristic polynomial of $y(\gamma)$
+  is a $(\Nm w-1)$-th root of unity. The place $w$ is \emph{$n$-large} if $E_w\cong\Q_g$ as topological
+  fields for a prime $g$ such that $n=1$ or $g>16n^2$.
+\item For $x,y\in\galoisWD_A$, $\sfname{AwayB}(x,y)$ means: $\dim x=\dim y$; if $y$ is abelian and
+  $N_y=0$, then $x=y$; and if $w$ is $(\dim y)$-large and $y$ is tame, squarefree and has $N_y=0$,
+  then $N_x=0$ and $x$ and $y$ have the same characteristic polynomials on $I_A$.
+\item If $w\mid\ell$ we use the usual notions for representations of $D_A$ \cite{Fontaine1994}:
+  crystalline, de Rham, potentially semistable, the $\tau$-Hodge--Tate weights (jumps of the Hodge
+  filtration along $\tau\colon E\to\Qlbar$ inducing $w$), and Fontaine's Weil--Deligne representation
+  $\galoisWD(\rho)$, transported to $\C$ by $\iota$. (In the development they are expressed relative to
+  any package of period rings identified with its $B_{\mathrm{cris}}$ and $B_{\mathrm{dR}}$, and any
+  identification of $D_A$ with $\Gal(\Qlbar/K)$, $K/\Ql$ finite with $E$ dense in $K$; the clauses
+  below are required for all such choices.)
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[$\sfname{PropsB}$ and $\sfname{Row0b}$]\label{def:row0b}
+A \emph{recognition notion} $\mathrm{Rc}$ is a predicate on the maps
+$\galoisrc\colon\galoisIrr(E_w)\to\galoisWD_A$ (for all number fields $E$ and all $w$, $A$); the
+instance used is $\galoisrecT$ (\cref{def:rectexists}). Let $\pi$ be a cuspidal automorphic
+representation of $\GL_a(\A_E)$, $r\colon G_E\to\GL_a(\Qlbar)$ a homomorphism, $\mathrm{wt}\in\Z$, and
+$\galoisHT=(\galoisHT_\tau)_\tau$ a family of multisets of integers indexed by the embeddings
+$\tau\colon E\to\Qlbar$. Then $\sfname{PropsB}_{\mathrm{Rc}}(\pi,\iota,r,\mathrm{wt},\galoisHT)$ is the
+conjunction of:
+\begin{description}[nosep]
+\item[(cont, ss)] $r$ is continuous and semisimple;
+\item[(away)] for every finite place $w\nmid\ell$, every place $A$ above $w$, every $\galoisrc$ with
+  $\mathrm{Rc}(\galoisrc)$ and every local component $\sigma$ of $\pi$ at $w$:
+  $\sfname{AwayB}\bigl(\galoisWD_\iota(r|_{W_A}),\galoisrc(\sigma^\natural)\bigr)$;
+\item[(weights)] $\galoisHT_\tau=\{\frac{a-1}2-z:z\in\galoisinf_{\iota\tau}(\pi)\}$ and
+  $\galoisHT_{\tau c}=\{\mathrm{wt}-h:h\in\galoisHT_\tau\}$ for every $\tau$;
+\item[(crys)] for every place $w\mid\ell$ at which $\pi$ has a spherical local component, and every
+  $A$ above $w$: $r|_{D_A}$ is crystalline, with $\tau$-Hodge--Tate weights $\galoisHT_\tau$ for every
+  $\tau$ inducing $w$;
+\item[(nice)] for every place $w\mid\ell$, every $A$ above $w$, every local component $\sigma$ of $\pi$
+  at $w$ and every $\galoisrc$ with $\mathrm{Rc}(\galoisrc)$ such that $y=\galoisrc(\sigma^\natural)$ has
+  $N_y=0$ and is either abelian, or tame and squarefree with $w$ $a$-large: $r|_{D_A}$ is de Rham and
+  potentially semistable, with $\tau$-Hodge--Tate weights $\galoisHT_\tau$ for every $\tau$ inducing $w$,
+  and $\sfname{AwayB}(\galoisWD(r|_{D_A}),y)$.
+\end{description}
+$\sfname{Row0b}(\mathrm{Rc})$ is the proposition: for every CM field $E$, algebraic closure $\Omega$,
+prime $\ell$, isomorphism $\iota$, integer $a\ge1$, regular algebraic cuspidal automorphic
+representation $\pi$ of $\GL_a(\A_E)$ and Hecke character $\chi$ of $E^+$ such that $(\pi,\chi)$ is
+polarized, there are $r$, $\mathrm{wt}$ and $\galoisHT$ with
+$\sfname{PropsB}_{\mathrm{Rc}}(\pi,\iota,r,\mathrm{wt},\galoisHT)$.
+\end{definition}
+
+\begin{theorem}[Galois representations with partial local--global compatibility]\Fmark\label{thm:row0b}
+The proposition $\sfname{Row0b}(\galoisrecT)$ holds. That is, for every CM field $E$, prime $\ell$,
+isomorphism $\iota$ and regular algebraic, polarized, cuspidal automorphic representation $(\pi,\chi)$ of
+$\GL_a(\A_E)$, there are a continuous semisimple representation $r$ of $G_E$ on $\Qlbar^a$, an integer
+$\mathrm{wt}$ and multisets $\galoisHT_\tau$ satisfying (away), (weights), (crys) and (nice) of
+\cref{def:row0b} with respect to every local parameter map $\galoisrc$. In particular, if $w\nmid\ell$
+is a finite place, $\sigma$ a local component of $\pi$ at $w$, $x=\galoisWD_\iota(r|_{W_w})$ and
+$y=\galoisrc(\sigma^\natural)$, then $\dim x=a$; $x\cong y$ if $y$ is abelian with $N_y=0$; and $N_x=0$
+and $x$, $y$ have the same characteristic polynomials on $I_w$ if $y$ is tame and squarefree with
+$N_y=0$ and $E_w\cong\Q_g$ with $a=1$ or $g>16a^2$.
+\formal{UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter}
+\end{theorem}
+%P2PTR thm:row0b
+\begin{proof}See \cref{sec:pf:geo}.
+\end{proof}
+
+
+At a place $w\nmid\ell$ where $\pi$ is unramified with Satake parameters $\alpha_1,\dots,\alpha_a$,
+(L2) and (L3) make $y$ unramified, with geometric Frobenius eigenvalues $\Nm w^{(a-1)/2}\alpha_i$; so
+$r$ is unramified at $w$ and $\iota\,\mathrm{charpoly}\,r(\Frob_w)=\prod_i(X-\Nm w^{(a-1)/2}\alpha_i)$
+($\Frob_w$ geometric), which by the Chebotarev density and Brauer--Nesbitt theorems determines $r$. If
+$\pi_\infty$ has the infinitesimal character of the trivial representation, then
+$\galoisHT_\tau=\{0,1,\dots,a-1\}$, as in \cite{BarnetLambEtAl2014}. The proof gives in fact the variant
+$\sfname{Row0}(\galoisrecT)$ without the condition ``$a=1$ or $g>16a^2$'' (\cref{thm:galois:reduction}).
+
+\begin{littheorem}[{\cite[Thm.~2.1.1]{BarnetLambEtAl2014}}]\label{thm:galois:blggt}
+Let $(\pi,\chi)$ be a regular algebraic, polarized, cuspidal automorphic representation of
+$\GL_a(\A_E)$, $E$ a CM field (the theorem also covers totally real fields). There are a continuous
+semisimple $r=r_{\ell,\iota}(\pi)\colon G_E\to\GL_a(\Qlbar)$ and $\mathrm{wt}\in\Z$ such that:
+(1) $(r,\varepsilon_\ell^{1-a}r_{\ell,\iota}(\chi))$ is a totally odd polarized representation; in
+particular $r^c\cong r^\vee\otimes\varepsilon_\ell^{1-a}r_{\ell,\iota}(\chi)|_{G_E}$;
+(2) for every $w\nmid\ell$, $\iota\galoisWD(r|_{G_{E_w}})^{\mathrm{F\text{-}ss}}\cong
+\mathrm{rec}_{E_w}(\pi_w\otimes|\det|^{(1-a)/2})$, and these representations are pure of weight
+$\mathrm{wt}$;
+(3) $r$ is de Rham at all places above $\ell$, with the Hodge--Tate weights determined by the weight
+of $\pi_\infty$, and $\galoisHT_{\tau c}=\mathrm{wt}-\galoisHT_\tau$;
+(4) if $w\mid\ell$ and $\pi_w$ has an Iwahori-fixed vector, then
+$\iota\galoisWD(r|_{G_{E_w}})^{\mathrm{F\text{-}ss}}\cong\mathrm{rec}_{E_w}(\pi_w\otimes|\det|^{(1-a)/2})$;
+in particular $r$ is semistable at $w$, and crystalline if $\pi_w$ is unramified.
+\end{littheorem}
+
+\begin{remark}[Comparison with \cref{thm:galois:blggt}]\label{rem:galois:blggt}
+\Cref{thm:row0b} is weaker than \cref{thm:galois:blggt} in the following respects, and it is this
+weaker statement that is used in the proof.
+(a) Only CM fields are covered.
+(b) There is no polarization of $r$ and no purity.
+(c) At $w\nmid\ell$ the isomorphism $x\cong y$ is asserted only when $y$ is abelian with $N_y=0$, i.e.\
+when $\sigma^\natural$ is an irreducible principal series (for instance when $\pi_w$ is unramified); then
+$y=\mathrm{rec}_{E_w}(\sigma^\natural)$ by the compatibility of $\mathrm{rec}_{E_w}$ with class field theory
+and the Langlands classification. For tame squarefree $y$ with $N_y=0$ at places with $E_w\cong\Q_g$,
+$g>16a^2$ (or $a=1$), only $N_x=0$ and the characteristic polynomials on inertia are compared; in all
+other cases (e.g.\ $N_y\ne0$, or $y$ wildly ramified and not abelian) only $\dim x=a$ is asserted.
+(d) At $w\mid\ell$, crystallinity with the correct weights where $\pi_w$ is unramified agrees with
+\cref{thm:galois:blggt}(4); elsewhere above $\ell$ the de Rham property and the comparison of
+Weil--Deligne representations are asserted only for the parameters of (c), whereas
+\cref{thm:galois:blggt} gives the de Rham property everywhere and the comparison whenever $\pi_w$ has an
+Iwahori-fixed vector (including $N\ne0$).
+(e) Compatibility is required for every local parameter map instead of $\mathrm{rec}_{E_w}$; by
+\cref{rem:galois:suffices} the parameters for which the clauses have content are values at good
+representations, on which all local parameter maps agree.
+Thus \cref{thm:row0b} contains the existence of $r_{\ell,\iota}(\pi)$ with compatibility at all
+unramified places, the Hodge--Tate weights, crystallinity at the unramified places above $\ell$, and
+partial compatibility at ramified places of abelian or tame type. (The development contains a formal
+statement of \cref{thm:galois:blggt}, which is not used.)
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Architecture of the proof}\label{sec:galois:arch}
+
+The proof of \cref{thm:row0b} passes through totally definite unitary groups. For $n\ge1$ let
+$\galoisU_n(\A_{E^+})=\{g\in\GL_n(\A_E):{}^t\bar g\,g=1\}$ (the unitary group of the standard hermitian
+form, definite at every infinite place); an automorphic representation $U$ of $\galoisU_n$ is an
+irreducible space of automorphic forms on $\galoisU_n(E^+)\backslash\galoisU_n(\A_{E^+})$. At places of $E$
+split over $E^+$ the local groups are $\GL_n(E_w)$, so $U$ has local components and Satake parameters;
+at $\tau\colon E\to\C$ it has \emph{weights}, the dominant $\lambda\in\Z^n$ such that the algebraic
+representation of highest weight $\lambda$ occurs in $U$ at $\tau$.
+
+\begin{definition}[Weakly attached representations; $\sfname{CoreAll}$]\label{def:galois:core}
+Let $(\pi,\chi)$ be as in $\sfname{Row0b}$. A representation $r\colon G_E\to\GL_a(\Qlbar)$ is
+\emph{weakly attached} to $\pi$ if it is continuous and semisimple and, for almost all $w$, $\pi_w$ is
+unramified, $r$ is unramified at $w$ and
+$\iota\,\mathrm{charpoly}\,r(\Frob_w)=\prod_i(X-\Nm w^{(a-1)/2}\alpha_i)$, the $\alpha_i$ being the Satake
+parameters of $\pi_w$. $\sfname{CoreAll}$ asserts: every such $\pi$ has a weakly attached $r$; and every
+weakly attached $r$ satisfies, at every place $w$ where $\pi_w$ is unramified: if $w\nmid\ell$, the
+equality just displayed; if $w\mid\ell$, $r|_{D_w}$ is crystalline with the Hodge--Tate weights of
+(weights), and geometric Frobenius elements have characteristic polynomial
+$\prod_i(X-\Nm w^{(a-1)/2}\alpha_i)$ on $\galoisWD(r|_{D_w})$.
+\end{definition}
+
+\begin{theorem}[Reduction to theta lifting and geometry]\Fmark\label{thm:galois:reduction}
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\sfname{CoreAll}$ implies $\sfname{Row0}(\galoisrecT)$, the strengthening of
+  $\sfname{Row0b}(\galoisrecT)$ in which ``$a$-large'' is replaced by ``$E_w\cong\Q_g$ for a prime $g$'';
+  in particular it implies $\sfname{Row0b}(\galoisrecT)$.
+\item $\sfname{GeoOne}\wedge\sfname{TLiftK}$ (\cref{def:galois:geoone,def:galois:tliftk}) implies
+  $\sfname{CoreAll}$.
+\end{enumerate}
+Consequently \cref{thm:row0b} follows from \cref{thm:galois:tlift,thm:geoone}.
+\formal{UpperTheory.Gal.Int.galoisLocalGlobal_of_geometry_lift}
+\end{theorem}
+
+\begin{proofoutline}
+(a) Let $r$ be weakly attached to $\pi$. Comparing the infinitesimal characters of $\pi^c$ and
+$\pi^\vee\otimes(\chi\circ\Nm\circ\det)$ through the invariant pairing gives $\mathrm{wt}\in\Z$ with
+$\galoisinf_{\tau c}(\pi)=\{a-1-\mathrm{wt}-z:z\in\galoisinf_\tau(\pi)\}$, whence (weights). At unramified
+places, (away) and (crys) are part of $\sfname{CoreAll}$. If $y$ (notation of \cref{thm:row0b}) is
+abelian with $N_y=0$, then
+$\sigma^\natural$ is an irreducible principal series (by (L1)--(L4) and the genericity of local
+components of cuspidal representations \cite{Shalika1974}); for each $g\in W_w$ of nonzero degree,
+solvable base change \cite{ArthurClozel1989} to a CM extension $M/E$ with $g\in G_M$ gives a cuspidal
+representation of $\GL_a(\A_M)$, unramified at a place above $w$, to which $r|_{G_M}$ is weakly
+attached, and $\sfname{CoreAll}$ for it computes the characteristic polynomial of $r(g)$; as elements of
+nonzero degree determine characteristic polynomials on $W_w$, $x=y$. In the tame case $E_w\cong\Q_g$
+and $\sigma$ has depth zero (\cref{rem:galois:suffices}); an unramified base change of suitable degree
+turns the depth-zero supercuspidal representations in its support into principal series (the supports
+being controlled through Shintani lifting for finite general linear groups, (L12) and
+\cref{thm:rectexists}), the abelian case applies there, and characteristic polynomials on inertia do
+not change under unramified base change. The same arguments with the clauses of $\sfname{CoreAll}$ at
+$\ell$ give (nice).
+
+(b) The proof has six steps.
+\begin{enumerate}[label=(\roman*),nosep]
+\item \emph{Seeds.} For odd $a$ and an automorphic representation $U$ of $\galoisU_a$ with a
+  supercuspidal type at a place $w_0\mid\ell$, lacunary weight at a place $v'\mid\ell$ and generic
+  Satake parameters at auxiliary places, $\sfname{GeoOne}$ provides representations whose Frobenius
+  elements are annihilated by the Hecke polynomials of $U$. From them one extracts an $a$-dimensional
+  continuous semisimple $r'$ whose Frobenius characteristic polynomials are the Hecke polynomials on
+  an open dense set of Frobenius elements, using the lacunary Hodge--Tate weights, a genericity
+  polynomial in the Satake parameters and determinant characters.
+\item \emph{Congruences.} At a fixed level, the Hecke eigensystem of every automorphic representation
+  of $\galoisU_a$ ($a$ odd, under field conditions) is a limit, for the topology of polynomial
+  approximation, of eigensystems of seeds (density of generic Satake parameters, global Hecke
+  operators of Plancherel type, $\ell$-adic families of lacunary weights).
+\item \emph{Limits.} By the method of pseudo-characters \cite{Taylor1991,BellaicheChenevier2009,Chenevier2014}
+  the seed representations converge to a continuous semisimple $a$-dimensional representation
+  attached to $U$; crystallinity with bounded weights and the crystalline Frobenius survive in the
+  limit (via Breuil--Kisin lattices, compare \cite{Berger2004,Kisin2008}).
+\item \emph{From odd to arbitrary rank.} For even $n$, $\sfname{TLiftK}$ is applied twice, with
+  $t=2(d_0+n)+1$ and two pairs of splitting characters, lifting $U$ to $U_1,U_2$ on $\galoisU_{n+t}$
+  ($n+t$ odd). By (ii) of \cref{def:galois:tliftk} and the unramified type II correspondence, the Satake
+  parameters of $U_k$ at split unramified places are those of $U$, twisted by a fixed algebraic Hecke
+  character, together with the values of $t$ auxiliary algebraic Hecke characters, the two auxiliary
+  families being disjoint. Removing the $\ell$-adic characters \cite{Serre1968} of the auxiliary
+  characters from the representations of $U_1,U_2$ and twisting back gives the representation for $U$.
+\item \emph{From unitary groups to $\GL_a$.} A descent of conjugate self-dual cuspidal representations
+  of $\GL_a(\A_E)$ to $\galoisU_a$ matching local components at split places, in the style of
+  \cite{Labesse2011,ClozelHarrisLabesse2011} (proved in the development from the Jacquet--Shalika bound
+  and multiplicity one), transfers the representations to $\GL_a$.
+\item \emph{Removing the conditions.} The conditions on the field and the restriction to split places
+  are removed by base change to infinitely many quadratic CM extensions \cite{ArthurClozel1989}, with
+  \cite{JacquetShalika1981,GelfandKazhdan1975}, and patching; polarized representations are reduced to
+  conjugate self-dual ones by twisting with an algebraic Hecke character.
+\end{enumerate}
+Further published inputs are \cite{BernsteinZelevinsky1977,Zelevinsky1980,Tadic1986} and the theorem
+that de Rham representations are potentially semistable \cite{Berger2002}; all of these are proved in
+the formal development.
+
+%P2PTR thm:galois:reduction
+A complete proof is given in \cref{sec:pf:galred}.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{Theta lifts between definite unitary groups}\label{sec:galois:theta}
+
+Let $\eta$ be the quadratic character of $\A_{E^+}^\times$ attached to $E/E^+$. A unitary Hecke
+character $\chi$ of $E$ has \emph{archimedean exponents} $m=(m(w))_{w\mid\infty}$ with respect to a CM
+type $(\tau_w)_{w\mid\infty}$ if $\chi(z)=\prod_w(\tau_w(z)/|\tau_w(z)|)^{m(w)}$ for archimedean $z$ near
+$1$.
+
+\begin{definition}[$\sfname{TLiftK}$]\label{def:galois:tliftk}
+$\sfname{TLiftK}$ is the following statement. Let $E$ be a CM field such that $E/E^+$ is unramified at
+all finite places, $E$ contains $\sqrt{-d}$ for some integer $d>0$, and every place of $E^+$ inert in
+$E$ is prime to $2$ and has norm $>3$; fix a CM type $(\tau_w)$ and a standard additive character of
+$\A_{E^+}/E^+$, unramified at the inert places. Let $n\ge1$ and let $X$ be the hermitian space $E^n$
+with form $\sum_ix_i\bar y_i$ and a self-dual lattice. Then there is $d_0$ such that for every $d\ge
+d_0$, every skew-hermitian space $W=(E^d,\delta\sum_ix_i\bar y_i)$ ($\bar\delta=-\delta$) definite at all
+$\tau_w$ and with a self-dual lattice, all unitary Hecke characters $\chi_X,\chi_W$ of $E$ with
+$\chi_X|_{\A_{E^+}^\times}=\eta^n$, $\chi_W|_{\A_{E^+}^\times}=\eta^d$ and archimedean exponents
+$m_X,m_W$, and every automorphic representation $U$ of $\galoisU_n$ with weights $\lambda_w$ at $\tau_w$
+such that $d+m_W(w)\le2\lambda_{w,k}$ for all $w$ and $k$, there is an automorphic representation
+$U'$ of $\galoisU_d$ such that:
+\begin{enumerate}[label=(\roman*),nosep]
+\item for every $w\mid\infty$, $U'$ has a weight $\lambda'_w$ at $\tau_w$ with
+  $2\lambda'_{w,k}=2\lambda_{w,k}-d-m_W(w)+n+m_X(w)$ for $k<n$ and $2\lambda'_{w,k}=n+m_X(w)$ for $n\le k<d$;
+\item for every place $v$ of $E^+$ split in $E$ and all local components $U_v$, $U'_v$ of $U$, $U'$
+  (representations of $\GL_n(E^+_v)$, $\GL_d(E^+_v)$), there is a nonzero map $\beta$ from the
+  Schwartz space $S(M_{n\times d}(E^+_v))$ to the antilinear maps $U_v\to U'_v$ with
+  $\beta(\omega_v(g,h)\Phi)\circ U_v(g)=U'_v(h)\circ\beta(\Phi)$, where $\omega_v$ is the action of
+  $\GL_n\times\GL_d$ by translations twisted by $\chi_{W,v}^{-1}$, $\chi_{X,v}$, $|\det|^{-d/2}$ and
+  $|\det|^{-n/2}$; that is, $(U_v,U'_v)$ occur in the type II local theta correspondence
+  \cite{Minguez2008}.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Theta lifts between definite unitary groups]\Fmark\label{thm:galois:tlift}
+$\sfname{TLiftK}$ holds. \formal{UpperTheory.TP.K.tLiftK}
+\end{theorem}
+%P2PTR thm:galois:tlift
+\begin{proof}See \cref{sec:pf:tlift}.
+\end{proof}
+
+
+Results of this type are classical: non-vanishing of theta lifts in the stable range via the Rallis
+inner product \cite{Rallis1984,Li1992,HarrisKudlaSweet1996}, the correspondence for compact dual pairs
+\cite{KashiwaraVergne1978,Howe1989}, and type II local theta correspondence \cite{Minguez2008}. The
+statement in this form, with its threshold $d_0$, is specific to the development.
+
+\begin{proofoutline}
+Let $\omega$ be the Weil representation of $\galoisU(X)(\A)\times\galoisU(W)(\A)$ on the Schwartz space
+of $M_{n\times d}(\A_{E^+})$, attached to the additive character and split by $\chi_X,\chi_W$
+\cite{Weil1964,Kudla1994}. For $\Phi$ which is a polynomial Fock vector at the infinite places and
+$\varphi\in U$, the theta lift
+\[
+  \theta(\Phi,\varphi)(h)=\int_{\galoisU(X)(E^+)\backslash\galoisU(X)(\A)}\ \sum_{\xi\in M_{n\times d}(E^+)}
+  \omega(g,h)\Phi(\xi)\,\overline{\varphi(g)}\,dg
+\]
+is an automorphic form on $\galoisU(W)\cong\galoisU_d$, depending equivariantly on $(\Phi,\varphi)$.
+(i) \emph{Archimedean types.} In the Fock model \cite{KashiwaraVergne1978,Howe1989} the irreducible
+representation of highest weight $\lambda_w$ maps equivariantly into the Fock space, hitting a joint
+highest weight vector whose type for $\galoisU(d)$ has highest weight $\lambda'_w$; here
+$d+m_W\le2\lambda_w$ is used.
+(ii) \emph{Non-vanishing.} Integrability of a height function on the doubled group
+$G_2=\galoisU(X\oplus(-X))$ along $\galoisU(X)(\A)$ gives an exponent $t_0$, and one takes
+$d_0=\max(2n,N)$ with $N>2t_0$. For $d\ge d_0$ the doubling integral
+$\int_{\galoisU(X)(\A)}\langle\omega(g)\Phi,\Phi\rangle\overline{\langle\varphi(\cdot\,g),\varphi\rangle}\,dg$
+converges absolutely and vanishes if $\theta(\Phi,\varphi)$ does (Rallis inner product); this follows from
+the unfolding of the doubled theta integral and the Siegel--Weil formula on $G_2$ in the convergent
+range $n<d$,
+$E(x,\tfrac{d-n}2)=\vol^{-1}\int_{\galoisU(W)(E^+)\backslash\galoisU(W)(\A)}\theta(x,h;\Phi_1\otimes\bar\Phi_2)\,dh$
+\cite{Weil1965,KudlaRallis1988,KudlaRallis1994,Ichino2004}. The doubling integral is nonzero for
+suitable $\Phi$ (bump functions at finitely many places, a tail estimate, and Schur orthogonality at
+the compact archimedean places).
+(iii) \emph{Reading off the lift.} A nonzero lift has a nonzero equivariant projection to an
+automorphic representation $U'$; $U'$ has the weights $\lambda'_w$ by (i), and at split places the
+equivariance of the lift produces the map $\beta$. The Weil representation, the Siegel--Weil formula
+in the form used and the Fock model are proved in the formal development.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{The geometric realization}\label{sec:galois:geo}
+
+\begin{definition}[$\sfname{GeoOne}$]\label{def:galois:geoone}
+Let $a$ be odd, $d\ge1$ and $x\in E$ with $x^2=-d$; assume that $-d$ is a square in $\Q_\ell$, that
+$[E^+:\Q]$ is even, and that every place of $E$ not split over $E^+$ is prime to $\ell$ and unramified
+over $E^+$. A place $w$ of $E$ is \emph{$d$-usable} if it is split over $E^+$ and $-d$ is a square in
+$\Q_q$, $q$ the prime below $w$. Let $w_0,v'$ be places above $\ell$ lying over different places of
+$E^+$ and over the same place of $\Q(x)$, let $S,T$ be finite sets of places, $T$ without split
+places, and let $U$ be an automorphic representation of $\galoisU_a$ which is unramified at the
+non-split places outside $T$; contains at $w_0$ a \emph{supercuspidal type of $\ell$-power order} (a
+character $\chi\circ\vartheta$ of an open compact torsion-free $J\subset\GL_a(E_{w_0})$, with
+$\vartheta\colon J\to\Z/\ell^m$ surjective and $\chi\ne1$, such that every smooth irreducible
+representation containing it is supercuspidal); is spherical at $v'$ and at the split places lying
+over places of $E^+$ different from those below $w_0$ and $S$; and has a \emph{lacunary weight} at
+$v'$: for some $\tau\colon E\to\C$ inducing $v'$ via $\iota$ and some weight $\lambda$ of $U$ at $\tau$, no
+two disjoint nonempty subsets of $\{k-\lambda_k:0\le k<a\}$ have the same average. For Satake
+parameters $B$ of $U$ at $w$ put $P_{w,B}=\prod_{b\in B}(X-\Nm w^{(a-1)/2}b)$. Call a continuous
+semisimple $\rho\colon G_E\to\GL_{a'}(\Qlbar)$ (of any dimension $a'$) \emph{basic} if (1) for all but
+finitely many $d$-usable $w\nmid\ell$ at which $U$ is spherical with Satake parameters $B$, $\rho$ is
+unramified at $w$ and $(\iota^{-1}P_{w,B})(\rho(\Frob_w))=0$; and (2) at some place above $\ell$, $\rho$ is
+de Rham and, for some $\tau$, its $\tau$-Hodge--Tate multiset contains a lacunary set of $a$ integers.
+$\sfname{GeoOne}$ asserts that under these hypotheses:
+\begin{enumerate}[label=(G\arabic*),nosep]
+\item a basic $\rho$ exists;
+\item for every $d$-usable $w\nmid\ell$ at which $U$ is spherical, there is a basic $\rho$ which has
+  the property of (1) at $w$;
+\item for every $w\mid\ell$ at which $U$ is spherical, lying over the same place of $\Q(x)$ as $v'$ and
+  over a place of $E^+$ different from those below $w_0$ and $v'$: there is a basic $\rho$ crystalline at
+  $w$ whose $\tau$-Hodge--Tate weights contain $\{k-\lambda_k\}$ for every weight $\lambda$ of $U$ at
+  every $\tau$ inducing $w$; and there is a basic $\rho$ crystalline at $w$ such that, for some element
+  of $W_w$ of degree $-1$, its characteristic polynomial on $\galoisWD(\rho|_{D_w})$ divides a power of
+  $P_{w,B}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Geometric realization]\Fmark\label{thm:geoone}
+$\sfname{GeoOne}$ holds. \formal{UpperTheory.Gal.Int.Geo.geoOne_holds}
+\end{theorem}
+%P2PTR thm:geoone
+\begin{proof}See \cref{sec:pf:geo}.
+\end{proof}
+
+
+Results of this kind, for automorphic representations of definite unitary groups that are
+supercuspidal at some place, are classical \cite{Kottwitz1990,Kottwitz1992,Clozel1991,HarrisTaylor2001};
+the passage from the weak conclusions of $\sfname{GeoOne}$ to $a$-dimensional representations is step
+(i) of the proof of \cref{thm:galois:reduction}(b). The least standard step of the proof uses the
+following holomorphic Lefschetz formula for finite \'etale correspondences. For $c_1=\mathrm{id}$ it is the
+holomorphic Lefschetz formula of Atiyah and Bott \cite{AtiyahBott1968,ToledoTong1978}. We do not know a published
+proof for correspondences: a holomorphic Lefschetz formula for correspondences, going back to a question of
+Shimura, is discussed in \cite{Tu2023} in the form of conjectures and an open problem, which includes the
+computation of traces of Hecke correspondences. The development proves the formula below algebraically,
+through \v{C}ech cohomology and a ``chart-lift'' theorem; the proof is given in \cref{sec:pf:geo}.
+
+\begin{theorem}[Holomorphic Lefschetz formula for finite \'etale correspondences]\Fmark\label{thm:galois:hlf}
+Let $Z$ be a smooth projective variety of dimension $\delta$ over $\C$ and $c_1,c_2\colon Y\to Z$ finite
+\'etale morphisms. Assume that the set $\mathcal F$ of $y\in Y(\C)$ with $c_1(y)=c_2(y)$ is finite and
+that for each $y\in\mathcal F$ the matrix $A_y\in M_\delta(\C)$ of the cotangent map of the local
+self-map $c_2\circ c_1^{-1}$ at $y$ satisfies $\det(1-A_y)\ne0$. Then the spaces $H^b(Z,\Omega^p)$ are
+finite-dimensional and, for every $p$,
+\[
+  \sum_{b=0}^{\delta}(-1)^b\tr\bigl((c_1)_*(c_2)^*\mid H^b(Z,\Omega^p)\bigr)
+  =\sum_{y\in\mathcal F}\frac{\tr\bigl(\bigwedge^pA_y\bigr)}{\det(1-A_y)}.
+\]
+\formal{UpperTheory.Cb.lefschetz_fixedPoint_finite_etale_correspondence}
+\end{theorem}
+
+\begin{proofoutline}
+The proof of \cref{thm:geoone} has three layers: group-theoretic \emph{plans} produce geometric
+\emph{packages}, which produce the representations through \emph{step lemmas}.
+
+\emph{(i) Packages and step lemmas.} A \emph{nice Hecke tower} over a field $k$ is a smooth projective
+$k$-scheme $Z$ with correspondences $Z\xleftarrow{s_g}Y_g\xrightarrow{t_g}Z$ ($g\in\Gamma$), the $s_g$
+finite \'etale; an eigensystem $\theta\colon\Gamma\to\Qlbar$ cuts out the $\theta$-eigenspace of the
+operators $(s_g)_*(t_g)^*$ on the $\ell$-adic cohomology of $Z_\Omega$. A package for $U$ is a nice tower
+over $E$ with an eigensystem, an algebraic Hecke character $\kappa$ of $E$, models over $\OO_w$ with
+congruence data at the relevant places, and Hodge occurrences (see (iv)).
+The representation is $\rho=\rho_0\otimes L(\kappa)$, with $\rho_0$ the semisimplified
+$\theta$-eigenspace and $L(\kappa)$ the $\ell$-adic character of $\kappa$ \cite{Serre1968}. Its
+properties come from step lemmas proved for arbitrary nice towers: the eigenspace is a
+finite-dimensional continuous Galois representation; at $w\nmid\ell$, a model over $\OO_w$ on which
+correspondences $T_0,\dots,T_n$ with eigenvalues $\vartheta_j$ satisfy the congruence relation of (iii)
+makes $\rho_0$ unramified, with geometric Frobenius annihilated by the Hecke polynomial
+$\sum_j(-1)^jq^{\binom j2}\vartheta_jX^{n-j}$ (specialization isomorphisms from proper and smooth base
+change \cite{ArtinGrothendieckVerdier1972}); at $w\mid\ell$ with good reduction, $\rho_0$ is
+crystalline (crystalline comparison theorem
+\cite{FontaineMessing1987,Faltings1989,Tsuji1999,BhattMorrowScholze2018}), and with a congruence
+relation the eigenvalues of the crystalline Frobenius are roots of the Hecke polynomial (compare
+\cite{KatzMessing1974}); finally every $p$ for which $\theta$ occurs in $H^\bullet(Z_\tau,\Omega^p)$, $\tau$
+inducing $w$, is a $\tau$-Hodge--Tate weight of $\rho_0$ (Hodge--Tate decomposition
+\cite{Faltings1988,Scholze2013phodge}), which with the lacunary weight at $v'$ gives (2) of the
+definition of basic representations.
+
+\emph{(ii) Kuga--Sato towers over models of Harris--Taylor type.} For an auxiliary prime $p$ one uses a
+PEL datum of Harris--Taylor type \cite{Kottwitz1992,HarrisTaylor2001}: $E$ with an imaginary quadratic
+subfield in which $p$ splits, the lattice $\OO_E^a$ with an alternating form, and a unitary similitude
+group $G$ of signature $(1,a-1)$ at one infinite place and definite at the others (unlike in
+\cite{HarrisTaylor2001} the endomorphism algebra is $E$ itself, and compactness comes from the
+definiteness at the other infinite places). The moduli of abelian schemes with $\OO_E$-action,
+polarization, Kottwitz's determinant condition and level $N\ge3$ prime to $p$ are smooth
+quasi-projective schemes $M_N$ of relative dimension $a-1$ \cite{Kottwitz1992}, proper and hence
+projective here (compare \cite{Lan2013}); the development proves this using Mumford's
+representability theorem, Zarhin's trick, Grothendieck--Messing theory and semistable reduction
+\cite{MumfordFogartyKirwan1994,Zarhin1977,Messing1972,Grothendieck1972}. The towers consist of the
+Kuga--Sato varieties $Z_N=\mathcal A_N^k$ (fibre powers of the universal abelian schemes) with the Hecke
+correspondences of double cosets (compare \cite{Deligne1971,Scholl1990}); at places above primes split
+in the imaginary quadratic field, integral models with additional \'etale level structure provide the
+smooth projective models needed in (i).
+
+\emph{(iii) A pointwise congruence relation.} Let $T_0,\dots,T_a$ be the correspondences of isogenies
+of type $j$ at such a place $w$, $q=\Nm w$ and $\phi$ the $q$-Frobenius. For every point $y$ of the
+integral model over a generic point of the special fibre, the multisets of reductions
+\[
+  \sum_{j\ \mathrm{even}}q^{\binom j2}\bigl\{\phi^{a-j}(\bar z):z\in T_j(y)\bigr\}
+  \quad\text{and}\quad
+  \sum_{j\ \mathrm{odd}}q^{\binom j2}\bigl\{\phi^{a-j}(\bar z):z\in T_j(y)\bigr\}
+\]
+coincide: a pointwise form of the Eichler--Shimura relation $\sum_j(-1)^jq^{\binom j2}T_j\Frob^{a-j}=0$
+(compare \cite{Wedhorn2000}). Such points are ordinary at $w$ (compare \cite{Wedhorn1999}), and at an
+ordinary point the $T_j$-images correspond to the $j$-dimensional subspaces of an $a$-dimensional
+$\F_q$-space with a distinguished line, those containing the line being Frobenius twists; a
+$q$-binomial count gives the identity.
+
+\emph{(iv) Hodge occurrence.} The eigensystem of $U$ occurs in $H^\bullet(Z_N,\Omega^{h_i})$ for the
+degrees $h_i$ determined by the weight of $U$ (after the twist by $L(\kappa)$ they become the
+Hodge--Tate weights $\{k-\lambda_k\}$). The alternating traces on $H^b(Z_N,\Omega^p)$ of the Hecke
+correspondences composed with fibrewise multiplications $[\alpha]$ are computed by
+\cref{thm:galois:hlf}: the fixed points are CM points (regularity of the Hecke element forces complex
+multiplication), with local terms given by the eigenvalues of the CM endomorphisms. The weighted count
+of fixed points equals a sum over conjugacy classes in the definite inner forms of $G$, which equals
+the trace of the Hecke operator on algebraic modular forms \cite{Gross1999} of these definite groups
+(compare \cite{Kottwitz1992}; finiteness of class numbers \cite{Borel1963} is used). A Scholl-type combination $\sum_\alpha c_\alpha[\alpha]$
+turns the result into $(\text{definite trace})\cdot\sum_iy^{h_i}$; the definite trace is nonzero for
+suitable test functions because the eigensystem of $U$ occurs in algebraic modular forms of the
+definite groups, and since the $h_i$ are distinct, comparing coefficients yields a nonzero Hecke
+eigenvector in $H^\bullet(Z_N,\Omega^{h_i})$.
+
+\emph{(v) Plans.} The automorphic input of the packages (eigensystem, test functions, Hecke data at
+prescribed places, $\kappa$) is produced group-theoretically from $U$, by identifying the finite adelic
+points of $G$ away from $p$ with those of the definite unitary similitude group of $E$; no comparison
+of trace formulas between non-isomorphic groups is needed.
+
+Most of the formal proof is foundational material proved in the development (\'etale cohomology,
+$p$-adic comparison theorems, integral models, \cref{thm:galois:hlf}); the architecture, the
+congruence relation on Kuga--Sato varieties, the fixed-point computation and the proof of Hodge
+occurrence are, as far as we know, new.
+
+%P2PTR thm:galois:hlf
+A complete proof is given in \cref{sec:pf:geo}.
+\end{proofoutline}

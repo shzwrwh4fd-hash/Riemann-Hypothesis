@@ -1,0 +1,1462 @@
+\section{Local parameter maps}\label{sec:pf:llc}
+
+\providecommand{\llcIrr}{\operatorname{Irr}}
+\providecommand{\llcWD}{\mathrm{WD}}
+\providecommand{\llcrc}{\mathrm{rc}}
+\providecommand{\llcSp}{\operatorname{Sp}}
+\providecommand{\llcseg}{\operatorname{seg}}
+\providecommand{\llcG}{\mathsf{G}}
+\providecommand{\llcred}{\operatorname{red}}
+\providecommand{\llcPar}{\operatorname{Par}}
+\providecommand{\llcTy}{\operatorname{Ty}}
+\providecommand{\llcCT}{\operatorname{CT}}
+\providecommand{\llcGo}{\ensuremath{(\mathrm{G}^\circ)}}
+\providecommand{\llcm}{\mathfrak m}
+\providecommand{\llcp}{\mathfrak p}
+\providecommand{\llcK}{\mathrm{K}_1}
+
+\subsection{Introduction}\label{pf:llc:intro}
+
+This section contains the proofs of \cref{thm:rectexists} and \cref{prop:galois:unique} of Part~I:
+for every number field $E$, algebraic closure $\Omega$ of $E$, finite place $w$ of $E$ and place $A$
+of $\Omega$ above $w$ there is a local parameter map $\llcrc\colon\llcIrr(E_w)\to\llcWD_A$ in the sense
+of \cref{def:rectexists}, and any two local parameter maps agree on good representations. The
+results are restated as \cref{pf:llc:main,pf:llc:unique} in \cref{pf:llc:sec-main}, where they are
+proved. The proof of existence is an explicit construction, along the lines of the outline in
+\cref{sec:galois:llcproof}; no form of the local Langlands correspondence is used. We fix $E$, $\Omega$,
+$w$, $A$, put $F=E_w$ and $q=\Nm w$, and let $a$ be the local Artin map (it exists and is unique).
+The construction proceeds in five steps.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Characters.} A smooth character $\chi$ of $F^\times=\GL_1(F)$ is sent to
+  $\langle\chi\circ a\rangle$ (\cref{pf:llc:parone}).
+\item \emph{Depth-zero cuspidal representations.} Assume that $F\cong\Q_g$ for a prime $g$, and let $y$
+  be a cuspidal representation of $\GL_n(F)$ of depth zero. It contains the inflation of a cuspidal
+  representation $\tau$ of $\GL_n(\F_g)$, which has a regular Green name $\theta$. Choosing an auxiliary
+  number field $E'\supset E$ whose completion at the place below $A$ is unramified of degree $n$ over
+  $F$, the reduction of its local Artin map gives a character $R\colon I_A\to\F_{g^n}^\times$, and the
+  parameter of $y$ is the tamely ramified representation induced from the characters
+  $\theta^{g^j}\circ R$, with determinant $\omega_y\circ a$ (\cref{pf:llc:index,pf:llc:parex}). It
+  does not depend on the choices, it is determined by its restriction to inertia and its determinant
+  (\lref{UpperTheory.Zero.LLC.parUniq}), and it behaves as expected under tame twists and
+  contragredients (\cref{pf:llc:partw,pf:llc:pardual}).
+\item \emph{Twists.} The parameter of $y_0\otimes\chi$, with $y_0$ as in (2) and $\chi$ an arbitrary
+  smooth character, is the parameter of $y_0$ twisted by $\chi\circ a$; this is well defined
+  (\cref{pf:llc:goodmap}).
+\item \emph{Auxiliary values.} Every other cuspidal $x$ is sent to $J_{n(x)}(e(x))$, where $J_n$ is a
+  fixed irreducible wildly ramified Weil--Deligne representation of dimension $n$ with unitary
+  determinant, and $e(x)\in\R$ is read off from $|\omega_x|$
+  (\cref{pf:llc:junkex,pf:llc:expo,pf:llc:cuspex}). The representation $J_n$ is induced from additive
+  characters of a residue field composed with a logarithm of principal units of an unramified
+  extension (\cref{pf:llc:junkdata,pf:llc:junkrep}).
+\item \emph{Extension.} The map on cuspidal representations is extended to $\llcIrr(F)$ by the formula
+  (L3) of the Langlands classification, and the laws are verified using the theory of
+  Bernstein--Zelevinsky and Zelevinsky (\cref{pf:llc:sec-ext}).
+\end{enumerate}
+Uniqueness on good representations (\cref{pf:llc:unique}) follows from the uniqueness of the local
+Artin map and of the parameters in (2), together with the laws (L2), (L3) and (L7).
+
+\paragraph{Organisation.} \Cref{pf:llc:sec-setting} fixes the notation and the auxiliary notions
+(inertial forms, the type condition, parameters, cuspidal laws), and \cref{pf:llc:sec-used} lists
+the results proved elsewhere in the paper and in the literature that are used.
+\Cref{pf:llc:sec-chars} treats characters and the auxiliary unramified fields,
+\cref{pf:llc:sec-types} depth-zero types, \cref{pf:llc:sec-ind} induced parameters,
+\cref{pf:llc:sec-par} the parameters of depth-zero cuspidal representations and \cref{pf:llc:sec-good}
+their twists. \Cref{pf:llc:sec-junk,pf:llc:sec-expo} construct the auxiliary values,
+\cref{pf:llc:sec-cusp} assembles the map on cuspidal representations, \cref{pf:llc:sec-ext} extends
+it, and \cref{pf:llc:sec-main} proves the two main results. \Cref{pf:llc:sec-remarks} records
+features of the formal statements.
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Setting and notation}\label{pf:llc:sec-setting}
+
+\paragraph{Places and Weil groups.}
+Throughout, $E$ is a number field, $\Omega$ an algebraic closure of $E$, $G_E=\Aut_E(\Omega)$ with the
+Krull topology, $w$ a nonzero prime of $\OO_E$ and $A\subset\Omega$ a place of $\Omega$ above $w$: a
+valuation ring of $\Omega$ such that an element of $\OO_E$ lies in $w$ if and only if it lies in the
+maximal ideal $\llcm_A$ of $A$. We write $v_A$ for the valuation of $A$ (with values in an ordered group,
+written multiplicatively), and $x\equiv y\pmod{\llcm_A}$ for $v_A(x-y)<1$. We put $F=E_w$, with ring of
+integers $\OO_F$, maximal ideal $\llcp_F$, normalised valuation $\ord$, absolute value
+$|x|=q^{-\ord x}$, and $q=\Nm w=|\OO_E/w|$. As in \cref{sec:galois:local}, $D_A=\{\sigma\in G_E:\sigma(A)=A\}$,
+$I_A=\{\sigma\in D_A:\sigma(x)\equiv x\pmod{\llcm_A}\text{ for all }x\in A\}$, and $W_A\subset D_A$ is the
+group of the $\sigma$ acting on the residue field of $A$ as $x\mapsto x^{q^{\deg\sigma}}$ for some
+$\deg\sigma\in\Z$. Then $\deg\colon W_A\to\Z$ is a surjective homomorphism with kernel $I_A$, and $I_A$ is
+compact. An element $\sigma\in I_A$ is \emph{wild} if $v_A(\sigma(x)-x)<v_A(x)$ for all $x\ne0$, that is,
+$\sigma(x)/x\equiv1\pmod{\llcm_A}$ for all $x\neq0$; the wild elements form the wild inertia group $P_A$.
+A \emph{Frobenius element} is a $\varphi\in D_A$ with $\varphi(x)\equiv x^q\pmod{\llcm_A}$ for all $x\in A$;
+it lies in $W_A$ and has degree $1$. A homomorphism $f$ from $W_A$ (or from $I_A$) to a group is
+\emph{smooth} if $\{t\in I_A:f(t)=1\}$ is open in $I_A$. A character $\chi$ of $F^\times$ is \emph{smooth}
+if its kernel is open, and \emph{tame} if $\chi(u)=1$ for all $u\in1+\llcp_F$. For $s\in\C$,
+$|\cdot|^s$ is the character $z\mapsto|z|^s$ of $F^\times$.
+
+\paragraph{Local Artin maps.} A local Artin map is a homomorphism $a\colon W_A\to F^\times$ as in
+\cref{def:galois:wd}(b): it is surjective, continuous on $I_A$, satisfies $\ord a(\sigma)=-\deg\sigma$,
+every smooth character of $W_A$ is $\chi\circ a$ for a smooth character $\chi$ of $F^\times$, and it is
+compatible with every global Artin map. The relation $\ord a(\sigma)=-\deg\sigma$ gives
+\begin{equation}\label{pf:llc:eq-abspow}
+|a(\sigma)|^s=q^{s\deg\sigma}\qquad(\sigma\in W_A,\ s\in\R).
+\end{equation}
+
+\paragraph{Weil--Deligne representations.} $\llcWD_A$ is the set of isomorphism classes of
+Weil--Deligne representations $(\rho,N)$ on the spaces $\C^n$, $n\ge0$, as in \cref{def:galois:wd}(a):
+$\rho\colon W_A\to\GL_n(\C)$ is a smooth homomorphism with $\rho(\sigma)$ semisimple for every $\sigma$, and
+$N$ is nilpotent with $\rho(\sigma)N=q^{\deg\sigma}N\rho(\sigma)$. We use the following operations on
+classes: $\dim V$; the direct sum $V\oplus V'$ and the direct sum $\bigoplus_iV_i$ of a list; the tensor
+product $V\otimes V'$ (with monodromy $N\otimes1+1\otimes N'$); the twist $V\otimes\xi$ by a smooth
+character $\xi$ of $W_A$; $V(s)=V\otimes(\sigma\mapsto q^{s\deg\sigma})$ for $s\in\R$, so that
+$V(s)=V\otimes(|\cdot|^s\circ a)$ by \eqref{pf:llc:eq-abspow}; the dual $V^\vee$, with $\rho^\vee(\sigma)=
+{}^t\rho(\sigma)^{-1}$ and $N^\vee=-{}^tN$; the one-dimensional class $\langle\xi\rangle$ of a smooth
+character $\xi$, so that $V\otimes\langle\xi\rangle=V\otimes\xi$ (via $V\otimes\C\cong V$); and $\llcSp(m)$, the space $\C^m$ with
+$\rho(\sigma)=\mathrm{diag}(q^{(i-(m-1)/2)\deg\sigma})_{0\le i<m}$ and $Ne_i=e_{i+1}$. For $\sigma\in W_A$,
+$P_\sigma(V)\in\C[X]$ is the characteristic polynomial of $\rho(\sigma)$ and $\det_\sigma V=\det\rho(\sigma)$,
+the product of the roots of $P_\sigma(V)$ counted with multiplicity. We call $P_t(V)$, $t\in I_A$, the
+\emph{inertia polynomials} of $V$. The class $V$ is \emph{irreducible} if $\rho$ is irreducible,
+\emph{tame} if $\rho(\sigma)=1$ for every wild $\sigma$, and $N_V=0$ means that $V$ has monodromy zero.
+
+\begin{definition}[Inertial forms]\label{pf:llc:def-infor}
+Let $g,n\ge1$ be integers, $K$ a field, $R\colon I_A\to K^\times$ a homomorphism and $\theta\colon
+K^\times\to\C^\times$ a character. A class $V\in\llcWD_A$ \emph{has inertial form} $(R,\theta)$ (of type
+$(g,n)$) if
+\[
+  P_t(V)=\prod_{j=0}^{n-1}\bigl(X-\theta(R(t)^{g^j})\bigr)\qquad\text{for all }t\in I_A.
+\]
+\formal{UpperTheory.Zero.LLC.InFor}
+\end{definition}
+
+\paragraph{Irreducible representations of $\GL_n(F)$.} $\llcIrr(F)$ is the set of \cref{def:galois:irr}:
+the disjoint union over $n\ge0$ of the sets of isomorphism classes of irreducible smooth complex
+representations of $\GL_n(F)$. For $x\in\llcIrr(F)$ we write $n(x)$ for its index and $\pi_x$ for a
+representative. For a smooth character $\chi$ of $F^\times$ we write $x\otimes\chi$ for the class of
+$\pi_x\otimes(\chi\circ\det)$, $x\nu^s=x\otimes|\cdot|^s$ for $s\in\C$, and $\chi$ also for the class in
+$\llcIrr(F)$ (with $n=1$) of the character $\chi$. A \emph{central character} of $x$ is a character $\omega$
+of $F^\times$ with $\pi_x(z\cdot1_n)=\omega(z)$ for all $z\in F^\times$; it exists, is unique and smooth
+(\ref{pf:llc:F-cl} below), and is denoted $\omega_x$. For irreducible smooth representations $\pi,\pi'$ of
+$\GL_n(F)$, $\pi'$ is a \emph{contragredient} of $\pi$ if it is isomorphic to the smooth part of the
+algebraic dual of $\pi$; for classes we write $x^\vee$ for the class of a contragredient of $\pi_x$,
+which exists and is unique (\ref{pf:llc:F-cl}). The class $x$ is \emph{cuspidal} if $n(x)>0$ and the
+Jacquet module $\pi_x/\langle\pi_x(u)v-v\rangle$ vanishes for the unipotent radical $U$ of every proper
+parabolic subgroup of $\GL_n(F)$ given by a block decomposition of $\{1,\dots,n\}$; a
+\emph{supercuspidal support} of $x$ is a finite multiset $\{y_1,\dots,y_h\}$ of cuspidal classes such
+that $\pi_x$ is an irreducible subquotient of the normalised parabolically induced representation
+$y_1\times\dots\times y_h$; and $x$ has \emph{depth zero} if $\pi_x$ has a nonzero vector fixed by
+$\llcK=\ker(\GL_n(\OO_F)\to\GL_n(\OO_F/\llcp_F))$. A \emph{segment} $\Delta$ consists of a cuspidal
+$\rho_\Delta\in\llcIrr(F)$ and a length $\ell_\Delta\ge1$; its terms are $\rho_\Delta\nu^j$, $0\le j<\ell_\Delta$.
+For a finite multiset $\llcm$ of segments, $x=L(\llcm)$ means that $\pi_x$ is the Langlands quotient of
+$\llcm$ in the form of \cref{def:galois:irr} (the irreducible cosocle of a product, in a standard order,
+of the representations $L(\Delta)$, $\Delta\in\llcm$); for a list $l$ of segments, $L(l)$ refers to the
+underlying multiset.
+
+\begin{definition}[Langlands sums]\label{pf:llc:def-seg}
+For a map $r\colon\llcIrr(F)\to\llcWD_A$ and a list $l=(\Delta_1,\dots,\Delta_k)$ of segments,
+\begin{equation}\label{pf:llc:eq-seg}
+  \llcseg_r(l)=\bigoplus_{i=1}^k r(\rho_{\Delta_i})\Bigl(\frac{\ell_{\Delta_i}-1}2\Bigr)\otimes\llcSp(\ell_{\Delta_i}).
+\end{equation}
+\formal{GlobalTheory.LocLanglands.segSum}
+\end{definition}
+
+Thus the law (L3) of \cref{def:rectexists} reads $\llcrc(x)=\llcseg_{\llcrc}(l)$ whenever $x=L(l)$. We write
+$F\cong\Q_g$ if there is a continuous ring isomorphism $\Q_g\to F$; by \cref{pf:llc:isouniq} below, $g$ and the
+isomorphism are then unique.
+
+\begin{definition}[Good representations]\label{pf:llc:def-good}
+An element $y\in\llcIrr(F)$ satisfies condition \llcGo{} if $n(y)=1$, or $F\cong\Q_g$ for some prime $g$ and
+$y=y_0\otimes\chi$ for a smooth character $\chi$ and some $y_0\in\llcIrr(F)$ of depth zero. An element
+$x\in\llcIrr(F)$ is \emph{good} if it has a supercuspidal support all of whose members satisfy \llcGo{}.
+\formal{UpperTheory.Zero.LLC.GoodCusp}\formal{UpperTheory.Zero.LLC.Good}
+\end{definition}
+
+These are the notions of \cref{def:galois:irr}: in \llcGo{} the representation $y_0$ is not required to be
+cuspidal, but if $y$ is cuspidal then so is $y_0$ (\ref{pf:llc:F-cl}), and a cuspidal $x$ is good if and only
+if it satisfies \llcGo{} (\ref{pf:llc:F-goodseg}).
+
+\begin{definition}[Cuspidal representations of $\GL_n(\F_g)$; Green names; inflation]\label{pf:llc:def-green}
+Let $g$ be a prime and $n\ge1$; put $\llcG_n=\GL_n(\F_g)$, and for $0<a<n$ let $U_a\subset\llcG_n$ be the group of
+block upper unitriangular matrices with diagonal blocks of sizes $a$ and $n-a$.
+\begin{enumerate}[label=(\alph*)]
+\item A finite-dimensional complex representation $\tau$ of $\llcG_n$ is \emph{cuspidal} if its character
+  $\chi_\tau$ is irreducible and $\sum_{u\in U_a}\chi_\tau(u)=0$ for $0<a<n$.
+\item Let $K$ be a field which is an $\F_g$-algebra of dimension $n$ (thus $K\cong\F_{g^n}$). A character
+  $\theta$ of $K^\times$ is \emph{regular} if $\theta^{g^i}\ne\theta^{g^j}$ for $0\le i<j<n$, and $\theta$ is a
+  \emph{Green name} of $\tau$ if
+  \begin{equation}\label{pf:llc:eq-green}
+    \chi_\tau(y)=(-1)^{n-1}\sum_{j=0}^{n-1}\theta(z^{g^j})
+  \end{equation}
+  for every $y\in\llcG_n$ whose characteristic polynomial is irreducible over $\F_g$ and every root $z\in K$ of it.
+\item Let $i\colon\Q_g\to F$ be a continuous ring isomorphism. For $\kappa\in\GL_n(\Z_g)$ we write
+  $\bar\kappa\in\llcG_n$ for its reduction and $i(\kappa)\in\GL_n(F)$ for its image. A smooth representation
+  $\sigma$ of $\GL_n(F)$ \emph{contains the inflation of $\tau$ via $i$} if there is a nonzero linear map
+  $\phi\colon\tau\to\sigma$ with $\phi(\tau(\bar\kappa)u)=\sigma(i(\kappa))\phi(u)$ for all $\kappa\in\GL_n(\Z_g)$ and
+  $u\in\tau$.
+\end{enumerate}
+\formal{GlobalTheory.GLq.IsCusp}\formal{GlobalTheory.Published.IsRegularChar}\formal{UpperTheory.Zero.LLC.Names}
+\formal{GlobalTheory.SerSys.TameGen.Inflates}
+\end{definition}
+
+\begin{definition}[Auxiliary data; adapted homomorphisms; tame systems]\label{pf:llc:def-ext}
+Let $g$ be a prime and $n\ge1$.
+\begin{enumerate}[label=(\alph*)]
+\item An \emph{auxiliary datum of type $(g,n)$} consists of a number field $E'$ with $E\subset E'\subset\Omega$, a
+  prime $w'$ of $\OO_{E'}$ such that $A$ lies above $w'$, with $g\notin w'^2$ and $\Nm w'=g^n$, a local Artin map
+  $a'\colon W_A(E')\to(E'_{w'})^\times$ for $(E',w',A)$, a field $K$ which is an $\F_g$-algebra, and a surjective
+  ring homomorphism $\llcred\colon\OO_{E'}\to K$ with kernel $w'$. Here $W_A(E')$, $I_A(E')$ are the Weil and
+  inertia groups of $A$ relative to $E'$; they are subgroups of $W_A$, $I_A$.
+\item A homomorphism $R\colon I_A\to K^\times$ is \emph{adapted} to such a datum if $R(t)=\llcred(x)$ whenever
+  $t\in I_A$ lies in $I_A(E')$ and $x\in\OO_{E'}$ satisfies $|a'(t)-x|_{w'}<1$.
+\item A homomorphism $R\colon I_A\to K^\times$, $K$ a field which is an $\F_g$-algebra, is a \emph{tame system of type
+  $(g,n)$} if $n>0$, $q=g$, $\dim_{\F_g}K=n$, $R$ is surjective with open kernel, $R(t)=1$ for wild $t$, and
+  $R(\sigma t\sigma^{-1})=R(t)^g$ for $t\in I_A$ and $\sigma\in W_A$ of degree $1$.
+\end{enumerate}
+\formal{UpperTheory.Zero.LLC.Ext}\formal{UpperTheory.Zero.LLC.Ext.Res}\formal{UpperTheory.Zero.LLC.TameSys}
+\end{definition}
+
+\begin{definition}[Type condition; parameters]\label{pf:llc:def-par}
+Let $x\in\llcIrr(F)$ and $V\in\llcWD_A$.
+\begin{enumerate}[label=(\alph*)]
+\item $\llcTy(x,V)$ holds if the following is true for every prime $g$, continuous ring isomorphism
+  $i\colon\Q_g\to F$, integer $n\ge1$, auxiliary datum $(E',w',a',K,\llcred)$ of type $(g,n)$, homomorphism
+  $R$ adapted to it, regular character $\theta$ of $K^\times$, cuspidal representation $\tau$ of $\llcG_n$
+  with Green name $\theta$, and irreducible smooth representation $\sigma$ of $\GL_n(F)$ of class $x$ which
+  contains the inflation of $\tau$ via $i$: $N_V=0$ and $V$ has inertial form $(R,\theta)$.
+\item Let $a$ be a local Artin map. $V$ is an \emph{$a$-parameter} of $x$, written $\llcPar(a,x,V)$, if $V$ is
+  irreducible and tame, $\dim V=n(x)$, $\det_\sigma V=\omega(a(\sigma))$ for every central character $\omega$
+  of $x$ and every $\sigma\in W_A$, and $\llcTy(x,V)$.
+\end{enumerate}
+\formal{UpperTheory.Zero.LLC.TypeAt}\formal{UpperTheory.Zero.LLC.Par}
+\end{definition}
+
+The type law (L12) of \cref{def:rectexists}, in its formal version, quantifies over the same data as $\llcTy$,
+except that the auxiliary datum is not packaged and that the residue $z=\llcred(x)$ of the local Artin image $a'(t)$,
+for $t\in I_A(E')$, appears instead of an adapted homomorphism. By \ref{pf:llc:F-typeiff} below, a map $\llcrc$
+satisfies (L12) if and only if $\llcTy(x,\llcrc(x))$ for every $x$.
+
+\begin{definition}[Cuspidal laws]\label{pf:llc:def-cuspt}
+Let $a$ be a local Artin map. A map $r\colon\llcIrr(F)\to\llcWD_A$ satisfies the \emph{cuspidal laws}
+$\llcCT(a,r)$ if, for all $x,y\in\llcIrr(F)$, smooth characters $\chi$ of $F^\times$ and $s\in\R$:
+\begin{enumerate}[label=(C\arabic*),leftmargin=3em]
+\item\label{pf:llc:C-irr} if $x$ is cuspidal, $r(x)$ is irreducible and $\dim r(x)=n(x)$;
+\item\label{pf:llc:C-one} $r(\chi)=\langle\chi\circ a\rangle$;
+\item\label{pf:llc:C-nu} if $x$ is cuspidal, $r(x\nu^s)=r(x)(s)$;
+\item\label{pf:llc:C-abs} if $x$ is cuspidal, $|\det_\sigma r(x)|=|\omega_x(a(\sigma))|$ for all $\sigma\in W_A$;
+\item\label{pf:llc:C-tw} if $x$ is cuspidal and satisfies \llcGo{}, $r(x\otimes\chi)=r(x)\otimes(\chi\circ a)$
+  and $\det_\sigma r(x)=\omega_x(a(\sigma))$ for all $\sigma\in W_A$;
+\item\label{pf:llc:C-dual} if $x$ and $y$ are cuspidal, $x$ satisfies \llcGo{} and $y=x^\vee$, then
+  $r(y)=r(x)^\vee$;
+\item\label{pf:llc:C-inj} if $x$ and $y$ are cuspidal, $y$ satisfies \llcGo{} and $r(x)=r(y)$, then $x=y$;
+\item\label{pf:llc:C-depth} if $x$ is cuspidal of depth zero and satisfies \llcGo{}, $r(x)$ is tame;
+\item\label{pf:llc:C-type} if $x$ is cuspidal, $\llcTy(x,r(x))$.
+\end{enumerate}
+\formallabel{UpperTheory.Zero.LLC.CuspT}
+\end{definition}
+
+(In the formal definition, \ref{pf:llc:C-abs} and the second half of \ref{pf:llc:C-tw} are stated for every
+central character of $x$; by \ref{pf:llc:F-cl} there is only one.)
+
+\begin{definition}[Langlands extension]\label{pf:llc:def-lext}
+For maps $r,\llcrc\colon\llcIrr(F)\to\llcWD_A$, $\llcrc$ is a \emph{Langlands extension} of $r$ if
+$\llcrc(x)=\llcseg_r(l)$ for every list $l$ of segments and every $x$ with $x=L(l)$.
+\formallabel{GlobalTheory.LocLanglands.IsLExt}
+\end{definition}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Results used}\label{pf:llc:sec-used}
+
+The following results are proved elsewhere in Part~II; we state them in the form in which they are
+used. In \ref{pf:llc:F-cl} and \ref{pf:llc:F-goodseg}, $k$ is an arbitrary non-archimedean local field of
+characteristic zero (in the application $k=F$), and the notions above are used for $k$ in place of $F$.
+\begin{enumerate}[label=(F\arabic*),leftmargin=3em]
+\item\label{pf:llc:F-artex} (\lref{UpperTheory.Zero.LLC.artEx}) There is exactly one local Artin map
+  $a\colon W_A\to F^\times$.
+\item\label{pf:llc:F-cl} (\lref{UpperTheory.Zero.LLC.clBasic}) Let $y\in\llcIrr(k)$. Then $y$ has
+  exactly one central character $\omega_y$, and it is smooth. For smooth characters $\chi,\chi'$:
+  $n(y\otimes\chi)=n(y)$; $y\otimes\chi$ is cuspidal if and only if $y$ is; $y\otimes\chi$ satisfies \llcGo{}
+  if and only if $y$ does; $(y\otimes\chi)\otimes\chi'=y\otimes\chi\chi'$; $y\otimes1=y$; and
+  $\omega_{y\otimes\chi}=\omega_y\chi^{n(y)}$. If $y$ is cuspidal then $n(y)>0$; if $n(y)=1$ then $y$ is
+  cuspidal and is the class of a smooth character. The contragredient $y^\vee$ exists and is unique;
+  $n(y^\vee)=n(y)$; $y^\vee$ is cuspidal, resp.\ of depth zero, resp.\ satisfies \llcGo{}, if and only if
+  $y$ is, resp.\ has, resp.\ does; $(y\otimes\chi)^\vee=y^\vee\otimes\chi^{-1}$; and
+  $\omega_{y^\vee}=\omega_y^{-1}$.
+\item\label{pf:llc:F-wd} (\lref{UpperTheory.Zero.LLC.wDBasic}) Let $V\in\llcWD_A$. Then
+  $\sigma\mapsto\det_\sigma V$ is a character of $W_A$; two characters of $W_A$ which agree at one element of
+  degree~$1$ and on $I_A$ are equal; $W_A$ contains elements of degree~$1$. If $V$ is irreducible then
+  $N_V=0$, $\dim V>0$ and $V^\vee$ is irreducible; if $V$ is tame so is $V^\vee$; $\dim V^\vee=\dim V$ and
+  $\det_\sigma V^\vee=(\det_\sigma V)^{-1}$. If $t\in I_A$ and $P_t(V)=\prod_{z\in M}(X-z)$ for a multiset $M$
+  of nonzero complex numbers, then $\det_tV=\prod_{z\in M}z$, $P_t(V^\vee)=\prod_{z\in M}(X-z^{-1})$ and
+  $P_t(V\otimes\xi)=\prod_{z\in M}(X-z\xi(t))$ for every smooth character $\xi$. For smooth characters
+  $\xi,\xi'$ of $W_A$: $\dim V\otimes\xi=\dim V$; $V\otimes\xi$ is irreducible if $V$ is;
+  $\det_\sigma(V\otimes\xi)=\det_\sigma(V)\,\xi(\sigma)^{\dim V}$; $(V\otimes\xi)\otimes\xi'=V\otimes\xi\xi'$;
+  $V\otimes1=V$; $(V\otimes\xi)^\vee=V^\vee\otimes\xi^{-1}$; $V\otimes\xi$ is tame if $V$ is tame and $\xi$ is
+  trivial on $P_A$; and if $\dim V>0$ and $V$, $V\otimes\xi$ are both tame, then $\xi$ is trivial on $P_A$.
+\item\label{pf:llc:F-goodseg} (\lref{UpperTheory.Zero.LLC.goodSeg}) If $x=L(l)$ for a list $l$ of
+  segments, then $x$ is good if and only if every $\rho_\Delta$, $\Delta\in l$, satisfies \llcGo{}; a cuspidal
+  $x$ is good if and only if it satisfies \llcGo{}; and any two supercuspidal supports of an
+  $x\in\llcIrr(k)$ are equal.
+\item\label{pf:llc:F-typeiff} (\lref{UpperTheory.Zero.LLC.typeIff}) A map
+  $\llcrc\colon\llcIrr(F)\to\llcWD_A$ satisfies the type law (L12) if and only if $\llcTy(x,\llcrc(x))$ for
+  every $x\in\llcIrr(F)$.
+\item\label{pf:llc:F-typeex} (\lref{UpperTheory.Zero.LLC.typeEx}) Let $i\colon\Q_g\to F$ be a continuous
+  ring isomorphism, $n\ge1$ and $\sigma$ an irreducible smooth representation of $\GL_n(F)$. If the class of
+  $\sigma$ is cuspidal of depth zero, $\sigma$ contains the inflation via $i$ of a cuspidal representation of
+  $\llcG_n$. If $\sigma'\cong\sigma$, and $\sigma$, $\sigma'$ contain the inflations via $i$ of cuspidal
+  representations $\tau$, $\tau'$ respectively, then $\chi_{\tau'}=\chi_\tau$.
+\item\label{pf:llc:F-names} (\lref{UpperTheory.Zero.LLC.nameLaws}) Let $n\ge1$ and $K$ a field which is
+  an $\F_g$-algebra of dimension $n$. Every cuspidal representation of $\llcG_n$ has a regular Green name in
+  $K$. If $\theta,\theta'$ are regular Green names of the same $\tau$ then $\theta'=\theta^{g^j}$ for some
+  $0\le j<n$. If $\tau,\tau'$ are cuspidal, $\theta$ is regular, $\theta$ is a Green name of $\tau$ and
+  $\theta^{g^j}$ one of $\tau'$, then $\chi_{\tau'}=\chi_\tau$. If $e\colon K\to K'$ is an isomorphism of fields
+  and $\theta'$ is a Green name of $\tau$ in $K'$ (resp.\ regular), then so is $\theta'\circ e$ in $K$.
+  (These are consequences of Green's theorem, \cref{thm:literature:green}, and of \ref{pf:llc:F-pin}.)
+\item\label{pf:llc:F-pin} (\lref{UpperTheory.Zero.LLC.pin}) With $K$ as in \ref{pf:llc:F-names}, for
+  every regular character $\theta$ of $K^\times$ there is $z\in K^\times$ whose minimal polynomial over $\F_g$
+  has degree $n$ and $\sum_{j=0}^{n-1}\theta(z^{g^j})\ne0$.
+\item\label{pf:llc:F-tameuniq} (\lref{UpperTheory.Zero.LLC.tameUniq}) Let $R$ be a tame system of type
+  $(g,n)$ with values in $K^\times$, $\theta$ a regular character of $K^\times$ and $V\in\llcWD_A$ of inertial
+  form $(R,\theta)$. Then $V$ has inertial form $(R,\theta^{g^j})$ for every $j\ge0$; if $V$ has inertial form
+  $(R,\theta')$ then $\theta'=\theta^{g^j}$ for some $j<n$; and if $V$, $V'$ are irreducible and tame, $V'$ has
+  inertial form $(R,\theta)$ and $\det_\sigma V=\det_\sigma V'$ for all $\sigma$, then $V'=V$.
+\item\label{pf:llc:F-extex} (\lref{UpperTheory.Zero.LLC.extEx},
+  \lref{UpperTheory.Zero.LLC.resEx}) If $F\cong\Q_g$ and $n\ge1$, there is an auxiliary datum of
+  type $(g,n)$; for every such datum there is a homomorphism adapted to it; and every homomorphism adapted
+  to it is a tame system of type $(g,n)$.
+\item\label{pf:llc:F-twtame} (\lref{UpperTheory.Zero.LLC.twTame}) If $y\in\llcIrr(k)$ has depth zero
+  and $n(y)>0$, and $\chi$ is smooth, then $y\otimes\chi$ has depth zero if and only if $\chi$ is tame.
+\item\label{pf:llc:F-paruniq} (\lref{UpperTheory.Zero.LLC.parUniq}) Assume $F\cong\Q_g$, let $a$ be a
+  local Artin map and $y$ cuspidal of depth zero with $\llcPar(a,y,V)$. Then $\llcPar(a,y,V')$ implies
+  $V'=V$, and $\llcPar(a,y',V)$ with $y'$ cuspidal of depth zero implies $y'=y$.
+\item\label{pf:llc:F-tamerec} (\lref{UpperTheory.Zero.LLC.tameRecAll}) Let $M\subset\Omega$ be a number
+  field, $v$ a prime of $\OO_M$ with $A$ above $v$, $g$ a prime with $g\in v$, $g\notin v^2$, $a_v$ a local
+  Artin map for $(M,v,A)$, and $\varpi\in\Omega$ with $\varpi^{\Nm v-1}=g$. If $t\in I_A(M)$ and $x\in\OO_M$
+  satisfy $|a_v(t)-x|_v<1$, then $t(\varpi)/\varpi\equiv x\pmod{\llcm_A}$.
+\item\label{pf:llc:F-artine} (\lref{DiscreteGroups.sglob.DzType.val_artin_ine},
+  \lref{DiscreteGroups.sglob.DzType.exists_ine_of_v_eq_one},
+  \lref{PositivityTheory.LocalParametersCuspidal.DZC.wild_to_unitsOne}) For a local Artin map $a$:
+  $a(I_A)=\OO_F^\times$, and $a(\sigma)\in1+\llcp_F$ for every wild $\sigma$. The same holds for every number
+  field $M\subset\Omega$, place $v$ of $M$ below $A$ and local Artin map for $(M,v,A)$.
+\item\label{pf:llc:F-wildfrob} (\lref{DiscreteGroups.sglob.DzType.isWild_frob}) If $\varphi$ is a
+  Frobenius element and $s\in I_A$, then $\varphi s\varphi^{-1}s^{-q}$ is wild.
+\item\label{pf:llc:F-inelift} (\lref{DiscreteGroups.sglob.DzType.ine_lift}) If $E\subset E'\subset\Omega$
+  is a number field and $w'$ a prime of $\OO_{E'}$ with $A$ above $w'$, $\Nm w'=g^n$ ($n\ge1$) and
+  $g\notin w'^2$, then every element of $I_A$ fixes $E'$ pointwise, hence lies in $I_A(E')$.
+\item\label{pf:llc:F-transport} (\lref{GlobalTheory.LocLanglands.isLocalArtin_transport}) Let $M\subset\Omega$
+  be a number field, $v$ the prime of $M$ below $A$, and $a_v$ a local Artin map for $(M,v,A)$. Let $\varphi\in
+  D_A$ with $\varphi(M)=M$, let $s=\varphi|_M$, and let $\iota$ be a continuous ring automorphism of $M_v$ with
+  $\iota(x)=s(x)$ for $x\in M$. If $t,t'\in W_A(M)$ and $t'=\varphi t\varphi^{-1}$, then $a_v(t')=\iota(a_v(t))$.
+  (Its proof uses global Artin reciprocity and Chevalley's theorem \cite{Chevalley1951}.)
+\item\label{pf:llc:F-tamechar} (\lref{PositivityTheory.LocalParametersCuspidal.DZC.tame_lpOfChar_iff},
+  \lref{GlobalTheory.T.isTameWeilDeligne_iff_wild_charpoly}) $\langle\xi\rangle$ is tame if and only if
+  $\xi$ is trivial on $P_A$; and $V\in\llcWD_A$ is tame if and only if $P_\sigma(V)=(X-1)^{\dim V}$ for every
+  wild $\sigma$.
+\item\label{pf:llc:F-sp} (\lref{GlobalTheory.WeilDeligne.charPol_lpTw_lpChar_lpSp}) For $V\in\llcWD_A$:
+  $V(0)\otimes\llcSp(1)=V$, and $P_\sigma\bigl(V(\tfrac{\ell-1}2)\otimes\llcSp(\ell)\bigr)=
+  \prod_{j=0}^{\ell-1}P_\sigma(V(j))$ for $\ell\ge0$ and $\sigma\in W_A$.
+\item\label{pf:llc:F-cancel} (\lref{GlobalTheory.WeilDeligne.WD.lpSum_cancel_right}) If $V\oplus U=V'\oplus U$
+  in $\llcWD_A$, then $V=V'$.
+\item\label{pf:llc:F-msupp} (\lref{GlobalTheory.LocGL.hasSupport_msupp_of_isL}) If $x=L(\llcm)$, the
+  multiset of all terms of all segments of $\llcm$ is a supercuspidal support of $x$.
+\item\label{pf:llc:F-single} (\lref{GlobalTheory.LocGL.single_spec}) If $\rho$ is cuspidal, then
+  $\rho=L(\{\Delta\})$ for the segment $\Delta$ with $\rho_\Delta=\rho$ and $\ell_\Delta=1$.
+\item\label{pf:llc:F-unip} (\lref{DiscreteGroups.sglob.DzLc.sum_unip_eq_zero}) If $\tau$ is a cuspidal
+  representation of $\llcG_n$ and $0<a<n$, then $\sum_{u\in U_a}\tau(u)=0$.
+\item\label{pf:llc:F-perm} (\lref{DiscreteGroups.sglob.DzLc.exists_perm_conj}) If $U\neq1$ is the
+  unipotent radical of the parabolic subgroup of $\GL_n(F)$ attached to a block decomposition of
+  $\{1,\dots,n\}$, there are $Q\in\GL_n(F)$ and $0<a<n$ with $QU_a(F)Q^{-1}\subset U$, where $U_a(F)$ is defined as
+  $U_a$ with $F$ in place of $\F_g$.
+\item\label{pf:llc:F-iwasawa} (\lref{GroundTheory.Automorphic.Iwasawa.exists_blockUpper_mul_integralGL})
+  Every element of $\GL_n(F)$ is a product $pk$ with $p$ block upper triangular for the blocks $(a,n-a)$ and
+  $k\in\GL_n(\OO_F)$.
+\item\label{pf:llc:F-compl} (\lref{GlobalTheory.LocGL.isCompl_fixed_twKer}) If $\pi$ is a smooth
+  representation of a topological group and $H$ a compact subgroup, then $\pi$ is the direct sum of the
+  $H$-invariants and the span of the vectors $\pi(h)v-v$, $h\in H$.
+\end{enumerate}
+
+We also use the following classical results on representations of $\GL_n$ over a $p$-adic field, all of
+which are proved in the formal development (they are labelled there as published results).
+
+\begin{littheorem}[{\cite{BernsteinZelevinsky1977,Zelevinsky1980,Rodier1982,MoyPrasad1996}}]\label{pf:llc:lit}
+Let $k$ be a non-archimedean local field of characteristic zero.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:llc:lit-exh} Every $x\in\llcIrr(k)$ is $L(\llcm)$ for some multiset $\llcm$ of segments.
+\item\label{pf:llc:lit-multi} If $x=L(\llcm)$ and $x=L(\llcm')$ then $\llcm=\llcm'$. If $x_0=L(\llcm)$, $x_1=L(\llcm')$
+  and $y=L(\llcm+\llcm')$, then $\pi_y$ is a subquotient of $x_0\times x_1$.
+\item\label{pf:llc:lit-dual} Every multiset of segments is the Langlands datum of some $x\in\llcIrr(k)$. If
+  $x=L(l)$ for a list $l=(\Delta_1,\dots,\Delta_r)$ and $y=x^\vee$, then $y=L(l')$ for a list
+  $l'=(\Delta'_1,\dots,\Delta'_r)$ with $\ell_{\Delta'_i}=\ell_{\Delta_i}$ and
+  $\rho_{\Delta'_i}=(\rho_{\Delta_i}\nu^{\ell_{\Delta_i}-1})^\vee$.
+\item\label{pf:llc:lit-dzs} If $x$ has depth zero, every member of a supercuspidal support of $x$ has depth
+  zero.
+\end{enumerate}
+\formal{UpperTheory.Zero.LLC.Pr.exh}\formal{UpperTheory.Zero.LLC.Pr.multi}\formallabel{UpperTheory.Zero.LLC.Pr.dual}
+\formal{UpperTheory.Zero.LLC.Pr.dzs}
+\end{littheorem}
+
+Parts \ref{pf:llc:lit-exh}, \ref{pf:llc:lit-multi} are the Langlands classification of $\llcIrr(k)$ by
+multisegments \cite{Zelevinsky1980,Rodier1982}, part \ref{pf:llc:lit-dual} is the description of
+contragredients of Langlands quotients (a consequence of
+\cite{BernsteinZelevinsky1977,Zelevinsky1980}; the development derives it from the irreducibility of the
+cosocle of standard modules), and part \ref{pf:llc:lit-dzs} is the depth-zero support theorem of Moy and
+Prasad \cite{MoyPrasad1994,MoyPrasad1996}. Finally, \ref{pf:llc:F-msupp} rests on Zelevinsky's theorem
+that the Grothendieck ring of finite-length representations is the polynomial ring on the segments
+\cite{Zelevinsky1980}.
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Characters and auxiliary unramified fields}\label{pf:llc:sec-chars}
+
+In this subsection $a$ denotes a local Artin map. We first record two elementary facts on $p$-adic
+fields and on auxiliary data.
+
+\begin{lemma}[Uniqueness of the $p$-adic structure]\label{pf:llc:isouniq}
+Let $k$ be a non-archimedean local field of characteristic zero, and $i\colon\Q_g\to k$,
+$i'\colon\Q_{g'}\to k$ continuous ring isomorphisms ($g,g'$ primes). Then $g=g'$, and every continuous ring
+isomorphism $\Q_g\to k$ equals $i$. \formallabel{UpperTheory.Zero.LLC.isoUniq}
+\end{lemma}
+
+\begin{proof}
+Since $g^m\to0$ in $\Q_g$ and $i$ is continuous, $i(g)^m=g^m\to0$ in $k$, so $g$ lies in the maximal ideal
+of the valuation ring of $k$; likewise $g'$. If $g\ne g'$, write $1=gb+g'b'$ with $b,b'\in\Z$; then $1$
+would lie in the maximal ideal. Hence $g=g'$. Two continuous ring homomorphisms $\Q_g\to k$ agree on the
+dense subfield $\Q$, hence are equal.
+\end{proof}
+
+\begin{lemma}[Norms of adapted characters]\label{pf:llc:resbase}
+Let $i\colon\Q_g\to F$ be a continuous ring isomorphism, $n\ge1$, $(E',w',a',K,\llcred)$ an auxiliary datum of
+type $(g,n)$ and $R$ adapted to it. For every $t\in I_A$ there is $u\in\Z_g^\times$ with $a(t)=i(u)$ and
+\[
+  \bar u=\prod_{j=0}^{n-1}R(t)^{g^j}\quad\text{in }K,
+\]
+where $\bar u\in\F_g\subset K$ is the reduction of $u$. \formallabel{UpperTheory.Zero.LLC.resBase}
+\end{lemma}
+
+\begin{proof}
+Since $F\cong\Q_g$ we have $q=g$, $g\in w$ and $g\notin w^2$
+(\lref{DiscreteGroups.sglob.DzType.normV_eq_of_padic},
+\lref{DiscreteGroups.sglob.DzType.g_not_mem_sq}), and $g\in w'$ as $\Nm w'=g^n$. Let $t\in I_A$. By
+\ref{pf:llc:F-inelift}, $t\in I_A(E')$, and $|a'(t)|_{w'}=1$ by \ref{pf:llc:F-artine}; choose
+$x'\in\OO_{E'}$ with $|a'(t)-x'|_{w'}<1$. Then $R(t)=\llcred(x')$, as $R$ is adapted. Since $|a(t)|=1$ and $i$
+maps $\Z_g^\times$ onto $\OO_F^\times$, $a(t)=i(u)$ for some $u\in\Z_g^\times$; choose $a_0\in\Z$ with $a_0\equiv
+u\pmod g$, so that $|a(t)-a_0|<1$.
+
+Let $\varpi\in\Omega$ with $\varpi^{g^n-1}=g$ and put $e=(g^n-1)/(g-1)=\sum_{j<n}g^j$. Then
+$(\varpi^e)^{q-1}=g$, so \ref{pf:llc:F-tamerec} for $(E,w,a)$ and $\varpi^e$ gives
+$t(\varpi^e)/\varpi^e\equiv a_0\pmod{\llcm_A}$, and \ref{pf:llc:F-tamerec} for $(E',w',a')$ and $\varpi$ gives
+$t(\varpi)/\varpi\equiv x'\pmod{\llcm_A}$. As $t(\varpi^e)/\varpi^e=(t(\varpi)/\varpi)^e$ and both $t(\varpi)/\varpi$
+(a unit of $A$, since $t\in D_A$) and $x'$ lie in $A$, we get $a_0\equiv x'^e\pmod{\llcm_A}$. Hence
+$a_0-x'^e\in\OO_{E'}\cap\llcm_A=w'$, that is, $\llcred(x')^e=a_0=\bar u$ in $K$. Finally
+$\prod_{j<n}R(t)^{g^j}=R(t)^e=\llcred(x')^e$.
+\end{proof}
+
+\begin{lemma}[Independence of the auxiliary datum]\label{pf:llc:resindep}
+Assume $F\cong\Q_g$ and let $n\ge1$. Let $(E',w',a',K,\llcred)$ and $(E'',w'',a'',K',\llcred')$ be auxiliary
+data of type $(g,n)$, and $R$, $R'$ homomorphisms adapted to them. There is a field isomorphism
+$e\colon K\to K'$ with $R'(t)=e(R(t))$ for all $t\in I_A$. \formallabel{UpperTheory.Zero.LLC.resIndep}
+\end{lemma}
+
+\begin{proof}
+Let $k_A$ be the residue field of $A$ and $x\mapsto\bar x$ the reduction $A\to k_A$. The ring $\OO_{E'}$ lies in
+$A$ (it consists of integral elements) and $\OO_{E'}\cap\llcm_A=w'=\ker\llcred$, so there is a field embedding
+$\iota\colon K\to k_A$ with $\iota(\llcred(x))=\bar x$ for $x\in\OO_{E'}$; likewise $\iota'\colon K'\to k_A$. The
+fields $K$, $K'$ have $\Nm w'=\Nm w''=g^n$ elements, so $\iota(K)$ and $\iota'(K')$ are both contained in the set
+of roots of $X^{g^n}-X$ in $k_A$, which has at most $g^n$ elements; hence $\iota(K)=\iota'(K')$, and
+$e=\iota'^{-1}\circ\iota$ is a field isomorphism $K\to K'$. Let $t\in I_A$ and choose $\varpi\in\Omega$ with
+$\varpi^{g^n-1}=g$. By \ref{pf:llc:F-inelift}, $t$ lies in $I_A(E')$ and in $I_A(E'')$; choose $x\in\OO_{E'}$,
+$y\in\OO_{E''}$ with $|a'(t)-x|_{w'}<1$ and $|a''(t)-y|_{w''}<1$, so that $R(t)=\llcred(x)$ and $R'(t)=\llcred'(y)$.
+By \ref{pf:llc:F-tamerec} (applied twice; note $g\in w'$, $g\in w''$ and $\Nm w'=\Nm w''=g^n$),
+$x\equiv t(\varpi)/\varpi\equiv y\pmod{\llcm_A}$. Hence $\iota(R(t))=\bar x=\bar y=\iota'(R'(t))$, that is,
+$R'(t)=e(R(t))$.
+\end{proof}
+
+\begin{lemma}[Characters trivial on wild inertia]\label{pf:llc:reschar}
+Let $M\subset\Omega$ be a number field, $v$ a prime of $\OO_M$ with $A$ above $v$ and $\Nm v=g^n$ ($g$ prime,
+$n\ge1$), $a_v$ a local Artin map for $(M,v,A)$, and $\llcred\colon\OO_M\to K$ a surjective ring
+homomorphism onto a field with kernel $v$. Let $\eta$ be a smooth character of $W_A(M)$ with
+$\eta(t)^{g^n-1}=1$ for all $t\in I_A(M)$. There is a character $\xi$ of $K^\times$ such that
+$\xi(\llcred(x))=\eta(t)$ whenever $t\in I_A(M)$, $x\in\OO_M$ and $|a_v(t)-x|_v<1$.
+\formallabel{DiscreteGroups.sglob.DzType.exists_resChar}
+\end{lemma}
+
+\begin{proof}
+Write $\eta=\chi\circ a_v$ with $\chi$ a smooth character of $M_v^\times$. By \ref{pf:llc:F-artine} every unit of
+$M_v$ is $a_v(t)$ for some $t\in I_A(M)$, so $\chi(u)^{g^n-1}=1$ for all units $u$. The group $U^1=1+\llcp_v$ is a
+$\Z_g$-module extending its structure of $\Z$-module (\lref{GroundTheory.LocalField.natCast_smul};
+see \cite[Ch.~II, \S5]{Neukirch1999}), and $g^n-1\in\Z_g^\times$, so every $u\in U^1$ is $y^{g^n-1}$ for some
+$y\in U^1$, and $\chi(u)=\chi(y)^{g^n-1}=1$. Hence $\chi(u_1)=\chi(u_2)$ for units $u_1\equiv u_2\pmod{\llcp_v}$.
+For $z\in K^\times$ choose $x_z\in\OO_M$ with $\llcred(x_z)=z$; it is a unit of $M_v$, and $\xi(z)=\chi(x_z)$ does not
+depend on the choice and is multiplicative, since $x_zx_{z'}\equiv x_{zz'}\pmod v$. If $|a_v(t)-x|_v<1$ and
+$z=\llcred(x)$, then $a_v(t)\equiv x\equiv x_z\pmod{\llcp_v}$, so $\xi(z)=\chi(a_v(t))=\eta(t)$.
+\end{proof}
+
+\begin{lemma}[Tame characters]\label{pf:llc:tameart}
+A smooth character $\chi$ of $F^\times$ is tame if and only if $\chi(a(\sigma))=1$ for every wild
+$\sigma\in W_A$. \formallabel{UpperTheory.Zero.LLC.tameArt}
+\end{lemma}
+
+\begin{proof}
+If $\chi$ is tame, $\chi(a(\sigma))=1$ for wild $\sigma$ by \ref{pf:llc:F-artine}. Conversely, assume that
+$\eta=\chi\circ a$ is trivial on $P_A$; it is a smooth character of $W_A$, as $a$ is continuous on $I_A$. Let
+$\varphi\in W_A$ be a Frobenius element and $t\in I_A$. By \ref{pf:llc:F-wildfrob},
+$\eta(\varphi t\varphi^{-1}t^{-q})=1$; as $\eta$ takes values in an abelian group,
+$\eta(\varphi t\varphi^{-1})=\eta(t)$, so $\eta(t)^{q-1}=1$. Write $q=p^m$ with $p$ the residue characteristic
+and apply \cref{pf:llc:reschar} with $M=E$, $v=w$ and $\llcred\colon\OO_E\to\OO_E/w$: there is $\xi$ with
+$\chi(a(t))=\xi(\llcred(x))$ whenever $|a(t)-x|<1$. Let $u\in1+\llcp_F$. By \ref{pf:llc:F-artine},
+$u=a(t)$ for some $t\in I_A$, and $|a(t)-1|<1$, so $\chi(u)=\xi(1)=1$.
+\end{proof}
+
+\begin{lemma}[Characters]\label{pf:llc:parone}
+Let $\chi$, $\chi'$ be smooth characters of $F^\times$.
+\begin{enumerate}[label=(\alph*)]
+\item $\langle\chi\circ a\rangle$ is irreducible of dimension $1$, $\det_\sigma\langle\chi\circ a\rangle=\chi(a(\sigma))$,
+  and $\chi$ is the central character of the class $\chi\in\llcIrr(F)$.
+\item The class $\chi$ has depth zero if and only if $\chi$ is tame; if $\chi$ is tame then
+  $\llcPar(a,\chi,\langle\chi\circ a\rangle)$.
+\item $\chi\otimes\chi'=\chi\chi'$ in $\llcIrr(F)$, and $\langle\chi\circ a\rangle\otimes(\chi'\circ a)=\langle\chi\chi'\circ
+  a\rangle$.
+\item $\chi^\vee=\chi^{-1}$ in $\llcIrr(F)$, and $\langle\chi\circ a\rangle^\vee=\langle\chi^{-1}\circ a\rangle$.
+\item If $\chi=\chi'$ in $\llcIrr(F)$, then $\chi=\chi'$.
+\end{enumerate}
+\formallabel{UpperTheory.Zero.LLC.parOne}
+\end{lemma}
+
+\begin{proof}
+(a), (c), (d) and (e) are immediate from the definitions: the scalar matrix $z\cdot1_1$ acts on $\chi\circ\det$
+by $\chi(z)$, the smooth dual of a character is its inverse
+(\lref{GlobalTheory.LocLanglands.CuspModel.dualCl_ofChar}), and a one-dimensional class is
+determined by its character.
+
+(b) The trivial character has depth zero (every vector is fixed), so by \ref{pf:llc:F-twtame} applied to
+$y=1$, the class $1\otimes\chi=\chi$ has depth zero if and only if $\chi$ is tame. Let $\chi$ be tame and
+$V=\langle\chi\circ a\rangle$. By (a), $V$ is irreducible of dimension $1=n(\chi)$ and
+$\det_\sigma V=\chi(a(\sigma))=\omega(a(\sigma))$ for the unique central character $\omega=\chi$; $V$ is tame by
+\ref{pf:llc:F-tamechar} and \cref{pf:llc:tameart}. For the type condition, let $g,i,n,(E',w',a',K,\llcred),R,
+\theta,\tau,\sigma$ be as in \cref{pf:llc:def-par}(a). Then $n=n(\chi)=1$ and $\sigma\cong\chi\circ\det$. Every
+$y\in\llcG_1=\F_g^\times$ has irreducible characteristic polynomial $X-y$ with root $y\in K$, so
+\eqref{pf:llc:eq-green} says $\chi_\tau(y)=\theta(y)$; in particular $\dim\tau=\chi_\tau(1)=1$ and $\tau(y)=\theta(y)$.
+Let $\phi\colon\tau\to\sigma$ be the nonzero map of the inflation and $t\in I_A$. By \cref{pf:llc:resbase} (with
+$n=1$), $a(t)=i(u)$ with $u\in\Z_g^\times$ and $\bar u=R(t)$. Applying the inflation property to the $1\times1$
+matrix $\kappa=u$ gives $\theta(\bar u)\phi(v)=\chi(i(u))\phi(v)$ for all $v\in\tau$, hence
+$\chi(a(t))=\theta(R(t))$, i.e.\ $P_t(V)=X-\theta(R(t))$: $V$ has inertial form $(R,\theta)$. Finally $N_V=0$, as
+$V$ is one-dimensional.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Depth-zero types}\label{pf:llc:sec-types}
+
+In this subsection $i\colon\Q_g\to F$ is a continuous ring isomorphism.
+
+\begin{lemma}[Integral structure]\label{pf:llc:integral}
+Let $n\ge1$.
+\begin{enumerate}[label=(\alph*)]
+\item The map $\kappa\mapsto i(\kappa)$ maps $\GL_n(\Z_g)$ onto $\GL_n(\OO_F)$, and $\{\kappa:\bar\kappa=1\}$ onto
+  $\llcK$.
+\item For $0<a<n$, every $u\in U_a$ is $\bar\kappa$ for some $\kappa\in\GL_n(\Z_g)$ with $i(\kappa)\in U_a(F)$.
+\item Block upper triangular matrices for the blocks $(a,n-a)$ normalise $U_a(F)$.
+\end{enumerate}
+\formallabel{DiscreteGroups.sglob.DzLc.exists_inc_eq}\formallabel{DiscreteGroups.sglob.DzIso.exists_of_mem_KOne}
+\formallabel{DiscreteGroups.sglob.DzLc.exists_lift}\formallabel{DiscreteGroups.sglob.DzLc.blockUpper_le_normalizer}
+\end{lemma}
+
+\begin{proof}
+(a) Being a continuous isomorphism of discretely valued fields, $i$ maps $\Z_g$ onto $\OO_F$ and $g\Z_g$ onto
+$\llcp_F$. Applying $i^{-1}$ entrywise to $k\in\GL_n(\OO_F)$ and to $k^{-1}$ gives $\kappa\in\GL_n(\Z_g)$ with
+$i(\kappa)=k$, and $\bar\kappa=1$ if $k\equiv1\pmod{\llcp_F}$. (b) Lift the entries of $u$ in the upper right block
+to integers and keep the other entries equal to those of the identity matrix; the resulting matrix is
+unitriangular, hence invertible over $\Z_g$. (c) is a direct computation.
+\end{proof}
+
+\begin{lemma}[Inflations have depth zero]\label{pf:llc:ldepth}
+Let $n\ge0$, $\tau$ a finite-dimensional representation of $\llcG_n$ and $\sigma$ an irreducible smooth
+representation of $\GL_n(F)$ which contains the inflation of $\tau$ via $i$. Then the class of $\sigma$ has
+depth zero. \formallabel{DiscreteGroups.sglob.DzType.lDepth}
+\end{lemma}
+
+\begin{proof}
+Let $\phi\colon\tau\to\sigma$ be as in the definition and $u\in\tau$ with $\phi(u)\ne0$. By
+\cref{pf:llc:integral}(a) every $m\in\llcK$ is $i(\kappa)$ with $\bar\kappa=1$ (for $n=0$ there is nothing to
+prove), so $\sigma(m)\phi(u)=\phi(\tau(1)u)=\phi(u)$. Thus $\phi(u)$ is a nonzero $\llcK$-fixed vector.
+\end{proof}
+
+\begin{lemma}\label{pf:llc:twker}
+Let $n\ge1$, $\tau$ a cuspidal representation of $\llcG_n$, $\sigma$ an irreducible smooth representation of
+$\GL_n(F)$ containing the inflation of $\tau$ via $i$, and $0<a<n$. Then $\sigma$ is spanned by the vectors
+$\sigma(u)v-v$, $u\in U_a(F)$, $v\in\sigma$. \formallabel{DiscreteGroups.sglob.DzLc.twKer_twoBlocks_eq_top}
+\end{lemma}
+
+\begin{proof}
+Let $T$ be the span of the vectors $\sigma(u)v-v$, $u\in U_a(F)$, and $\phi\colon\tau\to\sigma$ the map of the
+inflation. Let $u\in U_a$ and choose $\kappa$ as in \cref{pf:llc:integral}(b). Then
+$\phi(w)-\phi(\tau(u)w)=\phi(w)-\sigma(i(\kappa))\phi(w)$ lies in $T$ for all $w\in\tau$. Summing over $u\in U_a$ and
+using $\sum_{u\in U_a}\tau(u)=0$ (\ref{pf:llc:F-unip}) gives $|U_a|\,\phi(w)\in T$, so $\phi(\tau)\subset T$. Let
+$h\in\GL_n(F)$. By \ref{pf:llc:F-iwasawa}, $h=pk$ with $p$ block upper triangular for the blocks $(a,n-a)$ and
+$k\in\GL_n(\OO_F)$; write $k=i(\kappa)$ (\cref{pf:llc:integral}(a)). Then
+$\sigma(k)\phi(w)=\phi(\tau(\bar\kappa)w)\in T$, and $\sigma(p)T\subset T$ because $p$ normalises $U_a(F)$
+(\cref{pf:llc:integral}(c)). Thus $\sigma(h)\phi(w)\in T$ for all $h$ and $w$. The span of these vectors is a
+nonzero subrepresentation of the irreducible $\sigma$, hence equal to $\sigma$, and it is contained in $T$.
+\end{proof}
+
+
+\begin{proposition}[Inflations of cuspidal representations are cuspidal]\label{pf:llc:cuspinfl}
+Let $n\ge1$, $\tau$ a cuspidal representation of $\llcG_n$ and $\sigma$ an irreducible smooth representation of
+$\GL_n(F)$ which contains the inflation of $\tau$ via $i$. Then the class of $\sigma$ is cuspidal (and of
+depth zero, by \cref{pf:llc:ldepth}). \formallabel{DiscreteGroups.sglob.DzLc.isCuspidal_of_inflates}
+\end{proposition}
+
+\begin{proof}
+Let $U\ne1$ be the unipotent radical attached to a block decomposition of $\{1,\dots,n\}$. By
+\ref{pf:llc:F-perm} there are $Q\in\GL_n(F)$ and $0<a<n$ with $QU_a(F)Q^{-1}\subset U$. Let $v\in\sigma$. By
+\cref{pf:llc:twker}, $\sigma(Q^{-1})v$ is a sum of vectors $\sigma(u)v'-v'$ with $u\in U_a(F)$, so $v$ is a sum of
+vectors $\sigma(QuQ^{-1})\sigma(Q)v'-\sigma(Q)v'$, which lie in the span of the $\sigma(u')v''-v''$, $u'\in U$. Thus the
+Jacquet module of $\sigma$ along $U$ vanishes. As $n\ge1$, the class of $\sigma$ is cuspidal.
+\end{proof}
+
+\begin{lemma}[Central characters of named cuspidal representations]\label{pf:llc:namecentral}
+Let $n\ge1$, $K$ a field which is an $\F_g$-algebra of dimension $n$, $\tau$ a cuspidal representation of
+$\llcG_n$ and $\theta$ a regular Green name of $\tau$ in $K$. Then $\tau(c\cdot1_n)=\theta(c)$ for every
+$c\in\F_g^\times$ (with $\F_g\subset K$). \formallabel{UpperTheory.Zero.LLC.nameCentral}
+\end{lemma}
+
+\begin{proof}
+The character of $\tau$ is irreducible, so $\tau$ is irreducible
+(\lref{DiscreteGroups.sglob.DzType.Kon.simple_of_isIrr}), and the central element $c\cdot1_n$ acts by a
+scalar $\lambda$ (Schur's lemma). By \ref{pf:llc:F-pin} there is $z\in K^\times$ of degree $n$ over $\F_g$ with
+$S(z)=\sum_{j<n}\theta(z^{g^j})\ne0$. Fix an $\F_g$-basis of $K$ and let $y\in\llcG_n$ be the matrix of
+multiplication by $z$. Its characteristic polynomial is the minimal polynomial of $z$ (both are monic of
+degree $n$, and the first is divisible by the second), which is irreducible with root $z$. The matrix $cy$ is
+that of multiplication by $cz$, and $cz$ also has degree $n$, as $\F_g(cz)=\F_g(z)$. Since $c^{g^j}=c$,
+$S(cz)=\theta(c)S(z)$. By \eqref{pf:llc:eq-green},
+$\lambda(-1)^{n-1}S(z)=\lambda\chi_\tau(y)=\chi_\tau(cy)=(-1)^{n-1}\theta(c)S(z)$, so $\lambda=\theta(c)$.
+\end{proof}
+
+\begin{lemma}[Twists of cuspidal representations of $\llcG_n$]\label{pf:llc:twfd}
+Let $n\ge1$, $\tau$ a cuspidal representation of $\llcG_n$, $\chi_0$ a character of $\F_g^\times$ and
+$\tau'=\tau\otimes(\chi_0\circ\det)$. Let $K$ be a field which is an $\F_g$-algebra with $|K|=g^n$, and $\Nm\colon
+K^\times\to\F_g^\times$ the norm.
+\begin{enumerate}[label=(\alph*)]
+\item $\tau'$ is cuspidal.
+\item If $\theta$ is a Green name of $\tau$, then $\theta\cdot(\chi_0\circ\Nm)$ is a Green name of $\tau'$.
+\item If $\theta$ is regular, so is $\theta\cdot(\chi_0\circ\Nm)$.
+\end{enumerate}
+\formallabel{DiscreteGroups.sglob.DzTw.isCusp_twFD}\formallabel{DiscreteGroups.sglob.DzTw.char_twFD}
+\formallabel{DiscreteGroups.sglob.DzTw.isRegularChar_mul}
+\end{lemma}
+
+\begin{proof}
+We have $\chi_{\tau'}(y)=\chi_0(\det y)\chi_\tau(y)$. (a) Since $|\chi_0|=1$, $\chi_{\tau'}(y)\chi_{\tau'}(y^{-1})=
+\chi_\tau(y)\chi_\tau(y^{-1})$ for all $y$, so the norm-one criterion for irreducible characters
+\cite[\S2.3]{Serre1977} shows that $\chi_{\tau'}$ is irreducible; and elements of $U_a$ are unitriangular, of
+determinant $1$, so $\sum_{u\in U_a}\chi_{\tau'}(u)=\sum_{u\in U_a}\chi_\tau(u)=0$. (b) Let $y\in\llcG_n$ have
+irreducible characteristic polynomial $f$ and let $z\in K$ be a root of $f$. Then $f$ is the minimal polynomial of
+$z$, of degree $n$, so $K=\F_g(z)$ and $\det y=(-1)^nf(0)=\Nm(z)$. Since $\Nm(z^{g^j})=\Nm(z)^{g^j}=\Nm(z)$,
+\[
+  \chi_{\tau'}(y)=\chi_0(\Nm z)(-1)^{n-1}\sum_{j<n}\theta(z^{g^j})=(-1)^{n-1}\sum_{j<n}(\theta\cdot\chi_0\circ\Nm)(z^{g^j}).
+\]
+(c) $(\chi_0\circ\Nm)^{g^j}=\chi_0\circ\Nm$, so $(\theta\cdot\chi_0\circ\Nm)^{g^i}=(\theta\cdot\chi_0\circ\Nm)^{g^j}$
+implies $\theta^{g^i}=\theta^{g^j}$.
+\end{proof}
+
+\begin{lemma}[Contragredients of types]\label{pf:llc:typedual}
+Let $n\ge1$, $\tau$ a cuspidal representation of $\llcG_n$ and $\tau^\vee$ the dual representation.
+\begin{enumerate}[label=(\alph*)]
+\item $\tau^\vee$ is cuspidal; if $\theta$ is a Green name of $\tau$ in $K$, then $\theta^{-1}$ is a Green name of
+  $\tau^\vee$, and $\theta^{-1}$ is regular if $\theta$ is.
+\item Let $\pi$, $\sigma$ be irreducible smooth representations of $\GL_n(F)$ such that $\sigma$ is a
+  contragredient of $\pi$ and $\sigma$ contains the inflation of $\tau$ via $i$. Then $\pi$ contains the
+  inflation of $\tau^\vee$ via $i$.
+\end{enumerate}
+\formallabel{UpperTheory.Zero.LLC.ParameterDuality.isCusp_dual}
+\formallabel{UpperTheory.Zero.LLC.ParameterDuality.names_dual}
+\formallabel{UpperTheory.Zero.LLC.ParameterDuality.isRegularChar_inv}
+\formallabel{UpperTheory.Zero.LLC.ParameterDuality.inflates_dual}
+\end{lemma}
+
+\begin{proof}
+(a) We have $\chi_{\tau^\vee}(y)=\chi_\tau(y^{-1})$. Irreducibility follows from the norm-one criterion, and
+$u\mapsto u^{-1}$ permutes $U_a$, so the sums over $U_a$ vanish. If $y$ has irreducible characteristic
+polynomial $f$ with root $z$, then $f(0)\ne0$ and the characteristic polynomial of $y^{-1}$ is a unit multiple of
+the reciprocal polynomial $X^nf(1/X)$, which is irreducible with root $z^{-1}$. Hence
+$\chi_{\tau^\vee}(y)=\chi_\tau(y^{-1})=(-1)^{n-1}\sum_j\theta^{-1}(z^{g^j})$. Regularity of $\theta^{-1}$ is clear.
+
+(b) Let $\phi\colon\tau\to\sigma$ be the map of the inflation and $\beta$ an isomorphism of $\sigma$ onto the smooth
+dual of $\pi$. Put $B(u)(v)=\beta(\phi(u))(v)$ for $u\in\tau$, $v\in\pi$. Then $B\neq0$, and
+\begin{equation}\label{pf:llc:eq-binv}
+  B(\tau(\bar\kappa)u)(\pi(i(\kappa))v)=B(u)(v)\qquad(\kappa\in\GL_n(\Z_g)).
+\end{equation}
+Taking $\bar\kappa=1$ and using \cref{pf:llc:integral}(a), every linear form $B(u)$ vanishes on the span $T$ of the
+vectors $\pi(k)v-v$, $k\in\llcK$. By \ref{pf:llc:F-compl} ($\llcK$ is compact), $\pi=\pi^{\llcK}\oplus T$, so there are
+$u_0\in\tau$ and
+$v_0\in\pi^{\llcK}$ with $B(u_0)(v_0)\ne0$. Choose for every $\gamma\in\llcG_n$ some $s(\gamma)\in\GL_n(\Z_g)$ reducing to
+$\gamma$ (reduction $\GL_n(\Z_g)\to\llcG_n$ is surjective), and define $\psi\colon\tau^*\to\pi$ by
+\[
+  \psi(l)=\sum_{\gamma\in\llcG_n}l(\tau(\gamma)u_0)\,\pi(i(s(\gamma)))v_0 .
+\]
+For $\kappa\in\GL_n(\Z_g)$, the matrices $\kappa s(\gamma)$ and $s(\bar\kappa\gamma)$ have the same reduction, so
+$k=i(\kappa s(\gamma))^{-1}\,i(s(\bar\kappa\gamma))$ lies in $\llcK$ by \cref{pf:llc:integral}(a); since $v_0$ is $\llcK$-fixed,
+\[
+  \pi(i(\kappa))\,\pi(i(s(\gamma)))v_0=\pi(i(s(\bar\kappa\gamma)))v_0 .
+\]
+Substituting $\gamma\mapsto\bar\kappa\gamma$ in the sum gives $\psi(\tau^\vee(\bar\kappa)l)=\pi(i(\kappa))\psi(l)$. Suppose $\psi=0$. For
+$u\in\tau$, \eqref{pf:llc:eq-binv} gives $B(u)(\pi(i(s(\gamma)))v_0)=B(\tau(\gamma)^{-1}u)(v_0)$, so $0=B(u)(\psi(l))=l(T'u)$ for
+all $l$, where $T'=\sum_\gamma\tau(\gamma)P\tau(\gamma)^{-1}$ and $P$ is the rank-one endomorphism $u\mapsto B(u)(v_0)u_0$ of
+$\tau$. Hence $T'=0$; but $\tr T'=|\llcG_n|\tr P=|\llcG_n|\,B(u_0)(v_0)\ne0$. So $\psi\ne0$ and $\psi$ is the required map.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Induced parameters}\label{pf:llc:sec-ind}
+
+The following lemma constructs the tamely ramified (and, in \cref{pf:llc:sec-junk}, wildly ramified)
+parameters as explicit models of representations induced from the Weil group of an unramified extension.
+
+\begin{lemma}[Induced parameters]\label{pf:llc:index}
+Let $\varphi\in W_A$ with $\deg\varphi=1$, let $n\ge1$, and let $(\eta_j)_{j\in\Z}$ be homomorphisms $I_A\to\C^\times$
+such that $\ker\eta_0$ is open, $\eta_j(\varphi t\varphi^{-1})=\eta_{j+1}(t)$ for all $j\in\Z$ and $t\in I_A$, and
+$\eta_j=\eta_{j'}$ if and only if $n\mid j-j'$. For every $c\in\C^\times$ there is an irreducible $V\in\llcWD_A$ of
+dimension $n$ with $\det_\varphi V=c$ and
+\[
+  P_t(V)=\prod_{j=0}^{n-1}\bigl(X-\eta_j(t)\bigr)\qquad(t\in I_A);
+\]
+if moreover every $\eta_j$ is trivial on $P_A$, then $V$ is tame. \formallabel{UpperTheory.Zero.LLC.indEx}
+\end{lemma}
+
+\begin{proof}
+Put $b=(-1)^{n-1}c$ and let $V_b$ be the space of functions $f\colon\Z\to\C$ with $f(j+n)=bf(j)$ for all $j$. Then
+$f(j+mn)=b^mf(j)$ for $m\in\Z$, and restriction to $\{0,\dots,n-1\}$ is an isomorphism $V_b\cong\C^n$; let
+$e_0,\dots,e_{n-1}$ be the corresponding basis. Iterating the hypothesis gives
+\begin{equation}\label{pf:llc:eq-etacj}
+  \eta_{j+m}(t)=\eta_j(\varphi^mt\varphi^{-m})\qquad(j,m\in\Z,\ t\in I_A).
+\end{equation}
+For $\sigma\in W_A$ put $\tau(\sigma)=\varphi^{-\deg\sigma}\sigma\in I_A$ and define
+\[
+  (\rho(\sigma)f)(j)=\eta_{j+\deg\sigma}(\tau(\sigma))\,f(j+\deg\sigma).
+\]
+Since $\eta_{j+n}=\eta_j$, $\rho(\sigma)$ preserves $V_b$. For $\sigma,\sigma'\in W_A$ with $d=\deg\sigma$, $d'=\deg\sigma'$ we
+have $\tau(\sigma\sigma')=(\varphi^{-d'}\tau(\sigma)\varphi^{d'})\,\tau(\sigma')$, so by \eqref{pf:llc:eq-etacj}
+\[
+  \eta_{j+d+d'}(\tau(\sigma\sigma'))=\eta_{j+d}(\tau(\sigma))\,\eta_{j+d+d'}(\tau(\sigma')),
+\]
+which says $\rho(\sigma\sigma')=\rho(\sigma)\rho(\sigma')$; clearly $\rho(1)=1$. For $t\in I_A$ and $m\in\Z$,
+\begin{equation}\label{pf:llc:eq-rho}
+  (\rho(t)f)(j)=\eta_j(t)f(j),\qquad(\rho(\varphi^m)f)(j)=f(j+m).
+\end{equation}
+
+\emph{Smoothness.} By \eqref{pf:llc:eq-etacj}, $\ker\eta_j$ is the preimage of $\ker\eta_0$ under the continuous map
+$t\mapsto\varphi^jt\varphi^{-j}$, hence open; and $\rho(t)=1$ on the open subgroup $\bigcap_{j<n}\ker\eta_j$, since
+$\eta_j$ only depends on $j$ modulo $n$.
+
+\emph{Semisimplicity.} Let $\sigma\in W_A$ and write $\sigma^n=\varphi^{n\deg\sigma}t'$ with $t'\in I_A$. By
+\eqref{pf:llc:eq-rho}, $\rho(\varphi^{n\deg\sigma})$ is multiplication by $b^{\deg\sigma}$. The kernel of $\rho$ on $I_A$
+is open, hence of finite index in the compact group $I_A$, so $\rho(t')^m=1$ for some $m\ge1$. Hence
+$\rho(\sigma)^{nm}=b^{m\deg\sigma}$, and $\rho(\sigma)$ is annihilated by the separable polynomial
+$X^{nm}-b^{m\deg\sigma}$ ($b\ne0$), so it is semisimple. Thus $(\rho,0)$ is a Weil--Deligne representation;
+let $V$ be its class, of dimension $n$.
+
+\emph{Determinant and inertia.} By \eqref{pf:llc:eq-rho}, $\rho(\varphi)e_i=e_{i-1}$ for $1\le i<n$ and
+$\rho(\varphi)e_0=be_{n-1}$; this is an $n$-cycle times $\mathrm{diag}(b,1,\dots,1)$, so $\det_\varphi
+V=(-1)^{n-1}b=c$. Also $\rho(t)$ is diagonal with entries $\eta_0(t),\dots,\eta_{n-1}(t)$, which gives $P_t(V)$; and if
+all $\eta_j$ are trivial on $P_A$ then $\rho(t)=1$ for wild $t$.
+
+\emph{Irreducibility.} Let $U\neq0$ be a $\rho$-stable subspace, $u\in U$ and $0\le i<n$ with $u(i)\ne0$. For
+$0\le k<n$, the vector $u'=\rho(\varphi^{i-k})u\in U$ satisfies $u'(k)=u(i)\ne0$. The characters $\eta_0,\dots,\eta_{n-1}$
+of $I_A$ are pairwise distinct. If $u'$ has a nonzero coordinate $u'(k')$ with $k'\ne k$, choose $t$ with
+$\eta_k(t)\neq\eta_{k'}(t)$; then $\rho(t)u'-\eta_{k'}(t)u'\in U$ has nonzero $k$-th coordinate and fewer nonzero
+coordinates than $u'$. By induction on the number of nonzero coordinates, $e_k\in U$. Hence $U=V_b$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Parameters of depth-zero cuspidal representations}\label{pf:llc:sec-par}
+
+In this subsection $a$ is a local Artin map.
+
+\begin{proposition}[Existence of parameters]\label{pf:llc:parex}
+Assume $F\cong\Q_g$. Every cuspidal $y\in\llcIrr(F)$ of depth zero has an $a$-parameter.
+\formallabel{UpperTheory.Zero.LLC.parEx}
+\end{proposition}
+
+\begin{proof}
+Let $i\colon\Q_g\to F$ be a continuous ring isomorphism, $n=n(y)\ge1$, $\omega=\omega_y$, $\sigma$ a representative of
+$y$, and $\varphi\in W_A$ of degree $1$ (\ref{pf:llc:F-wd}). By \ref{pf:llc:F-typeex}, $\sigma$ contains, via a map
+$\phi$, the inflation via $i$ of a cuspidal representation $\tau$ of $\llcG_n$. By \ref{pf:llc:F-extex} there are an
+auxiliary datum $(E',w',a',K,\llcred)$ of type $(g,n)$ and a homomorphism $R$ adapted to it, which is a tame system;
+thus $|K|=g^n$. By \ref{pf:llc:F-names}, $\tau$ has a regular Green name $\theta$ in $K$. For $j\in\Z$ let
+$r(j)\in\{0,\dots,n-1\}$ be the residue of $j$ modulo $n$ and $\eta_j=\theta^{g^{r(j)}}\circ R$. We check the
+hypotheses of \cref{pf:llc:index}. First, $\ker\eta_0\supset\ker R$ is open. Second, $R(\varphi t\varphi^{-1})=R(t)^g$, so
+$\eta_j(\varphi t\varphi^{-1})=\theta(R(t))^{g^{r(j)+1}}=\eta_{j+1}(t)$, because $x^{g^n}=x$ on $K^\times$. Third, if
+$\eta_j=\eta_{j'}$ then, $R$ being surjective, $\theta^{g^{r(j)}}=\theta^{g^{r(j')}}$, so $r(j)=r(j')$ by regularity;
+the converse is clear. \Cref{pf:llc:index} with $c=\omega(a(\varphi))$ gives an irreducible tame $V$ of dimension
+$n$ (tame since $R$ is trivial on $P_A$) with $\det_\varphi V=\omega(a(\varphi))$ and inertial form $(R,\theta)$.
+
+\emph{Determinant.} The characters $\sigma'\mapsto\det_{\sigma'}V$ and $\omega\circ a$ agree at $\varphi$. Let $t\in I_A$. By
+\cref{pf:llc:resbase}, $a(t)=i(u)$ with $u\in\Z_g^\times$ and $\bar u=\prod_{j<n}R(t)^{g^j}$. Choose $v\in\tau$ with
+$\phi(v)\ne0$ and apply the inflation property to the scalar matrix $\kappa=u\cdot1_n$: as $\tau(\bar u\cdot1_n)=
+\theta(\bar u)$ by \cref{pf:llc:namecentral}, we get $\theta(\bar u)\phi(v)=\sigma(i(u)\cdot1_n)\phi(v)=\omega(a(t))\phi(v)$.
+Hence, by \ref{pf:llc:F-wd},
+\[
+  \omega(a(t))=\theta\Bigl(\prod_{j<n}R(t)^{g^j}\Bigr)=\prod_{j<n}\theta(R(t)^{g^j})=\det_tV .
+\]
+By \ref{pf:llc:F-wd} the two characters are equal; as $\omega_y$ is the only central character of $y$
+(\ref{pf:llc:F-cl}), $\det_{\sigma'}V=\omega'(a(\sigma'))$ for every central character $\omega'$ of $y$.
+
+\emph{Type condition.} Let $g',i',n',(E'',w'',a'',K',\llcred'),R',\theta',\tau',\sigma'$ be data as in
+\cref{pf:llc:def-par}(a) for $y$. By \cref{pf:llc:isouniq}, $g'=g$ and $i'=i$; and $n'=n(y)=n$. As $\sigma'\cong\sigma$,
+\ref{pf:llc:F-typeex} gives $\chi_{\tau'}=\chi_\tau$, so $\theta'$ is also a Green name of $\tau$. By
+\cref{pf:llc:resindep} there is a field isomorphism $e\colon K\to K'$ with $R'=e\circ R$. By \ref{pf:llc:F-names},
+$\theta'\circ e$ is a regular Green name of $\tau$ in $K$, so $\theta'\circ e=\theta^{g^j}$ for some $j$, and by
+\ref{pf:llc:F-tameuniq} $V$ has inertial form $(R,\theta^{g^j})=(R,\theta'\circ e)$, that is,
+$P_t(V)=\prod_k(X-\theta'(R'(t)^{g^k}))$: $V$ has inertial form $(R',\theta')$. Finally $N_V=0$ because $V$ is
+irreducible (\ref{pf:llc:F-wd}).
+\end{proof}
+
+\begin{proposition}[Tame twists of parameters]\label{pf:llc:partw}
+Assume $F\cong\Q_g$. Let $y$ be cuspidal of depth zero with $\llcPar(a,y,V)$, and let $\chi$ be a tame smooth
+character of $F^\times$. Then $\llcPar(a,y\otimes\chi,V\otimes(\chi\circ a))$. \formallabel{UpperTheory.Zero.LLC.parTw}
+\end{proposition}
+
+\begin{proof}
+Put $V'=V\otimes(\chi\circ a)$. By \ref{pf:llc:F-wd} and \ref{pf:llc:F-cl}, $V'$ is irreducible of dimension
+$n(y)=n(y\otimes\chi)$; it is tame by \cref{pf:llc:tameart} and \ref{pf:llc:F-wd}; and
+$\det_\sigma V'=\omega_y(a(\sigma))\chi(a(\sigma))^{n(y)}=\omega_{y\otimes\chi}(a(\sigma))$ by \ref{pf:llc:F-wd} and
+\ref{pf:llc:F-cl}. For the type condition, let $g',i',n,(E',w',a',K,\llcred),R,\theta,\tau,\sigma$ be data as in
+\cref{pf:llc:def-par}(a) for $y\otimes\chi$. Since $\chi$ is tame and $i'$ maps $1+g'\Z_{g'}$ onto $1+\llcp_F$, there is a
+character $\chi_0$ of $\F_{g'}^\times$ with $\chi(i'(u))=\chi_0(\bar u)$ for all $u\in\Z_{g'}^\times$ (the reduction
+$\Z_{g'}^\times\to\F_{g'}^\times$ is surjective with kernel $1+g'\Z_{g'}$). Consider $\sigma'=\sigma\otimes(\chi^{-1}\circ\det)$, of
+class $(y\otimes\chi)\otimes\chi^{-1}=y$ (\ref{pf:llc:F-cl}), and $\tau'=\tau\otimes(\chi_0^{-1}\circ\det)$. For
+$\kappa\in\GL_n(\Z_{g'})$, $\chi^{-1}(\det i'(\kappa))=\chi_0^{-1}(\det\bar\kappa)$, so the map of the inflation of $\tau$
+into $\sigma$ also exhibits $\sigma'$ as containing the inflation of $\tau'$ via $i'$. By \cref{pf:llc:twfd} ($|K|=g'^n$
+since $R$ is a tame system, \ref{pf:llc:F-extex}), $\tau'$ is cuspidal with regular Green name
+$\theta'=\theta\cdot(\chi_0^{-1}\circ\Nm)$, where $\Nm\colon K^\times\to\F_{g'}^\times$ is the norm. The condition $\llcTy(y,V)$
+gives: $V$ has inertial form $(R,\theta')$. Let $t\in I_A$. By \cref{pf:llc:resbase}, $a(t)=i'(u)$ with
+$\bar u=\prod_{j<n}R(t)^{g'^j}=\Nm(R(t))$ (the norm of $z\in K^\times$ is $z^{1+g'+\dots+g'^{n-1}}$), so
+$\chi(a(t))=\chi_0(\Nm R(t))$. By \ref{pf:llc:F-wd}, the roots of
+$P_t(V')$ are
+\[
+  \theta'(R(t)^{g'^j})\,\chi(a(t))=\theta(R(t)^{g'^j})\,\chi_0(\Nm R(t))^{-1}\chi_0(\Nm R(t))=\theta(R(t)^{g'^j}),
+\]
+using $\Nm(R(t)^{g'^j})=\Nm(R(t))$. Hence $V'$ has inertial form $(R,\theta)$, and $N_{V'}=0$ since $V'$ is
+irreducible.
+\end{proof}
+
+\begin{proposition}[Contragredients of parameters]\label{pf:llc:pardual}
+Assume $F\cong\Q_g$. Let $y$ be cuspidal of depth zero with $\llcPar(a,y,V)$. Then $\llcPar(a,y^\vee,V^\vee)$.
+\formallabel{UpperTheory.Zero.LLC.parDual}
+\end{proposition}
+
+\begin{proof}
+By \ref{pf:llc:F-wd} and \ref{pf:llc:F-cl}, $V^\vee$ is irreducible and tame, $\dim V^\vee=n(y)=n(y^\vee)$, and
+$\det_\sigma V^\vee=\omega_y(a(\sigma))^{-1}=\omega_{y^\vee}(a(\sigma))$. For the type condition, let
+$g,i,n,(E',w',a',K,\llcred),R,\theta,\tau,\sigma$ be data as in \cref{pf:llc:def-par}(a) for $y^\vee$, and let $\pi$ be a
+representative of $y$; then $\sigma$ is a contragredient of $\pi$. By \cref{pf:llc:typedual}, $\pi$ contains the
+inflation of $\tau^\vee$ via $i$, and $\tau^\vee$ is cuspidal with regular Green name $\theta^{-1}$. By $\llcTy(y,V)$, $V$
+has inertial form $(R,\theta^{-1})$, so by \ref{pf:llc:F-wd} $P_t(V^\vee)=\prod_j(X-\theta(R(t)^{g^j}))$, and
+$N_{V^\vee}=0$ since $V^\vee$ is irreducible.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{The map on good cuspidal representations}\label{pf:llc:sec-good}
+
+In this subsection $a$ is a local Artin map.
+
+\begin{definition}\label{pf:llc:def-rel}
+For $x\in\llcIrr(F)$ and $V\in\llcWD_A$, $\mathcal R(x,V)$ holds if either $x=\chi$ and $V=\langle\chi\circ a\rangle$ for
+a smooth character $\chi$ of $F^\times$; or $F\cong\Q_g$ for some prime $g$, and $x=y_0\otimes\chi$,
+$V=V_0\otimes(\chi\circ a)$ for some cuspidal $y_0$ of depth zero, some $V_0$ with $\llcPar(a,y_0,V_0)$ and some
+smooth character $\chi$. \formallabel{UpperTheory.Zero.LLC.Rel}
+\end{definition}
+
+\begin{lemma}\label{pf:llc:relunique}
+If $\mathcal R(x,V)$ and $\mathcal R(x,V')$, then $V=V'$. \formallabel{UpperTheory.Zero.LLC.rel_unique}
+\formallabel{UpperTheory.Zero.LLC.twist_eq_of_tw_eq}\formallabel{UpperTheory.Zero.LLC.ofChar_eq_of_tw_eq}
+\end{lemma}
+
+\begin{proof}
+If both relations are of the first kind, $x=\chi=\chi'$ and $\chi=\chi'$ by \cref{pf:llc:parone}(e). Suppose both
+are of the second kind: $x=y_0\otimes\chi=y_1\otimes\chi_1$ with $\llcPar(a,y_0,V_0)$, $\llcPar(a,y_1,V_1)$. By
+\ref{pf:llc:F-cl}, $y_1=y_0\otimes\chi\chi_1^{-1}$; as $y_0$, $y_1$ have depth zero and $n(y_0)>0$, the character
+$\chi\chi_1^{-1}$ is tame (\ref{pf:llc:F-twtame}). By \cref{pf:llc:partw},
+$\llcPar(a,y_1,V_0\otimes(\chi\chi_1^{-1}\circ a))$, hence $V_1=V_0\otimes(\chi\chi_1^{-1}\circ a)$ by
+\ref{pf:llc:F-paruniq}, and $V_1\otimes(\chi_1\circ a)=V_0\otimes(\chi\circ a)$ by \ref{pf:llc:F-wd}. In the mixed
+case $x=\chi'=y_0\otimes\chi$; then $y_0=\chi'\chi^{-1}$ (\ref{pf:llc:F-cl}, \cref{pf:llc:parone}(c)) is a character of
+depth zero, hence tame, so $\llcPar(a,y_0,\langle\chi'\chi^{-1}\circ a\rangle)$ by \cref{pf:llc:parone}(b), and
+$V_0=\langle\chi'\chi^{-1}\circ a\rangle$ by \ref{pf:llc:F-paruniq}; thus $V_0\otimes(\chi\circ a)=\langle\chi'\circ a\rangle$
+by \cref{pf:llc:parone}(c).
+\end{proof}
+
+\begin{proposition}[The good map]\label{pf:llc:goodmap}
+There is a map $r_0\colon\llcIrr(F)\to\llcWD_A$ such that
+\begin{enumerate}[label=(\alph*)]
+\item $r_0(\chi)=\langle\chi\circ a\rangle$ for every smooth character $\chi$;
+\item $r_0(x\otimes\chi)=r_0(x)\otimes(\chi\circ a)$ for every cuspidal $x$ satisfying \llcGo{} and every smooth
+  $\chi$;
+\item if $F\cong\Q_g$ for some prime $g$, then $\llcPar(a,y,r_0(y))$ for every cuspidal $y$ of depth zero.
+\end{enumerate}
+\formallabel{UpperTheory.Zero.LLC.goodMap}
+\end{proposition}
+
+\begin{proof}
+Let $r_0(x)$ be some $V$ with $\mathcal R(x,V)$ if there is one, and an arbitrary element of $\llcWD_A$ otherwise. By
+\cref{pf:llc:relunique}, $r_0(x)=V$ whenever $\mathcal R(x,V)$. (a) holds since $\mathcal R(\chi,\langle\chi\circ a\rangle)$.
+(b) Let $x$ be cuspidal with \llcGo{}. If $n(x)=1$, then $x=\chi'$ is a character (\ref{pf:llc:F-cl}) and
+$\mathcal R(x,\langle\chi'\circ a\rangle)$; otherwise $F\cong\Q_g$ and $x=y_0\otimes\chi'$ with $y_0$ of depth zero, $y_0$
+is cuspidal (\ref{pf:llc:F-cl}) and has an $a$-parameter $V_0$ (\cref{pf:llc:parex}), so
+$\mathcal R(x,V_0\otimes(\chi'\circ a))$. In both cases $\mathcal R(x,V)$ for some $V$, and then
+$\mathcal R(x\otimes\chi,V\otimes(\chi\circ a))$ by \cref{pf:llc:parone}(c), resp.\ by \ref{pf:llc:F-cl} and
+\ref{pf:llc:F-wd}; hence $r_0(x\otimes\chi)=V\otimes(\chi\circ a)=r_0(x)\otimes(\chi\circ a)$. (c) By
+\cref{pf:llc:parex} there is $V$ with $\llcPar(a,y,V)$, and $\mathcal R(y,V)$ holds with $\chi=1$
+(as $y\otimes1=y$ and $V\otimes1=V$), so $r_0(y)=V$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Auxiliary values}\label{pf:llc:sec-junk}
+
+In this subsection we construct, for every $n\ge2$, an irreducible Weil--Deligne representation of dimension
+$n$ with unitary determinant which is not a twist of a tame one. We fix a Frobenius element
+$\varphi_A\in W_A$.
+
+\begin{lemma}[An unramified auxiliary field]\label{pf:llc:nfext}
+Let $\varphi$ be a Frobenius element, $n\ge2$, and $c\in\OO_E$ with $c\notin w^2$. There are a number field $L$
+with $E\subset L\subset\Omega$, a prime $u$ of $\OO_L$ with $A$ above $u$, and $s\in\Aut_E(L)$ such that
+$\varphi(x)=s(x)$ for $x\in L$, every element of $I_A$ fixes $L$ pointwise, $c\notin u^2$, and $\Nm u=q^n$.
+\formallabel{UpperTheory.exists_numberField_extension_place_frobenius_degree}
+\end{lemma}
+
+\begin{proof}
+Put $N=q^n-1$, let $\zeta\in\Omega$ be a primitive $N$-th root of unity and $L=E(\zeta)$, a Galois extension of $E$ (it
+is the splitting field of $X^N-1$). Since $q\in w\subset\llcm_A$, $N\equiv-1\pmod{\llcm_A}$; as
+$\prod_{k=1}^{N-1}(1-\zeta^k)=N$ (evaluate $(X^N-1)/(X-1)$ at $1$), every $1-\zeta^k$, $0<k<N$, is a unit of $A$.
+Hence distinct $N$-th roots of unity are incongruent modulo $\llcm_A$. If $t\in I_A$, then $t(\zeta)$ is an $N$-th root
+of unity congruent to $\zeta$, so $t(\zeta)=\zeta$ and $t$ fixes $L$. Similarly $\varphi^n(\zeta)\equiv\zeta^{q^n}=\zeta$,
+so $\varphi^n(\zeta)=\zeta$ and $\varphi^n$ fixes $L$. As $L/E$ is Galois, $\varphi(L)=L$; let $s=\varphi|_L$, and let $u=\OO_L\cap\llcm_A$,
+so that $A$ lies above $u$. The residue field $\OO_L/u$ contains the $N$ distinct classes of the $\zeta^j$ and $0$, so
+it has at least $q^n$ elements; and every $y\in\OO_L$ satisfies $y=\varphi^n(y)\equiv y^{q^n}\pmod{\llcm_A}$, so all its
+elements are roots of $X^{q^n}-X$. Hence $\Nm u=q^n$. Finally $L=E(\zeta)$ with $\zeta$ a root of the monic
+polynomial $X^N-1$ whose derivative at $\zeta$ is not in $u$, so $u$ is unramified over $w$ and $c\notin u^2$
+(\lref{GlobalTheory.T.algebraMap_not_mem_sq_of_derivative_not_mem}).
+\end{proof}
+
+\begin{lemma}[Elementary facts]\label{pf:llc:junkaux}
+\begin{enumerate}[label=(\alph*)]
+\item Let $L$ be a number field, $u$ a prime of $\OO_L$ and $s$ a ring automorphism of $L$ with $s(x)\in u\iff x\in u$ for
+  $x\in\OO_L$. There is a continuous ring automorphism $\iota$ of $L_u$ extending $s$ with $|\iota(x)|_u=|x|_u$.
+\item The residue field of $L_u$ has $\Nm u$ elements.
+\item If $c\in u\setminus u^2$, then $|x|_u\le|c|_u$ for every $x\in L_u$ with $|x|_u<1$.
+\item If $K$ is a finite field with $|K|=Q^n$, $Q>1$, $n>0$, then $x\mapsto x^Q$ is a ring automorphism of $K$ of order
+  exactly $n$.
+\item If $E\subset L\subset\Omega$ is a number field and $\iota\colon I_A\to I_A(L)$ a homomorphism with $\iota(t)(x)=t(x)$
+  for all $t$ and $x\in\Omega$, then $\iota$ is continuous.
+\end{enumerate}
+\formallabel{UpperTheory.exists_adicCompletion_ringEquiv_extending_of_stable}
+\formallabel{UpperTheory.card_residueField_adicCompletionIntegers_eq_absNorm}
+\formallabel{UpperTheory.Zero.LLC.le_val_of_not_mem_sq}\formallabel{UpperTheory.Zero.LLC.exists_frobAut}
+\formallabel{UpperTheory.continuous_inertia_restriction_of_compat}
+\end{lemma}
+
+\begin{proof}
+(a) $s$ maps $u^k\cap\OO_L$ onto itself for every $k$, so it preserves the $u$-adic valuation of $L$; hence $s$ and $s^{-1}$
+are isometries and extend to mutually inverse continuous automorphisms of the completion, which preserve
+$|\cdot|_u$ by density. (b) The residue field of $L_u$ is $\OO_L/u$. (c) $c$ has $u$-adic valuation $1$. (d) $Q$ is a
+power $p^m$ of the characteristic $p$ of $K$, so $x\mapsto x^Q$ is an automorphism; its $n$-th power is the identity
+since $x^{Q^n}=x$; and if its $k$-th power were the identity for some $0<k<n$, a generator of $K^\times$ would have
+order dividing $Q^k-1<Q^n-1$. (e) The open subgroups of $G_L$ fixing finite extensions $M$ of $L$ form a basis of
+neighbourhoods of $1$, and the preimage under $\iota$ of the fixer of $M$ is the intersection of $I_A$ with the fixer
+of $M$ in $G_E$, which is open.
+\end{proof}
+
+\begin{lemma}[A logarithm on units]\label{pf:llc:log}
+Let $C$ be a field with a valuation $v$ (written multiplicatively), valuation ring $\OO$, and $\varpi\in C$ with
+$0<v(\varpi)<1$ such that $v(x)<1$ implies $v(x)\le v(\varpi)$. Let $\rho\colon\OO\to K$ be a surjective ring homomorphism
+onto a field with kernel $\{x:v(x)<1\}$, and let $N>0$ be an integer with $z^N=1$ for all $z\in K^\times$ and $N=-1$ in
+$K$. There is a map $\lambda\colon C^\times\to K$ such that:
+\begin{enumerate}[label=(\roman*)]
+\item $\lambda(ab)=\lambda(a)+\lambda(b)$ if $v(a)=v(b)=1$;
+\item every $y\in K$ is $\lambda(a)$ for some $a$ with $v(a)=1$;
+\item $\lambda(a)=0$ if $v(a-1)<v(\varpi)$;
+\item if $\iota$ is a ring automorphism of $C$ with $\iota(\varpi)=\varpi$ and $v\circ\iota=v$, and $f$ a ring automorphism of
+  $K$ with $\rho(\iota(x))=f(\rho(x))$ for $x\in\OO$, then $\lambda(\iota(a))=f(\lambda(a))$ whenever $v(a)=1$.
+\end{enumerate}
+\formallabel{UpperTheory.exists_unit_residue_logarithm_of_roots_of_unity}
+\end{lemma}
+
+\begin{proof}
+If $v(a)=1$ then $\rho(a)\ne0$, so $\rho(a^N-1)=0$, that is $v(a^N-1)<1$, hence $v(a^N-1)\le v(\varpi)$ and
+$(a^N-1)/\varpi\in\OO$. Put $\lambda(a)=\rho((a^N-1)/\varpi)$ if $(a^N-1)/\varpi\in\OO$, and $\lambda(a)=0$ otherwise.
+(i) $(ab)^N-1=(a^N-1)+(b^N-1)+(a^N-1)(b^N-1)$; dividing by $\varpi$ and applying $\rho$, the last term contributes
+$\rho((a^N-1)/\varpi)\rho(b^N-1)=0$. (ii) Given $y$, choose $x\in\OO$ with $\rho(x)=-y$ and put $a=1+\varpi x$; then $v(a)=1$
+and $a^N=1+N\varpi x+\varpi^2x^2r$ with $r\in\OO$, so $\lambda(a)=\rho(Nx+\varpi x^2r)=N\rho(x)=-\rho(x)=y$. (iii) Then
+$v(a)=1$ and $a^N-1=(a-1)s'$ with $s'\in\OO$, so $v((a^N-1)/\varpi)\le v(a-1)/v(\varpi)<1$ and $\lambda(a)=0$. (iv)
+$v(\iota(a))=1$ and $(\iota(a)^N-1)/\varpi=\iota((a^N-1)/\varpi)$; apply $\rho$.
+\end{proof}
+
+\begin{lemma}[A separating additive character]\label{pf:llc:addchar}
+Let $K$ be a finite field and $f$ a ring automorphism of $K$. There is a character $\psi$ of the additive group of $K$
+such that, for every $m\in\Z$, $\psi\circ f^m=\psi$ if and only if $f^m=1$.
+\formallabel{UpperTheory.exists_addChar_invariant_iff_finiteField_aut_eq_one}
+\end{lemma}
+
+\begin{proof}
+Let $p$ be the characteristic of $K$, $\Tr\colon K\to\F_p$ the trace, $b$ a generator of $K^\times$, and
+$\psi(x)=\exp(2\pi i\,\Tr(bx)/p)$. Let $h=f^m$ with $\psi\circ h=\psi$. Then $\Tr(bh(x))=\Tr(bx)$ for all $x$, and
+$\Tr\circ h=\Tr$, so $\Tr((b-h(b))h(x))=\Tr(bh(x))-\Tr(h(bx))=0$ for all $x$. As $h$ is surjective and the trace form is
+nondegenerate, $h(b)=b$; as $b$ generates $K^\times$, $h=1$.
+\end{proof}
+
+\begin{lemma}[A wild character of inertia]\label{pf:llc:junkdata}
+Let $n\ge2$. There are a finite field $K$ with $|K|=q^n$, a ring automorphism $f$ of $K$ of order $n$, and a surjective
+homomorphism $\pi\colon I_A\to(K,+)$ with open kernel such that $\pi(\varphi_At\varphi_A^{-1})=f(\pi(t))$ for all $t\in I_A$.
+\formallabel{UpperTheory.Zero.LLC.junkData}
+\end{lemma}
+
+\begin{proof}
+Choose $c\in w\setminus w^2$ and let $L,u,s$ be as in \cref{pf:llc:nfext} for $\varphi_A$ and $c$. Let $a_L$ be the local
+Artin map for $(L,u,A)$ (\ref{pf:llc:F-artex}). Since $\varphi_A(A)=A$, $s$ preserves $u$; let $\iota$ be the automorphism
+of $L_u$ given by \cref{pf:llc:junkaux}(a). Let $\varpi$ be the image of $c$ in $L_u$. As $c\in w\subset u$ and $c\notin u^2$,
+$0<|\varpi|_u<1$ and $|x|_u<1$ implies $|x|_u\le|\varpi|_u$ (\cref{pf:llc:junkaux}(c)); and $\iota(\varpi)=\varpi$ because $s$
+fixes $E$. Let $K$ be the residue field of $L_u$ and $\rho$ the reduction map; $|K|=\Nm u=q^n$
+(\cref{pf:llc:junkaux}(b)). Let $\lambda$ be as in \cref{pf:llc:log} for $C=L_u$, $\varpi$, $\rho$ and $N=q^n-1$ (then
+$z^N=1$ on $K^\times$ and $N=-1$ in $K$), and let $f(x)=x^q$, an automorphism of $K$ of order $n$
+(\cref{pf:llc:junkaux}(d)).
+
+We have $\rho(\iota(x))=f(\rho(x))$ for $x\in\OO_{L_u}$: choose $z\in\OO_L$ with $|x-z|_u<1$; then
+$\iota(x)-z^q=\iota(x-z)+(s(z)-z^q)$, where $|\iota(x-z)|_u<1$ and $s(z)-z^q=\varphi_A(z)-z^q\in\llcm_A\cap\OO_L=u$; hence
+$\rho(\iota(x))=\rho(z)^q=\rho(x)^q$.
+
+By \cref{pf:llc:nfext}, every $t\in I_A$ fixes $L$, so it lies in $I_A(L)$; conversely $I_A(L)\subset I_A$. Thus the
+identity is a group isomorphism $I_A\to I_A(L)$, continuous by \cref{pf:llc:junkaux}(e). Put $\pi(t)=\lambda(a_L(t))$.
+By \ref{pf:llc:F-artine}, $|a_L(t)|_u=1$, so $\pi$ is a homomorphism by \cref{pf:llc:log}(i). It is surjective: for $y\in K$
+choose $b$ with $|b|_u=1$ and $\lambda(b)=y$ (\cref{pf:llc:log}(ii)) and $t\in I_A(L)=I_A$ with $a_L(t)=b$
+(\ref{pf:llc:F-artine}). Its kernel is open: $t\mapsto a_L(t)$ is continuous on $I_A$, so
+$\{t:|a_L(t)-1|_u\le|\varpi|_u^2\}$ is an open neighbourhood of $1$, on which $\pi$ vanishes by \cref{pf:llc:log}(iii).
+Finally let $t\in I_A$ and $t'=\varphi_At\varphi_A^{-1}$. By \ref{pf:llc:F-transport} (with $M=L$, $\varphi=\varphi_A$ and the
+automorphism $\iota$), $a_L(t')=\iota(a_L(t))$, so $\pi(t')=\lambda(\iota(a_L(t)))=f(\pi(t))$ by \cref{pf:llc:log}(iv).
+\end{proof}
+
+\begin{lemma}[Wildly ramified induced representations]\label{pf:llc:junkrep}
+Let $n\ge2$, and let $K$, $f$, $\pi$ be as in \cref{pf:llc:junkdata}. There is an irreducible $J\in\llcWD_A$ of dimension $n$
+with $|\det_\sigma J|=1$ for all $\sigma\in W_A$ such that $J\ne V\otimes\xi$ for every tame $V\in\llcWD_A$ and every smooth
+character $\xi$ of $W_A$. \formallabel{UpperTheory.tameInertiaCharacter_frobenius_conj_eq_pow}
+\formallabel{UpperTheory.IrreducibleNonTameWeilDeligne.eta_eq_of_wild}
+\formallabel{UpperTheory.IrreducibleNonTameWeilDeligne.eta_eq_iff}
+\end{lemma}
+
+\begin{proof}
+Let $\psi$ be as in \cref{pf:llc:addchar} for $(K,f)$, and put $\eta_j(t)=\psi(f^j(\pi(t)))$ for $j\in\Z$ and $t\in I_A$.
+These are homomorphisms $I_A\to\C^\times$, and $\ker\eta_0\supset\ker\pi$ is open. By the equivariance of $\pi$,
+$\eta_j(\varphi_At\varphi_A^{-1})=\eta_{j+1}(t)$. If $\eta_j=\eta_{j'}$, then, $\pi$ being surjective, $\psi(f^j(x))=\psi(f^{j'}(x))$
+for all $x\in K$, that is $\psi\circ f^{j-j'}=\psi$, so $f^{j-j'}=1$ and $n\mid j-j'$; the converse is clear. By
+\cref{pf:llc:index} (with $\varphi=\varphi_A$ and $c=1$) there is an irreducible $J$ of dimension $n$ with $\det_{\varphi_A}J=1$
+and $P_t(J)=\prod_{j<n}(X-\eta_j(t))$. Every $\sigma\in W_A$ is $\varphi_A^{\deg\sigma}t$ with $t\in I_A$, so by \ref{pf:llc:F-wd}
+$\det_\sigma J=\det_tJ=\prod_{j<n}\eta_j(t)$, a $|K|$-th root of unity; hence $|\det_\sigma J|=1$.
+
+We claim that $\eta_0(t)\ne\eta_1(t)$ for some wild $t$. Otherwise let $\chi=\eta_0/\eta_1$, a character of $I_A$ trivial on
+$P_A$. For $s\in I_A$, $\varphi_As\varphi_A^{-1}s^{-q}$ is wild (\ref{pf:llc:F-wildfrob}), so $\chi(\varphi_As\varphi_A^{-1})=\chi(s)^q$;
+by induction $\chi(\varphi_A^ks\varphi_A^{-k})=\chi(s)^{q^k}$ and $\pi(\varphi_A^ks\varphi_A^{-k})=f^k(\pi(s))$. Since $\chi(s)$ only
+depends on $\pi(s)$ and $f^n=1$, $\chi(s)=\chi(\varphi_A^ns\varphi_A^{-n})=\chi(s)^{q^n}=\chi(s)^{|K|}=1$, because
+$\eta_j(s)^{|K|}=\psi(|K|\,f^j(\pi(s)))=\psi(0)=1$. Hence $\eta_0=\eta_1$,
+so $n\mid1$, contradicting $n\ge2$.
+
+Now suppose $J=V\otimes\xi$ with $V$ tame, and let $t$ be wild with $\eta_0(t)\ne\eta_1(t)$. A representative of $V$ has
+$\rho(t)=1$, so $P_t(V)=(X-1)^{\dim V}$ and $P_t(J)=(X-\xi(t))^n$ by \ref{pf:llc:F-wd}. But $\eta_0(t)$ and $\eta_1(t)$ are
+two distinct roots of $P_t(J)$, a contradiction.
+\end{proof}
+
+\begin{proposition}[Auxiliary values]\label{pf:llc:junkex}
+For every $n\ge2$ there is an irreducible $J_n\in\llcWD_A$ of dimension $n$ with $|\det_\sigma J_n|=1$ for all $\sigma\in W_A$
+such that, if $F\cong\Q_g$ for some prime $g$, then $J_n\ne V\otimes\xi$ for every tame $V$ and every smooth character
+$\xi$ of $W_A$. \formallabel{UpperTheory.Zero.LLC.junkEx}
+\end{proposition}
+
+\begin{proof}
+Combine \cref{pf:llc:junkdata,pf:llc:junkrep}.
+\end{proof}
+
+The construction gives the non-twist property without the hypothesis $F\cong\Q_g$; only the weaker statement is
+recorded, as it is all that is used (\cref{pf:llc:cuspex}).
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Exponents}\label{pf:llc:sec-expo}
+
+Let $k$ be a non-archimedean local field with residue field of order $Q$ and a fixed uniformiser $\varpi_k$.
+
+\begin{lemma}\label{pf:llc:normchar}
+For a smooth character $\chi$ of $k^\times$ put $\kappa(\chi)=-\log_Q|\chi(\varpi_k)|$. Then $|\chi(z)|=|z|^{\kappa(\chi)}$ for
+all $z\in k^\times$, and $\kappa(\chi\cdot|\cdot|^{ds})=\kappa(\chi)+ds$ for $d\in\N$ and $s\in\R$.
+\formallabel{GroundTheory.LocalField.quasiCharExponent}\formallabel{GroundTheory.LocalField.norm_quasiChar_apply}
+\formallabel{UpperTheory.Zero.LLC.norm_smooth_char}\formallabel{UpperTheory.Zero.LLC.exponent_mul_absPow}
+\end{lemma}
+
+\begin{proof}
+$\chi$ is continuous, so $|\chi|$ is bounded on the compact group $\OO_k^\times$; a bounded subgroup of $\R_{>0}$ is
+trivial, so $|\chi(u)|=1$ for units $u$. Writing $z=\varpi_k^mu$ gives $|\chi(z)|=|\chi(\varpi_k)|^m=Q^{-m\kappa(\chi)}=
+|z|^{\kappa(\chi)}$. The second assertion follows from $|\varpi_k|^{ds}=Q^{-ds}$.
+\end{proof}
+
+\begin{proposition}[Exponents]\label{pf:llc:expo}
+Let $a$ be a local Artin map. There is a function $e\colon\llcIrr(F)\to\R$ such that for every $x$ with $n(x)>0$:
+$e(x\nu^s)=e(x)+s$ for all $s\in\R$; and for every central character $\omega$ of $x$ and every $J\in\llcWD_A$ with
+$\dim J=n(x)$ and $|\det_\sigma J|=1$ for all $\sigma$,
+\[
+  |\det_\sigma J(e(x))|=|\omega(a(\sigma))|\qquad(\sigma\in W_A).
+\]
+\formallabel{UpperTheory.Zero.LLC.expo}
+\end{proposition}
+
+\begin{proof}
+Put $e(x)=\kappa(\omega_x)/n(x)$ (any value if $n(x)=0$). Let $n=n(x)>0$. The scalar $z\cdot1_n$ acts on
+$\pi_x\otimes|\det|^s$ by $\omega_x(z)|z|^{ns}$, so $\omega_{x\nu^s}=\omega_x|\cdot|^{ns}$, and $n(x\nu^s)=n$ (\ref{pf:llc:F-cl});
+by \cref{pf:llc:normchar}, $e(x\nu^s)=(\kappa(\omega_x)+ns)/n=e(x)+s$. Let $\omega$ and $J$ be as in the statement; then
+$\omega=\omega_x$. By \ref{pf:llc:F-wd}, $\det_\sigma J(e)=\det_\sigma(J)\,q^{e\,n\deg\sigma}$, so $|\det_\sigma J(e(x))|=
+q^{\kappa(\omega_x)\deg\sigma}$; and $|\omega_x(a(\sigma))|=|a(\sigma)|^{\kappa(\omega_x)}=q^{\kappa(\omega_x)\deg\sigma}$ by
+\cref{pf:llc:normchar} and \eqref{pf:llc:eq-abspow}.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{The map on cuspidal representations}\label{pf:llc:sec-cusp}
+
+In this subsection $a$ is a local Artin map. We use two simple consequences of \ref{pf:llc:F-cl}: a cuspidal $x$
+satisfying \llcGo{} either has $n(x)=1$, and then is a character, or $F\cong\Q_g$ for some $g$ and $x=y\otimes\chi$ with
+$y$ cuspidal of depth zero; and if $F\cong\Q_g$, every $y$ of depth zero satisfies \llcGo{}, as $y=y\otimes1$.
+
+\begin{lemma}\label{pf:llc:gm}
+Let $r_0$ be a map with the properties (a)--(c) of \cref{pf:llc:goodmap}.
+\begin{enumerate}[label=(\alph*)]
+\item If $x$ is cuspidal and satisfies \llcGo{}, then $r_0(x)$ is irreducible, $\dim r_0(x)=n(x)$, and $\det_\sigma
+  r_0(x)=\omega_x(a(\sigma))$ for all $\sigma\in W_A$.
+\item If $x$ is cuspidal and satisfies \llcGo{}, then $r_0(x^\vee)=r_0(x)^\vee$.
+\item Assume $F\cong\Q_g$. If $u,v$ are cuspidal of depth zero, $\chi,\chi'$ smooth and $r_0(u\otimes\chi)=r_0(v\otimes\chi')$,
+  then $u\otimes\chi=v\otimes\chi'$.
+\end{enumerate}
+\formallabel{UpperTheory.Zero.LLC.Gm.basic}\formallabel{UpperTheory.Zero.LLC.Gm.dual}\formallabel{UpperTheory.Zero.LLC.Gm.tw_inj}
+\end{lemma}
+
+\begin{proof}
+(a) If $x=\chi$, this is \cref{pf:llc:parone}(a). If $x=y\otimes\chi$ with $y$ cuspidal of depth zero, then
+$\llcPar(a,y,r_0(y))$ and $r_0(x)=r_0(y)\otimes(\chi\circ a)$, so $r_0(x)$ is irreducible of dimension $n(y)=n(x)$ and
+$\det_\sigma r_0(x)=\omega_y(a(\sigma))\chi(a(\sigma))^{n(y)}=\omega_x(a(\sigma))$ by \ref{pf:llc:F-wd} and \ref{pf:llc:F-cl}.
+
+(b) If $x=\chi$, then $x^\vee=\chi^{-1}$ and $r_0(\chi^{-1})=\langle\chi^{-1}\circ a\rangle=\langle\chi\circ a\rangle^\vee$
+(\cref{pf:llc:parone}(d)). If $x=u\otimes\chi$ with $u$ cuspidal of depth zero, then $u^\vee$ is cuspidal of depth zero and
+$x^\vee=u^\vee\otimes\chi^{-1}$ (\ref{pf:llc:F-cl}). By \cref{pf:llc:pardual}, $\llcPar(a,u^\vee,r_0(u)^\vee)$, and
+$\llcPar(a,u^\vee,r_0(u^\vee))$, so $r_0(u^\vee)=r_0(u)^\vee$ by \ref{pf:llc:F-paruniq}. Hence, by \ref{pf:llc:F-wd},
+$r_0(x^\vee)=r_0(u)^\vee\otimes(\chi\circ a)^{-1}=(r_0(u)\otimes(\chi\circ a))^\vee=r_0(x)^\vee$.
+
+(c) By \cref{pf:llc:goodmap}(b), $r_0(u)\otimes(\chi\circ a)=r_0(v)\otimes(\chi'\circ a)$; twisting by $\chi^{-1}\circ a$ gives
+$r_0(u)=r_0(v)\otimes(\psi\circ a)$ with $\psi=\chi'\chi^{-1}$. Since $r_0(u)$ and $r_0(v)$ are tame of positive dimension,
+$\psi\circ a$ is trivial on $P_A$ (\ref{pf:llc:F-wd}), so $\psi$ is tame (\cref{pf:llc:tameart}). By \cref{pf:llc:partw},
+$\llcPar(a,v\otimes\psi,r_0(u))$, where $v\otimes\psi$ is cuspidal of depth zero (\ref{pf:llc:F-cl}, \ref{pf:llc:F-twtame}).
+As also $\llcPar(a,u,r_0(u))$, \ref{pf:llc:F-paruniq} gives $u=v\otimes\psi$, so $u\otimes\chi=v\otimes\chi'$.
+\end{proof}
+
+\begin{theorem}[Parameters of cuspidal representations]\label{pf:llc:cuspex}
+For every local Artin map $a$ there is a map $r\colon\llcIrr(F)\to\llcWD_A$ satisfying the cuspidal laws $\llcCT(a,r)$.
+\formallabel{UpperTheory.Zero.LLC.cuspEx}
+\end{theorem}
+
+\begin{proof}
+Let $r_0$ be as in \cref{pf:llc:goodmap}, $e$ as in \cref{pf:llc:expo}, and $J_n$ ($n\ge2$) as in \cref{pf:llc:junkex}
+($J_n$ arbitrary for $n<2$). Put $r(x)=r_0(x)$ if $x$ satisfies \llcGo{}, and $r(x)=J_{n(x)}(e(x))$ otherwise. A cuspidal $x$
+which does not satisfy \llcGo{} has $n(x)\ge2$, since $n(x)>0$ (\ref{pf:llc:F-cl}) and $n(x)\ne1$. Condition \llcGo{} is
+stable under twists, and twists preserve $n$ (\ref{pf:llc:F-cl}). We verify \ref{pf:llc:C-irr}--\ref{pf:llc:C-type}.
+
+\ref{pf:llc:C-irr}: \cref{pf:llc:gm}(a), resp.\ irreducibility and dimension of the twist $J_n(e(x))$ of $J_n$
+(\ref{pf:llc:F-wd}). \ref{pf:llc:C-one}: characters satisfy \llcGo{}, and $r_0(\chi)=\langle\chi\circ a\rangle$.
+\ref{pf:llc:C-nu}: if $x$ satisfies \llcGo{}, then $r(x\nu^s)=r_0(x\otimes|\cdot|^s)=r_0(x)\otimes(|\cdot|^s\circ a)=r(x)(s)$ by
+\cref{pf:llc:goodmap}(b) and \eqref{pf:llc:eq-abspow}; otherwise $r(x\nu^s)=J_n(e(x)+s)=J_n(e(x))(s)=r(x)(s)$ by
+\cref{pf:llc:expo} and \ref{pf:llc:F-wd}.
+\ref{pf:llc:C-abs}: by \cref{pf:llc:gm}(a), resp.\ by \cref{pf:llc:expo} applied to $J=J_{n(x)}$. \ref{pf:llc:C-tw}: by
+\cref{pf:llc:goodmap}(b) and \cref{pf:llc:gm}(a). \ref{pf:llc:C-dual}: $x^\vee$ satisfies \llcGo{} (\ref{pf:llc:F-cl}) and
+$r_0(x^\vee)=r_0(x)^\vee$ by \cref{pf:llc:gm}(b).
+
+\ref{pf:llc:C-inj}: let $x,y$ be cuspidal, $y$ satisfying \llcGo{}, with $r(x)=r(y)$; then $n(x)=n(y)$ by \ref{pf:llc:C-irr}.
+Suppose first that $x$ satisfies \llcGo{}. If $n(y)=1$, then $x=\chi$, $y=\chi'$, and $\langle\chi\circ a\rangle=
+\langle\chi'\circ a\rangle$ gives $\chi\circ a=\chi'\circ a$, hence $\chi=\chi'$ as $a$ is surjective. If $n(y)\ne1$, then
+$F\cong\Q_g$, $x=u\otimes\chi$ and $y=v\otimes\chi'$ with $u,v$ cuspidal of depth zero, and $x=y$ by \cref{pf:llc:gm}(c).
+Suppose now that $x$ does not satisfy \llcGo{}. Then $n(y)=n(x)\ge2$, so $F\cong\Q_g$ and $y=v\otimes\chi$ with $v$ cuspidal of
+depth zero; thus $J_n(e(x))=r_0(v)\otimes(\chi\circ a)$, and twisting by $-e(x)$ gives $J_n=r_0(v)\otimes\xi$ for a smooth
+character $\xi$ of $W_A$ (\ref{pf:llc:F-wd}). As $r_0(v)$ is tame ($\llcPar(a,v,r_0(v))$), this contradicts
+\cref{pf:llc:junkex}.
+
+\ref{pf:llc:C-depth}: let $x$ be cuspidal of depth zero satisfying \llcGo{}. If $n(x)=1$, $x=\chi$ is tame and
+$r(x)=\langle\chi\circ a\rangle$ is tame by \cref{pf:llc:parone}(b). Otherwise $F\cong\Q_g$, and $\llcPar(a,x,r_0(x))$ by
+\cref{pf:llc:goodmap}(c).
+
+\ref{pf:llc:C-type}: let $x$ be cuspidal and let $g,i,n,\dots,\tau,\sigma$ be data as in \cref{pf:llc:def-par}(a). By
+\cref{pf:llc:ldepth}, $x$ has depth zero; as $F\cong\Q_g$, $x$ satisfies \llcGo{}, so $r(x)=r_0(x)$ and
+$\llcPar(a,x,r_0(x))$ by \cref{pf:llc:goodmap}(c); its type condition, applied to these data, gives $N_{r(x)}=0$ and the
+inertial form $(R,\theta)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Extension to all irreducible representations}\label{pf:llc:sec-ext}
+
+\begin{proposition}[Langlands extensions]\label{pf:llc:lext}
+For every map $r\colon\llcIrr(F)\to\llcWD_A$ there is a Langlands extension $\llcrc$ of $r$, and every Langlands extension of
+$r$ agrees with $r$ on cuspidal classes. \formallabel{GlobalTheory.LocLanglands.exists_isLExt}
+\end{proposition}
+
+\begin{proof}
+For every $x$ choose a multisegment $\llcm_x$ with $x=L(\llcm_x)$ (\cref{pf:llc:lit}\ref{pf:llc:lit-exh}) and a list $l_x$
+enumerating it, and put $\llcrc(x)=\llcseg_r(l_x)$. If $x=L(l)$, then $l$ and $l_x$ have the same underlying multiset
+(\cref{pf:llc:lit}\ref{pf:llc:lit-multi}), so $l$ is a permutation of $l_x$ and $\llcseg_r(l)=\llcseg_r(l_x)$, direct sums
+being commutative and associative. If $x$ is cuspidal, $x=L(\{\Delta\})$ with $\rho_\Delta=x$, $\ell_\Delta=1$
+(\ref{pf:llc:F-single}), so every Langlands extension satisfies $\llcrc(x)=r(x)(0)\otimes\llcSp(1)=r(x)$ (\ref{pf:llc:F-sp}).
+(The formal statement takes \cref{pf:llc:lit}\ref{pf:llc:lit-exh}, \ref{pf:llc:lit-multi} as hypotheses; they are
+supplied in \cref{pf:llc:main}.)
+\end{proof}
+
+\begin{lemma}[Central characters and supports]\label{pf:llc:centralsupp}
+If $\{y_1,\dots,y_h\}$ is a supercuspidal support of $x\in\llcIrr(k)$, $k$ a non-archimedean local field of characteristic
+zero, then $\omega_x=\prod_i\omega_{y_i}$.
+\formallabel{GlobalTheory.CentralSupport.centralChar_eq_prod_support}
+\formallabel{GlobalTheory.T.centralCharacter_eq_prod_supercuspidalSupport}
+\end{lemma}
+
+\begin{proof}
+A scalar matrix $z\cdot1_n$ lies in the Levi subgroup of every parabolic subgroup, is central, and the modulus character is
+trivial on it; hence it acts on the induced representation $y_1\times\dots\times y_h$ by the scalar $\prod_i\omega_{y_i}(z)$,
+and so on every subquotient, in particular on $\pi_x$.
+\end{proof}
+
+The formal statement carries the Bernstein--Zelevinsky finiteness theorem as a hypothesis; its proof does not use it.
+
+In the rest of this subsection, $a$ is a local Artin map, $r$ satisfies $\llcCT(a,r)$, and $\llcrc$ is a Langlands extension
+of $r$.
+
+\begin{proposition}[Dimensions and central characters]\label{pf:llc:extdim}
+For every $x\in\llcIrr(F)$: $\dim\llcrc(x)=n(x)$; there is a supercuspidal support $s$ of $x$ with
+\begin{equation}\label{pf:llc:eq-charpol}
+  P_\sigma(\llcrc(x))=\prod_{y\in s}P_\sigma(r(y))\qquad(\sigma\in W_A);
+\end{equation}
+and for every central character $\omega$ of $x$ and every $\sigma\in W_A$, $|\det_\sigma\llcrc(x)|=|\omega(a(\sigma))|$, and
+$\det_\sigma\llcrc(x)=\omega(a(\sigma))$ if $x$ is good. \formallabel{UpperTheory.Zero.LLC.extDim}
+\formallabel{UpperTheory.Zero.LLC.dim_charPol}\formallabel{UpperTheory.Zero.LLC.charPol_seg}
+\end{proposition}
+
+\begin{proof}
+Write $x=L(\llcm)$ (\cref{pf:llc:lit}\ref{pf:llc:lit-exh}) and let $s$ be the multiset of the terms of the segments of
+$\llcm$, a supercuspidal support of $x$ (\ref{pf:llc:F-msupp}). For a list $l$ enumerating $\llcm$, $\llcrc(x)=\llcseg_r(l)$,
+so by \ref{pf:llc:F-sp} and \ref{pf:llc:C-nu}
+\[
+  P_\sigma(\llcrc(x))=\prod_{\Delta\in l}\prod_{j=0}^{\ell_\Delta-1}P_\sigma\bigl(r(\rho_\Delta)(j)\bigr)
+  =\prod_{\Delta\in l}\prod_{j=0}^{\ell_\Delta-1}P_\sigma\bigl(r(\rho_\Delta\nu^j)\bigr)=\prod_{y\in s}P_\sigma(r(y)).
+\]
+Comparing degrees and using \ref{pf:llc:C-irr}, $\dim\llcrc(x)=\sum_{y\in s}n(y)=n(x)$ (the sizes of the members of a
+supercuspidal support of $x$ add up to $n(x)$). Taking products of roots,
+$\det_\sigma\llcrc(x)=\prod_{y\in s}\det_\sigma r(y)$, while $\omega=\prod_{y\in s}\omega_y$ by \cref{pf:llc:centralsupp}.
+The first claim follows from \ref{pf:llc:C-abs}. If $x$ is good, its supports all coincide (\ref{pf:llc:F-goodseg}), so every
+$y\in s$ satisfies \llcGo{}, and the second claim follows from \ref{pf:llc:C-tw}.
+\end{proof}
+
+\begin{lemma}[Identities in $\llcWD_A$]\label{pf:llc:wdid}
+For $V,V',V_i\in\llcWD_A$, smooth characters $\xi$ of $W_A$, $s\in\R$ and $m\ge0$:
+\begin{enumerate}[label=(\alph*)]
+\item direct sums of lists are invariant under permutations; $\dim\bigoplus_iV_i=\sum_i\dim V_i$ and
+  $P_\sigma(\bigoplus_iV_i)=\prod_iP_\sigma(V_i)$;
+\item $(\bigoplus_iV_i)\otimes\xi=\bigoplus_i(V_i\otimes\xi)$, $(V\otimes V')\otimes\xi=(V\otimes\xi)\otimes V'$ and
+  $V\otimes\bigoplus_iV_i=\bigoplus_i(V\otimes V_i)$;
+\item $(\bigoplus_iV_i)^\vee=\bigoplus_iV_i^\vee$, $V(s)^\vee=V^\vee(-s)$ and $(V\otimes\llcSp(m))^\vee=V^\vee\otimes\llcSp(m)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.weil_deligne_sum_twist_compat}\formallabel{GlobalTheory.sumList_laws}
+\formallabel{GlobalTheory.T.weilDeligneParam_dual_listSum_absTwist_special}\formallabel{GlobalTheory.WDDual.lpDual_sum_tw_sp}
+\end{lemma}
+
+\begin{proof}
+All but the last identity are given by the evident linear isomorphisms. For the last, $(V\otimes W)^\vee\cong V^\vee\otimes
+W^\vee$ (the monodromy $-{}^t(N\otimes1+1\otimes N')$ corresponds to $N^\vee\otimes1+1\otimes N'^\vee$), and $\llcSp(m)^\vee\cong
+\llcSp(m)$: if $(e_i^*)$ is the dual basis, $\rho^\vee(\sigma)e^*_{m-1-i}=q^{(i-(m-1)/2)\deg\sigma}e^*_{m-1-i}$ and
+$N^\vee e^*_j=-e^*_{j-1}$ ($e^*_{-1}=0$), so $e^*_{m-1-i}\mapsto(-1)^ie_i$ is an isomorphism.
+\end{proof}
+
+\begin{lemma}[Twists of Langlands data]\label{pf:llc:twl}
+If $x=L(\llcm)$ and $\chi$ is a smooth character of $F^\times$, then $x\otimes\chi=L(\llcm\otimes\chi)$, where $\llcm\otimes\chi$ consists
+of the segments $\Delta\otimes\chi$ with $\rho_{\Delta\otimes\chi}=\rho_\Delta\otimes\chi$ and $\ell_{\Delta\otimes\chi}=\ell_\Delta$.
+\formallabel{GlobalTheory.T.isLanglandsClassification_twist_multisegment}\formallabel{GlobalTheory.LocGL.isL_map_tw_of_isL}
+\formallabel{GlobalTheory.LocGL.IsL.tw}
+\end{lemma}
+
+\begin{proof}
+Twisting by $\chi\circ\det$ is an autoequivalence of the category of smooth representations, so it preserves
+irreducibility and cosocles. It commutes with normalised parabolic induction: multiplication by $\chi\circ\det$ is an
+isomorphism $(\pi_1\times\dots\times\pi_h)\otimes\chi\cong(\pi_1\otimes\chi)\times\dots\times(\pi_h\otimes\chi)$, as the
+determinant of a block upper triangular matrix is the product of the determinants of its diagonal blocks. Since
+$(\rho\nu^j)\otimes\chi=(\rho\otimes\chi)\nu^j$, it follows that $L(\Delta)\otimes\chi=L(\Delta\otimes\chi)$, and the relation
+``$\Delta$ precedes $\Delta'$'', which only involves the terms of the segments, is preserved. Hence the twist of the
+cosocle of a standard product for $\llcm$ is the cosocle of the corresponding standard product for $\llcm\otimes\chi$.
+\end{proof}
+
+\begin{proposition}[Twists]\label{pf:llc:exttw}
+$\llcrc(x\nu^s)=\llcrc(x)(s)$ for all $x$ and $s\in\R$; and $\llcrc(x\otimes\chi)=\llcrc(x)\otimes\langle\chi\circ a\rangle$ for good $x$
+and smooth $\chi$. \formallabel{UpperTheory.Zero.LLC.extTw}\formallabel{UpperTheory.Zero.LLC.rc_tw_of_segments}
+\end{proposition}
+
+\begin{proof}
+Let $x=L(l)$ (\cref{pf:llc:lit}\ref{pf:llc:lit-exh}) and let $\chi$ be a smooth character with
+$r(\rho_\Delta\otimes\chi)=r(\rho_\Delta)\otimes(\chi\circ a)$ for all $\Delta\in l$. By \cref{pf:llc:twl}, $x\otimes\chi=L(l\otimes\chi)$, so by
+\cref{pf:llc:wdid}(b) and \ref{pf:llc:F-wd} (twists commute)
+\[
+  \llcrc(x\otimes\chi)=\bigoplus_{\Delta\in l}\bigl(r(\rho_\Delta)\otimes(\chi\circ a)\bigr)\Bigl(\frac{\ell_\Delta-1}2\Bigr)\otimes\llcSp(\ell_\Delta)
+  =\llcrc(x)\otimes(\chi\circ a).
+\]
+For $\chi=|\cdot|^s$, $s\in\R$, the hypothesis is \ref{pf:llc:C-nu} (with \eqref{pf:llc:eq-abspow}), and
+$\llcrc(x)\otimes(|\cdot|^s\circ a)=\llcrc(x)(s)$. For good $x$, every $\rho_\Delta$ satisfies \llcGo{} (\ref{pf:llc:F-goodseg})
+and the hypothesis is \ref{pf:llc:C-tw}; finally $\llcrc(x)\otimes(\chi\circ a)=\llcrc(x)\otimes\langle\chi\circ a\rangle$.
+\end{proof}
+
+\begin{proposition}[Contragredients]\label{pf:llc:extdual}
+Let $\pi,\pi'$ be irreducible smooth representations of $\GL_n(F)$ such that $\pi'$ is a contragredient of $\pi$ and the class
+of $\pi$ is good. Then $\llcrc(\pi')=\llcrc(\pi)^\vee$ (for the classes). \formallabel{UpperTheory.Zero.LLC.extDual}
+\formallabel{UpperTheory.Zero.LLC.summand_dual}
+\end{proposition}
+
+\begin{proof}
+Let $x$ be the class of $\pi$, $x=L(l)$ with $l=(\Delta_1,\dots,\Delta_k)$, and $y=x^\vee$ the class of $\pi'$. By
+\cref{pf:llc:lit}\ref{pf:llc:lit-dual}, $y=L(l')$ with $\ell_{\Delta'_i}=\ell_{\Delta_i}=:\ell_i$ and
+$\rho_{\Delta'_i}=(\rho_{\Delta_i}\nu^{\ell_i-1})^\vee$. Each $\rho_{\Delta_i}$ satisfies \llcGo{} (\ref{pf:llc:F-goodseg}), hence so does
+the cuspidal $\rho_{\Delta_i}\nu^{\ell_i-1}$ (\ref{pf:llc:F-cl}). By \ref{pf:llc:C-dual}, \ref{pf:llc:C-nu} and \cref{pf:llc:wdid}(c),
+$r(\rho_{\Delta'_i})=\bigl(r(\rho_{\Delta_i})(\ell_i-1)\bigr)^\vee=r(\rho_{\Delta_i})^\vee(1-\ell_i)$, so the summand of $\Delta'_i$ in
+\eqref{pf:llc:eq-seg} is
+\[
+  r(\rho_{\Delta_i})^\vee\Bigl(\frac{1-\ell_i}2\Bigr)\otimes\llcSp(\ell_i)=\Bigl(r(\rho_{\Delta_i})\Bigl(\frac{\ell_i-1}2\Bigr)\otimes
+  \llcSp(\ell_i)\Bigr)^\vee,
+\]
+the dual of the summand of $\Delta_i$ (\cref{pf:llc:wdid}(c)). Hence $\llcrc(y)=\llcseg_r(l')=\llcseg_r(l)^\vee=\llcrc(x)^\vee$.
+\end{proof}
+
+\begin{lemma}[Uniqueness of special decompositions]\label{pf:llc:spdec}
+Let $(V_i,m_i)_{i\le k}$ and $(V'_j,m'_j)_{j\le k'}$ be lists of pairs with $V_i,V'_j\in\llcWD_A$ irreducible and $m_i,m'_j\ge0$. If
+$\bigoplus_iV_i\otimes\llcSp(m_i+1)=\bigoplus_jV'_j\otimes\llcSp(m'_j+1)$, the two lists are permutations of each other.
+\formallabel{GlobalTheory.T.perm_of_weilDeligne_special_decomposition_eq}
+\formallabel{GlobalTheory.WeilDeligne.SpUnique.perm_of_sumList_lpChar_lpSp_eq}
+\end{lemma}
+
+\begin{proof}
+Induction on $k$. If $k=0$, the left side is $0$, and every summand on the right has positive dimension (irreducible classes
+have positive dimension, \ref{pf:llc:F-wd}), so $k'=0$. Let $k\ge1$, choose $i_0$ with $m=m_{i_0}$ maximal, and let $(\rho,0)$ on
+$X$ represent $V=V_{i_0}$ (its monodromy vanishes by \ref{pf:llc:F-wd}). Let $c(\sigma)=q^{(m/2)\deg\sigma}$, the eigencharacter of
+$\llcSp(m+1)$ on its last basis vector $e_m$. Say that a Weil--Deligne representation $(\rho_W,N_W)$ on $W$ \emph{contains $(V,m)$}
+if there are linear maps $f,h\colon X\to W$ with $f\ne0$, $f=N_W^mh$ and $\rho_W(\sigma)f(v)=c(\sigma)f(\rho(\sigma)v)$ for all $\sigma,v$;
+this is invariant under isomorphism. Then: $V\otimes\llcSp(m+1)$ contains $(V,m)$, via $f(v)=v\otimes e_m$ and $h(v)=v\otimes e_0$;
+if $W\oplus W'$ contains $(V,m)$, so does $W$ or $W'$ (compose $f,h$ with the projections); and, since the monodromy of
+$V_i\otimes\llcSp(m_i+1)$ is $1\otimes N_{\llcSp(m_i+1)}$ and $m_i\le m$, $N^{m+1}=0$ on every $V_i\otimes\llcSp(m_i+1)$, hence on the
+left side, hence on the right side and on each of its summands. Therefore some $W=V'_j\otimes\llcSp(m'_j+1)$, on a space
+$X'\otimes\C^{m'_j+1}$, contains $(V,m)$ and satisfies $N_W^{m+1}=0$. The latter forces $m'_j\le m$, as $N_W^{m'_j}(v\otimes e_0)=v\otimes e_{m'_j}\ne0$; a nonzero $f$ in the
+image of $N_W^m$ forces $m\le m'_j$. So $m'_j=m$, the image of $N_W^m$ is $X'\otimes e_m$, and writing $f(v)=G(v)\otimes e_m$ we get a
+nonzero linear map $G\colon X\to X'$ intertwining $\rho$ with the Weil group action on $V'_j$ (the factors $c(\sigma)$ cancel). By
+Schur's lemma $G$ is an isomorphism, so $V'_j=V$. Removing $(V,m)$ from both lists and cancelling the common summand
+(\ref{pf:llc:F-cancel}), the induction hypothesis applies to the shorter lists.
+\end{proof}
+
+\begin{lemma}[Equal Langlands data]\label{pf:llc:eqofisl}
+\begin{enumerate}[label=(\alph*)]
+\item Let $t\in\llcIrr(F)$ be the class of the trivial representation of $\GL_0(F)=1$. For every $x\in\llcIrr(F)$, the product
+  $x\times t$ is isomorphic to $\pi_x$.
+\item If $x=L(\llcm)$ and $y=L(\llcm)$, then $x=y$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.nonempty_equiv_prodChosenIrrGL_pair_degreeZero}
+\formallabel{GlobalTheory.LocGL.nonempty_equiv_prodIrr_pair_zero}\formallabel{GlobalTheory.LocLanglands.LExtInj.eq_of_isL}
+\end{lemma}
+
+\begin{proof}
+(a) The parabolic subgroup attached to the block sizes $(n(x),0)$ is $\GL_{n(x)}(F)$ itself, with trivial modulus character,
+so the induced representation is $\pi_x\otimes1\cong\pi_x$. (b) We have $n(x)=n(y)=\sum_{\Delta\in\llcm}\ell_\Delta n(\rho_\Delta)$, the
+size of the product defining $L(\llcm)$. Moreover $t=L(\emptyset)$: the product attached to the empty multisegment is the
+empty product, which is the trivial representation of $\GL_0(F)$; it is irreducible, hence its own cosocle. By \cref{pf:llc:lit}\ref{pf:llc:lit-multi} applied to $x=L(\llcm)$, $t=L(\emptyset)$ and $y=L(\llcm+\emptyset)$,
+$\pi_y$ is a subquotient of $x\times t\cong\pi_x$. As $\pi_y$ and $\pi_x$ are irreducible, $\pi_y\cong\pi_x$.
+\end{proof}
+
+\begin{proposition}[Injectivity towards good representations]\label{pf:llc:extinj}
+If $y$ is good and $\llcrc(x)=\llcrc(y)$, then $x=y$. \formallabel{UpperTheory.Zero.LLC.extInj}
+\end{proposition}
+
+\begin{proof}
+Write $x=L(l_x)$ and $y=L(l_y)$ (\cref{pf:llc:lit}\ref{pf:llc:lit-exh}). For a segment $\Delta$ put
+$f(\Delta)=\bigl(r(\rho_\Delta)(\tfrac{\ell_\Delta-1}2),\,\ell_\Delta-1\bigr)$; the first component is irreducible by \ref{pf:llc:C-irr}
+and \ref{pf:llc:F-wd}, and $\llcrc(x)=\bigoplus_{\Delta\in l_x}f(\Delta)_1\otimes\llcSp(f(\Delta)_2+1)$, and similarly for $y$. By
+\cref{pf:llc:spdec}, $(f(\Delta))_{\Delta\in l_x}$ is a permutation of $(f(\Delta'))_{\Delta'\in l_y}$. If $f(\Delta)=f(\Delta')$ with
+$\Delta'\in l_y$, then $\ell_\Delta=\ell_{\Delta'}$, hence $r(\rho_\Delta)=r(\rho_{\Delta'})$ (twist by $-(\ell_\Delta-1)/2$); as
+$\rho_{\Delta'}$ satisfies \llcGo{} (\ref{pf:llc:F-goodseg}), \ref{pf:llc:C-inj} gives $\rho_\Delta=\rho_{\Delta'}$, so $\Delta=\Delta'$.
+Thus every $\Delta\in l_x$ occurs in $l_y$, $f$ is injective on the segments of $l_y$, and $l_x$ is a permutation of $l_y$. Hence
+$x=L(l_y)$, and $x=y$ by \cref{pf:llc:eqofisl}(b).
+\end{proof}
+
+\begin{proposition}[Depth]\label{pf:llc:extdepth}
+If $x$ is good and of depth zero, then $\llcrc(x)$ is tame. \formallabel{UpperTheory.Zero.LLC.extDepth}
+\end{proposition}
+
+\begin{proof}
+Let $s$ be as in \cref{pf:llc:extdim}. Since $x$ is good and its supports coincide (\ref{pf:llc:F-goodseg}), every $y\in s$
+satisfies \llcGo{}; every $y\in s$ has depth zero (\cref{pf:llc:lit}\ref{pf:llc:lit-dzs}), so $r(y)$ is tame by
+\ref{pf:llc:C-depth}, and $P_\sigma(r(y))=(X-1)^{n(y)}$ for wild $\sigma$ (\ref{pf:llc:F-tamechar}, \ref{pf:llc:C-irr}). By
+\eqref{pf:llc:eq-charpol}, $P_\sigma(\llcrc(x))=(X-1)^{\sum_{y\in s}n(y)}=(X-1)^{\dim\llcrc(x)}$ for wild $\sigma$, so $\llcrc(x)$ is
+tame (\ref{pf:llc:F-tamechar}).
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Proofs of the main results}\label{pf:llc:sec-main}
+
+\begin{theorem}[\cref{thm:rectexists}]\label{pf:llc:main}
+Local parameter maps exist: for every number field $E$, algebraic closure $\Omega$ of $E$, finite place $w$ of $E$ and place
+$A$ of $\Omega$ above $w$, there are a local Artin map $a$ and a map $\llcrc\colon\llcIrr(E_w)\to\llcWD_A$ satisfying the laws
+(L1)--(L12) of \cref{def:rectexists}. \formallabel{UpperTheory.Zero.LLC.recTExists}
+\end{theorem}
+
+\begin{proof}
+Let $a$ be the local Artin map (\ref{pf:llc:F-artex}), $r$ a map with $\llcCT(a,r)$ (\cref{pf:llc:cuspex}) and $\llcrc$ a
+Langlands extension of $r$ (\cref{pf:llc:lext}); then $\llcrc=r$ on cuspidal classes. We verify the laws, in the form of
+the formal statement. (L1), (L6) and (L8) are \cref{pf:llc:extdim}. (L2): characters
+are cuspidal, so $\llcrc(\chi)=r(\chi)=\langle\chi\circ a\rangle$ by \ref{pf:llc:C-one}. (L3): if $x=L(l)$, then
+$\llcrc(x)=\llcseg_r(l)=\llcseg_{\llcrc}(l)$, as every $\rho_\Delta$ is cuspidal. (L4): for cuspidal $x$, $\llcrc(x)=r(x)$ is
+irreducible by \ref{pf:llc:C-irr}. (L5) is \cref{pf:llc:exttw}. (L7), which formally reads
+$\llcrc(x\otimes\chi)=\llcrc(x)\otimes\llcrc(\chi)$ for good $x$, follows from \cref{pf:llc:exttw} and (L2). (L9), (L10) and (L11)
+are \cref{pf:llc:extdual,pf:llc:extinj,pf:llc:extdepth}. (L12): by \ref{pf:llc:F-typeiff} it suffices to prove
+$\llcTy(x,\llcrc(x))$ for every $x$. Let $g,i,n,\dots,\tau,\sigma$ be data as in \cref{pf:llc:def-par}(a) for $x$. Since $\sigma$
+contains the inflation of the cuspidal $\tau$, $x$ is cuspidal (\cref{pf:llc:cuspinfl}), so $\llcrc(x)=r(x)$, and
+\ref{pf:llc:C-type} applied to these data gives $N_{\llcrc(x)}=0$ and the inertial form $(R,\theta)$.
+\end{proof}
+
+\begin{lemma}\label{pf:llc:paroflaws}
+Let $\llcrc$ satisfy the laws (L1)--(L12) for a local Artin map $a$, and let $y$ be cuspidal, good and of depth zero. Then
+$\llcPar(a,y,\llcrc(y))$. \formallabel{UpperTheory.Zero.LLC.par_of_laws}
+\end{lemma}
+
+\begin{proof}
+Irreducibility, dimension, tameness and the determinant are (L4), (L1), (L11) and (L8); the type condition follows from (L12)
+by \ref{pf:llc:F-typeiff}.
+\end{proof}
+
+\begin{proposition}[\cref{prop:galois:unique}]\label{pf:llc:unique}
+Let $\llcrc,\llcrc'\colon\llcIrr(E_w)\to\llcWD_A$ be local parameter maps. Then $\llcrc(x)=\llcrc'(x)$ for every good $x$.
+\formallabel{UpperTheory.Zero.LLC.recTUnique}
+\end{proposition}
+
+\begin{proof}
+Let $\llcrc$, $\llcrc'$ satisfy the laws for the local Artin maps $a$, $a'$; then $a=a'$ by \ref{pf:llc:F-artex}. First let $y$ be
+cuspidal satisfying \llcGo{}. If $n(y)=1$, then $y=\chi$ and $\llcrc(y)=\langle\chi\circ a\rangle=\llcrc'(y)$ by (L2). Otherwise
+$F\cong\Q_g$ and $y=y_0\otimes\chi$ with $y_0$ of depth zero; $y_0$ is cuspidal and satisfies \llcGo{} (\ref{pf:llc:F-cl}), hence is
+good (\ref{pf:llc:F-goodseg}). By \cref{pf:llc:paroflaws}, $\llcPar(a,y_0,\llcrc(y_0))$ and $\llcPar(a,y_0,\llcrc'(y_0))$, so
+$\llcrc(y_0)=\llcrc'(y_0)$ by \ref{pf:llc:F-paruniq}; and by (L7) and (L2),
+$\llcrc(y)=\llcrc(y_0)\otimes\langle\chi\circ a\rangle=\llcrc'(y_0)\otimes\langle\chi\circ a\rangle=\llcrc'(y)$. Now let $x$ be good and write
+$x=L(l)$ (\cref{pf:llc:lit}\ref{pf:llc:lit-exh}). Every $\rho_\Delta$, $\Delta\in l$, is cuspidal and satisfies \llcGo{}
+(\ref{pf:llc:F-goodseg}), so $\llcrc(\rho_\Delta)=\llcrc'(\rho_\Delta)$, and (L3) gives $\llcrc(x)=\llcseg_{\llcrc}(l)=\llcseg_{\llcrc'}(l)=
+\llcrc'(x)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{pf:llc:sec-remarks}
+
+\begin{remark}\label{pf:llc:rem-values}
+The map of \cref{pf:llc:main} sends every cuspidal $x$ which does not satisfy \llcGo{} to $J_{n(x)}(e(x))$, where $J_n$ is
+the fixed representation of \cref{pf:llc:junkex} and $e(x)=\kappa(\omega_x)/n(x)$ (\cref{pf:llc:expo}). This value depends on
+$x$ only through $n(x)$ and $|\omega_x|$; compare \cref{rem:galois:llc}. The laws allow this: on such $x$ they require that
+$\llcrc(x)$ be irreducible of dimension $n(x)$ with $|\det_\sigma\llcrc(x)|=|\omega_x(a(\sigma))|$ ((L1), (L4), (L6)), that
+$\llcrc(x\nu^s)=\llcrc(x)(s)$ ((L5)), and that $\llcrc(x)\ne\llcrc(y)$ for good $y$ ((L10)). The laws (L2), (L7)--(L9) and (L11)
+apply only to characters or to good representations; (L3) expresses the values at non-cuspidal classes through those at cuspidal
+ones; and (L12) imposes no condition on such $x$ (\cref{pf:llc:rem-conditions}). No comparison with the local Langlands
+correspondence is used or proved in this section; in particular the values at good representations, which are
+determined by the laws (\cref{pf:llc:unique}), are not compared with it.
+\end{remark}
+
+\begin{remark}\label{pf:llc:rem-conditions}
+The type condition $\llcTy(x,V)$ and the type law (L12) impose no condition unless $F\cong\Q_g$ for some $g$, since their
+hypotheses include a continuous ring isomorphism $\Q_g\to F$; and, by \cref{pf:llc:cuspinfl}, they impose none unless $x$ is
+cuspidal of depth zero. Condition
+\llcGo{} does not require $y_0$ to be cuspidal. In \cref{pf:llc:junkex} the non-twist property is only required when
+$F\cong\Q_g$, although the construction gives it for every $F$. The value $e(x)$ for $n(x)=0$ is irrelevant (the formal
+definition divides by $n(x)=0$, which gives $0$).
+\end{remark}
+
+\begin{remark}\label{pf:llc:rem-choice}
+The maps $r_0$ of \cref{pf:llc:goodmap} and $\llcrc$ of \cref{pf:llc:lext} are defined by choice; the laws do not depend on the
+choices, and \cref{pf:llc:unique} shows that the values at good representations do not either.
+\end{remark}

@@ -1,0 +1,1127 @@
+\section{\v{C}ech cohomology and the local terms of the Lefschetz formula}\label{sec:pf:hlf-cech}
+
+\providecommand{\hlfcechHdg}[3]{H^{#3}\bigl(#1,\Omega^{#2}\bigr)}
+
+This section proves the auxiliary results used in the proof of the holomorphic Lefschetz formula for finite \'etale correspondences
+(\cref{pf:geo:hlf}, which is \cref{thm:galois:hlf} of Part~I), apart from the chart-lift theorem, which is proved in \cref{sec:pf:hlf-chart}
+(\lref{GlobalTheory.T.exists_chart_lift_of_finite_cover}). Recall the shape of that proof (\cref{sec:pf:geo:hlf}). One first reduces to
+integral schemes, decomposing $Z$ and $Y$ into integral clopen pieces; this uses the three lemmas of \cref{sec:pf:hlf-cech:clopen}. For integral
+$Z$ and $Y$ one then proceeds in five steps, labelled (a)--(e) in \cref{sec:pf:geo:hlf}:
+\begin{enumerate}[label=(\alph*),nosep]
+\item \emph{coordinates}: a finite morphism $\pi\colon Z\to\mathbb P^d$, given by a family $x=(x_0,\dots,x_d)$ of rational functions, whose
+  scheme-theoretic fibre over the origin is reduced and contains the images of the fixed points (\cref{pf:hlf-cech:fincovthm}, resting on the
+  construction of forms with transversal zeros, \cref{pf:hlf-cech:forms}); its pull-back to $Y$ has the same properties
+  (\cref{pf:hlf-cech:pull,pf:hlf-cech:fieldext});
+\item \emph{\v{C}ech description}: Hodge cohomology is computed by \v{C}ech complexes of subspaces of the forms of the function field, naturally for
+  pull-backs and traces (\cref{pf:hlf-cech:cechthm}); consequently the operator $(c_1)_*(c_2)^*$ lifts to a cocycle-level correspondence
+  (\cref{pf:hlf-cech:familythm});
+\item \emph{points}: complex points correspond to characters of the chart rings, fixed points to fixed characters, and fixed characters lie over the
+  origin (\cref{pf:hlf-cech:ptschar,pf:hlf-cech:fixpts,pf:hlf-cech:noaway,pf:hlf-cech:sections});
+\item \emph{local parameters}: at a fixed character, the matrix expressing $c_2^*$ of the coordinates in terms of $c_1^*$ of the coordinates is
+  conjugate to the tangent matrix of the fixed point (\cref{pf:hlf-cech:regpar,pf:hlf-cech:locpar});
+\item the chart-lift theorem, whose hypotheses are supplied by (a)--(d).
+\end{enumerate}
+Each of these results is a statement of the formal development \cite{LeanSource2026} quoted in \cref{sec:pf:geo:hlf}; here they are stated
+precisely and proved. The proofs are algebraic, except for one measure-theoretic choice of constants (\cref{pf:hlf-cech:sard}). Finally,
+\cref{sec:pf:hlf-cech:misc} contains two results of a different nature which are used in \cref{sec:pf:ks1,sec:pf:ks2}: the absolute values of
+the roots of the polynomial of a marked pair, and the splitting criterion for families of sections of \'etale morphisms.
+
+\emph{Organisation.} \Cref{sec:pf:hlf-cech:defs} fixes conventions and defines the objects of the statements: transversal zeros, chart rings
+and finite covers, fixed characters, adapted affine covers, \v{C}ech complexes of subspaces of forms, and \v{C}ech comparison families.
+\Cref{sec:pf:hlf-cech:clopen} treats clopen decompositions, \cref{sec:pf:hlf-cech:forms,sec:pf:hlf-cech:fincov} the coordinates,
+\cref{sec:pf:hlf-cech:cech,sec:pf:hlf-cech:family} the \v{C}ech description and the lifting of the correspondence, and \cref{sec:pf:hlf-cech:points}
+the points and local parameters.
+
+% ===========================================================================
+\subsection{Conventions and definitions}\label{sec:pf:hlf-cech:defs}
+
+\subsubsection{Complex points and transversal zeros}
+All schemes are schemes over $\C$, with structure morphism to $\Spec\C$. A \emph{complex point} of $X$ is a morphism
+$y\colon\Spec\C\to X$ over $\C$; we also write $y$ for its image, a closed point of $X$, and $X(\C)$ for the set of complex points.
+For an open $V\ni y$ and $f\in\OO(V)$ we write $f(y)\in\C$ for the value of $f$ at $y$; if $V$ is affine, $\mathrm{ev}_y\colon\OO(V)\to\C$,
+$f\mapsto f(y)$, is a surjective homomorphism of $\C$-algebras and $\mathfrak m_y=\ker(\mathrm{ev}_y)$ is a maximal ideal. If $X$ is
+integral, $\eta_X$ is its generic point and $\C(X)$ its function field, a $\C$-algebra through the structure morphism; for an open
+$V\ne\emptyset$ the germ map $\OO(V)\to\C(X)$ is injective, and we often identify $\OO(V)$ with its image.
+
+\begin{definition}[Transversal zeros]\label{pf:hlf-cech:def:transv}
+Let $V$ be an affine open of $X$, $\varphi_1,\dots,\varphi_k\in\OO(V)$ and $z\in V(\C)$. The $\varphi_j$ are \emph{transversal at $z$} if
+$\varphi_j(z)=0$ for all $j$ and $\mathfrak m_z\subseteq(\varphi_1,\dots,\varphi_k)+\mathfrak m_z^2$, i.e.\ the classes of the $\varphi_j$
+span the cotangent space $\mathfrak m_z/\mathfrak m_z^2$.
+\end{definition}
+
+For the projective space $\mathbb P^N$ over $\C$ we write $S=\C[T_0,\dots,T_N]$ and $S_n$ for the space of forms of degree $n$. Let
+$\iota\colon X\to\mathbb P^N$ be a closed immersion over $\C$. For $f\in S_n$ put $X_f=\iota^{-1}D_+(f)$; if $n>0$ this is an affine open of
+$X$, and for $g\in S_n$ the ratio $g/f$ is a regular function on $X_f$. For a point $x\in X$ we say that $f$ \emph{vanishes at $x$} if
+$f$ lies in the homogeneous prime ideal $\iota(x)$, i.e.\ $x\notin X_f$.
+
+\subsubsection{Coordinate rings attached to a family of functions}
+
+\begin{definition}[Chart rings and finite covers]\label{pf:hlf-cech:def:fincov}
+Let $F\subseteq K$ be fields over $\C$ (more precisely, $K$ is an $F$-algebra and the two $\C$-structures agree), $d\in\N$ and
+$x=(x_0,\dots,x_d)\in F^{d+1}$. For $I\subseteq\{0,\dots,d\}$ let $A_I\subseteq F$ be the $\C$-subalgebra generated by the $x_j/x_i$ with
+$i\in I$, $0\le j\le d$, and let $R_I=R_I(K)\subseteq K$ be the integral closure of (the image of) $A_I$ in $K$. Put $t_j=x_j/x_0$ for
+$1\le j\le d$; then $t_j\in A_{\{0\}}\subseteq R_{\{0\}}$. We say that \emph{$x$ defines a finite cover of $K$} if
+\begin{enumerate}[label=(\roman*),nosep]
+\item $x_i\ne0$ for all $i$, the elements $t_1,\dots,t_d$ are algebraically independent over $\C$, and $F=\C(t_1,\dots,t_d)$;
+\item $K$ is a finite separable extension of $F$;
+\item every $R_{\{i\}}$ is a smooth $\C$-algebra.
+\end{enumerate}
+A \emph{character} of a $\C$-algebra $B$ is a homomorphism of $\C$-algebras $B\to\C$. The \emph{fibre over the origin} is the set
+$\mathrm{Fib}(K,x)$ of characters $e$ of $R_{\{0\}}(K)$ with $e(t_j)=0$ for $1\le j\le d$.
+\formal{GlobalTheory.PD.rA}\formal{GlobalTheory.PD.rB}\formal{GlobalTheory.PD.IsPd}\formal{GlobalTheory.PD.IsFinCover}\formal{GlobalTheory.PD.fib}
+\end{definition}
+
+We write $R_i$ for $R_{\{i\}}$. In the geometric situation below $K$ is the function field of $X$, $x$ comes from a finite morphism
+$X\to\mathbb P^d$, $R_I$ is the coordinate ring of the preimage of $\bigcap_{i\in I}\{T_i\ne0\}$, and $\mathrm{Fib}(K,x)$ is the set of
+complex points of the scheme-theoretic fibre over $(1:0:\dots:0)$.
+
+\begin{definition}[Values and fixed characters]\label{pf:hlf-cech:def:fix}
+Let $K'$ be a field over $\C$, $B\subseteq K'$ a $\C$-subalgebra and $e$ a character of $B$. An element $v\in K'$ is \emph{regular at $e$ with
+value $c\in\C$} if there is $b\in B$ with $bv\in B$, $e(b)\ne0$ and $e(bv)=e(b)\,c$. Now let $K\to K'$ be a homomorphism of fields over $\C$,
+written $b\mapsto\bar b$, let $j_2\colon K\to K'$ be a second $\C$-embedding and $B_0\subseteq K$ a $\C$-subalgebra. The character $e$ of $B$
+is \emph{fixed} (relative to $j_2$ and $B_0$) if for every $b\in B_0$ with $\bar b\in B$ the element $j_2(b)$ is regular at $e$ with value
+$e(\bar b)$.
+\formal{GlobalTheory.WH.Val}\formal{GlobalTheory.WH.IsFix}
+\end{definition}
+
+\begin{definition}[Adapted affine covers]\label{pf:hlf-cech:def:affcov}
+Let $X$ be an integral scheme over $\C$, $\iota$ a finite linearly ordered set, $(U_i)_{i\in\iota}$ a family of opens of $X$ and
+$(B_I)_{I\subseteq\iota}$ a family of $\C$-subalgebras of $\C(X)$. Put $U_I=\bigcap_{i\in I}U_i$ ($U_\emptyset=X$). The pair $(U,B)$ is an
+\emph{adapted affine cover} of $X$ if the $U_i$ cover $X$, $\eta_X\in U_I$ for all $I$, and for $I\ne\emptyset$ the open $U_I$ is affine and $B_I$ is
+the image of the germ map $\OO(U_I)\to\C(X)$.
+\formal{GlobalTheory.PD.IsAffCover}
+\end{definition}
+
+The formal definition also records that the $\C$-algebra structure of $\C(X)$ is the one induced by the structure morphism; we always use
+this structure. Note that $B_\emptyset$ is not constrained.
+
+\subsubsection{\v{C}ech complexes of subspaces of differential forms}
+For a field $K$ over $\C$ let $\Omega_K=\Omega_{K/\C}$ and let $\bigwedge_K\Omega_K$ be the exterior algebra, with the derivation
+$d\colon K\to\Omega_K$. For a $\C$-subalgebra $B\subseteq K$ and $a\in\N$ let
+\[
+  \Omega^a(B)=\operatorname{span}_\C\{\,b\,dv_1\wedge\dots\wedge dv_a\;:\;b,v_1,\dots,v_a\in B\,\}\subseteq\textstyle\bigwedge^a_K\Omega_K .
+\]
+
+\begin{definition}[\v{C}ech complexes]\label{pf:hlf-cech:def:cech}
+Let $\iota$ be a finite linearly ordered set, $E$ a vector space over $\C$ and $(A_s)_{s\subseteq\iota}$ a family of subspaces of $E$. The
+\emph{\v{C}ech complex} $\check C(A)$ consists of the space $E^{\mathcal P(\iota)}$ of all functions $c$ from the set of subsets of $\iota$
+to $E$, the subspaces
+\[
+  \check C^n(A)=\{c:\ c(s)\in A_s\text{ if }s\ne\emptyset\text{ and }|s|=n+1,\ c(s)=0\text{ otherwise}\}\qquad(n\in\Z),
+\]
+and the differential $(\delta c)(t)=\sum_{i\in t}\epsilon(t,i)\,c(t\smallsetminus\{i\})$, $\epsilon(t,i)=(-1)^{|\{j\in t:j<i\}|}$. Its cocycles,
+coboundaries and cohomology are $\check Z^n(A)=\check C^n(A)\cap\ker\delta$, $\check B^n(A)=\delta(\check C^{n-1}(A))$ and
+$\check H^n(A)=\check Z^n(A)/\check B^n(A)$. A linear map $f\colon E^{\mathcal P(\iota)}\to E'^{\mathcal P(\kappa)}$ is a \emph{map of complexes}
+$\check C(A)\to\check C(A')$ if $f(\check C^n(A))\subseteq\check C^n(A')$ and $f\circ\delta=\delta\circ f$ on $\check C^n(A)$ for all $n$; it
+then induces maps $f_*\colon\check H^n(A)\to\check H^n(A')$. For a map $\tau\colon\kappa\to\iota$ of finite linearly ordered sets and a linear
+map $\varphi\colon E\to E'$ let
+\[
+  (\tau^\sharp_\varphi c)(s)=\begin{cases}\operatorname{sgn}(\tau,s)\,\varphi\bigl(c(\tau(s))\bigr)&\text{if $\tau$ is injective on $s$,}\\ 0&\text{otherwise,}\end{cases}
+\]
+where $\operatorname{sgn}(\tau,s)=(-1)^{N}$, $N$ the number of pairs $a<b$ in $s$ with $\tau(b)<\tau(a)$.
+For an integral scheme $X$ with an adapted affine cover $(U,B)$ we write $\check C(B,a)$ and $\check H^n(B,a)$ for the \v{C}ech complex and
+cohomology of the family $I\mapsto\Omega^a(B_I)$ in $E=\bigwedge_{\C(X)}\Omega_{\C(X)}$.
+\formal{GlobalTheory.PD.omB}\formal{GlobalTheory.PD.cech}\formal{GlobalTheory.PD.pullC}\formal{GlobalTheory.PD.IsMap}
+\end{definition}
+
+\begin{definition}[Maps of forms induced by field homomorphisms; traces of forms]\label{pf:hlf-cech:def:drmaps}
+Let $\psi\colon K\to K'$ be a homomorphism of fields over $\C$. A $\C$-linear map $\varphi\colon\bigwedge_K\Omega_K\to\bigwedge_{K'}\Omega_{K'}$
+is \emph{induced by $\psi$} if $\varphi(b\,dv_1\wedge\dots\wedge dv_q)=\psi(b)\,d\psi(v_1)\wedge\dots\wedge d\psi(v_q)$ for all $q$ and
+$b,v_j\in K$. For a finite extension $L/K$ of fields over $\C$, the \emph{trace of forms} $\Tr_{L/K}\colon\bigwedge_L\Omega_L\to\bigwedge_K\Omega_K$
+is a $\C$-linear map $T$ with $T(b\,\omega_L)=\Tr_{L/K}(b)\,\omega$ for all $b\in L$ and $\omega\in\bigwedge_K\Omega_K$, where $\omega_L$ is the image of $\omega$
+under the map induced by $K\subseteq L$, if such a map exists (a fixed choice), and $0$ otherwise.
+\formal{GlobalTheory.PD.IsDRMap}\formal{GlobalTheory.W1.IsTrDR}\formal{GlobalTheory.W1.trDR}
+\end{definition}
+
+If $L/K$ is finite separable, then $\Omega_L=L\otimes_K\Omega_K$ and $\bigwedge_L\Omega_L=L\otimes_K\bigwedge_K\Omega_K$, so the trace of forms
+exists and is $\Tr_{L/K}\otimes\mathrm{id}$ (\lref{UpperTheory.exists_deRhamTrace_of_separable}).
+
+\begin{definition}[\v{C}ech comparison families]\label{pf:hlf-cech:def:cmpfam}
+A \emph{\v{C}ech comparison family} $E$ assigns to every integral scheme $X$ smooth of some relative dimension over $\C$, every adapted
+affine cover $(U,B)$ of $X$ indexed by a finite linearly ordered set, and all $a,b\in\N$, a $\C$-linear isomorphism
+\[
+  E_{U,B}\colon\hlfcechHdg{X}{a}{b}\xrightarrow{\ \sim\ }\check H^b(B,a)
+\]
+such that:
+\begin{enumerate}[label=(N\arabic*),nosep]
+\item (pull-backs) for $f\colon X'\to X$ over $\C$ between such schemes, a $\C$-embedding $\psi\colon\C(X)\to\C(X')$ with
+  $\psi(g)=f^*g$ in $\C(X')$ for every open $V\ni\eta_X$ with $\eta_{X'}\in f^{-1}V$ and every $g\in\OO(V)$, a map $\varphi$ of forms induced by
+  $\psi$, adapted affine covers $(U,B)$ of $X$ and $(U',B')$ of $X'$ indexed by $\iota$ and $\kappa$, and $\tau\colon\kappa\to\iota$ with
+  $U'_k\subseteq f^{-1}U_{\tau(k)}$: whenever $\tau^\sharp_\varphi$ is a map of complexes $\check C(B,a)\to\check C(B',a)$, we have
+  $E_{U',B'}\circ f^*=(\tau^\sharp_\varphi)_*\circ E_{U,B}$ on $\hlfcechHdg{X}{a}{b}$;
+\item (traces) for a finite \'etale $c\colon Y\to X$ between such schemes of the same relative dimension, a $\C(X)$-algebra structure on
+  $\C(Y)$ compatible with $c$ as in (N1), and adapted affine covers $(U,B)$ of $X$ and $(c^{-1}U,B')$ of $Y$ indexed by the same $\iota$:
+  whenever the map $\mathrm{tr}$ applying $\Tr_{\C(Y)/\C(X)}$ to every component is a map of complexes $\check C(B',a)\to\check C(B,a)$, we have
+  $E_{U,B}\circ c_*=\mathrm{tr}_*\circ E_{c^{-1}U,B'}$ on $\hlfcechHdg{Y}{a}{b}$, where $c_*$ is the trace map on Hodge cohomology.
+\end{enumerate}
+\formal{UpperTheory.A.EFam}\formal{UpperTheory.A.NatP}\formal{UpperTheory.A.NatT}
+\end{definition}
+
+Here $\hlfcechHdg{X}{a}{b}$ is Hodge cohomology, $f^*$ is the pull-back and $c_*$ the trace along a finite \'etale morphism, as in Part~I
+(\cref{thm:galois:hlf}); the trace on Hodge cohomology is induced by the morphism of sheaves $c_*\Omega^a_Y\to\Omega^a_X$ which on an affine open
+$V$ is the trace of forms of the finite \'etale algebra $\OO(c^{-1}V)$ over $\OO(V)$.
+
+% ===========================================================================
+\subsection{Clopen decompositions}\label{sec:pf:hlf-cech:clopen}
+
+The three lemmas of this subsection are used in the reduction of \cref{pf:geo:hlf} to integral schemes (\cref{pf:geo:hlfred}).
+
+\begin{lemma}\label{pf:hlf-cech:clopendec}
+Let $Z$ be a quasi-compact scheme which is smooth of relative dimension $\delta$ over $\C$. There are a finite set $J$ and opens
+$(V_j)_{j\in J}$ of $Z$, pairwise disjoint and covering $Z$, such that every open subscheme $V_j$ is integral.
+\formallabel{UpperTheory.Cb.exists_integral_clopen_decomposition_of_smooth}\formallabel{GlobalTheory.SmoothComponents.main}
+\end{lemma}
+
+\begin{proof}
+$Z$ is locally of finite type over $\C$, hence locally noetherian, and smooth over a field, hence normal and in particular reduced; its local
+rings are normal domains. A quasi-compact locally noetherian scheme has finitely many irreducible components, and each of them is the
+closure of its generic point (\lref{GlobalTheory.SmoothComponents.irreducibleComponent_eq_closure}). Two distinct irreducible components
+$C,C'$ are disjoint: a point $z\in C\cap C'$ would have a local ring $\OO_{Z,z}$ with at least two minimal primes, which is impossible for a
+domain. So the irreducible components $C_1,\dots,C_r$ are pairwise disjoint closed sets covering $Z$, and each $V_j=Z\smallsetminus\bigcup_{k\ne
+j}C_k=C_j$ is open. The open subscheme $V_j$ is irreducible and reduced, i.e.\ integral.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:tracesum}
+Let $c\colon Y\to Z$ be a finite \'etale morphism of schemes over $\C$ and $(W_m)_{m\in M}$ a finite family of pairwise disjoint opens of $Y$
+covering $Y$, such that every restriction $c_m=c|_{W_m}\colon W_m\to Z$ is finite and \'etale. Then for all $a,b$ and $w\in\hlfcechHdg{Y}{a}{b}$,
+\[
+  c_*(w)=\sum_{m\in M}(c_m)_*\bigl(w|_{W_m}\bigr)\qquad\text{in }\hlfcechHdg{Z}{a}{b}.
+\]
+\formallabel{UpperTheory.Cb.hodgeTrace_eq_sum_clopen_decomposition}\formallabel{UpperTheory.TrSum.hodgeTrace_eq_sum}
+\end{lemma}
+
+\begin{proof}
+For an affine open $V\subseteq Z$ the algebra $\OO(c^{-1}V)$ is the product of the algebras $\OO(c_m^{-1}V)$, each finite \'etale over
+$\OO(V)$, and $\bigwedge\Omega_{\OO(c^{-1}V)}$ is the product of the $\bigwedge\Omega_{\OO(c_m^{-1}V)}$. The trace of a product algebra is the sum
+of the traces of the factors, $\Tr_{\prod_mB_m/A}((b_m)_m)=\sum_m\Tr_{B_m/A}(b_m)$, and hence the trace of forms of $\OO(c^{-1}V)$ over $\OO(V)$
+is the sum over $m$ of the traces of forms of the factors composed with the projections
+(\lref{UpperTheory.TrSum.secTrace_eq_sum}). Consequently the trace morphism $c_*\Omega^a_Y\to\Omega^a_Z$ is the sum over $m$ of the trace
+morphisms $(c_m)_*\Omega^a_{W_m}\to\Omega^a_Z$ composed with the restriction maps $c_*\Omega^a_Y\to(c_m)_*\Omega^a_{W_m}$
+(\lref{UpperTheory.TrSum.omegaTrace_eq_sum}). Applying the additive functor $H^b(Z,-)$ and the identifications $H^b(Z,c_*\mathcal F)=H^b(Y,\mathcal F)$,
+$H^b(Z,(c_m)_*\mathcal G)=H^b(W_m,\mathcal G)$ (valid as $c$ and $c_m$ are affine), under which the restriction maps become the restrictions
+$w\mapsto w|_{W_m}$, gives the formula.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:tanrestrict}
+Let $c_1,c_2\colon Y\to Z$ be morphisms over $\C$, $V\subseteq Z$ and $W\subseteq Y$ opens and $c'_1,c'_2\colon W\to V$ morphisms with
+$c_i|_W=c'_i$ (as morphisms to $Z$). Let $y'$ be a complex point of $W$ and $y$ its image in $Y$. Then a matrix $A\in M_\delta(\C)$ is a tangent
+matrix of $(c_1,c_2)$ at $y$ (\cref{pf:geo:istan}) if and only if it is a tangent matrix of $(c'_1,c'_2)$ at $y'$.
+\formallabel{UpperTheory.Cb.isTangentMatrix_iff_restrict_open}
+\end{lemma}
+
+\begin{proof}
+Affine opens of the open subschemes $V$ and $W$ are affine opens of $Z$ and $Y$, with the same rings of functions and modules of
+differentials; so a tangent matrix of $(c'_1,c'_2)$ at $y'$ is one of $(c_1,c_2)$ at $y$, with the same data $(U,V',t,\varphi)$.
+Conversely, let $(U,V',t,\varphi)$ be data as in \cref{pf:geo:istan} for $(c_1,c_2)$ at $y$. Since $c_1(y)=c_2(y)$ lies in $V$ (it is the image
+of $c'_1(y')$), there is a basic open $U^\circ=D_U(f)\subseteq U\cap V$ of the affine scheme $U$ containing $c_1(y)$; then there is a basic open
+$V^\circ=D_{V'}(g)\subseteq V'\cap W\cap c_1^{-1}U^\circ\cap c_2^{-1}U^\circ$ of $V'$ containing $y$. Then $\OO(U^\circ)=\OO(U)_f$,
+$\OO(V^\circ)=\OO(V')_g$ and $\Omega_{\OO(V^\circ)}=\OO(V')_g\otimes_{\OO(V')}\Omega_{\OO(V')}$. Put $t^\circ_l=t_l|_{U^\circ}$ and
+$\varphi^\circ(\eta/g^k)=g(y)^{-k}\varphi(\eta)$; this is well defined because $\varphi(b\eta)=b(y)\varphi(\eta)$ and $g(y)\ne0$. The
+semilinearity, the values on $d(c_i^*t^\circ_l)$ (restrictions of $d(c_i^*t_l)$) and the description of the kernel (if
+$\varphi^\circ(\eta/g^k)=0$ then $\varphi(\eta)=0$, so $\eta=\sum b_i\eta_i$ with $b_i(y)=0$, and $\eta/g^k=\sum (b_i/g^k)\eta_i$) carry over.
+Hence $(U^\circ,V^\circ,t^\circ,\varphi^\circ)$ are data for $(c'_1,c'_2)$ at $y'$ with the same matrix $A$.
+\end{proof}
+
+% ===========================================================================
+\subsection{Forms transversal at prescribed points}\label{sec:pf:hlf-cech:forms}
+
+In this subsection $X$ is an integral scheme, smooth of relative dimension $d$ over $\C$, and $\iota\colon X\to\mathbb P^N$ is a closed
+immersion over $\C$. We construct forms $f_0,\dots,f_d$ of a common degree without common zeros on $X$ such that the ratios $f_j/f_0$ vanish
+at prescribed complex points and are transversal at all their common zeros in $X_{f_0}$.
+
+\begin{theorem}\label{pf:hlf-cech:forms}
+Let $S\subseteq X(\C)$ be finite. There are $n>0$ and $f_0,\dots,f_d\in S_n$ such that
+\begin{enumerate}[label=(\arabic*),nosep]
+\item the opens $X_{f_0},\dots,X_{f_d}$ cover $X$, and $\eta_X\in X_{f_i}$ for every $i$;
+\item every $y\in S$ lies in $X_{f_0}$, and $(f_j/f_0)(y)=0$ for $1\le j\le d$;
+\item for every $z\in X_{f_0}(\C)$ with $(f_j/f_0)(z)=0$ for $1\le j\le d$, the functions $f_1/f_0,\dots,f_d/f_0\in\OO(X_{f_0})$ are
+  transversal at $z$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_forms_transversal_at_complexPoints}\formallabel{GlobalTheory.EtProj.Transv.exists_transversal_forms_first_separate}
+\end{theorem}
+
+The proof occupies the rest of this subsection. We first collect auxiliary facts.
+
+\begin{lemma}\label{pf:hlf-cech:closedpts}
+Let $X'$ be a scheme locally of finite type over $\C$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item An open subset of $X'$ containing all complex points is equal to $X'$.
+\item If $V\subseteq X'$ is an affine open, every maximal ideal of $\OO(V)$ is $\mathfrak m_y$ for a complex point $y\in V(\C)$.
+\item If $V\subseteq X'$ is an affine open and $\varphi_1,\dots,\varphi_k\in\OO(V)$, the set of complex points $z\in V(\C)$ at which the
+  $\varphi_j$ are transversal is finite.
+\end{enumerate}
+\formallabel{GlobalTheory.T.eq_top_of_forall_complexPoints_mem_opens}\formallabel{GlobalTheory.T.exists_complexPoint_ker_eval_eq_maximal}\formallabel{GlobalTheory.T.finite_complexPoints_transversal_zeros}
+\end{lemma}
+
+\begin{proof}
+(b) $\OO(V)$ is a finitely generated $\C$-algebra, so its residue fields at maximal ideals are $\C$ by Hilbert's Nullstellensatz, and
+$\OO(V)\to\OO(V)/\mathfrak m=\C$ defines a complex point $y$ with $\mathfrak m_y=\mathfrak m$. (a) $X'$ is a Jacobson scheme whose closed points
+are the images of complex points \cite[IV, \S10]{Grothendieck1967}; if the open $W$ contained all complex points but $W\ne X'$, the nonempty
+closed set $X'\smallsetminus W$ would contain a closed point of $X'$. (c) Let $z$ be such a point and $I=(\varphi_1,\dots,\varphi_k)$. Then
+$\mathfrak m_z=I+\mathfrak m_z^2$, so $I\OO(V)_{\mathfrak m_z}=\mathfrak m_z\OO(V)_{\mathfrak m_z}$ by Nakayama's lemma; hence every prime
+$\mathfrak p$ with $I\subseteq\mathfrak p\subseteq\mathfrak m_z$ equals $\mathfrak m_z$, and $\mathfrak m_z$ is a minimal prime over $I$. The
+noetherian ring $\OO(V)$ has only finitely many minimal primes over $I$, and $z\mapsto\mathfrak m_z$ is injective on $V(\C)$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:avoid}
+\begin{enumerate}[label=(\alph*),nosep]
+\item A vector space over $\C$ is not the union of finitely many proper subspaces.
+\item Let $X$ be integral and $\iota\colon X\to\mathbb P^N$ a morphism over $\C$, $n\in\N$ and $T\subseteq X(\C)$ finite. There is $f\in S_n$ which
+  vanishes neither at $\eta_X$ nor at any point of $T$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_projForm_nonvanishing_genericPoint_complexPoints}\formallabel{GlobalTheory.EtProj.exists_form_genericPoint_cxPts}
+\end{lemma}
+
+\begin{proof}
+(a) is standard, $\C$ being infinite. (b) For a point $x$ of $X$, $\iota(x)$ lies in some $D_+(T_i)$, so $T_i^n$ does not vanish at $x$ and the
+forms of degree $n$ vanishing at $x$ form a proper subspace of $S_n$. Apply (a) to these subspaces for $x\in\{\eta_X\}\cup T$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:cotangent}
+\begin{enumerate}[label=(\alph*),nosep]
+\item For an affine open $V\subseteq X$ and $y\in V(\C)$, $\dim_\C\mathfrak m_y/\mathfrak m_y^2=d$.
+\item Let $f_1,\dots,f_k,a,b\in S_n$ with $n>0$ and $z\in X_a(\C)\cap X_b(\C)$. If $f_1/a,\dots,f_k/a$ span $\mathfrak m_z/\mathfrak m_z^2$ (in
+  $\OO(X_a)$), then $f_1/b,\dots,f_k/b$ span $\mathfrak m_z/\mathfrak m_z^2$ (in $\OO(X_b)$).
+\item If $q\in S_m$ vanishes at $y\in X(\C)$ and $f\in S_{2m}$ does not, then $q^2/f\in\mathfrak m_y^2\subseteq\OO(X_f)$.
+\end{enumerate}
+\formallabel{GlobalTheory.CotDim.exists_cotangent_basis}\formallabel{GlobalTheory.T.ratio_span_cotangent_change_denominator}\formallabel{GlobalTheory.EtProj.span_ratio_of_span_ratio}\formallabel{GlobalTheory.EtProj.Jets.ratio_sq_mem}
+\end{lemma}
+
+\begin{proof}
+(a) $\Omega_{X/\C}$ is locally free of rank $d$, and $\mathfrak m_y/\mathfrak m_y^2\cong\Omega_{X/\C}\otimes\kappa(y)$ at the $\C$-rational point
+$y$ \cite[Prop.~II.8.7, Thm.~II.8.15]{Hartshorne1977}. (b) For an affine open $V\ni z$, $\mathfrak m_z/\mathfrak m_z^2$ is canonically the cotangent
+space $\mathfrak m_{X,z}/\mathfrak m_{X,z}^2$ of the local ring, compatibly with restriction to smaller affine opens. In the local ring
+$f_j/b=(f_j/a)\cdot(a/b)$, and $a/b$ is a unit at $z$ with value $(a/b)(z)\ne0$; so the classes of the $f_j/b$ are the classes of the $f_j/a$ times
+$(a/b)(z)$. (c) Choose $g\in S_m$ not vanishing at $y$ (\cref{pf:hlf-cech:avoid}). Near $y$, $q^2/f=(q/g)^2\cdot(g^2/f)$ with
+$(q/g)(y)=0$; so the class of $q^2/f$ in $\OO_{X,y}/\mathfrak m_{X,y}^2=\OO(X_f)/\mathfrak m_y^2$ vanishes.
+\end{proof}
+
+\subsubsection{Forms with full jets at the prescribed points}
+For $k\in\N$ let $V_S(k)\subseteq S_k$ be the space of forms of degree $k$ vanishing at every point of $S$.
+
+\begin{lemma}\label{pf:hlf-cech:sep}
+Let $m\ge|S|$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item For every point $x$ of $X$ different from the points of $S$ there is $f\in V_S(m)$ not vanishing at $x$.
+\item Let $g_0\in S_1$, put $a=g_0^{m+1}$, and let $y\in X_a(\C)$. For every $u\in\mathfrak m_y\subseteq\OO(X_a)$ there is
+  $g\in V_S(m+1)$ with $u-g/a\in\mathfrak m_y^2$.
+\end{enumerate}
+\formallabel{GlobalTheory.EtProj.Jets.exists_sep}\formallabel{GlobalTheory.EtProj.Jets.exists_form_jet}\formallabel{GlobalTheory.EtProj.Jets.exists_lin_mul}
+\end{lemma}
+
+\begin{proof}
+(a) For $y\in S$ the homogeneous ideal of the closed point $\iota(y)$ is generated by linear forms; if all linear forms vanishing at $y$
+vanished at $x$, the prime ideal of $\iota(x)$ would contain that of $\iota(y)$, i.e.\ $\iota(x)$ would lie in the closure of the closed point
+$\iota(y)$, and $x=y$. So there is $\ell_y\in S_1$ vanishing at $y$ but not at $x$. With $\ell\in S_1$ not vanishing at $x$, the form
+$f=\ell^{m-|S|}\prod_{y\in S}\ell_y$ works.
+(b) By (a) applied to $S\smallsetminus\{y\}$ (with $m\ge|S\smallsetminus\{y\}|$) and the point $y$, there is $w\in S_m$ vanishing on
+$S\smallsetminus\{y\}$ with $w(y)\ne0$, i.e.\ $w$ does not vanish at $y$. We have $X_a=X_{g_0}$, a closed subscheme of the affine space
+$D_+(g_0)$, so $\OO(X_a)$ is generated over $\C$ by the ratios $T_i/g_0$ (\lref{GlobalTheory.EtProj.RatSpan.adjoin_fRatio_eq_top}); hence
+$\mathfrak m_y$ is generated by the functions $\ell/g_0$ with $\ell\in S_1$ vanishing at $y$, and $\mathfrak m_y/\mathfrak m_y^2$ is spanned by
+their classes. Since $\mathfrak m_y^2\ni(\ell/g_0)\bigl(w/g_0^m-(w/g_0^m)(y)\bigr)$, we get $(\ell w)/a\equiv\lambda\,\ell/g_0\bmod\mathfrak m_y^2$
+with $\lambda=(w/g_0^m)(y)\ne0$. Writing $u\equiv\sum_i\ell_i/g_0\bmod\mathfrak m_y^2$ with linear $\ell_i$ vanishing at $y$, the form
+$g=\lambda^{-1}(\sum_i\ell_i)w\in S_{m+1}$ satisfies $u-g/a\in\mathfrak m_y^2$, and $g$ vanishes on $S$ (at $y$ through $\sum_i\ell_i$, elsewhere
+through $w$).
+\end{proof}
+
+\begin{proposition}\label{pf:hlf-cech:jets}
+There are $n>0$, $h\in S_n$ and $g_1,\dots,g_d\in S_n$ such that
+\begin{enumerate}[label=(\alph*),nosep]
+\item no $g_j$ vanishes at $\eta_X$, and every $g_j$ vanishes at every point of $S$;
+\item every complex point of $X$ at which $h$ and all $g_j$ vanish lies in $S$;
+\item for $y\in S$ and every $f\in S_n$ not vanishing at $y$, we have $h/f\in\mathfrak m_y^2$ and $\mathfrak m_y\subseteq(g_1/f,\dots,g_d/f)+\mathfrak m_y^2$
+  in $\OO(X_f)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_forms_vanishing_complexPoints_fullJets}\formallabel{GlobalTheory.EtProj.Jets.exists_jet_forms}
+\end{proposition}
+
+\begin{proof}
+Put $m=|S|+1$ and $n=2m$. Recall that $X$ is noetherian ($\iota$ is a closed immersion into a noetherian scheme). The \emph{coheight} of a point
+$x$ is the supremum of the lengths $r$ of chains $x=x_0,x_1,\dots,x_r$ in which each $x_{k+1}$ is a generalisation of $x_k$ different from it; every
+point of $X$ has coheight at most $d$ (\lref{GlobalTheory.AffineCover.coheight_le_of_smooth}: every point of a scheme smooth of relative
+dimension $d$ over a field has coheight at most $d$). We use two facts on the topology of $X$: every closed subset $C$ of the noetherian space $X$
+has a finite subset $T$ such that every point of $C$ is a specialisation of a point of $T$ (the generic points of the irreducible components of
+$C$; \lref{GlobalTheory.EtProj.Generic.exists_finite_gen}); and if $t$ specialises to $x$, $t$ lies in an open $W$ and $x\notin W$, then $x\ne t$
+and $\mathrm{coheight}(x)\ge\mathrm{coheight}(t)+1$, by prefixing $x$ to the chains starting at $t$ (\lref{GlobalTheory.EtProj.Generic.coheight_step}).
+We identify $S$ with a set of closed points of $X$.
+
+\emph{Jet maps.} Choose $g_0\in S_1$ vanishing neither at $\eta_X$ nor at any point of $S$ (\cref{pf:hlf-cech:avoid}) and put $a=g_0^n$; then
+$X_a$ is affine and contains $S$. For $y\in S$ let $J_y\colon V_S(n)\to\OO(X_a)/\mathfrak m_y^2$, $f\mapsto f/a\bmod\mathfrak m_y^2$. Its image lies in
+$\mathfrak m_y/\mathfrak m_y^2$, and by \cref{pf:hlf-cech:sep}(b), applied with $n-1\ge|S|$ in place of $m$, it is all of
+$\mathfrak m_y/\mathfrak m_y^2$, a space of dimension $d$ (\cref{pf:hlf-cech:cotangent}(a); \lref{GlobalTheory.EtProj.Jets.jet_range}).
+For a point $x$ of $X$ let $\mathrm{Van}_k(x)\subseteq V_S(k)$ be the subspace of forms vanishing at $x$. If $x\notin S$, then
+$\mathrm{Van}_m(x)\ne V_S(m)$ and $\mathrm{Van}_n(x)\ne V_S(n)$: by \cref{pf:hlf-cech:sep}(a) there is $f\in V_S(m)$ not vanishing at $x$, and then
+$f^2\in V_S(n)$ does not vanish at $x$ either. If $d>0$ then $\eta_X\notin S$: if $y\in S$ were the generic point, every function on an open
+containing $y$ vanishing at $y$ would be zero (\lref{GlobalTheory.EtProj.Jets.eq_zero_of_generic}), so $\mathfrak m_y=0$, contradicting
+$\dim\mathfrak m_y/\mathfrak m_y^2=d>0$.
+
+\emph{Induction.} We show by induction on $k\le d$ that there are $c_1,\dots,c_k\in V_S(n)$ such that (i) no $c_i$ vanishes at $\eta_X$;
+(ii) every point $x\notin S$ at which all $c_i$ vanish has coheight $\ge k$; (iii) for every $y\in S$ the jets $J_y(c_1),\dots,J_y(c_k)$ are
+linearly independent. For $k=0$ there is nothing to show. Given $c_1,\dots,c_k$ with $k<d$, let $C$ be the common zero set of the $c_i$ (closed),
+$T$ a finite set of points of which every point of $C$ is a specialisation, and $T'=T\smallsetminus S$. Consider the subspaces of $V_S(n)$:
+$\mathrm{Van}_n(\eta_X)$, $\mathrm{Van}_n(t)$ for $t\in T'$, and $J_y^{-1}(\operatorname{span}(J_y(c_1),\dots,J_y(c_k)))$ for $y\in S$. All are proper:
+the first two by the previous paragraph ($\eta_X\notin S$ as $d>0$), the last because $J_y$ has image of dimension $d>k$. By
+\cref{pf:hlf-cech:avoid}(a) there is $c_{k+1}\in V_S(n)$ outside all of them. Then (i) and (iii) hold for $c_1,\dots,c_{k+1}$. For (ii), let
+$x\notin S$ be a common zero of $c_1,\dots,c_{k+1}$ and $t\in T$ a point specialising to $x$. If $t\in S$, then $t$ is closed and $x=t\in S$, which is
+excluded. So $t\in T'$ is a common zero of $c_1,\dots,c_k$ outside $S$, hence $\mathrm{coheight}(t)\ge k$, and $c_{k+1}$ does not vanish at $t$ but
+vanishes at $x$, so $\mathrm{coheight}(x)\ge\mathrm{coheight}(t)+1\ge k+1$.
+
+\emph{Conclusion.} Take $g_j=c_j$ ($1\le j\le d$) from the case $k=d$. Let $C$, $T$, $T'$ be as above for $c_1,\dots,c_d$, choose $q\in V_S(m)$
+not vanishing at any $t\in T'$ (\cref{pf:hlf-cech:avoid}(a) applied to the proper subspaces $\mathrm{Van}_m(t)$), and put $h=q^2\in V_S(n)$.
+Then (a) holds by (i). For (b), let $z\notin S$ be a complex point at which $h$ and all $g_j$ vanish and $t\in T$ specialising to $z$; as
+before $t\in T'$, so $q$ and $h$ do not vanish at $t$ while $h$ vanishes at $z$; thus $\mathrm{coheight}(z)\ge\mathrm{coheight}(t)+1\ge d+1$, a
+contradiction. For (c), let $y\in S$ and $f\in S_n$ with $f(y)\ne0$. Then $h/f=q^2/f\in\mathfrak m_y^2$ by \cref{pf:hlf-cech:cotangent}(c), since
+$q$ vanishes at $y$. By (iii) the $d$ jets $J_y(g_j)$ are linearly independent in the $d$-dimensional space $\mathfrak m_y/\mathfrak m_y^2$ of
+$\OO(X_a)$, hence span it; by \cref{pf:hlf-cech:cotangent}(b) the $g_j/f$ span $\mathfrak m_y/\mathfrak m_y^2$ in $\OO(X_f)$. (For $d=0$ the
+induction is empty and (c) holds because $\mathfrak m_y/\mathfrak m_y^2=0$.)
+\end{proof}
+
+\subsubsection{Regular values}
+
+\begin{proposition}[Algebraic Sard lemma]\label{pf:hlf-cech:sard}
+Let $X'$ be a scheme smooth of relative dimension $d$ over $\C$, $V\subseteq X'$ an affine open and $\varphi_1,\dots,\varphi_d\in\OO(V)$. There is
+a set $E\subseteq\C^d$ of Lebesgue measure zero such that for every $c\in\C^d\smallsetminus E$ and every $z\in V(\C)$ with $\varphi_j(z)+c_j=0$
+for all $j$, the functions $\varphi_1+c_1,\dots,\varphi_d+c_d$ are transversal at $z$.
+\formallabel{GlobalTheory.T.algebraicSard_shifted_functions_regularZeros}\formallabel{GlobalTheory.AlgSard.main}
+\end{proposition}
+
+\begin{proof}
+An \emph{algebraic chart} of $X'$ is an affine open $W$ with functions $u_1,\dots,u_d\in\OO(W)$ such that $\C[T_1,\dots,T_d]\to\OO(W)$,
+$T_a\mapsto u_a$, is \'etale, together with an open subset $\mathcal W$ of $W(\C)$ (analytic topology) on which $u=(u_1,\dots,u_d)$ is a
+homeomorphism onto an open subset of $\C^d$, such that every regular function on an open of $X'$ is holomorphic in the coordinate $u$ on
+$\mathcal W$. Countably many algebraic charts cover $V(\C)$ (\lref{GlobalTheory.AlgSard.countable_charts}; by the holomorphic inverse
+function theorem applied to \'etale coordinates, and since $V(\C)$ is second countable). For a chart, let $\mathrm{Jac}(z)$ be the
+Jacobian matrix of $\varphi=(\varphi_1,\dots,\varphi_d)$ in the coordinate $u$ at $z\in\mathcal W\cap V(\C)$. The set
+$E_{\mathcal W}=\{-\varphi(z):\ z\in\mathcal W\cap V(\C),\ \det\mathrm{Jac}(z)=0\}$ has measure zero
+(\lref{GlobalTheory.T.null_negEval_of_jacobian_det_eq_zero}): it is the image of the critical set of the holomorphic, in particular
+continuously differentiable, map $-\varphi\circ u^{-1}$ between open subsets of $\C^d=\R^{2d}$, whose real Jacobian determinant is
+$|\det\mathrm{Jac}|^2$, and the image of the critical set of a $C^1$ map between open subsets of $\R^{2d}$ is a null set
+\cite[Thm.~3-14]{Spivak1965}. Let $E$ be the (countable) union of the $E_{\mathcal W}$. If $c\notin E$ and $\varphi(z)=-c$, choose a chart
+containing $z$; then $\det\mathrm{Jac}(z)\ne0$, and the functions $\varphi_j-\varphi_j(z)=\varphi_j+c_j$ are transversal at $z$
+(\lref{GlobalTheory.T.ker_evalComplexPoint_le_span_jacobian}): indeed the classes of $u_a-u_a(z)$ form a basis of $\mathfrak m_z/\mathfrak m_z^2$
+($\C[T]\to\OO(W)$ being \'etale), and in this basis the classes of $\varphi_j-\varphi_j(z)$ have the invertible matrix $\mathrm{Jac}(z)$.
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:hlf-cech:forms}}{the theorem}}
+
+\begin{proof}[Proof of \cref{pf:hlf-cech:forms}]
+Let $n,h,g_1,\dots,g_d$ be as in \cref{pf:hlf-cech:jets}. The open $X_h$ is affine. Apply \cref{pf:hlf-cech:sard} to $V=X_h$ and
+$\varphi_j=g_j/h$, and let $E$ be the null set obtained.
+
+For each $j$ there is at most one $a_j\in\C$ such that $g_j+a_jh$ vanishes at $\eta_X$: if $g_j+ah$ and $g_j+a'h$ both lie in the prime ideal
+$\mathfrak P=\iota(\eta_X)$ with $a\ne a'$, then $(a-a')h\in\mathfrak P$, so $h\in\mathfrak P$ and $g_j\in\mathfrak P$, contradicting
+\cref{pf:hlf-cech:jets}(a). (If there is no such value, put $a_j=0$.) The union of $E$ and the hyperplanes $\{c_j=a_j\}$ has measure zero, so
+there is $c\in\C^d$ with $c\notin E$ and $c_j\ne a_j$ for all $j$. Put $F_j=g_j+c_jh\in S_n$. Then no $F_j$ vanishes at $\eta_X$, and on $X_h$ we have
+$F_j/h=\varphi_j+c_j$.
+
+\emph{Transversality on $X_h$.} If $z\in X_h(\C)$ is a common zero of $F_1,\dots,F_d$, then $\varphi_j(z)+c_j=0$, so the $F_j/h$ are transversal at
+$z$ by the choice of $c$. By \cref{pf:hlf-cech:closedpts}(c) the set $T_1$ of complex points of $X_h$ at which the $F_j/h$ are transversal is
+finite.
+
+\emph{Common zeros off $X_h$.} If $z$ is a complex point at which $h$ and all $F_j$ vanish, then all $g_j=F_j-c_jh$ vanish at $z$, so $z\in S$ by
+\cref{pf:hlf-cech:jets}(b).
+
+By \cref{pf:hlf-cech:avoid}(b) choose $f_0\in S_n$ vanishing neither at $\eta_X$ nor at any point of $S\cup T_1$, and put $f_j=F_j$ for
+$1\le j\le d$. We verify (1)--(3).
+
+(1) Let $z$ be a complex point not in $X_{f_1}\cup\dots\cup X_{f_d}$. If $z\in X_h$, then $z\in T_1$; otherwise $z\in S$. In both cases
+$z\in X_{f_0}$. So $X_{f_0}\cup\dots\cup X_{f_d}$ contains all complex points and equals $X$ (\cref{pf:hlf-cech:closedpts}(a)). No $f_i$ vanishes
+at $\eta_X$.
+
+(2) Let $y\in S$. Then $y\in X_{f_0}$, $g_j$ vanishes at $y$ (\cref{pf:hlf-cech:jets}(a)), and so does $h$, because $h/f_0\in\mathfrak m_y^2\subseteq
+\mathfrak m_y$ (\cref{pf:hlf-cech:jets}(c)). Hence $F_j=g_j+c_jh$ vanishes at $y$, i.e.\ $(f_j/f_0)(y)=0$.
+
+(3) Let $z\in X_{f_0}(\C)$ with $(f_j/f_0)(z)=0$ for all $j\ge1$. If $z\in S$, then by \cref{pf:hlf-cech:jets}(c)
+$\mathfrak m_z\subseteq(g_j/f_0)_j+\mathfrak m_z^2$ and $h/f_0\in\mathfrak m_z^2$; since $g_j/f_0=f_j/f_0-c_j\,h/f_0$, we get
+$\mathfrak m_z\subseteq(f_j/f_0)_j+\mathfrak m_z^2$. If $z\notin S$, then $z\in X_h$ by the preceding paragraph, so the $F_j/h$ are transversal at
+$z$, and by \cref{pf:hlf-cech:cotangent}(b) (change of denominator from $h$ to $f_0$) so are the $f_j/f_0$.
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:sard}
+The formal proof chooses the constants $c_j$ by the measure-theoretic argument of \cref{pf:hlf-cech:sard}; the same choice could be made
+using generic smoothness \cite[Cor.~III.10.7]{Hartshorne1977}.
+\end{remark}
+
+% ===========================================================================
+\subsection{Finite covers of projective space with reduced fibre over the origin}\label{sec:pf:hlf-cech:fincov}
+
+\begin{theorem}\label{pf:hlf-cech:fincovthm}
+Let $X$ be an integral scheme which is smooth of relative dimension $d$ and projective over $\C$, and $S\subseteq X(\C)$ finite. There are a
+subfield $F\subseteq\C(X)$ containing $\C$, a family $x=(x_0,\dots,x_d)\in F^{d+1}$ and opens $U_0,\dots,U_d$ of $X$ such that
+\begin{enumerate}[label=(\arabic*),nosep]
+\item $x$ defines a finite cover of $\C(X)$ (\cref{pf:hlf-cech:def:fincov}), and $(U,R(\C(X)))$, $I\mapsto R_I(\C(X))$, is an adapted affine cover of $X$
+  (\cref{pf:hlf-cech:def:affcov});
+\item the ring $R_0(\C(X))/(t_1,\dots,t_d)$ is reduced;
+\item every $y\in S$ lies in $U_0$, and $t_j(y)=0$ for $1\le j\le d$ (where $t_j\in R_0(\C(X))=\OO(U_0)$).
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_finiteCover_projSpace_reduced_fibre_origin}\formallabel{GlobalTheory.PD.FibRed.exists_finCover_fibre_reduced}
+\end{theorem}
+
+Geometrically: $x$ defines a finite morphism $\pi\colon X\to\mathbb P^d$, $U_i=\pi^{-1}\{T_i\ne0\}$, the scheme-theoretic fibre $\pi^{-1}(1:0:\dots:0)$
+is reduced, and it contains $S$.
+
+\begin{proposition}\label{pf:hlf-cech:formsfincov}
+Let $X$ be integral and smooth of relative dimension $d$ over $\C$, $\iota\colon X\to\mathbb P^N$ a closed immersion over $\C$, $n>0$ and
+$f_0,\dots,f_d\in S_n$ such that $X_{f_0},\dots,X_{f_d}$ cover $X$ and $\eta_X\in X_{f_i}$ for all $i$. Then there are a subfield $F\subseteq\C(X)$
+and $x\in F^{d+1}$ such that $x$ defines a finite cover of $\C(X)$, $(U,R(\C(X)))$ with $U_i=X_{f_i}$ is an adapted affine cover of $X$, and
+$x_j=f_j/f_0$ in $\C(X)$ for all $j$; in particular $x_0=1$.
+\formallabel{GlobalTheory.T.exists_finiteCover_affineCover_of_forms_no_commonZero}\formallabel{GlobalTheory.EtProj.isFinCover_of_forms}\formallabel{GlobalTheory.EtProj.exists_finCover_of_isFinite}
+\end{proposition}
+
+\begin{proof}
+\emph{The morphism.} Since the $f_i\circ\iota$ have no common zero on $X$, they define a morphism $\pi\colon X\to\mathbb P^d$ over $\C$ with
+$\pi^*(T_j/T_i)=f_j/f_i$ on $\pi^{-1}D_+(T_i)=X_{f_i}$. It is proper, because $X$ is proper over $\C$ and $\mathbb P^d$ is separated, and affine,
+because the preimages $X_{f_i}$ of the affine charts are affine; hence $\pi$ is finite \cite[Tag~01WN]{Stacks2024}
+(\lref{GlobalTheory.EtProj.isFinite_formMap}).
+
+\emph{The family $x$.} Let $x_j\in\C(X)$ be the germ of $f_j/f_0=\pi^*(T_j/T_0)$ and $F=\C(x_1,\dots,x_d)\subseteq\C(X)$; then $x_0=1$ and
+$t_j=x_j$. For every $I$ let $U_I=\bigcap_{i\in I}X_{f_i}=\pi^{-1}D_+(T_I)$, $T_I=\prod_{i\in I}T_i$; for $I\ne\emptyset$ it is affine, because $\pi$ is
+affine, and $\eta_X\in U_I$ by assumption. The ring $\OO(D_+(T_I))=\C[T_j/T_i:\,i\in I,\ 0\le j\le d]$ maps onto $A_I$, and $\OO(U_I)$ is a finite
+$\OO(D_+(T_I))$-module.
+
+\emph{(i) of \cref{pf:hlf-cech:def:fincov}.} On $X_{f_0}\cap X_{f_i}$ we have $(f_i/f_0)(f_0/f_i)=1$, so $x_i\ne0$
+(\lref{GlobalTheory.T.pulledBackProjCoordinateRatio_overlap_div}). The homomorphism $\C[T_1,\dots,T_d]\to\OO(X_{f_0})$, $T_j\mapsto t_j$, is
+finite, and $\OO(X_{f_0})$ is a domain of Krull dimension $d$; a finite homomorphism from a polynomial ring in $d$ variables to a domain of
+dimension $d$ is injective, because its image has the same dimension as the target (integral extensions preserve dimension
+\cite[Ch.~5]{AtiyahMacdonald1969}) while a proper quotient of the polynomial ring has dimension $<d$
+(\lref{GlobalTheory.T.algebraicIndependent_pulledBackProjCoordinateRatios}). Hence $t_1,\dots,t_d$ are algebraically independent; and
+$F=\C(t_1,\dots,t_d)$ by definition.
+
+\emph{(ii).} $\C(X)$ is the fraction field of $\OO(X_{f_0})$, which is a finite module over $\C[t_1,\dots,t_d]\subseteq F$; so $\C(X)$ is spanned over
+$F$ by finitely many elements of $\OO(X_{f_0})$, and $[\C(X):F]<\infty$ (\lref{GlobalTheory.T.finite_projection_function_field}). The
+extension is separable as the characteristic is $0$.
+
+\emph{Adaptedness and (iii).} Let $I\ne\emptyset$. The ring $\OO(U_I)$ is integral over $A_I$ ($\pi$ is finite), so its image in $\C(X)$ is contained in
+$R_I$ (\lref{GlobalTheory.T.genericGerm_chartInter_integral_coordinateRatios}). Conversely $\OO(U_I)$ is a normal domain ($X$ is smooth) with
+fraction field $\C(X)$ containing $A_I$, so every element of $\C(X)$ integral over $A_I$ lies in $\OO(U_I)$
+(\lref{GlobalTheory.T.chart_function_field_integral}). Hence $R_I$ is the image of $\OO(U_I)$. In particular $R_i\cong\OO(X_{f_i})$ is a smooth
+$\C$-algebra (\lref{GlobalTheory.T.affine_germ_subalgebra_smooth}), which is (iii); the $U_i$ cover $X$ by assumption
+(\lref{GlobalTheory.T.projective_chart_affine_cover}).
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:artinian}
+\begin{enumerate}[label=(\alph*),nosep]
+\item If $x$ defines a finite cover of $K$, then $R_0(K)/(t_1,\dots,t_d)$ is a finite-dimensional $\C$-algebra, in particular an Artinian ring.
+\item Let $A$ be a commutative ring and $I\subseteq A$ an ideal such that $A/I$ is Artinian and $\mathfrak m\subseteq I+\mathfrak m^2$ for every
+  maximal ideal $\mathfrak m\supseteq I$. Then $A/I$ is reduced.
+\end{enumerate}
+\formallabel{GlobalTheory.T.isArtinianRing_rB_quot_span_tco_of_isFinCover}\formallabel{GlobalTheory.PD.isArtinianRing_fib_quot}\formallabel{GlobalTheory.T.isReduced_quotient_of_artinian_of_maximal_le'}\formallabel{GlobalTheory.isReduced_quotient_of_artinian_of_maximal_le}
+\end{lemma}
+
+\begin{proof}
+(a) $A_{\{0\}}=\C[t_1,\dots,t_d]$ is a polynomial ring (as $x_0/x_0=1$), a noetherian normal domain with fraction field $F$, and $R_0$ is its
+integral closure in the finite separable extension $K$ of $F$; hence $R_0$ is contained in a finitely generated $A_{\{0\}}$-module \cite[Prop.~5.17]{AtiyahMacdonald1969}, and is itself finitely generated as $A_{\{0\}}$ is noetherian.
+So $R_0/(t_1,\dots,t_d)$ is a finite module over $A_{\{0\}}/(t_1,\dots,t_d)=\C$.
+(b) The Artinian ring $B=A/I$ is the product of its localisations $B_{\mathfrak n}$ at its finitely many maximal ideals $\mathfrak n=\mathfrak m/I$.
+The hypothesis gives $\mathfrak n=\mathfrak n^2$, hence $\mathfrak nB_{\mathfrak n}=(\mathfrak nB_{\mathfrak n})^2=\dots$; as the maximal ideal of the
+local Artinian ring $B_{\mathfrak n}$ is nilpotent, $\mathfrak nB_{\mathfrak n}=0$ and $B_{\mathfrak n}$ is a field. So $B$ is a finite product of
+fields, hence reduced.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:hlf-cech:fincovthm}]
+Choose a closed immersion $\iota\colon X\to\mathbb P^N$ over $\C$, let $n,f_0,\dots,f_d$ be as in \cref{pf:hlf-cech:forms}, and let $F,x$ be as in
+\cref{pf:hlf-cech:formsfincov}, with $U_i=X_{f_i}$. Then (1) holds. Put $\tau_j=f_j/f_0\in\OO(U_0)$; the germ map identifies $\OO(U_0)$ with
+$R_0$ and $\tau_j$ with $t_j$, hence $\OO(U_0)/(\tau_1,\dots,\tau_d)\cong R_0/(t_1,\dots,t_d)$ (\lref{GlobalTheory.PD.FibRed.quotEquiv_of_germ}).
+This ring is Artinian by \cref{pf:hlf-cech:artinian}(a). Every maximal ideal of $\OO(U_0)$ containing the $\tau_j$ is $\mathfrak m_z$ for a complex
+point $z\in U_0$ (\cref{pf:hlf-cech:closedpts}(b)) with $\tau_j(z)=0$, and $\mathfrak m_z\subseteq(\tau_1,\dots,\tau_d)+\mathfrak m_z^2$ by
+\cref{pf:hlf-cech:forms}(3). By \cref{pf:hlf-cech:artinian}(b) the quotient is reduced, which is (2). Finally (3) is \cref{pf:hlf-cech:forms}(2),
+since a function on $U_0$ whose germ is $t_j$ equals $\tau_j$ ($X$ being integral).
+\end{proof}
+
+\subsubsection{Pulling back along finite \'etale morphisms}
+
+In the rest of this subsection $Z$ and $Y$ are integral schemes, smooth of relative dimension $d$ over $\C$, $c\colon Y\to Z$ is finite and
+\'etale, and $\C(Y)$ is a $\C(Z)$-algebra compatibly with $c$: the image of the germ of $g\in\OO(V)$ is the germ of $c^*g$ (for $V\ni\eta_Z$). Note
+that $c(\eta_Y)=\eta_Z$ ($c$ is open and closed, hence surjective, and $Z$ is irreducible). Given $F\subseteq\C(Z)$ and $x\in F^{d+1}$ we regard $x$
+also as a family in $\C(Y)$, through $F\to\C(Z)\to\C(Y)$.
+
+\begin{proposition}\label{pf:hlf-cech:pull}
+If $x$ defines a finite cover of $\C(Z)$ and $(U,R(\C(Z)))$ is an adapted affine cover of $Z$, then $x$ defines a finite cover of $\C(Y)$ and
+$(c^{-1}U,R(\C(Y)))$ is an adapted affine cover of $Y$; in particular $R_I(\C(Y))$ is the image of $\OO(c^{-1}U_I)$ for $I\ne\emptyset$.
+\formallabel{UpperTheory.A.isFinCover_pull}
+\end{proposition}
+
+\begin{proof}
+The opens $c^{-1}U_I$ are affine ($c$ is affine), cover $Y$ and contain $\eta_Y$. Let $I\ne\emptyset$. The ring $\OO(c^{-1}U_I)$ is finite over
+$\OO(U_I)$, which is integral over $A_I$; so $\OO(c^{-1}U_I)\subseteq R_I(\C(Y))$. Conversely $\OO(c^{-1}U_I)$ is a normal domain with fraction field
+$\C(Y)$, so it contains every element of $\C(Y)$ integral over $A_I$. Hence $R_I(\C(Y))$ is the image of $\OO(c^{-1}U_I)$
+(\lref{UpperTheory.A.mem_rB_pull}; \lref{GlobalTheory.T.finiteEtale_functionField_integralClosure_differentials}), and $R_i(\C(Y))$ is smooth over
+$\C$. Condition (i) of \cref{pf:hlf-cech:def:fincov} concerns only $F$ and $x$. Finally $\C(Y)$ is finite over $\C(Z)$ ($c$ is finite and
+dominant), hence over $F$, and separable (characteristic $0$).
+\end{proof}
+
+\begin{proposition}\label{pf:hlf-cech:fieldext}
+In the situation of \cref{pf:hlf-cech:pull}, if $R_0(\C(Z))/(t_1,\dots,t_d)$ is reduced, then so is $R_0(\C(Y))/(t_1,\dots,t_d)$.
+\formallabel{UpperTheory.etaleCorrespondence_fieldExtension_statement}
+\end{proposition}
+
+\begin{proof}
+Identify $R_0(\C(Z))=\OO(U_0)$ and $R_0(\C(Y))=\OO(c^{-1}U_0)$; the inclusion $R_0(\C(Z))\to R_0(\C(Y))$ is $c^*$, a finite \'etale, in particular
+formally unramified, homomorphism. The ideal of $R_0(\C(Y))$ generated by the $t_j$ is the extension of the ideal
+$(t_1,\dots,t_d)$ of $R_0(\C(Z))$, since the $t_j$ lie in $R_0(\C(Z))$. Hence $B'=R_0(\C(Y))/(t)$ is a formally unramified algebra over
+$B=R_0(\C(Z))/(t)$, and both are finite-dimensional over $\C$ (\cref{pf:hlf-cech:artinian}(a), applied to $\C(Z)$ and, by \cref{pf:hlf-cech:pull},
+to $\C(Y)$). Being reduced and finite-dimensional, $B\cong\C^r$; so $B'$ is a product of $r$ finite-dimensional formally unramified
+$\C$-algebras, each a product of copies of $\C$: the localisation of such an algebra at a prime is a field by \cite[Tag~00UW]{Stacks2024}. Thus $B'$ is reduced.
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:fieldext}
+The formal statement of \cref{pf:hlf-cech:fieldext} is formulated for a pair of finite \'etale morphisms $c_1,c_2\colon Y\to Z$ with $Z$ projective and
+an embedding $j_2$ of function fields compatible with $c_2$, as in the proof of \cref{pf:geo:hlfint}; only $c=c_1$ is used.
+\end{remark}
+
+% ===========================================================================
+\subsection{\v{C}ech description of Hodge cohomology}\label{sec:pf:hlf-cech:cech}
+
+\begin{theorem}\label{pf:hlf-cech:cechthm}
+There is a \v{C}ech comparison family (\cref{pf:hlf-cech:def:cmpfam}).
+\formallabel{GlobalTheory.T.exists_hodge_cohomology_equiv_cech_differentials}\formallabel{UpperTheory.Cb.exists_hodge_cohomology_equiv_cech_differentials}
+\end{theorem}
+
+Thus the Hodge cohomology of $X$ is computed by \v{C}ech complexes of subspaces of the forms of the function field, naturally for
+pull-backs and for traces along finite \'etale morphisms. We first recall the comparison of \v{C}ech cohomology with sheaf cohomology.
+
+For a sheaf of modules $\mathcal F$ on a scheme $X$ and a family of opens $(U_i)_{i\in\iota}$ indexed by a finite linearly ordered set, the
+(ordered, alternating) \v{C}ech complex has $n$-cochains $x=(x(s))_{s}$, $x(s)\in\mathcal F(U_s)$, for the subsets $s\subseteq\iota$ with $|s|=n+1$,
+and the differential $(\delta x)(t)=\sum_{i\in t}\epsilon(t,i)\,x(t\smallsetminus\{i\})|_{U_t}$; we write $\check H^n(U,\mathcal F)$ for its
+cohomology. If the $U_i$ cover $X$ and all $U_s$, $s\ne\emptyset$, are affine, then for every quasi-coherent $\mathcal F$ there is an
+isomorphism
+\[
+  \lambda_{U,\mathcal F}\colon\check H^n(U,\mathcal F)\xrightarrow{\ \sim\ }H^n(X,\mathcal F)
+\]
+(Leray's theorem \cite[Thm.~III.4.5]{Hartshorne1977}, \cite[Tag~01XD]{Stacks2024}; formally \lref{GlobalTheory.cechHEquivCoh}). In the
+formal development $\lambda$ is constructed by dimension shifting: in degree $0$ it is the identification of \v{C}ech $0$-cocycles with global
+sections, and it is compatible with the connecting homomorphisms of short exact sequences $0\to\mathcal F\to\mathcal I\to\mathcal Q\to0$
+of sheaves with vanishing higher \v{C}ech cohomology on all $U_s$ (\lref{GlobalTheory.cechAbHEquivH'_δ}).
+
+\begin{lemma}[Naturality of Leray's isomorphism]\label{pf:hlf-cech:leraynat}
+Let $f\colon X'\to X$ be a morphism of schemes, $\mathcal F$ and $\mathcal G$ quasi-coherent modules on $X$ and $X'$, and
+$\phi\colon\mathcal F\to f_*\mathcal G$ a morphism of modules over $\OO_X\to f_*\OO_{X'}$; let $f^*_\phi\colon H^n(X,\mathcal F)\to H^n(X',\mathcal G)$
+be the induced map. Let $(U_i)_{i\in\iota}$ and $(U'_k)_{k\in\kappa}$ be finite covers of $X$ and $X'$, indexed by linearly ordered sets, with
+all nonempty intersections affine, and $\tau\colon\kappa\to\iota$ with $U'_k\subseteq f^{-1}U_{\tau(k)}$. Let $x$ and $x'$ be $n$-cocycles of $\mathcal F$
+and $\mathcal G$ such that $x'(t)=\operatorname{sgn}(\tau,t)\,\phi(x(\tau(t)))|_{U'_t}$ if $\tau$ is injective on $t$, and $x'(t)=0$ otherwise. Then
+$\lambda_{U',\mathcal G}[x']=f^*_\phi\,\lambda_{U,\mathcal F}[x]$.
+\formallabel{GlobalTheory.T.scheme_cechComparison_natural_refinement}\formallabel{GlobalTheory.cechHEquivCoh_pull}\formallabel{GlobalTheory.cechAbHEquivH'_pull}
+\end{lemma}
+
+\begin{proof}
+The cochain map $x\mapsto x'$ is the \v{C}ech map $\tau^\sharp_\phi$ attached to $\phi$ and the refinement $\tau$; it commutes with the
+differentials (\lref{GlobalTheory.T.moduleCubePullHom_term_comm_cechDifferential}; the computation is the same as in the proof of
+\cref{pf:hlf-cech:cochainmaps}(a) below, with restriction maps in place of inclusions of subspaces). We prove the claim for all $\mathcal F,\mathcal G,\phi$ by induction on $n$; the lemma is a statement about
+the underlying sheaves of abelian groups. For $n=0$ both sides are given by restriction of sections: the class of $x$ is the global section $s$
+with $s|_{U_i}=x(\{i\})$, and $x'(\{k\})=\phi(x(\{\tau k\}))|_{U'_k}=\phi(s)|_{U'_k}$ (\lref{GlobalTheory.T.cechComparison_degreeZero_alternatingPullback}).
+For the induction step embed $\mathcal F$ and $\mathcal G$ into injective sheaves, $0\to\mathcal F\to\mathcal I\to\mathcal Q\to0$ and
+$0\to\mathcal G\to\mathcal J\to\mathcal Q'\to0$, and extend $\phi$ to a morphism of short exact sequences ($\mathcal J$ being injective;
+\lref{GlobalTheory.SheafPull.exists_hom_injectiveShortComplex}). Injective sheaves have vanishing higher \v{C}ech cohomology, and hence so do
+$\mathcal Q$, $\mathcal Q'$ on all $U_s$, $U'_t$, so $\lambda$ is defined for them and compatible with the connecting maps $\partial$. The
+\v{C}ech connecting map $\check H^n(U,\mathcal Q)\to\check H^{n+1}(U,\mathcal F)$ is surjective, as $\check H^{n+1}(U,\mathcal I)=0$; write
+$[x]=\partial[x_3]$ for an $n$-cocycle $x_3$ of $\mathcal Q$ and put $x'_3=\tau^\sharp(x_3)$. The \v{C}ech map $\tau^\sharp$ commutes with the \v{C}ech
+connecting maps (\lref{GlobalTheory.cechAbPull_δ}): $\partial[x'_3]=[\tau^\sharp x]=[x']$. Hence
+\[
+  \lambda[x']=\lambda\,\partial[x'_3]=\partial\,\lambda[x'_3]=\partial\,f^*\lambda[x_3]=f^*\,\partial\,\lambda[x_3]=f^*\lambda\,\partial[x_3]=f^*\lambda[x],
+\]
+using the induction hypothesis for $\mathcal Q\to f_*\mathcal Q'$ and the compatibility of $f^*$ with connecting maps on sheaf cohomology
+(\lref{GlobalTheory.SheafPull.pull_δ}).
+\end{proof}
+
+The special case $f=\mathrm{id}$, $\tau=\mathrm{id}$ is the naturality of $\lambda$ for morphisms of sheaves
+(\lref{GlobalTheory.cechHEquivCoh_map}).
+
+\begin{lemma}\label{pf:hlf-cech:germforms}
+Let $X$ be integral and smooth of relative dimension $d$ over $\C$, $V\subseteq X$ an affine open containing $\eta_X$, and $B\subseteq\C(X)$ the image of
+$\OO(V)$. The germ map $\gamma_V\colon\Omega^a_X(V)=\bigwedge^a_{\OO(V)}\Omega_{\OO(V)/\C}\to\bigwedge^a_{\C(X)}\Omega_{\C(X)}$ is injective with image
+$\Omega^a(B)$, and the germ maps are compatible with restriction to smaller affine opens.
+\formallabel{UpperTheory.affineCechOpen_functionField_generic}\formallabel{UpperTheory.GenericCoverClass.gm_spec}
+\end{lemma}
+
+\begin{proof}
+$\OO(V)$ is a smooth $\C$-algebra, as $X$ is smooth over $\C$, so $\Omega_{\OO(V)/\C}$ and its exterior powers are projective
+$\OO(V)$-modules, in particular torsion-free. Since $\Omega_{\C(X)}=\C(X)\otimes_{\OO(V)}\Omega_{\OO(V)/\C}$ (localisation), $\gamma_V$ is the
+localisation map $\bigwedge^a\Omega_{\OO(V)/\C}\to\C(X)\otimes_{\OO(V)}\bigwedge^a\Omega_{\OO(V)/\C}$, which is injective. Its image is the
+$\OO(V)$-span of the $dv_1\wedge\dots\wedge dv_a$, $v_j\in\OO(V)$, that is $\Omega^a(B)$. Germs commute with restriction
+(\lref{GlobalTheory.T.genericGerm_differentialForm_restrict_affineOpen}).
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:cechiso}
+Let $\iota$ be a finite linearly ordered set, $(C_s)_{s\subseteq\iota}$ a system of vector spaces with restriction maps $C_s\to C_t$ for $s\subseteq t$
+(a functor on subsets), $E$ a vector space, $(A_s)$ subspaces of $E$, and $g_s\colon C_s\to E$ linear maps, injective with image $A_s$ for
+$s\ne\emptyset$, such that $g_t(x|_t)=g_s(x)$ for $\emptyset\ne s\subseteq t$. Then $z\mapsto(t\mapsto g_t(z(t)))$ induces an isomorphism from the
+cohomology of the ordered alternating \v{C}ech complex of $C$ onto $\check H^n(A)$, for every $n$.
+\formallabel{GlobalTheory.T.cechHomologyEquivFamAlt}\formallabel{GlobalTheory.cechHomologyEquivFam}\formallabel{UpperTheory.GenericCoverClass.cube_exists}
+\end{lemma}
+
+\begin{proof}
+The map $z\mapsto g(z)$ is an isomorphism of graded vector spaces from the cochains of $C$ onto $\bigoplus_n\check C^n(A)$ (both live on the
+nonempty subsets, $g_s$ being bijective onto $A_s$), and it commutes with the differentials because the $g$'s commute with restrictions. An
+isomorphism of complexes induces isomorphisms in cohomology.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:hlf-cech:cechthm}]
+\emph{Construction.} Let $X$ be integral and smooth over $\C$ and $(U,B)$ an adapted affine cover. All $U_s$, $s\ne\emptyset$, are affine and
+contain $\eta_X$, and $B_s$ is the image of $\OO(U_s)$; by \cref{pf:hlf-cech:germforms} the germ maps $\gamma_{U_s}\colon\Omega^a_X(U_s)\to
+\bigwedge^a\Omega_{\C(X)}$ satisfy the hypotheses of \cref{pf:hlf-cech:cechiso} with $A_s=\Omega^a(B_s)$. Let $E_{U,B}$ be the composite of
+$\lambda_{U,\Omega^a_X}^{-1}$ and the isomorphism $\gamma_*$ of \cref{pf:hlf-cech:cechiso}:
+\[
+  E_{U,B}\colon\hlfcechHdg{X}{a}{b}\xrightarrow{\ \lambda^{-1}\ }\check H^b(U,\Omega^a_X)\xrightarrow{\ \gamma_*\ }\check H^b(B,a),\qquad
+  E_{U,B}(\lambda[x])=[\,t\mapsto\gamma_{U_t}(x(t))\,]
+\]
+(\lref{UpperTheory.GenericCoverClass.cmp}, \lref{UpperTheory.GenericCoverClass.cmp_class}).
+
+\emph{(N1).} Let $f,\psi,\varphi,(U,B),(U',B'),\tau$ be as in (N1), and assume that $\tau^\sharp_\varphi$ is a map of complexes. For an affine
+$V\ni\eta_X$ and an affine $V'\subseteq f^{-1}V$ containing $\eta_{X'}$, and $\omega\in\Omega^a_X(V)$, we have
+\begin{equation}\label{eq:pf:hlf-cech:germpull}
+  \gamma_{V'}\bigl((f^*\omega)|_{V'}\bigr)=\varphi\bigl(\gamma_V(\omega)\bigr):
+\end{equation}
+both sides are additive in $\omega$ and agree on $b\,dv_1\wedge\dots\wedge dv_a$, because $\psi$ maps germs of functions to germs of their
+pull-backs (\lref{GlobalTheory.T.genericGerm_differentialForm_pullback_dominant}). Let $z\in\hlfcechHdg{X}{a}{b}$ and $x$ a \v{C}ech cocycle of
+$\Omega^a_X$ with $\lambda[x]=z$, and define the cochain $x'$ of $\Omega^a_{X'}$ on $U'$ by the formula of \cref{pf:hlf-cech:leraynat} for
+$\phi=f^*\colon\Omega^a_X\to f_*\Omega^a_{X'}$. By \eqref{eq:pf:hlf-cech:germpull}, $\gamma(x')=\tau^\sharp_\varphi(\gamma(x))$; this is a cocycle since
+$\tau^\sharp_\varphi$ is a map of complexes, and since the germ maps are injective and commute with restrictions, $x'$ is a cocycle. By
+\cref{pf:hlf-cech:leraynat}, $\lambda[x']=f^*z$, hence
+$E_{U',B'}(f^*z)=[\gamma(x')]=[\tau^\sharp_\varphi\gamma(x)]=(\tau^\sharp_\varphi)_*E_{U,B}(z)$ (\lref{UpperTheory.isAffCover_prod_cechOpen}).
+
+\emph{(N2).} Let $c\colon Y\to X$, $(U,B)$, $(c^{-1}U,B')$ be as in (N2), and assume that $\mathrm{tr}$ is a map of complexes. The extension
+$\C(Y)/\C(X)$ is finite ($c$ is finite) and separable, and for an affine $V\ni\eta_X$ and $\omega\in\Omega^a_Y(c^{-1}V)$
+\begin{equation}\label{eq:pf:hlf-cech:germtrace}
+  \gamma_V\bigl(\Tr_c(\omega)\bigr)=\Tr_{\C(Y)/\C(X)}\bigl(\gamma_{c^{-1}V}(\omega)\bigr),
+\end{equation}
+where $\Tr_c\colon\Omega^a_Y(c^{-1}V)\to\Omega^a_X(V)$ is the trace of forms of the finite \'etale algebra $\OO(c^{-1}V)$ over $\OO(V)$: localising
+at the generic point, $\C(X)\otimes_{\OO(V)}\OO(c^{-1}V)=\C(Y)$ and the trace of forms commutes with this base change
+(\lref{UpperTheory.functionField_of_finite_etale_cover}). Let $w\in\hlfcechHdg{Y}{a}{b}$. Under $H^b(Y,\Omega^a_Y)=H^b(X,c_*\Omega^a_Y)$ and
+$\check H^b(c^{-1}U,\Omega^a_Y)=\check H^b(U,c_*\Omega^a_Y)$, which are compatible with $\lambda$, $w=\lambda[x]$ for a cocycle $x$ of $c_*\Omega^a_Y$
+on $U$, and $c_*w$ is the image of $w$ under the morphism of sheaves $\Tr_c\colon c_*\Omega^a_Y\to\Omega^a_X$. By the naturality of $\lambda$ for
+morphisms of sheaves, $c_*w=\lambda[\Tr_c\circ x]$, and by \eqref{eq:pf:hlf-cech:germtrace}, $\gamma(\Tr_c\circ x)=\mathrm{tr}(\gamma(x))$. Hence
+$E_{U,B}(c_*w)=\mathrm{tr}_*E_{c^{-1}U,B'}(w)$ (\lref{UpperTheory.GenericCoverClass.cmp_trace}).
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:cech}
+The naturality statements (N1), (N2) are formulated under the hypothesis that the relevant cochain maps $\tau^\sharp_\varphi$ and
+$\mathrm{tr}$ are maps of complexes; this hypothesis is verified where they are applied (\cref{pf:hlf-cech:cochainmaps}).
+\end{remark}
+
+% ===========================================================================
+\subsection{Lifting the correspondence to \v{C}ech cocycles}\label{sec:pf:hlf-cech:family}
+
+\begin{definition}[The situation of a correspondence]\label{pf:hlf-cech:def:sit}
+We say that we are in \emph{situation (S)} if: $Z$ and $Y$ are integral schemes, smooth of relative dimension $d$ over $\C$, with $Z$
+projective; $c_1,c_2\colon Y\to Z$ are finite \'etale morphisms over $\C$; $\C(Y)$ is a $\C(Z)$-algebra compatibly with $c_1$ (the image $\bar g$ of the
+germ of $g\in\OO(V)$ is the germ of $c_1^*g$); $j_2\colon\C(Z)\to\C(Y)$ is a $\C$-embedding with $j_2(g)=c_2^*g$ in the same sense; $F$ is a field
+over $\C$ with compatible maps $F\to\C(Z)\to\C(Y)$; and $x\in F^{d+1}$ defines a finite cover of $\C(Z)$, with an adapted affine cover
+$(U,R^Z)$ of $Z$, $R^Z_I=R_I(\C(Z))$, $\iota=\{0,\dots,d\}$. We put $R^Y_I=R_I(\C(Y))$, we let $R^{(2)}_J$ be the integral closure of $j_2(R^Z_J)$ in
+$\C(Y)$, and $R^{Y}_{I,J}=R^Y_I\vee R^{(2)}_J$ (the subalgebra generated by both), for $I,J\subseteq\iota$. We write $\varphi_2$ for the map of forms
+induced by $j_2$ (\cref{pf:hlf-cech:def:drmaps}).
+\end{definition}
+
+In situation (S), $(c_1^{-1}U,R^Y)$ is an adapted affine cover of $Y$ by \cref{pf:hlf-cech:pull}, and $R^Y_I$ (resp.\ $R^{(2)}_J$) is the image of
+$\OO(c_1^{-1}U_I)$ (resp.\ $\OO(c_2^{-1}U_J)$) for $I,J\ne\emptyset$. Let $\iota\sqcup\iota$ be the disjoint union, ordered so that the first copy
+precedes the second; subsets of it are written $I\sqcup J$. The \emph{join cover} of $Y$ is the family $W$ indexed by $\iota\sqcup\iota$ with
+$W_{i}=c_1^{-1}U_i$ on the first copy and $W_j=c_2^{-1}U_j$ on the second; thus $W_{I\sqcup J}=c_1^{-1}U_I\cap c_2^{-1}U_J$.
+
+\begin{lemma}\label{pf:hlf-cech:joincover}
+In situation (S):
+\begin{enumerate}[label=(\alph*),nosep]
+\item $(c_2^{-1}U,R^{(2)})$ is an adapted affine cover of $Y$;
+\item $(W,\,I\sqcup J\mapsto R^Y_{I,J})$ is an adapted affine cover of $Y$.
+\end{enumerate}
+\formallabel{UpperTheory.etaleCorrespondence_functionField_statement_one}\formallabel{UpperTheory.etaleCorrespondence_functionField_statement_two}
+\end{lemma}
+
+\begin{proof}
+(a) is \cref{pf:hlf-cech:pull} for $c_2$, transported along $j_2$: the integral closure of $j_2(A_I)$ in $\C(Y)$ is the image of $\OO(c_2^{-1}U_I)$
+(the argument of \cref{pf:hlf-cech:pull} applies verbatim with the $\C(Z)$-algebra structure of $\C(Y)$ given by $j_2$).
+(b) The opens $W_{I\sqcup J}$ contain $\eta_Y$ (as $c_i(\eta_Y)=\eta_Z$) and cover $Y$. The scheme $Y$ is separated, being finite over the projective
+scheme $Z$; so the intersection $c_1^{-1}U_I\cap c_2^{-1}U_J$ of two affine opens is affine (for
+$I,J\ne\emptyset$; if one of them is empty the intersection is one of the affine opens), and the restriction maps induce a surjection
+$\OO(c_1^{-1}U_I)\otimes_\C\OO(c_2^{-1}U_J)\to\OO(c_1^{-1}U_I\cap c_2^{-1}U_J)$, because the diagonal embeds the intersection as a closed subscheme of
+the product. Hence the image of $\OO(W_{I\sqcup J})$ in $\C(Y)$ is the algebra generated by $R^Y_I$ and $R^{(2)}_J$. For
+$J=\emptyset$ (resp.\ $I=\emptyset$) note that $R^{(2)}_\emptyset$ and $R^Y_\emptyset$ are the algebraic closure of $\C$ in $\C(Y)$, that is
+$\C$, so $R^Y_{I,\emptyset}=R^Y_I$ and $R^Y_{\emptyset,J}=R^{(2)}_J$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:cochainmaps}
+\begin{enumerate}[label=(\alph*),nosep]
+\item Let $f\colon X'\to X$, $\psi$, $\varphi$, $(U,B)$, $(U',B')$, $\tau$ be as in (N1) of \cref{pf:hlf-cech:def:cmpfam}. Then $\tau^\sharp_\varphi$ is a
+  map of complexes $\check C(B,a)\to\check C(B',a)$ for every $a$.
+\item Let $c\colon Y\to X$ be finite \'etale between integral schemes smooth over $\C$, with $\C(Y)$ a $\C(X)$-algebra compatibly with $c$, and let
+  $(U,B)$ and $(c^{-1}U,B')$ be adapted affine covers. Then the componentwise trace of forms $\mathrm{tr}$ is a map of complexes
+  $\check C(B',a)\to\check C(B,a)$.
+\end{enumerate}
+\formallabel{UpperTheory.PullbackConnectingMap.pullC_isMap}\formallabel{UpperTheory.PullbackConnectingMap.pullC_delta}\formallabel{UpperTheory.PullbackConnectingMap.trL_isMap}
+\end{lemma}
+
+\begin{proof}
+(a) \emph{Degrees.} Let $c\in\check C^n(B,a)$ and $t$ with $|t|=n+1$ and $\tau$ injective on $t$. Then $|\tau(t)|=n+1$, and
+$\varphi(\Omega^a(B_{\tau(t)}))\subseteq\Omega^a(B'_t)$, because $\psi(B_{\tau(t)})\subseteq B'_t$: the pull-back of a function on $U_{\tau(t)}$ is a
+function on $f^{-1}U_{\tau(t)}\supseteq U'_t$. On subsets of other cardinalities $\tau^\sharp_\varphi c$ vanishes. \emph{Differentials.} Let $t\subseteq\kappa$.
+If $\tau$ is injective on $t$, then $\tau(t\smallsetminus\{i\})=\tau(t)\smallsetminus\{\tau(i)\}$, and $(\delta\tau^\sharp_\varphi c)(t)=(\tau^\sharp_\varphi\delta c)(t)$
+amounts to the sign identity $\epsilon(t,i)\operatorname{sgn}(\tau,t\smallsetminus\{i\})=\operatorname{sgn}(\tau,t)\,\epsilon(\tau(t),\tau(i))$, which follows by
+counting the elements of $t$ below $i$ and the inversions of $\tau$ involving $i$. If $\tau$ is not injective on $t$, then
+$(\tau^\sharp_\varphi\delta c)(t)=0$, and a term $\epsilon(t,i)(\tau^\sharp_\varphi c)(t\smallsetminus\{i\})$ of $(\delta\tau^\sharp_\varphi c)(t)$ can be nonzero only if
+$\tau$ is injective on $t\smallsetminus\{i\}$, i.e.\ if $i$ belongs to the unique pair $\{i,i'\}\subseteq t$ with $\tau(i)=\tau(i')$; then
+$\tau(t\smallsetminus\{i\})=\tau(t\smallsetminus\{i'\})$ and the two terms cancel, by the identity
+$\epsilon(t,i)\operatorname{sgn}(\tau,t\smallsetminus\{i\})=-\epsilon(t,i')\operatorname{sgn}(\tau,t\smallsetminus\{i'\})$
+(\lref{UpperTheory.PullbackConnectingMap.cubeSign_mul_sortSign_erase_eq_neg_of_collide}).
+
+(b) The map $\mathrm{tr}$ is applied componentwise, so it commutes with $\delta$ and preserves supports. For $I\ne\emptyset$ and
+$\omega\in\Omega^a(B'_I)=\gamma(\Omega^a_Y(c^{-1}U_I))$, \eqref{eq:pf:hlf-cech:germtrace} shows $\Tr_{\C(Y)/\C(X)}(\omega)\in\gamma(\Omega^a_X(U_I))=\Omega^a(B_I)$
+(\lref{UpperTheory.PullbackConnectingMap.gm_trace}).
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:liftcoc}
+Let $\iota,\kappa$ be finite linearly ordered sets, $E$ a vector space, $(A_s)_{s\subseteq\iota\sqcup\kappa}$ and $(A'_J)_{J\subseteq\kappa}$ families of
+subspaces such that $\delta(\check C^n(A))\subseteq\check C^{n+1}(A)$ for all $n$, and $A'_J\subseteq A_{\emptyset\sqcup J}$ for
+$J\ne\emptyset$. Let $r\colon\check C(A)\to\check C(A')$ be the restriction $(rc)(J)=c(\emptyset\sqcup J)$. If $c_0\in\check Z^p(A)$ and $b\in\check C^p(A')$
+satisfy $r(c_0)-b\in\check B^p(A')$, then there is $c\in\check Z^p(A)$ with $r(c)=b$ and $c-c_0\in\check B^p(A)$.
+\formallabel{lift_cocycle}
+\end{lemma}
+
+\begin{proof}
+Write $r(c_0)-b=\delta e$ with $e\in\check C^{p-1}(A')$, and let $\tilde e\in\check C^{p-1}(A)$ be the cochain with $\tilde e(\emptyset\sqcup J)=e(J)$ and
+$\tilde e(s)=0$ if $s$ meets the first copy. Since the second copy is a final segment of $\iota\sqcup\kappa$, the signs $\epsilon$ for subsets of
+the second copy are the same in both complexes, and $r(\delta\tilde e)=\delta e$. Put $c=c_0-\delta\tilde e$. Then $c$ is a cocycle,
+$c-c_0\in\check B^p(A)$ and $r(c)=r(c_0)-\delta e=b$.
+\end{proof}
+
+\begin{theorem}\label{pf:hlf-cech:familythm}
+Let $E$ be a \v{C}ech comparison family. Assume situation (S) and that $(c_1^{-1}U,R^Y)$ is an adapted affine cover of $Y$. Let $a,p\in\N$ and
+$b\in\check Z^p(R^Z,a)$. There is a cocycle $\tilde b$ of degree $p$ of the \v{C}ech complex of the family $I\sqcup J\mapsto\Omega^a(R^Y_{I,J})$ (indexed
+by $\iota\sqcup\iota$) such that
+\begin{enumerate}[label=(\arabic*),nosep]
+\item $\tilde b(\emptyset\sqcup J)=\varphi_2(b(J))$ for all $J\subseteq\iota$;
+\item the cochain $\tilde b_1\colon I\mapsto\Tr_{\C(Y)/\C(Z)}\bigl(\tilde b(I\sqcup\emptyset)\bigr)$ lies in $\check Z^p(R^Z,a)$, and
+  $[\tilde b_1]=E_{U,R^Z}\bigl((c_1)_*(c_2)^*E_{U,R^Z}^{-1}[b]\bigr)$.
+\end{enumerate}
+\formallabel{UpperTheory.etaleCorrespondence_family_statement}
+\end{theorem}
+
+In the language of the chart-lift theorem (\lref{GlobalTheory.T.exists_chart_lift_of_finite_cover}): the endomorphism of $\check H^p(R^Z,a)$
+obtained by transporting $(c_1)_*\circ(c_2)^*$ with $E$ \emph{lifts to the correspondence}.
+
+\begin{proof}
+Let $\mathrm{in}_1,\mathrm{in}_2\colon\iota\to\iota\sqcup\iota$ be the two (monotone) inclusions; for monotone maps $\operatorname{sgn}=1$, and
+$(\mathrm{in}_1^\sharp c)(I)=c(I\sqcup\emptyset)$, $(\mathrm{in}_2^\sharp c)(J)=c(\emptyset\sqcup J)$ (with the identity map of forms). By
+\cref{pf:hlf-cech:joincover} we have four adapted affine covers of $Y$ and $Z$, and by \cref{pf:hlf-cech:cochainmaps} the following are maps of
+complexes: $\mathrm{id}^\sharp_{\varphi_2}=\varphi_2\colon\check C(R^Z,a)\to\check C(R^{(2)},a)$ (for $f=c_2$, $\psi=j_2$, $\tau=\mathrm{id}$);
+$\mathrm{in}_2^\sharp\colon\check C(R^Y_{\cdot,\cdot},a)\to\check C(R^{(2)},a)$ and $\mathrm{in}_1^\sharp\colon\check C(R^Y_{\cdot,\cdot},a)\to\check C(R^Y,a)$
+(for $f=\mathrm{id}_Y$, $\psi=\mathrm{id}$, since $W_{\mathrm{in}_1(i)}=c_1^{-1}U_i$ and $W_{\mathrm{in}_2(j)}=c_2^{-1}U_j$); and
+$\mathrm{tr}\colon\check C(R^Y,a)\to\check C(R^Z,a)$ (for $c=c_1$; $\C(Y)$ is finite over $\C(Z)$).
+
+Let $z=E_{U,R^Z}^{-1}[b]\in\hlfcechHdg{Z}{a}{p}$ and $w=c_2^*z\in\hlfcechHdg{Y}{a}{p}$. Property (N1) of $E$ gives
+\begin{gather*}
+  E_{c_2^{-1}U,R^{(2)}}(w)=(\varphi_2)_*[b]=[\varphi_2\circ b],\\
+  E_{c_2^{-1}U,R^{(2)}}(w)=(\mathrm{in}_2^\sharp)_*E_{W,R^Y_{\cdot,\cdot}}(w),\qquad
+  E_{c_1^{-1}U,R^Y}(w)=(\mathrm{in}_1^\sharp)_*E_{W,R^Y_{\cdot,\cdot}}(w),
+\end{gather*}
+the last two for $f=\mathrm{id}_Y$ (whose pull-back is the identity), and (N2) for $c_1$ gives
+$E_{U,R^Z}((c_1)_*w)=\mathrm{tr}_*E_{c_1^{-1}U,R^Y}(w)$. Choose a cocycle $c_0$ representing $E_{W,R^Y_{\cdot,\cdot}}(w)$. The first two identities
+give $\mathrm{in}_2^\sharp(c_0)-\varphi_2\circ b\in\check B^p(R^{(2)},a)$. The rings $R^Y_{I,J}$ increase with $I\sqcup J$ (larger index sets give smaller
+opens), so the \v{C}ech complex of $I\sqcup J\mapsto\Omega^a(R^Y_{I,J})$ is a complex; moreover $\Omega^a(R^{(2)}_J)\subseteq\Omega^a(R^Y_{\emptyset,J})$, and $\mathrm{in}_2^\sharp$ is the restriction $r$ of \cref{pf:hlf-cech:liftcoc};
+so there is a cocycle $\tilde b$ with $\mathrm{in}_2^\sharp\tilde b=\varphi_2\circ b$, which is (1), and $[\tilde b]=[c_0]$. Then
+$\tilde b_1=\mathrm{tr}(\mathrm{in}_1^\sharp\tilde b)$ is a cocycle, as $\mathrm{tr}$ and $\mathrm{in}_1^\sharp$ are maps of complexes, and
+\[
+  [\tilde b_1]=\mathrm{tr}_*(\mathrm{in}_1^\sharp)_*[\tilde b]=\mathrm{tr}_*E_{c_1^{-1}U,R^Y}(w)=E_{U,R^Z}((c_1)_*w)=E_{U,R^Z}\bigl((c_1)_*(c_2)^*z\bigr).\qedhere
+\]
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:family}
+\Cref{pf:hlf-cech:familythm} holds for every \v{C}ech comparison family; the projectivity of $Z$ is used only to know that $Y$ is separated. The
+hypothesis that $(c_1^{-1}U,R^Y)$ is an adapted affine cover is part of the formal statement, although it follows from \cref{pf:hlf-cech:pull}.
+\end{remark}
+
+% ===========================================================================
+\subsection{Points, fixed characters and local parameters}\label{sec:pf:hlf-cech:points}
+
+\begin{lemma}\label{pf:hlf-cech:ptschar}
+Let $X$ be integral over $\C$, $V$ an affine open containing $\eta_X$ and $B\subseteq\C(X)$ the image of $\OO(V)$. Say that a character $e$ of $B$
+\emph{belongs to} a complex point $y$ if $y\in V$ and $e(f)=f(y)$ for all $f\in\OO(V)$ (identified with its germ). Every character of $B$ belongs
+to exactly one complex point, and every complex point of $V$ has exactly one character belonging to it.
+\formallabel{UpperTheory.complexPoints_bijective_algHom_affineOpen}
+\end{lemma}
+
+\begin{proof}
+The germ map is an isomorphism $\OO(V)\to B$ ($X$ is integral). Complex points of the affine scheme $V$ correspond bijectively to characters of
+$\OO(V)$, by $y\mapsto\mathrm{ev}_y$, and a complex point of $X$ lying in $V$ is the same as a complex point of $V$.
+\end{proof}
+
+\begin{proposition}\label{pf:hlf-cech:fixpts}
+In situation (S), let $i\in\iota$, let $e$ be a character of $R^Y_i$ and $y\in Y(\C)$ the complex point to which it belongs (relative to
+$c_1^{-1}U_i$). Then $e$ is fixed relative to $j_2$ and $R^Z_i$ (\cref{pf:hlf-cech:def:fix}) if and only if $c_1(y)=c_2(y)$.
+\formallabel{UpperTheory.etaleCorrespondence_complexPoints_statement}
+\end{proposition}
+
+\begin{proof}
+Note $c_1(y)\in U_i$. For $b\in R^Z_i=\OO(U_i)$ we have $\bar b=c_1^*b\in R^Y_i$ and $e(\bar b)=b(c_1(y))$; and $j_2(b)=c_2^*b$ is a regular function
+on $c_2^{-1}U_i$. If $v\in\C(Y)$ is regular at $e$ with value $\lambda$ via $\beta\in R^Y_i$, and $v$ is moreover a regular function near $y$, then
+$\lambda=v(y)$, since $e(\beta v)=\beta(y)v(y)$ and $\beta(y)=e(\beta)\ne0$.
+
+Assume $c_1(y)=c_2(y)=:z$. Then $y\in c_1^{-1}U_i\cap c_2^{-1}U_i$, and there is $\beta\in\OO(c_1^{-1}U_i)$ with $\beta(y)\ne0$ and
+$D(\beta)\subseteq c_2^{-1}U_i$; for $b\in\OO(U_i)$ the restriction of $c_2^*b$ to $D(\beta)$ is $a/\beta^k$ with $a\in\OO(c_1^{-1}U_i)$, so $\beta^kc_2^*b\in
+R^Y_i$, $e(\beta^k)\ne0$ and $e(\beta^kc_2^*b)=\beta(y)^kb(z)=e(\beta^k)\,e(\bar b)$. So $e$ is fixed.
+
+Conversely let $e$ be fixed. First, $c_2(y)\in U_i$: otherwise choose $k$ with $c_2(y)\in U_k$; then $(x_i/x_k)(c_2(y))=0$, because $U_i\cap U_k=D_{U_k}(x_i/x_k)$: the
+ring $\OO(U_i\cap U_k)=R^Z_{\{i,k\}}$ is the integral closure of $A_{\{i,k\}}=A_{\{k\}}[(x_i/x_k)^{-1}]$, that is the localisation of $R^Z_k=\OO(U_k)$ at
+$x_i/x_k$, and the inclusion $U_i\cap U_k\subseteq U_k$ of affine schemes corresponds to the restriction map. Apply the fixedness to $b=x_k/x_i\in R^Z_i$: there is $\beta\in R^Y_i$ with $\beta(y)\ne0$ and
+$\beta\,c_2^*(x_k/x_i)\in R^Y_i$. Multiplying by $c_2^*(x_i/x_k)$, which is regular near $y$, and evaluating at $y$ gives
+$\beta(y)=\bigl(\beta c_2^*(x_k/x_i)\bigr)(y)\cdot(x_i/x_k)(c_2(y))=0$, a contradiction. Now $c_2^*b$ is regular near $y$ for all $b\in\OO(U_i)$, so by the
+first paragraph $b(c_2(y))=e(\bar b)=b(c_1(y))$ for all $b\in\OO(U_i)$. Since the points $c_1(y),c_2(y)$ of the affine scheme $U_i$ are determined by
+their characters, $c_1(y)=c_2(y)$.
+\end{proof}
+
+\begin{proposition}\label{pf:hlf-cech:noaway}
+In situation (S), let $1\le l\le d$ and let $y\in Y(\C)$ lie in $c_1^{-1}U_l\cap c_1^{-1}U_0$; let $e_0$ be the character of $R^Y_0$ belonging to $y$. Then
+$e_0(t_l)\ne0$.
+\formallabel{UpperTheory.etaleCorrespondence_differentials_statement}
+\end{proposition}
+
+\begin{proof}
+In $\OO(c_1^{-1}(U_0\cap U_l))$ we have $c_1^*(x_l/x_0)\cdot c_1^*(x_0/x_l)=1$, the two factors coming from $R^Y_0$ and $R^Y_l$
+(\cref{pf:hlf-cech:pull}). Evaluating at $y$ gives $e_0(t_l)\cdot(x_0/x_l)(c_1(y))=1$.
+\end{proof}
+
+Thus, if every fixed point $y$ satisfies $c_1(y)\in U_0$ and $t_l(c_1(y))=0$ for all $l$, there are no fixed characters of $R^Y_i$ for $i\ne0$.
+
+\begin{proposition}\label{pf:hlf-cech:sections}
+In situation (S), for every $i$ and every character $e$ of $R^Y_i$ there is $j\in\iota$ such that every $v\in R^{(2)}_j$ is regular at $e$ (with some
+value): there is $b\in R^Y_i$ with $e(b)\ne0$ and $bv\in R^Y_i$.
+\formallabel{UpperTheory.etaleCorrespondence_sections_statement}
+\end{proposition}
+
+\begin{proof}
+Let $y\in c_1^{-1}U_i$ be the complex point to which $e$ belongs (\cref{pf:hlf-cech:ptschar}) and choose $j$ with $c_2(y)\in U_j$. The elements of
+$R^{(2)}_j$ are regular functions on $c_2^{-1}U_j\ni y$ (\cref{pf:hlf-cech:joincover}(a)). As in the proof of \cref{pf:hlf-cech:fixpts}, choose a basic open
+$D(\beta)\subseteq c_1^{-1}U_i\cap c_2^{-1}U_j$ of $c_1^{-1}U_i$ containing $y$; then $\beta^kv\in R^Y_i$ for suitable $k$, and $e(\beta^k)=\beta(y)^k\ne0$.
+\end{proof}
+
+\begin{proposition}[Regular parameters]\label{pf:hlf-cech:regpar}
+Let $x$ define a finite cover of $K$ and assume that $R_0(K)/(t_1,\dots,t_d)$ is reduced. Let $e\in\mathrm{Fib}(K,x)$ and $b\in R_0(K)$ with $e(b)=0$.
+There are $c,g_1,\dots,g_d\in R_0(K)$ with $e(c)\ne0$ and $cb=\sum_lg_lt_l$.
+\formallabel{UpperTheory.exists_regular_parameters_of_reduced_quotient}
+\end{proposition}
+
+\begin{proof}
+Let $I=(t_1,\dots,t_d)$. The ring $Q=R_0/I$ is a finite-dimensional (\cref{pf:hlf-cech:artinian}(a)) reduced $\C$-algebra, hence isomorphic to
+$\C^r$; its characters are the $r$ projections, and $e$ factors through a character $\bar e$ of $Q$ since $e(t_l)=0$. Let $\varepsilon\in Q$ be the
+idempotent with $\bar e(\varepsilon)=1$ and $\varepsilon Q=\C\varepsilon$, and let $c\in R_0$ be a lift of $\varepsilon$. Then $e(c)=1$, and the image of $cb$
+in $Q$ is $\varepsilon\bar b=\bar e(\bar b)\varepsilon=e(b)\varepsilon=0$. So $cb\in I$, i.e.\ $cb=\sum_lg_lt_l$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:dualbasis}
+Let $R$ be a $\C$-algebra with a character $\mathrm{ev}$, let $t_1,\dots,t_d\in\ker(\mathrm{ev})$ be such that every $u\in\ker(\mathrm{ev})$ satisfies
+$cu=\sum_lg_lt_l$ for some $c,g_l\in R$ with $\mathrm{ev}(c)\ne0$, and let $\psi\colon\Omega_{R/\C}\to\C^d$ be a surjective $\C$-linear map with
+$\psi(b\omega)=\mathrm{ev}(b)\psi(\omega)$. Then there is a $\C$-linear $\varphi\colon\Omega_{R/\C}\to\C^d$ with $\varphi(b\omega)=\mathrm{ev}(b)\varphi(\omega)$,
+$\varphi(dt_l)=e_l$, $\ker\varphi\subseteq\ker\psi$, and such that $\mathrm{ev}(g_l)=\mathrm{ev}(c)\,\varphi(du)_l$ for every relation $cu=\sum_lg_lt_l$
+with $\mathrm{ev}(u)=0$ and $\mathrm{ev}(c)\ne0$.
+\formallabel{UpperTheory.exists_cotangent_map_dual_basis_of_parameters}
+\end{lemma}
+
+\begin{proof}
+Maps $\chi$ with $\chi(b\omega)=\mathrm{ev}(b)\chi(\omega)$ are the linear maps on $T=\Omega_{R/\C}\otimes_{R,\mathrm{ev}}\C$. Let
+$\mathfrak m=\ker(\mathrm{ev})$; then $d$ induces an isomorphism $\mathfrak m/\mathfrak m^2\to T$. A relation $cu=\sum g_lt_l$ gives
+$\mathrm{ev}(c)\,u\equiv\sum_l\mathrm{ev}(g_l)t_l\bmod\mathfrak m^2$, since $(c-\mathrm{ev}(c))u$ and $(g_l-\mathrm{ev}(g_l))t_l$ lie in $\mathfrak m^2$; so the
+classes $dt_l\otimes1$ span $T$. As $\psi$ is surjective onto $\C^d$, $\dim T\ge d$; hence the $dt_l\otimes1$ form a basis of $T$. Let $\varphi$ be the dual
+basis map. Then $\ker\varphi$ is the kernel of $\Omega_{R/\C}\to T$, which is contained in $\ker\psi$, and applying $\varphi\circ d$ to $cu=\sum g_lt_l$ gives
+$\mathrm{ev}(c)\varphi(du)=\sum_l\mathrm{ev}(g_l)e_l$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:tanconj}
+Let $c_1,c_2\colon Y\to Z$ be morphisms over $\C$ with $c_1$ \'etale, let $y\in Y(\C)$ with $c_1(y)=c_2(y)$, and let $A,A'\in M_d(\C)$ be tangent
+matrices of $(c_1,c_2)$ at $y$. Then $A'=PAP^{-1}$ for some $P\in\GL_d(\C)$.
+\formallabel{UpperTheory.Gal.productCup_of_system.tanConj_etale}
+\end{lemma}
+
+\begin{proof}
+Let $(U,V,s,\varphi)$ and $(U',V',s',\varphi')$ be the data of \cref{pf:geo:istan} for $A$ and $A'$, and $z=c_1(y)=c_2(y)$. Let $T^*_y=\Omega_{Y/\C,y}\otimes\kappa(y)$
+be the cotangent space. The conditions on $\varphi$ say exactly that $\varphi$ factors through an injective linear map $T^*_y\to\C^d$, which is surjective
+as $\varphi(d(c_1^*s_l))=e_l$; so the classes $d(c_1^*s_l)(y)$ form a basis of $T^*_y$ and
+\[
+  d(c_2^*s_j)(y)=\sum_lA_{jl}\,d(c_1^*s_l)(y),
+\]
+and similarly for $s',A'$. As $c_1$ is \'etale, $c_1^*\colon T^*_zZ\to T^*_yY$ is an isomorphism, so the $ds_l(z)$ and the $ds'_l(z)$ are bases of $T^*_zZ$;
+write $ds'_j(z)=\sum_lQ_{jl}\,ds_l(z)$ with $Q\in\GL_d(\C)$. Pulling back along $c_1$ and along $c_2$ (both map $y$ to $z$) gives
+$d(c_i^*s'_j)(y)=\sum_lQ_{jl}\,d(c_i^*s_l)(y)$ for $i=1,2$. Expanding $d(c_2^*s'_j)(y)$ in the basis $d(c_1^*s_k)(y)$ in two ways gives $A'Q=QA$, so
+$A'=QAQ^{-1}$. (The formal proof expresses the same computation with point derivations, using that a derivation of an \'etale extension is
+determined by its restriction; \lref{UpperTheory.derivation_eq_of_formallyEtale_of_evaluation_eq}.)
+\end{proof}
+
+\begin{theorem}[Local parameters]\label{pf:hlf-cech:locpar}
+In situation (S), assume that $R^Z_0/(t_1,\dots,t_d)$ is reduced. Let $y\in Y(\C)$ with $c_1(y)=c_2(y)$, let $A$ be a tangent matrix of $(c_1,c_2)$ at $y$,
+and let $e$ be the character of $R^Y_0$ belonging to $y$ (so $y\in c_1^{-1}U_0$), with $e(t_j)=0$ for all $j$. Let $M\in M_d(\C)$ be such that for every
+$1\le m\le d$ there are $c,g_1,\dots,g_d\in R^Y_0$ with
+\[
+  e(c)\ne0,\qquad c\cdot j_2(t_m)=\sum_lg_l\,t_l\ \text{ in }\C(Y),\qquad e(g_l)=e(c)\,M_{ml}\ (1\le l\le d).
+\]
+Then $M=PAP^{-1}$ for some $P\in\GL_d(\C)$.
+\formallabel{UpperTheory.etaleCorrespondence_local_parameters_statement}
+\end{theorem}
+
+\begin{proof}
+Write $\tau_l=c_1^*t_l$ and $u_m=c_2^*t_m=j_2(t_m)$. Let $z=c_1(y)=c_2(y)\in U_0$; then $\tau_l(y)=t_l(z)=e(t_l)=0$ and $u_m(y)=t_m(z)=0$.
+
+\emph{Parameters at $y$.} The ring $R^Y_0/(t)$ is reduced (\cref{pf:hlf-cech:fieldext} for $c_1$;
+\lref{UpperTheory.Cb.finite_etale_function_field_germ_compat_of_smooth}). By \cref{pf:hlf-cech:regpar} for $K=\C(Y)$ (and \cref{pf:hlf-cech:pull}), every
+$f\in\OO(c_1^{-1}U_0)$ with $f(y)=0$ satisfies $cf=\sum_lg_l\tau_l$ with $c,g_l\in\OO(c_1^{-1}U_0)$, $c(y)\ne0$
+(\lref{UpperTheory.Cb.exists_unit_mul_mem_span_of_reduced_isolated_zero}).
+
+\emph{A common neighbourhood.} Let $(U_A,V_A,s,\psi)$ be the data of the tangent matrix $A$. Choose a basic open $D(h)$ of $c_1^{-1}U_0$ with
+$y\in D(h)\subseteq c_2^{-1}U_0$, and a basic open $W$ of both $V_A$ and $D(h)$ containing $y$. Restricting $\psi$ to $W$ as in the proof of
+\cref{pf:hlf-cech:tanrestrict} gives a surjective map $\psi_W\colon\Omega_{\OO(W)}\to\C^d$, semilinear for evaluation at $y$, with the kernel property
+of \cref{pf:geo:istan} (\lref{UpperTheory.EvaluationRestriction.pd_step}). Every $w\in\OO(W)$ with $w(y)=0$ can be written $pw=a|_W$ with
+$a\in\OO(c_1^{-1}U_0)$, $p(y)\ne0$, and $a(y)=0$; with $ca=\sum g_l\tau_l$ as above we get $(cp)w=\sum g_l\tau_l$ on $W$, $(cp)(y)\ne0$.
+
+\emph{Coordinates $t$ at $y$.} \Cref{pf:hlf-cech:dualbasis}, applied to $R=\OO(W)$, $\mathrm{ev}=\mathrm{ev}_y$, the functions $\tau_l|_W$ and $\psi_W$, gives
+$\varphi\colon\Omega_{\OO(W)}\to\C^d$ with $\varphi(d\tau_l)=e_l$ and $\ker\varphi\subseteq\ker\psi_W$. Let $A'\in M_d(\C)$ have rows $A'_m=\varphi(du_m)$. Then
+$(U_0,W,t,\varphi)$ are data of a tangent matrix of $(c_1,c_2)$ at $y$, with matrix $A'$: $W\subseteq c_1^{-1}U_0\cap c_2^{-1}U_0$ is affine, $\varphi$ is
+semilinear, $\varphi(d(c_1^*t_l))=e_l$, $\varphi(d(c_2^*t_m))=A'_m$, and the kernel property holds since $\ker\varphi\subseteq\ker\psi_W$. By
+\cref{pf:hlf-cech:tanconj}, $A'=PAP^{-1}$ with $P\in\GL_d(\C)$.
+
+\emph{$M=A'$.} Fix $m$ and let $c,g_l$ be as in the hypothesis. Identifying $R^Y_0$ with $\OO(c_1^{-1}U_0)$, the relation $c\,u_m=\sum_lg_l\tau_l$ holds in
+$\OO(W)$ (the germ map being injective), with $u_m(y)=0$ and $c(y)=e(c)\ne0$. By the last property in \cref{pf:hlf-cech:dualbasis},
+$e(g_l)=e(c)\,\varphi(du_m)_l=e(c)A'_{ml}$; comparing with $e(g_l)=e(c)M_{ml}$ gives $M_{ml}=A'_{ml}$.
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:locpar}
+In the proof of \cref{pf:geo:hlfint} the matrix $M$ is produced from \cref{pf:hlf-cech:regpar}, applied to $b=j_2(t_m)$ after multiplying by a
+denominator; by \cref{pf:hlf-cech:locpar} it is conjugate to $A$, so that $\det(1-M)=\det(1-A)$ and $\det(1+XM)=\det(1+XA)$
+(\lref{UpperTheory.A.conj_inv}).
+\end{remark}
+
+% ===========================================================================
+\subsection{Two further lemmas}\label{sec:pf:hlf-cech:misc}
+
+The two results of this subsection are not related to \v{C}ech cohomology; they are used in \cref{sec:pf:ks1} (absolute values of
+the roots of the polynomial of a marked pair) and in \cref{sec:pf:ks2} (the splitting criterion for families of sections of finite
+\'etale morphisms).
+
+\subsubsection{Roots of the polynomial of a marked pair}
+
+We use the notation of \cref{pf:ks1:def-htgroup,pf:ks1:def-pairs}: $G$ is a unitary similitude group of Harris--Taylor type for a
+prime $p$, with CM field $F$, central simple $F$-algebra $C$ of dimension $n^2$, and, for each infinite place $v$ of $F$, the
+homomorphism $\psi_v\colon C\to M_n(\C)$, which restricts on $F$ to the scalar embedding given by a chosen complex embedding
+$\iota_v\colon F\to\C$ of $v$, and the invertible hermitian matrix $\mathrm{gr}_v$, of signature $(1,n-1)$ or $(0,n)$; $a_G$ is the
+number of infinite places of signature $(1,n-1)$. For $x\in C$, $\chi_x$ is its minimal polynomial over $F$, and for a ring
+homomorphism $\varphi\colon F\to\C$ we write $\varphi(\chi_x)\in\C[X]$ for the polynomial obtained by applying $\varphi$ to the
+coefficients. For a matrix $A\in M_n(\C)$ and $a,b\in\C^n$ put $\langle a,b\rangle_A=a^\dagger Ab$.
+
+\begin{lemma}\label{pf:hlf-cech:eig}
+Let $g\in C$, let $v$ be an infinite place of $F$ and let $z\in\C$ be a root of $\iota_v(\chi_g)$. Then $z$ is an eigenvalue of
+$\psi_v(g)$: there is $x\in\C^n$, $x\ne0$, with $\psi_v(g)x=zx$.
+\formallabel{GlobalTheory.LKMid.MarkEll.eigA}
+\end{lemma}
+
+\begin{proof}
+Regard $\C$ as an $F$-algebra via $\iota_v$. Since $\psi_v$ is $F$-linear for this structure, it extends to a homomorphism of
+$\C$-algebras $\Theta\colon\C\otimes_FC\to M_n(\C)$, $\lambda\otimes y\mapsto\lambda\psi_v(y)$. The algebra $\C\otimes_FC$ is simple
+(the scalar extension of a central simple algebra is central simple), and $M_n(\C)\ne0$, so $\Theta$ is injective.
+Put $\xi=1\otimes g$. Since $\Theta$ is an injective homomorphism of $\C$-algebras with $\Theta(\xi)=\psi_v(g)$, the minimal polynomials of
+$\xi$ and of $\psi_v(g)$ over $\C$ coincide. The minimal polynomial $m$ of $\psi_v(g)$ divides $\iota_v(\chi_g)$, because
+$\iota_v(\chi_g)(\psi_v(g))=\psi_v(\chi_g(g))=0$. On the other hand $\deg\chi_g\le\deg m$: if $e=\deg m$, the elements
+$1\otimes1,1\otimes g,\dots,1\otimes g^e$ of $\C\otimes_FC$ are linearly dependent over $\C$, and since $\C\otimes_F-$ carries
+$F$-linearly independent families of $C$ to $\C$-linearly independent families, $1,g,\dots,g^e$ are linearly dependent over $F$. As $m$
+and $\iota_v(\chi_g)$ are monic, $m\mid\iota_v(\chi_g)$ and $\deg\iota_v(\chi_g)=\deg\chi_g\le\deg m$, we get $m=\iota_v(\chi_g)$. Hence $z$ is
+a root of the minimal polynomial of $\psi_v(g)$, i.e.\ an eigenvalue of $\psi_v(g)$.
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:eig}
+The formal statement assumes in addition that $\chi_g$ has degree $n$; this hypothesis is not used.
+\end{remark}
+
+\begin{lemma}\label{pf:hlf-cech:normsqform}
+Let $\Gamma,A\in M_n(\C)$ and $c\in\R$ with $\Gamma^\dagger A\Gamma=cA$, and let $x\in\C^n$ and $w\in\C$ with $\Gamma x=wx$ and
+$\langle x,x\rangle_A\ne0$. Then $|w|^2=c$.
+\formallabel{GlobalTheory.LKMid.MarkEll.normSq_eq_of_form}
+\end{lemma}
+
+\begin{proof}
+$|w|^2\langle x,x\rangle_A=\langle\Gamma x,\Gamma x\rangle_A=\langle x,\Gamma^\dagger A\Gamma x\rangle_{1}=c\,\langle x,x\rangle_A$, and
+$\langle x,x\rangle_A\ne0$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:normsqeig}
+Assume $a_G=1$. Let $P=(\beta,\gamma,c)$ be a pair marked by some $\mu\in\C$, let $v$ be an infinite place of $F$, and let $x\in\C^n$,
+$x\ne0$, and $w\in\C$ with $\psi_v(\gamma)x=wx$. Then $|w|^2=c$.
+\formallabel{GlobalTheory.LKMid.MarkEll.normSq_of_eigenvector}
+\end{lemma}
+
+\begin{proof}
+Put $A=\mathrm{gr}_v\psi_v(\beta^{-1})$ and $\Gamma=\psi_v(\gamma)$. By \lref{GlobalTheory.LKMid.pair_form_laws} ($A$ is hermitian and
+invertible, and $\Gamma^\dagger A\Gamma=cA$) and \lref{GlobalTheory.LKMid.Pair.gram_psi_inv_congr} (there is $Z\in\GL_n(\C)$ with
+$A=Z^\dagger\mathrm{gr}_vZ$), we have $\Gamma^\dagger A\Gamma=cA$ and $\langle a,b\rangle_A=\langle Za,Zb\rangle_{\mathrm{gr}_v}$ for all $a,b$;
+moreover $Za\ne0$ for $a\ne0$. By \cref{pf:hlf-cech:normsqform} it suffices to show $\langle x,x\rangle_A\ne0$.
+
+\emph{Case 1: $v$ has signature $(0,n)$.} By \lref{GlobalTheory.herm_negDef_of_sigPosH_eq_zero} (an invertible hermitian matrix without
+positive eigenvalues defines a negative definite form) $\Re\langle Zx,Zx\rangle_{\mathrm{gr}_v}<0$, so $\langle x,x\rangle_A\ne0$.
+
+\emph{Case 2: $v$ has signature $(1,n-1)$.} As $P$ is marked by $\mu$, there are a place $v_0$ of signature $(1,n-1)$ and $x_0\in\C^n$
+with $\psi_{v_0}(\gamma)x_0=\mu x_0$ and $\Re\langle x_0,x_0\rangle_{A_0}>0$, where $A_0=\mathrm{gr}_{v_0}\psi_{v_0}(\beta^{-1})$. Since $a_G=1$,
+$v_0=v$ and $A_0=A$. Then $\langle x_0,x_0\rangle_A\ne0$, so $|\mu|^2=c$ by \cref{pf:hlf-cech:normsqform}. If $w=\mu$ we are done. Otherwise
+$\langle x_0,x\rangle_A=0$: indeed
+\[
+  c\,\langle x_0,x\rangle_A=\langle\Gamma x_0,\Gamma x\rangle_A=\bar\mu w\,\langle x_0,x\rangle_A,
+\]
+and if $\langle x_0,x\rangle_A\ne0$ then $\bar\mu w=c=\bar\mu\mu$ with $\bar\mu\ne0$ (as $c\ne0$), whence $w=\mu$. Now $Zx_0$ is a
+positive vector for $\mathrm{gr}_v$ and $Zx\ne0$ is orthogonal to it, so $\Re\langle Zx,Zx\rangle_{\mathrm{gr}_v}<0$ by
+\lref{GlobalTheory.re_form_neg_of_orth_of_sigPosH_eq_one} (for an invertible hermitian matrix with exactly one positive eigenvalue,
+the orthogonal complement of a vector $a$ with $\Re\langle a,a\rangle>0$ is negative definite). Hence $\langle x,x\rangle_A\ne0$.
+\end{proof}
+
+\begin{lemma}\label{pf:hlf-cech:markell}
+Assume $a_G=1$. Let $P=(\beta,\gamma,c)$ be a pair marked by some $\mu\in\C$. Then for every ring homomorphism $\varphi\colon F\to\C$ and
+every root $z\in\C$ of $\varphi(\chi_P)$ we have $|z|^2=c$.
+\formallabel{GlobalTheory.LKMid.MarkEll.mark_ell}
+\end{lemma}
+
+\begin{proof}
+Let $v$ be the infinite place of $F$ defined by $\varphi$. Its chosen embedding $\iota_v$ is $\varphi$ or the complex conjugate
+$\bar\varphi$ of $\varphi$. If $\iota_v=\varphi$, then $z$ is an eigenvalue of $\psi_v(\gamma)$ by \cref{pf:hlf-cech:eig}, and $|z|^2=c$ by
+\cref{pf:hlf-cech:normsqeig}. If $\iota_v=\bar\varphi$, then $\bar z$ is a root of $\bar\varphi(\chi_P)=\overline{\varphi(\chi_P)}$, hence
+an eigenvalue of $\psi_v(\gamma)$, and $|z|^2=|\bar z|^2=c$ in the same way.
+\end{proof}
+
+\subsubsection{The splitting criterion}
+
+For a field $\Omega$ and a scheme $X$ we write $X(\Omega)$ for the set of morphisms $\Spec\Omega\to X$; a \emph{geometric point} is an
+element of $X(\Omega)$ with $\Omega$ algebraically closed. Splittings are defined in \cref{pf:ks2:def:splits}.
+
+\begin{lemma}\label{pf:hlf-cech:isopts}
+Let $f\colon Y\to Z$ be an \'etale morphism of schemes such that for every algebraically closed field $\Omega$ and every
+$z\in Z(\Omega)$ there is exactly one $y\in Y(\Omega)$ with $f\circ y=z$. Then $f$ is an isomorphism.
+\formallabel{UpperTheory.Gal.G3.pIsoPts}\formallabel{UpperTheory.Gal.G3.isoPts_holds}
+\end{lemma}
+
+\begin{proof}
+\emph{$f$ is surjective}: for $z\in Z$ let $\Omega$ be an algebraic closure of the residue field $\kappa(z)$; the induced geometric point
+$\Spec\Omega\to Z$ lifts to $Y$, and the image of the lift is a point of $Y$ over $z$.
+
+\emph{The diagonal $\Delta\colon Y\to Y\times_ZY$ is surjective}: a point $t$ of $Y\times_ZY$ is the image of a geometric point
+$\tau\colon\Spec\Omega\to Y\times_ZY$ ($\Omega$ an algebraic closure of $\kappa(t)$); its two projections $y_1,y_2\in Y(\Omega)$ satisfy
+$f\circ y_1=f\circ y_2$, so $y_1=y_2$ by uniqueness, and $\tau=\Delta\circ y_1$, so $t$ lies in the image of $\Delta$.
+
+Since $f$ is \'etale, it is unramified, so $\Delta$ is an open immersion \cite[Tag~02GE]{Stacks2024}; being surjective, $\Delta$ is an
+isomorphism, so $f$ is a monomorphism \cite[Tag~01L3]{Stacks2024}. A flat monomorphism locally of finite presentation is an open
+immersion \cite[IV, Thm.~17.9.1]{Grothendieck1967}, \cite[Tag~025G]{Stacks2024}; so $f$ is a surjective open immersion, i.e.\ an
+isomorphism.
+\end{proof}
+
+\begin{proposition}[Splitting criterion]\label{pf:hlf-cech:splitspts}
+Let $s\colon Y\to Z$ be finite and \'etale, $c\colon W\to Z$ a morphism, $J$ a finite set and $(\sigma_x)_{x\in J}$ a family of morphisms
+$W\to Y$ with $s\circ\sigma_x=c$. Assume that for every algebraically closed field $\Omega$ and all $w\in W(\Omega)$, $y\in Y(\Omega)$ with
+$s\circ y=c\circ w$ there is exactly one $x\in J$ with $\sigma_x\circ w=y$. Then $(\sigma_x)$ splits $s$ over $c$: the morphism
+$e\colon\coprod_{x\in J}W\to Y\times_ZW$ equal to $(\sigma_x,\mathrm{id}_W)$ on the copy indexed by $x$ is an isomorphism.
+\formallabel{UpperTheory.Gal.G3.pSplitsPts}\formallabel{UpperTheory.Gal.G3.splitsPts_holds}
+\end{proposition}
+
+\begin{proof}
+Let $\mathrm{pr}_1,\mathrm{pr}_2$ be the projections of $Y\times_ZW$. Each $e_x=(\sigma_x,\mathrm{id}_W)\colon W\to Y\times_ZW$ is \'etale: it is a
+morphism over $W$ (as $\mathrm{pr}_2\circ e_x=\mathrm{id}_W$) between $W$-schemes which are \'etale over $W$ ($\mathrm{pr}_2$ is a base change of
+$s$), and a morphism between schemes \'etale over a common base is \'etale \cite[Tag~02GW]{Stacks2024}. As \'etaleness is local on the
+source, $e$ is \'etale. We
+verify the hypothesis of \cref{pf:hlf-cech:isopts} for $e$. Let $\tau\in(Y\times_ZW)(\Omega)$ with $\Omega$ algebraically closed, and
+put $w=\mathrm{pr}_2\circ\tau$, $y=\mathrm{pr}_1\circ\tau$; then $s\circ y=c\circ w$, so there is exactly one $x$ with $\sigma_x\circ w=y$.
+The geometric point $\iota_x\circ w$ of $\coprod W$ ($\iota_x$ the inclusion of the copy $x$) satisfies $e\circ\iota_x\circ w=(\sigma_x\circ
+w,w)=\tau$. Conversely, a geometric point of $\coprod_xW$ (a finite disjoint union) is of the form $\iota_{x'}\circ w'$; if
+$e\circ\iota_{x'}\circ w'=\tau$, then $w'=\mathrm{pr}_2\circ\tau=w$ and $\sigma_{x'}\circ w=y$, so $x'=x$. By \cref{pf:hlf-cech:isopts},
+$e$ is an isomorphism.
+\end{proof}
+
+\begin{remark}\label{pf:hlf-cech:rem:splits}
+The argument uses only that $s$ is \'etale; the finiteness of $s$ is not needed.
+\end{remark}

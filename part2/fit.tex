@@ -1,0 +1,2267 @@
+\section{Fourier coefficient fits}\label{sec:pf:fit}
+
+\providecommand{\fitFUN}{\sfname{FUN}}
+\providecommand{\fitmlog}{\operatorname{meanLog}}
+\providecommand{\fitmi}[1]{\langle #1\rangle_{\infty}}
+\providecommand{\fitht}{\operatorname{ht}}
+\providecommand{\fitwt}{\operatorname{wt}}
+\providecommand{\fitden}{\mathfrak{a}}
+\providecommand{\fitClosed}{\sfname{Closed}}
+\providecommand{\fitEv}{\mathrm{Ev}}
+\providecommand{\fitPC}{\mathrm{PC}}
+\providecommand{\fitRR}{\mathit{RR}}
+\providecommand{\fitmumax}{\mu_{\max}}
+\providecommand{\fitmumin}{\mu_{\min}}
+\providecommand{\fitbudget}{\mathcal{G}}
+\providecommand{\fitpol}{\operatorname{pol}}
+\providecommand{\fitSq}{\mathrm{Sq}}
+\providecommand{\fitGBig}{\sfname{GBig}}
+\providecommand{\fitBigC}{\sfname{BigC}}
+\providecommand{\fitFit}{\mathrm{Fit}}
+
+This section proves the second half of \cref{prop:families:points}: the bundle $F=\sfname{ThetaLocalInputs}$ of
+classical results, two components of the bundle $P$ (the statement $\sfname{JoinOut}$ and the functional equation of
+Hecke $L$-functions of CM fields), the two statements of \cref{thm:theorem-K}, the separation statement
+$\sfname{FunctionalsSeparate}$ of \cref{prop:families:fs} and the low-weight statement $\sfname{LambdaLowerBound}_2$
+imply $\sfname{ConstantFunctionFits}$: closedly on the class $\sfname{FamHyp}$, at the points of the families which
+carry a grid at a large level $C_F$, the glued lattice $\fitRR$ of the first side $S_{\mathrm f}$ of the point
+satisfies the slope inequality $\fitFUN$,
+\begin{equation}\label{eq:pf:fit:FUN}
+\fitmumax(\fitRR)\ \le\ x^{C_H}b-\fitmlog(\kappa),
+\end{equation}
+for every value of the constant $C$. (The name of the statement refers to the existence of a ``fitted function''
+attached to a grid, see \cref{sec:pf:fit:assembly}; the conclusion is an Arakelov upper bound for a maximal
+slope.)
+
+\paragraph{The idea.}
+The bound \eqref{eq:pf:fit:FUN} is obtained from the slope inequality of Bost \cite{Bost1996,Bost2001}. One
+constructs an injective $K$-linear map $\Psi$ from the space $K^D$ of $\fitRR$ into a space $K^n$ which carries a
+``test lattice'' $M$ of controlled maximal slope, such that $\Psi(\fitRR)$ is contained in $\fitden M$ for an
+explicit fractional ideal $\fitden=\prod_{w\in T}w^{-a(w)}$ (the \emph{denominators}) and such that $\Psi$ has
+controlled height at the infinite places. The slope inequality then gives
+\[
+\fitmumax(\fitRR)\le-\fitmlog(\kappa)+\fitmumax(M)+h(\Psi)+2\sum_{w\in T}\ell_wa(w),
+\]
+and the three terms on the right are bounded by explicit expressions whose sum is at most $x^{C_H}b$. The map $\Psi$
+is a \emph{fitted function}: its coordinates on the base type are class sums $v_K(t,x,\cdot)$, finite sums over the
+classes of a definite unitary group, which by the row formula $\sfname{FormulaK}$ are, up to a universal constant
+and roots of unity, the values at the theta vectors of the point of separating linear functionals (pairings with
+column theta functions, which play the role of the Fourier coefficients of the name). On the other types $t$ the map is related to the base type through
+ratios $r_t(i,j)$ of constants of matched ``square'' theta integrals; the denominators $a(w)$ are bounded by the
+valuations of these ratios, which are controlled through Hecke $L$-values at integers, toric values (CM periods) and
+norms of bottom theta pairs (Rallis' inner product formula), and the heights are bounded by size estimates for class
+sums at all places.
+
+\paragraph{Organisation.}
+\Cref{sec:pf:fit:setting} recalls slopes, indefinite data, grids and the statement, and states the main theorem.
+\Cref{sec:pf:fit:slopes} proves a slope inequality with denominators. \Cref{sec:pf:fit:grid} proves the
+``grid estimate'', which sums local bounds for the valuations of the ratios $r_t(i,j)$ over the finite places.
+\Cref{sec:pf:fit:cond} introduces functional data and proves the inequality $\fitFUN$ under seventeen ``leaf
+conditions'' on a functional datum (\cref{pf:fit:flb}); this is the numerical heart of the section.
+\Cref{sec:pf:fit:assembly} lifts this to families and reduces $\sfname{ConstantFunctionFits}$ to sixteen family
+statements (\cref{pf:fit:leaves}). \Cref{sec:pf:fit:inputs} collects the inputs (estimates for the ``square'' terms,
+size bounds for class sums, the row properties), \cref{sec:pf:fit:leafproofs} proves the sixteen statements from them and
+\cref{sec:pf:fit:main} proves the main theorem. The remaining subsections prove the principal inputs:
+\cref{sec:pf:fit:normbig,sec:pf:fit:botconst,sec:pf:fit:betaarch,sec:pf:fit:archnorm} the square estimates (norms of bottom
+pairs through the Rallis inner product formula, bottom constants, the archimedean bound for normalised toric values through
+complex multiplication and the Chowla--Selberg formula, and archimedean bounds for norms of pairs),
+\cref{sec:pf:fit:sizes,sec:pf:fit:factors} the size bounds for class sums, and \cref{sec:pf:fit:testlat} the slope bound for
+test lattices. \Cref{sec:pf:fit:remarks} contains remarks on the formal statements.
+
+Throughout, ``closedly'', ``eventually'' and the class $\sfname{FamHyp}$ have the meaning of
+\cref{def:families:closed} and \cref{sec:families:nonempty}; as noted after \cref{def:families:closed}, closed
+statements say nothing about classes without large members.
+
+% ---------------------------------------------------------------------------
+\subsection{Slopes, indefinite data and the statement}\label{sec:pf:fit:setting}
+
+\paragraph{Places, valuations and heights.}
+Let $K$ be a totally complex number field and $r_2=[K:\Q]/2$ the number of its infinite places $v$; for each $v$
+fix an embedding $\sigma_v\colon K\to\C$ inducing it. A finite place $w$ is a non-zero prime ideal of $\OO_K$; we
+write $v_w$ for its normalised valuation on $K^\times$, $\Nm w$ for its absolute norm and
+\[
+\ell_w=\frac{\log\Nm w}{[K:\Q]}>0 .
+\]
+For a function $g$ on the infinite places put $\fitmi{g}=\frac1{r_2}\sum_vg(v)$, and for $\kappa_v>0$ put
+$\fitmlog(\kappa)=\fitmi{\log\kappa}$. For $z\in K^\times$, a function $g$ from finite places to $\Z$ and $B\in\R$ we
+say that $z$ has \emph{$g$-height at most $B$}, written $\fitht_g(z)\le B$, if $v_w(z)+g(w)\ne0$ for only finitely
+many $w$ and
+\[
+\fitht_g(z)=\sum_w\ell_w\,\bigl|v_w(z)+g(w)\bigr|\le B .
+\]
+For a finite set $S$ of primes, a function $c$ on $\N$ and a finite place $w$ put
+$\fitwt_S(c)(w)=\sum_{l\in S}c(l)\,v_w(l)$. For a finite set $T$ of finite places and $a\colon T\to\Z$ let
+$\fitden_{T,a}=\prod_{w\in T}w^{-a(w)}$, a fractional ideal with $\log\Nm\fitden_{T,a}=-\sum_{w\in T}a(w)\log\Nm w$.
+For a fractional ideal $\fitden$ and an $\OO_K$-submodule $M$ of a $K$-vector space, $\fitden M$ is the
+$\OO_K$-module generated by the products $ax$, $a\in\fitden$, $x\in M$. For an $\OO_K$-submodule $A$ and a finite place
+$w$, $A_{(w)}=\{x:\ sx\in A\text{ for some }s\in\OO_K\smallsetminus w\}$ is the localisation of $A$ at $w$ inside the
+ambient space.
+
+\paragraph{Slopes.}
+We use the slopes of \cref{def:covolume:slopes}: a $K$-vector space $V$ with a basis and a \emph{frame}
+$X=(X(v))_v$ of invertible complex matrices carries the norms $\|x\|_{X,v}=|X(v)^{-1}\sigma_v(x)|$ (coordinates in the
+basis), and a non-zero finitely generated $\OO_K$-submodule $L\subseteq V$ has the slope $\mu(L)=\mu_X(L)$, the maximal
+slope $\fitmumax(L)$ (supremum of $\mu(N)$ over the non-zero submodules $N\subseteq L$) and the minimal slope
+$\fitmumin(L)$. The \emph{height} of a $K$-linear map $\varphi$ between two such spaces is
+$h(\varphi)=\fitmi{\log\|\varphi\|_v^2}$, where $\|\varphi\|_v$ is the operator norm for the norms at $v$. For positive
+real numbers $\kappa=(\kappa_v)_v$ and a frame $X$ we write $X_\kappa$ for the frame $X_\kappa(v)=\kappa_v^{1/2}X(v)$,
+whose norms are $\kappa_v^{-1/2}\|\cdot\|_{X,v}$. The vector spaces below are $K^d$ with their standard bases.
+
+\paragraph{Indefinite data and $\fitFUN$.}
+We use the indefinite data of \cref{sec:families:nonempty} in the formal version \cite{LeanSource2026}. A \emph{base}
+consists of a subfield $K_0\subseteq K$, an infinite place $v_0$, a set of \emph{types} with a base type $\mu_0$, and
+finite sets $\mathrm{Ix}$ and $J$. A \emph{definite side} over a base provides, for every type $t$: an integer
+$n_V(t)$, a hermitian matrix $H_V(t)$, an $\OO_K$-submodule $M_t\subseteq K^{n_V(t)}$, an integer $d_Q(t)$, a matrix
+$P_t\in M_{d_Q(t)\times n_V(t)}(K)$, a frame $X_Q(t)$ on $K^{d_Q(t)}$ and subspaces $Q_p(t)\subseteq K^{d_Q(t)}$
+($p\in\mathrm{Ix}$), together with data indexed by $J$ which play no role here. Put
+\[
+\Lambda_t=P_t(M_t)\subseteq K^{d_Q(t)},\qquad U_t=\ker P_t .
+\]
+The side is \emph{well formed} if, among other conditions, $H_V(t)$ is positive definite at every infinite place,
+$M_t$ and $\Lambda_t$ are lattices, $P_t$ is surjective, $X_Q(t)$ is the quotient metric of $H_V(t)$ along $P_t$
+(that is, $(X_Q(t)(v)^{-1})^*X_Q(t)(v)^{-1}=(P_tH_V(t)^{-1}P_t^*)^{-1}$ at $v$, the matrices being mapped by
+$\sigma_v$), and $K^{d_Q(\mu_0)}=\bigoplus_pQ_p(\mu_0)$.
+
+An \emph{indefinite datum} $S$ over a definite side provides: a map $\mu$ from the finite places of $K$ to types, a
+finite set $\mathrm{Tw}$ of \emph{twisted} places, an integer $D\ge0$, a frame $X_E$ on $K^D$, subspaces
+$E_p\subseteq K^D$, matrices $\iota_t\in M_{D\times d_Q(t)}(K)$, positive numbers $\kappa_v$, numbers
+$\lambda_{j,t,p,v}$, and further data (lattices $M_j$ and theta-type maps, error terms) used in the other point
+inequalities. The \emph{glued lattice} of $S$ is
+\begin{equation}\label{eq:pf:fit:RR}
+\fitRR=\fitRR(S)=\bigcap_w\bigl(\iota_{\mu(w)}(\Lambda_{\mu(w)})\bigr)_{(w)}\subseteq K^D,
+\end{equation}
+the intersection over all finite places $w$. For numbers $N$ (\cref{sec:families:nonempty}) with entry $hh$, $S$
+satisfies $\fitFUN(N)$ if $\fitmumax(\fitRR)\le hh-\fitmlog(\kappa)$, the slope being taken for the frame $X_E$. For the
+numbers $N_p(C,C_H)$ of a point $p$ one has $hh=x^{C_H}b$, where $x$ is the scale and $b=e^{x^\eps}$.
+
+We shall use the following \emph{row conditions} on $S$, which are part of the conditions satisfied at the points of the
+families: $D>0$; $\mu(\bar w)=\mu(w)$ for all $w$, and $w\in\mathrm{Tw}$ if and only if $\mu(w)\ne\mu_0$;
+$\iota_{\mu_0}(Q_p(\mu_0))=E_p$ for all $p$; $\det X_E(v)\ne0$ for all $v$; and the \emph{scalar conditions}: every
+$\iota_t$ is bijective, $\kappa_v>0$, $\lambda_{j,t,p,v}>0$, and for $t=\mu_0$ or $v=v_0$
+\begin{equation}\label{eq:pf:fit:scalar}
+\langle\iota_tx,\iota_ty\rangle_{X_E,v}=\kappa_v\prod_{j\in J}\lambda_{j,t,p,v}\cdot\langle x,y\rangle_{X_Q(t),v}
+\qquad(x\in\iota_t^{-1}(E_p),\ y\in K^{d_Q(t)}),
+\end{equation}
+where $\langle x,y\rangle_{X,v}=(X(v)^{-1}\sigma_v x)^*(X(v)^{-1}\sigma_vy)$ is the hermitian form of the frame. Under
+these conditions $\fitRR$ is a lattice and $\fitRR_{(w)}=(\iota_{\mu(w)}(\Lambda_{\mu(w)}))_{(w)}$ for every $w$
+(\cref{pf:fit:glue}).
+
+\paragraph{Grids.}
+At a point $p$ of a family over $(x,i)$ one has a real datum $R$ (with a level character) and, for every $C_F$, the
+\emph{grid data} $G$ at level $(1,C_F,b)$ for it \cite{LeanSource2026}. A grid datum consists of a finite set $S_0$ of
+places of the totally real field $F$ of the host, with a base place $v_0$ above the first modulus $q_0$ and chosen
+split places $w(v)$ of $E$ above them, a family of Hecke characters $\chi_H(i)$ ($1\le i\le m$) of $E$ whose infinity
+types are prescribed by the gap constant, and hermitian spaces with lattices at the nodes of the grid. A \emph{Weil
+datum} $W$ over $G$ consists of a standard additive character $\psi$ of $\A_F$, theta families, Cartan involutions and
+orthonormal bases at the nodes, Weil representations of the dual pairs of the grid, vacuum vectors and coset
+vectors; $W$ is \emph{over} $R$ if it is compatible with the real datum. The grid \emph{fits} $p$ ($\sfname{GridFit}$)
+if: the values of the characters $\chi_H(i)$ and suitable roots of unity of order $\Nm v^{\mathrm{depth}(v)}$
+($v\in S_0$) lie in the coefficient field; the twisted places of the point lie over the chosen pairs of places;
+reduction conditions of Bloch--Kato type and a power condition hold at the twisted places; the twist characters are
+compatible; and the $\lambda$-tie of the grid is full.
+
+For a property $\mathrm{Fld}(p,C_F,G,W)$ let $\sfname{HasGrid}(\mathrm{Fld},p,C_F)$ be the statement that there are a grid
+datum $G$ at level $(1,C_F,b)$ and a Weil datum $W$ over $G$, over $R$, such that $G$ fits $p$ and
+$\mathrm{Fld}(p,C_F,G,W)$. The property used is
+\[
+\sfname{Fld}(p,C_F,G,W):\iff\text{there are }n\in\N\text{ and a choice }a\text{ of the remaining data with }\mathrm{OK}(a),
+\]
+where a \emph{choice of the remaining data} consists of a volume datum, real data $\rho,\xi$, a chain vector, a
+real match, a sum choice, class representatives, an enumeration $e\colon\{1,\dots,n\}\to(\text{test indices})\times
+(\text{weight indices})$ and constants $c(i,j,t)\in\C$, and the condition $\mathrm{OK}(a)$ asserts that the associated choice
+$\mathrm{ch}(a)$ is admissible, the Eisenstein tie $\sfname{ESerTie}$ of the datum holds, the field condition
+$\sfname{FieldOK}$ holds, and the square values at the base type lie in the coefficient field.
+
+\paragraph{Families and the statement.}
+For a family $\mathcal F$ and a property $Q$ of points,
+\[
+\fitEv(\mathcal F,Q):\iff\exists x_0\ \forall x>x_1\text{ with }x\ge x_0\ \forall i\in I_x\
+\forall p\in\mathrm{Pt}(\mathcal F,x,i):\ \fitPC(p)\Rightarrow Q(x,i,p),
+\]
+where $\fitPC(p)$ are the point conditions of \cref{sec:families:nonempty}. At a point we write $S_{\mathrm f}$ and
+$S_{\mathrm t}$ for the two indefinite data (the first and the second side), $Z_p$ for its scale (with entries $x$ and
+$b$) and $N_p(C,C_H)$ for its numbers.
+
+\begin{definition}\label{pf:fit:defCFF}
+For a property $\mathrm{Fld}$ as above, $\sfname{ConstantFunctionFits}(\mathrm{Fld})$ is the statement: there is
+$C_{F0}$ such that for every $C_F\ge C_{F0}$
+\begin{multline*}
+\fitClosed\Bigl(\sfname{FamHyp},\ (\mathcal F,C_H)\mapsto\Bigl(\sfname{DIVinN}(\mathcal F)\Rightarrow\fitEv\bigl(\mathcal F,\\
+p\mapsto\sfname{HasGrid}(\mathrm{Fld},p,C_F)\Rightarrow\forall C\in\R:\ S_{\mathrm f}\text{ satisfies }
+\fitFUN(N_p(C,C_H))\bigr)\Bigr)\Bigr).
+\end{multline*}
+\end{definition}
+
+The hypotheses of the main theorem are statements of \cref{sec:families}: $F=\sfname{ThetaLocalInputs}$, the bundle of
+$53$ classical results of \cref{sec:families:theta} (among them Howe duality at the real place, the Siegel sets of
+unitary groups, the Rallis inner product formula in the convergent range and the doubling method); $\sfname{JoinOut}$,
+the conjunction of five statements on CM fields: a bound for the denominators of toric values in terms of class zeta
+values ($\sfname{ToricDenominator}$), the transport of CM lattices under $\Aut(\C)$ in the form of the main theorem of
+complex multiplication ($\sfname{Transport}$), the algebraicity of twisted CM sums normalised by a period
+($\sfname{TwistedTransport}$), bounds for the denominators of the partial zeta values of the totally real subfield
+($\sfname{ZetaDenominators}$), and a reflection formula, up to units, for the Hecke $L$-functions attached to a grid
+($\sfname{Refl}$); $\sfname{HeckeTateFunctionalEquation}$, the functional equation of completed Hecke $L$-functions of CM
+fields with non-trivial infinity type \cite{Hecke1920,Tate1967thesis}; $\sfname{ThetaIntegralsAgree}$ and
+$\sfname{LocalMatching}$ (\cref{def:families:K}); $\sfname{FunctionalsSeparate}$ (\cref{prop:families:fs}); and
+$\sfname{LambdaLowerBound}_2$ (\cref{sec:families:nonempty}: the second side satisfies $\sfname{L6}$).
+
+\begin{theorem}[\cref{prop:families:points}, second part]\label{pf:fit:main}
+$\sfname{ThetaLocalInputs}$, $\sfname{JoinOut}$, $\sfname{HeckeTateFunctionalEquation}$, $\sfname{ThetaIntegralsAgree}$,
+$\sfname{LocalMatching}$, $\sfname{FunctionalsSeparate}$ and $\sfname{LambdaLowerBound}_2$ imply
+$\sfname{ConstantFunctionFits}(\sfname{Fld})$.
+\formallabel{GlobalTheory.BigTop.Fun.Close.fourier_coefficient_fit_of_join_alt}
+\end{theorem}
+
+The proof is given in \cref{sec:pf:fit:main}.
+
+% ---------------------------------------------------------------------------
+\subsection{A slope inequality with denominators}\label{sec:pf:fit:slopes}
+
+We begin with three facts of commutative algebra and the effect of scalings on slopes.
+
+\begin{lemma}[Gluing of lattices]\label{pf:fit:glue}
+Let $L_0$ and $L_w$ (for every finite place $w$) be lattices in $K^D$ such that $(L_w)_{(w)}=(L_0)_{(w)}$ for all but
+finitely many $w$. Then $L'=\bigcap_w(L_w)_{(w)}$ is a lattice and $L'_{(w)}=(L_w)_{(w)}$ for every $w$.
+\formallabel{Formalism.DivisionValues.lattice_gluing}
+\end{lemma}
+
+\begin{proof}
+Let $S$ be the finite set of $w$ with $(L_w)_{(w)}\ne(L_0)_{(w)}$ and choose $0\ne c\in\OO_K$ with $cL_0\subseteq L_w$
+and $cL_w\subseteq L_0$ for $w\in S$. Then $cL_0\subseteq(L_w)_{(w)}$ for all $w$, so $cL_0\subseteq L'$, and
+$cL'\subseteq\bigcap_w(L_0)_{(w)}=L_0$; the last equality holds because for $x$ in the intersection the ideal
+$\{s\in\OO_K:sx\in L_0\}$ lies in no maximal ideal. Hence $cL_0\subseteq L'\subseteq c^{-1}L_0$ and $L'$ is a lattice.
+Clearly $L'_{(w)}\subseteq(L_w)_{(w)}$. Conversely let $y\in(L_w)_{(w)}$ and, for every $v$, let
+$I_v=\{s\in\OO_K:sy\in(L_v)_{(v)}\}$. Choose $0\ne d\in\OO_K$ with $dy\in cL_0$; then $d\in I_v$ for all $v$, and
+$I_v=\OO_K$ for $v=w$ and for all $v\notin S$ not dividing $d$. Each $I_v$ is non-zero and saturated with respect to
+$\OO_K\smallsetminus v$, hence a power of $v$. Thus $I=\bigcap_vI_v=\{s:sy\in L'\}$ is a product of powers of primes
+different from $w$, and any $s\in I\smallsetminus w$ shows $y\in L'_{(w)}$.
+\end{proof}
+
+\begin{lemma}[Local--global inclusion]\label{pf:fit:locglob}
+Let $M,B$ be $\OO_K$-submodules of a $K$-vector space, $T$ a finite set of finite places and $a\colon T\to\Z$. If
+$M_{(w)}\subseteq(w^{-a(w)}B)_{(w)}$ for $w\in T$ and $M_{(w)}\subseteq B_{(w)}$ for $w\notin T$, then
+$M\subseteq\fitden_{T,a}B$.
+\formallabel{PI.local_global_inclusion'}
+\formallabel{PI.LocGlobInclWork.main}
+\end{lemma}
+
+\begin{proof}
+An element $x$ belongs to an $\OO_K$-module $N$ as soon as for every $w$ there is $s\in\OO_K\smallsetminus w$ with
+$sx\in N$, since then $\{s:sx\in N\}$ lies in no maximal ideal. Let $x\in M$ and fix $w$. The fractional ideal
+$\prod_{v\in T\smallsetminus\{w\}}v^{-a(v)}$ contains the integral ideal $\prod_{v\in T,\,a(v)<0,\,v\ne w}v^{-a(v)}$, which
+is not contained in $w$; choose $t\in\OO_K\smallsetminus w$ in it. If $w\in T$, choose $s\notin w$ with
+$sx\in w^{-a(w)}B$; then $tsx\in\fitden_{T,a}B$. If $w\notin T$, choose $s\notin w$ with $sx\in B$ and $t\notin w$ in
+$\fitden_{T,a}\cap\OO_K$; again $tsx\in\fitden_{T,a}B$. Hence $x\in\fitden_{T,a}B$.
+\end{proof}
+
+\begin{lemma}[Scalings]\label{pf:fit:scale}
+Let $V$ be a $K$-vector space with a basis and a frame $X$.
+\begin{enumerate}[label=(\alph*)]
+\item For a non-zero fractional ideal $\fitden$ and a non-zero finitely generated $\OO_K$-submodule $M\subseteq V$,
+$\fitden M$ is finitely generated and $\mu(\fitden M)=\mu(M)-2\log\Nm\fitden/[K:\Q]$; the same holds for $\fitmumax$
+and $\fitmumin$.
+\item For $\kappa_v>0$ and a lattice $R\subseteq K^D$ with a frame $X$ on $K^D$,
+$\fitmumax(R;X)=\fitmumax(R;X_\kappa)-\fitmlog(\kappa)$.
+\end{enumerate}
+\formallabel{Formalism.LFunctionChainParameters.LLcv.ideal_scaling_holds}
+\formallabel{Formalism.DivisionValues.kappa_normalise}
+\end{lemma}
+
+\begin{proof}
+Let $\rho_X\colon V\to\bigoplus_v\C^I$ be the map of \cref{def:covolume:slopes}, so that
+$\mu(N)=-2\log\covol\rho_X(N)/([K:\Q]\rank N)+c_K$ with $c_K$ depending only on $K$. (a) If $N$ is torsion free of rank
+$r$, then $N\cong\OO_K^{r-1}\oplus\mathfrak b$ and $[N:\fitden N]=\Nm\fitden^{\,r}$ for integral $\fitden$; by
+multiplicativity $\covol\rho_X(\fitden N)=\Nm\fitden^{\,r}\covol\rho_X(N)$ for all $\fitden$, which gives the formula for
+$\mu$. Since $N\mapsto\fitden N$ is a bijection from the submodules of $M$ to those of $\fitden M$ (with inverse
+$N'\mapsto\fitden^{-1}N'$) preserving saturation and quotients up to the same factor, the formulas for $\fitmumax$ and
+$\fitmumin$ follow. (b) The norms of $X_\kappa$ at $v$ are $\kappa_v^{-1/2}$ times those of $X$. For a submodule $N$ of
+rank $r$ the real span of $\rho_X(N)$ is the sum over $v$ of complex subspaces of dimension $r$ of the $v$-components,
+so $\covol\rho_{X_\kappa}(N)=\prod_v\kappa_v^{-r}\covol\rho_X(N)$ and
+$\mu_{X_\kappa}(N)=\mu_X(N)+\frac2{[K:\Q]}\sum_v\log\kappa_v=\mu_X(N)+\fitmlog(\kappa)$. Taking the supremum over $N$
+gives (b).
+\end{proof}
+
+\begin{remark}\label{pf:fit:rem:kappa}
+The formal statement of \cref{pf:fit:scale}(b) also contains the corresponding identities for the slope of the dual
+lattice for the dual frame, for heights of maps into the dual space and for ratios of determinants; they are not used
+here. Its formal proof passes through the dual lattice and the identity
+$\fitmumin(\text{dual})=-\fitmumax$; the direct argument above computes the same quantities.
+\end{remark}
+
+The following inequality is Bost's slope inequality \cite{Bost1996,Bost2001} in the form proved in the development:
+by \lref{Formalism.HN.slope_inequality_mean}, if $\varphi\colon V\to W$ is $K$-linear between spaces with frames,
+$A\subseteq V$ and $B\subseteq W$ are finitely generated, $\varphi(A)\ne0$, $\varphi(A)\subseteq B$ and $\varphi$ is
+injective on $A$, then
+\begin{equation}\label{eq:pf:fit:bost}
+\fitmumax(A)\le\fitmumax(B)+h(\varphi).
+\end{equation}
+(For a non-zero submodule $N\subseteq A$, $\varphi$ multiplies covolumes at $v$ by at most $\|\varphi\|_v^{2\rank N}$, so
+$\mu(N)\le\mu(\varphi(N))+h(\varphi)\le\fitmumax(B)+h(\varphi)$; compare \cref{lem:covolume:slopes}.)
+
+\begin{proposition}[Slope inequality with denominators]\label{pf:fit:slopeden}
+Let $\varphi\colon V\to W$ be an injective $K$-linear map between spaces with frames, $A\subseteq V$ and $B\subseteq W$
+non-zero finitely generated $\OO_K$-submodules, $T$ a finite set of finite places and $a\colon T\to\Z$ with
+$\varphi(A)\subseteq\fitden_{T,a}B$. Then
+\[
+\fitmumax(A)\le\fitmumax(B)+h(\varphi)+2\sum_{w\in T}\ell_wa(w).
+\]
+\formallabel{Formalism.AtG.grid_lemma_A}
+\end{proposition}
+
+\begin{proof}
+$\fitden_{T,a}B$ is finitely generated and $\varphi(A)\ne0$ because $\varphi$ is injective and $A\ne0$. By
+\eqref{eq:pf:fit:bost} and \cref{pf:fit:scale}(a),
+$\fitmumax(A)\le\fitmumax(\fitden_{T,a}B)+h(\varphi)=\fitmumax(B)-2\log\Nm\fitden_{T,a}/[K:\Q]+h(\varphi)$, and
+$-\log\Nm\fitden_{T,a}/[K:\Q]=\sum_{w\in T}a(w)\log\Nm w/[K:\Q]=\sum_{w\in T}\ell_wa(w)$.
+\end{proof}
+
+\begin{proposition}[Largest slope of a lattice with denominators]\label{pf:fit:largest}
+Let $R\subseteq K^D$ ($D>0$) be a lattice with a frame $X_E$, let $\kappa_v>0$, let $M\subseteq W$ be a non-zero
+finitely generated submodule of a space with a frame $X'$, and let $\Psi\colon K^D\to W$ be injective with
+$\Psi(R)\subseteq\fitden_{T,a}M$. Let $r\colon T\to K^\times$ and $d_F\colon T\to\R$ with $a(w)\le v_w(r(w))+d_F(w)$
+for $w\in T$, and let $E_M,H,G,B_F$ be real numbers with
+\[
+\fitmumax(M)\le E_M,\quad h(\Psi)\le H,\quad\sum_{w\in T}\ell_wv_w(r(w))\le G,\quad\sum_{w\in T}\ell_wd_F(w)\le B_F,
+\]
+where $h(\Psi)$ is taken for the frames $X_{E,\kappa}$ and $X'$. Then
+$\fitmumax(R;X_E)\le-\fitmlog(\kappa)+E_M+H+2(G+B_F)$.
+\formallabel{Formalism.AtG.grid_function_of_lemma_A}
+\formallabel{Formalism.AtG.grid_function_bound}
+\end{proposition}
+
+\begin{proof}
+$R$ is finitely generated and non-zero since $D>0$. By \cref{pf:fit:scale}(b) and \cref{pf:fit:slopeden} for the frame
+$X_{E,\kappa}$,
+$\fitmumax(R;X_E)=\fitmumax(R;X_{E,\kappa})-\fitmlog(\kappa)\le-\fitmlog(\kappa)+E_M+H+2\sum_{w\in T}\ell_wa(w)$, and
+$\sum_{w\in T}\ell_wa(w)\le\sum_{w\in T}\ell_w(v_w(r(w))+d_F(w))\le G+B_F$ because $\ell_w\ge0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The grid estimate}\label{sec:pf:fit:grid}
+
+In the application the elements $r(w)$ of \cref{pf:fit:largest} are products $\prod_{i,j}r_{\mu(w)}(i,j)$ of
+\emph{square ratios}, and their valuations are bounded place by place by an expression built from a few algebraic
+numbers of controlled height. This section sums such local bounds over the finite places.
+
+\begin{lemma}[Product formula]\label{pf:fit:prodformula}
+\begin{enumerate}[label=(\alph*)]
+\item For $z\in K^\times$, $\sum_w\ell_wv_w(z)=\fitmi{\log|\sigma_vz|}$.
+\item For an integer $n\ge1$ and every finite set $F$ of finite places, $\sum_{w\in F}\ell_wv_w(n)\le\log n$.
+\item Let $z\in K^\times$, $d_l\ge0$ a function on the finite places and $B_\delta\in\R$ such that
+$v_w(z)\ge-3d_l(w)$ for all $w$ and $\sum_{w\in F}\ell_wd_l(w)\le B_\delta$ for every finite set $F$. Then
+$\fitht_0(z)\le\fitmi{\log^+|\sigma_vz|}+6B_\delta$.
+\end{enumerate}
+\formallabel{Formalism.PairingDivisionLocalBalance.sum_valuation_nat}
+\formallabel{Formalism.AtG.partial_nat}
+\formallabel{Formalism.AtG.norm_height_bound}
+\formallabel{Formalism.ValuationGridEstimates.height_bound_alt}
+\end{lemma}
+
+\begin{proof}
+(a) is the product formula (\lref{Formalism.DivisionValues.prod_formula'}: the sum is finite and equals
+$\log|\Nm_{K/\Q}z|/[K:\Q]$): factor the principal ideal $(z)$ and use $|\Nm_{K/\Q}z|=\prod_v|\sigma_vz|^2$, $K$ being
+totally complex. (b) All terms $\ell_wv_w(n)$ are non-negative and their total sum is $\log n$ by (a). (c) Writing
+$|t|=t+2\max(0,-t)$ and using (a),
+$\sum_w\ell_w|v_w(z)|=\fitmi{\log|\sigma_vz|}+2\sum_w\ell_w\max(0,-v_w(z))\le\fitmi{\log^+|\sigma_vz|}
++2\sum_{w}3\ell_wd_l(w)$, the last sum running over the finite support of $v_w(z)$.
+\end{proof}
+
+\begin{lemma}\label{pf:fit:primes}
+For every finite set $P$ of primes, $\sum_{l\in P}\log l/l^2<1$. Consequently, if $N_0\colon\N\to\R$ satisfies
+$\sum_{l\in P}N_0(l)\log l\le B$ for all finite sets of primes $P$, then
+$\sum_{l\in P}(N_0(l)+l^{-2})\log l\le B+1$ for all such $P$.
+\formallabel{Formalism.ValuationGridEstimates.prime_sum_bound}
+\formallabel{Formalism.ValuationGridEstimates.sum_log_div_sq_telescoping}
+\formallabel{Formalism.ValuationGridEstimates.prime_budget_bound}
+\end{lemma}
+
+\begin{proof}
+Let $f(t)=(1+\log t)/t$, so $f'(t)=-\log t/t^2$; since $\log t/t^2$ decreases for $t\ge4$, we have
+$\log n/n^2\le f(n-1)-f(n)$ for $n\ge5$, and summing, $\sum_{n=5}^M\log n/n^2\le f(4)-f(M)<(1+\log4)/4$ for $M\ge4$.
+Taking $M\ge\max P$, the set $P$ is contained in $\{2,3\}\cup[5,M]$, and
+$\sum_{l\in P}\log l/l^2<\frac{\log2}4+\frac{\log3}9+\frac{1+2\log2}4<0.174+0.123+0.597<1$, using
+$\log3\le2\log2$ and $\log2<0.6932$. The second statement follows by adding.
+\end{proof}
+
+We now fix the data of the grid estimate. Let $m,N\in\N$ and let $\fitSq=\{1,\dots,m\}^2$ be the set of index pairs
+$\eta=(i,j)$. Let:
+\begin{itemize}
+\item $d,h,y\colon\fitSq\to\N$ with $d(\eta)=2h(\eta)$, $d(\eta)\le2N$ and $y(\eta)\le m$;
+\item $r\colon\{\text{finite places}\}\times\fitSq\to K^\times$ (the ratios), $z_A,z'_A\colon\fitSq\to K^\times$,
+$z_T\colon\fitSq\times\Z\to K^\times$, $z_{Td}\colon\fitSq\times\{0,1\}\times\Z\to K^\times$, integers
+$g_T(\eta,s,w)$, and a function $c$ from the finite places to $\{0,1\}$;
+\item a function $d_l\ge0$ on the finite places, finite sets $S_d,S_e$ of primes and numbers $N_0(\eta,s,l)$ which
+are $\ge0$ for $1\le s\le h(\eta)$ and $l\in S_d$;
+\item a finite set $S_0$ with functions $c_0,e,q\colon S_0\to\N$ such that $c_0\le e$ on $S_0$.
+\end{itemize}
+For a finite place $w$ and $\eta\in\fitSq$ put
+\begin{multline}\label{eq:pf:fit:sqbound}
+\beta_w(\eta)=|v_w(z_A(\eta))|+|v_w(z'_A(\eta))|\\
++4\sum_{s=1}^{h(\eta)}\Bigl(\bigl|v_w(z_T(\eta,s))+g_T(\eta,s,w)\bigr|
++\bigl|v_w(z_{Td}(\eta,c(w),s))+g_T(\eta,s,w)\bigr|\Bigr)\\
++5\sum_{s=1}^{h(\eta)}\fitwt_{S_d}(N_0(\eta,s,\cdot))(w)+d(\eta)\fitwt_{S_e}(l\mapsto l^{-2})(w)\\
++6d_l(w)+2y(\eta)\sum_{q\in S_0}c_0(q)v_w(q(q)),
+\end{multline}
+and for real $B,B_N,B_\delta$ define the \emph{grid budget}
+\begin{equation}\label{eq:pf:fit:budget}
+\fitbudget(B,B_N,B_\delta)=m^2\Bigl(2(2+8N)B+10NB_N+2N+6B_\delta+4m\sum_{q\in S_0}e(q)\log q(q)\Bigr).
+\end{equation}
+
+\begin{proposition}[Grid estimate]\label{pf:fit:gridheight}
+Assume that for real numbers $B$, $B_\delta$ and $B_N\ge0$:
+\begin{enumerate}[label=(\roman*)]
+\item $\fitht_0(z_A(\eta))\le B$ and $\fitht_0(z'_A(\eta))\le B$ for all $\eta$; $\fitht_{g_T(\eta,s,\cdot)}(z_T(\eta,s))\le B$
+and $\fitht_{g_T(\eta,s,\cdot)}(z_{Td}(\eta,c,s))\le B$ for all $\eta,s,c$;
+\item $\sum_{l\in S_d}N_0(\eta,s,l)\log l\le B_N$ for $1\le s\le h(\eta)$;
+\item $\sum_{w\in F}\ell_wd_l(w)\le B_\delta$ for every finite set $F$ of finite places.
+\end{enumerate}
+Then for every finite set $W_0$ of finite places such that $v_w(r(w,\eta))\le\beta_w(\eta)$ for $w\in W_0$ and all
+$\eta$,
+\[
+\sum_{w\in W_0}\ell_w\,v_w\Bigl(\prod_{\eta\in\fitSq}r(w,\eta)\Bigr)\le\fitbudget(B,B_N,B_\delta).
+\]
+\formallabel{Formalism.AtG.gridHeightBoundIndexed}
+\formallabel{Formalism.AtG.grid_squares_index_estimate}
+\formallabel{Formalism.ValuationGridEstimates.grid_index_bound}
+\formallabel{Formalism.AtG.j3Wt}
+\formallabel{Formalism.AtG.grid_ell_bound}
+\end{proposition}
+
+\begin{proof}
+\emph{Normalisation.} Every finite place $w$ lies over a unique prime number $\ell(w)$, and $e_w=v_w(\ell(w))\ge1$. For a
+prime $l\ne\ell(w)$ we have $v_w(l)=0$ (as $l$ and $\ell(w)$ are coprime), hence
+$\fitwt_S(c)(w)=c(\ell(w))e_w$ if $\ell(w)\in S$ and $0$ otherwise. Put $\lambda_w=\ell_we_w$, and divide all
+valuations at $w$ by $e_w$. Replacing $N_0(\eta,s,l)$ by $N_1(\eta,s,l)=N_0(\eta,s,l)$ for $1\le s\le h(\eta)$ and
+$l\in S_d$ and by $0$ otherwise, the hypothesis $v_w(r(w,\eta))\le\beta_w(\eta)$ becomes
+\begin{multline*}
+\frac{v_w(r(w,\eta))}{e_w}\le\sum_{x\in X(\eta,c(w))}\frac{|u_x(w)|}{e_w}+5\sum_{s=1}^{h(\eta)}N_1(\eta,s,\ell(w))\\
++\frac{d(\eta)}{\ell(w)^2}+6\frac{d_l(w)}{e_w}+2y(\eta)\sum_{q\in S_0}c_0(q)\frac{v_w(q(q))}{e_w},
+\end{multline*}
+where $X(\eta,c)$ is a set of $2+8h(\eta)\le2+8N$ ``terms'' $x$ (the two numbers $z_A(\eta),z'_A(\eta)$ and four
+copies of each $z_T(\eta,s)$, $z_{Td}(\eta,c,s)$, $1\le s\le h(\eta)$) and $u_x(w)$ is $v_w$ of the term plus the
+shift $g_T$ where present.
+
+\emph{Fibres.} For a prime $l$ and a finite set $F$ of places over $l$, \cref{pf:fit:prodformula}(b) gives
+$\sum_{w\in F}\lambda_w=\sum_{w\in F}\ell_wv_w(l)\le\log l$. Hence for every $\varphi\colon\N\to\R_{\ge0}$,
+$\sum_{w\in W_0}\lambda_w\varphi(\ell(w))\le\sum_{l\in\ell(W_0)}\varphi(l)\log l$.
+
+\emph{Summation.} Multiply the normalised inequality by $\lambda_w\ge0$ and sum over $w\in W_0$ and $\eta$. Since
+$\lambda_w|u_x(w)|/e_w=\ell_w|u_x(w)|$, splitting $W_0$ according to the value of $c(w)$ and using (i), the terms give
+at most $\sum_{c}\sum_{x\in X(\eta,c)}B\le2(2+8N)B$ for each $\eta$. By the fibre bound and (ii), the second terms
+give at most $5h(\eta)B_N\le5NB_N$. By the fibre bound and \cref{pf:fit:primes}, the third give at most
+$d(\eta)\sum_{l}\log l/l^2\le2N$. By (iii) the fourth give at most $6B_\delta$. By \cref{pf:fit:prodformula}(b),
+$\sum_{w\in W_0}\ell_wv_w(q(q))\le\log q(q)$, so the last give at most $2m\sum_qe(q)\log q(q)$ (as $c_0\le e$ and
+$y\le m$). Summing over the $m^2$ pairs $\eta$ and using $v_w(\prod_\eta r(w,\eta))=\sum_\eta v_w(r(w,\eta))$ gives
+the bound $m^2\bigl(2(2+8N)B+5NB_N+2N+6B_\delta+2m\sum e\log q\bigr)\le\fitbudget(B,B_N,B_\delta)$.
+\end{proof}
+
+\begin{theorem}[Slope bound from grid data]\label{pf:fit:passage}
+Let $R,X_E,\kappa,M,X',\Psi,T,a$ be as in \cref{pf:fit:largest}, let $d_F\colon T\to\R$, and let $E_M,H,B_F,P$ be real
+numbers with $\fitmumax(M)\le E_M$, $h(\Psi)\le H$ (frames $X_{E,\kappa}$, $X'$) and $\sum_{w\in T}\ell_wd_F(w)\le B_F$.
+Let the data and bounds $B,B_N,B_\delta$ of \cref{pf:fit:gridheight} be given, with $v_w(r(w,\eta))\le\beta_w(\eta)$ and
+$a(w)\le v_w(\prod_\eta r(w,\eta))+d_F(w)$ for $w\in T$. If
+$E_M+H+2(\fitbudget(B,B_N,B_\delta)+B_F)\le P$, then $\fitmumax(R;X_E)\le-\fitmlog(\kappa)+P$.
+\formallabel{Formalism.AtG.height_h0_index_bound}
+\end{theorem}
+
+\begin{proof}
+Apply \cref{pf:fit:gridheight} with $W_0=T$ and then \cref{pf:fit:largest} with $r(w)=\prod_\eta r(w,\eta)$ and
+$G=\fitbudget(B,B_N,B_\delta)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Functional data and the conditional slope bound}\label{sec:pf:fit:cond}
+
+In this section $K$ is a totally complex number field, $S$ an indefinite datum over a well-formed definite side, and we
+write $\iota=\iota_{\mu_0}$, $P=P_{\mu_0}$, $X_Q=X_Q(\mu_0)$ and $Q_p=Q_p(\mu_0)$ when no confusion is possible.
+
+\begin{definition}[Functional data]\label{pf:fit:fundata}
+A \emph{functional datum} $O$ for the definite side consists of:
+\begin{itemize}
+\item an integer $n$, a frame $X'$ on $K^n$, an $\OO_K$-submodule $M\subseteq K^n$ and, for every type $t$, a matrix
+$V_t\in M_{n\times n_V(t)}(K)$;
+\item a finite set $T_f$ of finite places and integers $d_F(w)$;
+\item an integer $m$, \emph{square ratios} $r_t(\eta)\in K$ for every type $t$ and $\eta\in\fitSq=\{1,\dots,m\}^2$, and
+the data $d,h,y,z_A,z'_A,z_T,z_{Td},g_T,c,d_l,S_d,S_e,N_0$ of \cref{sec:pf:fit:grid};
+\item a set with a finite subset $S_0$, a distinguished element $q_*$ and functions $c_0,q$ to $\N$;
+\item integers $f,k,t,g_1,g_2,p_d,p'_d\ge0$, $d_E\in\Z$, a function $\mathrm{cl}\colon\N^2\to\Z$ and a real number
+$B_w$.
+\end{itemize}
+Its \emph{constants} are defined as follows, for real $C,x,b$ and with $L=\log b$:
+\begin{gather*}
+r=k+m-1,\quad n_r=k+m,\quad s=k+m+5,\quad N=k+m(t+s+1),\\
+n_p=(r+1)+m(r+5),\qquad L_c=\max_{0\le\tau<f}\max\bigl(\mathrm{cl}(\tau,2)-\mathrm{cl}(\tau,k),0\bigr),\\
+\gamma(C)=\max\bigl(\lceil CN^3+Cn_r^7+Cn_r^3L_c^{1/2}\rceil,\ 2N^3+2s+3,\ \lceil48n_r^2m^{1/2}\rceil\bigr),\\
+R_p(C)=(m+1)(\gamma(C)+1)+L_c+n_p,\qquad E_M(C)=4fn_pR_p(C)\log\bigl(n_pR_p(C)\bigr),\\
+\Pi(C,b)=Cf^2n_r^6\log\bigl(b\,n_rg_1g_2p_dp'_d|d_E|\bigr),\\
+e(q)=\begin{cases}\lfloor\Pi(C,b)/\log q(q_*)\rfloor+1&q=q_*,\\2&q\ne q_*,\end{cases}\\
+\Sigma_0=\sum_{q\in S_0}e(q)\log q(q),\qquad c_S=\sum_{q\in S_0}c_0(q)\log q(q),\\
+B_{\mathrm{FP}}=CfbNm(mL+m\Sigma_0)+Cfm^2N^2(L+\Sigma_0)b,\\
+B_{\mathrm{IPa}}=CfmNbL+Cm^2N^2\Sigma_0,\qquad B_{\mathrm{IP}}=B_{\mathrm{IPa}}+3CfmN^2L,\\
+B_\Delta=2CfN\log(2fN)+2CfNB_wL+4CfN^2B_wc_S,\qquad B_{\mathrm{TH}}(x)=Cfb(L+\log x),\\
+B_{\mathrm{Ar}}=2CfNB_w\bigl(L+\log(2NB_w)\bigr)+CfN^2\bigl(L+\log(2fNB_w)\bigr)+CN^2c_S,\\
+\fitpol(C,b)=10^5C^3fm^2N^2\bigl(rNL+\Pi(C,b)\bigr).
+\end{gather*}
+\end{definition}
+
+\begin{definition}[Leaf conditions]\label{pf:fit:leafconds}
+Let $O$ be a functional datum, $S$ an indefinite datum with map $\mu$, and $C,x,C_H,b$ real numbers, $L=\log b$. The
+\emph{leaf conditions} are:
+\begin{enumerate}[label=(L\arabic*),leftmargin=*]
+\item\label{pf:fit:L:MM} (minimal mass) $M$ is finitely generated and non-zero, the $X'(v)$ are invertible and
+$\fitmumax(M;X')\le E_M(C)$;
+\item\label{pf:fit:L:C} (unique map) there is $\Psi\in M_{n\times D}(K)$ with
+$\Psi\iota_tP_t=\bigl(\prod_{\eta\in\fitSq}r_t(\eta)\bigr)^{-1}V_t$ for $t=\mu_0$ and for every $t=\mu(w)$;
+\item\label{pf:fit:L:Ker} (kernel) $\ker V_{\mu_0}=U_{\mu_0}$;
+\item\label{pf:fit:L:FP} (fixed point) for every finite place $w$,
+$\bigl(V_{\mu(w)}(M_{\mu(w)})\bigr)_{(w)}\subseteq(w^{-d_F(w)}M)_{(w)}$; $d_F(w)=0$ for $w\notin T_f$; and
+$2\sum_{w\in T_f}\ell_wd_F(w)\le B_{\mathrm{FP}}$;
+\item\label{pf:fit:L:IP} (infinite places) every $\nu\in M_{n\times d_Q(\mu_0)}(K)$ with $\nu P=V_{\mu_0}$ has
+height $h(\nu)\le B_{\mathrm{IPa}}$ for the frames $X_Q$ and $X'$; and there is a function $g$ on the infinite places
+with $g(v)\le\sum_{j\in J}\log\lambda_{j,\mu_0,p,v}$ for all $v$ and all $p$ with $Q_p\ne0$, and
+$\fitmi{g}\ge-3CfmN^2L$;
+\item\label{pf:fit:L:Sq} (one square) $r_{\mu_0}(\eta)=1$ and $r_{\mu(w)}(\eta)\ne0$ for all $w,\eta$; the elements of
+$S_e$ are primes; $d(\eta)=2h(\eta)\le2N$ and $y(\eta)+1\le m$; $c_0(q)\le e(q)$ for $q\in S_0$; and
+$v_w(r_{\mu(w)}(\eta))\le\beta_w(\eta)$ for all $w,\eta$, with $\beta_w$ as in \eqref{eq:pf:fit:sqbound};
+\item\label{pf:fit:L:Den} (density) the elements of $S_d$ are primes, and for $1\le s\le h(\eta)$:
+$N_0(\eta,s,l)\ge0$ for $l\in S_d$ and $\sum_{l\in S_d}N_0(\eta,s,l)\log l\le B_{\mathrm{TH}}(x)$;
+\item\label{pf:fit:L:Int} (integrality) $d_l\ge0$; $\sum_{w\in F}\ell_wd_l(w)\le B_\Delta$ for every finite $F$; and
+$z_A(\eta),z'_A(\eta)\ne0$ with $v_w(z_A(\eta)),v_w(z'_A(\eta))\ge-3d_l(w)$ for all $w$;
+\item\label{pf:fit:L:Arch} (archimedean) $\fitmi{\log^+|\sigma_vz_A(\eta)|}\le B_{\mathrm{Ar}}$ and
+$\fitmi{\log^+|\sigma_vz'_A(\eta)|}\le B_{\mathrm{Ar}}$;
+\item\label{pf:fit:L:Thb} (theta bound) $z_T(\eta,s)\ne0$ and $z_{Td}(\eta,c,s)\ne0$ for $1\le s\le h(\eta)$, and for all
+$\eta,s,c$ the heights $\fitht_{g_T(\eta,s,\cdot)}(z_T(\eta,s))$ and $\fitht_{g_T(\eta,s,\cdot)}(z_{Td}(\eta,c,s))$ are at most
+$B_{\mathrm{TH}}(x)$;
+\item\label{pf:fit:L:Const} (ranks) $2\le m$, $m+3\le k$ and $m^4\le f\le k$;
+\item\label{pf:fit:L:Lc} (lattice constant) $L_c\le b$;
+\item\label{pf:fit:L:Size} (degrees and sizes) $mfN^2\le b$, $80r^4\le N$, $n_p\le2mr$, $R_p(C)\le CmN^3b$ and
+$\log(n_pR_p(C))\le4L$;
+\item\label{pf:fit:L:Mod} (prime power moduli) $q(q)$ is a prime power for $q\in S_0$, and $\Sigma_0\le2\Pi(C,b)$;
+\item\label{pf:fit:L:CS} $c_S\le45fL$;
+\item\label{pf:fit:L:Wt} (weights) $1\le B_w\le Cb$ and $\log B_w\le CL$;
+\item\label{pf:fit:L:Pol} (polynomial) $\fitpol(C,b)\le x^{C_H}$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[A Gram inequality]\label{pf:fit:gram}
+Let $P$ be a finite set, $a_p\in\C^d$ and $A_p\in\C^{D}$ for $p\in P$, $s_p\in\R$ and $m\in\R$, such that
+$A_p^*A_{p'}=s_p\,a_p^*a_{p'}$ for all $p,p'$ and $s_p\ge m$ whenever $a_p\ne0$. Then
+$\bigl|\sum_pA_p\bigr|^2\ge m\bigl|\sum_pa_p\bigr|^2$.
+\formallabel{Formalism.L2.Indef.Tree.gram_core}
+\end{lemma}
+
+\begin{proof}
+If $a_p^*a_{p'}\ne0$, then conjugating $A_p^*A_{p'}=s_pa_p^*a_{p'}$ and comparing with $A_{p'}^*A_p=s_{p'}a_{p'}^*a_p$ gives
+$s_p=s_{p'}$; moreover $a_p\ne0$, so $s_p\ge m$. Put $c_p=\max(s_p-m,0)^{1/2}$. Then
+$s_pa_p^*a_{p'}=m\,a_p^*a_{p'}+c_pc_{p'}a_p^*a_{p'}$ for all $p,p'$ (both sides vanish if $a_p^*a_{p'}=0$). Summing,
+$|\sum A_p|^2=\sum_{p,p'}s_pa_p^*a_{p'}=m|\sum a_p|^2+|\sum c_pa_p|^2\ge m|\sum a_p|^2$.
+\end{proof}
+
+\begin{lemma}[Height of the map at the infinite places]\label{pf:fit:ip}
+Let $S$ satisfy the row conditions of \cref{sec:pf:fit:setting}, let $g$ be a function on the infinite places with
+$g(v)\le\sum_j\log\lambda_{j,\mu_0,p,v}$ for all $v$ and all $p$ with $Q_p\ne0$, let $X'$ be a frame on $K^n$ and
+$\Psi\in M_{n\times D}(K)$ injective. Then:
+\begin{enumerate}[label=(\alph*)]
+\item for every $v$ and $q\in K^{d_Q(\mu_0)}$, $e^{g(v)}\|q\|^2_{X_Q,v}\le\|\iota q\|^2_{X_{E,\kappa},v}$;
+\item $h(\Psi)\le h(\Psi\eta)-\fitmi{g}$, the heights being taken for the frames $(X_{E,\kappa},X')$ and $(X_Q,X')$.
+\end{enumerate}
+\formallabel{Formalism.L2.Indef.Tree.ip_point}
+\formallabel{Formalism.L2.Indef.Tree.ip_first}
+\end{lemma}
+
+\begin{proof}
+(a) Since $K^{d_Q(\mu_0)}=\bigoplus_pQ_p$, write $q=\sum_pq_p$ with $q_p\in Q_p$. By the row conditions
+$\iota(Q_p)=E_p$ and $\iota$ is injective, so $\iota^{-1}(E_p)=Q_p$, and \eqref{eq:pf:fit:scalar} gives
+$\langle\iota q_p,\iota q_{p'}\rangle_{X_E,v}=\kappa_vs_p\langle q_p,q_{p'}\rangle_{X_Q,v}$ with
+$s_p=\prod_j\lambda_{j,\mu_0,p,v}$. Let $a_p$ and $A_p$ be the coordinate vectors of $q_p$ for $X_Q$ at $v$ and of
+$\iota q_p$ for $X_{E,\kappa}$ at $v$; since the norms of $X_{E,\kappa}$ are $\kappa_v^{-1/2}$ times those of $X_E$,
+$A_p^*A_{p'}=s_pa_p^*a_{p'}$. If $a_p\ne0$ then $q_p\ne0$, so $Q_p\ne0$ and $e^{g(v)}\le
+\exp\sum_j\log\lambda_{j,\mu_0,p,v}=s_p$ (all $\lambda>0$). \Cref{pf:fit:gram} with $m=e^{g(v)}$ gives (a).
+
+(b) Let $v$ be an infinite place. Every $y\in K^D$ is $\iota q$ for some $q$, and by (a)
+$\|\Psi y\|_{X',v}=\|\Psi\iota q\|_{X',v}\le\|\Psi\iota\|_v\|q\|_{X_Q,v}\le\|\Psi\iota\|_ve^{-g(v)/2}\|y\|_{X_{E,\kappa},v}$.
+By \lref{Formalism.L2.Geo.ExtensionFiltration.opNormAt_le_of_points} (an inequality
+$\|\varphi(y)\|_v\le c\|y\|_v$, $c\ge0$, for all $K$-rational $y$ bounds the operator norm at $v$ by $c$, the rational
+vectors being dense), $\|\Psi\|_v\le\|\Psi\iota\|_ve^{-g(v)/2}$. Since $\Psi$ is injective and $D>0$, $\|\Psi\|_v>0$,
+hence $\log\|\Psi\|_v^2\le\log\|\Psi\iota\|_v^2-g(v)$; averaging over $v$ gives (b).
+\end{proof}
+
+\begin{lemma}[Injectivity]\label{pf:fit:psiinj}
+If $\Psi\iota P=V_{\mu_0}$, $\ker V_{\mu_0}=U_{\mu_0}$, $\iota$ is bijective and $P$ is surjective, then $\Psi$ is
+injective.
+\formallabel{Formalism.L2.Indef.Tree.psi_inj}
+\end{lemma}
+
+\begin{proof}
+If $\Psi y=\Psi y'$, write $y=\iota Pu$ and $y'=\iota Pu'$. Then $V_{\mu_0}(u-u')=0$, so $u-u'\in U_{\mu_0}=\ker P$ and
+$y=y'$.
+\end{proof}
+
+\begin{lemma}[Local inclusion]\label{pf:fit:hencelocal}
+Let $w$ be a finite place, $t$ a type, $\fitRR$ an $\OO_K$-submodule of $K^D$ with
+$\fitRR_{(w)}=(\iota_t(\Lambda_t))_{(w)}$, $\Psi\in M_{n\times D}(K)$, $0\ne c\in K$, $\delta\in\Z$ and $V\in
+M_{n\times n_V(t)}(K)$ with $\Psi\iota_tP_t=c^{-1}V$ and $(V(M_t))_{(w)}\subseteq(w^{-\delta}M)_{(w)}$. Then
+$(\Psi(\fitRR))_{(w)}\subseteq(w^{-(v_w(c)+\delta)}M)_{(w)}$.
+\formallabel{Formalism.L2.Indef.Tree.hence_local}
+\formallabel{Formalism.L2.Indef.Tree.unit_at_val}
+\end{lemma}
+
+\begin{proof}
+First, there is $\tau\in\OO_K\smallsetminus w$ with $\tau c^{-1}\in w^{-v_w(c)}$: the fractional ideal
+$J=w^{-v_w(c)}(c)$ has $w$-adic valuation $0$, and by the Chinese remainder theorem it contains an element
+$\tau\in\OO_K\smallsetminus w$; then $\tau c^{-1}\in Jc^{-1}=w^{-v_w(c)}$. Now let $y$ with $sy=\Psi r$, $r\in\fitRR$,
+$s\notin w$. There are $s_1\notin w$ and $z\in M_t$ with $s_1r=\iota_tP_tz$, hence $s_1sy=c^{-1}Vz$, and $s_2\notin w$
+with $s_2Vz\in w^{-\delta}M$. Then $\tau s_2s_1sy=(\tau c^{-1})(s_2Vz)\in w^{-v_w(c)-\delta}M$ and $\tau s_2s_1s\notin w$.
+\end{proof}
+
+\begin{lemma}[The numerical inequality]\label{pf:fit:size}
+Let $O$ be a functional datum and $C,x,C_H,b$ real numbers with $C\ge1$, $x\ge1$, $L=\log b\ge1$ and
+$\log b+\log x\le3\log b$, satisfying \ref{pf:fit:L:Const}, \ref{pf:fit:L:Size}, \ref{pf:fit:L:Mod}, \ref{pf:fit:L:CS},
+\ref{pf:fit:L:Wt} and \ref{pf:fit:L:Pol}. Put $\bar B=\max(B_{\mathrm{Ar}}+6B_\Delta,B_{\mathrm{TH}}(x))$ and let
+$\fitbudget$ be the grid budget \eqref{eq:pf:fit:budget} for $m,N,S_0,e,q$ of $O$. Then
+\[
+E_M(C)+B_{\mathrm{IP}}+2\bigl(\fitbudget(\bar B,B_{\mathrm{TH}}(x),B_\Delta)+B_{\mathrm{FP}}/2\bigr)\le x^{C_H}b.
+\]
+\formallabel{Formalism.L2.Indef.Tree.size_le}
+\formallabel{Formalism.L2.Indef.Tree.size_arith}
+\end{lemma}
+
+\begin{proof}
+This is an elementary verification. From \ref{pf:fit:L:Const} and the definition of $N$ one gets $1\le f\le k\le r+1$,
+$r\le N$, $m\le N$ and $mf\ge2$; with \ref{pf:fit:L:Size}, $b\ge mfN^2\ge2fN\ge2N$, so $b\ge1$; also
+$\log x\le2L$, $\Sigma_0\ge0$, $c_S\ge0$, $n_p\ge1$ and $R_p\ge1$. Then, step by step:
+$E_M\le32C^3fm^2rN^3bL$ (from $n_p\le2mr$, $R_p\le CmN^3b$, $\log(n_pR_p)\le4L$);
+$B_\Delta\le186C^2f^2N^2bL$ (from $\log(2fN)\le L$, $B_w\le Cb$, $c_S\le45fL$);
+$B_{\mathrm{Ar}}\le57C^3fN^2bL$ (from $L+\log(2NB_w)\le4CL$ and $L+\log(2fNB_w)\le4CL$, consequences of
+$\log B_w\le CL$ and $\log(2fN)\le L$); $B_{\mathrm{TH}}\le3CfbL$; hence $\bar B\le1176C^3f^2N^2bL$. Inserting these
+bounds, $\Sigma_0\le2\Pi$, $f\le r$ and $m\le C^3fN^2b$ into the definitions of $B_{\mathrm{IP}}$, $B_{\mathrm{FP}}$ and
+$\fitbudget$, every term on the left is bounded by a multiple of $C^3fm^2rN^3bL$ or of $C^3fm^2N^2\Pi b$, and the
+multiples add up to less than $10^5$. Hence the left side is at most $\fitpol(C,b)\,b\le x^{C_H}b$ by
+\ref{pf:fit:L:Pol}.
+\end{proof}
+
+\begin{theorem}[Conditional slope bound]\label{pf:fit:flb}
+Let $S$ be an indefinite datum over a well-formed definite side, satisfying the row conditions, and assume that
+$\fitRR$ is a lattice with $\fitRR_{(w)}=(\iota_{\mu(w)}(\Lambda_{\mu(w)}))_{(w)}$ for every $w$. Let $O$ be a
+functional datum and $C,x,C_H,b$ real numbers with $C\ge1$, $x\ge1$, $1\le\log b$ and $\log b+\log x\le3\log b$, such
+that the leaf conditions \ref{pf:fit:L:MM}--\ref{pf:fit:L:Pol} hold. Then $\fitmumax(\fitRR)\le x^{C_H}b-\fitmlog(\kappa)$;
+in particular $S$ satisfies $\fitFUN(N)$ for all numbers $N$ with $hh=x^{C_H}b$, and $\fitFUN(N_Z(C_0,C_H))$ for every
+$C_0$ and every scale $Z$ with entries $x$ and $b$.
+\formallabel{Formalism.L2.Indef.Tree.functional_lower_bound_of_conditions}
+\formallabel{Formalism.L2.Indef.Tree.functional_lower_bound_of_conditions_numeric}
+\end{theorem}
+
+\begin{proof}
+\emph{The map.} Let $\Psi$ be given by \ref{pf:fit:L:C}. Since $r_{\mu_0}(\eta)=1$ by \ref{pf:fit:L:Sq},
+$\Psi\iota P=V_{\mu_0}$, and by \ref{pf:fit:L:Ker} and \cref{pf:fit:psiinj} (with the scalar conditions and the
+surjectivity of $P$) $\Psi$ is injective.
+
+\emph{Denominators.} Let $T=\mathrm{Tw}\cup T_f$ and $a(w)=v_w\bigl(\prod_\eta r_{\mu(w)}(\eta)\bigr)+d_F(w)$. For every
+$w$, \cref{pf:fit:hencelocal} with $t=\mu(w)$, $c=\prod_\eta r_{\mu(w)}(\eta)\ne0$ (by \ref{pf:fit:L:Sq}), the
+identity of \ref{pf:fit:L:C} and the inclusion of \ref{pf:fit:L:FP} gives $(\Psi(\fitRR))_{(w)}\subseteq
+(w^{-a(w)}M)_{(w)}$. If $w\notin T$, then $\mu(w)=\mu_0$ by the row conditions, so the ratios are $1$, $d_F(w)=0$ and
+$a(w)=0$. By \cref{pf:fit:locglob}, $\Psi(\fitRR)\subseteq\fitden_{T,a}M$.
+
+\emph{Height.} By \ref{pf:fit:L:IP}, applied to $\nu=\Psi\iota$ (which satisfies $\nu P=V_{\mu_0}$), and
+\cref{pf:fit:ip}(b), $h(\Psi)\le B_{\mathrm{IPa}}+3CfmN^2L=B_{\mathrm{IP}}$ for the frames $X_{E,\kappa}$ and $X'$.
+
+\emph{Remaining bounds.} $\sum_{w\in T}\ell_wd_F(w)=\sum_{w\in T_f}\ell_wd_F(w)\le B_{\mathrm{FP}}/2$ by \ref{pf:fit:L:FP}.
+By \ref{pf:fit:L:Int}, \ref{pf:fit:L:Arch} and \cref{pf:fit:prodformula}(c), $\fitht_0(z_A(\eta))$ and
+$\fitht_0(z'_A(\eta))$ are at most $B_{\mathrm{Ar}}+6B_\Delta\le\bar B$; by \ref{pf:fit:L:Thb} the heights of $z_T$ and
+$z_{Td}$ are at most $B_{\mathrm{TH}}(x)\le\bar B$. Moreover $B_{\mathrm{TH}}(x)\ge0$ since $b\ge mfN^2\ge0$ and
+$\log b+\log x\ge0$.
+
+\emph{Conclusion.} \Cref{pf:fit:passage}, applied with $R=\fitRR$, $E_M=E_M(C)$ (by \ref{pf:fit:L:MM}),
+$H=B_{\mathrm{IP}}$, $B_F=B_{\mathrm{FP}}/2$, $r(w,\eta)=r_{\mu(w)}(\eta)$, $B=\bar B$, $B_N=B_{\mathrm{TH}}(x)$
+(\ref{pf:fit:L:Den}), $B_\delta=B_\Delta$ (\ref{pf:fit:L:Int}), the local bounds of \ref{pf:fit:L:Sq} and
+$P=x^{C_H}b$ (\cref{pf:fit:size}), gives $\fitmumax(\fitRR;X_E)\le-\fitmlog(\kappa)+x^{C_H}b$. The numbers
+$N_Z(C_0,C_H)$ have $hh=x^{C_H}b$ for every $C_0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Fitted functions and the reduction to sixteen leaves}\label{sec:pf:fit:assembly}
+
+We now attach functional data to the points of the families. Fix a point $p$ of a family, with datum $D$, coefficient
+field $K=\mathit{LL}$ (totally complex), real datum $R$ and first side $S_{\mathrm f}$ over the definite side
+$\mathcal D_p$ of $p$; let $C_F\in\R$.
+
+\begin{definition}[Fitted functions]\label{pf:fit:funin}
+A \emph{function datum} $\phi$ at $(p,C_F)$ consists of a grid datum $G=G_\phi$ at level $(1,C_F,b)$, a Weil datum $W$ over
+$G$ which is over $R$, an integer $n$, a frame $X'$ on $K^n$, an $\OO_K$-submodule $M\subseteq K^n$, matrices
+$V_t\in M_{n\times n_V(t)}(K)$ for the types $t$, square ratios $r_t(\eta)\in K$ ($\eta\in\fitSq$, $m=m(D)$), and
+data $d_l,S_d,S_e,N_0,z_A,z'_A,z_T,z_{Td},g_T,c,B_w$ as in \cref{pf:fit:fundata}. For $\zeta$ a function on types
+with values in $K^\times$, a finite set $T_f$ and $d_F$, the functional datum $\phi(\zeta,T_f,d_F)$ is $O$ with the entries of
+$\phi$, the matrices $\zeta_t^{-1}V_t$, the given $T_f,d_F$, and the following entries fixed by $D$ and $G$: $m,f,k,t$ are the
+ranks of $D$; $d(i,j)=2r+(2j+1)t+(2i+1)s$ (indices from $0$) with $r=k+m-1$ and $s=k+m+5$; $h=d/2$; $y(i,j)=m-1-j$; $S_0$
+is the set of places of $G$, $q_*=v_0$, $c_0(v_0)=1$, $c_0(q)=2$ otherwise, $q(q)=\Nm q$; $\mathrm{cl}$ is the cloud of
+Harish-Chandra parameters of $D$; $g_1,g_2$ are the type primes, $p_d,p'_d$ the auxiliary primes of the host and $d_E$
+the discriminant of $E$. We write $O_\phi=\phi(1,\emptyset,0)$.
+\end{definition}
+
+A function datum is tied to a choice of the remaining data (\cref{sec:pf:fit:setting}). For a choice $a$ for $(G,W,n)$
+the \emph{tie} $\sfname{TieAt}(\phi,a)$ asserts: $\mathrm{OK}(a)$; the \emph{test condition}: $X'$ is a metric of the inverse
+transpose of the Gram matrix of the forms of the choice and $M$ is the dual of the lattice of these forms; the
+\emph{value condition}: for every type $t$ in use, every $x\in K^{n_V(t)}$ and every $b\le n$,
+\begin{equation}\label{eq:pf:fit:tieV}
+\sigma_{v_0}\bigl((V_tx)_b\bigr)=v_K\bigl(\mathrm{ch}(a),t,e_{V_0}(x)\bigr)_b,
+\end{equation}
+where $v_K(\mathrm{ch},t,\cdot)$ is the vector of class sums of the choice and $e_{V_0}(x)$ the form attached to $x$; and
+the \emph{square condition}: the square data of $\phi$ are a square datum of the choice
+($\sfname{IsSqOf}$, \cref{sec:pf:fit:inputs}). Let $\mathcal T(p,C_F,\phi)$ be the statement that $\sfname{TieAt}(\phi,a)$ holds for
+some choice $a$, and $\mathcal T^{\fitFit}(p,C_F,\phi)$ the statement that $G$ fits $p$ and $\mathcal T(p,C_F,\phi)$.
+
+\begin{definition}[Leaf statements]\label{pf:fit:leafst}
+For a property $Q(p,C_F,\phi,C,C_H)$ of points, function data and constants, and a property $\Xi(p,C_F,\phi)$, let
+$\mathcal L(\Xi,Q)$ be the statement: there is $C_{F0}$ such that for every $C_F\ge C_{F0}$
+\begin{multline*}
+\fitClosed\Bigl(\sfname{FamHyp},\ (\mathcal F,C_H)\mapsto\Bigl(\sfname{DIVinN}(\mathcal F)\Rightarrow\exists C_0\
+\forall C\ge C_0:\\ \fitEv\bigl(\mathcal F,\ p\mapsto\forall\phi:\ \Xi(p,C_F,\phi)\Rightarrow Q(p,C_F,\phi,C,C_H)\bigr)\Bigr)\Bigr).
+\end{multline*}
+With $\mathrm{True}$ the trivial property, the sixteen \emph{leaves} are the statements $\mathcal L(\mathcal T^{\fitFit},Q)$ (or
+$\mathcal L(\mathrm{True},Q)$ where indicated) for the following $Q$, where $O=O_\phi$, $\mu$ is the map of $S_{\mathrm f}$,
+and $x,b$ are the entries of the scale of $p$:
+\begin{enumerate}[label=(F\arabic*),leftmargin=*]
+\item\label{pf:fit:F:MM} minimal mass: \ref{pf:fit:L:MM} for $O$ and $C$;
+\item\label{pf:fit:F:C} unique map: there is $\zeta$ with $\zeta_{\mu_0}=1$, each $\zeta_t$ a root of unity, such that
+\ref{pf:fit:L:C} holds for $S_{\mathrm f}$ and $\phi(\zeta,\emptyset,0)$;
+\item\label{pf:fit:F:Ker} kernel: \ref{pf:fit:L:Ker} for $O$;
+\item\label{pf:fit:F:FP} fixed point: there are $T_f,d_F$ such that \ref{pf:fit:L:FP} holds for $\phi(1,T_f,d_F)$, $\mu$, $C$ and
+$b$;
+\item\label{pf:fit:F:IPa} height of the map: the first half of \ref{pf:fit:L:IP} for $\phi$ (with the matrix $V_{\mu_0}$ of
+$\phi$);
+\item\label{pf:fit:F:IPb} infinite places, with $\Xi=\mathrm{True}$: the second half of \ref{pf:fit:L:IP} for $S_{\mathrm f}$
+and the constants $f,m,N$ of $O$;
+\item\label{pf:fit:F:Sq} unique square root: \ref{pf:fit:L:Sq};
+\item\label{pf:fit:F:Den} density: \ref{pf:fit:L:Den};
+\item\label{pf:fit:F:Int} integrality: \ref{pf:fit:L:Int};
+\item\label{pf:fit:F:Arch} archimedean condition: \ref{pf:fit:L:Arch};
+\item\label{pf:fit:F:Thb} theta bound: \ref{pf:fit:L:Thb};
+\item\label{pf:fit:F:Wt} weight bound: \ref{pf:fit:L:Wt};
+\item\label{pf:fit:F:DesH} descent height, with $\Xi=\mathrm{True}$: \ref{pf:fit:L:Const} and \ref{pf:fit:L:Lc};
+\item\label{pf:fit:F:Rank} rank gap, with $\Xi=\mathrm{True}$: \ref{pf:fit:L:Size};
+\item\label{pf:fit:F:Ram} ramified sums, with $\Xi=\mathrm{True}$: \ref{pf:fit:L:Mod} and \ref{pf:fit:L:CS};
+\item\label{pf:fit:F:Pol} descent polynomial, with $\Xi=\mathrm{True}$: \ref{pf:fit:L:Pol} with $C_H$;
+\end{enumerate}
+all conditions for $O$ and the constants $(C,x,C_H,b)$. Moreover:
+\begin{itemize}
+\item $\sfname{ExistsFunctionIn}(\mathrm{Fld},\mathcal T)$: there is $C_{F0}$ such that for every $C_F\ge C_{F0}$,
+closedly on $\sfname{FamHyp}$, under $\sfname{DIVinN}$, eventually at the points $p$: for every grid datum $G$ at level
+$(1,C_F,b)$ and every Weil datum $W$ over $G$ and over $R$ such that $G$ fits $p$ and $\mathrm{Fld}(p,C_F,G,W)$, there is a
+function datum $\phi$ with $G_\phi=G$ and $\mathcal T(p,C_F,\phi)$;
+\item $\sfname{ScaleCondition}$: closedly on $\sfname{FamHyp}$, eventually at the points, $1\le x$, $1\le\log b$ and
+$\log b+\log x\le3\log b$;
+\item $\sfname{BundleCondition}$: at every point $p$ with $\fitPC(p)$, the definite side $\mathcal D_p$ is well formed and
+$S_{\mathrm f}$ satisfies the row conditions.
+\end{itemize}
+\end{definition}
+
+\begin{lemma}\label{pf:fit:leafand}
+If $\mathcal L(\Xi,Q)$ and $\mathcal L(\Xi,Q')$, then $\mathcal L(\Xi,Q\wedge Q')$. If $\mathcal L(\mathrm{True},Q)$,
+then $\mathcal L(\Xi,Q)$ for every $\Xi$.
+\formallabel{GlobalTheory.BigTop.Fun.LeafConditions.and}
+\formallabel{GlobalTheory.BigTop.Fun.LeafConditions.of_noTie}
+\end{lemma}
+
+\begin{proof}
+Take the larger of the two thresholds $C_{F0}$, the conjunction of the two closed statements (closed statements are
+stable under conjunction, \lref{Formalism.MainNotions.Closed.and}), the larger of the two constants $C_0$ and the
+larger of the two thresholds $x_0$ of $\fitEv$. The second statement is monotonicity in $\Xi$.
+\end{proof}
+
+\begin{lemma}\label{pf:fit:rootunity}
+Let $O$ satisfy \ref{pf:fit:L:FP} for $\mu,C,b$, and let $\zeta_t\in K$ be roots of unity. Then the functional datum
+obtained by replacing every $V_t$ by $\zeta_t^{-1}V_t$ satisfies \ref{pf:fit:L:FP} for $\mu,C,b$.
+\formallabel{GlobalTheory.finitePlaceBound_inv_rootOfUnity_smul}
+\formallabel{GlobalTheory.matLat_smul_le_of_isIntegral}
+\end{lemma}
+
+\begin{proof}
+$\zeta_t^{-1}$ is a root of unity, hence integral over $\Z$, so $\zeta_t^{-1}V_t(M_t)\subseteq V_t(M_t)$, the latter being an
+$\OO_K$-module; localisation preserves inclusions.
+\end{proof}
+
+\begin{theorem}[Reduction to the leaves]\label{pf:fit:leaves}
+Let $\mathrm{Fld}$ be a property of grid and Weil data at points. Assume $\sfname{BundleCondition}$,
+$\sfname{ScaleCondition}$, $\sfname{ExistsFunctionIn}(\mathrm{Fld},\mathcal T)$ and the sixteen leaves
+\ref{pf:fit:F:MM}--\ref{pf:fit:F:Pol}. Then $\sfname{ConstantFunctionFits}(\mathrm{Fld})$ holds.
+\formallabel{GlobalTheory.BigTop.Fun.fun0Fit_of_leaves_alt}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:fit:leafand} the sixteen leaves combine into one statement $\mathcal L(\mathcal T^{\fitFit},Q_{\mathrm{all}})$ with
+threshold $a$, where $Q_{\mathrm{all}}$ is the conjunction of \ref{pf:fit:F:MM}--\ref{pf:fit:F:Pol}; let $b'$ be the
+threshold of $\sfname{ExistsFunctionIn}$, and $C_{F0}=\max(a,b')$. Fix $C_F\ge C_{F0}$. Closedly on $\sfname{FamHyp}$ we
+have the conjunction of the three statements; fix a large family $\mathcal F$, a value $C_H$, and assume
+$\sfname{DIVinN}(\mathcal F)$. Let $C_0$ be the constant of the combined leaf statement and put $C_1=\max(C_0,1)$.
+Eventually at the points $p$ (with $\fitPC(p)$) we then have: all leaves hold for $C_1$ and every function datum $\phi$ with
+$\mathcal T^{\fitFit}(p,C_F,\phi)$; the conclusion of $\sfname{ExistsFunctionIn}$; and the scale condition.
+
+Let $p$ be such a point with $\sfname{HasGrid}(\mathrm{Fld},p,C_F)$: there are $G,W$ over $R$ with $G$ fitting $p$ and
+$\mathrm{Fld}(p,C_F,G,W)$. By $\sfname{ExistsFunctionIn}$ there is $\phi$ with $G_\phi=G$ and $\mathcal T(p,C_F,\phi)$; as $G$ fits $p$,
+$\mathcal T^{\fitFit}(p,C_F,\phi)$ holds and the leaves hold for $\phi$ and $C_1$. Let $\zeta$ be given by \ref{pf:fit:F:C} and
+$T_f,d_F$ by \ref{pf:fit:F:FP}, and consider $O=\phi(\zeta,T_f,d_F)$. By $\sfname{BundleCondition}$ the definite side is well
+formed and $S_{\mathrm f}$ satisfies the row conditions, and by \cref{pf:fit:glue} (applied with $L_0=\iota_{\mu_0}
+(\Lambda_{\mu_0})$; the local lattices differ from it only at the finitely many twisted places) $\fitRR$ is a lattice with
+the local components of \cref{pf:fit:flb}. We check the leaf conditions for $O$ with the constant $C_1$. All of them
+except \ref{pf:fit:L:C}, \ref{pf:fit:L:Ker}, \ref{pf:fit:L:FP} and the first half of \ref{pf:fit:L:IP} involve only
+entries of $O$ which coincide with those of $O_\phi$, and hold by the leaves. Condition \ref{pf:fit:L:C} only involves the
+matrices $\zeta_t^{-1}V_t$ and the ratios, and holds by \ref{pf:fit:F:C}. Since $\zeta_{\mu_0}=1$, the matrix of $O$ at
+$\mu_0$ is $V_{\mu_0}$, so \ref{pf:fit:L:Ker} and the first half of \ref{pf:fit:L:IP} hold by \ref{pf:fit:F:Ker} and
+\ref{pf:fit:F:IPa}. Finally \ref{pf:fit:L:FP} for $\phi(\zeta,T_f,d_F)$ follows from \ref{pf:fit:F:FP} for $\phi(1,T_f,d_F)$ by
+\cref{pf:fit:rootunity}. The scale condition
+gives $x\ge1$, $\log b\ge1$ and $\log b+\log x\le3\log b$, and $C_1\ge1$. By \cref{pf:fit:flb}, $S_{\mathrm f}$
+satisfies $\fitFUN(N_p(C,C_H))$ for every $C$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The inputs}\label{sec:pf:fit:inputs}
+
+The leaves are deduced from statements about grid data and about choices, which hold uniformly for all data
+of large scale. We first fix the quantifiers.
+
+\begin{definition}[Uniform statements]\label{pf:fit:uniform}
+Let $Q(G,\mu_0,C,x,b)$ be a property of grid data with constants. $\fitGBig(Q)$ is the statement: there is $C_{F0}$ such
+that for all $\eps$ and $C_F\ge C_{F0}$ there are $C_0,x_0$ such that $Q(G,\mu_0,C,x,b)$ holds for all $C\ge C_0$, all
+global data $D$ and size data with exponent $\eps$, scale $x\ge x_0$ and $b=e^{x^\eps}$ satisfying the \emph{standing
+conditions} $\sfname{Rec}$ (the size rows $\sfname{SizeRows}$, the host hypothesis, $F$ the maximal real subfield of
+$E$, and $|\mathrm{logDer}(1)|\le x^\eps$ for the logarithmic derivative at $1$ attached to the size data), all level
+characters with base type $\mu_0$ and all grid data $G$ at level $(1,C_F,b)$. For a property $Q(\mathrm{ch})$ of choices,
+$\sfname{Big}(Q)$ is the statement: there is $C_{F0}$ such that for all $\eps$ and $C_F\ge C_{F0}$ there is $x_0$ such
+that $Q(\mathrm{ch})$ holds for all data $D$ and size data with exponent $\eps$ and scale $x\ge x_0$, all families $A$,
+real data $R$ and faces $F$ in \emph{Hida setting} ($\sfname{HidaSetting}$: size rows, Eisenstein tie, host conditions,
+and the conditions on the characters of the face), and all admissible choices $\mathrm{ch}$ at $R$ at scale $(C_F,b)$.
+$\fitBigC(Q)$, for a property $Q(F,\mathrm{ch},C,b)$, is the analogous statement with the order of quantifiers
+$\exists C_{F0}\,\forall C_F\ge C_{F0}\,\exists C_0\,\forall\eps,C\ge C_0\,\exists x_0$, and with the field condition
+$\sfname{FieldOK}(\mathrm{ch})$ among the hypotheses.
+\end{definition}
+
+The following statements about points are used besides; ``closedly, eventually'' means
+$\fitClosed(\sfname{FamHyp},(\mathcal F,C_H)\mapsto\fitEv(\mathcal F,\cdot))$.
+\begin{itemize}
+\item $\sfname{SizeAt}$: closedly, eventually, the size data $L_{x,i}$ of the member satisfy $\sfname{SizeRows}$.
+\item $\sfname{SettingAtPoint}$: closedly, eventually, if the Eisenstein tie $\sfname{ESerTie}$ of $D_{x,i}$ holds, then
+$L_{x,i}$, the real datum and the face of the point are in Hida setting.
+\item $\sfname{LogDer}$: closedly, eventually, $|\mathrm{logDer}(1)|\le x^\eps$ for $L_{x,i}$.
+\end{itemize}
+
+\begin{lemma}[Sizes, setting and the logarithmic derivative]\label{pf:fit:setting}
+$\sfname{SizeAt}$, $\sfname{SettingAtPoint}$ and $\sfname{LogDer}$ hold.
+\formallabel{GlobalTheory.T.size_at'}
+\formallabel{GlobalTheory.BigTop.Fun.SizeProof.sizeAt_alt}
+\formallabel{GlobalTheory.T.set_at_of_size_at'}
+\formallabel{GlobalTheory.BigTop.Fun.setAt_of_sizeAt_alt}
+\formallabel{GlobalTheory.BigTop.Fun.SetFromSize.setting_of_size_alt}
+\formallabel{GlobalTheory.BigTop.Fun.SetFromSize.finite_tup}
+\formallabel{GlobalTheory.T.abs_logDerivativeAtOne_le_x_rpow_eps}
+\formallabel{GlobalTheory.logDeriv_LFunction_at_one_le_along_family_alt}
+\end{lemma}
+
+\begin{proof}
+$\sfname{SizeAt}$: for a family of $\sfname{FamHyp}$ with exponent $\eps$ and $x\ge\max(44^4,8^{4/\eps})$, the size rows
+of $L_{x,i}$ follow from the parameter choice of the family, its fixed constants and size conditions, and the rank and
+scale windows \eqref{eq:families:rankval} (\lref{GlobalTheory.BigTop.Fun.SizeProof.sizeRows_fam}: a direct
+verification of the numerical inequalities defining the size rows, from bounds for the Harish-Chandra parameters, the
+gap and the length of the cloud). $\sfname{SettingAtPoint}$: given the size rows and the Eisenstein tie, the remaining
+conditions of the Hida setting are part of the data of the point: its host condition, the conditions on the map $\mu$, the
+condition on its group of characters, the guard condition $\sfname{QGuard}$ of its real datum, the standard characters, and
+the core clauses of the Hecke choice, which follow from the weak characterisation of the characters of the point
+(\lref{GlobalTheory.OneMapBridge.heckeChoiceClauses_of_weakCharacterisation_at_face}: the weak characterisation at a
+face, together with the existence condition of the real datum, gives these clauses and the conditions that $\mu$ equals
+the base type off the twisted places and that every type is the base type or a value of $\mu$). The set of types is
+finite: by the last two conditions every type is the base type or the image under $\mu$ of one of the finitely many
+twisted places. $\sfname{LogDer}$: the bound $|\mathrm{logDer}(1)|\le x^\eps$ is one of the conditions of the parameter
+choice of every member of a family in $\sfname{FamP}(\eps)$, so it holds for all $x>x_1$; the hypothesis $F$ of the
+formal statement is not used.
+\end{proof}
+
+\paragraph{The square statements.}
+The following twelve properties of grid data (used through $\fitGBig$) concern the ``square'' of a grid: for index
+pairs $\eta=(i,j)$ and types $t$, the constants $\gamma_\eta(t)$ of the matched square theta integrals, the Hecke characters
+$\nu_H(G,t,i,j)$ and $\mathrm{fam}(G,\mu_0,i,j,c)$ attached to the grid, their completed $L$-functions $\Lambda$, the
+\emph{toric values} (values $\Lambda(s)$ at integers $1\le s\le h(\eta)$, $h(\eta)$ the half rank of $\eta$, normalised by
+CM periods of a lattice $\Lambda_d$ of discriminant $-d$), their \emph{denominator data} (functions $n$ on primes), and
+\emph{bottom pairs} $(P,P')$ and \emph{bottom triples} of theta data at the bottom of the tower, with norms $\|P\|$. We refer
+to \cite{LeanSource2026} for the definitions of these objects.
+
+The \emph{square datum} $\sfname{IsSqOf}$ of the square condition of a tie is defined as follows. For a choice with Weil datum
+$W$, grid choice and real match, and for the base type $\mu_0$ and the map $\mu$ of the point, a family of square data
+$(r,z_A,z'_A,z_T,z_{Td},g_T,c,N_0,S_d,S_e,d_l,B_w)$ is a \emph{square datum} if: for every $\eta$ there are non-zero
+constants $\gamma_\eta(t)$ of the matched square integrals at $\mu_0$ and at the types $\mu(w)$ with $\sigma(r_t(\eta))\gamma_\eta(\mu_0)=\gamma_\eta(t)$;
+$z_A(\eta)$ and $z'_A(\eta)$ map to the norms of a bottom pair at $\mu_0$; $z_T=1$; for $1\le s\le h(\eta)$ the numbers
+$z_{Td}(\eta,c,s)$ are toric values at $(\eta,s)$ with valuation shift $g_T(\eta,s)$ and $N_0(\eta,s,\cdot)$ is a denominator
+datum, while outside this range $z_{Td}=1$, $g_T=0$ and $N_0=0$; $c(w)=1$ if and only if $p_d\in w$; $S_d$ is the set of
+primes $l$ with $N_0(\eta,s,l)\ne0$ for some $(\eta,s)$; $S_e$ is the set of primes below the places $w$ with $\mu(w)\ne\mu_0$;
+$d_l$ is an integrality exponent of the grid; and $B_w=\max\mathrm{Wt}(D)$.
+
+The twelve statements are, with $B_{\mathrm{TH}}=Cf(D)b(\log b+\log x)$:
+\begin{enumerate}[label=(S\arabic*),leftmargin=*]
+\item\label{pf:fit:S:DenSum} $\sfname{DenSum}$: every denominator datum $n$ of the toric value at $(\eta,s)$, $1\le
+s\le h(\eta)$, is non-negative on primes and satisfies $\sum_{l\in S}n(l)\log l\le B_{\mathrm{TH}}$ for every finite set
+$S$ of primes;
+\item\label{pf:fit:S:Thb} $\sfname{ThbSt}$: if $z_d(c)$ ($c\in\{0,1\}$) are toric values at $(\eta,s)$ with valuation
+shift $g$, then $\fitht_g(1)\le B_{\mathrm{TH}}$, $z_d(c)\ne0$ and $\fitht_g(z_d(c))\le B_{\mathrm{TH}}$;
+\item\label{pf:fit:S:One} $\sfname{OneSqSt}$: for every Weil datum $W$ over $G$ with standard $\psi$, grid choice, real
+match, square values at $\mu_0$ in $K$, and every square datum $(\mu,r,z_A,z'_A,z_T,z_{Td},g_T,\allowbreak c,N_0,S_d,S_e,d_l,B_w)$
+satisfying the toric estimate $\sfname{ThA}$ below: $r_{\mu(w)}(\eta)\ne0$ and
+$v_w(r_{\mu(w)}(\eta))\le\beta_w(\eta)$ for all $w,\eta$, with $\beta_w$ as in \eqref{eq:pf:fit:sqbound} for $d=2h$,
+$y(i,j)=m-1-j$, the places of $G$ with their conductor exponents $c_0$, and $q=\Nm$;
+\item\label{pf:fit:S:BotSmall} $\sfname{BotSmall}$: the level of $G$ is good, $G$ has no twisted places at $\mu_0$, and all
+bottom pairs are \emph{small} with respect to $N(D)$ and the maximal weight $\max\mathrm{Wt}(D)$;
+\item\label{pf:fit:S:BotNe} $\sfname{BotNe}$: both members of every bottom pair at $\mu_0$ have a non-zero coordinate;
+\item\label{pf:fit:S:Field} $\sfname{FieldDat}$: $E$ is a CM field, abelian over $\Q$, the CM type of the host has the
+field data of discriminant $-d$, the conductor of $G$ satisfies the base condition, and an integral period lattice of
+discriminant $-d$ exists;
+\item\label{pf:fit:S:TorEx} $\sfname{TorEx}$: at every $(\eta,s)$ and $c$ there is a non-zero toric value $x=\Lambda(s)$ for
+the $L$-function of $\mathrm{fam}(G,\mu_0,i,j,c)$, whose period-normalised value $\beta(x)$ is algebraic;
+\item\label{pf:fit:S:DenEx} $\sfname{DenEx}$: at every $(\eta,s)$ there is a denominator datum with finite support;
+\item\label{pf:fit:S:BotEx} $\sfname{BotEx}$: bottom pairs at $\mu_0$ exist for every $\eta$;
+\item\label{pf:fit:S:LNe} $\sfname{LNe}$: the $L$-functions of $\nu_H(G,t,i,j)$ do not vanish at the integers
+$1-e_0(\eta)\le s\le h(\eta)$, and those of $\mathrm{fam}(G,\mu_0,i,j,c)$ do not vanish at the integers $s\ge1$;
+\item\label{pf:fit:S:TriEx} $\sfname{TriEx}$: for every Weil datum with standard $\psi$ and every $\eta$ there is a bottom
+triple with its constants;
+\item\label{pf:fit:S:Tower} $\sfname{Tower}$: the ratio $\gamma_\eta(t)/\gamma_\eta(\mu_0)$ of square constants, multiplied by a product of
+ratios $\Lambda(e+k+1)/\Lambda_0(e+k+1)$ of $L$-values for $\nu_H(G,t,i,j)$ and $\nu_H(G,\mu_0,i,j)$, equals the image of an
+element of $K$ which is a unit away from the level, times a product of ``step ratios'', the ratio of the constants of the
+bottom triples and a second product of $L$-value ratios (a Witt tower formula).
+\end{enumerate}
+The \emph{toric estimate} $\sfname{ThA}(G,\mu_0,\mu)$ asserts: for every finite place $w$ with $\mu(w)\ne\mu_0$, the level
+element of $G$ at $\mu(w)$ is a $w$-adic unit, and for every prime $l\in w$, all $\eta$, $1\le s\le h(\eta)$, and $z\in K$
+with $z\Lambda_l(s)=\Lambda(s)$, where $\Lambda$ is the $L$-function of $\nu_H(G,\mu(w),i,j)$ and $\Lambda_l$ that of
+$\nu_H(G,\mu_0,i,j)$ twisted at $l$, one has $v_w(z)\le v_w(l)/l^2$.
+
+\begin{theorem}[The square statements]\label{pf:fit:sqtop}
+Howe duality at the real place, $F$, the functional equation of Hecke $L$-functions in absolute value form,
+$\sfname{ToricDenominator}$, $\sfname{Transport}$, $\sfname{ZetaDenominators}$, $\sfname{Refl}$, $\sfname{ThetaIntegralsAgree}$
+and $\sfname{LocalMatching}$ imply $\fitGBig$ of each of \ref{pf:fit:S:DenSum}--\ref{pf:fit:S:Tower}.
+\formallabel{GlobalTheory.T.square_leading_term_bound}
+\formallabel{GlobalTheory.SqTop.square_top_term_joined_estimates}
+\formallabel{GlobalTheory.T.completedHeckeL_bounded_in_vertical_strips}
+\formallabel{GlobalTheory.T.triEx_of_howe_duality_real}
+\formallabel{GlobalTheory.T.tower_of_theta_matching_lNe}
+\end{theorem}
+
+\begin{proof}
+The proof assembles the following results; we write each statement for its $\fitGBig$ version.
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item Completed Hecke $L$-functions are bounded in vertical strips
+(\lref{GlobalTheory.HeckeStrip.completedLBoundedInStrips}), and the CM theta norm hypotheses $\sfname{Inp}(D)$
+hold for every datum (\lref{GlobalTheory.T.cmThetaNormBoundHypotheses_satisfied}).
+\item $\sfname{FieldDat}$ holds unconditionally (\lref{GlobalTheory.SqTop.fieldDat}).
+\item $\sfname{LNe}$ follows from the functional equation, (1) and $\sfname{FieldDat}$
+(\lref{GlobalTheory.SqTop.lNe_of_functionalEquation}), and so does the bound
+$\log|\Lambda(s)|\le B_{\mathrm{TH}}$ for the $L$-functions of the characters with permuted weights, $\sfname{LBound}$
+(\lref{GlobalTheory.T.heckeLValue_upperBound_permutedWeights_of_FE}).
+\item $\sfname{TorEx}$ follows from $\sfname{Transport}$, $\sfname{FieldDat}$ and $\sfname{LNe}$
+(\lref{GlobalTheory.ToricExist.torEx}); with $\sfname{Transport}$ and $\sfname{LBound}$ one obtains the bound $\sfname{BetaArch}$ for the
+constant coefficient of the minimal polynomial of the normalised toric values,
+$\log|a_0|\le\deg\cdot12B_{\mathrm{TH}}$ (\cref{pf:fit:betaarch}).
+\item $\sfname{DenEx}$ and $\sfname{DenSum}$ follow from $\sfname{ZetaDenominators}$ and $\sfname{FieldDat}$
+(\lref{GlobalTheory.DenExist.denEx}, which takes the denominator data given by the zeta denominators, and
+\lref{GlobalTheory.DenSumPf.denSum}).
+\item $\sfname{ThbSt}$ follows from $\sfname{ToricDenominator}$, $\sfname{FieldDat}$, $\sfname{TorEx}$, $\sfname{DenEx}$,
+$\sfname{DenSum}$ and $\sfname{BetaArch}$ (\lref{GlobalTheory.T.toricValueHeightBound_of_denominatorsMeans}).
+\item $\sfname{BotSmall}$ holds unconditionally (\lref{GlobalTheory.SqTop.BotSmallProof.botSmall_holds}); with
+$F$, $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$, (1) and $\sfname{LNe}$ it gives the bottom constant statement
+$\sfname{BotConst}$ (\cref{pf:fit:botconst}: the ratio of the constants of the bottom triples
+at $t$ and $\mu_0$ is the image of a non-zero $\gamma\in K$ with $v_w(\gamma)\le v_w(z)+v_w(z')+6d_l(w)$ away from the
+level, $z,z'$ the norms of the bottom pairs).
+\item Bottom pairs exist at $\mu_0$ and at every type ($\sfname{BotEx}$, $\sfname{BotExT}$) by (1)
+(\lref{GlobalTheory.T.bottomPairs_exist_baseTuple} and \lref{GlobalTheory.T.bottomPairsExistEveryTuple_of_cmThetaHypotheses}).
+\item The norms of bottom pairs are, up to a non-zero constant independent of the type, products of $L$-values
+$\prod_{1-e_0\le s\le h_0}\Lambda(s)$ ($\sfname{NormBig}$, from $F$, (1) and $\sfname{LNe}$, \cref{pf:fit:normbig}, through the
+Rallis inner product formula \cite{Rallis1984}).
+\item A lower bound for the valuations of ratios of $L$-values at the level primes, $\sfname{RhoLow}$, follows from
+$\sfname{ToricDenominator}$, $\sfname{FieldDat}$ and $\sfname{TorEx}$ (\lref{GlobalTheory.T.lValueRatio_lower_bound_gauge}).
+\item $\sfname{TriEx}$ follows from Howe duality, $F$, $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$ and
+$\sfname{LNe}$ (\lref{GlobalTheory.SqTop.triEx_holds_alt}); $\sfname{BotNe}$ follows from these, (1), $\sfname{BotSmall}$ and
+$\sfname{NormBig}$ (\lref{GlobalTheory.T.bottomTheta_nonvanishing}); and $\sfname{Tower}$ from $F$, the two statements
+of \cref{thm:theorem-K} and $\sfname{LNe}$ (\lref{GlobalTheory.SqTower.tower_alt_bis}).
+\item Finally $\sfname{OneSqSt}$ follows from (1), $\sfname{LNe}$, $\sfname{TorEx}$, $\sfname{BotSmall}$, $\sfname{BotExT}$,
+$\sfname{NormBig}$, $\sfname{BotNe}$, $\sfname{TriEx}$, $\sfname{Tower}$, $\sfname{BotConst}$, $\sfname{Refl}$ and
+$\sfname{RhoLow}$ (\lref{GlobalTheory.T.square_ratio_valuation_without_norm_formula}): by $\sfname{Tower}$ and
+$\sfname{BotConst}$ the square ratio $r_t(\eta)$ is a product of $L$-value ratios, step ratios, a unit away from the level and
+a ratio of bottom constants, whose valuations are bounded by the toric values, the denominator data and the norms of
+bottom pairs, $\sfname{Refl}$ being used to pass from $\Lambda(s)$ to $\Lambda(1-s)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\paragraph{Size bounds for class sums.}
+For a choice $\mathrm{ch}$ with grid $G$ put $a_1=Cf(D)N(D)b\log b+Cm(D)N(D)^2\sigma(G)$ and
+$b_1=Cf(D)m(D)N(D)^2(\log b+\sigma(G))b$, where $N(D)=k+m(t+s+1)$ and $\sigma(G)=\sum_{v\in S_0}\mathrm{depth}(v)\log\Nm v$
+is the logarithmic depth sum of the grid; it is the number $\Sigma_0$ of \cref{pf:fit:fundata}, for the entries of
+\cref{pf:fit:funin}, with $C$ replaced by $C_F$; since the exponent of the base place is non-decreasing in the constant,
+$\sigma(G)\le\Sigma_0$ for $C\ge C_F$. A \emph{test lattice} of the
+choice is a pair $(X',M)$ as in the test condition of the tie. The three size statements are $\fitBigC$ of:
+\begin{itemize}
+\item $\sfname{FinAt}$: there is $d_l\ge0$ with finite support and $\sum_{w\in F}\ell_wd_l(w)\le m\,b_1/2$ for every finite
+$F$, such that for every test lattice $(X',M)$, every type $t$ and place $w$ with $w$ \emph{away} from the level at $t$, every
+$x$ in the lattice of type $t$ and every $y\in K^n$ with $\sigma_{v_0}(y)=v_K(\mathrm{ch},t,e(x))$, there is $s\in K^\times$
+with $v_w(s)\le d_l(w)$ and $sy\in M$;
+\item $\sfname{AwayAt}$: every finite place $w$ is away from the level at the type $\mu(w)$;
+\item $\sfname{InfAt}$: for every test lattice $(X',M)$, every frame $X$ of the hermitian form $H_V(\mu_0)$ and every $V$
+with $\sigma_{v_0}(Vx)=v_K(\mathrm{ch},\mu_0,e(x))$, $h(V)\le m\,a_1$ for the frames $X$ and $X'$.
+\end{itemize}
+
+\begin{theorem}[Size bounds for class sums]\label{pf:fit:sumsize}
+$F$ implies $\fitBigC(\sfname{FinAt})$, $\fitBigC(\sfname{AwayAt})$ and $\fitBigC(\sfname{InfAt})$.
+\formallabel{GlobalTheory.T.sum_size_bound_all_places}
+\formallabel{GlobalTheory.SumSize.Join.sum_size_finite_away_archimedean_combined}
+\end{theorem}
+
+\begin{proof}
+The claims are defined in \cref{sec:pf:fit:sizes}. The hypotheses $\sfname{Inp}(D)$ hold for all $D$
+(\lref{GlobalTheory.T.cmThetaNormBoundHypotheses_satisfied}); $\sfname{SumOKK}$ follows from $F$
+(\lref{GlobalTheory.T.sumOKK_of_theta_local_inputs}) and $\sfname{DepthK}$ from $F$ and $\sfname{SumOKK}$ (\cref{pf:fit:depth});
+a dictionary of local bounds follows from $F$ and $\sfname{Inp}$ (\lref{GlobalTheory.T.sum_size_dictionary}).
+\emph{Finite places.} $\sfname{FinScal}$ (\lref{GlobalTheory.T.finite_and_infinite_scalar_bounds}), $\sfname{FinCoef}$
+(\lref{GlobalTheory.Adopt.finCoefK_of_theta_inputs}), $\sfname{FinDat}$ (\cref{pf:fit:findat}), $\sfname{FinGam}$
+(\lref{GlobalTheory.T.gamma_factor_loss_at_finite_places}), $\sfname{FinTop}$ and $\sfname{FinRow}$ (from $F$, $\sfname{Inp}$,
+the dictionary and $\sfname{DepthK}$: \lref{GlobalTheory.T.sum_size_finite_top_term_integral} and \lref{GlobalTheory.T.sum_size_bound_finite_places}),
+$\sfname{FinPair}$ (\cref{pf:fit:fieldpair}), $\sfname{FinPsi}$ (\lref{GlobalTheory.Adopt.test_vector_value_factorization})
+and $\sfname{FinForm}$ (\cref{pf:fit:formval}) give $\fitBigC(\sfname{FinAt})$ by \cref{pf:fit:finasm}. $\fitBigC(\sfname{AwayAt})$
+follows from $F$ (\lref{GlobalTheory.Adopt.twisted_local_factor_away_from_level}).
+\emph{Infinite places.} $\sfname{InfScal}$ (\lref{GlobalTheory.T.finite_and_infinite_scalar_bounds}), $\sfname{InfTens}$
+(\cref{pf:fit:tensor}), $\sfname{InfCount}$ (\cref{pf:fit:sumcount}), $\sfname{InfClass}$ (\cref{pf:fit:classcount}),
+$\sfname{InfTop}$ (from $F$, $\sfname{Inp}$, the dictionary and $\sfname{DepthK}$:
+\lref{GlobalTheory.T.kernel_conjugation_mean_archimedean_top_term}), $\sfname{InfRow}$ (\cref{pf:fit:opposite}),
+$\sfname{InfPair}$ (\cref{pf:fit:fieldpair}), $\sfname{InfPsi}$ (\lref{GlobalTheory.Adopt.test_vector_value_factorization}) and
+$\sfname{InfForm}$ (\cref{pf:fit:formval}) give $\fitBigC(\sfname{InfAt})$ by \cref{pf:fit:infasm}.
+\end{proof}
+
+\paragraph{Row properties.}
+The five row properties are the $\sfname{Big}$ statements of \cref{sec:families:theta}: $\sfname{SumOKK}$ (the finite sums
+of the choice are meaningful), $\sfname{ConstK}$ (the matched square integrals are non-zero and $c(i,j,t)\ne0$),
+$\sfname{LinK}$ (all column--row pairings converge), $\sfname{FormulaK}$ (under $\sfname{FieldOK}$ there are $\kappa\in\C$
+and roots of unity $\zeta_t\in K$ such that $\sigma(\zeta_t)c_{\mathrm{Tot}}(t)\,\psi_K(b,\Theta_t(j_Xx))=\kappa\,
+v_K(t,x)_b$ for all good rational points $x$ and all $b$, where $c_{\mathrm{Tot}}(t)=\prod_{i,j}c(i,j,t)$, $\psi_K(b,\cdot)$ are
+the column functionals of the choice and $\Theta_t$ the theta maps) and $\sfname{SumRatK}$ (under $\sfname{FieldOK}$ the class
+sums lie in $\sigma(K)$); further $\sfname{InjK}$: if $\psi_K(b,u)=0$ for all $b$, then $u=0$.
+
+\begin{lemma}[Row properties]\label{pf:fit:rows}
+$F$, $\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ imply $\sfname{SumOKK}$, $\sfname{ConstK}$, $\sfname{LinK}$,
+$\sfname{FormulaK}$ and $\sfname{SumRatK}$; $F$ and $\sfname{FunctionalsSeparate}$ imply $\sfname{InjK}$.
+\formallabel{GlobalTheory.T.local_sum_estimates_joined}
+\formallabel{GlobalTheory.RowClaim.JoinF.joined_local_sum_estimates}
+\formallabel{GlobalTheory.T.thetaLift_row_properties}
+\formallabel{GlobalTheory.RowTest.twisted_convergence_with_real_places}
+\end{lemma}
+
+\begin{proof}
+The first statement is \lref{GlobalTheory.RowClaim.Join.thetaLift_row_properties_conj} (the five row properties follow
+from $F$, the two statements of \cref{thm:theorem-K} and three statements on square theta integrals), applied with the three
+statements supplied by \lref{GlobalTheory.T.twisted_theta_integral_converges},
+\lref{GlobalTheory.T.twisted_local_factors_match} and \lref{GlobalTheory.T.twisted_square_theta_integrals_eq}. For
+the second, the twisted theta lifts are cuspidal by $F$ (\lref{GlobalTheory.T.twisted_thetaLift_cuspidal}); hence the
+pairings with real places converge for all choices, which is the convergence statement required by
+\lref{GlobalTheory.RowTest.injK_of_separates} (separation and convergence imply $\sfname{InjK}$).
+\end{proof}
+
+\paragraph{Toric estimate and square ratios.}
+\begin{lemma}\label{pf:fit:toric}
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{TwistedTransport}$, $\sfname{SettingAtPoint}$, $\sfname{LogDer}$, $\fitGBig(\sfname{FieldDat})$ and
+$\fitGBig(\sfname{TorEx})$ imply $\mathcal L(\mathcal T^{\fitFit},\ \sfname{ThA}(G_\phi,\mu_0,\mu))$.
+\item $F$, $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$, $\sfname{SettingAtPoint}$, $\sfname{LogDer}$,
+$\sfname{ConstK}$ and $\fitGBig$ of $\sfname{LNe}$, $\sfname{TriEx}$ and $\sfname{Tower}$ imply that, for large $C_F$,
+closedly, eventually at the points, for all grids $G$, Weil data $W$ and choices $a$ with $\mathrm{OK}(a)$, the square ratios
+$\mathrm{sqRatio}(\mathrm{ch}(a),i,j,t)$ lie in $\sigma(K)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.toric_ratio_family_estimate'}
+\formallabel{GlobalTheory.ThmAUpper.thmA_upper_alt}
+\formallabel{GlobalTheory.T.sq_ratio_mem_range_emb_ll}
+\formallabel{GlobalTheory.BigTop.Fun.square_ratio_at_point_of_leading_term_alt}
+\formallabel{GlobalTheory.BigTop.Fun.sqRatio_mem_of}
+\end{lemma}
+
+\begin{proof}
+(a) $\sfname{TwistedTransport}$ gives the transport of toric ratios under $\Aut(\C)$
+(\lref{GlobalTheory.ToricTransport.toricRatioConjugates_of_transport}). By \cref{pf:fit:transfer} below,
+$\sfname{FieldDat}$ and $\sfname{TorEx}$ hold at the grids of tied function data. At a place $w$ with $\mu(w)\ne\mu_0$ the
+level element is a $w$-adic unit (\lref{GlobalTheory.T.qn_not_mem_asIdeal_of_mu_ne}), and the bound
+$v_w(z)\le v_w(l)/l^2$ is \lref{GlobalTheory.T.cm_abelian_field_data_of_toric_ratio_alt}, which expresses $z$ through
+toric sums of the CM field, uses the transport of toric ratios and bounds the valuations of twisted theta values
+(\lref{GlobalTheory.T.twistedThetaValue_valuation_le_div_sq}).
+(b) By \cref{pf:fit:transfer}(b) the row property $\sfname{ConstK}$ holds at the choice, and the statements $\sfname{LNe}$,
+$\sfname{TriEx}$, $\sfname{Tower}$ and the factorisation of the bottom triple integrals
+(\lref{GlobalTheory.T.bottom_triple_integral_eq_const_mul_local}, from $F$, \cref{thm:theorem-K} and $\sfname{LNe}$) hold
+at its grid. The square ratio is $c(i,j,t)/c(i,j,\mu_0)$, a ratio of constants of matched square integrals. By
+$\sfname{Tower}$ it equals $\sigma(\zeta)$ times a product of step ratios, the ratio $\lambda(t)/\lambda(\mu_0)$ of the
+constants of a bottom triple, and a quotient of products of $L$-value ratios $\Lambda(s)/\Lambda_0(s)$ at integers $1\le s\le
+h(\eta)$, which are non-zero by $\sfname{LNe}$. The step ratios are by definition images of elements of $K$, the $L$-value
+ratios lie in $\sigma(K)$ by the field condition, and so does $\lambda(t)/\lambda(\mu_0)$ by the rationality of the constants
+of definite bottom triples, which follows from the factorisation of the bottom triple integrals, the positivity of the
+hermitian forms involved and the rationality of the corresponding sums, which is part of the field condition.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the leaves}\label{sec:pf:fit:leafproofs}
+
+\paragraph{Transfer.}
+At a point $p$, a function datum $\phi$ with $\mathcal T^{\fitFit}(p,C_F,\phi)$ comes with a choice $a$ satisfying $\mathrm{OK}(a)$, in
+particular the Eisenstein tie of the datum. The uniform statements therefore apply at $\phi$.
+
+\begin{lemma}[Transfer]\label{pf:fit:transfer}
+Assume $\sfname{SettingAtPoint}$ and $\sfname{LogDer}$.
+\begin{enumerate}[label=(\alph*)]
+\item If $\fitGBig(Q)$, then $\mathcal L\bigl(\mathcal T^{\fitFit},\ Q(G_\phi,\mu_0,C,x,b)\bigr)$.
+\item If $\sfname{Big}(Q)$, then for large $C_F$, closedly, eventually at the points, $Q(\mathrm{ch}(a))$ holds for all grid
+data $G$ at level $(1,C_F,b)$, Weil data $W$, $n$ and choices $a$ for $(G,W,n)$ with $\mathrm{OK}(a)$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.forallLeaves_fitted_of_gBig}
+\formallabel{GlobalTheory.BigTop.Fun.gBig_atTied_alt}
+\end{lemma}
+
+\begin{proof}
+(a) Let $C_{F0}$ be the threshold of $\fitGBig(Q)$ and $C_F\ge C_{F0}$. Closedly on $\sfname{FamHyp}$ we have the conjunction
+of $\sfname{SettingAtPoint}$ and $\sfname{LogDer}$. Given a large family with exponent $\eps$, let $C_0,x_0$ be the
+constants of $\fitGBig(Q)$ for $(\eps,C_F)$, and let $C\ge C_0$. At a point over $(x,i)$, with $x$ larger than $x_0$ and the
+thresholds of the two statements, and a function datum $\phi$ with a tie $a$: $\mathrm{OK}(a)$ contains the Eisenstein tie, so
+the Hida setting holds; its size rows, host conditions and the identification of $F$ with the maximal real subfield, with
+the bound of $\sfname{LogDer}$, are the standing conditions; the level character of the real datum has base type $\mu_0$;
+and $G_\phi$ is a grid datum at level $(1,C_F,b)$. Hence $Q(G_\phi,\mu_0,C,x,b)$. (b) is proved in the same way, the Hida setting
+being the hypothesis of $\sfname{Big}$.
+\end{proof}
+
+\paragraph{Leaves from the square statements.}
+\begin{lemma}\label{pf:fit:leafsq}
+Assume $\sfname{SettingAtPoint}$ and $\sfname{LogDer}$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\fitGBig(\sfname{DenSum})$ implies the density leaf \ref{pf:fit:F:Den};
+\item $\fitGBig(\sfname{ThbSt})$ implies the theta bound leaf \ref{pf:fit:F:Thb};
+\item $\fitGBig(\sfname{BotSmall})$ and $\fitGBig(\sfname{BotNe})$ imply the integrality leaf \ref{pf:fit:F:Int};
+\item $\fitGBig(\sfname{OneSqSt})$ and the toric estimate of \cref{pf:fit:toric}(a) imply the unique square root leaf
+\ref{pf:fit:F:Sq};
+\item the archimedean leaf \ref{pf:fit:F:Arch} holds.
+\end{enumerate}
+\formallabel{GlobalTheory.T.leafDensity_of_logDeriv_bound_and_denSum}
+\formallabel{GlobalTheory.BigTop.Fun.den_tie_alt}
+\formallabel{GlobalTheory.T.leaf_theta_bound_of_set_at}
+\formallabel{GlobalTheory.BigTop.Fun.thb_tie_alt}
+\formallabel{GlobalTheory.T.leafIntegrality_of_logDeriv_bound}
+\formallabel{GlobalTheory.BigTop.Fun.int_tie_alt}
+\formallabel{GlobalTheory.T.oneSq_of_log_derivative_bound_and_oneSqSt}
+\formallabel{GlobalTheory.BigTop.Fun.oneSq_of_log_derivative_bound_thA}
+\formallabel{GlobalTheory.BigTop.Fun.OneSqTie.lf_std_alt}
+\formallabel{GlobalTheory.T.arch_tie_of_setAt_logDeriv}
+\formallabel{GlobalTheory.BigTop.Fun.arch_tie_of_logDeriv_bound}
+\end{lemma}
+
+\begin{proof}
+In each case we apply \cref{pf:fit:transfer}(a) and read the conclusion at the grid of $\phi$ through the square datum of the
+tie; the entries $d,h,y,S_0,c_0,q,f,N$ of $O_\phi$ are those of \cref{pf:fit:funin}, and the half rank of $\eta$ is
+$h(\eta)=d(\eta)/2$.
+
+(a) For $1\le s\le h(\eta)$, $N_0(\eta,s,\cdot)$ is a denominator datum, and $S_d$ consists of primes; $\sfname{DenSum}$ gives
+\ref{pf:fit:L:Den} with $B_{\mathrm{TH}}(x)=Cfb(\log b+\log x)$.
+
+(b) For $1\le s\le h(\eta)$, $\sfname{ThbSt}$ applied to the toric values $z_{Td}(\eta,\cdot,s)$ with shift $g_T(\eta,s)$ gives
+$z_{Td}(\eta,c,s)\ne0$, $\fitht_{g_T}(z_{Td}(\eta,c,s))\le B_{\mathrm{TH}}$ and, as $z_T=1\ne0$,
+$\fitht_{g_T}(z_T(\eta,s))\le B_{\mathrm{TH}}$; in particular $B_{\mathrm{TH}}\ge0$ (take $s=1\le h(\eta)$). Outside this range
+$z_T=z_{Td}=1$ and $g_T=0$, so the heights are $0\le B_{\mathrm{TH}}$.
+
+(c) The statement used is $\fitGBig$ of $\sfname{BotSmall}\wedge\sfname{BotNe}$ together with $1\le C_F\le C$ (by taking
+$C_0\ge C_F$). The bottom pairs of the square datum are small and have non-zero coordinates, and the integrality exponent
+$d_l$ of the grid provides, for such pairs, the integrality bound of \ref{pf:fit:L:Int} with $B_\Delta$ replaced by
+$C_FX$, where $X=2fN\log(2fN)+2fNB_w\log b+4fN^2B_w\log(\mathrm{lev}(G))$, $\log\mathrm{lev}(G)=c_S$ and $B_w=\max\mathrm{Wt}(D)$.
+Since $B_\Delta=CX$, $X\ge0$ and $C\ge C_F$, \ref{pf:fit:L:Int} follows.
+
+(d) The Weil datum of a fitted point has the standard additive character (a condition of the Hida setting). Applying
+$\sfname{OneSqSt}$ to the square datum of the tie, whose map $\mu$ satisfies $\sfname{ThA}$ by \cref{pf:fit:toric}(a), gives
+$r_{\mu(w)}(\eta)\ne0$ and the bound $v_w(r_{\mu(w)}(\eta))\le\beta_w(\eta)$. The square datum gives $r_{\mu_0}=1$ and that
+$S_e$ consists of primes. Finally $d(i,j)=2r+(2j+1)t+(2i+1)s$ is even ($t$ and $s$ being odd), $d(i,j)\le
+2(r+(j+1)t+(i+1)s)\le2N$, $y(i,j)+1=m-j\le m$, and $c_0(q)\le e(q)$ since $c_0(q_*)=1\le e(q_*)$ and $c_0(q)=2=e(q)$ otherwise.
+
+(e) By \cref{pf:fit:archgrid}, $\fitGBig$ holds for the statement: if
+$z_A,z'_A$ map to the norms of bottom pairs at $\mu_0$, then $\fitmi{\log^+|\sigma_vz_A(\eta)|}$ and
+$\fitmi{\log^+|\sigma_vz'_A(\eta)|}$ are at most
+$2CfNB_w(\log b+\log(2NB_w))+CfN^2(\log b+\log(2fNB_w))+CN^2\log\mathrm{lev}(G)$ with $B_w=\max\mathrm{Wt}(D)$. This
+expression is $B_{\mathrm{Ar}}$, and the square datum identifies $z_A,z'_A$ with norms of bottom pairs.
+\end{proof}
+
+\paragraph{Leaves from the size bounds.}
+\begin{lemma}\label{pf:fit:leafsize}
+Assume $\sfname{SettingAtPoint}$.
+\begin{enumerate}[label=(\alph*)]
+\item $\fitBigC(\sfname{FinAt})$ and $\fitBigC(\sfname{AwayAt})$ imply the fixed point leaf \ref{pf:fit:F:FP}.
+\item $\sfname{BundleCondition}$ and $\fitBigC(\sfname{InfAt})$ imply the leaf \ref{pf:fit:F:IPa}.
+\item $\sfname{SizeAt}$ implies the weight leaf \ref{pf:fit:F:Wt}.
+\end{enumerate}
+\formallabel{GlobalTheory.T.leafFixedPoint_of_finK_awayK}
+\formallabel{GlobalTheory.Adopt.leafFixedPoint_of_finK_awayK}
+\formallabel{LeafFixedPointPairing.GlobalTheory.CompanionTheory.LeafFixedPointPlaceNorm.fp_tie_alt}
+\formallabel{LeafFixedPointPairing.GlobalTheory.CompanionTheory.LeafFixedPointPlaceNorm.leaf_at}
+\formallabel{LeafFixedPointPairing.GlobalTheory.CompanionTheory.LeafFixedPointPlaceNorm.local_clause}
+\formallabel{LeafFixedPointPairing.GlobalTheory.CompanionTheory.LeafFixedPointPlaceNorm.sum_clause}
+\formallabel{LeafFixedPointPairing.GlobalTheory.CompanionTheory.LeafFixedPointPlaceNorm.sig_le}
+\formallabel{GlobalTheory.FinitePlacesProbe.sigma_mono_in_constant}
+\formallabel{GlobalTheory.T.leafHeightMapBound_of_infK}
+\formallabel{GlobalTheory.QuotientNormCoisometry.leafHeightMapBound_tie_of_infK}
+\formallabel{GlobalTheory.QuotientNormCoisometry.htMap_quot}
+\formallabel{GlobalTheory.QuotientNormCoisometry.norm_quot}
+\formallabel{GlobalTheory.QuotientNormCoisometry.bound_le}
+\formallabel{GlobalTheory.T.weight_of_size_bound'}
+\formallabel{GlobalTheory.BigTop.Fun.wt_tie_alt}
+\formallabel{GlobalTheory.BigTop.Fun.maxWt_le}
+\end{lemma}
+
+\begin{proof}
+As in \cref{pf:fit:transfer}, the size statements apply at the choice $a$ of the tie, for $C$ larger than $C_F$, $0$ and their
+constants $C_0$; note $\sigma(G)\le\Sigma_0$ for $C\ge C_F$ because the depth of the base place is non-decreasing in the
+constant.
+
+(a) Let $d_l$ be given by $\sfname{FinAt}$, $T_f$ its (finite) support and $d_F(w)=\lfloor d_l(w)\rfloor$; then $d_F=0$
+off $T_f$. Local inclusion: let $z\in(V_{\mu(w)}(M_{\mu(w)}))_{(w)}$, say $s_0z=V_{\mu(w)}x$ with $x\in M_{\mu(w)}$ and
+$s_0\notin w$. By the value condition \eqref{eq:pf:fit:tieV}, $y=V_{\mu(w)}x$ satisfies the hypothesis of $\sfname{FinAt}$ at
+$t=\mu(w)$, and $w$ is away from the level at $\mu(w)$ by $\sfname{AwayAt}$; so there is $s\in K^\times$ with
+$v_w(s)\le d_l(w)$, hence $v_w(s)\le d_F(w)$, and $sy\in M$. Then $y=s^{-1}(sy)\in(w^{-d_F(w)}M)_{(w)}$ and so is $z$.
+Sum: $2\sum_{w\in T_f}\ell_wd_F(w)\le2\sum_{w\in T_f}\ell_wd_l(w)\le m\,b_1\le Cfm^2N^2(\log b+\Sigma_0)b\le B_{\mathrm{FP}}$.
+
+(b) Let $\nu P=V_{\mu_0}$. Choose a frame $X$ of the positive definite form $H_V(\mu_0)$, i.e.\
+$(X(v)^{-1})^*X(v)^{-1}=\sigma_v(H_V(\mu_0))$. Since $X_Q$ is the quotient metric, $U=X_Q(v)^{-1}\sigma_v(P)X(v)$ satisfies
+$UU^*=X_Q(v)^{-1}\sigma_v(PH_V^{-1}P^*)X_Q(v)^{-*}=1$, so $U$ is a co-isometry and $\|BU\|=\|B\|$ for every matrix $B$
+($\|BU\|^2=\|BUU^*B^*\|$). As $X'(v)^{-1}\sigma_v(\nu P)X(v)=(X'(v)^{-1}\sigma_v(\nu)X_Q(v))U$, the operator norms of $\nu$ for
+$(X_Q,X')$ and of $\nu P=V_{\mu_0}$ for $(X,X')$ coincide at every $v$, and $h(\nu)=h(V_{\mu_0})$. By the value condition,
+$\sfname{InfAt}$ applies to $V_{\mu_0}$: $h(V_{\mu_0})\le m\,a_1=CfmNb\log b+Cm^2N^2\sigma(G)\le B_{\mathrm{IPa}}$.
+
+(c) The square datum gives $B_w=\max\mathrm{Wt}(D)$, the maximum of $1$ and the absolute values of the weights $w_A,w'_A$ of
+the datum. By the size rows these are bounded by $2e+1+\mathrm{gap}$ and $2\,\mathrm{cen}+1+\mathrm{gap}$ for entries $e$,
+$\mathrm{cen}$ of the Harish-Chandra data, which gives $1\le B_w\le10b$ and $b\ge675$. For $C\ge10$, $B_w\le Cb$ and
+$\log B_w\le\log10+\log b\le2\log b\le C\log b$.
+\end{proof}
+
+\paragraph{Leaves from the row properties.}
+We use three facts about the theta maps of a point \cite{LeanSource2026}: (i) the complex realisations $i_C(t)$ of the types
+satisfy $i_C(\mu_0)(\sigma_{v_0}(\iota_tz))=i_C(t)(\sigma_{v_0}(z))$, and $i_C(\mu_0)$ is injective
+(\lref{GlobalTheory.T.iC_iota_mulVec_eq_iC}); (ii) the theta vector of the form attached to $y\in K^{n_V(t)}$ is
+$\Theta_t(j_X(e_{V_0}(y)))=i_C(t)(\sigma_{v_0}(P_ty))$ (\lref{GlobalTheory.T.theta_j_ev0_eq_ic_pq}); (iii) these forms are
+good rational points (\lref{GlobalTheory.T.eV0_mem_goodF'}). Moreover, by the square condition of the tie and the
+admissibility of the choice, for every $\eta$ the constant $c(\eta,\mu_0)$ of the choice is a non-zero constant of the
+matched square integrals at $\mu_0$ and $\sigma(r_t(\eta))c(\eta,\mu_0)=c(\eta,t)$; hence
+$c_{\mathrm{Tot}}(\mu_0)\ne0$ and $\sigma(\prod_\eta r_t(\eta))=c_{\mathrm{Tot}}(t)/c_{\mathrm{Tot}}(\mu_0)$ for every type $t$,
+with $c_{\mathrm{Tot}}$ as in $\sfname{FormulaK}$. (Every type is \emph{in use}, that is, equal to $\mu_0$ or to a value of
+$\mu$, by the conditions on $\mu$ at the point.)
+
+\begin{lemma}\label{pf:fit:leafrow}
+Assume $\sfname{BundleCondition}$, $\sfname{SettingAtPoint}$, $\sfname{InjK}$, $\sfname{ConstK}$ and $\sfname{FormulaK}$.
+Then the kernel leaf \ref{pf:fit:F:Ker} holds; if moreover $\sfname{LinK}$ holds, the unique map leaf \ref{pf:fit:F:C} holds.
+\formallabel{GlobalTheory.T.leafKernel_tie_of_claim_inputs}
+\formallabel{GlobalTheory.BigTop.Fun.leafKernel_of_linK_injK_constK_formula2K}
+\formallabel{GlobalTheory.BigTop.Fun.ker_mulVecLin_eq_U_of_formulaAt}
+\formallabel{GlobalTheory.T.oneMap_of_bundle_setAt_lin_inj_const_formula}
+\formallabel{GlobalTheory.BigTop.Fun.oneMap_of_bundle_setAt_kernel_conditions}
+\formallabel{GlobalTheory.BigTop.Fun.exists_unit_root_ze_leafC_of_square_nonzero}
+\formallabel{GlobalTheory.complex_matrix_descends_of_rational_on_tuple}
+\formallabel{GlobalTheory.BigTop.Fun.TieModel.ratio_eq}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:fit:transfer}(b) the row properties hold at the choice $a$ of the tie. $\sfname{FormulaK}$ (the field condition
+being part of $\mathrm{OK}(a)$) gives $\kappa\in\C$ and roots of unity $\zeta_t\in K$ with
+$\sigma(\zeta_t)c_{\mathrm{Tot}}(t)\psi_K(b,\Theta_t(j_Xx))=\kappa v_K(t,x)_b$ for good rational $x$; by $\sfname{ConstK}$,
+$c_{\mathrm{Tot}}(t)\ne0$. Combining with \eqref{eq:pf:fit:tieV}, (ii) and (iii), for all $t$ in use, $y$ and $b$:
+\begin{equation}\label{eq:pf:fit:vpsi}
+\sigma(\zeta_t)c_{\mathrm{Tot}}(t)\,\psi_K\bigl(b,i_C(t)(\sigma_{v_0}(P_ty))\bigr)=\kappa\,\sigma\bigl((V_ty)_b\bigr).
+\end{equation}
+\emph{$\kappa\ne0$.} By $\sfname{BundleCondition}$ the side is well formed, so $d_Q(\mu_0)>0$ and $P_{\mu_0}$ is surjective;
+take $y$ with $P_{\mu_0}y$ a standard basis vector. Then $i_C(\mu_0)(\sigma(P_{\mu_0}y))\ne0$ by (i), so some
+$\psi_K(b,\cdot)$ does not vanish on it by $\sfname{InjK}$, and \eqref{eq:pf:fit:vpsi} forces $\kappa\ne0$.
+
+\emph{Kernel.} For $t=\mu_0$, \eqref{eq:pf:fit:vpsi}, $\kappa\ne0$, the injectivity of $\sigma$ and of $i_C(\mu_0)$ and
+$\sfname{InjK}$ show: $V_{\mu_0}y=0$ if and only if $\psi_K(b,i_C(\mu_0)(\sigma(P_{\mu_0}y)))=0$ for all $b$, if and only if
+$P_{\mu_0}y=0$. Thus $\ker V_{\mu_0}=U_{\mu_0}$.
+
+\emph{Unique map.} By $\sfname{LinK}$ the pairings defining $\psi_K(b,\cdot)$ converge, so $\psi_K(b,\cdot)$ is additive and
+compatible with the scalar action twisted by the base embedding; hence
+$\psi_K(b,i_C(\mu_0)(\sigma(z)))=\sum_k\sigma(z_k)\psi_K(b,i_C(\mu_0)(e_k))$ for $z\in K^D$. Let $\Psi_{\C}$ be the complex
+$n\times D$ matrix with entries $c_0\psi_K(b,i_C(\mu_0)(e_k))$, $c_0=\kappa^{-1}\sigma(\zeta_{\mu_0})c_{\mathrm{Tot}}(\mu_0)$, put
+$\zeta'_t=\zeta_t/\zeta_{\mu_0}$ and $\rho_t=\zeta'_t\prod_\eta r_t(\eta)$. By (i), \eqref{eq:pf:fit:vpsi} and
+$\sigma(\prod_\eta r_t(\eta))=c_{\mathrm{Tot}}(t)/c_{\mathrm{Tot}}(\mu_0)$,
+\[
+\Psi_{\C}\,\sigma(\iota_tP_t)=\sigma(\rho_t^{-1}V_t)\qquad\text{for all types }t.
+\]
+The map $\iota_{\mu_0}$ is bijective (a row condition of $S_{\mathrm f}$, by $\sfname{BundleCondition}$) and $P_{\mu_0}$ is
+surjective, so $A=\iota_{\mu_0}P_{\mu_0}$ has a right inverse $A'$ over $K$. Put $\Psi=\rho_{\mu_0}^{-1}V_{\mu_0}A'\in
+M_{n\times D}(K)$; then $\sigma(\Psi)=\Psi_{\C}\,\sigma(AA')=\Psi_{\C}$, and by the injectivity of $\sigma$ the display gives
+$\Psi\iota_tP_t=\rho_t^{-1}V_t=(\prod_\eta r_t(\eta))^{-1}(\zeta'^{-1}_tV_t)$ for all $t$. The $\zeta'_t$ are roots of unity
+with $\zeta'_{\mu_0}=1$, which is \ref{pf:fit:F:C}.
+\end{proof}
+
+\begin{lemma}\label{pf:fit:leafmm}
+$\sfname{SettingAtPoint}$ implies the minimal mass leaf \ref{pf:fit:F:MM}.
+\formallabel{GlobalTheory.T.leafMinimalMass_of_setAt}
+\formallabel{GlobalTheory.BigTop.Fun.LeafMMTie.mm_tie_alt}
+\formallabel{GlobalTheory.BigTop.Fun.LeafMMTie.leafMM_of_test}
+\formallabel{GlobalTheory.FunObj.IsTestLat.gridTestLattice_largestSlope_bound}
+\end{lemma}
+
+\begin{proof}
+By the test condition of the tie, $M$ is the dual of the sum of the lattices of the forms of the choice, indexed by pairs of
+test indices and weight indices, and $X'$ is a metric of the inverse transpose of their Gram matrix. By
+\cref{pf:fit:testlat}(c), in the dual form (b), it suffices that the spread of the weights of the grid is at most $R_p(C)\ge1$:
+then $M$ is non-zero and finitely generated and $\fitmumax(M;X')\le B(f,n_p,R_p(C))=4fn_pR_p(C)\log(n_pR_p(C))=E_M(C)$, with
+$f$ the number of embedding types and $n_p$ the rank. For every embedding type, the difference of two highest weights of the grid is at
+most $(v_2-v_k)+1+(m+1)\mathrm{gap}+n_p$, where $v_2,v_k$ are entries of the Harish-Chandra parameter and $\mathrm{gap}$ is
+the gap of the datum (\lref{GlobalTheory.BigTop.Fun.LeafMMTie.La_sub_le}). Since $v_2-v_k\le L_c$ (the length of the
+cloud), $\mathrm{gap}\le\gamma(C)$ for $C\ge1$ and $1+(m+1)\gamma(C)\le(m+1)(\gamma(C)+1)$, the spread is at most $R_p(C)$;
+also $R_p(C)\ge(m+1)(\gamma(C)+1)\ge1$. Hence \ref{pf:fit:L:MM}.
+\end{proof}
+
+\begin{lemma}\label{pf:fit:leafipb}
+$\sfname{LambdaLowerBound}_2$ implies the leaf \ref{pf:fit:F:IPb}.
+\formallabel{GlobalTheory.T.leafInfinitePlaceBound_of_lamLow}
+\formallabel{GlobalTheory.BigTop.Fun.ipb_of_lamLow_alt}
+\formallabel{GlobalTheory.InfinitePlacesProbe.clauseB_of_lifts}
+\formallabel{GlobalTheory.BigTop.Fun.IPbProof.La_le_three}
+\formallabel{Formalism.L2.DIV.Arith4S.Lp_le_La}
+\formallabel{Formalism.L2.DIV.Arith4S.log_g_le}
+\formallabel{Formalism.MainNotions.DIV.Proofs.HHParts.nV_le}
+\end{lemma}
+
+\begin{proof}
+The two sides of a point share $\mu$, $\kappa$ and the scalars $\lambda$. $\sfname{LambdaLowerBound}_2$ gives, eventually,
+$l_6(j)\le\log\lambda_{j,\mu_0,p,v}$ for all $j,p,v$ and every $C$, where for the numbers of a point
+$l_6(j)=\sum_\rho\log\mathrm{hook}(j+1,\rho)-C_{\mathrm{sz}}fn_V^2L_p$ (the term $C\,l_{6u}$ vanishes). The hook sum is
+non-negative and $n_V\le N$. Next, $L_p=\log(b\,\mathrm{rd}_Eg_1g_2n_V)$ and $L_a=\log x+\log b+\log\mathrm{rd}_E$,
+where $1\le\mathrm{rd}_E$. The parameter choice gives $Y$ with $\log Y\le C_{YL}\log b$ and $g_i\le2Y$, so
+$\log g_i\le\log2+C_{YL}\log b$; and $n_V=k+m-1+t$ is at most the size polynomial $1+f+k+m+t+N+\log b$, which is at most
+$x^{c}$, $c=\max(C_t,5)+3$, for $x\ge9$ (\lref{Formalism.MainNotions.DIV.Proofs.szPol_le_rpow}: under the size
+conditions this polynomial bound holds). As $L_a\ge\log9+\log b\ge2\log2$, we get
+$L_p\le L_a+L_a+(2\log2+2C_{YL}\log b)+c\log x\le(3+2C_{YL}+c)L_a$, and
+$L_a\le3\log b$ because the size rows give $x\le n\le b$ and $\mathrm{rd}_E\le b$ (both $n$ and $\mathrm{rd}_E$ are at most
+a conductor quantity of the host which the size rows bound by $b$); thus
+$L_p\le3(6+2C_{YL}+\max(C_t,5))\log b$. Hence, for
+$C\ge\max(C_{\mathrm{sz}},0)(6+2C_{YL}+\max(C_t,5))$, $l_6(j)\ge-3CfN^2\log b$. Summing over the at most $m$ indices
+$j\in J$, the constant function $g=-3CfmN^2\log b$ satisfies $g\le\sum_j\log\lambda_{j,\mu_0,p,v}$ and $\fitmi{g}=g$.
+\end{proof}
+
+\paragraph{Numerical leaves.}
+\begin{lemma}\label{pf:fit:leafnum}
+$\sfname{ScaleCondition}$ holds, and so do the leaves \ref{pf:fit:F:DesH}, \ref{pf:fit:F:Rank}, \ref{pf:fit:F:Ram} and
+\ref{pf:fit:F:Pol}.
+\formallabel{GlobalTheory.T.scaling_function_bound'}
+\formallabel{GlobalTheory.BigTop.Fun.existsIntegralMultiple_holds_alt}
+\formallabel{GlobalTheory.BigTop.Fun.Close.desHLeaf_alt}
+\formallabel{GlobalTheory.T.rank_gap_bound}
+\formallabel{GlobalTheory.BigTop.Fun.rankGapBound_alt}
+\formallabel{GlobalTheory.T.ramified_sum_bound'}
+\formallabel{GlobalTheory.BigTop.Fun.ramified_sums_seventh_bound_alt}
+\formallabel{GlobalTheory.BigTop.Fun.RamSum.leaves_of_sum}
+\formallabel{GlobalTheory.BigTop.Fun.RamSum.ramifiedPlaces_sum_log_absNorm_le}
+\formallabel{GlobalTheory.BigTop.Fun.RamSum.le_PPF}
+\formallabel{GlobalTheory.T.polynomial_descent_estimate'}
+\formallabel{GlobalTheory.BigTop.Fun.desPol_alt}
+\formallabel{GlobalTheory.BigTop.Fun.PolBound.pol_core}
+\formallabel{GlobalTheory.BigTop.Fun.PolBound.factors_le}
+\end{lemma}
+
+\begin{proof}
+These are elementary consequences of the definitions $x>x_1>1$, $b=e^{x^\eps}$, of the rank windows
+\eqref{eq:families:rankval} and of the size rows; we indicate the inputs.
+
+\emph{Scale.} $\log b=x^\eps\ge1$, and $\log x\le2x^\eps$ for $x$ larger than a constant depending on $\eps$.
+
+\emph{Descent height.} $2\le m$, $m+3\le k$ and $f\le k$ are conditions on the ranks; $m^4\le f=2n$ follows from
+$m\le2(x\delta_1)^{1/2}$, $n\ge x^{2+8\eps}$ and $x^{8\eps}\ge8$. $L_c\le b$: the entries of the Harish-Chandra parameters lie in
+an interval of length at most the size constant $S_c$ of the parameter choice, and $S_c\le b$.
+
+\emph{Rank gap.} With $t\ge x^{377}$ (from the parameter choice) and $t\le x^{\lceil|C_t|\rceil+1}$, the windows give the
+polynomial bounds $mfN^2\le b$, $80r^4\le N$, $n_p\le2mr$, $R_p(C)\le CmN^3b$ and $\log(n_pR_p(C))\le4\log b$ for $x$ larger
+than a constant depending on $\eps$, $C$ and $C_t$ (\lref{GlobalTheory.SizeLeafCheck.tree_leaf_parameter_arithmetic_of_bounds} and \lref{GlobalTheory.BigTop.Fun.design_lines_of_ranks}).
+
+\emph{Ramified sums.} The base place of the grid lies over the first modulus $q_0$ and the other places of $S_0$ over primes
+dividing $g_1g_2p_dp'_d$; as $\sum_{v\mid n}\log\Nm v\le[F:\Q]\log n=f\log n$ and $q_0,p_d,p'_d<X'\le b$, $g_1,g_2\le b^9$, one
+gets $\sum_{q\in S_0}\log\Nm q\le21f\log b$. The moduli $q(q)=\Nm q$ are prime powers. For $C\ge42$ one has
+$42f\log b\le\Pi(C,b)$, and since $e(q_*)\log q(q_*)\le\Pi+\log q(q_*)$, $e(q)=2$ otherwise and $c_0\le2$, this gives
+$\Sigma_0\le\Pi+42f\log b\le2\Pi$ and $c_S\le42f\log b\le45f\log b$.
+
+\emph{Polynomial.} With $T=\lceil|C_t|\rceil+1$, the size rows give $f,m,k,t,\log b\le x^{T+9}$ and
+$\log(bn_rg_1g_2p_dp'_d|d_E|)\le20x^{T+9}$; an elementary computation gives $\fitpol(C,b)\le1.3\cdot10^{10}C^4x^{16(T+9)}$,
+which is at most $x^{16(T+9)+1}\le x^{C_H}$ for $x\ge1.3\cdot10^{10}C^4$, because the largeness of the family in the
+sense of \cref{def:families:closed} includes $C_H\ge16(T+9)+1$.
+\end{proof}
+
+\paragraph{Existence of fitted functions and the bundle condition.}
+\begin{lemma}\label{pf:fit:leafex}
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{SettingAtPoint}$, $\sfname{LogDer}$, $\sfname{SumOKK}$, $\sfname{SumRatK}$, $\sfname{ConstK}$, the statement of
+\cref{pf:fit:toric}(b), the integrality statement $\sfname{IntSt}$ for CM theta norms, and $\fitGBig$ of $\sfname{FieldDat}$,
+$\sfname{TorEx}$, $\sfname{DenEx}$, $\sfname{BotEx}$ and $\sfname{BotSmall}$ imply $\sfname{ExistsFunctionIn}(\sfname{Fld},\mathcal T)$.
+\item $\sfname{BundleCondition}$ holds.
+\end{enumerate}
+\formallabel{GlobalTheory.T.existsFunctionIn_of_sqRatio_range}
+\formallabel{GlobalTheory.BigTop.Fun.ex_of_claims_alt}
+\formallabel{GlobalTheory.BigTop.Fun.bundle_of_rows_alt}
+\formallabel{Formalism.IndefR.Links.primRows3_data}
+\end{lemma}
+
+\begin{proof}
+(a) Let $G,W$ be over $R$, $G$ fitting $p$, and $(n,a)$ with $\mathrm{OK}(a)$ (the field $\sfname{Fld}$). At the point the row
+properties hold for $\mathrm{ch}(a)$, the square ratios lie in $\sigma(K)$, and, with the standing conditions as in
+\cref{pf:fit:transfer}, the statements $\sfname{TorEx}$, $\sfname{DenEx}$, $\sfname{BotEx}$, $\sfname{BotSmall}$ and
+$\sfname{FieldDat}$ hold at $G$; $\sfname{IntSt}$ gives an integrality exponent $d_l$ for the good level of $G$ (using
+$\log\mathrm{rd}_E\le\log b$ from the size rows). For every $(\eta,s)$ with $1\le s\le h(\eta)$, $\sfname{TorEx}$ gives a
+non-zero toric value $x_0$, and for $c\in\{0,1\}$ the toric values of the twisted characters are $\sigma(z)x_0$ with $z\in K$
+(by the condition on square values contained in $\mathrm{OK}(a)$); the valuation shift $g_T$ is defined from the minimal
+polynomial of the period-normalised value of $x_0$, which is algebraic by $\sfname{TorEx}$; $\sfname{DenEx}$ gives denominator
+data $N_0$ with finite support. With these data the function datum $\phi$
+with $G_\phi=G$ and $\sfname{TieAt}(\phi,a)$ is constructed by \lref{GlobalTheory.BigTop.Fun.TieModel.exists_tie} (from the choice:
+$n$ the number of test indices, $X'$ and $M$ the test metric and lattice, $V_t$ the rational matrices of the class sums given by
+$\sfname{SumOKK}$ and $\sfname{SumRatK}$, $r_t$ the square ratios, $z_A,z'_A$ the norms of bottom pairs, $z_T=1$, and the data
+above).
+(b) At a point with $\fitPC(p)$, the primitive links of the point give the conditions on the complex data at the base level
+(\lref{Formalism.IndefR.Links.complex_data_conditions_base_level_of_primitive_links}), which contain the well-formedness of the
+definite side, and the primitive rows give a datum with rows whose underlying indefinite datum is $S_{\mathrm f}$
+(\lref{Formalism.IndefR.Links.primRows3}; that its underlying datum is $S_{\mathrm f}$ holds by construction).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of the main theorem}\label{sec:pf:fit:main}
+
+The functional equation enters in absolute value form: $\sfname{HeckeFunctionalEquationAbs}$ asserts that for a totally
+complex field $E$ with a CM type, a unitary Hecke character $\chi$ with non-trivial infinity type and conductor exponents
+$a$, the completed $L$-functions $\Lambda$ of $\chi$ and $\Lambda'$ of $\chi^{-1}$ satisfy
+$\Lambda(s)=\epsilon\,(|d_E|\Nm\mathfrak f)^{1/2-s}\Lambda'(1-s)$ with $|\epsilon|=1$, $\mathfrak f$ the conductor. It follows from
+$\sfname{HeckeTateFunctionalEquation}$ by \lref{GlobalTheory.Published.HeckeTateFunctionalEquation.abs} (the archimedean
+and finite root numbers have absolute value $1$, up to the factor $(|d_E|\Nm\mathfrak f)^{1/2-s}$).
+
+\begin{theorem}\label{pf:fit:close}
+$F$, $\sfname{HeckeFunctionalEquationAbs}$, the five components of $\sfname{JoinOut}$, $\sfname{ThetaIntegralsAgree}$,
+$\sfname{LocalMatching}$, $\sfname{FunctionalsSeparate}$ and $\sfname{LambdaLowerBound}_2$ imply
+$\sfname{ConstantFunctionFits}(\sfname{Fld})$.
+\formallabel{GlobalTheory.BigTop.Fun.Close.fittedFunction_at_zero_close_alt}
+\end{theorem}
+
+\begin{proof}
+We collect the inputs.
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item By \cref{pf:fit:sqtop} (Howe duality at the real place being a component of $F$), $\fitGBig$ holds for the twelve
+square statements \ref{pf:fit:S:DenSum}--\ref{pf:fit:S:Tower}.
+\item By \cref{pf:fit:sumsize}, $\fitBigC$ holds for $\sfname{FinAt}$, $\sfname{AwayAt}$ and $\sfname{InfAt}$.
+\item By \cref{pf:fit:rows}, the row properties $\sfname{SumOKK}$, $\sfname{ConstK}$, $\sfname{LinK}$, $\sfname{FormulaK}$,
+$\sfname{SumRatK}$ and $\sfname{InjK}$ hold.
+\item By \cref{pf:fit:setting}, $\sfname{SizeAt}$, $\sfname{SettingAtPoint}$ and $\sfname{LogDer}$ hold.
+\item The CM theta norm hypotheses hold (\lref{GlobalTheory.T.cmThetaNormBoundHypotheses_satisfied}), hence the
+integrality statement $\sfname{IntSt}$ (\lref{GlobalTheory.T.classSumDenominatorBound_of_cmThetaHypotheses}) and the
+archimedean statement $\sfname{ArchSt}$ (\lref{GlobalTheory.ArchTop.archSt_of_inp}).
+\item By \cref{pf:fit:toric}, the toric estimate holds at tied function data, and the square ratios lie in $\sigma(K)$.
+\end{enumerate}
+We apply \cref{pf:fit:leaves} with $\mathrm{Fld}=\sfname{Fld}$ and the tie $\mathcal T$ of \cref{sec:pf:fit:assembly}:
+$\sfname{BundleCondition}$ and $\sfname{ExistsFunctionIn}(\sfname{Fld},\mathcal T)$ hold by \cref{pf:fit:leafex} (with (1), (3), (4),
+(5), (6)); $\sfname{ScaleCondition}$ and the leaves \ref{pf:fit:F:DesH}, \ref{pf:fit:F:Rank}, \ref{pf:fit:F:Ram},
+\ref{pf:fit:F:Pol} by \cref{pf:fit:leafnum}; \ref{pf:fit:F:MM} by \cref{pf:fit:leafmm}; \ref{pf:fit:F:C} and
+\ref{pf:fit:F:Ker} by \cref{pf:fit:leafrow}; \ref{pf:fit:F:FP}, \ref{pf:fit:F:IPa} and \ref{pf:fit:F:Wt} by
+\cref{pf:fit:leafsize}; \ref{pf:fit:F:IPb} by \cref{pf:fit:leafipb}; and \ref{pf:fit:F:Sq}, \ref{pf:fit:F:Den},
+\ref{pf:fit:F:Int}, \ref{pf:fit:F:Arch}, \ref{pf:fit:F:Thb} by \cref{pf:fit:leafsq}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:fit:main}]
+The statement $\sfname{JoinOut}$ is the conjunction of the five statements $\sfname{ToricDenominator}$,
+$\sfname{Transport}$, $\sfname{TwistedTransport}$, $\sfname{ZetaDenominators}$ and $\sfname{Refl}$, and the functional
+equation $\sfname{HeckeTateFunctionalEquation}$ implies its absolute value form. Apply \cref{pf:fit:close}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Norms of bottom pairs}\label{sec:pf:fit:normbig}
+
+The remaining subsections prove the statements on square terms, size bounds and test lattices which were used above.
+We begin with $\sfname{NormBig}$.
+
+\paragraph{Pairs and their norms.}
+Let $D$ be a global datum, with CM field $E$ and totally real subfield $F$. For $N\ge1$ let $G_N$ be the group of finite
+adelic points of the definite unitary group of rank $N$ of the host, $K_N\subseteq G_N$ its integral subgroup and, for an
+open subgroup $J\subseteq K_N$, $\mathrm{Cls}(N,J)$ the finite set of double cosets of $G_N$ modulo the rational points and
+$J$; $\Gamma_h$ is the (finite) stabiliser of the class of $h$, and
+$\mathrm{mass}(N)=\sum_{x\in\mathrm{Cls}(N,K_N)}|\Gamma_x|^{-1}$. A \emph{pair} $P$ with parameters $(\delta,t_0)$ consists
+of ranks $a\le d$ with $d$ even; a CM curve with parameter $\delta$, whose lattice has area $A_\delta>0$, with a two-torsion
+point $t_0$; a Weil representation $\Omega$ of $G_a\times G_d$ with its vacuum datum; weights $n(\tau)\in\N$ for the embedding
+types $\tau$; a vector $\Phi_P$ fixed by $K_a$; and a subgroup $J\subseteq K_d$ of finite index on which $\Phi_P$ is an
+eigenvector with eigenvalues of absolute value $1$. For $h\in G_d$ and $T$ in the finite non-empty set $\mathrm{Tup}(a,d,n)$
+of weight tuples, the \emph{theta coordinate} of $P$ is
+$\mathrm{coord}_P(h,T)=\sum_{x\in\mathrm{Cls}(a,K_a)}|\Gamma_x|^{-1}\,(\partial_T\,\Omega(x,h)\Phi_P)(0)$, where $\partial_T$
+is the differential operator of the minor polynomial $p_T$ of $T$, and the \emph{norm} of $P$ is
+\begin{equation}\label{eq:pf:fit:pairnorm}
+\|P\|=\sum_{h\in\mathrm{Cls}(d,J)}|\Gamma_h|^{-1}\sum_{T}|\mathrm{coord}_P(h,T)|^2 .
+\end{equation}
+Let $G$ be a grid, $t$ a type and $(i,j)$ an index pair, and let $b_+>b_-\ge2$ be the bottom ranks of $(i,j)$; $b_++b_-$ is
+even (\lref{GlobalTheory.FunObj.SqNum.Model.bot_ranks}). Two pairs $(P,P')$ form a \emph{bottom pair} at $t$ if $P$ has
+ranks $(b_+,b_++b_-)$ and $P'$ has ranks $(b_-,b_++b_-)$; $P$ carries the characters $\beta_H(G,i,j)^{-1}$ and
+$\nu_H(G,t,i,j)^{-1}$, and $P'$ the characters $\alpha_H(t,i,j)$ and $\nu_H(G,t,i,j)^{-1}$; $P$ and $P'$ are standard data for
+the modulus $\mathfrak m_t$ of the grid at $t$ (the conductor ideal of the grid times the primes of the twisted places of
+$t$) and for its conjugate, respectively; and their levels are block levels for $\mathfrak m_t$. Put $e_0=(b_+-b_-)/2$ and
+$h_0=(b_++b_-)/2$. The statement $\sfname{NormBig}$ is $\fitGBig$ of: for all $\delta,t_0$ and $(i,j)$ there is $A\ne0$ such
+that $\|P\|=A\prod_{s=1-e_0}^{h_0}\Lambda(s)$ for every type $t$, every bottom pair $(P,P')$ at $t$ and every completed
+$L$-function $\Lambda$ of $\nu_H(G,t,i,j)$.
+
+\paragraph{Constants.}
+For ranks $a<d$ and weights $n$ let $N(a,n)=\prod_\tau(\pi/A_\delta)^{a\,n(\tau)}>0$; let $\nu(a,d)$ be the norm of the
+vacuum vector, a power of the squared norm of the theta-null value of the CM lattice at $t_0$, which is non-zero
+(\lref{GlobalTheory.ConjJet.thetaZeroNormSq_ne_zero_cmLattice}); let $\Phi(a,d,n)=\sum_T\langle p_T,p_T\rangle$, with the
+Fock inner product $\langle p,q\rangle=\sum_\alpha\alpha!\,c_\alpha(p)\overline{c_\alpha(q)}$ of polynomials; for a set $S$ of
+finite places of $F$ let $d_S(a,d;s)=\prod_{v\notin S}d_v(a,d;s)$ be the Euler product of the local normalising factors of
+the doubling integral, which does not vanish for $\Re s>0$ (\lref{GlobalTheory.LFun.dSfun_ne_zero_of_re_pos}); and put
+\[
+c(a,d,n)=N(a,n)\,\mathrm{mass}(d)\,\mathrm{mass}(a)\,\Phi(a,d,n)\,\nu(a,d)\big/d_\emptyset\bigl(a,d;\tfrac{d-a}2\bigr).
+\]
+
+\begin{lemma}[Petersson norms of bottom pairs]\label{pf:fit:pet}
+Assume $F$ and $\sfname{Inp}(D)$, and let the size data satisfy the standing conditions. Let $(P,P')$ be a bottom pair at the
+type $t$ for $(i,j)$, let $(a,d)$ and $n$ be the ranks and weights of $P$, and let $\Lambda$ be a completed $L$-function of
+$\nu_H(G,t,i,j)$. Then
+\[
+\|P\|=c(a,d,n)\prod_{s=1-e_0}^{h_0}\Lambda(s).
+\]
+\formallabel{GlobalTheory.NormRatio.petersson_norm_bottom_theta_lift_eq}
+\end{lemma}
+
+\begin{proof}
+Here $a=b_+$ and $d=b_++b_-$, so $1\le a<d$, $d=2h_0$ and $a=h_0+e_0$. Let $S_t$ be the set of places of the grid at $t$.
+Since the auxiliary primes of the host are prime to the moduli $\mathrm{QS}\cdot q$ (a standing condition), $\mathfrak m_t$ is a
+\emph{good modulus} for $S_t$: it is non-zero, prime to its complex conjugate and to $2q$, and its prime divisors are the places
+of $S_t$ (\lref{GlobalTheory.NormRatio.goodMod_modT}). The level $J$ of $P$ is a block level for $\mathfrak m_t$, hence a
+congruence level (it contains the principal congruence subgroup of level $\Nm\mathfrak m_t$;
+\lref{GlobalTheory.NormExact.isCongLevel_of_isBlockLevel}).
+
+\emph{The dictionary.} By \lref{GlobalTheory.NormExact.exact_dictionary} (for a pair with congruence level and under
+$\sfname{Inp}(D)$), there are an \emph{exact datum} $X$ for $P$ --- a realisation of $P$ by a Weil representation of adelic
+unitary groups $\mathbf G_A,\mathbf G_B$ of ranks $a,d$, with a Hecke character $\chi_B$ and theta lifts $\theta_T$ of the
+Fock vectors of the tuples $T$ --- and a maximal level $K_0$ of $\mathbf G_B$ with Haar measure $\mu_0$; and for every such
+choice, $\theta_T(\iota_Bh)=c_1\,\mathrm{coord}_P(h,T)$ with $|c_1|^2N(a,n)=1$, and
+\begin{equation}\label{eq:pf:fit:dict}
+\|P\|=N(a,n)\,[K_d:J]\sum_T\langle\theta_T,\theta_T\rangle_{\mu_0},
+\end{equation}
+where $\langle\cdot,\cdot\rangle_{\mu_0}$ is the Petersson inner product on $\mathbf G_B$.
+
+\emph{The character.} The finite part of $\chi_B$ is $c^{-e}$, where $c$ is the character of the Weil datum of $P$ and $e$
+its exponent, and $c^{e}=\nu_H(G,t,i,j)^{-1}$ on finite ideals by the character condition of a bottom pair; hence $\chi_B$
+corresponds to $\nu_H(G,t,i,j)$
+(\lref{GlobalTheory.T.heckeCharEq_of_finitePart_power_inverse}). As $F$ is the maximal real subfield of $E$, $\chi_B$ is
+unramified outside $S_t$ and, for every $s\in\C$, $\Lambda(s)$ is the value at $s$ of the holomorphic continuation of the
+partial $L$-function $L^{S_t}(s,\chi_B^{-1})$ (\lref{GlobalTheory.T.squareNu_unramified_off_pair_partial_L_primitive}).
+
+\emph{The Rallis inner product formula.} By \lref{GlobalTheory.NormRatio.theta_lift_petersson_norm_eq_rallis_integral}
+(for an exact datum with maximal level, a good modulus $\mathfrak m$ with a standard datum, $1\le a<d$ and $\chi_B$ unramified
+outside $S$, the doubling integral identity for anisotropic unitary groups \cite{Rallis1984}, with the volumes of the
+definite quotients expressed as masses), for every $T$
+\[
+\langle\theta_T,\theta_T\rangle_{\mu_0}=\mathrm{mass}(d)\,\mathrm{mass}(a)\,
+\frac{\prod_{k=0}^{a-1}\Lambda\bigl(\tfrac{d-a}2+\tfrac a2-k\bigr)}{d_{S_t}\bigl(a,d;\tfrac{d-a}2\bigr)}\,
+\langle p_T,p_T\rangle\,\ell(\mathfrak m_t,a,d-a)\,\nu(a,d),
+\]
+where $\ell(\mathfrak m,a,a')$ is the local norm of the standard datum at the places dividing $\mathfrak m$. Since
+$\tfrac{d-a}2+\tfrac a2-k=h_0-k$ and $a=h_0+e_0$, the numerator is $\prod_{s=1-e_0}^{h_0}\Lambda(s)$ (reindex $s=h_0-k$).
+
+\emph{Local factors.} The relative index $[K_d:J]$ of a block level equals the local index
+$\iota(\mathfrak m_t,a,d-a)=\prod_{w\mid\mathfrak m_t}\iota_w$, a product of explicit local indices of block subgroups
+(\lref{GlobalTheory.StdLoc.relIndex_blockLevel}), and the local index, the local norm and the normalising factors satisfy
+$\iota(\mathfrak m_t,a,a')\,\ell(\mathfrak m_t,a,a')\,d_\emptyset(a,a+a';\tfrac{a'}2)=d_{S_t}(a,a+a';\tfrac{a'}2)$ for $a'\ge1$
+(\lref{GlobalTheory.T.localIndex_localNorm_normalizingFactor_eq_partial}: the Euler factors at the places of $S_t$ are the
+products of the local index and the local norm). Substituting into \eqref{eq:pf:fit:dict} and summing over $T$,
+\[
+\|P\|=N(a,n)\,\iota\,\mathrm{mass}(d)\,\mathrm{mass}(a)\,\frac{\prod_s\Lambda(s)}{d_{S_t}}\,\Phi(a,d,n)\,\ell\,\nu(a,d)
+=c(a,d,n)\prod_{s=1-e_0}^{h_0}\Lambda(s),
+\]
+because $\iota\ell/d_{S_t}=1/d_\emptyset$ at $s=\tfrac{d-a}2$, where both normalising factors are non-zero since $\Re\tfrac{d-a}2>0$.
+\end{proof}
+
+\begin{lemma}\label{pf:fit:petratio}
+Assume $F$ and $\sfname{Inp}(D)$ for all $D$.
+\begin{enumerate}[label=(\alph*)]
+\item $\fitGBig$ holds for the statement: for bottom pairs $(P,P')$ at $t$ and $(P_1,P_1')$ at $t'$ (for the same $\delta,t_0$
+and $(i,j)$) and completed $L$-functions $\Lambda$ of $\nu_H(G,t,i,j)$ and $\Lambda'$ of $\nu_H(G,t',i,j)$,
+$\|P\|\prod_{s=1-e_0}^{h_0}\Lambda'(s)=\|P_1\|\prod_{s=1-e_0}^{h_0}\Lambda(s)$.
+\item If moreover $\sfname{LNe}$ holds, then $\fitGBig$ holds for the statement: $\|P\|\ne0$ for every bottom pair $(P,P')$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.theta_lift_petersson_norm_ratio_formula}
+\formallabel{GlobalTheory.NormRatio.big_theta_petersson_norm_ratio_eq}
+\formallabel{GlobalTheory.T.big_theta_lift_ne_zero_of_petersson_norm}
+\formallabel{GlobalTheory.NormBigNe.big_theta_petersson_norm_ne_zero}
+\formallabel{GlobalTheory.NormRatio.fockSum_ne_zero}
+\formallabel{GlobalTheory.NormRatio.fockIp_self_re_pos}
+\formallabel{GlobalTheory.NormRatio.std_mass_ne_zero}
+\formallabel{GlobalTheory.NormExact.normConst_pos}
+\formallabel{GlobalTheory.VacuumNorm.vacNorm_ne_zero}
+\formallabel{GlobalTheory.NormBigProof.squareBottomHalfRankSum_le_halfRank}
+\end{lemma}
+
+\begin{proof}
+(a) holds for all data satisfying the standing conditions. Bottom pairs at two types have the same ranks and the same weights
+(\lref{GlobalTheory.BottomReal.bottom_real_eq}: the ranks are fixed by $(i,j)$, and the weights agree because the
+characters $\nu_H(G,t,i,j)$ and $\nu_H(G,t',i,j)$ agree on the finite ideles of the unit group); so the constants $c(a,d,n)$
+of $P$ and $P_1$ coincide, and the identity follows from two applications of \cref{pf:fit:pet}.
+
+(b) Let the thresholds be those of $\sfname{LNe}$. For a bottom pair at $t$, $\sfname{LNe}$ gives a completed $L$-function
+$\Lambda$ of $\nu_H(G,t,i,j)$ with $\Lambda(s)\ne0$ for integers $1-e_0\le s\le\mathrm{hr}(i,j)$, where
+$\mathrm{hr}(i,j)\ge h_0$ is the half rank (the bottom ranks are obtained from the ranks of $(i+1,j+1)$ and $(i,j)$ by subtracting
+non-negative even numbers). By \cref{pf:fit:pet} it suffices that $c(a,d,n)\ne0$. Here $N(a,n)>0$ and $\nu(a,d)\ne0$;
+$\mathrm{mass}(N)>0$, being a sum of the positive numbers $|\Gamma_x|^{-1}$ over the finite non-empty set $\mathrm{Cls}(N,K_N)$
+(\lref{GlobalTheory.NormSum.cls_finite_card_le} and \lref{GlobalTheory.StabOrder.gam_ne_zero_dvd_invariant}: the class set is
+finite and the stabilisers are finite); $\Re\Phi(a,d,n)>0$ because $\langle p,p\rangle=\sum_\alpha\alpha!|c_\alpha(p)|^2>0$ for
+the non-zero minor polynomials and $\mathrm{Tup}(a,d,n)\ne\emptyset$ as $a\le d$; and $d_\emptyset(a,d;\tfrac{d-a}2)\ne0$.
+\end{proof}
+
+\begin{theorem}\label{pf:fit:normbig}
+$F$, $\sfname{Inp}(D)$ for all $D$, and $\sfname{LNe}$ imply $\sfname{NormBig}$.
+\formallabel{GlobalTheory.T.normBig_of_lNe}
+\formallabel{GlobalTheory.NormBigProof.normBig_alt}
+\end{theorem}
+
+\begin{proof}
+Take the maximum of the thresholds of $\sfname{LNe}$ and of the two statements of \cref{pf:fit:petratio}. Fix
+$\delta,t_0,(i,j)$. If there is no bottom pair at any type, $A=1$ works. Otherwise fix a bottom pair $(P_0,P_0')$ at some type
+$t_*$ and, by $\sfname{LNe}$, a completed $L$-function $\Lambda_0$ of $\nu_H(G,t_*,i,j)$ with $\Lambda_0(s)\ne0$ for
+$1-e_0\le s\le h_0$. Put $A=\|P_0\|/\prod_s\Lambda_0(s)$; then $A\ne0$ by \cref{pf:fit:petratio}(b), and for every bottom pair
+$(P,P')$ at a type $t$ and completed $L$-function $\Lambda$ of $\nu_H(G,t,i,j)$, \cref{pf:fit:petratio}(a) gives
+$\|P\|\prod_s\Lambda_0(s)=\|P_0\|\prod_s\Lambda(s)$, i.e.\ $\|P\|=A\prod_s\Lambda(s)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Bottom constants}\label{sec:pf:fit:botconst}
+
+We prove $\sfname{BotConst}$. For a grid $G$ let $\mathrm{lev}_Q(G)=\prod_{v\in S_0}\Nm v^{c(v)}$ be its level number and, for
+a type $t$, $Q_n(G,t)=\prod_w\Nm w$ the product of the norms of the twisted places of $t$; at the base type there are no twisted
+places, so $Q_n(G,\mu_0)=1$ and $\mathfrak m_{\mu_0}$ is the conductor ideal of the grid
+(\lref{GlobalTheory.SqTop.Model.base_tuple}). A pair is \emph{small} (for $N$ and $B$) if $d\le2N$ and $n(\tau)\le2B$ for
+all $\tau$; under $\sfname{BotSmall}$ all bottom pairs are small for $N=\mathrm{bigN}(D)$ and $B$ the maximal weight
+$\max\mathrm{Wt}(D)$.
+
+\paragraph{Integrality exponents.} For a prime $p$ and $r\ge0$ call $x\in\C$ \emph{$p$-bounded by $r$} if $x$ is algebraic and
+$|\lambda(x)|_p\le r$ for every embedding $\lambda\colon\Qbar\to\C_p$; $p$-bounded numbers are stable under sums (with the
+maximum of the bounds) and products (with the product of the bounds), integers are $p$-bounded by $1$, and complex conjugation
+permutes the embeddings. \emph{Exponents} $(S,e)$ with bound $\beta$ are a finite set $S$ of primes and a function $e\ge0$
+supported on $S$ with $\sum_{l\in S}e(l)\log l\le\beta$. They are \emph{coordinate-integral} for $(N,B,Q)$ if for every prime
+$p$, every $Q'$ with $v_p(Q')\le v_p(Q)$ and every small pair $P$ at level $Q'$: every class of $\mathrm{Cls}(d,J)$ has a
+representative integral at $p$; $|\Gamma_h|\ne0$ and $v_p(|\Gamma_h|)\le e(p)$ for all $h$; and $\mathrm{coord}_P(h,T)$ is
+$p$-bounded by $p^{e(p)}$ for every $h$ integral at $p$ and every $T$. An \emph{integrality exponent} of the grid is a function
+$d_l=\mathrm{wt}_{S,e}$, $\mathrm{wt}_{S,e}(w)=\sum_{l\in S}e(l)v_w(l)$, for exponents which are coordinate-integral for
+$(\mathrm{bigN}(D),\max\mathrm{Wt}(D),\mathrm{lev}_Q(G))$, with an explicit bound $\beta$, and satisfy a similar integrality
+condition for norms.
+
+\begin{lemma}[Valuations of proportionality constants]\label{pf:fit:lemmaC}
+Assume $\sfname{Inp}(D)$, let $(S,e)$ be exponents which are coordinate-integral for $(N,B,Q)$, and let $w$ be a finite place
+of $K$ over the prime $p$. Let $P_1,P_1'$ be pairs at level $Q_1$ and $P_2,P_2'$ pairs at level $Q_2$, all small, with
+$v_p(Q_1),v_p(Q_2)\le v_p(Q)$, $d(P_1')=d(P_1)$ and $d(P_2')=d(P_2)$. Let $b_1,b_2,v\in\C$ and integer matrices $M_1,M_2$
+satisfy, for all $h$, $T$, $T'$,
+\begin{gather*}
+\overline{\mathrm{coord}_{P_1}(h,T)}=b_1\sum_{T'}M_1(T,T')\,\mathrm{coord}_{P_1'}(h,T'),\\
+\mathrm{coord}_{P_2'}(h,T')\,b_2=\sum_TM_2(T',T)\,\overline{\mathrm{coord}_{P_2}(h,T)},
+\end{gather*}
+with $b_2\ne0$, $v$ algebraic and $|\lambda(v)|_p=1$ for all $\lambda$. If $\gamma,z,z'\in K$ satisfy $b_1=\sigma(\gamma)b_2v$,
+$\sigma(z)=\|P_1\|$, $\sigma(z')=\|P_2'\|$ and $z,z'\ne0$, then $v_w(\gamma)\le v_w(z)+v_w(z')+6\,\mathrm{wt}_{S,e}(w)$.
+\formallabel{GlobalTheory.T.valuation_proportionalityRatio_le_bottomPairs}
+\formallabel{GlobalTheory.NormSum.LemmaC.vw_le_of_bottom_pairs}
+\end{lemma}
+
+\begin{proof}
+Let $r=p^{e(p)}$. If $b_1=0$, all coordinates of $P_1$ vanish and $\|P_1\|=0$ by \eqref{eq:pf:fit:pairnorm}, contradicting
+$z\ne0$; hence $b_1\ne0$, and $\gamma\ne0$, $v\ne0$. The norm \eqref{eq:pf:fit:pairnorm} does not depend on the representatives
+of the classes (\lref{GlobalTheory.T.definiteThetaPair_terms_norms_independent_representatives}), so we may compute
+$\|P_1\|$ with representatives $h_q$ integral at $p$. By the first relation,
+$|\mathrm{coord}_{P_1}(h,T)|^2b_1^{-1}=\mathrm{coord}_{P_1}(h,T)\sum_{T'}M_1(T,T')\mathrm{coord}_{P_1'}(h,T')$, hence
+\[
+\|P_1\|\,b_1^{-1}=\sum_q|\Gamma_{h_q}|^{-1}\sum_T\mathrm{coord}_{P_1}(h_q,T)\sum_{T'}M_1(T,T')\,\mathrm{coord}_{P_1'}(h_q,T'),
+\]
+and every summand is $p$-bounded by $r\cdot r\cdot1\cdot r$ (coordinate integrality; $h_q$ is integral at $p$ for $P_1'$ as
+well). So $\|P_1\|b_1^{-1}$ is $p$-bounded by $r^3$, and in the same way, using the second relation,
+$\|P_2'\|\,b_2=\sum_q|\Gamma_{h_q}|^{-1}\sum_{T'}\overline{\mathrm{coord}_{P_2'}(h_q,T')}\sum_TM_2(T',T)
+\overline{\mathrm{coord}_{P_2}(h_q,T)}$ is $p$-bounded by $r^3$. Put $x=zz'\gamma^{-1}\in K^\times$. Then
+$\sigma(x)=\|P_1\|\|P_2'\|\sigma(\gamma)^{-1}=(\|P_1\|b_1^{-1})(\|P_2'\|b_2)\,v$ is $p$-bounded by $r^6=p^{6e(p)}$. An element
+$x\in K^\times$ all of whose $p$-adic images have absolute value at most $p^c$ satisfies $v_w(x)\ge-c\,v_w(p)$ at the places
+$w\mid p$ (\lref{GlobalTheory.PadicPlaceBound.neg_mul_vw_le_vw}); so $v_w(z)+v_w(z')-v_w(\gamma)=v_w(x)\ge-6e(p)v_w(p)$.
+Finally $\mathrm{wt}_{S,e}(w)=e(p)v_w(p)$, because $v_w(l)=0$ for primes $l\ne p$ and $e(p)=0$ if $p\notin S$.
+\end{proof}
+
+The statement $\sfname{BotConst}$ is $\fitGBig$ of the following. Let $W$ be a Weil datum of the grid with the standard
+additive character, $S$ a grid choice whose numbers lie in $\sigma(K)$ at $\mu_0$, $(i,j)$ an index pair, $t$ a type, $X$ a
+bottom triple for $(i,j)$ with constants $c_0(\cdot)$ (the constants of the factorisation of its triple integrals at the types),
+$(P_0,P_0')$ a bottom pair at $\mu_0$ at level $\mathrm{lev}_Q(G)$ and $(P,P')$ a bottom pair at $t$ at level
+$\mathrm{lev}_Q(G)Q_n(G,t)$ (with the same $\delta,t_0$), $z,z'\in K^\times$ with $\sigma(z)=\|P\|$ and $\sigma(z')=\|P_0'\|$,
+and $d_l$ an integrality exponent of $G$. Then there is $\gamma\in K^\times$ with $c_0(\mu_0)\ne0$,
+$\sigma(\gamma)c_0(\mu_0)=c_0(t)$ and $v_w(\gamma)\le v_w(z)+v_w(z')+6d_l(w)$ for every finite place $w$ of $K$ with
+$Q_n(G,t)\notin w$.
+
+\begin{theorem}\label{pf:fit:botconst}
+$F$, $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$, $\sfname{Inp}(D)$ for all $D$, $\sfname{BotSmall}$ and
+$\sfname{LNe}$ imply $\sfname{BotConst}$.
+\formallabel{GlobalTheory.T.botConst_of_theta_matching}
+\formallabel{GlobalTheory.SqTop.botConst_of_inputs_alt}
+\formallabel{GlobalTheory.SqTop.BotConstPf.lamC_div_norm}
+\end{theorem}
+
+\begin{proof}
+We use $\fitGBig$ of the conjunction of three statements (taking the maximum of the thresholds):
+\begin{enumerate}[label=(\roman*)]
+\item (ratio of bottom constants) $c_0(t)\ne0$, $c_0(\mu_0)\ne0$, and there is $\gamma\in K$ with $\sigma(\gamma)c_0(\mu_0)=c_0(t)$
+(\lref{GlobalTheory.T.bottom_constant_ratio_eq_local_factor_ratio}, from $F$, $\sfname{ThetaIntegralsAgree}$,
+$\sfname{LocalMatching}$, $\sfname{Inp}$, $\sfname{BotSmall}$ and $\sfname{LNe}$, where the ratio $c_0(t)/c_0(\mu_0)$ is
+identified with a ratio of local factors);
+\item (first occurrence) there is $\kappa\ne0$ such that for every type $s$ and every bottom pair $(P,P')$ at $s$ there are an
+algebraic $u\ne0$ with $|\lambda(u)|_p=1$ for all primes $p\nmid Q_n(G,s)$ and all $\lambda$, and integer matrices $M,M'$ with
+\begin{gather*}
+\overline{\mathrm{coord}_P(h,T)}=\kappa uc_0(s)\sum_{T'}M(T,T')\mathrm{coord}_{P'}(h,T'),\\
+\mathrm{coord}_{P'}(h,T')\,\kappa uc_0(s)=\sum_TM'(T',T)\overline{\mathrm{coord}_P(h,T)}
+\end{gather*}
+(\lref{GlobalTheory.T.rallis_inner_product_formula_first_occurrence}, from the same hypotheses except $\sfname{LNe}$);
+\item $\sfname{BotSmall}$: all bottom pairs are small, and there are no twisted places at $\mu_0$.
+\end{enumerate}
+Let $\gamma$ be as in (i); $\gamma\ne0$ because $c_0(t)\ne0$. Let $w$ be a finite place of $K$ with $Q_n(G,t)\notin w$ and $p$
+the prime under $w$; then $p\nmid Q_n(G,t)$, and $p\nmid Q_n(G,\mu_0)=1$. Apply (ii) to $(P,P')$ at $t$ (giving $u_1,M$) and to
+$(P_0,P_0')$ at $\mu_0$ (giving $u_2,M_2$). Then $v=u_1/u_2$ is algebraic with $|\lambda(v)|_p=1$ for all $\lambda$, and
+$v_p(\mathrm{lev}_Q(G)Q_n(G,t))=v_p(\mathrm{lev}_Q(G))$. Write $d_l=\mathrm{wt}_{S,e}$ with $(S,e)$ coordinate-integral for
+$(\mathrm{bigN}(D),\max\mathrm{Wt}(D),\mathrm{lev}_Q(G))$, and apply \cref{pf:fit:lemmaC} with $Q=\mathrm{lev}_Q(G)$,
+$(P_1,P_1')=(P,P')$, $(P_2,P_2')=(P_0,P_0')$, $b_1=\kappa u_1c_0(t)$, $b_2=\kappa u_2c_0(\mu_0)\ne0$ and this $v$: indeed
+$b_1=\sigma(\gamma)b_2v$ because $\sigma(\gamma)c_0(\mu_0)=c_0(t)$. This gives $v_w(\gamma)\le v_w(z)+v_w(z')+6d_l(w)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The archimedean bound for normalised toric values}\label{sec:pf:fit:betaarch}
+
+We prove $\sfname{BetaArch}$. Let $d$ be the discriminant parameter of the host ($E$ contains an imaginary quadratic field of
+discriminant $-d$). For an index pair $(i,j)$ and $1\le s\le\mathrm{hr}(i,j)$ let $\kappa_s(\tau)\ge1$ be the weights of the
+square at $s$, $M_s=2s|I|+2\sum_\tau\kappa_s(\tau)$ (with $I$ the set of embedding types), and $C_0=C_0(2s,\kappa_s)>0$ the CM
+value constant. For a toric value $y$ of the character $\mathrm{fam}(G,\mu_0,i,j,c)$ at $s$ and an integral period lattice
+$\Lambda$ for $d$ (a lattice of the imaginary quadratic field, \cite{LeanSource2026}) the \emph{normalised toric value} is
+\[
+\beta=\beta(s,\Lambda,y)=\frac{(C_0\,y)^{12}}{\Delta(\Lambda)^{M_s}},
+\]
+$\Delta$ being the discriminant of a lattice. $\sfname{BetaArch}$ is $\fitGBig$ of: for all such $(i,j,s,c,y,\Lambda)$, with
+$a_0(\beta)$ the constant coefficient of the minimal polynomial of $\beta$ over $\Q$,
+\[
+\log|a_0(\beta)|\le\deg(\beta)\cdot12B_{\mathrm{TH}}(C,x,b),\qquad B_{\mathrm{TH}}(C,x,b)=Cfb(\log b+\log x).
+\]
+$\sfname{LBound}$ is $\fitGBig$ of: $\log|\Lambda'(s)|\le B_{\mathrm{TH}}(C,x,b)$ for the completed $L$-function $\Lambda'$ of
+every value character with the weights $\kappa_s\circ\pi$ ($\pi$ a permutation of the embedding types) and the conductor of the
+grid; $\sfname{TorEx}$ is $\fitGBig$ of: there is a toric value $x_s\ne0$ of $\mathrm{fam}(G,\mu_0,i,j,c)$ at $s$, equal to
+$\Lambda(s)$ for every completed $L$-function $\Lambda$ of this character, such that $\beta(s,\Lambda,x_s)$ is algebraic for every
+integral lattice $\Lambda$. $\sfname{Transport}$ is the hypothesis of \cref{sec:pf:fit:setting} (the main theorem of complex
+multiplication \cite{Shimura1971} in the form used in the development): for an imaginary quadratic field $K$ of discriminant
+$-d<-4$, an embedding $\varphi_K$ and a lattice $\Lambda_K$ of the unit ideal, there are ideles $t(\sigma)$, ideals
+$\mathfrak a(\sigma)$ and lattices $\Lambda_\sigma$ of $\mathfrak a(\sigma)$, for $\sigma\in\Aut(\C)$ fixing $\varphi_K(K)$,
+with $j(\Lambda_\sigma)=\sigma(j(\Lambda_K))$, such that the classes of the $\mathfrak a(\sigma)$ are \emph{equidistributed}
+($j(\Lambda_K)$ is algebraic; $\mathfrak a(\sigma),\mathfrak a(\sigma')$ have the same class if and only if $\sigma
+j(\Lambda_K)=\sigma'j(\Lambda_K)$; and for every finite Galois extension $L$ containing $\varphi_K(K)$ and $j(\Lambda_K)$, each
+class is attained by exactly $[L:\Q]/2h_K$ embeddings of $L$), and such that toric values of CM fields $E\supseteq K$ are
+transported by $\sigma$ (algebraicity, and the conjugation formula used below).
+
+\begin{theorem}\label{pf:fit:betaarch}
+$\sfname{Transport}$, $\sfname{FieldDat}$, $\sfname{LBound}$ and $\sfname{TorEx}$ imply $\sfname{BetaArch}$.
+\formallabel{GlobalTheory.T.betaConjugate_mean_logAbs_bound_of_transport}
+\formallabel{GlobalTheory.SqTop.betaArch_of_transport}
+\formallabel{GlobalTheory.BetaArchPf.toric_eq_L}
+\end{theorem}
+
+\begin{proof}
+Take the maximum of the thresholds of the three hypotheses and of the constants $C_x,x_4$ given (for the exponent $\eps$) by
+\lref{GlobalTheory.T.log_cmConstant_add_logDerivative_le_squareTopBound}: under the standing conditions, for $x\ge x_4$,
+\begin{equation}\label{eq:pf:fit:cmconst}
+\log C_0+M_s\,\frac{\log d+|\mathrm{logDer}(1)|}2\le B_{\mathrm{TH}}(C_x,x,b),
+\end{equation}
+where $\mathrm{logDer}(1)$ is the logarithmic derivative at $1$ of the $L$-function of the quadratic character of discriminant
+$-d$. Let $C\ge C_2+C_x$, with $C_2$ the constant of $\sfname{LBound}$, and fix $(i,j,s,c,y,\Lambda)$.
+
+\emph{Set-up.} By $\sfname{FieldDat}$, $E$ is a CM field, Galois over $\Q$ and unramified at all finite places over its
+maximal real subfield, $d>4$ is a prime, $-d$ is a square in $E$, the CM type $\varphi$ has at least two embedding types, and the
+conductor of the grid satisfies the base condition. By $\sfname{TorEx}$ the toric value is unique, so $y=x_s\ne0$, and $\beta$ is algebraic; $\beta\ne0$ since
+$C_0>0$ and $\Delta(\Lambda)\ne0$. There are an imaginary quadratic subfield $K\subseteq E$ of discriminant $-d$ and an
+embedding $\varphi_K$, non-real, with $\varphi_\tau|_K=\varphi_K$ for all $\tau$, such that $\Lambda$ is a lattice of the unit
+ideal of $K$ (\lref{GlobalTheory.T.exists_imagQuadratic_subfield_of_toricCMFieldData}). Apply $\sfname{Transport}$ to
+$(K,d,\varphi_K,\Lambda)$ and obtain $\mathfrak a(\sigma)$, $\Lambda_\sigma$; its transport formula gives, for every $\sigma$
+fixing $\varphi_K(K)$, every permutation $\pi$ and every character $\chi'$ conjugate to $\mathrm{fam}(G,\mu_0,i,j,c)$ under
+$\sigma$ with weights $\kappa_s\circ\pi$ and every toric sum $T'$ of $\chi'$ at $s$,
+\[
+|\sigma(\beta)|=(C_0\,|T'|)^{12}\bigl(\Nm(\mathfrak a(\sigma))^6\,|\Delta(\Lambda_\sigma)|\bigr)^{-M_s}.
+\]
+
+\emph{Bound for each conjugate.} Let $\sigma$ fix $\varphi_K(K)$. There are a permutation $\pi$ and a character $\chi'$, conjugate
+to $\mathrm{fam}(G,\mu_0,i,j,c)$ under $\sigma$, which is a value character with weights $\kappa_s\circ\pi$ for the same conductor
+(\lref{GlobalTheory.T.exists_conjugate_cmValueCharacter_permuted_weight}); $\chi'$ has a completed $L$-function $\Lambda'$
+(\lref{GlobalTheory.ToricDistribution.exists_isHeckeL_of_hasInf}), and $\Lambda'(s)$ is a toric sum of $\chi'$ at $s$:
+by \lref{GlobalTheory.ToricSumValue.toricSum_eq} a toric sum at $s$ is $\Lambda'(s)$ times a product of local factors over
+the exceptional places, and here there are none. By $\sfname{LBound}$ (with the constant $C-C_x\ge C_2$), $\log|\Lambda'(s)|\le B_{\mathrm{TH}}(C-C_x)$;
+in particular $|\Lambda'(s)|>0$ since $\sigma(\beta)\ne0$. Hence
+\[
+\log|\sigma(\beta)|\le\Phi(\sigma):=12\log C_0+12B_{\mathrm{TH}}(C-C_x)-M_s\log\bigl(\Nm(\mathfrak a(\sigma))^6|\Delta(\Lambda_\sigma)|\bigr).
+\]
+The function $\Phi$ only depends on the class of $\mathfrak a(\sigma)$: if $\Lambda_a,\Lambda_b$ are lattices of ideals
+$\mathfrak a,\mathfrak b$ in the same class, then $\Nm(\mathfrak a)^6|\Delta(\Lambda_a)|=\Nm(\mathfrak b)^6|\Delta(\Lambda_b)|$
+(\lref{GlobalTheory.T.fractionalIdealNorm_pow_six_mul_discriminant_class_invariant}; $\Delta$ is homogeneous of weight $12$).
+
+\emph{Mean over the conjugates.} By the equidistribution of the classes, there are representatives $\sigma_c$, one for each
+ideal class $c$ of $K$, fixing $\varphi_K(K)$ with $[\mathfrak a(\sigma_c)]=c$, such that
+\[
+\log|a_0(\beta)|\le\deg(\beta)\cdot\frac1{h_K}\sum_c\Phi(\sigma_c)
+\]
+(\lref{GlobalTheory.T.mean_log_norm_conjugates_over_ideal_classes}: $|a_0(\beta)|$ is the product of the absolute values of
+the conjugates of $\beta$, and the conjugates are distributed evenly over the classes). By the Chowla--Selberg formula
+\cite{ChowlaSelberg1967} in the form \lref{GlobalTheory.T.classMean_log_norm_disc_chowlaSelberg},
+\[
+\frac1{h_K}\sum_c\log\bigl(\Nm(\mathfrak a_c)^6|\Delta(\Lambda_c)|\bigr)=12\log(2\pi)-6\log d+6\gamma_{\mathrm E}-6\,\mathrm{logDer}(1),
+\]
+$\gamma_{\mathrm E}$ being Euler's constant. Since $\log(2\pi)>0$, $\gamma_{\mathrm E}\ge0$ and $M_s\ge0$,
+\begin{align*}
+\frac1{h_K}\sum_c\Phi(\sigma_c)&\le12\log C_0+12B_{\mathrm{TH}}(C-C_x)+6M_s\bigl(\log d+|\mathrm{logDer}(1)|\bigr)\\
+&\le12B_{\mathrm{TH}}(C_x)+12B_{\mathrm{TH}}(C-C_x)=12B_{\mathrm{TH}}(C)
+\end{align*}
+by \eqref{eq:pf:fit:cmconst} and the linearity of $B_{\mathrm{TH}}$ in $C$. This proves the bound.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The archimedean size of norms of pairs}\label{sec:pf:fit:archnorm}
+
+We prove the archimedean bound for norms of bottom pairs used in \cref{pf:fit:leafsq}(e). For a number field $K$ and a
+function $\phi$ on its infinite places, $\fitmi{\phi}=\frac2{[K:\Q]}\sum_v\phi(v)$. For a pair $P$ with parameters
+$(\delta,t_0)$, an embedding $\rho$ of a field containing the invariants $g_2,g_3$ of the CM lattice $\Lambda_\delta$ of the
+curve gives the conjugate lattice $\Lambda_\delta^\rho$; we write $A_\rho$ for its area and $\nu_\rho$ for the squared norm of its
+theta-null value at a two-torsion point not killed by the curve.
+
+\begin{lemma}[Archimedean size of norms]\label{pf:fit:archnorm}
+There is an absolute constant $C_A>0$ with the following property. Let $P$ be a pair at level $Q\ge1$, small for $(N,B)$ with
+$N\ge1$ and $B\ge1$, let $L\ge1$ with $\log\mathrm{rd}_E\le L$ and $|\mathrm{logDer}(1)|\le L$, and let $x$ be an element of a
+totally complex number field $K$ with $\sigma(x)=\|P\|$ for an embedding $\sigma$. Then
+\[
+\fitmi{\log^+|\sigma_vx|}\le C_A\Bigl(2fNB\bigl(L+\log(2NB)\bigr)+fN^2\bigl(L+\log(2fNB)\bigr)+N^2\log Q\Bigr),
+\]
+where $f$ is the number of embedding types.
+\formallabel{GlobalTheory.T.norm_meanInf_posLog_le_definiteThetaPair}
+\formallabel{GlobalTheory.ArchFree.norm.norm_meanInf_posLog_le}
+\formallabel{GlobalTheory.ArchFree.st.archSt}
+\end{lemma}
+
+\begin{proof}
+Let $C_0$ be the constant of \lref{GlobalTheory.T.conjugate_lattice_means_posLog_area_theta_bounded} (for every finite
+extension $M$ containing $g_2,g_3$ and the Weierstrass value at $t_0$, and two-torsion points $t_\rho$ of the conjugate
+lattices, the averages over the embeddings $\rho\colon M\to\C$ of $\log^+A_\rho^{-1}$ and of $\log^+\nu_\rho$ are at most
+$C_0L$), and put $C_A=1100+4C_0$. The coordinates $\mathrm{coord}_P(h,T)$ are algebraic, and for every embedding
+$\rho\colon\Qbar\to\C$ and every two-torsion point $t'$ of $\Lambda_\delta^\rho$ not killed by the curve,
+\[
+|\rho(\mathrm{coord}_P(h,T))|^2\le c_a^2\,Q^{ad}\,(a!^{\,s})^2\,3\,(2fad\,\mathrm{rd}_E+1)^{fad}\,\nu_\rho^{fad}
+\Bigl(\frac{2e\pi B}{A_\rho}\Bigr)^{as},
+\]
+where $c_a=\#\mathrm{Cls}(a,K_a)$ and $s=\sum_\tau n(\tau)$
+(\lref{GlobalTheory.T.definiteThetaPair_coordinate_conjugates_bounded}). The invariants $g_2,g_3$ and the Weierstrass value
+$\wp(t_0)$ are algebraic, and every conjugate lattice has a two-torsion point not killed by the curve
+(\lref{GlobalTheory.T.admJ_and_torsion_data_algebraic} and \lref{GlobalTheory.T.exists_twoTorsionCMPoint_all_conjugates}). Let
+$M\subseteq\C$ be a finite Galois extension of $\Q$ containing $\sigma(K)$, all coordinates $\mathrm{coord}_P(h_q,T)$ at fixed
+representatives $h_q$ of the classes $q\in\mathrm{Cls}(d,J)$, $g_2$, $g_3$ and $\wp(t_0)$
+(\lref{GlobalTheory.ArchNorm.exists_galois}), and choose a two-torsion point $t_\rho$ for each $\rho\colon M\to\C$.
+
+By \eqref{eq:pf:fit:pairnorm}, $\sigma(x)=\sum_{(q,T)}|\Gamma_{h_q}|^{-1}\,z_{q,T}\overline{z_{q,T}}$ with $z_{q,T}=
+\mathrm{coord}_P(h_q,T)\in M$ and rational weights $|\Gamma_{h_q}|^{-1}\in(0,1]$. Hence
+(\lref{GlobalTheory.ArchMean.meanInf_posLog_le}: for such a representation, the mean of $\log^+|\sigma_vx|$ over the infinite
+places of $K$ is at most the average over $\rho\colon M\to\C$ of $\log^+\sum|\Gamma_{h_q}|^{-1}|\rho(z_{q,T})|^2$)
+\[
+\fitmi{\log^+|\sigma_vx|}\le\frac1{[M:\Q]}\sum_{\rho}\log^+\sum_{(q,T)}|\Gamma_{h_q}|^{-1}|\rho(z_{q,T})|^2 .
+\]
+Fix $\rho$ and extend it to $\Qbar$. Each term is at most the bound above. The number of terms is
+$\#\mathrm{Cls}(d,J)\cdot\#\mathrm{Tup}(a,d,n)$, where $\#\mathrm{Cls}(d,J)\le c_d\,[K_d:J]\le c_dQ^{d^2+4}$, the class numbers
+satisfy $c_N\le(12f^2N^4\mathrm{rd}_E^2)^{6fN^2}$ (\lref{GlobalTheory.NormSum.cls_finite_card_le}), and
+$\#\mathrm{Tup}(a,d,n)\le2^{ds}$ (\lref{GlobalTheory.MinorBound.minor_bound}). With $d\le2N$, $s\le2fB$ (smallness),
+$\log\mathrm{rd}_E\le L$ and $\mathrm{rd}_E\ge1$, an elementary estimate of the product
+(\lref{GlobalTheory.ArchNorm.sizes}) gives
+\[
+\log^+\sum_{(q,T)}|\Gamma_{h_q}|^{-1}|\rho(z_{q,T})|^2\le E_0+4fN^2\log^+\nu_\rho+4fNB\log^+A_\rho^{-1},
+\]
+with $E_0=1100\bigl(2fNB(L+\log(2NB))+fN^2(L+\log(2fNB))+N^2\log Q\bigr)$. Averaging over $\rho$ and using the bounds $C_0L$ for
+the averages of $\log^+\nu_\rho$ and $\log^+A_\rho^{-1}$, the right-hand side becomes at most
+$E_0+4C_0fN^2L+4C_0fNBL\le(1100+4C_0)\bigl(2fNB(L+\log(2NB))+fN^2(L+\log(2fNB))+N^2\log Q\bigr)$, all logarithms being
+non-negative.
+\end{proof}
+
+\begin{theorem}\label{pf:fit:archgrid}
+$\fitGBig$ holds for the statement: if $z_A,z'_A$ are functions on the index pairs with values in $K$ such that, for some
+$\delta,t_0$ and every $\eta$, there is a bottom pair $(P,P')$ at $\mu_0$ at level $\mathrm{lev}_Q(G)$ with
+$\sigma(z_A(\eta))=\|P\|$ and $\sigma(z'_A(\eta))=\|P'\|$, then for every $\eta$, $\fitmi{\log^+|\sigma_vz_A(\eta)|}$ and
+$\fitmi{\log^+|\sigma_vz'_A(\eta)|}$ are at most
+\[
+2CfNB_w\bigl(\log b+\log(2NB_w)\bigr)+CfN^2\bigl(\log b+\log(2fNB_w)\bigr)+CN^2\log\mathrm{lev}_Q(G),
+\]
+with $N=\mathrm{bigN}(D)$ and $B_w=\max\mathrm{Wt}(D)$.
+\formallabel{GlobalTheory.T.archimedeanBound_bottomPairs_norms_grid}
+\formallabel{GlobalTheory.ArchGrid.arch_grid}
+\end{theorem}
+
+\begin{proof}
+Take $C_{F0}=0$, $C_0=C_A$ and $x_0=0$. Under the standing conditions, $L=\log b=x^\eps\ge1$, the size rows give
+$\log\mathrm{rd}_E\le\log b$, and $|\mathrm{logDer}(1)|\le\log b$; moreover $N\ge1$ (as $m+3\le k$), $B_w\ge1$ and $f\ge1$.
+Bottom pairs at the base type are small for $(N,B_w)$ (\lref{GlobalTheory.T.squareBottomPairs_small_reference_tuple}).
+\Cref{pf:fit:archnorm}, applied to $P$ and to $P'$ with $Q=\mathrm{lev}_Q(G)\ge1$, gives the bound with $C_A$ in place of $C$; as
+the bracket is non-negative, it holds for every $C\ge C_A$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Size bounds for class sums: assembly}\label{sec:pf:fit:sizes}
+
+We now prove the components of \cref{pf:fit:sumsize}. Fix a point in Hida setting and an admissible choice $\mathrm{ch}$ at
+scale $(C_F,b)$ satisfying the field condition, with grid $G$, sum choice $S$, class representatives and enumeration of the
+test indices. By construction \cite{LeanSource2026}, the $a$-th class sum $v_K(\mathrm{ch},t,F)_a$ of a form $F$ of type $t$ is
+$s_{AA}$ times a finite sum, over the cosets $\beta$ in the support of the $a$-th datum $\Phi_a$, the classes $c$ of $\beta$ and
+the pure data $d$ of a coset expansion of $\beta$, of products of: the coefficients $\prod_v\mathrm{coef}_v(\beta)$ and the data
+$\prod_v\mathrm{dat}_v(\beta)$ of the terms of $\beta$; the inverse stabiliser order $\mathrm{invGam}(c)$; and the last pairing
+$\langle u,u'\rangle$ of the image $u$ of the test vector $\psi_C$ of $\Psi_a$ under the $m$ \emph{top maps} $k(1,d_1(j))$ (from
+the node $(\mathrm{top},j)$ to $(\mathrm{top},j+1)$ at the points of $c$) with the image $u'$ of the form value $f_t(F)$ under the
+$m$ \emph{row maps} $k(1,d_2(i))$. Here $\sigma=\sigma_{v_0}$.
+
+\paragraph{Losses.} A \emph{loss function} with bound $B$ is a function $d\ge0$ on the finite places of $K$ with finite support
+and $\sum_{w\in T}\ell_wd(w)\le B$ for every finite $T$. A complex number $z$ has \emph{loss at most $a$ at $w$} if $z=\sigma(y)$
+with $y\in K$ and $y=0$ or $v_w(y)\ge-a$; a vector $v$ is \emph{in the lattice $\Lambda$ up to $a$ at $w$} if $v=\sigma(u)$ for a
+$K$-rational $u$ and $su\in\Lambda$ for some $s\in K^\times$ with $v_w(s)\le a$. Losses add under products. A place $w$ is
+\emph{away} from the level at $t$ if every prime of the level at $t$ lies over $S_0$ or is prime to the residue characteristic of
+$w$. Put $b_1(C)=Cfm\,\mathrm{bigN}^2(\log b+\sigma(G))\,b$ and $a_1(C)=Cf\,\mathrm{bigN}\,b\log b+Cm\,\mathrm{bigN}^2\sigma(G)$
+(\cref{sec:pf:fit:inputs}); both are linear in $C$.
+
+\paragraph{The factor claims.} Each of the following is a $\fitBigC$ statement about $\mathrm{ch}$, with constants $(C,b)$.
+\begin{itemize}
+\item $\sfname{DepthK}$: every coset $\beta$ of the support has a coset expansion of depth $e(\beta)$, and $v_l(e(\beta))\le
+\mathrm{dep}_l(G)$ for every prime $l$ under a place $w$ away from the level.
+\item Finite claims (loss functions with bound $m\,b_1$ for the first four, $b_1$ for the others): $\sfname{FinScal}$ (the scalar
+$s_{AA}$), $\sfname{FinCoef}$ (the coefficients), $\sfname{FinDat}$ (the data products, at the column and row points),
+$\sfname{FinGam}$ (the numbers $\mathrm{invGam}(c)$) have loss at most $d(w)$ at $w$; $\sfname{FinTop}$, $\sfname{FinRow}$: the
+top and row maps send vectors in the lattice of the node up to $a$ at $w$ to vectors in the lattice of the next node up to
+$a+d(w)$; $\sfname{FinPair}$: the last pairing of vectors in the lattices up to $a,a'$ has loss at most $a+a'+d(w)$;
+$\sfname{FinForm}$: the form values $f_t(F)$ of lattice forms are in the lattice up to $d(w)$; $\sfname{FinPsi}$: the test
+vectors are in the lattice of the node $(\mathrm{top},0)$ up to $0$.
+\item Infinite claims, at the base type $\mu_0$ and for every embedding $\sigma'$ of $K$: $\sfname{InfScal}$:
+$|\sigma'(s_{AA})|\le e^{ma_1}$; $\sfname{InfTens}$: the products of coefficients and data have absolute value at most
+$e^{Cm^2\mathrm{bigN}^2\sigma(G)}$; $\sfname{InfCount}$: the number of data, the size of every support and the number of terms of
+every coset expansion are at most $e^{ma_1}$; $\sfname{InfClass}$: the number of classes of the grid and of every coset are at
+most $e^{ma_1}$; $\sfname{InfTop}$, $\sfname{InfRow}$: there is a function $g$ on the infinite places with $\fitmi{g}\le a_1$
+such that the top (resp.\ row) maps multiply the norms of vectors by at most $e^{g(p)}$ at $p$; $\sfname{InfPair}$: the last
+pairing satisfies $|\langle u,u'\rangle|^2\le e^{a_1}\|u\|^2\|u'\|^2$; $\sfname{InfPsi}$: the norm of a test vector is bounded by
+the norm of its coefficient vector for the Gram matrix of the test forms; $\sfname{InfForm}$:
+$\|f_{\mu_0}(F_x)\|^2\le e^{ma_1}\,{}^t\bar x H_V(\mu_0)x$.
+\end{itemize}
+
+\begin{theorem}[Finite assembly]\label{pf:fit:finasm}
+$\sfname{SumOKK}$, $\sfname{DepthK}$ and the nine finite claims imply $\fitBigC(\sfname{FinAt})$.
+\formallabel{GlobalTheory.Adopt.finiteSumDenominatorBound_of_factor_claims}
+\formallabel{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.fin_of_factors}
+\formallabel{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.fin_at}
+\formallabel{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_comb}
+\formallabel{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_mul}
+\end{theorem}
+
+\begin{proof}
+Take the maximum $C_{F0}$ of the eleven thresholds, for $C_F\ge C_{F0}$ the constant $16\max_ic_i$ (with $c_i$ the constants of
+the claims), and for $C\ge16\max_ic_i$ apply each claim with the constant $C/16$; take the maximum of the thresholds $x_0$.
+Let $d_S,d_C,d_D,d_G$ (bound $m\,b_1(C/16)$) and $d_T,d_R,d_F,d_P$ (bound $b_1(C/16)$) be the loss functions of the claims, and
+\[
+d_l=d_S+d_C+d_D+d_G+m\,d_T+m\,d_R+d_F+d_P .
+\]
+It is non-negative with finite support, and, as $m\ge1$, $\sum_{w\in T}\ell_wd_l(w)\le4m\,b_1(C/16)+2m\,b_1(C/16)+2b_1(C/16)\le
+8m\,b_1(C/16)=m\,b_1(C)/2$. Let $(X',M)$ be a test lattice, $t$ a type, $w$ away from the level at $t$, $x$ a lattice form of type
+$t$ and $y\in K^n$ with $\sigma(y_a)=v_K(\mathrm{ch},t,F_x)_a$. By
+\lref{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.exists_intMod_levelPrimePow_eq_add_mul} ($M$ being the
+dual of the lattice of the test forms, it suffices that for every datum $\Phi$, every class $c$ and every vector $u$ of the weight
+lattice of the representative of $c$, the class sum core with the test vector $\psi_C(\delta(c,u))$ has loss at most $d_l(w)$ at
+$w$), it is enough to bound these losses. The core is a finite sum of products of the factors listed above; by
+\lref{DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.core_loss} (losses add under products and are preserved by
+sums; the coset expansions exist by $\sfname{DepthK}$) and the claims, it has loss at most
+$d_C+d_D+d_G+m\,d_T+m\,d_R+d_P+d_F$ at $w$, the test vector contributing $0$ by $\sfname{FinPsi}$, the $m$ top maps and the $m$ row
+maps contributing $m\,d_T$ and $m\,d_R$. Multiplying by $s_{AA}$ adds $d_S(w)$.
+\end{proof}
+
+\begin{theorem}[Archimedean assembly]\label{pf:fit:infasm}
+$\sfname{SumOKK}$, $\sfname{DepthK}$ and the nine infinite claims imply $\fitBigC(\sfname{InfAt})$.
+\formallabel{GlobalTheory.T.archimedeanSumSizeBound_largeData_from_factors}
+\formallabel{GlobalTheory.Adopt.archimedeanSumSizeBound_largeData_from_factors}
+\formallabel{DeltaFormSums.GlobalTheory.CompanionTheory.InfAssembly.infK_of_factors}
+\formallabel{DeltaFormSums.GlobalTheory.CompanionTheory.InfAssembly.infAt_of}
+\end{theorem}
+
+\begin{proof}
+As in \cref{pf:fit:finasm} we apply the claims with the constant $C/16$ (now $C\ge0$, $b\ge1$), and write $A=a_1(C/16)$,
+$S_g=(C/16)m^2\mathrm{bigN}^2\sigma(G)\le mA$, and $g,g'$ for the functions of $\sfname{InfTop}$ and $\sfname{InfRow}$. Let
+$(X',M)$ be a test lattice, $X$ a metric of $H_V(\mu_0)$ and $V$ a matrix with $\sigma(Vx)_a=v_K(\mathrm{ch},\mu_0,F_x)_a$. By
+\lref{DeltaFormSums.GlobalTheory.CompanionTheory.InfAssembly.opNorm_bound} (the components of $Vx$ are paired with test
+vectors through the dual of the Gram matrix of the test forms, and each class sum is bounded factor by factor by the claims), at
+every infinite place $p$
+\[
+\|V\|_p^2\le\exp\bigl(11mA+2S_g+A+m\,g(p)+m\,g'(p)\bigr).
+\]
+If $V=0$ there is nothing to prove; otherwise $\|V\|_p>0$, and averaging the logarithms over the infinite places,
+$h(V)\le11mA+2S_g+A+m\fitmi{g}+m\fitmi{g'}\le11mA+2mA+mA+mA+mA=16mA=m\,a_1(C)$, using $\fitmi g,\fitmi{g'}\le A$ and $A\le mA$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Size bounds for class sums: the factors}\label{sec:pf:fit:factors}
+
+We prove the factor claims used in \cref{pf:fit:sumsize} which carry the main estimates. Throughout, $F=\sfname{ThetaLocalInputs}$;
+$N=\mathrm{bigN}(D)$; for a local place $w$ of the grid at a type, $e(w)$ is its coset exponent and $q_w$ its residue
+cardinality; and $\sigma(G)=\sum_{v\in S_0}\mathrm{depth}(v)\log\Nm v$.
+
+\begin{theorem}[Depth of cosets]\label{pf:fit:depth}
+$F$ and $\sfname{SumOKK}$ imply $\sfname{DepthK}$.
+\formallabel{GlobalTheory.T.depthK_of_sumOKK}
+\formallabel{GlobalTheory.DepthUnf.depthK_of_hypotheses_alt}
+\end{theorem}
+
+\begin{proof}
+For a coset $\beta$ of the support of a datum $\Phi$ at the type $t$, a \emph{coset expansion of depth $k$} is an expansion of
+the product of the terms of $\beta$ in indicator functions of cosets of depth $k$, and for an idempotent sum $e$ of local
+places the product is \emph{depth periodic with period $k$} if it is invariant at depth $k$ \cite{LeanSource2026}; $e(\beta)$
+denotes the least depth of a coset expansion. By \lref{GlobalTheory.T.flatTensor_depth_conditions_away_from_twist}, for large
+data there is $K>0$ with $v_l(K)\le\mathrm{dep}_l(G)$ for every prime $l$ under a place away from the level at $t$, such that the
+product is depth periodic with period $K$ for every idempotent sum. The sum choice gives an expansion $\tau$ of $\beta$ for some
+idempotent sum $e$ (\lref{GlobalTheory.FunObj.GridChoice.sumOK_ex}); since the product is depth periodic with period $K$,
+there is a coset expansion of depth $K$ (\lref{GlobalTheory.T.exists_cosetIndicatorExpansion_of_depthPeriodic}). Hence
+$e(\beta)\le K$ is defined and attained by an expansion $\tau_m$. Conversely, a coset expansion of depth $e(\beta)$ makes the
+product depth periodic with period $e(\beta)$ for some idempotent sum $e'$ with an expansion
+(\lref{GlobalTheory.T.depthPeriodic_of_cosetIndicatorExpansion}); periods are stable under $\gcd$
+(\lref{GlobalTheory.T.flatProductDepthPeriodic_gcd}), so the product is depth periodic with period $\gcd(e(\beta),K)$ for
+$e'$, and there is a coset expansion of depth $\gcd(e(\beta),K)$. By minimality $e(\beta)\le\gcd(e(\beta),K)$, so
+$e(\beta)\mid K$ and $v_l(e(\beta))\le v_l(K)\le\mathrm{dep}_l(G)$.
+\end{proof}
+
+\begin{theorem}[Finite data]\label{pf:fit:findat}
+$F$ implies $\sfname{FinDatK}$.
+\formallabel{GlobalTheory.T.finDatK_of_theta_inputs}
+\formallabel{GlobalTheory.FunDat.finDatK_alt}
+\formallabel{GlobalTheory.FunDat.finDatK_of}
+\formallabel{GlobalTheory.FunDat.away_cases}
+\end{theorem}
+
+\begin{proof}
+Two estimates for the local tensors are used, for large data and at local places $w$ of the grid at $t$ which lie in the set
+$W_0$ of the grid or whose residue characteristic is prime to the place $\mathfrak P$ of $K$ under consideration (this holds at
+the places away from the level: a local place outside $W_0$ is a level place; if it lay over $S_0$ it would be the base place,
+which is not a level place, or one of the chosen places $w(v)\in W_0$; so its residue characteristic is prime to $\mathfrak P$ by
+the definition of \emph{away}):
+\begin{enumerate}[label=(\alph*)]
+\item the \emph{flip values} $T_{\mathrm{flip}}(t,\Phi,w,z)$ have loss at most $c_1m^2N^2b\,e(w)\,v_{\mathfrak P}(q_w)$ at
+$\mathfrak P$ (\lref{GlobalTheory.T.flips_loss_bounded_at_exceptional_places});
+\item if all flip values at $w$ have loss at most $c\ge0$ at $\mathfrak P$, then the data $\mathrm{dat}_w(\beta)(X,Y)$ of the
+terms of every coset $\beta$ have loss at most $c+c_2m^2N^2e(w)\,v_{\mathfrak P}(q_w)$
+(\lref{GlobalTheory.T.movedTensor_unfolding_integral_valuation_loss_bound}).
+\end{enumerate}
+Let $K_0=\max(c_1,0)+\max(c_2,0)$, $C\ge\max(2,2K_0)$ and $\kappa=K_0m^2N^2b$. Then each datum at $w$ has loss at most
+$\kappa\,e(w)v_{\mathfrak P}(q_w)$ (as $b\ge1$), and the product over the local places has loss at most
+$d_D(\mathfrak P)=\kappa\sum_we(w)v_{\mathfrak P}(q_w)$. The function $d_D$ is a loss function with bound $2\kappa\sigma(G)$
+(\lref{GlobalTheory.FunDat.loss_dlD}), and $2\kappa\sigma(G)\le C\sigma(G)m^2N^2b\le m\,b_1(C)$ because $f\ge1$.
+\end{proof}
+
+\begin{theorem}[The last pairing]\label{pf:fit:fieldpair}
+$F$ implies $\sfname{FinPair}$ and $\sfname{InfPair}$.
+\formallabel{GlobalTheory.T.field_pair_comparison}
+\formallabel{GlobalTheory.FPair.lift_splits_locally}
+\formallabel{GlobalTheory.FPair.finPair}
+\formallabel{GlobalTheory.FPair.infPair}
+\end{theorem}
+
+\begin{proof}
+The last pairing is the branching pairing between the representations of highest weights $\lambda_{\mathrm{top}}$ (of the node
+$(\mathrm{top},m)$) and $\lambda_{\mathrm{grid}}$ (of the node $(m,m)$); it is defined over $K$, and its complex values are the
+images of its $K$-rational values (\lref{GlobalTheory.T.branchingPairing_extendScalars}). For every embedding type the two
+weights interlace strictly (\lref{GlobalTheory.WtInterlace.weights_top_grid}).
+
+\emph{Finite places.} For large data there are $D_n\in\N_{>0}$ with $\log D_n\le K_0fN^2b\log b$ and $p^{E_p}\mid D_n$ for every
+prime $p$, where $E_p=\sum_\tau E_p(\lambda_{\mathrm{top},\tau})$ is the total exponent of the top weights at $p$
+(\lref{GlobalTheory.T.exists_totalExponent_topWeight_bound}). Put $d_P(\mathfrak P)=v_{\mathfrak P}(D_n)\ge0$; it has finite
+support and $\sum_{\mathfrak P\in T}\ell_{\mathfrak P}d_P(\mathfrak P)\le\log D_n$ for every finite $T$
+(\lref{GlobalTheory.T.placeValuation_localDegree_arithmetic}), which is at most $b_1(C)$ for $C\ge\max(K_0,0)$. If $u=\sigma(u_0)$
+and $v=\sigma(v_0)$ with $su_0$ and $s'v_0$ in the lattices of the two nodes, $v_{\mathfrak P}(s)\le a$, $v_{\mathfrak P}(s')\le a'$,
+then the branching pairing of lattice vectors is integral up to the exponents:
+$v_{\mathfrak P}(\langle su_0,s'v_0\rangle)\ge-v_{\mathfrak P}(p^{E_p})$, $p$ the prime under $\mathfrak P$
+(\lref{GlobalTheory.T.branchingPairing_integral_upToExponents}). Hence either $\langle u_0,v_0\rangle=0$ or
+$v_{\mathfrak P}(\langle u_0,v_0\rangle)\ge-a-a'-v_{\mathfrak P}(D_n)$, since $p^{E_p}\mid D_n$.
+
+\emph{Infinite places.} Let $P_{\mathrm{br}}=\prod_\tau\mathrm{br}(\lambda_{\mathrm{top},\tau},\lambda_{\mathrm{grid},\tau})^2$ be
+the product of the squared branching constants. For large data $\log P_{\mathrm{br}}\le K_0'fNb\log b\le a_1(C)$
+(\lref{GlobalTheory.T.archimedean_branching_constant_bound}), and for every embedding $\sigma'$,
+$|\sigma'\langle u_0,v_0\rangle|^2\le P_{\mathrm{br}}\|\sigma'u_0\|^2\|\sigma'v_0\|^2$ with the Fock norms of the coefficient vectors
+(\lref{GlobalTheory.T.branchingPairing_archimedean_bound_fockNorm}). If $\|\sigma'u_0\|^2\le B$ and $\|\sigma'v_0\|^2\le B'$
+this gives $|\sigma'\langle u_0,v_0\rangle|^2\le e^{a_1}BB'$.
+\end{proof}
+
+\begin{theorem}[Form values]\label{pf:fit:formval}
+$F$ implies $\sfname{FinForm}$ (with the loss function $0$) and $\sfname{InfForm}$.
+\formallabel{GlobalTheory.T.form_value_finite_infinite_factorization}
+\formallabel{GlobalTheory.FormVal.form_value_eq_finite_mul_infinite}
+\formallabel{GlobalTheory.FormVal.form_fin_inf_of}
+\end{theorem}
+
+\begin{proof}
+For large data: the form values $f_t(F_x)$ of lattice forms $x$ lie in the lattice of the node $(0,m)$ up to $0$ at every place
+(\lref{GlobalTheory.T.integralGoodForm_values_mem_scaledDualWeylLattice}); this is $\sfname{FinForm}$ with $d_F=0$, a loss
+function for every bound $b_1\ge0$. At the base type, ${}^t\bar xH_V(\mu_0)x\ge0$ and
+$\|f_{\mu_0}(F_x)\|^2\le\#P\cdot D_\Gamma\cdot{}^t\bar xH_V(\mu_0)x$ at every embedding, where $\#P$ is the order of the finite
+group of the level of the family and $D_\Gamma$ a positive integer attached to the definite side \cite{LeanSource2026} (\lref{GlobalTheory.T.baseTupleGoodForm_values_bounded_by_classSum}); and $b_1\ge0$,
+$\#P\cdot D_\Gamma\le e^{ma_1}$ (\lref{GlobalTheory.T.kernelLossBound_nonneg_and_level_card_le_exp}). Together these give
+$\sfname{InfForm}$.
+\end{proof}
+
+\begin{theorem}[Tensor coefficients and data]\label{pf:fit:tensor}
+$F$ implies $\sfname{InfTens}$.
+\formallabel{GlobalTheory.T.sum_size_archimedean_tensor_bound}
+\formallabel{GlobalTheory.SumSize.archimedean_tensor_size_bound_of_local}
+\formallabel{GlobalTheory.ArchTens.infTensAt_of_places}
+\formallabel{GlobalTheory.ArchTens.sum_placeSz_le}
+\end{theorem}
+
+\begin{proof}
+For a local place $w$ of the grid at $\mu_0$ let $s(w)=e(w)\log\Nm(w\cap\OO_F)$; then $\sum_ws(w)\le\sigma(G)$, because the
+local places outside $W_0$ have coset exponent $0$ and $W_0$ is the image of $S_0$ under $v\mapsto w(v)$, with
+$e(w(v))=\mathrm{depth}(v)$ and $w(v)\cap\OO_F=v$. Consider, for a constant $c$, the statements: (Flip$_c$) for every embedding
+$\sigma'$, $|\sigma'T_{\mathrm{flip}}(\mu_0,\Phi,w,z)|\le e^{cm^2N^2s(w)}$; (Dat$_c$) the same for the data
+$\mathrm{dat}_w(\beta)(X,Y)$; (Coef$_c$) $|\mathrm{coef}_w(\beta)|\le e^{cm^2N^2s(w)}$. For large data: Flip$_c$ holds for
+every $c\ge48$ (\lref{GlobalTheory.T.local_character_power_conductor_bound}); Flip$_{c/2}$ implies Dat$_c$ for $c\ge c_2$
+(\lref{GlobalTheory.T.archimedean_tensor_factor_unfolding}); and Coef$_c$ holds for $c\ge c_3$
+(\lref{GlobalTheory.T.archimedean_tensor_volume_bound}). For $C\ge\max(4\cdot48,2c_2,2c_3,0)$, Flip$_{C/4}$ holds, hence
+Dat$_{C/2}$, and Coef$_{C/2}$ holds. Multiplying over the
+local places, the product of the coefficients and the product of the data have absolute values at most
+$\exp(\tfrac C2m^2N^2\sum_ws(w))$ each, so their product is at most $\exp(Cm^2N^2\sigma(G))$.
+\end{proof}
+
+\begin{theorem}[Counting data, cosets and terms]\label{pf:fit:sumcount}
+$F$ and $\sfname{DepthK}$ imply $\sfname{InfCount}$.
+\formallabel{GlobalTheory.T.sum_count_bound_archimedean}
+\formallabel{GlobalTheory.SumCount.archimedean_sum_count_bound}
+\formallabel{GlobalTheory.SumCount.infCountK_of}
+\end{theorem}
+
+\begin{proof}
+$\sfname{InfCount}$ is the conjunction of three $\fitBigC$ statements, and the thresholds are the maxima of theirs: the number of
+data of the grid is at most $e^{ma_1}$ (\lref{GlobalTheory.T.datumCountBound_largeData}); the support of every datum has at
+most $e^{ma_1}$ cosets (\lref{GlobalTheory.T.theta_kCoset_count_formula}, a counting formula for the cosets, from $F$); and
+every coset expansion of depth $e(\beta)$ has at most $e^{ma_1}$ terms
+(\lref{GlobalTheory.T.pureTensorCountBound_of_cosetDepthBound}, from the depth bound $\sfname{DepthK}$).
+\end{proof}
+
+\begin{theorem}[Counting classes]\label{pf:fit:classcount}
+$F$ implies $\sfname{InfClass}$.
+\formallabel{GlobalTheory.T.class_count_bound_archimedean}
+\formallabel{GlobalTheory.ClassCount.archimedean_class_count_bound}
+\end{theorem}
+
+\begin{proof}
+For large data the size rows give $N,f\le b$, $12\le b$, $1\le\mathrm{rd}_E$ and $\log\mathrm{rd}_E\le\log b$, so
+$h(n)=(12f^2n^4\mathrm{rd}_E^2)^{6fn^2}$ satisfies $\log h(N)\le48fN^2\log b$. The norm of the modulus of the grid is at most
+$e^{2\sigma(G)}$ (\lref{GlobalTheory.T.absNorm_gridModulus_le_exp_depthLogNormSum}), and for every definite node $X$ of the
+grid (of rank at most $N$) and every subgroup $K$ containing the principal congruence subgroup of this modulus, the number of
+classes at level $K$ is at most $h(\mathrm{rk}X)\,\Nm(\mathfrak m)^{(\mathrm{rk}X)^2}$
+(\lref{GlobalTheory.T.definiteVertexClasses_card_le_principalCongruence}). Since $h$ is increasing, all these numbers are at most
+$M=h(N)e^{2\sigma(G)N^2}\le e^{K_0}$, $K_0=48fN^2\log b+2N^2\sigma(G)$. The levels of the classes of the grid and of a coset at
+the $m$ top nodes and the $m+1$ row nodes contain the principal congruence subgroup
+(\lref{GlobalTheory.T.principalCongruence_le_topLevel_classSum} and \lref{GlobalTheory.T.classSum_vertexLevels_contain_principalCongruence}),
+so the numbers of classes are at most $M^{2m+1}\le e^{(2m+1)K_0}$. Finally $(2m+1)K_0\le3mK_0\le m\,a_1(C)$ for $C\ge144$, because
+$144fN^2\log b\le Cf N b\log b$ (as $N\le b$) and $6N^2\sigma(G)\le CmN^2\sigma(G)$.
+\end{proof}
+
+\begin{theorem}[Row maps at the infinite places]\label{pf:fit:opposite}
+$F$, $\sfname{Inp}(D)$ for all $D$, the dictionary of local bounds and $\sfname{DepthK}$ imply $\sfname{InfRow}$.
+\formallabel{GlobalTheory.T.sum_size_bound_opposite_conjugation}
+\formallabel{GlobalTheory.SumSize.OppConj.archimedean_sum_size_opposite_conjugate}
+\formallabel{GlobalTheory.SumSize.OppConj.infRowK_of}
+\formallabel{GlobalTheory.SumSize.OppConj.infRowAt_of}
+\end{theorem}
+
+\begin{proof}
+For a linear map $k$ between spaces of vectors with $K$-structure let $\bar k(v)=\overline{k(\bar v)}$. By
+\lref{GlobalTheory.T.conj_mean_kernel_pairing} (from $F$, $\sfname{Inp}$, the dictionary and $\sfname{DepthK}$), for large
+data there is a function $g$ on the infinite places with $\fitmi g\le a_1$ such that at every place $p$
+the top maps multiply the norms by at most $e^{g(p)}$ and the \emph{conjugated} row maps $\bar k$ multiply the norms by at most
+$e^{g(p)}$. Let $\bar p$ be the place of the embedding $p\circ c$, $c$ the complex conjugation of $K$; $p\mapsto\bar p$ is a
+bijection, so $g'(p)=g(\bar p)$ satisfies $\fitmi{g'}=\fitmi g\le a_1$. If $v=\sigma(u)$ has norm at most $B$ at $p$, then $\bar v$
+has norm at most $B$ at $\bar p$ (the norms are computed on the coefficient vectors, and $\sigma\circ c=\bar\sigma$); applying the
+bound for $\bar k$ at $\bar p$ and conjugating back, $k(v)$ has norm at most $e^{g(\bar p)}B=e^{g'(p)}B$ at $p$. This is
+$\sfname{InfRow}$ with the function $g'$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Slopes of test lattices}\label{sec:pf:fit:testlat}
+
+We prove the slope bound for test lattices used in \cref{pf:fit:leafmm}. Let $K$ be a totally complex number field with an
+involution $c$ which is complex conjugation at a place $v_0$, $I$ a finite set (of embedding types), $n\ge1$, and
+$\lambda=(\lambda_\tau)_{\tau\in I}$ dominant weights of rank $n$ with \emph{spread} at most $R\ge1$, i.e.\
+$\lambda_\tau(i)-\lambda_\tau(j)\le R$ for all $\tau,i,j$. Let $G_\tau\in M_n(K)$ be definite Gram matrices, $\mathcal C$ a non-empty
+set and $M(\gamma,\tau)\subseteq K^n$ ($\gamma\in\mathcal C$) $\OO_K$-lattices which are self-dual for $G_\tau$. In the space
+$V_\lambda$ of the representations of highest weights $\lambda$ there are the Weyl-type lattices
+$\Delta_\lambda(M(\gamma))\subseteq\nabla_\lambda(M(\gamma))$ \cite{LeanSource2026}. For an enumeration
+$e\colon\{1,\dots,N\}\to\mathcal C\times(\text{basis of }V_\lambda)$ and lattices $T(\gamma)\subseteq V_\lambda$, the \emph{sum
+lattice} $\Sigma(T)\subseteq K^N$ consists of the vectors whose $\gamma$-components lie in $T(\gamma)$, and $G_\Sigma$ is the
+Gram matrix of the sum of the pairings induced by the $G_\tau$. A lattice $L\subseteq K^N$ with a metric $X$ satisfies the
+\emph{test lattice condition} with bound $B$ if $L$ is finitely generated and non-zero, $X(v)$ is invertible at every infinite place
+$v$, and $\fitmumax(L;X)\le B$. Put $B(f,n,R)=4fnR\log(nR)$.
+
+\begin{theorem}[Slopes of sums of Weyl lattices]\label{pf:fit:testlat}
+In this situation, with $f=|I|$ and $B=B(f,n,R)$:
+\begin{enumerate}[label=(\alph*)]
+\item if $X$ is a metric of $G_\Sigma$, then $\Sigma(\nabla_\lambda(M))$ and $\Sigma(\Delta_\lambda(M))$ satisfy the test lattice
+condition with bound $B$;
+\item if $X$ is a metric of ${}^tG_\Sigma^{-1}$, then the dual of $\Sigma(\Delta_\lambda(M))$ satisfies the test lattice condition
+with bound $B$;
+\item the same conclusions hold for the lattices obtained from self-dual lattices $L(\gamma)$ of a hermitian matrix $J$ over a CM
+field $E$ (positive definite at all embeddings) through embeddings $\epsilon_\tau\colon E\to K$ compatible with the involutions,
+with the Gram matrices $(\epsilon_\tau(J))_\tau$ and their duals.
+\end{enumerate}
+\formallabel{GlobalTheory.TestLat.slope_holds}
+\formallabel{GlobalTheory.TestLat.slopeK_holds}
+\formallabel{GlobalTheory.TestLat.slopeE_holds}
+\formallabel{GlobalTheory.T.maxSlope_sum_weyl_and_dualWeyl_lattices_le}
+\formallabel{GlobalTheory.TestLat.testLatticeCondition_sumLat_nabK_and_delK}
+\end{theorem}
+
+\begin{proof}
+(a) There is an integer $s\ge1$ with $\log s\le B$ such that $s$ times the Weyl pairing of two vectors of
+$\nabla_\lambda(M(\gamma))$ is integral for every self-dual $M(\gamma)$: the normalising constant of the pairing satisfies the
+bound (\lref{GlobalTheory.T.pairing_normalising_constant_log_le_bound}), and the integrality is
+\lref{GlobalTheory.T.extNorm_mul_weylPairing_integral_selfDual}. Let $T(\gamma)$ be lattices with
+$T(\gamma)\subseteq\nabla_\lambda(M(\gamma))$; the lattices $\nabla_\lambda(M(\gamma))$ and $\Delta_\lambda(M(\gamma))$ are lattices
+and $\Delta_\lambda\subseteq\nabla_\lambda$ (\lref{GlobalTheory.T.nablaDeltaOperator_lattice_preserved}). The sum lattice
+$\Sigma(T)$ is a lattice of $K^N$, in particular finitely generated and non-zero
+(\lref{GlobalTheory.T.orthogonalSumCoefficientLattice_isLattice_and_dual}), and $G_\Sigma$ is definite with values
+$x^*G_\Sigma y=\sum_\gamma\langle x_\gamma,y_\gamma\rangle_\gamma$ (\lref{GlobalTheory.T.sumPairingGramMatrix_values_and_definite}).
+Hence $s\,x^*G_\Sigma y\in\OO_K$ for $x,y\in\Sigma(T)$. A non-zero lattice on which $s$ times a definite hermitian form with metric
+$X$ is integral has maximal slope at most $\log s$ (\lref{GlobalTheory.T.maxSlope_le_log_of_integral_hermitian_form}). So
+$\fitmumax(\Sigma(T);X)\le\log s\le B$; apply this to $T=\nabla_\lambda(M)$ and to $T=\Delta_\lambda(M)$.
+
+(b) is \lref{GlobalTheory.T.maxSlope_dual_sum_weyl_lattices_le} (the dual of $\Sigma(\Delta_\lambda(M))$ for the dual metric).
+
+(c) The matrices $\epsilon_\tau(J)$ and their duals are definite Gram matrices, and the transported lattices are self-dual for
+them (\lref{GlobalTheory.T.defGram_selfDual_after_field_embedding}); the lattices of (c) are the lattices of (a) and (b)
+for these data, so (c) follows from (a) and (b).
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Remarks on the formal statements}\label{sec:pf:fit:remarks}
+
+\begin{remark}[Unused hypotheses]\label{pf:fit:rem:unused}
+\begin{enumerate}[label=(\alph*)]
+\item The hypothesis $\sfname{DIVinN}(\mathcal F)$ is not used: it occurs in $\sfname{ConstantFunctionFits}$ and is
+carried through the leaf statements, but none of the leaves, nor $\sfname{ExistsFunctionIn}$, invokes it.
+\item The bound $|\mathrm{logDer}(1)|\le x^\eps$ ($\sfname{LogDer}$) is one of the conditions of the parameter choices of
+the families; the hypothesis $F$ of its formal statement is not used.
+\item In the formal proof of the kernel leaf the hypothesis $\sfname{LinK}$ is not used (it is needed only for the unique map
+leaf).
+\item The formal statement of the archimedean leaf takes $\sfname{ArchSt}$ and $\sfname{BotSmall}$ as hypotheses but does
+not use them; the bound is obtained from the grid statement \cref{pf:fit:archgrid}, whose proof uses the archimedean bound for
+norms of pairs proved independently (\cref{pf:fit:archnorm}).
+\item In \cref{pf:fit:sqtop} the hypothesis of Howe duality at the real place is also a component of $F$.
+\item The formal statement of the ratio formula \cref{pf:fit:petratio}(a) takes $\sfname{LNe}$ as a hypothesis but does not use it;
+the formula holds for all data satisfying the standing conditions.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[The constants]\label{pf:fit:rem:const}
+In \cref{pf:fit:flb} the constant $C$ of the leaf conditions and the constant $C_0$ of the numbers $N_Z(C_0,C_H)$ are
+different: the entry $hh=x^{C_H}b$ of the numbers does not depend on $C_0$, so $\fitFUN$ holds for all values of the constant
+of the numbers, which is the form required in $\sfname{ConstantFunctionFits}$. All numerical constants in the leaf conditions
+are explicit ($10^5$ in $\fitpol$, $1.3\cdot10^{10}$ in \cref{pf:fit:leafnum}, $42$, $45$, $80$); the requirement
+$C_H\ge16(\lceil|C_t|\rceil+10)+1$ is part of the largeness of the families in the sense of \cref{def:families:closed}.
+\end{remark}
+
+\begin{remark}[Where the hypotheses enter]\label{pf:fit:rem:where}
+$\sfname{LambdaLowerBound}_2$ enters only through the leaf \ref{pf:fit:F:IPb}, that is, through lower bounds for the scalars
+$\lambda_{j,\mu_0,p,v}$ at the base type, which by \cref{pf:fit:ip} control the height of $\Psi$ at the infinite places.
+$\sfname{FunctionalsSeparate}$ enters only through $\sfname{InjK}$, that is, through the injectivity of $\Psi$ and the kernel
+of $V_{\mu_0}$. Of the components of $\sfname{JoinOut}$, $\sfname{ToricDenominator}$ enters through $\sfname{ThbSt}$ and
+$\sfname{RhoLow}$, $\sfname{Transport}$ through $\sfname{TorEx}$ and $\sfname{BetaArch}$, $\sfname{TwistedTransport}$ through
+the toric estimate $\sfname{ThA}$, $\sfname{ZetaDenominators}$ through $\sfname{DenEx}$ and $\sfname{DenSum}$, and
+$\sfname{Refl}$ through $\sfname{OneSqSt}$.
+\end{remark}
+
+\begin{remark}[Name]\label{pf:fit:rem:name}
+Despite the names of the statements (``Fourier coefficient fit'', ``constant function fits''), the conclusion is an Arakelov
+upper bound for the maximal slope of a hermitian lattice; the ``fit'' refers to the function datum attached to a grid whose
+values on the base type are the class sums which, by $\sfname{FormulaK}$, coincide up to a constant and roots of unity with
+theta pairings.
+\end{remark}
+

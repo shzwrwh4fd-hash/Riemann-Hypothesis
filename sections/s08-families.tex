@@ -1,0 +1,1180 @@
+\section{Families from iterated theta lifts: the hypothesis package}\label{sec:families}
+
+\providecommand{\familiesstr}{\operatorname{str}}
+\providecommand{\familiesClosed}{\sfname{Closed}}
+\providecommand{\familiesLinked}{\sfname{LinkedAt}}
+\providecommand{\familiesRow}{\sfname{Row}}
+\providecommand{\familiesDiii}{\mathcal{D}_3}
+
+In \cref{sec:top} the main theorem was reduced to three propositions: Green's theorem, the window bound
+$\sfname{VWin}$, and the non-emptiness of the hypothesis package $\sfname{HypsAlt}$ of \cref{def:hyps}, with the
+parameters $\sfname{NL}$ and $\sfname{DefiniteSideCondition}$. In
+\cref{sec:stepanov}
+we explained how an element of the package, together with Green's theorem, yields the proposition
+$\sfname{TopG}$ (\cref{thm:shape}), and how the chain-tied records behind $\sfname{TopG}$ are obtained from a
+list of \emph{links} by the global theorem (\cref{def:links,thm:global-chain}). The present section
+explains where the package comes from and how the individual links are established. Its main result is
+\cref{thm:hyps-nonempty}: the package is non-empty, given two bundles of classical results on unitary groups
+(all of them proved in the formal development), the theta-integral identities of Theorem~K
+(\cref{thm:theorem-K}), the covolume bound of \cref{sec:covolume} and the local parameters of
+\cref{sec:galois}.
+
+The objects involved are large records, and the formal statements are inequalities between their components.
+We name the components that matter, state the results as they are proved, and outline the proofs; complete
+proofs are those of the formal development \cite{LeanSource2026} (results marked~\Fmark), verified as described in
+\cite{Sutherland2026}. The picture of \cite{Announcement2026} recalled below is a guide to the meaning of the
+formal objects; we claim only what the formal statements give.
+
+% ---------------------------------------------------------------------------
+\subsection{Overview}\label{sec:families:overview}
+
+\paragraph{The picture.}
+Stepanov's method bounds the number of rational points of a curve over $\F_q$ by means of an auxiliary function
+vanishing to order $m\asymp\sqrt q$ at every rational point. In the present argument the multiplicity is
+supplied by chains of theta lifts
+\begin{equation}\label{eq:families:chain}
+\Uni(X_0)\longrightarrow\Uni(X_1)\longrightarrow\cdots\longrightarrow\Uni(X_m)
+\end{equation}
+between totally definite unitary groups attached to the CM host field $E$ of \cref{sec:hosts}
+\cite{Announcement2026}. On unramified Satake parameters the $j$-th lift adds a segment of length $t$
+twisted by a Hecke character $\mu_j$ (in the notation of Arthur parameters, $\pi\mapsto\pi\boxplus\mu_j[t]$;
+see \cref{def:families:string}), and each lift plays the role of one order of vanishing. Accordingly the
+length $m$ of the chain is of the order of the square root of the scale: the rank records admitted by the
+host-existence condition $\sfname{HostExW}$ (\cref{def:hostexw}) satisfy
+\begin{equation}\label{eq:families:rankval}
+x^{2+8\eps}\le n\le 2x^{2+8\eps},\qquad (x\delta_1)^{1/2}\le m\le 2(x\delta_1)^{1/2},\qquad
+x^{9/2+10\eps}\le k\le 2x^{9/2+10\eps},
+\end{equation}
+with $\delta_1=x^{-\eps/8}$ (condition $\sfname{RankVal}$ of the development), so that $m$ is of size
+$x^{1/2-\eps/16}$.
+
+From the lifts one builds integral structures: hermitian lattices over the ring of integers of a coefficient
+field $\mathit{LL}$, indexed by characters $\mu$ and by ``words'' $u$, together with a lattice
+$\mathit{RR}$ glued from local lattices. Their local indices at a finite place $w$ measure the $w$-adic
+divisibility of the iterated lifts; their archimedean size is measured by covolumes and by slopes in the sense
+of Stuhler and Grayson \cite{Stuhler1976,Grayson1984}. Three groups of results control these quantities.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Local divisibility.} At the places above the primes in the inert Frobenius classes of the host,
+the gains in divisibility of the lattices dominate the von Mangoldt sums over these classes, and at the level
+primes the lattices are divisible to an order proportional to $m$. The inputs are theta functions of CM
+elliptic curves, whose periods are governed by the Chowla--Selberg formula \cite{ChowlaSelberg1967}, lattices in
+Weyl modules \cite{Weyl1946}, and a local lattice theorem (\cref{thm:linkG,thm:families:local}).
+\item \emph{Archimedean size.} Covolumes, masses and norms of lifts are computed through the Siegel--Weil
+formula, the Siegel mass formula for hermitian lattices and the Rallis inner product formula, and enter slope
+inequalities of the kind used by Bost \cite{Bost1996,Bost2001} (\cref{sec:families:rows,sec:families:links,sec:families:nonempty}).
+\item \emph{Spectral and Galois-theoretic control.} Theta series attached to distinct words are approximately
+orthogonal (Theorem~S, \cref{thm:theorem-S}); spaces of automorphic forms are counted with exponentially small
+relative error (\cref{thm:counting}); Green's theorem controls the irreducible constituents
+(\cref{thm:linkIRR}); and the failure of divisibility at the twisted places is bounded by lengths of Selmer
+groups and of $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ (\cref{thm:linkN}).
+\end{enumerate}
+These inequalities are combined by the global theorem of \cref{sec:stepanov} (\cref{thm:global-chain}).
+
+\paragraph{What must be supplied.}
+\Cref{tab:families:links} lists the links of \cref{def:links} and the results of this section that establish
+them. All links are proved as \emph{closed} properties, i.e.\ for all families of a class with small exponent
+$\eps$ and sufficiently large constants (\cref{def:families:closed}), on the class
+$\familiesDiii=D3(3,\mathcal A)$ attached to the class $\mathcal A$ of an element of the package; the
+hypotheses of the link theorems are fields of the package. Throughout, $D=D_{x,i}$ and $L=L_{x,i}$ denote the
+datum and the size data of a member of a family, $b=\exp(x^\eps)$ and $\Lambda=x^\eps$ are the scale quantities
+of $L$, and $j$ ranges over the lift indices $1\le j\le m$.
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.2\textwidth}>{\raggedright\arraybackslash}p{0.46\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}}
+\caption{The links and where they are established.}\label{tab:families:links}\\
+\toprule
+link & content (eventually in $x$, for all $i\in I_x$) & established in\\
+\midrule
+\endfirsthead
+\toprule
+link & content & established in\\
+\midrule
+\endhead
+$\sfname{LinkN}$ & weighted divisibility defect $\eta\Sigma(L,j)$ at twisted places bounded by
+$d_{Z_0}(j)\bigl(C(fmb\Lambda^2+(\log x)^2N_c)+\sum_\ell\log\ell\sum_{0<e<t}\mathrm{sh}_\ell(E,e)\bigr)$
+& \cref{thm:linkN}; field $\mathsf{nRest}$\\
+$\sfname{LinkIRR}$ & $0\le\delta_p(D)\le\exp(-x^{\eps/(7J)})$: almost all labelled indices are rows
+& \cref{thm:linkIRR} (Green)\\
+$\sfname{LinkG}$ & local lattice lengths at places $w$; at places over primes $p\le X''(n)$ in the inert
+classes, $0\le$ gains $\le4|TT|a/p$, and the gains dominate the von Mangoldt class sums at $p$
+& \cref{thm:linkG,thm:families:local}\\
+$\sfname{LinkS}$ & Hilbert--Schmidt approximate orthogonality of the spaces attached to distinct words
+& \cref{thm:theorem-S,cor:families:linkS}\\
+$\sfname{LinkDIVt}$ & under $\sfname{LinkEta}$ and $\sfname{DIVinN}$: frame, height and Bessel identities for
+the division lattices & \cref{prop:families:div}\\
+$\sfname{LinkEta}$, $\sfname{SmallLevelRankEq}$ & local places cover the twisted places;
+$d_{Z_0}(j)=D_0$ & \cref{rem:families:small}\\
+$\sfname{NuFullF}$, $\sfname{MuRank}$, $\sfname{LinkGLOBAL}$ & mass ratios, volume $=$ mass in rank $r$, slope
+inequalities, column valuations & \cref{prop:families:famgl}\\
+design & existence of large designed families & \cref{prop:families:design}\\
+\bottomrule
+\end{longtable}
+}
+
+\paragraph{How the package is built.}
+An element of $\sfname{HypsAlt}(\mathcal N,\mathrm{DR})$ consists of a family class $\mathcal A$, a
+\emph{selection} $\sigma$ of ``bundles'' for its members, and $44$ further fields (\cref{def:hyps}). The
+construction has three layers: the theta correspondence (\cref{sec:families:theta}); \emph{rows}, i.e.\
+properties of all bundles linked to the points of a construction, proved eventually in the scale and for large
+twisting data (\cref{sec:families:rows,sec:families:galois,sec:families:links}); and the existence of members and
+linked bundles, from which a class and a selection satisfying all rows are extracted
+(\cref{sec:families:nonempty}).
+
+% ---------------------------------------------------------------------------
+\subsection{Unitary groups, theta correspondence and iterated lifts}\label{sec:families:theta}
+
+\paragraph{Global data.}
+The records of \cref{def:record} are built on \emph{global data} $D$. Their components used here are:
+\emph{ranks} $(k,m,t,r,f,n,\dots)$ with $k,m$ even, $t$ odd, $2\le m$, $m+3\le k$, $k+m+4\le t$, $3m<t$,
+$m\le f\le k$ and $m^2\le k+m(t+1)$ ($m$ is the length of the chain \eqref{eq:families:chain} and $t$ the length
+of the segments); a \emph{host}: a CM extension $E/F$, distinguished primes $q,d$ and \emph{type primes}
+$g_0,g_1\ge5$, a finite set of small primes containing $2$, and the imaginary quadratic field $K=\Q(\sqrt{-d})$;
+a totally complex \emph{coefficient field} $\mathit{LL}$, Galois over $\Q$, with characters
+$\mu_w\in\{\mu_0,\mu^{\mathrm{tw}}_w\}$ at its finite places ($w$ is \emph{twisted} if $\mu_w\ne\mu_0$); hermitian
+spaces over $E$ ($Y_j$, $X'$, and $V_i,W_i$ for $0\le i<m$) with Weil representations and theta data; a finite
+set of \emph{words} $u$ with Harish-Chandra parameters and level primes $T_u=\pi\bar\pi$; and Galois data
+(\cref{sec:families:galois}). Size data $L$ consist of a scale $(x,\eps,J)$ with $x>1$, $0<\eps<1/52$, $J\ge1$, a
+finite support of places of $\mathit{LL}$, local weights, and derived quantities such as $\Lambda=x^\eps$,
+$b=e^{x^\eps}$, $N_c$ and the dimensions $d_{Z_0}(j)$.
+
+\paragraph{The two bundles of classical results.}
+The construction starts from two propositions,
+$P:\sfname{UnitaryGroupThirdPlaceHypotheses}$ and $F:\sfname{ThetaLocalInputs}$, conjunctions of $60$ and $53$
+classical results: Harish-Chandra's theory of discrete series of $\Uni(p,q)$
+\cite{HarishChandra1966,HarishChandra1968}, Casselman--Wallach globalisation, Dixmier--Malliavin and Flath
+factorisation, rapid decay and trace class for cusp forms; Weil representations of unitary dual pairs
+\cite{Kudla1994}, Howe duality at the real place, the Siegel--Weil and Weil--Siegel formulas in the convergent
+range \cite{Weil1965,KudlaRallis1988,Ichino2004}, the doubling method \cite{GelbartPiatetskiShapiroRallis1987} and
+the Rallis inner product formula \cite{Rallis1984}; Bernstein--Zelevinsky theory and Green's cuspidal characters
+\cite{Green1955}; class field theory, CM elliptic curves and Chebotarev's theorem; local Tate duality, Fontaine's
+$B_{\mathrm{cris}}$, the Bloch--Kato conditions and the comparison of Bhatt--Scholze; Galois representations of
+polarized cuspidal representations, base change for definite unitary groups, depth-zero support and partial
+Hecke $L$-functions. Every field of $P$ and $F$ is a theorem of the formal development (\cref{sec:literature});
+four fields of $P$ are deduced from the statements of \cref{sec:galois}. (One field of $P$, named after the simple
+pole of Siegel Eisenstein series, is the trivial proposition; the pole used in \cref{prop:families:liftinj} is
+obtained from partial Hecke $L$-functions.)
+
+\paragraph{Complementary spaces and Theorem K.}
+Let $E/F$ be a CM extension, $V$ and $V'$ hermitian spaces of dimensions $a>a'$, and $W$ a skew-hermitian
+space of dimension $a+a'$ (which is even). Let $\alpha,\beta$ be Hecke characters of $\A_E^\times$, let $\omega$
+be a Weil representation of $\Uni(V)\times\Uni(W)$ with splitting characters $(\beta,\beta/\alpha)$ and
+$\omega'$ one of $\Uni(V')\times\Uni(W)$ with splitting characters $(\alpha,\alpha/\beta)$, and consider the
+theta integrals
+\[
+I(\Phi)(h)=\int_{\Uni(V)(F)\backslash\Uni(V)(\A)}\theta(g,h;\Phi)\,dg,\qquad
+I'(\Phi')(h)=\int_{\Uni(V')(F)\backslash\Uni(V')(\A)}\theta'(g',h;\Phi')\,dg'.
+\]
+A configuration is \emph{admissible} if $E/F$ is unramified at all finite places, $E/\Q$ is Galois, all inert
+places are odd of norm $>3$, the infinity types satisfy $m_\alpha-m_\beta>a+a'$, and $a-a'$ and $a'$ are large
+compared with the real rank $p+q$ of $V'$.
+
+\begin{definition}[Local matching; agreement of theta integrals]\label{def:families:K}
+$\sfname{LocalMatching}$ asserts: for every admissible configuration there are local identifications (``real
+and finite maps'') under which, at every place $v$, a common irreducible quotient of the local theta lifts of
+the trivial representations of $\Uni(V_v)$ and $\Uni(V'_v)$ is matched, with matching spherical vectors and,
+at the finitely many ramified split places, an explicit description by zeta integrals of Godement--Jacquet
+type. $\sfname{ThetaIntegralsAgree}$ asserts: (i) for admissible configurations the theta functions and
+integrals converge and are of moderate growth ($I'$ only for $\Phi'$ whose component at an auxiliary split
+place is supported on matrices of full rank), and for matched data there is a unique constant $c\ne0$ with
+$I(\Phi)=c\,I'(\Phi')$ for all globally matched pairs $(\Phi,\Phi')$, together with a description of the local
+coinvariants; (ii)--(iii) two \emph{step relations}: removing a hyperbolic plane from $V'$ (resp.\ $V$) and
+from $W$ multiplies the constant by an explicit factor built from partial Hecke $L$-values
+$L^{S_0}(k,\alpha/\beta)$ at integers $k\ge2$, local epsilon factors and values of $\alpha/\beta$ on fractional
+ideals, up to a non-zero constant depending only on the geometric data.
+\end{definition}
+
+\begin{theorem}[Theorem K]\Fmark\label{thm:theorem-K}
+$\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ hold.
+\formal{PositivityTheory.ThKR.theoremK_head2}
+\formal{UpperTheory.LiteratureTheorems.theta_integrals_agree_and_local_matching_of_literature}
+\end{theorem}
+
+\begin{proofoutline}
+Two analytic inputs are proved first: the meromorphic continuation of Siegel Eisenstein series on
+$\Uni(Y\oplus-Y)$ (cf.\ \cite{Langlands1976}), and the Siegel--Weil formula for a definite space $A$ of dimension
+$m$ paired with $Y\oplus-Y$, $\dim Y=n$: at $s_0=(m-n)/2$ the Eisenstein series of $\Phi$ equals
+$\kappa\,\mu(\mathcal D)^{-1}\int_{\mathcal D}\theta$, with $\kappa\in\{1,2\}$ \cite{Weil1965,KudlaRallis1988,Ichino2004};
+the latter by Poisson summation and a comparison of Whittaker--Fourier coefficients (about $21\,000$ lines). From
+fourteen local and analytic statements (local matching at split, inert and ramified places, Howe's unramified
+computation \cite{Howe1979}, a modulus computation at inert places, reduction theory, existence of Weil
+representations) one derives twenty-six ``leaves'' (constant terms along hyperbolic planes, local factors of the
+steps, non-vanishing of the bottom constant via the doubling integral, the definite base case); the theorem then
+follows by induction on $p+q$.
+
+%P2PTR thm:theorem-K
+A complete proof is given in \cref{sec:pf:thmK}.
+\end{proofoutline}
+
+\begin{remark}\label{rem:families:K}
+Identities between theta integrals of complementary spaces are of the type of the first-term identities of the
+regularised Siegel--Weil formula \cite{KudlaRallis1994,Ichino2004,GanQiuTakeda2014,Yamana2014}, and
+$\sfname{LocalMatching}$ concerns the local theta correspondence of the trivial representation
+\cite{HarrisKudlaSweet1996,KudlaSweet1997,Minguez2008}; we do not know a published statement of this form. The
+second formal name takes an argument (three statements of \cref{sec:galois}) which is not used.
+\end{remark}
+
+\paragraph{Lifts and segments.}
+The basic step of \eqref{eq:families:chain} is the theta correspondence between $\Uni(W)$ and a totally
+definite $\Uni(V)$ with $\dim V=\dim W+t$ and $\dim W=r$.
+
+\begin{definition}[Segments]\label{def:families:string}
+For $q>0$, $z\in\C^\times$ and $n\ge1$ let $\familiesstr(q,z,n)$ be the multiset
+$\{z\,q^{(n-1)/2-k}:0\le k<n\}$. A system $s$ of Hecke eigenvalues on $\Uni(V)$ (at the primes of $E$ prime to
+the level) \emph{has a segment} if it admits a Satake family $B$ of rank $\dim V$ such that at all good places
+$w$
+\[
+B(w)=B'(w)+\familiesstr\bigl(\Nm w,\chi_V(w),t\bigr),\qquad |b|\le\Nm w^{(r-1)/2}\ \text{for } b\in B'(w),
+\]
+where $\chi_V(w)$ is the value at $w$ of the unitary Hecke character attached to the splitting data.
+\end{definition}
+
+\begin{proposition}[Non-vanishing and injectivity of the lifts]\Fmark\label{prop:families:liftinj}
+Let $D$ be a global datum and $R$ a realisation of its theta data satisfying the standing hypotheses of the
+development (core conditions, good types at $g_0,g_1$, and a gap of at least $100r^4$ between consecutive
+Harish-Chandra parameters). For $0\le i<m$ consider the lift from the definite $\Uni(V_i)$ to $\Uni(W_i)$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item every non-zero Hecke eigenvector on $\Uni(V_i)$ whose system has a segment has a non-zero theta lift to
+$\Uni(W_i)$;
+\item a ``good'' eigenvector (one fixed by the idempotent of the type) whose system has a segment and whose lift
+vanishes is zero;
+\item if $x,y$ are eigenvectors at the base character $\mu_0$ with the same system, the lift of $x$ is non-zero,
+$y$ is good and the lift of $y$ vanishes, then $y=0$.
+\end{enumerate}
+\formal{GlobalTheory.T.liftInj_and_nonVan_typeNZ_of_given}
+\end{proposition}
+
+\begin{proofoutline}
+This is the principle ``pole $\Rightarrow$ non-vanishing $\Rightarrow$ injectivity'' of Rallis and
+Kudla--Rallis \cite{Rallis1984inj,KudlaRallis1994,GanQiuTakeda2014,Yamana2014}, from rapid decay of cusp forms,
+the doubling method, the unramified doubling computation for $\GL_n$, partial Hecke $L$-functions and Howe's
+unramified statement. If the parameters have a segment, the twisted partial $L$-function factors as
+$L^S_{\mathrm{tw}}(s)\prod_{i=0}^{t-1}\zeta_E^S\bigl(s+\tfrac{t-1}2-i\bigr)$; at $s_0=(1+t)/2$ the arguments
+of $\zeta_E^S$ are $t,t-1,\dots,1$, so there is a simple pole, the first factor being holomorphic and non-zero
+because $r+5\le t$. Through the doubling integral and a residue identity for Siegel Eisenstein series on
+$\Uni(n,n)$ (about $70\,000$ lines) the pole forces a non-zero lift. The unramified correspondence,
+$B(w)=B'(w)\chi_V(w)\chi_W(w)^{-1}+\familiesstr(\Nm w,\chi_V(w),t)$ when $\theta(y)\ne0$ has Satake parameters
+$B'$, follows from Howe's computation \cite{Howe1979} and gives (b) and (c).
+
+%P2PTR prop:families:liftinj
+A complete proof is given in \cref{sec:pf:liftinj}.
+\end{proofoutline}
+
+\paragraph{Towers, seesaws and Bessel periods.}
+The second ingredient is a separation statement for ``rows'': vectors in the multiplicity spaces of the tower
+built by iterating the lifts along $(0,0)\to(1,0)\to\cdots\to(m,0)$.
+
+\begin{proposition}[Separation of rows by theta pairings]\Fmark\label{prop:families:fs}
+$\sfname{ThetaLocalInputs}$, Howe's unramified statement and the Siegel--Weil formula in the convergent range
+imply $\sfname{FunctionalsSeparate}$: for every $\eps$ and every $C_F\ge6510$ there is $x_0$ such that for every
+datum and size data at a scale $x\ge x_0$, every realisation at the base level and every non-zero smooth vector
+$w$ of the base model, each non-zero row form built from $w$ is detected by a convergent pairing with a column
+theta function: $f_{\Psi,\Phi}(\mathrm{rowForm}(w,t))\neq0$ for suitable $(\rho,\xi,\Psi,\Phi)$.
+\formal{UpperTheory.Lit.functionalsSeparate_of_howeUnram_of_siegelWeil}
+\end{proposition}
+
+\begin{proofoutline}
+Every node $(i,0)$, $i\le m$, carries a discrete series model; seesaw pairs give polynomial intertwiners
+realising the theta pairing of vacuum vectors; the lift along each arrow converges and preserves
+multiplicity-one theta vectors. For every non-zero row form some core form has non-zero period against it, and
+core forms lie in the span of the reachable vectors (by Howe's unramified statement and the Siegel--Weil formula).
+The decisive step is an \emph{ascent of Bessel periods}: along a column chain, non-vanishing of the bottom period
+implies non-vanishing of the top Bessel pairing of some theta lift (about $34\,000$ lines); a Bessel-gap argument
+concludes. The archimedean input consists of orthogonality relations and decay estimates for matrix coefficients
+of discrete series of $\Uni(n+1)$- and $\Uni(n)$-type groups with interlacing parameters.
+
+%P2PTR prop:families:fs
+A complete proof is given in \cref{sec:pf:fs}.
+\end{proofoutline}
+
+\begin{remark}\label{rem:families:seesaw}
+This corresponds to the seesaw step of \cite{Announcement2026}, in which the period of the iterated lift is
+expressed through a Bessel period, as in the Gan--Gross--Prasad framework and the descent method
+\cite{GanGrossPrasad2012,GinzburgRallisSoudry2011}; seesaw pairs and towers are classical
+\cite{Kudla1994,HarrisKudlaSweet1996}, see also \cite{Li1992}. The uniqueness of Bessel models used for discrete
+series with large gap is a special case of \cite{JiangSunZhu2010,SunZhu2012}, proved inside the development.
+\end{remark}
+
+\paragraph{Rationality of the theta vectors.}
+For complex realisation data $X$ (a finite-dimensional space and theta maps from the rational points of the
+family into it) the \emph{row test} $\sfname{RowTest}(X)$ asserts that some linear forms separate points and
+take values in the base number field on all theta vectors. $\sfname{RowRat}$ asserts $\sfname{RowTest}$,
+eventually in the scale and for large twisting data, at all starting configurations of the construction of
+\cref{sec:families:nonempty}.
+
+\begin{proposition}[Rationality of rows]\Fmark\label{prop:families:rowrat}
+$P$, $F$, \cref{thm:theorem-K} and $\sfname{FunctionalsSeparate}$ imply $\sfname{RowRat}$.
+\formal{GlobalTheory.T.test_vector_assembly_holds}
+\end{proposition}
+
+\begin{proofoutline}
+By unfolding the theta integrals into orbit sums (a method going back to Rallis \cite{Rallis1984}), a flip
+invariance of the twisted lifts and the assembly of their jets, the theta pairings are, up to a universal
+constant $\kappa$ and roots of unity, class sums with values in the number field. Non-vanishing of Hecke
+$L$-values (from the functional equation \cite{Tate1967thesis}), a Witt-tower norm formula, injectivity from
+$\sfname{FunctionalsSeparate}$ and cuspidality of the lifts give the separating forms.
+
+%P2PTR prop:families:rowrat
+A complete proof is given in \cref{sec:pf:rowprops}.
+\end{proofoutline}
+
+\begin{remark}\label{rem:families:mult}
+Several rows also use an equality of cuspidal multiplicities for $\Uni(Y_0)$ and $\Uni(W_i)$ when $Y_0$ and $W_i$
+are isometric at all finite places, proved by a simple trace formula with pseudo-coefficients at infinity and
+types at a finite place \cite{DeligneKazhdanVigneras1984,Arthur1989,ClozelDelorme1984}; it is a comparison of
+multiplicities, not multiplicity one in the sense of \cite{AizenbudGourevitchRallisSchiffmann2010}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Rows and linked bundles}\label{sec:families:rows}
+
+\paragraph{Families and closedness.}
+We recall the notions of \cref{sec:top,sec:stepanov} in the form used here.
+
+\begin{definition}[Families; closed properties]\label{def:families:closed}
+A \emph{family} $\mathcal F\in\sfname{FamP}(\eps)$ consists of a threshold $x_1>1$, index sets $I_x$
+($x\in\R$), members $(D_{x,i},L_{x,i})$ whose size data have scale $(x,\eps)$ for $x>x_1$, extra data
+$\mathrm{ex}(x,i)$ (levels, theta data, twists and a \emph{norm choice} $\mathrm{nch}_{x,i}$), and lists of
+family constants; a \emph{family class} is a predicate on families. For a class $\mathcal C$ and a property
+$P(\mathcal F,C_H)$, $\familiesClosed(\mathcal C,P)$ means: there is $\eps_1>0$ such that for every
+$\eps\in(0,\eps_1]$ there is a staged threshold $K$ with $P(\mathcal F,C_H)$ for all
+$\mathcal F\in\mathcal C\cap\sfname{FamP}(\eps)$ and all $C_H$ for which the constants of $\mathcal F$ are large
+with respect to $(K,C_H)$. For a class $\mathcal A$, $\familiesDiii=D3(3,\mathcal A)\subseteq\mathcal A$ is the
+subclass of \emph{designed} families (twist goodness $\sfname{TwGood}$, smoothness, divisibility, tameness and
+box conditions, the size conditions $\sfname{TuSize}$, $\sfname{DGamSize}$ and a choice at level $3$).
+\end{definition}
+
+A closed property says nothing about classes without large members; existence of large members is a separate
+statement (the field $\mathsf{hEx}$ of the package, \cref{sec:families:nonempty}).
+
+\paragraph{Points, bundles and rows.}
+The members of the families in the package are produced by a construction, and their properties are proved
+uniformly for all its outputs. A \emph{context} fixes a scale and constants (``eventually in the scale'' means:
+for small $\eps$, staged large constants and then large $x$). A \emph{base} fixes ranks, host, hermitian spaces,
+the words $u$ and a coefficient field; a \emph{frame} fixes Hecke characters of $E$; twisting data are described
+in \cref{def:families:twist}. A \emph{core} is the datum at one level of a construction, and a \emph{slot} is a
+predicate on cores. A \emph{bundle} over a datum consists of a reciprocity record, spectral ties, a row-side
+family, square-integrable columns and an \emph{indefinite realisation} (the theta package on the indefinite side
+with its lattices and metrics); a \emph{linkage} relates bundles to points; and a \emph{selection} $\sigma$ for a
+class $\mathcal A$ chooses a bundle $\sigma(\mathcal F,x,i)$ over each member $D_{x,i}$, $\mathcal F\in\mathcal A$.
+
+\begin{definition}[Rows; linked statements]\label{def:families:rows}
+Let $Q$ be a slot, $\mathrm{Lk}$ a linkage and $H(\mathcal A,\sigma)$ a property of classes with selections.
+$\familiesRow(Q,\mathrm{Lk},H)$ means: there is a property $E$ of bundles which holds, eventually in the scale,
+for all bundles linked to points of $Q$, such that $H(\mathcal A,\sigma)$ holds for every class $\mathcal A$
+and every selection $\sigma$ whose bundles are built from points of $Q$ and satisfy $E$. A \emph{parameter}
+$p$ consists of a norm-choice extension (extra data demanded at each point), a spectral extension and a
+geometric predicate; it determines slots $\sfname{IsGoodE}(p)\subseteq\sfname{IsBuiltE}(p)$ of good and built
+points and a linkage $\sfname{BundleLinkage}(p)$. For a property $r$ of slots and linkages,
+$\familiesLinked(p,r)$ means: there is a slot $R$ which, eventually in the scale and for large twisting data,
+contains every built point, such that $r\bigl(\sfname{IsGoodE}(p)\wedge R,\ \sfname{BundleLinkage}(p)\bigr)$.
+\end{definition}
+
+Linked rows are closed under conjunction, and passing to a stronger norm-choice extension (fewer built and good
+points) preserves them. The structure $\sfname{AllRowsAlt}$ is the conjunction of twenty-six linked rows which
+correspond to the fields of $\sfname{HypsAlt}$ concerning the selection (\cref{tab:families:fields}).
+
+\begin{proposition}[The row package]\Fmark\label{prop:families:allrows}
+Assume global Artin reciprocity, the Siegel--Weil formula in the convergent range (\cref{lit:families:sw}), five
+classical statements on real unitary groups and their automorphic forms, $\sfname{SurjectiveOntoX}$ and
+$\sfname{LambdaLowerBound}_2$ (\cref{sec:families:nonempty}), and $\sfname{RecTExists}$. Let $p$ be a parameter
+attached to a norm-choice extension and $\mathcal N$ a predicate on classes. If the twelve open parameter
+statements hold for $p$ (\cref{thm:families:open}) and $p$ is linked for the covolume row, the functional row and
+the norm row of $\mathcal N$, then $\sfname{AllRowsAlt}$ holds for $p$, with norm predicate $\mathcal N$ and
+definite-side condition $\sfname{DefiniteSideCondition}$.
+\formal{GlobalTheory.Fc.AllAtMemberStage0.allRows_of_open0_alt}
+\end{proposition}
+
+\begin{proofoutline}
+Six rows are hypotheses, and several hold for every slot and linkage. The substance lies in the local rows from
+the Siegel--Weil formula (\cref{thm:theorem-S}), the service row (CM theory, below), the counting row
+(\cref{thm:counting}), the period rows (\cref{prop:families:periods}) and the definite rows.
+
+%P2PTR prop:families:allrows
+A complete proof is given in \cref{sec:pf:rows}.
+\end{proofoutline}
+
+\paragraph{The Siegel--Weil formula and its consequences.}
+The archimedean size of the construction is controlled through the following classical theorem, which is a
+field of $P$ and is proved in the development.
+
+\begin{littheorem}[Siegel--Weil formula, convergent range {\cite{Siegel1935,Weil1965}}]\label{lit:families:sw}
+Let $E/F$ be a CM extension, $J$ a non-degenerate hermitian $M\times M$ matrix over $E$ and $H=\Uni(J)$. Then
+$H(F)\backslash H(\A_F)$ has finite volume, and if $2n<M$, $T\in M_n(E)$ is hermitian with $\det T\ne0$, and
+$\Phi=\Phi_\infty\otimes\bigotimes_v\Phi_v$ on $(\A_E^M)^n$ has $\Phi_\infty$ smooth and compactly supported and
+$\Phi_v$ Schwartz--Bruhat (almost all standard), then the mean over $H(F)\backslash H(\A_F)$ of
+$h\mapsto\sum_{X\in(E^M)^n,\ (h_J(x_a,x_b))=T}\Phi(h^{-1}X)$ equals $g_\infty(T)\prod_{v<\infty}g_v(T)$, where
+$g_\infty,g_v$ are the densities of the push-forwards of $\Phi_\infty,\Phi_v$ under the Gram map (for self-dual
+measures).
+\end{littheorem}
+
+The formal statement is the special case of Weil's theorem with compactly supported $\Phi_\infty$; regularised
+versions \cite{KudlaRallis1988,KudlaRallis1994,Ichino2004,Yamana2014} are not needed.
+
+\begin{proposition}[Consequences of the Siegel--Weil formula]\Fmark\label{prop:families:volratio}
+\Cref{lit:families:sw} implies: (i) a mass-ratio identity for the hermitian volumes of every datum;
+(ii) the Siegel--Weil volume identities $\sfname{SWXS}$ for the CM and hermitian steps of every Hida setting;
+(iii) a bound $\varepsilon_{\mathrm{NG}}\,d_ud_{u'}/D_*$ for the non-generic terms of the orbital expansions
+below ($\sfname{RowNGP}$); and (iv) the volume recursion $\sfname{VolumeStep}$: an automorphic instance $I$ of a
+unitary group of rank $n\ge3$ and the instance $I'$ of rank $n-1$ given by the stabiliser of a vector $x$ with
+$\langle x,x\rangle=\pm1$ satisfy $\vol(I)/v_U(n)^{f}=\mathrm{massRatio}(E,n)\,\vol(I')/v_U(n-1)^{f}$, where
+$f=[F:\Q]$, $v_U$ is explicit and $\mathrm{massRatio}(E,n)$ is the right-hand side in \cref{prop:families:mass}.
+\formal{GlobalTheory.GaussMean.volumeStep_of_siegelWeil}
+\end{proposition}
+
+\begin{proofoutline}
+For $n=1$ the formula gives Siegel's mean-value formula for one vector; a limiting argument extends it to
+general test functions, and unfolding the mean of a Gaussian over the orbit of a unit vector gives (iv). The
+bound (iii) also uses the uniqueness of Bessel models for discrete series with large gap.
+
+%P2PTR prop:families:volratio
+A complete proof is given in \cref{sec:pf:rows}.
+\end{proofoutline}
+
+\paragraph{Approximate orthogonality.}
+For a member of a family and a word $u$, the spectral data of the selection provide a Hida setting (an
+automorphic instance of a unitary group over $E$ with a level and discrete series data at infinity) and a space
+$C_u$ of automorphic forms of dimension $d_u$. Let $D_*$ be the \emph{main term} (formal degree times volume times
+the value at $1$ of the level idempotent). For words $u,u'$ the operator relating their flag data has an orbital
+expansion over pairs of row lattices $\Lambda,\Lambda'$ and classes of rational isometries $\gamma$ with
+$\gamma\Lambda'=\Lambda$; let $K_0(u,u')$ be its leading coefficient (identity, generic and non-generic terms).
+
+\begin{theorem}[Theorem S]\Fmark\label{thm:theorem-S}
+Assume $\sfname{SWXS}$, $\sfname{RowNGP}$ and finite-dimensionality of the row spaces. Let $\mathcal C$ be a
+family class with a spectral selection such that all selected data are locally tied, the rank row
+$\familiesClosed(\mathcal C,\sfname{RanksF})$ holds, and the loop rows hold. Then, closedly on $\mathcal C$,
+eventually in $x$: for all $i\in I_x$ and all distinct words $u\ne u'$ of $D_{x,i}$ (under the admissible
+bounds of the selection),
+\[
+\|K_0(u,u')\|^2\ \le\ \bigl(1+b^{-6}\bigr)\,\frac{d_u\,d_{u'}}{D_*},\qquad b=e^{x^\eps}.
+\]
+\formal{GlobalTheory.CarrierGap.offDiag}
+\end{theorem}
+
+\begin{proofoutline}
+The proof (about $193\,000$ lines) first establishes the bound pointwise, for every datum and pair of distinct
+words satisfying size, count, gap and local-tie hypotheses, the trace frame and the loop-row inequalities; the
+same bound holds for the Hilbert--Schmidt mass of the off-diagonal block. Its nineteen hypotheses come from local
+models, density inputs, $\sfname{RowNGP}$, $\sfname{SWXS}$, convergence and folding of the orbital integrals,
+Wu decay and a counting formula. The key analytic input is a lower bound for ``Poincar\'e amplitudes'' (about
+$67\,000$ lines), deduced from a compact-model theorem, a model lemma for oscillatory orbital integrals (stationary
+and non-stationary phase) and the uniqueness of Bessel models in large gap. A transport lemma passes to families.
+
+%P2PTR thm:theorem-S
+A complete proof is given in \cref{sec:pf:thmS}.
+\end{proofoutline}
+
+\begin{remark}\label{rem:families:random}
+For orthogonal projections $P,P'$ onto a fixed subspace of dimension $d$ and a uniformly random subspace of
+dimension $d'$ of $\C^{D}$ one has $\mathbb E\,\|PP'\|_{\mathrm{HS}}^2=dd'/D$. Theorem~S and $\sfname{LinkS}$
+(\cref{cor:families:linkS}) say that the spaces attached to distinct words are, up to a factor $1+o(1)$, as
+orthogonal as independent random subspaces of dimension $D_*$: the approximate orthogonality of the columns of
+the integral structure in \cite{Announcement2026}, described there through a relative trace formula and projected
+Poincar\'e series. We do not know of a published result of this form.
+\end{remark}
+
+\paragraph{Counting.}
+Let $I$ be an automorphic instance of a unitary group of rank $n$ over a CM extension $E/F$, $f=[F:\Q]$, with
+root discriminant $r_d$, discrete series data with Harish-Chandra parameters $\lambda_v$ at the infinite places,
+a level and a type at an auxiliary prime $g_0$. Let $D_{\mathrm{count}}$ be the dimension of the space of
+automorphic forms of the given type, and $D_*$ the main term.
+
+\begin{theorem}[Automorphic counting with exponentially small error]\Fmark\label{thm:counting}
+Assume the volume recursion $\sfname{VolumeStep}$ of \cref{prop:families:volratio}. For every $C_g$ there is
+$n_0$ such that the following holds for every instance as above of signature $(p,q)$ and every $b\ge2$ with
+$n\ge n_0$, $q^2\le n$, $\log r_d\le e^n$, $\log f\le\sqrt n$, $\log b\le\exp(\tfrac1{16}nf\log n)$,
+$|\lambda_v(a)|\le b^2$, a level of size $1\le g\le b^{C_g}$ and a type prime $g_0>4n$ split completely in
+$E$: if all $\lambda_v$ have gaps at least $8\cdot10^{14}(C_g+4)\,n^{19}f^5\log(b\,r_d)$, then the space of
+automorphic forms is finite-dimensional and
+\[
+\bigl|D_{\mathrm{count}}-D_*\bigr|\ \le\ e^{-\frac1{16}nf\log n}\,D_* .
+\]
+\formal{GlobalTheory.CountFinal.countingTheorem_of_volumeStep}
+\end{theorem}
+
+\begin{proofoutline}
+A pre-trace formula argument (about $36\,000$ lines). A compression formula for the lowest $K$-type gives
+decay and a pointwise bound for discrete series matrix coefficients with large gap. By induction on $n$,
+$\sfname{VolumeStep}$ gives an absolute volume bound and bounds for the probability of isotropic and of non-zero
+flags. These control the contributions of the near-identity, far, rare-flag and deep regions of the geometric
+side, so that $D_{\mathrm{count}}$ equals the identity contribution $D_*$ up to the stated error.
+
+%P2PTR thm:counting
+A complete proof is given in \cref{sec:pf:rows}.
+\end{proofoutline}
+
+\begin{remark}\label{rem:families:counting}
+Limit multiplicity and Plancherel equidistribution for families of automorphic representations are known with
+power savings in the level \cite{Shin2012,ShinTemplier2016}; \cref{thm:counting} is of a different nature, with a
+relative error exponentially small in $nf\log n$ under a gap condition. Applied to the label data at the type
+primes it yields the counting row of the package, with relative error $\exp(-c\,rf\log r)$.
+\end{remark}
+
+\paragraph{Masses.}
+The mass of a hermitian lattice is the sum of $1/|\Aut|$ over a set of representatives of the classes in its
+genus.
+
+\begin{proposition}[Siegel mass ratio]\Fmark\label{prop:families:mass}
+Let $K$ be a CM field such that $K/K^+$ is unramified at all finite primes, $d=[K^+:\Q]$,
+$v=|\mathrm{disc}\,K|^{1/(2d)}/2$ and $M\ge3$. Let $\mathrm{mass}_M$ be the mass of the standard lattice
+$\OO_K^M$ with the form $\sum_i\bar x_iy_i$. Then
+\begin{gather*}
+\frac{\mathrm{mass}_M}{\mathrm{mass}_{M-1}}=\frac{\bigl((M-1)!\,(v/\pi)^M\bigr)^{d}}{(2v)^{d/2}}
+\prod_{\mathfrak P}e_M(\mathfrak P),\\
+e_M(\mathfrak P)=\bigl(1-(-1)^M\Nm\mathfrak P^{-M/2}\bigr)^{-1}\ \text{if }\bar{\mathfrak P}=\mathfrak P,\qquad
+e_M(\mathfrak P)=\bigl(1-\Nm\mathfrak P^{-M}\bigr)^{-1/2}\ \text{if }\bar{\mathfrak P}\ne\mathfrak P,
+\end{gather*}
+the product running over the primes of $K$; it equals $L(M,\eta^M)$ for the quadratic character $\eta$ of
+$K/K^+$.
+\formal{GlobalTheory.Mass.massRatio_all_unramified_cmFields}
+\end{proposition}
+%P2PTR prop:families:mass
+\begin{proof}See \cref{sec:pf:bundles}.
+\end{proof}
+
+
+This is a mass-ratio form of Siegel's mass formula for unimodular hermitian lattices
+\cite{Siegel1935,Prasad1989,GanHankeYu2001}. It enters the volume recursion, the class-number and genus-mass
+rows, the explicit normalising constant of the row counts (a unitary analogue of Siegel's mass formula for the
+row lattices, proved from $\sfname{SWXS}$), and the family statements of \cref{prop:families:famgl}.
+
+\paragraph{Periods, levels and CM theta functions.}
+The remaining rows concern the arithmetic of the period entries. At good points the data are assembled from
+``true columns'', and six rows hold for every slot and linkage.
+
+\begin{proposition}[Period entries and level valuations]\Fmark\label{prop:families:periods}
+At bundle points over true columns, eventually: the reference-chain evaluation maps are injective with integral
+period points; the periods at $\mu_0$ and at twisted characters are values of elements $y\in\mathit{LL}$ with
+$y=0$ or $v_w(y)$ bounded below explicitly at every place $w$ (outside the twisting primes in the twisted case);
+the real-place ties hold; and at every place $w$
+above the level prime $T_u$ of a word $u$, if $c\in\mathit{LL}$ has $v_w(c)\ge e_w\,m\,E_T(u,w)$, then
+$c\cdot\mathrm{col}_T(u,\varphi)$ lies in the lattice $S_m(w)$ for all columns $\varphi$ in the relevant range.
+\formal{GlobalTheory.T.period_entries_tie_and_level_valuations_at_built}
+\end{proposition}
+%P2PTR prop:families:periods
+\begin{proof}See \cref{sec:pf:rows}.
+\end{proof}
+
+
+The last statement (about $35\,000$ lines) is a divisibility at the level primes whose order is proportional to
+the chain length $m$. The \emph{service row} concerns the theta kernels of the construction, whose theta
+component is built from CM elliptic curves: the lattice $\delta\cdot\mathfrak c\subset\C$ of a non-zero ideal
+$\mathfrak c$ of $\OO_K$ of norm prime to $2d$, where $\delta^{12}$ is the discriminant of the lattice
+$\mathfrak c$, with a marked $2$-torsion point. From global Artin reciprocity and the Chebotarev density theorem
+the development proves that these curves have good models over $\Q_\ell^{\mathrm{ur}}$ for $\ell\nmid6d$
+\cite{Deuring1941,SerreTate1968,Shimura1971}, that at primes $\ell\ge5$ inert in $K$ their formal groups become
+Lubin--Tate after a unit twist \cite{Honda1970}, and that their prime-to-$\ell$ torsion points are integral; it
+deduces the algebraicity of the Taylor coefficients of the normalised theta functions at torsion points and the
+integrality of the kernels at inert primes.
+
+\begin{proposition}[Chowla--Selberg]\Fmark\label{prop:families:cs}
+Let $K$ be an imaginary quadratic field of discriminant $-d$ with $d>4$, $\chi$ its Kronecker character and
+$h$ its class number. Then $L(1,\chi)=\pi h/\sqrt d$, and for points $\tau_{\mathfrak c}$ of the upper half plane
+representing the ideal classes $\mathfrak c$ of $K$,
+\[
+\frac1h\sum_{\mathfrak c}\log\bigl(4\pi\,\Im(\tau_{\mathfrak c})\,|\eta(\tau_{\mathfrak c})|^4\bigr)
+=\gamma+\log\frac{2\pi}{\sqrt d}-\frac{L'(1,\chi)}{L(1,\chi)} .
+\]
+\formal{GlobalTheory.chowla_selberg}
+\end{proposition}
+
+This is the formula of Chowla and Selberg \cite{ChowlaSelberg1967}. The development uses it to evaluate a
+normalised mean over the conjugates of the logarithmic periods of the lattices $\delta\cdot\mathfrak c$, equal to
+$\gamma+\log(2\pi/r_E)-L'(1,\chi)/L(1,\chi)$ ($r_E$ the root discriminant of $E$), which enters the kernel bounds.
+
+% ---------------------------------------------------------------------------
+\subsection{The Galois link}\label{sec:families:galois}
+
+The norm row $\mathsf{nRest}$ of the package is the closedness of $\sfname{LinkN}$ on $\familiesDiii$. It bounds
+the failure of divisibility at the twisted places by Galois-cohomological quantities.
+
+\paragraph{The Galois side of a datum.}
+The Galois data of $D$ consist of an algebraic closure $\Omega$ of $E$, for each prime $\ell$ the set $S_\ell$ and
+the cyclotomic character of $G_{E,S_\ell}$, and a finite set of \emph{local indices} $\iota$. A local index carries
+a prime $\ell=\ell_\iota$, a lift index $1\le j_\iota\le m$, a twisted place $w_\iota$ of $\mathit{LL}$ above $\ell$,
+a complete discrete valuation ring $\OO_\iota$ finite over $\Zl$, a finite set $X_\iota$ of eigensystems with
+subsets $Z^{\mathrm{good}}_\iota\subseteq Z_\iota$, a local Hecke algebra $T_\iota\subseteq\OO_\iota^{X_\iota}$ acting
+faithfully on a free $\OO_\iota$-module $M_\iota$, Galois characters, and finite sets $S_\iota,Q_\iota$ of auxiliary
+split places. Lengths are $\OO_\iota$-lengths divided by the length of $\OO_\iota/\ell$ (an infinite length counts as
+$0$). Then $\eta_{\mathrm{loc}}(\iota)$ is the length of a quotient $M^{\mathrm{up}}_\iota/M^{\mathrm{low}}_\iota$ of
+two lattices, and $\eta_j(w)=\sum\eta_{\mathrm{loc}}(\iota)$ over the $\iota$ with $(j_\iota,w_\iota)=(j,w)$ is the
+divisibility defect of the $j$-th lift at $w$; $v_{cc}(\iota,\pi)$ is the length of $\OO_\iota/\mathfrak c_\pi$, with
+$\mathfrak c_\pi$ the image at $\pi\in X_\iota$ of the congruence ideal of $T_\iota$ relative to $Z_\iota$, and
+$\mathrm{mult}(\iota,\pi)$ the multiplicity of $\pi$ in $M_\iota$; for Galois representations
+$\rho_{\iota,\pi}:G_E\to\GL_r(\OO_\iota)$, $s_\Pi(\iota,\rho,\pi)$ is the length of a Selmer group with Bloch--Kato
+conditions at $\ell$ \cite{BlochKato1990}, relaxed at $S_\iota\cup Q_\iota$; and $\mathrm{sh}(\ell,e)$ is the
+$\Zl$-length $\mathrm{sh}_\ell(E,e)$ of $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$ (\cref{sec:prelim}) when it is finite, and
+$VV(\ell)=\sum_{0<e<t}\mathrm{sh}(\ell,e)$.
+
+\begin{definition}[The link $\sfname{LinkN}$]\label{def:families:linkN}
+For size data $L$ of $D$ and $1\le j\le m$ put
+\[
+\eta\Sigma(L,j)=\sum_{\substack{w\in\supp(L)\\ \mu_w\ne\mu_0}}\frac{\log\Nm w}{[\mathit{LL}:\Q]}\;e(w)\,\eta_j(w),
+\]
+with $e(w)$ the ramification index. A family $\mathcal F$ satisfies $\sfname{LinkN}$ if there are $C,x_0$ such
+that for all $x\ge x_0$ and $i\in I_x$ for which all the groups $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-e))$, $0<e<t$, are
+finite, and all $1\le j\le m$: if $\sum_\ell VV(\ell)\log\ell$ converges, then
+\begin{equation}\label{eq:families:linkN}
+\eta\Sigma(L,j)\ \le\ d_{Z_0}(j)\Bigl(C\bigl(f\,m\,b\,\Lambda^2+(\log x)^2N_c\bigr)
++\sum_{\ell}\log\ell\sum_{0<e<t}\mathrm{sh}(\ell,e)\Bigr).
+\end{equation}
+$\sfname{NL}(\mathcal C)=\familiesClosed(\mathcal C,\sfname{LinkN})$.
+\end{definition}
+
+\paragraph{Inputs.}
+The Galois-theoretic inputs are fields of $P$, proved in the development: local finiteness, Tate duality and
+the Euler characteristic formula, for finite extensions of $\Ql$ and for decomposition groups
+\cite{Tate1963,Serre1997,NeukirchSchmidtWingberg2008}; a degree-one Chebotarev theorem \cite{Chebotarev1926}; and
+the package $\sfname{Hypotheses}_2$ (Fontaine's $B_{\mathrm{cris}}$ \cite{Fontaine1982}, Artin reciprocity, the
+Bloch--Kato conditions \cite{BlochKato1990}, local Galois cohomology, and the integral comparison of Bhatt--Scholze
+\cite{BhattScholze2022,BhattScholze2023}). A \emph{norm choice} attaches to each twisted place $w$ a twisting
+character $\psi'_w$ of a ray class group, with values in a finite extension of $\Zl$. A family is
+$\sfname{TwGood}$ if eventually its norm choices are conjugation-symmetric and all $\psi'_w$ are \emph{good}
+(they avoid an explicit finite set of places and satisfy index bounds, lattice inclusions and three Bloch--Kato
+reduction conditions). The \emph{Galois preconditions} of a datum with norm choice are eighteen conditions, among
+them admissibility at all local indices, irreducibility of the residual representations of rank $r$,
+unramifiedness of the characters, a depth-zero condition and uniqueness of localisations; $\sfname{Tie4}$ ties the
+characters at the type primes to de Rham local Galois representations of prescribed Weil--Deligne type.
+
+\begin{theorem}[The Galois link]\Fmark\label{thm:linkN}
+\begin{enumerate}[label=(\alph*)]
+\item Assume $\sfname{Hypotheses}_2$ and Chebotarev's theorem and local Galois cohomology for decomposition groups.
+Let $\mathcal F\in\sfname{FamP}(\eps)$ be $\sfname{TwGood}$, and suppose that for all $x>x_1$ and $i\in I_x$ the
+datum $D_{x,i}$ satisfies the Galois preconditions for its norm choice and $\sfname{Tie4}$. Then
+$\mathcal F$ satisfies $\sfname{LinkN}$.
+\item Assume in addition the remaining Galois-theoretic statements derived from $P$ (the third-layer inputs,
+compatibility of the Galois representations attached to polarized cuspidal representations, rationality and
+integrality of twist series, depth-zero support). For
+every $h_L:\sfname{RecTExists}$ and $c\in\R$ the parameter $p=\sfname{parametersOfDependence}(h_L,c)$ of
+\cref{sec:families:nonempty} satisfies
+\[
+\begin{aligned}
+&\familiesLinked\bigl(p,\ \familiesRow(\cdot,\cdot,\ \mathcal A\mapsto\familiesClosed(D3(3,\mathcal A),
+\sfname{BoundAtTwoThree}))\bigr)\\
+&\qquad\Longrightarrow\
+\familiesLinked\bigl(p,\ \familiesRow(\cdot,\cdot,\ \mathcal A\mapsto\sfname{NL}(D3(3,\mathcal A)))\bigr).
+\end{aligned}
+\]
+\end{enumerate}
+\formal{UpperTheory.GalC.linkN_of_twGood_galoisPreconditions}
+\formal{UpperTheory.GalC.final_alt_alt}
+\end{theorem}
+
+\begin{proofoutline}
+(a) The proof (about $221\,000$ lines) runs as follows.
+\begin{enumerate}[label=\arabic*.]
+\item \emph{Cuts.} Each member is replaced by a \emph{good cut}: keep the local indices with
+$Z^{\mathrm{good}}_\iota\ne\emptyset$ and restrict to eigensystems on which an endomorphism of $M_\iota$ commuting
+with $T_\iota$ (from central idempotents of a group algebra) acts by $\#G$ on the good eigenspaces and by $0$
+outside. The existence of good cuts with the ``norm-choice facts'' (a hypothesis $\sfname{CutGivesAlt}$ of the
+first formal statement) is proved from Chebotarev's theorem and a vanishing statement: at an auxiliary place
+$v\in S_\iota$ at which the residual representation at a tame generator has no eigenvalue equal to the residual
+character value, the local $H^1$ and $H^2$ of all Tate twists vanish, by local duality and the Euler
+characteristic formula (as for Taylor--Wiles primes \cite{TaylorWiles1995,DarmonDiamondTaylor1997}).
+\item \emph{Local bounds} (about $163\,000$ lines, after uniform constants are fixed). For each twisted local index
+and good eigensystem
+\begin{equation}\label{eq:families:bd}
+v_{cc}(\iota,\pi)\ \le\ s_\Pi(\iota,\rho,\pi)+\beta(\iota)+VV(\ell)+v_\ell(h_E)+\ell^{-2},
+\end{equation}
+with $\beta=0$ for $\ell$ beyond a threshold outside a small exceptional set (a congruence bound from local
+Bloch--Kato theory for twisted lattice cohomology); $\beta\le Cfnt^2n_V\Lambda^2$ plus local lengths in the middle
+range (lifting theorems for crystalline lattices with Hodge--Tate weights in $[-h,h]$, $h<(\ell-1)M$, through
+Wach-type $(\varphi,\Gamma)$-modules and Herr cocycles \cite{Wach1996,Berger2004,Herr1998,FontaineLaffaille1982});
+explicit bounds for $\ell\in\{q,d\}$, the small primes and $\ell=2,3$ (\cref{lem:families:at23}); and a bound by a
+paired character condition at the type primes. Moreover $\eta_{\mathrm{loc}}(\iota)\le\sum_{\pi}\mathrm{mult}(\iota,\pi)
+\bigl(v_{cc}(\iota,\pi)+v_\ell(\#G)\bigr)$, the multiplicities summing to at most $d_{Z_0}(j)$.
+\item \emph{Summation.} With $\sum_{w\mid\ell}e(w)\log\Nm w/[\mathit{LL}:\Q]\le\log\ell$ and the killing condition
+(finiteness and smallness of the Selmer groups of the good eigensystems) one gets \eqref{eq:families:linkN} for the
+cut family with constant $2000(|C|+1)^3$; the $\eta$-invariants of the original members exceed those of the cut
+members by a controlled amount, which gives $\sfname{LinkN}$ for $\mathcal F$.
+\end{enumerate}
+(b) The Galois preconditions and $\sfname{Tie4}$ are proved at all members of the construction (from the
+third-layer inputs, base change, depth-zero support \cite{MoyPrasad1994} and Green's labelling of characters),
+and transported to all bundles linked to good points; then (a) applies to every family in $D3(3,\mathcal A)$ for
+every class $\mathcal A$ selected from good points.
+
+%P2PTR thm:linkN
+A complete proof is given in \cref{sec:pf:linkN}.
+\end{proofoutline}
+
+\begin{lemma}[The bound at $2$ and $3$]\Fmark\label{lem:families:at23}
+Assume $\sfname{Hypotheses}_2$. Then every family satisfies $\sfname{BoundAtTwoThree}$: eventually, for every local
+index $\iota$ with $\ell_\iota=2$, or $\ell_\iota=3$ and $3$ not a small prime, every good $\pi$ and every
+admissible setup (local Hodge--Tate, Fontaine and comparison data, and hub data with killing conditions),
+\eqref{eq:families:bd} holds with $\beta=Cfmb\log x+Cx^C\Lambda^2$. Consequently every parameter $p$ is linked
+for $\familiesRow(\cdot,\cdot,\mathcal A\mapsto\familiesClosed(D3(3,\mathcal A),\sfname{BoundAtTwoThree}))$.
+\formal{UpperTheory.N.at23_family_alt}
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+For $\ell=2$, $\sfname{Hypotheses}_2$ gives a local bound with explicit constants ($6000$ and $30000$); for
+$\ell=3$ a similar bound holds, using that $3\ne q,d$ for every host. The maximum of the two constants and of the
+two thresholds works for both primes. A property of all families is closed on every class; a row whose target
+holds for all selections holds with the trivial bundle property; and a row for the good slot is linked with the
+trivial auxiliary slot.
+\end{proof}
+
+\begin{remark}\label{rem:families:linkN}
+(1) The local bound \eqref{eq:families:bd} bounds the length of a congruence module by that of a Selmer group,
+which is the shape of the numerical criterion of Wiles and Lenstra \cite{Wiles1995,Lenstra1995} (an interpretation;
+the development does not refer to it). (2) The twisting characters of the norm choice make the Selmer groups of the
+good eigensystems finite and small (``killing by twisting'' in \cite{Announcement2026}). What remains is
+$\sum_\ell\log\ell\sum_{0<e<t}\mathrm{sh}_\ell(E,e)$, which involves only the host field; it is bounded by the
+window bound (\cref{sec:window}) through the hypothesis $\sfname{HypV}$ of $\sfname{TopG}$, which also supplies the
+finiteness and summability assumed in \cref{def:families:linkN} (\cref{sec:stepanov}). (3) By
+\cref{lem:families:at23} the hypothesis of \cref{thm:linkN}(b) holds for every parameter; in the proof of (b) it
+is used only through its auxiliary slot, the bound at $2$ and $3$ needed in step~2 of (a) being re-derived from
+$\sfname{Hypotheses}_2$.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{The remaining links}\label{sec:families:links}
+
+The links other than $\sfname{LinkN}$ are proved in the proof of \cref{thm:shape} from the fields of the package.
+We describe the four main ones and the properties feeding the global theorem.
+
+\paragraph{Irreducibility from Green's theorem.}
+For a type prime $g=g_k$ ($k=0,1$) and $N=r$, let $e_U\in\C[\GL_r(\F_g)]$ be the Gelfand--Graev idempotent
+attached to a non-trivial character $\psi$ of $\F_g$, and $e_J$ the analogous idempotent of a ``Jacquet-type''
+subgroup of the unipotent radical determined by $(k,m)$. A \emph{label} is a monic $f\in\F_g[X]$ of degree $r$
+with $f(0)\ne0$; the type data of $D$ attach to it an element $e_{\mathrm{Ser}}(f)$ of the group algebra (playing
+the role of the central idempotent of the Harish-Chandra series labelled by $f$), and one puts
+$\mathrm{wt}(a,f)=\Re\bigl(a\,e_{\mathrm{Ser}}(f)\bigr)(1)/\Re\,a(1)$.
+
+\begin{proposition}[Label weights]\Fmark\label{prop:families:admLq}
+Assume Green's theorem (\cref{def:green}). Then for every datum $D$ with normalized type data, $k\in\{0,1\}$ and
+$g=g_k$: $\mathrm{wt}(e_U,f)\ge0$ and $\mathrm{wt}(e_J,f)\ge0$ for all labels;
+$\mathrm{wt}(e_U,f)=\prod_{P\mid f}(g^{\deg P}-1)^{-1}$ (product over the monic irreducible factors) for
+squarefree $f$; $(1-g^{-1})\,\mathrm{wt}(e_U,f)\le\mathrm{wt}(e_J,f)$; and
+$\mathrm{wt}(e_J,f)\le(1+g^{-1})^r\,\mathrm{wt}(e_U,f)$ for squarefree $f$.
+\formal{GlobalTheory.Top.Lq.admissibleLabelWeights_of_greenCuspidalParametrisation}
+\end{proposition}
+%P2PTR prop:families:admLq
+\begin{proof}See \cref{sec:pf:top-shape}.
+\end{proof}
+
+
+For squarefree $f=P_1\cdots P_s$ the series of $f$ contains exactly one generic representation; it occurs once in
+the Gelfand--Graev representation \cite{GelfandGraev1962,Zelevinsky1981}, and by Green's theorem its degree is
+$\prod_{i\le r}(g^i-1)/\prod_j(g^{\deg P_j}-1)$, which explains the formula.
+
+For a member $D$ let $D_{\mathrm{all}}$ be the number of labelled indices (label tuples at $g_0,g_1$) of its rows
+data and $D_{\mathrm{rows}}=(1-\delta_p)D_{\mathrm{all}}$ the number of those coming from rows. $\sfname{LinkIRR}$
+asserts that eventually $0\le\delta_p(D_{x,i})\le\exp(-x^{\eps_z/7})$, $\eps_z=\eps/J$.
+
+\begin{theorem}[Irreducibility link]\Fmark\label{thm:linkIRR}
+Assume Green's theorem. Let $\mathcal A$ be a class with a twist selection and $c_{Ic}>0$, and suppose that,
+closedly on $D3(3,\mathcal A)$, eventually every member admits an all-rows record $A$ (labels at the type primes,
+an injection of the rows into the labelled indices, and idempotents) with injective good labels, the join
+property, and counts of all cylinders within relative error $\exp(-c_{Ic}\,rf\log r)$ of the expected values.
+Then $\sfname{LinkIRR}$ is closed on $D3(3,\mathcal A)$.
+\formal{GlobalTheory.Top.Irr.closed_linkIRR_of_join_count}
+\end{theorem}
+
+\begin{proofoutline}
+The tied records of the selection provide normalized type data, so \cref{prop:families:admLq} gives the
+weight properties at every selected member. With the join and a range condition they give non-negative weights
+and a bound on the share of label tuples that are not good; combined with the counts and the size facts this
+yields $0\le\delta_p\le\exp(-x^{\eps_z/7})$ once $x^{\eps_z}\ge3/2$. The count hypothesis is the counting row of
+the package, obtained from \cref{thm:counting} (\cref{rem:families:counting}).
+
+%P2PTR thm:linkIRR
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proofoutline}
+
+In the proof of \cref{thm:shape} Green's theorem is used only here.
+
+\paragraph{The local lattice link.}
+$\sfname{LinkG}$ asserts that there are $C$ and a function $\delta(x)\to0$ such that eventually, for all members
+$(D,L)$: (i) at every place $w$ of $\mathit{LL}$ not above the level prime $T_u$ of a word $u$, the lattice $N_u$
+is locally contained in an explicit lattice and its local length satisfies
+$\mathrm{len}_{MN}(u,w)\le d_u(\tau(w)+\iota(w))$ for local weights $\tau,\iota$ of $L$ (vanishing where no
+served orbit exists); (ii) the served orbits $t_0$ at $p$ satisfy $S_v\le2m\,N_v\,a/p$; (iii) at every place
+$w$ above a prime $p\le X''(n)$ in the inert classes of the host, $0\le\mathrm{gain}(j,w)\le4|TT|\,a/p$ and
+\begin{equation}\label{eq:families:linkG}
+\sum_{j=1}^{m}\sum_{t\in TT_w}\bigl(\Lambda_{j,t}(p)-\mathrm{lo}(p)\bigr)-m\,\mathrm{fl}(p)
+\ \le\ \sum_{j=1}^{m}\mathrm{gain}(j,w)-\tau(w),
+\end{equation}
+where $\Lambda_{j,t}(p)$ are von Mangoldt class sums at $p$ and $\mathrm{lo}(p)$, $\mathrm{fl}(p)$ explicit error
+terms (with $b^{\delta(x)}$ in place of $b$); and (iv) a containment of served orbits and a bound for the mean of
+$\kappa$. Here $a$ is a size parameter of $L$ and $TT$ a finite set attached to the host. Inequality
+\eqref{eq:families:linkG} says that the divisibility gains at $w$, summed over the $m$ lifts, dominate the
+von Mangoldt class sums of the prime $p$ up to the error terms.
+
+\begin{theorem}[Local lattice link]\Fmark\label{thm:linkG}
+Let $\mathcal C$ be a family class on which the group compatibility of the extra data and the condition
+$\sfname{Adm2F}$ (eventually $n\delta_1/2\le|TT|\le2n\delta_1$ and $B_{TT}\le|TT|\,x^{-2+\eps}$) are closed. Then
+$\sfname{LinkG}$ is closed on $\mathcal C$.
+\formal{Formalism.L2.G.linkG_concrete5}
+\end{theorem}
+
+\begin{proofoutline}
+On $D3(3,\mathcal A)$ both hypotheses hold for every member: $\sfname{Adm2F}$ by a Mertens-type estimate
+\cite{Mertens1874}, group compatibility from the duties and the selection. Group compatibility gives trivial
+stabilisers on finite classes and a standard-subgroup property; ten closed properties are then combined, the main
+one being an orbit-valuation bound with the absolute constant of \cref{thm:families:local}. An order estimate, a
+Weyl-sandwich condition, orbit-lattice bounds (a linear-programming input) and a lattice sandwich then give the
+inequalities of $\sfname{LinkG}$ (about $80\,000$ lines).
+
+%P2PTR thm:linkG
+A complete proof is given in \cref{sec:pf:linkG}.
+\end{proofoutline}
+
+The deepest ingredient is a purely local statement about lattices in algebraic representations. An
+\emph{unramified quadratic setting} consists of the unramified extension $W$ of $\Z_p$ of degree $n'$ (even) with
+Frobenius $\sigma$, and a finite extension $\OO\supseteq W$ with uniformiser $w$, $w^2=p$, $|\OO/w|=p^{2n'}$, in
+which every rational integer is a square. Lattices $L\subset W[1/p]^{m+1}$ are joined by \emph{Hecke edges of type
+$r$}: pairs $e_s\subseteq e_t$ with $p\,e_t\subseteq e_s$ and $[e_t:e_s]=p^{n'r}$. For a weight
+$\lambda_0:\Z/n'\to\Z^{m+1}$, the $\sigma$-twisted tensor product $V$ of dual Weyl modules contains weight
+lattices $H_L$ attached to lattices $L$ (intersections of the integral structures
+$\det(g)^{-\lambda_m}\nabla(\lambda-\lambda_m,g)$ over bases $g$ of $L$, cf.\ \cite{Jantzen2003}), lattices $R_e$
+attached to edges, and a perfect pairing $b$ with the dual. $\sfname{LPprime}(t,D,\kappa,c_*)$ asserts:
+$4(D+1)\le c_*$, and for \emph{every} lattice $L$ there are edges $e_1,\dots,e_M$ with target $L$ and vectors
+$F_i\in w^{-t}H_{e_{i,s}}\cap\bigcap_{e:\,e_s=e_{i,s}}R_e$ such
+that $F_i\in w^{c_*}R_{e'}$ for every other edge $e'$ with the same source, and the pairings $G\mapsto b(F_i,G)$
+have, on the dual weight lattice at $L$ and up to the denominator $p^D$, rank at least $(1-\kappa)\dim V$.
+
+\begin{theorem}[Local lattice theorem]\Fmark\label{thm:families:local}
+There is an absolute constant $C_0\ge0$ with the following property. Let an unramified quadratic setting with
+$p\ge13$ be given, integers $r\ge2$ and $m$, a set $TT\subseteq\Z/n'$, a dominant weight $\lambda_0$ adapted to
+$TT$ with entries bounded in terms of parameters $a,c_{pp},c_0$, and numbers $L_1,L_2,D_p,c_*,Y$; let $N_1$ and
+$G'$ be the explicit orbit-window counts attached to auxiliary reals $(\delta,h,x)$. Assume the orbit hypotheses (a
+tiling condition for $TT$, $2L_1\le L_2<\lceil1/\delta\rceil$, $3G'\le n'$), $N_1^2\le r|TT|$, $r\le Y$,
+$C_0N_1^2\log a\le m+1$, $N_1+2r\le m+1-r$, $256(m+1)^2|TT|Y^2\le p^{L_1-1}$, $C_0|TT|(m+1)^2\log_pa\le D_p$,
+$8(D_p+1)\le c_*$ and
+\[
+C_0\,(m+1)^3r^2|TT|\,(p^{G'})^5\bigl(c_*+r|TT|c_0+2rn'c_{pp}\bigr)\,Y\ \le\ a .
+\]
+Then $\sfname{LPprime}\bigl(t,D_p,C_0|TT|r^2(m+1)/Y,c_*\bigr)$ holds for every $t$ beyond an explicit bound.
+\formal{Formalism.MainNotions.G.second_theorem_absolute_constant}
+\end{theorem}
+
+\begin{proofoutline}
+A criterion reduces the conclusion to thirty-seven explicit clauses about tensor-product operators over the
+Frobenius orbit $\Z/n'$, operator weight bounds and a numerical counting statement (about $31\,000$ lines); the
+clauses are verified using extremal projectors, a plane count, restriction estimates and path weights (about
+$15\,000$ lines), Fock-model lattice lemmas, and the Weyl dimension formula, branching rule and Pieri rule for
+Gelfand--Tsetlin patterns \cite{Weyl1946,GelfandTsetlin1950}. In words: from every lattice one reaches, along Hecke
+edges, vectors of the weight lattices which are highly divisible on all competing edges and whose pairings have
+almost full rank.
+
+%P2PTR thm:families:local
+A complete proof is given in \cref{sec:pf:linkG}.
+\end{proofoutline}
+
+\paragraph{Division, orthogonality and the remaining links.}
+$\sfname{LinkDIV}$ collects, eventually and for every word $u$: a ``one map'' condition; the frame bound
+$s_{\mathrm{Frame}}(N_u,h)+\mu_{\max}(\mathit{RR})\le x^{C_H}b$; the \emph{Bessel identity} that the functionals
+$B_u$ agree, up to non-zero scalars and isometries, with one fixed pairing; a height bound
+$\mathrm{ht}(B_k(u))\le h(u)$; an upper bound for $\mu_{\mathrm{dual}}+h(u)$ by a main term plus errors; and two
+approximate identities relating $h(u)$, the level primes $T_u$ and the type primes. $\sfname{LinkDIVt}$ is the
+implication $\sfname{LinkEta}\wedge\sfname{DIVinN}\Rightarrow\sfname{LinkDIV}$.
+
+\begin{proposition}[Division link]\Fmark\label{prop:families:div}
+If, for kernel data attached to the members of a class $\mathcal D$, the ``division kernel constant bounds'' are
+closed on $\mathcal D$ under $\sfname{TuSize}$ and $\sfname{DGamSize}$, then so is $\sfname{LinkDIVt}$. On
+$\familiesDiii$ these bounds follow from the fields of the package: a frame-number bound (level wiring, a slope
+lemma, a Mertens-type estimate for $\tau$-sums and a bound for $\mu_{\max}$ under $\sfname{TuSize}$); the
+integrality of period pairings at all places, from the period rows and the service row
+(\cref{prop:families:periods}); stability of the lattices under $\OO_{\mathit{LL}}$; complement conditions; and
+rationality of the Bessel functionals.
+\formal{Formalism.L2.DIV.closed_linkDIVt_of_closed_bridge_kernel}
+\end{proposition}
+%P2PTR prop:families:div
+\begin{proof}See \cref{sec:pf:top-shape}.
+\end{proof}
+
+
+The Bessel identity reflects the seesaw step of \cite{Announcement2026}, in which the period of the iterated lift
+is identified with a Bessel period independent of the Hecke characters (\cref{rem:families:seesaw}).
+
+\begin{corollary}[Approximate orthogonality link]\Fmark\label{cor:families:linkS}
+Under the spectral selection and the fields $\mathsf{hWu}$, $\mathsf{hRF}$, $\mathsf{hTF}$, $\mathsf{c30}$,
+$\mathsf{sTy}$, $\mathsf{sNG}$, $\mathsf{sM}$, $\mathsf{sLp}$, $\mathsf{sO}$, $\mathsf{h30}$, $\mathsf{hInstR}$ of
+the package, $\sfname{TuSize}\Rightarrow\sfname{LinkS}(3)$ is closed on $\familiesDiii$. Here
+$\sfname{LinkS}(C_0)$ asserts that eventually there are $\eta_0,\eta_1,e_0\ge0$ with
+$\eta_0,\eta_1,\sqrt{e_0}\le\exp(-x^{\eps/8})$ such that, with $\Gamma=\exp(C_\Gamma m^5f\Lambda)$, if
+$C_0^{-1}\le d_u\Gamma^2/D_*\le C_0$ for all words $u$, then
+\[
+\mathrm{hs}(u,u')\le(1+\eta_0)\frac{d_ud_{u'}}{D_*}\ (u\ne u'),\qquad
+\|K_{uu}-\mathrm{id}\|_{\mathrm{HS}}^2\le e_0\,d_u,\qquad D_{\mathrm{all}}\le(1+\eta_1)D_*,
+\]
+where $\mathrm{hs}(u,u')$ is the Hilbert--Schmidt mass of the off-diagonal block.
+\formal{GlobalTheory.Top.link_alt_alt_bis}
+\end{corollary}
+
+\begin{proof}[Proof sketch]
+The selection provides local ties and an instance tie; residues are eventually controlled; a transport form of
+\cref{thm:theorem-S} turns the row estimates (type, non-generic and main-term rows), the loop rows and the point
+count into the three Hilbert--Schmidt estimates.
+
+%P2PTR cor:families:linkS
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proof}
+
+\begin{remark}\label{rem:families:small}
+$\sfname{LinkEta}$ (the local places of $D$ cover its twisted places) holds for every member of $\familiesDiii$,
+by the normalized local data of the tied records of the twist selection. $\sfname{SmallLevelRankEq}$
+($d_{Z_0}(j)=D_0$ for all $j$) follows from the primitivity, $\lambda$- and division rows together with the
+surjectivity of the level projections. $\sfname{LinkMu}$,
+$|\mu(N_u)-\mu(N^H_u)-\sum_w\mathrm{sz}(w,\sigma(u,w))|\le C\,X''(n)$, is deduced from $\sfname{LinkDIV}$ in the
+assembly of \cref{sec:stepanov}.
+\end{remark}
+
+\paragraph{Mass ratios and slope inequalities.}
+The global theorem (\cref{thm:global-chain}) needs eleven closed properties of the class, collected in a record
+$\sfname{FamGLmin}$. For a word $u$ let $\Lambda_u$ be the hermitian lattice at level $0$ attached to $u$; for
+embedding types $\tau$ let $a_\tau,a'_\tau$ be column sizes, $s_\tau$ the spread of the first column and
+$\lambda_\tau$ its last entry.
+
+\begin{proposition}[Mass ratios and slopes]\Fmark\label{prop:families:famgl}
+Let $\mathcal A$ satisfy the duties, and assume the field $\mathsf{tie}$, the volume ratio $\mathsf{hU}$ and the
+rank-two genus mass $\mathsf{hG}$. Then, closedly on $\familiesDiii$: the mass ratios
+$\mathrm{mass}(D,M)/\mathrm{mass}(D,M-1)$ ($M\ge3$) are those of \cref{prop:families:mass}; the base volume equals
+the mass in rank $r$ (this is deduced from the rank-two genus mass $\mathsf{hG}$ and the volume ratio $\mathsf{hU}$);
+the $\sigma$-degrees are bounded on both sides in terms of the gaps; for every word $u$ with
+column valuations,
+\begin{gather*}
+\mu(\Lambda_u)\ \ge\ -\sum_\tau\frac{a_\tau}{k}\log T_u-\sum_\tau\bigl(a'_\tau\log k+k^2\log(s_\tau+k)\bigr),\\
+\mu_{\max}(\Lambda_u)\ \le\ \sum_\tau\bigl(4a'_\tau\log(kv)+k^2\log(s_\tau+k)+|\lambda_\tau|\log T_u\bigr),
+\end{gather*}
+with $v$ a constant of the host; and column valuations, free $T$-data, slope lines, Hecke integrality at level
+zero and a second-branch inclusion length hold. Consequently $\sfname{ChosenE}\Rightarrow
+\sfname{NuFullF}\wedge\sfname{MuRank}$ and $\sfname{TuSize}\Rightarrow\sfname{DGamSize}\Rightarrow
+\sfname{LinkGLOBAL}$ are closed on $\familiesDiii$.
+\formal{GlobalTheory.Top.link_gl}
+\end{proposition}
+
+\begin{proofoutline}
+The slope inequalities use exact slopes of column lattices, the archimedean class map, a short-dual-basis
+lemma, a base-change formula for Hermite--Siegel slopes and a hook-length bound; they are Arakelov slope
+estimates of the kind used by Bost \cite{Bost1996,Bost2001}. The proof also uses that every totally positive
+element of a CM field unramified over its real subfield is of the form $as\bar s+bt\bar t$ for given totally
+positive $a,b$. The last assertion is \cref{thm:global-chain} applied to the eleven properties.
+
+%P2PTR prop:families:famgl
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proofoutline}
+
+\paragraph{Designed families.}
+\begin{proposition}[Existence of designed families]\Fmark\label{prop:families:design}
+Let $\mathcal A$ be a class with a twist selection and the duties, satisfying $\mathsf{hTu}$, $\mathsf{hn4}$ and
+$\sfname{LitThin}$, and such that $\sfname{MinkDiv}$ implies design choices for $\sfname{WithTw}(\mathcal A)$ (in
+the package: the field $\mathsf{hEx}$, applied for $\lambda>1$ and a requirement $G$ (\cref{def:requirement}) with
+$\sfname{HostExW}(\lambda,G)$ to the class $\mathcal A\wedge G.\mathrm{cls}_\lambda$). Then designed families exist: for
+small $\eps$ and every staged threshold there are large families in $D3(3,\mathcal A)$.
+\formal{GlobalTheory.Top.designExists_of_tuSize_aux4n_litThin}
+\end{proposition}
+
+\begin{proofoutline}
+$\sfname{MinkDiv}$, a Minkowski-type statement on multipliers, is proved in the development, so the hypothesis
+yields design choices; they become designed families using $\mathsf{hTu}$, $\mathsf{hn4}$ and a ``thin'' choice of
+auxiliary primes in short intervals derived from $\sfname{LitThin}$ (classical zero-free regions with the
+Landau--Page exceptional zero, the truncated explicit formula and zero-density estimates near $\Re s=1$ for
+Dirichlet $L$-functions \cite{Davenport2000,Montgomery1971}, all proved in the development).
+
+%P2PTR prop:families:design
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{Point inequalities, member bundles and non-emptiness}\label{sec:families:nonempty}
+
+\paragraph{The four point inequalities.}
+A point of a family over $(x,i)$ carries two \emph{indefinite data} $S_{\mathrm f},S_{\mathrm t}$ (the two sides
+of its complex realisation) and numbers $N(C,C_H)$. An indefinite datum $S$ consists of a set $\mathrm{Tw}$ of
+twisted places, an integer $D(S)$, lattices $M_j$ with hermitian metrics $X_{W,j}$ at the infinite places, maps
+$\theta_{j,t}$ of theta type sending lattices $T_{j,t}$ into the spaces of the $M_j$ and multiplying hermitian
+majorants by scalars $\lambda_{j,t,p,v}>0$, scalars $\kappa_v$, error terms $\mathrm{err}_0(w,j)$, and the glued
+lattice $\mathit{RR}$; $I_j(t,w)$ is the $w$-adic generalised index of $\theta_{j,t}(T_{j,t})$ in $M_j$. The numbers
+are $l_3(j)=l_{3m}(j)+Cl_{3u}$, $l_6(j)$, $E_1(j)=CE_{1u}$ and $hh=x^{C_H}b$. The four inequalities are:
+\begin{itemize}
+\item $\sfname{L3}$ (covolume): $\log\covol(M_j,X_{W,j})/\rank\mathit{RR}\le l_3(j)$ for all $j$;
+\item $\sfname{ON}$ (almost surjectivity): $\mathrm{err}_0\ge0$, and at every twisted place $w$ (residue
+characteristic $p_w$, ramification index $e_w$, $\ell_w=\log\Nm w/[\mathit{LL}:\Q]$)
+\[
+\sum_j\bigl(I_j(\mu_w,w)+I_j(\mu_w,\bar w)\bigr)\le D(S)\Bigl(\sum_j e_w\bigl(2F_0(w,j)+\mathrm{err}_0(w,j)\bigr)
++\frac{2e_w}{p_w^2}\Bigr),
+\]
+and $\sum_{w\in\mathrm{Tw}}\ell_w e_w\bigl(\mathrm{err}_0(w,j)+J_0(w,j)\bigr)\le E_1(j)$;
+\item $\sfname{L6}$ (low weight): $l_6(j)\le\log\lambda_{j,\mu_0,p,v}$ for all $j,p,v$;
+\item $\sfname{FUN}$ (slope): $\mu_{\max}(\mathit{RR})\le hh-\mathrm{meanLog}(\kappa)$.
+\end{itemize}
+The family statements are: $\sfname{CovolumeBoundOfX}$ (closedly on a class $\sfname{FamHyp}$, there is $C_0$ such
+that eventually at all points $S_{\mathrm f}$ satisfies $\sfname{L3}$ for all $C\ge C_0$), proved in
+\cref{sec:covolume}; $\sfname{SurjectiveOntoX}$ (the same for $\sfname{ON}$, under $\sfname{DIVinN}$);
+$\sfname{LambdaLowerBound}_2$ ($S_{\mathrm t}$ satisfies $\sfname{L6}$ for all $C$); and
+$\sfname{ConstantFunctionFits}$ ($S_{\mathrm f}$ satisfies $\sfname{FUN}$ at points carrying a grid at level
+$C_F$, for all large $C_F$).
+
+\begin{proposition}[Surjectivity, low weight and slopes]\Fmark\label{prop:families:points}
+$P$ implies $\sfname{SurjectiveOntoX}$ and $\sfname{LambdaLowerBound}_2$; and $F$, two components of $P$ (a join
+statement and the functional equation of Hecke $L$-functions), \cref{thm:theorem-K}, $\sfname{FunctionalsSeparate}$
+and $\sfname{LambdaLowerBound}_2$ imply $\sfname{ConstantFunctionFits}$.
+\formal{GlobalTheory.Fc.S0.ontoX_and_lamLow_of_unitaryGroupHypotheses'}
+\formal{GlobalTheory.BigTop.Fun.Close.fourier_coefficient_fit_of_join_alt}
+\end{proposition}
+
+\begin{proofoutline}
+$\sfname{ON}$ reduces to a bound for the weighted index excess at the twisted places, proved through ``record
+objects'' attached to points (twist bounds at conjugate pairs of places, share bounds for eigenspace dimensions,
+depth bounds at good, ramified and level primes, and an exponent bound $\sum_\ell J_p(j,\ell)\log\ell\le E_J$) from
+Green's theorem, Clozel's purity, $\ell$-adic Hecke characters, Chebotarev, Galois representations of polarized
+cuspidal representations, base change, the crystalline lattices of Bhatt--Scholze and archimedean theory (about
+$280\,000$ lines). $\sfname{L6}$ comes from an inner product formula: the lift composed with its adjoint acts on
+each type part by a scalar $l>0$ with $\log l\ge\mathrm{mainTerm}-8fn_V^2L_p$, proved from the Rallis inner product
+formula for the twisted lift and the identification of the finite zeta integral with a partial $L$-value.
+$\sfname{FUN}$ is an Arakelov bound for the maximal slope: the Petersson norm of the bottom lift is a Rallis
+integral \cite{Rallis1984,KudlaRallis1994}, the class sums are bounded at all places, and a numerical slope
+inequality concludes.
+
+%P2PTR prop:families:points
+A complete proof is given in \cref{sec:pf:onto3,sec:pf:fit}.
+\end{proofoutline}
+
+The definite-side condition $\sfname{DefiniteSideCondition}(b,C,C_H)$ of a bundle $b$ is a height bound under the
+point inequalities: given witnesses of the primitive-row conditions, of $\sfname{L3}$, $\sfname{ON}$, $\sfname{L6}$
+and of two isometry conditions, every word $u$ admits a column chain, a frame $X_0$ at the infinite places with
+$(X_0^{-1})^*X_0^{-1}$ equal to the hermitian metric, and height numbers bounding the operator norm of the final
+point map by $e^{h/2}$ at every infinite place. The field $\mathsf{rRows}$ asserts it along the selection.
+
+\paragraph{Twisting data and members.}
+\begin{definition}[Twisting data; large unramified exponents]\label{def:families:twist}
+A \emph{twisting datum} over a base is a finite set $T$ of rational primes together with, for each place $w$ of the
+coefficient field with residue characteristic $\ell_w$, a finite set $Q_w$ of primes of $\OO_E$ not above
+$\ell_w$, an exponent $k_w\in\N$ and a Hecke character $\psi_w$ of $E$ of order dividing $\ell_w^{k_w}$, trivial on
+the id\`eles of $F$, tame, and ramified only at split primes of prime norm; $\psi_w=1$ and $k_w=0$ if
+$\ell_w\notin T$. A property holds \emph{eventually for large twisting data} ($\sfname{EvLgG}$) if, eventually in
+the scale, there are finite exceptional sets of algebraic numbers and of primes, depending on the base and the
+frame, such that the property holds for all bases whose coefficient fields contain these numbers and all twisting
+data whose prime set contains the prescribed primes and whose sets $Q_w$ avoid the excluded ones. (This is the
+meaning of ``large unramified exponents'' in the names of the development.)
+\end{definition}
+
+For a parameter $p$, $\sfname{MemberE}(p)$ asserts: bases with the required coefficient fields exist; for large
+untwisted data a built point exists; built points satisfy export conditions at the twisted places; and every
+built point can be moved, by enlarging the base and re-twisting with the same prime set, to a point which is
+built, good and twisted at all places. $\sfname{ExBL}(p)$ asserts that there is a slot $R$ containing, eventually
+and for large twisting data, all built points, such that every good point of $R$ carries linked bundles of every
+size. The parameters used are $p_{\mathrm{dep}}(h_L,c)=\sfname{parametersOfDependence}(h_L,c)$, whose norm-choice
+extension asks for a law (rational map values are rational) and a grid datum at level $(1,c,b)$ with full
+$\lambda$-tie, and $p_A(h_L,c)$, which adds a saturated state of a ``strict-henselian acyclic'' level and an
+at-property $A$; the norm-choice cores contain local data built from $h_L:\sfname{RecTExists}$.
+
+\begin{theorem}[Member bundles]\Fmark\label{thm:member-bundles}
+Assume $P$ and $\sfname{RowRat}$. Let $h_L:\sfname{RecTExists}$, $c\in\R$, and let $A$ be an at-property with
+$\sfname{EvLgG}(A)$. Then the Siegel mass ratio of \cref{prop:families:mass} holds, and $\sfname{MemberE}(p_A)$
+and $\sfname{ExBL}(p_A)$ hold for $p_A=p_A(h_L,c)$.
+\formal{GlobalTheory.T.large_unramified_exponent_bundles_exist_alt}
+\end{theorem}
+
+\begin{proofoutline}
+From the fields of $P$ and $\sfname{RowRat}$ one obtains saturated states without localisation primes and equality
+of twisted multiplicities at every weighted point (\cref{rem:families:mult}). Member existence runs through a
+chain of levels of a state (same-Galois, intermediate levels with rationality and cuspidality of the rows, the
+strict-henselian acyclic level with its height-counting character data, and levels three and four with norm
+choices, theta data, column data at split primes and real ties; about $207\,000$ lines). Export realises the twist
+series demanded at twisted places from Galois cohomology and the Galois representations of polarized cuspidal
+representations. Bundles are produced by a recursion on an $\eta$-size, using uniform zeta data and a reduction to
+local Langlands parameters; the at-property is added using $\sfname{EvLgG}(A)$.
+
+%P2PTR thm:member-bundles
+A complete proof is given in \cref{sec:pf:bundles}.
+\end{proofoutline}
+
+\begin{theorem}[Open parameter statements]\Fmark\label{thm:families:open}
+$P$ implies, for every $h_L$ and $c$, twelve linked statements for $p_{\mathrm{dep}}(h_L,c)$: primitivity (Hecke
+rationality, unit and equivariance conditions, block condition, $\sfname{RowTest}$, separated types),
+$\lambda$-rows, division rows, decomposition points, existence of a join and of a comparison, labels (a Hida
+setting, a good operator and an isometry with label ties), goodness, geometric compatibility, a multiplicity
+condition, a $\kappa$-condition, and eventually $\sfname{DefiniteSideCondition}$ for all $C\ge C_0$.
+\formal{GlobalTheory.T.open0_of_unitary_group_hypotheses}
+\end{theorem}
+%P2PTR thm:families:open
+\begin{proof}See \cref{sec:pf:open0}.
+\end{proof}
+
+
+In the development these are called ``open orbit'' statements (stage $0$ of the row construction); no
+prehomogeneous vector space is involved.
+
+\paragraph{The main theorem.}
+\begin{theorem}[Non-emptiness of the package]\Fmark\label{thm:hyps-nonempty}
+Let $P$ and $F$ be the two bundles of classical results of \cref{sec:families:theta}, and let $h_A$, $h_M$,
+$h_X$, $h_L$ be proofs of $\sfname{ThetaIntegralsAgree}$, $\sfname{LocalMatching}$, $\sfname{CovolumeBoundOfX}$
+and $\sfname{RecTExists}$. Assume that for every $c\in\R$
+\[
+\familiesLinked\bigl(p_{\mathrm{dep}}(h_L,c),\ \familiesRow(\cdot,\cdot,\mathcal A\mapsto
+\familiesClosed(D3(3,\mathcal A),\sfname{BoundAtTwoThree}))\bigr).
+\]
+Then the package $\sfname{HypsAlt}(\sfname{NL},\sfname{DefiniteSideCondition})$ is non-empty.
+\formal{UpperTheory.Lit.nonempty_hyps_definite_side_of_closed_bound}
+\end{theorem}
+
+\begin{proofoutline}
+The proof assembles the results above.
+\begin{enumerate}[label=\arabic*.]
+\item \cref{prop:families:fs} gives $\sfname{FunctionalsSeparate}$, and \cref{prop:families:rowrat} gives
+$\sfname{RowRat}$.
+\item \cref{prop:families:points} gives $\sfname{ConstantFunctionFits}$. From $F$, $h_A$, $h_M$ and
+$\sfname{FunctionalsSeparate}$ one obtains a constant $C_{F1}$ such that full grids exist eventually for large
+twisting data at every level $C_F\ge C_{F1}$, and from the fit a constant $C_{F0}$ for the functional rows. Put
+$c^*=\max(C_{F0},C_{F1})$ and $A=\sfname{GridA}(c^*)$, so that $\sfname{EvLgG}(A)$.
+\item \cref{thm:families:open} gives the open statements for $p_{\mathrm{dep}}(h_L,c^*)$; by monotonicity they hold
+for $p_A(h_L,c^*)$, which yields the functional row ($\sfname{FUN}$) and, with $h_X$, the covolume row
+($\sfname{L3}$) for $p_A$.
+\item \cref{thm:member-bundles} gives the mass ratio, $\sfname{MemberE}(p_A)$ and $\sfname{ExBL}(p_A)$.
+\cref{thm:linkN}(b), applied to the hypothesis at $c=c^*$, gives the norm row for $p_{\mathrm{dep}}$, hence for
+$p_A$; \cref{prop:families:allrows} gives $\sfname{AllRowsAlt}$ for $p_A$.
+\item \emph{Class selection.} The twenty-six linked rows and a size row from the genus mass formula are combined
+into one linked row. A class-selection theorem turns it, together with $\sfname{MemberE}$ and $\sfname{ExBL}$, into
+a class $\mathcal A$ of families built from good points and a selection $\sigma$ of linked bundles satisfying
+all rows; $\sfname{MemberE}$ gives the design choices of $\mathsf{hEx}$, and the remaining fields are uniform
+theorems of the development.\qedhere
+\end{enumerate}
+
+%P2PTR thm:hyps-nonempty
+A complete proof is given in \cref{sec:pf:stageU}.
+\end{proofoutline}
+
+\begin{remark}[Supply of the hypotheses]\label{rem:families:supply}
+In \cref{sec:top} the theorem is applied with $P$, $F$ the structures of classical results proved in the
+development, $h_A,h_M$ from \cref{thm:theorem-K}, $h_X$ from \cref{sec:covolume}, $h_L$ from \cref{sec:galois}, and
+the linkedness hypothesis from \cref{lem:families:at23}; thus the package is non-empty unconditionally
+(see the proof of \cref{thm:zerofreeall}). The covolume bound enters only through the covolume row, hence only through
+$\mathsf{rRows}$; $h_L$ enters through the norm-choice data of the points, the Galois preconditions
+(\cref{thm:linkN}) and the open statements. Apart from $\mathsf{hEx}$, the fields are closed statements,
+statements about members or selected bundles, or uniform statements, and a closed statement holds trivially for
+a class without large members; the existence of large members is the content of $\mathsf{hEx}$, which comes from
+\cref{thm:member-bundles} through class selection.
+\end{remark}
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.36\textwidth}>{\raggedright\arraybackslash}p{0.58\textwidth}}
+\caption{Fields of $\sfname{HypsAlt}$ and their sources.}\label{tab:families:fields}\\
+\toprule
+fields & source\\
+\midrule
+\endfirsthead
+\toprule
+fields & source\\
+\midrule
+\endhead
+$\mathcal A$, $\sigma$, $\mathsf{hEx}$, $\mathsf{hduty}$, $\mathsf{hMt}$ & class selection from
+\cref{thm:member-bundles}\\
+$\mathsf{hPA}$, $\mathsf{hLamP}$, $\mathsf{hDivG}$, $\mathsf{hDcPtG}$, $\mathsf{selJ}$; $\mathsf{jOn}$, $\mathsf{zL}$,
+$\mathsf{hTw}$ & \cref{thm:families:open}, directly or by short deductions\\
+$\mathsf{hRB}$, $\mathsf{hn4}$, $\mathsf{hInstR}$, $\mathsf{aC2}$, $\mathsf{aAtG}$ & archimedean inputs, class-number
+formula, volume ratio (\cref{prop:families:volratio}), conditions at constructed points\\
+$\mathsf{aPt0}$, $\mathsf{aPtTw}$, $\mathsf{aPer0}$, $\mathsf{aPerTw}$, $\mathsf{aP10}$, $\mathsf{tie}$ &
+\cref{prop:families:periods}\\
+$\mathsf{sLp}$, $\mathsf{sO}$, $\mathsf{hTF}$; $\mathsf{hServ}$ & loop rows, \cref{thm:theorem-S}, trace frame
+(Siegel--Weil); CM theory from Artin reciprocity (\cref{sec:families:rows})\\
+$\mathsf{c30}$, $\mathsf{hc30}$, $\mathsf{h30}$, $\mathsf{cIc}$, $\mathsf{hcI}$, $\mathsf{irrC}$ & \cref{thm:counting}
+and the label statement\\
+$\mathsf{rRows}$; $\mathsf{nRest}$ & open statements, \cref{prop:families:points} and $h_X$; \cref{thm:linkN}\\
+$\mathsf{cT}$, $\mathsf{hTu}$, $\mathsf{hLit}$, $\mathsf{hWu}$, $\mathsf{hRF}$, $\mathsf{sTy}$, $\mathsf{sNG}$,
+$\mathsf{sM}$, $\mathsf{hU}$, $\mathsf{hG}$ & an explicit threshold function; uniform statements proved in the
+development\\
+\bottomrule
+\end{longtable}
+}

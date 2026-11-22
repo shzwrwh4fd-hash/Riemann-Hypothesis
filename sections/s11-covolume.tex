@@ -1,0 +1,619 @@
+\section{Covolume bounds}\label{sec:covolume}
+
+\providecommand{\covolumelcv}{\operatorname{lcv}}
+\providecommand{\covolumerk}{\operatorname{rk}}
+\providecommand{\covolumemainT}{\mathrm{mainT}}
+\providecommand{\covolumeunitE}{\mathrm{unitE}}
+\providecommand{\covolumeII}{\mathrm{II}}
+\providecommand{\covolumehdeg}{\widehat{\operatorname{deg}}}
+\providecommand{\covolumehvol}{\widehat{\operatorname{vol}}}
+\providecommand{\covolumeLat}[1]{\Lambda^{\mathrm{#1}}}
+
+This section treats the proposition $\sfname{CovolumeBoundOfX}$ (\cref{def:covolX}), an archimedean
+input of the hypothesis package of \cref{sec:families}, where it supplies the ``$L_3$ condition'' of the
+indefinite-side data of the points. To each admissible point $p$ of a family and each index $j$ of the
+chain of lifts there is attached a lattice $M_j\subseteq K^D$ over a totally complex field $K$, with
+Hermitian metrics at the archimedean places, and $\sfname{CovolumeBoundOfX}$ asserts that eventually
+\begin{equation}\label{eq:covolume:bound}
+\tfrac1D\,\covolumelcv(M_j)\le\covolumemainT_j(p)+C\cdot\covolumeunitE(p),
+\end{equation}
+i.e.\ that the normalised Arakelov slope of $M_j$ is at least $-\covolumemainT_j(p)-C\,\covolumeunitE(p)$.
+The main term is an integral multiple of the Chowla--Selberg-type constant
+$\log\Omega=\gamma+\log(2\pi/\mathrm{rd}_E)-\Re\frac{L'}{L}(1,\chi_d)$ ($\mathrm{rd}_E$ the root discriminant
+of the host field, $\chi_d$ the quadratic character modulo the auxiliary prime $d$ of \cref{sec:hosts}),
+and $\covolumeunitE(p)$ is an error unit.
+
+In the announcement \cite{Announcement2026} this part of the argument corresponds to the items ``Bost
+slope inequality'' (item~13) and ``computation of covolumes'' (item~18), the Chowla--Selberg formula of
+item~9 entering through $\log\Omega$. In the development the computation of covolumes is the bound
+\eqref{eq:covolume:bound}, and the slope inequality (\cref{lem:covolume:slopes}) transports slopes along
+maps of controlled height, from lattices of lifted forms to lattices of automorphic forms on unitary
+Shimura varieties, where arithmetic intersection theory bounds them. The proof has four layers: a final
+assembly (\cref{sec:covolume:assembly}), lift estimates (\cref{sec:covolume:lift}), mean slopes on deep
+covers (\cref{sec:covolume:deep}) and arithmetic-geometric inputs (\cref{sec:covolume:inputs}), all of
+them proved in the development.
+
+% ---------------------------------------------------------------------------
+\subsection{Hermitian lattices and slopes}\label{sec:covolume:lattices}
+
+Let $K$ be a totally complex number field, $r_2=[K:\Q]/2$, and fix for each archimedean place $v$ an
+embedding $\sigma_v\colon K\to\C$ inducing it.
+
+\begin{definition}[Slopes and covolumes]\label{def:covolume:slopes}
+Let $V$ be a $K$-vector space with a basis $(b_i)_{i\in I}$ and a \emph{frame} $X=(X(v))_v$ of
+invertible complex $I\times I$ matrices. Put $\|x\|_{X,v}=|X(v)^{-1}(\sigma_v(x_i))_i|$ for
+$x=\sum_ix_ib_i$, and let $\rho\colon V\to\bigoplus_v\C^I$ (Euclidean) be
+$x\mapsto(X(v)^{-1}(\sigma_v(x_i))_i)_v$. For a nonzero finitely generated $\OO_K$-submodule
+$L\subseteq V$ let $\covolumerk L=\dim_KKL$ and
+\[
+\mu(L)=-\frac{2\log\covol\rho(L)}{[K:\Q]\,\covolumerk L}-\log2+\frac{\log|d_K|}{[K:\Q]},\qquad
+\deg L=\covolumerk L\cdot\mu(L).
+\]
+$\mu_{\max}(L)$ is the supremum of $\mu(N)$ over the nonzero submodules $N\subseteq L$, and
+$\mu_{\min}(L)$ the infimum of $\mu(L/N)$ (quotient metrics) over the saturated $N\subsetneq L$. For
+$V=K^d$ with its standard basis,
+$\covolumelcv(X,L)=\frac2{[K:\Q]}\log\bigl(2^{r_2\covolumerk L}|d_K|^{-\covolumerk L/2}\covol\rho(L)\bigr)$.
+The \emph{height} of a $K$-linear map $\varphi$ between such spaces is
+$h(\varphi)=\frac1{r_2}\sum_v\log\|\varphi\|_v^2$ (operator norms). A family of norms
+$\nu=(\nu_\sigma)_{\sigma\colon K\to\C}$ on $V$ \emph{has a Gram frame} if $\nu_{\sigma_v}=\|\cdot\|_{X,v}$
+for all $v$, for some basis and frame; $\mu_\nu$, $\mu_{\max,\nu}$ are then defined through any such
+frame. (The development sets $\mu_\nu=0$ if there is no Gram frame, and $\covol=0$ for non-discrete
+groups; such cases are excluded by hypotheses wherever these quantities occur below.)
+\end{definition}
+
+\begin{remark}\label{rem:covolume:arakelov}
+Let $\overline L$ be $L$ with the metrics $\|\cdot\|_{X,v}$ at $\sigma_v$ and $\bar\sigma_v$. Since
+$\covol\rho(\OO_K)=2^{-r_2}|d_K|^{1/2}$ for the standard metric, a direct computation gives
+$\mu(L)=2\covolumehdeg(\overline L)/([K:\Q]\covolumerk L)$ and, for $V=K^d$,
+$\covolumelcv(X,L)=-\covolumerk L\cdot\mu(L)$, where $\covolumehdeg$ is the Arakelov degree
+\cite{GilletSoule1992,Bost1996}. Thus $\mu$ is twice the normalised Arakelov slope, $\mu_{\max}$ and
+$\mu_{\min}$ are the extreme slopes of the Harder--Narasimhan filtration \cite{Stuhler1976,Grayson1984},
+and $\covolumelcv/\covolumerk$ is minus the slope.
+\end{remark}
+
+\begin{lemma}[Covolume versus slope]\label{lem:covolume:lcv-slope}
+Let $\nu$ have a Gram frame, let $b_1,\dots,b_d\in V$ be linearly independent, $L\subseteq\sum_kKb_k$
+an $\OO_K$-submodule, $X$ a frame on $K^d$ and $0<s\le1$ with
+$\|c\|_{X,v}=s\,\nu_{\sigma_v}(\sum_kc_kb_k)$ for all $v$ and $c$. If
+$M=\{c\in K^d:\sum_kc_kb_k\in L\}$ is a lattice, then $\covolumelcv(X,M)/d\le-\mu_\nu(L)$.
+\end{lemma}
+
+\begin{proof}
+For $X'=sX$ the map $c\mapsto\sum_kc_kb_k$ is an isometry of $(M,X')$ onto $(L,\nu)$. Hence
+$\covolumelcv(X',M)/d=-\mu_\nu(L)$ by \cref{rem:covolume:arakelov}, and passing from $X'$ to $X$
+multiplies $\rho$ by $s$, whence $\covolumelcv(X,M)=\covolumelcv(X',M)+2d\log s$.
+\end{proof}
+
+The following facts are the form in which Bost's slope inequality \cite{Bost1996,Bost2001} and the
+Hermite--Minkowski bounds of the geometry of numbers enter.
+
+\begin{lemma}[Slope inequality; Minkowski bounds]\label{lem:covolume:slopes}
+Let $A\subseteq V$ and $B\subseteq W$ be nonzero finitely generated $\OO_K$-submodules of spaces with
+frames as in \cref{def:covolume:slopes}.
+\begin{enumerate}[label=(\alph*)]
+\item If $\varphi\colon V\to W$ is $K$-linear and injective and $\varphi(A)\subseteq B$, then\\
+$\covolumerk A\,\bigl(\mu(A)-h(\varphi)\bigr)+(\covolumerk B-\covolumerk A)\,\mu_{\min}(B)\le\covolumerk B\cdot\mu(B)$.
+\item If $B$ is spanned over $K$ by elements $y\in B$ with all $\|y\|_v\le e^\Lambda$, then
+$\mu_{\min}(B)\ge-2\Lambda$.
+\item If $\frac1{r_2}\sum_v\log\|y\|_v\ge-\Lambda$ for all $0\ne y\in B$, then
+$\mu_{\max}(B)\le2\Lambda+\log\covolumerk B+\log|d_K|/[K:\Q]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) If $B'$ is the saturation of $\varphi(A)$ in $B$, then $\deg B=\deg B'+\deg(B/B')$,
+$\deg(B/B')\ge\covolumerk(B/B')\,\mu_{\min}(B)$, and
+$\deg B'\ge\deg\varphi(A)\ge\deg A-\covolumerk A\cdot h(\varphi)$, as $\varphi$ multiplies covolumes at
+$v$ by at most $\|\varphi\|_v^{2\covolumerk A}$. (b) One has $\mu(\OO_Ky)=-\frac1{r_2}\sum_v\log\|y\|_v^2$,
+and every quotient of $B$ contains with full rank a module generated by images of the given
+generators, whose degree is bounded below by Hadamard's inequality. (c) For $0\ne N\subseteq B$,
+Minkowski's theorem gives $0\ne y\in N$ with $|\rho(y)|^2\le n\covol\rho(N)^{2/n}$,
+$n=[K:\Q]\covolumerk N$; as $|\rho(y)|^2=\sum_v\|y\|_v^2$, the arithmetic-geometric mean inequality gives
+$-2\Lambda\le\log(|\rho(y)|^2/r_2)\le\log\covolumerk N-\mu(N)+\log|d_K|/[K:\Q]$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The statement}\label{sec:covolume:statement}
+
+We use the families and points of \cref{sec:families}: for $\eps>0$ a family $F\in\mathrm{FamP}(\eps)$
+provides, for $x>x_1$ and $\iota\in I_x$, global data (ranks $k,m,f,\dots$, a host field $E$ with
+auxiliary primes $q\equiv3\bmod8$, $d\equiv7\bmod16$, a totally complex field $K$) and size data (the
+scale $x$, the exponent $\eps$, parameters $b,e_z,\dots$), and $\mathrm{FamHyp}$ is the class of families
+satisfying the family conditions. $\mathrm{Closed}(\mathcal C,P)$ means: there is $\eps_1>0$ such that for
+every $\eps\in(0,\eps_1]$ there is a ``transported constant'' $\kappa$ with $P(F,C_H)$ for all
+$F\in\mathrm{FamP}(\eps)\cap\mathcal C$ and $C_H\in\R$ such that the constants of $F$ and $C_H$ are large
+relative to $\kappa$ ($F.\mathrm{Large}(\kappa,C_H)$). A \emph{point} $p\in\mathrm{Pt}(F,x,\iota)$ contains a
+finite group $G_p$, a \emph{core datum} $T$ (unitary moduli spaces with lattices of automorphic forms),
+spaces of lifted forms, and indefinite data $p.S(\mathrm{false})$, $p.S(\mathrm{true})$ over $K$ indexed by
+$J=\{0,\dots,m-1\}$. $\mathrm{EventuallyAtAllPoints}(F,Q)$ means: for some $x_0$, $Q(p)$ holds for all
+$x\ge x_0$, $\iota\in I_x$ and $p\in\mathrm{Pt}(F,x,\iota)$ satisfying the structural conditions
+$\mathrm{PointConditions}'$ of \cref{sec:families} and $\mathrm{RecTied}$ (a bound for the degree and root
+discriminant of an auxiliary number field, and a compatibility of two Teichm\"uller series).
+
+\begin{definition}[Main term and error unit]\label{def:covolume:mainT}
+For a point $p$ at $(x,\iota)$, with ranks $k,m,f$, host $E$, prime $d$ and parameters $b,\eps$, let
+$\chi_d=(\frac{\cdot}{d})$, $\mathrm{rd}_E=|d_E|^{1/[E:\Q]}$, $v=\frac12\mathrm{rd}_E$, and
+\begin{gather*}
+\log\Omega(p)=\gamma+\log\frac{\pi}{v}-\Re\frac{L'(1,\chi_d)}{L(1,\chi_d)},\qquad
+\covolumeunitE(p)=f\,m\,b\,x^{\eps}\log\log x,\\
+\covolumemainT_j(p)=\sum_{\rho\in\mathrm{RPl}}\bigl((k+j)-(m-j-1)\bigr)\,w_{j+1}(\rho)\,\log\Omega(p)
+\qquad(j\in J),
+\end{gather*}
+where $\mathrm{RPl}=\{0,1\}\times A$, with $A$ the finite abelian group of the datum (its elements label
+elements of the CM type of the host), and $w_{j+1}(\rho)\in\Z$ is the entry $e_j$ of the
+Harish-Chandra parameter of the datum at $\rho$.
+\end{definition}
+
+\begin{definition}[$\sfname{CovolumeBoundOfX}$]\label{def:covolX}
+The base side $S=p.S(\mathrm{false})$ of a point contains an integer $D$ and, for $j\in J$, a frame
+$X_{W,j}$ on $K^{d_W(j)}$ and an $\OO_K$-submodule $M_j\subseteq K^{d_W(j)}$. The proposition
+$\sfname{CovolumeBoundOfX}$ is
+\begin{multline*}
+\mathrm{Closed}\Bigl(\mathrm{FamHyp},\,(F,C_H)\mapsto\exists C_0\ge0:\ \mathrm{EventuallyAtAllPoints}\bigl(F,\\
+p\mapsto\forall C\ge C_0\ \forall j\in J:\ \tfrac1D\,\covolumelcv(X_{W,j},M_j)\le
+\covolumemainT_j(p)+C\,\covolumeunitE(p)\bigr)\Bigr).
+\end{multline*}
+In the development the inner inequality is $S.\mathsf{L3}(p.N(C,C_H))$, where the numerical datum
+$p.N(C,C_H)$ has $l_3(j)=\covolumemainT_j(p)+C\,\covolumeunitE(p)$.
+\formal{GlobalTheory.CovTop.CovolumeBoundOfX}
+\end{definition}
+
+\begin{remark}\label{rem:covolume:omega}
+(1) At the points considered $d_W(j)=D>0$ and $M_j$ is a lattice (\cref{lem:covolume:rec}), so the
+inequality says $\mu_{X_{W,j}}(M_j)\ge-\covolumemainT_j(p)-C\,\covolumeunitE(p)$
+(\cref{rem:covolume:arakelov}). $C_H$ enters only through $F.\mathrm{Large}(\kappa,C_H)$ and the choice of
+$C_0,x_0$. (2) As $d\equiv3\bmod4$, $\chi_d$ is the odd character of $\Q(\sqrt{-d})$, and the functional
+equation gives $\frac{L'}{L}(0,\chi_d)=\gamma+\log\frac{2\pi}{d}-\frac{L'}{L}(1,\chi_d)$; hence
+$\log\Omega(p)=\frac{L'}{L}(0,\chi_d)+\log(d/\mathrm{rd}_E)$. By the Chowla--Selberg formula
+\cite{ChowlaSelberg1967}, a consequence of Kronecker's limit formula, in the form given by Colmez
+\cite{Colmez1993}, $\frac{L'}{L}(0,\chi_d)$ is an
+explicit affine function of the Faltings height of the elliptic curves with complex multiplication by
+the integers of $\Q(\sqrt{-d})$, i.e.\ of the logarithm of their period. The development uses
+$\log\Omega$ only through its defining formula.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{The main theorem}\label{sec:covolume:main}
+
+\begin{theorem}[Covolume bound]\Fmark\label{thm:covol}
+If the statements listed in \cref{tab:covolume:inputs} hold, then so does $\sfname{CovolumeBoundOfX}$.
+Each of these fifteen statements is proved in the formal development; hence
+$\sfname{CovolumeBoundOfX}$ holds.
+\formal{SelfIntersectionVolumeEstimates.topCovolSlim2_use_alt_alt}
+\end{theorem}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{12.2cm}@{}}
+\toprule
+Input & Content (as formalised); literature\\
+\midrule
+Resolution & reduced quasi-compact schemes locally of finite type over a field of characteristic $0$
+are resolved by blow-up sequences which are isomorphisms over the smooth locus, the reduced preimage of
+the non-smooth locus having strict normal crossings \cite{Hironaka1964,BierstoneMilman1997,Wlodarczyk2005,Kollar2007}\\
+Principalisation & an ideal sheaf on a smooth scheme becomes a divisor with strict normal crossings
+support after blow-ups with centres transversal to the boundary (same references)\\
+Poincar\'e--Lelong & arithmetic Poincar\'e--Lelong formula in multiprojective coordinates
+\cite{GilletSoule1990,BostGilletSoule1994}\\
+$\sfname{HSUse}$ & arithmetic Kleiman criterion, Hilbert--Samuel upper bounds (\cref{def:covolume:hs})
+\cite{GilletSoule1992,AbbesBouche1995,Zhang1995}\\
+Moriwaki & arithmetic self-intersection $\le$ arithmetic volume (\cref{def:covolume:hs})
+\cite{Moriwaki2009,Yuan2008}\\
+Hodge--Tate & exactness of the Hodge--Tate sequence of $p$-divisible groups over $\OO_C$
+\cite{Faltings1988,FarguesGenestierLafforgue2008}\\
+Zarhin & an abelian scheme over the valuation ring of an algebraically closed valued field is a
+retract of a principally polarised one \cite{Zarhin1975,Zarhin1985}\\
+Nef Riemann--Roch & asymptotic Riemann--Roch for nef divisors \cite{Lazarsfeld2004}\\
+Siegel toroidal & toroidal compactifications of Siegel moduli spaces of odd level $n\ge3$ over
+$\Z[\zeta_n,1/n]$, with semi-abelian extension, charts, ample Hodge bundle twist
+\cite{FaltingsChai1990,AshMumfordRapoportTai1975}\\
+Unitary toroidal & smooth toroidal models of unitary moduli spaces, charts, logarithmic
+Kodaira--Spencer isomorphism \cite{Lan2013,FaltingsChai1990}\\
+Lie seminegativity & subbundles of $\Lie G$, for $G$ semi-abelian over a projective curve in
+characteristic $0$, have degree $\le0$ \cite{FaltingsChai1990,MoretBailly1985}\\
+Point separation & point separation for adjoint bundles on klt pairs \cite{AngehrnSiu1995,Lazarsfeld2004}\\
+$\sfname{ArDegree}$ & birational invariance of arithmetic self-intersections; Chern-form integrals
+compute degrees \cite{GilletSoule1990}\\
+Hodge package & $28$ statements (toroidal compactification, arithmetic volumes, vanishing theorems,
+$L^2$ extension, Chow forms, heights of cycles, GAGA, \dots; \cref{sec:literature})\\
+Grothendieck--Messing & deformations of abelian schemes over nilpotent divided-power thickenings
+\cite{Messing1972}\\
+\bottomrule
+\end{tabular}
+\caption{The inputs of \cref{thm:covol}; the first eight are those of \cref{thm:deepstr}.}
+\label{tab:covolume:inputs}
+\end{table}
+
+\begin{proofoutline}
+The first eight inputs give $\sfname{DeepStR}$ (\cref{thm:deepstr}). The others, with Green's theorem on
+cuspidal characters (\cref{sec:literature}), a Fubini--Study/Chow height formula, a comparison of
+arithmetic self-intersections with heights of Chow forms and the injectivity of small sections, are the
+geometric inputs of \cref{thm:covolume:lift}, which gives $\sfname{CovolumeBoundOfX}$. In the final
+proof the inputs are supplied by \cref{thm:covolume:resolution,thm:covolume:hs} and by formal proofs of
+the other published results (\cref{sec:literature}). The part of the formal proof specific to
+\cref{thm:covol} has about $850{,}000$ lines, more than half of them in the proof of \cref{thm:deepstr}.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{The final assembly}\label{sec:covolume:assembly}
+
+Fix a point $p$ at $(x,\iota)$ and $i\in J$; write $\delta=\exp(-x^{e_z/7})$,
+$\covolumemainT=\covolumemainT_i(p)$ and $U=\covolumeunitE(p)$. Let $W_i$ be the $i$-th space of lifted
+forms of $p$, with the family $\nu$ of Petersson-type norms given by the archimedean realisations;
+$\covolumeLat{all}\subseteq W_i$ the $\OO_K$-span of the integral structure;
+$\covolumeLat{type}\subseteq\covolumeLat{all}$ the sublattice of vectors of the type prescribed by $p$;
+$e_i$ the operator given by an idempotent of the group algebra of $G_p$;
+$\covolumeLat{good}=\covolumeLat{type}\cap\operatorname{im}e_i$ and
+$\covolumeLat{bad}=\covolumeLat{type}\cap\ker e_i$; and $\mu_{\mathrm{core}}$ the slope of the
+corresponding lattice of automorphic forms of weight $\kappa_i$ of the core datum.
+
+\begin{definition}[Lift conditions]\label{def:covolume:predicates}
+The \emph{lift predicates} at $(p,i)$ are, for $A,B,C,PP\in\R$ and $|\kappa_i|$ the size of the weight
+$\kappa_i$:
+$\mathsf{GramAt}$: $\nu$ has a Gram frame, $\covolumeLat{all}$ is finitely generated and
+$\covolumeLat{good}\ne0$ (and a condition on the weights of the core datum holds);
+$\mathsf{RecAt}$: $\covolumelcv(X_{W,i},M_i)/D\le-\mu_\nu(\covolumeLat{good})$;
+$\mathsf{CutAt}$: $e_i^2=e_i$, $e_i$ is \emph{Pythagorean}, i.e.\
+$\nu_\sigma(e_iy+z-e_iz)^2=\nu_\sigma(e_iy)^2+\nu_\sigma(z-e_iz)^2$ for all $\sigma,y,z$,
+$|G_p|\,e_i(\covolumeLat{type})\subseteq\covolumeLat{type}$, and $2\log|G_p|\le b$;
+$\mathsf{BadAt}$: $\covolumerk\covolumeLat{bad}\le3\delta\,\covolumerk\covolumeLat{type}$;
+$\mathsf{LamAt}(A)$: $\mu_{\max,\nu}(\covolumeLat{all})\le x^Ab$;
+$\mathsf{SizeAt}(PP,B)$: $1\le b\le U\le x^Bb$, $|\covolumemainT|\le x^Bb$ and
+$|\covolumemainT|,b\le PP\,|\kappa_i|$ (and conditions on auxiliary weights);
+$\mathsf{CoreAt}(C)$: $\mu_{\mathrm{core}}-CU\le\mu_\nu(\covolumeLat{type})$;
+$\mathsf{LowAt}(C)$: $-\covolumemainT-CU\le\mu_{\mathrm{core}}$.
+The eight corresponding \emph{lift conditions} are the statements
+$\mathrm{Closed}\bigl(\mathrm{FamHyp},(F,C_H)\mapsto\exists C\ge0:\mathrm{EventuallyAtAllPoints}(F,p\mapsto\forall i\in J:Q)\bigr)$,
+the existential constant playing the role of $A$, $B$ or $C$, and $PP$ being a parameter of the family.
+\end{definition}
+
+\begin{lemma}[Good/bad cut]\label{lem:covolume:goodbad}
+Let $V$ carry a frame, $e$ a $K$-linear idempotent of $V$ self-adjoint for the Hermitian forms at all
+places, $g\ge1$ an integer, and $N\subseteq V$ a finitely generated $\OO_K$-submodule with
+$g\,e(N)\subseteq N$. Put $N_g=N\cap\operatorname{im}e$, $N_b=N\cap\ker e$. Then
+$\covolumerk N=\covolumerk N_g+\covolumerk N_b$, $\deg N\le\deg N_g+\deg N_b+2\covolumerk N_b\log g$, and
+$\deg N_b\le\covolumerk N_b\cdot\mu_{\max}(M)$ for every finitely generated $M\supseteq N$.
+\end{lemma}
+
+\begin{proof}
+For $y\in N$, $g\,e(y)\in N_g$ and $g(y-e(y))\in N_b$; hence $KN=KN_g\oplus KN_b$, which gives the
+ranks, and $N_g=N\cap KN_g$ is saturated. As $e$ is self-adjoint, $KN_g\perp KN_b$, so the quotient norm
+of $y+N_g$ is $\|(1-e)y\|$, and $g(1-e)$ induces an injection $N/N_g\hookrightarrow N_b$ of lattices of
+equal rank, of height $2\log g$. Thus $\deg N=\deg N_g+\deg(N/N_g)$ and
+$\deg(N/N_g)\le\deg N_b+2\covolumerk N_b\log g$ by \cref{lem:covolume:slopes}(a). The last claim is the
+definition of $\mu_{\max}$.
+\end{proof}
+
+\begin{lemma}[Slope of the good part]\label{lem:covolume:slope-good}
+Let $\nu$ have a Gram frame, $0\ne L\subseteq M$ with $M$ finitely generated, $e$ a Pythagorean
+idempotent, $g\ge1$ an integer with $g\,e(L)\subseteq L$, and $0\le\delta\le\frac1{12}$ with
+$\covolumerk(L\cap\ker e)\le3\delta\covolumerk L$. If $\mu_{\max,\nu}(M)\le Q$, $-Q\le\mu_\nu(L)$ and
+$2\log g\le Q$, then $\mu_\nu(L)-12\delta Q\le\mu_\nu(L\cap\operatorname{im}e)$.
+\end{lemma}
+
+\begin{proof}
+A Pythagorean idempotent is self-adjoint, so \cref{lem:covolume:goodbad} applies to $N=L$. Let
+$d_g,d_b$ be the ranks of $L_g=L\cap\operatorname{im}e$, $L_b=L\cap\ker e$, $\mu=\mu_\nu(L)$,
+$\mu_g=\mu_\nu(L_g)$ and $l=2\log g\in[0,Q]$. Then $(d_g+d_b)\mu\le d_g\mu_g+d_b(Q+l)$, and
+$d_b\le3\delta(d_g+d_b)$ gives $d_b\le4\delta d_g$, so $d_g>0$. Using $\mu\ge-Q$,
+$d_g\mu_g\ge(d_g+d_b)\mu-d_b(Q+l)\ge d_g\mu-3d_bQ\ge d_g(\mu-12\delta Q)$.
+\end{proof}
+
+\begin{theorem}[Final assembly]\label{thm:covolume:assembly}
+The eight lift conditions imply $\sfname{CovolumeBoundOfX}$.
+\formal{GlobalTheory.CovTop.Assembly.covolX_of_lift_bounds_and_coreLe}
+\end{theorem}
+
+\begin{proof}
+$\mathrm{Closed}$ and $\mathrm{EventuallyAtAllPoints}$ are stable under finite conjunctions (take the
+least $\eps_1$, a common transported constant and the largest $x_0$). Fix $\eps,\kappa,F,C_H$ as in
+$\mathrm{Closed}$ and let $A$, $B$, $C_1\ge0$, $C_2\ge0$ be the constants of the lift conditions for
+$\mathsf{LamAt}$, $\mathsf{SizeAt}$, $\mathsf{CoreAt}$ and $\mathsf{LowAt}$. Since $e_z>0$ is fixed and
+$x^a\exp(-x^{e_z/7})\to0$, for large $x$ we have $12\delta Q\le U$, where
+$Q=(x^A+x^B+C_1+C_2+1)U$. By $\mathsf{SizeAt}$, $1\le b\le U$ and $|\covolumemainT|\le x^BU$. Apply
+\cref{lem:covolume:slope-good} to $L=\covolumeLat{type}\subseteq M=\covolumeLat{all}$, $e=e_i$ and
+$g=|G_p|$: the Gram frame, finite generation and $L\ne0$ come from $\mathsf{GramAt}$; the conditions on
+$e$ and $2\log g\le b\le Q$ from $\mathsf{CutAt}$; the rank condition is $\mathsf{BadAt}$;
+$\mu_{\max}(M)\le x^Ab\le Q$ is $\mathsf{LamAt}$; and
+$\mu(L)\ge\mu_{\mathrm{core}}-C_1U\ge-\covolumemainT-(C_1+C_2)U\ge-Q$ by $\mathsf{CoreAt}$ and
+$\mathsf{LowAt}$. Hence $\mu(\covolumeLat{good})\ge\mu(L)-U$, and by $\mathsf{RecAt}$, $\mathsf{CoreAt}$,
+$\mathsf{LowAt}$,
+\[
+\tfrac1D\covolumelcv(X_{W,i},M_i)\le-\mu(\covolumeLat{good})\le-\mu(L)+U\le-\mu_{\mathrm{core}}+(C_1+1)U
+\le\covolumemainT+(C_1+C_2+1)U.
+\]
+So $C_0=C_1+C_2+1$ works, because $U\ge1$.
+
+%P2PTR thm:covolume:assembly
+A complete proof is given in \cref{sec:pf:lift2,sec:pf:covol}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The lift estimates}\label{sec:covolume:lift}
+
+The lift conditions are obtained by comparison with Shimura varieties of higher level. A \emph{deep
+cover} $Y$ of the core datum at level $j$ is a unitary moduli space of higher level (level modulus $M'$)
+over a coefficient field $c_2.F$ containing that of $T$, with complex uniformisations and dictionaries
+to the local groups. It carries lattices $\mathrm{latW}(Y,G)$ of cusp forms of weight $G$, with
+Petersson-type norms and slopes $Y.\mu(G)$, and, on each connected component $Z$, degrees, ranks,
+arithmetic degrees and heights of automorphic bundles. $\mathrm{GoodCov}(Y)$ requires, among other
+conditions, an admissible level, unitary uniformisations, normality of $c_2.F$ over the field of $T$, and
+$\log[c_2.F:\Q]+\log|d_{c_2.F}|/[c_2.F:\Q]\le391z^2$ for a size parameter $z$. The weights used are
+$G_k=G_k(\kappa_i)$, its shifts $G_s(\pm c_0)$ by a multiple of the Hodge weight, and an anchored weight
+$u_M$.
+
+\begin{theorem}[Lift estimates]\Fmark\label{thm:covolume:lift}
+Assume $\sfname{DeepStR}$ (\cref{def:covolume:deepstr}) and the geometric inputs of the proof of
+\cref{thm:covol}. Then the conditions of \cref{tab:covolume:conditions} hold; in particular the eight
+lift conditions hold, and $\sfname{CovolumeBoundOfX}$ follows by \cref{thm:covolume:assembly}.
+\formal{SelfIntersectionVolumeEstimates.topCovolG_alt_alt}
+\end{theorem}
+%P2PTR thm:covolume:lift
+\begin{proof}See \cref{sec:pf:lift2}.
+\end{proof}
+
+
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{9.1cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+Group & Conditions at $(p,i)$, resp.\ at good deep covers $Y$ of level $i+1$ & Main inputs\\
+\midrule
+Point data & $\mathsf{GramAt}$; $\mathsf{SizeAt}$; $\nu_\sigma=c_\sigma\cdot$(Petersson norm) with
+$|\log c_\sigma|\le CU$; $\covolumemainT$ equals an anchored sum $\sum_\tau(p-q)a(\tau)\log\Omega$ up to
+$CU$; $\covolumeLat{type}$ spanned by integral vectors & point conditions, Hodge package\\
+Deep covers & existence of $Y$, positive ranks, finitely many components, flat degrees; degrees and
+rank shares of components; mean height of the components $\ge-X$ with $X\le CU$; Hilbert--Samuel lower
+bounds; $2\sum_Z\covolumehdeg_Z/\sum_Z\covolumerk_Z\le Y.\mu(u_M)$; $Y.\mu(u_M)\ge-C_UU$ &
+$\sfname{DeepStR}$, toroidal inputs, Grothendieck--Messing, Lie seminegativity, $\sfname{ArDegree}$\\
+Descent & $Y.\mu(G_k)-2b\le\mu_{\mathrm{core}}$; jointly injective
+$\varphi_h\colon\mathrm{latW}(Y,G_s(-c_0))\to\mathrm{latW}(Y,G_k)$, $\sum_h\|\varphi_hf\|^2\le
+e^{2b}\|f\|^2$; a rank comparison; generators of norm $\le e^{PP|\kappa_i|}$;
+$Y.\mu(u_M)-\covolumemainT-C_FU\le Y.\mu(G_s(-c_0))$ & Hodge package, rows above\\
+Lift & $\mathsf{LowAt}$ (\cref{lem:covolume:low}; directly if $i+1=m$), $\mathsf{RecAt}$
+(\cref{lem:covolume:rec}), $\mathsf{CutAt}$, $\mathsf{BadAt}$, $\mathsf{LamAt}$ (by
+\cref{lem:covolume:slopes}(c)), $\mathsf{CoreAt}$ & rows above, Green\\
+\bottomrule
+\end{tabular}
+\caption{The conditions established in the proof of \cref{thm:covolume:lift}, in logical order;
+$U=\covolumeunitE(p)$, and $C,C_F,C_U$ are constants.}
+\label{tab:covolume:conditions}
+\end{table}
+
+\begin{proofoutline}
+Each row is a theorem of the development, proved from the indicated inputs and the rows above. The
+bound $\sfname{DeepStR}$ enters only through the heights, and an arithmetic Hilbert--Samuel estimate on
+each component turns the height, degree, share and sum bounds into $Y.\mu(u_M)\ge-C_UU$. Some step
+theorems carry hypotheses that their proofs do not use; e.g.\ the Gram condition follows from the point
+conditions alone. Three representative steps follow.
+\end{proofoutline}
+
+\begin{lemma}\label{lem:covolume:rec}
+If $p$ satisfies $\mathrm{PointConditions}'$ and $\mathsf{GramAt}$ holds at $(p,i)$, then so does
+$\mathsf{RecAt}$.
+\end{lemma}
+
+\begin{proof}
+The primitive-rows condition gives $d_W(i)=D>0$ and that $M_i$ is a lattice. By construction of the
+base side, $M_i=\{c\in K^D:\sum_kc_kb_k\in\covolumeLat{good}\}$ for a basis $(b_k)$ of the space of lifted
+forms of the given type, and $\|c\|_{X_{W,i},v}=s\,\nu_{\sigma_v}(\sum_kc_kb_k)$ with $s=n_P^{-1/2}$ for an
+integer $n_P\ge1$. Apply \cref{lem:covolume:lcv-slope}.
+\end{proof}
+
+\begin{lemma}[Descent]\label{lem:covolume:descent}
+Let $A\subseteq V$, $B\subseteq W$ be finitely generated, $A\ne0$, with norm families having Gram
+frames, and let $\varphi_1,\dots,\varphi_n\colon V\to W$ be jointly injective with
+$\varphi_h(A)\subseteq B$ and $\sum_h\|\varphi_hf\|_v^2\le e^{2P}\|f\|_v^2$. Suppose that $B$ is spanned
+over $K$ by elements of norm $\le e^\Lambda$ at all places, $\Lambda,\eps\ge0$,
+$n\covolumerk B\le(1+\eps)\covolumerk A$ and $t\le\mu(A)-2P$. Then $\mu(B)\ge t-\eps(|t|+2\Lambda)$.
+\end{lemma}
+
+\begin{proof}
+Apply \cref{lem:covolume:slopes}(a),(b) to $(\varphi_h)_h\colon A\to B^n$: its height is at most $2P$,
+$\mu(B^n)=\mu(B)$ and $\mu_{\min}(B^n)\ge-2\Lambda$. With
+$\theta=\covolumerk A/(n\covolumerk B)\in[(1+\eps)^{-1},1]$ this gives
+$\mu(B)\ge\theta t-2\Lambda(1-\theta)\ge t-(1-\theta)(|t|+2\Lambda)$, and $1-\theta\le\eps$.
+\end{proof}
+
+\begin{lemma}\label{lem:covolume:low}
+Let $C_F,C_U\ge0$ and $i+1<m$. If $\mathsf{SizeAt}(PP,\cdot)$ holds at $(p,i)$ and the descent
+conditions and $Y.\mu(u_M)\ge-C_UU$ hold for a good deep cover $Y$ of level $i+1$, then
+$\mathsf{LowAt}(2(C_F+C_U)+9)$ holds at $(p,i)$.
+\end{lemma}
+
+\begin{proof}
+Let $\Lambda=PP|\kappa_i|\ge b\ge1$, $\eps=b/\Lambda$, $A=\mathrm{latW}(Y,G_s(-c_0))$,
+$B=\mathrm{latW}(Y,G_k)$. Flatness and the uniform bound give
+$t:=-\covolumemainT-(C_F+C_U)U-2b\le\mu(A)-2b$, and \cref{lem:covolume:descent} (with $P=b$) gives
+$\mu(B)\ge t-\eps(|t|+2\Lambda)\ge-\covolumemainT-2(C_F+C_U)U-7b$, using $|\covolumemainT|\le\Lambda$
+and $b\le\min(\Lambda,U)$. Finally $\mu_{\mathrm{core}}\ge\mu(B)-2b$ and $b\le U$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Mean slopes on deep covers}\label{sec:covolume:deep}
+
+\begin{definition}[$\sfname{DeepStR}$]\label{def:covolume:deepstr}
+Let $X^o$ be a unitary moduli space attached to a CM field $E$ with CM type $\Psi$, a datum of signature
+$(p,q)$, a level and a coefficient datum. For a weight $u=(u_{\tau,a})_{\tau\in\Psi,a<p+q}$ and $g>0$
+let $\mathrm{WtGap}(u,g)$ mean that every $u_\tau$ is strictly decreasing with
+$|u_{\tau,a}-u_{\tau,a'}|\ge g$ for $a\ne a'$, $a\ge p$; put
+$\mathrm{bnd}(u,g)=4|\Psi|(p+q)^2(1+\max|u_{\tau,a}|/g)$ and
+$\mathrm{err}_s(u,g)=(\log\mathrm{bnd}(u,g)+s)\|u\|_1+q\sum_\tau(\max_au_{\tau,a}-\min_au_{\tau,a})$.
+$\mathrm{MeanAll}(s,C)$ means: whenever $\mathrm{WtGap}(u,g)$, there are reals
+$\mathrm{sl}(Z)\le\mathrm{volSlope}(Z,u)$ for the connected components $Z$ with
+$\frac1{\#\{Z\}}\sum_Z\mathrm{sl}(Z)\ge-C\,\mathrm{err}_s(u,g)$, where $\mathrm{volSlope}(Z,u)$ is the
+arithmetic volume slope on $Z$ of the automorphic line bundle of weight $u$ (counting sections small at
+the archimedean places, with valuation conditions at the primes up to $\mathrm{bnd}(u,g)$).
+$\sfname{DeepStR}$ asserts: there is $C\ge0$ such that for every global datum $\mathcal D$, every core
+datum $T$ of $\mathcal D$ satisfying the structural conditions $\mathsf{LawsJ}$, with $m^2\le k$, every $1\le j<m$ and every
+deep cover $Y$ of $T$ at level $j$ that is good for some parameters and whose level modulus has at most
+$15$ prime factors, $\mathrm{MeanAll}(\ell(\mathcal D),C)$ holds on $Y$, where
+$\ell(\mathcal D)=\log\mathrm{rd}_E+|\frac{L'}{L}(1,\chi_d)|$.
+\formal{GlobalTheory.CompanionTheory.Ar.Plug.DeepStR}
+\end{definition}
+
+\begin{theorem}[Mean slopes on deep covers]\Fmark\label{thm:deepstr}
+Resolution and principalisation in characteristic $0$, the arithmetic Poincar\'e--Lelong formula,
+$\sfname{HSUse}$, $\sfname{MoriwakiBigStatement}$, the exactness of the Hodge--Tate sequence, Zarhin's
+trick and asymptotic Riemann--Roch for nef divisors imply $\sfname{DeepStR}$.
+\formal{PositivityTheory.HtPt.Ah.deep_slim_use}
+\end{theorem}
+
+\begin{proofoutline}
+(1)~Resolution and principalisation give resolution in projective coordinates, and with the
+Poincar\'e--Lelong formula a full arithmetic intersection system (\cref{def:covolume:hs}); the other
+inputs of \cref{thm:tower} (homomorphisms of semi-abelian schemes, GAGA for sections, quotients by
+finite flat group schemes) are theorems of the development. (2)~One derives lines of large degree and
+fourteen geometric statements (among them the birational pull-back and push-forward inequality for
+arithmetic volumes), and then \cref{thm:tower}. (3)~The mean-slope part of $\sfname{VolumeTheoremX}$
+gives $C$ such that $\mathrm{MeanAll}(\log\mathrm{rd}_E+|\frac{L'}{L}(1,\chi_d)|,C)$ holds for every abelian CM
+field $E$, datum with $q\ge1$ and $3q+1\le p+q$, level with good reduction everywhere and trivial
+$A$-part, and at most $4|\Psi|(p+q)^2$ bad primes. A good deep cover at level $j$ has $q=m-j\ge1$,
+$p+q=k+m-1$ and $|\Psi|=f\ge2$, so $3q+1\le p+q$ follows from $m^2\le k$; its bad primes are controlled
+by the prime factors of the level modulus.
+
+%P2PTR thm:deepstr
+A complete proof is given in \cref{sec:pf:deepstr}.
+\end{proofoutline}
+
+\begin{definition}[Root towers; the tower statements]\label{def:covolume:tower}
+A \emph{root tower} of type $(\Psi,N)$ consists of $1\le j<N$, finitely many components $c$, a finite set
+$\mathrm{bad}\ni2$ of primes and, for $B\in\N$ and each $c$, a model realising flag bundles over $c$, with
+a geometric degree functional and, for every intersection system, arithmetic intersection functionals
+$\mathrm{PP}(B,c,\cdot)$ on polynomials in the Chern roots; one forms volumes $\vol(c)$ and slopes
+$\mathrm{slope}(B,c,u)=\mathrm{PP}(B,c,\mathrm{lin}(u)^{n+1})/((n+1)\vol(c)\mathrm{flagDeg}(u))$, $n$ the
+dimension of the flag variety. $\sfname{GoodTowerExistsX}$: for every CM field, datum with $p,q\ge1$,
+level and global model with split components there is a root tower of type $(\Psi,p+q)$ with a
+\emph{good origin} (smooth flat models of flag bundles, ample reference models) satisfying a local
+holomorphy condition. $\sfname{VolumeTheoremX}$: there is $C\ge0$ such that for every \emph{abelian} CM
+field, every such tower and every full intersection system, if $q\ge1$, $3q+1\le p+q$ and
+$\#\mathrm{bad}\le4|\Psi|(p+q)^2$, then: the geometric degree functional is $\vol(c)$ times the flag
+degree, with $\vol(c)>0$ independent of $c$ and $B$ (proportionality); limit formulas (as the shift of
+the bundles tends to $0$) and an asymptotic formula (up to $O(\log B/B)$) hold for the arithmetic
+intersection functionals; and for weights $u$ with gap $g$, $B\ge128$ large in terms of $(u,g)$ and
+$\#\mathrm{bad}\le B$,
+\[
+\frac1{\#\{c\}}\sum_c\mathrm{slope}(B,c,u)\ge-C\Bigl(\bigl(\log(B\,\mathrm{rd}_E)+\bigl|\tfrac{L'}{L}(1,\chi_d)\bigr|\bigr)\|u\|_1+\min(j,N-j)\,\mathrm{spread}(u)\Bigr),
+\]
+with a corresponding bound for $\sum_c\mathrm{PP}(B,c,\mathrm{lin}(u)^{n+1})$.
+\end{definition}
+
+\begin{theorem}[Good tower volume theorem]\Fmark\label{thm:tower}
+The existence of a full arithmetic intersection system, $\sfname{HSUse}$, $\sfname{MoriwakiBigStatement}$,
+resolution in projective coordinates, the extension of homomorphisms of semi-abelian schemes, the
+Hodge--Tate statement, GAGA for sections, the existence of lines of large degree, quotients by finite
+flat group schemes and Zarhin's trick imply $\sfname{GoodTowerExistsX}\wedge\sfname{VolumeTheoremX}$.
+\formal{GlobalTheory.CompanionTheory.Ar.Link.good_tower_volume_theorem_bis}
+\end{theorem}
+
+\begin{proofoutline}
+Further inputs are the integrability of points (from resolution), an avoidance statement, an input from
+the Weil conjectures, and a positivity statement for families of abelian schemes (from the Hodge--Tate,
+quotient and Zarhin inputs). The existence part constructs root towers with good origins; the volume
+part combines an antisymmetry identity for good towers, bounds for test heights, a regularisation of
+cusp weights, the equality of volumes given by a full intersection system, limits of mixed integrals off
+divisors, and nef and height bounds for the Hodge bundle and the Lie metric. Proportionality is
+Hirzebruch--Mumford proportionality in the non-compact case \cite{Mumford1977}; we know of no published
+source for $\sfname{VolumeTheoremX}$ or $\sfname{DeepStR}$ in this generality (uniformly over abelian CM
+fields, levels and signatures with $p\ge2q+1$), and they are new results of the development.
+
+%P2PTR thm:tower
+A complete proof is given in \cref{sec:pf:tower}.
+\end{proofoutline}
+
+% ---------------------------------------------------------------------------
+\subsection{Arithmetic-geometric inputs}\label{sec:covolume:inputs}
+
+\begin{definition}[Arithmetic varieties in coordinates]\label{def:covolume:hs}
+Let $R=\Z[x_{k,i}:k\in\mathcal K,\,i\in\iota_k]$ with its $\Z^{\mathcal K}$-grading ($\mathcal K$ and the
+$\iota_k$ finite).
+(a)~An \emph{arithmetic variety} of dimension $d$ is a relevant multihomogeneous prime $P\subset R$ with
+$P\cap\Z=0$ and $\dim R/P=d+|\mathcal K|$, i.e.\ the multicone of an integral closed subscheme of
+$\prod_k\mathbb P^{\iota_k}_\Z$, flat over $\Z$, of absolute dimension $d$.
+(b)~A \emph{Hermitian line} $A$ is a multidegree $a$ with a positive function $h$ on the complex
+multicone, $h(c\cdot z)=\prod_k|c_k|^{a_k}h(z)$; a section $s$ of degree $a$ has $\|s\|=|s|/h$;
+smoothness, semipositivity and nefness (on fibres, on the generic fibre) are defined in these terms.
+The \emph{arithmetic volume} $\covolumehvol(A)$ is the $\limsup$ of
+$\log\#\{\text{small sections of degree }\tau a\}/(\tau^{D+1}/(D+1)!)$, small sections being elements of
+the function field integral on the standard charts with supremum norm $\le1$.
+(c)~An \emph{intersection family} assigns numbers $\covolumeII(P;A_1,\dots,A_n)$, symmetric and additive,
+with the recursion
+$\covolumeII(P;A_1,\dots,A_n,A)=\sum_W\mathrm{mult}_W(P+(s))\,c_W-\int_{P(\C)}\log\|s\|\,c_1(A_1)\cdots c_1(A_n)$
+for sections $s\notin P$ of the degree of $A$, the sum over the components $W$ of $P+(s)$, where
+$c_W=\covolumeII(W;A_1,\dots,A_n)$ if $W$ is horizontal and $c_W$ is the geometric degree times $\log\ell$
+if $W$ lies over the prime $\ell$; it is \emph{full} if it is moreover multilinear and satisfies the
+projection formula and the expected vanishing.
+(d)~$\sfname{HSUse}$ is the conjunction of the \emph{arithmetic Kleiman criterion} (if $\covolumeII(W;A)\ge0$
+for all arithmetic curves $W\supseteq P$, then $\covolumeII(P;A,\dots,A)\ge0$) and two \emph{Hilbert--Samuel
+upper bounds} $\covolumehvol(A)\le\covolumeII(P;A^{D+1})$ ($P$ of dimension $D+1$, $A$ conjugation
+invariant, semipositive and nef on the fibres, plus technical conditions on the section lattices).
+$\sfname{MoriwakiBigStatement}$ is
+$\covolumeII(P;A^{D+1})\le\covolumehvol(A)$ for such $A$ which are moreover nef on the generic fibre.
+Both quantify over all intersection families.
+\end{definition}
+
+The recursion in (c) is the inductive formula of Bost, Gillet and Soul\'e for heights
+\cite{BostGilletSoule1994}; it determines $\covolumeII$, so an intersection family is the arithmetic
+intersection theory of \cite{GilletSoule1990,BostGilletSoule1994}, and its existence amounts to the
+arithmetic Poincar\'e--Lelong formula (independence of $s$). Besides the arithmetic Kleiman criterion
+\cite{Zhang1995,Moriwaki2009}, (d) contains the upper-bound half of the arithmetic Hilbert--Samuel formula
+\cite{GilletSoule1992,AbbesBouche1995,Zhang1995} and Moriwaki's inequality
+$\covolumehvol(\overline L)\ge\covolumehdeg(\overline L^{D+1})$ for $\overline L$ nef on the fibres and on the
+generic fibre \cite{Moriwaki2009,Yuan2008}. The formal statements are variants of the published ones
+(explicit coordinates, sections counted in the function field, metrics given by homogeneous functions,
+an arbitrary intersection family); for smooth metrics they contain the classical statements used here.
+
+\begin{theorem}[Hilbert--Samuel and Moriwaki in coordinates]\Fmark\label{thm:covolume:hs}
+Resolution of singularities in projective coordinates, the existence of a full intersection system and
+the Zariski density of arithmetic curves of bounded height imply the statements of
+\cref{def:covolume:hs}(d). These three hypotheses are theorems of the development (by
+\cref{thm:covolume:resolution}, the formal arithmetic Poincar\'e--Lelong formula, and a height comparison
+for orbit ideals); hence $\sfname{HSUse}$ and $\sfname{MoriwakiBigStatement}$ hold.
+\formal{PositivityTheory.Pf1.HilbertSamuelMoriwaki.hsChain}
+\end{theorem}
+
+\begin{proofoutline}
+A chain of $180$ steps: Kleiman's ampleness criterion \cite{Kleiman1966}; nefness and bigness on fibres;
+counting small sections along multiples, lifting sections to resolved models; the arithmetic volume of
+big lines via separation of sections by points of bounded height \cite{Moriwaki2009,Yuan2008}; curves by
+lattice-point counting; arithmetic Kleiman by integration against positive forms; and the
+Hilbert--Samuel upper bound via successive minima and $L^2$-lattices of sections
+\cite{GilletSoule1992,AbbesBouche1995,Zhang1995}.
+\end{proofoutline}
+
+\begin{theorem}[Resolution and principalisation {\cite{Hironaka1964,Villamayor1989,BierstoneMilman1997,Wlodarczyk2005,Kollar2007}}]\Fmark\label{thm:covolume:resolution}
+Let $k$ be a field of characteristic $0$. (a)~There is a rule assigning to every reduced quasi-compact
+scheme $X$ locally of finite type over $k$ a blow-up sequence $X'\to X$, proper and an isomorphism over
+the smooth locus, with $X'$ smooth over $k$ and centres over the non-smooth locus, such that the
+reduced preimage of the non-smooth locus has strict normal crossings. (b)~There is a rule assigning to
+every smooth quasi-compact $X$ over $k$, ideal sheaf $I$ nonzero on every component and boundary with
+simple normal crossings a blow-up sequence with smooth centres, transversal to the accumulated boundary
+and inside the support of the transformed ideal, after which $I\OO_{X'}$ is a product of exceptional
+ideals. Both rules commute with smooth morphisms of constant relative dimension and with extensions of
+$k$. In particular the first two inputs of \cref{tab:covolume:inputs} hold.
+\formal{FunctorialResolution.functorialResolutionCharZero}
+\formal{FunctorialResolution.functorialPrincipalizationCharZero}
+\end{theorem}
+
+\begin{proofoutline}
+The development formalises marked ideals with boundary and \emph{principalisation rules}: order
+reduction (coefficient ideal, maximal-contact hypersurfaces, descent), maximal-order reduction (a
+companion-ideal reduction and principalisation of a monomial ideal) and divisor reduction (restriction
+to a boundary divisor), each defined from the rules in lower dimension. The central theorem,
+\texttt{canonicalAlgorithmRules\_\allowbreak isCorrect}, states that the canonical rules reduce inductively on
+dimension: if the rules in lower dimension have the required properties (admissible centres, resolution
+of the marked ideal, compatibility with field extensions and smooth pull-backs), so do the three
+operations. Induction gives functorial principalisation, and gluing affine embedded principalisations
+gives (a). This agrees closely with \cite{BierstoneMilman1997,Wlodarczyk2005,Kollar2007}; normal crossings
+are strict, and smoothness of centres is not part of (a).
+\end{proofoutline}
+
+\emph{Toroidal compactifications and abelian schemes.} The inputs on Shimura varieties are formal
+versions of the theory of Faltings and Chai \cite{FaltingsChai1990} and its extension to PEL-type, here
+unitary, moduli spaces \cite{Lan2013}, built on \cite{AshMumfordRapoportTai1975}. Zarhin's trick
+\cite{Zarhin1975,Zarhin1985} ($(A\times A^\vee)^4$ is principally polarisable), the Hodge--Tate sequence
+\cite{Faltings1988,FarguesGenestierLafforgue2008} and quotients by finite flat group schemes enter
+\cref{thm:tower} through the positivity of families of abelian schemes; the semi-negativity of Lie
+algebras of semi-abelian schemes \cite{FaltingsChai1990,MoretBailly1985} and Grothendieck--Messing
+theory \cite{Messing1972} enter the lift estimates. All are proved in the development
+(\cref{sec:literature}).

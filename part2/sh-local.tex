@@ -1,0 +1,1723 @@
+\section{Shared results VII: unramified depth, Bessel models and moduli}\label{sec:pf:sh-local}
+
+\providecommand{\shlocalpsi}{\psi_{\mathrm{std}}}
+\providecommand{\shlocalHS}[1]{\|#1\|_{\mathrm{HS}}}
+\providecommand{\shlocalE}{\mathcal{E}}
+\providecommand{\shlocalOE}{\OO_{E}}
+\providecommand{\shlocalZOE}{\Z_p\otimes\OO_E}
+
+This section proves twelve results of the formal development \cite{LeanSource2026} that are cited by
+earlier sections of Part~II. They fall into four groups.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{The real place.} The uniqueness of Bessel maps for discrete series whose Harish-Chandra parameter
+has a large gap (\cref{pf:sh-local:bmu,pf:sh-local:uniqgap}), used in
+\cref{sec:pf:open0,sec:pf:stageU,sec:pf:thmS-carrier,sec:pf:thmS,sec:pf:fs}; the energy bound for the real
+objects at infinity of a Hida setting (\cref{pf:sh-local:realobj}), used in
+\cref{sec:pf:open0,sec:pf:stageU,sec:pf:thmS-leaves}; and Harish-Chandra's finiteness theorem in the form
+needed for the row spaces (\cref{pf:sh-local:findim}), used in \cref{sec:pf:stageU}.
+\item \emph{Isomorphisms $\C\cong\C_q$} extending a given embedding of $\Qbar$ (\cref{pf:sh-local:ringequiv}),
+used in \cref{sec:pf:reckernel,sec:pf:rows}.
+\item \emph{Unramified depth.} The places of the host field above the small primes
+(\cref{pf:sh-local:twoplaces}), used in \cref{sec:pf:lift1,sec:pf:onto2}; three statements on characters of
+formal groups with jet charts, the Hodge--Tate inclusion $(\mathrm H_p)$, the unramified bound $(\mathrm U_p)$
+and the split-place bound $(\mathrm A_p)$ (\cref{pf:sh-local:Hp,pf:sh-local:Up,pf:sh-local:Ap}), used in
+\cref{sec:pf:onto1,sec:pf:onto2}; and the period tower theorem (\cref{pf:sh-local:ptd}), used in
+\cref{sec:pf:tower}.
+\item \emph{Moduli.} The existence of unitary moduli schemes at every level (\cref{pf:sh-local:moduli}) and the
+theta-constant formula (\cref{pf:sh-local:key}), used in \cref{sec:pf:deepstr}.
+\end{enumerate}
+Several of these results are formalised versions of classical theorems: the existence of field isomorphisms
+$\C\cong\C_q$ (Steinitz), the archimedean multiplicity-one theorem for Bessel models
+\cite{AizenbudGourevitchRallisSchiffmann2010,SunZhu2012,JiangSunZhu2010}, Harish-Chandra's finiteness theorem
+\cite{HarishChandra1968}, the existence of fine moduli schemes of polarised abelian varieties with level structure
+\cite{MumfordFogartyKirwan1994} and Moret-Bailly's \emph{formule cl\'e} \cite{MoretBailly1985}. For each of them we
+state precisely what is proved and how it compares with the published statement; the formal proofs are
+independent of the literature, and we give them at the level of their main steps. The arguments that carry the
+analytic weight at the real place (the orbit multiplicity argument for Bessel maps and the abstract energy bound,
+\cref{pf:sh-local:orbitmult,pf:sh-local:energyabs}) and the algebraic number theory of the places of the host
+(\cref{sec:pf:sh-local:host}) are given in full. Deeper lemmas of the formal proofs (decompositions of unitary
+groups, length bounds for lattices over valuation rings, constructions with biextensions and theta functions) are
+cited by their labels, each with a statement of what is used.
+
+Throughout, $\vol$, Haar measures and integrals are those of the formal development; ``Hilbert space'' means a
+complex inner product space, complete unless said otherwise; inner products $\langle x,y\rangle$ are conjugate-linear in
+$x$ and linear in $y$ (the convention of the formal development); for vectors $v,w$ of inner product spaces
+$v\otimes w^*$ denotes the rank-one operator $x\mapsto\langle w,x\rangle v$; and $\shlocalHS{A}^2=\sum_i\|Ae_i\|^2$ for an
+orthonormal basis $(e_i)$ of the (finite-dimensional) source of $A$.
+
+% ---------------------------------------------------------------------------
+\subsection{Uniqueness of Bessel maps in large gap}\label{sec:pf:sh-local:bessel}
+
+\subsubsection{The setting}
+Fix integers $k\ge1$, $r\ge0$ and put $n=2r+k+1$. Index the coordinates of $\C^n$ by $\{0,\dots,n-1\}$ and let
+$(e_i)$ be the standard basis. Let $H=H_{k,r}$ be the hermitian matrix with entries $H_{a,n-1-a}=H_{n-1-a,a}=1$
+for $a<r$, $H_{ii}=1$ for $r\le i<r+k$, $H_{r+k,r+k}=-1$, and all other entries $0$; write
+$\langle x,y\rangle_H=y^*Hx$. For $a<r$ put $e_a^*=e_{n-1-a}$; the vectors $e_a,e_a^*$ span $r$ hyperbolic planes,
+and their orthogonal complement is $W_0=\langle e_r,\dots,e_{r+k}\rangle$, on which the form is
+$\mathrm{diag}(1,\dots,1,-1)$. Let $G=\Uni(H)=\{g\in M_n(\C):g^*Hg=H\}$, with Lie algebra
+$\mathfrak g=\{X:X^*H+HX=0\}$.
+
+Let $z\in W_0$ with $T(z):=-\langle z,z\rangle_H>0$. Put
+\[
+U_z=\{g\in G:\ ge_a=e_a,\ ge_a^*=e_a^*\ (a<r),\ gz=z\},
+\]
+\[
+N=\{g\in G:\ g_{ia}=\delta_{ia}\ \text{for }a<r,\ i\ge a;\quad g_{ij}=\delta_{ij}\ \text{for }r\le j\le r+k,\ i\ge r\}.
+\]
+Thus $N$ consists of the elements of $G$ which are unipotent upper triangular on the isotropic flag
+$\langle e_0\rangle\subset\langle e_0,e_1\rangle\subset\dots\subset\langle e_0,\dots,e_{r-1}\rangle$ and act
+trivially on $W_0$ modulo this flag. For $c\in\C^r$ and $g\in M_n(\C)$ let
+\[
+\ell_c(g)=\sum_{a<r-1}c_a\,g_{a,a+1}+c_{r-1}(gz)_{r-1},\qquad \psi_c(g)=\exp\bigl(i\Re\ell_c(g)\bigr),
+\]
+($\ell_c=0$ if $r=0$), and let $\shlocalpsi(g)=\exp\bigl(i\Re(-2i\,\ell_{\mathbf 1}(g))\bigr)$ be the
+\emph{standard character}, $\mathbf 1=(1,\dots,1)$. A direct computation shows that $\ell_c$ is additive on $N$, so that
+$\psi_c$ and $\shlocalpsi$ restrict to characters of $N$ (the generic characters of the Bessel subgroup).
+
+A \emph{representation} $\sigma$ of a closed matrix group $\Gamma\subseteq M_n(\C)$ on a Hilbert space
+$\mathcal H$ is a map $g\mapsto\sigma(g)$ into the bounded operators with $\sigma(1)=1$ and
+$\sigma(gg')=\sigma(g)\sigma(g')$ on $\Gamma$; it is \emph{unitary} if every $\sigma(g)$, $g\in\Gamma$, is
+isometric and $g\mapsto\sigma(g)v$ is continuous on $\Gamma$ for every $v$. A vector $v$ is \emph{smooth} if
+$g\mapsto\sigma(g)v$ coincides near every point of $\Gamma$ with a $C^\infty$ map defined on an open set of
+$M_n(\C)$; we write $\mathcal H^\infty$ for the space of smooth vectors. For $X$ in the Lie algebra and smooth
+$v$, $d\sigma(X)v=\frac{d}{dt}\sigma(\exp tX)v|_{t=0}$, and for a word $W=(X_1,\dots,X_l)$ we write
+$d\sigma(W)=d\sigma(X_1)\cdots d\sigma(X_l)$.
+
+\begin{definition}[Bessel maps]\label{pf:sh-local:def:bessel}
+Let $\sigma$ be a unitary representation of $G$ on $\mathcal H$, $\pi$ a representation of $U_z$ on a Hilbert
+space $V$ and $\psi$ a function on $G$. A \emph{smooth Bessel map} for $(z,\psi,\sigma,\pi)$ is a map
+$B:\mathcal H\to V$ which is additive and $\C$-linear on $\mathcal H^\infty$, satisfies
+\[
+B(\sigma(hm)v)=\psi(m)\,\pi(h)B(v)\qquad(h\in U_z,\ m\in N,\ v\in\mathcal H^\infty),
+\]
+and is \emph{Sobolev-continuous}: there are $C$ and a finite list $\mathcal W$ of words in $\mathfrak g$ with
+$\|Bv\|\le C\sum_{W\in\mathcal W}\|d\sigma(W)v\|$ for all $v\in\mathcal H^\infty$. A map with the first and the
+last property (but not necessarily the equivariance) is called \emph{Sobolev-linear}.
+\formal{PI.BesselMapUniq.IsBesselMapSm}
+\end{definition}
+
+\begin{definition}[Discrete series, gap, Harish-Chandra type]\label{pf:sh-local:def:ds}
+For $\eps\in\{\pm1\}^n$ let $J_\eps=\mathrm{diag}(\eps)$. A vector $\lambda\in\R^n$ is a \emph{Harish-Chandra
+parameter} if it is strictly decreasing and $\lambda_a-\frac{n-1}2\in\Z$ for all $a$; the pair $(\eps,\lambda)$
+has \emph{gap at least $h$} if $|\lambda_a-\lambda_b|\ge h$ whenever $\eps_a\ne\eps_b$. A representation $\sigma$
+of $G$ is a \emph{discrete series with Harish-Chandra parameter $(\eps,\lambda)$} if for some unitary matrix $P$
+with $P^*J_\eps P=H$ the representation $g\mapsto\sigma(P^{-1}gP)$ of $\Uni(J_\eps)$ is a discrete series with
+parameter $\lambda$ in the following sense: its space is complete and non-zero, it is unitary, topologically
+irreducible and square integrable (all matrix coefficients lie in $L^2$ of a Haar measure), it contains the
+$K$-type ($K=\Uni(J_\eps)\cap\Uni(n)$) of highest weight $\lambda+\rho_n-\rho_c$, and every $K$-type $\mu$ which
+occurs satisfies $|\lambda+\rho_n+\rho_c|\le|\mu+2\rho_c|$. A representation $\pi$ of $U_z$ on $V$ has
+\emph{Harish-Chandra type $u\in\R^k$} if for some $g\in G$ fixing all $e_a,e_a^*$ with
+$g(\sqrt{T(z)}\,e_{r+k})=z$ the representation $h\mapsto\pi(g\iota(h)g^{-1})$ of $\Uni(k)$ is non-zero,
+finite-dimensional, unitary and consists of the single $K$-type with parameter $u+\rho_n-\rho_c$ (for the
+compact group $\Uni(k)$); here $\iota(h)$ acts by $h$ on $\langle e_r,\dots,e_{r+k-1}\rangle$ and trivially on
+the other basis vectors.
+\formal{PI.UpqRep.IsDSHpk}\formal{PI.UpqRep.IsHCTypeW}
+\end{definition}
+
+\subsubsection{The theorem}
+
+\begin{theorem}[Uniqueness of Bessel maps in large gap]\label{pf:sh-local:bmu}
+Let $k\ge1$, $r\ge0$, $n=2r+k+1$, let $(\eps,\lambda)$ be a pair with $\lambda$ a Harish-Chandra parameter and
+gap at least $h\ge120\,n^3$, and $\sigma$ a discrete series of $G=\Uni(H_{k,r})$ on $\mathcal H$ with
+Harish-Chandra parameter $(\eps,\lambda)$. Let $z\in W_0$ with $T(z)>0$, $c\in(\C^\times)^r$, and $\pi$ a
+representation of $U_z$ on a Hilbert space $V$ of Harish-Chandra type $u$ for some $u\in\R^k$. Then any two
+smooth Bessel maps $B_1,B_2$ for $(z,\psi_c,\sigma,\pi)$ are linearly dependent on smooth vectors: there are
+$(a,b)\in\C^2\setminus\{0\}$ with $aB_1(v)+bB_2(v)=0$ for all $v\in\mathcal H^\infty$.
+\formallabel{CompanionTheory.Bmu.besselMapUniqGap}
+\formallabel{CompanionTheory.Bmu.uniq_of}
+\end{theorem}
+
+\begin{corollary}\label{pf:sh-local:uniqgap}
+The proposition $\sfname{UniqGap}$ holds; it is literally the statement of \cref{pf:sh-local:bmu}.
+\formallabel{CompanionTheory.Lime.BM.uniqGap_holds}
+\end{corollary}
+
+\begin{proof}
+The two propositions $\sfname{UniqGap}$ and $\sfname{BesselMapUniqGap}$ have identical statements (they are
+formulated with two names for the same type of $n\times n$ matrices), so \cref{pf:sh-local:bmu} applies.
+\end{proof}
+
+\begin{remark}[Relation to the literature]\label{pf:sh-local:rem:bmu}
+A smooth Bessel map $B$ defines the form $(v,w)\mapsto\langle w,B(v)\rangle$ on
+$\mathcal H^\infty\times V$, linear in $v$, which is continuous for the Fr\'echet topology of $\mathcal H^\infty$ (by
+Sobolev-continuity) and transforms under $U_z\ltimes N$ by $\psi_c\otimes\pi$; thus $B$ gives an element of
+$\Hom_{U_z\ltimes N}(\mathcal H^\infty\otimes\overline{V},\psi_c)$, where $\mathcal H^\infty$ is the
+Casselman--Wallach globalisation of the Harish-Chandra module of $\sigma$ \cite{Wallach1992}. The pair
+$(G,U_z\ltimes N)$ with the generic character $\psi_c$ is a Bessel pair of unitary groups in the sense of
+Gan--Gross--Prasad, and the uniqueness of Bessel models \cite[Theorem~A]{JiangSunZhu2010} (which rests on the
+multiplicity-one theorem \cite{AizenbudGourevitchRallisSchiffmann2010,SunZhu2012}) asserts that this space has
+dimension at most one for all irreducible Casselman--Wallach representations of $G$ and $U_z$. Hence
+\cref{pf:sh-local:bmu} is a special case of the published theorem: it is restricted to discrete series with gap at
+least $120n^3$ and to Bessel maps with values in a finite-dimensional unitary representation of the compact group
+$U_z\cong\Uni(k)$. The formal proof does not use these references; it is given below. The gap hypothesis enters
+only through the decay of matrix coefficients (\lref{CompanionTheory.FamilyDerivativeExpansion.DecS.decayM}).
+\end{remark}
+
+\subsubsection{Inputs proved elsewhere}
+The proof uses the following results of the development.
+\begin{itemize}
+\item \emph{Decay} (\lref{CompanionTheory.FamilyDerivativeExpansion.DecS.decayM}): if $\sigma$ is a discrete
+series with Harish-Chandra parameter $(\eps,\lambda)$ of gap $h$ and $\theta^*(\eps)+m<h$, where $\theta^*(\eps)$ is
+an explicit threshold, then for every smooth $v_0$ there are $C$ and finitely many words $W$ such that
+$|\langle v_0,\sigma(x)w\rangle|\le C\|x\|^{-b}\sum_W\|d\sigma(W)w\|$ for all $b\le m$, all smooth $w$ and all
+$x\in G$, where $\|x\|$ is the Frobenius norm. Moreover $\theta^*(\eps)\le40n^3$
+(\lref{CompanionTheory.FamilyDerivativeExpansion.DecS.thr_le}).
+\item \emph{Basic properties of discrete series}
+(\lref{GlobalTheory.T.discreteSeries_unitary_smooth_basic}, with
+\lref{CompanionTheory.D.gk.admitted.k_finite_smooth}): $G$-translates of smooth vectors are smooth,
+$K$-finite vectors are smooth, and there is a $K$-finite unit vector $w_0$ in the lowest $K$-type.
+\item \emph{Square integrability and irreducibility}
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.TopTA.sqInt_of_DSHpk},
+\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.TopTA.irr_of_DSHpk}): $\sigma$ is unitary and irreducible on
+$G$ and its matrix coefficients are square integrable for every Haar measure; and the properties of $\pi$
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.TopTA.pi_facts}): $\pi$ is a continuous unitary irreducible
+representation of $U_z$.
+\item \emph{Diagonal data and Schur orthogonality}
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.stDiagExists},
+\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.stSchurG}): for $z,\pi$ as in the theorem there are Haar
+measures $\mu_G$ on $G$, $\mu_N$ on $N$ and a Haar probability measure $\mu_W$ on $U_z$ (a \emph{diagonal real
+place datum} $\mathcal D$ for $(z,\pi)$); and for every irreducible unitary representation of $G$ with square
+integrable coefficients there is $d>0$ (the formal degree) with
+\begin{equation}\label{eq:pf:sh-local:schur}
+\int_G\langle b,\sigma(x)a\rangle\overline{\langle b',\sigma(x)a'\rangle}\,d\mu_G(x)=\frac{\langle a',a\rangle\langle b,b'\rangle}d .
+\end{equation}
+\item \emph{The multiplicity-one map} (\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.thmM}): let
+$\mathcal D$ be a diagonal real place datum for $(z,\pi)$, and $X$ an irreducible unitary representation $\sigma$ of
+$G$ on $\mathcal H$ with square integrable coefficients and a unit vector $w$ such that
+$|\langle w,\sigma(x)w\rangle|\le C_w\|x\|^{-a}$ with $a\ge4n^3$. Let $\mathcal V$ be the space of $v$ with
+$|\langle w,\sigma(x)v\rangle|\le C\|x\|^{-a}$ for some $C$. Then there is a map $l:\mathcal H\to V$, additive and
+linear on $\mathcal V$, with $l(\sigma(mh)v)=\shlocalpsi(m)\pi(h)l(v)$ for $h\in U_z$, $m\in N$, $v\in\mathcal V$,
+such that for $v,v'\in\mathcal V$ the \emph{Bessel operator}
+\begin{equation}\label{eq:pf:sh-local:beop}
+\mathfrak B(v,v')=\int_{U_z\times N}\langle v',\sigma(mh)v\rangle\,\overline{\shlocalpsi(m)}\,\pi(h)^{-1}\,d\mu_W(h)\,d\mu_N(m)
+\end{equation}
+equals the rank-one operator $l(v)\otimes l(v')^*$.
+\item \emph{Cyclicity} (\lref{CompanionTheory.D.Upq.Sm.cyc_of_smooth}): if $w\ne0$ is smooth, then for every
+smooth $x$, every finite list of words $\mathcal W$ and every $\delta>0$ there are $c_i\in\C$ and $g_i\in G$ with
+$\sum_{W\in\mathcal W}\|d\sigma(W)(x-\sum_ic_i\sigma(g_i)w)\|<\delta$.
+\end{itemize}
+
+\subsubsection{Lemmas}
+
+\begin{lemma}[Torus conjugacy]\label{pf:sh-local:torconj}
+Let $z\in W_0$ and $c\in(\C^\times)^r$. There is $\tau\in G$ commuting with every element of $U_z$ such that for
+every $m\in N$ one has $\tau m\tau^{-1}\in N$ and $\psi_c(\tau m\tau^{-1})=\shlocalpsi(m)$.
+\formallabel{GlobalTheory.T.TorusConjugacy}
+\end{lemma}
+
+\begin{proof}
+Define $T_{r-1}=-2i/c_{r-1}$ and recursively $T_a=-2i\,T_{a+1}/c_a$ for $a<r-1$; all $T_a$ are non-zero. Let
+$\tau$ be the diagonal matrix with entries $T_a$ at $a<r$, $1$ at $r\le i\le r+k$ and $\overline{T_a}^{-1}$ at
+$n-1-a$. Then $\overline{\tau_{ii}}\tau_{jj}=1$ whenever $H_{ij}\ne0$, so $\tau\in G$. An element $h\in U_z$ fixes
+$e_a,e_a^*$ and preserves $H$, hence preserves their orthogonal complement $W_0$; so $h$ is the identity outside
+$W_0$ while $\tau$ is the identity on $W_0$, and $\tau h=h\tau$. Conjugation by the diagonal matrix $\tau$
+multiplies the entry $(i,j)$ by $\tau_{ii}/\tau_{jj}$; it preserves the conditions defining $N$ (they prescribe
+diagonal entries and the vanishing of entries), so $\tau N\tau^{-1}=N$. Finally
+$(\tau m\tau^{-1})_{a,a+1}=(T_a/T_{a+1})m_{a,a+1}$ and, as $\tau^{-1}z=z$,
+$(\tau m\tau^{-1}z)_{r-1}=T_{r-1}(mz)_{r-1}$; by the choice of the $T_a$ this gives
+$\ell_c(\tau m\tau^{-1})=-2i\,\ell_{\mathbf 1}(m)$, hence $\psi_c(\tau m\tau^{-1})=\shlocalpsi(m)$.
+\end{proof}
+
+The next three lemmas hold for an arbitrary closed matrix group $\Uni(H_m)=\{g:g^*H_mg=H_m\}$ with $H_m^2=1$ and a
+unitary representation $\sigma$ on a Hilbert space $\mathcal H$; $V$ denotes a finite-dimensional Hilbert space.
+
+\begin{lemma}[Factorisation]\label{pf:sh-local:factor}
+If $B:\mathcal H\to V$ is Sobolev-linear, there are finitely many words $W_1,\dots,W_N$ in the Lie algebra and
+bounded operators $\beta_i:\mathcal H\to V$ with $B(v)=\sum_i\beta_i(d\sigma(W_i)v)$ for all smooth $v$.
+\formallabel{GlobalTheory.T.factorization'}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal W=(W_1,\dots,W_N)$ be the words of the Sobolev bound $\|Bv\|\le C\sum_i\|d\sigma(W_i)v\|$ and
+$J:\mathcal H^\infty\to\mathcal H^N$, $Jv=(d\sigma(W_i)v)_i$, a linear map. Then $\|Bv\|\le|C|N\|Jv\|$, so
+$B=T_0\circ J$ for a bounded linear map $T_0$ on the subspace $J(\mathcal H^\infty)$, which extends (as $V$ is
+finite-dimensional) to a bounded operator $T:\mathcal H^N\to V$
+(\lref{GlobalTheory.CompanionTheory.BmuFactor.exists_factor}). Put
+$\beta_i=T\circ\iota_i$ with $\iota_i$ the $i$-th coordinate embedding.
+\end{proof}
+
+\begin{lemma}[Translation of derivatives]\label{pf:sh-local:dsad}
+For $y\in\Uni(H_m)$, a word $W=(X_1,\dots,X_l)$ in the Lie algebra and a smooth vector $u$, the word
+$y^{-1}Wy=(y^{-1}X_1y,\dots,y^{-1}X_ly)$ lies in the Lie algebra and
+$d\sigma(W)(\sigma(y)u)=\sigma(y)\,d\sigma(y^{-1}Wy)u$. In particular, if $B$ is Sobolev-linear, so is
+$v\mapsto B(\sigma(y)v)$.
+\formallabel{GlobalTheory.T.DerivedSeriesAdjoint}
+\end{lemma}
+
+\begin{proof}
+$\sigma(\exp tX)\sigma(y)u=\sigma(y)\sigma(\exp(ty^{-1}Xy))u$; differentiate at $t=0$ and induct on the length of
+$W$. The second statement follows by applying the Sobolev bound of $B$ to $\sigma(y)v$, using the first statement
+and $\|\sigma(y)x\|=\|x\|$.
+\end{proof}
+
+\begin{lemma}[Reproduction commutes with Sobolev-linear maps]\label{pf:sh-local:cutlim}
+Let $\mu$ be a Haar measure on $\Uni(H_m)$, $w$ a smooth vector and $\kappa\in\C$ such that for every smooth $v$
+the function $y\mapsto\langle v,\sigma(y)w\rangle$ is integrable and
+\begin{equation}\label{eq:pf:sh-local:repro}
+\int\overline{\langle v,\sigma(y)w\rangle}\,\sigma(y)w\,d\mu(y)=\kappa\,v .
+\end{equation}
+Let $B:\mathcal H\to V$ be Sobolev-linear with $\sup_g\|B(\sigma(g)w)\|<\infty$. Then for every smooth $v$
+\[
+\kappa\,B(v)=\int\overline{\langle v,\sigma(y)w\rangle}\,B(\sigma(y)w)\,d\mu(y).
+\]
+\formallabel{GlobalTheory.T.truncated_derivation_limit}
+\end{lemma}
+
+\begin{proof}
+Write $B=\sum_i\beta_i\circ d\sigma(W_i)$ (\cref{pf:sh-local:factor}). Let $\rho$ be a smooth compactly supported
+function on the matrix space with $\rho(0)=1$, and for $R>0$ and smooth $v$ put
+$v_R=\int\rho(R^{-1}y)\overline{\langle v,\sigma(y)w\rangle}\sigma(y)w\,d\mu(y)$. By the truncated derivation
+formula (\lref{GlobalTheory.T.TruncatedDerivation}: $v_R$ is smooth and
+$d\sigma(X)v_R$ is the sum of the same integral with $\rho$ replaced by its derivative $L_X\rho$ along $X$ and the
+integral with $v$ replaced by $d\sigma(X)v$) and induction, $d\sigma(W_i)v_R\to\rho(0)\kappa\,d\sigma(W_i)v$ as
+$R\to\infty$, the terms containing derivatives of $\rho(R^{-1}\cdot)$ being $O(R^{-1})$; hence
+$B(v_R)\to\kappa B(v)$. On the other hand $d\sigma(W_i)$ commutes with the integral defining $v_R$ (the same
+formula), so $B(v_R)=\int\rho(R^{-1}y)\overline{\langle v,\sigma(y)w\rangle}B(\sigma(y)w)\,d\mu(y)$, which converges
+to $\int\overline{\langle v,\sigma(y)w\rangle}B(\sigma(y)w)\,d\mu(y)$ by dominated convergence, since
+$B(\sigma(y)w)$ is bounded and continuous in $y$ and $\langle v,\sigma(y)w\rangle$ is integrable. The two limits
+agree.
+\end{proof}
+
+\begin{lemma}[Equivariant functions are proportional to the multiplicity-one map]\label{pf:sh-local:mfix}
+Let $\mathcal D$, $X=(\sigma,w,a)$, $\mathcal V$ and $l$ be as in the multiplicity-one statement above (with
+$a\ge4n^3$), and $d$ a formal degree of $\sigma$ for $\mu_G$ as in \eqref{eq:pf:sh-local:schur}. Let
+$W':G\to V$ be measurable with $W'(mhx)=\shlocalpsi(m)\pi(h)W'(x)$ for $h\in U_z$, $m\in N$, $x\in G$, and such
+that $y\mapsto\|x^{-1}y\|^{-a}\|W'(y)\|$ is $\mu_G$-integrable for every $x\in G$. Then there is $c\in\C$ with
+\[
+\int_G d\,\overline{\langle w,\sigma(y)w\rangle}\,W'(xy)\,d\mu_G(y)=c\,l(\sigma(x)w)\qquad(x\in G).
+\]
+\formallabel{ReciprocityTheory.ChartRestriction.DS.Mult1.stMFix}
+\end{lemma}
+
+\begin{proof}
+By the folding formula (\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.Fold.foldS}) there is a measurable
+function $b\ge0$ on $G$ such that for every integrable $\varphi$ on $G$
+\begin{equation}\label{eq:pf:sh-local:fold}
+\int_G\varphi\,d\mu_G=\int_G b(y)\int_{U_z\times N}\varphi\bigl((mh)^{-1}y\bigr)\,d\mu_W(h)\,d\mu_N(m)\,d\mu_G(y).
+\end{equation}
+Fix $x$ and put $\varphi(y)=d\,\overline{\langle w,\sigma(x^{-1}y)w\rangle}W'(y)$; it is integrable because
+$|\langle w,\sigma(x^{-1}y)w\rangle|\le C_w\|x^{-1}y\|^{-a}$
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.MFix.phi_integrable}). By left invariance of $\mu_G$ the
+left side of the claim is $\int\varphi\,d\mu_G$. In \eqref{eq:pf:sh-local:fold}, the equivariance of $W'$ gives
+$W'((mh)^{-1}y)=\overline{\shlocalpsi(m)}\pi(h)^{-1}W'(y)$, and unitarity of $\sigma$ gives
+$\overline{\langle w,\sigma(x^{-1}(mh)^{-1}y)w\rangle}=\langle\sigma(y)w,\sigma(mh)\sigma(x)w\rangle$; hence
+\[
+\varphi\bigl((mh)^{-1}y\bigr)=d\,\langle\sigma(y)w,\sigma(mh)\sigma(x)w\rangle\,\overline{\shlocalpsi(m)}\,\pi(h)^{-1}W'(y)
+\]
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.MFix.phi_Fm}), which is $d$ times the integrand of the
+Bessel operator $\mathfrak B(\sigma(x)w,\sigma(y)w)$ of \eqref{eq:pf:sh-local:beop}, applied to $W'(y)$. The
+vectors $\sigma(x)w$ and $\sigma(y)w$ lie in $\mathcal V$
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.MFix.orbit_mem}), and the Bessel integral converges
+absolutely for them (\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.stPairs},
+\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.stBeConv}). So the inner integral equals
+$d\,\mathfrak B(\sigma(x)w,\sigma(y)w)(W'(y))$, which by the defining property of $l$ is
+$d\,\langle l(\sigma(y)w),W'(y)\rangle\,l(\sigma(x)w)$. Hence the claim holds with
+$c=\int_G b(y)\,d\,\langle l(\sigma(y)w),W'(y)\rangle\,d\mu_G(y)$, which does not depend on $x$.
+\end{proof}
+
+\begin{proposition}[Orbit multiplicity]\label{pf:sh-local:orbitmult}
+Let $\mathcal D$ be a diagonal real place datum for $(z,\pi)$ with $V$ finite-dimensional, $X=(\sigma,w,a)$ as
+in the multiplicity-one statement with $a\ge4n^3$ and $l$ the multiplicity-one map. Assume that $\sigma$ is unitary
+on $G$, $w$ is smooth, and every smooth $v$ satisfies $|\langle v,\sigma(x)w\rangle|\le C_v\|x\|^{-a}$ on $G$. Let
+$B$ be Sobolev-linear with
+\[
+B(\sigma(hm)v)=\shlocalpsi(m)\pi(h)B(v)\qquad(h\in U_z,\ m\in N,\ v\text{ smooth}),
+\]
+and bounded on the orbit of $w$: $\|B(\sigma(g)w)\|\le K$ for $g\in G$. Then there is $c\in\C$ with
+$B(\sigma(x)w)=c\,l(\sigma(x)w)$ for all $x\in G$.
+\formallabel{CompanionTheory.Bmu.orbit_mult}
+\end{proposition}
+
+\begin{proof}
+Let $d$ be the formal degree of $\sigma$ (\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.stSchurG}). The
+function $W'(g)=B(\sigma(g)w)$ is continuous on $G$
+(\cref{pf:sh-local:factor}: it is a finite sum of bounded operators applied to $g\mapsto d\sigma(W_i)\sigma(g)w$,
+which is continuous by \cref{pf:sh-local:dsad}), hence measurable. It satisfies
+$W'(mhx)=\shlocalpsi(m)\pi(h)W'(x)$: indeed $mhx=h(h^{-1}mh)x$ with $h^{-1}mh\in N$ and
+$\shlocalpsi(h^{-1}mh)=\shlocalpsi(m)$ for $h\in U_z$
+(\lref{Formalism.QuantumDeterminants.unitary_weyl_normal_holds}), and $\sigma(x)w$ is smooth.
+Moreover $y\mapsto\|x^{-1}y\|^{-a}\|W'(y)\|\le K\|x^{-1}y\|^{-a}$ is integrable, since $y\mapsto\|y\|^{-a}$ is
+$\mu_G$-integrable for every $a$ at least an explicit constant $A_B(k,r)\le n^2+1$
+(\lref{ReciprocityTheory.ChartRestriction.DS.Mult1.TopH.gN_integrable}; note $n^2+1\le4n^3\le a$) and
+$\mu_G$ is left invariant. \Cref{pf:sh-local:mfix} gives $c$ with
+\begin{equation}\label{eq:pf:sh-local:fix}
+\int_G d\,\overline{\langle w,\sigma(y)w\rangle}\,B(\sigma(xy)w)\,d\mu_G(y)=c\,l(\sigma(x)w)\qquad(x\in G).
+\end{equation}
+On the other hand, by \eqref{eq:pf:sh-local:schur} with $\|w\|=1$, for every smooth $v$ and every $\xi$,
+\[
+\int\overline{\langle v,\sigma(y)w\rangle}\langle\xi,\sigma(y)w\rangle\,d\mu_G(y)=\langle\xi,v\rangle/d,
+\]
+the integral being absolutely convergent by the decay of $\langle v,\sigma(y)w\rangle$; hence the reproducing formula
+\eqref{eq:pf:sh-local:repro} holds with $\kappa=d^{-1}$. Fix $x\in G$. The map $B_x(v)=B(\sigma(x)v)$ is
+Sobolev-linear (\cref{pf:sh-local:dsad}) and bounded on the orbit of $w$, so \cref{pf:sh-local:cutlim} applied to
+$B_x$ and $v=w$ gives
+\[
+d^{-1}B(\sigma(x)w)=\int\overline{\langle w,\sigma(y)w\rangle}\,B(\sigma(xy)w)\,d\mu_G(y).
+\]
+Multiplying by $d$ and comparing with \eqref{eq:pf:sh-local:fix} gives $B(\sigma(x)w)=c\,l(\sigma(x)w)$.
+\end{proof}
+
+\begin{lemma}[Absolute bound by integration along a character direction]\label{pf:sh-local:absbound}
+Let $B:\mathcal H\to V$ be Sobolev-linear for a unitary representation $\sigma$ of $\Uni(H_m)$, let
+$Q_1,\dots,Q_e$ be elements of the Lie algebra, and $C\ge0$, $m\in\N$ such that $\|Bv\|\le CR$ for every smooth $v$
+and every $R$ with $\|d\sigma(P)v\|\le R$ for all words $P$ of length at most $m$ in the $Q_i$. Let $C_0\in\R$,
+$c\in\N$ and $w$ smooth. Then there is $K$ such that $\|B(\sigma(g)w)\|\le K$ for every $g\in\Uni(H_m)$ for which
+there is $M\ge1$ with $\|g^{-1}Q_ig\|\le C_0M^c$ for all $i$, and either $M=1$, or there are $Y$ in the Lie algebra and
+$\lambda\in\R$ with $\|Y\|\le C_0$, $|\lambda|\ge M$ and $B(\sigma(g\exp(tY))u)=e^{i\lambda t}B(\sigma(g)u)$ for all
+$t\in\R$ and smooth $u$.
+\formallabel{CompanionTheory.Bmu.absBound_of}
+\end{lemma}
+
+\begin{proof}
+By the word-length bound (\lref{GlobalTheory.T.word_length_bound_of_linear}) there is $C_w\ge0$ with
+$\|d\sigma(W)w\|\le C_w\prod_j\|X_j\|$ for all words $W=(X_1,\dots,X_l)$ in the Lie algebra of length
+$l\le m+cm$. Put $A=\max(1,C_0)$ and $K=C\,C_wA^{m+cm}$.
+
+\emph{Claim}: for every word $R$ of length at most $cm$ whose letters have norm at most $A$,
+$\|B(\sigma(g)d\sigma(R)w)\|\le K\,M^{cm}$. Indeed, for a word $P$ of length at most $m$ in the $Q_i$,
+\cref{pf:sh-local:dsad} gives $\|d\sigma(P)\sigma(g)d\sigma(R)w\|=\|d\sigma(g^{-1}Pg)d\sigma(R)w\|$, and
+$d\sigma(g^{-1}Pg)d\sigma(R)=d\sigma(g^{-1}Pg\,R)$ is the derivative along the concatenated word, of length at most
+$m+cm$; its letters $g^{-1}Q_ig$ have norm at most $C_0M^c\le AM^c$. Hence
+$\|d\sigma(P)\sigma(g)d\sigma(R)w\|\le C_w(AM^c)^mA^{cm}=C_wA^{m+cm}M^{cm}$, and the hypothesis on $B$ gives the claim.
+
+If $M=1$, the claim with the empty word gives $\|B(\sigma(g)w)\|\le K$. Otherwise let $Y,\lambda$ be as in the
+hypothesis. For smooth $u$, differentiate $t\mapsto B(\sigma(g\exp(tY))u)=e^{i\lambda t}B(\sigma(g)u)$ at $t=0$:
+writing $B=\sum_i\beta_i\circ d\sigma(W_i)$ (\cref{pf:sh-local:factor}) and using the derivative formula
+$\frac d{dt}d\sigma(W_i)\sigma(g\exp(tY))u|_{t=0}=d\sigma(W_i)\sigma(g)d\sigma(Y)u$
+(\lref{GlobalTheory.T.DerivedSeriesDerivation}), we get $B(\sigma(g)d\sigma(Y)u)=i\lambda\,B(\sigma(g)u)$. By
+induction, $B(\sigma(g)d\sigma(Y^{j})w)=(i\lambda)^jB(\sigma(g)w)$ for the word $Y^j=(Y,\dots,Y)$. The claim with
+$R=Y^{cm}$ (note $\|Y\|\le C_0\le A$) gives $|\lambda|^{cm}\|B(\sigma(g)w)\|\le KM^{cm}$, and $|\lambda|\ge M>0$ gives
+$\|B(\sigma(g)w)\|\le K$.
+\end{proof}
+
+\begin{theorem}[Bessel maps are bounded on orbits]\label{pf:sh-local:bounded}
+Let $\sigma$ be a unitary representation of $G=\Uni(H_{k,r})$, $k\ge1$, $z\in W_0$ with $T(z)>0$,
+$c\in(\C^\times)^r$, $V$ a finite-dimensional Hilbert space and $\pi$ a map from $U_z$ to the operators on $V$ with
+$\pi(1)=1$, all $\pi(h)$ isometric and $\pi$ continuous on $U_z$. Let $B$ be Sobolev-linear with
+$B(\sigma(hm)v)=\psi_c(m)\pi(h)B(v)$ for $h\in U_z$, $m\in N$ and smooth $v$. Then for every smooth $w$ there is
+$K$ with $\|B(\sigma(g)w)\|\le K$ for all $g\in G$.
+\formallabel{CompanionTheory.Bmu.bounded}
+\formallabel{CompanionTheory.Bmu.bounded_of}
+\end{theorem}
+
+\begin{proof}
+The proof combines eight structural facts about $G$, whose formal proofs we do not reproduce
+(\lref{GlobalTheory.T.AdaptedBasisExistsAlt}, \lref{GlobalTheory.T.IwasawaDecomposition}, \lref{GlobalTheory.T.LeviDecomposition}, \lref{GlobalTheory.T.CartanDecomposition}, \lref{GlobalTheory.T.SpanGenerators}, \lref{GlobalTheory.T.ExponentialMembership}, \lref{GlobalTheory.T.RootVectors}, and \lref{GlobalTheory.T.torBound'})
+with the quotient bound (\lref{GlobalTheory.T.quotient_bound_of_factor_reduce_chart}) and
+\cref{pf:sh-local:absbound}.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Adapted basis.} There is $\Gamma\in\GL_n(\C)$ fixing all $e_a,e_a^*$ with $\Gamma^*H\Gamma=H_q$, where
+$H_q$ is the antidiagonal form on the outer coordinates $i\le r$ or $i\ge r+k$ and the identity on the inner ones,
+and $z=\rho\,\Gamma(e_r-e_{r+k})$ for some $\rho>0$.
+\item \emph{Decomposition} (from the Iwasawa, Levi and Cartan decompositions of $\Uni(H_q)$,
+\lref{GlobalTheory.T.decomposition_of_iwasawa_levi_cartan}). Every $g\in G$ can be written
+$g=h\,m\,\Gamma\,\delta\,R$ with $h\in U_z$, $m\in N$, $R$ unitary, $\Gamma\delta R\in G$, and $\delta$ a positive
+diagonal matrix of \emph{torus type}: $\delta_i\delta_j=1$ for outer $i,j$ with $i+j=n-1$, $\delta_i=1$ for inner
+$i$, and $\delta_r\le1$.
+\item \emph{Spanning.} $\mathfrak g=\mathfrak u_z+\mathfrak n+\mathfrak q_\Gamma$, where $\mathfrak u_z$ and $\mathfrak n$
+are the Lie algebras of $U_z$ and $N$ and $\mathfrak q_\Gamma$ consists of the $Y\in\mathfrak g$ with
+$(\Gamma^{-1}Y\Gamma)_{ij}=0$ for $i<j$ with $i$ or $j$ outer. Exponentials of elements of $\mathfrak u_z$, resp.
+$\mathfrak n$, lie in $U_z$, resp. $N$.
+\item \emph{Quotient bound.} Choose bases $X_j$ of $\mathfrak u_z$ and $\mathfrak n$ and $Q_i$ of $\mathfrak q_\Gamma$.
+Along $X_j$ the map $B$ transforms by $\pi$, resp. by $\psi_c$, i.e. $B(\sigma(\exp tX_j)v)=\chi_j(t)B(v)$ with
+continuous $\chi_j$, $\chi_j(0)=1$. Using a local chart of $G$ adapted to the decomposition (c)
+(\lref{GlobalTheory.T.ChartExistence}) and the reduction of derivatives along words
+(\lref{GlobalTheory.T.reduction_of_derived_series}), one obtains $C\ge0$ and $m\in\N$ with
+$\|Bv\|\le C\max_{|P|\le m}\|d\sigma(Q_P)v\|$ for smooth $v$, $Q_P$ the words in the $Q_i$.
+\item \emph{Root vectors.} There is $C_1$ such that for every $a<r$ and every $\delta$ of torus type with
+$g'=\Gamma\delta R\in G$ there is $Y\in\mathfrak g$ with $\|Y\|\le C_1$, $g'\exp(tY)g'^{-1}\in N$ and
+$\psi_c(g'\exp(tY)g'^{-1})=\exp(i\,t\,\delta_a/\delta_{a+1})$ for all $t$.
+\item \emph{Torus bound.} If $\delta$ is of torus type, $R$ unitary, $M\ge1$ and $\delta_a\le M\delta_{a+1}$ for
+all $a<r$, then $\|(\delta R)^{-1}A(\delta R)\|\le n^2\|A\|M^n$ for every $A$ with $A_{ij}=0$ for $i<j$, $i$ or $j$
+outer.
+\item \emph{Absolute bound}: \cref{pf:sh-local:absbound}, applied with the quotient bound (d).
+\end{enumerate}
+Now let $g\in G$ and write $g=hm g'$, $g'=\Gamma\delta R$, by (b). Since $\sigma(g')w$ is smooth,
+$\|B(\sigma(g)w)\|=|\psi_c(m)|\,\|\pi(h)B(\sigma(g')w)\|=\|B(\sigma(g')w)\|$. Let
+$M=\max(1,\max_a\delta_a/\delta_{a+1})$. By (f), $\|g'^{-1}Q_ig'\|\le C_2M^n$ with
+$C_2=n^2\sum_i\|\Gamma^{-1}Q_i\Gamma\|$. If $M=1$, (g) applies with $C_0=\max(C_1,C_2)$. Otherwise let $a_0$
+maximise $\delta_a/\delta_{a+1}$ and take $Y$ from (e) for $a_0$; then
+$g'\exp(tY)=(g'\exp(tY)g'^{-1})g'$ with $g'\exp(tY)g'^{-1}\in N$, so by the equivariance of $B$,
+$B(\sigma(g'\exp(tY))u)=e^{i\lambda t}B(\sigma(g')u)$ with $\lambda=\delta_{a_0}/\delta_{a_0+1}=M$, and (g) applies
+again. In both cases $\|B(\sigma(g)w)\|\le K$ with $K$ independent of $g$.
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:sh-local:bmu}}{the uniqueness theorem}}
+
+\begin{proof}[Proof of \cref{pf:sh-local:bmu}]
+The proof combines \cref{pf:sh-local:bounded}, \cref{pf:sh-local:cutlim}, \cref{pf:sh-local:torconj},
+\cref{pf:sh-local:dsad} and \cref{pf:sh-local:factor} (through \cref{pf:sh-local:orbitmult}).
+Let the data be as in the theorem; $\mathcal H$ is complete and $V$ is finite-dimensional, $\pi$ is a continuous
+unitary irreducible representation of $U_z$, and there is a diagonal real place datum $\mathcal D$ for $(z,\pi)$
+(see the inputs above). By \lref{ReciprocityTheory.ChartRestriction.DS.Mult1.TopTA.sqInt_of_DSHpk} $\sigma$ is
+unitary on $G$ with square integrable coefficients.
+
+\emph{Decay.} Since $\theta^*(\eps)\le40n^3$ and $h\ge120n^3$, we have $\theta^*(\eps)+4n^3<h$; so the decay
+statement with $m=4n^3$ gives, for all smooth $v,w'$, a bound
+$|\langle v,\sigma(x)w'\rangle|\le C\|x\|^{-4n^3}$ on $G$. Let $w_0$ be a $K$-finite unit vector of the lowest
+$K$-type; it is smooth. With $w=w_0$, $a=4n^3$ and $C_w$ the constant of the decay bound for $v=w'=w_0$,
+$X=(\sigma,w_0,a)$ satisfies the hypotheses of the multiplicity-one statement; let $l$ be the multiplicity-one map
+and $\tau$ the element of \cref{pf:sh-local:torconj}.
+
+\emph{Each Bessel map is a multiple of $l$ on the orbit of $w_0$.} Let $B$ be a smooth Bessel map for
+$(z,\psi_c,\sigma,\pi)$. It is Sobolev-linear, and by \cref{pf:sh-local:bounded} there is $K$ with
+$\|B(\sigma(g)w_0)\|\le K$ for $g\in G$. Put $B'(v)=B(\sigma(\tau)v)$. It is Sobolev-linear
+(\cref{pf:sh-local:dsad}), bounded by $K$ on the orbit of $w_0$, and for $h\in U_z$, $m\in N$ and smooth $v$,
+writing $\tau hm=h(\tau m\tau^{-1})\tau$,
+\[
+B'(\sigma(hm)v)=B(\sigma(h\,\tau m\tau^{-1})\sigma(\tau)v)=\psi_c(\tau m\tau^{-1})\pi(h)B(\sigma(\tau)v)=\shlocalpsi(m)\pi(h)B'(v).
+\]
+By \cref{pf:sh-local:orbitmult} there is $c_B$ with $B(\sigma(\tau)\sigma(x)w_0)=c_B\,l(\sigma(x)w_0)$ for all
+$x\in G$.
+
+\emph{Conclusion.} Let $c_1,c_2$ be these constants for $B_1,B_2$. If $c_1=0$ take $(a,b)=(1,0)$, otherwise
+$(a,b)=(c_2,-c_1)$; in both cases $(a,b)\ne0$ and $ac_1+bc_2=0$. The map $B''=aB_1+bB_2$ is Sobolev-linear and
+$B''(\sigma(\tau)\sigma(x)w_0)=(ac_1+bc_2)\,l(\sigma(x)w_0)=0$ for all $x$. Let $v$ be smooth and
+$v'=\sigma(\tau^{-1})v$, which is smooth. The map $u\mapsto B''(\sigma(\tau)u)$ is Sobolev-linear
+(\cref{pf:sh-local:dsad}) and vanishes on all $\sigma(x)w_0$, hence on all finite linear combinations
+$\sum_ic_i\sigma(g_i)w_0$. By cyclicity (\lref{CompanionTheory.D.Upq.Sm.cyc_of_smooth}) these combinations
+approximate $v'$ in every finite family of Sobolev seminorms, so the Sobolev bound gives $B''(\sigma(\tau)v')=0$,
+i.e. $aB_1(v)+bB_2(v)=0$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Real objects at infinity}\label{sec:pf:sh-local:real}
+
+The energy bound for the real objects of a Hida setting is an instance of an abstract inequality, which we state
+and prove first.
+
+\subsubsection{An abstract energy bound}
+Let $G$ be a second countable, locally compact Hausdorff group with a left and right invariant Haar measure $\mu$.
+
+\begin{definition}[Haar subgroups, admissible data, disintegrations]\label{pf:sh-local:def:wabs}
+For a subset $S\subseteq G$ and a measure $\mu_S$ on $G$ we say that $(S,\mu_S)$ is a \emph{Haar subgroup} if $S$ is a
+closed subgroup and $\mu_S$ is $\sigma$-finite, non-zero, concentrated on $S$, finite on compact sets, invariant
+under left and right translations by elements of $S$ and under inversion; it is \emph{F\o lner} if for every compact
+$K\subseteq S$ and $\eta>0$ there is a measurable $\Omega\subseteq S$ with $0<\mu_S(\Omega)<\infty$ and
+$\mu_S(\Omega)\le(1+\eta)\,\mu_S\{t\in\Omega:Kt\subseteq\Omega\}$. A measure $\nu$ is a \emph{quotient measure} for
+$(\mu,\mu_S)$ if $\int f\,d\mu=\int\!\int f(sx)\,d\mu_S(s)\,d\nu(x)$ for every measurable $f\ge0$.
+
+Let $\sigma$ be a unitary representation of $G$ on a Hilbert space $\mathcal H$ (with $\sigma(1)=1$,
+$\sigma(xy)=\sigma(x)\sigma(y)$ and continuous orbit maps), $d>0$ and $w\in\mathcal H$. The pair $(\sigma,d)$
+satisfies \emph{Schur orthogonality} if all functions $x\mapsto\langle b,\sigma(x)a\rangle\overline{\langle
+b',\sigma(x)a'\rangle}$ are $\mu$-integrable with integral $\langle a',a\rangle\langle b,b'\rangle/d$. Given a
+Haar subgroup $(S,\mu_S)$, a quotient measure $\nu$, a finite-dimensional Hilbert space $V$, a map $\tau$ from $S$
+to the unitary operators of $V$ with $\tau(1)=1$ and $\tau(st)=\tau(s)\tau(t)$, and a continuous $W:G\to V$, the
+datum $(W,\tau,\nu)$ is \emph{admissible} (for $\sigma,d,w,S$) if $W(sx)=\tau(s)W(x)$ for $s\in S$, the
+\emph{reproducing identity}
+\begin{equation}\label{eq:pf:sh-local:wrepro}
+\int_G d\,\overline{\langle w,\sigma(y)w\rangle}\,W(xy)\,d\mu(y)=W(x)\qquad(x\in G)
+\end{equation}
+holds with an absolutely convergent integral, $\int\|W\|\,d\nu<\infty$ and $\int\|W\|^2\,d\nu=1$. Finally, a measure
+space $(C,m)$ with a map $h:C\to G$ is a \emph{disintegration} of $\mu$ along $(\mu_S,\mu_{S'})$ if
+\begin{equation}\label{eq:pf:sh-local:disint}
+\int_G\varphi\,d\mu=\int_C\int\!\!\int\varphi\bigl(s\,h(c)\,s'^{-1}\bigr)\,d\mu_{S'}(s')\,d\mu_S(s)\,dm(c)
+\end{equation}
+for every measurable $\varphi\ge0$.
+\formal{Formalism.L2.SG.Pf.EnergyAbs.IsWAbs}\formal{Formalism.L2.SG.Pf.EnergyAbs.IsDisint}
+\end{definition}
+
+\begin{theorem}[Abstract energy bound]\label{pf:sh-local:energyabs}
+Let $\sigma$ be a unitary representation of $G$ satisfying Schur orthogonality with $d>0$, and $w$ a unit vector.
+Let $(S,\mu_S)$ and $(S',\mu_{S'})$ be F\o lner Haar subgroups with $s$-finite quotient measures $\nu,\nu'$, let
+$(W,\tau,\nu)$ and $(W',\tau',\nu')$ be admissible, with values in $V$ and $V'$, and let $(C,m,h)$ be a
+disintegration of $\mu$ along $(\mu_S,\mu_{S'})$ with $h$ measurable. Assume:
+\begin{enumerate}[label=(\roman*)]
+\item for every $c\in C$ the function $x\mapsto W(x)\otimes W'(h(c)^{-1}x)^*$ is $\mu$-integrable;
+\item for every $c\in C$,
+\[
+\int\!\!\int\!\!\int\!\!\int|\langle\sigma(z)w,\sigma(s\,h(c)\,s'^{-1})\sigma(z')w\rangle|\,\|W(z)\|\,\|W'(z')\|
+\,d\mu_{S'}(s')\,d\mu_S(s)\,d\nu'(z')\,d\nu(z)<\infty;
+\]
+\item the integral $\int\!\int\!\int|\langle\sigma(z)w,\sigma(s)\sigma(z')w\rangle|\,\|W(z)\|\,\|W(z')\|\,d\mu_S(s)\,
+d\nu(z')\,d\nu(z)$ is finite, and so is the analogous integral for $(S',W',\nu')$.
+\end{enumerate}
+Then
+\[
+\int_C\shlocalHS{\int_G W(x)\otimes W'(h(c)^{-1}x)^*\,d\mu(x)}^2\,dm(c)\ \le\ \frac1d .
+\]
+\formal{Formalism.L2.SG.Pf.EnergyAbs.EnergyAbs}
+\formallabel{Formalism.L2.S.Pv.EnergyAbs.energyAbs_holds}
+\end{theorem}
+
+For the proof, fix measurable sets $\Omega\subseteq S$, $\Omega'\subseteq S'$ of finite positive measure. For $e\in V$ let
+\[
+y_\Omega(e)=\int\!\int_{\Omega}\langle W(s^{-1}z),e\rangle\,\sigma(s^{-1}z)w\,d\mu_S(s)\,d\nu(z)\in\mathcal H,
+\]
+let $Y_\Omega:V\to\mathcal H$ be the linear map with $Y_\Omega e_i=y_\Omega(e_i)$ for an orthonormal basis $(e_i)$ of
+$V$, define $Y'_{\Omega'}:V'\to\mathcal H$ in the same way from $(W',\nu',\mu_{S'})$, and put
+$X_{\Omega,\Omega'}(g)=d\,Y_\Omega^*\,\sigma(g)\,Y'_{\Omega'}:V'\to V$ for $g\in G$.
+
+\begin{lemma}\label{pf:sh-local:energyX}
+If $(\sigma,d)$ satisfies Schur orthogonality, then $g\mapsto\shlocalHS{X_{\Omega,\Omega'}(g)}^2$ is continuous and
+\[
+\int_G\shlocalHS{X_{\Omega,\Omega'}(g)}^2\,d\mu(g)=d\,\shlocalHS{Y_\Omega}^2\,\shlocalHS{Y'_{\Omega'}}^2 .
+\]
+\formallabel{Formalism.L2.S.Pv.EnergyAbs.lintegral_hsA_Xop}
+\end{lemma}
+
+\begin{proof}
+Continuity follows from the continuity of the orbit maps. With $y_i=Y_\Omega e_i$ and $y'_j=Y'_{\Omega'}e'_j$,
+$\shlocalHS{X_{\Omega,\Omega'}(g)}^2=d^2\sum_{i,j}|\langle\sigma(g)y'_j,y_i\rangle|^2$, and by Schur orthogonality
+$\int|\langle\sigma(g)y'_j,y_i\rangle|^2\,d\mu=\|y'_j\|^2\|y_i\|^2/d$. Summing gives
+$d\sum_i\|y_i\|^2\sum_j\|y'_j\|^2$.
+\end{proof}
+
+\begin{lemma}[Normalisation along F\o lner sets]\label{pf:sh-local:folnerlimit}
+Let $(\sigma,d)$ satisfy Schur orthogonality, $\|w\|=1$, $(S,\mu_S)$ a Haar subgroup with an $s$-finite quotient
+measure $\nu$, $(W,\tau,\nu)$ admissible, and assume condition (iii) of \cref{pf:sh-local:energyabs} for
+$(S,W,\nu)$. Let $\Omega_n\subseteq S$ be measurable with $0<\mu_S(\Omega_n)<\infty$ and
+$r_n(q):=\mu_S\{t\in\Omega_n:qt\in\Omega_n\}/\mu_S(\Omega_n)\to1$ for every $q\in S$. Then
+$\shlocalHS{Y_{\Omega_n}}^2/\mu_S(\Omega_n)\to1/d$.
+\formallabel{Formalism.L2.S.Pv.EnergyAbs.folner_limit}
+\end{lemma}
+
+\begin{proof}
+Let $F(z,z',q)=\langle W(qz'),W(z)\rangle\,\langle\sigma(z)w,\sigma(qz')w\rangle$ on $G\times G\times G$.
+(a) $F$ is integrable for $\nu\times\nu\times\mu_S$ (\lref{Formalism.L2.S.Pv.EnergyAbs.Fk_integrable}): for
+$q\in S$, $\|W(qz')\|=\|\tau(q)W(z')\|=\|W(z')\|$, so $|F|$ is bounded by the integrand of (iii), and $\mu_S$ is
+concentrated on $S$. (b) For every measurable $\Omega\subseteq S$ of finite positive measure,
+$\shlocalHS{Y_\Omega}^2/\mu_S(\Omega)=\int r_\Omega(q)F(z,z',q)\,d(\nu\times\nu\times\mu_S)$ with
+$r_\Omega(q)=\mu_S\{t\in\Omega:qt\in\Omega\}/\mu_S(\Omega)$ (\lref{Formalism.L2.S.Pv.EnergyAbs.sumsq_div_eq}, a
+direct computation from the definition of $y_\Omega$, using the equivariance of $W$ under $S$ and the Haar subgroup
+properties of $\mu_S$). (c) $\int F\,d(\nu\times\nu\times\mu_S)=1/d$ (\lref{Formalism.L2.S.Pv.EnergyAbs.Fk_value}): since
+$\mu$ is the image of $\nu\times\mu_S$ under $(z',q)\mapsto qz'$, the integral equals
+\begin{align*}
+\int\!\!\int\langle W(x),W(z)\rangle\langle\sigma(z)w,\sigma(x)w\rangle\,d\mu(x)\,d\nu(z)
+&=\int\Bigl\langle\int\overline{\langle w,\sigma(y)w\rangle}\,W(zy)\,d\mu(y),\,W(z)\Bigr\rangle d\nu(z)\\
+&=\int\frac{\|W(z)\|^2}d\,d\nu(z)=\frac1d,
+\end{align*}
+by the substitution $x=zy$, unitarity, the reproducing identity \eqref{eq:pf:sh-local:wrepro} and
+$\int\|W\|^2\,d\nu=1$. Since $0\le r_n\le1$ and $r_n(q)\to1$ for $q\in S$, dominated convergence and (a)--(c) give the
+claim.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:energyabs}]
+(1) \emph{F\o lner sequences.} Since $G$ is second countable and $(S,\mu_S)$ is a F\o lner Haar subgroup, there are
+measurable $\Omega_n\subseteq S$ with $0<\mu_S(\Omega_n)<\infty$ such that
+$\mu_S\{t\in\Omega_n:Kt\subseteq\Omega_n\}/\mu_S(\Omega_n)\to1$ for every compact $K\subseteq S$
+(\lref{Formalism.L2.S.Pv.EnergyAbs.folner_seq}); similarly $\Omega'_n\subseteq S'$. Write $Y_n,Y'_n,X_n$ for
+$Y_{\Omega_n},Y'_{\Omega'_n},X_{\Omega_n,\Omega'_n}$.
+
+(2) \emph{Normalisation.} By \cref{pf:sh-local:folnerlimit} (applied with $K=\{q\}$ in the F\o lner property),
+\[
+\shlocalHS{Y_n}^2/\mu_S(\Omega_n)\to1/d\quad\text{and}\quad\shlocalHS{Y'_n}^2/\mu_{S'}(\Omega'_n)\to1/d .
+\]
+
+(3) \emph{Pointwise lower bound.} For every $\gamma\in G$ satisfying the convergence condition (ii) with $h(c)$
+replaced by $\gamma$,
+\begin{align*}
+&\shlocalHS{\int_GW(x)\otimes W'(\gamma^{-1}x)^*\,d\mu(x)}^2\\
+&\qquad\le\liminf_{n\to\infty}\frac1{\mu_S(\Omega_n)\mu_{S'}(\Omega'_n)}
+\int\!\!\int\shlocalHS{X_n(s\gamma s'^{-1})}^2\,d\mu_{S'}(s')\,d\mu_S(s)
+\end{align*}
+(\lref{Formalism.L2.S.Pv.EnergyAbs.point_lower}).
+
+(4) \emph{Integration.} Let $F_n(c)$ be the right side of (3) without the $\liminf$, for $\gamma=h(c)$; it is
+measurable in $c$ because $h$ is measurable and $g\mapsto\shlocalHS{X_n(g)}^2$ is continuous. By (3) and Fatou's
+lemma,
+\[
+\int_C\shlocalHS{\int_G W(x)\otimes W'(h(c)^{-1}x)^*\,d\mu}^2\,dm(c)\le\int_C\liminf_nF_n\,dm\le\liminf_n\int_CF_n\,dm .
+\]
+By the disintegration \eqref{eq:pf:sh-local:disint} applied to $\varphi=\shlocalHS{X_n(\cdot)}^2$ and
+\cref{pf:sh-local:energyX},
+\[
+\int_CF_n\,dm=\frac{d\,\shlocalHS{Y_n}^2\,\shlocalHS{Y'_n}^2}{\mu_S(\Omega_n)\mu_{S'}(\Omega'_n)}
+=d\cdot\frac{\shlocalHS{Y_n}^2}{\mu_S(\Omega_n)}\cdot\frac{\shlocalHS{Y'_n}^2}{\mu_{S'}(\Omega'_n)}\longrightarrow
+d\cdot\frac1d\cdot\frac1d=\frac1d
+\]
+by (2) (\lref{Formalism.L2.S.Pv.EnergyAbs.tendsto_energy}). Hence the $\liminf$ is $1/d$.
+\end{proof}
+
+\subsubsection{The real objects of a Hida setting}
+Let $D$ be a datum and $X$ a Hida setting of $D$ (\cref{thm:theorem-S}). We use the following parts of $X$. It contains an automorphic
+instance: a totally real field $F$ with set $\Sigma_\infty$ of infinite places, a CM extension $E/F$, a hermitian
+space of dimension $n=r$ (the rank of $D$) with signatures $\eps_v$ ($v\in\Sigma_\infty$), and the real group
+$G_\infty=\prod_v\Uni(J_{\eps_v})$ with the product $\mu_\infty$ of Haar measures. At every $v$ it contains a discrete
+series $\sigma_v$ of $\Uni(J_{\eps_v})$ with a unit vector $w_v$ of the lowest $K$-type and formal degree $d_v$; let
+$\sigma_\otimes$ be the tensor product representation of $G_\infty$, $w_\otimes=\bigotimes_vw_v$ and
+$\deg X=\prod_vd_v$. For every word $u$ it contains: a frame $(e_a)_{a<r_S}$ (independent of $u$) and a vector
+$z_u$; closed subgroups $N_\infty(u)\subseteq S_\infty(u)$ and $H_\infty(u)$ of $G_\infty$ (unipotent on the flag of
+the $e_a$ and $z_u$, resp.\ fixing the frame, its dual frame and $z_u$) with Haar measures $\mu_N(u)$, $\mu_H(u)$;
+the image $\mu_S(u)$ of $\mu_N(u)\times\mu_H(u)$ under multiplication and a quotient measure $\nu_u$ for
+$(\mu_\infty,\mu_S(u))$; a finite-dimensional Hilbert space $V_u$ with a unitary representation $\pi_u$ of
+$S_\infty(u)$, trivial on $N_\infty(u)$, and a character $\psi_{\infty,u}$; and a continuous function
+$W_u:G_\infty\to V_u$ with $W_u(sx)=\psi_{\infty,u}(s)\pi_u(s)W_u(x)$ for $s\in S_\infty(u)$, reproduced by
+$\varphi_\infty=\deg X\cdot\overline{\langle w_\otimes,\sigma_\otimes(\cdot)w_\otimes\rangle}$ as in
+\eqref{eq:pf:sh-local:wrepro}, with $\int\|W_u\|\,d\nu_u<\infty$ and $\int\|W_u\|^2\,d\nu_u=1$.
+
+Fix words $u,u'$ and a \emph{scale} $s_c>0$. For $v\in\Sigma_\infty$ let $f_{u,v}$ be the family of $r_S+1$
+vectors of $\C^n$ formed by $s_c^{-(r_S-a)}e_{a,v}$ ($a<r_S$) followed by $z_{u,v}$, the index $v$ denoting the
+coordinates at $v$. For $\gamma\in G_\infty$ let $Z_v(\gamma)$ be the $(r_S+1)\times(r_S+1)$ matrix with entries
+$f_{u,v,a}^*J_{\eps_v}\gamma_vf_{u',v,b}$. For a square matrix $Z$ of size $r_S+1$ let $D_l(Z)$ be its leading
+principal minor of size $l$ and
+\[
+\mathcal G(Z)=|D_{r_S+1}(Z)|^2-T_uT_{u'}|D_{r_S}(Z)|^2,\qquad \mathcal J(Z)=\prod_{l=1}^{r_S}|D_l(Z)|^4,
+\]
+where $T_u$ is the integer $T$ attached to the word $u$ by $D$. Let $C_\infty=\prod_{v}\C^{r_S+1}$ with the product
+$dc$ of the measures $2\,d\mathrm{Leb}$ on $\C$, and
+\[
+\mathrm{Good}(u,u')=\{c\in C_\infty:\ c_{v,l}\ne0\text{ and }\mathcal G(\mathrm{diag}(c_v))>0\text{ for all }v,l\},
+\]
+\[
+\mathrm{wt}(c)=\prod_v\mathcal G(\mathrm{diag}(c_v))^{k-1}\mathcal J(\mathrm{diag}(c_v)),
+\]
+$k$ the rank parameter of $D$. Say that $\gamma$ \emph{diagonalises} $c$ if $Z_v(\gamma)=\mathrm{diag}(c_v)$ for all
+$v$, and let $h(c)$ be a chosen diagonalising element if one exists, and $1$ otherwise. For $C>0$ the
+\emph{disintegration identity} $\mathrm{Dis}(C)$ is \eqref{eq:pf:sh-local:disint} with $\mu=\mu_\infty$,
+$\mu_S=\mu_S(u)$, $\mu_{S'}=\mu_S(u')$ and $dm=C\,\mathrm{wt}(c)\,dc$ restricted to $\mathrm{Good}(u,u')$; let
+$C(u,u',s_c)$ be a chosen $C>0$ with $\mathrm{Dis}(C)$ if one exists, and $0$ otherwise, and
+$\nu_M=C(u,u',s_c)\,\mathrm{wt}(c)\,dc$ on $\mathrm{Good}(u,u')$. The \emph{orbital operator at infinity} is
+\[
+O_\infty(\gamma)=\int_{G_\infty}W_u(x)\otimes W_{u'}(\gamma^{-1}x)^*\,d\mu_\infty(x):\ V_{u'}\to V_u .
+\]
+
+\begin{definition}[Real objects at infinity]\label{pf:sh-local:def:ininf}
+$\mathrm{InInf}(X,u,u',s_c)$ is the conjunction of: (i) $\mathrm{Dis}(C)$ holds for some $C>0$; (ii) every
+$c\in\mathrm{Good}(u,u')$ has a diagonalising element, and $x\mapsto W_u(x)\otimes W_{u'}(h(c)^{-1}x)^*$ is
+$\mu_\infty$-integrable; (iii) the \emph{energy} satisfies
+\[
+\shlocalE(u,u',s_c):=\int_{\mathrm{Good}(u,u')}\shlocalHS{O_\infty(h(c))}^2\,d\nu_M(c)\ \le\ \frac1{\deg X}.
+\]
+\formal{Formalism.L2.SG.RealObj.InInfinityX}
+\end{definition}
+
+\begin{definition}[Gap hypothesis]\label{pf:sh-local:def:gap}
+The \emph{gap hypothesis} for $D$ is: $r\ge1801$ and, for every type $\tau$ and every $j$, the Harish-Chandra
+parameter $b$ of $D$ at $\tau$ satisfies $b_{j+1}-b_j\ge16r^{19}$.
+\formal{Formalism.L2.SG.ConcreteSettingExists.GapHyp}
+\end{definition}
+
+\begin{theorem}[Real objects at infinity]\label{pf:sh-local:realobj}
+Assume $\sfname{UniqGap}$ (\cref{pf:sh-local:uniqgap}). For every datum $D$ satisfying the gap hypothesis, every Hida
+setting $X$ of $D$, all words $u,u'$ and every $s_c>0$, $\mathrm{InInf}(X,u,u',s_c)$ holds.
+\formallabel{Formalism.L2.SG.RealObj.EnergyConvJ.BM.realObj_inInfinityX_jsz}
+\formallabel{Formalism.L2.SG.Pf.realObj_inInfinityX_ofG}
+\formallabel{Formalism.L2.SG.RealObj.EnergyInst.inInfinityXAt}
+\end{theorem}
+
+The hypothesis $\sfname{UniqGap}$ is a theorem (\cref{pf:sh-local:uniqgap}); the citing sections combine the two.
+The proof uses two convergence statements deduced from $\sfname{UniqGap}$, together with the decay of matrix
+coefficients at the lowest $K$-type and at infinity and the smoothness of $K$-finite vectors
+(\lref{CompanionTheory.Lime.BM.inputs2_of}, which packages these four inputs):
+\begin{itemize}
+\item $(\mathrm{Int})$ (\lref{Formalism.L2.SG.RealObj.EnergyConvJ.BM.stepIntG_jsz}): under the gap
+hypothesis, for every $c\in\mathrm{Good}(u,u')$ and every $\gamma$ diagonalising $c$, the function
+$x\mapsto W_u(x)\otimes W_{u'}(\gamma^{-1}x)^*$ is $\mu_\infty$-integrable;
+\item $(\mathrm{Conv})$ (\lref{Formalism.L2.SG.RealObj.EnergyConvJ.BM.stepConvG_jsz}): under the gap hypothesis,
+condition (ii) of \cref{pf:sh-local:energyabs} holds for the data $\sigma_\otimes$, $w_\otimes$, $W_u$, $W_{u'}$,
+$\nu_u$, $\nu_{u'}$, $\mu_S(u)$, $\mu_S(u')$ at every $\gamma$ diagonalising some $c\in\mathrm{Good}(u,u')$, and
+condition (iii) holds for every word.
+\end{itemize}
+
+\begin{proposition}[The energy step]\label{pf:sh-local:energystep}
+Let $D$ be a datum such that $(\mathrm{Int})$ and $(\mathrm{Conv})$ hold for all Hida settings of $D$. Then for every
+Hida setting $X$, words $u,u'$ and $s_c>0$: if $\mathrm{Dis}(C)$ holds for some $C>0$ and condition (ii) of
+\cref{pf:sh-local:def:ininf} holds, then $\shlocalE(u,u',s_c)\le1/\deg X$.
+\formallabel{Formalism.L2.SG.RealObj.EnergyInst.stepEnergyAt_of_inst}
+\end{proposition}
+
+\begin{proof}
+We apply \cref{pf:sh-local:energyabs} with $G=G_\infty$, $\mu=\mu_\infty$, $\sigma=\sigma_\otimes$, $w=w_\otimes$,
+$d=\deg X$, $(S,\mu_S,\nu,W)=(S_\infty(u),\mu_S(u),\nu_u,W_u)$, the same for $u'$,
+$\tau(s)=\psi_{\infty,u}(s)\pi_u(s)$, $(C,m)=(C_\infty,\nu_M)$, and a measurable modification $g$ of $h$. Its
+hypotheses hold:
+\begin{itemize}
+\item $\sigma_\otimes$ is unitary and satisfies Schur orthogonality with $d=\deg X$, $\|w_\otimes\|=1$ and
+$\varphi_\infty=\deg X\,\overline{\langle w_\otimes,\sigma_\otimes(\cdot)w_\otimes\rangle}$
+(\lref{Formalism.L2.S.Pv.SchurTens.stepSchurG_holds}, proved from Schur orthogonality of the $\sigma_v$ by a
+density argument for tensor products);
+\item $(S_\infty(u),\mu_S(u))$ is a F\o lner Haar subgroup, $\tau$ is multiplicative on $S_\infty(u)$ and $\nu_u$
+is $s$-finite (\lref{Formalism.L2.S.Pv.HaarSubS.stepSubG_holds}); $\nu_u$ is a quotient measure by the
+definition of a Hida setting; and $(W_u,\tau,\nu_u)$ is admissible
+(\lref{Formalism.L2.SG.RealObj.EnergyInst.isWAbs_of}: the conditions are those of the Hida setting, rewritten
+with the two previous items);
+\item \emph{a measurable section}: there is a measurable $h_0:C_\infty\to G_\infty$ such that $h_0(c)$ diagonalises
+$c$ for every $c\in\mathrm{Good}(u,u')$ (\lref{Formalism.L2.S.Pv.SecW.stepSection_holds}). If $\mathrm{Good}$
+is empty, $\nu_M=0$ and there is nothing to prove; otherwise fix $c_0\in\mathrm{Good}$ and let $g=h_0$ on
+$\mathrm{Good}$ and $g=h_0(c_0)$ outside; $g$ is measurable and $g(c)$ diagonalises some element of $\mathrm{Good}$
+for every $c$;
+\item \emph{disintegration along $g$}: two elements diagonalising the same $c$ differ by left and right
+multiplication by elements of $S_\infty(u)$ and $S_\infty(u')$
+(\lref{Formalism.L2.SG.RealObj.InfCut.UnitaryIsometries.StepDiagDC_holds}); by the invariance of
+$\mu_S(u),\mu_S(u')$ (\lref{Formalism.L2.SG.RealObj.EnergyInst.inner_transfer}) the inner integrals in
+$\mathrm{Dis}(C(u,u',s_c))$ do not change when $h(c)$ is replaced by $g(c)$; since $\nu_M$ is concentrated on
+$\mathrm{Good}$, $(C_\infty,\nu_M,g)$ is a disintegration;
+\item conditions (i)--(iii) of \cref{pf:sh-local:energyabs} are $(\mathrm{Int})$ and $(\mathrm{Conv})$ at the
+diagonalising elements $g(c)$.
+\end{itemize}
+\Cref{pf:sh-local:energyabs} gives $\int\shlocalHS{O_\infty(g(c))}^2\,d\nu_M(c)\le1/\deg X$. Finally, for
+$c\in\mathrm{Good}$, $\shlocalHS{O_\infty(\gamma)}$ is the same for all $\gamma$ diagonalising $c$
+(\lref{Formalism.L2.SG.RealObj.InfCut.ooIndep_of_step}, from the same description of diagonalising elements and
+the equivariance of $W_u,W_{u'}$ under $S_\infty$); as $\nu_M$ is concentrated on $\mathrm{Good}$, the integral equals
+$\shlocalE(u,u',s_c)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:realobj}]
+By \lref{CompanionTheory.Lime.BM.inputs2_of}, $\sfname{UniqGap}$ gives $(\mathrm{Int})$ and $(\mathrm{Conv})$
+for every datum with the gap hypothesis. Let $X,u,u',s_c$ be given. (i) The disintegration identity holds with some
+$C>0$ (\lref{Formalism.L2.SG.RealObj.InfCut.ProductExactness.haar_disintegration_real_holds}, the formula for
+Haar measure in the coordinates $(s,c,s')$ given by the Gram matrices). (ii) Every $c\in\mathrm{Good}(u,u')$ has a
+diagonalising element (\lref{Formalism.L2.SG.RealObj.InfCut.ProductExactness.StepReal_holds}), so $h(c)$
+diagonalises $c$, and $(\mathrm{Int})$ gives the integrability at $h(c)$. (iii) is
+\cref{pf:sh-local:energystep}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Finite dimensionality of spaces of automorphic forms}\label{sec:pf:sh-local:findim}
+
+Let $I$ be an automorphic instance: a totally real number field $F$ with CM extension $E$, a non-degenerate hermitian
+matrix $J$ of size $n$ over $E$, an $\OO_E$-lattice $L$, and at each infinite place $v$ an embedding identifying
+$\Uni(J)(F_v)$ with $\Uni(J_{\eps_v})$. Let $G_\infty=\prod_v\Uni(J_{\eps_v})$ with Haar measure $\mu_\infty$, $G_f$
+the group of finite adelic points of $\Uni(J)$, $K_L\subseteq G_f$ the stabiliser of $L$, $G_\A=G_\infty\times G_f$,
+$\Gamma=\Uni(J)(F)\subseteq G_\A$ (embedded diagonally), $\mu_f$ a Haar measure on $G_f$ and
+$\mu_\A=\mu_\infty\times\mu_f$. Let $\mathcal F\subseteq G_\A$ be a measurable fundamental domain for $\Gamma$,
+$L^2=L^2(\mathcal F,\mu_\A)$, and $R$ the right regular representation of $G_\A$ on $L^2$. For a locally constant
+$e:G_f\to\C$ supported in $K_L$ let $R_e$ be the operator with $\langle x,R_ey\rangle=\int e(g)\langle
+x,R(1,g)y\rangle\,d\mu_f(g)$.
+
+\begin{theorem}[Finite dimensionality of the row spaces]\label{pf:sh-local:findim}
+In this situation, let $\sigma_v$ ($v\mid\infty$) be irreducible unitary representations of $\Uni(J_{\eps_v})$ on
+Hilbert spaces, $d_v$ formal degrees for them (Schur orthogonality as in \eqref{eq:pf:sh-local:schur}), and $w_v$ unit
+vectors such that $g\mapsto d_v\overline{\langle w_v,\sigma_v(g)w_v\rangle}$ is integrable. Let
+$\varphi_\infty(g)=\prod_vd_v\overline{\langle w_v,\sigma_v(g_v)w_v\rangle}$ and $T$ the operator on $L^2$ with
+$\langle x,Ty\rangle=\int\varphi_\infty(g)\langle x,R(g,1)y\rangle\,d\mu_\infty(g)$. Then the range of $R_e\circ T$
+is finite-dimensional.
+\formal{Formalism.L2.SG.RowsDef.RowsFinDim}
+\formallabel{CompanionTheory.D.gk.RF.automorphic_forms_finite_dimensional}
+\formallabel{CompanionTheory.D.gk.RF.rowsFinDim_of}
+\end{theorem}
+
+\begin{remark}
+The range of $R_e\circ T$ consists of square-integrable automorphic forms on $\Gamma\backslash G_\A$ of level
+$e$ whose components at infinity lie in the $\sigma_v$-isotypic parts generated by the $w_v$. The theorem is a form
+of Harish-Chandra's finiteness theorem for spaces of automorphic forms \cite{HarishChandra1968} (compare
+\cite{BorelJacquet1979}). It differs from the published statements in two ways: $K$-finiteness and
+$\mathfrak z$-finiteness are replaced by the convolution idempotent $\varphi_\infty$ of integrable discrete series
+(no $K$-finiteness of $w_v$ is assumed), and the conclusion concerns the closure in $L^2$ of the functions reproduced
+by $\varphi_\infty$; the formal proof follows the classical route through reduction theory and cusp estimates.
+\end{remark}
+
+\begin{lemma}[Finite dimensionality from linear forms]\label{pf:sh-local:fdlin}
+Let $G$ be a second countable locally compact group with Haar measure $\mu$, $\Gamma$ a subgroup, $\mathcal F\subseteq
+G$ measurable and $\varphi$ integrable. Call $h:G\to\C$ \emph{reproduced by $\varphi$} if it is bounded, continuous,
+left $\Gamma$-invariant and $h(x)=\int\varphi(y)h(xy)\,d\mu(y)$ for all $x$. Assume \emph{detection}: there are a
+continuous compactly supported $\alpha$ and $p_1,\dots,p_m\in G$ such that every reproduced $h$ with
+$\int_{\mathcal F}|h|^2\,d\mu<\infty$ and $\int\alpha(y)h(p_iy)\,d\mu(y)=0$ for all $i$ vanishes almost everywhere on
+$\mathcal F$. Then every subspace of $L^2(\mathcal F,\mu)$ contained in the closure of the classes of reproduced
+functions is finite-dimensional.
+\formallabel{CompanionTheory.D.gk.RF.finite_dimensional_from_linear_forms}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal H_2$ be the vector space of reproduced functions which are square integrable on $\mathcal F$, let
+$r:\mathcal H_2\to L^2(\mathcal F)$ be the class map and $l:\mathcal H_2\to\C^m$,
+$l(h)=(\int\alpha(y)h(p_iy)\,d\mu(y))_i$ (the integrals converge since $\alpha$ is integrable and $h$ bounded). Detection
+says $\ker l\subseteq\ker r$, so $r(\mathcal H_2)$ is a quotient of $\mathcal H_2/\ker l\cong l(\mathcal H_2)\subseteq\C^m$,
+hence finite-dimensional and therefore closed. It contains the classes of all reproduced functions which are square
+integrable on $\mathcal F$, and a reproduced function whose class lies in $L^2(\mathcal F)$ is such a function; so the
+closure of the set of these classes, and every subspace contained in it, lies in $r(\mathcal H_2)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:findim}]
+The proof establishes seven statements and then derives the theorem from them. Put
+$\varphi_0=\varphi_\infty\otimes e$ on $G_\A$.
+\begin{enumerate}[label=(\arabic*)]
+\item $\varphi_\infty$ is integrable and $\varphi_\infty*\varphi_\infty=\varphi_\infty$, i.e.
+$\int\varphi_\infty(y)\varphi_\infty(y^{-1}x)\,d\mu_\infty(y)=\varphi_\infty(x)$
+(\lref{Formalism.L2.SG.Pf.phInf_int}, \lref{Formalism.L2.SG.Pf.phInf_conv}; the convolution identity is
+Schur orthogonality). The regular representation is unitary with measurable coefficients
+(\lref{Formalism.MainNotions.LeviCoordinates.adelic_regular_rep_unitary_continuous}), and $R_e\circ T$ is the
+convolution operator by $\varphi_0$ (\lref{Formalism.L2.SG.Pf.prod_op_eq}).
+\item \emph{Level.} Since $e$ is locally constant and supported in the compact group $K_L$, there is an open compact
+subgroup $K_p\subseteq G_f$ with $e(kx)=e(x)$ for $k\in K_p$ (\lref{CompanionTheory.D.gk.RF.level_structure_of}).
+Let $\varphi=\varphi_\infty\otimes\mu_f(K_p)^{-1}\one_{K_p}$; a direct computation with (1) gives
+$\varphi*\varphi_0=\varphi_0$.
+\item \emph{Cusp estimate} (\lref{CompanionTheory.D.gk.RF.cuspInf} with
+\lref{CompanionTheory.D.gk.RF.adelic_cusp_of_infinite_cusp} and
+\lref{CompanionTheory.D.gk.RF.congruence_subgroup_compact_open}): for every neighbourhood $U$ of $1$ in $G_\A$
+there is a compact $C$ such that every $x\in G_\A$ either lies in $\Gamma C$ or admits a probability measure $\nu$
+on $G_\A$ with $x^{-1}mx\in U$ for $\nu$-almost all $m$ and $\int h(mxz)\,d\nu(m)=0$ for all $z\in G_\infty\times
+K_p$ and all bounded continuous left $\Gamma$-invariant $h$ \emph{reproduced by $\varphi$}, i.e. with
+$h(x)=\int\varphi(y)h(xy)\,d\mu_\A(y)$ for all $x$. (At infinity this is reduction theory for $\Uni(J)$ --- Mahler compactness and
+a decomposition along isotropic subspaces --- together with the vanishing of the integrals of $\varphi_\infty$ against
+functions invariant under the unipotent radical of a parabolic subgroup.)
+\item \emph{Discreteness}: $\Gamma$ meets every compact subset of $G_\A$ in a finite set
+(\lref{CompanionTheory.D.gk.RF.fundamental_domain_discrete_of}, \lref{CompanionTheory.D.gk.RF.gamSub}).
+\item \emph{Detection} (\lref{CompanionTheory.D.gk.RF.discrete_series_bound_of_inputs}): if $\varphi$ is
+integrable, vanishes outside a clopen set $O$ and satisfies the cusp estimate (3) for $O$, and $\Gamma$ is discrete,
+then there are a continuous compactly supported $\alpha$ and finitely many $p_1,\dots,p_m\in G_\A$ such that every
+bounded continuous $\Gamma$-invariant $h$ reproduced by $\varphi$, with $\int_{\mathcal F}|h|^2<\infty$ and
+$\int\alpha(y)h(p_iy)\,d\mu_\A(y)=0$ for all $i$, vanishes in $L^2(\mathcal F)$.
+\item \emph{Finite dimensionality}: \cref{pf:sh-local:fdlin}.
+\item \emph{The range} (\lref{CompanionTheory.D.gk.RF.convolution_operator_representation},
+\lref{CompanionTheory.D.gk.RF.representation_of_convolution}): for $F\in L^2$ essentially bounded on
+$\mathcal F$, $R_eTF$ is represented by $x\mapsto\int\varphi_0(y)s(xy)\,d\mu_\A(y)$ with $s$ bounded, measurable and
+$\Gamma$-invariant, and such a function is reproduced by $\varphi$ (because $\varphi*\varphi_0=\varphi_0$).
+\end{enumerate}
+Since essentially bounded functions are dense in $L^2$ (\lref{CompanionTheory.D.gk.RF.dense_bdd}) and
+$R_e\circ T$ is continuous, its range lies in the closure of the reproduced functions, and (5), (6) give the claim.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Isomorphisms \texorpdfstring{$\C\cong\C_q$}{C = Cq}}\label{sec:pf:sh-local:cq}
+
+For a prime $q$ let $\C_q$ be the completion of an algebraic closure of $\Q_q$, and let $\Qbar\subset\C$ be the
+field of algebraic numbers in $\C$. We write $\mathfrak c=2^{\aleph_0}$.
+
+\begin{lemma}\label{pf:sh-local:cardCq}
+$\C_q$ has cardinality $\mathfrak c$.
+\formallabel{GlobalTheory.PadicComplexIso.mk_padicComplex}
+\end{lemma}
+
+\begin{proof}
+A metric space $Y$ containing a dense subset of cardinality at most $\mathfrak c$ has cardinality at most
+$\mathfrak c$, since every point is the limit of a sequence in that subset and
+$\mathfrak c^{\aleph_0}=\mathfrak c$ (\lref{GlobalTheory.PadicComplexIso.mk_le_continuum_of_denseRange}).
+Since $\Q$ is dense in $\Q_q$, $|\Q_q|\le\mathfrak c$; an algebraic extension of an infinite field $K$ has
+cardinality at most $|K|$, so the algebraic closure of $\Q_q$ has cardinality at most $\mathfrak c$; and it is dense in
+its completion $\C_q$, so $|\C_q|\le\mathfrak c$. Conversely $\C_q$ is a non-empty complete metric space without
+isolated points, hence contains an injective image of $\{0,1\}^{\N}$ (a Cantor set), so $|\C_q|\ge2^{\aleph_0}$.
+\end{proof}
+
+\begin{lemma}[Steinitz]\label{pf:sh-local:steinitz}
+Let $R$ be a field with $|R|\le\aleph_0$ and $K,L$ algebraically closed fields with $R$-algebra structures such that
+$\aleph_0<|K|=|L|$. Then there is a ring isomorphism $e:K\to L$ with $e(a\cdot1_K)=a\cdot1_L$ for all $a\in R$.
+\formallabel{GlobalTheory.PadicComplexIso.exists_ringEquiv_over}
+\end{lemma}
+
+\begin{proof}
+Choose transcendence bases $s$ of $K$ and $t$ of $L$ over $R$. Since $K$ is algebraically closed and
+$|R|\le\aleph_0<|K|$, $|K|=|s|$; likewise $|L|=|t|$; so there is a bijection $s\cong t$. It induces an
+$R$-isomorphism $R[s]\cong R[t]$ of the subalgebras generated by the bases (both are polynomial rings), and since $K$,
+resp. $L$, is an algebraic closure of $R[s]$, resp. $R[t]$, this isomorphism extends to an isomorphism $K\cong L$ by the
+uniqueness of algebraic closures. It is $R$-linear by construction.
+\end{proof}
+
+\begin{theorem}\label{pf:sh-local:ringequiv}
+Let $q$ be a prime and $\lambda:\Qbar\to\C_q$ a ring homomorphism. Then there is a ring isomorphism
+$\iota:\C\to\C_q$ with $\iota(x)=\lambda(x)$ for all $x\in\Qbar$.
+\formallabel{GlobalTheory.PadicComplexIso.exists_ringEquiv_extending}
+\end{theorem}
+
+\begin{proof}
+Regard $\C_q$ as a $\Qbar$-algebra via $\lambda$ and $\C$ via the inclusion. $\Qbar$ is algebraic over $\Q$, so
+$|\Qbar|\le\max(|\Q|,\aleph_0)=\aleph_0$; $|\C|=\mathfrak c>\aleph_0$; and $|\C_q|=\mathfrak c$ by
+\cref{pf:sh-local:cardCq}. \Cref{pf:sh-local:steinitz} with $R=\Qbar$, $K=\C$, $L=\C_q$ gives $\iota$.
+\end{proof}
+
+The isomorphism $\iota$ is not continuous and is not unique; the result uses the axiom of choice (through the
+existence of transcendence bases), as does the classical statement.
+
+% ---------------------------------------------------------------------------
+\subsection{Places of the host field above the small primes}\label{sec:pf:sh-local:host}
+
+\subsubsection{Definitions}
+\begin{definition}[Toroidal hosts]\label{pf:sh-local:def:torhost}
+Let $E$ be a CM field with ring of integers $\OO_E$ and complex conjugation $a\mapsto\bar a$. A \emph{toroidal host}
+$H$ on $E$ consists of a prime $d\equiv7\pmod{16}$, elements $\mathrm{rt},w_0\in\OO_E$ with $\mathrm{rt}^2=-d$ and
+$2w_0=1+\mathrm{rt}$, and a complex number $\mathrm{rt}_0$ with $\mathrm{rt}_0^2=-d$; it also records that $\OO_E$ is
+unramified over the ring of integers of the maximal real subfield. Its \emph{CM type} is
+$\Psi_H=\{\tau:E\to\C:\ \tau(\mathrm{rt})=\mathrm{rt}_0\}$.
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host}
+\end{definition}
+
+\begin{definition}[Places over $p$ and discriminant depth]\label{pf:sh-local:def:places}
+Fix a prime $p$ and put $A_p=\Z_p\otimes\OO_E$, a free $\Z_p$-module of rank $[E:\Q]$, with the involution
+$\sigma=1\otimes(\bar{\ })$. A \emph{place of $E$ over $p$} is a primitive idempotent $e$ of $A_p$, i.e.
+$e^2=e\ne0$ and every idempotent $f$ with $fe=f$ is $0$ or $e$; it is \emph{split} if $\sigma(e)\ne e$; we write
+$\bar e=\sigma(e)$, $A_pe$ for the local factor and $n_e=\rank_{\Z_p}A_pe$. For a commutative $\Z_p$-algebra $O$ and
+a ring homomorphism $\tau:\OO_E\to O$ let $\tilde\tau:A_p\to O$ be the $\Z_p$-algebra map with
+$\tilde\tau(1\otimes a)=\tau(a)$, and $\mathrm{Emb}(e)=\{\tau:\tilde\tau(e)=1\}$ the set of embeddings
+\emph{belonging to} $e$.
+
+In the following, $C$ is an algebraically closed field of characteristic $0$ with a valuation $v:C\to\R_{\ge0}$
+(multiplicative notation) whose ring of integers is a given ring $O$ (with an injective map $O\to C$ onto
+$\{v\le1\}$), $p$ is not a unit in $O$, and $O$ carries a $\Z_p$-algebra structure. For a split place $e$, a bijection
+$t:\{1,\dots,n_e\}\to\mathrm{Emb}(e)$ and $v_d\in\R$, we say that $(e,t)$ has \emph{discriminant depth} $v_d$ if
+there is a $\Z_p$-basis $(b_i)$ of $A_pe$ with
+\[
+v\bigl(\det(\tilde t_j(b_i))_{i,j}^2\bigr)=v(p)^{n_ev_d}.
+\]
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.AvDefs.Place}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.AvDefs.PlaceU}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.AvDefs.Emb}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.AvDefs.HasVd}
+\end{definition}
+
+\begin{definition}[Split places]\label{pf:sh-local:def:splitplaces}
+Let $H$ be a toroidal host on $E$, $p$ a prime, $f\in\N$ and $v_d\in\R$. Then $d$ \emph{splits at $p$},
+$\mathrm{SplitAt}(d,p)$, if $p=2$ or $\bigl(\frac{-d}p\bigr)=1$. The \emph{split-places condition}
+$\mathrm{SplitPlaces}(p,H,f,v_d)$ says: for all $C,v,O$ as above and every injective map $\tau\mapsto\tau_O$ from
+the embeddings $E\to\C$ to the ring homomorphisms $\OO_E\to O$ such that $\tau(\mathrm{rt})=\tau'(\mathrm{rt})$ if
+and only if $\tau_O(\mathrm{rt})=\tau'_O(\mathrm{rt})$, there are split places $e_1,\dots,e_s$ of $E$ over $p$ and
+real numbers $v_{d,1},\dots,v_{d,s}$ such that
+\begin{enumerate}[label=(\roman*)]
+\item $\sum_in_{e_i}=f$ and $\sum_in_{e_i}v_{d,i}=f\,v_d$;
+\item every element of $\mathrm{Emb}(e_i)$ is $\tau_O$ for some $\tau\in\Psi_H$, and every element of
+$\mathrm{Emb}(\bar e_i)$ is $\tau_O$ for some $\tau\notin\Psi_H$;
+\item for every $\tau\in\Psi_H$ there is exactly one $i$ with $\tau_O\in\mathrm{Emb}(e_i)$;
+\item for every $i$ there is a bijection $t_i:\{1,\dots,n_{e_i}\}\to\mathrm{Emb}(e_i)$ such that $(e_i,t_i)$ has
+discriminant depth $v_{d,i}$.
+\end{enumerate}
+\formal{UpperTheory.Depth.SplitAt}\formal{UpperTheory.Depth.SplitPlaces}
+\end{definition}
+
+\subsubsection{Three lemmas on idempotents}
+
+\begin{lemma}[The split idempotent]\label{pf:sh-local:splitidem}
+Let $H$ be a toroidal host on $E$ and $p$ a prime with $\mathrm{SplitAt}(d,p)$. There are an idempotent $e\in A_p$
+and $\alpha\in\Z_p$ with $e\ne0,1$, $e+\sigma(e)=1$ and $\alpha^2=-d$, such that for every domain $O$ of
+characteristic $0$ with a $\Z_p$-algebra structure and every ring homomorphism $\tau:\OO_E\to O$:
+$\tau\in\mathrm{Emb}(e)\iff\tau(\mathrm{rt})=\alpha$, and $\tau\in\mathrm{Emb}(1-e)\iff\tau(\mathrm{rt})=-\alpha$.
+\formallabel{UpperTheory.exists_splitIdempotent_of_splitAt}
+\end{lemma}
+
+\begin{proof}
+Write $d+1=8k$ (possible as $d\equiv7\pmod{16}$). \emph{Step 1: there are $\beta,\gamma\in\Z_p$ with
+$\beta^2=\beta-2k$ and $\gamma(1-2\beta)=1$} (\lref{UpperTheory.Depth.SplitIdem.exists_root}). If $p=2$,
+Hensel's lemma applied to $X^2-X+2k$ at $X=0$ (the value $2k$ has norm $<1$ and the derivative $-1$ is a unit)
+gives $\beta$, and $1-2\beta$ is a unit of $\Z_2$. If $p\ne2$, then $\bigl(\frac{-d}p\bigr)=1$ gives $a\in\Z$ with
+$a^2\equiv-d\pmod p$ and $p\nmid a$; Hensel's lemma applied to $X^2+d$ at $a$ (the derivative $2a$ is a unit) gives
+$\alpha_0\in\Z_p$ with $\alpha_0^2=-d$. With $u=2^{-1}$ and $v_0=(-d)^{-1}$ in $\Z_p$ put $\beta=u(1-\alpha_0)$ and
+$\gamma=v_0\alpha_0$; then $\beta^2-\beta=(\alpha_0^2-1)/4=-2k$ and $\gamma(1-2\beta)=v_0\alpha_0^2=1$.
+
+\emph{Step 2.} In $\OO_E$, $w_0^2=w_0-2k$ (expand $(2w_0-1)^2=\mathrm{rt}^2=1-8k$), and $\bar w_0=1-w_0$: indeed
+$\overline{\mathrm{rt}}=\pm\mathrm{rt}$, and $\overline{\mathrm{rt}}=\mathrm{rt}$ is impossible because then
+$\tau(\mathrm{rt})$ would be real for every embedding $\tau$, whereas $\tau(\mathrm{rt})^2=-d<0$. Let
+$e=\gamma(w_0-\beta)\in A_p$ (identifying $\Z_p$ and $\OO_E$ with their images). Then
+$e+\sigma(e)=\gamma(w_0-\beta+1-w_0-\beta)=\gamma(1-2\beta)=1$, and from
+$(w_0-\beta)^2=w_0-2k-2\beta w_0+\beta-2k=(w_0-\beta)(1-2\beta)$ we get $e^2=\gamma(w_0-\beta)=e$. As $A_p\ne0$
+($\Z_p$ is flat over $\Z$), $e+\sigma(e)=1$ excludes $e=0$ and $e=1$. Put $\alpha=1-2\beta$; then
+$\alpha^2=1-4\beta+4\beta^2=1-8k=-d$.
+
+\emph{Step 3.} Let $\tau:\OO_E\to O$. Then $\tilde\tau(e)=\gamma(\tau(w_0)-\beta)$ and $2\tau(w_0)=1+\tau(\mathrm{rt})$.
+Since $\gamma(1-2\beta)=1$ and $2$ is not a zero divisor in $O$, $\tilde\tau(e)=1$ if and only if
+$\tau(w_0)=1-\beta$, i.e. $\tau(\mathrm{rt})=1-2\beta=\alpha$; and $\tilde\tau(1-e)=1$ if and only if
+$\tau(w_0)=\beta$, i.e. $\tau(\mathrm{rt})=-\alpha$.
+\end{proof}
+
+\begin{lemma}[Primitive decomposition]\label{pf:sh-local:primdec}
+In a noetherian commutative ring, every idempotent is a finite sum of pairwise orthogonal primitive idempotents.
+\formallabel{UpperTheory.exists_primitive_orthogonal_idempotents_sum_eq_of_noetherian}
+\end{lemma}
+
+\begin{proof}
+We use noetherian induction on the ideal $(1-e)$. If $e=0$ take the empty sum, and if $e$ is primitive take $e$
+itself. Otherwise there is an idempotent $x$ with $xe=x$ and $x\ne0,e$; then $x$ and $e-x$ are orthogonal
+idempotents with sum $e$, and the ideals $(1-x)$ and $(1-(e-x))$ strictly contain $(1-e)$
+(\lref{idem_lt}). By induction both are sums of orthogonal primitive idempotents; the elements of
+the two decompositions are mutually orthogonal (they are absorbed by $x$, resp. $e-x$, and $x(e-x)=0$), so the
+union is a decomposition of $e$.
+\end{proof}
+
+\begin{lemma}[Counting embeddings]\label{pf:sh-local:countemb}
+Let $C,v,O$ be as above (with any $\Z_p$-algebra structure on $O$) and $e\in A_p$ an idempotent. Then there is a
+bijection $\{1,\dots,\rank_{\Z_p}A_pe\}\cong\mathrm{Emb}(e)$, and there are exactly $[E:\Q]$ ring homomorphisms
+$\OO_E\to O$.
+\formallabel{UpperTheory.trace_form_decomposition_CMDatum}
+\end{lemma}
+
+\begin{proof}
+Every field embedding $E\to C$ maps $\OO_E$ into the integrally closed ring $O$, and every ring homomorphism
+$\OO_E\to O$ extends uniquely to $E$; so the ring homomorphisms $\OO_E\to O$ correspond to the $[E:\Q]$ embeddings
+$E\to C$ (\lref{UpperTheory.TraceSumEquivalence.exists_equiv}). Multiplication by $e$ is an idempotent endomorphism of the free
+$\Z_p$-module $A_p$, so its trace is the rank of its image $A_pe$. On the other hand the trace of multiplication by
+an element $x$ of $A_p$ equals $\sum_\tau\tilde\tau(x)$, the sum over all ring homomorphisms $\tau:\OO_E\to O$
+(\lref{UpperTheory.TraceSumEquivalence.trace_eq_sum}). Each $\tilde\tau(e)$ is an idempotent of the domain $O$, hence $0$ or $1$, so the
+trace is $|\mathrm{Emb}(e)|$.
+\end{proof}
+
+\subsubsection{The discriminant as a product over places}
+
+\begin{proposition}\label{pf:sh-local:discprod}
+Let $C,v,O$ be as above and $e_1,\dots,e_s$ split places of $E$ over $p$ with $e_ie_j=0$ for $i\ne j$,
+$e_i\bar e_j=0$ for all $i,j$, and $\sum_ie_i+\sum_i\bar e_i=1$. Then $2\sum_in_{e_i}=[E:\Q]$, and for all bijections
+$t_i:\{1,\dots,n_{e_i}\}\to\mathrm{Emb}(e_i)$ there are $v_{d,i}\in\R$ such that $(e_i,t_i)$ has discriminant depth
+$v_{d,i}$ for every $i$ and
+\[
+\sum_in_{e_i}v_{d,i}=\tfrac12\,v_p(\mathrm{disc}\,E).
+\]
+\formallabel{UpperTheory.discr_CMDatum_eq_prod_places}
+\end{proposition}
+
+\begin{proof}
+\emph{Ranks.} $A_p$ is the direct sum of the $A_pe_i$ and $A_p\bar e_i$
+(\lref{UpperTheory.PlacesDiscr.splitEquiv}), and $\sigma$ maps $A_pe_i$ isomorphically onto $A_p\bar e_i$;
+comparing ranks, $[E:\Q]=\rank_{\Z_p}A_p=2\sum_in_{e_i}$.
+
+\emph{The block matrix.} Choose $\Z_p$-bases $B_i=(B_{i,a})_a$ of $A_pe_i$ and let
+$M_i=(\tilde t_i(b)(B_{i,a}))_{a,b}\in M_{n_{e_i}}(O)$. The ring homomorphisms $\OO_E\to O$ are exactly the
+$t_i(b)$ and the $t_i(b)\circ(\bar{\ })$, each once: for every $\tau$ the elements $\tilde\tau(e_i)$,
+$\tilde\tau(\bar e_i)$ are idempotents of the domain $O$ summing to $1$ and pairwise orthogonal, so exactly one of
+them is $1$, and $\widetilde{\tau\circ\bar{\ }}(e_i)=\tilde\tau(\bar e_i)$; with the count of
+\cref{pf:sh-local:countemb} this is a bijection. Order the basis $\gamma$ of $A_p$ formed by the $B_i$ and the
+$\sigma(B_i)$, and the homomorphisms, compatibly. If $\tau\in\mathrm{Emb}(e_i)$ then $\tilde\tau$ vanishes on $A_pe_j$
+for $j\ne i$ and on all $A_p\bar e_j$, because $e_ie_j=0=e_i\bar e_j$; hence the matrix
+$(\tilde\tau(\gamma_m))_{m,\tau}$ is block diagonal with blocks $\mathrm{diag}(M_i,M_i)$ (for the second block use
+$\widetilde{\tau\circ\bar{\ }}(\sigma(x))=\tilde\tau(x)$), and its determinant is $\prod_i\det(M_i)^2$.
+
+\emph{Comparison with the discriminant.} Let $(\omega_m)$ be an integral basis of $\OO_E$; then $(1\otimes\omega_m)$
+is another $\Z_p$-basis of $A_p$, and the change of basis matrix to $\gamma$ has a unit determinant in $\Z_p$, whose
+image in $O$ has valuation $1$. Since $\mathrm{disc}\,E=\det(\tau(\omega_m))^2$ (the embeddings $E\to C$ being
+identified with the homomorphisms $\OO_E\to O$), we obtain
+$\prod_iv(\det(M_i)^2)^2=v(\mathrm{disc}\,E)$. For a non-zero integer $N$ one has $v(N)=v(p)^{v_p(N)}$, since the
+primes $\ne p$ are units of $\Z_p$ (\lref{valuation_intCast_eq_pow_padicValInt}).
+
+\emph{Depths.} Put $Q=v(p)$, so $0<Q<1$, and $x_i=v(\det(M_i)^2)>0$. Let $v_{d,i}=\log_Q(x_i)/n_{e_i}$ (and $0$ if
+$n_{e_i}=0$, in which case $x_i=1$). Then $x_i=Q^{n_{e_i}v_{d,i}}$, so $(e_i,t_i)$ has discriminant depth $v_{d,i}$
+with the basis $B_i$, and $\sum_in_{e_i}v_{d,i}=\log_Q\prod_ix_i=\frac12\log_Q\prod_ix_i^2=\frac12v_p(\mathrm{disc}\,E)$.
+\end{proof}
+
+\begin{proposition}\label{pf:sh-local:splitplaces}
+Let $H$ be a toroidal host on $E$, $p$ a prime with $\mathrm{SplitAt}(d,p)$ and $f\in\N$ with $[E:\Q]=2f$. Then
+$\mathrm{SplitPlaces}\bigl(p,H,f,v_p(\mathrm{disc}\,E)/[E:\Q]\bigr)$ holds.
+\formallabel{UpperTheory.splitPlaces_discriminantDepth_of_splitAt}
+\end{proposition}
+
+\begin{proof}
+Let $C,v,O$ and $\tau\mapsto\tau_O$ be given. $O$ is a domain of characteristic $0$. There is $\tau_0\in\Psi_H$
+(\lref{UpperTheory.Depth.SplitPl.exists_inPsi}). By \cref{pf:sh-local:countemb} both sets have $[E:\Q]$
+elements, so the injective map $\tau\mapsto\tau_O$ is bijective. By the compatibility hypothesis,
+$\tau\in\Psi_H$ if and only if $\tau_O(\mathrm{rt})=\tau_{0,O}(\mathrm{rt})$; and if
+$\tau_O(\mathrm{rt})=-\tau_{0,O}(\mathrm{rt})$ then $\tau\notin\Psi_H$, for otherwise
+$2\tau_{0,O}(\mathrm{rt})=0$, whereas $\tau_{0,O}(\mathrm{rt})^2=-d\ne0$ in $O$.
+
+Take $e,\alpha$ from \cref{pf:sh-local:splitidem}. Since $\alpha^2=-d=\tau_{0,O}(\mathrm{rt})^2$, the image of $\alpha$ in
+$O$ is $\pm\tau_{0,O}(\mathrm{rt})$; replacing $(e,\alpha)$ by $(1-e,-\alpha)$ if necessary we get an idempotent $e$ with
+$\sigma(e)=1-e$, $\mathrm{Emb}(e)=\{\tau':\tau'(\mathrm{rt})=\tau_{0,O}(\mathrm{rt})\}$ and
+$\mathrm{Emb}(1-e)=\{\tau':\tau'(\mathrm{rt})=-\tau_{0,O}(\mathrm{rt})\}$. As $A_p$ is noetherian,
+\cref{pf:sh-local:primdec} writes $e=\sum_{i\le s}g_i$ with pairwise orthogonal primitive idempotents $g_i$. Then
+$g_ie=g_i$, $\sigma(g_i)(1-e)=\sigma(g_i)$, hence $g_i\sigma(g_j)=g_ie\,\sigma(g_j)(1-e)=0$ for all $i,j$; in
+particular $\sigma(g_i)\ne g_i$, so the $g_i$ are split places, and $\sum g_i+\sum\sigma(g_i)=e+\sigma(e)=1$.
+
+\Cref{pf:sh-local:discprod} gives $2\sum_in_{g_i}=[E:\Q]=2f$, and, with bijections
+$t_i:\{1,\dots,n_{g_i}\}\to\mathrm{Emb}(g_i)$ from \cref{pf:sh-local:countemb}, numbers $v_{d,i}$ with (iv) and
+$\sum_in_{g_i}v_{d,i}=\frac12v_p(\mathrm{disc}\,E)=f\cdot v_p(\mathrm{disc}\,E)/[E:\Q]$; this is (i). For (ii): if
+$xy=x$ and $\tilde\tau(x)=1$ then $\tilde\tau(y)=1$; so $\tau'\in\mathrm{Emb}(g_i)$ implies $\tau'\in\mathrm{Emb}(e)$,
+i.e. $\tau'(\mathrm{rt})=\tau_{0,O}(\mathrm{rt})$, and writing $\tau'=\tau_O$ we get $\tau\in\Psi_H$; similarly
+$\tau'\in\mathrm{Emb}(\sigma(g_i))$ implies $\tau'\in\mathrm{Emb}(1-e)$, hence $\tau'=\tau_O$ with $\tau\notin\Psi_H$.
+For (iii): if $\tau\in\Psi_H$ then $\tilde\tau_O(e)=1$, and the values $\tilde\tau_O(g_i)$ are orthogonal idempotents of
+the domain $O$ with sum $1$, so exactly one of them is $1$ (\lref{UpperTheory.Depth.SplitPl.existsUnique_one}).
+\end{proof}
+
+\subsubsection{The host of a datum}
+Let $D$ be a datum with host (\cref{def:host}) consisting of primes $q,d$, the integer $Q_S$ and the CM field $E$ of
+degree $2f$; let $S_0$ be the set of prime divisors of $Q_S$ (the \emph{small primes}),
+$v_{dH}(p)=v_p(\mathrm{disc}\,E)/[E:\Q]$ and $v_{d2}=\log_2Q_S$.
+
+\begin{theorem}[Places of the host over the small primes]\label{pf:sh-local:twoplaces}
+For every datum $D$, every toroidal host $H$ on the host field $E$ of $D$ whose prime $d$ is the prime $d$ of the
+host of $D$, and every prime $p\in S_0$: $\mathrm{SplitAt}(d,p)$, $\mathrm{SplitPlaces}(p,H,f,v_{dH}(p))$, and
+$0\le v_{dH}(p)\le v_{d2}$.
+\formallabel{GlobalTheory.CharDepth.twoPlaces_host}
+\end{theorem}
+
+\begin{proof}
+If $p=2$, $d$ splits at $p$ by definition; if $p\ne2$, then $p\mid Q_S$ and the host condition
+$\bigl(\frac{-d}l\bigr)=1$ for odd $l\mid Q_S$ (\cref{def:host}) gives $\mathrm{SplitAt}(d,p)$. By
+\lref{UpperTheory.cmDatum_discriminantDepth_bounds}, for every prime $p$ the number $v_{dH}(p)$ equals
+$v_p(\mathrm{disc}\,E)/[E:\Q]$ (with the formal definition through $|\mathrm{disc}\,E|$), and for $p\in S_0$ one has
+$v_{dH}(p)\le v_p(Q_S)\le\log_2Q_S$; clearly $v_{dH}(p)\ge0$. Since $[E:\Q]=2f$
+(\lref{GlobalTheory.PlacesOverG.finrank_E'}), \cref{pf:sh-local:splitplaces} gives
+$\mathrm{SplitPlaces}(p,H,f,v_{dH}(p))$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Characters of formal groups with jet charts}\label{sec:pf:sh-local:chart}
+
+This subsection proves the three statements $(\mathrm H_p)$, $(\mathrm A_p)$, $(\mathrm U_p)$ used in
+\cref{sec:pf:onto1,sec:pf:onto2} to bound depths of theta exponents at the primes over $p$. All three are
+obtained from a common linear-algebraic model of the formal group of a degenerating abelian variety (the
+\emph{linear data} below), and then from three statements about linear data.
+
+\subsubsection{The setting}\label{sec:pf:sh-local:chartsetting}
+\begin{definition}[Jet charts and characters]\label{pf:sh-local:def:jetchart}
+\emph{The base.} Let $p$ be a prime and $T$ a complete noetherian local domain of characteristic $0$ in which $p$
+is not a unit. Let $G$ be a commutative group scheme over $T$, $\mathcal D$ a degeneration datum for the maximal
+ideal of $T$ (with abelian part an abelian scheme $P_{\mathcal D}$ over $T$ of relative dimension $g$, and a torus
+part with character group $X$), $A$ a polarised abelian variety over the fraction field of $T$, and $U$ a
+uniformisation datum relating $G$, $\mathcal D$ and $A$ (in the sense of Mumford's construction
+\cite[Ch.~III]{FaltingsChai1990}).
+
+\emph{Jet charts.} Let $d\in\N$ and $F\in T[[X,Y]]^d$ a formal group law of dimension $d$. For $m\in\N$ let $J_m$ be
+the ring of $m$-jets $T[X_1,\dots,X_d]/(X_1,\dots,X_d)^{m+1}$. A \emph{jet chart} $x$ of $G$ for $F$ is a family of
+morphisms $x_m:\Spec J_m\to G$ over $T$ compatible with truncation, sending the zero jet to the unit section,
+universal among jets at the unit section (every morphism from the spectrum of an $m$-jet ring $T[Y_\kappa]/(Y)^{m+1}$
+to $G$ that sends the zero jet to the unit factors uniquely through $x_m$ by a jet homomorphism), and transforming
+$F$ into the group law: $x_m\circ F^*=x_m\circ\mathrm{pr}_0\cdot x_m\circ\mathrm{pr}_1$.
+
+\emph{Coefficients.} Let $C$ be an algebraically closed field of characteristic $0$ with a valuation $v$ (values in
+$\R_{\ge0}$), $O$ its ring of integers (via a given injection $O\to C$), such that $p$ is not a unit of $O$ and $O$ is
+$p$-adically complete, and $\iota:T\to O$ a local homomorphism. Let $F^\iota$ be the image of $F$ under $\iota$. A
+\emph{character} of $F^\iota$ is a power series $u\in O[[X_1,\dots,X_d]]$ with $u(0)=1$ and
+$u(F^\iota(X,Y))=u(X)u(Y)$; its \emph{logarithmic differential} $du\in O^d$ is the vector of its coefficients of
+$X_1,\dots,X_d$.
+\formal{ReciprocityTheory.ChartRestriction.G.Out.UnifPre}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.IsChartJ}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.IsCh}
+\end{definition}
+
+\begin{definition}[Actions, eigenbases and valuation lengths]\label{pf:sh-local:def:eigen}
+\emph{Actions.} For $(\mathrm A_p)$ and $(\mathrm U_p)$ we are moreover given a commutative ring $\OO_E$ with
+involution $*$ which is a Dedekind domain of characteristic $0$, free of finite rank over $\Z$; an $\OO_E$-module
+structure on $X$; actions of $\OO_E$ on $G$, on $\mathcal D$ and on $A$ for which $U$ is $\OO_E$-linear; and an action
+$a\mapsto\alpha(a)$ of $\OO_E$ on $F$ by $d$-tuples of power series without constant term, compatible with the chart:
+$x_m\circ\alpha(a)^*$ is the action of $a$ on $G$ composed with $x_m$, for all $m$. Let $\rho(a)\in M_d(O)$ be the
+linear part of $\alpha(a)^\iota$.
+
+\emph{Eigenbases and lengths.} For $\tau:\OO_E\to O$, an \emph{eigenbasis} of rank $s$ at $\tau$ is a family
+$W=(W_1,\dots,W_s)$ in $O^d$ with $\rho(a)W_i=\tau(a)W_i$ for all $a$, such that every $y\in O^d$ with
+$\rho(a)y=\tau(a)y$ for all $a$ is a unique $O$-linear combination of the $W_i$. Let
+$\mathrm{res}_W:O^d\to O^s$, $f\mapsto(\sum_jW_{i,j}f_j)_i$. An $O$-module $M$ has \emph{valuation length}
+$x\in\R_{\ge0}$ if $M\cong\bigoplus_{i=1}^mO/(c_i)$ with $\prod_iv(c_i)=x$ (a multiplicative version of the length).
+Finally $\mathrm{AF}(W,x)$ means: there are characters $u_1,\dots,u_N$ of $F^\iota$ such that
+$O^s/\langle\mathrm{res}_W(du_k)\rangle_O$ has valuation length $x$.
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.ChartActs}
+\formal{ReciprocityTheory.PGsh.Up.HasLen}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.HasAF}
+\end{definition}
+
+The linear part $\rho$ is a ring homomorphism $\OO_E\to M_d(O)$
+(\lref{GlobalTheory.T.formalGroupAction_linearPart_ringHom}).
+
+\begin{definition}[The three statements]\label{pf:sh-local:def:three}
+Let $p$ be a prime.
+\begin{enumerate}[label=(\alph*)]
+\item $(\mathrm H_p)$: for all data of the base, jet charts and coefficients as above, there are characters
+$u_1,\dots,u_N$ of $F^\iota$ such that $c\,f\in\langle du_1,\dots,du_N\rangle_O$ for all $f\in O^d$ and all $c\in O$
+with $v(c)^{p-1}\le v(p)$.
+\item $(\mathrm A_p)$: for all data as above with an action of $\OO_E$, every $\Z_p$-algebra structure on $O$, every
+split place $w$ of $E$ over $p$ (\cref{sec:pf:sh-local:host}, with $n=n_w$), every bijection
+$t:\{1,\dots,n\}\to\mathrm{Emb}(w)$ such that $(w,t)$ has discriminant depth $v_d$, all $r_p,r_m\in\N$, all eigenbases
+$W_j$ of rank $r_p$ at $t_j$ ($1\le j\le n$) such that every $\tau\in\mathrm{Emb}(\bar w)$ has an eigenbasis of rank
+$r_m$: there are $x_1,\dots,x_n$ with $\mathrm{AF}(W_j,x_j)$ for all $j$ and
+\[
+v(p)^{\,n\,r_m\left(\frac1{p-1}+\frac{v_d}2\right)}\le\prod_jx_j .
+\]
+\item $(\mathrm U_p)$: assume $p\ne2$. For all data as above with an action of $\OO_E$ such that $p$ does not divide
+the discriminant of $\OO_E$, every $\Z_p$-algebra structure on $O$ ($O$ local), every place $w$ of $E$ over $p$ with
+$n=n_w\ge1$, every bijection $t:\Z/n\to\mathrm{Emb}(w)$ such that some $\Z_p$-basis $(b_i)$ of $A_pw$ has
+$\det(\tilde t_j(b_i))$ a unit and $t_{j+1}(a)\equiv t_j(a)^p$ modulo the maximal ideal of $O$ for all $j,a$, every
+$r:\Hom(\OO_E,O)\to\N$ and eigenbases $W(\tau)$ of rank $r(\tau)$ at every $\tau$, and every $j$: there is $x$ with
+$\mathrm{AF}(W(t_j),x)$ and
+\[
+v(p)^{\sum_{l\ge0}p^{-(l+1)}\,r(t_{j+l+1}\circ*)}\le x .
+\]
+\end{enumerate}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.HTFSt}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.AvFSt}
+\formal{ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.UpFSt}
+\end{definition}
+
+\begin{theorem}\label{pf:sh-local:Hp}
+$(\mathrm H_p)$ holds for every prime $p$.
+\formallabel{GlobalTheory.ChF.hodgeTate_inclusion_chart}
+\end{theorem}
+
+\begin{theorem}\label{pf:sh-local:Up}
+$(\mathrm U_p)$ holds for every prime $p$.
+\formallabel{GlobalTheory.ChF.unramified_companion_chart_characters}
+\end{theorem}
+
+\begin{theorem}\label{pf:sh-local:Ap}
+$(\mathrm A_p)$ holds for every prime $p$.
+\formallabel{GlobalTheory.ChF.colength_bound_split_place_chart}
+\end{theorem}
+
+\subsubsection{Linear data}
+Let $\OO_E$ be a commutative ring with involution $*$, $\sigma=1\otimes*$ on $\Z_p\otimes\OO_E$, and let $c_p\in O$
+and $H$ be a Hodge--Tate setting and datum of genus $g$ for $(O,\Z_p\otimes\OO_E,\sigma,c_p)$ (\cref{pf:tower:def-htdatum};
+we write $\rho_H,\rho_{L},P,P_L,E,H_t,B_t$ for its components).
+
+\begin{definition}[Linear data]\label{pf:sh-local:def:lindat}
+Let $d,r,m\in\N$. \emph{Linear data} for $H$ consist of matrices $A\in M_{d\times r}(O)$, $B\in M_{g\times d}(O)$,
+ring homomorphisms $\rho_G:\OO_E\to M_d(O)$ and $N:\OO_E\to M_r(\Z)$, and vectors $s_1,\dots,s_m\in O^d$, such that:
+$P=0$ and $P_L=0$; the sequence $O^r\xrightarrow{A}O^d\xrightarrow{B}O^g$ is split exact, i.e. $BA=0$ and there are
+$A',B'$ with $A'A=1$, $BB'=1$, $AA'+B'B=1$; $B\rho_G(a)=\rho_L(1\otimes a)B$ and $\rho_G(a)A=AN(a)$ for all $a$;
+for every index $i$ of the columns of $H_t$ some $s_k$ equals $B^{\mathsf T}(H_t)_{\cdot,i}$; and for every
+$i\le r$ some $s_k$ satisfies $A^{\mathsf T}s_k=\delta_i$ (the $i$-th standard vector).
+\formal{GlobalTheory.ChF.LinDat}
+\end{definition}
+
+In words: $O^d$ is the Lie algebra of the formal group, $A$ embeds the Lie algebra of the toric part, $B$ projects to
+the Lie algebra of the abelian part, $H_t$ is the Hodge--Tate map of the abelian part, and the $s_k$ are logarithmic
+differentials of characters which restrict to a basis of characters of the torus and pull back the Hodge--Tate
+characters of the abelian part.
+
+\begin{proposition}[Linear data exist]\label{pf:sh-local:lindatex}
+Let the base, jet chart and coefficients be as in \cref{sec:pf:sh-local:chartsetting}, with an action of a
+commutative ring $\OO_E$ with involution as there (for $(\mathrm H_p)$, $\OO_E=\Z$ acting by multiplication), and fix
+a $\Z_p$-algebra structure on $O$. Then there are $c_p$, a Hodge--Tate setting and a Hodge--Tate datum $H$ of genus
+$g$ for $(O,\Z_p\otimes\OO_E,\sigma,c_p)$, $r,m\in\N$, linear data $(A,B,\rho,N,(du_k)_{k\le m})$ for $H$ with
+$\rho_G=\rho$ the linear part of the action on $F^\iota$, where $u_1,\dots,u_m$ are characters of $F^\iota$, and
+$A$ is the linear part of a $d$-tuple of power series in $r$ variables.
+\end{proposition}
+
+\begin{proof}
+This is the common part of the three formal proofs; all steps are results of the development.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Nilpotent charts.} The jet chart $x$ gives a chart $X$ of $G$ on nilpotent coordinates for $F$, under
+which the action of each $a\in\OO_E$ on $G$ is read by the power series $\alpha(a)$
+(\lref{GlobalTheory.T.exists_nilChart_reads_of_isChartJ}). The abelian scheme $P_{\mathcal D}$, smooth of
+relative dimension $g$, has a formal group law $F_B$ with a nilpotent chart $X_B$
+(\lref{GlobalTheory.T.exists_nilpotentGroupChart_smooth_commGroup}), and every endomorphism, in particular the
+action of $a$ on $P_{\mathcal D}$, is read by power series $\alpha_B(a)$
+(\lref{GlobalTheory.T.exists_powerSeries_reading_groupHom_nilpotentCharts}).
+\item \emph{The uniformisation splits $F$.} There are $r\in\N$, $J\in T[[Y_1,\dots,Y_r]]^d$ and
+$Q\in T[[X_1,\dots,X_d]]^g$ exhibiting $F$ as an extension of $F_B$ by the formal torus of dimension $r$, and a ring
+homomorphism $N:\OO_E\to M_r(\Z)$ with $\mathrm{lin}(Q)\,\mathrm{lin}(\alpha(a))=\mathrm{lin}(\alpha_B(a))\,\mathrm{lin}(Q)$ and
+$\mathrm{lin}(\alpha(a))\,\mathrm{lin}(J)=\mathrm{lin}(J)\,N(a)$, $\mathrm{lin}$ denoting the matrix of linear parts
+(\lref{GlobalTheory.T.uniformization_split_formal_group_law_equivariant}).
+\item \emph{Change of coefficients.} Base change along $\iota$ preserves formal group laws, linear parts and the
+extension property (\lref{GlobalTheory.T.formalGroupLaw_jacobian_extension_changeCoeff}).
+\item \emph{Torsion.} For every $m$ the $p^m$-torsion algebra $O[[X]]/([p^m]_{F^\iota})$ is finite free over $O$,
+reduced after $\otimes_OC$, and its $O$-points separate its elements
+(\lref{GlobalTheory.FormalTorsion.fhSt}).
+\item \emph{Hodge--Tate datum of the abelian part.} There are $c_p$, a Hodge--Tate setting and datum $H$ of genus
+$g$ with $P=P_L=0$, an invertible $S\in M_g(O)$ with $\mathrm{lin}(\alpha_B(a)^\iota)S=S\rho_L(1\otimes a)$, and for every
+column index $i$ a character $u$ of $F_B^\iota$ with $S^{\mathsf T}du=(H_t)_{\cdot,i}$
+(\lref{GlobalTheory.T.exists_hodgeTateDatum_polarisedAbelian_characters}; compare \cref{sec:pf:tower}).
+\item \emph{Linear data.} From (2)--(5), \lref{GlobalTheory.T.exists_linearData_of_split_formalGroup_extension}
+gives $c_p,H$ as in (5), a matrix $B$, $m$ and characters $u_1,\dots,u_m$ of $F^\iota$ such that
+$(\mathrm{lin}(J^\iota),B,\rho,N,(du_k))$ are linear data for $H$.
+\end{enumerate}
+For $(\mathrm H_p)$ the $\Z_p$-algebra structure on $O$ exists because $O$ is $p$-adically complete
+(\lref{GlobalTheory.ChF.padicInt_algebra_of_isAdicComplete_and_matrix_unique}, which also shows that every ring
+homomorphism $\Z_p\to M_n(O)$ is the scalar one), and the action of $\Z$ on the polarised abelian part by
+multiplication is compatible with the Rosati involution by the theorem of the cube
+(\lref{GlobalTheory.exists_oAct_int}, \lref{GlobalTheory.firstFiveLaws}); the intertwining relations of
+(2) for $a\in\Z$ are the identities $\mathrm{lin}(\alpha(a))=a\cdot1$.
+\end{proof}
+
+\subsubsection{The Hodge--Tate inclusion}
+
+\begin{lemma}\label{pf:sh-local:htsurj}
+Let $R$ be a domain, $E\in M_{2g}(R)$ alternating with unit determinant, $c_p\in R\setminus\{0\}$ and
+$H_t,B_t\in M_{g\times2g}(R)$ with $B_t^{\mathsf T}H_t-H_t^{\mathsf T}B_t=c_pE$. Then for every $f\in R^g$ there is
+$t\in R^{2g}$ with $H_tt=c_pf$.
+\formallabel{ReciprocityTheory.PGsh.Up.ht_cp_surj}
+\end{lemma}
+
+\begin{proof}
+Let $\Phi=\binom{H_t}{B_t}\in M_{2g}(R)$ and $\Psi=E^{-1}(B_t^{\mathsf T},\,-H_t^{\mathsf T})$. Then
+$\Psi\Phi=E^{-1}(B_t^{\mathsf T}H_t-H_t^{\mathsf T}B_t)=c_p\cdot1$. Over the fraction field this shows that $\Phi$ is
+invertible with $\Psi=c_p\Phi^{-1}$, hence also $\Phi\Psi=c_p\cdot1$. For $t=\Psi\binom f0$ the first block of
+$\Phi t=c_p\binom f0$ is $H_tt=c_pf$.
+\end{proof}
+
+\begin{proposition}[Hodge--Tate inclusion for linear data]\label{pf:sh-local:lindatHT}
+Let $H$ be a Hodge--Tate datum for a Hodge--Tate setting $(O,\Z_p\otimes\OO_E,\sigma,c_p)$ and
+$(A,B,\rho_G,N,(s_k))$ linear data for $H$. Then $c\,f\in\langle s_1,\dots,s_m\rangle_O$ for all $f\in O^d$ and all
+$c\in O$ with $v(c)^{p-1}\le v(p)$.
+\formallabel{GlobalTheory.T.linearData_hodgeTate_inclusion}
+\formallabel{GlobalTheory.ChF.linDat_hodgeTate_inclusion}
+\formallabel{GlobalTheory.ChF.smul_mem_span_of_split}
+\end{proposition}
+
+\begin{proof}
+$O$ is a domain, $c_p\ne0$ and the matrix $E$ of $H$ (with entries in $O$) is alternating with unit determinant
+(\lref{ReciprocityTheory.PGsh.Up.htd_E}), so \cref{pf:sh-local:htsurj} applies. From $v(c)^{p-1}\le
+v(p)=v(c_p)^{p-1}$ we get $v(c)\le v(c_p)$, so $c=ec_p$ with $e\in O$; it suffices to show
+$c_pf\in\mathcal S:=\langle s_k\rangle$. Let $A',B'$ be as in the split exactness and, for $i\le r$, $s_{k(i)}$ with
+$A^{\mathsf T}s_{k(i)}=\delta_i$. Then $u=\sum_i(A^{\mathsf T}f)_is_{k(i)}\in\mathcal S$ and
+$A^{\mathsf T}(f-u)=0$. Transposing $AA'+B'B=1$ gives $f-u=B^{\mathsf T}B'^{\mathsf T}(f-u)$. By
+\cref{pf:sh-local:htsurj} there is $t$ with $H_tt=c_pB'^{\mathsf T}(f-u)$, so
+$c_p(f-u)=B^{\mathsf T}H_tt=\sum_it_iB^{\mathsf T}(H_t)_{\cdot,i}\in\mathcal S$, as each $B^{\mathsf T}(H_t)_{\cdot,i}$ is
+some $s_k$. Hence $c_pf=c_p(f-u)+c_pu\in\mathcal S$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:Hp}]
+Given the data, \cref{pf:sh-local:lindatex} (with $\OO_E=\Z$) gives characters $u_1,\dots,u_m$ of $F^\iota$ and
+linear data with $s_k=du_k$; \cref{pf:sh-local:lindatHT} gives the inclusion.
+\end{proof}
+
+\subsubsection{The unramified bound}
+
+\begin{proposition}[Unramified length bound for linear data]\label{pf:sh-local:lindatU}
+Let $p\ne2$, $O$ local, $\OO_E$ as in \cref{sec:pf:sh-local:chartsetting} with $p$ not dividing its discriminant,
+$H$ a Hodge--Tate datum for $(O,\Z_p\otimes\OO_E,\sigma,c_p)$ and $(A,B,\rho_G,N,(s_k))$ linear data for $H$. Let
+$w,n,t$ be as in $(\mathrm U_p)$ (Frobenius ordering $t_{j+1}(a)\equiv t_j(a)^p$), $r:\Hom(\OO_E,O)\to\N$ and
+$W(\tau)$ eigenbases of $\rho_G$ of rank $r(\tau)$ at every $\tau$. Then for every $j$ there is $x$ such that
+$O^{r(t_j)}/\langle\mathrm{res}_{W(t_j)}(s_k)\rangle$ has valuation length $x$ and
+$v(p)^{\sum_{l\ge0}p^{-(l+1)}r(t_{j+l+1}\circ*)}\le x$.
+\formallabel{GlobalTheory.T.linearData_unramified_length_bound}
+\formallabel{GlobalTheory.ChF.linDat_unram_bound}
+\end{proposition}
+
+\begin{proof}
+For an $O$-linear representation $\rho'$ of $\OO_E$ and $\tau:\OO_E\to C$ let $e(\rho',\tau)$ be the dimension over
+$C$ of the common $\tau$-eigenspace of the $\rho'(a)$. The steps are as follows.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Unramified data} (\lref{GlobalTheory.ChF.exists_unramData}): since $p\nmid\mathrm{disc}\,\OO_E$ and
+$P=P_L=0$, there are a finite index set $I$ in bijection $i\mapsto\tau(i)$ with $\Hom(\OO_E,O)$, orthogonal idempotent
+matrices $\eps_T(i)\in M_{2g}(O)$ and $\eps_L(i)\in M_g(O)$ with $\sum_i\eps_T(i)=1=\sum_i\eps_L(i)$,
+$\rho_H(1\otimes a)\eps_T(i)=\tau(i)(a)\eps_T(i)$ and $\rho_L(1\otimes a)\eps_L(i)=\tau(i)(a)\eps_L(i)$, an involution
+$i\mapsto\bar\imath$ with $\tau(\bar\imath)=\tau(i)\circ*$, a permutation $\phi$ with
+$v(\tau(\phi i)(a)-\tau(i)(a)^p)<1$ for all $a$, distinct indices having embeddings that differ modulo the maximal
+ideal, and ranks $r_U(i)=\rank\eps_L(i)=e(\rho_L,\tau(i))$. For $i,j\in I$
+let $\mathrm{cok}(i,j)$ be the image of $\eps_L(i)^{\mathsf T}$ modulo its intersection with $H_t$ applied to the image
+of $\eps_T(j)$.
+\item \emph{Lengths} (\lref{GlobalTheory.ChF.hasLen_exists_mono_fp}): every finitely presented $O$-module has a
+valuation length, and if $M\to M'$ is surjective then the length of $M$ is at most that of $M'$.
+\item \emph{Ranks.} The local factor $A_pw$ is monogenic, $A_pw=\Z_p[\alpha]w$
+(\lref{GlobalTheory.PlaceMono.place_monogenic}), and the image of $\rho_H(w)$ on $\Z_p^{2g}$ is free over it, of
+some rank $h$ (\lref{GlobalTheory.LocalFactorFree.exists_free_generators}); hence every embedding $\tau$ belonging
+to $w$ has $e(\rho_H,\tau)=h$ (\lref{GlobalTheory.ChF.eigDim_eq_of_basis}), and
+$e(\rho_H,\tau)=e(\rho_L,\tau)+e(\rho_L,\tau\circ*)$ (the Hodge--Tate decomposition of the Tate module,
+\lref{GlobalTheory.ChF.eigDim_tate}). So $r_U(i)+r_U(\bar\imath)=h$ for the indices $i$ of embeddings belonging
+to $w$. By split exactness, eigenspace dimensions are additive:
+$e(\rho_G,\tau)=e(N,\tau)+e(\rho_L,\tau)$ (\lref{GlobalTheory.EigAdd.eigDim_add_transpose}), and
+$e(\rho_G,\tau)=r(\tau)$ for an eigenbasis of rank $r(\tau)$
+(\lref{GlobalTheory.ChF.eigB_res_surjective}); hence $r_U(i)\le r(\tau(i))\le d$.
+\item \emph{Comparison of cokernels.} Let $i_j$ be the index of $t_j$. The module $\mathrm{cok}(i_j,\bar\imath_j)$ has a
+valuation length $y_1$ (\lref{ReciprocityTheory.PGsh.Up.lenEx}), and there is a surjection from it onto
+$O^{r(t_j)}/\langle\mathrm{res}_{W(t_j)}(s_k)\rangle$ (\lref{GlobalTheory.ChF.cokE_surj_res_quot}); so
+$y_1\le x$ by (2), where $x$ is the valuation length of the latter module.
+\item \emph{The Frobenius bound.} The unramified cokernel length theorem
+(\lref{ReciprocityTheory.PGsh.Up.u7}) states: for $p\ne2$, if $\mathrm{cok}(i,\bar\imath)$ and $\mathrm{cok}(\bar\imath,i)$
+have valuation lengths $V_1$ and $V_2$, then
+\[
+V_1=V_2\cdot v(p)^{\frac{r_U(i)}{p-1}-\sum_{l\ge0}p^{-(l+1)}r_U(\phi^{l+1}i)} .
+\]
+The module $\mathrm{cok}(\bar\imath,i)$ is generated by $r_U(\bar\imath)$ elements
+(\lref{ReciprocityTheory.PGsh.Up.idemGen}) and killed by $c_p$ (\lref{ReciprocityTheory.PGsh.Up.up_kill}),
+so $V_2\ge v(c_p)^{r_U(\bar\imath)}=v(p)^{r_U(\bar\imath)/(p-1)}$
+(\lref{ReciprocityTheory.PGsh.Up.killedGen}). Hence
+$v(p)^{\frac{r_U(i)+r_U(\bar\imath)}{p-1}-\sum_{l\ge0}p^{-(l+1)}r_U(\phi^{l+1}i)}\le y_1$ for $i=i_j$
+(\lref{ReciprocityTheory.PGsh.Up.up_full}).
+\item \emph{Exponents.} With $h=r_U(\phi^{l+1}i_j)+r_U(\overline{\phi^{l+1}i_j})$ for all $l$ (by (3), as all
+$\phi^{l+1}i_j$ belong to $w$) and $r_U(\overline{\phi^{l+1}i_j})\le r(t_{j+l+1}\circ*)\le d$, the elementary
+inequality \lref{GlobalTheory.ChF.exp_bound}
+\[
+\frac h{p-1}-\sum_{l\ge0}p^{-(l+1)}a_l\le\sum_{l\ge0}p^{-(l+1)}c_l\qquad(a_l+b_l=h,\ b_l\le c_l\le d)
+\]
+(a consequence of $\sum_{l\ge0}p^{-(l+1)}=\frac1{p-1}$) shows that the exponent in (5) is at most
+$\sum_lp^{-(l+1)}r(t_{j+l+1}\circ*)$; since $v(p)<1$, the claim follows from (4) and (5).
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:Up}]
+By \cref{pf:sh-local:lindatex} there are characters $u_k$ of $F^\iota$ and linear data with $s_k=du_k$ and
+$\rho_G=\rho$; an eigenbasis for the action on $F^\iota$ is an eigenbasis of $\rho$
+(\lref{GlobalTheory.ChF.isEigBasis_iff}). \Cref{pf:sh-local:lindatU} gives $x$, and the characters $u_k$ witness
+$\mathrm{AF}(W(t_j),x)$.
+\end{proof}
+
+\subsubsection{The split-place bound}
+
+\begin{proposition}[Split-place length bound for linear data]\label{pf:sh-local:lindatA}
+Let $H$ be a Hodge--Tate datum for $(O,\Z_p\otimes\OO_E,\sigma,c_p)$, $(A,B,\rho_G,N,(s_k))$ linear data for $H$, and
+$w,n,t,v_d,r_p,r_m,(W_j)$ as in $(\mathrm A_p)$, with eigenbases of $\rho_G$. Then there are $x_1,\dots,x_n$ such that
+$O^{r_p}/\langle\mathrm{res}_{W_j}(s_k)\rangle$ has valuation length $x_j$ and
+$v(p)^{n\,r_m(\frac1{p-1}+\frac{v_d}2)}\le\prod_jx_j$.
+\formallabel{GlobalTheory.T.colength_bound_split_place_linear_data}
+\formallabel{GlobalTheory.ChF.colength_bound_linDat}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=(\arabic*)]
+\item $A_pw=\Z_p[\alpha]w$ has the $\Z_p$-basis $(w\alpha^k)_{k<n}$
+(\lref{GlobalTheory.PlaceMono.place_monogenic}); the values $a_j=\tilde t_j(\alpha)$ are pairwise distinct and
+their discriminant $\Delta_0=\prod_{j<j'}(a_j-a_{j'})^2$ has valuation $\Delta:=v(\Delta_0)=v(p)^{nv_d}$, with
+$nv_d\ge0$ (\lref{GlobalTheory.PowerBasisDiscr.discr_power_basis}).
+\item For $\tau\in\mathrm{Emb}(\bar w)$, $e(\rho_L,\tau)\le r_m$ (additivity of eigenspace dimensions as in the proof
+of \cref{pf:sh-local:lindatU}).
+\item \emph{The abelian part} (\lref{GlobalTheory.T.abelianPart_cokernel_length_le}): the cokernel module of the
+Hodge--Tate datum between $w$ and $\bar w$ (formed with $H_t$) has a valuation length $c_w$ with
+$v(p)^{nr_m/(p-1)}\le c_w$.
+\item \emph{Generators} (\lref{GlobalTheory.T.exists_abelian_torus_generators_at_place}): there are $h\le r_p+r_m$
+and vectors $\psi_1,\dots,\psi_h\in O^d$ such that each $\mathrm{res}_{W_j}(\psi_l)$ lies in
+$\langle\mathrm{res}_{W_j}(s_k)\rangle$, and a surjection from the module of (3) onto $M/M'$, where
+$M\subseteq\prod_jO^{r_p}$ is the image of $\kappa:f\mapsto(\mathrm{res}_{W_j}(f))_j$ and $M'$ is spanned by the vectors
+$(\tilde t_j(\alpha)^k\,\mathrm{res}_{W_j}(\psi_l))_j$, $k<n$, $l\le h$. $M$ is stable under multiplication by
+$(\tilde t_j(\alpha))_j$ and surjects onto each factor (\lref{GlobalTheory.ChF.eigB_res_surjective}). By (2) of the
+previous proof, $M/M'$ has a valuation length $c$ with $c_w\le c$.
+\item \emph{The lattice inequality} (\lref{GlobalTheory.T.lattice_inequality_valuation_integers}): for such
+$M,M'$ there are $y_1,\dots,y_n$ such that $O^{r_p}/\langle\mathrm{res}_{W_j}(\psi_l)\rangle_l$ has valuation length
+$y_j$ for every $j$, and $c^2\,\Delta^h\le(\prod_jy_j)^2\,\Delta^{r_p}$, with $\Delta$ as in (1).
+\item Since $\langle\mathrm{res}_{W_j}(\psi_l)\rangle\subseteq\langle\mathrm{res}_{W_j}(s_k)\rangle$, the valuation
+length $x_j$ of $O^{r_p}/\langle\mathrm{res}_{W_j}(s_k)\rangle$ satisfies $y_j\le x_j$. The numerical lemma
+\lref{GlobalTheory.ChF.lav_num} combines $v(p)^{nr_m/(p-1)}\le c_w\le c$, $c^2\Delta^h\le(\prod y_j)^2\Delta^{r_p}$,
+$h\le r_p+r_m$ and $\Delta=v(p)^{nv_d}\le1$ into $v(p)^{nr_m(\frac1{p-1}+\frac{v_d}2)}\le\prod_jy_j\le\prod_jx_j$.
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:sh-local:Ap}]
+As for \cref{pf:sh-local:Up}, with \cref{pf:sh-local:lindatA} in place of \cref{pf:sh-local:lindatU}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The period tower theorem}\label{sec:pf:sh-local:ptd}
+
+We use the notation of \cref{sec:pf:tower}: $p$ is a prime, $C$ an algebraically closed field of characteristic $0$
+with a valuation $v$ and ring of integers $O$ ($p$-adically complete, $p\notin O^\times$); $\eps\in O^\flat$ is such
+that $(\eps^{1/p})^\sharp$ is a primitive $p$-th root of unity, $A_{\inf}=W(O^\flat)$, $\xi\in A_{\inf}$ the
+corresponding generator of the kernel of Fontaine's map $\theta:A_{\inf}\to O$, and $R_0=A_{\inf}/\xi^2$, a local ring
+(\lref{GlobalTheory.WdAinf.ainf_thetaQuotRing_isLocalRing}). The \emph{$A_{\inf}$-tower} is the tower of rings
+$A_{\inf}/(\xi^2,p^{n+1})\to O/p^{n+1}$ together with its limit ring $O_\infty$ (an $R_0$-algebra which is again the
+ring of integers of $v$). For a local $R_0$-algebra $R$ we write
+$G(R)$ for the group of $R$-points of a group scheme $G$ over $R_0$.
+
+\begin{theorem}[Period tower datum]\label{pf:sh-local:ptd}
+Let $g\in\N$ and let $G$ be a commutative group scheme over $R_0$ and $P$ a line bundle on $G\times G$ such that: $G$
+is an abelian scheme, smooth of relative dimension $g$; $P$ has a generating section of its cube bundle $\Theta(P)$ and
+is trivial on $0\times G$ and on $G\times0$; $P$ is isomorphic to its pull-back by the swap of the factors; the
+multiplication by $p$ on $G$ is finite, flat and surjective; every $C$-point $x$ of $G$ for which the pull-back of
+$P$ along $y\mapsto(y,x)$ is trivial is $0$; and $G(C)$ has exactly $p^{2g}$ points of order dividing $p$. Let $G'$ be
+an abelian scheme over $O_\infty$ with a morphism $\varphi:G'\to G$ exhibiting $G'$ as the base change of $G$ (as a
+group), fix a $\Z_p$-algebra structure on $O_\infty$, and let $O_0$ be a commutative ring with an involution $a\mapsto
+a^*$ acting on $G'$ by endomorphisms $\rho(a)$ such that $\rho(a^*)$ is the Rosati adjoint of $\rho(a)$ with respect to
+$P$ (the line bundle $P(\rho(a)\times1)\otimes P(1\times\rho(a^*))^{-1}$ on $G'\times G'$ is trivial). Then there are:
+\begin{enumerate}[label=(\roman*)]
+\item a functor $B$ on local $R_0$-algebras with values in abelian groups, endowed with the structure of a biextension
+functor, and natural additive bijections $e_R:B(R)\to G(R)$;
+\item for each $a\in O_0$ an adjoint pair $\mathrm{Ad}(a)$ of endomorphisms of $B$ over $O_\infty$ inducing $\rho(a)$
+through $e$ and $\varphi$;
+\item a dual tower of the $A_{\inf}$-tower and a period tower datum $\mathcal D$ (in the sense described in
+\cref{sec:pf:tower}, for the ring $\Z_p\otimes O_0$ with the involution $1\otimes*$ and the constant $c_p$ of the
+tower) whose Hodge--Tate datum has $P=P_L=0$, such that $\mathrm{Ad}(a)$ acts on tangent vectors at the origin through
+$\rho_L(1\otimes a)$ in the formal chart basis of $\mathcal D$, and on the torsion points
+$\tau_j(n)$ of $\mathcal D$ by $\mathrm{Ad}(a)\tau_j(n)=\sum_k\overline{\rho(1\otimes a)_{kj}}\,\tau_k(n)$, the bar
+denoting reduction modulo $p^{n+1}$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_periodTowerDatum_of_abelianScheme_symmetricBundle}
+\formallabel{GlobalTheory.AbelianPeriodDatum.main}
+\end{theorem}
+
+\begin{proof}
+The formal proof assembles the following steps, all of which are results of the development.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Biextension.} The theorem of the cube for $P$ (a generating section of $\Theta(P)$) and the trivialisations
+along $0\times G$, $G\times0$ give $P$ the structure of a biextension of $G\times G$ by $\mathbb G_m$
+(\lref{GlobalTheory.nonempty_isBiext_of_cube_gen}); by the symmetry of $P$ it is symmetric, with a generating
+section of $P\otimes\mathrm{swap}^*P^{-1}$ compatible with the two partial group laws
+(\lref{GlobalTheory.BiextSym.main}).
+\item \emph{Points.} Since $R_0$ is local and $G$ is smooth of relative dimension $g$, the points of $G$ with values in
+local $R_0$-algebras are described by nilpotent coordinates and the fibre-product property of points
+(\lref{GlobalTheory.NilCoord.nilpotent_coordinates}, \lref{GlobalTheory.points_fibre_product}); together with
+the factor systems of the biextension this gives the functor $B$ with the bijections $e_R$
+(\lref{GlobalTheory.BXOf.main}, \lref{GlobalTheory.GroupPointsBX.main},
+\lref{GlobalTheory.exists_BX_of_factorSystems}).
+\item \emph{Adjoint pairs.} The Rosati adjointness of $\rho(a)$ and $\rho(a^*)$ gives, for each $a$, an adjoint pair of
+endomorphisms of $B$ over $O_\infty$ for the biextension pairing (\lref{GlobalTheory.exists_oAdj_of_rosatiAdjoint}),
+and these satisfy the ring laws $\mathrm{Ad}(1)=1$, $\mathrm{Ad}(a+b)=\mathrm{Ad}(a)+\mathrm{Ad}(b)$,
+$\mathrm{Ad}(ab)=\mathrm{Ad}(a)\mathrm{Ad}(b)$ and $\mathrm{Ad}(a)^{\mathrm{adj}}=\mathrm{Ad}(a^*)$
+(\lref{GlobalTheory.AbelianPeriodDatum.ring_laws}).
+\item \emph{Torsion.} $B(O_\infty)$ is $p$-divisible, and its $p$-torsion has as many elements as $G(C)$, i.e.
+$p^{2g}$ (\lref{GlobalTheory.AbelianPeriodDatum.divisible_and_card}, from the finiteness and surjectivity of
+multiplication by $p$ and the description of points over valuation rings
+\lref{GlobalTheory.points_divisible_and_torsion_of_valuation_integers}).
+\item \emph{Non-degeneracy.} The Weil pairing of the biextension on the $p$-torsion of $B(O_\infty)$ is non-degenerate
+(\lref{GlobalTheory.pairing_nondegenerate_integral_torsion}), using the non-degeneracy on the geometric fibre
+(\lref{GlobalTheory.biext_pairing_nondegenerate_geometric_fibre}), which rests on the descent of invariant
+generators along multiplication by $N$ (\lref{GlobalTheory.invariantGenerator_descends_mulN}) and the
+generation of torsion (\lref{GlobalTheory.TorsionGen.main}).
+\item \emph{The period tower datum} (\lref{GlobalTheory.PeriodDatum.main}). From (2)--(5): Witt vector data for
+the tower (\lref{GlobalTheory.wData_ainfTower_exists}, with the Teichm\"uller quotient
+\lref{GlobalTheory.WittQuot.teichmuller_quot}), a formal chart of $B$ at the origin
+(\lref{GlobalTheory.FormalChartOf.exists_formalChart}), the lifting of points along nilpotent thickenings
+(\lref{GlobalTheory.SmoothNilLift.main}), a finite flat model of the $p$-torsion
+(\lref{GlobalTheory.FinOf.main}), a dual tower (\lref{GlobalTheory.exists_dualTower}), a compatible system of
+bases $\tau_j(n)$ of the $p^{n+1}$-torsion (\lref{GlobalTheory.PeriodDatum.exists_compatible_basis}), the
+differentials of the adjoint pairs as a ring homomorphism (\lref{GlobalTheory.exists_endDifferential_ringHom}),
+and the Tate matrices linking heights, the Weil pairing and the action
+(\lref{GlobalTheory.exists_tateMatrices_link}, with \lref{GlobalTheory.tateBasis_gram} and
+\lref{GlobalTheory.PadicOrderAction.main}) are assembled into the datum $\mathcal D$ with $P=P_L=0$ and the two
+compatibilities of (iii).
+\end{enumerate}
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Moduli schemes and the theta-constant formula}\label{sec:pf:sh-local:moduli}
+
+\subsubsection{Moduli schemes}
+\begin{definition}[Data, levels, objects and moduli schemes]\label{pf:sh-local:def:moduli}
+Let $E$ be a CM field with a toroidal host $H$ (\cref{pf:sh-local:def:torhost}). A \emph{datum} $D_w$ for $H$ is a
+finitely generated projective $\OO_E$-module $\Lambda$ of rank $p+q$ with a non-degenerate alternating $\Z$-bilinear
+form $\langle\,,\rangle$ satisfying $\langle ax,y\rangle=\langle x,\bar ay\rangle$, together with a complex structure
+$J$ on $\Lambda\otimes\R$ preserving the form, with $\langle Jx,x\rangle>0$ for $x\ne0$, commuting with $\OO_E$ and
+satisfying the signature condition for $(p,q)$ relative to $\Psi_H$; its \emph{dimension} is
+$\dim D_w=\frac12[E:\Q]\,pq$. A \emph{level} $l$ consists of an odd integer $M\ge3$, an ideal $\mathfrak M\subseteq\OO_E$
+generated by elements of $\Z[w_0]$ with $\mathfrak M\bar{\mathfrak M}=M\OO_E$ and $\mathfrak M+\bar{\mathfrak M}=\OO_E$,
+and an integer $l_A\ge1$. Let $K_l=\Q(\mathrm{rt}_0,\zeta_{l_A})\subset\C$. An \emph{object} of type $(D_w,l)$ over a
+$K_l$-scheme $S$ is an abelian scheme $G$ over $S$ (a proper semi-abelian scheme) with an action of $\OO_E$, a
+rigidified symmetric line bundle with cubical structure which is relatively ample and has trivial kernel (a principal
+polarisation), for which the action is Rosati-compatible, together with level structures $\eta:\Lambda\to
+G[\mathfrak M]$ and $\eta_A:\Lambda\to G[l_A]$, such that at every geometric point the signature condition holds and
+there is a Tate isomorphism compatible with the Weil pairings, with $\zeta_{l_A}$ and with $\eta,\eta_A$. A
+\emph{moduli scheme} of type $(D_w,l)$ is a scheme $X$ quasi-projective over $K_l$ and smooth of relative dimension
+$\dim D_w$, with an object $\mathcal U$ over $X$, such that for every \emph{reduced} $K_l$-scheme $S$ every object over
+$S$ is the pull-back of $\mathcal U$ along a unique morphism $S\to X$, and such that a dual-number point of $X$ whose
+object is isomorphic to the pull-back of $\mathcal U$ along the underlying constant point is constant.
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum}
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level}
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.Obj}
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.Moduli}
+\end{definition}
+
+\begin{theorem}[Moduli schemes exist]\label{pf:sh-local:moduli}
+For every CM field $E$ with toroidal host $H$, every datum $D_w$ for $H$ with $p+q\ge1$ and every level $l$ there is a
+moduli scheme of type $(D_w,l)$.
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.N1ab}
+\formallabel{GlobalTheory.Moduli.moduli_scheme_exists}
+\formallabel{GlobalTheory.T.moduliScheme_nonempty_at_every_level}
+\formallabel{GlobalTheory.ZM.moduli_nonempty_all_levels}
+\end{theorem}
+
+\begin{remark}
+This is a version of the existence of fine moduli schemes of PEL type: for principally polarised abelian varieties
+with full level $n\ge3$ structure it is \cite[Theorem~7.9]{MumfordFogartyKirwan1994}, and in the PEL setting it is in
+\cite[\S5]{Kottwitz1992}, \cite[Ch.~1]{Lan2013}. The formal statement is weaker in that the universal property is
+required only for reduced test schemes (with a separate rigidity condition on dual-number points), and it is
+stated over the field $K_l$ only; it is proved in the development from the laws of abelian schemes and the theta
+uniformisation of complex abelian varieties, not from geometric invariant theory.
+\end{remark}
+
+\begin{proof}
+The proof uses the laws of abelian schemes
+(\lref{GlobalTheory.T.all_six_abelian_scheme_laws_hold}), the theorem of the cube for polarised abelian schemes in
+the form ``every line bundle has a generating section of its cube bundle''
+(\lref{GlobalTheory.T.theorem_of_cube_polAbelianScheme}) and the theta uniformisation of complex abelian varieties
+(\lref{GlobalTheory.T.theta_uniformisation_complex_abelian_varieties}). Let $E,H,D_w,l$ be given.
+\begin{enumerate}[label=(\arabic*)]
+\item There is an odd prime $n$ such that for every $A_0\ge1$ there are levels $l_0,l_2$ with $M(l_0)=n$, $l_A(l_0)=A_0$,
+$l_0\mid l_2$ and $l\mid l_2$ (\lref{GlobalTheory.T.exists_level_with_odd_prime_first_number}).
+\item \emph{Prime-power level.} There is $j$ such that a moduli scheme exists for every level $l_0$ with $M(l_0)=n$ and
+$l_A(l_0)=(n^j)^2$ (\lref{GlobalTheory.T.exists_moduli_prime_power_fullLevel}; it is constructed from a family of
+abelian varieties with level structure over a finite type base, \lref{GlobalTheory.ZM.FullLevel.moduli_of_family}).
+\item \emph{Passing to a multiple.} If $l_0\mid l_2$ and a moduli scheme exists at level $l_0$, one exists at level $l_2$
+(\lref{GlobalTheory.T.nonempty_moduli_of_level_dvd}, via a finite \'etale cover adding level structure,
+\lref{GlobalTheory.T.exists_finiteEtale_deeper_level_cover}).
+\item \emph{Passing to a divisor.} If $l\mid l_2$ and a moduli scheme exists at level $l_2$, one exists at level $l$
+(\lref{GlobalTheory.T.nonempty_cmModuli_of_deeper_level}: the quotient of the moduli scheme of level $l_2$ by the
+finite group of level changes exists, is unramified on dual-number points and represents the moduli problem on reduced
+schemes, \lref{GlobalTheory.T.nonempty_levelQuot_of_level_dvd},
+\lref{GlobalTheory.T.levelQuotient_unramified_dualNumberPoints},
+\lref{GlobalTheory.T.levelQuotient_represents_reduced}).
+\end{enumerate}
+Apply (1) with $A_0=(n^j)^2$, then (2) at $l_0$, (3) to get level $l_2$, and (4) to get level $l$.
+\end{proof}
+
+\subsubsection{The theta-constant formula}
+\begin{definition}[Key inputs]\label{pf:sh-local:def:keyin}
+A \emph{key input} $x$ over a commutative ring $R$ consists of a polarised abelian scheme $P$ over $R$ of relative
+dimension $g\ge1$ with line bundle $L$, a generating section of $L$ along the unit section (a rigidification), a section
+$\theta$ of $L$ which is non-zero at some point of every fibre, and a basis $v_1,\dots,v_g$ of the Lie algebra (tangent
+vectors at the origin, as morphisms from $\Spec R[\epsilon]$). For a ring homomorphism $f:R\to R'$, a key input $x'$
+over $R'$ is a \emph{pull-back} of $x$ along $f$ if there is a morphism $P'\to P$ over $\Spec f$ exhibiting $P'$ as the
+base change of $P$ as a group scheme, together with a generating isomorphism of $L'$ with the pull-back of $L$, which
+carries the rigidification of $x'$ to that of $x$, $\theta'$ to the pull-back of $\theta$, and $v'_i$ to $v_i$.
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.KeyIn}
+\formal{ReciprocityTheory.ChartRestriction.G.Geo.Tor.KeyPB}
+\end{definition}
+
+Over $\C$, a \emph{holomorphic uniformisation}
+of $P$ is a surjective homomorphism $\C^g\to P(\C)$ with kernel a lattice $\Lambda$; for such a uniformisation, a
+Hermitian form $H_m$ and a semi-character $\chi$ defining $L$ (Appell--Humbert data), the section $\theta$ corresponds
+to a theta function $\vartheta$ on $\C^g$ and the $v_i$ to vectors $W_i\in\C^g$. Let
+\[
+\vartheta_{a,b}(\tau,z)=\sum_{n\in\Z^g}\exp\bigl(\pi i(n+a)^{\mathsf T}\tau(n+a)+2\pi i(n+a)^{\mathsf T}(z+b)\bigr)
+\]
+be the theta function with characteristic $(a,b)$.
+
+\begin{definition}[The theta-constant formula]\label{pf:sh-local:def:key}
+$\sfname{KeyFormula}$ asserts that there is a function $\kappa$ assigning to every field $K$ of characteristic $0$ and
+every key input $x$ over $K$ a unit $\kappa(x)\in K^\times$ such that:
+\begin{enumerate}[label=(\roman*)]
+\item \emph{(transformation law)} if $x'$ differs from $x$ only by $\theta'=a\theta$ ($a\in K$) and Lie basis
+$v'_i=\sum_jM_{ij}v_j$, then $a^8\kappa(x')=\det(M)^4\kappa(x)$;
+\item \emph{(base change)} $\kappa(x')=f(\kappa(x))$ whenever $x'$ is the pull-back of $x$ along $f:K\to K'$;
+\item \emph{(integrality)} if $x$ is a key input over a discrete valuation ring $R$ with fraction field $K$ and $x_K$ its
+pull-back to $K$, then $\kappa(x_K)$ is a unit $u$ of $R$, and $\kappa(x_k)=r(u)$ for every surjection $r$ of $R$ onto a
+field $k$ of characteristic $0$ and every pull-back $x_k$ of $x$ along $r$;
+\item \emph{(normalisation)} if $x$ is a key input over $\C$ with a holomorphic uniformisation with lattice
+$\Z^g+\tau\Z^g$ ($\tau$ symmetric with positive definite imaginary part), compatible with the rigidification, under
+which $\theta$ is $\vartheta_{a,b}(\tau,\cdot)$ with $a,b\in\{0,\frac12\}^g$ and $v_i=(2\pi i)^{-1}\partial/\partial z_i$,
+then $\kappa(x)=1$;
+\item \emph{(norm formula)} for every key input $x$ over $\C$ with a holomorphic uniformisation with Appell--Humbert data
+$(H_m,\chi)$, theta function $\vartheta$ and vectors $W_i$ as above, and every fundamental domain $\mathcal F_\Lambda$
+of $\Lambda$,
+\[
+|\kappa(x)|\,n_\vartheta^4\,n_\eta^2=(2\pi)^{2g},\qquad
+n_\vartheta=\frac1{\vol\mathcal F_\Lambda}\int_{\mathcal F_\Lambda}|\vartheta(z)|^2e^{-\pi H_m(z,z)}\,dz,\quad
+n_\eta=\frac{\vol\mathcal F_\Lambda}{\pi^g|\det W|^2}.
+\]
+\end{enumerate}
+\formallabel{ReciprocityTheory.ChartRestriction.G.Geo.Tor.KeyFormula}
+\end{definition}
+
+\begin{theorem}[The theta-constant formula]\label{pf:sh-local:key}
+$\sfname{KeyFormula}$ holds.
+\formallabel{GlobalTheory.KeyFam.keyFormula_holds}
+\end{theorem}
+
+\begin{remark}
+In terms of the Hodge bundle $\omega$ and the determinant of $\pi_*L$, property (i) says that $\kappa$ is a section of
+$(\pi_*L)^{\otimes-8}\otimes\omega^{\otimes4}$ (up to the conventions for $\det$), and (ii)--(v) say that it is a
+trivialisation compatible with base change, integral, and with the stated archimedean norm. This is Moret-Bailly's
+\emph{formule cl\'e} \cite{MoretBailly1985} for principally polarised abelian varieties, in the form used for heights;
+the formal statement is restricted to bases which are fields of characteristic $0$ and discrete valuation rings (with
+residue fields of characteristic $0$ in (iii)), and the formal proof is independent of \cite{MoretBailly1985}.
+\end{remark}
+
+\begin{proof}
+The formal proof applies \lref{GlobalTheory.keyFormula_of_connFam} to
+\lref{GlobalTheory.KeyFam.connFam_of_polFam}, applied in turn to \lref{GlobalTheory.KeyFam.polFam}, with the
+laws of abelian schemes (\lref{GlobalTheory.abelianSchemeLaws_all}), the theta uniformisation
+(\lref{GlobalTheory.thetaUnifAV_closed}) and the algebraicity of theta tori
+(\lref{GlobalTheory.torusAlgebraic_holds}: for every $\tau$ and characteristic $(a,b)\in\{0,\frac12\}^{2g}$ there is a
+complex principally polarised abelian variety uniformised by $\Z^g+\tau\Z^g$ on which $\vartheta_{a,b}(\tau,\cdot)$ is a
+section, with very ample powers and all endomorphisms of the lattice realised). It has three steps.
+
+\emph{(a) Polarised families} (\lref{GlobalTheory.KeyFam.polFam}). Every polarised abelian variety $P$ over $\C$ of
+dimension $g\ge1$ is the fibre at a complex point $s$ of a polarised abelian scheme $Q$ over a geometrically integral
+algebra $R$ over a number field $K$ which also has a $K$-point $s_0$, such that every fibre of $Q$ at $s_0$ is
+\emph{potentially known} (its theta values are known after a finite extension). The construction uses a Siegel family
+over a number field with level structure (\lref{GlobalTheory.T.exists_siegelFamily_over_numberField}), a point of
+it over a number field with a known theta value (\lref{GlobalTheory.T.exists_numberField_point_siegelFamily_knownValue}),
+the connectedness of the family through standard level points
+(\lref{GlobalTheory.T.siegelFamily_standard_level_points_same_component}), a finite \'etale cover with a
+symmetric square root of the principal polarisation (\lref{GlobalTheory.T.exists_symmetric_sqrt_principal_siegel_finite_etale}),
+a geometrically integral piece of an \'etale cover containing both points
+(\lref{GlobalTheory.T.geom_integral_of_etale_faithfully_flat_cover}), and the transfer of known values between
+abelian varieties with the same $\lambda$-bundle (\lref{GlobalTheory.T.potentiallyKnown_of_same_lambdaBundle}).
+
+\emph{(b) Connected families of key inputs} (\lref{GlobalTheory.KeyFam.connFam_of_polFam}). From (a): every key
+input $x$ over $\C$ is the pull-back along some $s:S\to\C$ of a key input $y$ over a smooth algebra $S$ over a number
+field $k$ which stays a domain after every field extension, and there are a $k$-point $s_0$ of $S$ and $t_0\in k$ such
+that for every embedding $e:k\to\C$, every pull-back $x_0$ of $y$ along $e\circ s_0$ has a normal form
+$(\tau,M,a,b,c)$ --- a holomorphic uniformisation with lattice $\Z^g+\tau\Z^g$ under which $\theta=c\,\vartheta_{a,b}(\tau,\cdot)$,
+$(a,b)\in\{0,\frac12\}^{2g}$, $c\ne0$, and $v_i=(2\pi i)^{-1}\sum_jM_{ij}\partial/\partial z_j$ --- with
+$e(t_0)=\det(M)^4/c^8$. This uses key data near two primes (\lref{GlobalTheory.T.exists_keyData_near_two_primes}:
+a Lie basis and a section of the principal polarisation non-vanishing near two given points) and universal frames on
+the family (\lref{GlobalTheory.T.exists_thetaKeyFamily_universal_frames}).
+
+\emph{(c) Definition of $\kappa$} (\lref{GlobalTheory.keyFormula_of_connFam}). Over $\C$ every key input has a normal
+form, and one puts $t(x)=\det(M)^4/c^8$. Using (b), $t$ does not depend on the normal form and is equivariant under
+field automorphisms of $\C$ (\lref{GlobalTheory.ThetaEquiv.val_equivariant}), and it specialises correctly in
+families over local principal ideal domains (\lref{GlobalTheory.ThetaFrameSpec.value_specialises}): if $x,x'$ are
+pull-backs of one key input over such a ring $S$ along $f,f':S\to\C$ with $f$ injective, and $t(x)=f(u)$, then
+$t(x')=f'(u)$. Call $u\in K$ a \emph{value} of $t$ at a key input $x$ over a ring $K$ if $x$ is the pull-back along
+some $i:S\to K$, with $S$ countable, of a key input $y$ over $S$, and $u=i(u_0)$ for some $u_0\in S$ such that
+$t(x')=f(u_0)$ for every ring homomorphism $f:S\to\C$ and every pull-back $x'$ of $y$ along $f$. If $u$ is a value at
+$x$ and $x'$ is a pull-back of $x$ along $f$, then $f(u)$ is a value at $x'$; a value at a complex key input $x$ is
+$t(x)$. Since key inputs over local principal ideal domains descend to countable subrings
+(\lref{GlobalTheory.T.keyData_descend_countable_subrings}), at every key input over a field $K$ of characteristic
+$0$ there is a value, which is non-zero (\lref{GlobalTheory.KeyRoot.exists_isVal}) and unique
+(\lref{GlobalTheory.KeyRoot.IsVal.unique}); this value is $\kappa(x)$. In
+\lref{GlobalTheory.KeyRoot.keyFormula_of_families}: (i) follows from the behaviour of normal forms under scaling of
+$\theta$ and change of Lie basis (\lref{GlobalTheory.KeyRoot.normalAt_scale}); (ii) from the compatibility of
+values with pull-backs and uniqueness; (iv) from the normal form with $M=1$, $c=1$; (v) from the normal form attached to
+the given uniformisation and the computation of its archimedean constants; and (iii) from a \emph{key rule}
+(\lref{GlobalTheory.KeyTop.exists_keyRule_charHalf}): an invariant $\kappa_N$ of key inputs over fields of
+characteristic $0$ which satisfies (ii), (iii), (iv) and (i) with the exponents $8N(g),4N(g)$, for some $N(g)\ge1$, and
+equals $t^{N(g)}$ over $\C$. Indeed, since $\kappa_N$ is compatible with base change and equals $t^{N(g)}$ over $\C$,
+$\kappa(x)^{N(g)}=\kappa_N(x)$ for every key input $x$ over a field of characteristic $0$
+(\lref{GlobalTheory.KeyRoot.IsVal.pow}); by property (iii) of $\kappa_N$, $\kappa(x_K)^{N(g)}$
+is the image of a unit $u'$ of the discrete valuation ring $R$. Hence $\kappa(x_K)$ is integral over $R$, so it is the
+image of some $u\in R$ ($R$ is integrally closed), and $u^{N(g)}=u'$ shows that $u$ is a unit. Moreover $u$ is a value of
+$t$ at $x$ itself (\lref{GlobalTheory.KeyRoot.IsVal.special}, by descending $x$ to a countable subring), so for every
+surjection $r$ of $R$ onto a field $k$ of characteristic $0$, $r(u)$ is a value at $x_k$, and $\kappa(x_k)=r(u)$ by
+uniqueness.
+\end{proof}

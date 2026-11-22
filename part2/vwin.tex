@@ -1,0 +1,2496 @@
+\section{The window bound: assembly, Lemma K and the minus part}\label{sec:pf:vwin}
+
+\providecommand{\vwinQZ}{\Q_\ell/\Z_\ell}
+\providecommand{\vwincyc}{\chi_{\mathrm{cyc}}}
+\providecommand{\vwinsh}{\mathrm{shaLen}}
+\providecommand{\vwinVt}{\widetilde V}
+\providecommand{\vwinX}{\mathcal X}
+\providecommand{\vwinmin}{\mathrm{minusLen}}
+\providecommand{\vwinplus}{\mathrm{plusLen}}
+\providecommand{\vwincok}{\lambda^{\mathrm{co}}}
+\providecommand{\vwinVL}{\mathrm{VLen}}
+\providecommand{\vwinexc}{\mathrm{Exc}}
+\providecommand{\vwinpt}{\mathrm{pt}}
+
+This section proves the window bound $\sfname{VWin}$ of \cref{def:window:vwin} from the statement
+$\sfname{Row0b}$ on Galois representations attached to polarized regular algebraic cuspidal representations
+(\cref{thm:vwin}), together with most of the intermediate results of \cref{sec:window} on which this deduction
+rests. The deduction has three layers.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{From $\sfname{Row0b}$ to the package $\sfname{HypothesesH'}$} (\cref{sec:pf:vwin:top}). $\sfname{Row0b}$,
+a base change theorem from definite unitary groups and a list of formalized published theorems are assembled into
+the literature package $\sfname{LiteratureRankNHypothesis}$; together with a descent theorem to definite unitary
+groups and further classical theorems on automorphic forms (Clozel's criteria, Galois representations for Hilbert
+modular forms, quadratic and cyclic base change and descent, \dots) it gives $\sfname{HypothesesH'}$
+(\cref{pf:vwin-he:H}). The main reduction $\sfname{HypothesesH'}\Rightarrow\sfname{VWin}$ is
+\lref{UpperTheory.V.HV.DescentVanishingReductions.vwin_of_hypotheses_H_E_alt}, proved in
+\cref{sec:pf:vwin-he}.
+\item \emph{The final assembly} (\cref{sec:pf:vwin:assembly,sec:pf:vwin:plus,sec:pf:vwin:towers,sec:pf:vwin:Z,sec:pf:vwin:minus}). Given Lemma K and the four counting statements $\sfname{CountI}$, $\sfname{CountII}$,
+$\sfname{CountIII}$, $\sfname{CountV}$ of \cref{pf:vwin-he:countdef}, the window bound follows from three partial
+bounds, for the $2$-part, the minus parts and the plus parts of the groups $\Sha_D(j)$, and from elementary
+estimates (\cref{pf:vwin:offour}). We prove: the numerical assembly (\cref{prop:window:assembly}); the bound for the
+plus parts from the counts (\cref{thm:plus-part}); the bound for the $2$-part and the bad layers by Iwasawa theory in
+cyclotomic towers and the choice of the window (\cref{thm:window:bab}, \cref{lem:window:tower}); the vanishing
+statement for the trivial character (\cref{prop:window:propZ}); and the bound for the minus parts by an Euler system
+of Gauss sums (\cref{prop:psibound}, \cref{lem:window:rec}).
+\item \emph{Lemma K} (\cref{sec:pf:vwin:lemmaK}): an explicit, doubly exponential bound for the orders of the groups
+$H^2(G_{L,S_\ell},\Zl(j+1))$, uniform in $\ell$ (\cref{thm:window:lemmaK}), proved from Poitou--Tate duality and a
+rank bound of Borel type by a quantitative version of Soul\'e's method.
+\end{enumerate}
+Finally, \cref{sec:pf:vwin:patch} treats a Taylor--Wiles patching theorem for universal ordinary determinant rings,
+which is used in the proofs of two automorphy statements of the plus part elsewhere in Part~II.
+
+\emph{What is complete and what is cited.} The deductions in \cref{sec:pf:vwin:top,sec:pf:vwin:assembly,sec:pf:vwin:plus,sec:pf:vwin:towers} are given in full, down to statements which are either proved elsewhere in Part~II
+(cited by their formal names), classical theorems of which the development contains formal proofs (cited from the
+literature), or auxiliary lemmas of this part of the development which we state precisely and cite. In
+\cref{sec:pf:vwin:minus} the reciprocity law, the Kolyvagin step and the induction are proved; the construction of the
+Euler system of Gauss sums and the comparison of Stickelberger values with Bernoulli numbers are stated precisely and
+cited. In \cref{sec:pf:vwin:lemmaK}, Lemma K is deduced from twenty-one intermediate statements and a rank bound of Borel
+type; we prove fourteen of them, including all which carry the arithmetic (classes from divisors, counting, detection of
+powers, the passage to $\Sha$ and to $H^2$, the numerics), and state precisely and cite the remaining combinatorial statements on the bar complex,
+the Steinitz statement and the rank bound. In \cref{sec:pf:vwin:patch} the patching theorem is deduced from six statements
+which we describe. \Cref{sec:pf:vwin:plain} contains a local lemma on cuspidal representations used elsewhere in Part~II.
+
+\emph{Conventions.} We use the notation of \cref{sec:window} and of \cref{sec:pf:vwin-he}. For a number field $F$, an
+algebraic closure $\Omega$ of $F$ and a prime $\ell$, an $\ell$-datum $D$, the groups $\Sha_D(j)$ and the lengths
+$\vwinsh(D,j)\in\N\cup\{\infty\}$, $\vwinVL(D,j)=\len_{\Zl}H^2(G_{F,S_\ell},\Zl(j+1))$ are those of
+\cref{def:window:sha}; for $F$ CM, $\vwinplus(D,j)$ and $\vwinmin(D,j)$ are the lengths of the plus and minus parts
+(\cref{def:window:pm}). The length $\vwinsh(D,j)$ does not depend on $(\Omega,D)$; we write $\vwinsh(F,\ell,j)$ for it
+(\lref{UpperTheory.V.LDataCardLeFinrank.shaLen_eq_shaInv}). A length $n\in\N\cup\{\infty\}$ enters real inequalities
+through its natural-number part $n^\natural$, with $\infty^\natural=0$; this is why every bound below comes with a
+separate finiteness assertion. All logarithms are natural; $\log_\ell$ denotes the integer part of the logarithm to base
+$\ell$ ($\log_\ell 0=0$). For a number field $E$ let $\cond(E)$ be the least $N\ge1$ such that $E$ embeds into
+$\Q(\zeta_N)$ ($\cond(E)=0$ if there is none).
+
+% ---------------------------------------------------------------------------
+\subsection{The intermediate statements}\label{sec:pf:vwin:stmts}
+
+\begin{definition}[Abelian data and the fields $E_{M,k,q,d}$]\label{pf:vwin:fields}
+An \emph{abelian datum} $M=(m_M,H_M)$ is an integer $m_M\ge1$ with a subgroup $H_M\subset(\Z/m_M)^\times$; its degree is
+$\deg M=[(\Z/m_M)^\times:H_M]$. For a primitive Dirichlet character $\psi$ of conductor $N_\psi$ let
+$M_\psi=(N_\psi,\ker\psi)$; for $m\ge1$ let $M^{\mathrm{cyc}}_m=(m,1)$. For $k\in\N$ and primes $q,d$, a number field $E$ is
+an \emph{$E_{M,k,q,d}$} if there are $N$ divisible by $2^{k+2}$, $m_M$, $q$, $d$, an embedding $j:E\to\Q(\zeta_N)$ and
+a primitive $N$-th root of unity $\zeta$ such that for every automorphism $\tau$ of $\Q(\zeta_N)$ and every $a\in\N$
+with $\tau\zeta=\zeta^a$, $\tau$ fixes $j(E)$ if and only if $a\equiv\pm1\pmod{2^{k+2}}$, $a\bmod m_M\in H_M$, and
+$\bigl(\frac aq\bigr)=\bigl(\frac ad\bigr)=1$ (Jacobi symbols). For $M=M_\psi$ this is the field $E_{\psi,k,q,d}$ of
+\cref{def:window:fields}. A field $L$ is \emph{of type $M$} if there are $N$ divisible by $m_M$, $j:L\to\Q(\zeta_N)$ and
+$\zeta$ as above such that $\tau$ fixes $j(L)$ if and only if $a\bmod m_M\in H_M$. We say that $(m;q,d)$ is a
+\emph{prime pair} if $q\equiv3\pmod8$ and $d\equiv7\pmod{16}$ are
+primes and $qd$ is prime to $m$.
+\formallabel{UpperTheory.V.IsCompField}
+\end{definition}
+
+The statements $E=E_{M_\psi,k,q,d}$ and $E=E_{\psi,k,q,d}$ are equivalent
+(\lref{UpperTheory.V.isCompField_ofChar}; the subgroup $H_{M_\psi}$ is the kernel of $\psi$ on units). By
+\cref{lem:window:cm} every $E_{\psi,k,q,d}$ with $q\equiv3\pmod4$ is a CM field, and $1\le\cond(E)\le2^{k+2}N_\psi qd$
+and $[E:\Q]\le\cond(E)$ (\lref{UpperTheory.V.isCMField_of_isChiField},
+\lref{UpperTheory.V.conductor_bounds_of_isChiField}).
+
+\begin{definition}[Partial bounds]\label{pf:vwin:partial}
+Let $E$ be a number field, $t\in\N$ and $B\in\R$. $\sfname{VVat}(\ell,E,t,B)$ means: for every algebraic closure
+$\Omega$ of $E$ and every $\ell$-datum $D$, $\vwinsh(D,j)<\infty$ for $0<j<t$ and
+$\sum_{j=1}^{t-1}\vwinsh(D,j)^\natural\le B$. For $E$ CM, $\sfname{VVminusLe}(E,t,B)$ means: for every $\Omega$ and every
+choice of $p$-data $D_p$ for all primes $p$, $\vwinmin(D_p,j)<\infty$ for odd $p$ and $0<j<t$, and
+$\sum_{\ell\in S}\log\ell\sum_{j=1}^{t-1}\vwinmin(D_\ell,j)^\natural\le B$ for every finite set $S$ of odd primes;
+$\sfname{VVplusLe}(E,t,B)$ is defined in the same way with $\vwinplus$.
+\formallabel{UpperTheory.V.VVat}
+\formallabel{UpperTheory.V.VVminusLe}
+\formallabel{UpperTheory.V.VVplusLe}
+\end{definition}
+
+These are the statements of \cref{def:window:partial}. The window statements are expressed with \emph{admitted pairs}:
+for $A_1,C_t\in\R$, a pair of functions $m,t:\R\to\N$ is $(A_1,C_t)$-admitted if $2\le m(x)$, $2^{m(x)}\le x^{A_1}$,
+$2\le t(x)$ and $t(x)\le x^{C_t}$ for all $x\ge2$. For $J,X,Y\in\R$ we write $Y\in\mathrm{W}_J(X)$ if $X^{1/J}\le Y$
+and $Y^2\le X$.
+
+\begin{definition}[The partial statements]\label{pf:vwin:stmtdef}
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:stmt-minus} (Minus part.) For $C,o,n,N,t\in\N$ (with $C$ real) put
+\[
+ \beta(C,o,n,N,t)=3nt^2\log(tN)+C\sum_{\ell\mid o,\ \ell\ne2}\ell\,n^2t^2\log(t\ell N)^2 .
+\]
+$\sfname{ThmBcFree}$ is the statement: there is $C\in\R$ such that for every abelian datum $M$, all $k,t\ge2$, every
+prime pair $(m_M;q,d)$ and every CM field $E=E_{M,k,q,d}$, $\sfname{VVminusLe}(E,t,\beta(C,\deg M,[E:\Q],\cond E,t))$.
+Its admitted form $\sfname{ThmBcFree}(C_t)$ is: there is $C$ such that for every $M$, every $A_1$, every
+$(A_1,C_t)$-admitted pair $(m,t)$, every $x\ge2$, every prime pair $(m_M;q,d)$ and every CM field $E=E_{M,m(x),q,d}$,
+$\sfname{VVminusLe}(E,t(x),\beta(C,\deg M,[E:\Q],\cond E,t(x)))$.
+\item\label{pf:vwin:stmt-const} (Constants.) A \emph{constant package} $K$ consists of functions $R_0$ (on abelian data) and
+$R_\ell$ (on primes and abelian data) with values in $\N$, and a real $C_K>0$. For a finite set $B'$ of primes and abelian
+data $L(\ell)$, $\ell\in B'$, put $R=R_0(M)+\sum_{\ell\in B'}R_\ell(L(\ell))$ and
+$J_K(C_t,\eps;M,B',L)=2^{R+2}(2C_KC_t/\eps)^R$.
+\item\label{pf:vwin:stmt-bab} (Two-part and bad layers.) For $x\in\R$ let $\mathrm{B}_a(M,\eps,m,t,q,d,x)$ be the statement that
+every $E=E_{M,m(x),q,d}$ satisfies $\sfname{VVat}(2,E,t(x),\exp(x^{4\eps/5}))$, and $\mathrm{B}_b(K,B',L,\eps,t,x)$ the statement
+that for every $\ell\in B'$, every field $L_0$ of type $L(\ell)$ and every extension $L_1/L_0$ generated by $\ell$-power
+roots of unity with $[L_1:L_0]=\ell^{j_\ell}$, $j_\ell=\log_\ell R_\ell(L(\ell))+3$, one has
+$\sfname{VVat}(\ell,L_1,t(x),\exp(x^{4\eps/5}))$. A real $Y$ is a \emph{$K$-window} for $(M,B',L,\eps,m,t,q,d,X)$ if
+$Y\in\mathrm{W}_J(X)$ with $J=J_K(C_t,\eps;M,B',L)$ and $\mathrm{B}_a$ and $\mathrm{B}_b$ hold at every $x\in[Y,Y^2]$.
+$\mathrm{B}(K,C_t)$ is the statement: for every abelian datum $M$, every finite set $B'$ of odd primes with abelian
+data $L(\ell)$ such that $\ell\mid m_{L(\ell)}$ and every $a\in H_{L(\ell)}$ satisfies $a\equiv1\pmod\ell$ (so that the
+fields of type $L(\ell)$ contain a primitive $\ell$-th root of unity), and all $\eps\in(0,\frac1{52})$ and $A_1\in\R$,
+there is $X_0$ such that for every
+$(A_1,C_t)$-admitted $(m,t)$, every $X\ge X_0$ and every prime pair $(m_M;q,d)$ with $\log(qd)\le X^{\eps/(4J)}$ there is
+a $K$-window $Y$.
+\item\label{pf:vwin:stmt-plus} (Plus part.) For a primitive $\psi$ let $B_\psi$ be the bad set of \cref{def:window:cases},
+$L_\psi(\ell)=M^{\mathrm{cyc}}_{\ell N_\psi}$ and $J_\psi=J_K(C_t,\eps;M_\psi,B_\psi,L_\psi)$. $\mathrm{P}(K,C_t)$ is the
+statement: for every primitive $\psi$ there are $C\in\R$ and primes $r_1,r_2$ such that for all $\eps\in(0,\frac1{52})$,
+$A_1$ there is $X_0$ with the following property. For every $(A_1,C_t)$-admitted $(m,t)$, every $X\ge X_0$, every prime pair
+$(N_\psi;q,d)$ with $q,d>2X^{C_t}+1$, with $q,d$ larger than each of $N_\psi,o_\psi,p_K(\psi),h^*(\psi),p_1(\psi),r_1,r_2$,
+and with $\log(qd)\le X^{\eps/(4J_\psi)}$, every $K$-window $Y$ for $(M_\psi,B_\psi,L_\psi,\eps,m,t,q,d,X)$ and every
+$x\in[Y,Y^2]$, every CM field $E=E_{\psi,m(x),q,d}$ satisfies
+\begin{equation}\label{pf:vwin:hvat}
+\sfname{VVplusLe}\bigl(E,t(x),(\cond(E)\,t(x))^C+C\exp(x^{4\eps/5})\bigr).
+\end{equation}
+\item\label{pf:vwin:stmt-joint} (Joint window.) $\mathrm{J}(C_t)$ is the statement: for every primitive $\psi$, all
+$\eps\in(0,\frac1{52})$, $A_1$ and every $(A_1,C_t)$-admitted $(m,t)$ there are $J>0$ and $C,P,X_0$ such that for all
+$X\ge X_0$ and all prime pairs $(N_\psi;q,d)$ with $q,d>\max(2X^{C_t}+1,P)$ and $\log(qd)\le X^{\eps/(4J)}$ there is
+$Y\in\mathrm{W}_J(X)$ such that for every $x\in[Y,Y^2]$, $\mathrm{B}_a(M_\psi,\eps,m,t,q,d,x)$ holds and every CM field
+$E=E_{\psi,m(x),q,d}$ satisfies \eqref{pf:vwin:hvat}.
+\end{enumerate}
+\formallabel{UpperTheory.V.minusBound}
+\formallabel{UpperTheory.V.ThmBcFree}
+\formallabel{UpperTheory.V.ThmBc}
+\formallabel{UpperTheory.V.BConst}
+\formallabel{UpperTheory.V.ThmBab}
+\formallabel{UpperTheory.V.ThmHV}
+\formallabel{UpperTheory.V.JointWin}
+\end{definition}
+
+The statement $\sfname{ThmBcFree}$ is hypothesis (a) of \cref{prop:window:assembly}, and $\mathrm{J}(C_t)$ is its
+hypothesis (b); $\mathrm{B}(K,C_t)$ and $\mathrm{P}(K,C_t)$ are the conclusions of \cref{thm:window:bab,thm:plus-part}.
+
+
+% ---------------------------------------------------------------------------
+\subsection{From \texorpdfstring{$\sfname{Row0b}$}{Row0b} to the window bound}\label{sec:pf:vwin:top}
+
+\begin{theorem}[\cref{thm:vwin}]\label{pf:vwin:main}
+$\sfname{Row0b}$, with the local parameter predicate $\sfname{IsRecT}$ of \cref{sec:galois}, implies $\sfname{VWin}$.
+\formallabel{UpperTheory.One.vwin_of_row}
+\end{theorem}
+
+The proof is a chain of three implications, each of which only assembles results proved elsewhere. We first state the
+base change theorem which enters the literature package, then the two packages.
+
+\begin{theorem}[Weak base change from definite unitary groups]\label{pf:vwin:bc}
+Let $E$ be a CM field such that $E/E^+$ is unramified at every finite place, $n\ge1$, and let $\pi$ be an
+irreducible automorphic representation of the definite unitary group $\Uni_n=\{g\in\GL_n(\A_E):{}^t\bar g\,g=1\}$.
+Then there are a partition $n=N_1+\dots+N_c$ with $N_i\ge1$, discrete conjugate self-dual automorphic representations
+$V_i$ of $\GL_{N_i}(\A_E)$ with local components $\sigma_{i,w}$ and infinitesimal characters $m_{i,\tau}$
+($\tau:E\to\C$), and irreducible smooth representations $P_w$ of $\GL_n(E_w)$ for all finite places $w$, such that:
+$P_w$ is a subquotient of the induced representation $\sigma_{1,w}\times\dots\times\sigma_{c,w}$; $P_w$ is spherical
+whenever $\pi$ is unramified at $w$; at unramified inert places the Satake parameter of $P_w$ is the base change of that
+of $\pi_w$; at split places $P_w$ is the component of $\pi$ at $w$ under $\Uni_n(E^+_v)\cong\GL_n(E_w)$; and
+$\sum_im_{i,\tau}$ is the infinitesimal character attached to the weight of $\pi$ at $\tau$.
+\formallabel{UpperTheory.BaseChangeIdentities.baseChangeN}
+\end{theorem}
+
+This is weak base change from definite unitary groups to $\GL_n$, a theorem of Labesse \cite{Labesse2011} (see also
+\cite{ArthurClozel1989} for the cyclic case), proved there with the stabilized trace formula. The development
+contains a formal proof which does not follow the trace formula route
+(\lref{UpperTheory.BaseChangeIdentities.baseChangeN_of}, with \lref{UpperTheory.HeckeLevelFrameExistence.candFin}:
+finiteness of systems of Hecke eigenvalues at bounded level, and a spectral accumulation argument for Eisenstein
+contributions); we use only the statement.
+
+\begin{lemma}[The literature package]\label{pf:vwin:litN}
+$\sfname{Row0b}$ (with $\sfname{IsRecT}$) implies $\sfname{LiteratureRankNHypothesis}$, i.e.\ component
+\ref{pf:vwin-he:H1} of \cref{pf:vwin-he:H}. Moreover $\sfname{LiteratureRankNHypothesis}$ implies $\sfname{VWin}$.
+\formallabel{UpperTheory.One.Join.automorphic_window_of_inputs}
+\formallabel{UpperTheory.One.Join.v_window_of_depth_zero_residual_bc_cm}
+\formallabel{UpperTheory.One.Join.local_inputs_from_literature}
+\formallabel{UpperTheory.One.Join.automorphic_inputs_from_literature}
+\formallabel{UpperTheory.LiteratureTheorems.galois_cohomology_from_literature}
+\formallabel{UpperTheory.One.Join.cm_abelian_inputs_from_literature}
+\formallabel{UpperTheory.V.v_window_of_literal_automorphy_n}
+\formallabel{UpperTheory.V.HV.DescentVanishingReductions.v_window_of_automorphy_csd_ss_mono_odd}
+\end{lemma}
+
+\begin{proof}
+The package $\sfname{LiteratureRankNHypothesis}$ consists of four groups of statements (\cref{pf:vwin-he:H}, (a)--(d)).
+Groups (a) (representation theory of $p$-adic $\GL_n$), (c) (Galois cohomology) and (d) (complex multiplication) do
+not involve $\sfname{Row0b}$: each of their members is a theorem of the development, and most are formalized published
+theorems (see \cref{sec:literature}). In group (b) (automorphic forms on $\GL_n$ and Galois representations) two
+members are not of this kind: the base change statement, which is \cref{pf:vwin:bc}, and the statement on Galois
+representations attached to polarized regular algebraic cuspidal representations, which is $\sfname{Row0b}$ with
+$\sfname{IsRecT}$ itself. The other members of (b) are again theorems of the development. This proves the first
+assertion. (Formally, $\sfname{Row0b}$ is first packaged as a structure with one field, whose only content is
+$\sfname{Row0b}$; the theorems supplying the members of the four groups take this structure as an argument but do not
+use it.)
+
+For the second assertion let $\sfname{LiteratureRankNHypothesis}$ hold. The descent statement
+$\sfname{DescWeak}$ of \cref{pf:vwin:hprime} below is a theorem (\cref{pf:vwin:descweak}), so \cref{pf:vwin:hprime}
+gives $\sfname{HypothesesH'}$, and \lref{UpperTheory.V.HV.DescentVanishingReductions.vwin_of_hypotheses_H_E_alt}
+($\sfname{HypothesesH'}$ implies $\sfname{VWin}$; this is \cref{thm:window:HE}, proved in \cref{sec:pf:vwin-he})
+gives $\sfname{VWin}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:main}]
+Combine the two assertions of \cref{pf:vwin:litN}.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-names}
+In this chain the only mathematical inputs besides theorems of the development are those of $\sfname{Row0b}$; in
+particular no ``open image'' hypothesis is used, although the structure packaging $\sfname{Row0b}$ is named in this way
+in the development. The descriptive names of the intermediate implications (``depth zero'', ``residual'', ``csd'',
+``mono'', ``odd'') carry no additional content: each of them is a one-line application of the next.
+\end{remark}
+
+\subsubsection{The package \texorpdfstring{$\sfname{HypothesesH'}$}{HypothesesH'}}
+
+We recall that $\sfname{HypothesesH'}$ is the conjunction of $\sfname{LiteratureRankNHypothesis}$ with the statements
+listed in \ref{pf:vwin-he:H2} and \ref{pf:vwin-he:H3} of \cref{pf:vwin-he:H}. One of them is the descent statement
+$\sfname{DescWeak}$: \emph{let $E$ be a CM field with $E/E^+$ unramified at all finite places, $p$ a prime, $S$ a finite set
+of places of $E^+$ which split in $E$ and contains the places above $p$, $2\le n\le4$, and $\pi$ a regular algebraic
+cuspidal representation of $\GL_n(\A_E)$ whose contragredient is its complex conjugate and which has a Satake parameter at
+every place of $E$ not above $S$; then there is an automorphic representation $\sigma$ of the definite unitary group
+$\Uni_n$ which is unramified at all non-split places of $E$ and such that for almost all split places $w$ the component of
+$\sigma$ at $w$ (viewed as a representation of $\GL_n(E_w)$) has a Satake parameter equal to that of $\pi$ at $w$.}
+
+\begin{proposition}\label{pf:vwin:descweak}
+$\sfname{DescWeak}$ holds.
+\formallabel{UpperTheory.V.Z.Tf.SR.descWeak}
+\formallabel{UpperTheory.V.Z.Tf.SR.descWeakAll}
+\formallabel{UpperTheory.V.Z.Tf.SR.has_of_split}
+\end{proposition}
+
+\begin{proof}
+It suffices to prove the stronger statement in which $1\le n$ is arbitrary, the set $S$ is omitted and $\pi$ is only
+assumed to have Satake parameters at the non-split places. For such $\pi$ the shared theorem
+\lref{UpperTheory.V.Z.Tf.GaloisFromTraceFormula.runTh} (a consequence of a trace formula comparison) provides
+either the required $\sigma$, or a \emph{decomposition datum}: a finite family $(P_i)$ of representations of groups
+$\GL_{N_i}(\A_E)$ with $\sum_iN_i=n$, regular in the sense of the development, such that at almost all split places the
+sum of the Satake parameters of the $P_i$ equals that of $\pi$, but such that $\pi$ is not one of the $P_i$. The second
+alternative is impossible: by the shared rigidity theorem for split places \lref{UpperTheory.V.Z.Tf.SR.splitRigid},
+applied after normalizing $\pi$ to be unitary, a regular decomposition datum which agrees with $\pi$ at almost all split
+places contains $\pi$. The statement of $\sfname{DescWeak}$ follows, since the places of $E$ above $S$ are split.
+\end{proof}
+
+$\sfname{DescWeak}$ is a descent statement of the type proved by Labesse \cite{Labesse2011} for definite unitary groups.
+
+\begin{proposition}[The package $\sfname{HypothesesH'}$]\label{pf:vwin:hprime}
+$\sfname{LiteratureRankNHypothesis}$ and $\sfname{DescWeak}$ imply $\sfname{HypothesesH'}$. More precisely, the
+components of \ref{pf:vwin-he:H2} and \ref{pf:vwin-he:H3} are supplied as follows.
+\begin{enumerate}
+\item[(a)] Clozel's criterion: a cuspidal representation of $\GL_a(\A_E)$, $E$ totally imaginary, whose infinitesimal
+character is that of an irreducible algebraic representation, is cohomological for it \cite{Clozel1990}; deduced from
+$\sfname{LiteratureRankNHypothesis}$.
+\item[(b)] Existence of $\Aut(\C)$-conjugates of regular algebraic cuspidal representations \cite{Clozel1990}, and Borel's
+bound for the number of cohomological cuspidal representations of given level by the dimension of the cohomology of the
+locally symmetric space \cite{Borel1983}: labelled in the development as published results.
+\item[(c)] Galois representations with local--global compatibility for regular algebraic polarized cuspidal
+representations of $\GL_2$ over totally real fields \cite{Carayol1986,Taylor1989}; deduced from
+$\sfname{LiteratureRankNHypothesis}$ (in particular from $\sfname{Row0b}$) by quadratic base change (e) to a totally
+imaginary quadratic extension, using the admissibility statement of (d).
+\item[(d)] Strong multiplicity one, admissibility, and Gelfand--Kazhdan duality (the contragredient of a cuspidal
+representation of $\GL_a$ over a totally real field is its transpose-inverse) \cite{JacquetShalika1981}: the first two are
+labelled as published results, the third is deduced from strong multiplicity one.
+\item[(e)] Quadratic base change for $\GL_2$ from a totally real field to a totally imaginary quadratic extension
+\cite{Langlands1980}, obtained from a formal proof of quadratic base change.
+\item[(f)] The cuspidal representation of $\GL_2(\A_\Q)$ attached to a classical newform of weight $\ge2$; deduced from
+the semisimplicity of the space of cusp forms (j) and admissibility (d).
+\item[(g)] $\sfname{DescWeak}$: the hypothesis.
+\item[(h)] Cyclic base change and descent of prime degree for $\GL_n$ over totally imaginary fields \cite{ArthurClozel1989}.
+\item[(i)] Descent to $\Q$ of regular algebraic cuspidal representations of $\GL_2$ over an imaginary quadratic field with
+sufficiently regular infinitesimal character and Satake parameters invariant under the Galois conjugation at almost all
+places \cite{Langlands1980}; this proves the first alternative of the corresponding component of \ref{pf:vwin-he:H3}.
+\item[(j)] Existence of a totally definite quaternion algebra over every totally real field of even degree
+\cite{Vigneras1980}, and semisimplicity of the space of cusp forms over totally real fields: labelled as published
+results.
+\end{enumerate}
+\formallabel{UpperTheory.V.HV.DescentVanishingReductions.published_hypotheses_from_patching_alt}
+\formallabel{UpperTheory.V.Af.clozelCohC_alt}
+\formallabel{UpperTheory.V.Z.Coh.clozelConjC}
+\formallabel{UpperTheory.V.Z.Coh.borelInjC}
+\formallabel{UpperTheory.Gal.SV.galois_rep_exists_totally_real_rank_two_of_base_change}
+\formallabel{UpperTheory.V.Af.strongMultOneReal}
+\formallabel{UpperTheory.V.Af.gelfandKazhdanReal}
+\formallabel{UpperTheory.ConvolutionTheory.R2.quadBC2}
+\formallabel{UpperTheory.V.Br.quadBC0_of_two}
+\formallabel{UpperTheory.V.Af.newformRepOf}
+\formallabel{UpperTheory.V.Z.Bc.cycC_holds}
+\formallabel{UpperTheory.ConvolutionTheory.RankTwoDescent.descS}
+\formallabel{UpperTheory.V.Af.defQuatExists}
+\formallabel{UpperTheory.V.Af.cuspSemisimpleReal}
+\end{proposition}
+
+\begin{proof}
+$\sfname{HypothesesH'}$ is a conjunction; each conjunct is the statement named in the corresponding item, supplied by
+the theorems of the development whose formal names are listed after the first tag above (in the order of the items),
+the admissibility statement being the shared \lref{UpperTheory.V.Af.admissibleReal}. All of these are known
+theorems with the cited references; the development contains formal proofs of (a), (c), the third part of (d), (e),
+(f), (h) and (i), which we do not reproduce (the descent theorem (i) alone occupies some $19{,}000$ lines). The proof of
+the proposition consists in collecting them.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-hprime}
+(1) In (i) the development proves the first of the two alternatives offered by \ref{pf:vwin-he:H3} (descent to $\Q$);
+the alternative Galois-theoretic form is not needed. (2) The formal name of \cref{pf:vwin:hprime} refers to patching,
+but its proof is a bundling step: no patching argument enters at this point.
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The final assembly}\label{sec:pf:vwin:assembly}
+
+We now prove the root of the main reduction which is not proved in \cref{sec:pf:vwin-he}: the deduction of
+$\sfname{VWin}$ from the literature package, Lemma K and the four counting statements. Recall from
+\cref{pf:vwin-he:countdef} the statements $\mathrm{Count}(P)$ for properties $P$ of tuples $(h,\ell,\OO,j,\theta)$, and
+that $\sfname{CountZ}=\mathrm{Count}(P)$ for $P$: ``$\ell\notin B_\chi$, $(\ell-1)\mid2j$ and $\theta=1$'' (case Z of
+\cref{tab:window:cases}).
+
+\begin{theorem}\label{pf:vwin:offour}
+$\sfname{LiteratureRankNHypothesis}$, the existence of $C_K$ with $\sfname{LemmaK}(C_K)$, and $\sfname{CountI}$,
+$\sfname{CountII}$, $\sfname{CountIII}$, $\sfname{CountV}$ imply $\sfname{VWin}$.
+\formallabel{UpperTheory.V.HV.Core.of_four_alt}
+\end{theorem}
+
+\begin{theorem}\label{pf:vwin:counts}
+Assume Poitou--Tate duality, the local finiteness and local Tate duality statements over finite extensions of $\Ql$
+(members of group (c) of $\sfname{LiteratureRankNHypothesis}$), $\sfname{LemmaK}(C_K)$, $\mathrm{B}(K,401)$ for a
+constant package $K$, $\sfname{ThmBcFree}$, $\sfname{CountI}$, $\sfname{CountII}$, $\sfname{CountIII}$,
+$\sfname{CountV}$ and $\sfname{CountZ}$. Then $\sfname{VWin}$ holds.
+\formallabel{UpperTheory.V.HV.vwin_of_counts}
+\formallabel{UpperTheory.V.HV.jointWin_of_counts}
+\end{theorem}
+
+\begin{proof}[Proof of \cref{pf:vwin:offour}, given \cref{pf:vwin:counts}]
+Poitou--Tate duality in the form used below follows from the normalized form contained in
+$\sfname{LiteratureRankNHypothesis}$ (\lref{UpperTheory.V.HV.U.pt_s}); the local statements and the orthogonality of
+unramified classes are members of its group (c). By \cref{thm:window:bab} (\cref{pf:vwin:bab} below), Poitou--Tate
+duality, the local statements, the theorem of Ferrero--Washington (\cref{lit:window:fw},
+\lref{UpperTheory.V.FW.ferreroWashington}) and Lemma K give a constant package $K$ with $\mathrm{B}(K,C_t)$ for
+all $C_t\ge1$, in particular for $C_t=401$. By \cref{prop:psibound} (\cref{pf:vwin:psibound} below),
+Poitou--Tate duality and the orthogonality of unramified classes give $\sfname{PsiBound}$ and then
+$\sfname{ThmBcFree}$. By \cref{prop:window:propZ} (\cref{pf:vwin:propZ} below), $\sfname{CountZ}$ holds. Now
+\cref{pf:vwin:counts} applies.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:counts}]
+By \cref{thm:plus-part} (\cref{pf:vwin:hv} below) the hypotheses give $\mathrm{P}(K,401)$; with $\mathrm{B}(K,401)$
+this gives $\mathrm{J}(401)$ (\cref{pf:vwin:jointof}); $\sfname{ThmBcFree}$ gives $\sfname{ThmBcFree}(401)$
+(\cref{pf:vwin:bciff}); and \cref{pf:vwin:assembly} gives $\sfname{VWinAt}(\psi,401)$ for every primitive $\psi$, which
+is $\sfname{VWin}$.
+\end{proof}
+
+\subsubsection{Splitting and elementary estimates}
+
+\begin{lemma}\label{pf:vwin:parts}
+Let $E$ be a CM field, $t\in\N$ and $B_2,B_-,B_+\in\R$. If $\sfname{VVat}(2,E,t,B_2)$, $\sfname{VVminusLe}(E,t,B_-)$ and
+$\sfname{VVplusLe}(E,t,B_+)$ hold, then $\sfname{VVle}(E,t,B_2\log2+B_-+B_+)$ holds.
+\formallabel{UpperTheory.V.vvle_of_parts}
+\end{lemma}
+
+\begin{proof}
+Fix $\Omega$ and $p$-data $D_p$. For odd $p$ and $j\ge1$, $\vwinsh(D_p,j)=\vwinplus(D_p,j)+\vwinmin(D_p,j)$ by
+\cref{lem:window:pm} (\lref{UpperTheory.V.shaLen_eq_add}); hence the finiteness assertions of the three hypotheses
+give that of $\sfname{VVle}$, and for $0<j<t$ the natural-number parts add. Let $S$ be a finite set of primes and
+$g(\ell)=\log\ell\sum_{j=1}^{t-1}\vwinsh(D_\ell,j)^\natural\ge0$. The contribution of $\ell=2$ (if $2\in S$) is at most
+$B_2\log 2$; that of the odd primes of $S$ is the sum of the corresponding expressions for $\vwinmin$ and $\vwinplus$, hence
+at most $B_-+B_+$.
+\end{proof}
+
+\begin{lemma}[Monotonicity]\label{pf:vwin:vvlemono}
+Let $E$ be a number field, $t'\le t$ in $\N$ and $B\le B'$ in $\R$. If $\sfname{VVle}(E,t,B)$ holds, then
+$\sfname{VVle}(E,t',B')$ holds.
+\formallabel{UpperTheory.Top.VVle.mono}
+\end{lemma}
+
+\begin{proof}
+Fix $\Omega$ and $p$-data $D_p$ for all primes $p$. The finiteness of $\vwinsh(D_p,j)$ for $0<j<t'$ is part of the
+hypothesis, since $t'\le t$. For a finite set $S$ of primes, the terms $\vwinsh(D_\ell,j)^\natural$ with $t'\le j<t$ are
+non-negative and $\log\ell\ge0$, so
+$\sum_{\ell\in S}\log\ell\sum_{j=1}^{t'-1}\vwinsh(D_\ell,j)^\natural\le\sum_{\ell\in S}\log\ell\sum_{j=1}^{t-1}
+\vwinsh(D_\ell,j)^\natural\le B\le B'$.
+\end{proof}
+
+\begin{lemma}[Elementary estimates]\label{pf:vwin:est}
+Let $\eps\in(0,\frac1{52})$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:est-adm} If $C_t\ge1$ and $m:\R\to\N$ satisfies $\sfname{PageN}(\eps,x,m(x))$ for all $x\ge1$, then
+$(m,x\mapsto\lfloor x^{C_t}\rfloor)$ is $(4,C_t)$-admitted.
+\item\label{pf:vwin:est-big} For $J>0$, $C_t$ and $P$ there is $X_0$ such that for $X\ge X_0$, every pair $(q,d)$ with
+$\sfname{WinPair}(\eps,X^{1/J};q,d)$ satisfies $q,d>2X^{C_t}+1$ and $q,d>P$.
+\item\label{pf:vwin:est-log} There is $Y_0$ such that $\log(qd)\le Y^{\eps/4}$ whenever $Y\ge Y_0$ and
+$\sfname{WinPair}(\eps,Y;q,d)$.
+\item\label{pf:vwin:est-cond} For $C_t\in\R$ and $m_0\in\N$ there is $x_0$ such that $\log(Nt)\le2x^{\eps/4}$ whenever $x\ge x_0$,
+$1\le N\le2^{k+2}m_0qd$, $\sfname{PageN}(\eps,x,k)$, $1\le t\le x^{C_t}$ and $\log(qd)\le x^{\eps/4}$.
+\item\label{pf:vwin:est-beta} For $C\in\R$ and $o\in\N$ put $K=3+|C|\sum_{\ell\mid o,\ \ell\ne2}\ell^3$. If $1\le N$, $1\le t$, $n\le N$
+and $\log(Nt)\le2W$, then $\beta(C,o,n,N,t)\le Ke^{8W}$.
+\item\label{pf:vwin:est-err} For $K,C\in\R$ there is $x_0$ such that for $x\ge x_0$ and every $u\ge1$ with $\log u\le2x^{\eps/4}$,
+\[
+ e^{x^{4\eps/5}}\log2+Ke^{8x^{\eps/4}}+u^C+Ce^{x^{4\eps/5}}\ \le\ \sqrt{\exp(x^\eps)} .
+\]
+\end{enumerate}
+\formallabel{UpperTheory.V.admissible_of_pageN}
+\formallabel{UpperTheory.V.eventually_winPair_gt_power}
+\formallabel{UpperTheory.V.log_mul_le_rpow_of_winPair}
+\formallabel{UpperTheory.V.log_conductor_mul_height_le_of_pageN}
+\formallabel{UpperTheory.V.minusBound_le_exp_of_log_le}
+\formallabel{UpperTheory.V.error_terms_le_sqrt_exp_rpow}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin:est-adm} Let $x\ge2$. From $2^{m(x)}\ge x^{2+8\eps}\ge4$ we get $m(x)\ge2$; from $2^{m(x)}\le2x^{2+8\eps}$, $2\le x$ and
+$8\eps<1$ we get $2^{m(x)}\le x^{3+8\eps}\le x^4$; and $\lfloor x^{C_t}\rfloor\ge\lfloor x\rfloor\ge2$.
+\ref{pf:vwin:est-big} By $\sfname{WinPair}$, $\log q>\frac12X^{\eps/(5J)}$, and $\log d>\frac12X^{\eps/(5J)}(\log X^{1/J})^2\ge\frac12
+X^{\eps/(5J)}$ once $X\ge e^J$; and $\frac12X^{\eps/(5J)}$ exceeds $\log(2X^{C_t}+1+|P|)$ for large $X$.
+\ref{pf:vwin:est-log} $\log(qd)\le Y^{\eps/5}(1+(\log Y)^2)\le Y^{\eps/4}$ for large $Y$.
+\ref{pf:vwin:est-cond} By $\sfname{PageN}$, $2^{k+2}\le8x^{2+8\eps}$, so $\log(Nt)\le\log8+(2+8\eps+C_t)\log x+\log m_0+x^{\eps/4}$, which is
+at most $2x^{\eps/4}$ for large $x$.
+\ref{pf:vwin:est-beta} Put $X=Nt\ge1$; then $X\le e^{2W}$, so $X^4\le e^{8W}$. Since $\log y\le y$ for $y>0$, $\log(tN)\le X$ and
+$\log(t\ell N)\le\ell X$. Hence $3nt^2\log(tN)\le3X^3\le3X^4$ and $\ell n^2t^2\log(t\ell N)^2\le\ell X^2(\ell X)^2=\ell^3X^4$, and the
+claim follows by summing.
+\ref{pf:vwin:est-err} We have $u^C\le e^{2|C|x^{\eps/4}}$. Each of the four terms is at most a constant times
+$\exp(\max(x^{4\eps/5},\,8x^{\eps/4},\,2|C|x^{\eps/4}))$, and since $\frac{4\eps}5<\eps$ and $\frac\eps4<\eps$ the sum is at most
+$\exp(\frac12x^\eps)=\sqrt{\exp(x^\eps)}$ for large $x$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin:bciff}
+For $C_t\ge1$, $\sfname{ThmBcFree}(C_t)$ is equivalent to $\sfname{ThmBcFree}$.
+\formallabel{UpperTheory.V.thmBc_iff}
+\end{lemma}
+
+\begin{proof}
+If $\sfname{ThmBcFree}$ holds with the constant $C$ and $(m,t)$ is admitted, then $m(x),t(x)\ge2$ for $x\ge2$, and
+$\sfname{ThmBcFree}$ applies with $k=m(x)$ and $t=t(x)$. Conversely let $\sfname{ThmBcFree}(C_t)$ hold with $C$, and let
+$k,t\ge2$, a prime pair $(m_M;q,d)$ and $E=E_{M,k,q,d}$ be given. Put $x=\max(2^k,t)\ge2$ and let $m(y)=k$, $t(y)=t$ for
+$y=x$ and $m(y)=t(y)=2$ otherwise. This pair is $(2,C_t)$-admitted: at $y=x$ one has $2^k\le x\le x^2$ and $t\le x\le x^{C_t}$,
+and for $y\ne x$, $y\ge2$, one has $4\le y^2$ and $2\le y\le y^{C_t}$. Applying $\sfname{ThmBcFree}(C_t)$ at $x$ gives the
+assertion of $\sfname{ThmBcFree}$ for $(M,k,t,q,d,E)$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin:jointof}
+Let $C_t>0$ and let $K$ be a constant package. Then $\mathrm{B}(K,C_t)$ and $\mathrm{P}(K,C_t)$ imply $\mathrm{J}(C_t)$.
+\formallabel{UpperTheory.V.jointWin_of}
+\end{lemma}
+
+\begin{proof}
+Let $\psi$, $\eps$, $A_1$ and an admitted pair $(m,t)$ be given. The data $(M_\psi,B_\psi,L_\psi)$ satisfy the hypothesis
+of $\mathrm{B}(K,C_t)$: every $\ell\in B_\psi$ is an odd prime, $\ell$ divides $m_{L_\psi(\ell)}=\ell N_\psi$, and
+$H_{L_\psi(\ell)}$ is trivial (\lref{UpperTheory.V.primeSetBoundData_of_primitiveChar}). Let $X_0$ be the threshold of
+$\mathrm{B}(K,C_t)$ for these data, and $C,r_1,r_2,X_1$ those of $\mathrm{P}(K,C_t)$. Take $J=J_\psi>0$, the constant $C$,
+$P=N_\psi+o_\psi+p_K(\psi)+h^*(\psi)+p_1(\psi)+r_1+r_2$ and the threshold $\max(X_0,X_1)$. If $X$ and $(q,d)$ satisfy the
+hypotheses of $\mathrm{J}(C_t)$, then $\mathrm{B}(K,C_t)$ provides a $K$-window $Y$; for $x\in[Y,Y^2]$ it gives
+$\mathrm{B}_a$, and $\mathrm{P}(K,C_t)$ gives \eqref{pf:vwin:hvat}, because each of the listed integers is at most $P<q,d$.
+\end{proof}
+
+\begin{proposition}[\cref{prop:window:assembly}]\label{pf:vwin:assembly}
+Let $C_t\ge1$. If $\mathrm{J}(C_t)$ and $\sfname{ThmBcFree}$ hold, then $\sfname{VWinAt}(\psi,C_t)$ holds for every
+primitive $\psi$. In particular $\mathrm{J}(401)$ and $\sfname{ThmBcFree}$ imply $\sfname{VWin}$.
+\formallabel{UpperTheory.V.vwinAt_of_joint}
+\formallabel{UpperTheory.V.vwin_of_joint}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:vwin:bciff} we may use $\sfname{ThmBcFree}(C_t)$, with a constant $C_b$. Fix $\psi$, $\eps\in(0,\frac1{52})$ and
+$m:\R\to\N$ with $\sfname{PageN}(\eps,x,m(x))$ for $x\ge1$, and put $t(x)=\lfloor x^{C_t}\rfloor$. By
+\cref{pf:vwin:est}\ref{pf:vwin:est-adm}, $(m,t)$ is $(4,C_t)$-admitted, so $\mathrm{J}(C_t)$ (with $A_1=4$) gives $J>0$ and
+$C,P,X_J$. Choose: $K$ as in \cref{pf:vwin:est}\ref{pf:vwin:est-beta} for $(C_b,\deg M_\psi)$; $x_T$ as in
+\ref{pf:vwin:est-err} for $(K,C)$; $x_N$ as in \ref{pf:vwin:est-cond} for $(C_t,N_\psi)$; $Y_0$ as in \ref{pf:vwin:est-log};
+$J'=\max(J,1)$ and $P'=\max(P,N_\psi)$; $X_B$ as in \ref{pf:vwin:est-big} for $(J',C_t,P')$; and $L=\max(x_T,x_N,Y_0,2)$.
+We show that the definition of $\sfname{VWinAt}(\psi,C_t)$ is satisfied with the constant $J'\ge1$ and the threshold
+$X_0=\max(X_J,X_B,L^{J'})$.
+
+Let $X\ge X_0$ and let $(q,d)$ satisfy $\sfname{WinPair}(\eps,X^{1/J'};q,d)$. Then $L\le X^{1/J'}$. By
+\ref{pf:vwin:est-big}, $q$ and $d$ exceed $2X^{C_t}+1$, $P$ and $N_\psi$; as they are primes larger than $N_\psi$, they are
+prime to $N_\psi$, and with the congruences of $\sfname{WinPair}$, $(N_\psi;q,d)$ is a prime pair. By \ref{pf:vwin:est-log}
+applied to $Y'=X^{1/J'}\ge Y_0$,
+\begin{equation}\label{pf:vwin:logqd}
+ \log(qd)\le X^{\eps/(4J')}\le X^{\eps/(4J)} .
+\end{equation}
+Hence $\mathrm{J}(C_t)$ gives $Y$ with $X^{1/J}\le Y$ and $Y^2\le X$; then $X^{1/J'}\le X^{1/J}\le Y$, as required. Let
+$x\in[Y,Y^2]$; then $x\ge L\ge2$, $x\ge x_T$ and $x\ge x_N$. Let $E=E_{\psi,m(x),q,d}$; it is a CM field (as $q\equiv3\pmod4$) and an
+$E_{M_\psi,m(x),q,d}$. By $\mathrm{J}(C_t)$, $\sfname{VVat}(2,E,t(x),e^{x^{4\eps/5}})$ and
+$\sfname{VVplusLe}(E,t(x),(\cond(E)t(x))^C+Ce^{x^{4\eps/5}})$ hold, and $\sfname{ThmBcFree}(C_t)$ gives
+$\sfname{VVminusLe}(E,t(x),\beta(C_b,o_\psi,[E:\Q],\cond E,t(x)))$. Now $1\le\cond E\le2^{m(x)+2}N_\psi qd$,
+$[E:\Q]\le\cond E$, $1\le t(x)\le x^{C_t}$, and $\log(qd)\le x^{\eps/4}$ by the first inequality of \eqref{pf:vwin:logqd} and
+$X^{1/J'}\le x$. So \ref{pf:vwin:est-cond} gives $\log(\cond(E)t(x))\le2x^{\eps/4}$, and \ref{pf:vwin:est-beta} with
+$W=x^{\eps/4}$ bounds $\beta(\dots)$ by $Ke^{8x^{\eps/4}}$. By \cref{pf:vwin:parts}, $\sfname{VVle}(E,t(x),B)$ holds with
+$B=e^{x^{4\eps/5}}\log2+Ke^{8x^{\eps/4}}+(\cond(E)t(x))^C+Ce^{x^{4\eps/5}}$, and \ref{pf:vwin:est-err} with $u=\cond(E)t(x)\ge1$
+shows $B\le\sqrt{\exp(x^\eps)}$. By \cref{pf:vwin:vvlemono}, $\sfname{VVle}(E,\lfloor x^{C_t}\rfloor,
+\sqrt{\exp(x^\eps)})$ holds, which is the assertion of $\sfname{VWinAt}$ at $x$. The last statement is the case
+$C_t=401$, since $\sfname{VWin}$ is $\sfname{VWinAt}(\psi,401)$ for all $\psi$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The plus part}\label{sec:pf:vwin:plus}
+
+In this subsection we prove \cref{thm:plus-part}. We use the hosts $h=(\chi,m,q_1,d)$, the integers $N_h$, the subgroups
+$H_h\subset(\Z/N_h)^\times$, the coefficient rings $\OO$ with ramification index $e_\OO$, the sets $\vwinX_h(\OO,j)$ of
+characters, the lengths $V_\ell(\theta,j)$ and $\vwinVt_\ell(\theta,j)=V_\ell(\theta,j)^\natural/e_\OO$, the characters
+$\theta^\flat$, the integers $R_1(h,\ell,\theta)$ and $c_2(\theta)$, the cases and the counting statements of
+\cref{pf:vwin-he:coef,pf:vwin-he:V,pf:vwin-he:host,pf:vwin-he:cases,pf:vwin-he:countdef}. Note that
+$\vwinX_h(\OO,j)$ depends only on the parity of $j$. Besides the cases I, II, III, V of \cref{pf:vwin-he:cases} and the
+case Z we use case IV: $\ell\in B_\chi$, $j\ge2$ and $\ord\theta^\flat$ odd.
+
+\subsubsection{Statements}
+
+\begin{definition}[Layer bounds, partial plus bounds]\label{pf:vwin:plusdefs}
+Let $\chi$ be primitive, $\ell$ a prime, $j,t\in\N$ and $B\in\R$.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{layer bound} $\Lambda(\chi,\ell,j,t,B)$ is the statement: for every field $L_0$ of type
+$M^{\mathrm{cyc}}_{\ell N_\chi}$ and every extension $L_1/L_0$ generated by $\ell$-power roots of unity with $[L_1:L_0]=\ell^j$,
+$\sfname{VVat}(\ell,L_1,t,B)$ holds.
+\item For a CM field $E$, an algebraic closure $\Omega$, $p$-data $D_p$, a finite set $S$ of primes and $B\in\R$, the
+\emph{partial plus bound} $\Pi(S,t,B)$ means: $\vwinplus(D_\ell,j)<\infty$ for $\ell\in S$, $0<j<t$, and
+$\sum_{\ell\in S}\log\ell\sum_{j=1}^{t-1}\vwinplus(D_\ell,j)^\natural\le B$.
+\item $\mathrm{Count}_{\mathrm{IV}}$ is the statement: for every primitive $\chi$, every $\ell\in B_\chi$ and every $j$
+there is $C$ such that for every host $h$ with character $\chi$, every $t\ge2$ for which $h$ is big, every $B$ with
+$\Lambda(\chi,\ell,j,t,B)$, every $\Omega$, every coefficient ring $\OO$ for $\ell$ and every character $\theta$ modulo
+$N_h$ with values in $\OO$, trivial on $H_h$ and with $\ord\theta^\flat$ odd: $V_\ell(\theta,j')<\infty$ for $0<j'<t$ and
+$\sum_{j'=1}^{t-1}\vwinVt_\ell(\theta,j')\le B+(N_ht)^C$.
+\item $\sfname{CountV}'=\mathrm{Count}(P)$ for $P$: ``$(\ell,j,\theta)$ is in case V and $2^{c_2(\theta)}<R_1(h,\ell,\theta)$''.
+\end{enumerate}
+\formallabel{UpperTheory.V.HV.LayerLe}
+\formallabel{UpperTheory.V.HV.CountIV}
+\formallabel{UpperTheory.V.HV.CountVs}
+\end{definition}
+
+\begin{definition}[Bounds at bad and good primes]\label{pf:vwin:sumdefs}
+\begin{enumerate}[label=(\alph*)]
+\item $\Sigma_{\mathrm{bad}}$: for every primitive $\chi$, every $\ell\in B_\chi$ and every $j$ there is $C$ such that for every host
+$h$ with character $\chi$, every $t\ge2$ for which $h$ is big, every $B\ge0$ with $\Lambda(\chi,\ell,j,t,B)$, every CM field
+$E=E_{\chi,m,q_1,d}$ (where $h=(\chi,m,q_1,d)$) and every choice of $\Omega$ and $p$-data, $\Pi(\{\ell\},t,(N_ht)^C+CB)$ holds.
+\item $\Sigma_{\mathrm{good}}$: for every primitive $\chi$ there are $C$ and primes $r_1,r_2$ such that for every host
+$h=(\chi,m,q_1,d)$ with $r_1,r_2<\min(q_1,d)$, every $t\ge2$ for which $h$ is big, every CM field $E=E_{\chi,m,q_1,d}$, every
+choice of $\Omega$ and $p$-data and every finite set $S$ of odd primes not in $B_\chi$, $\Pi(S,t,(N_ht)^C)$ holds.
+\item $\mathrm{P}_0$: for every primitive $\chi$ and every function $j_\bullet$ on primes there are $C$ and primes $r_1,r_2$ such
+that for every host $h=(\chi,m,q_1,d)$ with $r_1,r_2<\min(q_1,d)$, every $t\ge2$ for which $h$ is big and every $B\ge0$ such
+that $\Lambda(\chi,\ell,j_\ell,t,B)$ holds for all $\ell\in B_\chi$, every CM field $E=E_{\chi,m,q_1,d}$ satisfies
+$\sfname{VVplusLe}(E,t,(N_ht)^C+CB)$.
+\end{enumerate}
+\formallabel{UpperTheory.V.HV.SumIn}
+\formallabel{UpperTheory.V.HV.SumOut}
+\formallabel{UpperTheory.V.HV.PointHV}
+\end{definition}
+
+\begin{theorem}[\cref{thm:plus-part}]\label{pf:vwin:hv}
+Assume Poitou--Tate duality, the local finiteness and local Tate duality statements over finite extensions of $\Ql$,
+$\sfname{LemmaK}(C_K)$, and $\sfname{CountI}$, $\sfname{CountII}$, $\sfname{CountIII}$, $\sfname{CountV}$,
+$\sfname{CountZ}$. Then $\mathrm{P}(K,C_t)$ holds for every constant package $K$ and every $C_t>0$.
+\formallabel{UpperTheory.V.HV.thmHV_of_counts}
+\formallabel{UpperTheory.V.HV.pointHV_of_counts}
+\end{theorem}
+
+The proof occupies the rest of this subsection: \cref{pf:vwin:sumout,pf:vwin:sumin} prove $\Sigma_{\mathrm{good}}$ and
+$\Sigma_{\mathrm{bad}}$, \cref{pf:vwin:point} combines them into $\mathrm{P}_0$, and \cref{pf:vwin:thmhv} passes from
+$\mathrm{P}_0$ to $\mathrm{P}(K,C_t)$.
+
+\subsubsection{Inputs}
+
+We use the following facts about hosts, which are shared lemmas of the development. Let $h=(\chi,m,q_1,d)$ be a host which is
+big for $t$.
+\begin{enumerate}[label=(H\arabic*)]
+\item\label{pf:vwin:H-bchi} (\lref{UpperTheory.V.HV.bchiFacts}) Every $\ell\in B_\chi$ is smaller than $q_1$ and $d$; and for every odd
+prime $\ell\notin B_\chi$: $\ell\ge5$, $\ell$ divides none of $o_\chi$, $N_\chi$, $h^*(\chi)$, $[(\Z/N_h)^\times:H_h]$, $\ell\ne p_K(\chi),p_1(\chi)$,
+and for $0<j<t$ with $(\ell-1)\mid2j$ one has $j\ge2$, $\ell\le2t$ and $\ell\nmid N_h$.
+\item\label{pf:vwin:H-cases} (\lref{UpperTheory.V.HV.cases}) Let $\theta$ be a character modulo $N_h$ trivial on $H_h$, $\ell$ an
+odd prime and $0<j<t$. If $\ell\notin B_\chi$, then $(\ell,j,\theta)$ is in case I, Z, II or III; if $\ell\in B_\chi$, it is in case
+II, IV or V.
+\item\label{pf:vwin:H-odd} (\lref{UpperTheory.V.HV.hostOdd}) If moreover $\ell\ne q_1,d$ and $\ord\theta^\flat$ is odd, then
+$\cond\theta$ divides $N_\chi$.
+\item\label{pf:vwin:H-index} (\lref{UpperTheory.V.HV.hostIndex}) $16\mid N_h$, $q_1d\mid N_h$ and $[(\Z/N_h)^\times:H_h]\le N_h$.
+\end{enumerate}
+In addition we use the following lemmas of this part of the development.
+\begin{enumerate}[label=(R\arabic*)]
+\item\label{pf:vwin:R-card} (\lref{UpperTheory.V.HV.xCard}) For $N\ge1$ and a domain $\OO$ there are at most $N$ Dirichlet
+characters modulo $N$ with values in $\OO$, and at most $M$ of them have conductor dividing a given $M\ge1$.
+\item\label{pf:vwin:R-level} (\lref{UpperTheory.V.HV.hostLevel}, \lref{UpperTheory.V.HV.hostCond}) Every
+$E=E_{\chi,m,q_1,d}$ is the fixed field of $H_h$ under an embedding into $\Q(\zeta_{N_h})$ (``$E$ has level $(N_h,H_h)$''), and
+$\cond(E)=N_h$.
+\item\label{pf:vwin:R-red} (Reduction to characters; \lref{UpperTheory.V.HV.redPrime},
+\lref{UpperTheory.V.HV.redAll}.) Let $E$ be a CM field of level $(N,H)$, $\ell$ an odd prime, $\OO$ a coefficient ring
+containing the $\varphi(N)$-th roots of unity, $D$ an $\ell$-datum of $E$ and $j\ne0$. Then
+\[
+ e_\OO\cdot\vwinplus(D,j)\ \le\ \sum_{\theta}\Bigl(V_\ell(\theta,j)+e_\OO\,\lambda(\ell,N,[(\Z/N)^\times:H],j)\Bigr),
+\]
+the sum over the characters $\theta$ modulo $N$ trivial on $H$ with $\theta(-1)=(-1)^j$, where $\lambda$ is an explicit loss
+term with $\lambda(\ell,N,n,j)\le(Nj)^6$ whenever $2\le N$, $n\le N$ and $j\ge1$ (\lref{UpperTheory.V.HV.lossLe}); if
+$\ell\nmid[(\Z/N)^\times:H]$ the loss term can be omitted.
+\item\label{pf:vwin:R-sum} (\lref{UpperTheory.V.Chr.sumBack}) If for $0<j<t$ finitely many finite lengths $f_i(j)$ ($i\in T_j\subset
+T_0$) and a length $a(j)$ satisfy $e_\OO a(j)\le\sum_{i\in T_j}(f_i(j)+b(j)e_\OO)$, then $a(j)<\infty$ and
+$\sum_{j=1}^{t-1}a(j)^\natural\le\sum_{j=1}^{t-1}\sum_{i\in T_j}f_i(j)^\natural/e_\OO+|T_0|\sum_{j=1}^{t-1}b(j)$.
+\end{enumerate}
+The reduction \ref{pf:vwin:R-red} rests on Shapiro's lemma and inflation--restriction: the plus part of $\Sha_D(j)$ is
+identified with a complex-conjugation eigenspace of a Tate--Shafarevich group over $\Q$ with coefficients in the
+induced module (\lref{UpperTheory.V.Chr.partModel}), which decomposes into the eigenspaces of the characters of
+$(\Z/N)^\times/H$ when $\ell$ does not divide the index, the eigenspace of $\theta$ being the group defining $V_\ell(\theta,j)$; in
+general the loss term bounds the failure of this decomposition. Finally we use $\sfname{CountZ}$ (\cref{pf:vwin:propZ}) and the following two statements.
+\begin{enumerate}[label=(C\arabic*)]
+\item\label{pf:vwin:C-IV} $\mathrm{Count}_{\mathrm{IV}}$ holds; this is proved in \cref{pf:vwin:countIV} below.
+\item\label{pf:vwin:C-V} Poitou--Tate duality, the local finiteness and duality statements and $\sfname{LemmaK}(C_K)$ imply
+$\sfname{CountV}'$; this is proved in \cref{pf:vwin:countVs} below.
+\end{enumerate}
+
+\begin{proposition}\label{pf:vwin:countIV}
+$\mathrm{Count}_{\mathrm{IV}}$ holds; for $(\chi,\ell,j)$ one can take $C=\ell N_\chi\ell^j+3$.
+\formallabel{UpperTheory.V.HV.countIV}
+\end{proposition}
+
+\begin{proof}
+Let $\ell\in B_\chi$ (an odd prime), $h$ a host with character $\chi$ which is big for $t\ge2$, $B$ such that $\Lambda(\chi,\ell,j,t,B)$ holds, and
+$\theta$ trivial on $H_h$ with $\ord\theta^\flat$ odd. By \ref{pf:vwin:H-bchi}, $\ell\ne q_1,d$, so $\cond\theta\mid N_\chi$ by \ref{pf:vwin:H-odd}.
+There are a field $L_0$ of type $M^{\mathrm{cyc}}_{\ell N_\chi}$ and a layer $L_1/L_0$ of degree $\ell^j$, abelian over $\Q$ and embedded in $\Omega$,
+with $[L_1:\Q]\le\ell N_\chi\ell^j$, such that every character of conductor dividing $N_\chi$ is trivial on $\Gal(\Omega/L_1)$
+(\lref{UpperTheory.V.HV.ivField}; $L_0$ is the fixed field of the trivial subgroup of $(\Z/\ell N_\chi)^\times$). Let $D$ be an
+$\ell$-datum of $L_1$. By the layer bound, $\vwinsh(D,e)<\infty$ for $0<e<t$ and $\sum_{e<t}\vwinsh(D,e)^\natural\le B$. For $0<e<t$,
+$V_\ell(\theta,e)$ is at most the length of $\Sha_\ell(\Q,W_{\theta^{-1}\vwincyc^{-e}})$ (the conditions at the primes dividing $N_h$ only shrink
+the group; \lref{UpperTheory.V.Chr.V'_le_V}), and restriction to $\Gal(\Omega/L_1)$, on which $\theta$ is trivial, gives
+\[
+ V_\ell(\theta,e)\le e_\OO\,\vwinsh(D,e)+[L_1:\Q]\,\nu(\ell,N_h,e)\,e_\OO ,
+\]
+by a comparison of $\Sha$ over $\Q$ with $\Sha$ over the abelian extension $L_1$ (\lref{UpperTheory.V.Chr.upV}), whose error
+term is $[L_1:\Q]$ times a bound $\nu(\ell,N_h,e)$ for the lengths of certain local groups $H^0$
+(\lref{UpperTheory.V.Chr.H0_local_card_bounded_of_cls_ker_le_ker}); moreover $\nu(\ell,N,e)\le2Ne$ (\lref{UpperTheory.V.HV.lossLe}). In particular $V_\ell(\theta,e)<\infty$, and dividing by $e_\OO$ and summing over $0<e<t$
+(\lref{UpperTheory.V.Chr.nuSum}) gives $\sum_{e<t}\vwinVt_\ell(\theta,e)\le B+\sum_{e<t}[L_1:\Q]\cdot2N_he\le B+(N_ht)^{\ell N_\chi\ell^j+3}$.
+\end{proof}
+
+\begin{proposition}\label{pf:vwin:countVs}
+Poitou--Tate duality, the local finiteness and duality statements and $\sfname{LemmaK}(C_K)$ imply $\sfname{CountV}'$.
+\formallabel{UpperTheory.V.HV.countVs}
+\end{proposition}
+
+\begin{proof}
+Fix $\chi$; we may replace $C_K$ by $\lceil C_K\rceil$. Let $M_\chi=\max B_\chi$ and
+$n_0=2o_\chi\cdot16o_\chi(M_\chi N_\chi)^2M_\chi^{2\varphi(4o_\chi)}\cdot M_\chi$, and take $C=(2n_0)^{C_K}(n_0+1)+n_0+3$. Let $h$ be big for $t>1$, $\ell$ odd, and
+$\theta\in\vwinX_h(\OO,1)$ such that $(\ell,1,\theta)$ is in case V and $2^{c_2(\theta)}<R_1(h,\ell,\theta)$; so $\ell\in B_\chi$ and $\ell\le M_\chi$. The condition on
+$c_2$ and $R_1$ bounds the order of $\theta$ by $2o_\chi\cdot16o_\chi(\ell N_\chi)^2\ell^{2\varphi(4o_\chi)}$
+(\lref{UpperTheory.V.HV.vsOrd}), hence $\ord\theta\cdot\ell\le n_0$. There is a field $L\subset\Omega$, abelian over $\Q$, containing a
+primitive $\ell$-th root of unity, of degree at most $\ell\ord\theta\le n_0$, embedding into $\Q(\zeta_{\ell N_h})$, with $\theta$ trivial on
+$\Gal(\Omega/L)$ (\lref{UpperTheory.V.HV.vsField}). Let $D$ be an $\ell$-datum of $L$. As in the proof of \cref{pf:vwin:countIV},
+$V_\ell(\theta,1)\le e_\OO\vwinsh(D,1)+[L:\Q]\,\nu(\ell,N_h,1)\,e_\OO$; by Poitou--Tate duality $\vwinsh(D,1)\le\vwinVL(D,1)$ ($L$ is totally
+imaginary; \lref{UpperTheory.V.PropA.shaLeV}); and by Lemma K, $\vwinVL(D,1)=\log\#H^2/\log\ell\le2\kappa(C_K,1,[L:\Q],|d_L|)$. Since $L$
+embeds into $\Q(\zeta_{\ell N_h})$, $\log|d_L|\le[L:\Q]\log(\ell N_h)$, so $\kappa(C_K,1,[L:\Q],|d_L|)\le(\ell N_h)^{(2n_0)^{C_K}(n_0+1)}$. With
+$\nu(\ell,N_h,1)\le2N_h$ this gives $V_\ell(\theta,1)<\infty$ and $\vwinVt_\ell(\theta,1)\le2(\ell N_h)^{(2n_0)^{C_K}(n_0+1)}+2n_0N_h$, and, as
+$\log\ell\le\ell$, $\vwinVt_\ell(\theta,1)\log\ell\le(\ell N_h)^C$.
+\end{proof}
+\subsubsection{Good primes}
+
+\begin{proposition}\label{pf:vwin:sumout}
+$\sfname{CountI}$, $\sfname{CountZ}$, $\sfname{CountII}$ and $\sfname{CountIII}$ imply $\Sigma_{\mathrm{good}}$.
+\formallabel{UpperTheory.V.HV.sumOut}
+\end{proposition}
+
+\begin{proof}
+Fix $\chi$. Let $C_1,r_1,r_2$ be the constants of $\sfname{CountI}$ and $C_Z,C_2,C_3$ those of $\sfname{CountZ}$,
+$\sfname{CountII}$, $\sfname{CountIII}$; put $K=\max(C_Z,C_2,C_3)$ and $C=C_1+3K+4$. Let $h$, $t$, $E$, $\Omega$, $(D_p)$ and $S$
+be as in $\Sigma_{\mathrm{good}}$, and put $M=N_ht\ge2$. Fix an algebraic closure $\Omega_0$ of $\Q$, and for each prime $\ell$ a
+coefficient ring $\OO_\ell$ containing the $\varphi(N_h)$-th roots of unity. Let $\ell\in S$, $0<j<t$ and
+$\theta\in\vwinX_h(\OO_\ell,j)$.
+
+\emph{Step 1.} If $(\ell,j)$ is not in case I, then $(\ell-1)\mid2j$, so $(\ell,j,\theta)$ is in case Z, II or III by
+\ref{pf:vwin:H-cases}, and $\ell\le2t$ by \ref{pf:vwin:H-bchi}. Hence $(\theta,j)$ is bounded by $(\ell N_hj)^{C'}$ with
+$C'\le K$, and $1\le\ell N_hj\le2t\cdot N_h\cdot t\le M^3$; so $V_\ell(\theta,j)<\infty$ and
+$\vwinVt_\ell(\theta,j)\log\ell\le M^{3K}$.
+
+\emph{Step 2.} If $(\ell,j)$ is in case I, $\sfname{CountI}$ applied to $L=\{\ell\}$ gives $V_\ell(\theta,j)<\infty$. Thus all
+$V_\ell(\theta,j)$ are finite.
+
+\emph{Step 3.} Since $\ell\nmid[(\Z/N_h)^\times:H_h]$ (\ref{pf:vwin:H-bchi}) and $E$ has level $(N_h,H_h)$, \ref{pf:vwin:R-red}
+gives $e_{\OO_\ell}\vwinplus(D_\ell,j)\le\sum_{\theta\in\vwinX_h(\OO_\ell,j)}V_\ell(\theta,j)$, and \ref{pf:vwin:R-sum} (with
+$b=0$) gives $\vwinplus(D_\ell,j)<\infty$ and
+\[
+\textstyle\sum_{j=1}^{t-1}\vwinplus(D_\ell,j)^\natural\le\sum_{j=1}^{t-1}\sum_{\theta\in\vwinX_h(\OO_\ell,j)}\vwinVt_\ell(\theta,j).
+\]
+
+\emph{Step 4.} Fix $0<j<t$ and split $S=S_{\mathrm I}\sqcup S'$, where $S_{\mathrm I}$ consists of the $\ell$ with $(\ell,j)$ in case I.
+By $\sfname{CountI}$, $\sum_{\ell\in S_{\mathrm I}}\log\ell\sum_\theta\vwinVt_\ell(\theta,j)\le M^{C_1}$. Every $\ell\in S'$ is at most
+$2t$, so $|S'|\le2t$; and for $\ell\in S'$, Step 1 and \ref{pf:vwin:R-card} give
+$\log\ell\sum_\theta\vwinVt_\ell(\theta,j)\le N_hM^{3K}$. Hence
+$\sum_{\ell\in S}\log\ell\sum_\theta\vwinVt_\ell(\theta,j)\le M^{C_1}+2t\,N_hM^{3K}=M^{C_1}+2M\cdot M^{3K}$.
+
+\emph{Step 5.} By Steps 3 and 4,
+$\sum_{\ell\in S}\log\ell\sum_{j=1}^{t-1}\vwinplus(D_\ell,j)^\natural\le t\,(M^{C_1}+2M\cdot M^{3K})\le M^{C_1+3K+4}$, using
+$t\le M$ and $M\ge2$.
+\end{proof}
+
+\subsubsection{Bad primes}
+
+\begin{proposition}\label{pf:vwin:sumin}
+$\sfname{CountII}$, $\sfname{CountV}$, $\sfname{CountV}'$ and $\mathrm{Count}_{\mathrm{IV}}$ imply $\Sigma_{\mathrm{bad}}$.
+\formallabel{UpperTheory.V.HV.sumIn}
+\end{proposition}
+
+\begin{proof}
+Fix $\chi$, $\ell\in B_\chi$ and $j$. Let $C_2,C_5,C_6$ be the constants of $\sfname{CountII}$, $\sfname{CountV}$,
+$\sfname{CountV}'$ for $\chi$, $C_4$ that of $\mathrm{Count}_{\mathrm{IV}}$ for $(\chi,\ell,j)$, $C_m=\max(C_2,C_5,C_6)$, and
+$C=C_4+2C_m+9+\ell N_\chi$. Let $h,t,B,E,\Omega,(D_p)$ be as in $\Sigma_{\mathrm{bad}}$, put $M=N_ht$ and choose a coefficient ring
+$\OO$ for $\ell$ containing the $\varphi(N_h)$-th roots of unity. By \ref{pf:vwin:H-bchi} and \ref{pf:vwin:H-index},
+$\ell<q_1,d$, $N_\chi\le N_h$, $16\le N_h$, $\ell\le N_h$ and $M\ge3$.
+
+Let $0<j'<t$ and $\theta\in\vwinX_h(\OO,j')$. By \ref{pf:vwin:H-cases}, $(\ell,j',\theta)$ is in case II, IV or V. In case II
+(by $\sfname{CountII}$) and in case V (by $\sfname{CountV}$ or $\sfname{CountV}'$, according as $R_1(h,\ell,\theta)\le2^{c_2(\theta)}$
+or not), $V_\ell(\theta,j')<\infty$ and $\vwinVt_\ell(\theta,j')\log\ell\le(\ell N_hj')^{C'}\le(M^2)^{C_m}$, since $\ell N_hj'\le M^2$.
+In case IV, $\theta$ belongs to the set $\mathcal O$ of characters $\theta$ trivial on $H_h$ with $\ord\theta^\flat$ odd and
+$\theta\in\vwinX_h(\OO,j'')$ for some $0<j''<t$; by $\mathrm{Count}_{\mathrm{IV}}$ (with the layer bound
+$\Lambda(\chi,\ell,j,t,B)$), $V_\ell(\theta,j')<\infty$, and every $\theta\in\mathcal O$ satisfies
+$\sum_{j'=1}^{t-1}\vwinVt_\ell(\theta,j')\le B+M^{C_4}$. By \ref{pf:vwin:H-odd} (note $\ell\ne q_1,d$) the characters in
+$\mathcal O$ have conductor dividing $N_\chi$, so $|\mathcal O|\le N_\chi$ by \ref{pf:vwin:R-card}.
+
+By \ref{pf:vwin:R-red}, for $0<j'<t$,
+$e_\OO\vwinplus(D_\ell,j')\le\sum_{\theta\in\vwinX_h(\OO,j')}(V_\ell(\theta,j')+e_\OO\lambda_{j'})$ with
+$\lambda_{j'}=\lambda(\ell,N_h,[(\Z/N_h)^\times:H_h],j')\le(N_hj')^6\le M^6$. Since all $\vwinX_h(\OO,j')$ lie in
+$\vwinX_h(\OO,0)\cup\vwinX_h(\OO,1)$, which has at most $N_h$ elements, \ref{pf:vwin:R-sum} gives the finiteness of
+$\vwinplus(D_\ell,j')$ and
+\[
+\textstyle\sum_{j'=1}^{t-1}\vwinplus(D_\ell,j')^\natural\le\sum_{j'=1}^{t-1}\sum_{\theta}\vwinVt_\ell(\theta,j')+N_h\,t\,M^6 .
+\]
+Multiply by $\log\ell$ and split the double sum according as $\theta\in\mathcal O$ or not: the first part is at most
+$\log\ell\cdot N_\chi(B+M^{C_4})$, the second at most $t\cdot N_h(M^2)^{C_m}$ (at most $N_h$ characters for each $j'$). Using
+$\log\ell\le\ell\le M$, $N_\chi\le M$, $t,N_h\le M$, $M\ge3$ and $\ell N_\chi\le C$, the total is at most $M^C+CB$; this is an
+elementary verification.
+\end{proof}
+
+\subsubsection{Assembly}
+
+\begin{proposition}\label{pf:vwin:point}
+$\Sigma_{\mathrm{bad}}$ and $\Sigma_{\mathrm{good}}$ imply $\mathrm{P}_0$.
+\formallabel{UpperTheory.V.HV.point}
+\end{proposition}
+
+\begin{proof}
+Fix $\chi$ and $j_\bullet$. Let $C_0,r_1,r_2$ be the constants of $\Sigma_{\mathrm{good}}$, let $C_\ell$ ($\ell\in B_\chi$) be those
+of $\Sigma_{\mathrm{bad}}$ for $(\chi,\ell,j_\ell)$, $D=\sum_{\ell\in B_\chi}C_\ell$, $b=|B_\chi|$ and $C=C_0+D+b+bD$. Let $h,t,B,E$ be as
+in $\mathrm{P}_0$, fix $\Omega$ and $p$-data, and put $M=N_ht\ge2$. Finiteness of $\vwinplus(D_p,j)$ for odd $p$ follows from
+$\Sigma_{\mathrm{bad}}$ applied to $\{p\}$ if $p\in B_\chi$ and from $\Sigma_{\mathrm{good}}$ applied to $\{p\}$ otherwise. For a finite
+set $S$ of odd primes, split $S$ into $S\cap B_\chi$ and $S\smallsetminus B_\chi$: the second part contributes at most $M^{C_0}$,
+and each $\ell$ in the first part at most $M^{C_\ell}+C_\ell B\le M^D+DB$. Hence the sum is at most
+$M^{C_0}+b(M^D+DB)\le M^C+CB$.
+\end{proof}
+
+\begin{proposition}\label{pf:vwin:thmhv}
+$\mathrm{P}_0$ implies $\mathrm{P}(K,C_t)$ for every constant package $K$ and every $C_t>0$.
+\formallabel{UpperTheory.V.HV.thmHV}
+\end{proposition}
+
+\begin{proof}
+Fix $\psi$ and apply $\mathrm{P}_0$ to $\chi=\psi$ and $j_\ell=\log_\ell R_\ell(L_\psi(\ell))+3$; this gives $C,r_1,r_2$. Let
+$\eps\in(0,\frac1{52})$ and $A_1$ be given, and put $X_0=2^{J_\psi}$ ($J_\psi>0$). Let $(m,t)$, $X\ge X_0$, $(q,d)$, a $K$-window
+$Y$ and $x\in[Y,Y^2]$ be as in $\mathrm{P}(K,C_t)$. Then $x\ge X^{1/J_\psi}\ge2$ and $x\le Y^2\le X$, so $m(x)\ge2$, $t(x)\ge2$ and
+$t(x)\le x^{C_t}\le X^{C_t}$. Hence $h=(\psi,m(x),q,d)$ is a host, and it is big for $t(x)$: $2t(x)+1<q,d$ because
+$q,d>2X^{C_t}+1$, and the other conditions are hypotheses of $\mathrm{P}(K,C_t)$; moreover $r_1,r_2<q,d$. With
+$B=e^{x^{4\eps/5}}\ge0$, the layer bounds $\Lambda(\psi,\ell,j_\ell,t(x),B)$ for $\ell\in B_\psi$ are exactly the statement
+$\mathrm{B}_b$ at $x$, which holds because $Y$ is a $K$-window. So $\mathrm{P}_0$ gives, for every CM field
+$E=E_{\psi,m(x),q,d}$, $\sfname{VVplusLe}(E,t(x),(N_ht(x))^C+CB)$, and $N_h=\cond(E)$ by \ref{pf:vwin:R-level}. This is
+\eqref{pf:vwin:hvat}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:hv}]
+By \ref{pf:vwin:C-IV} and \ref{pf:vwin:C-V}, $\mathrm{Count}_{\mathrm{IV}}$ and $\sfname{CountV}'$ hold. \Cref{pf:vwin:sumin,pf:vwin:sumout} give
+$\Sigma_{\mathrm{bad}}$ and $\Sigma_{\mathrm{good}}$, \cref{pf:vwin:point} gives $\mathrm{P}_0$, and \cref{pf:vwin:thmhv} gives
+$\mathrm{P}(K,C_t)$.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-plus}
+The hypothesis $\sfname{CountV}$ concerns only the sub-case $R_1\le2^{c_2}$ of case V; the complementary sub-case is
+covered by \ref{pf:vwin:C-V}, given Lemma K. Case IV needs no counting hypothesis: it is controlled by the layer bounds, i.e.\
+by \cref{thm:window:bab}(b).
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Iwasawa towers, the window, and the two-part}\label{sec:pf:vwin:towers}
+
+In this subsection we prove \cref{lem:window:tower} and \cref{thm:window:bab}. For a prime $\ell$ put $q_\ell=\ell$ if $\ell$
+is odd and $q_\ell=4$ if $\ell=2$. For $R\in\N$ let $j_0(\ell,R)=\log_\ell R+3$. For number fields $L_0\subset L_1$, $L_1/L_0$
+is a \emph{layer of degree $\ell^m$} if $L_1$ is generated over $L_0$ by $\ell^k$-th roots of unity for some $k$ and
+$[L_1:L_0]=\ell^m$.
+
+\subsubsection{Tower bounds}
+
+\begin{definition}[Tower bounds]\label{pf:vwin:abound}
+Let $\ell$ be a prime, $R\in\N$, $j_0=j_0(\ell,R)$, and $L_0$ a field.
+\begin{enumerate}[label=(\alph*)]
+\item The \emph{second bound} $\mathrm{S}(\ell,R,L_0)$: for every $j\ge1$, every layer $L_1/L_0$ of degree $\ell^m$, every
+layer $L_2/L_0$ of degree $\ell^{j_0}$, every algebraic closure of $L_2$ and every $\ell$-datum $D$ of $L_2$,
+$\vwinsh(L_1,\ell,j)\le\vwinVL(D,j)+R\cdot\max(m-j_0,0)$.
+\item $\sfname{ABound}(\ell,R,L_0)$: there are a normed field $K$ which is a normed $\Ql$-algebra with ultrametric norm,
+integers $c\ge0$ and $R'\le R$ with $\mu_{\ell^c}\subset L_0$, and points $s_1,\dots,s_{R'}\in K$ such that for every $j\ge1$,
+every layer $L_1/L_0$ of degree $\ell^m$ and every $B\in\N$ with $\|s_i-j\|\ge\ell^{-B}$ for all $i$,
+\[
+ \vwinsh(L_1,\ell,j)\le R'\bigl(\max(m,j_0)+c+B\bigr);
+\]
+and $\mathrm{S}(\ell,R,L_0)$ holds.
+\item The \emph{first bound} $\mathrm{F}(\ell,R,c,L_0,Z,\vwinexc)$, for $Z\in\N$ and a finite set $\vwinexc\subset\N$: $|\vwinexc|\le R$, and
+for every $1\le j\le Z$ with $j\notin\vwinexc$ and every layer $L_1/L_0$ of degree $\ell^m$,
+$\vwinsh(L_1,\ell,j)\le R(\max(m,j_0)+c+\log_\ell Z)$.
+\item For $\eta,C_t,x\in\R$ and a finite set $\vwinexc\subset\N$, $x$ is \emph{$(\eta,C_t)$-good for $\vwinexc$} if every
+$e\in\vwinexc$ with $e\le x^{C_t}$ satisfies $e\le x^\eta$.
+\item $\mathrm{Tow}(\ell,L,R)$: $L$ is a totally imaginary number field containing a primitive $q_\ell$-th root of unity,
+$R\ge1$, and the $\Zl$-module $\mathfrak X_\ell(G)$ of \cref{pf:vwin-he:dinf} (for $L_0=L$ and an algebraic closure of $L$) is
+generated by $R$ elements.
+\end{enumerate}
+\formallabel{UpperTheory.V.Win.SecondBound}
+\formallabel{UpperTheory.V.Win.ABound}
+\formallabel{UpperTheory.V.Win.FirstBound}
+\formallabel{UpperTheory.V.Win.Good}
+\formallabel{UpperTheory.V.Tower.IsTower}
+\end{definition}
+
+This is the notion of \cref{def:window:abound}; by \cref{pf:vwin-he:dinf}, $\mathfrak X_\ell(G)$ is the module $X'_\infty$ of
+\cref{lit:window:fw}, so $\mathrm{Tow}(\ell,L,R)$ says that $X'_\infty$ is generated by $R$ elements.
+
+\begin{theorem}[\cref{lem:window:tower}]\label{pf:vwin:tower}
+Assume Poitou--Tate duality and the local finiteness and duality statements over finite extensions of $\Ql$. If
+$\mathrm{Tow}(\ell,L_0,R)$ holds, then $\sfname{ABound}(\ell,R,L_0)$ holds, with $K=\Ql$, $R'=R$, points $s_i\in\Zl$, and $c$ the
+largest integer such that $\mu_{\ell^c}\subset L_0$.
+\formallabel{UpperTheory.V.PropA.aBound_of_isTower}
+\formallabel{UpperTheory.V.PropA.aBound_of_descends}
+\end{theorem}
+
+The proof is a combination of the descent formula of \cref{sec:pf:vwin-he}, which expresses $\vwinsh$ over a layer as the
+length of a cokernel on $\mathfrak X_\ell(G)$, with two estimates for such cokernels, one linear in the layer index (growth
+along the tower) and one in terms of the $\ell$-adic distance of the twist to finitely many ``centres''. The centres play the
+role of the zeros, in the variable of the twist, of the characteristic power series of $X'_\infty$ in Iwasawa's theory of
+$\Zl$-extensions \cite{Iwasawa1973}; no structure theory of Iwasawa modules is used, only that $\mathfrak X_\ell(G)$ is finitely
+generated over $\Zl$. The descent formula requires an element of the Galois group whose cyclotomic image topologically generates the
+image of the cyclotomic character; such elements exist by the following lemma.
+
+\begin{lemma}[Topological generators]\label{pf:vwin:gengal}
+Let $k\subset L$ be number fields, $\Omega$ an algebraic closure of $L$ (hence of $k$), $\ell$ a prime, $G_k=\Gal(\Omega/k)$ and
+$G_L=\Gal(\Omega/L)\subset G_k$, and let $\vwincyc$ be the cyclotomic character of $G_k$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:gengal-a} $G_L$ is closed in $G_k$.
+\item\label{pf:vwin:gengal-b} $L$ is procyclic at $\ell$ (in the sense of \cref{sec:pf:vwin-he}) if and only if $\ell$ is odd or
+$\vwincyc(G_L)\subset1+4\Z_2$.
+\item\label{pf:vwin:gengal-c} If $U\subset G_k$ is a closed subgroup and $\ell$ is odd or $\vwincyc(U)\subset1+4\Z_2$, there is $\gamma\in U$
+such that $\vwincyc(U)$ is contained in the closure of the group generated by $\vwincyc(\gamma)$. In particular, if $L$ is procyclic
+at $\ell$, such an element $\gamma$ exists in $U=G_L$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Tower.genGal}
+\formallabel{UpperTheory.V.Tower.existsGen}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin:gengal-a} $G_L$ is the stabilizer of finitely many generators of $L$ over $k$, hence an open subgroup of $G_k$ for
+the Krull topology; an open subgroup is closed, its complement being a union of cosets.
+\ref{pf:vwin:gengal-b} The cyclotomic character of $G_L$ is the restriction of that of $G_k$, since both describe the action on the
+$\ell$-power roots of unity in $\Omega$; so the condition defining procyclicity of $L$ is the stated one.
+\ref{pf:vwin:gengal-c} The group $U$ is compact, being closed in the compact group $G_k$, and $\vwincyc$ is continuous, so
+$V=\vwincyc(U)$ is a compact, hence closed, subgroup of $\Zl^\times$, contained in $1+4\Z_2$ if $\ell=2$. Such a subgroup contains
+an element $u$ such that $V$ is contained in the closure of the group generated by $u$ (\lref{UpperTheory.V.Kum.existsGen}: for
+$\ell$ odd, $\Zl^\times\cong\mu_{\ell-1}\times(1+\ell\Zl)$ with $1+\ell\Zl\cong\Zl$, and for $\ell=2$, $1+4\Z_2\cong\Z_2$, so the
+closed subgroups in question are topologically cyclic). Write $u=\vwincyc(\gamma)$ with $\gamma\in U$. The last assertion follows
+from \ref{pf:vwin:gengal-a} and \ref{pf:vwin:gengal-b}.
+\end{proof}
+
+\paragraph{Unipotent operators.} Let $X$ be a $\Zl$-module and $f$ an endomorphism. We write $f\in\ell^k$ if
+$f(X)\subset\ell^kX$, and $\vwincok(f)=\len_{\Zl}X/f(X)\in\N\cup\{\infty\}$. We say that $X$ is \emph{generated by $R$
+elements} if there is a surjection $\Zl^R\to X$, and that $g\in\End(X)$ is \emph{unipotent} if $(g-1)^N\in\ell$ for some $N$.
+
+\begin{lemma}\label{pf:vwin:unip}
+Let $X$ be generated by $R$ elements and let $g,h\in\End(X)$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:unip-a} If $g$ is unipotent, then $(g-1)^R\in\ell$.
+\item\label{pf:vwin:unip-b} For $k\ge0$, $(g-1)^{\ell^k}\in\ell$ if and only if $g^{\ell^k}-1\in\ell$.
+\item\label{pf:vwin:unip-c} If $h-1\in\ell^k$ then $h^b-1\in\ell^k$ for all $b\ge1$; if $h-1\in\ell$ then $h^\ell-1\in\ell^2$.
+\item\label{pf:vwin:unip-d} If $h-1\in\ell^2$, then $\ell X\subset(1+h+\dots+h^{\ell-1})(X)$ and
+$\vwincok(h^\ell-1)\le\vwincok(h-1)+R$.
+\item\label{pf:vwin:unip-e} If $m\le m'$, then $\vwincok(g^{\ell^m}-1)\le\vwincok(g^{\ell^{m'}}-1)$.
+\end{enumerate}
+\formallabel{UpperTheory.V.PropA.unipPow}
+\formallabel{UpperTheory.V.PropA.frob}
+\formallabel{UpperTheory.V.PropA.powIn}
+\formallabel{UpperTheory.V.PropA.phi}
+\formallabel{UpperTheory.V.PropA.step}
+\formallabel{UpperTheory.V.PropA.mono}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin:unip-a} $g-1$ preserves $\ell X$ and induces a nilpotent endomorphism $F$ of $X/\ell X$, a module of length at most
+$R$. A nilpotent endomorphism of a module of length $\le R$ satisfies $F^R=0$ (the chain $\ker F\subset\ker F^2\subset\cdots$
+increases strictly until it becomes stationary at the whole module). Hence $(g-1)^R(X)\subset\ell X$.
+
+\ref{pf:vwin:unip-b} In $\F_\ell[T]$ one has $(T-1)^{\ell^k}=T^{\ell^k}-1$, so $(T-1)^{\ell^k}-(T^{\ell^k}-1)=\ell Q(T)$ with
+$Q\in\Z[T]$, and $(g-1)^{\ell^k}-(g^{\ell^k}-1)=\ell Q(g)\in\ell$. The assertion follows since $f\in\ell$ and $f'-f\in\ell$ imply
+$f'\in\ell$.
+
+\ref{pf:vwin:unip-c} $h^b-1=(h-1)(1+h+\dots+h^{b-1})$ and the second factor preserves $\ell^kX$. If $h-1\in\ell$, then
+$1+h+\dots+h^{\ell-1}=\ell+\sum_{i<\ell}(h^i-1)\in\ell$, and the composite of two endomorphisms in $\ell$ lies in $\ell^2$.
+
+\ref{pf:vwin:unip-d} Let $S=1+h+\dots+h^{\ell-1}$. By \ref{pf:vwin:unip-c}, $h^i x\in x+\ell^2X$ for all $i$, so $Sx\in\ell x+\ell^2X$.
+Hence $\ell X\subset S(X)+\ell(\ell X)$, so the image of $\ell X$ in $X/S(X)$ equals $\ell$ times itself; being a finitely
+generated $\Zl$-module, it vanishes by Nakayama's lemma, i.e.\ $\ell X\subset S(X)$. Now $h^\ell-1=S(h-1)$, and the length of the
+cokernel of a composite is at most the sum of the lengths of the cokernels, so
+$\vwincok(h^\ell-1)\le\vwincok(S)+\vwincok(h-1)\le\len(X/\ell X)+\vwincok(h-1)\le R+\vwincok(h-1)$.
+
+\ref{pf:vwin:unip-e} $g^{\ell^{m'}}-1=(g^{\ell^m}-1)\circ P(g)$ for a polynomial $P$, so the image of $g^{\ell^{m'}}-1$ is contained
+in that of $g^{\ell^m}-1$.
+\end{proof}
+
+\begin{lemma}[Growth]\label{pf:vwin:growth}
+Let $X$ be generated by $R$ elements and $g\in\End(X)$ unipotent, and put $j_0=j_0(\ell,R)$. For all $m\ge0$,
+\[
+ \vwincok(g^{\ell^m}-1)\le\vwincok(g^{\ell^{j_0}}-1)+R\cdot\max(m-j_0,0) .
+\]
+\formallabel{UpperTheory.V.PropA.growth}
+\end{lemma}
+
+\begin{proof}
+Let $k=\log_\ell R+1$, so that $R<\ell^k$ and $j_0=k+2$. By \cref{pf:vwin:unip}\ref{pf:vwin:unip-a},
+$(g-1)^{\ell^k}=(g-1)^{\ell^k-R}(g-1)^R\in\ell$; by \ref{pf:vwin:unip-b}, $g^{\ell^k}-1\in\ell$; by \ref{pf:vwin:unip-c},
+$g^{\ell^{k+1}}-1\in\ell^2$ and then $g^{\ell^n}-1\in\ell^2$ for all $n\ge k+1$. By \ref{pf:vwin:unip-d} applied to
+$h=g^{\ell^n}$, $\vwincok(g^{\ell^{n+1}}-1)\le\vwincok(g^{\ell^n}-1)+R$ for $n\ge k+1$, and induction gives
+$\vwincok(g^{\ell^{j_0+d}}-1)\le\vwincok(g^{\ell^{j_0}}-1)+Rd$ for $d\ge0$. If $m\le j_0$ use \ref{pf:vwin:unip-e}.
+\end{proof}
+
+\paragraph{Centres.} Let $c\ge1$ ($c\ge2$ if $\ell=2$) and $u\in\Zl$ with $v_\ell(u-1)=c$. For an endomorphism $\gamma$ of $X$ and
+$e,m\in\N$ put $\tau(\gamma,u,e,m)=\vwincok((u^e\gamma)^{\ell^m}-1)$.
+
+\begin{lemma}\label{pf:vwin:centres}
+Let $X$ be generated by $R$ elements, $\gamma\in\End(X)$ unipotent, and $u$, $c$ as above. There are $s_1,\dots,s_R\in\Zl$ such
+that for all $e,m,B\in\N$ with $|s_i-e|_\ell\ge\ell^{-B}$ for all $i$,
+\[
+ \tau(\gamma,u,e,m)\le R\bigl(\max(m,j_0)+c+B\bigr);
+\]
+and for all $e,m\in\N$, $\tau(\gamma,u,e,m)\le\tau(\gamma,u,e,j_0)+R\max(m-j_0,0)$.
+\formallabel{UpperTheory.V.PropA.exists_centres_norm}
+\formallabel{UpperTheory.V.PropA.exists_centres}
+\formallabel{UpperTheory.V.PropA.exists_centres_level}
+\formallabel{UpperTheory.V.PropA.twLen_le_growth}
+\formallabel{UpperTheory.V.PropA.detBound}
+\formallabel{UpperTheory.V.PropA.ball}
+\formallabel{UpperTheory.V.PropA.lift}
+\end{lemma}
+
+\begin{proof}
+\emph{(i) The second inequality.} Since $\ell\mid u-1$, $\ell\mid u^e-1$, so $u^e\gamma$ is again unipotent
+($(u^e\gamma-1)^N$ is a combination of $(\gamma-1)^i$ and multiples of $u^e-1$; \lref{UpperTheory.V.PropA.twist}), and
+\cref{pf:vwin:growth} applies to $g=u^e\gamma$.
+
+\emph{(ii) Lifting.} Choose a surjection $\pi:\Zl^R\to X$ and a matrix $S\in M_R(\Zl)$ with $\pi\circ S=\gamma^{\ell^j}\circ\pi$
+(lift the images of the basis vectors). For $a\in\Zl$, $\pi\circ(aS-1)=(a\gamma^{\ell^j}-1)\circ\pi$, so
+$X/(a\gamma^{\ell^j}-1)X$ is a quotient of $\Zl^R/(aS-1)\Zl^R$, whose length is $v_\ell(\det(aS-1))$ (elementary divisors; both
+sides are infinite if the determinant vanishes). Hence $\vwincok(a\gamma^{\ell^j}-1)\le v_\ell(\det(aS-1))$.
+
+\emph{(iii) Factorization.} Let $\Qlbar$ carry the extension of $|\cdot|_\ell$. There are $z_1,\dots,z_R\in\Qlbar$ (the
+eigenvalues of $S$) with $\det(aS-1)=\prod_i(az_i-1)$ for all $a$.
+
+\emph{(iv) One eigenvalue.} The map $e\mapsto u^{\ell^je}$ satisfies $|u^{\ell^ja}-u^{\ell^jb}|=\ell^{-(j+c)}|a-b|$ for $a,b\in\N$
+(\lref{UpperTheory.V.PropA.lteNorm}; via the $\ell$-adic logarithm, $1+\ell^c\Zl\cong\ell^c\Zl$). For units $a,b$ of $\Zl$ and
+$z\in\Qlbar$ one has $|a-b|\le\max(|az-1|,|bz-1|)$: if $|z|\ne1$ both terms on the right are $\ge1$, and if $|z|=1$,
+$|a-b|=|az-bz|$. Hence the function $r(e)=\ell^{j+c}|u^{\ell^je}z-1|$ satisfies $|e-e'|\le\max(r(e),r(e'))$, i.e.\ the closed
+balls of radii $r(e)$ around the integers $e$ in $\Zl$ pairwise intersect. In the ultrametric compact space $\Zl$ such a
+family has a common point $s$ (\lref{UpperTheory.V.PropA.helly}): $|s-e|\le r(e)$, i.e.\
+$v_\ell(u^{\ell^je}z-1)\le j+c+v_\ell(s-e)$ for all $e\in\N$.
+
+\emph{(v) Level $j$.} Since $(u^e\gamma)^{\ell^j}=(u^{\ell^j})^e\gamma^{\ell^j}$, (ii)--(iv) give $s_1,\dots,s_R$ with
+$\tau(\gamma,u,e,j)\le\sum_i\bigl(j+c+v_\ell(s_i-e)\bigr)$ for all $e$.
+
+\emph{(vi) Conclusion.} Take $j=j_0$ in (v) and combine with (i): $\tau(\gamma,u,e,m)\le\sum_i(\max(m,j_0)+c+v_\ell(s_i-e))$.
+If $|s_i-e|\ge\ell^{-B}$ then $v_\ell(s_i-e)\le B$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:tower}]
+Let $G=\Gal(\overline{L_0}/L_0)$, $\mathfrak X=\mathfrak X_\ell(G)$, and let $c$ be the largest integer with $\mu_{\ell^c}\subset
+L_0$; then $c\ge1$, and $c\ge2$ if $\ell=2$. By \cref{pf:vwin-he:layers}, $\vwincyc(G)=1+\ell^c\Zl$, and every $u\in\Zl$ with
+$v_\ell(u-1)=c$ generates it topologically; hence there is $\gamma\in G$ such that $\vwincyc(G)$ is contained in the closure of
+the group generated by $u=\vwincyc(\gamma)$ and $v_\ell(u-1)=c$ (\lref{UpperTheory.V.PropA.genLevel}). Let $\gamma_{\mathfrak X}$
+be the action of $\gamma$ on $\mathfrak X$ (the action of \cref{pf:vwin-he:dinf} with $e=0$). Since $\mathfrak X$ is finitely generated
+and $\gamma\in G(1)$, $\gamma_{\mathfrak X}$ is unipotent (\lref{UpperTheory.V.PropA.xUnip}). By the descent formula
+\cref{pf:vwin-he:step0} (\lref{UpperTheory.V.Tower.step0}), for
+$e\ge1$ and every layer $L_1/L_0$ of degree $\ell^m$,
+\begin{equation}\label{pf:vwin:descent}
+ \vwinsh(L_1,\ell,e)=\vwincok\bigl((u^e\gamma_{\mathfrak X})^{\ell^m}-1\bigr)=\tau(\gamma_{\mathfrak X},u,e,m),
+\end{equation}
+because $\gamma$ acts on $\mathfrak X$ through the twisted action by $u^e\gamma_{\mathfrak X}$
+(\lref{UpperTheory.V.PropA.descends}). The first bound of $\sfname{ABound}$ now follows from \cref{pf:vwin:centres}, with
+$K=\Ql$, $R'=R$ and the points $s_i\in\Zl$ (for $s\in\Zl$ the norm in $\Ql$ is $|s-e|_\ell$). For the second bound let $L_2/L_0$ be a
+layer of degree $\ell^{j_0}$ and $D$ an $\ell$-datum of $L_2$. By \cref{pf:vwin:centres} and \eqref{pf:vwin:descent},
+$\vwinsh(L_1,\ell,e)\le\vwinsh(L_2,\ell,e)+R\max(m-j_0,0)$, and $\vwinsh(L_2,\ell,e)=\vwinsh(D,e)\le\vwinVL(D,e)$ by Poitou--Tate
+duality, since $L_2$ is totally imaginary (\lref{UpperTheory.V.PropA.shaLeV}).
+\end{proof}
+
+\subsubsection{Fixed fields and the two-part}
+
+\begin{definition}\label{pf:vwin:twobase}
+Let $M$ be an abelian datum and $(m_M;q,d)$ a prime pair. A number field $L_0$ is a \emph{$2$-base} for $(M,q,d)$ if $L_0$ contains
+$\mu_4$, $[L_0:\Q]\le8\deg M$, $L_0$ embeds into $\Q(\zeta_{4m_Mqd})$, and for every $k\ge2$ and every $E=E_{M,k,q,d}$ there is a layer
+$L_1/L_0$ of degree $2^{m'}$ with $m'\le k+2$ such that $\vwinsh(E,2,j)\le1+\vwinsh(L_1,2,j)$ for all $j\ge1$.
+\formallabel{UpperTheory.V.Win.TwoBase}
+\end{definition}
+
+\begin{proposition}\label{pf:vwin:fixedtwo}
+Assume the theorem of Ferrero--Washington in the form of \cref{lit:window:fw}, and that $\mathrm{Tow}(\ell,L,R)$ implies
+$\sfname{ABound}(\ell,R,L)$ for all $\ell,L,R$.
+\begin{enumerate}[label=(\alph*)]
+\item For every odd prime $\ell$, every abelian datum $A$ with $\ell\mid m_A$ and $H_A\subset\{a\equiv1\bmod\ell\}$, and every field
+$L_0$ of type $A$, there is $R$ with $\sfname{ABound}(\ell,R,L_0)$.
+\item For every abelian datum $M$ there is $R$ such that for every prime pair $(m_M;q,d)$ there is a $2$-base $L_0$ for $(M,q,d)$
+with $\sfname{ABound}(2,R,L_0)$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Two.fixedIn}
+\formallabel{UpperTheory.V.Two.twoIn}
+\formallabel{UpperTheory.V.Win.FixedIn}
+\formallabel{UpperTheory.V.Win.TwoIn}
+\end{proposition}
+
+\begin{proof}
+(a) Fields of type $A$ contain $\mu_\ell$ and are totally imaginary. By Ferrero--Washington, the $\ell$-ranks of the class groups of
+the fields $L_0(\mu_{\ell^n})$ are bounded; this bounds the number of generators of $\mathfrak X_\ell(G)$ (the Galois group of the
+maximal unramified abelian pro-$\ell$ extension of $L_0(\mu_{\ell^\infty})$ in which the places above $\ell$ split completely) by some
+$r$, uniformly for all fields of type $A$ (\lref{UpperTheory.V.Two.towerFixed}). Hence $\mathrm{Tow}(\ell,L_0,\max(1,r))$, and the
+hypothesis gives $\sfname{ABound}$.
+
+(b) Let $L_0$ be a field of type $M\vee M^{\mathrm{cyc}}_4\vee Q_q\vee Q_d$, the compositum of a field of type $M$ with $\Q(i)$ and
+the quadratic subfields $\Q(\sqrt{-q})$, $\Q(\sqrt{-d})$ of $\Q(\zeta_q)$, $\Q(\zeta_d)$ (the abelian datum $Q_p=(p,\text{squares})$). By
+\cref{pf:vwin:twobasethm} below, $L_0$ is a $2$-base and $\mathrm{Tow}(2,L_0,R)$ holds with $R=4(g+6\deg M)$, $g$ depending only on $M$; the
+hypothesis gives $\sfname{ABound}(2,R,L_0)$.
+\end{proof}
+
+For an abelian datum $A$ let $U_A\subset G_\Q$ be the subgroup fixing the fields of type $A$ in $\Omega$, $U_{A,\infty}=U_A\cap\ker\vwincyc$
+(for $\ell=2$), and for $N\ge1$ let $\mathcal C(A,N)$ be the $\F_2$-vector space of continuous homomorphisms $U_{A,\infty}\to\Z/2$ vanishing
+on the inertia groups at the places not dividing $N$ and on the decomposition groups above $2$. Let $A^{(i)}=M\vee M^{\mathrm{cyc}}_4$ and
+$A^{(q,d)}=A^{(i)}\vee Q_q\vee Q_d$.
+
+\begin{proposition}[The $2$-base]\label{pf:vwin:twobasethm}
+Let $M$ be an abelian datum.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:twobasethm-a} If $\#\mathcal C(A^{(i)},1)\le2^g$, then $\#\mathcal C(A^{(q,d)},1)\le2^{4(g+6\deg M)}$ for every prime pair $(m_M;q,d)$.
+\item\label{pf:vwin:twobasethm-b} Assume Ferrero--Washington. There is $R$ such that for every prime pair $(m_M;q,d)$ and every field $L$ of type
+$A^{(q,d)}$, $\mathfrak X_2(G)$ (for $L_0=L$) is generated by $R$ elements and $\mathrm{Tow}(2,L,R)$ holds.
+\item\label{pf:vwin:twobasethm-c} Every field of type $A^{(q,d)}$ is a $2$-base for $(M,q,d)$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Two.baseRk}
+\formallabel{UpperTheory.V.Two.towerTwo}
+\formallabel{UpperTheory.V.Two.twoBase}
+\end{proposition}
+
+\begin{proof}
+\ref{pf:vwin:twobasethm-a} Recall $q\equiv3\pmod8$, $d\equiv7\pmod{16}$, and $q,d$ are primes not dividing $2m_M$. Two steps enlarge
+$\mathcal C$. \emph{Allowing ramification at $p\in\{q,d\}$:} the inertia groups at $p$ lie in $U_{A^{(i)},\infty}$
+(\lref{UpperTheory.V.Two.ineTwo}), and $p$ has at most $c\deg M$ places in the fixed field of $U_{A^{(i)},\infty}$, with $c=2$ for $p=q$
+and $c=4$ for $p=d$: the decomposition group of $p$ in the cyclotomic $\Z_2$-extension has small index because of the congruences
+(\lref{UpperTheory.V.Two.orbTwo}). A homomorphism tamely ramified at these places is determined, modulo the unramified ones, by its
+values on one generator of each tame inertia group, so allowing ramification at $p$ multiplies the bound by at most $2^{c\deg M}$
+(\lref{UpperTheory.V.Two.charStep}). Hence $\#\mathcal C(A^{(i)},qd)\le2^{g+6\deg M}$. \emph{Adjoining $\Q(\sqrt{-p})$:} this replaces
+$U_{A,\infty}$ by a subgroup of index at most $2$, and the number of homomorphisms to $\Z/2$ with ramification allowed at $p$ is at most
+squared (\lref{UpperTheory.V.Two.quadStep}; a subgroup of index $2$ of a group with $r$ topological generators modulo squares
+has at most $2r$). Two such steps give $\#\mathcal C(A^{(q,d)},qd)\le2^{4(g+6\deg M)}$, and $\mathcal C(A^{(q,d)},1)\subset\mathcal C(A^{(q,d)},qd)$.
+
+\ref{pf:vwin:twobasethm-b} Fields of type $A^{(i)}$ contain $\mu_4$; by Ferrero--Washington there is $g$ with $\#\mathcal C(A^{(i)},1)\le2^g$ for
+all $\Omega$ (\lref{UpperTheory.V.Two.abRk}). By \ref{pf:vwin:twobasethm-a}, $\#\mathcal C(A^{(q,d)},1)\le2^R$ with $R=4(g+6\deg M)$.
+$\mathcal C(A^{(q,d)},1)$ is the $\F_2$-dual of $\mathfrak X_2(G)/2\mathfrak X_2(G)$, so by Nakayama's lemma $\mathfrak X_2(G)$ is generated by
+$R$ elements (\lref{UpperTheory.V.Two.genLE_of_abRk}); and $L$ is totally imaginary and contains $\mu_4$, so $\mathrm{Tow}(2,L,R)$ holds.
+
+\ref{pf:vwin:twobasethm-c} A field $L$ of type $A^{(q,d)}$ contains $\mu_4$, has degree at most $8\deg M$ and embeds into
+$\Q(\zeta_{4m_Mqd})$ (\lref{UpperTheory.V.Two.abBasic}). Let $k\ge2$, $E=E_{M,k,q,d}$ and $L_1=L(\mu_{2^{k+2}})$, a layer of degree $2^{m'}$
+with $m'\le k+2$ (\lref{UpperTheory.V.Two.layerFn}). The Galois group of $\Omega/L_1$ is contained in that of $\Omega/E$ with index dividing
+$2$ (\lref{UpperTheory.V.Two.compIndex}: both are described by conditions on the cyclotomic character and the characters defining $M$,
+$Q_q$, $Q_d$), and restriction to a subgroup of index at most $2$ has kernel of length at most $1$ on $\Sha_D(j)$, $\ell=2$
+(\lref{UpperTheory.V.Two.shaTwo}). Hence $\vwinsh(E,2,j)\le1+\vwinsh(L_1,2,j)$.
+\end{proof}
+
+\subsubsection{The window}
+
+\begin{lemma}[\cref{lem:window:window}]\label{pf:vwin:window}
+Let $R\in\N$, $0<\eta\le C_t$, $X>1$ and $\vwinexc\subset\N$ a finite set with $|\vwinexc|\le R$. There is
+$Y\in\mathrm{W}_J(X)$ with $J=2^{R+2}(C_t/\eta)^R$ such that every $x\in[Y,Y^2]$ is $(\eta,C_t)$-good for $\vwinexc$.
+\formallabel{UpperTheory.V.Win.window}
+\formallabel{UpperTheory.V.Win.window1}
+\end{lemma}
+
+\begin{proof}
+We first show by induction on $R$: \emph{for $\rho\ge1$, $U>0$ and a finite set $T\subset\R$ with $|T|\le R$ there is $y$ with
+$U/(2^{R+2}\rho^R)\le y$, $2y\le U$, and such that $a\in T$, $y\le s\le2y$ and $a\le s$ imply $\rho a\le s$.} For $R=0$ take
+$y=U/2$. For the inductive step, if some $a_0\in T$ satisfies $U/(2\rho)<a_0\le U$, apply the induction hypothesis to
+$U/(2\rho)$ and $T\smallsetminus\{a_0\}$; the resulting $y$ satisfies $2y\le U/(2\rho)<a_0$, so $a_0$ never satisfies $a_0\le s\le2y$,
+and $U/(2^{R+3}\rho^{R+1})=(U/(2\rho))/(2^{R+2}\rho^R)\le y$. Otherwise take $y=U/2$: if $a\in T$ and $a\le s\le U$, then
+$a\le U/(2\rho)$, so $\rho a\le U/2\le s$.
+
+Apply this with $\rho=C_t/\eta$, $U=\log X$ and $T=\{\log e/C_t:e\in\vwinexc\}$ (with $\log 0$ read as any real; $e=0$ is harmless
+below), and put $Y=e^y$. Then $Y^2=e^{2y}\le X$ and $X^{1/J}=e^{U/J}\le e^y=Y$. Let $x\in[Y,Y^2]$ and $e\in\vwinexc$ with
+$0<e\le x^{C_t}$; with $s=\log x\in[y,2y]$ and $a=\log e/C_t\le s$ we get $\rho a\le s$, i.e.\ $\log e/\eta\le\log x$, i.e.\
+$e\le x^\eta$. For $e=0$ the conclusion $0\le x^\eta$ is trivial.
+\end{proof}
+
+\subsubsection{Bounds at a point and the proof of the two-part theorem}
+
+\begin{lemma}\label{pf:vwin:point2}
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:p2-exc} If $\sfname{ABound}(\ell,R,L_0)$ holds, there is $c$ with $\mu_{\ell^c}\subset L_0$ such that for every
+$Z\in\N$ there is a finite set $\vwinexc$ with $\mathrm{F}(\ell,R,c,L_0,Z,\vwinexc)$.
+\item\label{pf:vwin:p2-pt} Let $C_K>0$ with $\sfname{LemmaK}(C_K)$, $L_0$ a field containing $\mu_{q_\ell}$ with
+$\mathrm{S}(\ell,R,L_0)$ and $\mathrm{F}(\ell,R,c,L_0,Z,\vwinexc)$, $L_2/L_0$ a layer of degree $\ell^{j_0}$ with $[L_2:\Q]\le n_0$, and
+$\eps>0$, $c_0\ge0$, $x\ge1$ such that $x$ is $(\eps/(2C_K),C_t)$-good for $\vwinexc$ and $\log(2|d_{L_2}|)\le c_0x^{\eps/4}$.
+Then for $1\le e\le Z$ with $e\le x^{C_t}$ and every layer $L_1/L_0$ of degree $\ell^m$, $\vwinsh(L_1,\ell,e)$ is finite and
+\[
+ \vwinsh(L_1,\ell,e)\le R\bigl(m+j_0+c+\log_\ell Z\bigr)+2\exp\bigl((2n_0)^{C_K}c_0x^{3\eps/4}\bigr).
+\]
+\end{enumerate}
+\formallabel{UpperTheory.V.Win.exc}
+\formallabel{UpperTheory.V.Win.point}
+\formallabel{UpperTheory.V.Win.point2}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin:p2-exc} Take the data $K,c,R',s_i$ of $\sfname{ABound}$. Let $\vwinexc_i$ be the set of $1\le e\le Z$ with
+$\|s_i-e\|<\ell^{-\log_\ell Z}$ and $\vwinexc=\bigcup_i\vwinexc_i$. Each $\vwinexc_i$ has at most one element: two distinct
+$e,e'\le Z$ satisfy $\|e-e'\|=|e-e'|_\ell\ge\ell^{-\log_\ell Z}$, since $|e-e'|<\ell^{\log_\ell Z+1}$, while two elements of
+$\vwinexc_i$ would be at distance $<\ell^{-\log_\ell Z}$ by the ultrametric inequality (\lref{UpperTheory.V.Win.near1}). So
+$|\vwinexc|\le R'\le R$, and for $e\notin\vwinexc$ the first bound of $\sfname{ABound}$ applies with $B=\log_\ell Z$.
+
+\ref{pf:vwin:p2-pt} If $e\notin\vwinexc$, use the first bound. If $e\in\vwinexc$, then $e\le x^{\eps/(2C_K)}$ by goodness. Let $D$ be an
+$\ell$-datum of $L_2$ (it exists, and $L_2$ contains $\mu_{q_\ell}$ and is totally imaginary). By Lemma K, $H^2(G_{L_2,S_\ell},\Zl(e+1))$
+is finite with $\log\#H^2\le\exp((2e[L_2:\Q])^{C_K}\log(2|d_{L_2}|))\le\exp((2n_0)^{C_K}x^{\eps/2}\cdot c_0x^{\eps/4})$, so
+$\vwinVL(D,e)=\log\#H^2/\log\ell\le2\exp((2n_0)^{C_K}c_0x^{3\eps/4})$. The second bound gives
+$\vwinsh(L_1,\ell,e)\le\vwinVL(D,e)+R\max(m-j_0,0)$.
+\end{proof}
+
+For an abelian datum $M$ let $\mathrm{B}_a$ be as in \cref{pf:vwin:stmtdef}\ref{pf:vwin:stmt-bab}.
+
+\begin{lemma}\label{pf:vwin:parts-ab}
+Let $C_K>0$ with $\sfname{LemmaK}(C_K)$, $J>0$, $C_t\ge0$, $\eps>0$ and $A_1\in\R$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:ab-two} Let $M$ be an abelian datum and $R\in\N$. There is $x_0$ such that for every $(A_1,C_t)$-admitted $(m,t)$, every
+$X$, every prime pair $(m_M;q,d)$ with $\log(qd)\le X^{\eps/(4J)}$ and every $2$-base $L_0$ for $(M,q,d)$ with $\sfname{ABound}(2,R,L_0)$,
+there is a set $\vwinexc$ with $|\vwinexc|\le R$ such that $\mathrm{B}_a(M,\eps,m,t,q,d,x)$ holds for every $x\ge x_0$ with
+$X^{1/J}\le x\le X$ which is $(\eps/(2C_K),C_t)$-good for $\vwinexc$.
+\item\label{pf:vwin:ab-bad} Let $\ell$ be an odd prime, $R\in\N$, $A$ an abelian datum with $\ell\mid m_A$ and $H_A\subset\{a\equiv1\bmod\ell\}$, and
+suppose that some field $L_0$ of type $A$ satisfies $\sfname{ABound}(\ell,R,L_0)$. There is $x_0$ such that for every admitted $(m,t)$ and
+every $X$ there is a set $\vwinexc$ with $|\vwinexc|\le R$ such that for every $x\ge x_0$ with $X^{1/J}\le x\le X$ which is
+$(\eps/(2C_K),C_t)$-good for $\vwinexc$, every field $L_0'$ of type $A$ and every layer $L_1/L_0'$ of degree $\ell^{j_0(\ell,R)}$ satisfy
+$\sfname{VVat}(\ell,L_1,t(x),\exp(x^{4\eps/5}))$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Win.partA}
+\formallabel{UpperTheory.V.Win.partB}
+\end{lemma}
+
+\begin{proof}
+Both parts rest on \cref{pf:vwin:point2}\ref{pf:vwin:p2-pt} with $Z=\lfloor X^{C_t}\rfloor$ and the following elementary facts
+(\lref{UpperTheory.V.Win.logs}, \lref{UpperTheory.V.Win.final}, \lref{UpperTheory.V.Win.vvat}): if $X^{1/J}\le x$, then
+$\log_\ell\lfloor X^{C_t}\rfloor\le2C_tJ\log x$ and $X^{\eps/(4J)}\le x^{\eps/4}$; if $2^m\le x^{A_1}$ then $m+2\le(2|A_1|+2)(1+\log x)$; for
+every $C$ there is $x_0$ with $x^{C_t}\bigl(C(1+\log x)+2\exp(Cx^{3\eps/4})\bigr)\le\exp(x^{4\eps/5})$ for $x\ge x_0$; and if
+$\vwinsh(E,\ell,e)$ is finite and at most $b$ for $1\le e<t$, then $\sfname{VVat}(\ell,E,t,Tb)$ for every $T\ge t$.
+
+\ref{pf:vwin:ab-two} Let $L_0$ be a $2$-base. Its degree is at most $8\deg M$, so $\mu_{2^c}\subset L_0$ implies $2^c\le2[L_0:\Q]$ and $c\le16\deg M$
+(\lref{UpperTheory.V.Win.rootdeg}). Let $L_2/L_0$ be a layer of degree $2^{j_0}$. Since $L_0$ embeds into $\Q(\zeta_{4m_Mqd})$ and has bounded
+degree, there are $n_0$ and $c_0$, depending only on $M$ and $R$, with $[L_2:\Q]\le n_0$ and $\log(2|d_{L_2}|)\le c_0w$ whenever
+$\log(qd)\le w$ and $w\ge1$ (\lref{UpperTheory.V.Win.layerdisc}); we use $w=x^{\eps/4}$. Let $\vwinexc$ be given by
+\cref{pf:vwin:point2}\ref{pf:vwin:p2-exc} for $Z=\lfloor X^{C_t}\rfloor$. For $E=E_{M,m(x),q,d}$, the $2$-base property gives a layer $L_1/L_0$ of
+degree $2^{m'}$, $m'\le m(x)+2\le(2|A_1|+2)(1+\log x)$, with $\vwinsh(E,2,e)\le1+\vwinsh(L_1,2,e)$. By \cref{pf:vwin:point2}\ref{pf:vwin:p2-pt}, for
+$1\le e<t(x)$ (note $e\le x^{C_t}\le X^{C_t}$),
+$1+\vwinsh(L_1,2,e)\le C(1+\log x)+2\exp(Cx^{3\eps/4})$ for a constant $C$ depending on $M,R,J,C_t,\eps,A_1,C_K$. Summing over $e<t(x)\le x^{C_t}$
+and using the third fact gives $\sfname{VVat}(2,E,t(x),\exp(x^{4\eps/5}))$ for $x\ge x_0$.
+
+\ref{pf:vwin:ab-bad} The same argument with the layer $L_2=L_1$ of degree $\ell^{j_0}$ over the fixed field $L_0$: $n_0=[L_2:\Q]$ and
+$c_0=\log(2|d_{L_2}|)$ are constants, and $m=j_0$. Fields of type $A$ are isomorphic, and so are their layers of a given degree
+(\lref{UpperTheory.V.Win.abiso}, \lref{UpperTheory.V.Win.layeriso}); since $\vwinsh$ is invariant under isomorphism, the bound
+for $L_0$ gives the bound for every $L_0'$.
+\end{proof}
+
+\begin{theorem}[\cref{thm:window:bab}]\label{pf:vwin:bab}
+Poitou--Tate duality, the local finiteness and duality statements over finite extensions of $\Ql$, the theorem of
+Ferrero--Washington (\cref{lit:window:fw}) and the existence of $C_K$ with $\sfname{LemmaK}(C_K)$ imply: there is a constant package
+$K$ such that $\mathrm{B}(K,C_t)$ holds for every $C_t\ge1$.
+\formallabel{UpperTheory.V.Win.thmBab_of_lemmaK}
+\formallabel{UpperTheory.V.Win.thmBab_of}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:vwin:tower}, $\mathrm{Tow}(\ell,L,R)$ implies $\sfname{ABound}(\ell,R,L)$, so \cref{pf:vwin:fixedtwo} applies. Replacing $C_K$ by
+$\max(C_K,1)$ we may assume $C_K\ge1$, since $\sfname{LemmaK}(C)$ implies $\sfname{LemmaK}(C')$ for $C\le C'$
+(\lref{UpperTheory.V.Win.kmono}). Define the constant package $K$ by: $R_0(M)$ an integer $R$ as in
+\cref{pf:vwin:fixedtwo}(b); $R_\ell(A)$ an integer $R$ with $\sfname{ABound}(\ell,R,L_0)$ for some field $L_0$ of type $A$ if there is one
+(and $0$ otherwise); and $C_K$.
+
+Let $C_t\ge1$, and let $M$, $B'$, $L(\cdot)$, $\eps$ and $A_1$ be as in $\mathrm{B}(K,C_t)$. Put $R=R_0(M)+\sum_{\ell\in B'}R_\ell(L(\ell))$ and
+$J=2^{R+2}(2C_KC_t/\eps)^R>0$. Let $x_A$ be given by \cref{pf:vwin:parts-ab}\ref{pf:vwin:ab-two} for $(M,R_0(M))$, and for $\ell\in B'$ let $x_\ell$ be
+given by \ref{pf:vwin:ab-bad} for $(\ell,R_\ell(L(\ell)),L(\ell))$ if a field of type $L(\ell)$ exists (if none exists, the statement $\mathrm{B}_b$
+for $\ell$ is empty). Put $x_1=\max(1,x_A,\sum_\ell|x_\ell|)$ and $X_0=\max(2,x_1^J)$.
+
+Let $(m,t)$ be admitted, $X\ge X_0$, and $(m_M;q,d)$ a prime pair with $\log(qd)\le X^{\eps/(4J)}$. Then $x_1\le X^{1/J}$. Let $L_0$ be a $2$-base
+for $(M,q,d)$ with $\sfname{ABound}(2,R_0(M),L_0)$, and let $\vwinexc_A$ and $\vwinexc_\ell$ ($\ell\in B'$) be the exceptional sets of
+\cref{pf:vwin:parts-ab}. Their union $\vwinexc$ has at most $R$ elements. Put $\eta=\eps/(2C_K)$; then $0<\eta\le1\le C_t$. By
+\cref{pf:vwin:window}, applied with $J'=2^{R+2}(C_t/\eta)^R=J$, there is $Y\in\mathrm{W}_J(X)$ such that every $x\in[Y,Y^2]$ is
+$(\eta,C_t)$-good for $\vwinexc$, hence for each of the sets $\vwinexc_A,\vwinexc_\ell$. For such $x$ we have $X^{1/J}\le x\le X$ and
+$x\ge x_1$, so \cref{pf:vwin:parts-ab} gives $\mathrm{B}_a$ and $\mathrm{B}_b$ at $x$. Hence $Y$ is a $K$-window.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-window}
+The window is forced by the exceptional twists: for $e\in\vwinexc$ only the second bound, which goes through Lemma K and is
+doubly exponential in $[L_2:\Q]$ and polynomial in $e^{C_K}$, is available; it is harmless only when $e\le x^{\eps/(2C_K)}$. The
+pigeonhole argument of \cref{pf:vwin:window} produces scales $x$ at which no exceptional twist lies in $(x^{\eta},x^{C_t}]$.
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The trivial character}\label{sec:pf:vwin:Z}
+
+For a prime $\ell$, a coefficient ring $\OO$, an algebraic closure $\Omega$ of $\Q$ and $j\ge1$, let $W_j=\OO\otimes\vwinQZ$ with
+$G_\Q$ acting through $\vwincyc^{-j}$, and let $\Sha_\ell(\Q,W_j)\subset H^1(G_\Q,W_j)$ be the group of classes vanishing on all
+inertia groups and on the decomposition groups of the places above $\ell$; thus $V_\ell(1,j)\le\len_\OO\Sha_\ell(\Q,W_j)$ for every
+host, since the conditions at the primes dividing $N_h$ only shrink the group (\lref{UpperTheory.V.Chr.V'_le_V}).
+
+\begin{proposition}[\cref{prop:window:propZ}]\label{pf:vwin:propZ}
+Let $\ell\ge5$ be prime and $j\ge2$ even with $(\ell-1)\mid2j$. Then $\Sha_\ell(\Q,W_j)=0$ for every coefficient ring $\OO$ and every
+$\Omega$. Consequently $\sfname{CountZ}$ holds, with the constant $C=0$.
+\formallabel{UpperTheory.V.X.propZ}
+\formallabel{UpperTheory.V.HV.countZ}
+\end{proposition}
+
+The proof distinguishes the cases $(\ell-1)\mid j$ and $(\ell-1)\nmid j$; in the second case $j\equiv\frac{\ell-1}2\pmod{\ell-1}$. Both use
+the following control theorem. For a number field $k$, a closed subgroup $H\subset G_k$ and a discrete $G_k$-module $M$, let
+$H^1_\Sha(H,M)\subset H^1(H,M)$ be the group of classes whose restrictions to $H\cap I_A$ for all valuation rings $A$ of $\Omega$, and to
+$H\cap D_A$ for $A$ above $\ell$, vanish; thus $H^1_\Sha(G_\Q,W_j)=\Sha_\ell(\Q,W_j)$.
+
+\begin{proposition}[Control]\label{pf:vwin:control}
+Let $k$ be a number field, $\OO$ a coefficient ring, $U\subset G_k$ an open normal subgroup such that $\ell$ is odd or
+$\vwincyc(U)\subset1+4\Z_2$, $\psi:G_k\to\OO^\times$ a character trivial on $U$, $n\ne0$, and $W=\OO\otimes\vwinQZ$ with $G_k$ acting through
+$\psi\vwincyc^n$. Let $U_\infty=U\cap\ker\vwincyc$. Then restriction $H^1_\Sha(U,W)\to H^1_\Sha(U_\infty,W)$ is injective, and its image is the
+group of classes fixed by the conjugation action of $U$.
+\formallabel{UpperTheory.V.Base.control}
+\formallabel{UpperTheory.V.Base.controlGamma}
+\end{proposition}
+
+\begin{proof}
+\emph{Case 1: $\vwincyc(U)\subset1+q_\ell\Zl$.} Since $U$ is open, $\vwincyc(U)$ is open in $\Zl^\times$, so $U\not\subset\ker\vwincyc$, and the
+same holds for $U\cap D_A$ for every $A$ above $\ell$ (\lref{UpperTheory.V.Base.decInf}). There are a continuous surjection
+$\kappa:U\to\Zl$ with kernel $U_\infty$ and $\gamma\in U$ with $\kappa(\gamma)=1$ and $\vwincyc(\gamma)$ of infinite order
+(\lref{UpperTheory.V.Base.gammaGen}; as in \cref{pf:vwin:gengal}, $\vwincyc(U)\subset1+q_\ell\Zl\cong\Zl$ is procyclic and torsion-free).
+\emph{Injectivity.} $U$ acts on $W$ through $\vwincyc^n$, and $U_\infty$ acts trivially. If the restriction of a cocycle $z$ to $U_\infty$ is a
+coboundary, we may assume that it vanishes on $U_\infty$. As $\vwincyc(\gamma)^n\ne1$, $m\mapsto\gamma m-m$ is multiplication by a non-zero
+element of $\OO$, hence surjective on the divisible module $W$; and $\vwincyc(U)$ is contained in the closure of the group generated by
+$\vwincyc(\gamma)$. By \cref{pf:vwin-he:cob} (for $\Gamma=U$ and $\omega=\vwincyc|_U$), $z$ is a coboundary.
+\emph{Image.} Restrictions of classes of $U$ are fixed by $U$. Conversely, a $U$-invariant class of $U_\infty$ is the restriction of a class $y$
+of $U$, because $U/U_\infty\cong\Zl$ is free pro-$\ell$ and $W$ is $\ell$-power torsion (\lref{UpperTheory.V.Base.resZl}). If the
+given class satisfies the local conditions, so does $y$: for $A$ not above $\ell$, $\vwincyc$ is trivial on $I_A$, so $U\cap I_A\subset U_\infty$
+and the condition is inherited; for $A$ above $\ell$, the restriction of $y$ to $U\cap D_A$ vanishes on $U_\infty\cap D_A$, and the
+injectivity argument applied to the open subgroup $U\cap D_A$ of $D_A$ (whose image under $\vwincyc$ is again open in $1+q_\ell\Zl$) shows
+that it vanishes.
+
+\emph{Case 2: $\ell$ odd.} Let $V=U\cap\ker(\vwincyc\bmod\ell)$, an open normal subgroup of $G_k$ with $\vwincyc(V)\subset1+\ell\Zl$, $V\cap\ker
+\vwincyc=U_\infty$, and $[U:V]$ dividing $\ell-1$, hence a unit in $\OO$. By restriction and corestriction, restriction from $U$ to $V$ is
+injective on $H^1_\Sha$, with image the $U$-invariant classes (\lref{UpperTheory.V.Base.selUnit}: the composite of corestriction and
+restriction is multiplication by $[U:V]$ on $U$-invariant classes, and the local conditions are inherited because the relative indices of
+$V\cap D$ in $U\cap D$ divide $[U:V]$). Composing with Case 1 for $V$ gives the claim for $U$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin:zone}
+Let $\ell$ be odd and $j\ge1$ with $(\ell-1)\mid j$. Then $\Sha_\ell(\Q,W_j)=0$.
+\formallabel{UpperTheory.V.X.zOne}
+\end{lemma}
+
+\begin{proof}
+Write $\rho$ for the action on $W=W_j$. Since $\vwincyc(g)^{-j}\equiv1\pmod\ell$ for all $g$ (as $(\ell-1)\mid j$), $\rho$ is trivial on
+the $\ell$-torsion $W[\ell]$, and it is trivial on all of $W$ on the kernel of $\vwincyc$. We use two inputs.
+\begin{enumerate}[label=(\roman*)]
+\item (Control; \cref{pf:vwin:control} for $k=\Q$, $U=G_\Q$, $\psi=1$, $n=-j$.) Restriction from $G_\Q$ to the closed subgroup
+$\ker\vwincyc$ is injective on $\Sha_\ell(\Q,W)$.
+\item (Kronecker--Weber; \lref{UpperTheory.V.X.kwl}.) Every continuous homomorphism $f:G_\Q\to\Z/\ell$ which vanishes on the inertia
+groups of all places not above $\ell$ vanishes on $\Gal(\Omega/\Q(\mu_{\ell^2}))$: the field cut out by $f$ is abelian and unramified
+outside $\ell$, hence contained in some $\Q(\mu_{\ell^{n}})$, and a cyclic extension of degree $\ell$ inside $\Q(\mu_{\ell^\infty})$ is
+contained in $\Q(\mu_{\ell^2})$.
+\end{enumerate}
+Let $x\in\Sha_\ell(\Q,W)$ with $\ell x=0$, represented by a cocycle $z$. Then $\ell z=\rho(\cdot)m-m$ for some $m\in W$; choose $m'$ with
+$\ell m'=m$ ($W$ is divisible) and put $z'(g)=z(g)-(\rho(g)m'-m')$. Then $\ell z'=0$, so $z'$ takes values in $W[\ell]$, on which $\rho$
+is trivial; hence $z'$ is a continuous homomorphism. At a place $A$ not above $\ell$, $\vwincyc$ and hence $\rho$ are trivial on the
+inertia group, and $z$ is a coboundary there, so $z$ and $z'$ vanish on the inertia group. Applying (ii) to the compositions of $z'$
+with all homomorphisms $W[\ell]\to\Z/\ell$ (which separate points of $W[\ell]$) shows that $z'$ vanishes on
+$\Gal(\Omega/\Q(\mu_{\ell^2}))\supset\ker\vwincyc$. On $\ker\vwincyc$ the action is trivial, so $z$ restricted to $\ker\vwincyc$ is zero,
+and $x=0$ by (i). Thus $\Sha_\ell(\Q,W)$ has no non-zero element killed by $\ell$. Every element is killed by a power of $\ell$, since
+cocycles are locally constant and $W$ is $\ell$-power torsion; so $\Sha_\ell(\Q,W)=0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:propZ}]
+If $(\ell-1)\mid j$, apply \cref{pf:vwin:zone}. Otherwise $(\ell-1)\mid2j$ and $(\ell-1)\nmid j$, $j$ is even and $\ell\ge5$, and the
+vanishing is \cref{pf:vwin:zquad} below.
+
+For $\sfname{CountZ}$: let $h$ be a host with character $\chi$, big for $t$, $\ell$ odd, $0<j<t$ and $\theta\in\vwinX_h(\OO,j)$ in case Z,
+i.e.\ $\ell\notin B_\chi$, $(\ell-1)\mid2j$ and $\theta=1$. Then $\ell\ne3$ because $3\in B_\chi$, so $\ell\ge5$; $j$ is even because
+$\theta=1$ satisfies $\theta(-1)=(-1)^j$ and $2\ne0$ in $\OO$; and $j\ge2$. Hence $V_\ell(1,j)\le\len_\OO\Sha_\ell(\Q,W_j)=0$, and $(\theta,j)$
+is bounded by $(\ell N_hj)^0$.
+\end{proof}
+
+\begin{lemma}[The quadratic case]\label{pf:vwin:zquad}
+Let $\ell\ge5$ be prime and $j\ge2$ even with $(\ell-1)\mid2j$ and $(\ell-1)\nmid j$. Then $\Sha_\ell(\Q,W_j)=0$ for every coefficient
+ring $\OO$ and every $\Omega$.
+\formallabel{UpperTheory.V.X.zQuad}
+\end{lemma}
+
+\begin{proof}
+Let $\alpha=\vwincyc^{-j}:G_\Q\to\OO^\times$ be the action on $W=W_j$, and write $\bar x$ for the reduction modulo $\ell$ of $x\in\Zl$.
+
+\emph{(1) Arithmetic of $j$.} Write $\ell=2n+1$. Then $n\mid j$, say $j=nk$; $k$ is odd since $(\ell-1)\nmid j$, so $n$ is even as $j$ is,
+i.e.\ $\ell\equiv1\pmod4$ and $\frac{\ell-1}2\mid j$. Let $u\in\Zl^\times$ reduce to a generator of $\F_\ell^\times$; then $\bar u^j\ne1$.
+
+\emph{(2) The quadratic field.} As $\ell\equiv1\pmod 4$, a square root $s\in\Omega$ of $\ell$ lies in $\Q(\mu_\ell)$ (quadratic Gauss
+sum), and $g\in G_\Q$ fixes $s$ iff $\overline{\vwincyc(g)}$ is a square in $\F_\ell^\times$, i.e.\
+$\overline{\vwincyc(g)}^{(\ell-1)/2}=1$ (Euler's criterion); otherwise $g(s)=-s$. By (1), $\overline{\vwincyc(g)}^{\,j}=1$ whenever
+$g(s)=s$. Let $K=\Q(s)$, a real quadratic field of discriminant $\ell$ with $G_K=\{g:g(s)=s\}$; its class number is smaller than
+$\ell$ (\lref{UpperTheory.V.X.hQuad}, from Minkowski's bound), hence prime to $\ell$.
+
+\emph{(3) Two consequences.} (i) If $g(s)=s$, then $\alpha(g)$ acts trivially on $W[\ell]$, because $\vwincyc(g)^j\equiv1\pmod\ell$.
+(ii) The cyclotomic character maps every inertia group $I_A$ at a place $A$ above $\ell$ onto $\Zl^\times$; choose $\delta\in I_{A_0}$, for
+one such $A_0$, with $\vwincyc(\delta)=u$. Then $\alpha(\delta)-1$ is a unit of $\OO$, since $u^j-1$ is a unit by (1); in particular
+$\delta(s)\ne s$ by (i).
+
+\emph{(4) Reduction to $\ell$-torsion cocycles.} Since $\alpha(\delta)-1$ is a unit, every class of $H^1(G_\Q,W)$ has a unique cocycle
+representative $c$ with $c(\delta)=0$; and every class of $\Sha_\ell(\Q,W)$ is killed by some power of $\ell$. Hence it suffices to
+show: every cocycle $c$ with $c(\delta)=0$, $\ell c=0$, vanishing on the inertia groups at places not above $\ell$ and whose
+restriction to each decomposition group $D_A$ above $\ell$ is a coboundary, is zero (\lref{UpperTheory.V.ML.shaToShT}; the
+statement for $\ell^n c=0$ follows by induction on $n$, applying it to $\ell^{n-1}c$).
+
+\emph{(5) Vanishing on $G_K$.} Let $c$ be such a cocycle. For $A$ above $\ell$ write $c(g)=\alpha(g)m-m$ on $D_A$, and choose
+$t\in I_A$ with $\vwincyc(t)=u$. Then $(\alpha(t)-1)\ell m=\ell c(t)=0$, so $\ell m=0$ by (3)(ii), and for $g\in D_A\cap G_K$,
+$c(g)=\alpha(g)m-m=0$ by (3)(i). On $G_K$, $c$ takes values in $W[\ell]$, on which $G_K$ acts trivially, so $c|_{G_K}$ is a continuous
+homomorphism vanishing on all inertia groups and on the decomposition groups above $\ell$. By class field theory it factors through the
+Artin map onto the class group of $K$ (\lref{UpperTheory.V.Kum.pullOnto}; $W$ has no $2$-torsion, which takes care of the real
+places). As $\ell c=0$ and the class number of $K$ is prime to $\ell$, $c|_{G_K}=0$.
+
+\emph{(6) Conclusion.} If $g\notin G_K$, then $g(s)=-s=\delta(s)$, so $\delta^{-1}g\in G_K$ and
+$c(g)=c(\delta)+\alpha(\delta)c(\delta^{-1}g)=0$. Hence $c=0$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The minus part}\label{sec:pf:vwin:minus}
+
+In this subsection we prove \cref{prop:psibound}. Throughout, $\Omega$ is an algebraic closure of $\Q$, $\ell$ an odd prime, $\OO$ a
+discrete valuation ring which is a finite $\Zl$-algebra, with valuation $v$, and $W=\OO\otimes\vwinQZ$. For a continuous character
+$\alpha:G_\Q\to\OO^\times$ let $W_\alpha$ be $W$ with $G_\Q$ acting through $\alpha$, and $\alpha^*=\vwincyc\alpha^{-1}$. A
+\emph{cocycle for $\alpha$} is a locally constant $c:G_\Q\to W$ with $c(gh)=c(g)+\alpha(g)c(h)$. For a valuation ring $A$ of $\Omega$
+(a place) we write $D_A$, $I_A$ for its decomposition and inertia groups, and say $A$ is \emph{over $n$} if its maximal ideal contains
+$n$. For $n\ge1$, $\Sha_n(\Q,W_\alpha)$ is the group of classes vanishing on all inertia groups and on the decomposition groups of the
+places over $n$, as in \cref{pf:vwin-he:V}. Recall $\alpha_k(\chi)=N\cdot\mathrm{primorial}(k+1)\cdot B_{k,\chi^{\mathrm{prim}}}$ for a
+Dirichlet character $\chi$ modulo $N$ (\cref{sec:window:minus}).
+
+\begin{proposition}[\cref{prop:psibound}]\label{pf:vwin:psibound}
+\begin{enumerate}[label=(\roman*)]
+\item Poitou--Tate duality and the orthogonality of unramified classes under local duality imply $\sfname{PsiBound}$
+(\cref{def:window:psibound}).
+\item $\sfname{PsiBound}$ implies $\sfname{ThmBcFree}$.
+\end{enumerate}
+\formallabel{UpperTheory.V.ML.iv}
+\formallabel{UpperTheory.V.ML.psiOf}
+\formallabel{UpperTheory.V.Odd.thmBcFree_of}
+\formallabel{UpperTheory.V.Odd.thmBc_of}
+\end{proposition}
+
+\begin{definition}[$\sfname{PsiBound}$, formal form]\label{pf:vwin:psidef}
+$\sfname{PsiBound}$ is the statement of \cref{def:window:psibound} in the following form: for every abelian CM field $E$, every
+$N\ge1$ and every homomorphism $\rho:(\Z/N)^\times\to\Gal(E/\Q)$ compatible with the cyclotomic action (for every $b$, $\rho(b)$ is the
+restriction of every automorphism of $\Omega$ acting on $\mu_N$ by $b$), every prime $\ell\nmid2[E:\Q]$, every subring $\OO\subset\Qlbar$
+which is a discrete valuation ring finite over $\Zl$, every $j\ge1$, every character $\theta:\Gal(E/\Q)\to\OO^\times$ with
+$(\theta\circ\rho)(-1)=(-1)^{j+1}$, and every $a\in\OO$ equal to $\alpha_{j+1}(\theta\circ\rho)$ in $\Qlbar$, the $\OO$-length of the
+$\theta$-eigenspace of $\Sha^1(G_{E,S_\ell},\OO\otimes\vwinQZ(-j))$ is at most $v_\OO(a)$.
+\formallabel{UpperTheory.V.Odd.PsiBound}
+\end{definition}
+
+\subsubsection{Reciprocity at an auxiliary prime}
+
+\begin{lemma}[\cref{lem:window:rec}]\label{pf:vwin:rec}
+Assume Poitou--Tate duality and the orthogonality of unramified classes. Let $\alpha:G_\Q\to\OO^\times$ be a character, $0\ne a\in\OO$,
+and $w_0\in W$ with $\{y\in\OO:yw_0=0\}=a\OO$; assume that $\{g:\alpha(g)\equiv1\bmod a\}$ is open. Let $N\ne0$ with $\ell\mid N$ and
+$q\ne\ell$ a prime. Let $c$ and $n$ be cocycles for $\alpha$ and $\alpha^*$ killed by $a$ such that:
+\begin{enumerate}[label=(\alph*)]
+\item at every place $A$ not over $Nq$, $\alpha\equiv1\bmod a$ on $I_A$, and $c$ and $n$ vanish on $I_A$;
+\item at every place $A$ over $N$ and not over $q$, $c|_{D_A}$ is the coboundary of an element killed by $a$;
+\item at a place $A_0$ over $q$, $\alpha\equiv\alpha^*\equiv1\bmod a$ on $D_{A_0}$, and $c$ vanishes on $I_{A_0}$.
+\end{enumerate}
+If $g\in D_{A_0}$, $\tau\in I_{A_0}$ and $y\in\OO$ satisfy $n(\tau)=yw_0$, then $y\,c(g)=0$.
+\formallabel{UpperTheory.V.ML.recip}
+\formallabel{UpperTheory.V.ML.Rec}
+\end{lemma}
+
+\begin{proof}
+Let $r$ be such that $a\mid\ell^r$ (possible since $w_0$ is killed by a power of $\ell$), $B=\OO/a$, and $\iota:B\to W$, $\iota(\bar u)=uw_0$;
+$\iota$ is injective and its image is the $a$-torsion $W[a]$ (which is cyclic). Write $c=\iota\circ c'$ and $n=\iota\circ n'$; then $c'$ and $n'$
+are cocycles with values in $B$ for $\bar\alpha=\alpha\bmod a$ and $\bar\alpha^*$, and $\bar\alpha\bar\alpha^*=\vwincyc\bmod a$ factors
+through the cyclotomic character modulo $\ell^r$. Since $y\,c(g)=\iota(n'(\tau)c'(g))$, we must show $n'(\tau)c'(g)=0$ in $B$. Suppose not.
+The finite $\Z/\ell^r$-module $B$ has a $\Z/\ell^r$-linear form $\lambda$ with $\lambda(n'(\tau)c'(g))\ne0$ ($\Z/\ell^r$ is self-injective).
+
+Consider the function $(g_1,g_2)\mapsto\lambda\bigl(n'(g_1)\,\bar\alpha(g_1)\,c'(g_2)\bigr)$, the cup product of $n'$ and $c'$ composed with
+$\lambda$; it is a $2$-cocycle of $G_\Q$ with values in $\Z/\ell^r(1)$, the Tate twist, because $\bar\alpha^*\bar\alpha=\vwincyc$. Let $S$
+be the set of primes dividing $Nq$; by (a) the cocycle factors through the Galois group of the maximal extension unramified outside $S$
+(the kernel of $\vwincyc\bmod\ell^r$, $\alpha\bmod a$, $c'$, $n'$ on the inertia groups outside $S$ is normal and closed). Its local
+restrictions are coboundaries: at the primes of $S$ dividing $N$ and not $q$ by (b); at the places outside $S$ by the orthogonality of
+unramified classes; and the archimedean place does not intervene as $\ell$ is odd. By Poitou--Tate duality (the exactness of
+$H^2(G_{\Q,S},\Z/\ell^r(1))\to\bigoplus_{v\in S}\mathrm{Br}(\Q_v)[\ell^r]\to\Z/\ell^r$, the second map being the sum of the local invariants,
+which are isomorphisms), the restriction to $D_{A_0}$ is then also a coboundary. Finally, a local computation at $q$: on $D_{A_0}$ both
+characters are trivial modulo $a$, $c'$ is a homomorphism vanishing on $I_{A_0}$ and $n'$ is a homomorphism; the restriction of the cup product
+$n'\cup c'$ is a coboundary only if $\lambda(n'(\tau)c'(g))=0$ for all $\tau\in I_{A_0}$ and $g\in D_{A_0}$ (the local pairing of the unramified
+class $c'$ with $n'$ is the value of $n'$ on a generator of tame inertia paired with the value of $c'$ at a Frobenius element). This
+contradicts the choice of $\lambda$.
+\end{proof}
+
+\subsubsection{The Euler system of Gauss sums and the Kolyvagin induction}
+
+Fix $N_0$ prime to $\ell$, $m\ge1$, $F=N_0\ell^m$ and a character $\alpha$. For $t\in(\Z/F)^\times$ let $\sigma_t\in G_\Q$ act on $\mu_F$ by $t$.
+
+\begin{definition}\label{pf:vwin:mldefs}
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{Dat}(N_0,m,F,\alpha)$ means: $F=N_0\ell^m$ with $(N_0,\ell)=1$ and $m\ge1$; $\alpha\equiv1\bmod\ell^m$ on
+$\Gal(\Omega/\Q(\mu_F))$; $\alpha(g)\equiv-1\bmod\ell^m$ for every $g$ acting on $\mu_F$ by $-1$; and there is $g$ with
+$\alpha(g)-\vwincyc(g)\in\OO^\times$.
+\item For $\delta\in G_\Q$ and $a\in\OO$, $\mathrm{T}(\alpha,\delta,F,a)$ is the $\OO$-module of cocycles $c$ for $\alpha$ such that
+$c(\delta)=0$, $ac=0$, $c$ vanishes on $I_A$ for every place $A$ not over $F$, and for every place $A$ over $F$, $c|_{D_A}$ is the coboundary of
+an element killed by $a$. For $n\ge1$, $\mathrm{T}_n(\alpha,\delta,F,a)$ is its submodule of cocycles vanishing on $D_A$ for all $A$ over $n$.
+\item For $b<F$ and $t\in(\Z/F)^\times$ (represented in $[0,F)$) let $\vartheta_b(t)=\lfloor tb/F\rfloor-\lfloor(F-t)b/F\rfloor$, and
+$z_b=z_b(\alpha,\sigma)=\sum_{t\in(\Z/F)^\times}\vartheta_b(t)\,\alpha(\sigma_t)^{-1}\in\OO$.
+\item A prime $q$ is \emph{admissible} (for $r$) if $q\equiv1\bmod F$, $q\ne r$, and $\ell\nmid\ord(r\bmod q)$; an admissible list is a
+finite list of distinct admissible primes.
+\item For $M,n\ge1$ and a character $\beta$, a function $\nu:G_\Q\to W$ is a \emph{Kummer class} of type $(M,F,n,\beta)$ if on
+$\Gal(\Omega/\Q(\mu_F))$ it is a locally constant homomorphism killed by $M$, satisfies $\nu(gug^{-1})=\beta(g)\nu(u)$ there, and $\nu$
+vanishes on $I_A$ for every place $A$ not over $n$.
+\item An \emph{Euler system} for $(r,\beta,A_0,w_1)$, where $r$ is a prime, $A_0$ a place over $r$ and $w_1\in W$, is a family $\nu(L)$,
+indexed by admissible lists, such that: $\nu(L)$ is a Kummer class of type $(\ell^m,F,Fr\prod L,\beta)$; for $q\notin L$ with $q::L$
+admissible, every place $A$ over $q$ and every Frobenius element $\varphi$ at $A$, there are $\tau\in I_A$ and $u\in\OO^\times$ with
+$\nu(q::L)(\tau)=u\,\nu(L)(\varphi)$; and there are $\tau_0\in I_{A_0}$ and $u_0\in\OO^\times$ with $\nu(\emptyset)(\tau_0)=u_0w_1$.
+\end{enumerate}
+\formallabel{UpperTheory.V.ML.Dat}
+\formallabel{UpperTheory.V.ML.zVal}
+\formallabel{UpperTheory.V.ML.NuSys}
+\end{definition}
+
+The modules $\mathrm{T}$, admissible primes and Kummer classes are the shared definitions \lref{UpperTheory.V.ML.ShT},
+\lref{UpperTheory.V.ML.AdmP} and \lref{UpperTheory.V.ML.IsNu}.
+
+The normalization $c(\delta)=0$, for $\delta$ with $\alpha(\delta)-1\in\OO^\times$, selects one cocycle in each class: a coboundary
+$g\mapsto\alpha(g)w-w$ vanishing at $\delta$ is zero. The elements $z_b$ are images of Stickelberger elements. The Euler system is
+provided by Gauss sums:
+
+\begin{proposition}[Euler system of Gauss sums]\label{pf:vwin:nusys}
+Assume $\mathrm{Dat}(N_0,m,F,\alpha)$. Let $r\equiv1\bmod F$ be a prime, $b<F$, $A_0$ a place over $r$, $\sigma$ a choice of lifts
+$\sigma_t$, and $w\in W$ with $\ell^mw=0$. Then there is an Euler system for $(r,\alpha^*,A_0,z_b\,w)$
+(\lref{UpperTheory.V.ML.nuSysEx}).
+\end{proposition}
+
+The construction (which we do not reproduce) follows Thaine, Kolyvagin and Rubin \cite{Thaine1988,Kolyvagin1990,Rubin1990}: elements
+$X_d\in\Q(\zeta_{Fd})$, for squarefree products $d$ of admissible primes, built from Gauss and Jacobi sums at a prime above $r$, with
+$X_1$ generating the $\vartheta_b$-twisted ideal of a prime above $r$ by Stickelberger's theorem; Kolyvagin derivatives along the cyclic
+groups $(\Z/q)^\times$; Kummer theory over $\Q(\mu_F)$; and projection to the $\alpha^{-1}$-eigenspace (\lref{UpperTheory.V.ML.laxEx},
+\lref{UpperTheory.V.ML.derInv}).
+
+\begin{lemma}[The Kolyvagin step]\label{pf:vwin:key}
+Assume the conclusion of \cref{pf:vwin:rec} and $\mathrm{Dat}(N_0,m,F,\alpha)$. Let $n\ge1$, $q\equiv1\bmod F$ prime, $\nu$ a Kummer class of type
+$(\ell^m,F,Fnq,\alpha^*)$, $\delta$ with $\alpha(\delta)-1\in\OO^\times$, and $a_0\mid a$. Let $a'$ generate the annihilator of the values of $\nu$
+on $\Gal(\Omega/\Q(\mu_F))$, let $A$ be a place over $q$, $\varphi$ a Frobenius element at $A$, and $\tau\in I_A$ such that the annihilator of
+$\nu(\tau)$ is $a\OO$. Then there is $e\in\OO$ with $a'=ae$ such that $e\,c(\varphi)=0$ for all $c\in\mathrm{T}_n(\alpha,\delta,F,a_0)$, and
+\[
+ \len_\OO\mathrm{T}_n(\alpha,\delta,F,a_0)\le\len_\OO\mathrm{T}_{nq}(\alpha,\delta,F,a_0)+v(e).
+\]
+\formallabel{UpperTheory.V.ML.step}
+\end{lemma}
+
+\begin{proof}
+As $q\equiv1\bmod F$, $A$ is not over $F$, so $\tau$ lies in $\Gal(\Omega/\Q(\mu_F))$ and $a\mid a'$; write $a'=ae$. Let $w_0$ generate
+$W[a']$ and write $\nu(\tau)=yw_0$. For $c\in\mathrm{T}_n$, \cref{pf:vwin:rec}, applied to $c$, to a cocycle for $\alpha^*$ obtained from $\nu$,
+with $N=Fn$ and the place $A$ (the hypotheses (a)--(c) follow from the definitions of $\mathrm{T}_n$ and of Kummer classes), gives
+$y\,c(\varphi)=0$. Since the annihilator of $\nu(\tau)=yw_0$ is $a\OO$, we have $v(y)+v(a)=v(a')$ if
+$v(y)<v(a')$; then $e$ is a unit multiple of $y$ and $e\,c(\varphi)=0$. If $v(y)\ge v(a')$, then $\nu(\tau)=0$, so $a$ is a unit, hence so is
+$a_0$, and $c=0$ since $a_0c=0$. So $e$ kills all values $c(\varphi)$. Now the map $c\mapsto c(\varphi)$ sends $\mathrm{T}_n$ to the
+$e$-torsion of the cyclic module $W[\ell^m]$, whose length is at most $v(e)$, and its kernel is contained in $\mathrm{T}_{nq}$: a cocycle in
+$\mathrm{T}_n$ with $c(\varphi)=0$ vanishes on the decomposition groups of the places over $q$ (it is unramified there, and the decomposition
+group modulo inertia is generated by $\varphi$; \lref{UpperTheory.V.ML.shtNu}). This gives the length inequality.
+\end{proof}
+
+\begin{proposition}[Kolyvagin's induction]\label{pf:vwin:count}
+Assume the conclusion of \cref{pf:vwin:rec} and $\mathrm{Dat}(N_0,m,F,\alpha)$. Let $b<F$, $\delta$ with $\alpha(\delta)-1\in\OO^\times$, $\sigma$ a
+choice of lifts, and $a_0\in\OO$ with $a_0z_b\mid\ell^m$. Then $\len_\OO\mathrm{T}(\alpha,\delta,F,a_0)\le v(z_b)$.
+\formallabel{UpperTheory.V.ML.count}
+\end{proposition}
+
+\begin{proof}
+Write $\ell^m=z_bk$; then $z_b\ne0$, $k\ne0$ and $a_0\mid k$. Choose a prime $r\equiv1\bmod F$, a place $A_0$ over $r$ and a generator $w$ of
+$W[\ell^m]$, and let $\nu$ be an Euler system for $(r,\alpha^*,A_0,z_bw)$ (\cref{pf:vwin:nusys}). For an admissible list $L$ let $a_L$ generate
+the annihilator of the values of $\nu(L)$ on $\Gal(\Omega/\Q(\mu_F))$; then $a_L\mid\ell^m$. Put $\mathrm{T}(L)=\mathrm{T}_{r\prod L}(\alpha,\delta,F,a_0)$
+and $j(L)=v(a_L)\le J=v(\ell^m)$.
+
+\emph{Base.} The annihilator of $\nu(\emptyset)(\tau_0)=u_0z_bw$ is $k\OO$. \Cref{pf:vwin:key} with $n=1$, $q=r$ gives $e_0$ with $a_\emptyset=ke_0$ and
+$\len\mathrm{T}_1\le\len\mathrm{T}(\emptyset)+v(e_0)$; and $\mathrm{T}(\alpha,\delta,F,a_0)=\mathrm{T}_1$ (no place is over $1$).
+
+\emph{Step.} Let $L$ be admissible with $a_0\mid a_L$ and $\mathrm{T}(L)\ne0$, and let $0\ne c\in\mathrm{T}(L)$. Then $c$ does not vanish on
+$\Gal(\Omega/\Q(\mu_F))$ (\lref{UpperTheory.V.ML.shtNu}). By Chebotarev's density theorem and the condition $\alpha\not\equiv\vwincyc$ of
+$\mathrm{Dat}$, there are an admissible prime $q\notin L$, a place $A$ over $q$ and a Frobenius element $\varphi\in\Gal(\Omega/\Q(\mu_F))$ at $A$ such
+that $c(\varphi)\ne0$ and $\nu(L)(\varphi)$ generates the $\OO$-module of values of $\nu(L)$ on $\Gal(\Omega/\Q(\mu_F))$
+(\lref{UpperTheory.V.ML.pick}). By the Euler system relation, $\nu(q::L)(\tau)=u\,\nu(L)(\varphi)$ for some $\tau\in I_A$, so the annihilator
+of $\nu(q::L)(\tau)$ is $a_L\OO$. \Cref{pf:vwin:key} gives $e$ with $a_{q::L}=a_Le$, $e\,c(\varphi)=0$ and
+$\len\mathrm{T}(L)\le\len\mathrm{T}(q::L)+v(e)$. As $c(\varphi)\ne0$, $e$ is not a unit. Hence $a_0\mid a_{q::L}$, $j(q::L)>j(L)$ and
+$\len\mathrm{T}(L)+j(L)\le\len\mathrm{T}(q::L)+j(q::L)$.
+
+\emph{Induction.} Since $j\le J$ and $j$ increases strictly at each step, descending induction on $J-j(L)$ gives
+$\len\mathrm{T}(L)+j(L)\le J$ for every admissible $L$ with $a_0\mid a_L$ (if $\mathrm{T}(L)=0$ this is $j(L)\le J$). For $L=\emptyset$ (note
+$a_0\mid k\mid a_\emptyset$): $\len\mathrm{T}(\emptyset)+v(k)+v(e_0)\le v(z_b)+v(k)$. With the base,
+$\len\mathrm{T}(\alpha,\delta,F,a_0)\le\len\mathrm{T}(\emptyset)+v(e_0)\le v(z_b)$.
+\end{proof}
+
+\subsubsection{Proof of the bound for the minus components}
+
+We use the following statements of the development, which we do not reproduce.
+\begin{enumerate}[label=(M\arabic*)]
+\item\label{pf:vwin:M-zeval} (Stickelberger values; \lref{UpperTheory.V.ML.zEval}.) Let $\psi$ be a primitive Dirichlet character of
+conductor $f$ with values in $\OO$, $j\ge1$, $\psi(-1)=(-1)^{j+1}$, and $\alpha=(\vwincyc^j\psi)^{-1}$; assume there is $g$ with
+$\alpha(g)-\vwincyc(g)\in\OO^\times$, and let $a\in\OO$ equal $\alpha_{j+1}(\psi)$. Then for every $a_0\ne0$ there are $m$, $b$ and lifts $\sigma$
+such that, with $f'$ the prime-to-$\ell$ part of $f$ and $F=f'\ell^m$: $\mathrm{Dat}(f',m,F,\alpha)$, $b<F$, $a_0z_b\mid\ell^m$ and $z_b\mid a$. (A
+congruence between the Stickelberger values $z_b$ and generalized Bernoulli numbers.)
+\item\label{pf:vwin:M-exc} (The exceptional case; \lref{UpperTheory.V.ML.exc}.) If $\alpha(g)-\vwincyc(g)\notin\OO^\times$ for all $g$, and $\alpha$
+is unramified at all places not over $\ell$, then $\Sha_\ell(\Q,W_\alpha)=0$.
+\item\label{pf:vwin:M-sha} (Normalization; \lref{UpperTheory.V.ML.shaToShT}.) Let $\delta$ with $\alpha(\delta)-1\in\OO^\times$ and $F\ne0$ such that
+$\alpha$ is trivial on $I_A$ for $A$ not over $F$, and for every $A$ over $F$ and not over $\ell$ some $g\in I_A$ has $\alpha(g)-1\in\OO^\times$. If
+$\len\mathrm{T}(\alpha,\delta,F,a)\le n$ for all $a\ne0$, then $\len\Sha_\ell(\Q,W_\alpha)\le n$.
+\item\label{pf:vwin:M-prim} (\lref{UpperTheory.V.ML.primRam}.) If $\psi$ is primitive of conductor $f$ and $\ell\nmid\ord\psi$, then $\psi$ (as a
+character of $G_\Q$) is unramified at the places not over $f$, at every place over $f$ some inertia element $g$ has $\psi(g)-1\in\OO^\times$, and
+$\psi(g)-1\in\OO^\times$ whenever $\psi(g)\ne1$.
+\item\label{pf:vwin:M-eig} (Eigenspaces; \lref{UpperTheory.V.Chr.eigV}.) For an abelian field $E$ with $\ell\nmid[E:\Q]$ and a character $\theta$ of
+$\Gal(E/\Q)$, the length of the $\theta$-eigenspace of $\Sha^1(G_{E,S_\ell},\OO\otimes\vwinQZ(-j))$ equals the length of
+$\Sha_\ell(\Q,W_{\theta^{-1}\vwincyc^{-j}})$ (inflation--restriction).
+\end{enumerate}
+
+\begin{lemma}\label{pf:vwin:vchar}
+Assume the conclusion of \cref{pf:vwin:rec}. Let $\psi$ be a Dirichlet character of level $N$ with values in $\OO$, $j\ge1$, $\ell\nmid\ord\psi$,
+$\psi(-1)=(-1)^{j+1}$, and $a\in\OO$ equal to $\alpha_{j+1}(\psi)$. Then $\len_\OO\Sha_\ell(\Q,W_\alpha)\le v(a)$ for $\alpha=(\vwincyc^j\psi)^{-1}$.
+\formallabel{UpperTheory.V.ML.vChar}
+\end{lemma}
+
+\begin{proof}
+\emph{Reduction to primitive characters.} Let $\psi_0$ be the primitive character attached to $\psi$, of conductor $f\mid N$. It defines the same
+character of $G_\Q$, and $\alpha_{j+1}(\psi)=(N/f)\,\alpha_{j+1}(\psi_0)$, since both are defined with the Bernoulli number of $\psi_0$; so
+$v(\alpha_{j+1}(\psi_0))\le v(a)$. Hence we may assume $\psi$ primitive.
+
+\emph{The exceptional case.} Suppose $\alpha(g)-\vwincyc(g)\notin\OO^\times$ for all $g$. At a place $A$ not over $\ell$, $\vwincyc$ is trivial on
+$I_A$, so for $g\in I_A$ with $\psi(g)\ne1$ the element $\alpha(g)-\vwincyc(g)=\psi(g)^{-1}-1$ would be a unit by \ref{pf:vwin:M-prim}; hence
+$\psi$, and so $\alpha$, is trivial on these inertia groups, and \ref{pf:vwin:M-exc} gives $\Sha_\ell(\Q,W_\alpha)=0$.
+
+\emph{The main case.} Otherwise, by \ref{pf:vwin:M-zeval} applied with $a_0=1$ we obtain $m$ and $F=f'\ell^m$ with $\mathrm{Dat}(f',m,F,\alpha)$. Choose
+$\delta$ acting on $\mu_F$ by $-1$; then $\alpha(\delta)\equiv-1\bmod\ell^m$, so $\alpha(\delta)-1$ is a unit ($\ell$ odd). By \ref{pf:vwin:M-prim}, the
+hypotheses of \ref{pf:vwin:M-sha} hold with $F$ replaced by $f\ell$. Let $a_0\ne0$. By \ref{pf:vwin:M-zeval} there are $m,b,\sigma$ with
+$\mathrm{Dat}(f',m,f'\ell^m,\alpha)$, $a_0z_b\mid\ell^m$ and $z_b\mid a$, and \cref{pf:vwin:count} gives
+$\len\mathrm{T}(\alpha,\delta,f'\ell^m,a_0)\le v(z_b)\le v(a)$. Since $f'\ell^m$ and $f\ell$ have the same prime divisors, $\mathrm{T}(\alpha,\delta,
+f'\ell^m,a_0)=\mathrm{T}(\alpha,\delta,f\ell,a_0)$. By \ref{pf:vwin:M-sha}, $\len\Sha_\ell(\Q,W_\alpha)\le v(a)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:psibound}(i)]
+By \cref{pf:vwin:rec} the conclusion of that lemma holds, so \cref{pf:vwin:vchar} applies. In the situation of $\sfname{PsiBound}$,
+$\psi=\theta\circ\rho$ has order dividing $[E:\Q]$, which is prime to $\ell$, and $\psi(-1)=(-1)^{j+1}$. By \ref{pf:vwin:M-eig} the length of the
+$\theta$-eigenspace equals $\len\Sha_\ell(\Q,W_\alpha)$ with $\alpha=\theta^{-1}\vwincyc^{-j}=(\vwincyc^j\psi)^{-1}$, where $\theta$ is viewed as a
+character of $G_\Q$ through $\rho$; \cref{pf:vwin:vchar} bounds it by $v(a)$. This proves $\sfname{PsiBound}$.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-minus}
+The argument is the classical one, for $j=0$, of Rubin \cite{Rubin1990}, transposed to Tate twists; global duality enters only through
+\cref{pf:vwin:rec}, and no Iwasawa theory is used. The bound has the strength of the main conjecture \cite{MazurWiles1984} for each component
+with $\psi(-1)=(-1)^{j+1}$, up to the explicit factor $N\cdot\mathrm{primorial}(j+2)$ in $\alpha_{j+1}$.
+\end{remark}
+
+\subsubsection{Summation: the minus part of the window bound}
+
+\begin{definition}\label{pf:vwin:pbsb}
+For $C\in\R$ let $\mathrm{SB}(C)$ be the statement: for every CM field $E$ embedding into $\Q(\zeta_N)$, every odd prime $\ell$ (more generally every
+prime $\ell$ which is odd or such that $\vwincyc\equiv1\bmod4$ on $G_E$), every $\ell$-datum $D$ of $E$ and every $j\ge1$, $\vwinmin(D,j)<\infty$ and
+\[
+ \vwinmin(D,j)^\natural\log\ell\le C\,\ell\,[E:\Q]^2(j+1)\log(j\ell N)^2 .
+\]
+Let $\mathrm{PB}$ be the statement: for every CM field $E$ embedding into $\Q(\zeta_N)$, every choice of $p$-data and every $j\ge1$,
+$\vwinmin(D_p,j)<\infty$ for odd $p\nmid[E:\Q]$, and for every finite set $S$ of odd primes not dividing $[E:\Q]$,
+\[
+\textstyle\sum_{\ell\in S}\log\ell\cdot\vwinmin(D_\ell,j)^\natural\le[E:\Q]\log\bigl(16N^{j+2}(j+1)!\bigr).
+\]
+\formallabel{UpperTheory.V.Odd.StickBound}
+\formallabel{UpperTheory.V.Odd.PrimeBound}
+\end{definition}
+
+\begin{lemma}\label{pf:vwin:pb}
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{PsiBound}$ implies $\mathrm{PB}$.
+\item There is $C\ge0$ with $\mathrm{SB}(C)$.
+\item If $(m_M;q,d)$ is a prime pair, $E=E_{M,k,q,d}$ and $\ell$ is an odd prime dividing $[E:\Q]$, then $\ell\mid\deg M$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Odd.primeBound_of}
+\formallabel{UpperTheory.V.Odd.stickBound}
+\formallabel{UpperTheory.V.Odd.deg}
+\end{lemma}
+
+\begin{proof}
+(a) Let $\ell\nmid2[E:\Q]$ and choose $\OO$ containing the values of all characters of $\Gal(E/\Q)$, and $\rho$ as in $\sfname{PsiBound}$
+(\lref{UpperTheory.V.Odd.actEx}, \lref{UpperTheory.V.Odd.actFacts}). The minus part of $\Sha_D(j)$ decomposes into the
+$\theta$-eigenspaces for the characters $\theta$ of $\Gal(E/\Q)$ with $\theta(-1)=(-1)^{j+1}$ (at most $[E:\Q]$ of them), so by
+$\sfname{PsiBound}$, $\vwinmin(D_\ell,j)\le\sum_\theta v_\ell(\alpha_{j+1}(\theta\circ\rho))$, with $v_\ell$ normalized by $v_\ell(\ell)=1$
+(\lref{UpperTheory.V.Odd.atPrime}). By the non-vanishing of $B_{k,\chi}$ for $\chi(-1)=(-1)^k$ and the integrality and size of the products of
+the normalized Bernoulli numbers $\alpha_{j+1}$ over Galois orbits of characters (\lref{UpperTheory.V.Bern.b_nzC},
+\lref{UpperTheory.V.Odd.prodVal}), there are integers $w(\ell)$ with $\sum_\theta v_\ell(\alpha_{j+1}(\theta\circ\rho))\le w(\ell)$ for all
+odd $\ell\nmid[E:\Q]$ and $\sum_{\ell\in S}w(\ell)\log\ell\le[E:\Q]\log(16N^{j+2}(j+1)!)$ for every finite set $S$ of primes. This gives
+$\mathrm{PB}$.
+
+(b) By an annihilation argument with higher Stickelberger determinants in the manner of Coates--Sinnott \cite{CoatesSinnott1974}, there is $C$
+such that for every such $(E,N,\ell,D,j)$ some power $\ell^r$ with $r\log\ell\le C[E:\Q](j+1)\log(j\ell N)$ kills the minus part
+(\cref{pf:vwin:killpow} below); and the $\ell$-torsion of $H^1(G_{E,S_\ell},\vwinQZ(-j))$ has length at most
+$g\le8\ell[E:\Q]\log(\ell N)$ (\lref{UpperTheory.V.Odd.gen}). A submodule killed by $\ell^r$ of a module whose $\ell$-torsion has length $\le g$
+has length $\le rg$ (\lref{UpperTheory.V.Odd.lenPow}). Hence $\vwinmin(D,j)\log\ell\le r\log\ell\cdot g\le8C\ell[E:\Q]^2(j+1)\log(j\ell N)^2$,
+using $\log(\ell N)\le\log(j\ell N)$; so $\mathrm{SB}(8C)$ holds.
+
+(c) $E$ is the fixed field of the subgroup of $(\Z/N)^\times$ defined in \cref{pf:vwin:fields}, whose index divides a power of $2$ times
+$\deg M$ (the conditions modulo $2^{k+2}$ and the two Jacobi symbols have $2$-power indices); so an odd prime dividing $[E:\Q]$ divides
+$\deg M$.
+\end{proof}
+
+\begin{lemma}[Killing the minus part]\label{pf:vwin:killpow}
+There is $C\ge0$ such that for every CM field $E$ embedding into $\Q(\zeta_N)$ ($N\ge1$), every prime $\ell$, every algebraic closure $\Omega$
+and $\ell$-datum $D$ of $E$ with $E$ procyclic at $\ell$, and every $e\ge1$, there is $r\in\N$ with $r\log\ell\le C[E:\Q](e+1)\log(e\ell N)$ such
+that $\ell^r$ kills the minus part of $\Sha_D(e)$.
+\formallabel{UpperTheory.V.Odd.killPow}
+\end{lemma}
+
+\begin{proof}
+Put $M=N\ell$ and $a=2M+1$, which is odd, prime to $M$ and $>1$. The group $(\Z/M)^\times$ acts on $E$ through a surjection $\phi$ onto
+$\Gamma=\Gal(E/\Q)$ (\lref{UpperTheory.V.Odd.actEx}), and $c=\phi(-1)$ is complex conjugation, $c\ne1$. The minus part is the part on which
+$c$ acts by $-1$.
+\emph{(1) Annihilation.} There is $z\in\Zl[\Gamma]$, an integral representative of the higher Stickelberger element of level $M$ attached to
+$a$ and the twist $e+1$ (of Coates--Sinnott type \cite{CoatesSinnott1974}), which annihilates $\Sha_D(e)$
+(\lref{UpperTheory.V.Odd.zKill}; this is proved by Stickelberger's theorem and Kummer theory in the layers $E(\mu_{\ell^n})$, which is
+where procyclicity at $\ell$ is used).
+\emph{(2) Determinant.} If $z$ kills $x$ and $cx=-x$, then $\det{}_c(z)\,x=0$, where $\det_c(z)\in\Zl$ is the determinant of multiplication by
+$z$ on the free $\Zl$-module $\Zl[\Gamma]/(c+1)$; indeed $\Zl[\Gamma]$ acts on $x$ through this quotient, and the adjugate matrix gives
+$\mathrm{adj}(z)z=\det_c(z)$ (\lref{UpperTheory.V.Odd.adjKill}).
+\emph{(3) Size of the determinant.} Since $\Gamma$ is abelian, $\det_c(z)$ is the product of the values $\chi(z)$ over the odd characters $\chi$ of
+$\Gamma$. These are non-zero (as $\phi(-1)\ne1$; they are generalized Bernoulli numbers up to explicit factors) and bounded explicitly in terms of
+$M$, $a$ and $e$. Hence $\det_c(z)\ne0$, and its $\ell$-adic valuation, together with the $\ell$-part of $\varphi(M)$ which enters the
+normalization of $z$, gives $r$ such that $\ell^r$ kills the minus part, with $r\log\ell$ at most $[E:\Q]$ times the logarithm of that bound plus
+$\log(N\ell)$ (\lref{UpperTheory.V.Odd.detVal}).
+\emph{(4) Conclusion.} An elementary estimate of the bound in (3) gives $r\log\ell\le C[E:\Q](e+1)\log(e\ell N)$
+(\lref{UpperTheory.V.Odd.bdxLog}).\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin:psibound}(ii)]
+Let $C\ge0$ with $\mathrm{SB}(C)$; we show $\sfname{ThmBcFree}$ with this $C$. Let $M$, $k,t\ge2$, a prime pair $(m_M;q,d)$ and a CM field $E=E_{M,k,q,d}$ be
+given; put $n=[E:\Q]$ and $F=\cond(E)\ge1$ (so $E$ embeds into $\Q(\zeta_F)$). Finiteness of $\vwinmin(D_p,j)$ for odd $p$ follows from $\mathrm{SB}$ if
+$p\mid n$ and from $\mathrm{PB}$ otherwise. Let $S$ be a finite set of odd primes, and split it according as $\ell\nmid n$ or $\ell\mid n$.
+
+For $\ell\nmid n$: by $\mathrm{PB}$, for each $0<j<t$ the contribution is at most $n\log(16F^{j+2}(j+1)!)\le n(2t+5)\log(tF)$
+(\lref{UpperTheory.V.Odd.log_bnd_le_mul_log}; here $j+1\le t$ and $t\ge2$); summing over the $t-1$ values of $j$ and using
+$(t-1)(2t+5)\le3t^2$ gives at most $3nt^2\log(tF)$.
+
+For $\ell\mid n$: then $\ell\mid\deg M$ by \cref{pf:vwin:pb}(c), and by $\mathrm{SB}(C)$ the contribution of $\ell$ is at most
+$\sum_{j=1}^{t-1}C\ell n^2(j+1)\log(j\ell F)^2\le C\ell n^2t^2\log(t\ell F)^2$. Summing over the odd primes dividing $\deg M$ gives the second term of
+$\beta(C,\deg M,n,F,t)$.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-SB}
+The bound $\mathrm{SB}(C)$ holds for every odd prime, not only for those dividing $[E:\Q]$, and it does not use $\sfname{PsiBound}$. It is not used for
+$\ell\nmid[E:\Q]$ because its sum over all primes $\ell$ would diverge; there the main-conjecture strength of $\sfname{PsiBound}$, summed over $\ell$ by
+the product formula for $\Pi_j$, is needed.
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Lemma K}\label{sec:pf:vwin:lemmaK}
+
+For a number field $L$ let $r_2(L)$ be its number of complex places, $d_L$ its discriminant and $h_L$ its class number. For $C\in\R$ and
+$e,n,D\in\N$ put $\kappa(C,e,n,D)=\exp\bigl((2en)^C\log(2D)\bigr)$, so that $\sfname{LemmaK}(C_K)$ (\cref{def:window:lemmaK}) asserts: for every
+prime $\ell$, every totally imaginary number field $L$ containing a primitive $q_\ell$-th root of unity, every algebraic closure of $L$, every
+$\ell$-datum $D$ of $L$ and every $e\ge1$, the group $H^2(G_{L,S_\ell},\Zl(e+1))$ is finite and
+$\log\#H^2(G_{L,S_\ell},\Zl(e+1))\le\kappa(C_K,e,[L:\Q],|d_L|)$.
+
+\begin{theorem}[\cref{thm:window:lemmaK}]\label{pf:vwin:lemmaK}
+$\sfname{LiteratureRankNHypothesis}$ implies that $\sfname{LemmaK}(C_K)$ holds for some $C_K\in\R$.
+\formallabel{UpperTheory.V.ZK.lemmaK_litN_alt}
+\formallabel{UpperTheory.V.ZK.lemmaK_of_litN_alt}
+\formallabel{UpperTheory.V.ZK.lemmaK}
+\formallabel{UpperTheory.V.ZK.lemmaK_of_steps}
+\end{theorem}
+
+Finiteness is Soul\'e's theorem \cite{Soule1979}; the point of Lemma K is a bound which is explicit and uniform in $\ell$. The proof is a
+quantitative version of Soul\'e's method (see also \cite{DwyerFriedlander1985}): classes in the homology of $\GL_N(\OO_L)$ are attached to
+elements of the cyclotomic layers $F=L(\mu_{\ell^\nu})$ whose divisors satisfy an eigenvalue relation under $\Gal(F/L)$, characteristic
+classes evaluated at residue fields detect them, and a rank bound of Borel type for the rational homology of $\GL_N(\OO_L)$ together with a
+bound for its torsion limits their number; this bounds the eigenspaces of class groups which control $\Sha$, and Poitou--Tate duality passes
+from $\Sha$ to $H^2$. The formal proof is organized as a deduction from twenty-one intermediate statements and a rank bound. We state the rank
+bound and the intermediate statements and give the deduction; then we prove the statements which carry the arithmetic (the cycle and
+the relation of \ref{pf:vwin:K2}, $\mathrm S_{\mathrm{detect}}$, and \ref{pf:vwin:K5}--\ref{pf:vwin:K7}), and the basic properties
+$\mathrm S_{\mathrm{chain}}$, $\mathrm S_{\mathrm{prism}}$ of the bar complex. The remaining combinatorial statements
+($\mathrm S^\times_{\mathrm{prism}}$, $\mathrm S_\eta$, \ref{pf:vwin:K3}) and the Steinitz statement are stated precisely and cited.
+
+\subsubsection{The rank bound}
+
+For a ring $R$ and $n,d\ge1$ let $\psi_d:\GL_n(R)\to\GL_{dn}(R)$, $A\mapsto1_d\otimes A$ (block diagonal with $d$ copies of $A$), and for
+$n\le n'$ let $\mathrm{st}:\GL_n(R)\to\GL_{n'}(R)$ be the standard embedding. For $\ell\ge1$, $m\ge0$ and $x\in H_m(\GL_n(R),\Z)$ define
+$z_t(x)\in H_m(\GL_{\ell^tn}(R),\Z)$ by $z_0(x)=x$ and $z_{t+1}(x)=\psi_\ell(z_t(x))-\ell^{t+2}\,\mathrm{st}(z_t(x))$.
+
+\begin{theorem}[A rank bound of Borel type]\label{pf:vwin:bodd}
+Let $L$ be a totally imaginary number field, $k$ even with $k+1<r_2(L)$, $\ell\ge1$ and $n\ge2(k+1)+4$. Then the subgroup of
+$H_{k+1}(\GL_{\ell^kn}(\OO_L),\Z)$ generated by the elements $z_k(x)$, $x\in H_{k+1}(\GL_n(\OO_L),\Z)$, has rank at most $r_2(L)$.
+\formallabel{UpperTheory.V.ZK.bOdd}
+\formallabel{UpperTheory.V.ZK.BOdd}
+\end{theorem}
+
+This is a statement of the shape of Borel's computation of the rational homology of $\GL_n(\OO_L)$ in the stable range \cite{Borel1974}:
+the operations $\psi_\ell-\ell^{t+2}\mathrm{st}$ annihilate the decomposable part, and the primitive part in degree $2m-1$ ($m\ge2$) has
+rank $r_2(L)$ for $L$ totally imaginary. The development contains a formal proof of about $10{,}600$ lines
+(\lref{PositivityTheory.KB.bOdd_zk}), which we use as a black box.
+
+\subsubsection{The intermediate statements}
+
+We describe the statements; in all of them $\ell$ is a prime and $q$ a positive integer.
+\begin{enumerate}[label=(K\arabic*)]
+\item\label{pf:vwin:K1} (Chains.) For a commutative ring $A$ and a group $G$ let $C_m(G;A)$ be the free $A$-module on $G^m$ with the
+inhomogeneous bar boundary $\partial$, functorial in $G$, and for $k\in G$ let $P_k:C_m\to C_{m+1}$ be the prism operator of conjugation by $k$.
+The statements $\mathrm{S}_{\mathrm{chain}}$, $\mathrm{S}_{\mathrm{prism}}$, $\mathrm{S}_{\mathrm{prism}}^{\times}$ assert: $\partial^2=0$,
+functoriality, $P$ commutes with homomorphisms, the homology of the trivial group vanishes in positive degree; the homotopy formula
+$\partial P_k+P_k\partial=\mathrm{conj}_{k^{-1}}-1$; and $P_{kk'}-P_k-P_{k'}\circ\mathrm{conj}_{k^{-1}}$ maps cycles to boundaries.
+(\cref{pf:vwin:schain}, \lref{UpperTheory.V.ZK.sPrismMul}.)
+\item\label{pf:vwin:K2} (An explicit cycle.) $\mathrm{S}_{zc}$: an explicit chain $z_{q,e}\in C_{2e+2}(\Z/q;\Z/q)$ on the cyclic group of order $q$ is a
+cycle; $\mathrm{S}_{\mathrm{rel}}$: for $q=\ell^\nu$ some combination $\sum_tn_t\,(\mathrm{id},t)_*z_{q,e}$, $t<2e+4$, with one coefficient a unit, is a
+boundary in $C_\ast((\Z/q)^2;\Z/q)$; $\mathrm{S}_\eta$: for $M<\ell^c$, $c\le\nu$ and $t_0\le M$ there is an element of the group ring
+$\Z[(\Z/\ell^\nu)^2]$ whose image under $(x_1,x_2)\mapsto x_1+tx_2$ vanishes for $t\le M$, $t\ne t_0$, and equals
+$\sum_{i\le M}a_i[(1+\ell^c)^i]$ for $t=t_0$, where $\prod_{j<M}(X-(1+\ell^c)^j)=\sum_ia_iX^i$. (\cref{pf:vwin:zc},
+\cref{pf:vwin:srel}, \lref{UpperTheory.V.ZK.sEta}.)
+\item\label{pf:vwin:K3} (Characteristic classes over finite fields.) $\mathrm{S}_{\mathrm{trans}}$: for a finite field $k$ and a ring $A$ in which
+$\#k$ is $1$, every linear form on $C_{m+1}(k^\times;A)$ vanishing on boundaries extends to an \emph{additive family}: a family of linear forms
+$\theta_V$ on $C_{m+1}(\GL(V);A)$, for all finite-dimensional $k$-vector spaces $V$, vanishing on boundaries, invariant under isomorphisms and
+additive for direct sums on cycles. $\mathrm{S}_{\mathrm{coc}}$: for a primitive $q$-th root of unity $\zeta\in k$ and a homomorphism $v:k^\times\to\Z/q$
+there is a linear form on $C_{2e+3}(k^\times;\Z/q)$, vanishing on boundaries, with explicit values $x^{e+1}v(g)$ on the prisms of the images of
+$z_{q,e}$. $\mathrm{S}_\theta$ (deduced from the previous statements): there is an additive family $\theta$ of degree $2e+3$ with
+$\theta_V\bigl(P_g(\chi_x)_*z_{q,e}\bigr)=x^{e+1}v(\det g)$ for all $V$, $g\in\GL(V)$, $x\in\N$, where $\chi_x$ is the scalar character
+$c\mapsto\zeta^{xc}$. $\mathrm{S}_\phi$: additive families pulled back along reduction maps $\GL_n(R)\to\GL_n(k)$ form primitive families
+(compatible with stabilization, multiplied by $d$ under $\psi_d$, vanishing on boundaries). (\lref{UpperTheory.V.ZK.sTrans},
+\lref{UpperTheory.V.ZK.sCoc}, \lref{UpperTheory.V.ZK.sThetaOf}, \lref{UpperTheory.V.ZK.sPhi}.)
+\item\label{pf:vwin:K4} (Arithmetic.) $\mathrm{S}_{\mathrm{Stein}}$: given divisors $a_j,b_j$ ($j\in J$) of a number field $F$ and $\beta\in F^\times$ with
+$\mathrm{div}(\beta)=\sum_j(b_j-a_j)$ (and $J\ne\emptyset$ or $\beta=1$), there is $g\in\GL_J(F)$ of determinant $\beta$ carrying
+$\bigoplus_j\mathfrak a_j$ onto $\bigoplus_j\mathfrak b_j$, where $\mathfrak a_j=\{x:v_P(x)\ge a_j(P)\ \forall P\}$ and similarly $\mathfrak b_j$
+(Steinitz). $\mathrm{S}_{\mathrm{detect}}$: if $\zeta_{\ell^\nu}\in F$ and $\beta\in F^\times$ is an $\ell^\nu$-th power in
+the residue fields of almost all primes of degree one over a subfield $L$, then $\beta$ is an $\ell^\nu$-th power in $F$.
+(\lref{LateralTheory.Fin.SStein.intersectionNumber_baseChange}, \cref{pf:vwin:sdetect}.)
+\item\label{pf:vwin:K5} (Classes from divisors.) Let $F/L$ be a \emph{layer} with data $(\ell,c,\nu,\zeta,\gamma)$: $F/L$ is Galois with group generated by
+$\gamma$ of order $\ell^{\nu-c}$, $\zeta\in\OO_F^\times$ is a primitive $\ell^\nu$-th root of unity, $\gamma\zeta=\zeta^{1+\ell^c}$, $1\le c\le\nu$, $c\ge2$ if
+$\ell=2$. The divisor relation for $a\in\N$ ($\ord_P(\alpha)=\mathfrak d(\gamma P)-a\,\mathfrak d(P)$ for all $P$) and the twisted
+norm $\mathrm{N}_a(\alpha)=\prod_{j<\ord\gamma}\gamma^j(\alpha)^{a^j}$ are those of \cref{pf:vwin:laydef}. $\mathrm{S}_{\mathrm{class}}$ (deduced from \ref{pf:vwin:K1},
+\ref{pf:vwin:K2}, $\mathrm{S}_{\mathrm{Stein}}$): if $2e+3<\ell^c$ and $\alpha$ satisfies the divisor relation for $a=(1+\ell^c)^{e+1}$, there are a cycle
+$y\in C_{2e+3}(\GL_N(\OO_L);\Z/\ell^\nu)$ and $0\ne b\in\OO_F$ such that for every residue map $r:\OO_F\to k$ to a finite field which is surjective on
+$\OO_L$ and with $r(b)\ne0$, and every additive family $\theta$ normalized as in $\mathrm{S}_\theta$, $\theta(r_*y)=p_e\cdot v(u)$, where $u$ is the residue
+of $\mathrm{N}_a(\alpha)$ and $p_e=\prod_{j<2e+3,\,j\ne e+1}((1+\ell^c)^{e+1}-(1+\ell^c)^j)$. $\mathrm{S}_{\mathrm{upper}}$ (deduced from
+\ref{pf:vwin:K1} and \cref{pf:vwin:bodd}): for $L$ totally imaginary, $k$ even with $k+1<r_2(L)$ and a primitive family $\Phi$ with values in a
+$\Z/\ell^\nu$-module, the set of values $\ell^k\Phi(y)$ on cycles $y$ has at most $(\ell^\nu)^{r_2(L)}\,t(L,2k+6,k+1)\,t(L,2k+6,k)$ elements, where
+$t(L,N,m)$ is the order of the torsion of $H_m(\GL_N(\OO_L),\Z)$. (\cref{pf:vwin:sclass}, \cref{pf:vwin:supper}.)
+\item\label{pf:vwin:K6} (Counting.) $\mathrm{S}_{\mathrm{few}}$ (deduced from $\mathrm{S}_\theta$, $\mathrm{S}_\phi$, $\mathrm{S}_{\mathrm{class}}$,
+$\mathrm{S}_{\mathrm{upper}}$, $\mathrm{S}_{\mathrm{detect}}$): for $L$ totally imaginary and a layer $F/L$ as above with $2e+3<\ell^c$ and
+$2e+3<r_2(L)$, every set of elements $\alpha$ satisfying the divisor relation for $a=(1+\ell^c)^{e+1}$, pairwise inequivalent in the sense that
+$\mathrm{N}_a(\alpha)^s$ and $\mathrm{N}_a(\alpha')^s$ do not differ by an $\ell^\nu$-th power ($s=\ell^{2e+2+(2e+3)(c+2e+3)}$), has at most
+$(\ell^\nu)^{r_2(L)}t(L,4e+10,2e+3)\,t(L,4e+10,2e+2)$ elements. $\mathrm{S}_{\mathrm{count}}$: if such a bound $B$ holds (with exponent $s=\ell^b$), then the
+group of homomorphisms $\varphi$ from the divisors of $F$ to $\Z/\ell^\nu$ vanishing on principal divisors and with $\varphi\circ\gamma^{-1}=a\varphi$ is finite,
+of order at most $B\,\ell^{(b+v_\ell(E))g_L+c+v_\ell(E)}/(\ell^\nu)^{r_2(L)}$, where $a=(1+\ell^c)^E$ and $g_L=2[L:\Q]+\log_2h_L+2$.
+$\mathrm{S}_\Sha$: if $\mu_{\ell^c}\subset L$, $\mu_{\ell^{c+1}}\not\subset L$ and these groups have order at most $B$ for all layers $F/L$, then
+$\ell^{\vwinsh(L,\ell,E)}\le B$. $\mathrm{S}_{\mathrm{layer}}$: for $L\ni\zeta_{q_\ell}$ and $E\ge1$ there is a totally imaginary extension $L'$ of degree
+$d\le([L:\Q]+1)(4E+4)$ with $\mu_{\ell^c}\subset L'$ maximal, $2E+1<\ell^c\le2[L':\Q]$, $2E+1<r_2(L')$, $|d_{L'}|\le|d_L|^d(\ell^c)^{[L':\Q]}$ and
+$\vwinsh(L,\ell,E)\le\vwinsh(L',\ell,E)$. $\mathrm{S}_{\mathrm{tors}}$: there is $C_0$ with $\log t(L,4E+6,m)\le\kappa(C_0,E,[L:\Q],|d_L|)$ for all
+totally imaginary $L$, $E\ge1$ and $m\le2E+1$. (\cref{pf:vwin:sfew}, \cref{pf:vwin:scount}, \cref{pf:vwin:ssha}, \cref{pf:vwin:slayer}, \cref{pf:vwin:stors}.)
+\item\label{pf:vwin:K7} (Numerics.) $\mathrm{S}_{\mathrm{num}}$: the counting statements imply that there is $C$ such that for every prime $\ell$, every
+totally imaginary $L\ni\zeta_{q_\ell}$ and $E\ge1$, $\vwinsh(L,\ell,E)$ is finite and $\vwinsh(L,\ell,E)\log\ell\le\kappa(C,E,[L:\Q],|d_L|)$; we denote this
+statement by $\Sha\mathrm{K}(C)$. (\cref{pf:vwin:snum}.)
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:vwin:lemmaK}]
+Poitou--Tate duality is obtained from $\sfname{LiteratureRankNHypothesis}$ as in the proof of \cref{pf:vwin:offour}, and the local finiteness and
+duality statements are members of it. All intermediate statements \ref{pf:vwin:K1}--\ref{pf:vwin:K7} are theorems of the development, and
+\cref{pf:vwin:bodd} holds. Combine them in the order indicated: \ref{pf:vwin:K1}--\ref{pf:vwin:K3} give $\mathrm{S}_\theta$; \ref{pf:vwin:K1},
+\ref{pf:vwin:K2} and $\mathrm{S}_{\mathrm{Stein}}$ give $\mathrm{S}_{\mathrm{class}}$; \ref{pf:vwin:K1} and \cref{pf:vwin:bodd} give
+$\mathrm{S}_{\mathrm{upper}}$; these with $\mathrm{S}_\phi$ and $\mathrm{S}_{\mathrm{detect}}$ give $\mathrm{S}_{\mathrm{few}}$; with
+$\mathrm{S}_{\mathrm{count}}$, $\mathrm{S}_\Sha$, $\mathrm{S}_{\mathrm{layer}}$ and $\mathrm{S}_{\mathrm{tors}}$, \cref{pf:vwin:snum} gives
+$\Sha\mathrm{K}(C)$ for some $C$. Finally \cref{pf:vwin:sfinal} gives $\sfname{LemmaK}(C_K)$ for some $C_K$.
+\end{proof}
+
+\begin{remark}\label{pf:vwin:rem-K}
+(1) Several of the intermediate statements are supplied by theorems whose formal names refer to intersection numbers and base change; these
+names do not reflect their content. (2) The combinatorial statements \ref{pf:vwin:K1}--\ref{pf:vwin:K3} concern the bar complex of a group and
+are independent of arithmetic; the arithmetic enters through $\mathrm{S}_{\mathrm{Stein}}$, $\mathrm{S}_{\mathrm{detect}}$, the rank bound and the
+counting statements.
+\end{remark}
+
+\subsubsection{The numerical step}
+
+\begin{proposition}\label{pf:vwin:snum}
+The statements $\mathrm{S}_{\mathrm{few}}$, $\mathrm{S}_{\mathrm{count}}$, $\mathrm{S}_\Sha$, $\mathrm{S}_{\mathrm{layer}}$ and
+$\mathrm{S}_{\mathrm{tors}}$ imply $\Sha\mathrm{K}(C)$ with $C=5(\max(C_0,9)+2)+11$, where $C_0$ is the constant of $\mathrm{S}_{\mathrm{tors}}$.
+\formallabel{UpperTheory.V.ZK.sNum}
+\formallabel{UpperTheory.V.ZK.SNum}
+\end{proposition}
+
+\begin{proof}
+Let $\ell$, $L$ (totally imaginary, containing $\zeta_{q_\ell}$) and $E=k+1\ge1$ be given, and let $L'$, $c$, $d$ be as in $\mathrm{S}_{\mathrm{layer}}$;
+put $n=[L:\Q]$, $n'=[L':\Q]=dn$. Let $F/L'$ be a layer with data $(\ell,c,\nu,\zeta,\gamma)$. Since $2k+3=2E+1<\ell^c$ and $2E+1<r_2(L')$,
+$\mathrm{S}_{\mathrm{few}}$ (with $e=k$) gives the hypothesis of $\mathrm{S}_{\mathrm{count}}$ with $B=(\ell^\nu)^{r_2(L')}T_1T_2$, where
+$T_1=t(L',4k+10,2k+3)$, $T_2=t(L',4k+10,2k+2)$, and exponent $\ell^b$, $b=2k+2+(2k+3)(c+2k+3)$; so the group of $\mathrm{S}_{\mathrm{count}}$ for
+$a=(1+\ell^c)^E$ has order at most $T_1T_2\,\ell^X$ with $X=(b+v_\ell(E))g_{L'}+c+v_\ell(E)$. By $\mathrm{S}_\Sha$ (applicable since $\mu_{\ell^c}\subset
+L'$ is maximal), $\ell^{s'}\le T_1T_2\ell^X$ for $s'=\vwinsh(L',\ell,E)$; and $\vwinsh(L,\ell,E)\le s'$ by $\mathrm{S}_{\mathrm{layer}}$, so
+$\vwinsh(L,\ell,E)$ is finite and
+\[
+ \vwinsh(L,\ell,E)\log\ell\le\log T_1+\log T_2+X\log\ell .
+\]
+Put $u=2En'$ and $Y=\log(2|d_{L'}|)\ge\frac12$. By $\mathrm{S}_{\mathrm{tors}}$, $\log T_i\le\exp(u^{C_0}Y)$. The elementary bounds
+$g_{L'}\le2n'+4n'Y+2$ (from Minkowski's bound for the class number), $c\le\ell^c\le2n'$,
+$v_\ell(E)<E$, $\log\ell\le u$ and $n'\ge2E+4$ give $X\log\ell\le u^9Y$, hence
+$\vwinsh(L,\ell,E)\log\ell\le2\exp(u^{C_0}Y)+u^9Y\le\exp(u^{\max(C_0,9)+2}Y)=\kappa(\max(C_0,9)+2,E,n',|d_{L'}|)$. Finally
+$n'=dn$ with $d\le(n+1)(4E+4)$, $|d_{L'}|\le|d_L|^d(\ell^c)^{n'}$ and $\ell^c\le2n'$ bound this by $\kappa(C,E,n,|d_L|)$; these are routine
+estimates.
+\end{proof}
+
+\subsubsection{From \texorpdfstring{$\Sha$}{Sha} to \texorpdfstring{$H^2$}{H2}}
+
+\begin{proposition}\label{pf:vwin:sfinal}
+Assume Poitou--Tate duality and the local finiteness and duality statements over finite extensions of $\Ql$. If $\Sha\mathrm{K}(C)$ holds, then
+$\sfname{LemmaK}(C_K)$ holds for some $C_K>0$.
+\formallabel{UpperTheory.V.ZK.sFinal}
+\formallabel{UpperTheory.V.ZK.SFinal}
+\formallabel{UpperTheory.V.ZK.ShaK}
+\end{proposition}
+
+\begin{proof}
+Let $C_K>0$ be such that for all $e,n,D\ge1$
+\begin{equation}\label{pf:vwin:numfin}
+ 4n\log(2D)\cdot2e(2e+3)\cdot\log(n+1)+\kappa(C,e,n,D)\le\kappa(C_K,e,n,D);
+\end{equation}
+such $C_K$ exists because $\kappa(C_K,e,n,D)=(2D)^{(2en)^{C_K}}$ grows faster than any fixed polynomial in $e,n,\log D$ times $\kappa(C,e,n,D)$
+when $C_K$ is large (\lref{UpperTheory.V.K.numFin}). Let $\ell$, $L$, $D$, $e$ be as in $\sfname{LemmaK}$, $n=[L:\Q]$, and let $s=\vwinsh(L,\ell,e)$,
+which is finite with $s\log\ell\le\kappa(C,e,n,|d_L|)$ by $\Sha\mathrm{K}(C)$. By Poitou--Tate duality (\lref{UpperTheory.V.LDataCardLeFinrank.VLen_le_shaLen_add};
+$L$ is totally imaginary), $\vwinVL(D,e)$ is at most $\vwinsh(D,e)$ plus the sum over the places $v\mid\ell$ of the lengths of the local groups
+$H^0(L_v,\vwinQZ(-e))$, and this sum is at most $n(2+\log_\ell n+e)$ (a local computation: the length of $H^0(L_v,\vwinQZ(-e))$ is bounded in terms of
+$[L_v:\Ql]$, $\log_\ell[L_v:\Ql]$ and $e$). Hence $H^2=H^2(G_{L,S_\ell},\Zl(e+1))$ has finite length $k\le s+n(2+\log_\ell n+e)$, so it is finite
+with $\#H^2=\ell^k$, and
+\[
+ \log\#H^2=k\log\ell\le s\log\ell+n(2+e)\log\ell+n\log_\ell n\cdot\log\ell .
+\]
+Since $\mu_\ell\subset L$, $\ell\le n+1$ (\lref{UpperTheory.V.K.primeLe}), and $\ell^{\log_\ell n}\le n$; so the last two terms are at most
+$n(3+e)\log(n+1)\le4n\log(2|d_L|)\cdot2e(2e+3)\log(n+1)$, using $\log(2|d_L|)\ge\log2>\frac12$. By \eqref{pf:vwin:numfin},
+$\log\#H^2\le\kappa(C_K,e,n,|d_L|)$.
+\end{proof}
+
+
+\subsubsection{Layers and twisted norms}
+
+We now prove the intermediate statements which carry the arithmetic of Lemma K. Throughout, $\ell$ is a prime.
+
+\begin{definition}[Layers, divisor relations, twisted norms]\label{pf:vwin:laydef}
+Let $L$ be a number field. $L$ has \emph{top root} $\ell^c$ if $c\ge1$ ($c\ge2$ if $\ell=2$), $\mu_{\ell^c}\subset L$ and
+$\mu_{\ell^{c+1}}\not\subset L$. Let $F/L$ be an extension of number fields. $F/L$ is a \emph{layer with data
+$(\ell,c,\nu,\zeta,\gamma)$} if $F/L$ is Galois, $\gamma$ generates $\Gal(F/L)$ and has order $\ell^{\nu-c}$, $\zeta\in\OO_F^\times$
+is a primitive $\ell^\nu$-th root of unity with $\gamma\zeta=\zeta^{1+\ell^c}$, $1\le c\le\nu$, and $c\ge2$ if $\ell=2$. For
+$\gamma\in\Gal(F/L)$ and $a\in\N$:
+\begin{enumerate}[label=(\alph*)]
+\item $\alpha\in F^\times$ satisfies the \emph{divisor relation} for $(\gamma,a)$ with respect to a divisor $\mathfrak d$ of $F$ if
+$\ord_P(\alpha)=\mathfrak d(\gamma P)-a\,\mathfrak d(P)$ for every prime $P$ of $\OO_F$;
+\item the \emph{twisted norm} is $\mathrm N_a(\alpha)=\prod_{j<\ord\gamma}\gamma^j(\alpha)^{a^j}$;
+\item for $q\ge1$, $\mathrm{Eq}(\gamma,a,q)$ is the group of functions $\varphi$ from the primes of $\OO_F$ to $\Z/q$ such that
+$\sum_P\ord_P(\alpha)\varphi(P)=0$ for all $\alpha\in F^\times$ and $\varphi(\gamma^{-1}P)=a\varphi(P)$ for all $P$;
+\item for $s,q,B\in\N$, $\mathrm{Few}(\gamma,a,s,q,B)$ is the statement: every finite set $S$ of elements of $F^\times$ which
+satisfy the divisor relation for $(\gamma,a)$ (with respect to some divisor), and such that $\mathrm N_a(\alpha)^s=\mathrm
+N_a(\alpha')^s\delta^q$ with $\delta\in F^\times$ and $\alpha,\alpha'\in S$ implies $\alpha=\alpha'$, has at most $B$ elements.
+\end{enumerate}
+Finally, $g_L=2[L:\Q]+\log_2h_L+2$, where $h_L$ is the class number of $L$.
+\formallabel{UpperTheory.V.ZK.TopRoot}
+\formallabel{UpperTheory.V.ZK.Lay}
+\formallabel{UpperTheory.V.ZK.DivDel}
+\formallabel{UpperTheory.V.ZK.nrm}
+\formallabel{UpperTheory.V.ZK.EqHom}
+\formallabel{UpperTheory.V.ZK.Few}
+\formallabel{UpperTheory.V.ZK.gens}
+\end{definition}
+
+So $\mathrm{Eq}(\gamma,a,q)$ is the group of homomorphisms $\varphi:\mathrm{Cl}(F)\to\Z/q$ with $\varphi\circ\gamma^{-1}=a\varphi$,
+and the statements $\mathrm S_{\mathrm{few}}$, $\mathrm S_{\mathrm{count}}$, $\mathrm S_\Sha$ of \ref{pf:vwin:K6} are
+formulated with these notions.
+
+\subsubsection{The bar complex}
+
+For a commutative ring $A$ and a group $G$, $C_m(G;A)$ is the free $A$-module on the symbols $[g_1|\cdots|g_m]$, $g_i\in G$, with the
+boundary $\partial[g_1|\cdots|g_m]=[g_2|\cdots|g_m]+\sum_{i=1}^{m-1}(-1)^i[\cdots|g_ig_{i+1}|\cdots]+(-1)^m[g_1|\cdots|g_{m-1}]$, and a
+homomorphism $f$ acts by $f_*[g_1|\cdots|g_m]=[f(g_1)|\cdots|f(g_m)]$. For $k\in G$ the prism operator is
+\[
+ P_k[g_1|\cdots|g_m]=\sum_{i=0}^m(-1)^i[g_1|\cdots|g_i|k|k^{-1}g_{i+1}k|\cdots|k^{-1}g_mk].
+\]
+
+\begin{lemma}[$\mathrm S_{\mathrm{chain}}$, $\mathrm S_{\mathrm{prism}}$]\label{pf:vwin:schain}
+\begin{enumerate}[label=(\alph*)]
+\item $\partial^2=0$; $f_*\partial=\partial f_*$; $(gf)_*=g_*f_*$; $f_*P_k=P_{f(k)}f_*$.
+\item If $G$ is trivial, every cycle of positive degree is a boundary.
+\item $\partial P_k+P_k\partial=(c_{k^{-1}})_*-1$ on $C_m(G;A)$ for $m\ge1$, where $c_{k^{-1}}(g)=k^{-1}gk$.
+\end{enumerate}
+\formallabel{UpperTheory.V.ZK.sChain}
+\formallabel{UpperTheory.V.ZK.SChain}
+\formallabel{UpperTheory.V.ZK.sPrism}
+\formallabel{UpperTheory.V.ZK.SPrism}
+\formallabel{UpperTheory.V.ZK.prism}
+\end{lemma}
+
+\begin{proof}
+(a) $\partial$ is the alternating sum of the face maps $d_0,\dots,d_m$ of the bar construction, which satisfy the simplicial identities
+$d_id_j=d_{j-1}d_i$ for $i<j$; hence $\partial^2=0$. The other identities are immediate from the formulas, since homomorphisms commute with
+products and conjugation. (b) $C_m(1;A)=A$, and $\partial:C_{m+1}\to C_m$ is multiplication by $\sum_{i=0}^{m+1}(-1)^i$, i.e.\ by $1$ if $m$ is
+odd and by $0$ if $m$ is even ($m\ge0$). So in degree $m+1\ge1$ the cycles vanish if $m$ is odd, and are all of $A=\partial C_{m+2}$ if $m$ is even.
+(c) Pass to the homogeneous bar complex, $[g_1|\cdots|g_m]\mapsto(1,g_1,g_1g_2,\dots,g_1\cdots g_m)$ modulo the diagonal action of $G$. There
+$P_k$ becomes the usual prism operator $(x_0,\dots,x_m)\mapsto\sum_i(-1)^i(x_0,\dots,x_i,x_ik,\dots,x_mk)$ between the identity and right
+multiplication by $k$, which induces $(c_{k^{-1}})_*$ on the inhomogeneous complex; the standard computation of the prism boundary gives the
+formula.
+\end{proof}
+\subsubsection{The relation in the homology of \texorpdfstring{$(\Z/q)^2$}{(Z/q)2}}
+
+For $q\ge1$ and $e\in\N$ let $z_{q,e}\in C_{2e+2}(\Z/q;\Z/q)$ be the chain $\sum_{j\in(\Z/q)^{e+1}}[j_0|1|j_1|1|\cdots|j_e|1]$
+(the group $\Z/q$ written additively), and for $t\in\N$ let $d_t:\Z/q\to(\Z/q)^2$, $x\mapsto(x,tx)$.
+
+\begin{lemma}[$\mathrm S_{zc}$]\label{pf:vwin:zc}
+$z_{q,e}$ is a cycle.
+\formallabel{UpperTheory.V.ZK.sZc}
+\formallabel{UpperTheory.V.ZK.SZc}
+\formallabel{UpperTheory.V.ZK.zc}
+\formallabel{UpperTheory.V.ZK.dt}
+\formallabel{LateralTheory.Q.SZcT.SZc_of}
+\end{lemma}
+
+\begin{proof}
+The boundary of $[g_1|\cdots|g_n]$ is $[g_2|\cdots|g_n]+\sum_{i=1}^{n-1}(-1)^i[\cdots|g_i+g_{i+1}|\cdots]+(-1)^n[g_1|\cdots|g_{n-1}]$.
+Sum over $j$, with $n=2e+2$. The first faces do not depend on $j_0$ and add up to $q$ times a chain, which is $0$ with
+coefficients in $\Z/q$. For $k<e$, the face merging $j_k$ with the following entry $1$ (sign $-1$) and the face merging that
+entry $1$ with $j_{k+1}$ (sign $+1$) become the same sum after the substitutions $j_k\mapsto j_k-1$, resp.\
+$j_{k+1}\mapsto j_{k+1}-1$, and cancel. The face merging $j_e$ with the last entry (sign $-1$) becomes, after
+$j_e\mapsto j_e-1$, the last face (sign $+1$), and they cancel.
+\end{proof}
+
+\begin{proposition}[$\mathrm S_{\mathrm{rel}}$]\label{pf:vwin:srel}
+For $q=\ell^\nu$ and $e\in\N$ there are $n_0,\dots,n_{2e+3}\in\Z/q$ and $t_0\le2e+3$ such that $n_{t_0}$ is a unit and
+$\sum_{t=0}^{2e+3}n_t\,(d_t)_*z_{q,e}$ is a boundary in $C_*((\Z/q)^2;\Z/q)$.
+\formallabel{LateralTheory.Fin.SRel.intersectionNumber_baseChange}
+\formallabel{UpperTheory.V.ZK.SRel}
+\formallabel{LateralTheory.Fin.SRel.relation_statement_holds}
+\formallabel{LateralTheory.Q.SRelT.SRel_of}
+\formallabel{LateralTheory.Q.SRelT.rel_bd}
+\end{proposition}
+
+\begin{proof}
+Let $H=H_{2e+2}((\Z/q)^2;\Z/q)$. By \cref{pf:vwin:zc} and functoriality of the bar complex, the chains $(d_t)_*z_{q,e}$ are
+cycles; let $x_t\in H$ be their classes. The $\Z/q$-module $H$ is generated by $2e+3$ elements
+(\lref{LateralTheory.Q.SRelT.gen_two}: by the K\"unneth formula, $H_n((\Z/q)^2;\Z/q)$ is free of rank $n+1$ over $\Z/q$, since
+$H_i(\Z/q;\Z/q)\cong\Z/q$ for all $i$; the formal proof is an induction on $e$ using the projection $(\Z/q)^2\to\Z/q$).
+Consider $\Phi:(\Z/q)^{2e+4}\to H$, $(n_t)\mapsto\sum_tn_tx_t$, with image $N$ and kernel $K$. If $K\subset\ell(\Z/q)^{2e+4}$,
+then $N/\ell N\cong(\Z/q)^{2e+4}/(K+\ell(\Z/q)^{2e+4})$ has dimension $2e+4$ over $\F_\ell$. But a finite $\Z/q$-module is a direct
+sum of cyclic modules, the number of which is $\dim_{\F_\ell}$ of its $\ell$-torsion and also of its reduction modulo $\ell$; so
+$\dim N/\ell N=\dim N[\ell]\le\dim H[\ell]\le2e+3$, a contradiction. Hence some $(n_t)\in K$ has a coordinate $n_{t_0}$ not
+divisible by $\ell$, i.e.\ a unit, and $\sum_tn_tx_t=0$ means that $\sum_tn_t(d_t)_*z_{q,e}$ is a boundary.
+\end{proof}
+
+\subsubsection{Classes from divisors}
+
+\begin{proposition}[$\mathrm S_{\mathrm{class}}$]\label{pf:vwin:sclass}
+Assume $\mathrm S_{\mathrm{chain}}$, $\mathrm S_{\mathrm{prism}}$, $\mathrm S_{\mathrm{prism}}^\times$, $\mathrm S_{zc}$,
+$\mathrm S_{\mathrm{rel}}$, $\mathrm S_\eta$ and $\mathrm S_{\mathrm{Stein}}$. Let $F/L$ be a layer with data
+$(\ell,c,\nu,\zeta,\gamma)$, $q=\ell^\nu$, $e\in\N$ with $2e+3<\ell^c$, $a=(1+\ell^c)^{e+1}$, and let $\alpha\in F^\times$ satisfy the
+divisor relation for $(\gamma,a)$ with respect to $\mathfrak d$. Then there are $N\ge1$, a cycle $y\in C_{2e+3}(\GL_N(\OO_L);\Z/q)$
+and $0\ne b\in\OO_F$ with the following property. Let $k$ be a finite field and $r:\OO_F\to k$ a ring homomorphism which is
+surjective on $\OO_L$, with $r(b)\ne0$; let $v:k^\times\to\Z/q$ be a homomorphism and $\theta$ an additive family of degree
+$2e+3$ over $k$ with coefficients $\Z/q$, normalized as in $\mathrm S_\theta$ with respect to $r(\zeta)$ and $v$. Then the
+residue $u=r(\mathrm N_a(\alpha))\in k^\times$ is defined and
+\[
+ \theta\bigl(r_*y\bigr)=p_e\,v(u),\qquad p_e=\prod_{j<2e+3,\ j\ne e+1}\bigl((1+\ell^c)^{e+1}-(1+\ell^c)^j\bigr),
+\]
+where $r_*y$ is the image of $y$ in $C_{2e+3}(\GL_N(k);\Z/q)$.
+\formallabel{UpperTheory.V.ZK.sClassOf}
+\formallabel{UpperTheory.V.ZK.SClassOf}
+\formallabel{UpperTheory.V.ZK.SClass}
+\formallabel{UpperTheory.V.ZK.Cl.cJoin}
+\formallabel{UpperTheory.V.ZK.Cl.CJoin}
+\formallabel{UpperTheory.V.ZK.pe}
+\end{proposition}
+
+The idea is that of Soul\'e: the divisor relation makes $\alpha$ the ``determinant'' of an automorphism of a lattice in a vector
+space with an action of $\mu_q$, and a characteristic class evaluated on the prism of this automorphism picks up the residue of
+$\alpha$.
+
+\begin{proof}
+Put $J=(\Z/q)^2$, $\chi_t(x_1,x_2)=x_1+tx_2$ and $\kappa:\Gal(F/L)\to\Z/q$ with $\sigma\zeta=\zeta^{\kappa(\sigma)}$, so
+$\kappa(\gamma^j)=(1+\ell^c)^j$. Consider the $L$-vector space $F^J$ and its group $\mathcal G$ of $L$-linear automorphisms; for a family
+$\mathfrak a=(\mathfrak a_j)_{j\in J}$ of divisors of $F$ let $\Lambda(\mathfrak a)=\{x\in F^J:\ \ord_P(x_j)\ge\mathfrak a_j(P)\ \forall
+j,P\}$, so $\Lambda(0)=\OO_F^J$. Let $\rho:J\to\mathcal G$, $\rho(x)=\mathrm{diag}(\zeta^{x_1j_1+x_2j_2})_j$; then $\rho\circ d_t$ is the
+diagonal action $c\mapsto\mathrm{diag}(\zeta^{c\chi_t(j)})$ of $\Z/q$, and $\rho$ preserves every $\Lambda(\mathfrak a)$.
+We say that $g\in\mathcal G$ \emph{carries} $(\chi,\mathfrak b,\delta)$, for $\chi:J\to\Z/q$, a family $\mathfrak b$ and
+$\delta:\Z/q\to F^\times$, if $g$ maps $\Lambda(0)$ onto $\Lambda(\mathfrak b)$ and has a block form: it maps each coordinate line
+$Fe_j$ semilinearly (for some $\sigma_j\in\Gal(F/L)$ with $\sigma_j(\zeta)^{\chi(j)}=\zeta^{\beta(j)}$) into the block $\bigoplus_{\beta(j')=
+\beta(j)}Fe_{j'}$, followed by $F$-linear automorphisms $g'_x$ of the blocks with $\det g'_x=\delta(x)$. Such $g$ commutes with
+the diagonal action of $\Z/q$ through $\chi$ (\lref{UpperTheory.V.ZK.Cl.cRep}).
+
+\emph{Step 1: the data.} By $\mathrm S_{\mathrm{rel}}$ choose $n_t$ ($t\le2e+3$) and $t_0$ with $n_{t_0}$ a unit and
+$\sum_tn_t(d_t)_*z_{q,e}$ a boundary. By $\mathrm S_\eta$ (with $M=2e+3<\ell^c$) choose $\eta:J\to\Z$ with
+$\chi_{t*}\eta=0$ for $t\ne t_0$ and $\chi_{t_0*}\eta=\sum_{i\le M}a_i[(1+\ell^c)^i]$, where
+$\prod_{j<M}(X-(1+\ell^c)^j)=\sum_ia_iX^i$. Let $P(X)=\prod_{j<M,\,j\ne e+1}(X-(1+\ell^c)^j)=\sum_ip_iX^i$ and
+$\beta=\prod_i\gamma^{-i}(\alpha)^{p_i}$. Since $(X-a)P(X)=\sum_ia_iX^i$, the divisor relation gives
+$\ord_P(\beta)=\sum_ia_i\,\mathfrak d(\gamma^iP)$ (\lref{UpperTheory.V.ZK.Cl.cBetaDiv}).
+
+\emph{Step 2: the automorphisms.} For every $t\le2e+3$ there is $g_t\in\mathcal G$ carrying $(\chi_t,(\eta_j\mathfrak d)_j,\delta_t)$,
+where $\delta_t=1$ for $t\ne t_0$, and $\delta_{t_0}(1)=\beta$, $\delta_{t_0}(x)=1$ for $x\ne1$
+(\lref{UpperTheory.V.ZK.Cl.cGtNe}, \lref{UpperTheory.V.ZK.Cl.cGtEq}). Indeed, on the block of $\chi_t$-weight $x$
+the lattice $\Lambda((\eta_j\mathfrak d)_j)$ is a sum of fractional ideals whose total divisor is $(\chi_{t*}\eta)(x)\mathfrak d$
+(after transport of the blocks of weights $(1+\ell^c)^ix$ to weight $x$ by $\gamma^i$, which changes $\mathfrak d$ into
+$\mathfrak d\circ\gamma^i$); for $t\ne t_0$ these divisors vanish, and for $t=t_0$ the only non-trivial block has total divisor
+$\sum_ia_i\,\mathfrak d\circ\gamma^i=\mathrm{div}(\beta)$. In both cases $\mathrm S_{\mathrm{Stein}}$ provides an $F$-linear
+automorphism of the block of determinant $\delta_t(x)$ carrying $\OO_F$-lattices as required.
+
+\emph{Step 3: the cycle.} Choose $0\ne b_0\in\OO_L$ such that every prime of $L$ not dividing $b_0$ splits completely in $F$ in
+the sense needed for reduction (\lref{UpperTheory.V.ZK.Cl.cSplit}), and a multiple $0\ne b\in\OO_L$ of $b_0$ lying in every
+prime in the support of $\mathfrak d$ (\lref{UpperTheory.V.ZK.Cl.cSupp}). Let $\mathcal G_b\subset\mathcal G$ be the
+stabilizer of $\OO_F[1/b]^J$ and $\mathcal H\subset\mathcal G_b$ that of $\Lambda(0)$. As the lattices $\Lambda((\eta_j\mathfrak
+d)_j)$ and $\Lambda(0)$ agree away from $b$, $g_t\in\mathcal G_b$ (\lref{UpperTheory.V.ZK.Cl.cLatLoc}); $\rho$ takes values in
+$\mathcal H$; $g_t$ commutes with $\rho(d_t(x))$; and $g_{t_0}^{-1}\rho(x)g_{t_0}$ and $g_t^{-1}g_{t_0}$ lie in $\mathcal H$, since
+they preserve $\Lambda(0)$. The chain lemma (\lref{UpperTheory.V.ZK.Cl.cChain}, a consequence of
+$\mathrm S_{\mathrm{chain}}$, $\mathrm S_{\mathrm{prism}}$ and $\mathrm S^\times_{\mathrm{prism}}$) then gives a cycle
+$y_0\in C_{2e+3}(\mathcal H;\Z/q)$ whose image in $C_{2e+3}(\mathcal G_b;\Z/q)$ is homologous to
+$\sum_tn_tP_{g_t}\bigl((\rho\circ d_t)_*z_{q,e}\bigr)$, where $P_g$ is the prism operator of $g$: this sum is a cycle up to the
+boundary $\sum_tn_t(d_t)_*z_{q,e}$ transported by $\rho$, and the conditions on $g_t$ allow to move it into $\mathcal H$.
+Finally $\mathcal H$ acts $\OO_L$-linearly on the finite projective $\OO_L$-module $\OO_F^J$
+(\lref{UpperTheory.V.ZK.Cl.cInt}); adding a complement $P$ with $\OO_F^J\oplus P\cong\OO_L^N$, on which $\mathcal H$ acts
+trivially, gives $\lambda:\mathcal H\to\GL_N(\OO_L)$ (\lref{UpperTheory.V.ZK.Cl.cFree}). Put $y=n_{t_0}^{-1}\lambda_*y_0$.
+
+\emph{Step 4: evaluation.} Let $r$, $k$, $v$, $\theta$ be as in the statement. Since $r(b)\ne0$, the prime of $L$ below $r$
+splits completely in $F$, so $\OO_F\otimes_{\OO_L}k\cong k^{\Gal(F/L)}$, and reduction defines $\mu:\mathcal G_b\to
+\GL(k^{\Gal(F/L)\times J})$, compatible with $\lambda$ up to the trivial summand (\lref{UpperTheory.V.ZK.Cl.cMu}). Let $U$
+be the group of $b$-units of $F$ and $f:U\to\Z/q$, $f(x)=v(r(x))$; it is additive and $\Gal(F/L)$-stable
+(\lref{UpperTheory.V.ZK.Cl.cUnit}), and $\alpha$, $\beta$, $\mathrm N_a(\alpha)\in U$ because $b$ lies in the primes of the support
+of $\mathfrak d$. By additivity and invariance of $\theta$ the trivial summand does not contribute
+(\lref{UpperTheory.V.ZK.Cl.cTriv}); boundaries are killed, so
+$\theta(r_*\lambda_*y_0)=\sum_tn_t\,\theta\bigl(\mu_*P_{g_t}((\rho\circ d_t)_*z_{q,e})\bigr)$. The value of $\theta$ on the prism of a
+block automorphism is computed from the normalization of $\theta$ ($\theta_V(P_g(\chi_x)_*z_{q,e})=x^{e+1}v(\det g)$) and additivity
+over the $\Gal(F/L)\times J$-decomposition (\lref{UpperTheory.V.ZK.Cl.cVal}):
+\[
+ \theta\bigl(\mu_*P_{g_t}((\rho\circ d_t)_*z_{q,e})\bigr)=\sum_{\sigma\in\Gal(F/L)}\sum_{x\in\Z/q}(\kappa(\sigma)x)^{e+1}f\bigl(\sigma(\delta_t(x))\bigr).
+\]
+For $t\ne t_0$ this vanishes since $f(1)=0$; for $t=t_0$ it equals $\sum_\sigma\kappa(\sigma)^{e+1}f(\sigma\beta)$. With
+$\sigma=\gamma^j$, $\kappa(\sigma)^{e+1}\equiv a^j$, and $\sum_ja^jf(\gamma^j\gamma^{-i}\alpha)=a^i\sum_ma^mf(\gamma^m\alpha)$ because
+$a^{\ord\gamma}\equiv1\pmod q$; hence $\sum_\sigma\kappa(\sigma)^{e+1}f(\sigma\beta)=P(a)f(\mathrm N_a(\alpha))$
+(\lref{UpperTheory.V.ZK.Cl.cBetaVal}). As $P(a)=p_e$ and $f(\mathrm N_a(\alpha))=v(u)$, we get
+$\theta(r_*y)=n_{t_0}^{-1}n_{t_0}\,p_e\,v(u)=p_e\,v(u)$.
+\end{proof}
+
+\subsubsection{Counting equivariant characters}
+
+\begin{lemma}[Twisted divisor data]\label{pf:vwin:ctalg}
+Let $Y$, $I$ be abelian groups, $I$ torsion-free, $T$ the torsion subgroup of $Y$, $d:Y\to I$ a homomorphism, $\sigma\in\End(Y)$ and
+$\sigma_I\in\End(I)$ with $d\sigma=\sigma_Id$ and $\sigma^n=1$, $\sigma_I^n=1$ for some $n\ge1$, and $a\ge2$. Put $\delta=\sigma-a$,
+$\delta_I=\sigma_I-a$, $\mathrm N=\sum_{j<n}a^j\sigma^{n-j}$, $U=d^{-1}(\delta_II)$, $K=\ker d$, and
+\[
+ W=U/(\delta Y+T),\quad \mathcal U_\delta=K/(\delta K+T),\quad \mathrm{Cl}_\delta=I/(dY+\delta_II),\quad Y_m=Y/(mY+T)\ (m\ge1).
+\]
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:ctalg-a} If $I/dY$ and $\mathcal U_\delta$ are finite, then $\mathrm{Cl}_\delta$ and $W$ are finite and
+$\#W=\#\mathcal U_\delta\cdot\#\mathrm{Cl}_\delta$.
+\item\label{pf:vwin:ctalg-b} If $a^n-1=Qu$ with $Q\ge1$, $u\in\Z$, then for every $s\in\N$ the map $y\mapsto s\mathrm N(y)$ induces a
+homomorphism $f:W\to Y_Q$, and $f(w)=0$ implies $usw=0$.
+\item\label{pf:vwin:ctalg-c} If $\ell\ge1$ divides $a-1$, the number of $w\in W$ with $\ell w=0$ is at most the number of classes in
+$Y_\ell$ of elements $z\in Y$ with $\sigma z-z\in\ell Y+T$ and $dz\in\ell I$.
+\item\label{pf:vwin:ctalg-d} Let $A$ be a finite abelian group, $f:A\to Z$ a homomorphism, $u\in\Z$ prime to $\ell$ and $s,g\in\N$ such
+that $f(w)=0$ implies $u\ell^sw=0$, and $\#A[\ell]\le\ell^g$. Then $\ell^{v_\ell(\#A)}\le\#f(A)\cdot\ell^{sg}$.
+\end{enumerate}
+\formallabel{UpperTheory.V.ZK.Ct.Dat}
+\formallabel{UpperTheory.V.ZK.Ct.cardW}
+\formallabel{UpperTheory.V.ZK.Ct.kerF}
+\formallabel{UpperTheory.V.ZK.Ct.selInj}
+\formallabel{UpperTheory.V.ZK.Ct.pCount}
+\end{lemma}
+
+\begin{proof}
+Two preliminary remarks. First, $\delta_I$ is injective: $\sigma_Ix=ax$ gives $x=\sigma_I^nx=a^nx$, so $x=0$ as $I$ is torsion-free.
+Second, $\mathrm N\delta=\delta\mathrm N=(1-a^n)\sigma$ (the sum telescopes, using $\sigma^{n+1}=\sigma$), so $\delta y\in T$ implies
+$y\in T$. Note also $\delta Y\subset U$ and $T\subset K\subset U$.
+
+\ref{pf:vwin:ctalg-a} For $u\in U$ let $\psi(u)\in I$ be the element with $\delta_I\psi(u)=du$. The map $u\mapsto\psi(u)\bmod dY$ sends
+$U$ onto the kernel of the endomorphism $\bar\delta$ induced by $\delta_I$ on $\mathrm{Cl}=I/dY$ (if $\delta_Ii=du$, then $u\in U$
+and $\psi(u)=i$), with kernel $K+\delta Y$ (if $\psi(u)=dy$, then $du=d\delta y$). Moreover $K\cap(\delta Y+T)=\delta K+T$, since
+$d(\delta y)=0$ forces $dy=0$. Hence $W$ maps onto $\ker\bar\delta$ with kernel $(K+\delta Y)/(\delta Y+T)\cong\mathcal U_\delta$, and
+$\#\ker\bar\delta=\#\mathrm{coker}\,\bar\delta=\#\mathrm{Cl}_\delta$ as $\mathrm{Cl}$ is finite.
+
+\ref{pf:vwin:ctalg-b} $\mathrm N(\delta Y+T)\subset(1-a^n)Y+T\subset QY+T$, so $f$ is defined. If $s\mathrm N(y)=Qz+t$ with $t\in T$,
+apply $\delta$: $-Qus\,\sigma y=Q\delta z+\delta t$, so $Q(us\sigma y+\delta z)\in T$, hence $us\sigma y\in\delta Y+T$, and applying
+$\sigma^{n-1}=\sigma^{-1}$, which commutes with $\delta$, gives $usy\in\delta Y+T$.
+
+\ref{pf:vwin:ctalg-c} Let $w=[y]$ with $\ell y=\delta z+t$, $t\in T$. Then $\sigma z-z=\ell y-t+(a-1)z\in\ell Y+T$, and
+$\delta_Idz=d\delta z=\ell dy=\ell\delta_I\psi(y)$ gives $dz=\ell\psi(y)$. The class of $z$ in $Y_\ell$ is well defined ($z$ is unique
+modulo $T$ by the second remark, and replacing $y$ by $y+\delta z'+t'$ replaces $z$ by $z+\ell z'$ modulo $T$), and $w\mapsto[z]$ is
+injective: if $z=\ell z''+t''$, then $\ell(y-\delta z'')\in T$, so $y\in\delta Y+T$ and $w=0$.
+
+\ref{pf:vwin:ctalg-d} Let $A_\ell$ be the $\ell$-primary part of $A$, of order $\ell^{v_\ell(\#A)}$. As $u$ acts bijectively on $A_\ell$,
+$\ker f\cap A_\ell\subset A[\ell^s]$, which has at most $\#A[\ell]^s\le\ell^{sg}$ elements (multiplication by $\ell^{i-1}$ embeds
+$A[\ell^i]/A[\ell^{i-1}]$ into $A[\ell]$). Hence $\#A_\ell=\#f(A_\ell)\cdot\#(\ker f\cap A_\ell)\le\#f(A)\,\ell^{sg}$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin:ctarith}
+Let $F/L$ be a layer with data $(\ell,c,\nu,\zeta,\gamma)$, $n=\ell^{\nu-c}$, $E\ge1$ and $a=(1+\ell^c)^E$. Apply the notation of
+\cref{pf:vwin:ctalg} to $Y=F^\times$ (written additively), $I$ the group of divisors of $F$, $d=\mathrm{div}$, $\sigma=\gamma^{-1}$
+on $F^\times$ and $(\sigma_I\mathfrak d)(P)=\mathfrak d(\gamma P)$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin:ctarith-a} $a\ge2$, $v_\ell(a-1)=c+v_\ell(E)$ and $v_\ell(a^n-1)=\nu+v_\ell(E)$.
+\item\label{pf:vwin:ctarith-b} $I/dY=\mathrm{Cl}(F)$ is finite, and $\#\mathrm{Eq}(\gamma,a,\ell^\nu)\le\ell^{v_\ell(\#\mathrm{Cl}_\delta)}$.
+\item\label{pf:vwin:ctarith-c} $U$ is the set of elements satisfying the divisor relation for $(\gamma,a)$, and $\mathrm N=\mathrm N_a$.
+\item\label{pf:vwin:ctarith-d} If $\mathrm{Few}(\gamma,a,s,\ell^\nu,B)$ holds and $W$ is finite, then the homomorphism $f$ of
+\cref{pf:vwin:ctalg}\ref{pf:vwin:ctalg-b} (for $Q=\ell^\nu$ and $s$) has image of order at most $B$.
+\end{enumerate}
+\formallabel{UpperTheory.V.ZK.Ct.IsDat}
+\formallabel{UpperTheory.V.ZK.Ct.datEx}
+\formallabel{UpperTheory.V.ZK.Ct.lte}
+\formallabel{UpperTheory.V.ZK.Ct.clFin}
+\formallabel{UpperTheory.V.ZK.Ct.eqHomLe}
+\formallabel{UpperTheory.V.ZK.Ct.fewLe}
+\end{lemma}
+
+\begin{proof}
+The hypotheses of \cref{pf:vwin:ctalg} hold: $d\sigma=\sigma_Id$ because $\ord_P(\gamma^{-1}\alpha)=\ord_{\gamma P}(\alpha)$, and
+$\gamma^n=1$.
+\ref{pf:vwin:ctarith-a} $a\ge1+\ell^c\ge2$. Write $(1+x)^E-1=Ex+\sum_{k\ge2}\binom Ekx^k$ with $x=\ell^c$. Since $k\binom Ek=E\binom{E-1}{k-1}$,
+$v_\ell(\binom Ekx^k)\ge v_\ell(E)-v_\ell(k)+kc>c+v_\ell(E)$ for $k\ge2$, because $(k-1)c>v_\ell(k)$ when $c\ge1$ and $\ell$ is odd, or
+$c\ge2$. Hence $v_\ell(a-1)=c+v_\ell(E)$, and the same formula with $E\ell^{\nu-c}$ in place of $E$ gives $v_\ell(a^n-1)=\nu+v_\ell(E)$.
+\ref{pf:vwin:ctarith-b} The class group is finite. A function $\varphi$ on the primes defines a homomorphism $I\to\Z/\ell^\nu$, which
+vanishes on $dY$ iff $\varphi$ vanishes on principal divisors, and $\varphi(\sigma_I\mathfrak d)=\sum_Q\mathfrak d(Q)\varphi(\gamma^{-1}Q)$;
+so $\mathrm{Eq}(\gamma,a,\ell^\nu)\cong\Hom(\mathrm{Cl}_\delta,\Z/\ell^\nu)$, whose order is at most that of the $\ell$-primary part of
+$\mathrm{Cl}_\delta$.
+\ref{pf:vwin:ctarith-c} $\alpha\in U$ means $\mathrm{div}(\alpha)=\sigma_I\mathfrak d-a\mathfrak d$ for some $\mathfrak d$, which is the
+divisor relation; and $\sigma^{n-j}=\gamma^j$.
+\ref{pf:vwin:ctarith-d} For each element of $f(W)$ choose $y\in U$ with $f([y])$ equal to it. If $y\ne y'$ are chosen for different
+elements, then $s\mathrm N_a(y)-s\mathrm N_a(y')\notin\ell^\nu Y+T$, so $\mathrm N_a(y)^s\ne\mathrm N_a(y')^s\delta^{\ell^\nu}$ for all
+$\delta$; the chosen elements form a set as in $\mathrm{Few}$, so $\#f(W)\le B$.
+\end{proof}
+
+\begin{proposition}[$\mathrm S_{\mathrm{count}}$]\label{pf:vwin:scount}
+Let $L$ be a totally imaginary number field, $F/L$ a layer with data $(\ell,c,\nu,\zeta,\gamma)$, $E\ge1$, $b,B\in\N$ and
+$a=(1+\ell^c)^E$, and assume $\mathrm{Few}(\gamma,a,\ell^b,\ell^\nu,B)$. Then $\mathrm{Eq}(\gamma,a,\ell^\nu)$ is finite and
+\[
+ \#\mathrm{Eq}(\gamma,a,\ell^\nu)\cdot(\ell^\nu)^{r_2(L)}\le B\cdot\ell^{(b+v_\ell(E))g_L+c+v_\ell(E)}.
+\]
+\formallabel{UpperTheory.V.ZK.sCount}
+\formallabel{UpperTheory.V.ZK.SCount}
+\end{proposition}
+
+\begin{proof}
+Use the notation of \cref{pf:vwin:ctarith}; write $v=v_\ell$. Here $K=\OO_F^\times$, $T=\mu(F)$ and $\mathcal U_\delta=\OO_F^\times/(\mu(F)\cdot
+(\gamma^{-1}-a)\OO_F^\times)$. Since $L$ is totally imaginary and $F/L$ is cyclic of degree $n$, $\mathcal U_\delta$ is finite and
+$\#\mathcal U_\delta\cdot(a-1)=(a^n-1)^{r_2(L)}$ (\lref{UpperTheory.V.ZK.Ct.cardEQ}: by Herbrand's theorem
+$(\OO_F^\times\otimes\Q)\oplus\Q\cong\Q[\Gal(F/L)]^{r_2(L)}$, so the characteristic polynomial of $\gamma^{-1}$ on the lattice
+$\OO_F^\times/\mu(F)$ is $(X^n-1)^{r_2(L)}/(X-1)$, and the cokernel of the injective endomorphism $\gamma^{-1}-a$ has order
+$|\det(\gamma^{-1}-a)|=(a^n-1)^{r_2(L)}/(a-1)$). By \cref{pf:vwin:ctalg}\ref{pf:vwin:ctalg-a} and \cref{pf:vwin:ctarith}\ref{pf:vwin:ctarith-b},
+$W$ is finite with $\#W=\#\mathcal U_\delta\cdot\#\mathrm{Cl}_\delta$, and $\mathrm{Eq}(\gamma,a,\ell^\nu)$ is finite of order at most $\ell^{v(\#\mathrm{Cl}_\delta)}$.
+By \cref{pf:vwin:ctarith}\ref{pf:vwin:ctarith-a}, $v(\#\mathcal U_\delta)+c+v(E)=r_2(L)(\nu+v(E))\ge r_2(L)\nu$. Hence
+\[
+ \#\mathrm{Eq}(\gamma,a,\ell^\nu)\,(\ell^\nu)^{r_2(L)}\le\ell^{v(\#\mathrm{Cl}_\delta)+v(\#\mathcal U_\delta)+c+v(E)}=\ell^{v(\#W)}\,\ell^{c+v(E)}.
+\]
+Write $a^n-1=\ell^{\nu+v(E)}m$ with $\ell\nmid m$. By \cref{pf:vwin:ctalg}\ref{pf:vwin:ctalg-b} with $Q=\ell^\nu$, $u=\ell^{v(E)}m$ and
+$s=\ell^b$ there is $f:W\to Y_{\ell^\nu}$ with $f(w)=0\Rightarrow m\ell^{b+v(E)}w=0$, and $\#f(W)\le B$ by
+\cref{pf:vwin:ctarith}\ref{pf:vwin:ctarith-d}. Since $\ell\mid a-1$, \cref{pf:vwin:ctalg}\ref{pf:vwin:ctalg-c} bounds $\#W[\ell]$ by the
+number of $\gamma$-invariant $\ell$-Selmer classes of $F$, which is at most $\#\mathrm{Sel}_\ell(L)\cdot\ell^2$
+(\lref{UpperTheory.V.ZK.Ct.selInvLe}: such a class is represented by $z$ with $\gamma z=z\,w^\ell\rho^r$, $\rho$ a generator of
+$\mu(F)$, $r<\ell$; two representatives with the same $r$ and the same norm of $w$ differ by a Selmer class of $L$, and these data take
+at most $\ell^2$ values), where $\mathrm{Sel}_\ell(L)\subset L^\times/L^{\times\ell}$ is the group of classes of elements whose divisor
+is divisible by $\ell$; and $\#\mathrm{Sel}_\ell(L)\le\ell^{2[L:\Q]+\log_2h_L}$ (\lref{UpperTheory.V.ZK.Ct.selLCard}: it is an
+extension of a subgroup of $\mathrm{Cl}(L)[\ell]$ by $\OO_L^\times/\OO_L^{\times\ell}$). So $\#W[\ell]\le\ell^{g_L}$, and
+\cref{pf:vwin:ctalg}\ref{pf:vwin:ctalg-d} (with $s=b+v(E)$, $u=m$, $g=g_L$) gives $\ell^{v(\#W)}\le B\,\ell^{(b+v(E))g_L}$.
+Combining the two displayed bounds proves the claim.
+\end{proof}
+
+\subsubsection{From equivariant characters to \texorpdfstring{$\Sha$}{Sha}}
+
+\begin{proposition}[$\mathrm S_\Sha$]\label{pf:vwin:ssha}
+Let $L$ be a totally imaginary number field with top root $\ell^c$, $E\ge1$ and $B\in\N$. Assume that for every layer $F/L$ with data
+$(\ell,c,\nu,\zeta,\gamma)$ the group $\mathrm{Eq}(\gamma,(1+\ell^c)^E,\ell^\nu)$ is finite of order at most $B$. Then
+$\vwinsh(L,\ell,E)$ is finite and $\ell^{\vwinsh(L,\ell,E)}\le B$.
+\formallabel{PositivityTheory.QuaternionShaBounds.sSha}
+\formallabel{UpperTheory.V.ZK.SSha}
+\formallabel{PositivityTheory.QuaternionShaBounds.ShaAsm_holds}
+\formallabel{PositivityTheory.QuaternionShaBounds.ShaAsm}
+\formallabel{PositivityTheory.QuaternionShaBounds.LayEx_holds}
+\formallabel{PositivityTheory.QuaternionShaBounds.LayEx}
+\formallabel{PositivityTheory.QuaternionShaBounds.ClInj_holds}
+\formallabel{PositivityTheory.QuaternionShaBounds.ClInj}
+\formallabel{PositivityTheory.QuaternionShaBounds.ShaAssumptions.card_le}
+\formallabel{PositivityTheory.QuaternionShaBounds.ShaAssumptions.good_of}
+\formallabel{PositivityTheory.QuaternionShaBounds.ShaAssumptions.Good}
+\end{proposition}
+
+\begin{proof}
+Fix an algebraic closure $\Omega$ of $L$, an $\ell$-datum $D$, $G_L=\Gal(\Omega/L)$, $U_\infty=\ker\vwincyc$, and for $\nu\ge1$ let
+$F_\nu=L(\mu_{\ell^\nu})\subset\Omega$ and $G(\nu)=\Gal(\Omega/F_\nu)$. As $\mu_{q_\ell}\subset L$, $L$ is procyclic at $\ell$, and by
+\cref{pf:vwin-he:resinj,pf:vwin-he:resimage} (with $e=E\ne0$) restriction to $U_\infty$ is an injective $\Zl$-linear map from
+$\Sha_D(E)$ onto the module $\mathcal W$ of locally constant homomorphisms $\varphi:U_\infty\to\vwinQZ$ vanishing on the inertia groups
+and on the decomposition groups above $\ell$, with $\varphi(gug^{-1})=\vwincyc(g)^{-E}\varphi(u)$ for $g\in G_L$. It suffices to show that
+every finite subset $T\subset\mathcal W$ has at most $B$ elements: then $\mathcal W$ is finite of order at most $B$, and a finite
+$\Zl$-module of order $\ell^k$ has length $k$ (\lref{UpperTheory.V.Kum.lenOfCard}), so $\vwinsh(L,\ell,E)=\len_{\Zl}\mathcal W$ is
+finite and $\ell^{\vwinsh(L,\ell,E)}=\#\mathcal W\le B$.
+
+\emph{(1) Layers.} Let $\nu\ge c$. As $\vwincyc(G_L)=1+\ell^c\Zl$ (\cref{pf:vwin-he:layers}), there is $g\in G_L$ with
+$\vwincyc(g)=1+\ell^c$. Let $\gamma=g|_{F_\nu}$ and $\zeta\in F_\nu$ a primitive $\ell^\nu$-th root of unity; then
+$\gamma\zeta=\zeta^{1+\ell^c}$, $\gamma$ has the order $\ell^{\nu-c}$ of $1+\ell^c$ in $(\Z/\ell^\nu)^\times$ (as $c\ge1$, and $c\ge2$
+if $\ell=2$), and $[F_\nu:L]\le\ell^{\nu-c}$ since $\zeta^{\ell^{\nu-c}}\in\mu_{\ell^c}\subset L$. So $\gamma$ generates
+$\Gal(F_\nu/L)$, and $F_\nu/L$ is a layer with data $(\ell,c,\nu,\zeta,\gamma)$.
+
+\emph{(2) Class groups.} Let $\mathcal C_\nu$ be the group of homomorphisms $\theta:\mathrm{Cl}(F_\nu)\to\vwinQZ$ with
+$\theta(\tau x)=\vwincyc(h)^{-E}\theta(x)$ whenever $\tau\in\Gal(F_\nu/L)$ is the restriction of $h\in G_L$. For $\theta\in\mathcal C_\nu$
+killed by $\ell^\nu$ let $\varphi_\theta(P)\in\Z/\ell^\nu$ correspond to $\theta([P])\in\ell^{-\nu}\Zl/\Zl$. Then
+$\varphi_\theta\in\mathrm{Eq}(\gamma,(1+\ell^c)^E,\ell^\nu)$: it vanishes on principal divisors, and taking $h=g^{-1}$,
+$\varphi_\theta(\gamma^{-1}P)=\vwincyc(g)^E\varphi_\theta(P)=(1+\ell^c)^E\varphi_\theta(P)$ in $\Z/\ell^\nu$. The map $\theta\mapsto\varphi_\theta$ is
+injective, since the classes of primes generate $\mathrm{Cl}(F_\nu)$. Moreover, for $\nu\ge2$, by class field theory the locally
+constant homomorphisms $\psi:G(\nu)\to\vwinQZ$ vanishing on all inertia groups with $\psi(huh^{-1})=\vwincyc(h)^{-E}\psi(u)$ ($h\in G_L$)
+are exactly the compositions $\theta\circ\mathrm{Art}$ of the Artin map $G(\nu)\to\mathrm{Cl}(F_\nu)$ with $\theta\in\mathcal C_\nu$
+(\lref{UpperTheory.V.Kum.pullEq}); as the Artin map is surjective, $\ell^\nu\psi=0$ iff $\ell^\nu\theta=0$.
+
+\emph{(3) Finite level.} For every $\varphi\in\mathcal W$ there is $n_\varphi$ such that for all $\nu\ge n_\varphi$, $\varphi$ is the restriction to
+$U_\infty$ of a homomorphism $\psi$ on $G(\nu)$ as in (2), vanishing moreover on the decomposition groups above $\ell$, with
+$\ell^\nu\psi=0$: an equivariant homomorphism on $U_\infty$ extends equivariantly to some $G(n)$
+(\lref{UpperTheory.V.Kum.eqExt}); by (2) the extension factors through the finite group $\mathrm{Cl}(F_{\max(n,2)})$, hence is killed
+by some $\ell^r$, and its restrictions to $G(\nu)$, $\nu\ge\max(n,2,r)$, are as required.
+
+\emph{(4) Conclusion.} Let $T\subset\mathcal W$ be finite and $\nu\ge\max(c,2)$ with $\nu\ge n_\varphi$ for $\varphi\in T$. For $\varphi\in T$ choose
+$\psi_\varphi$ by (3) and $\theta_\varphi\in\mathcal C_\nu$ with $\psi_\varphi=\theta_\varphi\circ\mathrm{Art}$ and $\ell^\nu\theta_\varphi=0$ by (2). The
+map $\varphi\mapsto\varphi_{\theta_\varphi}$ is injective ($\varphi$ is the restriction of $\psi_\varphi$, which is determined by $\theta_\varphi$),
+so $\#T\le\#\mathrm{Eq}(\gamma,(1+\ell^c)^E,\ell^\nu)\le B$ by the hypothesis for the layer of (1).
+\end{proof}
+
+
+\subsubsection{The upper bound from the rank bound}
+
+Recall from \ref{pf:vwin:K3} that a \emph{primitive family} with values in a $\Z/q$-module $B$ is a family of linear maps
+$\Phi_n:C_{k+1}(\GL_n(\OO_L);\Z/q)\to B$ vanishing on boundaries, with $\Phi_{n'}(\mathrm{st}_*y)=\Phi_n(y)$ and
+$\Phi_{dn}(\psi_{d*}y)=d\,\Phi_n(y)$ for cycles $y$. For a number field $L$ let $t(L,N,m)$ be the order of the torsion subgroup
+of $H_m(\GL_N(\OO_L),\Z)$.
+
+\begin{proposition}[$\mathrm S_{\mathrm{upper}}$]\label{pf:vwin:supper}
+Assume $\mathrm S_{\mathrm{chain}}$ and \cref{pf:vwin:bodd}. Let $L$ be totally imaginary, $k$ even with $k+1<r_2(L)$, $q=\ell^\nu$, and
+$\Phi$ a primitive family of degree $k+1$ with values in a $\Z/q$-module $B$. Then every finite set of elements of the form
+$\ell^k\Phi_n(y)$, $y$ a cycle, has at most $q^{r_2(L)}\,t(L,2k+6,k+1)\,t(L,2k+6,k)$ elements.
+\formallabel{UpperTheory.V.ZK.sUpperOf}
+\formallabel{UpperTheory.V.ZK.SUpperOf}
+\formallabel{UpperTheory.V.ZK.SUpper}
+\formallabel{UpperTheory.V.ZK.IsPrimFam}
+\formallabel{UpperTheory.V.ZK.tc}
+\formallabel{UpperTheory.V.ZK.Up.zVal}
+\formallabel{UpperTheory.V.ZK.Up.ZVal}
+\formallabel{UpperTheory.V.ZK.Up.bock}
+\formallabel{UpperTheory.V.ZK.Up.Bock}
+\formallabel{UpperTheory.V.ZK.Up.fibCount}
+\formallabel{UpperTheory.V.ZK.Up.FibCount}
+\formallabel{UpperTheory.V.ZK.Up.rankCount}
+\formallabel{UpperTheory.V.ZK.Up.RankCount}
+\formallabel{UpperTheory.V.ZK.Up.IsPrimH}
+\end{proposition}
+
+\begin{proof}
+\emph{(1) Descent to integral homology.} For an integral cycle $z$ let $\bar z$ be its reduction modulo $q$; then
+$\varphi_n([z])=\Phi_n(\bar z)$ defines homomorphisms $\varphi_n:H_{k+1}(\GL_n(\OO_L),\Z)\to B$ (as $\Phi_n$ kills boundaries), compatible
+with stabilization and multiplied by $d$ under $\psi_d$.
+
+\emph{(2) Values on the elements $z_t$.} Let $z_t(x)$ be as in \cref{pf:vwin:bodd}. Since $\varphi(\psi_\ell y)=\ell\varphi(y)$ and
+$\varphi(\mathrm{st}\,y)=\varphi(y)$, $\varphi(z_{t+1}(x))=\ell(1-\ell^{t+1})\varphi(z_t(x))$, so $\varphi(z_t(x))=\ell^tw_t\varphi(x)$ with
+$w_t=\prod_{i<t}(1-\ell^{i+1})\equiv1\pmod\ell$. With $u\in\Z$ inverse to $w_t$ modulo $q$, $\ell^t\varphi_n(x)=\varphi_{\ell^tn}(u\,z_t(x))$
+for all $x$.
+
+\emph{(3) Bockstein.} For a group $G$ and a cycle $y\in C_{k+1}(G;\Z/q)$ let $\tilde y$ be its lift with coefficients in
+$\{0,\dots,q-1\}$; then $\partial\tilde y=qw$ with $w$ an integral cycle, and $\beta(y)=[w]$ is a torsion class in $H_k(G,\Z)$ ($q[w]=0$).
+$\beta$ is additive on cycles, and if $\beta(y)=0$, say $w=\partial v$, then $\tilde y-qv$ is an integral cycle reducing to $y$.
+
+\emph{(4) Counting.} Two elementary facts: (i) if $\beta:Y\to T$ and $g:Y\to B$ are homomorphisms, $T$ finite, and every set of values
+of $g$ on $\ker\beta$ has at most $c$ elements, then every set of values of $g$ has at most $c\,\#T$ elements (on each fibre of $\beta$
+the values of $g$ form a translate of a subset of $g(\ker\beta)$); (ii) if $H$ is an abelian group with finite torsion, $J\subset H$ a
+subgroup of rank at most $r$ and $f:H\to B$ a homomorphism into a group killed by $q$, then $\#f(J)\le\#(J/qJ)\le q^r\,\#H_{\mathrm{tors}}$.
+
+\emph{(5) Conclusion.} Let $S$ be the finite set, and stabilize the cycles $y_s$ ($s\in S$) into one $\GL_n(\OO_L)$ with $n\ge2k+6$. By
+homological stability for the torsion (\lref{UpperTheory.V.ZK.Up.torsStab}: for $n'\ge n\ge2m+4$ the torsion of
+$H_m(\GL_{n'}(\OO_L),\Z)$ has order $t(L,n,m)$), $T=H_k(\GL_n(\OO_L),\Z)_{\mathrm{tors}}$ has order $t(L,2k+6,k)$. Apply (4)(i) to the
+group $Y$ of $(k+1)$-cycles of $\GL_n(\OO_L)$ with coefficients in $\Z/q$, $\beta$ of (3) and $g(y)=\ell^k\Phi_n(y)$. If $\beta(y)=0$,
+then $y=\bar z$ for an integral cycle $z$, and by (1), (2), $g(y)=\ell^k\varphi_n([z])=\varphi_{\ell^kn}(u\,z_k([z]))$; so the values of $g$ on
+$\ker\beta$ lie in $\varphi_{\ell^kn}(J)$, where $J\subset H=H_{k+1}(\GL_{\ell^kn}(\OO_L),\Z)$ is the subgroup generated by the $z_k(x)$.
+By \cref{pf:vwin:bodd}, $J$ has rank at most $r_2(L)$, and $\#H_{\mathrm{tors}}=t(L,2k+6,k+1)$ by stability; so (4)(ii) gives
+$c=q^{r_2(L)}t(L,2k+6,k+1)$, and (4)(i) the claim.
+\end{proof}
+
+\subsubsection{Detection of powers and few classes}
+
+\begin{proposition}[$\mathrm S_{\mathrm{detect}}$]\label{pf:vwin:sdetect}
+Let $F/L$ be an extension of number fields, $q=\ell^\nu$, $\zeta\in\OO_F^\times$ a primitive $q$-th root of unity, $\beta\in F^\times$ and
+$0\ne b\in\OO_F$. If for every prime $P$ of $\OO_F$ with $b\notin P$ and $\OO_L\to\OO_F/P$ surjective the residue of $\beta$ is a $q$-th power
+in $(\OO_F/P)^\times$, then $\beta$ is a $q$-th power in $F$.
+\formallabel{LateralTheory.Fin.SDetect.intersectionNumber_baseChange}
+\formallabel{UpperTheory.V.ZK.SDetect}
+\formallabel{LateralTheory.Fin.SDetect.detection_statement_holds}
+\formallabel{LateralTheory.Q.SDetectCut.goal}
+\formallabel{LateralTheory.Q.SDetectCut.frob_fix}
+\end{proposition}
+
+\begin{proof}
+Let $\Omega$ be an algebraic closure of $F$, $x\in\Omega$ with $x^q=\beta$, and $g\in\Gal(\Omega/F)$. The set of $\sigma$ with
+$\sigma x=gx$ is open and non-empty. By Chebotarev's density theorem for primes of absolute degree one, it contains a Frobenius
+element $\sigma$ at a place $B$ of $\Omega$ above a prime $v$ of $\OO_F$ of absolute degree one with $bq\notin v$; then $\OO_F/v=\F_p$
+is the image of $\Z$, so $\OO_L\to\OO_F/v$ is surjective, and by hypothesis $\beta\equiv t^q$ modulo $v$ for a $v$-unit $t\in\OO_F$
+(after clearing a denominator prime to $v$). As $x^q-t^q=\prod_{i<q}(x-\zeta^it)$ has positive $B$-valuation, $x\equiv c:=\zeta^it\pmod B$
+for some $i$; in particular $x$ is a $B$-unit. Since $\sigma y\equiv y^p\pmod B$ for integral $y$ and $c^p\equiv c\pmod v$,
+$\sigma x\equiv x^p\equiv c^p\equiv c\equiv x\pmod B$. But $\sigma x=\zeta^jx$ for some $j$, and $\zeta^j-1$ is a $B$-unit unless $\zeta^j=1$,
+because $q\notin v$; hence $\sigma x=x$, i.e.\ $gx=x$. So $x$ is fixed by $\Gal(\Omega/F)$, $x\in F$, and $\beta=x^q$.
+\end{proof}
+
+\begin{proposition}[$\mathrm S_{\mathrm{few}}$]\label{pf:vwin:sfew}
+Assume $\mathrm S_\theta$, $\mathrm S_\phi$, $\mathrm S_{\mathrm{class}}$, $\mathrm S_{\mathrm{upper}}$ and $\mathrm S_{\mathrm{detect}}$. Let
+$L$ be totally imaginary, $F/L$ a layer with data $(\ell,c,\nu,\zeta,\gamma)$, $e\in\N$ with $2e+3<\ell^c$ and $2e+3<r_2(L)$, and
+$a=(1+\ell^c)^{e+1}$. Then $\mathrm{Few}(\gamma,a,\ell^{b},\ell^\nu,B)$ holds with $b=2e+2+(2e+3)(c+2e+3)$ and
+$B=(\ell^\nu)^{r_2(L)}\,t(L,4e+10,2e+3)\,t(L,4e+10,2e+2)$.
+\formallabel{LateralTheory.Fin.SFewOf.intersectionNumber_baseChange}
+\formallabel{UpperTheory.V.ZK.SFewOf}
+\formallabel{UpperTheory.V.ZK.SFew}
+\formallabel{LateralTheory.Fin.SFewOf.few_of_statement_holds}
+\formallabel{LateralTheory.Q.SFewOfCut.sFewOf}
+\formallabel{LateralTheory.Q.SFewOfCut.pe_dvd}
+\formallabel{LateralTheory.Q.SFewOfCut.exists_index}
+\formallabel{LateralTheory.Q.SFewOfCut.prim_map}
+\end{proposition}
+
+\begin{proof}
+Let $q=\ell^\nu$ and $S$ a finite set as in the definition of $\mathrm{Few}$. For $\alpha\in S$ let $N_\alpha$, $y_\alpha$, $b_\alpha$ be as in
+$\mathrm S_{\mathrm{class}}$, and let $I$ be the set of primes $P$ of $\OO_F$ not dividing $\ell\prod_\alpha b_\alpha$ with $\OO_L\to\OO_F/P$
+surjective. For $P\in I$ let $k_P=\OO_F/P$; the residue of $\zeta$ is a primitive $q$-th root of unity, so $q$ divides $\#k_P^\times$ and there
+is $v_P:k_P^\times\to\Z/q$ with kernel the $q$-th powers ($k_P^\times$ is cyclic). By $\mathrm S_\theta$ there is an additive family $\theta_P$ normalized
+for $(\zeta\bmod P,v_P)$, and by $\mathrm S_\phi$ its pull-back along $\OO_L\to k_P$ is a primitive family $\Phi_P$. By $\mathrm S_{\mathrm{class}}$,
+$\Phi_P(y_\alpha)=p_e\,v_P(u_{\alpha,P})$, $u_{\alpha,P}$ the residue of $\mathrm N_a(\alpha)$.
+
+Each factor $(1+\ell^c)^{e+1}-(1+\ell^c)^j$ of $p_e$ has $\ell$-adic valuation $c+v_\ell(e+1-j)<c+2e+3$ (as $|e+1-j|<2e+3<\ell^c$), so
+$\ell^{(2e+3)(c+2e+3)}$ is a multiple of $p_e$ in $\Z/q$. Let $f(\alpha)=(\ell^{2e+2}\Phi_P(y_\alpha))_{P\in I}\in(\Z/q)^I$. If $f(\alpha)=f(\alpha')$,
+then for every $P\in I$, $\ell^{2e+2}p_e(v_P(u_{\alpha,P})-v_P(u_{\alpha',P}))=0$, hence $v_P\bigl((u_{\alpha,P}/u_{\alpha',P})^{\ell^b}\bigr)=0$, i.e.\ the
+residue of $\mathrm N_a(\alpha)^{\ell^b}\mathrm N_a(\alpha')^{-\ell^b}$ is a $q$-th power. By $\mathrm S_{\mathrm{detect}}$ this element is a $q$-th power
+in $F$, so $\alpha=\alpha'$ by the defining property of $S$. Thus $f$ is injective. The family $(\Phi_P)_{P\in I}$ is primitive with values in
+$(\Z/q)^I$, and $f(S)$ consists of elements $\ell^{2e+2}\Phi(y)$; $\mathrm S_{\mathrm{upper}}$ with $k=2e+2$ gives $\#S=\#f(S)\le B$, as
+$2(2e+3)+4=4e+10$.
+\end{proof}
+
+\subsubsection{Passing to a deeper layer, and torsion}
+
+\begin{proposition}[$\mathrm S_{\mathrm{layer}}$]\label{pf:vwin:slayer}
+Let $L$ be a number field containing a primitive $q_\ell$-th root of unity and $E\ge1$. There are a totally imaginary extension $L'$ of $L$ of
+degree $d$ and $c\ge1$ such that $L'$ has top root $\ell^c$, $2E+1<\ell^c\le2[L':\Q]$, $2E+1<r_2(L')$, $d\le([L:\Q]+1)(4E+4)$,
+$|d_{L'}|\le|d_L|^d(\ell^c)^{[L':\Q]}$ and $\vwinsh(L,\ell,E)\le\vwinsh(L',\ell,E)$.
+\formallabel{LateralTheory.Fin.SLayer.intersectionNumber_baseChange}
+\formallabel{UpperTheory.V.ZK.SLayer}
+\formallabel{LateralTheory.Fin.SLayer.layer_statement_holds}
+\formallabel{LateralTheory.Q.SLayerCut.goal_of}
+\end{proposition}
+
+\begin{proof}
+Let $m$ be least with $\ell^m\ge4E+4$, so $\ell^m\le\ell(4E+4)$, and let $L'$ be the layer of degree $d=\ell^m$ over $L$ in the cyclotomic
+$\ell$-tower, i.e.\ $L'=L(\mu_{\ell^{c_0+m}})$ with $c_0$ maximal such that $\mu_{\ell^{c_0}}\subset L$ (\cref{pf:vwin-he:layers}). Then $L'$ is
+totally imaginary, contains $\mu_{q_\ell}$, and has top root $\ell^c$ with $c\ge c_0+m$, so $\ell^c\ge4E+4>2E+1$; $\ell^c\le2[L':\Q]$
+since $[\Q(\mu_{\ell^c}):\Q]=\ell^{c-1}(\ell-1)\ge\ell^c/2$ (\lref{UpperTheory.V.Win.rootdeg}); $r_2(L')=[L':\Q]/2\ge\ell^m>2E+1$ (as $[L:\Q]\ge2$);
+and $d=\ell^m\le\ell(4E+4)\le([L:\Q]+1)(4E+4)$, because $\ell-1=[\Q(\mu_\ell):\Q]\le[L:\Q]$ for odd $\ell$. The discriminant bound follows
+from $L'=L(\zeta)$ with $\zeta$ a root of $X^{\ell^{c_0+m}}-1$, whose discriminant divides a power of $\ell^c$ of exponent at most the degree
+(\lref{LateralTheory.Q.SLayerCut.disc_cyc}). Finally, by the descent isomorphism \cref{pf:vwin-he:desc} for $L_1=L$ and $L_1=L'$ with the
+same group $U=G_L$, $\Sha(L,E)$ and $\Sha(L',E)$ are the modules of invariants of $G_L$, resp.\ of its subgroup $G_{L'}$, in the same module;
+so $\vwinsh(L,\ell,E)\le\vwinsh(L',\ell,E)$ (\lref{LateralTheory.Q.SLayerCut.sha_le}, \lref{UpperTheory.V.Tower.exists_descends}).
+\end{proof}
+
+\begin{proposition}[$\mathrm S_{\mathrm{tors}}$]\label{pf:vwin:stors}
+There is $C_0$ such that $\log t(L,4E+6,m)\le\kappa(C_0,E,[L:\Q],|d_L|)$ for all totally imaginary $L$, $E\ge1$ and $m\le2E+1$.
+\formallabel{UpperTheory.V.ZK.sTors}
+\formallabel{UpperTheory.V.ZK.STors}
+\formallabel{UpperTheory.V.ZK.torsAll}
+\end{proposition}
+
+\begin{proof}
+We show that $C_0=24$ works, for all $1\le N\le4E+6$. Let $n=[L:\Q]$ and $D=|d_L|$. The group $\GL_N(\OO_L)$ acts on an acyclic
+complex of reduced $\OO_L$-lattices (Hermite normal forms), and a general bound for the torsion in the homology of a group acting on such
+a complex gives $\log t(L,N,m)\le\exp(a+(m+1)\sigma+2m)$ whenever the number $A$ of orbits of the relevant cells satisfies $A\le e^a$ and
+the constant $s=3^{nN^2}$ satisfies $s\le e^\sigma$ (\lref{UpperTheory.V.KT.tors_le},
+\lref{UpperTheory.V.KH.TorsLe.log_le_exp}). Here $A\le(2DnN)^{12(m+1)(nN)^3N}$ (\lref{UpperTheory.V.KT.orbnum}) and
+$s\le\exp(2nN^2)$. Inserting $N\le4E+6$ and $m\le2E+1$, the resulting bound is at most $\exp((2En)^{24}\log(2D))=\kappa(24,E,n,D)$
+(\lref{UpperTheory.V.ZK.TorsionExponentBound.exponent_le}, an elementary estimate).\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{A patching theorem for ordinary determinants}\label{sec:pf:vwin:patch}
+
+The last root of this part of the development is a patching theorem of Taylor--Wiles type
+\cite{TaylorWiles1995,Kisin2009,ClozelHarrisTaylor2008} for deformation rings of residually reducible ordinary
+determinants in the sense of Chenevier \cite{Chenevier2014}, close in spirit to \cite{Thorne2012}. It is used, outside
+this section, in the proofs of two automorphy statements for unitary groups in three variables
+(\lref{UpperTheory.V.HV.Core.modU_of_printsH},
+\lref{UpperTheory.V.Z.J.D.modularity_n_of_num_j_printed_mult_comp}). We state it and describe the structure of its
+formal proof, whose six ingredients we do not reproduce.
+
+\paragraph{Setting.} Let $\ell$ be an odd prime, $L$ a CM field with maximal totally real subfield $L^+$, $\Omega$ an algebraic closure of
+$L$, and $\OO$ a coefficient ring for $\ell$. A \emph{Hida setting} fixes a complex conjugation, a finite set $S$ of places of $L^+$, and places of
+$\Omega$ above the places of $L^+$, under the condition that the inertia groups of $L^+$ are contained in the image of $G_L$ (so that $L/L^+$ is
+unramified at all finite places). A \emph{level} is a finite set $S'\supset S$ of places of $L^+$ which split in $L$, with the quotient
+$\Gamma=G_{L^+,S'}$, the character $\eta:\Gamma\to\{\pm1\}$ cutting out $L$ (so $\eta(c)=-1$ for complex conjugation $c$), its kernel $G_0$, and the
+cyclotomic character $\varepsilon:\Gamma\to\Zl^\times$. A \emph{residual datum} $r$ of dimension $n\ge1$ consists of $n$ distinct characters
+$\bar\chi_1,\dots,\bar\chi_n$ of $G_0$ with values in the residue field of $\OO$, whose sum $\bar D$ is polarized, together with local characters at
+the places of $S'$. For a complete local $\OO$-algebra $R$ with the same residue field, a \emph{pair} over $R$ is a continuous $n$-dimensional determinant
+$D$ of $G_0$ with values in $R$ lifting $\bar D$, polarized, together with local characters lifting those of $r$, such that $D$ is ordinary at the places
+above $\ell$ with respect to these characters and satisfies a condition at the inertia groups of $r$. The \emph{universal ordinary determinant ring} $B$ is
+an $\OO$-algebra with a pair which is universal for maps to such $R$. A \emph{point} of $B$ is, roughly, a representation
+$\rho:G_0\to\GL_n(K[[T]])$ ($K$ a finite extension of the residue field) with a symmetric polarization, ordinary flags at the places above $\ell$ and
+the residual determinant $\bar D$, together with the homomorphism $f:B\to K[[T]]$ classifying its determinant; points come with niceness conditions of
+two types (``type I'' and ``type E''). A prime $\mathfrak q$ of $B$ is \emph{stable} if the determinant at $\mathfrak q$ is that of an absolutely
+irreducible representation, and \emph{thick} if it is not stable and a certain local algebra at $\mathfrak q$ is not semisimple.
+
+\begin{theorem}[Patching]\label{pf:vwin:pfromaut}
+Assume the Galois cohomology statements of group (c) of $\sfname{LiteratureRankNHypothesis}$ (local finiteness, local Tate duality, local Euler
+characteristic, global finiteness, global Euler characteristic, the Greenberg--Wiles formula and normalized Poitou--Tate duality). Let
+$\ell,L,\Omega$, a Hida setting, a level with $S'=S$, $\OO$, $n\ge1$, a residual datum $r$, the universal ring $B$ and an ideal $J\subset B$ be given.
+Assume that the local degrees satisfy the class field theory condition $\sum_vd_v=[L^+:\Q]$ for suitable local abelian data at the places above $\ell$,
+that $\varepsilon\bmod\ell$ is non-trivial on $G_0$, and that \emph{$J$ is automorphic at all Taylor--Wiles levels}: for every Taylor--Wiles datum (a
+choice of auxiliary primes and of Frobenius elements, with the associated places) there is an automorphic patching datum for $B$ and $J$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item if $x$ is a point of type I with $J\subset\ker f_x$, then every prime $\mathfrak q\subset\ker f_x$ of $B$ contains $J$;
+\item if $x_0,\dots,x_h$ are points of type E such that consecutive points are linked by thick primes ($\mathfrak e_i\subset\ker f_{x_{i-1}}\cap\ker
+f_{x_i}$), and some stable prime $\mathfrak q_1$ with $J\subset\mathfrak q_1\subset\ker f_{x_0}$ exists, then every stable or thick prime
+$\mathfrak q\subset\ker f_{x_h}$ contains $J$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Pa.pFromAut}
+\formallabel{UpperTheory.V.Pa.pFromAut_of}
+\end{theorem}
+
+In other words, automorphy (membership in the closed subset defined by $J$) propagates from a nice automorphic point to all irreducible components of
+$\Spec B$ through it, and along chains of components linked by thick primes. This is the conclusion of the Taylor--Wiles--Kisin method: the patched
+module is supported on full components.
+
+\begin{proof}[Structure of the proof]
+The theorem is deduced (\lref{UpperTheory.V.Pa.chain_of}) from six statements of the development:
+\begin{enumerate}[label=(P\arabic*)]
+\item (\lref{UpperTheory.V.Pa.norm}.) Normalization: every nice point can be replaced, after a finite local injective extension of its coefficient
+ring, by a point in normal form with the same determinant and local characters.
+\item (\lref{UpperTheory.V.Pa.choice}.) Choice of Taylor--Wiles elements: for finitely many points there are elements $\sigma_1,\dots,\sigma_q$ of
+the subgroup $G'$ (on which the residual characters are distinct) at which the characteristic polynomials of the points have distinct roots, and which
+\emph{detect} the points (\lref{UpperTheory.V.Pa.detection}: a closed subset of $G'$ whose closure contains $G'$ detects, when $\varepsilon\bmod\ell$ is
+non-trivial).
+\item (\lref{UpperTheory.V.Pa.arPl}.) Existence of Taylor--Wiles places: for any finite family of elements of $G'$ there is a Taylor--Wiles datum
+whose Frobenius elements are the given ones (Chebotarev's theorem).
+\item (\lref{UpperTheory.V.Pa.b1Ar}.) A bound for the first-order dual (the number of generators of the relevant dual Selmer groups) at Taylor--Wiles
+levels, by $n[L^+:\Q]+nq$, from the Galois cohomology statements and the class field theory condition.
+\item (\lref{UpperTheory.V.Pa.b2Ar}.) A bound for the obstructions at Taylor--Wiles levels, from Poitou--Tate duality and the Euler characteristic
+formulas.
+\item (\lref{UpperTheory.V.Pa.raw}.) The patching argument proper: given automorphic patching data at all Taylor--Wiles levels and the two
+bounds, the conclusion of (a) and (b) holds for the points of the patched ring.
+\end{enumerate}
+Combining (P1)--(P6), together with the comparison between stable primes of $B$ and of the patched rings
+(\lref{UpperTheory.V.Pa.Det.stableIff}), gives (a) and (b).
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Plain local components}\label{sec:pf:vwin:plain}
+
+This subsection contains a local lemma on cuspidal representations which is used in the proof of the Kato-type
+statements elsewhere in Part~II. Let $K$ be a totally imaginary number field, $n\ge1$, $\pi$ a cuspidal automorphic
+subrepresentation of $\GL_n(\A_K)$ and $v$ a finite place of $K$ with residue field of order $q_v$ and uniformizer
+$\varpi_v$. A finite multiset $s$ of characters of $K_v^\times$ is \emph{unlinked} if $(\xi/\xi')(\varpi_v)\ne q_v$ for all
+$\xi,\xi'\in s$ such that $\xi/\xi'$ is unramified. An irreducible smooth representation of $\GL_n(K_v)$ is \emph{plain} if it
+has a supercuspidal support consisting of characters of $\GL_1(K_v)=K_v^\times$ which is unlinked; $\pi$ is \emph{plain at
+$v$} if all its local components at $v$ are plain. For $t\in\R$, $\pi$ \emph{satisfies the window at $(t,v)$} if every local
+component of $\pi$ at $v$ has a supercuspidal support consisting of characters of $K_v^\times$, and every character $\xi$
+occurring in such a support satisfies $q_v^{t-1/2}<|\xi(\varpi_v)|<q_v^{t+1/2}$.
+
+\begin{lemma}\label{pf:vwin:plainof}
+Let $K$, $n$, $\pi$ and $v$ be as above.
+\begin{enumerate}[label=(\alph*)]
+\item If $\pi$ satisfies the window at $(t,v)$ for some $t\in\R$, then $\pi$ is plain at $v$.
+\item If $\pi$ has Satake parameters at $v$, then $\pi$ is plain at $v$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Z.Win.plainOf}
+\formallabel{UpperTheory.V.Z.Win.PlainOf}
+\formallabel{UpperTheory.V.Z.Win.PlainAt}
+\end{lemma}
+
+\begin{proof}
+Since supercuspidal supports are unique up to reordering, $\pi$ is plain at $v$ if and only if every local component
+of $\pi$ at $v$ has a supercuspidal support consisting of characters of $K_v^\times$ and every such support is unlinked
+(\lref{UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter.plainIff}). (a) The first condition is part of the window.
+If $\xi,\xi'$ occur in a support, then $|\xi(\varpi_v)|<q_v^{t+1/2}$ and $|\xi'(\varpi_v)|>q_v^{t-1/2}$, so
+$|(\xi/\xi')(\varpi_v)|<q_v$, and in particular $(\xi/\xi')(\varpi_v)\ne q_v$
+(\lref{UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter.winUnl}). (b) If $\pi$ has Satake parameters at $v$, every local
+component at $v$ is a subquotient of a principal series induced from unramified characters whose values at $\varpi_v$ are
+the Satake parameters, so it has a support of unramified characters; and the Satake parameters of a cuspidal
+representation are unlinked, since its local components are generic and an unramified generic representation is the
+full, irreducible, induced representation (\lref{UpperTheory.V.Z.ImaginaryQuadraticEtaCharacter.sphUnl}). In both
+cases the criterion above shows that $\pi$ is plain at $v$.
+\end{proof}

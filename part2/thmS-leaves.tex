@@ -1,0 +1,2174 @@
+\section{Theorem S I: leaves and partner counts}\label{sec:pf:thmS-leaves}
+
+\providecommand{\thmSleavesKtop}{K^{\mathrm{top}}}
+\providecommand{\thmSleavesBB}{\mathrm{BB}}
+\providecommand{\thmSleavesBBG}{\mathrm{BB}^{\mathrm{gl}}}
+\providecommand{\thmSleavesCls}{\mathrm{Cls}}
+\providecommand{\thmSleavesCok}{\mathrm{Cok}}
+\providecommand{\thmSleavesaut}{\mathrm{aut}}
+\providecommand{\thmSleavesmod}{\mathrm{mod}}
+\providecommand{\thmSleavesdens}{\mathrm{dens}}
+
+\subsection{Introduction}\label{pf:thmS-leaves:intro}
+
+Theorem S (\cref{thm:theorem-S}) bounds the leading coefficient of the off-diagonal orbital expansion
+relating the spaces of automorphic forms attached to two distinct words. Its proof goes through a
+pointwise statement whose hypotheses are collected in a package $\mathcal P_S$ of nineteen statements
+(\cref{pf:thmS-leaves:def:package}). This section proves the package from five hypotheses, which are described in
+\cref{pf:thmS-leaves:def:hyps}: the \emph{carrier estimate} (Car), the non-generic row bound $\sfname{RowNGP}$,
+finite-dimensionality of the row spaces (FD), multiplicity one for Bessel models with large gap (BM), and the
+Siegel--Weil volume identities $\sfname{SWXS}$. The formal statement also assumes nine \emph{background hypotheses}
+(\cref{pf:thmS-leaves:hyp:background}); these are theorems of the development, registered as instances.
+
+\begin{theorem}[The hypothesis package of Theorem S]\label{pf:thmS-leaves:main}
+Assume \textup{(Car)}, $\sfname{RowNGP}$, \textup{(FD)}, \textup{(BM)}, $\sfname{SWXS}$ and the background hypotheses
+(\cref{pf:thmS-leaves:hyp:background}). Then the hypothesis package $\mathcal P_S$ holds.
+\formallabel{GlobalTheory.CarrierGap.theoremS_leaves_of_carrierG}
+\end{theorem}
+
+Of the nineteen clauses of $\mathcal P_S$, two are hypotheses ((Car) and $\sfname{RowNGP}$), seven are proved elsewhere in
+Part II and are only cited here, and ten are proved in this section. Their weight is very unequal. The heart of the
+section is the \emph{rows input} (clause (3)): a positivity statement saying that, for a datum, two words and a choice
+of local data, the kernel of the top level of the point data dominates, in the sense of positive semidefinite
+matrices, the kernel built from the \emph{row vectors}. The row vectors are sums, over global orbits of flags
+(``terms'') lying over a point, of explicit weighted coefficients. The argument has three layers.
+
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Expansion of the top kernel} (\cref{pf:thmS-leaves:ss:expansion}). The top kernel is a product,
+over the finite places $p$ of the totally real field, of local kernels. Each local kernel is, by definition,
+a weighted sum $\sum_c \thmSleavesBB_p(w,c)\overline{\thmSleavesBB_p(w',c)}/\thmSleavesaut(c)$ over classes $c$ of
+``cokernel data'' of integral matrices, where $\thmSleavesBB_p(w,c)$ is an integral over a Bruhat cell. Multiplying
+out the product gives an expansion of the top kernel over restricted families of local classes, so the top
+kernel dominates each finite part of this expansion.
+\item \emph{Domination of the rows} (\cref{pf:thmS-leaves:ss:positivity}). Two identities, the \emph{partner sums}
+and the \emph{fiber counts}, express the row kernel as a Gram matrix of the same global vectors
+$\thmSleavesBBG(w,\kappa,\theta)$ that occur in (a), with weights bounded by the supremum of the local densities.
+Together with a support property derived from the product formula, this gives the positivity.
+\item \emph{The leaves} (\cref{pf:thmS-leaves:ss:leavesrows,pf:thmS-leaves:ss:leaves}). The partner sums and fiber
+counts are reduced, by summing over restricted tuples of local orbits, to eight local--global statements
+(``the leaves''): local orbit expansions of $\thmSleavesBB_p$, a product formula for the coefficients, \emph{partner
+counts}, fiber counts and four smaller statements. The partner counts rest on a count of lattices in hermitian
+spaces over local fields, and the leaves on three ``deep'' statements: local counting, strong approximation for
+unipotent stabilisers, and global patching of frames.
+\end{enumerate}
+
+Layers (a) and (b), and the passage from the leaves to the partner sums and fiber counts, are proved in full.
+The deep ingredients of (c), the local count of lattices and the remaining clauses of the package are proved here
+down to statements that are cited with their formal names.
+
+\paragraph{Organisation.} \Cref{pf:thmS-leaves:ss:conventions} fixes conventions and describes the hypotheses,
+\cref{pf:thmS-leaves:ss:local} defines local models and local kernels, and \cref{pf:thmS-leaves:ss:global} the global
+points and kernels. \Cref{pf:thmS-leaves:ss:expansion,pf:thmS-leaves:ss:support} prove the expansion and the support
+property. \Cref{pf:thmS-leaves:ss:terms} defines terms, rows and the rows input; \cref{pf:thmS-leaves:ss:positivity}
+proves the rows input from the datum of rows; \cref{pf:thmS-leaves:ss:leavesrows} deduces the datum of rows from the
+leaves; \cref{pf:thmS-leaves:ss:leaves} treats the leaves, the partner counts and the deep leaves.
+\Cref{pf:thmS-leaves:ss:localmodel} treats the local model clause, \cref{pf:thmS-leaves:ss:remaining} the remaining
+clauses, and \cref{pf:thmS-leaves:ss:mainproof} assembles the proof of \cref{pf:thmS-leaves:main}.
+
+\subsection{Conventions and the hypotheses}\label{pf:thmS-leaves:ss:conventions}
+
+The formal statements use the following conventions, and we keep them because several statements depend on them.
+\begin{itemize}
+\item $\sum'_{j}a_j$ denotes the sum of an unconditionally summable family and is $0$ if the family is not
+summable; ``$\sum_j a_j=s$'' (``has sum $s$'') means that the family is unconditionally summable with sum $s$.
+\item $\prod^{\mathrm f}_p a_p$ (``finite product'') is the product of the $a_p$ over the set $\{p:a_p\ne1\}$ if that
+set is finite, and is $1$ otherwise. $\prod'_p a_p$ is the unconditional infinite product, and is $1$ if the family
+is not multipliable.
+\item $\#X$ is the cardinality of a set $X$ if $X$ is finite, and $0$ if $X$ is infinite; $x/0=0$; the supremum of a
+subset of $\R$ which is empty or not bounded above is $0$.
+\item Integrals are Bochner integrals, equal to $0$ for non-integrable integrands.
+\item A complex matrix $A=(A_{xy})_{x,y\in Y}$ indexed by a finite set is \emph{positive semidefinite} (PSD) if it
+is hermitian and $\sum_{x,y}\overline{v_x}A_{xy}v_y\ge0$ for all $v\in\C^Y$. A function $k$ on $Y\times Y$ is PSD on
+$Y$ if $(k(x,y))_{x,y\in Y}$ is.
+\end{itemize}
+Sums of PSD matrices are PSD, $cA$ is PSD for $c\ge0$ and $A$ PSD, $(v_x\overline{v_y})_{x,y}$ is PSD for every
+vector $v$, and $B^*AB$ is PSD whenever $A$ is. A sum or product over a subset $\{j:P(j)\}$ is written with the
+condition under the symbol.
+
+\begin{definition}[The five hypotheses]\label{pf:thmS-leaves:def:hyps}
+\begin{enumerate}
+\item The \emph{carrier estimate} (Car) asserts the existence of constants such that, for all data satisfying the
+size hypotheses for two distinct words and having pinned point representatives at the real places, the carrier
+inequality for the associated archimedean data holds.
+\item $\sfname{RowNGP}$ is the bound for the non-generic part of the orbital term systems of
+\cref{prop:families:volratio}.
+\item (FD) is the finite-dimensionality of the row spaces: for every automorphic instance with a fundamental domain,
+every locally constant test function supported in the level subgroup, and every family of unit vectors in
+square-integrable irreducible unitary representations at the infinite places, the space cut out by the convolution
+operator of the test function and the integral of the right regular representation against the matrix
+coefficients of these vectors is finite-dimensional.
+\item (BM) is multiplicity one for Bessel models: for a discrete series representation of a unitary group of rank $n$
+whose Harish-Chandra parameter has gap at least $120n^3$, and a representation of Harish-Chandra type at the base
+point, any two smooth Bessel maps with the generic character are linearly dependent on smooth vectors.
+\item $\sfname{SWXS}$ are the Siegel--Weil volume identities in the CM and hermitian steps of every Hida setting,
+together with the compatibility of stabilisers, as in \cref{prop:families:volratio}.
+\end{enumerate}
+\formal{Formalism.L2.SG.PoincareAmplitudeLowerBounds.CarrierP}
+\formal{Formalism.L2.SG.RowsPos.RowNGP}
+\formal{Formalism.L2.SG.RowsDef.RowsFinDim}
+\formal{CompanionTheory.Lime.BM.UniqGap}
+\formal{PI.VolStabS.MassDataS.SWXS}
+\end{definition}
+
+\begin{hypothesis}[Background hypotheses]\label{pf:thmS-leaves:hyp:background}
+The \emph{background hypotheses} are the following nine statements. Each of them is proved elsewhere in the development
+\cite{LeanSource2026} and registered there as an instance, so that it is supplied automatically wherever a result
+assuming it is used.
+\begin{enumerate}
+\item Over a CM field $K$ such that complex conjugation is induced by the involution of $K$ under every embedding and
+every maximal ideal $P$ of $\OO_K$ satisfies $\theta-\bar\theta\notin P$ for some $\theta\in\OO_K$: for all totally
+positive $a,b,n$ in the totally real subfield there are $s,t\in K$ with $as\bar s+bt\bar t=n$.
+\item The density of $K$-finite vectors among the smooth vectors of a discrete series representation of the real
+unitary group, for the seminorms defined by finitely many derivatives.
+\item A decay bound for the matrix coefficients of vectors of the lowest $K$-type of discrete series representations
+whose Harish-Chandra parameter has a large gap.
+\item An integrability statement for such matrix coefficients, against a power of the norm.
+\item A non-vanishing statement for Bessel integrals of such representations against representations of
+Harish-Chandra type.
+\item A second non-vanishing statement of the same form.
+\item A statement on the coefficients of the carrier data.
+\item A volume identity for the gauge measures of the unitary groups of definite signature (total mass
+$\prod_{i=0}^{k-1}(2\pi)^{i+1}/i!$ in size $k$).
+\item A limit formula, as the radius tends to $0$, for an archimedean integral over small balls divided by the volume of
+the balls.
+\end{enumerate}
+\formal{Formalism.HermitianLattices.Ext.L3.HermRepUnram}
+\formal{Formalism.L2.SG.Pf.CarrierXAll.KFinDense}
+\formal{Formalism.FourierDecayAlt.ThreeDimData.DecLow}
+\formal{Formalism.L2.SG.SplitPrimeNormLemmas.CoefWeightedLoc}
+\formal{Formalism.L2.SG.LitS.PfNVG.BesselNVG}
+\formal{Formalism.L2.SG.SplitPrimeNormLemmas.BesselNVGap}
+\formal{Formalism.L2.SG.Pf.CarrierT.CoefCapAll}
+\formal{PI.AprimeInfW.GaugeVolUD}
+\formal{Formalism.L2.SG.Pf.WB.RhsWLim}
+\end{hypothesis}
+
+\subsection{Local models and local kernels}\label{pf:thmS-leaves:ss:local}
+
+\begin{definition}[Local models]\label{pf:thmS-leaves:def:model}
+Let $F$ be a field with a valuation and a topology, and $E$ a commutative $F$-algebra with a topology and a
+$\sigma$-algebra. A \emph{local model} $M$ on $(F,E)$ consists of the following data.
+\begin{enumerate}
+\item An $F$-algebra involution $c$ of $E$ whose fixed ring is $F$; $E$ is free of rank $2$ over $F$,
+reduced, and carries the module topology. $\OO\subset E$ is the subring of elements integral over the
+valuation ring $\OO_F$; for every irreducible $\varpi\in\OO_F$ and $x\in\OO$, $x^2\in\varpi\OO$ implies
+$x\in\varpi\OO$. A continuous additive character $\psi_0$ of $E$ with $\psi_0\circ c=\psi_0$ and
+$\{x:\psi_0(x\OO)=1\}=\OO$.
+\item Optionally, a \emph{splitting}: an $F$-algebra isomorphism $e:E\cong F\times F$ with
+$e(c(x))=\mathrm{swap}(e(x))$, an irreducible $q\in\OO_F$ and a continuous character $\psi_F$ of $F$ trivial on
+$\OO_F$ but not on $q^{-1}\OO_F$, with $\psi_0(x)=\psi_F(x_1+x_2)$ where $e(x)=(x_1,x_2)$.
+\item A measure $\mu$ on $E$.
+\end{enumerate}
+The ring $R=R_M$ is $\OO$ if there is no splitting, and $\{x:e(x)\in\OO_F^2,\ x_1\equiv x_2\bmod q\}$ if there is
+one. The character $\psi_M$ of $E$ is $\psi_0$ without splitting and $x\mapsto\psi_F((x_1-x_2)/q)$ with
+splitting. $M$ is \emph{admissible} if $F$ is a nonarchimedean local field of characteristic $0$, $\mu$ is a
+$\sigma$-finite additive Haar measure on the Borel space $E$, and $\mu(R)=1$. We put
+$\thmSleavesmod_M(x)=\mu(xR)$ for $x\in E$.
+\formal{Formalism.MainNotions.S.Loc.Model}
+\end{definition}
+
+\begin{definition}[Cokernel data and their classes]\label{pf:thmS-leaves:def:cok}
+Let $M$ be a local model and $m\ge0$. Let $\mathrm{Mat}_M(m)$ be the set of $m\times m$ matrices $Z$ with entries in
+$R$ whose determinant is a unit of $E$. For $Z\in\mathrm{Mat}_M(m+1)$ put $\thmSleavesCok(Z)=R^{m+1}/ZR^{m+1}$, let
+$e_Z\in\thmSleavesCok(Z)$ be the class of the last standard basis vector, and let
+$\lambda_Z:\thmSleavesCok(Z)\to E/R$ be the $R$-linear map $v\mapsto(Z^{-1}v)_{m+1}\bmod R$ (well defined since
+$(Z^{-1}Zx)_{m+1}=x_{m+1}\in R$). For $Z,Z'\in\mathrm{Mat}_M(m+1)$ let $\mathrm{Iso}(Z,Z')$ be the set of $R$-linear
+isomorphisms $\phi:\thmSleavesCok(Z)\to\thmSleavesCok(Z')$ with $\phi(e_Z)=e_{Z'}$ and $\lambda_{Z'}\circ\phi=\lambda_Z$,
+and $n_M(Z,Z')=\#\mathrm{Iso}(Z,Z')$. The relation $\mathrm{Iso}(Z,Z')\ne\emptyset$ is an equivalence relation
+(identity, inverses, composition); its classes form the set $\thmSleavesCls_M(m)$. Every class $c$ has a chosen
+representative $Z_c$, and $\thmSleavesaut(c)=n_M(Z_c,Z_c)$.
+\formal{Formalism.MainNotions.S.Loc.Model.Cls}
+\end{definition}
+
+\begin{definition}[Local points and local kernels]\label{pf:thmS-leaves:def:localkernel}
+Let $M$ be a local model. A \emph{local point} of size $n$ is a finite list $w=((t_1,s_1),\dots,(t_\ell,s_\ell))$
+with $t_j\in E^\times$, integers $s_j\ge1$ and $\sum_js_j=n$. Its matrix $w^\sharp$ is block diagonal, the $j$-th
+block being the $s_j\times s_j$ matrix with $t_j$ on the anti-diagonal and $0$ elsewhere. For $n=m+1$, let
+$I_-$ be the set of positions strictly below the diagonal and $I_+(w)$ the set of positions strictly above the
+diagonal that do not lie in a diagonal block of $w$. For $x\in E^{I_-}$, $y\in E^{I_+(w)}$ let $L(x)$ be the
+lower unitriangular matrix with entries $x$ below the diagonal and $U_w(y)$ the upper unitriangular matrix with
+entries $y$ on $I_+(w)$ and $0$ elsewhere above the diagonal; let $\sigma_-(A)=\sum_aA_{a+1,a}$ and
+$\sigma_+(A)=\sum_aA_{a,a+1}$. For $c\in\thmSleavesCls_M(m)$ the \emph{Bruhat cell integral} is
+\begin{equation}\label{pf:thmS-leaves:eq:BB}
+\thmSleavesBB_M(w,c)=\int_{E^{I_-}\times E^{I_+(w)}}n_M\bigl(L(x)w^\sharp U_w(y),Z_c\bigr)\,
+\psi_M\bigl(\sigma_-(L(x))+\sigma_+(U_w(y))\bigr)\,d\mu(x)\,d\mu(y),
+\end{equation}
+where $\mu$ also denotes the product measures and the integrand is $0$ when $L(x)w^\sharp U_w(y)$ does not have all
+its entries in $R$ (its determinant $\det w^\sharp$ is always a unit). The \emph{local kernel} is $K_M(0)=1$ and,
+for local points $w,w'$ of size $m+1$,
+\begin{equation}\label{pf:thmS-leaves:eq:Kk}
+K_M(m+1)(w,w')=\sideset{}{'}\sum_{c\in\thmSleavesCls_M(m)}
+\frac{\thmSleavesBB_M(w,c)\,\overline{\thmSleavesBB_M(w',c)}}{\thmSleavesaut(c)} .
+\end{equation}
+\formal{Formalism.MainNotions.S.Loc.Model.BB}
+\formal{Formalism.MainNotions.S.Loc.Model.Kk}
+\end{definition}
+
+\begin{remark}\label{pf:thmS-leaves:rem:Kk}
+By definition $K_M(m+1)$ is a weighted sum of rank-one kernels $w\mapsto\thmSleavesBB_M(w,c)$, with weights
+$1/\thmSleavesaut(c)$. The integral \eqref{pf:thmS-leaves:eq:BB} is a local orbital integral of Bessel type: the
+matrices $L(x)w^\sharp U_w(y)$ run over the ``Bruhat cell'' of $w$, they are counted according to the class of their
+cokernel datum, and they are weighted by a character of the entries next to the diagonal.
+\end{remark}
+
+\subsection{The global setting}\label{pf:thmS-leaves:ss:global}
+
+Throughout, $D$ denotes a datum of the development (ranks, a host and spaces; \cref{pf:thmS-leaves:def:datum}). We
+use the following notation attached to $D$.
+
+\begin{definition}[Notation attached to a datum]\label{pf:thmS-leaves:def:datum}
+\begin{enumerate}
+\item $E$ is the CM host field, $F$ its totally real subfield, $c$ the complex conjugation of $E$, and $N=N_{E/\Q}$.
+The ranks are integers $k,m,r,r_S,f$ with $k$ and $m$ even, $2\le m$, $m+3\le k$, $2r_S+2=m$ and $r=2r_S+k+1$; $f$ is the
+number of complex places of $E$.
+\item $V$ is an $E$-vector space of dimension $r$ with a hermitian form $h$ and a standard lattice $L_0$.
+\item $W$ is the finite set of words; each word $u$ has a level, a prime number $T_u$. The host has two auxiliary
+primes $g_0\ne g_1$, and $g_S=g_0g_1$.
+\item $P_F$ is the set of finite places of $F$. For $p\in P_F$ the datum provides a completion $F_p$ (a nonarchimedean
+local field of characteristic $0$ with a dense embedding $F\to F_p$ compatible with the valuation), a rank-two
+$F_p$-algebra $E_p$ with an embedding $\iota_p:E\to E_p$ whose image spans $E_p$, the involution $c_p$ extending $c$,
+the integral subring $\OO_p$, the standard additive character $\psi_{E_p}$ (given by $\psi_{E_p}(y)=e^{2\pi ia}$ for
+$a\in\Z[1/\ell]$ approximating $\Tr_{E_p/\Q_\ell}(y)$ to within $1$, $\ell$ the residue characteristic), and possibly a
+splitting of $E_p$.
+\end{enumerate}
+\formal{Formalism.BasicNotions.D7}
+\formal{Formalism.MainNotions.S.Loc.LocAt}
+\end{definition}
+
+\begin{definition}[Agreeing local data]\label{pf:thmS-leaves:def:agree}
+A pair $(\delta,M)$ consists of elements $\delta_p\in F_p$ and local models $M_p$ on $(F_p,E_p)$, $p\in P_F$. It is
+\emph{agreeing} if for every $p$: $M_p$ is admissible, $\delta_p\ne0$, the involution and the ring $\OO$ of $M_p$ are $c_p$
+and $\OO_p$, $\psi_{0,M_p}(y)=\psi_{E_p}(-y\delta_p^{-1})$ for all $y$, and $M_p$ has a splitting if and only if $E_p$ has
+one, in which case the isomorphisms $e$ and the elements $q$ coincide.
+\formal{Formalism.MainNotions.S.LocalSplitGroups.Agree}
+\end{definition}
+
+\begin{definition}[Global points, minors and the weight $n_0$]\label{pf:thmS-leaves:def:points}
+A \emph{point} of size $n$ is a list $w=((t_1,s_1),\dots,(t_\ell,s_\ell))$ with $t_j\in E\smallsetminus\{0\}$, integers
+$s_j\ge1$ and $\sum_js_j=n$; $w^\sharp$ is the block anti-diagonal matrix of \cref{pf:thmS-leaves:def:localkernel}.
+For $l\le n$ let $D_l(w)$ be the determinant of the leading $l\times l$ submatrix of $w^\sharp$. For a point $w$
+of size $r_S+1$ and integers $T,T'$ put
+\[
+\mathrm{kind}(w)=\begin{cases}\bot&\text{if }D_{r_S}(w)=0,\\ \zeta(w):=D_{r_S+1}(w)/D_{r_S}(w)&\text{otherwise,}\end{cases}
+\]
+\[
+G_{T,T'}(w)=D_{r_S+1}(w)\,c\bigl(D_{r_S+1}(w)\bigr)-TT'\,D_{r_S}(w)\,c\bigl(D_{r_S}(w)\bigr),
+\]
+and, for $\nu\in\R$,
+\begin{equation}\label{pf:thmS-leaves:eq:n0}
+n_0(\nu;T,T',w)=\nu\,\bigl|N\bigl(G_{T,T'}(w)/g_S^{\,m}\bigr)\bigr|^{(k-1)/2}.
+\end{equation}
+\formal{Formalism.MainNotions.S.Point}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.kind}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.Gpt}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.n0}
+\end{definition}
+
+Note that $D_{r_S+1}(w)=\det w^\sharp\ne0$ (\lref{Formalism.MainNotions.BridgeLemma.Dmin_top_ne}: the determinant of
+the matrix of a point does not vanish), that $n_0(\nu;T,T',w)\ge0$ for $\nu\ge0$, that $n_0=0$ if $G_{T,T'}(w)=0$
+(because $k-1\ge1$), and that $n_0>0$ if $\nu>0$ and $G_{T,T'}(w)\ne0$.
+
+\begin{definition}[Local points of a global point; top kernels]\label{pf:thmS-leaves:def:top}
+Fix an agreeing pair $(\delta,M)$ and integers $T,T'$. Let $p\in P_F$, let $g_p\in\{g_0,g_1,1\}$ be the auxiliary prime
+below $p$ (or $1$), $u_p=g_p/g_S$, and let $q_p=q$ if $E_p$ is split and $q_p=1$ otherwise. For a point $w$ of size $n$,
+the \emph{local point} $w_p$ is obtained from $w$ by replacing the entry $t$ of each block, of size $s$ starting at
+position $a$, by $(\delta_p\iota_p(u_p))^{-\nu}\,\mathrm{tw}_s(\iota_p(t))\,q_p^{-1}$, where $\nu=2(r_S+1)-a-(a+s-1)$ and
+$\mathrm{tw}_s$ changes the sign of the second coordinate by $(-1)^s$ in the split case and is the identity otherwise;
+for a last block of size $1$ in position $r_S+1$ one then subtracts the element $\tau_p=e^{-1}(-T,T')q^{-1}$ (zero in the
+non-split case) and adds the least $c_p(w)\in\{0,1,2\}$ making the entry a unit. The local point is undefined if one of
+the new entries is not a unit. We write $\tilde w_p$ for the matrix of the rescaled blocks before the addition of
+$c_p(w)$. There is also an explicit phase $d_p(w)\in\C$, equal to $1$ unless $E_p$ is split and the last block of $w$
+has size $2$. For points $w,w'$ of size $r_S+1$ put
+\[
+K_p(w,w')=d_p(w)\,K_{M_p}(r_S+1)(w_p,w'_p)\,\overline{d_p(w')},
+\]
+\[
+\thmSleavesKtop(w,w')=\begin{cases}\prod^{\mathrm f}_{p}K_p(w,w')&\text{if }\mathrm{kind}(w)=\mathrm{kind}(w'),\\
+0&\text{otherwise,}\end{cases}
+\]
+with $K_p(w,w')=0$ if $w_p$ or $w'_p$ is undefined. Let $\Theta$ be the set of families $\theta=(\theta_p)_{p\in P_F}$ with
+$\theta_p\in\thmSleavesCls_{M_p}(r_S)\cup\{\bot\}$. For $o\in\thmSleavesCls_{M_p}(r_S)\cup\{\bot\}$ put
+$B_p(w,o)=d_p(w)\thmSleavesBB_{M_p}(w_p,o)$ if $w_p$ is defined and $o\ne\bot$, and $B_p(w,o)=0$ otherwise; let
+$a_p(o)=\thmSleavesaut(o)$ for $o\ne\bot$ and $a_p(\bot)=1$. For $\kappa\in E\cup\{\bot\}$ and $\theta\in\Theta$ put
+\[
+\thmSleavesBBG(w,\kappa,\theta)=\begin{cases}\prod^{\mathrm f}_pB_p(w,\theta_p)&\text{if }\mathrm{kind}(w)=\kappa,\\0&\text{otherwise,}
+\end{cases}\qquad \thmSleavesaut(\theta)=\prod^{\mathrm f}_pa_p(\theta_p)\ge0 .
+\]
+\formal{Formalism.MainNotions.S.LocalSplitGroups.modPt}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.dfac}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.KtopG}
+\formal{Formalism.MainNotions.S.LocalSplitGroups.BBG}
+\end{definition}
+
+\begin{definition}[Unramified places, square summability, restriction]\label{pf:thmS-leaves:def:unram}
+In the situation of \cref{pf:thmS-leaves:def:top}, let $\theta^0\in\Theta$, $S\subset P_F$ finite and $w$ a point of
+size $r_S+1$.
+\begin{enumerate}
+\item $\mathrm{Unr}(\theta^0,S,w)$ means: for every $p\notin S$, $a_p(\theta^0_p)=1$, and $B_p(w,o)=1$ if $o=\theta^0_p$ and
+$B_p(w,o)=0$ otherwise.
+\item $\mathrm{Sq}_p(w)$ means that the family $o\mapsto|B_p(w,o)|^2/|a_p(o)|$ is summable.
+\item $\theta\in\Theta$ is \emph{restricted} (with respect to $\theta^0$) if $\theta_p=\theta^0_p$ for all but finitely
+many $p$; $\Theta(\theta^0)$ is the set of restricted families.
+\end{enumerate}
+\formal{Formalism.L2.SG.Pf.UnramOff}
+\formal{Formalism.L2.SG.Pf.BBsq}
+\formal{Formalism.L2.SG.Pf.Restricted}
+\end{definition}
+
+\subsection{Expansion of the top kernel}\label{pf:thmS-leaves:ss:expansion}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:psdsum}
+Let $Y$ be a finite set, $J$ a set, $f_j:Y\to\C$ and $b_j\ge0$ for $j\in J$, and $K$ a $Y\times Y$ matrix such
+that for all $x,y\in Y$ the family $j\mapsto b_jf_j(x)\overline{f_j(y)}$ has sum $K_{xy}$. Then $K$ is PSD.
+\formallabel{Formalism.L2.SG.Pf.posSemidef_of_hasSum}
+\end{lemma}
+
+\begin{proof}
+Conjugating the family for $(y,x)$ gives the family for $(x,y)$, so $\overline{K_{yx}}=K_{xy}$ by uniqueness of
+sums. For $v\in\C^Y$ the finite linear combination $\sum_{x,y}\overline{v_x}K_{xy}v_y$ is the sum of the family
+$j\mapsto b_j\bigl|\sum_x\overline{v_x}f_j(x)\bigr|^2$ of non-negative reals, hence is $\ge0$.
+\end{proof}
+
+\begin{lemma}[Products of sums]\label{pf:thmS-leaves:lem:prodsum}
+Let $(C_p)_{p}$ be a family of sets, $\theta^0\in\prod_pC_p$, $S$ a finite set of indices, and for $p\in S$ let
+$f_p:C_p\to\C$ be absolutely summable with sum $a_p$. Let $\mathrm{Off}(\theta^0,S)$ be the set of
+$\theta\in\prod_pC_p$ with $\theta_p=\theta^0_p$ for $p\notin S$. Then $\theta\mapsto\prod_{p\in S}f_p(\theta_p)$ is
+absolutely summable on $\mathrm{Off}(\theta^0,S)$ with sum $\prod_{p\in S}a_p$.
+\formallabel{Formalism.L2.SG.Pf.hasSum_prod_offS}
+\end{lemma}
+
+\begin{proof}
+Induction on $S$. For $S=\emptyset$ the set $\mathrm{Off}(\theta^0,\emptyset)=\{\theta^0\}$ is a point and both
+sides are $1$. If $S'=S\cup\{q\}$ with $q\notin S$, then $\theta\mapsto(\theta_q,\theta')$, where $\theta'$ agrees with
+$\theta$ except that $\theta'_q=\theta^0_q$, is a bijection $\mathrm{Off}(\theta^0,S')\to C_q\times\mathrm{Off}(\theta^0,S)$
+transforming $\prod_{p\in S'}f_p(\theta_p)$ into $f_q(\theta_q)\prod_{p\in S}f_p(\theta'_p)$. The product of two absolutely
+summable families is absolutely summable on the product set, with sum the product of the sums.
+\end{proof}
+
+\begin{proposition}[Expansion of the top kernel]\label{pf:thmS-leaves:prop:ktop}
+Let $(\delta,M)$ be agreeing, $T,T'\in\N$, $\theta^0\in\Theta$, $S\subset P_F$ finite, and $w,w'$ points of size
+$r_S+1$ with $\mathrm{kind}(w)=\mathrm{kind}(w')$, $\mathrm{Unr}(\theta^0,S,w)$, $\mathrm{Unr}(\theta^0,S,w')$,
+and $\mathrm{Sq}_p(w)$, $\mathrm{Sq}_p(w')$ for $p\in S$. Then
+\begin{equation}\label{pf:thmS-leaves:eq:ktopexp}
+\sum_{\theta\in\Theta(\theta^0)}\frac{\thmSleavesBBG(w,\mathrm{kind}(w),\theta)\,
+\overline{\thmSleavesBBG(w',\mathrm{kind}(w),\theta)}}{\thmSleavesaut(\theta)}=\thmSleavesKtop(w,w')
+\end{equation}
+(as the sum of a summable family).
+\formallabel{Formalism.L2.SG.Pf.ktopG_hasSum}
+\end{proposition}
+
+\begin{proof}
+For $p\in P_F$ and $o\in\thmSleavesCls_{M_p}(r_S)\cup\{\bot\}$ put $\ell_p(o)=B_p(w,o)\overline{B_p(w',o)}/a_p(o)$.
+Since $B_p(\cdot,\bot)=0$, \eqref{pf:thmS-leaves:eq:Kk} and \cref{pf:thmS-leaves:def:top} give
+$K_p(w,w')=\sum'_o\ell_p(o)$, both sides being $0$ when $w_p$ or $w'_p$ is undefined. For $p\in S$ the family
+$\ell_p$ is absolutely summable, because $|\ell_p(o)|\le\frac12\bigl(|B_p(w,o)|^2+|B_p(w',o)|^2\bigr)/|a_p(o)|$ and
+$\mathrm{Sq}_p(w)$, $\mathrm{Sq}_p(w')$ hold; hence $\sum_o\ell_p(o)=K_p(w,w')$. For $p\notin S$ the hypotheses
+$\mathrm{Unr}$ give $\ell_p(o)=1$ for $o=\theta^0_p$ and $\ell_p(o)=0$ otherwise, so $K_p(w,w')=1$. Therefore the
+finite product defining $\thmSleavesKtop(w,w')$ equals $\prod_{p\in S}K_p(w,w')$, and by
+\cref{pf:thmS-leaves:lem:prodsum} the family $\theta\mapsto\prod_{p\in S}\ell_p(\theta_p)$ on
+$\mathrm{Off}(\theta^0,S)$ has sum $\thmSleavesKtop(w,w')$.
+
+The inclusion $\mathrm{Off}(\theta^0,S)\subset\Theta(\theta^0)$ is injective, and the terms of
+\eqref{pf:thmS-leaves:eq:ktopexp} outside its image vanish: if $\theta$ is restricted and $\theta_p\ne\theta^0_p$ for
+some $p\notin S$, then $B_p(w,\theta_p)=0$, the set of $p$ with $B_p(w,\theta_p)\ne1$ is contained in the finite set
+$S\cup\{p:\theta_p\ne\theta^0_p\}$, and so $\thmSleavesBBG(w,\mathrm{kind}(w),\theta)=0$. For
+$\theta\in\mathrm{Off}(\theta^0,S)$ the same support argument gives
+$\thmSleavesBBG(w,\mathrm{kind}(w),\theta)=\prod_{p\in S}B_p(w,\theta_p)$, the same for $w'$ (whose kind is that of $w$),
+and $\thmSleavesaut(\theta)=\prod_{p\in S}a_p(\theta_p)$. Hence the term of \eqref{pf:thmS-leaves:eq:ktopexp} at
+$\theta$ is $\prod_{p\in S}\ell_p(\theta_p)$, and the claim follows.
+\end{proof}
+
+\begin{corollary}[The top kernel dominates its finite parts]\label{pf:thmS-leaves:cor:ktop}
+Let $(\delta,M)$ be agreeing, $T,T'\in\N$, $\theta^0\in\Theta$, $(w_x)_{x\in\iota}$ a finite family of points of size
+$r_S+1$, $S_x\subset P_F$ finite with $\mathrm{Unr}(\theta^0,S_x,w_x)$, and assume $\mathrm{Sq}_p(w_x)$ for all $x$ and
+$p$. Let $\Xi$ be a finite set of pairs $(\kappa,\theta)$ with $\theta\in\Theta(\theta^0)$ and $\kappa=\mathrm{kind}(w_x)$
+for some $x$. Then the matrix
+\[
+\Bigl(\thmSleavesKtop(w_x,w_y)-\sum_{(\kappa,\theta)\in\Xi}\thmSleavesaut(\theta)^{-1}\,\thmSleavesBBG(w_x,\kappa,\theta)\,
+\overline{\thmSleavesBBG(w_y,\kappa,\theta)}\Bigr)_{x,y\in\iota}
+\]
+is PSD.
+\formallabel{Formalism.L2.SG.Pf.ktop_sub_posSemidef}
+\end{corollary}
+
+\begin{proof}
+Let $J=(E\cup\{\bot\})\times\Theta(\theta^0)$, $f_j(x)=\thmSleavesBBG(w_x,\kappa,\theta)$ for $j=(\kappa,\theta)$, and
+$b_j=0$ for $j\in\Xi$, $b_j=\thmSleavesaut(\theta)^{-1}$ otherwise. We claim that for all $x,y$ the family
+$j\mapsto\thmSleavesaut(\theta)^{-1}f_j(x)\overline{f_j(y)}$ has sum $\thmSleavesKtop(w_x,w_y)$. If
+$\mathrm{kind}(w_x)=\mathrm{kind}(w_y)$, apply \cref{pf:thmS-leaves:prop:ktop} with $S=S_x\cup S_y$ (the condition $\mathrm{Unr}$
+persists when $S$ is enlarged); the terms with $\kappa\ne\mathrm{kind}(w_x)$ vanish by definition of $\thmSleavesBBG$. If the
+kinds differ, $\thmSleavesKtop(w_x,w_y)=0$, and every term vanishes since $\thmSleavesBBG(w_x,\kappa,\cdot)=0$ unless
+$\kappa=\mathrm{kind}(w_x)$, and likewise for $y$. Subtracting the finite sum over $\Xi$, the family
+$j\mapsto b_jf_j(x)\overline{f_j(y)}$ has sum equal to the $(x,y)$ entry of the matrix in the statement, which is
+therefore PSD by \cref{pf:thmS-leaves:lem:psdsum}.
+\end{proof}
+
+\subsection{Supports and the product formula}\label{pf:thmS-leaves:ss:support}
+
+\begin{definition}[The product formula for a datum]\label{pf:thmS-leaves:def:normprod}
+$\Pi(D)$ is the statement: for every agreeing pair $(\delta,M)$ and every $x\in E^\times$,
+$\prod^{\mathrm f}_{p}\thmSleavesmod_{M_p}(\iota_p(x))=|N(x)|^{-1}$.
+\formal{Formalism.L2.SG.SupportG.NormProd}
+\end{definition}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:normprod}
+$\Pi(D)$ holds for every datum $D$.
+\formallabel{Formalism.L2.SG.Closed.NormProd_holds}
+\end{lemma}
+
+\begin{proof}
+Since $M_p$ is admissible, $\mu_p$ is a Haar measure on $E_p$ with $\mu_p(R_p)=1$, so
+$\thmSleavesmod_{M_p}(\iota_p(x))=\mu_p(\iota_p(x)R_p)$ is the module of multiplication by $\iota_p(x)$, that is, the
+normalised absolute value of $N_{E_p/F_p}(\iota_p(x))$; it is $1$ for all but finitely many $p$. The statement is the
+product formula for $N_{E/F}(x)\in F^\times$, whose archimedean factor is $|N(x)|$ \cite[Ch.~III, \S1]{Neukirch1999}. In
+the development this is \lref{local_product_formula}: for every quadratic extension of number fields with local data at
+all finite places and admissible local models $M_p$, $\prod^{\mathrm f}_p\thmSleavesmod_{M_p}(\iota_p(x))=|N(x)|^{-1}$ for
+$x\ne0$.
+\end{proof}
+
+\begin{lemma}[Invariance of the determinant]\label{pf:thmS-leaves:lem:fitting}
+Let $R$ be a commutative ring and $Z,Z'$ square matrices of the same size $n$ over $R$ such that $\det Z$ is not a
+zero divisor. If $R^n/ZR^n\cong R^n/Z'R^n$ as $R$-modules, then $\det Z'=u\det Z$ for a unit $u\in R^\times$.
+\formallabel{Formalism.L2.SG.Pf.det_assoc_of_cok}
+\end{lemma}
+
+\begin{proof}
+This is the invariance of the zeroth Fitting ideal \cite[Ch.~20]{Eisenbud1995}; we give the argument. Let $\phi$ be
+the isomorphism. Since $R^n$ is free, $\phi$ and $\phi^{-1}$ lift along the projections to matrices $a,b$ with
+$av\equiv\phi(v)$ modulo $Z'R^n$ and $bv\equiv\phi^{-1}(v)$ modulo $ZR^n$. Consider the $2n\times 2n$ matrices
+\[
+M_1=\begin{pmatrix}1&0\\-a&Z'\end{pmatrix},\qquad M_2=\begin{pmatrix}Z&-b\\0&1\end{pmatrix}.
+\]
+A vector $(v_1,v_2)$ lies in the column space of $M_1$ if and only if $av_1+v_2\in Z'R^n$, i.e.\ if and only if
+$\phi(\bar v_1)+\bar v_2=0$ in $R^n/Z'R^n$; it lies in the column space of $M_2$ if and only if $v_1+bv_2\in ZR^n$, i.e.\
+if and only if $\bar v_1+\phi^{-1}(\bar v_2)=0$ in $R^n/ZR^n$. Applying $\phi$, the two conditions coincide, so $M_1$ and
+$M_2$ have the same column space. Hence $M_2=M_1X$ and $M_1=M_2Y$ for matrices $X,Y$, so $\det M_2=\det M_1\det X$ and
+$\det M_1=\det M_2\det Y$, whence $\det M_2(1-\det X\det Y)=0$. As $\det M_2=\det Z$ is not a zero divisor,
+$\det X\det Y=1$, and $\det Z'=\det M_1=\det Z\cdot\det Y$ with $\det Y$ a unit.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:bbne}
+Let $M$ be a local model, $w$ a local point of size $m+1$ and $c\in\thmSleavesCls_M(m)$. If
+$\thmSleavesBB_M(w,c)\ne0$, there is $Z\in\mathrm{Mat}_M(m+1)$ with $\det Z=\det w^\sharp$ and
+$\mathrm{Iso}(Z,Z_c)\ne\emptyset$. Consequently, if $\thmSleavesBB_M(w,c)\ne0\ne\thmSleavesBB_M(w',c)$ for local points
+$w,w'$, then $\det w^\sharp$ is a unit of $E$ and $\det w'^\sharp=u\det w^\sharp$ for some $u\in R^\times$.
+\formallabel{Formalism.L2.SG.Pf.bb_ne}
+\formallabel{Formalism.L2.SG.Pf.det_assoc_cls}
+\end{lemma}
+
+\begin{proof}
+If the integrand of \eqref{pf:thmS-leaves:eq:BB} vanished identically, the integral would vanish; take $(x,y)$ where it
+does not vanish. Then $Z=L(x)w^\sharp U_w(y)$ has entries in $R$, $n_M(Z,Z_c)\ne0$, so $\mathrm{Iso}(Z,Z_c)$ is
+non-empty, and $\det Z=\det w^\sharp$ because $L(x),U_w(y)$ are unitriangular. For the consequence, take such $Z$ for
+$w$ and $Z'$ for $w'$; composing the isomorphisms of cokernels gives $\thmSleavesCok(Z)\cong\thmSleavesCok(Z')$. The
+determinant of $Z$ is a unit of $E$, hence not a zero divisor in $R\subset E$, and \cref{pf:thmS-leaves:lem:fitting}
+gives the claim.
+\end{proof}
+
+\begin{lemma}[Shape of the local points]\label{pf:thmS-leaves:lem:shape}
+Let $(\delta,M)$ be agreeing, $T,T'\in\N$, $p\in P_F$. There are elements $\rho_0,\dots,\rho_{r_S},\kappa_p\in E_p$ such
+that for every point $w$ of size $r_S+1$ whose local point $w_p$ is defined:
+\begin{enumerate}
+\item $(w_p^\sharp)_{xy}=\rho_x\rho_y\kappa_p\,\iota_p\bigl((w^\sharp)_{xy}\bigr)$ for all $(x,y)\ne(r_S,r_S)$ (indices from
+$0$ to $r_S$);
+\item $\det w_p^\sharp=\Pi_{r_S+1}\,\iota_p(D_{r_S+1}(w))+\bigl((w_p^\sharp)_{r_Sr_S}-\rho_{r_S}^2\kappa_p\,
+\iota_p((w^\sharp)_{r_Sr_S})\bigr)\,\Pi_{r_S}\,\iota_p(D_{r_S}(w))$, where $\Pi_l=(\rho_0\cdots\rho_{l-1})^2\kappa_p^l$.
+\end{enumerate}
+Moreover, if $D_{r_S}(w)\ne0$ then the last block of $w$ is $(t,1)$ with $t=\zeta(w)$, and $D_{r_S+1}(w)=D_{r_S}(w)\,t$.
+\formallabel{Formalism.L2.SG.Pf.amat_eq}
+\formallabel{Formalism.L2.SG.Pf.det_amat}
+\end{lemma}
+
+\begin{proof}
+(1) is a routine verification from \cref{pf:thmS-leaves:def:top}: the exponent $\nu$ attached to a block is the sum of
+exponents attached to the row and the column index of each anti-diagonal entry of the block, and the twist and $q_p^{-1}$
+contribute a common factor; only the entry $(r_S,r_S)$ of a last block of size $1$ receives the additional translation.
+(2) follows from (1) by expanding the determinant in the last entry: $w_p^\sharp$ differs from
+$B=(\rho_x\rho_y\kappa_p\,\iota_p((w^\sharp)_{xy}))$ only at $(r_S,r_S)$, so
+$\det w_p^\sharp=\det B+((w_p^\sharp)_{r_Sr_S}-B_{r_Sr_S})\det B'$ with $B'$ the leading $r_S\times r_S$ submatrix, and
+$\det B=\Pi_{r_S+1}\iota_p(D_{r_S+1}(w))$, $\det B'=\Pi_{r_S}\iota_p(D_{r_S}(w))$. For the last assertion: if the last block
+had size $s\ge2$, the row of $w^\sharp$ of index $r_S+1-s$ would vanish in the leading $r_S\times r_S$ submatrix, so
+$D_{r_S}(w)=0$; hence the last block is $(t,1)$, the last row and column of $w^\sharp$ are $(0,\dots,0,t)$, and
+$D_{r_S+1}(w)=D_{r_S}(w)t$, so $\zeta(w)=t$.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:modk}
+Let $(\delta,M)$ be agreeing, $T,T'\in\N$, $p\in P_F$, and $w,w'$ points of size $r_S+1$ with
+$\mathrm{kind}(w)=\mathrm{kind}(w')$ whose local points $a=w_p$, $b=w'_p$ are defined. If $\det a^\sharp$ is a unit and
+$\det b^\sharp=u\det a^\sharp$ with $u\in R_{M_p}^\times$, then $\thmSleavesmod_{M_p}(\iota_pD_l(w))=\thmSleavesmod_{M_p}(\iota_pD_l(w'))$
+for $l=r_S$ and $l=r_S+1$.
+\formallabel{Formalism.L2.SG.Pf.modK_eq_of_assoc}
+\end{lemma}
+
+\begin{proof}
+First, $\thmSleavesmod(xu)=\thmSleavesmod(x)$ for $u\in R^\times$, since $xuR=xR$. If $D_{r_S}(w)=0$, then $D_{r_S}(w')=0$
+(the kinds agree) and the claim for $l=r_S$ is trivial; by \cref{pf:thmS-leaves:lem:shape}(2),
+$\det a^\sharp=\Pi_{r_S+1}\iota_pD_{r_S+1}(w)$ and $\det b^\sharp=\Pi_{r_S+1}\iota_pD_{r_S+1}(w')$. Since $\det a^\sharp$ is a
+unit, so is $\Pi_{r_S+1}$, and cancelling it in $\det b^\sharp=u\det a^\sharp$ gives $\iota_pD_{r_S+1}(w')=u\,\iota_pD_{r_S+1}(w)$.
+If $D_{r_S}(w)\ne0$, then $D_{r_S}(w')\ne0$ and $\zeta(w)=\zeta(w')=:t$, so both points end with the block $(t,1)$, and
+\cref{pf:thmS-leaves:lem:shape} gives $\det a^\sharp=\Lambda\,\iota_pD_{r_S}(w)$ and $\det b^\sharp=\Lambda\,\iota_pD_{r_S}(w')$ with
+the same factor $\Lambda=\Pi_{r_S}(w_p^\sharp)_{r_Sr_S}$ (the last entries of $a^\sharp$ and $b^\sharp$ are the same function of
+$t$). Cancelling the unit $\Lambda$ gives $\iota_pD_{r_S}(w')=u\,\iota_pD_{r_S}(w)$, and then $\iota_pD_{r_S+1}(w')=u\,\iota_pD_{r_S+1}(w)$
+since $D_{r_S+1}=D_{r_S}t$ for both points.
+\end{proof}
+
+\begin{proposition}[Support property]\label{pf:thmS-leaves:prop:support}
+Assume $\Pi(D)$. Let $(\delta,M)$ be agreeing, $T,T'\in\N$, $w,w'$ points of size $r_S+1$, $\kappa\in E\cup\{\bot\}$ and
+$\theta\in\Theta$ such that $B_p(w,\theta_p)=1$ and $B_p(w',\theta_p)=1$ for all but finitely many $p$. If
+$\thmSleavesBBG(w,\kappa,\theta)\ne0$ and $\thmSleavesBBG(w',\kappa,\theta)\ne0$, then $|N(G_{T,T'}(w))|=|N(G_{T,T'}(w'))|$; in
+particular $n_0(\nu;T,T',w)=n_0(\nu;T,T',w')$ for every $\nu$.
+\formallabel{Formalism.L2.SG.Pf.supportVec_of_normProd}
+\formallabel{Formalism.L2.SG.Pf.normG_eq_of_loc}
+\end{proposition}
+
+\begin{proof}
+By definition of $\thmSleavesBBG$, $\mathrm{kind}(w)=\kappa=\mathrm{kind}(w')$, and since the finite products are non-zero,
+every factor is non-zero: for each $p$, $w_p$ and $w'_p$ are defined, $\theta_p=c\in\thmSleavesCls_{M_p}(r_S)$, and
+$\thmSleavesBB_{M_p}(w_p,c)\ne0\ne\thmSleavesBB_{M_p}(w'_p,c)$. By \cref{pf:thmS-leaves:lem:bbne,pf:thmS-leaves:lem:modk},
+$\thmSleavesmod_{M_p}(\iota_pD_l(w))=\thmSleavesmod_{M_p}(\iota_pD_l(w'))$ for $l\in\{r_S,r_S+1\}$ and all $p$. For non-zero
+$x,y\in E$ with $\thmSleavesmod_{M_p}(\iota_px)=\thmSleavesmod_{M_p}(\iota_py)$ for all $p$, $\Pi(D)$ gives $|N(x)|=|N(y)|$. If
+$D_{r_S}(w)=0$, then $G_{T,T'}(v)=D_{r_S+1}(v)c(D_{r_S+1}(v))$ for $v\in\{w,w'\}$, so $|N(G_{T,T'}(v))|=|N(D_{r_S+1}(v))|^2$, and
+these agree. Otherwise $G_{T,T'}(v)=D_{r_S}(v)c(D_{r_S}(v))\bigl(\zeta(v)c(\zeta(v))-TT'\bigr)$ with $\zeta(w)=\zeta(w')$ and
+$|N(D_{r_S}(w))|=|N(D_{r_S}(w'))|$. The last assertion follows from \eqref{pf:thmS-leaves:eq:n0}.
+\end{proof}
+
+\subsection{Terms, rows and the rows input}\label{pf:thmS-leaves:ss:terms}
+
+We fix words $u,u'$ and write $T=T_u$, $T'=T_{u'}$. A \emph{flag of type $T$} is a family
+$F=(e_1,\dots,e_{r_S};z)$ in $V$ with $e_1,\dots,e_{r_S}$ linearly independent and isotropic, $h(e_a,e_b)=0$,
+$h(e_a,z)=0$ and $h(z,z)=-T$; its \emph{frame} is $(e_1,\dots,e_{r_S},z)$. A \emph{lifted flag} is a flag together with
+a vector $\tilde z\in V$. For flags $F,F'$ with frames $f,f'$ let $\widehat Z(F,F')=(h(f'_b,f_a))_{a,b}$, an
+$(r_S+1)\times(r_S+1)$ matrix, and
+\[
+G(F,F')=D_{r_S+1}\,c(D_{r_S+1})-TT'\,D_{r_S}\,c(D_{r_S}),\qquad D_l=\text{leading $l\times l$ minor of }\widehat Z(F,F').
+\]
+
+\begin{definition}[Row lattices and terms]\label{pf:thmS-leaves:def:terms}
+Let $F_0$ be a flag of type $T_u$.
+\begin{enumerate}
+\item A \emph{row lattice} for $F_0$ is a lattice $\Lambda\subset V$ in the genus of $L_0$ which is unimodular, contains
+the last frame vector $z$ of $F_0$, and satisfies two further conditions relative to $F_0$ and $g_S$. A finite set $s$ of
+lattices is a \emph{set of row representatives} if its elements are row lattices and every row lattice is the image of
+exactly one element of $s$ under an isometry of $(V,h)$ which preserves each span $\langle e_1,\dots,e_a\rangle$ of $F_0$
+and fixes $z$.
+\item For $\Lambda\in s$, let $P_\Lambda$ be the set of lifted flags $F'$ of type $T_{u'}$ that lift to $\Lambda$
+($z'\in\Lambda$, $\tilde z=z'$), are admissible for $(\Lambda,g_S,F_0)$ and satisfy a frame condition. Two elements
+$F',F''$ of $P_\Lambda$ are related if $F''=nmF'$ (on frames and on $\tilde z$) for some $n\in N_\Lambda(F_0)$ and
+$m\in N_\Lambda(F')$, where $N_\Lambda(F)$ is the set of automorphisms of $(V,\Lambda)$ acting unipotently on the flag $F$
+and on its orthogonal. A \emph{term} is a pair $t=(\Lambda,[F'])$ with $\Lambda\in s$ and $[F']$ a class for the
+equivalence relation generated by this relation. We fix a representative $F'_t$ of each class and put
+$G(t)=G(F_0,F'_t)$. The term is \emph{generic} (resp.\ \emph{relevant}) if some representative is generic for
+$(\Lambda,g_S,F_0)$ (resp.\ relevant over $F$), and it lies \emph{at} a point $w$ of size $r_S+1$ if some representative
+$F'$ has $G(F_0,F')\ne0$ and
+\[
+\bigl((-1)^{r_S-b}\widehat Z(F_0,F')_{ab}\bigr)_{a,b}=L\,w^\sharp\,U
+\]
+with $L$ lower and $U$ upper unitriangular. A term is \emph{eligible} if it is generic and $G(t)\ne0$; we write
+$\Gamma(w)$ for the set of eligible terms at $w$.
+\item Two terms $t,t'$ are \emph{scalar partners}, $t\sim t'$, if there is a scalar pair of representatives over a
+common row lattice; then $t$ and $t'$ have the same row lattice. A \emph{row label} is a map $\kappa$ from terms to $\N$
+such that for eligible $t,t'$, $\kappa(t)=\kappa(t')$ if and only if $t\sim t'$.
+\item The \emph{mass} of a term is $\mathrm{mass}(t)=w(\Lambda)/\sum_{\Lambda'\in s}w(\Lambda')\ge0$, where $\Lambda$ is the
+row lattice of $t$ and $w(\Lambda)^{-1}$ is the number of automorphisms of the quotient space of $z^\perp$ induced by the
+stabiliser of $\Lambda$ in the isometries fixing $F_0$.
+\item The \emph{coefficient} of a term at a point is $\phi(t,w)v_R(t)$, where $\phi(t,w)\in\C$ is a phase attached to a
+normal representative of $t$ at $w$ (\cref{pf:thmS-leaves:def:localterm}; $\phi(t,w)=0$ if there is none) and $v_R(t)$ is
+the ratio of two relative indices of stabilisers if $t$ is relevant, generic and has a normal representative at some
+point, and $1$ otherwise.
+\end{enumerate}
+\formal{Formalism.MainNotions.S.IsRowLat}
+\formal{Formalism.MainNotions.S.IsRowReps}
+\formal{Formalism.L2.SG.TermDef.PD}
+\formal{Formalism.L2.SG.TermDef.Term}
+\formal{Formalism.L2.SG.Corank.TermScal}
+\formal{Formalism.L2.SG.PairVal.massTerm}
+\formal{Formalism.L2.SG.PairVal.cAt}
+\formal{Formalism.L2.SG.PairVal.vRdef}
+\end{definition}
+
+\begin{definition}[Local spaces, densities and the counting formula]\label{pf:thmS-leaves:def:formula}
+Let $(\delta,M)$ be agreeing. A \emph{system of local spaces} $L$ consists of hermitian spaces $(V_p,h_p)$ of
+dimension $r$ over $(E_p,M_p)$ with additive maps $V\to V_p$ which are $\iota_p$-semilinear, generate $V_p$ and carry
+$h$ to $h_p$. For a uniformizer $\varpi_p$ of $F_p$ and $Z\in M_{r_S+1}(E)$, $\thmSleavesdens_p(Z)\ge0$ is the local
+density, in $(V_p,h_p)$ and relative to the localisation of $L_0$, of an explicit $(2r_S+2)\times(2r_S+2)$ hermitian
+matrix built from $Z$, $T$, $T'$ and $\delta_p$. Let $G_Z=D_{r_S+1}(Z)c(D_{r_S+1}(Z))-TT'D_{r_S}(Z)c(D_{r_S}(Z))$ with
+$D_l(Z)$ the leading minors. For $\Lambda\in s$ let $\mathrm{cnt}_\Lambda(Z)\in\N\cup\{\infty\}$ be the number of orbits, under the
+elements of $N_\Lambda(F_0)$ fixing $F_0$, of the lifted flags $F'$ that are terms for $\Lambda$ with admissibility witness
+$1$, generic, satisfy the frame condition and have $\widehat Z(F_0,F')=Z$, and let
+$\nu_s(Z)=\sum_{\Lambda\in s}w(\Lambda)\,\mathrm{cnt}_\Lambda(Z)\big/\sum_{\Lambda\in s}w(\Lambda)$. The \emph{counting formula}
+$\mathrm{CF}(\nu)=\mathrm{CF}(\delta,L,u,u',F_0,s;\nu)$ for a real $\nu$ states: $\nu>0$, and for all uniformizers
+$(\varpi_p)$ and all $Z$: $\mathrm{cnt}_\Lambda(Z)<\infty$ for $\Lambda\in s$, and if $G_Z$ is totally positive then
+$p\mapsto\thmSleavesdens_p(Z)$ is multipliable and
+\begin{equation}\label{pf:thmS-leaves:eq:formula}
+\nu_s(Z)=\nu\,\bigl|N(G_Z/g_S^{\,m})\bigr|^{(k-1)/2}\prod_p{}'\,\thmSleavesdens_p(Z).
+\end{equation}
+The \emph{density set} is the set $\mathcal D$ of the numbers $\prod'_p\thmSleavesdens_p(Z)$ for those $Z$ for which some
+$\Lambda\in s$ has a lifted flag as above with $\widehat Z(F_0,F')=Z$, and $d^{\sup}=\sup\mathcal D$.
+\formal{Formalism.L2.SG.CntLocal.LocSp}
+\formal{Formalism.L2.SG.CntLocal.densP}
+\formal{Formalism.L2.SG.CntLocal.Formula}
+\formal{Formalism.L2.SG.DataInst.densSet}
+\end{definition}
+
+\Cref{pf:thmS-leaves:eq:formula} is a formula of the type of Siegel's main theorem \cite{Siegel1935} for the
+representations counted by $\nu_s(Z)$; it is clause (14) of the package (\cref{pf:thmS-leaves:prop:formula}).
+
+\begin{definition}[List points, the kernel data and the rows]\label{pf:thmS-leaves:def:rows}
+A \emph{list point} is a finite list $x$ of pairs $(s_j,t_j)\in\N\times E$; it is a point of level $i$ if
+$\sum_js_j=i$, $s_j\ge1$ and $t_j\ne0$. There is a partially defined map $x\mapsto w_x$ from list points to points of
+size $i$ (an explicit change of signs of the entries), and an explicit weight $\varphi_i(x)$, a product of powers of
+the numbers $g\,r_E^{-2f\nu}|N(t_j)|$ ($g,r_E>0$ attached to $D$, $\nu\in\N$), which is positive whenever $x$ is a point of
+level $i$ (\lref{Formalism.L2.SG.DataInst.phi_pos}). For an agreeing pair $(\delta,M)$ and words $u,u'$, the
+\emph{kernel} $\mathcal K_i$ of the point data is: $\mathcal K_0(x,y)=1$ if $x=y=\emptyset$ and $0$ otherwise,
+$\mathcal K_i=0$ for $i>r_S+1$, and for $1\le i\le r_S+1$
+\[
+\mathcal K_i(x,y)=\frac{K_i(w_x,w_y)}{\varphi_i(x)\varphi_i(y)}\quad\text{if $w_x,w_y$ are defined},\qquad
+\mathcal K_i(x,y)=0\quad\text{otherwise},
+\]
+where $K_{r_S+1}=\thmSleavesKtop$ (with $T=T_u$, $T'=T_{u'}$) and, for $i\le r_S$, $K_i$ is the finite product over $p$ of the
+local kernels $K_{M_p}(i)$ at the local points. For a Hida setting $S$, the \emph{kernel data}
+$\mathbf K(S,\delta,M,u,u')$ are the kernel data with kernel $\mathcal K$, parameter $r(S)$ and vanishing auxiliary
+kernels; $S$ and $(u,u')$ are \emph{compatible} if $r(S)=r_S$, and the rank $k$, the primes $g_0,g_1$, the levels
+$T_u,T_{u'}$ and $f$ of $S$ are those of $D$ and $u,u'$.
+
+For a row label $\kappa$, a function $v$ on terms, $\nu\in\R$, $\rho\in\N$ and a point $w$ of size $r_S+1$ put
+\begin{equation}\label{pf:thmS-leaves:eq:chat}
+\hat c_\rho(w)=\frac{1}{\sqrt{n_0(\nu;T,T',w)}}\ \sideset{}{'}\sum_{t\in\Gamma(w),\ \kappa(t)=\rho}\sqrt{\mathrm{mass}(t)}\;
+\phi(t,w)\,v(t),
+\end{equation}
+and let the \emph{row vector} be $\mathrm{row}_\rho(x)=\hat c_\rho(w_x)/\varphi_{r_S+1}(x)$ if $w_x$ is defined (of size
+$r_S+1$) and $0$ otherwise. We say that $\mathrm{Dom}(v,\kappa,\nu,\alpha)$ holds if for every finite set $Y$ of list
+points of level $r(S)+1$ and every finite $R\subset\N$, the kernel
+\[
+(x,y)\longmapsto\frac{d^{\sup}}{\alpha}\,\mathcal K_{r(S)+1}(x,y)-\sum_{\rho\in R}\mathrm{row}_\rho(x)\overline{\mathrm{row}_\rho(y)}
+\]
+is PSD on $Y$, the row vectors being computed with $(v,\kappa,\nu\alpha)$.
+\formal{Formalism.L2.SG.DataInst.ptOfList}
+\formal{Formalism.L2.SG.DataInst.phi}
+\formal{Formalism.L2.SG.DataInst.KrOf}
+\formal{Formalism.L2.SG.DataInst.dOf}
+\formal{Formalism.L2.SG.DataInst.Compat}
+\formal{Formalism.L2.SG.DataInst.rowVec}
+\formal{Formalism.L2.SG.DataInst.RowsPSD}
+\end{definition}
+
+In particular $\hat c_\rho(w)=0$ if $n_0(\nu;T,T',w)=0$, by the convention $x/0=0$.
+
+\begin{definition}[The rows input]\label{pf:thmS-leaves:def:rowsinput}
+The words $u,u'$ satisfy the \emph{prime conditions} if $T_u$ and $T_{u'}$ are primes $\ge3$ splitting completely in $E$,
+as do $g_0,g_1$; $g_S$ is prime to $T_uT_{u'}$ and $T_u\equiv T_{u'}\pmod{g_S}$; and every root of unity $\zeta$ of $\OO_E$
+with $\zeta\equiv1\pmod{T_u}$ is $1$.
+
+The \emph{rows input} $\mathrm{RI}(D)$ is the statement: for every Hida setting $S$, every agreeing pair $(\delta,M)$, every
+system of local spaces $L$, all words $u,u'$ with $T_u\equiv T_{u'}\pmod{g_S^2}$ satisfying the prime conditions such that $S$
+and $(u,u')$ are compatible, every flag $F_0$ of type $T_u$, every set $s$ of row representatives for $F_0$, all
+uniformizers $(\varpi_p)$, every $\nu$ with $\mathrm{CF}(\nu)$ and every $\alpha>0$: if the density set is bounded above,
+then a row label exists, and $\mathrm{Dom}(v_R,\kappa,\nu,\alpha)$ holds for every row label $\kappa$.
+\formal{Formalism.MainNotions.S.Lat.PrimeHyp}
+\formal{Formalism.L2.SG.SpectralTiesReal.RowsInputP}
+\end{definition}
+
+The development states the rows input in two forms differing only in the order of the hypotheses; we do not distinguish
+them (\cref{pf:thmS-leaves:thm:rowsinput} covers both).
+
+\subsection{Positivity of the rows}\label{pf:thmS-leaves:ss:positivity}
+
+\begin{definition}[The datum of rows]\label{pf:thmS-leaves:def:rowsdatum}
+In the situation of \cref{pf:thmS-leaves:def:rowsinput} (without $S$ and $\alpha$), let $v$ be a function on terms,
+$\nu\in\R$, $\mathrm{th}$ a map from terms to $\Theta$ and $\mathrm{dn}$ a real function on terms.
+\begin{enumerate}
+\item The \emph{partner sums} $\mathrm{PS}(v,\mathrm{th})$ hold if for every $t\in\Gamma(w)$ and every point $w'$ with
+$G_{T,T'}(w')\ne0$,
+\begin{equation}\label{pf:thmS-leaves:eq:PS}
+\sum_{t'\in\Gamma(w'),\ t'\sim t}\phi(t',w')\,v(t')=\thmSleavesBBG\bigl(w',\mathrm{kind}(w),\mathrm{th}(t)\bigr).
+\end{equation}
+\item The \emph{fiber counts} $\mathrm{FC}(v,\nu,\mathrm{th},\mathrm{dn})$ hold if for every point $w$ with
+$G_{T,T'}(w)\ne0$ and every $t_0\in\Gamma(w_0)$,
+\begin{multline}\label{pf:thmS-leaves:eq:FC}
+\sum_{\substack{t\in\Gamma(w),\ \mathrm{kind}(w)=\mathrm{kind}(w_0)\\ \mathrm{th}(t)=\mathrm{th}(t_0)}}\mathrm{mass}(t)\,\phi(t,w)\,v(t)\\
+=n_0(\nu;T,T',w)\,\mathrm{dn}(t_0)\,\thmSleavesaut(\mathrm{th}(t_0))^{-1}\,\thmSleavesBBG\bigl(w,\mathrm{kind}(w_0),\mathrm{th}(t_0)\bigr).
+\end{multline}
+\end{enumerate}
+The \emph{datum of rows} $\mathrm{RD}(D)$ is the statement: for all $(\delta,M),L,u,u',F_0,s,(\varpi_p),\nu$ as in
+\cref{pf:thmS-leaves:def:rowsinput} (and under a signature condition on $V$ which holds for every datum,
+\lref{PI.TermsAtPtFiniteW.sigOK_holds}), all elements of the density set are $\ge0$, and there are $\mathrm{th}$ and
+$\mathrm{dn}$ such that: for every $\theta^0\in\Theta$ for which each point $w$ satisfies $\mathrm{Unr}(\theta^0,S_w,w)$ for some
+finite $S_w$, $\mathrm{th}(t)$ is restricted with respect to $\theta^0$ for every term $t$ eligible at some point;
+$\mathrm{dn}(t)\in\mathcal D$ for such $t$; and $\mathrm{PS}(v_R,\mathrm{th})$ and $\mathrm{FC}(v_R,\nu,\mathrm{th},\mathrm{dn})$ hold.
+\formal{Formalism.L2.SG.DataCut.PartnerSumC}
+\formal{Formalism.L2.SG.DataCut.FiberCntC}
+\formal{Formalism.L2.SG.DataCut.RowsDatumP}
+\end{definition}
+
+We shall use two further facts. The first is the finiteness of terms at a point: under the signature condition, for
+every row lattice $\Lambda$ and every point $w$ only finitely many classes of $P_\Lambda$ lie at $w$
+(\lref{terms_at_point_finite} states exactly this); hence $\Gamma(w)$ is finite. The second is the existence of an
+unramified family.
+
+\begin{lemma}[Unramified family]\label{pf:thmS-leaves:lem:topunram}
+For every agreeing pair $(\delta,M)$ and all $T,T'\in\N$ there is $\theta^0\in\Theta$ such that every point $w$ of size
+$r_S+1$ satisfies $\mathrm{Unr}(\theta^0,S_w,w)$ for some finite $S_w$, and $\mathrm{Sq}_p(w)$ for every $p$.
+\formallabel{Formalism.L2.SG.Pf.topUnram_holds}
+\formallabel{Formalism.L2.SG.Pf.LocModel.topUnram_body}
+\end{lemma}
+
+\begin{proof}
+Take for $\theta^0_p$ the class of the identity matrix; its cokernel is $0$, so it has exactly one automorphism. For each
+$p$, if $w_p$ is defined its determinant is a unit, and the classes $c$ with $\thmSleavesBB_{M_p}(w_p,c)\ne0$ belong to a
+finite set of classes, because only finitely many classes have representatives of a given unit determinant
+(\lref{Formalism.MainNotions.LocalOrbitGerms.Cls.finite_S}); hence $o\mapsto B_p(w,o)$ has finite support and
+$\mathrm{Sq}_p(w)$ holds (\lref{Formalism.L2.SG.Pf.LocModel.bbsq_all} records this). For all but finitely many $p$ the
+local model is non-split and $\delta_p$, the local character and the entries of $w$ are unramified at $p$
+(\lref{Formalism.L2.SG.Pf.LocModel.good_cofinite}), and at such $p$ one has $B_p(w,o)=1$ for $o=\theta^0_p$ and
+$B_p(w,o)=0$ otherwise (\lref{Formalism.L2.SG.Pf.LocModel.good_place} and \lref{Formalism.L2.SG.Pf.LocModel.bbtop_good}: the
+Bruhat cell integral at a good place is the indicator of the identity class).
+\end{proof}
+
+\begin{lemma}[Rows as partner sums]\label{pf:thmS-leaves:lem:rowspair}
+Let $\kappa$ be a row label and assume $\mathrm{PS}(v,\mathrm{th})$. Let $w_x,w_y$ be points with $\Gamma(w_x),\Gamma(w_y)$
+finite and $G_{T,T'}(w_y)\ne0$. Then, writing $n_0(w)=n_0(\nu;T,T',w)$,
+\[
+\sum_\rho\hat c_\rho(w_x)\overline{\hat c_\rho(w_y)}=\frac{1}{\sqrt{n_0(w_x)}\sqrt{n_0(w_y)}}\sum_{t\in\Gamma(w_x)}
+\mathrm{mass}(t)\,\phi(t,w_x)v(t)\,\overline{\thmSleavesBBG(w_y,\mathrm{kind}(w_x),\mathrm{th}(t))}.
+\]
+\formallabel{Formalism.L2.SG.DataCut.rows_pair}
+\end{lemma}
+
+\begin{proof}
+Write $\hat c_\rho(w)=S_\rho(w)/\sqrt{n_0(w)}$ with $S_\rho(w)=\sum_{t\in\Gamma(w),\kappa(t)=\rho}\sqrt{\mathrm{mass}(t)}\phi(t,w)v(t)$
+(a finite sum). The terms of the sum over $\rho$ vanish for $\rho\notin\kappa(\Gamma(w_x))$, so it is the finite sum
+$\sum_\rho S_\rho(w_x)\overline{S_\rho(w_y)}/\sqrt{n_0(w_x)n_0(w_y)}$, and
+\[
+\sum_\rho S_\rho(w_x)\overline{S_\rho(w_y)}=\sum_{t\in\Gamma(w_x)}\sqrt{\mathrm{mass}(t)}\,\phi(t,w_x)v(t)\,\overline{S_{\kappa(t)}(w_y)}.
+\]
+Let $t\in\Gamma(w_x)$. Since $\kappa$ is a row label and all terms involved are eligible,
+$\{t'\in\Gamma(w_y):\kappa(t')=\kappa(t)\}=\{t'\in\Gamma(w_y):t'\sim t\}$, and scalar partners have the same row lattice,
+hence the same mass. Therefore, by \eqref{pf:thmS-leaves:eq:PS},
+\[
+S_{\kappa(t)}(w_y)=\sqrt{\mathrm{mass}(t)}\,\thmSleavesBBG\bigl(w_y,\mathrm{kind}(w_x),\mathrm{th}(t)\bigr),
+\]
+and the formula follows from $\sqrt{\mathrm{mass}(t)}^2=\mathrm{mass}(t)$.
+\end{proof}
+
+\begin{lemma}[A Gram matrix inequality]\label{pf:thmS-leaves:lem:gram}
+Let $\iota,\Xi$ be finite sets, $v_j:\iota\to\C$, $a_j\ge0$ and $d_j\le d$ for $j\in\Xi$, where $d\ge0$, and $n_x\ge0$
+for $x\in\iota$. Assume that $v_j(x)\ne0\ne v_j(y)$ implies $n_x=n_y$. Then the matrix with entries
+\[
+d\sum_ja_jv_j(x)\overline{v_j(y)}-\epsilon_{xy}\,\frac{n_x}{\sqrt{n_xn_y}}\sum_jd_ja_jv_j(x)\overline{v_j(y)},\qquad
+\epsilon_{xy}=\begin{cases}1&n_x>0,\ n_y>0,\\0&\text{otherwise,}\end{cases}
+\]
+is PSD.
+\formallabel{Formalism.L2.SG.DataCut.density_gram_matrix_sub_posSemidef}
+\end{lemma}
+
+\begin{proof}
+Let $v'_j(x)=v_j(x)$ if $n_x>0$ and $0$ otherwise, and $v''_j=v_j-v'_j$. The matrix
+$\sum_j(d-d_j)a_j\,v'_j(x)\overline{v'_j(y)}+\sum_jda_j\,v''_j(x)\overline{v''_j(y)}$ is PSD, as a non-negative combination of
+rank-one PSD matrices. It equals the given matrix: if $n_x,n_y>0$ and $v_j(x)v_j(y)\ne0$ then $n_x=n_y$ and
+$n_x/\sqrt{n_xn_y}=1$; if exactly one of $n_x,n_y$ vanishes, then $v_j(x)v_j(y)=0$ for all $j$ by the hypothesis, and both
+sides vanish; if $n_x=n_y=0$ both sides equal $d\sum_ja_jv_j(x)\overline{v_j(y)}$.
+\end{proof}
+
+\begin{theorem}[Domination at points]\label{pf:thmS-leaves:thm:dompoints}
+Assume $\Pi(D)$. Let $(\delta,M)$ be agreeing, $F_0$ a flag of type $T_u$, $s$ a set of row representatives, $\nu>0$, $v$ a
+function on terms and $\kappa$ a row label. Assume that $\Gamma(w)$ is finite for every point $w$, that $\theta^0\in\Theta$ is
+such that every point $w$ satisfies $\mathrm{Unr}(\theta^0,S_w,w)$ for some finite $S_w$ and $\mathrm{Sq}_p(w)$ for all $p$, and
+that $\mathrm{th},\mathrm{dn}$ are such that $\mathrm{th}(t)$ is restricted and $\mathrm{dn}(t)\le d$ for every term $t$
+eligible at some point, where $d\ge0$. If $\mathrm{PS}(v,\mathrm{th})$ and $\mathrm{FC}(v,\nu,\mathrm{th},\mathrm{dn})$ hold, then
+for every finite family $(w_x)_{x\in\iota}$ of points of size $r_S+1$ the matrix
+\[
+\Bigl(d\,\thmSleavesKtop(w_x,w_y)-\sum_\rho\hat c_\rho(w_x)\overline{\hat c_\rho(w_y)}\Bigr)_{x,y\in\iota}
+\]
+is PSD.
+\formallabel{Formalism.L2.SG.DataCut.dom_points}
+\end{theorem}
+
+\begin{proof}
+Write $\Gamma_x=\Gamma(w_x)$ and $n_x=n_0(\nu;T,T',w_x)\ge0$; if $n_x>0$ then $G_{T,T'}(w_x)\ne0$. Let $\Xi$ be the finite set of
+pairs $(\mathrm{kind}(w_x),\mathrm{th}(t))$ with $x\in\iota$ and $t\in\Gamma_x$, and for each $j\in\Xi$ choose $x_j\in\iota$ and
+$t_j\in\Gamma_{x_j}$ with $j=(\mathrm{kind}(w_{x_j}),\mathrm{th}(t_j))$. Each $j=(\kappa_j,\theta_j)\in\Xi$ has $\theta_j$ restricted
+and $\kappa_j$ the kind of some $w_x$. Put
+\[
+v_j(x)=\thmSleavesBBG(w_x,\kappa_j,\theta_j),\qquad a_j=\thmSleavesaut(\theta_j)^{-1}\ge0,\qquad d_j=\mathrm{dn}(t_j)\le d.
+\]
+\emph{Support.} If $v_j(x)\ne0\ne v_j(y)$ then $n_x=n_y$: since $\theta_j$ is restricted and $\mathrm{Unr}(\theta^0,S_{w_x},w_x)$
+holds, $B_p(w_x,\theta_{j,p})=1$ outside the finite set $S_{w_x}\cup\{p:\theta_{j,p}\ne\theta^0_p\}$, and likewise for $w_y$; apply
+\cref{pf:thmS-leaves:prop:support}.
+
+\emph{The rows.} We claim that for all $x,y$
+\begin{equation}\label{pf:thmS-leaves:eq:rowsgram}
+\sum_\rho\hat c_\rho(w_x)\overline{\hat c_\rho(w_y)}=\epsilon_{xy}\,\frac{n_x}{\sqrt{n_xn_y}}\sum_{j\in\Xi}d_ja_jv_j(x)\overline{v_j(y)} .
+\end{equation}
+If $n_x=0$ (or $n_y=0$), then $\hat c_\rho(w_x)=0$ (or $\hat c_\rho(w_y)=0$) for all $\rho$ and both sides vanish. If
+$n_x,n_y>0$, \cref{pf:thmS-leaves:lem:rowspair} applies; grouping the terms $t\in\Gamma_x$ according to
+$(\mathrm{kind}(w_x),\mathrm{th}(t))\in\Xi$, the left side equals $(n_xn_y)^{-1/2}\sum_{j}\Sigma_j(x)\overline{v_j(y)}$ with
+$\Sigma_j(x)=\sum\mathrm{mass}(t)\phi(t,w_x)v(t)$ over the $t\in\Gamma_x$ with $\mathrm{kind}(w_x)=\kappa_j$ and
+$\mathrm{th}(t)=\theta_j=\mathrm{th}(t_j)$. By \eqref{pf:thmS-leaves:eq:FC} applied to $w=w_x$ and $t_0=t_j\in\Gamma(w_{x_j})$,
+$\Sigma_j(x)=n_x\,d_j\,a_j\,v_j(x)$ (note that $\mathrm{kind}(w_{x_j})=\kappa_j$). This proves \eqref{pf:thmS-leaves:eq:rowsgram}.
+
+\emph{Conclusion.} By \eqref{pf:thmS-leaves:eq:rowsgram} the matrix of the theorem is the sum of
+\[
+d\Bigl(\thmSleavesKtop(w_x,w_y)-\sum_{j\in\Xi}a_jv_j(x)\overline{v_j(y)}\Bigr)\quad\text{and}\quad
+d\sum_ja_jv_j(x)\overline{v_j(y)}-\epsilon_{xy}\frac{n_x}{\sqrt{n_xn_y}}\sum_jd_ja_jv_j(x)\overline{v_j(y)} .
+\]
+The first is PSD by \cref{pf:thmS-leaves:cor:ktop} (applied to $\theta^0$, the sets $S_{w_x}$ and $\Xi$) and $d\ge0$; the second
+by \cref{pf:thmS-leaves:lem:gram} and the support property.
+\end{proof}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:psdfull}
+Let $Y$ be a finite set, $K$ a function on $Y\times Y$ and $(c_\rho)_{\rho\in\N}$ functions on $Y$ such that for each $x$
+only finitely many $c_\rho(x)$ are non-zero. If $K(x,y)-\sum'_\rho c_\rho(x)\overline{c_\rho(y)}$ is PSD on $Y$, then so is
+$K(x,y)-\sum_{\rho\in R}c_\rho(x)\overline{c_\rho(y)}$ for every finite $R\subset\N$.
+\formallabel{Formalism.L2.SG.DataCut.psdOn_of_full}
+\end{lemma}
+
+\begin{proof}
+Let $\Phi\subset\N$ be the finite set of $\rho$ with $c_\rho(x)\ne0$ for some $x\in Y$. On $Y\times Y$ the full sum is the
+sum over $\Phi$, and the sum over $R$ is the sum over $\Phi\cap R$. Hence the second kernel is the first plus
+$\sum_{\rho\in\Phi\smallsetminus R}c_\rho(x)\overline{c_\rho(y)}$, a sum of rank-one PSD kernels.
+\end{proof}
+
+\begin{lemma}[Row labels and finiteness of rows]\label{pf:thmS-leaves:lem:labels}
+\begin{enumerate}
+\item For all words $u,u'$, flags $F_0$ of type $T_u$ and sets of row representatives $s$, a row label exists.
+\item Under the signature condition, for every agreeing $(\delta,M)$, every $\nu$, every row label $\kappa$ and every list
+point $x$, only finitely many row vectors $\mathrm{row}_\rho(x)$ (computed with $v_R$) are non-zero.
+\end{enumerate}
+\formallabel{Formalism.L2.SG.DataCut.rowLabelExists_of}
+\formallabel{Formalism.L2.SG.DataCut.rowsFinAt_of}
+\end{lemma}
+
+\begin{proof}
+(1) On the terms $t$ with $G(t)\ne0$, scalar partnership is an equivalence relation
+(\lref{Formalism.L2.SG.Corank.scalarEquivT_of}); this is deduced there from three facts: the scalar relation on lifted
+flags with $G\ne0$ is an equivalence relation (\lref{Formalism.L2.SG.Closed.ScalarEquivG_holds}), it is compatible with
+the relation defining terms (\lref{Formalism.L2.SG.Closed.ScalarRepFree_holds}), and two lifted flags define the same
+term if and only if they are related (\lref{Formalism.L2.SG.Pf.term_equivalence_iff}). The set of terms is countable
+($E$ and $V$ are countable, and a term is determined by its row lattice and a class of lifted flags), so the set of classes
+injects into $\N$ by some map $\mathrm{enc}$. Put $\kappa(t)=\mathrm{enc}([t])$ if $G(t)\ne0$ and $\kappa(t)=0$ otherwise; for
+eligible $t,t'$, $\kappa(t)=\kappa(t')$ if and only if $[t]=[t']$, i.e.\ $t\sim t'$. (2) If $w_x$ is undefined all row vectors
+vanish. Otherwise $\mathrm{row}_\rho(x)\ne0$ forces the existence of $t\in\Gamma(w_x)$ with $\kappa(t)=\rho$, and $\Gamma(w_x)$ is
+finite.
+\end{proof}
+
+\begin{proposition}[Domination on list points]\label{pf:thmS-leaves:prop:domlists}
+Assume $\Pi(D)$ and $\mathrm{RD}(D)$. In the situation of \cref{pf:thmS-leaves:def:rowsinput}, if the density set is
+bounded above, then for every row label $\kappa$ and every finite set $Y$ of list points of level $r(S)+1$ the kernel
+$\frac{d^{\sup}}{\alpha}\mathcal K_{r(S)+1}(x,y)-\sum'_\rho\mathrm{row}_\rho(x)\overline{\mathrm{row}_\rho(y)}$ (row vectors computed with
+$(v_R,\kappa,\nu\alpha)$) is PSD on $Y$.
+\formallabel{Formalism.L2.SG.DataCut.rowsDomAtP_of}
+\end{proposition}
+
+\begin{proof}
+By compatibility, $r(S)=r_S$. Let $\mathrm{th},\mathrm{dn}$ be given by $\mathrm{RD}(D)$, and $\theta^0$ by
+\cref{pf:thmS-leaves:lem:topunram} (with $T=T_u$, $T'=T_{u'}$); then $\mathrm{th}(t)$ is restricted for every term eligible at a
+point. The elements of $\mathcal D$ are $\ge0$ and $\mathcal D$ is bounded above, so $d^{\sup}\ge0$ and $\mathrm{dn}(t)\le d^{\sup}$ for
+terms eligible at a point. Since $n_0(\nu\alpha;w)=\alpha\,n_0(\nu;w)$, the fiber counts $\mathrm{FC}(v_R,\nu,\mathrm{th},\mathrm{dn})$
+are equivalent to $\mathrm{FC}(v_R,\nu\alpha,\mathrm{th},\mathrm{dn}/\alpha)$. Thus \cref{pf:thmS-leaves:thm:dompoints} applies with
+$\nu\alpha>0$, $d=d^{\sup}/\alpha$ and $\mathrm{dn}/\alpha$ (finiteness of $\Gamma(w)$ was noted before
+\cref{pf:thmS-leaves:lem:topunram}).
+
+For $x\in Y$ let $w(x)=w_x$ if it is defined and an arbitrary fixed point otherwise, and let
+$\varphi^\dagger(x)=\varphi_{r_S+1}(x)^{-1}$ if $w_x$ is defined and $0$ otherwise. Directly from the definitions, for all
+$x,y\in Y$,
+\begin{multline*}
+\frac{d^{\sup}}{\alpha}\mathcal K_{r_S+1}(x,y)-\sum_\rho\mathrm{row}_\rho(x)\overline{\mathrm{row}_\rho(y)}\\
+=\overline{\varphi^\dagger(x)}\Bigl(\frac{d^{\sup}}{\alpha}\thmSleavesKtop\bigl(w(x),w(y)\bigr)
+-\sum_\rho\hat c_\rho(w(x))\overline{\hat c_\rho(w(y))}\Bigr)\varphi^\dagger(y):
+\end{multline*}
+if $w_x$ (or $w_y$) is undefined both sides vanish, and otherwise, with $\varphi=\varphi_{r_S+1}>0$,
+\[
+\mathcal K_{r_S+1}(x,y)=\frac{\thmSleavesKtop(w_x,w_y)}{\varphi(x)\varphi(y)},\qquad \mathrm{row}_\rho(x)=\frac{\hat c_\rho(w_x)}{\varphi(x)}.
+\]
+The matrix in parentheses is PSD by \cref{pf:thmS-leaves:thm:dompoints}, and conjugation by the diagonal matrix
+$\mathrm{diag}(\varphi^\dagger)$ preserves this.
+\end{proof}
+
+\begin{theorem}[The rows input from the datum of rows]\label{pf:thmS-leaves:thm:rowsinput}
+For every datum $D$, $\Pi(D)$ and $\mathrm{RD}(D)$ imply $\mathrm{RI}(D)$.
+\formallabel{Formalism.L2.SG.DataCut.rowsInputP_of_normProd}
+\formallabel{Formalism.L2.SG.DataCut.rowsInputP_of}
+\formallabel{Formalism.L2.SG.TheoremSConclusion.rowsInputP_of_dataCut}
+\end{theorem}
+
+\begin{proof}
+Let the data of \cref{pf:thmS-leaves:def:rowsinput} be given. A row label exists by \cref{pf:thmS-leaves:lem:labels}(1). Let
+$\kappa$ be a row label, $Y$ a finite set of list points of level $r(S)+1$ and $R\subset\N$ finite. By
+\cref{pf:thmS-leaves:prop:domlists} the kernel with the full sum over $\rho$ is PSD on $Y$; by
+\cref{pf:thmS-leaves:lem:labels}(2) (with $\nu\alpha$ in place of $\nu$; the signature condition holds for every datum) and
+\cref{pf:thmS-leaves:lem:psdfull}, so is the kernel with the sum over $R$. The second form of the rows input differs from the
+first only by the order of its hypotheses.
+\end{proof}
+
+\subsection{From the leaves to the datum of rows}\label{pf:thmS-leaves:ss:leavesrows}
+
+The partner sums and fiber counts are obtained by summing over global terms grouped according to their local orbits
+at all places. We first define the local orbits and their weights. Fix an agreeing pair $(\delta,M)$ and words $u,u'$,
+and write $T=T_u$, $T'=T_{u'}$.
+
+\begin{definition}[Local orbits and local weights]\label{pf:thmS-leaves:def:localorbits}
+Let $p\in P_F$ and $\mathrm{Mat}_p=M_{r_S+1}(E_p)$. For $Y\in\mathrm{Mat}_p$ let $\mathrm{Orb}_p(Y)$ be the set of matrices
+$lY\varrho$ with $l$ lower and $\varrho$ upper unitriangular with entries in $R_{M_p}$. For a point $w$ of size $r_S+1$ let
+$x^0_p(w)=\mathrm{Orb}_p(\tilde w_p)$, with $\tilde w_p$ as in \cref{pf:thmS-leaves:def:top}.
+\begin{enumerate}
+\item A subset $O\subset\mathrm{Mat}_p$ is a \emph{local orbit at $w$} if $w_p$ is defined and $O=\mathrm{Orb}_p(Y)$ for some $Y$
+with entries in $R_{M_p}$ of the form $Y=L(x)\tilde w_pU_{w_p}(y)$; we fix such a $Y=\mathrm{rep}(O)$.
+\item For $Y=L(x)\tilde w_pU_{w_p}(y)$ (with a chosen such $(x,y)$) let
+$\mathrm{ph}_p(Y)=d_p(w)\psi_{M_p}(\sigma_-(L(x))+\sigma_+(U_{w_p}(y)))$, let $\mathrm{wt}_p(Y)$ be the measure of the set of
+$(x',y')$ with $L(x')\tilde w_pU_{w_p}(y')\in\mathrm{Orb}_p(Y)$, and let $\mathrm{th}_p(Y)$ be the class of $Y+c_p(w)E_{r_Sr_S}$ if
+this matrix lies in $\mathrm{Mat}_{M_p}(r_S+1)$ and $\bot$ otherwise, where $c_p(w)\in\{0,1,2\}$ is the translation of
+\cref{pf:thmS-leaves:def:top} and $E_{r_Sr_S}$ the last diagonal matrix unit. For $o,o'\in\thmSleavesCls_{M_p}(r_S)\cup\{\bot\}$
+let $n(o,o')=n_{M_p}(Z_o,Z_{o'})$ if both are classes and $0$ otherwise.
+\item For $\tau\in\thmSleavesCls_{M_p}(r_S)\cup\{\bot\}$ and a local orbit $O$ at $w$ with $Y=\mathrm{rep}(O)$ put
+\[
+h_p(w,O)=\mathrm{ph}_p(Y)\,\mathrm{wt}_p(Y),\quad k_p(w,\tau,O)=n(\tau,\mathrm{th}_p(Y)),\quad
+e_p(w,\tau,O)=\begin{cases}1&\mathrm{th}_p(Y)=\tau,\\0&\text{otherwise,}\end{cases}
+\]
+and $h_p=k_p=e_p=0$ if $O$ is not a local orbit at $w$. Finally $f_p=h_pk_p$ and $g_p=h_pe_p$.
+\end{enumerate}
+A \emph{restricted tuple} at $w$ is a family $x=(x_p)$ of subsets $x_p\subset\mathrm{Mat}_p$ with $x_p=x^0_p(w)$ for all but
+finitely many $p$.
+\formal{Formalism.MainNotions.S.LocalSplitGroups.modMat}
+\formal{Formalism.L2.SG.LsDatumB.kkOrb}
+\formal{Formalism.L2.SG.LsDatumB.fL}
+\formal{Formalism.L2.SG.LsDatumB.gL}
+\end{definition}
+
+\begin{definition}[Local data of a term]\label{pf:thmS-leaves:def:localterm}
+Let $F_0$ be a flag of type $T_u$ and $s$ a set of row representatives. A \emph{normal representative} of a term $t$ at a
+point $w'$ is a triple $(F',L,U)$ where $F'$ represents $t$ with admissibility witness $1$, $L$ is lower and $U$ upper
+unitriangular, and $((-1)^{r_S-b}\widehat Z(F_0,F')_{ab})=Lw'^\sharp U$. Fix a choice of $(w',F',L,U)$ when one exists, and put
+$z(t)=\widehat Z(F_0,F')$ and $\mathrm{pt}(t)=w'$ (fixed values otherwise). For $Z\in M_{r_S+1}(E)$ let $Z_p\in\mathrm{Mat}_p$ be
+the local matrix attached to $Z$ (the image of $Z$ rescaled by the frame factors of $\delta_p$, followed by the split
+normalisation of \cref{pf:thmS-leaves:def:localcount} when $E_p$ is split), and $\mathrm{sg}_p=\mathrm{diag}((-1)^{r_S-b})$. Then
+\[
+\mathrm{th}_p(t)=\mathrm{th}_p\bigl(z(t)_p\bigr)\ \text{(at the point $\mathrm{pt}(t)$)},\qquad
+\mathrm{loc}_p(t)=\mathrm{Orb}_p\bigl(z(t)_p\,\mathrm{sg}_p\bigr),
+\]
+\[
+\mathrm{dn}(t)=\prod_p{}'\,\thmSleavesdens_p\bigl(z(t)\bigr),
+\]
+and $\mathrm{orb}(t)$ is the number of orbits, under the elements of $N_\Lambda(F_0)$ fixing $F_0$, of the lifted flags counted
+in $\mathrm{cnt}_\Lambda(z(t))$ that represent $t$.
+\formal{Formalism.L2.SG.PairVal.NormRep}
+\formal{Formalism.L2.SG.CntLocal.ZZP}
+\formal{Formalism.L2.SG.LsDatumB.thT}
+\formal{Formalism.L2.SG.LsDatumB.locT}
+\formal{Formalism.L2.SG.LsDatumB.dnT}
+\formal{Formalism.L2.SG.PairVal.orbT}
+\end{definition}
+
+\begin{definition}[The leaves]\label{pf:thmS-leaves:def:leaves}
+Let $L$ be a system of local spaces, $F_0$ a flag of type $T_u$ and $s$ a set of row representatives. The \emph{leaves} for
+$(\delta,M,L,u,u',F_0,s)$ are the following statements.
+\begin{enumerate}[label=(L\arabic*)]
+\item \emph{Local orbit sums.} For every point $w$ with $G_{T,T'}(w)\ne0$, every $p$ and every $\tau$:
+$\sum_Of_p(w,\tau,O)=B_p(w,\tau)$, and if $\tau\ne\bot$, $\sum_Og_p(w,\tau,O)=B_p(w,\tau)/a_p(\tau)$, both families being
+absolutely summable.
+\item \emph{Scalar kinds.} If $t\in\Gamma(w)$, $t'\in\Gamma(w')$ and $t\sim t'$, then $\mathrm{kind}(w)=\mathrm{kind}(w')$.
+\item \emph{Coefficient product.} For $t\in\Gamma(w)$: $\phi(t,w)v_R(t)=\bigl(\prod^{\mathrm f}_ph_p(w,\mathrm{loc}_p(t))\bigr)\cdot\mathrm{orb}(t)$.
+\item \emph{Partner counts.} For $t\in\Gamma(w)$ and every point $w'$ with $G_{T,T'}(w')\ne0$ and $\mathrm{kind}(w')=\mathrm{kind}(w)$:
+for every $t'\in\Gamma(w')$ with $t'\sim t$, $\mathrm{loc}(t')$ is a restricted tuple at $w'$; and for every restricted tuple $x$
+at $w'$,
+\[
+\sum_{t'\in\Gamma(w'),\ t'\sim t,\ \mathrm{loc}(t')=x}\mathrm{orb}(t')=\prod_p{}^{\mathrm f}\,k_p\bigl(w',\mathrm{th}_p(t),x_p\bigr).
+\]
+\item \emph{Fiber counts.} For every $\nu$ with $\mathrm{CF}(\nu)$, all uniformizers, every point $w$ with $G_{T,T'}(w)\ne0$ and
+every $t_0\in\Gamma(w_0)$ with $\mathrm{kind}(w)=\mathrm{kind}(w_0)$: for $t\in\Gamma(w)$, $\mathrm{loc}(t)$ is a restricted tuple at $w$;
+and for every restricted tuple $x$ at $w$,
+\[
+\sum_{\substack{t\in\Gamma(w),\ \mathrm{th}(t)=\mathrm{th}(t_0)\\ \mathrm{loc}(t)=x}}\mathrm{mass}(t)\,\mathrm{orb}(t)
+=n_0(\nu;T,T',w)\,\mathrm{dn}(t_0)\prod_p{}^{\mathrm f}\,e_p\bigl(w,\mathrm{th}_p(t_0),x_p\bigr).
+\]
+\item \emph{Normal representatives.} Every $t\in\Gamma(w)$ has a normal representative at some point.
+\item \emph{Classes.} $\mathrm{th}_p(t)\ne\bot$ for all $p$ and all $t\in\Gamma(w)$.
+\item \emph{Unramified family.} There is $\theta^0\in\Theta$ such that for every point $w$ with $G_{T,T'}(w)\ne0$ there is a
+finite $S$ with $a_p(\theta^0_p)=1$ and $f_p(w,\tau,O)=g_p(w,\tau,O)=1$ if $O=x^0_p(w)$ and $\tau=\theta^0_p$, and $=0$ otherwise,
+for all $p\notin S$; and $\mathrm{th}(t)$ is restricted with respect to $\theta^0$ for every $t\in\Gamma(w)$.
+\end{enumerate}
+\formal{Formalism.L2.SG.LsDatumB.CutAt}
+\end{definition}
+
+\begin{lemma}[Summation over fibers and restricted tuples]\label{pf:thmS-leaves:lem:summation}
+\begin{enumerate}
+\item Let $P$ be a finite set, $c:P\to\C$, $\mathrm{cls}:P\to G$, and $F:G\to\C$ with $\sum_{\mathrm{cls}(x)=g}c(x)=F(g)$ for all
+$g$. If $\sum_gF(g)=s$, then $\sum_{x\in P}c(x)=s$.
+\item Let $x^0\in\prod_pX_p$, $S$ a finite set of indices, and $f_p:X_p\to\C$ with $f_p(x)=1$ for $x=x^0_p$ and $0$ otherwise
+if $p\notin S$, and $f_p$ absolutely summable with sum $a_p$ if $p\in S$. Then $\sum_x\prod^{\mathrm f}_pf_p(x_p)=\prod_{p\in S}a_p$,
+the sum running over the families $x$ with $x_p=x^0_p$ for all but finitely many $p$.
+\item If in (1) $G$ is the set of families of (2) and $F(x)=\prod^{\mathrm f}_pf_p(x_p)$, then $\sum_{x\in P}c(x)=\prod_{p\in S}a_p$.
+\end{enumerate}
+\formallabel{Formalism.L2.SG.LsDatumB.hasSum_of_fiber}
+\formallabel{Formalism.L2.SG.LsDatumB.hasSum_rst}
+\formallabel{Formalism.L2.SG.LsDatumB.hasSum_passage}
+\end{lemma}
+
+\begin{proof}
+(1) $F$ vanishes outside the finite set $\mathrm{cls}(P)$, and $\sum_xc(x)=\sum_g\sum_{\mathrm{cls}(x)=g}c(x)=\sum_gF(g)$; by
+uniqueness of sums this is $s$. (2) The inclusion of $\mathrm{Off}(x^0,S)$ into the set of families is injective; a family $x$
+not in its image has $x_p\ne x^0_p$ for some $p\notin S$, and then the factor $f_p(x_p)$ vanishes while all but finitely many
+factors equal $1$, so $\prod^{\mathrm f}_pf_p(x_p)=0$. On the image, $\prod^{\mathrm f}_pf_p(x_p)=\prod_{p\in S}f_p(x_p)$, and
+\cref{pf:thmS-leaves:lem:prodsum} applies. (3) combines (1) and (2).
+\end{proof}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:base}
+If $p$, $w$ and $\theta$ are such that $f_p(w,\tau,O)=g_p(w,\tau,O)=1$ for $(O,\tau)=(x^0_p(w),\theta)$ and $=0$ otherwise, then
+$h_p(w,x^0_p(w))=k_p(w,\theta,x^0_p(w))=e_p(w,\theta,x^0_p(w))=1$. If moreover $\sum_Of_p(w,\theta,O)=B_p(w,\theta)$, then
+$B_p(w,\theta)=1$.
+\formallabel{Formalism.L2.SG.LsDatumB.base_factors}
+\formallabel{Formalism.L2.SG.LsDatumB.bbtop_eq_one_of}
+\end{lemma}
+
+\begin{proof}
+Since $e_p\in\{0,1\}$ and $h_pe_p=g_p=1$ at $(x^0_p(w),\theta)$, we get $e_p=h_p=1$ there, and then $k_p=h_pk_p=f_p=1$. The last
+assertion holds because the family $O\mapsto f_p(w,\theta,O)$ is the indicator of $x^0_p(w)$, whose sum is $1$.
+\end{proof}
+
+\begin{proposition}[Tuple sums]\label{pf:thmS-leaves:prop:tuple}
+Assume (L3) and (L8), with the family $\theta^0$ of (L8).
+\begin{enumerate}
+\item If (L4) holds, then for $t\in\Gamma(w)$, every point $w'$ with $G_{T,T'}(w')\ne0$ and $\mathrm{kind}(w')=\mathrm{kind}(w)$, and
+every restricted tuple $x$ at $w'$,
+$\sum_{t'\in\Gamma(w'),\,t'\sim t,\,\mathrm{loc}(t')=x}\phi(t',w')v_R(t')=\prod^{\mathrm f}_pf_p(w',\mathrm{th}_p(t),x_p)$.
+\item If (L5) holds, then, in the situation of (L5),
+\[
+\sum_{\substack{t\in\Gamma(w),\ \mathrm{th}(t)=\mathrm{th}(t_0)\\ \mathrm{loc}(t)=x}}\mathrm{mass}(t)\phi(t,w)v_R(t)
+=n_0(\nu;T,T',w)\,\mathrm{dn}(t_0)\prod_p{}^{\mathrm f}\,g_p\bigl(w,\mathrm{th}_p(t_0),x_p\bigr).
+\]
+\end{enumerate}
+\formallabel{Formalism.L2.SG.LsDatumB.partnerTupleSum_of}
+\formallabel{Formalism.L2.SG.LsDatumB.fiberTupleSum_of}
+\end{proposition}
+
+\begin{proof}
+(1) By (L3), every term of the sum equals $\bigl(\prod^{\mathrm f}_ph_p(w',x_p)\bigr)\mathrm{orb}(t')$, so by (L4) the sum is
+$\prod^{\mathrm f}_ph_p(w',x_p)\cdot\prod^{\mathrm f}_pk_p(w',\mathrm{th}_p(t),x_p)$. Let $S$ be the finite set given by (L8) for $w'$.
+For $p$ outside the finite set $S\cup\{p:\mathrm{th}_p(t)\ne\theta^0_p\}\cup\{p:x_p\ne x^0_p(w')\}$, \cref{pf:thmS-leaves:lem:base}
+gives $h_p(w',x_p)=k_p(w',\mathrm{th}_p(t),x_p)=1$; hence the two finite products multiply to the finite product of
+$f_p=h_pk_p$. (2) is identical, with $e_p$, $g_p=h_pe_p$ and (L5) in place of $k_p$, $f_p$ and (L4).
+\end{proof}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:atptG}
+\begin{enumerate}
+\item If a term $t$ lies at a point $w$, then $G_{T,T'}(w)\ne0$.
+\item Assume (L6). For $t\in\Gamma(w)$, $\mathrm{dn}(t)$ belongs to the density set.
+\item All elements of the density set are $\ge0$.
+\end{enumerate}
+\formallabel{Formalism.L2.SG.LsDatumB.atPtG_holds}
+\formallabel{Formalism.L2.SG.LsDatumB.dnInDens_of}
+\formallabel{Formalism.L2.SG.LsDatumB.dens_nonneg}
+\end{lemma}
+
+\begin{proof}
+(1) Let $F'$ be a representative with $G(F_0,F')\ne0$ and $A:=((-1)^{r_S-b}\widehat Z(F_0,F')_{ab})=Lw^\sharp U$. Since $L$ and $U$ are
+unitriangular, the leading $l\times l$ minors of $Lw^\sharp U$ and $w^\sharp$ coincide, and the leading $l\times l$ minor of $A$ is
+$\pm$ that of $\widehat Z(F_0,F')$. As $c(\pm1)=\pm1$, the product $D_l\,c(D_l)$ is the same for $w^\sharp$ and $\widehat Z(F_0,F')$, for
+$l=r_S,r_S+1$; hence $G_{T,T'}(w)=G(F_0,F')\ne0$. (2) Let $(F',L,U)$ be the chosen normal representative; it represents $t$, whose
+genericity does not depend on the representative (\lref{Formalism.L2.SG.Closed.TermFun_holds}: genericity, relevance,
+the value $G$ and the cell of a lifted flag are invariant under the relation defining terms), so $F'$ is one of the lifted
+flags counted in $\mathrm{cnt}_\Lambda(z(t))$, $\Lambda$ the row lattice of $t$; hence $\mathrm{dn}(t)=\prod'_p\thmSleavesdens_p(z(t))\in\mathcal D$.
+(3) Each element is a product $\prod'_p$ of non-negative local densities, hence $\ge0$ (also when the product is $1$ by convention).
+\end{proof}
+
+\begin{proposition}[Partner sums, fiber counts and restriction from the leaves]\label{pf:thmS-leaves:prop:fromleaves}
+Assume the leaves (L1)--(L8) for $(\delta,M,L,u,u',F_0,s)$, and that $\Gamma(w)$ is finite for every point $w$. Then:
+\begin{enumerate}
+\item $\mathrm{PS}(v_R,\mathrm{th})$ holds;
+\item $\mathrm{FC}(v_R,\nu,\mathrm{th},\mathrm{dn})$ holds for every $\nu$ with $\mathrm{CF}(\nu)$ and all uniformizers;
+\item for every $\theta'\in\Theta$ such that every point $w$ satisfies $\mathrm{Unr}(\theta',S_w,w)$ for some finite $S_w$, $\mathrm{th}(t)$
+is restricted with respect to $\theta'$ for every term $t$ eligible at some point.
+\end{enumerate}
+\formallabel{Formalism.L2.SG.LsDatumB.partnerSumC_of}
+\formallabel{Formalism.L2.SG.LsDatumB.fiberCntC_of}
+\formallabel{Formalism.L2.SG.LsDatumB.restricted_of}
+\end{proposition}
+
+\begin{proof}
+Let $\theta^0$ be as in (L8). We use repeatedly: if $G_{T,T'}(w)\ne0$, $S$ is given by (L8) for $w$, and
+$S'=S\cup\{p:\mathrm{th}_p(t)\ne\theta^0_p\}$ for a term $t$ eligible at a point (a finite set), then for $p\notin S'$ the families
+$f_p(w,\mathrm{th}_p(t),\cdot)$ and $g_p(w,\mathrm{th}_p(t),\cdot)$ are the indicator of $x^0_p(w)$, so that $B_p(w,\mathrm{th}_p(t))=1$
+(\cref{pf:thmS-leaves:lem:base} and (L1)) and $a_p(\mathrm{th}_p(t))=1$; consequently
+$\thmSleavesBBG(w,\mathrm{kind}(w),\mathrm{th}(t))=\prod_{p\in S'}B_p(w,\mathrm{th}_p(t))$ and
+$\thmSleavesaut(\mathrm{th}(t))=\prod_{p\in S'}a_p(\mathrm{th}_p(t))$.
+
+(1) Let $t\in\Gamma(w)$ and $G_{T,T'}(w')\ne0$. If $\mathrm{kind}(w')\ne\mathrm{kind}(w)$, no $t'\in\Gamma(w')$ is a scalar partner of $t$
+by (L2), and both sides of \eqref{pf:thmS-leaves:eq:PS} vanish. Otherwise let $S'$ be as above (for $w'$ and $t$). The set $P$ of
+$t'\in\Gamma(w')$ with $t'\sim t$ is finite, and $t'\mapsto\mathrm{loc}(t')$ maps it to restricted tuples at $w'$ (L4). By
+\cref{pf:thmS-leaves:prop:tuple}(1) the fiber sums are $\prod^{\mathrm f}_pf_p(w',\mathrm{th}_p(t),x_p)$, and by (L1) the families
+$f_p(w',\mathrm{th}_p(t),\cdot)$ for $p\in S'$ are absolutely summable with sums $B_p(w',\mathrm{th}_p(t))$.
+\Cref{pf:thmS-leaves:lem:summation}(3) gives
+$\sum_{t'\in P}\phi(t',w')v_R(t')=\prod_{p\in S'}B_p(w',\mathrm{th}_p(t))=\thmSleavesBBG(w',\mathrm{kind}(w),\mathrm{th}(t))$.
+
+(2) Let $G_{T,T'}(w)\ne0$ and $t_0\in\Gamma(w_0)$. If $\mathrm{kind}(w)\ne\mathrm{kind}(w_0)$ both sides of \eqref{pf:thmS-leaves:eq:FC}
+vanish. Otherwise let $S'$ be as above (for $w$ and $t_0$). By (L7), $\mathrm{th}_p(t_0)\ne\bot$, so by (L1) the families
+$g_p(w,\mathrm{th}_p(t_0),\cdot)$, $p\in S'$, are absolutely summable with sums $B_p(w,\mathrm{th}_p(t_0))/a_p(\mathrm{th}_p(t_0))$. By
+\cref{pf:thmS-leaves:lem:summation}(2), the sum over restricted tuples of $n_0(\nu;w)\mathrm{dn}(t_0)\prod^{\mathrm f}_pg_p(w,\mathrm{th}_p(t_0),x_p)$
+is $n_0(\nu;w)\mathrm{dn}(t_0)\prod_{p\in S'}B_p(w,\mathrm{th}_p(t_0))/a_p(\mathrm{th}_p(t_0))$, which equals the right side of
+\eqref{pf:thmS-leaves:eq:FC}. The finite set of $t\in\Gamma(w)$ with $\mathrm{th}(t)=\mathrm{th}(t_0)$ is mapped by $\mathrm{loc}$ to restricted
+tuples (L5), with fiber sums given by \cref{pf:thmS-leaves:prop:tuple}(2); \cref{pf:thmS-leaves:lem:summation}(1) concludes.
+
+(3) Let $t\in\Gamma(w)$. Then $G_{T,T'}(w)\ne0$ by \cref{pf:thmS-leaves:lem:atptG}(1). Let $S_1=S_w$ and $S_2$ the set given by (L8) for
+$w$. For $p\notin S_1\cup S_2$, $B_p(w,\theta^0_p)=1$ by \cref{pf:thmS-leaves:lem:base}, while $\mathrm{Unr}(\theta',S_1,w)$ says that $B_p(w,o)$
+vanishes for $o\ne\theta'_p$; hence $\theta'_p=\theta^0_p$. Therefore $\{p:\mathrm{th}_p(t)\ne\theta'_p\}$ is contained in the finite set
+$\{p:\mathrm{th}_p(t)\ne\theta^0_p\}\cup S_1\cup S_2$.
+\end{proof}
+
+\begin{theorem}[The datum of rows from the leaves]\label{pf:thmS-leaves:thm:rowsdatumat}
+Assume the leaves (L1)--(L8) for $(\delta,M,L,u,u',F_0,s)$, that $\Gamma(w)$ is finite for every point $w$, and let $(\varpi_p)$ be
+uniformizers and $\nu$ with $\mathrm{CF}(\nu)$. Then all elements of the density set are $\ge0$, and the maps $\mathrm{th}$ and
+$\mathrm{dn}$ of \cref{pf:thmS-leaves:def:localterm} satisfy the conditions of \cref{pf:thmS-leaves:def:rowsdatum}.
+\formallabel{Formalism.L2.SG.LsDatumB.rowsDatum_at}
+\end{theorem}
+
+\begin{proof}
+Combine \cref{pf:thmS-leaves:lem:atptG} and \cref{pf:thmS-leaves:prop:fromleaves}.
+\end{proof}
+
+\begin{theorem}[The datum of rows from the deep leaves]\label{pf:thmS-leaves:thm:rowsdatum}
+For every datum $D$, the deep leaves (D1)--(D3) of \cref{pf:thmS-leaves:def:deep} imply $\mathrm{RD}(D)$.
+\formallabel{Formalism.L2.SG.Pf.Coef.rowsDatumP_of_deep}
+\end{theorem}
+
+\begin{proof}
+Let the data of $\mathrm{RD}(D)$ be given. By \cref{pf:thmS-leaves:thm:leaves}, (D1)--(D3) give the leaves (L1)--(L8) for these
+data. The sets $\Gamma(w)$ are finite (\lref{Formalism.L2.SG.Closed.TermsAtFinite_holds}: under the signature condition,
+only finitely many classes of lifted flags lie at a given point). \Cref{pf:thmS-leaves:thm:rowsdatumat} concludes.
+\end{proof}
+
+\subsection{The leaves, the partner counts and the deep leaves}\label{pf:thmS-leaves:ss:leaves}
+
+\begin{definition}[The deep leaves]\label{pf:thmS-leaves:def:deep}
+The \emph{deep leaves} of a datum $D$ are the following three statements, asserted under the signature condition for
+every agreeing $(\delta,M)$, every system of local spaces, all words $u,u'$ with $T_u\equiv T_{u'}\pmod{g_S^2}$ satisfying the
+prime conditions, every flag $F_0$ of type $T_u$ and every set $s$ of row representatives.
+\begin{enumerate}[label=(D\arabic*)]
+\item \emph{Local counting.} For every eligible term $t$ at a point $w$ with a normal representative $(F',L,U)$ satisfying
+the admissibility hypotheses of the volume computation, and every $p$: a local counting identity expressing the weight
+$\mathrm{wt}_p$ of the local matrix of $\widehat Z(F_0,F')$ through the local data of $(L,U)$, and a unimodularity statement at $p$.
+\item \emph{Strong approximation.} For every point $w$, every $Z_1$ in the Bruhat cell of $w$, and all lower and upper
+triangular $A_0,B_0$ which at every $p$ move the local matrix of $Z_1$ inside its integral unipotent orbit, there are global
+unitriangular $X,Y$ fixing $Z_1$ (twisted by signs) such that the local components of $(A_0X,YB_0)$ are integral at every $p$.
+\item \emph{Global patching.} For every eligible term $t$ at $w$, every $w'$ of the same kind with $G_{T,T'}(w')\ne0$ and every $Z$
+in the Bruhat cell of $w'$, there are a lifted flag $F'_2$ with $\widehat Z(F_0,F'_2)=Z$ and local isometries
+$(\varphi_p,\varphi'_p)$ satisfying the local count hypotheses (\cref{pf:thmS-leaves:def:localcount}) at every $p$, such that the
+local lattices attached to $t$ coincide with the localisations of a single global lattice at all but finitely many $p$, and
+a bijection between the set of orbits of flags representing scalar partners of $t$ with Gram matrix $Z$ and the set of
+global lattices attached to $(t,F'_2,\varphi,\varphi')$.
+\end{enumerate}
+\formal{Formalism.L2.SG.Pf.ProdEP2Cut.StepsU}
+\formal{Formalism.L2.SG.Pf.TupGlob.StabApprox}
+\formal{Formalism.L2.SG.Pf.FrameGlobalPatching.FStarC}
+\formal{Formalism.L2.SG.Pf.Coef.CutLeavesDeep}
+\end{definition}
+
+\paragraph{The local counting identity.} Fix $p$ and write $G_p=\GL_{r_S+1}(E_p)\times\GL_{r_S+1}(E_p)^{\mathrm{op}}$, acting on matrices by
+$(l,\varrho)\cdot X=lX\varrho$. For a point $w$ let $Y_0(w)$ be the local matrix at $p$ of the matrix of $w$, let $\mathrm{St}_p(w)\subseteq G_p$ be the
+group of pairs $(l,\varrho)$ of lower and upper unitriangular matrices with $lY_0(w)\varrho=Y_0(w)$, and $A_p(w)\subseteq\mathrm{St}_p(w)$ its subgroup
+of pairs with entries in $R_{M_p}$. Let $K_p\subseteq G_p$ be the subgroup of pairs $(l,\varrho)$ with $l$ integral lower and $\varrho$ integral
+upper triangular (in the sense of the local model). For lower and upper unitriangular global matrices $L,U$ let $g_0(L,U)\in G_p$ be the
+pair of local components $(l_p(L,U),\varrho_p(L,U))$ and $X_p(L,U)=l_p(L,U)\,Y_0(w)\,\varrho_p(L,U)$.
+
+\begin{proposition}[Local counting identity]\label{pf:thmS-leaves:prop:countat}
+Let $t$ be a term at a point $w$ with a normal representative $(F',L,U)$ satisfying the admissibility hypotheses of the volume
+computation, and let $p\in P_F$. Let $Y$ be the local matrix at $p$ of $\widehat Z(F_0,F')$, multiplied by the sign attached to $p$. Then there
+are a subgroup $N\subseteq G_p$ containing $g_0(L,U)$ and $K_p\cap\mathrm{Stab}(X_p(L,U))$ and a retraction $\pi$ of $N$ onto $\mathrm{St}_p(w)$ such that
+the image $A=\pi(K_p\cap\mathrm{Stab}(X_p(L,U)))$ is contained in $A_p(w)$, the index $[A_p(w):A]$ is finite and non-zero, and
+\[
+\mathrm{wt}_p(Y)=[A_p(w):A].
+\]
+\formallabel{Formalism.L2.SG.Pf.CountAt.countAt_holds}
+\end{proposition}
+
+\begin{proof}
+The admissibility hypotheses give the agreement at $p$, that $L$ and $U$ are lower and upper unitriangular, and the identity
+$g_U\cdot Y_0(w)=Y+\mathrm{sh}_p(w)$ relating $Y$ to the local matrix of $w$ up to the corner shift (this is where the normal
+representative enters). Choose a representative $a$ of the local point $w_p$ (\lref{Formalism.L2.SG.Pf.PCount.modPt_full}).
+\emph{Retraction.} \Lref{Formalism.L2.SG.Pf.CountAt.blockRetr_holds} constructs, from the block decomposition of $a$, a subgroup $N$ and a
+retraction $\pi:N\to\mathrm{St}_p(w)$ with $K_p\cap\mathrm{Stab}(X_p(L,U))\subseteq N$ and $g_0(L,U)\in N$, and the base-point condition for $a$
+(\lref{Formalism.L2.SG.Pf.CountAt.baseAt_holds}) together with the integrality of the local matrix
+(\lref{Formalism.L2.SG.Pf.CountAt.int_zzp}) gives $\pi(K_p\cap\mathrm{Stab}(X_p))\subseteq A_p(w)$. \emph{Volume as a count.} By definition $\mathrm{wt}_p(Y)$ is the measure of the set of Bruhat coordinates $(x,y)$ with $L(x)\tilde w_pU(y)$ in
+the integral unipotent orbit of $Y$. By \lref{Formalism.L2.SG.Pf.Coef.wtL_count}, the set of cosets of the integral coordinate
+lattice whose points lie in this set (after the corner shift) is finite, and $\mathrm{wt}_p(Y)$ is its cardinality, each coset having measure
+$1$. \emph{Cosets, cells and the index.} These cosets correspond bijectively to classes of pairs of unipotent matrices defining cells
+(\lref{Formalism.L2.SG.Pf.Coef.cellCos}); the classes of cells meeting the orbit are the classes of a relation defined by the kernel of
+$\pi$ and the integral unipotent group (\lref{Formalism.L2.SG.Pf.CountAt.card_cellRel}); an explicit injective map with known range
+(\lref{Formalism.L2.SG.Pf.CountAt.fC_inj} and \lref{Formalism.L2.SG.Pf.CountAt.fC_range}) shows that these classes form a finite non-empty set;
+and \lref{Formalism.L2.SG.Pf.CountAt.countAt_of_parts} identifies their number with the index of $A=\pi(K_p\cap\mathrm{Stab}(X_p))$ in
+$A_p(w)$. Hence $\mathrm{wt}_p(Y)=[A_p(w):A]\ne0$.
+\end{proof}
+
+\paragraph{Global patching.} The third deep leaf is deduced from an integrality statement about isometries. For a term $\gamma$ let
+$f(\gamma)$ be the frame of its representative, and for a lifted flag $F'_2$ let $f(F'_2)$ be its frame and $X(F'_2)$ the span of its first
+$r_S$ vectors. The \emph{backward hypotheses} for $(\gamma,Z,F'_2,\varphi,\varphi',\Lambda_2)$ are the hypotheses on the data of (D3) under which a
+global lattice $\Lambda_2$ is attached to $(\gamma,F'_2,\varphi,\varphi')$; the \emph{compatibility conditions} on an isometry $\beta$ of $V$ are the two
+conditions of the development relating $\beta$, the lattice of $\gamma$, $\Lambda_2$ and the frames $f(F_0)$, $f(\gamma)$, $f(F'_2)$ on the
+orthogonal complement of the frames and on the distinguished vectors $\omega$ attached to pairs of flags.
+
+\begin{definition}[Rational and integral isometry statements]\label{pf:thmS-leaves:def:beta}
+Fix $(\delta,M),L,u,u',F_0,s$ as in (D3). The \emph{rational isometry statement} asserts: for every term $\gamma$, matrix $Z$, lifted flag
+$F'_2$ of type $T_{u'}$, local isometries $\varphi,\varphi'$ and lattice $\Lambda_2$ satisfying the backward hypotheses, there is an isometry
+$\beta_0$ of $(V,h)$ with $\beta_0(f(\gamma))=f(F'_2)$ satisfying the compatibility conditions. The \emph{integrality statement} asserts:
+for the same data, every such $\beta_0$ admits an isometry $v$ of $(V,h)$ with $v(f(F'_2))=f(F'_2)$ and $v(y)-y\in X(F'_2)$ for all
+$y\perp X(F'_2)$, such that $v\beta_0$ maps the lattice of $\gamma$ onto $\Lambda_2$ and satisfies the $\iota$-condition of the development.
+\formal{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.BetaRat}
+\formal{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.BetaInt}
+\end{definition}
+
+\begin{lemma}[Rational isometries]\label{pf:thmS-leaves:lem:betarat}
+The rational isometry statement holds for all $(\delta,M),L,u,u',F_0,s$.
+\formallabel{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.betaRat_holds}
+\end{lemma}
+
+\begin{proof}
+Let $f=f(F_0)$, $g=f(\gamma)$, $f_2=f(F'_2)$. The backward hypotheses give $\widehat Z(F_0,F'_2)=Z$, $\det Z\ne0$, and the non-vanishing of the
+leading minors and of the $G$-values of the pairs $(F_0,\gamma)$ and $(F_0,F'_2)$; in particular the minors of $Z$ and of
+$(h(g_b,f_a))$ satisfy the cross relation $D_{r_S}(Z_1)\det Z=D_{r_S}(Z)\det Z_1$ for $Z_1=(h(g_b,f_a))$. All frames involved have Gram
+matrix $0$ except for the last diagonal entry, equal to $-T_u$ or $-T_{u'}$. By the frame lemma
+\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.FsLA.frame_la} there is a frame $h'$ of type $T_u$ in the span of $(f,f_2)$ with
+$(h(f_{2,a},h'_b))=Z_1^*$; then the families $(f,g)$ and $(h',f_2)$ have the same Gram matrix, and this matrix is non-degenerate. By an
+isometry extension lemma (\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.BRat.isometry_extension_two}, a form of Witt's extension
+theorem for hermitian forms \cite{Scharlau1985}), there is an isometry $\beta_0$ of $V$ mapping $(f,g)$ to $(h',f_2)$ with the prescribed behaviour on
+the orthogonal complement; in particular $\beta_0(g)=f_2$. The compatibility conditions follow from this construction
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.BRat.key_X}).
+\end{proof}
+
+\begin{proposition}[Global patching from integrality]\label{pf:thmS-leaves:prop:fstar}
+Let $(\delta,M),L,u,u',F_0,s$ be as in (D3), with $u,u'$ satisfying the congruence, row and prime conditions. If the integrality
+statement holds for these data, then (D3) holds for them.
+\formallabel{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.fStarC_of_int}
+\formallabel{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.fStarC_of_beta}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:thmS-leaves:lem:betarat} the rational isometry statement holds. The statement (D3) then follows from the rational and
+integral isometry statements by \lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.fStarC_of_leaves'}, applied with the local
+patching statement \lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.lprPart_holds} (local lattices with prescribed local
+correspondences exist and form a restricted family). Its proof has four parts: a global flag $F'_2$ with $\widehat Z(F_0,F'_2)=Z$ and the
+local isometries required in (D3) exist (\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.starExists2_holds}); a forward map attaches to an
+orbit of flags representing a scalar partner of $t$ the global lattice obtained by transporting the lattice of $t$
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.fwdC_of_loc}); a backward map attaches to a global lattice $\Lambda_2$ attached to
+$(t,F'_2,\varphi,\varphi')$ an orbit of flags, by choosing an isometry $\beta_0$ (rational statement) and correcting it to $v\beta_0$ mapping the lattice
+of $t$ onto $\Lambda_2$ (integrality statement) (\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.bwdTerm'_holds}, \lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.bwdBeta'_of_leaves}, and \lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.bwdN_holds});
+and the two maps are mutually inverse, by a uniqueness statement for the patched configuration
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.Uniq.uniqC_holds}).
+\end{proof}
+\begin{theorem}[The deep leaves]\label{pf:thmS-leaves:thm:deep}
+The deep leaves (D1)--(D3) hold for every datum $D$.
+\formallabel{Formalism.L2.SG.Closed.CutLeavesDeep_outright}
+\formallabel{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.cutLeavesDeep_of_betaInt}
+\end{theorem}
+
+\begin{proof}
+(D1) is proved place by place: the local counting identity is \lref{Formalism.L2.SG.Pf.CountAt.countAt_holds} and the
+unimodularity statement is \lref{Formalism.L2.SG.Pf.ProdEP2Uni.unimodAt_holds}. (D2) is
+\lref{Formalism.L2.SG.Pf.TupGlobApprox.stabApprox}, which states it for all agreeing local data and words. (D3) is deduced,
+under the congruence, row and prime conditions, from an integrality statement for the data $(\delta,M,u,u',F_0,s)$
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.fStarC_of_int}), and this integrality statement holds for all such data
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.FStar.betaInt_holds}).
+\end{proof}
+
+\paragraph{Volume indices.} For a term $\gamma$ at a point $w$ with normal representative $(F',L,U)$ let $\Gamma_{\mathrm{aut}}(\gamma,F',L)$ be the
+subgroup of $\GL_{r_S+1}(E)$ generated by the integral automorphisms attached to $(\gamma,F',L)$, $\Gamma_{\mathrm{int}}(w)$ the subgroup
+generated by the integral stabilisers of the matrix of $w$ (both as in the definition of $v_R$), and, for subgroups $A,B$ of a group,
+$(A:B)=[A:A\cap B]/[B:A\cap B]$ (relative indices; an infinite index is $0$). Thus $v_R(\gamma)=(\Gamma_{\mathrm{int}}(w):\Gamma_{\mathrm{aut}}(\gamma,F',L))$. Let
+$C_Z(Z,L)$ be the subgroup generated by the stabilisers of $Z$ attached to $L$ in the development, and $\mathrm{orb}(\gamma,Z)$ the set of
+orbits of flags of \cref{pf:thmS-leaves:def:terms} attached to $\gamma$ and the Gram matrix $Z$.
+
+\begin{proposition}[Volume indices]\label{pf:thmS-leaves:prop:volidx}
+Let $(\delta,M)$ be agreeing, $u,u'$ words with $T_u\equiv T_{u'}\pmod{g_S^2}$ satisfying the prime conditions, $F_0$ a flag of type $T_u$
+and $s$ a set of row representatives. Assume the \emph{index product formula}: for every term $\gamma$ at a point $w$ with a normal
+representative $(F',L,U)$ satisfying the admissibility hypotheses of the volume computation,
+$(\Gamma_{\mathrm{int}}(w):C_Z(\widehat Z(F_0,F'),L))=\prod^{\mathrm f}_p\mathrm{wt}_p(Y_p)$, where $Y_p$ is the local matrix at $p$ of
+$\widehat Z(F_0,F')$ multiplied by the sign attached to $p$. Then for every eligible term $\gamma$ at $w$ with normal representative $(F',L,U)$,
+\[
+v_R(\gamma)=\#\mathrm{orb}(\gamma,\widehat Z(F_0,F'))\cdot\prod^{\mathrm f}_p\mathrm{wt}_p(Y_p).
+\]
+\formallabel{Formalism.L2.SG.Pf.ZsVolAsm.volIdxProd_of_prodE}
+\formallabel{Formalism.L2.SG.Pf.ZsVolCut.volIdxProd_of}
+\end{proposition}
+
+\begin{proof}
+Write $Z=\widehat Z(F_0,F')$, $A=\Gamma_{\mathrm{int}}(w)$, $B=\Gamma_{\mathrm{aut}}(\gamma,F',L)$ and $C=C_Z(Z,L)$. The data satisfy the admissibility hypotheses
+(agreement, congruence, row representatives, prime conditions, eligibility and the normal representative).
+\emph{Orbit--stabiliser.} An orbit--stabiliser argument for an action of $C$ on $\mathrm{orb}(\gamma,Z)$
+(\lref{Formalism.L2.SG.Pf.ZsVolAsm.orbitAction_holds} and \lref{Formalism.L2.SG.Pf.ZsVolOrb.orbStabE_of_act}) gives $B\le C$ and
+$[C:B]=\#\mathrm{orb}(\gamma,Z)\ne0$ (\lref{Formalism.L2.SG.Pf.ZsVolAsm.orbitStabilizerIndex_holds}).
+\emph{Cocycle.} For subgroups $B\le C$ with $[C:B]$ finite and non-zero, $(A:B)=(A:C)\,[C:B]$
+(\lref{Formalism.L2.SG.Pf.IndexCocycleOrbits.idxCocycle}). When all indices are finite this follows from
+$[A:A\cap B]=[A:A\cap C]\,[A\cap C:A\cap B]$ and $[C:A\cap B]=[C:B][B:A\cap B]=[C:A\cap C][A\cap C:A\cap B]$; the formal proof uses the same
+multiplicativity identities, which also hold with the convention for infinite indices. Therefore
+$v_R(\gamma)=(A:B)=(A:C)\,[C:B]=\prod^{\mathrm f}_p\mathrm{wt}_p(Y_p)\cdot\#\mathrm{orb}(\gamma,Z)$ by the index product formula.
+\end{proof}
+\paragraph{Local Gram matrices of the same class.} For a matrix $Z$ representing a point at $p$, let $\Gamma^+_p(Z)$ be the
+$(2r_S+2)\times(2r_S+2)$ hermitian matrix over $E_p$ of the development built from the local matrix of $Z$ and $T_u,T_{u'}$ (the local Gram
+matrix of the frames attached to $Z$), and $\mathrm{th}_p(w,Z)$ the class of the local matrix of $Z$ translated in the corner, as in
+\cref{pf:thmS-leaves:def:localorbits}.
+
+\begin{proposition}[Local Gram matrices of the same class]\label{pf:thmS-leaves:prop:gaplus}
+Let $(\delta,M)$ be agreeing and $u,u'$ words with $T_u\equiv T_{u'}\pmod{g_S^2}$ satisfying the prime conditions. Let $w,w'$ be points of the same
+kind and $Z,Z'$ matrices at $w$ and $w'$, and let $p$ be a place with $\mathrm{th}_p(w,Z)\ne\bot$ and $\mathrm{th}_p(w,Z)=\mathrm{th}_p(w',Z')$. Then there is a
+matrix $A$ with entries in $\OO_{E_p}$ and unit determinant such that $\Gamma^+_p(Z')=\overline A^{\,\top}\,\Gamma^+_p(Z)\,A$.
+\formallabel{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.GaPlusTh_holds}
+\formallabel{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.gaPlusTh_of}
+\end{proposition}
+
+\begin{proof}
+\emph{Lifting.} Let $M$ be an admissible local model with ring $R$. If $Y,Y'\in\mathrm{Mat}_M(m+1)$ have isomorphic cokernel data (\cref{pf:thmS-leaves:def:cok})
+and the last diagonal entries of $Y^{-1}$ and $Y'^{-1}$ agree, then $Y'=lY\varrho$ with $l,\varrho\in\GL_{m+1}(R)$ whose last column, resp.\ last row, is the
+last standard basis vector (\lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.LiftOrb_holds}). This is deduced
+(\lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.liftOrb_of} and \lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.srLift_of_finMax})
+from the fact that $R$ has only finitely many maximal ideals (\lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.RF.rFinMax_holds}; in the split case $R$ is local), since
+over such rings isomorphisms of cokernels of square matrices lift to equivalences of the matrices.
+\emph{Construction of $A$} (\lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.gaPlusTh_of}). Let $Y,Y'$ be the corner
+translates of the local matrices of $Z,Z'$. By hypothesis their classes are equal, so their cokernel data are isomorphic; the remaining
+hypothesis of the lifting statement is derived from the equality of the kinds of $w$ and $w'$, and the cases in which a translate is not
+integral or not invertible are excluded by $\mathrm{th}_p(w,Z)\ne\bot$. The lifting gives $l,\varrho$, the matrix $A$ is assembled from $l$ and $\varrho$ in
+the block decomposition of $\Gamma^+_p$ indexed by the two frames, and $\Gamma^+_p(Z')=\overline A^{\,\top}\Gamma^+_p(Z)A$ is a block computation.
+\end{proof}
+\begin{theorem}[The leaves]\label{pf:thmS-leaves:thm:leaves}
+Under the signature condition, let $(\delta,M)$ be agreeing, $L$ a system of local spaces, $u,u'$ words with
+$T_u\equiv T_{u'}\pmod{g_S^2}$ satisfying the prime conditions, $F_0$ a flag of type $T_u$ and $s$ a set of row
+representatives. If (D1)--(D3) hold for these data, then the leaves (L1)--(L8) hold for $(\delta,M,L,u,u',F_0,s)$.
+\formallabel{Formalism.L2.SG.Pf.Coef.cutAt_of_deep}
+\formallabel{Formalism.L2.SG.Pf.Coef.cutAt_of_leaves}
+\end{theorem}
+
+\begin{proof}
+We first collect the inputs, all for the data of the theorem.
+\begin{itemize}
+\item \emph{Normal representatives.} Every relevant generic term at a point $w$ has a normal representative at $w$
+(\lref{Formalism.L2.SG.Pf.PCount.normRepExists_ctx}); and two admissible representatives (witness $1$) of a relevant term
+have signed Gram matrices related by unitriangular matrices $A,B$ whose archimedean phase is trivial
+(\lref{norm_representative_move}).
+\item \emph{Local phases.} At the split places the local phase $\mathrm{ph}_p$ of the local matrix of a normal representative
+$(F',L,U)$ equals $\psi_{E_p}(-\iota_p((\sigma_-(L)+\sigma_+(U))/g_S))$ (\lref{Formalism.L2.SG.Pf.Coef.local_phase_typed_places}).
+\item \emph{Volume indices.} For $t\in\Gamma(w)$ with normal representative $(F',L,U)$, the index ratio $v_R(t)$ equals
+$\mathrm{orb}(t)\prod^{\mathrm f}_p\mathrm{wt}_p$ of the local matrices of $\widehat Z(F_0,F')$
+(\lref{Formalism.L2.SG.Pf.ZsVolAsm.volIdxProd_of_prodE}); its hypothesis is a product formula for the local indices,
+deduced from (D1) and a local approximation statement
+(\lref{Formalism.L2.SG.Pf.ProdE.prodE_CZ_of_approxC} and \lref{Formalism.L2.SG.Pf.ProdEApprox.approxC}).
+\item \emph{Partner count inputs.} (i) Every restricted tuple of local orbits at a point $w'$ with $G_{T,T'}(w')\ne0$ is the
+tuple of local orbits of some $Z$ in the Bruhat cell of $w'$ (\lref{Formalism.L2.SG.Pf.PCountEx.exist_holds}). (ii) For
+$t\in\Gamma(w)$, $w'$ of the same kind with $G_{T,T'}(w')\ne0$ and $Z$ in the Bruhat cell of $w'$, the set of orbits of flags with
+Gram matrix $Z$ representing scalar partners of $t$ is finite, and its cardinality is the sum of $\mathrm{orb}(t')$ over the
+scalar partners $t'\in\Gamma(w')$ of $t$ with $\mathrm{loc}(t')$ equal to the local orbits of $Z$
+(\lref{Formalism.L2.SG.Pf.FibPart.sumFr_of}, using (D2) through \lref{Formalism.L2.SG.Pf.TupFinal.repAtTup_of_stab} and
+the descriptions of fibers and orbits \lref{Formalism.L2.SG.Pf.FibQ.tupFun_holds} and \lref{Formalism.L2.SG.Pf.TupOrb.orbZT_holds}).
+(iii) That cardinality is the finite product over $p$ of the numbers of local lattices of \cref{pf:thmS-leaves:thm:partner}
+(\lref{Formalism.L2.SG.Pf.FrameGlobalPatching.frGlob_of_fstar}, from (D3)). (iv) The local Gram matrices of generic local
+terms are integral (\lref{Formalism.L2.SG.Pf.PCount.intGenP_holds}). (v) For $t\in\Gamma(w)$, $\mathrm{th}_p(t)$ is the class of the
+local Gram matrix of the local term of $t$, translated by $c_p(w)$ in the corner (\lref{Formalism.L2.SG.Pf.PCount.tau_one_holds}).
+(vi) The partner isomorphism count, \cref{pf:thmS-leaves:thm:partner}.
+\item \emph{Fiber count inputs.} For $w$ with $G_{T,T'}(w)\ne0$ and $Z$ in the Bruhat cell of $w$ with finite counts, the sum of
+$\mathrm{mass}(t)\mathrm{orb}(t)$ over the $t\in\Gamma(w)$ whose local orbits are those of $Z$ equals $\nu_s(Z)$
+(\lref{Formalism.L2.SG.Pf.FibPart.fibSum_of}); and the local density $\thmSleavesdens_p(Z)$ depends only on the local class
+$\mathrm{th}_p$, for points of the same kind (\lref{Formalism.L2.SG.Pf.Coef.densTh_of_ga}, deduced from a statement on the local Gram
+matrices, \lref{Formalism.L2.SG.Pf.Coef.SplitCoefficientComponents.GaPlusTh_holds}).
+\end{itemize}
+From these inputs: (L1) is \lref{Formalism.L2.SG.Pf.LocOrbSumPf.localOrbitSum_holds} (the local orbit expansion of $B_p$, valid
+for all agreeing data); (L2) is \lref{Formalism.L2.SG.Pf.scalKind_of} (scalar partners at points have equal kinds); (L3) is
+\lref{Formalism.L2.SG.Pf.Coef.coefficient_product_of_local}, which derives the coefficient product from the normal
+representatives, the local phases, the product formula for the standard additive character (\lref{psi_product_e}) and the
+volume indices; (L4) is \lref{Formalism.L2.SG.Pf.partnerCount_holds}, which derives the partner counts from the partner count
+inputs and (L8); (L5) is \lref{Formalism.L2.SG.Pf.FCount.fiberCount_of_rest}, which derives the fiber counts from the fiber count
+inputs, the partner count input (i), (L7), (L8) and two auxiliary facts: $\nu_s(Z)=0$ if some local component of $Z$ is not a local
+orbit at the point of $Z$ (\lref{Formalism.L2.SG.Pf.Coef.nu_not_class_holds}), and $G_{T,T'}(w)$ is totally positive whenever
+$\Gamma(w)\ne\emptyset$ (\lref{Formalism.L2.SG.Pf.FCount.eligible_totally_positive}); (L6) follows from the existence of normal
+representatives, since eligible terms at a
+point are relevant; (L7) is \lref{Formalism.L2.SG.Pf.thSome_holds} ($\mathrm{th}_p(t)\ne\bot$ for eligible terms); (L8) holds with
+$\theta^0$ the family of identity classes, by \lref{Formalism.L2.SG.Pf.locUnram_holds} (the local orbit weights are trivial at
+all but finitely many places) and \lref{Formalism.L2.SG.Pf.thRestricted_holds_of} ($\mathrm{th}(t)$ is restricted).
+\end{proof}
+
+\paragraph{Partner counts.} The partner isomorphism count compares a set of local lattices with a number of isomorphisms of
+cokernel data. Let $(\delta,M)$ be agreeing and $p\in P_F$; let $(V_p,H_p)$ be the local hermitian space attached to $D$ at $p$ (a
+coordinate space over $E_p$ with the localised form). A \emph{local term} is $t=(\Lambda,f,f',T,T')$ with $\Lambda\subset V_p$ an
+$\OO_p$-submodule, frames $f,f'\in V_p^{r_S+1}$ and $T,T'\in F_p$; $W(f)$ denotes the quotient $X(f)^\perp/X(f)$ with $X(f)$ the span
+of $f_1,\dots,f_{r_S}$, and $Z^+(t)$ the matrix $(h(f'_b,f_a))_{a,b}$ if $E_p$ is not split, and its split normalisation
+(entries $e^{-1}(x_1/q,-y_2/q)$ built from the coordinates of the $(a,b)$ and $(b,a)$ entries, minus $e^{-1}(-T/q,T'/q)$ in the
+corner) if $E_p$ is split.
+
+\begin{definition}[Local count statements]\label{pf:thmS-leaves:def:localcount}
+Let $M$ be an admissible local model, $(V,H)$ a non-degenerate hermitian space of dimension $n$ over $(E,M)$, $t_1=(\Lambda_1,f,f',T,T')$ a
+local term, $f_2,f'_2$ frames, and $\varphi:W(f)\cong W(f_2)$, $\varphi':W(f')\cong W(f'_2)$ linear isomorphisms. The \emph{local count
+hypotheses} are: $t_1$ is generic; $f_2$ and $f'_2$ are frames of types $T$ and $T'$ (all pairings vanish except
+$h(f_{r_S},f_{r_S})=-T$); $(\varphi,\varphi')$ identify $t_1$ with $(0,f_2,f'_2,T,T')$; and $\varphi,\varphi'$ send the last frame vectors to
+the last frame vectors. Let $\mathcal S$ be the set of $\OO$-lattices $\Lambda_2$ such that $(\Lambda_2,f_2,f'_2,T,T')$ is generic and
+respects $t_1$ via $(\varphi,\varphi')$, and $P_1=Z^+(t_1)$, $P_2=Z^+(0,f_2,f'_2,T,T')$. The \emph{local count} $\mathrm{LC}(M,r_S,n)$ asserts,
+under the local count hypotheses:
+\begin{enumerate}
+\item if the leading $r_S\times r_S$ minor of $(h(f'_b,f_a))$ vanishes, then $\#\mathcal S=n_M(Z_1,Z_2)$ for all
+$Z_1,Z_2\in\mathrm{Mat}_M(r_S+1)$ with entries $P_1,P_2$;
+\item if that minor is a unit, then $\#\mathcal S$ is the number of isomorphisms $\thmSleavesCok(Y_1)\cong\thmSleavesCok(Y_2)$ carrying the
+class of $\beta_1$ to that of $\beta_2$ and compatible with the linear forms defined by $\alpha_1,\alpha_2$, where $Y_i$ is the leading
+$r_S\times r_S$ block of $P_i$ (assumed in $\mathrm{Mat}_M(r_S)$), $\beta_i$ its last column and $\alpha_i$ its last row (outside the corner).
+\end{enumerate}
+The \emph{local count for $D$} is $\mathrm{LC}(M,r_S,r)$ for every admissible local model $M$.
+\formal{Formalism.MainNotions.S.Loc.HermSp.ZZplusOf}
+\formal{Formalism.MainNotions.S.Loc.HermSp.Ident}
+\formal{Formalism.MainNotions.S.Loc.HermSp.Respects}
+\formal{Formalism.L2.SG.LsDatumA.LocalCountHypotheses}
+\formal{Formalism.MainNotions.ThinScalesBound.FamilyLocalModel}
+\formal{Formalism.MainNotions.ThinScalesBound.T2}
+\end{definition}
+
+\paragraph{Gluing.} The local count is reduced to a count of isometries of discriminant modules. Let $M$ be a local model with
+integral ring $\OO$ and $(V,H)$ a hermitian space over $(E,M)$. For a frame $g=(g_0,\dots,g_{r_S})$ let $X(g)$ be the $E$-span of
+$g_0,\dots,g_{r_S-1}$ and $W(g)=X(g)^\perp/X(g)$; for a lattice $\Lambda$ let $L_g(\Lambda)\subseteq W(g)$ be the image of $\Lambda\cap X(g)^\perp$.
+
+\begin{definition}[Discriminant modules and gluing sets]\label{pf:thmS-leaves:def:theta}
+Let $t=(\Lambda,f,f',T,T')$ be a local term. Let $\mu(t)$ be the family $(f,f')$ if $M$ is non-split and $(f,q^{-1}(f'-f))$ if $M$ is
+split, $U(t)$ its $E$-span, $\mathsf M(t)$ its $\OO$-span, $\mathsf M(t)^\#=\{u\in U(t):H(u,\mathsf M(t))\subseteq\OO\}$ and
+$\Delta(t)=\mathsf M(t)^\#/\mathsf M(t)$; $W_0(t)$ is the orthogonal complement of the span of all vectors of $f$ and $f'$. Put
+\[
+\Gamma_g(t)=\{([u],\,u\bmod X(g)):u\in\mathsf M(t)^\#\cap X(g)^\perp\}\subseteq\Delta(t)\times W(g)\qquad(g=f,f'),
+\]
+and, if $M$ is split,
+$\Gamma_R(t)=\{([u],[u''],u\bmod X(f),u'\bmod X(f')):u,u',u''\in\mathsf M(t)^\#,\ u\in X(f)^\perp,\ u'\in X(f')^\perp,\ u-u'=qu''\}$.
+For local terms $t_1,t_2$ and $E$-linear isomorphisms $\varphi:W(f_1)\cong W(f_2)$, $\varphi':W(f'_1)\cong W(f'_2)$, the \emph{gluing set}
+$\Theta(t_1,t_2,\varphi,\varphi')$ is the set of $\OO$-linear isomorphisms $\theta:\Delta(t_1)\cong\Delta(t_2)$ such that $\det(H(f'_{2,b},f_{2,a}))_{a,b}$
+is a unit, $H(\mathsf M(t_2),\mathsf M(t_2))\subseteq\OO$, $H(x_2,y_2)-H(x_1,y_1)\in\OO$ whenever $\theta[x_1]=[x_2]$ and $\theta[y_1]=[y_2]$, and the
+\emph{graph condition} $\mathrm{GC}(\theta)$ holds: $(\theta\times\varphi)(\Gamma_{f_1}(t_1))=\Gamma_{f_2}(t_2)$ and
+$(\theta\times\varphi')(\Gamma_{f'_1}(t_1))=\Gamma_{f'_2}(t_2)$ if $M$ is non-split, $(\theta\times\theta\times\varphi\times\varphi')(\Gamma_R(t_1))=\Gamma_R(t_2)$ if $M$
+is split. In the situation of \cref{pf:thmS-leaves:def:localcount} we write $\Theta=\Theta(t_1,t_2^0,\varphi,\varphi')$ with
+$t_2^0=(0,f_2,f'_2,T,T')$. The \emph{module-side counts} for $M$, $r_S$, $n$ are statements (1) (degenerate case) and (2) (unit case)
+of \cref{pf:thmS-leaves:def:localcount} with $\#\Theta$ in place of $\#\mathcal S$.
+\formal{Formalism.L2.SG.LsDatumA.MMsharp}
+\formal{Formalism.L2.SG.LsDatumA.DDt}
+\formal{Formalism.L2.SG.LsDatumA.Theta}
+\formal{Formalism.L2.SG.LsDatumA.GamCond}
+\formal{Formalism.L2.SG.LsDatumA.ModSide0}
+\formal{Formalism.L2.SG.LsDatumA.ModSideU}
+\end{definition}
+
+Two vectors $n_1\in W_0(t_1)$, $n_2\in W_0(t_2^0)$ \emph{correspond} if $\varphi$ maps the class of $n_1$ in $W(f)$ to that of $n_2$ in $W(f_2)$
+and $\varphi'$ does the same in $W(f')$, $W(f'_2)$.
+
+\begin{proposition}[Gluing and respect]\label{pf:thmS-leaves:prop:claimR}
+Let $M$ be admissible and let $t_1,f_2,f'_2,\varphi,\varphi'$ satisfy the local count hypotheses in dimension $n$. Let $\Lambda_2$ be an
+$\OO$-lattice such that $(\Lambda_2,f_2,f'_2,T,T')$ is generic and such that $n_1\in\Lambda_1\iff n_2\in\Lambda_2$ for all corresponding
+$n_1,n_2$. Let $\theta:\Delta(t_1)\cong\Delta(t_2^0)$ be an $\OO$-linear isomorphism such that $\theta[m_1]=[m_2]$ if and only if $m_1+n_1\in\Lambda_1$ and
+$m_2+n_2\in\Lambda_2$ for some corresponding $n_1,n_2$. Then $(\Lambda_2,f_2,f'_2,T,T')$ respects $t_1$ via $(\varphi,\varphi')$ if and only if
+$\mathrm{GC}(\theta)$ holds.
+\formallabel{Formalism.L2.SG.LsDatumA.claimR_at}
+\formallabel{Formalism.L2.SG.LsDatumA.claimR_of_modes}
+\end{proposition}
+
+\begin{proof}
+The statement is proved separately for non-split and for split $M$ and the two cases are combined. Respect consists of the
+conditions $\varphi(L_f(\Lambda_1))=L_{f_2}(\Lambda_2)$ and $\varphi'(L_{f'}(\Lambda_1))=L_{f'_2}(\Lambda_2)$, the conditions that $\varphi$ and $\varphi'$
+send the classes of the last frame vectors to those of the last frame vectors (which are among the local count hypotheses), and,
+for split $M$, a condition on the graphs of the maps $\iota$.
+
+Non-split case (\lref{Formalism.L2.SG.LsDatumA.claimRL_at}). The unit determinants of the Gram matrices of the frames give
+$V=U(t)\oplus W_0(t)$ for $t=t_1,t_2^0$; genericity gives that $\Lambda_1,\Lambda_2$ are self-dual and contain $\mathsf M(t_1)$, $\mathsf M(t_2^0)$;
+the correspondence is realised by an isomorphism $\psi:W_0(t_1)\cong W_0(t_2^0)$; and every $m_1\in\mathsf M(t_1)^\#$ has a partner $n_1\in W_0(t_1)$
+with $m_1+n_1\in\Lambda_1$. Under these conditions the side lemma \lref{Formalism.L2.SG.LsDatumA.claimR_side} states that, for frames
+$g_1,g_2$ and an isomorphism $\chi:W(g_1)\cong W(g_2)$ compatible with $\psi$ and with the decompositions, $\chi(L_{g_1}(\Lambda_1))=L_{g_2}(\Lambda_2)$ if
+and only if $(\theta\times\chi)(\Gamma_{g_1}(t_1))=\Gamma_{g_2}(t_2^0)$. Its proof rests on the following observation: if $\Lambda$ is self-dual and
+contains $\mathsf M(t)$, and $a+b\in\Lambda$ with $a\in U(t)$, $b\in W_0(t)$, then $a\in\mathsf M(t)^\#$ (pair $a+b$ with $\mathsf M(t)$, which is orthogonal to
+$W_0(t)$); so $L_g(\Lambda)$ consists of the classes of the vectors $a+b$ with $([a],a\bmod X(g))\in\Gamma_g(t)$ and $b$ a gluing partner of $a$,
+and $\theta$ transports these descriptions. Applying the side lemma to $(f,f_2,\varphi)$ and to $(f',f'_2,\varphi')$ gives the equivalence.
+
+Split case (\lref{Formalism.L2.SG.LsDatumA.claimRG_at}). The same decomposition argument, applied to the four-component graphs
+$\Gamma_R$ with the splitting element $q$, shows that the two conditions on $L_f$, $L_{f'}$ and the condition on the graphs of $\iota$
+together are equivalent to $(\theta\times\theta\times\varphi\times\varphi')(\Gamma_R(t_1))=\Gamma_R(t_2^0)$.
+\end{proof}
+
+\begin{proposition}[From module-side counts to the local count]\label{pf:thmS-leaves:prop:lcmod}
+Let $M$ be admissible and $r_S,n\in\N$. If the module-side counts hold for $M$, $r_S$, $n$, then $\mathrm{LC}(M,r_S,n)$ holds.
+\formallabel{Formalism.L2.SG.LsDatumA.localCount_of_module}
+\formallabel{Formalism.L2.SG.LsDatumA.localCount_of_glue}
+\end{proposition}
+
+\begin{proof}
+It suffices to show that, under the local count hypotheses, $\#\mathcal S=\#\Theta$; then (1) and (2) of
+\cref{pf:thmS-leaves:def:localcount} are the module-side counts. This identity is \lref{Formalism.L2.SG.LsDatumA.latSide_at'},
+which deduces it from four local statements, valid for every admissible $M$:
+\begin{enumerate}[label=(\roman*)]
+\item (\lref{PI.LocCntLat.GE.glueEta_holds}) for a generic term $t$ there is an isomorphism $\eta$ from $\Delta(t)$ onto the
+discriminant module of $\Lambda\cap W_0(t)$ in $W_0(t)$ such that $\eta[m]=[w]$ if and only if $m+w\in\Lambda$, and $H(m,m')+H(w,w')\in\OO$ whenever
+$\eta[m]=[w]$ and $\eta[m']=[w']$ (the lattice is glued from $\mathsf M(t)$ and $\Lambda\cap W_0(t)$);
+\item (\lref{PI.LocCntLat.GC.glueConv_holds}) conversely, if the Gram determinant of $\mu(t)$ is a unit and $\mathsf M(t)$ is integral,
+then for every integral finitely generated $N\subseteq W_0(t)$ spanning $W_0(t)$ and every isomorphism $\eta$ from $\Delta(t)$ onto the
+discriminant module of $N$ with the second property of (i), there is a unique self-dual lattice $\Lambda$ in which $\mu(t)$ is primitive,
+with $\Lambda\cap W_0(t)=N$ and $\eta[m]=[w]\iff m+w\in\Lambda$;
+\item (\lref{Formalism.L2.SG.LsDatumA.genOfPrim_holds}) under the local count hypotheses and if $\det(H(f'_{2,b},f_{2,a}))$ is a unit,
+every self-dual lattice $\Lambda_2$ in which $\mu(t_2^0)$ is primitive gives a generic term $(\Lambda_2,f_2,f'_2,T,T')$;
+\item \cref{pf:thmS-leaves:prop:claimR}.
+\end{enumerate}
+With these, $\Lambda_2\mapsto\theta_{\Lambda_2}$, where $\theta_{\Lambda_2}$ is the gluing isomorphism of \cref{pf:thmS-leaves:prop:claimR}, is a bijection
+from $\mathcal S$ onto $\Theta$: (i) and the correspondence $\psi$ attach $\theta_{\Lambda_2}$ to $\Lambda_2$, \cref{pf:thmS-leaves:prop:claimR} translates
+respect into the graph condition, and (ii), (iii) reconstruct $\Lambda_2$ from $\theta$ and show that it is generic.
+\end{proof}
+
+\begin{proposition}[Unit case of the module-side count]\label{pf:thmS-leaves:prop:lcunit}
+For every admissible local model $M$ and all $r_S,n$, the module-side count in the unit case holds; that is, under the local count
+hypotheses, if the leading $r_S\times r_S$ minor of $(H(f'_b,f_a))$ is a unit, then $\#\Theta$ equals the number of isomorphisms in
+(2) of \cref{pf:thmS-leaves:def:localcount}.
+\formallabel{Formalism.L2.SG.LocalCountModules.localCountUnitGlobal_holds}
+\formallabel{Formalism.L2.SG.LocalCountModules.localCountUnitLocal_holds}
+\formallabel{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.locCntUG_of_algGUT}
+\formallabel{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUL.locCntUL_of_alg}
+\end{proposition}
+
+\begin{proof}
+For a matrix $Z\in\mathrm{Mat}_{r_S+1}(R)$ let $\mathrm{Iso}^\flat(Z_1,Z_2)$ be the set of $R$-linear isomorphisms
+$R^{r_S+1}/C(Z_1)\cong R^{r_S+1}/C(Z_2)$, where $C(Z)$ is spanned by the first $r_S$ columns of $Z$, carrying the class of the last column of $Z_1$ to
+that of $Z_2$ and the class of the last basis vector to the last basis vector. The proof has three steps, for non-split and
+split $M$ separately.
+
+\emph{Coordinates.} If moreover $\det(H(f'_{2,b},f_{2,a}))$ is a unit and the matrix $\widehat Z(f_2,f'_2)$ has integral entries (in the split
+case: the entries of $Z^+(t_2^0)$ are in $R$), then $\#\Theta=\#\Theta^{\mathrm c}(\widehat Z(f,f'),\widehat Z(f_2,f'_2),T,T')$
+(\lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.ThetaMbeU.coordU_holds} and \lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.coordGU_holds}),
+where $\Theta^{\mathrm c}$ is the coordinate version of the gluing set: the discriminant module of $\mathsf M(t)$ is written as $\OO^{2r_S+2}$
+modulo the row space of the Gram matrix of $\mu(t)$, which is an explicit matrix in $\widehat Z$, $T$, $T'$ (and $q$), the discriminant form is
+$Y\,G^{-1}\,\overline W^{\,\top}$, and the graphs $\Gamma$ become explicit sets of coordinate vectors.
+
+\emph{Algebra.} In the non-split case, \lref{Formalism.L2.SG.LocalCountModules.UnramifiedPairingAlgebraic.algAll_holds} states:
+for a commutative ring with involution and an involution-stable subring $\OO$, elements $T,T'\in\OO$ fixed by the involution, and
+$Z_1,Z_2\in\mathrm{Mat}_{r_S+1}(\OO)$ with unit determinants, with $\det(Z_1^\flat)\det Z_2=\det(Z_2^\flat)\det Z_1$ ($Z^\flat$ the leading
+$r_S\times r_S$ block) and with unit Gram determinants, $\#\Theta^{\mathrm c}(Z_1,Z_2,T,T')=\#\mathrm{Iso}^\flat(Z_1,Z_2)$. In the split case the
+analogous statement (\lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.algGUT_holds}), with $T,T'$ units and
+$T\equiv T'\pmod{q^2}$, is proved (\lref{Formalism.L2.SG.LocalCountModules.ThetaMbe0GWork.algGAllT_holds}) by multiplying the last
+columns of both Gram matrices by an element $\alpha$ with $\alpha\bar\alpha=1$, chosen by
+\lref{Formalism.L2.SG.LocalCountModules.AlgGSplit.scaleChoice_holds} so that the number of isomorphisms does not change; the
+cardinality of $\Theta^{\mathrm c}$ does not change either (\lref{Formalism.L2.SG.LocalCountModules.ThetaMbe0GWork.card_thetaGC_scale}),
+and the rescaled matrices are counted by \lref{Formalism.L2.SG.LocalCountModules.AlgGSplit.algGAllNS_holds}.
+Combining with the coordinates gives $\#\Theta=\#\mathrm{Iso}^\flat(Z_1,Z_2)$ for $Z_1=Z^+(t_1)$, $Z_2=Z^+(t_2^0)$ (in the split case when the
+leading block of $Z_2$ has unit determinant)
+(\lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.ThetaMbeU.thetaMbeU_false_of_alg} and \lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.thetaMbeG_of_coordT}).
+
+\emph{Conclusion.} \Lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUL.locCntUL_of'} and \lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.locCntUG_of}
+derive the module-side count from this identity: they verify its remaining hypotheses (unit determinants, and the determinant
+relation, which follows from the local count hypotheses) and identify $\#\mathrm{Iso}^\flat(Z_1,Z_2)$ with the number of isomorphisms in (2);
+in the split case this uses a common shift of the corner entries of $Z_1,Z_2$ by an element $a\in\OO_F$ for which the shifted $Z_1$ has
+unit determinant, and such shifts do not change $\#\mathrm{Iso}^\flat$
+(\lref{Formalism.L2.SG.LocalCountModules.UnitaryGroupMassFormula.LocCntUG.card_isoMbe_shift}).
+\end{proof}
+\begin{theorem}[Local count of lattices]\label{pf:thmS-leaves:thm:localcount}
+The local count holds for every datum $D$.
+\formallabel{Formalism.L2.SG.LsDatumA.integralClosureRank_and_residueTrdegLe}
+\formallabel{Formalism.L2.SG.LsDatumA.globalCount_of_split_mode}
+\end{theorem}
+
+\begin{proof}
+Let $M$ be admissible. By \cref{pf:thmS-leaves:prop:lcmod}, $\mathrm{LC}(M,r_S,r)$ follows from the module-side counts of
+\cref{pf:thmS-leaves:def:theta}. The unit case is \cref{pf:thmS-leaves:prop:lcunit}. The degenerate case is proved separately
+for non-split and for split models (\lref{Formalism.L2.SG.LocalCountModules.localCountZeroLocal_holds} and \lref{Formalism.L2.SG.LocalCountModules.localCountZeroGlobal_holds}:
+under the local count hypotheses with vanishing leading minor, $\#\Theta=n_M(Z_1,Z_2)$ for all $Z_1,Z_2$ as in (1)).
+\end{proof}
+
+\begin{remark}\label{pf:thmS-leaves:rem:t2name}
+The formal name of \cref{pf:thmS-leaves:thm:localcount} refers to integral closures and residue transcendence degrees, but its
+statement is the local count of \cref{pf:thmS-leaves:def:localcount}; the name plays no role.
+\end{remark}
+
+\begin{theorem}[Partner isomorphism count]\label{pf:thmS-leaves:thm:partner}
+Let $(\delta,M)$ be agreeing. For every $p$, all $T,T'\in\N$, all points $w,w'$ of size $r_S+1$ of the same kind, every local
+term $t_1=(\Lambda_1,f,f',T,T')$ of $(V_p,H_p)$, every frame $f'_2$ and all $\varphi:W(f)\cong W(f)$, $\varphi':W(f')\cong W(f'_2)$ satisfying the
+local count hypotheses (with $f_2=f$): if $Z^+(t_1)=u_L\tilde w_pu_U$ and $Z^+(0,f,f'_2,T,T')=u'_L\tilde w'_pu'_U$ with $u_L,u'_L$ lower and
+$u_U,u'_U$ upper unitriangular, and $Z^+(0,f,f'_2,T,T')$ has entries in $R_{M_p}$, then
+\begin{multline*}
+\#\{\Lambda_2:(\Lambda_2,f,f'_2,T,T')\text{ generic, respecting }t_1\text{ via }(\varphi,\varphi')\}\\
+=n\bigl(\mathrm{cls}(P_1+c_p(w)E_{r_Sr_S}),\ \mathrm{cls}(P_2+c_p(w')E_{r_Sr_S})\bigr),
+\end{multline*}
+where $P_1=Z^+(t_1)$, $P_2=Z^+(0,f,f'_2,T,T')$, $\mathrm{cls}$ denotes the class (or $\bot$), and $n$ is as in
+\cref{pf:thmS-leaves:def:localorbits}.
+\formallabel{Formalism.L2.SG.Pf.PCount.partnerCount_holds_all}
+\formallabel{Formalism.L2.SG.Pf.PCount.partnerCount_of_iso}
+\end{theorem}
+
+\begin{proof}
+By \lref{Formalism.L2.SG.Pf.PCount.partnerCount_of_integral}, the statement follows from three inputs: the local count
+(\cref{pf:thmS-leaves:thm:localcount}); the integrality of $Z^+(t)$ for generic local terms
+(\lref{Formalism.L2.SG.Pf.PCount.intGenP_holds}); and a comparison of the two counts of \cref{pf:thmS-leaves:def:localcount}, saying
+that in the unit case the number of isomorphisms of the triples $(Y_i,\beta_i,\alpha_i)$ equals $n_M(Z_1,Z_2)$ for the corresponding
+$(r_S+1)\times(r_S+1)$ matrices. The comparison is a Schur complement argument
+(\lref{Formalism.L2.SG.Pf.PCount.BI.integralIsomorphism_holds}), put in the required form by
+\lref{Formalism.L2.SG.Pf.PCount.bridgeBA_of}. Inside \lref{Formalism.L2.SG.Pf.PCount.partnerCount_of_integral} the corner
+translation $c_p\in\{0,1,2\}$ is absorbed by a statement on units (\lref{Formalism.L2.SG.Pf.PCount.shUnit_holds}).
+\end{proof}
+
+\subsection{The local model clause}\label{pf:thmS-leaves:ss:localmodel}
+
+The first clause of the package says that the kernel data of \cref{pf:thmS-leaves:def:rows} form a \emph{local model} in the
+sense of the interface used by the carrier estimates.
+
+\begin{definition}[Local models of kernel data]\label{pf:thmS-leaves:def:LM}
+Kernel data with kernel $\mathcal K$ and parameter $r$ form a \emph{local model} if:
+\begin{enumerate}[label=(\Alph*)]
+\item for every $i$ and every finite set $Y$ of list points there are finitely many local places $q$ (each with a local ring
+and a character), maps $\eta_q$ from list points to local points, class functions $\mathrm{cl}_q$, phases $d_q$ and real weights
+$a$ such that for $x,y\in Y$
+\[
+\mathcal K_i(x,y)=a(x)a(y)\prod_q\bigl[\mathrm{cl}_q(x)=\mathrm{cl}_q(y)\bigr]\,d_q(x)\overline{d_q(y)}\,K^{\mathrm{loc}}_q(\eta_qx,\eta_qy),
+\]
+where $K^{\mathrm{loc}}_q$ is the local kernel of the interface and $[\cdot]$ is $1$ or $0$;
+\item for all $1\le s\le i\le r+1$ and every finite set $Y$ of list points of level $i-s$ there are a finite set $J$, local
+systems $(\Sigma_j)_{j\in J}$ and a function $a$ from list points to $\R$ such that each $\Sigma_j$ is of top type (allowed only if
+$(i,s)=(r+1,1)$), of pull type (allowed only if $(i,s)\ne(r+1,1)$) or of out type, the system $\Sigma_{i,s}$ of the data at $(i,s)$
+and the rescaled product $a\cdot\prod_j\Sigma_j$ have the same $N$-kernels at all $t,t'\ne0$ and the same $B$-kernels on $Y$,
+$L(\Sigma_{i,s})=\bigcap_jL(\Sigma_j)$, and $\bigcap_jL'(\Sigma_j)\subseteq L'(\Sigma_{i,s})$;
+\item $\mathcal K_{r+1}(x\cdot(1,t),y\cdot(1,t'))=0$ for list points $x,y$ of level $r$ and non-zero $t\ne t'$, where $x\cdot(1,t)$ denotes
+$x$ followed by the pair $(1,t)$;
+\item the auxiliary values $e_i$ vanish for $1\le i\le r+1$.
+\end{enumerate}
+In (B) a \emph{local system} on list points consists of kernels $N(t,t';h,h')$, $\Theta(t;h,h')$, $B(h,h')$ ($t,t'\in E$) and two
+additive subgroups $L,L'$ of $E$; products of systems are taken pointwise, with $L$ and $L'$ intersected; $a\cdot\Sigma$ multiplies
+the three kernels by $a(h)a(h')$; the system $\Sigma_{i,s}$ of the data has $N(t,t';h,h')=\mathcal K_i(h\cdot(s,t),h'\cdot(s,t'))$,
+where $h\cdot(s,t)$ is $h$ followed by the block $(s,t)$, $B(h,h')=(1+e_i)\mathcal K_{i-s}(h,h')$, and the subgroups $L,L'$ that
+the data attach to $(i-s+1,s)$; top, pull and out type are conditions of the interface.
+The \emph{local model property} $\mathrm{LM}(D)$ asserts that $\mathbf K(S,\delta,M,u,u')$ is a local model for every Hida setting
+$S$, every agreeing $(\delta,M)$ and all words $u,u'$ compatible with $S$.
+\formal{Formalism.FourierDecayAlt.PB.LocalModel}
+\formal{Formalism.L2.SG.DataInst.LocalModelAt}
+\end{definition}
+
+\begin{lemma}\label{pf:thmS-leaves:lem:LMT}
+Clause (C) holds for the kernel data $\mathbf K(S,\delta,M,u,u')$ whenever $S$ and $(u,u')$ are compatible.
+\formallabel{Formalism.L2.SG.DataCut.localModelT_holds}
+\end{lemma}
+
+\begin{proof}
+By compatibility $r(S)=r_S$. Let $x,y$ have level $r_S$ and $t\ne t'$. If $x\cdot(1,t)$ or $y\cdot(1,t')$ does not define a point,
+$\mathcal K_{r_S+1}$ vanishes by definition. Otherwise the associated points $a,b$ end with blocks $(t,1)$ and $(t',1)$ (the sign
+change does not affect the last entry). Then $D_{r_S+1}(a)\ne0$ and $D_{r_S+1}(a)=D_{r_S}(a)t$, so $D_{r_S}(a)\ne0$ and
+$\mathrm{kind}(a)=t$; likewise $\mathrm{kind}(b)=t'$ (\lref{Formalism.L2.SG.DataCut.kind_ptOfList_join} records this computation).
+The kinds differ, so $\thmSleavesKtop(a,b)=0$ and $\mathcal K_{r_S+1}(x\cdot(1,t),y\cdot(1,t'))=0$.
+\end{proof}
+
+For a local model $M$ with ring $R$ and $x\in E$ we use the \emph{index modulus}
+\[
+|x|_M=[xR:R\cap xR]\,/\,[R:R\cap xR]
+\]
+(indices of additive groups, an infinite index being $0$). Recall that $r_E=|\mathrm{disc}\,E|^{1/[E:\Q]}$, $[E:\Q]=2f$, and that
+the weights $\varphi_i$ of \cref{pf:thmS-leaves:def:rows} are products of powers of the numbers
+\[
+\mathrm{nrm}(\nu,t)=g_S^{-2f}\,r_E^{-2f\nu}\,|N(t)|\qquad(\nu\in\N,\ t\in E^\times).
+\]
+
+\begin{lemma}[Modulus of $\delta$]\label{pf:thmS-leaves:lem:deltaprod}
+Let $(\delta,M)$ be agreeing. For every $p\in P_F$, $|\delta_p|_{M_p}=N(\mathfrak d_p)^{-2}$, where $\mathfrak d_p$ is the $p$-primary part of the
+different $\mathfrak d_F$ of $F$. Consequently $p\mapsto|\delta_p|_{M_p}$ is $1$ for all but finitely many $p$, and
+$\prod^{\mathrm f}_p|\delta_p|_{M_p}=r_E^{-2f}$.
+\formallabel{Formalism.L2.SG.Pf.LMK.deltaProd_holds}
+\end{lemma}
+
+\begin{proof}
+The local identity is \lref{Formalism.L2.SG.Pf.LMK.modK_delta}, which computes the index modulus of $\delta_p$ from the
+agreement of $(\delta,M)$ at $p$. Since $\mathfrak d_F\ne0$, only finitely many $\mathfrak d_p$ differ from $\OO_F$, and
+$\prod_pN(\mathfrak d_p)^{-2}=N(\mathfrak d_F)^{-2}=|\mathrm{disc}\,F|^{-2}$ by multiplicativity of the absolute norm and the
+classical identity $N(\mathfrak d_F)=|\mathrm{disc}\,F|$ \cite[Ch.~III, \S2]{Neukirch1999}. On the other hand
+$r_E^{2f}=|\mathrm{disc}\,E|$ because $[E:\Q]=2f$, and $\mathrm{disc}\,E=(\mathrm{disc}\,F)^2$
+(\lref{Formalism.L2.SG.NGCut.LeadingMinorIntegrality.discr_sq}: the discriminant of $E$ is the square of that of $F$). Hence
+$\prod^{\mathrm f}_p|\delta_p|_{M_p}=|\mathrm{disc}\,F|^{-2}=r_E^{-2f}$.
+\end{proof}
+
+\begin{lemma}[Product formula for the rescaled entries]\label{pf:thmS-leaves:lem:modnorm}
+Let $(\delta,M)$ be agreeing, $\nu,s\in\N$ and $t\in E^\times$, and let $e_p=(\delta_p\iota_p(u_p))^{-\nu}\,\mathrm{tw}_s(\iota_p(t))\,q_p^{-1}$
+be the rescaled entry of \cref{pf:thmS-leaves:def:top}. Then $p\mapsto|e_p|_{M_p}$ is $1$ for all but finitely many $p$, and
+$\prod^{\mathrm f}_p|e_p|_{M_p}=\mathrm{nrm}(\nu,t)^{-1}$.
+\formallabel{Formalism.L2.SG.Pf.LMK.modNorm_of}
+\end{lemma}
+
+\begin{proof}
+By \lref{Formalism.L2.SG.Pf.LMK.modK_tMod}, $|e_p|_{M_p}=|\delta_p|_{M_p}^{-\nu}\,|\iota_p(t)|_{M_p}\,|\iota_p(g_S)|_{M_p}^{-1}$ for every
+$p$ (a local computation from the definition of $e_p$ and the agreement at $p$). Each of the three factors is $1$ for almost all $p$: the first by
+\cref{pf:thmS-leaves:lem:deltaprod}, the other two by the product formula for $E$ in the normalisation of the local models
+(\lref{Formalism.L2.SG.Pf.LMK.pf_E}: for $x\in E^\times$, $|\iota_p(x)|_{M_p}=1$ for almost all $p$ and
+$\prod^{\mathrm f}_p|\iota_p(x)|_{M_p}=|N(x)|^{-1}$). Taking the product, and using $N(g_S)=g_S^{2f}$
+(\lref{Formalism.L2.SG.Pf.LMK.norm_nat}), we get $\prod^{\mathrm f}_p|e_p|_{M_p}=r_E^{2f\nu}\,|N(t)|^{-1}\,g_S^{2f}=\mathrm{nrm}(\nu,t)^{-1}$.
+\end{proof}
+
+\begin{proposition}[Clause (B)]\label{pf:thmS-leaves:prop:clauseB}
+For every datum $D$, every Hida setting $S$, every agreeing $(\delta,M)$ and all words $u,u'$ compatible with $S$, the kernel data
+$\mathbf K(S,\delta,M,u,u')$ satisfy clause (B) of \cref{pf:thmS-leaves:def:LM}.
+\formallabel{Formalism.L2.SG.Pf.localModelS_holds}
+\formallabel{Formalism.L2.SG.Pf.localModelS_of_delta}
+\formallabel{Formalism.L2.SG.Pf.localModelS_of}
+\formallabel{Formalism.L2.SG.Pf.LMK.clS_top}
+\formallabel{Formalism.L2.SG.Pf.LMK.clS_pull}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:thmS-leaves:lem:deltaprod,pf:thmS-leaves:lem:modnorm} the product formula for the rescaled entries holds for every
+agreeing pair. Compatibility gives $r(S)=r_S$ and $g(S)=g_0g_1=g_S$. Fix $1\le s\le i\le r_S+1$, write $i=m+s$, and let $Y$ be a
+finite set of list points of level $m$.
+
+\emph{Places.} Say that $(\delta,M)$ is \emph{good for} a finite set $X\subset E$ at $p$ if $M_p$ is non-split, $\delta_p$ and $\iota_p(u_p)$
+are units, and $\iota_p(x+k)$ is a unit for all $x\in X$ and $k\in\{0,1,2\}$ with $x+k\ne0$. For each $X$, $(\delta,M)$ is good for $X$
+at all but finitely many places (\lref{Formalism.L2.SG.Pf.LocModel.good_cofinite}). Let $X_0$ be the (finite) set of entries
+of the points attached to the elements of $Y$, fix a place $p_0$, and let $P$ be the finite set consisting of $p_0$ and the places
+at which $(\delta,M)$ is not good for $X_0$. For $t,t'\in E$ let $\varepsilon=\pm1$ be the sign attached to position $i$, put
+$X_1(t,t')=X_0\cup\{\varepsilon t,\varepsilon t',t^{-1}-t'^{-1}\}$, and let $Q(t,t')$ be the finite set of places outside $P$ at which
+$(\delta,M)$ is not good for $X_1(t,t')$.
+
+\emph{The systems.} For $p\in P$ let $\Sigma_p$ be the local system of the interface at $p$ built from the local model $M_p$, the
+rescaling unit at $p$ and the local points $\eta_p(h)$ of the list points $h$: the local top system (with the shift $\tau_p$ of
+\cref{pf:thmS-leaves:def:top}) if $(i,s)=(r_S+1,1)$, and otherwise the local pull system twisted by explicit phases. Let
+$\Sigma_\infty$ be the system whose $N$-kernel at $(t,t')$ is the product of the $N$-kernels of the corresponding local systems at the
+places of $Q(t,t')$, with $\Theta=0$, $B=1$, $L=\bigcap_{p\notin P}L(\Sigma_p)$, and $L'=E$ in the top case,
+$L'=\bigcap_{p\notin P}L'(\Sigma_p)$ otherwise. The weight is $a(h)=(\varphi_m(h)\,\mathrm{nrm}_1(h)^s)^{-1}$ if $h$ defines a point and
+$a(h)=0$ otherwise, where $\mathrm{nrm}_1(h)$ is the product over the blocks $(s_j,t_j)$ of $h$ of $\mathrm{nrm}(\nu_j,t_j)^{s_j}$ with the
+exponents $\nu_j$ of \cref{pf:thmS-leaves:def:top}. The index set is $J=P\cup\{\infty\}$. The $\Sigma_p$ are of top, respectively
+pull, type and $\Sigma_\infty$ is of out type
+(\lref{Formalism.L2.SG.Pf.LMK.isTopSys_topS}, \lref{Formalism.L2.SG.Pf.LMK.isPull_pullS}, \lref{Formalism.L2.SG.Pf.LMK.isOut_outT}, and \lref{Formalism.L2.SG.Pf.LMK.isOut_outS}:
+these systems satisfy the conditions of the respective types, which are verified from the agreement of $(\delta,M)$ and the
+goodness of the places outside $P$).
+
+\emph{$N$-kernels.} Let $t,t'\ne0$ and $h,h'\in Y$. Since $P$ and $Q(t,t')$ are disjoint, the $N$-kernel of $a\cdot\prod_j\Sigma_j$ is
+$a(h)a(h')\prod_{p\in P\cup Q(t,t')}N_p(t,t';h,h')$. If $h$ or $h'$ does not define a point, both sides vanish (then
+$h\cdot(s,t)$ or $h'\cdot(s,t')$ does not define a point, and $\mathcal K_i$ vanishes there). Otherwise let $w,w'$ be the points. All
+places outside $P\cup Q(t,t')$ are good for $X_1(t,t')$, which contains the entries of $w$, $w'$ and the new entries. In the pull case,
+\lref{Formalism.L2.SG.Pf.LMK.krOf_join} gives
+\[
+\mathcal K_{m+s}(h\cdot(s,t),h'\cdot(s,t'))=a(h)a(h')\prod_{p\in P\cup Q(t,t')}N_p(t,t';h,h');
+\]
+it is proved by writing $\varphi_{m+s}(h\cdot(s,t))=\varphi_m(h)\,\mathrm{nrm}_1(h)^s\,\mathrm{nrm}(\nu,t)^{s(s-1)/2}$ and absorbing the global
+factors $\mathrm{nrm}(\nu,t)$ into the local ones with \cref{pf:thmS-leaves:lem:modnorm}, the local factors at the good places being $1$.
+In the top case, if $t\ne t'$ the right-hand side vanishes because the local top kernel at $p_0$ vanishes off the diagonal, and the
+left-hand side vanishes because the points defined by $h\cdot(1,t)$ and $h'\cdot(1,t')$ have kinds $\varepsilon t\ne\varepsilon t'$, so that
+$\thmSleavesKtop$ vanishes; if $t=t'$, \lref{Formalism.L2.SG.Pf.LMK.krOf_top} gives the same product formula.
+
+\emph{$B$-kernels and subgroups.} The $B$-kernels agree on $Y$ by \lref{Formalism.L2.SG.Pf.LMK.B_eq}, which expresses
+$\mathcal K_m(h,h')$ on $Y$ as $a(h)a(h')\prod_{p\in P}B_p(h,h')$ (here $e_i=0$, and the $B$-kernel of $\Sigma_\infty$ is $1$). By
+\lref{Formalism.L2.SG.Pf.LMK.lat_L_mem}, $t$ lies in the subgroup $L$ of the data at $(m+1,s)$ if and only if $t\in L(\Sigma_p)$ for
+every place $p$; hence $L(\Sigma_{i,s})=\bigcap_{p\in P}L(\Sigma_p)\cap L(\Sigma_\infty)$. Finally, in the top case $L'(\Sigma_{p_0})=0$, so
+$\bigcap_jL'(\Sigma_j)=0$; in the pull case an element lying in $L'(\Sigma_p)$ for every $p$ lies in $L'(\Sigma_{i,s})$
+(\lref{Formalism.L2.SG.Pf.LMK.lat_L'_mem}).
+\end{proof}
+\begin{proposition}\label{pf:thmS-leaves:prop:LM}
+$\mathrm{LM}(D)$ holds for every datum $D$.
+\formallabel{Formalism.L2.SG.Pf.localModelAt_holds}
+\formallabel{Formalism.L2.SG.DataCut.localModelAt_of_KS}
+\formallabel{Formalism.L2.SG.DataCut.localModelAt_of}
+\end{proposition}
+
+\begin{proof}
+(D) holds because the auxiliary values of $\mathbf K$ are $0$ by definition, and (C) is \cref{pf:thmS-leaves:lem:LMT}. (A) is
+\lref{Formalism.L2.SG.Pf.localModelK_holds}: on a finite set, $\mathcal K_i$ is, up to the weights $\varphi_i^{-1}$ and the phases
+$d_p$, the product of the local kernels at the finitely many places where the data are not unramified
+(\lref{Formalism.L2.SG.Pf.LocModel.clK_core}). (B) is \cref{pf:thmS-leaves:prop:clauseB}.
+\end{proof}
+
+\subsection{The remaining clauses}\label{pf:thmS-leaves:ss:remaining}
+
+The remaining clauses concern a datum $D$ with \emph{spectral ties} $T$: a Hida setting $X$ (an automorphic instance of a
+unitary group over $E$ with level, Haar measures and discrete series data), a full system $Y$ of flags, row representatives
+and fundamental domains, and the term system $Y.t(u,u')$ of the orbital expansion of the operator relating the flag data of
+$u$ and $u'$ (as in the description of Theorem S before \cref{thm:theorem-S}). We use the following names for recurring
+hypotheses on words $u,u'$:
+\begin{itemize}
+\item the \emph{standard conditions}: $r_S\ge1$, $T_u,T_{u'}$ are primes $\ge3$ splitting completely in $E$, $g_0\ne g_1$ are primes
+splitting completely in $E$, $g_S$ is prime to $T_uT_{u'}$ and $T_u\equiv T_{u'}\pmod{g_S}$;
+\item the \emph{concrete tie} of $X$ and $Y$: normalised level subgroup, neatness, $\dim C_u=d^S_u$, $D^*(X)=D^*$, Wu decay,
+integrability of the phase function, measure ties and the local ties of the datum;
+\item the \emph{local ties} of $D$, the \emph{ties} of $D$ (normalisation of the formal degrees and covering conditions), and the
+\emph{gap hypothesis} for $D$;
+\item the \emph{count hypotheses}: the standing numerical hypotheses on the size data of $D$ with given constants;
+\item the \emph{size condition} $2r_S+f+7\le k$.
+\end{itemize}
+
+\begin{definition}[The hypothesis package]\label{pf:thmS-leaves:def:package}
+The \emph{hypothesis package} $\mathcal P_S$ is the conjunction of the following nineteen statements.
+\begin{enumerate}
+\item The local model property $\mathrm{LM}(D)$ for every datum $D$ (\cref{pf:thmS-leaves:def:LM}).
+\item The \emph{density input}: for every $D$ with local ties and the size condition, for all agreeing $(\delta,M)$, systems of local
+spaces, words with $T_u\equiv T_{u'}\pmod{g_S^2}$, flags, row representatives and uniformizers, the local density products are
+multipliable on the support, the density set is bounded above, the correction factors $\alpha_p(u,u')$ are multipliable with
+positive product, and the density input condition of the interface holds for $(k,r_S,f,d^{\sup}/\prod'_p\alpha_p(u,u'))$.
+\item The rows input $\mathrm{RI}(D)$ for every $D$ (\cref{pf:thmS-leaves:def:rowsinput}).
+\item $\sfname{RowNGP}$.
+\item The \emph{vanishing of the $K''$-term}: for distinct words under the $K_2$-hypotheses and the concrete tie, the $K''$-term of
+$Y.t(u,u')$ vanishes.
+\item The carrier estimate (Car).
+\item The \emph{orbital expansion}: under the concrete tie, the operator relating the flag data of $u,u'$ is the sum of an
+unconditionally summable series of term operators representing its kernel form.
+\setcounter{enumi}{7}
+\item \emph{Folding}, (9) \emph{integrability} and (10) \emph{absolute convergence}: the Poincar\'e series can be folded, the orbital
+operators are integrable, and the term systems converge absolutely.
+\setcounter{enumi}{10}
+\item \emph{Finiteness}: under the gap hypothesis, the full systems have the finiteness and bijectivity properties of the row spaces.
+\item \emph{Wu decay}: under the gap hypothesis, every Hida setting has Wu decay and an integrable phase function.
+\item \emph{Auxiliary choices}, (14) the \emph{counting formula with explicit constant}, (15) \emph{summability of the rows}, (16) the
+\emph{row form identity}, (17) the \emph{mass data conditions}, (18) the \emph{links}, (19) the \emph{split inputs}:
+\cref{pf:thmS-leaves:prop:choices,pf:thmS-leaves:prop:formula,pf:thmS-leaves:prop:rowssum,pf:thmS-leaves:prop:rowform,pf:thmS-leaves:prop:massdata,pf:thmS-leaves:prop:link,pf:thmS-leaves:prop:split}.
+\end{enumerate}
+\formal{Formalism.L2.SG.TheoremSConclusion.TheoremSClosedHypotheses}
+\end{definition}
+
+\begin{proposition}[Clause (7): orbital expansion]\label{pf:thmS-leaves:prop:kexp}
+For every datum, Hida setting $X$, full system $Y$ concretely tied to $X$ and words $u,u'$, the operator relating the flag data of
+$u$ and $u'$ has the orbital expansion of clause (7).
+\formallabel{Formalism.L2.SG.TheoremSConclusion.kExpTiedS_holds}
+\end{proposition}
+
+\begin{proof}
+Folding holds for $u$ and $u'$ (\lref{Formalism.L2.SG.Closed.FoldOKC_outright}: folding holds for a normalised level subgroup
+and Wu decay, both contained in the tie); fundamental domains exist (\lref{Formalism.L2.SG.Pf.fundExistsC_holds}); the
+orbital operators are integrable (\lref{Formalism.L2.SG.Closed.OOIntAllC_outright}) and independent of the fundamental domain
+(\lref{Formalism.L2.SG.Closed.OOFundIndepC_holds}); the amplitudes are well defined
+(\lref{Formalism.L2.SG.Closed.AmpWellDefC_holds}); the Poincar\'e series lie in the relevant Hilbert space
+(\lref{Formalism.L2.SG.Closed.InHHC_holds}); and the term system converges absolutely
+(\lref{Formalism.L2.SG.Closed.AbsConvC_outright}). From these, \lref{Formalism.L2.SG.Closed.KExpansionC_holds} gives the
+orbital expansion.
+\end{proof}
+
+\begin{proposition}[Clause (13): auxiliary choices]\label{pf:thmS-leaves:prop:choices}
+For every datum $D$ with spectral ties $T$ and distinct words $u,u'$ satisfying the standard conditions,
+$T_u\equiv T_{u'}\pmod{g_S^2}$ and the size condition, there are indices $i_0=i'_0$ at the infinite places, measures $\nu_q$ pinned at
+the regular points, a tuple $X_0$ of $2r_S+2$ vectors with non-degenerate Gram matrix, a system of local spaces, uniformizers at
+all finite places, a row label and a pair system, such that real point representatives exist.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.choicesC_holds}
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.choicesC_of}
+\end{proposition}
+
+\begin{proof}
+Pinned measures exist (\lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.nuQPinExists_holds}) and systems of local spaces
+exist (\lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.locSpExists_holds}). The other choices are as follows: $X_0$ is given by \lref{Formalism.L2.SG.NGLeaves.nondegenerate_gram_tuple} (a tuple with non-degenerate
+Gram matrix exists); uniformizers exist because each $\OO_{F_p}$ is a discrete valuation ring; the row label is
+\cref{pf:thmS-leaves:lem:labels}(1); $i_0$ is the constant index $0$; the pair system is the empty one; and real point representatives
+exist by \lref{Formalism.L2.SG.RealObj.InfCut.real_point_representative_exists}.
+\end{proof}
+
+\begin{proposition}[Clause (14): the counting formula]\label{pf:thmS-leaves:prop:formula}
+Assume the background hypothesis (1) of \cref{pf:thmS-leaves:hyp:background}. For every datum $D$ with spectral ties $T$, every system of local spaces $L$ for the local models of $T$, and all words $u,u'$ such
+that $D$ has local ties, $u,u'$ satisfy the standard conditions and $T_u\equiv T_{u'}\pmod{g_S^2}$, the counting formula
+$\mathrm{CF}(\delta,L,u,u',F_u,s_u;c_{\mathrm{expl}})$ holds for the local data $\delta$, the flag $F_u$ and the row representatives $s_u$ of
+$T$, with the explicit constant
+\[
+c_{\mathrm{expl}}=c_{\mathrm{mass}}(E,F,k-1)\,|\mathrm{disc}\,F|^{-2r_S(r_S+1)(k-1)}\prod_{i=k}^{r}\ell_i(E,F)\Big/\sum_{\Lambda\in s_u}w(\Lambda),
+\]
+where $c_{\mathrm{mass}}(E,F,k-1)$ and the $\ell_i(E,F)$ are explicit mass and $L$-value factors.
+\formallabel{Formalism.L2.SG.Pf.Cnt.formulaCT_holds}
+\formallabel{Formalism.L2.SG.Pf.Cnt.formulaCT_of}
+\end{proposition}
+
+\begin{proof}
+The proof applies a change of frame basis statement (\lref{Formalism.L2.SG.Pf.Cnt.DualityBasisChange.frameBasisL_holds}). The local
+ties give the local $\eta$-conditions at every place (\lref{Formalism.L2.SG.Pf.AlTieLG.etaLoc_of_tied}), hence the local
+densities at all places (\lref{Formalism.L2.SG.Pf.Cnt.AtD.densAllAt_of}) and the explicit formula at every $Z$
+(\lref{Formalism.L2.SG.Pf.formulaExplicitAt_of}). A row lattice exists (\lref{Formalism.L2.SG.Pf.Cnt.lattice_exists_holds}),
+so $s_u\ne\emptyset$ and $c_{\mathrm{expl}}>0$ (\lref{Formalism.L2.SG.Pf.Cnt.cExpl_pos'}); the counts $\mathrm{cnt}_\Lambda(Z)$ are finite
+(\lref{Formalism.L2.SG.Pf.Cnt.orbitFiniteR_of}, using the inverse of the counting isomorphism
+\lref{Formalism.L2.SG.Pf.Cnt.counting_iso_inverse}). For totally positive $G_Z$ a rational pair realising $Z$ exists
+(\lref{Formalism.L2.SG.Pf.Cnt.rational_pair_holds}); if the associated lattice is integral the densities are multipliable, and
+otherwise one local density vanishes, so the product is multipliable as well.
+\end{proof}
+
+\paragraph{Volumes.} For a term $t$ of the term system of $(X,Y,u,u')$ let $G_\infty$ be the real group of $X$, $R(t)\subseteq G_\infty$ the vanishing set
+of $t$ and $R_{\OO}(t)$ its real stabiliser group; let $\mathrm{St}(w)$ be the stabiliser group of the matrix of a point $w$, $S_\infty(u)$ the real
+stabiliser of the flag data of $u$, $\mathrm{St}_\infty(\gamma_w)$ the real stabiliser of a point representative $\gamma_w$ at infinity, and
+$\mathrm{stc}$ the stabiliser coordinates on $\mathrm{St}_\infty(\gamma_w)$, with values in $\C^{\Phi(w)}$ at each real place ($\Phi(w)$ the free positions
+of $w$, ordered by their height $j-i$), with its canonical measure $\mu_{\mathrm{st}}$.
+
+\begin{definition}[Dictionaries]\label{pf:thmS-leaves:def:dict}
+Let $t$ be a term at $w$ with normal representative $(F',L,U)$, and $\gamma_w,s$ as above. A \emph{dictionary} is a pair $(c,\Phi)$, $c\in G_\infty$
+and $\Phi:\mathrm{St}(w)\to G_\infty$ an injective homomorphism, such that: $c^{-1}\Phi(\beta)c\in R(t)$ for all $\beta$; $\Phi$ maps the elements of
+$\mathrm{St}(w)$ lying in $\Gamma_{\mathrm{aut}}(t,F',L)$ onto $cR_{\OO}(t)c^{-1}$; and there are $\sigma_q\in\C$ with $|\sigma_q|=r_E^{\,j-i}$ for $q=(i,j)\in\Phi(w)$
+and, at each real place $v$, a linear map $A_v$ of $\C^{\Phi(w)}$ such that $(A_vx-x)_q$ depends only on the coordinates of $x$ of smaller height,
+with $\mathrm{stc}_v(s^{-1}c^{-1}\Phi(\beta)cs)=A_v\bigl((\sigma_q\,\phi_v((w^{\sharp})^{-1}\beta w^\sharp)_q)_q\bigr)$, where $\phi_v$ is the embedding at $v$.
+\formal{Formalism.L2.SG.Pf.VolPinAsm.DictProps}
+\formal{Formalism.L2.SG.Pf.VolPinAsm.DictC}
+\formal{Formalism.L2.SG.Pf.VolPinAsm.CovolOne3C}
+\end{definition}
+
+\begin{proposition}[Dictionary]\label{pf:thmS-leaves:prop:dict}
+Let $t$ be a relevant term with $G(t)\ne0$ at a point $w$, $(F',L,U)$ a normal representative, $\gamma_w$ a point representative at infinity and
+$s\in S_\infty(u)$, $s'\in S_\infty(u')$ with $\mathrm{pt}(t)=s\gamma_ws'^{-1}$. Then a dictionary exists.
+\formallabel{Formalism.L2.SG.Pf.VolPinAsm.dictC_holds}
+\end{proposition}
+
+\begin{proof}
+The normal representative gives that $\det L$ and $\det\widehat Z(F_0,F')$ are units and the relation $\widehat Z(F_0,F')\,\epsilon=L\,w^\sharp\,U$ with the
+sign matrix $\epsilon$ (\lref{Formalism.L2.SG.Pf.VolPinAsm.nr_units}); $G(t)\ne0$ gives that the $G$-value of $(F_0,F')$ is non-zero and hence
+that the Gram matrix of the pair of flags has unit determinant (\lref{Formalism.L2.SG.Pf.StabilizerIndexVolumes.gram_gg_unit}). The
+relation is converted into a double coset relation (\lref{Formalism.L2.SG.Pf.double_coset_equivalence}), and
+\lref{Formalism.L2.SG.Pf.VolPinAsm.volume_dictionary_lu_decomposition} produces $c$ and $\Phi$ from the $LU$-decomposition: $\Phi$ is
+conjugation of $\mathrm{St}(w)$ by the transport of the frames through the linear isomorphism of the term, followed by the real embedding.
+The three properties are then verified: the first two from the definition of $R(t)$ and $R_{\OO}(t)$ and the transport of lattices and flags,
+and the triangularity of the coordinate map from the fact that an isometry acting unipotently on the flag filtration is given by an
+upper unitriangular matrix in the frame (\lref{Formalism.L2.SG.Pf.StabilizerIndexVolumes.tri_exists}).
+\end{proof}
+
+\begin{proposition}[Covolume one]\label{pf:thmS-leaves:prop:covol1}
+Assume $g_0,g_1\ge3$ and the prime conditions. Let $t,w,(F',L,U),\gamma_w,s,s'$ be as in \cref{pf:thmS-leaves:prop:dict}, let $\mu_w$ be a Haar measure on
+$\mathrm{St}_\infty(\gamma_w)$ (normalised by the Hida setting) whose image under $\mathrm{stc}$ is $\mu_{\mathrm{st}}$, and let $(c,\Phi)$ be a dictionary. Then
+there is a measurable set $K_A\subseteq G_\infty$ such that every $y$ with $c^{-1}yc\in R(t)$ has exactly one translate $xy\in K_A$ with
+$x\in\Phi(\Gamma_{\mathrm{int}}(w)\cap\mathrm{St}(w))$, and the image of $\mu_w$ under $y\mapsto csys^{-1}c^{-1}$ gives $K_A$ measure $1$.
+\formallabel{Formalism.L2.SG.NGCut.StabilizerCovolume.covolOne3C_holds}
+\end{proposition}
+
+\begin{proof}
+This is \lref{Formalism.L2.SG.NGCut.StabilizerCovolume.covolOne3C_of}, applied to two statements. The first
+(\lref{Formalism.L2.S.Pv.Chart.chartC_holds}) describes the chart: $\mathrm{stc}$ is a measurable bijection from $\mathrm{St}_\infty(\gamma_w)$ onto the
+coordinate space, $s^{-1}R(t)s\subseteq\mathrm{St}_\infty(\gamma_w)$, and in coordinates the product is $x\cdot y=x+y+B(x,y)$ with $B_q(x,y)$ depending only on
+the coordinates of smaller height and $B(x,0)=0$. The second
+(\lref{Formalism.L2.SG.NGCut.StabilizerCovolume.stabilizerLatticeCoordinates_of}, from the twisted product description of the
+integral stabiliser \lref{Formalism.L2.SG.LatBAsm.stabilizer_lattice_twisted_prod}) describes the lattice: in these coordinates
+$\Phi(\Gamma_{\mathrm{int}}(w)\cap\mathrm{St}(w))$ is a twisted product, over the free positions ordered by height, of subgroups $\Lambda_q$ of finite
+non-zero index $k_q$ in fractional ideals $I_q$ of $E$, embedded at the real places, with translations depending only on coordinates of
+smaller height. Since both the group law and the lattice are triangular with respect to the height, a fundamental set $K_A$ is
+obtained coordinate by coordinate, and its measure is the product of the covolumes of the $\Lambda_q$ for the normalised measure;
+\lref{Formalism.L2.SG.NGCut.StabilizerCovolume.covolOne3C_of} shows that this product is $1$.
+\end{proof}
+
+\begin{proposition}[Volumes from the dictionary]\label{pf:thmS-leaves:prop:volgen}
+The statement of \cref{pf:thmS-leaves:prop:volume} follows from \cref{pf:thmS-leaves:prop:dict,pf:thmS-leaves:prop:covol1}.
+\formallabel{Formalism.L2.SG.Pf.VolPinAsm.volume_generic_odd_of_rep}
+\formallabel{Formalism.L2.SG.Pf.VolPinAsm.volume_generic_odd_of}
+\end{proposition}
+
+\begin{proof}
+Let $t,w,\mu_R,K,(F',L,U)$ be as in \cref{pf:thmS-leaves:prop:volume}. That $\mu_R$ is pinned at $(t,w)$ means that $\mu_R$ is the image under
+$y\mapsto sys^{-1}$ of a Haar measure $\mu_w$ on $\mathrm{St}_\infty(\gamma_w)$ as in \cref{pf:thmS-leaves:prop:covol1}, for some $\gamma_w,s,s'$ with
+$\mathrm{pt}(t)=s\gamma_ws'^{-1}$; then $\mu_R$ is a Haar measure on $R(t)$ (\lref{Formalism.L2.SG.Pf.VolPinAsm.pinned_haar}). Choose a dictionary
+$(c,\Phi)$ (\cref{pf:thmS-leaves:prop:dict}) and $K_A$ as in \cref{pf:thmS-leaves:prop:covol1}. The groups $\Gamma_{\mathrm{aut}}=\Gamma_{\mathrm{aut}}(t,F',L)$ and
+$\Gamma_{\mathrm{int}}=\Gamma_{\mathrm{int}}(w)$ are contained in $\mathrm{St}(w)$ (for $\Gamma_{\mathrm{aut}}$ this is
+\lref{Formalism.L2.SG.Pf.StabilizerIndexVolumes.volume_index_b_stable}, for generic relevant terms with non-zero $G$-value; for
+$\Gamma_{\mathrm{int}}$ it holds by definition), and the indices $[\Gamma_{\mathrm{int}}:\Gamma_{\mathrm{aut}}\cap\Gamma_{\mathrm{int}}]$ and
+$[\Gamma_{\mathrm{aut}}:\Gamma_{\mathrm{aut}}\cap\Gamma_{\mathrm{int}}]$ are finite and non-zero (\lref{Formalism.L2.SG.Pf.VolPinAsm.volIdxFinP}). Transported by
+$\Phi$ and conjugation by $c$, $K$ is a fundamental set for $R_{\OO}(t)$, the image of $\Gamma_{\mathrm{aut}}$, and $K_A$ one for the image of $\Gamma_{\mathrm{int}}$,
+acting on $R(t)$. For two commensurable discrete groups acting freely with measurable fundamental sets, the measures of the
+fundamental sets are in the ratio of the indices: decomposing both into fundamental sets of the intersection,
+$\mu(K)\,[\Gamma_{\mathrm{aut}}:\Gamma_{\mathrm{aut}}\cap\Gamma_{\mathrm{int}}]=\mu(K_A)\,[\Gamma_{\mathrm{int}}:\Gamma_{\mathrm{aut}}\cap\Gamma_{\mathrm{int}}]$. Since $\mu(K_A)=1$,
+$\mu_R(K)=(\Gamma_{\mathrm{int}}:\Gamma_{\mathrm{aut}})$, the index ratio defining $v_R(t)$. This computation is
+\lref{Formalism.L2.SG.Pf.VolPinAsm.H_affine_combination_eq_of_quadratic_relation}.
+\end{proof}
+\begin{proposition}[Volumes of generic terms]\label{pf:thmS-leaves:prop:volume}
+For every datum $D$ with $g_0,g_1\ge3$, every Hida setting $X$, full system $Y$ and words $u,u'$ satisfying the prime conditions, every
+relevant generic term $t$ of the term system with $G(t)\ne0$ at a point $w$, every Haar measure $\mu_R$ on the real stabiliser pinned at
+$(t,w)$, every measurable set $K$ such that each element $r$ of the vanishing set of $t$ has exactly one translate $sr$, with $s$ in
+the real stabiliser group of $t$, lying in $K$, and every normal representative $(F',L,U)$ of $t$ at $w$, the measure $\mu_R(K)$
+equals the index ratio of stabilisers defining $v_R(t)$, computed at $(w,F',L)$.
+\formallabel{Formalism.L2.SG.Closed.volume_determined}
+\end{proposition}
+
+\begin{proof}
+Combine \cref{pf:thmS-leaves:prop:volgen,pf:thmS-leaves:prop:dict,pf:thmS-leaves:prop:covol1}.
+\end{proof}
+
+\begin{proposition}[Clause (15): summability of the rows]\label{pf:thmS-leaves:prop:rowssum}
+Assume the counting formula with explicit constant and the volume statement of \cref{pf:thmS-leaves:prop:volume}. For every $D$,
+$T$, distinct $u,u'$ satisfying the standard conditions, the concrete tie, $g_0,g_1\ge3$, the size condition and
+$T_u\equiv T_{u'}\pmod{g_S^2}$, equal indices $i_0=i'_0$ with real point representatives, pinned measures and a row label $\kappa$, the
+rows are summable: $\sum_x|\mathrm{row}_\rho(x)|\,\|V(x)\|<\infty$ for every $\rho$, where the row vectors are computed with
+$(v_R,\kappa,c_{\mathrm{expl}}\prod'_p\alpha_p(u,u'))$ and $V$ is the vector function of the real places attached to the data.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.rowsSum_of_formula_volume}
+\end{proposition}
+
+\begin{proof}
+The term system converges absolutely (\lref{Formalism.L2.SG.Pf.absConvC_outright}, from folding, fundamental domains and
+integrability as in \cref{pf:thmS-leaves:prop:kexp}); isometries of lattices give a lifting statement
+(\lref{Formalism.L2.SG.Pf.liftOntoC_of}); the automorphism groups of the row lattices are finite
+(\lref{automorphism_lattice_finite}); and $c_{\mathrm{expl}}\prod'_p\alpha_p(u,u')>0$ by the counting formula (using the local ties
+contained in the concrete tie) and the positivity of $\prod'_p\alpha_p(u,u')$ under the size condition
+(\lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.tprod_alpD_pos}). With the real lower bound for the amplitudes
+(\lref{Formalism.L2.SG.Pf.amplitude_lower_bound_real}, which uses the volume statement),
+\lref{Formalism.L2.SG.RowsAbsX.rowsSum_of_val} gives the summability.
+\end{proof}
+
+\begin{proposition}[Normalising constants]\label{pf:thmS-leaves:prop:nc}
+Assume the covolume reference identity, $\sfname{SWXS}$ and the background hypotheses (1), (8) and (9) of
+\cref{pf:thmS-leaves:hyp:background}. For every $D$, $T$, distinct $u,u'$ satisfying the standard conditions, the
+concrete tie, the size condition and $T_u\equiv T_{u'}\pmod{g_S^2}$, every tuple $X_0$ of non-degenerate Gram matrix, equal indices
+$i_0=i'_0$ with real point representatives, pinned measures and uniformizers, the explicit constant is related to the constants of
+the mass data by
+$c_{\mathrm{expl}}=n_{0c}\,\mathrm{ng}(D)/(a_l\,\kappa_N(D))$, and the product $c_0c'_0$ of the Poincar\'e constants of $u$ and $u'$ is positive.
+\formallabel{Formalism.L2.SG.Pf.NcAllC.normalizing_constants_all}
+\end{proposition}
+
+\begin{proof}
+The level subgroup has positive finite volume (\lref{Formalism.L2.SG.Closed.level_subgroup_properties}). This, the measure ties,
+the Siegel--Weil steps of $\sfname{SWXS}$, the local frame primitivity (\lref{locFramePrim}), the local ties and the
+non-degeneracy of the standard Gram matrices give the identity for $c_{\mathrm{expl}}$
+(\lref{Formalism.L2.SG.Pf.NcAllC.ncTieC_of_closed}, which uses the covolume reference identity). Each Poincar\'e constant is
+$\vol(K_2)$ times a positive factor (\lref{Formalism.L2.SG.Pf.poincareConstant_pos}), hence positive.
+\end{proof}
+
+\begin{proposition}[Frame independence]\label{pf:thmS-leaves:prop:vindep}
+Assume \textup{(BM)}, the non-vanishing of Bessel values on $K$-finite vectors at the real places and the background hypotheses
+(3), (4), (5) and (7) of \cref{pf:thmS-leaves:hyp:background}. With the thresholds $C'_0=29$ and
+$C_{l,0}=1000+|c_*|$, $c_*$ the constant of the convergence of orbital integrals
+(\lref{Formalism.FourierDecayAlt.P.orbital_integral_converges}), for all data satisfying the ties of $D$, the standard conditions for
+distinct words, the concrete tie, equal indices, pinned measures, real point representatives and the count hypotheses, the conjugated
+orbital operator $\pi_u(h)^{-1}\circ\mathrm{OO}(\gamma_w)\circ\pi_{u'}(h')$ at every point $w$ represented at infinity does not depend on the
+choice of the $D$-frames $(h,h')$, provided the real Gram values at $w$ are positive at all real places.
+\formallabel{GlobalTheory.CarrierGap.vIndepAtAllP_ofG}
+\end{proposition}
+
+\begin{proof}
+The count hypotheses give the gap hypothesis (\lref{Formalism.L2.SG.ThmSOwn.gap_hypothesis_of_hypotheses}) and a choice of local
+data at infinity (\lref{Formalism.L2.SG.Pf.choiceExists}), whose Wu--Bessel vectors are built from the Bessel models of the local
+factors (\lref{Formalism.L2.SG.Pf.wuBesselOfLoc_all}). By the non-vanishing hypothesis, at each infinite place there are $K$-finite
+vectors whose Bessel values for $u$ and for $u'$ are non-zero; normalising them gives pinned coefficient vectors. From these, the
+gap bound for the parameters and the constant $c_*$, the proof builds a compactly supported test datum at the infinite places
+(\lref{GlobalTheory.CarrierGap.xLeafAt_of_pinsG}, which uses \textup{(BM)}), proves for it a joint tensor identity
+(\lref{Formalism.L2.SG.Pf.CarrierXAll.jointTensor_compact_test}), and deduces the frame independence from that identity
+(\lref{Formalism.L2.SG.Pf.CarrierXAll.vIndepAt_of_tensorAt}).
+\end{proof}
+
+\begin{proposition}[Agreement of lifted phases]\label{pf:thmS-leaves:prop:phase}
+Let $D$ be a datum with Hida setting $X$, full system $Y$, words $u,u'$ satisfying the prime conditions and a row label $\kappa$. For every relevant
+lifted term $s$ (with row data $R$ and index $\rho$) and all $g\in S_\infty(u)$, $g'\in S_\infty(u')$ with $\mathrm{pt}(s)=g\,\gamma_W(w)\,g'^{-1}$, where
+$w$ is the point of $s$ and $\gamma_W(w)$ its standard representative at infinity, the lifted phase equals the phase of $s$ at $w$:
+\[
+\chi_N(k(s))\,\psi_{\infty,u}(g)\,\overline{\psi_{\infty,u'}(g')}=\phi(s,w),
+\]
+where $\chi_N(k(s))$ is the value of the finite character on the finite component $k(s)$ attached to the base points of the row lattices of
+$s$, and $\psi_{\infty,u}$ is the character of $S_\infty(u)$.
+\formallabel{Formalism.L2.SG.Pf.LiftedPhaseAgreement.phaseTieC_holds}
+\formallabel{Formalism.L2.SG.Pf.PhaseLiftCell.phaseAgreement_of_lift}
+\end{proposition}
+
+\begin{proof}
+Normal representatives exist for relevant generic terms
+(\lref{Formalism.L2.SG.Pf.normRepExists_of}, from \lref{Formalism.L2.SG.Pf.NormRepX.norm_representative_holds}, which uses the prime
+conditions), and every lifted term is lifted at some cell (\lref{Formalism.L2.SG.Pf.LiftedPhaseAgreement.liftAtSomeC_holds}). From these,
+\lref{Formalism.L2.SG.Pf.FinitePhaseConjugation.finPhaseC_of} gives the \emph{finite phase identity}: the finite part of the lifted phase
+equals the phase of the normal representative. The cell lifting gives, for $s$, lower and upper unitriangular $L,U$ relating the
+Gram matrix of $s$ to the matrix of $w$ (\lref{Formalism.L2.SG.Pf.PhaseLiftCell.liftCell_of_atSome}); with them a point representative
+at infinity is constructed (\lref{Formalism.L2.SG.RealObj.RealPointRepresentatives.exists_ptRep}), which is $\gamma_W(w)$, and the
+archimedean factor $\psi_{\infty,u}(g)\overline{\psi_{\infty,u'}(g')}$ is rewritten as the real phase of the frames. Combining the real and the
+finite phase identities gives the statement (\lref{Formalism.L2.SG.Pf.FinitePhase.phaseTieC_of}).
+\end{proof}
+\begin{proposition}[Clause (16): row forms]\label{pf:thmS-leaves:prop:rowform}
+Assume the counting formula with explicit constant, the volume statement of \cref{pf:thmS-leaves:prop:volume}, frame independence
+(\cref{pf:thmS-leaves:prop:vindep}) and the normalising constants (\cref{pf:thmS-leaves:prop:nc}). Then for all constants, beyond the thresholds
+of frame independence, and all data as in \cref{pf:thmS-leaves:prop:rowssum} satisfying in addition the ties of $D$ and the count
+hypotheses, together with a tuple $X_0$ of non-degenerate Gram matrix and uniformizers, the row norms
+$N_\rho=\bigl\|\sum'_x\mathrm{row}_\rho(x)\,V(x)\bigr\|^2$ (row vectors computed with $(v_R,\kappa,c_{\mathrm{expl}}\prod'_p\alpha_p(u,u'))$, $V$ as
+in \cref{pf:thmS-leaves:prop:rowssum}) are summable in $\rho$, and $c_0c'_0K_V=n_{0c}\sum_\rho N_\rho$, where $c_0,c'_0,K_V,n_{0c}$ are
+constants of the mass data.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.rowFormAllP_of}
+\end{proposition}
+
+\begin{proof}
+The term system converges absolutely as before, the normalising constants are given by \cref{pf:thmS-leaves:prop:nc}, the prime
+conditions follow from the standard conditions, and normal representatives exist
+(\lref{Formalism.L2.SG.Pf.normRepExists_of}, from \lref{Formalism.L2.SG.Pf.NormRepX.norm_representative_holds}). The identity is
+then \lref{Formalism.L2.SG.Pf.rowFormC_of_leaves3}, applied with the agreement of lifted phases
+(\lref{Formalism.L2.SG.Pf.LiftedPhaseAgreement.phaseTieC_holds}), the volume statement, frame independence, the positivity of
+$\vol(K_2)$, of $c_0c'_0$, of $c_{\mathrm{expl}}$ and of $\prod'_p\alpha_p(u,u')$, and the unramifiedness of $g_0,g_1$ in $E$
+(\lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.gUnramAll}).
+\end{proof}
+
+\begin{proposition}[Clause (17): mass data]\label{pf:thmS-leaves:prop:massdata}
+Assume \textup{(BM)} and $\sfname{SWXS}$. For every $D$, $T$, distinct $u,u'$ satisfying the standard conditions, the gap hypothesis, the
+concrete tie, the size condition and $T_u\equiv T_{u'}\pmod{g_S^2}$, every tuple $X_0$ of non-degenerate Gram matrix, equal indices
+$i_0=i'_0$ with real point representatives, pinned measures, $C\ge0$, $\mathrm{Th}>0$ and uniformizers, the mass data attached to the
+term system satisfy the
+thirteen conditions of the interface: positivity, and the form, mass, Jacobian, $\nu$, infinity, volume, level, masses, columns,
+ordinary, typed and index conditions.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.massDataInputsAll_of}
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.massDataPosAll_of}
+\end{proposition}
+
+\begin{proof}
+Positivity follows from the positivity of the local Haar measures, of the covolumes (using $\sfname{SWXS}$), of the quotient volumes and
+of the real densities $d_v$ (\lref{Formalism.L2.SG.Pf.MassDataX.dvPosC_holds}), from the convergence of the local products
+(\lref{Formalism.L2.SG.Pf.ProdConvCut2.prodConvAll_holds}) and from $d^{\sup}\ge0$
+(\lref{Formalism.L2.SG.Pf.MassDataX.densNonnegAll_holds}). The volume conditions are
+\lref{Formalism.L2.SG.Pf.MassDataX.massDataVolAll_of} (from $\sfname{SWXS}$), the typed conditions
+\lref{Formalism.L2.SG.Pf.MassDataX.typedAll_holds}, the infinity condition
+\lref{Formalism.L2.SG.RealObj.EnergyConvJ.BM.realObj_inInfinityX_jsz} (from \textup{(BM)} and the gap hypothesis), and the local
+ties at $X$ come from the local frame primitivity \lref{locFramePrim}. The thirteen conditions are assembled in
+\lref{Formalism.L2.SG.SpectralTiesReal.massDataInputs_Y}.
+\end{proof}
+
+\begin{proposition}[Clause (18): links]\label{pf:thmS-leaves:prop:link}
+For every $D$, $T$, distinct $u,u'$ satisfying the standard conditions and the concrete tie, every tuple $X_0$ of non-degenerate Gram
+matrix and all auxiliary data (indices, measures, local spaces, uniformizers, a pair system, constants, a bijection $e$ between the
+infinite places of $E$ and the embedding types, and an embedding type $\tau$) such that the main term of the size data attached to
+$(e,\tau,u)$ equals the main term $D^*$ of the datum, the term system and the mass data are linked: their constants $\Gamma_1$ agree,
+the pair sum of the generic set equals
+$\Gamma_1\Sigma$, the type of each place determines its auxiliary prime, and the dimensions $d_u,d_{u'}$ and the main terms agree.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.linkAll_holds}
+\end{proposition}
+
+\begin{proof}
+This is \lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.linkAll_of} applied to the volume statement
+\lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.kppVolAll_holds}.
+\end{proof}
+
+\begin{proposition}[Identity contribution]\label{pf:thmS-leaves:prop:idzero}
+Let $X$ be a Hida setting with Wu decay, $Y$ a full system and $u\ne u'$ words. Then the identity part of the term system $Y.t(u,u')$
+vanishes: the unconditional sum of the term operators over the identity terms is $0$.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.idZero_tO}
+\formallabel{Formalism.L2.SG.Pf.idCellOffC_holds_of_vol}
+\end{proposition}
+
+\begin{proof}
+Fundamental domains exist (\lref{Formalism.L2.SG.Pf.fundExistsC_holds}) and, by Wu decay, the orbital operators are integrable
+(\lref{Formalism.L2.SG.Pf.KernelOfEmbedding.ooIntAll_of}). Under these two conditions the \emph{off-diagonal identity cell statement}
+holds: for $u\ne u'$ the family of the term operators $a(t)$ over the identity terms $t$ has sum $0$. It follows from the positivity of the
+volumes of the level subgroups (\lref{Formalism.L2.SG.Closed.VolPosC_holds}) and three statements
+(\lref{Formalism.L2.SG.Pf.idCellOffC_of_conjLift}): an element of the real group rationally linked to an isometry stabilising a lattice
+and the flag of $u$ lies in the real stabiliser of $u$ (\lref{Formalism.L2.SG.Pf.nLamNinf_holds}), and the vanishing of the identity
+terms for distinct words after conjugation and after lifting (\lref{Formalism.L2.SG.Pf.idOffConjC_holds} and \lref{Formalism.L2.SG.Pf.idOffLiftC_holds}),
+which rest on the fact that distinct words have distinct parameters. The term operators of $Y.t(u,u')$ are the images of the $a(t)$
+under the linear map from operators to Hilbert--Schmidt operators between the finite-dimensional coefficient spaces, which is
+continuous; hence the images have sum $0$ as well, and the identity part, defined as the unconditional sum over the identity terms, is
+this sum.
+\end{proof}
+\begin{proposition}[Clause (19): split inputs]\label{pf:thmS-leaves:prop:split}
+For distinct words satisfying the standard conditions and the concrete tie, with $g_0,g_1\ge3$, the term system $Y.t(u,u')$ is
+absolutely convergent, has norm expansions on its generic and non-generic parts, satisfies the bound for its $GG$-matrix, row
+orthogonality and positivity of coranks, has vanishing identity contribution, and its diagonal $GG$-entries equal $\Gamma_1$.
+\formallabel{Formalism.L2.SG.PoincareAmplitudeLowerBounds.splitAll_holds}
+\end{proposition}
+
+\begin{proof}
+Absolute convergence holds as in \cref{pf:thmS-leaves:prop:rowssum}; the norm expansions are
+\lref{Formalism.L2.SG.RowsConc.normExpSatTied_holds}; the $GG$-bound is \lref{Formalism.L2.SG.TermOp.ggBound} (the residue
+fields at the type places have at least $3$ elements); row orthogonality is \lref{Formalism.L2.SG.TermOp.rowOrth}; positivity of
+coranks is \lref{Formalism.L2.SG.Pf.SatGram.corankPos_tO}; the vanishing of the identity contribution for $u\ne u'$ under Wu decay
+is \lref{Formalism.L2.SG.PoincareAmplitudeLowerBounds.idZero_tO}; and the diagonal is \lref{Formalism.L2.SG.TermOp.GG_diag}.
+\end{proof}
+
+\subsection{Proof of the main theorem}\label{pf:thmS-leaves:ss:mainproof}
+
+\begin{proof}[Proof of \cref{pf:thmS-leaves:main}]
+We verify the nineteen clauses of \cref{pf:thmS-leaves:def:package}.
+(1) is \cref{pf:thmS-leaves:prop:LM}. (2) is \lref{Formalism.L2.SG.Pf.Cnt.densInputT_holds}, which states that local ties imply
+the density input. (3): for every $D$, $\Pi(D)$ holds (\cref{pf:thmS-leaves:lem:normprod}) and the deep leaves hold
+(\cref{pf:thmS-leaves:thm:deep}), hence $\mathrm{RD}(D)$ (\cref{pf:thmS-leaves:thm:rowsdatum}) and $\mathrm{RI}(D)$
+(\cref{pf:thmS-leaves:thm:rowsinput}).
+(4) and (6) are the hypotheses $\sfname{RowNGP}$ and (Car). (5) is \lref{Formalism.L2.SG.Closed.KppOffC_holds}, which states
+the vanishing of the $K''$-term. (7) is \cref{pf:thmS-leaves:prop:kexp}. (8), (9), (10) are
+\lref{Formalism.L2.SG.Closed.FoldOKC_outright}, \lref{Formalism.L2.SG.Closed.OOIntAllC_outright}, and \lref{Formalism.L2.SG.Closed.AbsConvC_outright},
+which state folding, integrability and absolute convergence. (12): Wu decay follows from (BM) by
+\lref{Formalism.L2.SG.Pf.wuDecayOfGap_of_uniqGap}. (11): finiteness follows from Wu decay and (FD) by
+\lref{Formalism.L2.SG.Pf.finXC_of}. (13) is \cref{pf:thmS-leaves:prop:choices} and (14) is \cref{pf:thmS-leaves:prop:formula}.
+For (15) and (16) we need the volume statement (\cref{pf:thmS-leaves:prop:volume}) and, for (16), frame independence and the
+normalising constants. Frame independence follows from (BM) and the non-vanishing of Bessel values on $K$-finite vectors
+(\cref{pf:thmS-leaves:prop:vindep}), and the non-vanishing is deduced from the density of $K$-finite vectors, the background
+hypothesis (2) (\lref{Formalism.L2.SG.Pf.CarrierXAll.kFinDense_holds}), by
+\lref{Formalism.L2.SG.Pf.CarrierXAll.kFinNZ_of}, which states that this density implies, under the gap hypothesis, the
+existence at every infinite place of a $K$-finite vector with non-zero Bessel value. The
+normalising constants follow from the covolume reference identity (\lref{Formalism.L2.SG.Closed.CovolRef_outright}) and
+$\sfname{SWXS}$ (\cref{pf:thmS-leaves:prop:nc}). Then (15) and (16) are \cref{pf:thmS-leaves:prop:rowssum,pf:thmS-leaves:prop:rowform}. (17)
+is \cref{pf:thmS-leaves:prop:massdata}, (18) is \cref{pf:thmS-leaves:prop:link} and (19) is \cref{pf:thmS-leaves:prop:split}.
+\end{proof}
+
+\begin{remark}[On the formal statement]\label{pf:thmS-leaves:rem:formal}
+\begin{enumerate}
+\item The hypotheses enter as follows: (Car) and $\sfname{RowNGP}$ are clauses of the package; (FD) is used only for the finiteness
+clause; (BM) for Wu decay, frame independence and the infinity condition of the mass data; $\sfname{SWXS}$ for the normalising
+constants and the mass data.
+\item The background hypotheses (\cref{pf:thmS-leaves:hyp:background}) are instance hypotheses of the formal statement; they are
+supplied automatically wherever the theorem is used. They enter as follows: the density of $K$-finite vectors is used
+directly in the proof of the main theorem; the representation statement (1) is a hypothesis of the formal versions of
+\cref{pf:thmS-leaves:prop:formula,pf:thmS-leaves:prop:nc}; the gauge volume identity (8) and the limit formula (9) of
+\cref{pf:thmS-leaves:prop:nc}; and the decay bound (3), the integrability statement (4), the non-vanishing statement (5) and
+the statement (7) on the carrier coefficients of \cref{pf:thmS-leaves:prop:vindep}. The second non-vanishing statement (6)
+occurs only in the context of the formal statement of the main theorem; we have not traced whether results cited from
+elsewhere use it.
+\item Several statements of this section depend on the conventions of \cref{pf:thmS-leaves:ss:conventions}: the row vectors vanish
+where $n_0=0$ because $x/0=0$; $d^{\sup}$ is a supremum in $\R$ (and the rows input assumes the density set bounded above); infinite
+products that do not converge are $1$; and $n_M(Z,Z')$ is a cardinality, $0$ for infinite sets. The kernel data of
+\cref{pf:thmS-leaves:def:rows} do not depend on the Hida setting $S$ except through its parameter $r(S)$, which equals $r_S$ under
+compatibility.
+\end{enumerate}
+\end{remark}

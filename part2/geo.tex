@@ -1,0 +1,1576 @@
+\section{The geometric realization and the Galois representations}\label{sec:pf:geo}
+
+\providecommand{\geoES}{\mathrm{ES}}
+\providecommand{\geoJ}{\mathrm{J}}
+\providecommand{\geoPhiK}{\Phi}
+\providecommand{\geoW}{\mathrm{Wt}}
+\providecommand{\geoRich}{\mathrm{Rich}}
+\providecommand{\geoPar}{\mathrm{Par}}
+\providecommand{\geoAbove}{\mathrm{Ab}}
+\providecommand{\geotw}{\mathrm{tw}}
+\providecommand{\geoHk}{P^{\mathrm{Hk}}}
+\providecommand{\geort}{P^{\mathrm{rt}}}
+\providecommand{\geounr}{P^{\mathrm{unr}}}
+\providecommand{\geoHdg}[3]{H^{#3}\bigl(#1,\Omega^{#2}\bigr)}
+\providecommand{\geoGU}{\mathrm{GU}}
+\providecommand{\geoUa}{\Uni_a(\A_{E^+})}
+\providecommand{\geoHO}{\mathrm{HO}}
+\providecommand{\geoCong}{\mathcal{C}}
+\providecommand{\geoGood}{\mathcal{G}}
+\providecommand{\geoSat}{\mathrm{Sat}}
+\providecommand{\geoWD}{\mathrm{WD}}
+
+This section proves three results of Part~I:
+\begin{itemize}[nosep]
+\item \cref{thm:row0b}: the existence of $\ell$-adic Galois representations, with partial
+  local--global compatibility, attached to regular algebraic polarized cuspidal automorphic
+  representations of $\GL_a$ over CM fields ($\sfname{Row0b}(\mathrm{recT})$);
+\item \cref{thm:geoone}: the geometric realization theorem $\sfname{GeoOne}$ for automorphic
+  representations of totally definite unitary groups;
+\item \cref{thm:galois:hlf}: the holomorphic Lefschetz formula for finite \'etale correspondences on
+  smooth projective complex varieties.
+\end{itemize}
+It also proves a number of auxiliary statements used in other sections: the ten statements
+(S7)--(S13), (S15)--(S17) of $\sfname{Steps}$ (\cref{def:pf:steps2:steps}) which are not proved in
+\cref{sec:pf:steps1,sec:pf:steps2}, several facts on $p$-adic Hodge theory and on Hodge
+cohomology used there and in \cref{sec:pf:ks1}, identities for Schur polynomials, and Borel's
+finiteness of class numbers in the form used.
+
+\paragraph{Structure of the proof.}
+The proof of \cref{thm:row0b} is a composition of three results: the reduction
+\lref{UpperTheory.Gal.Int.galoisLocalGlobalStrong_of_geometry_lift}, which states that
+$\sfname{GeoOne}$ and $\sfname{TLiftK}$ (\cref{def:galois:tliftk}) imply
+$\sfname{Row0b}(\mathrm{recT})$; the theta lifting theorem \cref{thm:galois:tlift}; and
+\cref{thm:geoone}. The proof of \cref{thm:geoone} has three layers (\cref{sec:pf:geo:geoone}).
+A \emph{plan} for an automorphic representation $U$ of the definite unitary group $\Uni_a$ is a
+purely group-theoretic object: an auxiliary prime $p$, a PEL datum of Harris--Taylor type for $p$
+with its unitary similitude group $G$, a family of Hecke data for $G$, an algebraic Hecke character
+$\kappa$, a weight, and a test function whose definite traces detect the Hecke eigensystem of $U$
+(the \emph{spectral condition} of \cref{pf:ks1:def-spec}). A \emph{package} is the geometric
+counterpart: a smooth projective Hecke tower over $E$ whose correspondences are finite \'etale,
+with congruence relations and Hodge occurrences at prescribed places. The Galois representations
+are the twists, by the $\ell$-adic characters of $\kappa$, of Galois representations cut out from the
+$\ell$-adic cohomology of the tower by the Hecke eigenvalues. Accordingly the proof combines:
+\begin{enumerate}[label=(\roman*),nosep]
+\item the seventeen step statements $\sfname{Steps}$ (\cref{thm:pf:steps2:main}), which turn a
+  package into Galois representations (\cref{pf:geo:packrep,pf:geo:geooneof});
+\item the Kuga--Sato package $\sfname{KSAll}$ (\cref{pf:ks2:def:ksall}), which turns a plan into a
+  package (\cref{pf:geo:planpack}); it is proved in \cref{pf:ks2:main} from the holomorphic
+  Lefschetz formula;
+\item the existence of plans $\sfname{PlanEx}$ (\cref{pf:geo:planex}), proved in
+  \cref{sec:pf:geo:plans}.
+\end{enumerate}
+
+\paragraph{Organisation.}
+\Cref{sec:pf:geo:conv} fixes notation. \Cref{sec:pf:geo:row} proves \cref{thm:row0b} from
+\cref{thm:geoone}. \Cref{sec:pf:geo:geoone} defines packages and plans and proves
+\cref{thm:geoone} from (i)--(iii). \Cref{sec:pf:geo:twist} proves the ten step statements
+(S7)--(S13), (S15)--(S17), and \cref{sec:pf:geo:padic} collects the $p$-adic Hodge-theoretic facts
+used by the steps. \Cref{sec:pf:geo:hodge} contains the lemmas on Hodge cohomology, idempotents,
+Schur polynomials, level groups and class numbers used in the construction of packages.
+\Cref{sec:pf:geo:plans} proves the existence of plans. \Cref{sec:pf:geo:hlf} treats the
+holomorphic Lefschetz formula.
+
+\paragraph{What is proved here and what is deferred.}
+All arguments at the top of the proof are given in full: \cref{thm:row0b,thm:geoone}, the
+passage from plans to packages and from packages to Galois representations, the ten step
+statements, the assembly of plans from their components (the \emph{master lemma},
+\cref{pf:geo:master}), and the reductions in the proof of \cref{thm:galois:hlf}. Several components
+of the construction of plans and the central algebraic lemma of the proof of
+\cref{thm:galois:hlf} (the \emph{chart-lift theorem}) are stated precisely and cited by their names in
+the formal development \cite{LeanSource2026}; the most substantial of them is the spectral
+component $\sfname{SpecTop}$, whose architecture is described in \cref{sec:pf:geo:spec}. Classical
+theorems which are proved in the formal development (Borel's finiteness of class numbers, the
+Hodge--Tate decomposition of de Rham representations, the holomorphic Lefschetz formula of
+Atiyah--Bott for maps, the existence of $\ell$-adic characters attached to algebraic Hecke
+characters) are cited from the literature.
+
+% ===========================================================================
+\subsection{Notation}\label{sec:pf:geo:conv}
+
+Throughout, $E$ is a CM field with maximal totally real subfield $E^+$ and complex conjugation
+$c$; $\Omega$ is an algebraic closure of $E$ and $G_E=\Aut_E(\Omega)$; $\ell$ is a prime, $\Qlbar$ the
+algebraic closure of $\Ql$ used in the development, and $\iota\colon\Qlbar\to\C$ a field isomorphism.
+A \emph{place} of $E$ is a nonzero prime $w$ of $\OO_E$; we write $\Nm w=\#(\OO_E/w)$, $p_w$ for the
+rational prime in $w$, and $w^c$ for the conjugate place $c(w)$. A place $w$ is \emph{split} if
+some place $u\ne w$ has the same restriction to $\OO_{E^+}$ (then $u=w^c$), and two places are
+\emph{apart} if their restrictions to $\OO_{E^+}$ differ. For $x\in E$ with $x^2=-d$, $d>0$, two
+places $w,w'$ \emph{induce the same prime of $\Q(x)$}, written $w\sim_xw'$, if an element of
+$\OO_E\cap\Q(x)$ lies in $w$ if and only if it lies in $w'$. This is an equivalence relation, and
+$w\sim_xw'$ implies $p_w=p_{w'}$ and $w^c\sim_xw'^c$. A place $w$ is \emph{$d$-usable} if it is split
+and $-d$ is a square in $\Q_{p_w}$. The field condition $\sfname{FieldOK}(E,\ell,d)$ of
+\cref{def:galois:geoone} means: $d>0$ and $-d$ is a square in $E$; $-d$ is a square in $\Ql$;
+$[E^+:\Q]$ is even; and every non-split place $w$ satisfies $\ell\notin w$ and is unramified over
+$E^+$. For an embedding $\tau\colon E\to\C$ and a place $v$ with $\ell\in v$ we say that $\tau$
+\emph{lies over $v$} if $|\iota^{-1}\tau(y)|<1$ for all $y\in v$.
+
+For $a\ge1$, $\geoUa=\{g\in\GL_a(\A_E):{}^t\bar gg=1\}$ is the group of adelic points of the
+totally definite unitary group of \cref{sec:galois:arch}. We use the following notions for a
+$\C$-linear space $U$ of functions on $\geoUa$ (\cref{def:galois:geoone},
+\cref{def:pf:steps2:lac}): $U$ is \emph{automorphic} if it is a nonzero irreducible space of
+automorphic forms stable under right translations; for a split place $w$ and a multiset $B$ of $a$
+nonzero complex numbers, $B$ is a \emph{Satake multiset of $U$ at $w$}, written
+$\geoSat(U,w,B)$, if some smooth irreducible representation of $\GL_a(E_w)$ which is spherical with
+Satake parameters $B$ embeds into $U$ compatibly with the local factor at $w$; a dominant
+$\lambda\in\Z^a$ is a \emph{weight of $U$ at $\tau$} if the algebraic representation of highest weight
+$\lambda$ occurs in $U$ along the archimedean factor at $\tau$; $J(\lambda)=\{k-\lambda_k:0\le
+k<a\}$; and the conditions ``unramified at the non-split places outside $T$'', ``supercuspidal
+type of $\ell$-power order at $w_0$'', ``spherical at the split places apart from $w_0$ and from $S$''
+and ``lacunary weight at $v'$'' are those of \cref{def:galois:geoone}.
+
+On the Galois side we use the notions of \cref{def:pf:steps2:es,def:pf:steps2:crys,def:pf:steps2:lac}.
+For $\rho\colon G_E\to\GL_{dd}(\Qlbar)$, a place $w$ and multisets $R\subset\C$:
+$\geoES_w(\rho,R)$ is the Eichler--Shimura condition (for every place $A$ of $\Omega$ over $w$, $\rho$ is
+trivial on $I_A$ and $(\iota^{-1}\geort_R)(\rho(\sigma^{-1}))=0$ for every arithmetic Frobenius
+element $\sigma$ for $(A,\Nm w)$, where $\geort_R=\prod_{r\in R}(X-r)$); $\rho$ is
+\emph{crystalline at $w$}; $\geoJ_w(\rho,Q)$ is the condition that the jumps of $\rho$ at $w$
+contain the integers $j$ with $Q(\iota\circ\tau,j)$; $\geoPhiK_w(\rho,R)$ means that $\rho$ is
+crystalline at $w$ and that the characteristic polynomial of some element of degree $-1$ of the
+Weil group on the Weil--Deligne representation of $\rho$ at $w$ divides a power of $\geort_R$;
+$\geoW_w(U,\rho)$ means that for all weights $\lambda$ of $U$ at embeddings over $w$ the set
+$J(\lambda)$ is contained in a jump multiset of $\rho$; and $\geoRich_a(\rho)$ means that at some
+place above $\ell$ and some embedding the jumps of $\rho$ contain a lacunary set of $a$ integers. All
+these conditions quantify over the auxiliary data (period rings, places $A$, bridges) as explained in
+\cref{def:pf:steps2:crys}. Finally, for $q\in\N$ and a multiset $B$ we put
+$q^{(a-1)/2}B=\{q^{(a-1)/2}b:b\in B\}$, and for $B$ a multiset of $a$ nonzero complex numbers we write
+$\geoPhiK^{\mathrm{sat}}_w(\rho;a,B)$ for the condition $\geoPhiK_w$ in which $\geort_R$ is replaced by
+the characteristic polynomial of the same Weil group element on the unramified Weil--Deligne
+representation with Frobenius eigenvalues $B^{-1}$ twisted by $|\cdot|^{(1-a)/2}$.
+
+\begin{definition}[Basic representations]\label{pf:geo:vbase}
+Let $E,\ell,\iota$ be as above, $a,d\in\N$, $U$ a space of functions on $\geoUa$ and
+$\rho\colon G_E\to\GL_{dd}(\Qlbar)$. Then $\rho$ is \emph{basic} for $(\iota,d,U)$ if: $\rho$ is continuous
+and semisimple; there is a finite set $X$ of places such that $\geoES_w(\rho,(\Nm w)^{(a-1)/2}B)$ holds
+for every $d$-usable place $w\notin X$ with $\ell\notin w$ and every Satake multiset $B$ of $U$ at $w$;
+and $\geoRich_a(\rho)$ holds.
+\formal{UpperTheory.Gal.Int.Div.VBase}
+\end{definition}
+
+This is the notion of \cref{def:galois:geoone}, conditions (1) and (2).
+
+% ===========================================================================
+\subsection{The Galois representations}\label{sec:pf:geo:row}
+
+\begin{theorem}[\cref{thm:row0b}]\label{pf:geo:row0b}
+The proposition $\sfname{Row0b}(\mathrm{recT})$ of \cref{def:row0b} holds.
+\formallabel{UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter}
+\end{theorem}
+
+The recognition notion $\mathrm{recT}$ is the predicate ``is a local parameter map'' of
+\cref{def:rectexists}.
+
+\begin{proposition}\label{pf:geo:ofthetalift}
+$\sfname{TLiftK}$ implies $\sfname{Row0b}(\mathrm{recT})$.
+\formallabel{UpperTheory.Gal.Int.galoisRepresentations_of_thetaLift}
+\end{proposition}
+
+\begin{proof}
+By \lref{UpperTheory.Gal.Int.galoisLocalGlobalStrong_of_geometry_lift}, the conjunction of
+$\sfname{GeoOne}$ and $\sfname{TLiftK}$ implies $\sfname{Row0b}(\mathrm{recT})$; this is
+\cref{thm:galois:reduction}, whose proof (descent, congruences, limits of pseudo-characters, theta
+lifting from odd to even rank) is given in \cref{sec:pf:galred}. $\sfname{GeoOne}$ holds by \cref{pf:geo:geoone}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:geo:row0b}]
+$\sfname{TLiftK}$ holds by \cref{thm:galois:tlift}, i.e.\ by \lref{UpperTheory.TP.K.tLiftK},
+the existence of theta lifts between definite unitary groups with the archimedean types and
+local correspondences of \cref{def:galois:tliftk}. Apply \cref{pf:geo:ofthetalift}.
+\end{proof}
+
+\begin{remark}\label{pf:geo:rem:rowinputs}
+The proof of \cref{thm:row0b} thus rests on exactly three results: \cref{thm:galois:reduction},
+\cref{thm:galois:tlift} and \cref{thm:geoone}. In particular neither the local Langlands
+correspondence nor any published existence theorem for Galois representations is used; the local
+parameter maps enter only through the laws of \cref{def:rectexists} (\cref{rem:galois:suffices}).
+\end{remark}
+
+% ===========================================================================
+\subsection{Packages, plans and the geometric realization}\label{sec:pf:geo:geoone}
+
+\subsubsection{The statement}
+
+We recall \cref{thm:geoone} in the form in which it is proved; the hypotheses are those of
+\cref{def:galois:geoone}.
+
+\begin{theorem}[\cref{thm:geoone}]\label{pf:geo:geoone}
+Let $E$ be a CM field, $\ell$ a prime, $\iota\colon\Qlbar\to\C$ a field isomorphism, $a$ an odd natural
+number, $d\in\N$ with $\sfname{FieldOK}(E,\ell,d)$ and $x\in E$ with $x^2=-d$. Let $T$ be a finite set of
+non-split places, $w_0,v'$ places containing $\ell$ which are apart and satisfy $w_0\sim_xv'$, $S$ a
+finite set of places and $U$ a space of functions on $\geoUa$ which is automorphic and unramified at
+the non-split places outside $T$, contains a supercuspidal type of $\ell$-power order at $w_0$, has
+Satake multisets at all split places apart from $w_0$ and from all places of $S$, has a Satake
+multiset at $v'$, and has a lacunary weight at $v'$. Then:
+\begin{enumerate}[label=\textup{(G\arabic*)},nosep]
+\item there is a basic representation $\rho\colon G_E\to\GL_{dd}(\Qlbar)$ for $(\iota,d,U)$;
+\item for every $d$-usable place $w$ with $\ell\notin w$ at which $U$ has a Satake multiset there is a
+  basic $\rho$ with $\geoES_w(\rho,(\Nm w)^{(a-1)/2}B)$ for every Satake multiset $B$ of $U$ at $w$;
+\item for every place $w$ with $\ell\in w$, $w\sim_xv'$, $w$ apart from $w_0$ and from $v'$, at which
+  $U$ has a Satake multiset: there is a basic $\rho$ which is crystalline at $w$ and satisfies
+  $\geoW_w(U,\rho)$; and there is a basic $\rho$ with $\geoPhiK^{\mathrm{sat}}_w(\rho;a,B)$ for every
+  Satake multiset $B$ of $U$ at $w$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.geoOne_holds}\formal{UpperTheory.Gal.Int.Geo.GeoOne}
+\end{theorem}
+
+The three conclusions are separate existence statements: for each place a basic representation
+with the local property at that place is provided, but not one representation with all properties.
+The dimension $dd$ is not prescribed; the passage to $a$-dimensional representations is part of the
+proof of \cref{thm:galois:reduction}.
+
+\subsubsection{Packages}
+
+\begin{definition}[Packages]\label{pf:geo:pack}
+Let $E,\ell,\iota$ be as above, $a,d\in\N$ and $U$ a space of functions on $\geoUa$. A \emph{package}
+$P$ for $(\iota,d,U)$ consists of a nice Hecke tower $H=(Z,(Y_g,s_g,t_g)_{g\in\Gamma})$ over $E$
+(\cref{def:pf:steps2:tower}), a map $\theta\colon\Gamma\to\Qlbar$, a Hecke character $\kappa$ of $E$ and
+a map $m\colon\Hom(E,\C)\to\Z$ such that $\kappa$ is algebraic of infinity type $m$ (that is,
+$\kappa_\infty(k)=\prod_\phi\phi(k)^{m(\phi)}$ for every totally positive $k\in E^\times$), and a finite set
+$X$ of places such that $\sfname{CongFor}(w,B)$ holds for every $d$-usable $w\notin X$ with $\ell\notin
+w$ and every Satake multiset $B$ of $U$ at $w$. Here $\sfname{CongFor}(w,B)$ means: $\kappa$ is
+unramified at $w$, and there is $\vartheta\colon\N\to\Qlbar$ such that $(H,\theta)$ satisfies the
+congruence relation at $w$ with coefficients $\vartheta$ in degree $a$
+($\geoCong(H,\theta,w,a,\vartheta)$, \cref{pf:ks2:def:goodatw}) and
+$\kappa(w)^{-1}(\Nm w)^{(a-1)/2}B$ is an $\iota$-root multiset for $(w,a,\vartheta)$
+(\cref{def:pf:steps2:es}). For a place $v$:
+\begin{itemize}[nosep]
+\item $\mathrm{HTFor}(P,v)$ means: $\kappa$ is unramified at $v$, $(H,\theta)$ has good reduction at
+  $v$ ($\geoGood(H,\theta,v)$, \cref{pf:ks2:def:goodatw}), and for every embedding $\tau\colon E\to\C$
+  over $v$ there is $\sigma\in\Aut(\C)$ such that for every weight $\lambda$ of $U$ at $\tau$ and every
+  $j\in J(\lambda)$ the Hodge predicate $\mathrm{Hdg}_{H,\theta}$ for the isomorphism $\sigma\circ\iota$ holds
+  at $(\sigma\circ\tau,j+m(\tau))$: $j+m(\tau)\ge0$ and the eigensystem $\sigma\circ\iota\circ\theta$ occurs in
+  some $\geoHdg{Z\otimes_{E,\sigma\tau}\C}{j+m(\tau)}{b}$ (\cref{def:pf:steps2:crys});
+\item $\mathrm{CongAll}(P,w)$ means: $\sfname{CongFor}(w,B)$ for every Satake multiset $B$ of $U$ at $w$.
+\end{itemize}
+$\sfname{PackEx}$ is the proposition obtained from \cref{pf:geo:geoone} by deleting the hypothesis of a
+lacunary weight and replacing the conclusions by: there is a package $P$ with $\mathrm{HTFor}(P,v')$;
+for every $w$ as in (G2) there is a package $P$ with $\mathrm{HTFor}(P,v')$ and $\mathrm{CongAll}(P,w)$;
+and for every $w$ as in (G3) there are packages $P,P'$ with $\mathrm{HTFor}(P,v')$, $\mathrm{HTFor}(P,w)$,
+$\mathrm{HTFor}(P',v')$ and $\mathrm{CongAll}(P',w)$.
+\formal{UpperTheory.Gal.Int.Geo.Pack}\formal{UpperTheory.Gal.Int.Geo.CongFor}\formal{UpperTheory.Gal.Int.Geo.Pack.HTFor}\formal{UpperTheory.Gal.Int.Geo.Pack.CongAll}\formal{UpperTheory.Gal.Int.Geo.PackEx}
+\end{definition}
+
+\begin{proposition}[Packages give representations]\label{pf:geo:packrep}
+Assume $\sfname{Steps}$. Let $P=(H,\theta,\kappa,m,X)$ be a package for $(\iota,d,U)$ and $v$ a place with
+$\ell\in v$ such that $U$ has a lacunary weight at $v$ and $\mathrm{HTFor}(P,v)$ holds. Then there is a
+basic representation $\rho\colon G_E\to\GL_{dd}(\Qlbar)$ for $(\iota,d,U)$ such that:
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\geoES_w(\rho,(\Nm w)^{(a-1)/2}B)$ for every place $w$ with $\ell\notin w$ and $\mathrm{CongAll}(P,w)$
+  and every Satake multiset $B$ of $U$ at $w$;
+\item $\rho$ is crystalline at $w$ and $\geoW_w(U,\rho)$ holds, for every place $w$ with $\ell\in w$ and
+  $\mathrm{HTFor}(P,w)$;
+\item $\geoPhiK^{\mathrm{sat}}_w(\rho;a,B)$ for every place $w$ with $\ell\in w$ and $\mathrm{CongAll}(P,w)$ and
+  every Satake multiset $B$ of $U$ at $w$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.Pack.rep}
+\end{proposition}
+
+\begin{proof}
+By (S1) there are $dd$ and a continuous semisimple $\rho_0\colon G_E\to\GL_{dd}(\Qlbar)$ attached to
+$(H,\theta)$ (\cref{def:pf:steps2:piece}). By (S15) there is a family $\mathcal L$ of characters
+$G_E\to\Qlbar^\times$ such that $\chi_\kappa:=\mathcal L(\kappa,m)$ is continuous and, at every place $w$
+where $\kappa$ is unramified, the $1\times1$ representation $\chi_\kappa$ has Frobenius eigenvalue
+$\kappa(w)$ if $\ell\notin w$, and is crystalline with jump $-m(\iota\circ\tau)$ at every $\tau$ and with
+Weil--Deligne Frobenius eigenvalue $\kappa(w)$ if $\ell\in w$; in the notation of \cref{sec:pf:geo:twist}
+this is $\geoPar_w(\chi_\kappa;\{\kappa(w)\},\tau\mapsto\{-m(\iota\circ\tau)\})$. Put
+\[
+  \rho=\geotw(\rho_0,\chi_\kappa),\qquad \rho(g)=\chi_\kappa(g)\rho_0(g).
+\]
+By (S17) $\rho$ is continuous and by (S16) it is semisimple. We use the twisting statements
+(S7)--(S10) with the character $\chi_\kappa$, the constant $c=\kappa(w)$ and the infinity type
+$-m$; their hypothesis is the property of $\chi_\kappa$ at $w$ just recalled.
+
+\emph{Places away from $\ell$.} Let $\ell\notin w$ and $B$ be such that $\sfname{CongFor}(w,B)$ holds,
+with $\vartheta$ as in its definition. By (S6) the congruence datum is realized by an onto cover, i.e.\
+$\geoCong(H,\theta,w,a,\vartheta)$ in the sense of \cref{def:pf:steps2:cong}. Since
+$R=\kappa(w)^{-1}(\Nm w)^{(a-1)/2}B$ is an $\iota$-root multiset for $(w,a,\vartheta)$, (S2) gives
+$\geoES_w(\rho_0,R)$, and (S7) gives $\geoES_w(\rho,\kappa(w)R)=\geoES_w(\rho,(\Nm w)^{(a-1)/2}B)$.
+Applied to the places outside the finite set $X$ of the package, this gives the almost-everywhere
+clause of \cref{pf:geo:vbase}; applied to a place with $\mathrm{CongAll}(P,w)$ it gives (a).
+
+\emph{Places above $\ell$ with good reduction.} Let $\ell\in w$ and assume $\mathrm{HTFor}(P,w)$. By (S6),
+$\geoGood(H,\theta,w)$ yields an onto good cover over $\OO_{(w)}$, so $\rho_0$ is crystalline at $w$ by
+(S3) and $\rho$ is crystalline at $w$ by (S8). For every embedding $\tau\colon E\to\C$ choose
+$\sigma_\tau\in\Aut(\C)$ as in $\mathrm{HTFor}(P,w)$ if $\tau$ lies over $w$, and $\sigma_\tau=\mathrm{id}$
+otherwise. Statement (S4) holds for every isomorphism $\Qlbar\to\C$; applying it, for each embedding
+$\tau_0\colon E\to\Qlbar$ induced by a bridge, with the isomorphism $\sigma_\tau\circ\iota$ where
+$\tau=\iota\circ\tau_0$, we obtain $\geoJ_w(\rho_0,Q)$ for the predicate
+\[
+  Q(\tau,j)\iff j\ge0\text{ and }\sigma_\tau\iota\theta\text{ occurs in some }
+  \geoHdg{Z\otimes_{E,\sigma_\tau\tau}\C}{j}{b}.
+\]
+By (S9) with the infinity type $-m$, $\geoJ_w(\rho,Q')$ holds with $Q'(\tau,j)=Q(\tau,j+m(\tau))$. By the
+choice of $\sigma_\tau$, $Q'(\tau,j)$ holds for every $\tau$ over $w$, every weight $\lambda$ of $U$ at $\tau$
+and every $j\in J(\lambda)$, so (S13) gives $\geoW_w(U,\rho)$. This proves (b). Applied at $w=v$
+together with the lacunary weight of $U$ at $v$, (S14) gives $\geoRich_a(\rho)$; so $\rho$ is basic.
+
+\emph{Crystalline Frobenius.} Let $\ell\in w$, $\mathrm{CongAll}(P,w)$, and $B$ a Satake multiset of $U$
+at $w$; let $\vartheta$ be as in $\sfname{CongFor}(w,B)$. As before (S6) and (S5) give
+$\geoPhiK_w(\rho_0,\kappa(w)^{-1}(\Nm w)^{(a-1)/2}B)$, (S10) gives $\geoPhiK_w(\rho,(\Nm w)^{(a-1)/2}B)$,
+and since $B$ has $a$ elements by (S12), (S11) gives $\geoPhiK^{\mathrm{sat}}_w(\rho;a,B)$. This is (c).
+\end{proof}
+
+\begin{theorem}\label{pf:geo:geooneof}
+$\sfname{Steps}$ and $\sfname{PackEx}$ imply $\sfname{GeoOne}$.
+\formallabel{UpperTheory.Gal.Int.Geo.geoOne_of}
+\end{theorem}
+
+\begin{proof}
+Let the data and hypotheses of \cref{pf:geo:geoone} be given. The hypotheses of $\sfname{PackEx}$ are
+among them, so $\sfname{PackEx}$ provides the packages listed in \cref{pf:geo:pack}; each satisfies
+$\mathrm{HTFor}(\cdot,v')$. Apply \cref{pf:geo:packrep} with $v=v'$, using the lacunary weight of $U$
+at $v'$. The package with $\mathrm{HTFor}(P,v')$ gives a basic representation, which is (G1). For $w$ as
+in (G2), the package with $\mathrm{CongAll}(P,w)$ gives a basic $\rho$ satisfying (a) at $w$, which is
+(G2). For $w$ as in (G3), the package $P$ with $\mathrm{HTFor}(P,w)$ gives, by (b), a basic $\rho$
+crystalline at $w$ with $\geoW_w(U,\rho)$, and the package $P'$ with $\mathrm{CongAll}(P',w)$ gives, by
+(c), a basic $\rho'$ with $\geoPhiK^{\mathrm{sat}}_w(\rho';a,B)$ for all Satake multisets $B$ at $w$.
+\end{proof}
+
+\subsubsection{Plans}
+
+The definition of plans uses the objects of the Kuga--Sato package: data, unitary similitude
+groups $G$ and links $L$ of Harris--Taylor type for a prime $p$ with the standing conditions
+$\mathrm{Sc}(D,G)$, levels $N$ (integers $N\ge3$ prime to $p$), the principal congruence subgroups
+$K_N\subseteq G(\A_f^p)$, Hecke data $g=(K_g,h_g,M_g)$ of level $N$ and their Hecke functions $f_g$, and
+the group-theoretic conditions $\mathcal U(g,\theta,\mathfrak w)$ (\emph{unramified at $\mathfrak w$}) and
+$\mathcal H(g,\theta,\mathfrak w,\vartheta)$ (\emph{contains the operators $T_i$ at $\mathfrak w$ with
+eigenvalues $\vartheta$}); see \cref{pf:ks2:def:datum,pf:ks2:def:heckedata,pf:ks2:def:goodgrp}. It also uses
+the spectral condition $\mathcal S$ and Hodge exponent vectors of \cref{pf:ks1:def-spec,pf:ks1:def-hexp},
+and the map $\varepsilon_D$ of \cref{pf:ks1:def-hexp} ($\varepsilon_D(\tau)=1$ if and only if $\tau(\omega)$ is the
+complex conjugate of the distinguished root $\rho_c$ of the datum).
+
+\begin{definition}[Plans]\label{pf:geo:plan}
+Let $E,\ell,\iota,a,d,U$ be as in \cref{pf:geo:pack}. A \emph{plan} $P$ for $(\iota,d,U)$ consists of: a
+prime $p$; a datum $D$, a group $G$ and a link $L$ for $p$ with $\mathrm{Sc}(D,G)$; a ring isomorphism
+$e\colon F_D\to E$ with $n_D=a$; a level $N$; a family $(g_j)_{j\in J}$ of Hecke data of level $N$ with
+values $\theta\colon J\to\Qlbar$; a Hecke character $\kappa$ of $E$ which is algebraic of infinity type
+$m\colon\Hom(E,\C)\to\Z$; a weight $\lambda\colon\Hom(F_D,\C)\to\N^{a}$ with each $\lambda(\tau)$
+non-increasing; a function $f$ on $G(\A_f^p)$ which lies in the Hecke algebra of $K_N$ and is supported
+on elements $y$ with $y^{-1}$ integral; such that the spectral condition
+$\mathcal S(L,\lambda,K_N,(f_{g_j})_j,\iota\circ\theta,f)$ holds; and a finite set $X$ of places such that
+$\sfname{CongP}(w,B)$ holds for every $d$-usable $w\notin X$ with $\ell\notin w$ and every Satake multiset
+$B$ of $U$ at $w$. Here $\sfname{CongP}(w,B)$ means: $\kappa$ is unramified at $w$ and there are a
+maximal ideal $\mathfrak w$ of $\OO_{F_D}$ corresponding to $w$ under $e$ and $\vartheta\colon\N\to\Qlbar$ with
+$\mathcal H(g,\theta,\mathfrak w,\vartheta)$ and such that $\kappa(w)^{-1}(\Nm w)^{(a-1)/2}B$ is an
+$\iota$-root multiset for $(w,a,\vartheta)$. For a place $v$:
+\begin{itemize}[nosep]
+\item $\mathrm{HTFor}(P,v)$ means: $\kappa$ is unramified at $v$; $\mathcal U(g,\theta,\mathfrak v)$ for a
+  maximal ideal $\mathfrak v$ corresponding to $v$; and (\emph{exponent condition}) for every $\tau\colon
+  E\to\C$ over $v$ there is $\sigma\in\Aut(\C)$ with $\sigma\tau e=\tau_i$ for all the distinguished embeddings
+  $\tau_i$ of $D$, such that for every weight $\lambda_U$ of $U$ at $\tau$ and every $j\in J(\lambda_U)$
+  there are an index $i_0$, a Hodge exponent vector $h$ for $(\tau_{i_0},\varepsilon_D,\sigma\lambda)$ and an
+  index $i$ with $h_i=j+m(\tau)$; here $(\sigma\lambda)(\tau')=\lambda(\sigma^{-1}\tau')$;
+\item $\mathrm{CongAll}(P,w)$ means: $\sfname{CongP}(w,B)$ for every Satake multiset $B$ of $U$ at $w$.
+\end{itemize}
+$\sfname{PlanEx}$ is $\sfname{PackEx}$ with packages replaced by plans.
+\formal{UpperTheory.Gal.Int.Geo.Plan}\formal{UpperTheory.Gal.Int.Geo.CongP}\formal{UpperTheory.Gal.Int.Geo.Plan.HTFor}\formal{UpperTheory.Gal.Int.Geo.Plan.ExpAt}\formal{UpperTheory.Gal.Int.Geo.Plan.CongAll}\formal{UpperTheory.Gal.Int.Geo.PlanEx}
+\end{definition}
+
+A plan does not mention schemes. Its geometric realization is the content of the next result.
+
+\begin{proposition}[Plans give packages]\label{pf:geo:planpack}
+Assume $\sfname{KSAll}$. For every plan $P$ for $(\iota,d,U)$ there is a package $Q$ for $(\iota,d,U)$
+such that $\mathrm{HTFor}(P,v)$ implies $\mathrm{HTFor}(Q,v)$ and $\mathrm{CongAll}(P,w)$ implies
+$\mathrm{CongAll}(Q,w)$, for all places $v,w$.
+\formallabel{UpperTheory.Gal.Int.Geo.Plan.pack}
+\end{proposition}
+
+\begin{proof}
+Write $P=(p,D,G,L,e,N,(g_j),\theta,\kappa,m,\lambda,f,X)$. Since $\mathrm{Sc}(D,G)$ includes $a_D=1$,
+$\sfname{StdEx}$ gives a characteristic-zero base $g_b$ over $E$ which is standard for $e$. By
+$\sfname{KSHodge}$ applied to $(D,G,L)$ and $\lambda$ there is $k\in\N$ with the Hodge occurrence property
+for Kuga--Sato towers with exponent $k$, and by $\sfname{KSEx}$ there is a Kuga--Sato tower $T$ for
+$(L,g_b,k)$ over $E$. Let $H=T.\mathrm{tower}(N,g)$ be the Hecke tower of the family $g$
+(\cref{pf:ks2:def:heckedata}); it is nice by $\sfname{KSNice}$. Put $Q=(H,\theta,\kappa,m,X)$.
+
+If $\sfname{CongP}(w,B)$ holds with $\mathfrak w,\vartheta$, then $\sfname{KSCong}$ (applied with the
+standard base $g_b$, the tower $T$ and $\mathfrak w$ corresponding to $w$) turns
+$\mathcal H(g,\theta,\mathfrak w,\vartheta)$ into $\geoCong(H,\theta,w,n_D,\vartheta)$, and $n_D=a$; together with
+the unramifiedness of $\kappa$ and the root condition, which are the same in both definitions, this is
+$\sfname{CongFor}(w,B)$. Applied to the places outside $X$ this shows that $Q$ is a package, and applied
+to all Satake multisets at $w$ it shows that $\mathrm{CongAll}(P,w)$ implies $\mathrm{CongAll}(Q,w)$.
+
+Assume $\mathrm{HTFor}(P,v)$. Unramifiedness of $\kappa$ at $v$ is common to both definitions, and
+$\sfname{KSGood}$ turns $\mathcal U(g,\theta,\mathfrak v)$ into $\geoGood(H,\theta,v)$. Let $\tau\colon E\to\C$ lie over
+$v$ and let $\sigma$ be as in the exponent condition. Let $\lambda_U$ be a weight of $U$ at $\tau$ and
+$j\in J(\lambda_U)$; take $i_0,h,i$ with $h$ a Hodge exponent vector for $(\tau_{i_0},\varepsilon_D,\sigma\lambda)$ and
+$h_i=j+m(\tau)$. The ring map $\sigma\circ\tau\colon E\to\C$ satisfies $(\sigma\tau)(\rho)=\rho_c$ and
+$(\sigma\tau)\circ t_i=\tau_i$ for the components $\rho,t_i$ of $g_b$, because $g_b$ is standard for $e$
+($\rho=e(\omega)$, $t_i=e|_{\OO_{F}}$) and $\sigma\tau e=\tau_i$, $\tau_i(\omega)=\rho_c$. Hence $\sfname{KSHodge}$, applied to
+$T$, $N$, $g$, the values $\iota\circ\theta$, the function $f$ with its spectral condition, the ring map
+$\sigma\tau$, the automorphism $\sigma$, the index $i_0$ and the vector $h$, shows that the eigensystem
+$\sigma\circ\iota\circ\theta$ occurs in the Hodge cohomology of the base change of $H$ along $\sigma\tau$ in
+degree $h_i=j+m(\tau)$. This is the Hodge predicate required in $\mathrm{HTFor}(Q,v)$ (note $h_i\ge0$).
+\end{proof}
+
+\begin{corollary}\label{pf:geo:packexof}
+$\sfname{KSAll}$ and $\sfname{PlanEx}$ imply $\sfname{PackEx}$.
+\formallabel{UpperTheory.Gal.Int.Geo.packEx_of}
+\end{corollary}
+
+\begin{proof}
+Given the data of $\sfname{PackEx}$, take the plans provided by $\sfname{PlanEx}$ and replace each by the
+package of \cref{pf:geo:planpack}; the properties $\mathrm{HTFor}$ and $\mathrm{CongAll}$ are preserved.
+\end{proof}
+
+\subsubsection{Proof of the geometric realization theorem}
+
+\begin{theorem}\label{pf:geo:parts}
+$\sfname{Steps}$, $\sfname{KSAll}$ and $\sfname{PlanEx}$ imply $\sfname{GeoOne}$. Consequently the holomorphic
+Lefschetz formula $\sfname{HLF}$ (the statement of \cref{thm:galois:hlf}) implies $\sfname{GeoOne}$.
+\formallabel{UpperTheory.Gal.Int.Geo.geoOne_of_parts}\formallabel{UpperTheory.Gal.Int.Geo.geometric_realization_of_weight_one}
+\end{theorem}
+
+\begin{proof}
+The first statement is \cref{pf:geo:geooneof} combined with \cref{pf:geo:packexof}. For the second,
+$\sfname{Steps}$ holds by \cref{thm:pf:steps2:main}; $\sfname{HLF}$ implies $\sfname{KSAll}$ by
+\cref{pf:ks2:main} (\lref{UpperTheory.Gal.Int.Geo.kodaira_spencer_of_weight_one}: the holomorphic
+Lefschetz formula for finite \'etale correspondences implies the Kuga--Sato package); and
+$\sfname{PlanEx}$ holds by \cref{pf:geo:planex}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:geo:geoone}]
+$\sfname{HLF}$ holds by \cref{pf:geo:hlf}; apply \cref{pf:geo:parts}.
+\end{proof}
+
+In this proof the holomorphic Lefschetz formula is used only through $\sfname{KSHodge}$; the statements involved do not concern
+modular forms of weight one, although the formal names of $\sfname{HLF}$ and of the implication $\sfname{HLF}\Rightarrow\sfname{GeoOne}$
+refer to ``weight one''.
+
+% ===========================================================================
+\subsection{Twists and normalisations: the statements (S7)--(S13), (S15)--(S17)}\label{sec:pf:geo:twist}
+
+In this subsection $E$ is a number field (a CM field in (S12), (S13)), $\Omega$, $G_E$, $\ell$, $\iota$ are as in
+\cref{sec:pf:geo:conv}, and $w$ is a place of $E$. For a homomorphism $\rho\colon\Gamma\to\GL_{dd}(k)$ of a
+group to the invertible matrices over a field and a character $\chi\colon\Gamma\to k^\times$, the
+\emph{twist} is $\geotw(\rho,\chi)(g)=\chi(g)\rho(g)$, and $\chi^{(1)}$ denotes $\chi$ viewed as a
+$1\times1$ matrix representation. For a multiset $S$ of complex numbers and $n\in\Z$ put
+\[
+  \geounr_S(n)=\prod_{z\in S}\bigl(X-z^{-n}\bigr)\in\C[X],\qquad \geort_S=\prod_{z\in S}(X-z),
+\]
+so that $\geounr_S(-1)=\geort_S$. The Weil--Deligne representation attached to a potentially
+semistable representation of a decomposition group (via a bridge and $\iota$, \cref{def:galois:awayb}(d)) is
+written $\geoWD(\cdot)$, and $\mathrm{cp}_g(x)$ is the characteristic polynomial of $g$ on a
+Weil--Deligne representation $x$.
+
+\begin{definition}[Local parameters of a representation]\label{pf:geo:par}
+Let $r\colon G_E\to\GL_n(\Qlbar)$, $S$ a multiset of complex numbers and $J$ a map from the embeddings
+$E\to\Qlbar$ to multisets of integers. Then $\geoPar_w(r;S,J)$ means:
+\begin{enumerate}[label=(\alph*),nosep]
+\item if $\ell\notin w$: for every place $A$ of $\Omega$ over $w$, $r$ is trivial on $I_A$, and for every
+  arithmetic Frobenius element $\sigma$ for $(A,\Nm w)$ the characteristic polynomial of $r(\sigma^{-1})$,
+  transported by $\iota$, is $\geort_S$;
+\item for every tied period package, every place $A$ over $w$ and every bridge inducing $A$
+  (\cref{def:pf:steps2:crys}): $r|_{D_A}$ is crystalline and de Rham, $J(\tau)$ is a jump multiset of
+  $r|_{D_A}$ at every embedding $\tau$ induced by the bridge, and
+  $\mathrm{cp}_g(\geoWD(r|_{D_A}))=\geounr_S(\deg g)$ for every $g\in W_A$.
+\end{enumerate}
+\formal{UpperTheory.Gal.TP.Sub.Cl}\formal{UpperTheory.Gal.TP.Sub.Above}\formal{UpperTheory.V.Af.FrobEig}
+\end{definition}
+
+Condition (b) is empty if $\ell\notin w$, since a bridge inducing $A$ forces $A$ to lie over $\ell$.
+
+\subsubsection{Local twisting lemmas}
+
+\begin{lemma}\label{pf:geo:twloc}
+Let $A$ be a place of $\Omega$ and fix a tied period package and a bridge for $D_A$. Let
+$r\colon D_A\to\GL_n(\Qlbar)$ and $c\colon D_A\to\Qlbar^\times$ be homomorphisms.
+\begin{enumerate}[label=(\alph*),nosep]
+\item If $r$ and $c^{(1)}$ are de Rham (resp.\ crystalline), so is $\geotw(r,c)$.
+\item If $r$ and $c$ are continuous, $J$ is a jump multiset of $r$ at $\tau$ and $\{m\}$ is a jump multiset
+  of $c^{(1)}$ at $\tau$, then $J+m=\{j+m:j\in J\}$ is a jump multiset of $\geotw(r,c)$ at $\tau$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.TP.Sub.twLoc_holds}\formallabel{UpperTheory.Gal.TP.Sub.twJumps_holds}
+\end{lemma}
+
+\begin{proof}
+Both statements are instances of \lref{GlobalTheory.TwistAbove.twist_above}, which states that if
+$r'(g)=\mu(g)r(g)$ for all $g$, then $r'$ is de Rham (crystalline, potentially crystalline) whenever $r$
+and $\mu^{(1)}$ are, and that the jumps of $r'$ at $\tau$ are those of $r$ shifted by the jump of
+$\mu^{(1)}$. (This is the compatibility of $D_{\mathrm{dR}}$ and $D_{\mathrm{cris}}$ with tensor
+products, \cite{Fontaine1994}.)
+\end{proof}
+
+\begin{lemma}\label{pf:geo:wdfacts}
+Let $A$ be a place of $\Omega$ over $w$ and $x,y$ Weil--Deligne representations of $W_A$ with $y$
+one-dimensional. If $g\in W_A$, $\mathrm{cp}_g(x)=\geounr_S(\deg g)$ and $\mathrm{cp}_g(y)=\geounr_{\{c\}}(\deg g)$, then
+$\mathrm{cp}_g(x\otimes y)=\geounr_{cS}(\deg g)$, where $cS=\{cz:z\in S\}$. Moreover
+$\mathrm{cp}_g(x\oplus y')=\mathrm{cp}_g(x)\,\mathrm{cp}_g(y')$ for all $x,y'$; a direct summand of an unramified
+Weil--Deligne representation is unramified; and the tensor product of two unramified ones is
+unramified.
+\formallabel{UpperTheory.Gal.TP.Sub.wDFacts_holds}
+\end{lemma}
+
+\begin{proof}
+Since $y$ is one-dimensional, $y(g)$ is the scalar $c^{-\deg g}$, so $(x\otimes y)(g)=c^{-\deg g}x(g)$ and
+the eigenvalues of $(x\otimes y)(g)$ are those of $x(g)$ multiplied by $c^{-\deg g}$; if they are the
+$z^{-\deg g}$, $z\in S$, then they are the $(cz)^{-\deg g}$. The other assertions are immediate from
+the block structure of direct sums and the definitions.
+\end{proof}
+
+\subsubsection{The twisting statements}
+
+\begin{proposition}[(S7)--(S10)]\label{pf:geo:twists}
+Let $\rho\colon G_E\to\GL_{dd}(\Qlbar)$ and $\chi\colon G_E\to\Qlbar^\times$ be continuous, $c\in\C$ and
+$m\colon\Hom(E,\C)\to\Z$, and assume $\geoPar_w(\chi^{(1)};\{c\},\tau\mapsto\{m(\iota\circ\tau)\})$. Then:
+\begin{enumerate}[label=\textup{(S\arabic*)},start=7,nosep]
+\item if $\ell\notin w$, then $\geoES_w(\rho,R)$ implies $\geoES_w(\geotw(\rho,\chi),cR)$ for every multiset
+  $R\subset\C$;
+\item if $\rho$ is crystalline at $w$, so is $\geotw(\rho,\chi)$;
+\item for every predicate $Q$ on $\Hom(E,\C)\times\Z$, $\geoJ_w(\rho,Q)$ implies $\geoJ_w(\geotw(\rho,\chi),Q')$
+  with $Q'(\tau,j)=Q(\tau,j-m(\tau))$;
+\item $\geoPhiK_w(\rho,R)$ implies $\geoPhiK_w(\geotw(\rho,\chi),cR)$ for every multiset $R\subset\C$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.twES}\formallabel{UpperTheory.Gal.Int.Geo.twCrys}\formallabel{UpperTheory.Gal.Int.Geo.twJ}\formallabel{UpperTheory.Gal.Int.Geo.twPhi}
+\end{proposition}
+
+\begin{proof}
+(S7) Let $A$ be a place over $w$. By $\geoPar_w$(a) the character $\chi$ is trivial on $I_A$, and so is
+$\rho$ by $\geoES_w(\rho,R)$; hence $\geotw(\rho,\chi)$ is trivial on $I_A$. Let $\sigma$ be an arithmetic
+Frobenius element. The characteristic polynomial of the $1\times1$ matrix $\chi(\sigma^{-1})$ is
+$X-\chi(\sigma^{-1})$, so $\geoPar_w$(a) gives $\iota(\chi(\sigma^{-1}))=c$. Put $\mu=\iota^{-1}(c)$, $M=\rho(\sigma^{-1})$ and
+$P=\prod_{r\in R}(X-\iota^{-1}r)$, so that $P(M)=0$. Then $\geotw(\rho,\chi)(\sigma^{-1})=\mu M$, and
+\[
+  \prod_{r\in R}\bigl(\mu M-\mu\,\iota^{-1}r\bigr)=\mu^{|R|}P(M)=0 .
+\]
+Since $\iota^{-1}(cR)=\mu\,\iota^{-1}(R)$, this is the required annihilation.
+
+(S8) Fix a tied period package, a place $A$ over $w$ and a bridge inducing $A$. By $\geoPar_w$(b),
+$\chi^{(1)}|_{D_A}$ is crystalline; $\rho|_{D_A}$ is crystalline by hypothesis; and
+$\geotw(\rho,\chi)|_{D_A}=\geotw(\rho|_{D_A},\chi|_{D_A})$. Apply \cref{pf:geo:twloc}(a).
+
+(S9) With the same data and an embedding $\tau$ induced by the bridge, $\geoJ_w(\rho,Q)$ gives a jump
+multiset $J$ of $\rho|_{D_A}$ at $\tau$ containing every $j$ with $Q(\iota\circ\tau,j)$, and $\geoPar_w$(b) gives
+the jump multiset $\{m(\iota\circ\tau)\}$ of $\chi^{(1)}|_{D_A}$. The restrictions are continuous, so by
+\cref{pf:geo:twloc}(b) the multiset $J+m(\iota\circ\tau)$ is a jump multiset of $\geotw(\rho,\chi)|_{D_A}$ at $\tau$. If
+$Q'(\iota\circ\tau,j)$, i.e.\ $Q(\iota\circ\tau,j-m(\iota\circ\tau))$, then $j-m(\iota\circ\tau)\in J$, so $j\in J+m(\iota\circ\tau)$.
+
+(S10) With the same data, $\geoPar_w$(b) gives that $\chi^{(1)}|_{D_A}$ is crystalline with
+$\mathrm{cp}_g(\geoWD(\chi^{(1)}|_{D_A}))=\geounr_{\{c\}}(\deg g)$ for all $g$, and $\geoPhiK_w(\rho,R)$ gives that
+$\rho|_{D_A}$ is crystalline and that there are $g\in W_A$ with $\deg g=-1$ and $k\in\N$ with
+$\mathrm{cp}_g(\geoWD(\rho|_{D_A}))\mid(\geort_R)^k$. By \cref{pf:geo:twloc}(a) the twist is crystalline. Crystalline
+representations are potentially semistable, so by
+\lref{GlobalTheory.T.fontaineParameter_twist_potentiallySemistable} (the Weil--Deligne
+representation of the twist of a potentially semistable representation by a potentially semistable
+character is the tensor product of their Weil--Deligne representations)
+$\geoWD(\geotw(\rho,\chi)|_{D_A})=\geoWD(\rho|_{D_A})\otimes\geoWD(\chi^{(1)}|_{D_A})$. Write
+$\mathrm{cp}_g(\geoWD(\rho|_{D_A}))=\geort_{S'}=\geounr_{S'}(-1)$ with $S'$ its multiset of roots. By
+\cref{pf:geo:wdfacts}, $\mathrm{cp}_g(\geoWD(\geotw(\rho,\chi)|_{D_A}))=\geort_{cS'}$. Finally
+$\geort_{S'}\mid(\geort_R)^k$ implies $\geort_{cS'}\mid(\geort_{cR})^k$: for $c\ne0$ substitute $X/c$ and multiply by
+the appropriate powers of $c$; for $c=0$ both sides are powers of $X$ and the degrees compare as
+before.
+\end{proof}
+
+\subsubsection{Normalisations}
+
+\begin{lemma}\label{pf:geo:satpol}
+Let $A$ be a place of $\Omega$ over $w$, $a\in\N$ and $B$ a multiset of nonzero complex numbers. For every
+$g\in W_A$ the characteristic polynomial of $g$ on the Weil--Deligne representation which is unramified
+with Frobenius eigenvalues $B^{-1}$ and twisted by $|\cdot|^{(1-a)/2}$ is $\geounr_{(\Nm w)^{(a-1)/2}B}(\deg g)$.
+In particular for $\deg g=-1$ it is $\prod_{b\in B}(X-(\Nm w)^{(a-1)/2}b)$.
+\formallabel{UpperTheory.Gal.TP.Sub.satPol_holds}
+\end{lemma}
+
+\begin{proof}
+A direct computation from the definitions of unramified Weil--Deligne representations and of the twist
+by $|\cdot|^s$: an element of degree $n$ acts on the line of $b\in B$ by $(\Nm w^{(a-1)/2}b)^{-n}$.
+\end{proof}
+
+\begin{proposition}[(S11)--(S13)]\label{pf:geo:norms}
+\begin{enumerate}[label=\textup{(S\arabic*)},start=11,nosep]
+\item If $B$ is a multiset of $a$ nonzero complex numbers and $\geoPhiK_w(\rho,(\Nm w)^{(a-1)/2}B)$ holds, then
+  $\geoPhiK^{\mathrm{sat}}_w(\rho;a,B)$ holds.
+\item If $E$ is a CM field and $B$ is a Satake multiset of $U$ at $w$, then $B$ has $a$ elements.
+\item Let $E$ be a CM field, $U$ a space of functions on $\geoUa$, $\rho\colon G_E\to\GL_{dd}(\Qlbar)$ and $Q$ a
+  predicate on $\Hom(E,\C)\times\Z$ such that $Q(\tau,j)$ holds for every $\tau$ over $w$, every weight $\lambda$
+  of $U$ at $\tau$ and every $j\in J(\lambda)$. Then $\geoJ_w(\rho,Q)$ implies $\geoW_w(U,\rho)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.phiOf}\formallabel{UpperTheory.Gal.Int.Geo.satCard}\formallabel{UpperTheory.Gal.Int.Geo.jumpsOf}
+\end{proposition}
+
+\begin{proof}
+(S11) The two conditions differ only in the polynomial: for the element $g$ of degree $-1$ provided by
+$\geoPhiK_w$, the polynomial $\geort_{(\Nm w)^{(a-1)/2}B}$ is the characteristic polynomial of $g$ on the
+twisted unramified Weil--Deligne representation, by \cref{pf:geo:satpol}.
+
+(S12) By definition $B$ is the Satake multiset of a spherical smooth irreducible representation of
+$\GL_a(E_w)$; such multisets have $a$ elements (\lref{GlobalTheory.LFun.HasSatGL.card}: the Satake
+parameters of a spherical representation of $\GL_a$ form a multiset of cardinality $a$).
+
+(S13) Fix the auxiliary data of the definition of $\geoW_w(U,\rho)$: a tied period package, a place
+$A$ over $w$, a bridge inducing $A$, an embedding $\tau_0\colon E\to\Qlbar$ induced by it, a weight $\lambda$ of
+$U$ at $\iota\circ\tau_0$ and a multiset $J$ of integers whose image in $\C$ is
+$\{\frac{a-1}2-z:z\in\inf(\lambda)\}$, $\inf(\lambda)=\{\lambda_k+\frac{a-1}2-k\}_k$. By \cref{pf:geo:wtjumps} below,
+$J=J(\lambda)$. By \cref{pf:geo:overpl}, $\iota\circ\tau_0$ lies over $w$, so $Q(\iota\circ\tau_0,j)$ holds for all $j\in J$,
+and $\geoJ_w(\rho,Q)$ provides a jump multiset of $\rho|_{D_A}$ at $\tau_0$ containing $J$.
+\end{proof}
+
+\begin{lemma}\label{pf:geo:wtjumps}
+Let $\lambda=(\lambda_0\ge\dots\ge\lambda_{a-1})\in\Z^a$. The map $k\mapsto k-\lambda_k$ is strictly increasing, so
+$J(\lambda)$ has $a$ elements, and the image of the multiset $J(\lambda)$ in $\C$ is
+$\{\frac{a-1}2-z:z\in\inf(\lambda)\}$. Consequently a multiset of integers with this image equals
+$J(\lambda)$.
+\formallabel{GlobalTheory.RoadWGeo.strictMono_jump}\formallabel{GlobalTheory.RoadWGeo.card_wtJumps}\formallabel{GlobalTheory.RoadWGeo.wtJumps_val}
+\end{lemma}
+
+\begin{proof}
+If $i<j$ then $\lambda_i\ge\lambda_j$, so $i-\lambda_i<j-\lambda_j$. For each $k$,
+$\frac{a-1}2-(\lambda_k+\frac{a-1}2-k)=k-\lambda_k$. The last assertion holds because the map $\Z\to\C$ is injective.
+\end{proof}
+
+\begin{lemma}\label{pf:geo:overpl}
+Let $A$ be a place of $\Omega$ over $w$, $B_w$ a bridge inducing $A$, and $\tau_0\colon E\to\Qlbar$ induced by
+$B_w$. Then $\iota\circ\tau_0$ lies over $w$, i.e.\ $|\tau_0(y)|<1$ for every $y\in w$.
+\formallabel{GlobalTheory.CongL.LimAtLU.overPl_of_induced}
+\end{lemma}
+
+\begin{proof}
+Write $j\colon\Omega\to\Qlbar$ for the embedding of the bridge, so that $A=\{z:|j(z)|\le1\}$, and
+$\tau_0=\tau'\circ j$ on $E$ for a $\Ql$-embedding $\tau'$ of the local field $K_w$ of the bridge. For $y\in w$
+we have $y\in\mathfrak m_A$, hence $|j(y)|<1$, and $\Ql$-embeddings of finite extensions preserve the
+absolute value, so $|\tau_0(y)|=|j(y)|<1$.
+\end{proof}
+
+\subsubsection{The $\ell$-adic characters of algebraic Hecke characters}
+
+A Hecke character $\chi$ of $E$ is \emph{algebraic of infinity type $n\colon\Hom(E,\C)\to\Z$} if
+$\chi_\infty(k)=\prod_\phi\phi(k)^{n(\phi)}$ for every $k\in E^\times$ which is positive at all real places. A global
+Artin map is fixed as in \cref{def:galois:wd}. A character $r\colon G_E\to\Qlbar^\times$ is \emph{an $\ell$-adic
+character of $(\chi,n)$} if
+\begin{equation}\label{eq:pf:geo:ladic}
+  r(\sigma)=\iota^{-1}\bigl(\chi(x)\,\chi_n(x_\infty)^{-1}\bigr)\cdot\prod_{\phi}\phi_\ell(x_\ell)^{n(\phi)}
+\end{equation}
+whenever $\mathrm{art}(x)$ is the image of $\sigma$ in $G_E^{\mathrm{ab}}$; here
+$\chi_n(x_\infty)=\prod_\phi\phi(x_\infty)^{n(\phi)}$ and $\phi_\ell$ is the $\ell$-adic embedding attached to $\phi$
+through $\iota$. This is Weil's and Serre's construction \cite{Weil1956,Serre1968}.
+
+\begin{littheorem}[{\cite{Weil1956}; \cite[Ch.~II, III]{Serre1968}; \cite{Fontaine1994}}]\label{pf:geo:lit:ladic}
+\begin{enumerate}[label=(\alph*),nosep]
+\item For every number field $E$ there is a global Artin map such that for every prime $\ell$, every
+  $\iota$ and every Hecke character $\chi$ algebraic of infinity type $n$ there is a unique continuous
+  $\ell$-adic character of $(\chi,n)$.
+\item Such a character is de Rham at every place above $\ell$ (it is locally algebraic), and for every
+  embedding $\tau$ induced by a bridge its jump multiset at $\tau$ is $\{-n(\iota\circ\tau)\}$ (with the conventions
+  for jumps of the development).
+\end{enumerate}
+\formallabel{PositivityTheory.Stage1.PM.heckeLAdicCharacter}\formallabel{HodgeLocalDeRhamField.HLdR.field_outright}
+\end{littheorem}
+
+Both statements are labelled as published results in the development, where they are proved (the
+first from global Artin reciprocity). The theorem that de Rham representations are potentially
+semistable \cite{Berger2002} is likewise a literature statement proved in the development.
+
+\begin{proposition}[(S15)]\label{pf:geo:charex}
+For every number field $E$, $\Omega$, $\ell$ and $\iota$ there is a map $\mathcal L$ from pairs $(\chi,n)$ to
+characters $G_E\to\Qlbar^\times$ such that, for $\chi$ algebraic of infinity type $n$, $\mathcal L(\chi,n)$ is
+continuous and $\geoPar_w(\mathcal L(\chi,n)^{(1)};\{\chi(w)\},\tau\mapsto\{-n(\iota\circ\tau)\})$ holds at every place
+$w$ at which $\chi$ is unramified, $\chi(w)$ denoting the value of $\chi$ at a uniformizer of $E_w$; and
+$\mathcal L(\chi,n)=\mathcal L(\chi',n')$ implies $\chi=\chi'$ for algebraic $(\chi,n)$, $(\chi',n')$.
+\formallabel{UpperTheory.Gal.TP.Sub.charEx}\formallabel{UpperTheory.Gal.TP.Sub.charFrob_holds}\formallabel{UpperTheory.Gal.TP.Sub.charAbove_holds}\formallabel{UpperTheory.Gal.TP.Sub.charInj_holds}
+\end{proposition}
+
+\begin{proof}
+Let $\mathrm{art}$ be the global Artin map of \cref{pf:geo:lit:ladic} and let $\mathcal L(\chi,n)$ be the unique
+continuous $\ell$-adic character of $(\chi,n)$ if $\chi$ is algebraic of infinity type $n$, and $1$ otherwise.
+Let $\chi$ be algebraic of type $n$ and unramified at $w$, and put $r=\mathcal L(\chi,n)$.
+
+\emph{Away from $\ell$.} Let $\ell\notin w$ and $A$ over $w$. For $x$ in the local units at $w$
+(embedded in the ideles), \eqref{eq:pf:geo:ladic} gives $r(\sigma)=\iota^{-1}\chi_w(x)=1$ for $\sigma$ with
+$\mathrm{art}(x)=\sigma^{\mathrm{ab}}$, since the factors at $\infty$ and $\ell$ are trivial; these $\sigma$ are the
+elements of the inertia groups over $w$, so $r$ is trivial on $I_A$. A uniformizer $\varpi_w$ is mapped by
+$\mathrm{art}$ to a geometric Frobenius, so for an arithmetic Frobenius $\sigma$ one gets
+$r(\sigma)=\iota^{-1}(\chi(w))^{-1}$, i.e.\ the characteristic polynomial of $r(\sigma^{-1})$ is $X-\iota^{-1}\chi(w)$.
+In the development these two facts are \lref{GlobalTheory.HeckeGal.IsLAdicOf.unr_iff} ($r$ is trivial
+on the inertia groups over $w\nmid\ell$ if and only if $\chi$ is unramified at $w$) and
+\lref{GlobalTheory.HeckeGal.IsLAdicOf.frob_unr} (the value of $r$ at arithmetic Frobenius elements over
+such $w$ is $\iota^{-1}(\chi(w))^{-1}$). This is $\geoPar_w$(a).
+
+\emph{Above $\ell$.} Fix a tied period package, a place $A$ over $w$ and a bridge inducing $A$. By
+\cref{pf:geo:lit:ladic}(b), $r^{(1)}|_{D_A}$ is de Rham with jump multiset $\{-n(\iota\circ\tau)\}$ at every
+induced $\tau$; it is continuous, hence potentially semistable \cite{Berger2002}. By
+\lref{UpperTheory.Lit.CharWD.algebraicCharacterWD} its Weil--Deligne representation is the character
+$\chi_w\circ a$ of $W_A$, where $a$ is the local Artin map at $A$ (\cref{def:galois:wd}) and $\chi_w$ the local
+component of $\chi$. Since $\chi$ is unramified at $w$, this Weil--Deligne representation is unramified, so
+$r^{(1)}|_{D_A}$ is crystalline (\lref{GlobalTheory.PstLaws.unr_wdAt_iff}: a potentially semistable
+representation is crystalline if and only if its Weil--Deligne representation is unramified); and
+$\chi_w(a(g))=\chi(w)^{-\deg g}$ because $\chi_w(u)=\chi(w)^{\ord_w(u)}$ and $\ord_w(a(g))=-\deg g$. Hence
+$\mathrm{cp}_g=X-\chi(w)^{-\deg g}=\geounr_{\{\chi(w)\}}(\deg g)$. This is $\geoPar_w$(b).
+
+\emph{Injectivity.} If $r$ is an $\ell$-adic character of
+both $(\chi,n)$ and $(\chi',n')$, then at every place $v\nmid\ell$ where both $\chi,\chi'$ are unramified,
+applying \eqref{eq:pf:geo:ladic} to the idele $\varpi_v$ gives $\iota^{-1}\chi(v)=r(\sigma)^{-1}=\iota^{-1}\chi'(v)$.
+Two Hecke characters which are unramified and agree at uniformizers at all but finitely many places
+are equal (\lref{GlobalTheory.T.hecke_character_eq_of_cofinite}).
+\end{proof}
+
+\subsubsection{Semisimplicity and continuity}
+
+\begin{proposition}[(S16), (S17)]\label{pf:geo:ssc}
+Let $\Gamma$ be a group, $k$ a field, $r\colon\Gamma\to\GL_a(k)$, $s\colon\Gamma\to\GL_b(k)$ and
+$c\colon\Gamma\to k^\times$ homomorphisms, $r\oplus s$ the block diagonal sum, and $r'$ a conjugate of $r$
+($r'=uru^{-1}$ with $u\in\GL_a(k)$).
+\begin{enumerate}[label=\textup{(S\arabic*)},start=16,nosep]
+\item If $r\oplus s$ is semisimple, so is $r$; if $r$ is semisimple, so are $r'$ and $\geotw(r,c)$.
+\item Assume $\Gamma$ is a topological group and $k$ a topological field. If $r\oplus s$ is continuous, so is
+  $r$; if $r$ is continuous, so is $r'$; if $r$ and $c$ are continuous, so are $\geotw(r,c)$ and $c^{(1)}$.
+\end{enumerate}
+Moreover the characteristic polynomial of $(r\oplus s)(g)$ is the product of those of $r(g)$ and $s(g)$,
+that of $c^{(1)}(g)$ is $X-c(g)$, and conjugate representations have the same characteristic polynomials.
+\formallabel{UpperTheory.Gal.TP.Sub.sSLeft_holds}\formallabel{UpperTheory.Gal.TP.Sub.contLeft_holds}\formallabel{UpperTheory.Gal.TP.Sub.cpFacts_holds}
+\end{proposition}
+
+\begin{proof}
+(S16) Let $W\subseteq k^a$ be $r$-stable. Then $W'=W\oplus k^b$ is stable under $r\oplus s$; let $C$ be a
+stable complement. The projection $\pi\colon k^{a+b}\to k^a$ is equivariant, so $\pi(C)$ is $r$-stable, and
+$\pi(C)+W=\pi(C+W')=k^a$. If $\pi(c)=w\in W$ with $c\in C$, then $c-(w,0)\in0\oplus k^b\subseteq W'$, so $c\in W'\cap C=0$;
+hence $\pi(C)\cap W=0$ and $\pi(C)$ is a stable complement of $W$. The stable subspaces of $r'$ are the
+images under $u$ of those of $r$, and $\geotw(r,c)$ has the same stable subspaces as $r$ since $c(g)$ is a
+scalar. (S17) The entries of $r(g)$ are entries of $(r\oplus s)(g)$; $r'(g)=ur(g)u^{-1}$ and
+$\geotw(r,c)(g)=c(g)r(g)$ are continuous in $g$ since multiplication is continuous; $c^{(1)}$ is $c$. The
+assertions on characteristic polynomials are standard.
+\end{proof}
+
+% ===========================================================================
+\subsection{Facts from $p$-adic Hodge theory used by the steps}\label{sec:pf:geo:padic}
+
+The following classical facts are used in the proofs of (S3)--(S5) in \cref{sec:pf:steps1}. They are
+proved in the formal development; we state the forms used and cite the literature. Notation for
+period packages, bridges and jump multisets is that of \cref{def:pf:steps2:crys}; for a finite
+extension $K/\Ql$, $G_K$ is its absolute Galois group, $\chi_{\mathrm{cyc}}$ the cyclotomic character and
+$\C_\ell$ the completion of $\Qlbar$.
+
+\begin{proposition}[Hodge--Tate decomposition]\label{pf:geo:htbasis}
+Let $K,LL$ be finite extensions of $\Ql$ such that every $\Ql$-embedding of $K$ takes values in $LL$, let
+$\tau'\colon K\to LL$ be the inclusion, $m\in\N$, and $r'\colon G_K\to\GL_m(LL)$ a homomorphism which is de Rham
+in the sense that $\dim_{LL}D_{\mathrm{dR}}(r')=[K:\Ql]\,m$ (for a tied period package). Let $K'$ be a finite
+extension containing $K$ and $LL$. Then there are $P\in\GL_m(\C_\ell)$ and integers $k_1,\dots,k_m$ such that
+each $j\in\Z$ occurs among the $k_i$ with multiplicity equal to the $\tau'$-Hodge--Tate multiplicity of $j$ (the
+dimension of the $j$-th graded piece of the Hodge filtration on the $\tau'$-component of $D_{\mathrm{dR}}$),
+and
+\[
+  r'(g)\,{}^gP=P\,\mathrm{diag}\bigl(\chi_{\mathrm{cyc}}(g)^{-k_1},\dots,\chi_{\mathrm{cyc}}(g)^{-k_m}\bigr)\qquad(g\in G_{K'}),
+\]
+where ${}^gP$ is obtained by applying $g$ to the entries of $P$.
+\formallabel{GlobalTheory.T.deRham_exists_hodgeTate_eigenbasis}
+\end{proposition}
+
+\begin{proof}
+De Rham representations are Hodge--Tate, and a Hodge--Tate representation becomes, after extension of
+scalars to $\C_\ell$, a direct sum of the twists $\C_\ell(-j)$ with multiplicities given by the Hodge--Tate
+numbers \cite{Fontaine1994}, \cite{Tate1967pdiv}; the columns of $P$ are a basis adapted to this
+decomposition for the $\tau'$-component. The formal development proves this classical statement.
+\end{proof}
+
+\begin{proposition}\label{pf:geo:pstfacts}
+Fix a tied period package.
+\begin{enumerate}[label=(\alph*),nosep]
+\item A crystalline representation of $G_K$ on a finite-dimensional $LL$-vector space is semistable, and a
+  semistable one is potentially semistable.
+\item The Hodge--Tate multiplicities $\dim\mathrm{gr}^jD_{\mathrm{dR}}$ at an embedding are unchanged when
+  the bridge is replaced by a conjugate bridge and the embedding by the corresponding conjugate embedding.
+\item If $r$ is a representation of a decomposition group $D_A$ with a model $r'$ over a finite extension
+  $LL$ which is potentially semistable, then the characteristic polynomial of every $g\in W_A$ on the
+  Weil--Deligne representation of $r$ is that of $g$ on Fontaine's Weil--Deligne representation of $r'$
+  \cite{Fontaine1994rss}, and this Weil--Deligne representation has dimension equal to the degree of $r$.
+\end{enumerate}
+\formallabel{GlobalTheory.CrysSst.isSst_of_isCrys}\formallabel{GlobalTheory.GalCut.IwaTwist.isPst_of_isSst}\formallabel{GlobalTheory.Pst.BridgeInd.multV_conj}\formallabel{UpperTheory.Gal.crystallineComparison.wdModel_of}
+\end{proposition}
+
+\begin{proof}
+(a) $D_{\mathrm{cris}}(V)$ embeds into $D_{\mathrm{st}}(V)$, and $\dim_{K_0}D_{\mathrm{st}}(V)\le\dim V$; if $V$ is
+crystalline the first space has dimension $\dim V$, hence so does the second \cite{Fontaine1994rss}. A
+semistable representation is potentially semistable (take the trivial extension). (b) Conjugation by an
+element of $G_{\Ql}$ transports the Hodge filtration of one bridge to that of the conjugate one,
+preserving dimensions. (c) Fontaine's Weil--Deligne representation does not depend on the choice of the
+finite extension over which a potentially semistable model is chosen (enlarging the coefficients does not
+change it), and it has the dimension of the representation.
+\end{proof}
+
+\begin{lemma}\label{pf:geo:fetbasic}
+Let $d,e\in\N$. A base change of a morphism which is finite \'etale of degree $d$ is finite \'etale of degree
+$d$; the composite of morphisms which are finite \'etale of degrees $e$ and $d$ is finite \'etale of degree
+$de$; and a Galois cover with finite group $G$ (\cref{def:pf:steps2:hop}) is finite \'etale of degree $|G|$.
+\formallabel{UpperTheory.Gal.G3.fEtBasic_holds}
+\end{lemma}
+
+\begin{proof}
+Finiteness and \'etaleness are stable under base change and composition. Geometric points of a base change
+over a geometric point correspond to geometric points of the original fibre, and in a composite the lifts of a
+geometric point are the lifts, through the second map, of each of its lifts through the first. For a Galois
+cover $W\to X$ with group $G$, the isomorphism $\coprod_GW\cong W\times_XW$ shows that $G$ acts simply
+transitively on the geometric points of each nonempty fibre; fibres are nonempty since Galois covers are
+surjective.
+\end{proof}
+
+% ===========================================================================
+\subsection{Hodge cohomology, idempotents, Schur polynomials and class numbers}\label{sec:pf:geo:hodge}
+
+This subsection collects results used in the construction of the Kuga--Sato package
+(\cref{sec:pf:ks1,sec:pf:ks2}).
+
+\subsubsection{Hodge cohomology}
+
+\begin{definition}[Hodge cohomology, pull-back and trace]\label{pf:geo:hodgedef}
+Let $k$ be a field and $s\colon X\to\Spec k$ a scheme over $k$. For $j\in\N$, $\Omega^j_{X/k}$ is the sheaf of
+$\OO_X$-modules associated with the presheaf $V\mapsto\bigwedge^j\Omega_{\OO(V)/k}$, and
+$\geoHdg{X}{j}{b}=H^b(X,\Omega^j_{X/k})$ is its sheaf cohomology (the derived-functor cohomology of the
+underlying sheaf of abelian groups, a $k$-vector space). For a morphism $f\colon X'\to X$ over $k$, the
+pull-back $f^*\colon\geoHdg{X}{j}{b}\to\geoHdg{X'}{j}{b}$ is induced by the pull-back of differential forms
+$\Omega^j_{X/k}\to f_*\Omega^j_{X'/k}$. If $f$ is finite and \'etale, then on every affine open $V\subseteq X$
+the ring $\OO(f^{-1}V)$ is finite \'etale over $\OO(V)$, so $\Omega^j_{\OO(f^{-1}V)}=\OO(f^{-1}V)\otimes_{\OO(V)}
+\Omega^j_{\OO(V)}$, and the maps $\mathrm{Tr}_{\OO(f^{-1}V)/\OO(V)}\otimes\mathrm{id}$ glue to the \emph{trace of forms}
+$f_*\Omega^j_{X'/k}\to\Omega^j_{X/k}$; the trace $f_*\colon\geoHdg{X'}{j}{b}\to\geoHdg{X}{j}{b}$ is the map it
+induces on cohomology, composed with the identification $H^b(X',\Omega^j_{X'/k})\cong H^b(X,f_*\Omega^j_{X'/k})$
+for the affine morphism $f$.
+\formal{GlobalTheory.HodgeCoh.Omega}\formal{GlobalTheory.HodgeCoh.hodgeH}\formal{GlobalTheory.HodgeCoh.hodgePull}\formal{GlobalTheory.HodgeCoh.hodgeTrace}
+\end{definition}
+
+Pull-backs are functorial, and $f_*\circ f^*$ is induced by the composite $\Omega^j_X\to f_*\Omega^j_{X'}\to\Omega^j_X$ of
+the pull-back and the trace of forms. For a morphism $s\colon Y\to Z$, a morphism $c\colon W\to Z$ and a finite
+family of morphisms $\sigma_i\colon W\to Y$ with $s\sigma_i=c$, we say that the $\sigma_i$ \emph{split $s$ over $c$} if
+the induced morphism $\coprod_iW\to Y\times_ZW$ is an isomorphism (\cref{def:pf:steps2:hop}).
+
+\begin{lemma}\label{pf:geo:hodgeinj}
+Let $k$ be a field of characteristic $0$ and $c\colon W\to Z$ a finite, \'etale and surjective morphism of
+$k$-schemes. Then $c^*\colon\geoHdg{Z}{a}{b}\to\geoHdg{W}{a}{b}$ is injective for all $a,b$.
+\formallabel{UpperTheory.Gal.G3.pHodgeInj}
+\end{lemma}
+
+\begin{proof}
+The composite $\Omega^a_Z\to c_*\Omega^a_W\to\Omega^a_Z$ of pull-back and trace of forms is multiplication by the
+degree of $c$, a locally constant function which is a positive integer everywhere because $c$ is
+surjective; since $k$ has characteristic $0$ it is invertible, so there is an endomorphism $\psi$ of $\Omega^a_Z$
+with $\psi\circ(\text{trace}\circ\text{pull-back})=\mathrm{id}$. On cohomology, $c_*c^*$ is induced by the composite,
+so $\psi_*\circ c_*\circ c^*=\mathrm{id}$ and $c^*$ is injective.
+\end{proof}
+
+\begin{lemma}\label{pf:geo:hodgetr}
+Let $k$ be a field and $s\colon Y\to Z$ a finite \'etale morphism of $k$-schemes. Assume that the trace of
+functions is compatible with splittings: for every $c\colon W\to Z$, every family $(\sigma_i)$ splitting $s$ over $c$,
+every affine open $V\subseteq Z$ and every $b\in\OO(s^{-1}V)$ one has
+$c^*(\mathrm{Tr}(b))=\sum_i\sigma_i^*(b)$ in $\OO(c^{-1}V)$. Then the trace on Hodge cohomology satisfies
+$c^*(s_*x)=\sum_i\sigma_i^*x$ for all $c$, all splitting families $(\sigma_i)$ and all $x\in\geoHdg{Y}{a}{b}$.
+Consequently, if $k$ has characteristic $0$, the theory $X\mapsto\geoHdg{X}{a}{b}$ is \emph{good}: pull-back
+along Galois covers is injective, and every finite \'etale morphism has a trace in the above sense.
+\formallabel{UpperTheory.Gal.G3.pHodgeTr}\formallabel{UpperTheory.Gal.G3.pHodgeGood}\formallabel{GlobalTheory.GalTrace.omegaTrace_omegaPull}\formallabel{GlobalTheory.GalTrace.hodgePull_hodgeTrace}
+\end{lemma}
+
+\begin{proof}
+On an affine open $V$, a form on $s^{-1}V$ is a sum of terms $b\,s^*\eta$ with $b\in\OO(s^{-1}V)$ and $\eta$ a form on
+$V$, and the trace of forms sends it to $\mathrm{Tr}(b)\eta$; the hypothesis gives
+$c^*(\mathrm{Tr}(b)\eta)=\sum_i\sigma_i^*(b)\,c^*\eta=\sum_i\sigma_i^*(b\,s^*\eta)$, because $\sigma_i^*s^*=c^*$. Hence the
+morphisms of sheaves $c^*\circ\mathrm{trace}$ and $\sum_i\sigma_i^*$ from $s_*\Omega^a_Y$ to $c_*\Omega^a_W$ agree on all
+affine opens, hence agree, and the identity passes to cohomology by functoriality of the maps induced on
+sheaf cohomology. For the last assertion, Galois covers are finite, \'etale and surjective, so
+\cref{pf:geo:hodgeinj} applies; and the hypothesis on traces of functions holds for every finite \'etale $s$
+(\lref{UpperTheory.Gal.G3.hodgeTr_holds}, which applies the first part to a verification of this
+hypothesis).
+\end{proof}
+
+\begin{lemma}[Operators of correspondences]\label{pf:geo:optr}
+Let $T$ be a good cohomology theory as in \cref{pf:geo:hodgetr} (for instance Hodge cohomology over a field of
+characteristic $0$), $Z\xleftarrow{s}Y\xrightarrow{t}Z'$ morphisms with $s$ finite \'etale, and $\mathrm{tr}$ a trace for $s$.
+If $A\colon T(Z')\to T(Z)$ is an operator of the correspondence $(s,t)$ (there are a Galois cover $c\colon W\to Z$
+and a family $(\sigma_i)$ splitting $s$ over $c$ with $c^*(Ax)=\sum_i(t\sigma_i)^*x$ for all $x$), then
+$A=\mathrm{tr}\circ t^*$. Conversely, if $s$ splits over some Galois cover, then $\mathrm{tr}\circ t^*$ is an operator
+of $(s,t)$.
+\formallabel{UpperTheory.Gal.G3.pOpTr}
+\end{lemma}
+
+\begin{proof}
+For a Galois cover $c$ and a splitting family $(\sigma_i)$,
+$c^*(\mathrm{tr}(t^*x))=\sum_i\sigma_i^*t^*x=\sum_i(t\sigma_i)^*x$ by the trace property and functoriality. If $A$ is an
+operator of $(s,t)$ with respect to $c,(\sigma_i)$, then $c^*(Ax)=c^*(\mathrm{tr}(t^*x))$, and $c^*$ is injective. The
+converse is the same identity.
+\end{proof}
+
+\subsubsection{Idempotent certificates}
+
+For a family $(T_j)_{j\in J}$ of elements of an $F$-algebra $A$, a word $u=(j_1,\dots,j_r)$ in $J$ and
+$\theta\colon J\to F$, put $T_u=T_{j_1}\cdots T_{j_r}$ and $\theta_u=\theta_{j_1}\cdots\theta_{j_r}$; for a finitely supported
+function $t$ on words put $t(T)=\sum_ut(u)T_u$ and $t(\theta)=\sum_ut(u)\theta_u$.
+
+\begin{lemma}\label{pf:geo:projone}
+Let $F$ be a field, $A$ a finite-dimensional $F$-algebra, $(T_j)_{j\in J}$ pairwise commuting elements of $A$ and
+$\theta\colon J\to F$. There is a finitely supported $t$ such that $t(\theta)=1$, $t(T)$ is idempotent, and for every
+$j$ there is $N$ with $(T_j-\theta_j)^N\,t(T)=0$.
+\formallabel{UpperTheory.Gal.CertificateRingHomMap.pProjOne_holds}
+\end{lemma}
+
+\begin{proof}
+Let $D\subseteq F\times A$ be the $F$-subalgebra generated by the pairs $(\theta_j,T_j)$; it is commutative and
+finite-dimensional, and $\chi\colon D\to F$, $(x,y)\mapsto x$, is an $F$-algebra map. Let $b_1,\dots,b_r$ be a basis of $D$.
+For each $i$ choose a polynomial $q_i$ such that $e_i=q_i(b_i)$ is idempotent, $\chi(e_i)=1$ and
+$(b_i-\chi(b_i))e_i$ is nilpotent (the idempotent of the generalized eigenspace of $b_i$ for the eigenvalue
+$\chi(b_i)$, which is a polynomial in $b_i$ since $b_i$ is integral over $F$). Then $z=\prod_ie_i$ is idempotent,
+$\chi(z)=1$, and $(d-\chi(d))z$ is nilpotent for every $d\in D$: the set of such $d$ is an $F$-subspace containing
+the $b_i$. Since $D$ is generated by the pairs $(\theta_j,T_j)$, $z=\sum_ut(u)(\theta_u,T_u)$ for some finitely supported
+$t$; its components give $t(\theta)=\chi(z)=1$, $t(T)$ idempotent, and $(T_j-\theta_j)t(T)$ nilpotent, hence
+$(T_j-\theta_j)^Nt(T)=((T_j-\theta_j)t(T))^N=0$ for large $N$ (the elements commute and $t(T)$ is idempotent).
+\end{proof}
+
+\subsubsection{Schur polynomials}
+
+For $n\in\N$, $\lambda\in\N^n$ and elements $g_1,\dots,g_n$ of a commutative $\Q$-algebra, let
+$s_\lambda(g)=\det\bigl(h_{\lambda_i-i+j}(g)\bigr)_{1\le i,j\le n}$ (Jacobi--Trudi; $h_k$ is the complete homogeneous
+symmetric polynomial of degree $k$, $h_0=1$, $h_k=0$ for $k<0$), $V(g)=\prod_{i<j}(g_i-g_j)$ and
+$a_e(g)=\det(g_j^{e_i})_{i,j}$ for $e\in\N^n$.
+
+\begin{lemma}\label{pf:geo:schur}
+Let $R$ be a commutative $\Q$-algebra, $n\in\N$, $\lambda\in\N^n$ and $g\in R^n$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item (Bialternant formula) $s_\lambda(g)\,V(g)=a_{\lambda+\delta}(g)$, where $\delta=(n-1,n-2,\dots,0)$.
+\item $s_0(g)=1$ and $s_{\lambda+(m,\dots,m)}(g)=(g_1\cdots g_n)^m s_\lambda(g)$ for $m\in\N$.
+\item $s_\lambda(yg)=y^{|\lambda|}s_\lambda(g)$ for $y\in R$, $|\lambda|=\sum_i\lambda_i$.
+\item $s_\lambda$ is symmetric; hence for a number field $F$, $\lambda\colon\Hom(F,\C)\to\N^n$ and $\chi\in F[X]$ whose images
+  $\tau(\chi)$ have $n$ roots $g_\tau$ (with multiplicity), the product $\prod_\tau s_{\lambda(\tau)}(g_\tau)$ does not depend on
+  the enumeration of the roots.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Schur.tie}\formallabel{UpperTheory.Gal.Schur.SchurDet_holds}\formallabel{UpperTheory.Gal.Schur.schurHomog}\formallabel{UpperTheory.Gal.LocalSmoothExtension.schWEq_of}
+\end{lemma}
+
+\begin{proof}
+(a) is the classical equality of the Jacobi--Trudi determinant and the quotient of alternants
+\cite[Ch.~I, (3.1), (3.4)]{Macdonald1995}; it is an identity of polynomials with rational coefficients, which
+the development proves in the polynomial ring and specializes. (b) The matrix $(h_{-i+j})$ is upper
+unitriangular, so $s_0=1$. In the polynomial ring $\Q[X_1,\dots,X_n]$, factoring $X_j^m$ out of the $j$-th column
+gives $a_{\lambda+m+\delta}=(X_1\cdots X_n)^ma_{\lambda+\delta}$; by (a) and since $V(X)$ is a nonzerodivisor,
+$s_{\lambda+m}=(X_1\cdots X_n)^ms_\lambda$; specialize to $g$. (c) $s_\lambda$ is homogeneous of degree $|\lambda|$, each
+term of the determinant having degree $\sum_i(\lambda_i-i+\pi(i))=|\lambda|$. (d) $s_\lambda$ is a polynomial in the
+symmetric functions $h_k$.
+\end{proof}
+
+\begin{lemma}\label{pf:geo:invroots}
+Let $F$ be a number field, $P\in F[X]$ with $P(0)\ne0$, $P^\flat=P(0)^{-1}X^{\deg P}P(1/X)$ and $\tau\colon F\to\C$. The
+multiset of roots of $\tau(P^\flat)$ is the multiset of inverses of the roots of $\tau(P)$.
+\formallabel{UpperTheory.Gal.LocalSmoothExtension.InvRoots_holds}
+\end{lemma}
+
+\begin{proof}
+If $\tau(P)=c\prod_i(X-r_i)$ with all $r_i\ne0$, then $X^{\deg P}\tau(P)(1/X)=c\prod_i(1-r_iX)=c\prod_i(-r_i)\prod_i(X-r_i^{-1})$
+and $\tau(P(0))=c\prod_i(-r_i)$.
+\end{proof}
+
+\subsubsection{Level groups and class numbers}
+
+Let $p$ be a prime and $D,G,L$ a datum, a unitary similitude group and a link for $p$
+(\cref{pf:ks2:def:datum}). Recall that $K_N$ is the group of $g\in G(\A_f^p)$ such that $g$ and $g^{-1}$ act
+trivially on $\hat\Lambda^p/N\hat\Lambda^p$, $\hat\Lambda^p=\hat\Z^p\otimes\Lambda$.
+
+\begin{lemma}\label{pf:geo:kn}
+For every $N\ge1$, $K_N$ is a compact open subgroup of $G(\A_f^p)$.
+\formallabel{GlobalTheory.LKGeo.KNLevel.exists_level_eq_KN}
+\end{lemma}
+
+\begin{proof}
+Choose a $\Z$-basis of $\Lambda$ and let $M(g)$ be the matrix of $g$ acting on $\A_f^p\otimes\Lambda$. Then $g\in K_N$ if and only
+if $N^{-1}(M(g)-1)$ and $N^{-1}(M(g^{-1})-1)$ have entries in $\hat\Z^p$. The maps $g\mapsto N^{-1}(M(g^{\pm1})-1)$ are
+continuous and the set of integral matrices is open, so $K_N$ contains an open neighbourhood of $1$ and is an
+open, hence closed, subgroup. An element of $G(\A_f^p)$ is a pair $(x,\nu)$ with $xx^*=\nu$; if $x$ and $x^{-1}$ are
+integral, then $x,x^{-1}$ lie in the compact set $P$ of integral elements of $\A_f^p\otimes C$ and $\nu,\nu^{-1}$ lie in the
+compact image of $P$ under $y\mapsto yy^*$ (read in the centre). Since $G(\A_f^p)$ is closed in the product of the
+unit groups, embedded as usual by $u\mapsto(u,u^{-1})$, the elements $g$ with $g,g^{-1}$ integral form a compact set;
+it contains $K_N$, which is closed, so $K_N$ is compact.
+\end{proof}
+
+A \emph{group locus} over a number field $F$ is a set $S$ of polynomials in the matrix entries such that for every
+commutative $F$-algebra $R$ the set $\mathcal G(R)$ of $g\in\GL_n(R)$ annihilating $S$ is a subgroup; i.e.\ $\mathcal G$ is a
+closed subgroup scheme of $\GL_{n,F}$ given by explicit equations.
+
+\begin{theorem}[Finiteness of class numbers]\label{pf:geo:classnumber}
+Let $F$ be a number field and $\mathcal G\subseteq\GL_{n,F}$ a group locus. For every compact open subgroup $U$ of
+$\mathcal G(\A_{F,f})$ there is a finite set $T\subseteq\mathcal G(\A_{F,f})$ such that every $x\in\mathcal G(\A_{F,f})$ can be written
+$x=\gamma su$ with $\gamma\in\mathcal G(F)$, $s\in T$ and $u\in U$.
+\formallabel{GlobalTheory.classNumberFinite_holds}\formallabel{GlobalTheory.T.isCompact_integralPoints_finiteAdelic_algebraicGroup}\formallabel{GlobalTheory.T.compact_meets_finitely_many_leftCosets_open}
+\end{theorem}
+
+\begin{proof}
+For the integral level $U_0=\mathcal G(\A_{F,f})\cap\GL_n(\hat\OO_F)$ (the elements $u$ with $u$ and $u^{-1}$ integral)
+this is Borel's theorem \cite[Thm.~5.1]{Borel1963} (see also \cite[\S5.1]{PlatonovRapinchuk1994}), which
+the development proves (\lref{GlobalTheory.T.classNumber_finite_integralLevel_closedSubgroupGL}). For
+general $U$: $U_0$ is compact, being closed (the locus is defined by polynomial equations) in the compact set
+of $u$ with $u,u^{-1}$ integral; and $U$ is open, so $U_0$ is covered by finitely many cosets $tU$, $t\in T_1$. If
+$x=\gamma su_0$ with $s\in T_0$, $u_0\in U_0$, and $u_0=tu$, then $x=\gamma(st)u$; take $T=T_0T_1$.
+\end{proof}
+
+\begin{corollary}\label{pf:geo:defclassfin}
+Let $G$ be a unitary similitude group for $p$ with exactly one archimedean place of signature $(1,n-1)$,
+$K\subseteq G(\A_f^p)$ a level, $K'\subseteq G_p$ a subgroup commensurable with $K_p$, and $\beta$ a definite form
+(\cref{pf:ks1:def-forms,pf:ks1:def-pairs}) with its embedding $\iota_\beta$ of the definite group $\Gamma_\beta$ into
+$G(\A_f^p)\times G_p$. Then the double coset space $\iota_\beta(\Gamma_\beta)\backslash(G(\A_f^p)\times G_p)/(K\times K')$ is
+finite.
+\formallabel{GlobalTheory.T.finite_doubleCoset_definiteHermitianForm_level}\formallabel{GlobalTheory.DefClassFin.ccf_holds}\formallabel{GlobalTheory.DefClassFin.cover_of_relIndex}\formallabel{GlobalTheory.DefClassFin.finite_of_cover}
+\end{corollary}
+
+\begin{proof}
+The group $\{(\gamma,s)\in C^\times\times\Q^\times:\gamma\beta\gamma^*=s\beta\}$ (and more generally its intersection with the
+centralizer of any element of $C$) is the group of rational points of a group locus over $\Q$
+(\lref{GlobalTheory.T.exists_polynomialLocus_similitudeCentralizerTorus}: these similitude centralizers are
+cut out in some $\GL_N$ by polynomial equations, functorially in the coefficient ring). Hence
+\cref{pf:geo:classnumber} gives, for every open subgroup of its points in
+$(\A_f^p\otimes C)^\times\times(\A_f^p)^\times$ times $(\Q_p\otimes C)^\times\times\Q_p^\times$, a finite set of representatives
+$\gamma s u$ of the kind stated there. Applied with the open subgroup determined by $K\times K_p$, and transported through
+the identification of $\beta$ with the standard form by the trivializing elements of the definite form, this covers
+$G(\A_f^p)\times G_p$ by finitely many double cosets $\iota_\beta(\Gamma_\beta)\,x\,(K\times K_p)$
+(\lref{GlobalTheory.DefClassFin.cover_KHT}). Since $K'$ and $K_p$ are commensurable, each double coset for
+$K\times K_p$ is a union of finitely many double cosets for $K\times(K'\cap K_p)$, each of which is contained in a double
+coset for $K\times K'$; and a set covered by finitely many double cosets has finitely many double cosets.
+\end{proof}
+
+% ===========================================================================
+\subsection{Existence of plans}\label{sec:pf:geo:plans}
+
+\begin{theorem}\label{pf:geo:planex}
+$\sfname{PlanEx}$ holds.
+\formallabel{UpperTheory.Gal.Int.Geo.Pl.planEx_holds}\formallabel{UpperTheory.Gal.Int.Geo.Pl.exists_unitaryGroupDatum_of_vector_exponent_spectral}
+\end{theorem}
+
+The proof assembles a plan from fifteen components. We first describe the objects they involve,
+then state the components, prove the \emph{master lemma} (\cref{pf:geo:master}), which constructs a plan
+with prescribed properties at two finite sets of places, and deduce \cref{pf:geo:planex}.
+
+\subsubsection{Arithmetic data, setups, frames and vector data}
+
+In this subsection $E$ is a CM field and $n\ge1$. Let $\geoGU_n(\A_f)$ be the group of pairs
+$(g,\nu)\in\GL_n(\A_{E,f})\times\A_{\Q,f}^\times$ with ${}^t\bar gg=\nu$ (finite adelic points of the unitary
+similitude group of the standard hermitian form on $E^n$), $\mathrm{comp}_w(g)\in\GL_n(E_w)$ the component of $g$ at a
+place $w$, and, for a split place $w$ and $t\in\GL_n(E_w)$, $\mathrm{loc}_w(t)\in\geoGU_n(\A_f)$ the element of the unitary
+group with component $t$ at $w$ (and the component at $w^c$ determined by the hermitian condition) and trivial
+components elsewhere.
+
+\begin{definition}[Arithmetic data]\label{pf:geo:arith}
+An \emph{arithmetic datum} $A$ for $E$ consists of $\omega\in\OO_E$ and $\mathrm{tr},\mathrm{nm}\in\Z$ with
+$\omega+\bar\omega=\mathrm{tr}$, $\omega\bar\omega=\mathrm{nm}$ and $\mathrm{tr}^2-4\mathrm{nm}<0$ (so $K=\Q(\omega)$ is imaginary quadratic); an
+embedding $\tau_0\colon E\to\C$; a totally real $c\in\OO_E$ with $\tau_0(c)<0$ and $\tau(c)>0$ at the other archimedean
+places; and $\delta\in E$ with $\bar\delta=-\delta$, $\mathrm{Tr}_{E/\Q}(\delta\OO_E)\subseteq\Z$ and $\Im\tau(\delta)<0$ for every $\tau$ with
+$\tau(\omega)=\tau_0(\omega)$. A prime $q$ \emph{splits for $A$} if $q\nmid\mathrm{tr}^2-4\mathrm{nm}$ and $q\mid r^2-\mathrm{tr}\,r+\mathrm{nm}$ for some
+$r\in\Z$; it is \emph{good for $A$} if moreover a perfectness condition holds at $q$ (there is $e$ prime to $q$ such
+that $e$ times every $\Z$-linear form on $\OO_E$ is of the form $y\mapsto\mathrm{Tr}(\delta xy)$, and $c$ divides $e$). An element
+$x\in E$ \emph{generates} $A$ if $\Q(x)=\Q(\omega)$.
+\formal{UpperTheory.Gal.W2.Seed.Arith}\formal{UpperTheory.Gal.W2.Seed.Arith.SplitK}\formal{UpperTheory.Gal.W2.Seed.Arith.Good}\formal{UpperTheory.Gal.Int.Geo.Pl.Gen}
+\end{definition}
+
+\begin{definition}[Setups]\label{pf:geo:setup}
+Let $A$ be an arithmetic datum, $n\ge1$ and $p$ a prime good for $A$. A \emph{setup} $S$ for $(A,n,p)$ consists of auxiliary
+conditions on $A$ (at $n$ and at $p$) which make the following constructions possible, and of a link $L$ between the Harris--Taylor
+datum $D_A$ and the unitary similitude group $G_A$ built from $A$ (\cref{pf:ks2:def:datum}), with $F_{D_A}=E$, $L$ inducing the
+identity of $E$, and $\Lambda=\OO_E^n$ on which matrices with entries in $\OO_E$ act by multiplication. We write $D,G$ for $D_A,G_A$ and
+$K_N\subseteq G(\A_f^p)$ for the principal congruence subgroups.
+\formal{UpperTheory.Gal.W2.Seed.Setup}
+\end{definition}
+
+\begin{definition}[Frames]\label{pf:geo:frame}
+A \emph{frame} for a setup $S$ consists of: a surjective homomorphism $j\colon\geoGU_n(\A_f)\to G(\A_f^p)$ whose kernel
+consists of the $g$ with $\mathrm{comp}_w(g)=1$ for all $w\nmid p$; elements $a_w\in\GL_n(E_w)$, integral at the places above
+primes good for $A$ and at almost all places; additive identifications of $\A_f^p\otimes V_\Q$ with the vectors of the
+$E_w^n$, $w\nmid p$, which identify $\hat\Lambda^p$ with the integral vectors and under which $j(g)$ acts at $w$ by
+$a_w\,\mathrm{comp}_w(g)\,a_w^{-1}$; compatibility with similitude factors; a definite form $\beta$ for $G$ whose definite
+group is identified with the rational points of $\geoGU_n$, compatibly with $j$ and with the integrality at $p$; and the
+involution $g\mapsto{}^tg^{-1}$ with inverse similitude factor.
+\formal{UpperTheory.Gal.Int.Geo.Pl.Frame}
+\end{definition}
+
+Thus a frame identifies $G(\A_f^p)$ with the finite adelic points away from $p$ of the definite unitary similitude
+group of $E^n$: Hecke operators and level groups of $\geoUa$ can be transported to $G$, and the definite inner forms of
+$G$ become the definite group itself.
+
+\begin{definition}[Vector data]\label{pf:geo:vec}
+Let $x\in E$, $U$ an automorphic space on $\Uni_n(\A_{E^+})$, $w_0$ a split place and $\mathrm{Up}$ a predicate on places. A
+\emph{vector datum} $V$ for $(x,U,w_0,\mathrm{Up})$ consists of: a weight $W$ (a dominant weight at each archimedean place)
+and integers $m_v\ge0$, $j_z$ determined by $W$ and the $m_v$, with the associated weight
+$\lambda_V\colon\Hom(E,\C)\to\N^n$ ($\lambda_V(\tau)$ is constant equal to $m_v$ at the chosen embedding $\tau$ of each archimedean place
+$v$, and equal to $W_v+m_v$ at the other); an open compact torsion-free subgroup $J\subseteq\GL_n(E_{w_0})$ with a character
+$\chi_J$ (open kernel) such that every smooth irreducible representation containing $\chi_J$ is supercuspidal; a finite
+set $S$ of places containing $w_0$ and compact open subgroups $K_w\subseteq\GL_n(E_w)$ ($w\in S$), with $K_{w_0}=J$ and
+$K_w\subseteq\GL_n(\OO_w)$ otherwise, such that every split $w\in S$ satisfies $\mathrm{Up}(w)$ and $w^c\notin S$; and a nonzero
+function $\Phi$ on $\geoGU_n(\A_f)$ with values in the dual of the representation of weight $W$ (an algebraic modular form)
+which is equivariant on the left under the rational points, transforms on the right under the level group
+$\mathrm{lev}(S,(K_w))$ by $\chi_J$ at $w_0$, and is a spherical eigenvector with Satake multiset $B$ at every split $w$ with
+$w,w^c\notin S$ and every Satake multiset $B$ of $U$ at $w$; every split place apart from $w_0$ at which $U$ has a Satake
+multiset lies, with its conjugate, outside $S$; and a Hecke character $\kappa_V$, algebraic of infinity type
+$m_V$, $m_V(\phi)=j_z-\sum_{v:\tau_v(x)=-\phi(x)}\sum_iW_{v,i}$ ($\tau_v$ the chosen embedding of the archimedean place $v$), unramified at
+every $w$ such that $u^c\not\sim_xw$ for all $u\in S$, by which $\Phi$ transforms under the central elements attached to such $w$.
+\formal{UpperTheory.Gal.Int.Geo.Pl.Vec}\formal{UpperTheory.Gal.Int.Geo.Pl.Vec.lam}
+\end{definition}
+
+For a vector datum $V$ and a place $w$: $w$ is \emph{free for $V$} if $w$ is split, $w\notin S$, $w^c\notin S$,
+$u^c\not\sim_xw$ for all $u\in S$, and $w^c\not\sim_xw$; and $V$ is \emph{off $p$} if no place of $S$ contains $p$ and there is
+$g_0$ with $\Phi(g_0)\ne0$ and $\mathrm{comp}_w(g_0)\in\GL_n(\OO_w)$ for all $w\mid p$.
+
+\begin{definition}[Sites and seen Hecke data]\label{pf:geo:site}
+Let $S$ be a setup, $F$ a frame, $V$ a vector datum, $N$ a level (an integer $N\ge3$ prime to $p$) and $w$ a place.
+\begin{enumerate}[label=(\alph*),nosep]
+\item A \emph{site} $\sigma$ at $w$ of level $N$ consists of a prime $q_\sigma$ good for $A$, $r_\sigma\in\Z$, an ideal $\mathfrak
+  a_\sigma$ of $\OO_E$ and a subgroup $K_\sigma\subseteq G(\A_f^p)$ such that $(q_\sigma,r_\sigma,w)$ is admissible
+  (\cref{pf:ks2:def:goodgrp}), $(N',\mathfrak a_\sigma)$ is an auxiliary level for it, where $N'$ is $N$ with its
+  $q_\sigma$-part removed, $K_\sigma$ is the level group of the ideal $N'\mathfrak a_\sigma$, and $N\in N'\mathfrak a_\sigma$. Sites $\sigma$, $\sigma'$
+  are \emph{compatible} if $q_\sigma=q_{\sigma'}$ implies $r_\sigma=r_{\sigma'}$ and $\mathfrak a_\sigma=\mathfrak a_{\sigma'}$.
+\item A Hecke datum $g=(K_g,h_g,M_g)$ of level $N$ is a \emph{deck member} if $K_g=K_N$, $M_g=N$ and $h_g\in K_1$; it is a
+  \emph{$T_i$-member at the site $\sigma$} if $i\le n$, $K_g=K_\sigma$, $M_g=N(\Nm w)^i$ and $h_g=j(\mathrm{loc}_w(t)z^i)$ with
+  $t=\mathrm{diag}(\varpi,\dots,\varpi,1,\dots,1)$ ($i$ entries $\varpi$, $\varpi$ a uniformizer at $w$) and $z\in\geoGU_n(\A_f)$
+  central with $\mathrm{comp}_u(z)=\Nm w$ if $u^c\sim_xw$ and $\mathrm{comp}_u(z)=1$ otherwise. Its \emph{index} is
+  $\mathrm{idx}(g)=[K_{M_g}:K_g\cap h_g^{-1}K_gh_g]$ (relative index).
+\item An element $k\in G(\A_f^p)$ is \emph{stable} if $k=j(k')$ with ${}^tk'^{-1}$ in the level group $\mathrm{lev}(S,(K_w))$ of $V$
+  and $\chi_J$ trivial on its component at $w_0$.
+\item For a prime $r_0$, a pair $(g,\theta)$ of a Hecke datum of level $N$ and $\theta\in\C$ is \emph{seen} if either $g$ is a deck
+  member with $h_g$ stable, $h_g\in K_{r_0}$ and $\theta=1$; or there are a place $w$ free for $V$, a site $\sigma$ at $w$ with
+  $q_\sigma\ne r_0$ and all elements of $K_\sigma$ stable, $i\le n$ and a Satake multiset $B$ of $U$ at $w$ such that $g$ is a
+  $T_i$-member at $\sigma$ and
+  \[
+    \theta=\mathrm{idx}(g)\cdot(\Nm w)^{i(n-i)/2}e_i(B)\cdot\kappa_V(w)^{-i},
+  \]
+  $e_i$ the $i$-th elementary symmetric function.
+\end{enumerate}
+\formal{UpperTheory.Gal.Int.Geo.Pl.Site}\formal{UpperTheory.Gal.Int.Geo.Pl.Site.Compat}\formal{UpperTheory.Gal.Int.Geo.Pl.IsDeckM}\formal{UpperTheory.Gal.Int.Geo.Pl.IsTM}\formal{UpperTheory.Gal.Int.Geo.Pl.idx}\formal{UpperTheory.Gal.Int.Geo.Pl.Stab}\formal{UpperTheory.Gal.Int.Geo.Pl.Seen}
+\end{definition}
+
+The number $(\Nm w)^{i(n-i)/2}e_i(B)$ is the eigenvalue of the Hecke operator $T_i$ on a spherical vector with Satake
+multiset $B$; the factor $\mathrm{idx}(g)$ and the power of $\kappa_V(w)$ account for the normalisation of the Hecke data and
+for the twist by $\kappa_V$.
+
+\subsubsection{The components}
+
+The proof uses the following fifteen statements; they are the components of the bundle $\sfname{All}$ of the
+development. Four of them are proved below (\cref{pf:geo:easycomp}); the others are proved in the formal development
+and are cited.
+\begin{description}[style=unboxed,leftmargin=1em,nosep]
+\item[$\sfname{DatEx}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.datEx_holds}). Let $n$ be odd, $\sfname{FieldOK}(E,\ell,d)$,
+  $x^2=-d$, and $Q$ a finite set of primes $q$ such that $-d$ is a square in $\Q_q$. Then there is an arithmetic datum $A$
+  generated by $x$ such that every $q\in Q$ is good, there is $e>0$ such that every prime $q\nmid e$ for which $-d$ is a
+  square in $\Q_q$ is good, and for every finite set $X$ of primes there are a prime $p\notin X$ and a setup for $(A,n,p)$
+  satisfying the standing conditions $\mathrm{Sc}$.
+\item[$\sfname{Sides}$] (\cref{pf:geo:easycomp}). The splitting behaviour of good primes, see below.
+\item[$\sfname{VecEx}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.vecEx_holds}). Let $n,d>0$, $x^2=-d$, $U$ automorphic,
+  $w_0$ split, $U$ with a supercuspidal type of $\ell$-power order at $w_0$, and $\mathrm{Up}$ a predicate such that
+  $\mathrm{Up}(w)$ or $\mathrm{Up}(w^c)$ for every split $w$, and $\mathrm{Up}(w_0)$. Then a vector datum for $(x,U,w_0,\mathrm{Up})$
+  exists.
+\item[$\sfname{IntCof}$] (\cref{pf:geo:easycomp}). Every $g\in\geoGU_n(\A_f)$ has integral components at almost all places.
+\item[$\sfname{FrameEx}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.frameEx_holds}). For $n$ odd every setup has a frame.
+\item[$\sfname{SpecTop}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.specTop_holds}). Let $n$ be odd, $S$ a setup with
+  $\mathrm{Sc}$, $F$ a frame, $x$ a generator, $V$ a vector datum off $p$, and assume some good prime lies in $w_0$.
+  For every finite set $X$ of primes there is a prime $r_0\notin X$, $r_0\ne p$, such that: for every level $N$ with $r_0\mid N$
+  and all elements of $K_N$ stable, and every family $(g_j,\theta_j)_{j\in J}$ of seen pairs, there is a function $f$ in the Hecke
+  algebra of $K_N$, supported on elements with integral inverse, with the spectral condition
+  $\mathcal S(L,\lambda_V,K_N,(f_{g_j})_j,(\theta_j)_j,f)$ of \cref{pf:ks1:def-spec}.
+\item[$\sfname{SiteEx}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.siteEx_holds}). Let $x$ be a generator, $V$ off $p$, $Q$ a
+  finite set of places and $q\colon Q\to\{\text{primes}\}$ with: $q(w)\ne p$ good, $q(w)\in w$, $w$ free for $V$, and $w\sim_xw'$
+  whenever $q(w)=q(w')$. For every $c>0$ prime to $p$ there are a level $N$ divisible by $c$ with all elements of $K_N$
+  stable, and sites $\sigma_w$ at $w\in Q$ with $q(w)\mid N$, $q_{\sigma_w}=q(w)$, all elements of $K_{\sigma_w}$ stable, and
+  $\sigma_w,\sigma_{w'}$ compatible for all $w,w'$.
+\item[$\sfname{SiteTriv}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.siteTriv_holds}). If $q\ne p$ is a good prime not
+  dividing the level $N$ and $q\in w$, there is a site $\sigma$ at $w$ with $q_\sigma=q$ and $K_\sigma=K_N$.
+\item[$\sfname{LevBasic}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.levBasic_holds}). Among other elementary properties: level
+  groups of ideals exist and are monotone in the ideal, $K_N$ is the level group of $(N)$, level groups are normalized by $K_1$, and if $h$
+  is integral and $h\hat\Lambda^p\supseteq c\hat\Lambda^p$ with $c>0$, then $hK_{Nc}h^{-1}\subseteq K_N$.
+\item[$\sfname{MemEx}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.memEx_holds}). For a generator $x$ and a level $N$: every
+  $k\in K_1$ is $h_g$ for a deck member $g$; and for every site $\sigma$ at a place $w$ and every $i\le n$ there is a $T_i$-member
+  at $\sigma$.
+\item[$\sfname{ExpOf}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.expOf_holds}). For a vector datum $V$ and a generator $x$
+  with $x^2=-d$, $d>0$: each $\lambda_V(\tau)$ is non-increasing, and for every $\tau\colon E\to\C$ there is $\sigma\in\Aut(\C)$ with
+  $\sigma\tau=\tau_0$ such that for every weight $\lambda_U$ of $U$ at $\tau$ and every $j\in J(\lambda_U)$ there are a Hodge exponent vector
+  $h$ for $(\tau_0,\varepsilon_D,\sigma\lambda_V)$ and an index $i$ with $h_i=j+m_V(\tau)$.
+\item[$\sfname{GoodOf}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.goodOf_holds}). Let $\sigma$ be a site at $v$ and $(g_j,\theta_j)_j$
+  a family of Hecke data with values in a field satisfying the deck condition for $K_\sigma$ (\cref{pf:ks2:def:goodgrp}),
+  every $g_j$ being a deck member or a $T_i$-member at a site $\sigma'$ at a place $w\ne v$ compatible with $\sigma$. Then the
+  family is unramified at $v$: $\mathcal U(g,\theta,v)$.
+\item[$\sfname{CongOf}$] (\lref{UpperTheory.Gal.Int.Geo.Pl.congOf_holds}). Let $\sigma$ be a site at $w$, $(g_j,\theta_j)_j$
+  a family with the deck condition for $K_\sigma$, and $\vartheta\colon\N\to L$ such that for every $i\le n$ some $g_j$ is a
+  $T_i$-member at $\sigma$ with $\theta_j=\mathrm{idx}(g_j)\vartheta_i$. Then $\mathcal H(g,\theta,w,\vartheta)$.
+\item[$\sfname{RootsAlg}$, $\sfname{SatCard}$] (\cref{pf:geo:easycomp}, \cref{pf:geo:norms}).
+\end{description}
+
+\begin{lemma}[$\sfname{Sides}$, $\sfname{IntCof}$, $\sfname{RootsAlg}$]\label{pf:geo:easycomp}
+\begin{enumerate}[label=(\alph*),nosep]
+\item Let $A$ be an arithmetic datum, $x$ a generator of $A$, $q$ a prime which splits for $A$, and $w$ a place with $q\in w$.
+  Then: $w^c\not\sim_xw$; $w$ is split; every place $u$ with $q\in u$ satisfies $u\sim_xw$ or $u^c\sim_xw$; $u\sim_xw$ implies
+  $q\in u$; $u\sim_xu'$ implies $u^c\sim_xu'^c$; there is $r\in\Z$ with $q\mid r^2-\mathrm{tr}\,r+\mathrm{nm}$ and $\omega-r\in w$; and for every
+  $r\in\Z$ with $\omega-r\in w$ and every place $u$, $u\sim_xw$ if and only if $q\in u$ and $\omega-r\in u$.
+\item For every $g\in\geoGU_n(\A_f)$, $\mathrm{comp}_w(g)\in\GL_n(\OO_w)$ for all but finitely many $w$.
+\item Let $q,n\in\N$, $q>0$, $B$ a multiset of $n$ nonzero complex numbers, $a,c\in\C$, and
+  $\vartheta_i=a\,q^{i(n-i)/2}e_i(B)\,c^i$ for $i\le n$. Then $\vartheta_0=a$ and
+  $\sum_{i=0}^n(-1)^iq^{\binom i2}\vartheta_iX^{n-i}=a\prod_{b\in B}(X-cq^{(n-1)/2}b)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.Int.Geo.Pl.sides_holds}\formallabel{UpperTheory.Gal.Int.Geo.Pl.intCof_holds}\formallabel{UpperTheory.Gal.CertificateRingHomMap.rootsAlg_holds}
+\end{lemma}
+
+\begin{proof}
+(a) Let $K=\Q(x)=\Q(\omega)$; then $\OO_E\cap K=\OO_K$, and $w\sim_xu$ means $w\cap\OO_K=u\cap\OO_K$. Since $q$ does not divide the
+discriminant $\mathrm{tr}^2-4\mathrm{nm}$ of $\Z[\omega]$, it does not divide $[\OO_K:\Z[\omega]]$, so $\OO_K/q\OO_K\cong\Z[\omega]/(q)\cong\F_q[X]/(X^2-\mathrm{tr}X+\mathrm{nm})$;
+the polynomial has two distinct roots modulo $q$, hence $q\OO_K=\mathfrak q\bar{\mathfrak q}$ with $\mathfrak q\ne\bar{\mathfrak q}$, $\mathfrak q=(q,\omega-r)$
+and $\bar{\mathfrak q}=(q,\omega-r')$ for the two roots $r,r'$. The place $w$ lies over one of them, say $w\cap\OO_K=\mathfrak q$, and $w^c$ over
+$\bar{\mathfrak q}$; so $w^c\not\sim_xw$, in particular $w^c\ne w$, and $w$ is split. Every $u\ni q$ lies over $\mathfrak q$ or $\bar{\mathfrak q}$, i.e.\
+$u\sim_xw$ or $u^c\sim_xw$. If $u\sim_xw$ then $q\in w\cap\OO_K\subseteq u$. Conjugation preserves $\sim_x$. Since $\OO_K/\mathfrak q=\F_q$, there is
+$r\in\Z$ with $\omega-r\in\mathfrak q\subseteq w$, and then $r^2-\mathrm{tr}\,r+\mathrm{nm}\in\mathfrak q\cap\Z=q\Z$. Finally, if $\omega-r\in w$, then $(q,\omega-r)\OO_K$ is
+the maximal ideal $w\cap\OO_K$ (it is contained in it and is maximal by the description of $\OO_K/q\OO_K$); so $q,\omega-r\in u$ implies
+$u\cap\OO_K\supseteq w\cap\OO_K$, hence equality, and conversely.
+
+(b) The matrix $\mathrm{comp}_w(g)$ and its inverse are the $w$-components of elements of $\GL_n$ of the finite adeles, which are
+integral at almost all places.
+
+(c) $\vartheta_0=a$ since $e_0=1$. For each $i$, $q^{\binom i2}q^{i(n-i)/2}=q^{i(n-1)/2}$, so the left side is
+$a\sum_i(-1)^ie_i(B)(cq^{(n-1)/2})^iX^{n-i}=a\prod_{b\in B}(X-cq^{(n-1)/2}b)$.
+\end{proof}
+
+\subsubsection{The master lemma}
+
+\begin{proposition}[Master lemma]\label{pf:geo:master}
+Assume the fifteen components. Let $E$ be a CM field, $\ell$ a prime, $\iota\colon\Qlbar\to\C$, $a$ odd, $\sfname{FieldOK}(E,\ell,d)$,
+$x^2=-d$, $w_0$ a place with $\ell\in w_0$, and $U$ automorphic with a supercuspidal type of $\ell$-power order at $w_0$. Let
+$H,C$ be disjoint finite sets of places such that every $w\in H\cup C$ is $d$-usable, apart from $w_0$, $U$ has a Satake multiset
+at $w$, $w\sim_xw_0$ if $p_w=\ell$, and $w\sim_xw'$ for all $w'\in H\cup C$ with $p_{w'}=p_w$. Then there is a plan $P$ for $(\iota,d,U)$
+with $\mathrm{HTFor}(P,v)$ for every $v\in H$ and $\mathrm{CongAll}(P,w)$ for every $w\in C$.
+\formallabel{UpperTheory.Gal.Int.Geo.Pl.master}
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: arithmetic datum.} For a $d$-usable place $w$, $-d$ is a square in $\Q_{p_w}$; and $-d$ is a square in $\Ql$ by
+$\sfname{FieldOK}$. Apply $\sfname{DatEx}$ with $Q=\{\ell\}\cup\{p_w:w\in H\cup C\}$: we obtain an arithmetic datum $A$ generated by
+$x$, with $\ell$ and all $p_w$ ($w\in H\cup C$) good, an integer $e>0$ as in $\sfname{DatEx}$, and the supply of auxiliary primes with
+setups. By \cref{pf:geo:easycomp}(a), applied to $w_0$ and $q=\ell$, and to $w$ and $q=p_w$ for $w\in H\cup C$, all these places
+are split, $w_0^c\not\sim_xw_0$ and $w^c\not\sim_xw$.
+
+\emph{Step 2: the side predicate.} Put $\mathrm{Up}(u)$: $u^c\not\sim_xw$ for all $w\in H\cup C$. We claim that for every split $u$,
+$\mathrm{Up}(u)$ or $\mathrm{Up}(u^c)$. Otherwise there are $w,w'\in H\cup C$ with $u^c\sim_xw$ and $u\sim_xw'$; then
+$p_w=p_{u^c}=p_u=p_{w'}$, so $w\sim_xw'$ by the coherence hypothesis and $u\sim_xw$; by \cref{pf:geo:easycomp}(a) (fifth clause) $u^c\sim_xw^c$,
+so $w^c\sim_xu^c\sim_xw$, a contradiction. Moreover $\mathrm{Up}(w_0)$: if $w_0^c\sim_xw$ for some $w\in H\cup C$, then $p_w=\ell$, so
+$w\sim_xw_0$ and $w_0^c\sim_xw_0$, a contradiction.
+
+\emph{Step 3: vector datum.} By $\sfname{VecEx}$ (with $n=a$, $w_0$ split) there is a vector datum $V$ for $(x,U,w_0,\mathrm{Up})$. Every
+$w\in H\cup C$ is free for $V$: it is split; $w,w^c\notin S$ because $w$ is split, apart from $w_0$ and $U$ has a Satake multiset at $w$;
+if $u\in S$ and $u^c\sim_xw$, then $p_w\in u$, so $u$ is split by \cref{pf:geo:easycomp}(a), hence $\mathrm{Up}(u)$ by the definition of
+vector data, contradicting $u^c\sim_xw$; and $w^c\not\sim_xw$.
+
+\emph{Step 4: auxiliary prime $p$, setup and frame.} Choose $g_0$ with $\Phi(g_0)\ne0$ and let $F_0$ be the finite set of places at
+which $\mathrm{comp}(g_0)$ is not integral (\cref{pf:geo:easycomp}(b)). By $\sfname{DatEx}$ there are a prime $p$ with
+$p\notin\{p_w:w\in H\cup C\}\cup\{p_u:u\in S\cup F_0\}$ and a setup $S$ for $(A,a,p)$ with $\mathrm{Sc}(D,G)$. Then $V$ is off $p$. By
+$\sfname{FrameEx}$ there is a frame $F$ for $S$.
+
+\emph{Step 5: the spectral prime and the level.} Apply $\sfname{SpecTop}$ (a good prime, namely $\ell$, lies in $w_0$) with
+$X=\{p_w:w\in H\cup C\}$: we get a prime $r_0\notin X$, $r_0\ne p$. By $\sfname{SiteEx}$ with $Q=H\cup C$, $q(w)=p_w$ (the hypotheses
+were verified in Steps 1--4) and $c=r_0$, there are a level $N$ with $r_0\mid N$, all elements of $K_N$ stable, and pairwise
+compatible sites $\sigma_w$ ($w\in H\cup C$) with $q_{\sigma_w}=p_w\mid N$ and all elements of $K_{\sigma_w}$ stable. Note $p_w\ne r_0$.
+
+\emph{Step 6: the Hecke data.} Let $J$ be the set of seen pairs $(g,\theta)$ (with respect to $F,V,r_0,N$) such that $g$ is a deck member,
+or $g$ is a $T_i$-member at a site $\sigma'$ at a place $w\notin H$ such that every $\sigma_v$, $v\in H$, is compatible with $\sigma'$. Put
+$g_j=g$ and $\theta_j=\iota^{-1}(\theta)$ for $j=(g,\theta)$. By $\sfname{SpecTop}$ there is $f$ in the Hecke algebra of $K_N$, supported on
+elements with integral inverse, with $\mathcal S(L,\lambda_V,K_N,(f_{g_j}),(\iota\theta_j),f)$. By $\sfname{ExpOf}$ each $\lambda_V(\tau)$ is
+non-increasing.
+
+\emph{Step 7: the deck condition.} Let $\sigma'$ be a site at some $w$ with $q_{\sigma'}\ne r_0$ and all elements of $K_{\sigma'}$ stable. Then
+$(g_j,\theta_j)$ satisfies the deck condition for $K_{\sigma'}$. Indeed, let $k\in K_{\sigma'}$; $k\in K_1$, and $k\in K_{r_0}$ by the monotonicity
+of level groups ($\sfname{LevBasic}$), because $r_0$ divides $N$ but not $q_{\sigma'}$, so the ideal $N'\mathfrak a_{\sigma'}$ is contained in $(r_0)$. By
+$\sfname{MemEx}$ there is a deck member $g$ with $h_g=k$, and $(g,1)$ is seen ($k$ stable, $k\in K_{r_0}$), so $(g,1)\in J$ with $\theta=1$.
+
+\emph{Step 8: congruence data.} Let $w$ be free for $V$, $\sigma'$ a site at $w$ with $q_{\sigma'}\ne r_0$ and all elements of $K_{\sigma'}$
+stable, $w\notin H$, every $\sigma_v$ ($v\in H$) compatible with $\sigma'$, and $B$ a Satake multiset of $U$ at $w$. We show
+$\sfname{CongP}(w,B)$ for the data being assembled (with $e=\mathrm{id}$, $\mathfrak w=w$). The character $\kappa_V$ is unramified at $w$ since $w$
+is free. Put $c=\kappa_V(w)^{-1}$ and $\vartheta_i=\iota^{-1}\bigl((\Nm w)^{i(a-i)/2}e_i(B)c^i\bigr)$. For each $i\le a$, $\sfname{MemEx}$ gives a
+$T_i$-member $g$ at $\sigma'$, and $(g,\mathrm{idx}(g)(\Nm w)^{i(a-i)/2}e_i(B)c^i)$ is seen and lies in $J$; its value is $\mathrm{idx}(g)\vartheta_i$.
+Together with Step~7, $\sfname{CongOf}$ gives $\mathcal H(g,\theta,w,\vartheta)$. By \cref{pf:geo:easycomp}(c) with $q=\Nm w$, $n=a$, $a=1$
+(using $|B|=a$, (S12)), $\iota(\vartheta_0)=1\ne0$ and
+$\iota\bigl(\sum_i(-1)^i(\Nm w)^{\binom i2}\vartheta_iX^{a-i}\bigr)=\prod_{b\in B}(X-c(\Nm w)^{(a-1)/2}b)$, i.e.\ $\kappa_V(w)^{-1}(\Nm w)^{(a-1)/2}B$ is an
+$\iota$-root multiset for $(w,a,\vartheta)$.
+
+\emph{Step 9: the plan.} Let $P$ consist of $p,D,G,L$ (with $\mathrm{Sc}$), $e=\mathrm{id}_E$, $N$, $(g_j)$, $\theta$, $\kappa=\kappa_V$ with $m=m_V$,
+$\lambda=\lambda_V$, $f$, and the finite set $X'$ of places $w$ such that $p_w$ divides $Npe$ or equals $p_u$ for some $u\in S$. For $X'$: let
+$w\notin X'$ be $d$-usable with $\ell\notin w$ and $B$ a Satake multiset at $w$. Then $p_w\nmid Npe$, so $p_w$ is good by $\sfname{DatEx}$, and
+$\sfname{SiteTriv}$ gives a site $\sigma'$ at $w$ with $q_{\sigma'}=p_w$ and $K_{\sigma'}=K_N$. The place $w$ is free for $V$ (split; $w,w^c\notin S$ and
+no $u\in S$ has $u^c\sim_xw$, since $p_u\ne p_w$; $w^c\not\sim_xw$ by \cref{pf:geo:easycomp}(a)); $q_{\sigma'}=p_w\ne r_0$ since $r_0\mid N$; the
+elements of $K_N$ are stable; $w\notin H$ since $p_v\mid N$ for $v\in H$; and compatibility is vacuous since $q_{\sigma_v}=p_v\ne p_w$. So Step~8
+gives $\sfname{CongP}(w,B)$, and $P$ is a plan.
+
+\emph{Step 10: the places of $H$ and $C$.} Let $v\in H$. Then $\kappa_V$ is unramified at $v$ ($v$ is free). The site $\sigma_v$ has
+$q_{\sigma_v}=p_v\ne r_0$ and stable elements, so Step~7 gives the deck condition for $K_{\sigma_v}$; every $g_j$ is a deck member or a $T_i$-member at
+a site at a place $w\notin H$ (so $w\ne v$) compatible with $\sigma_v$. By $\sfname{GoodOf}$, $\mathcal U(g,\theta,v)$. The exponent condition at $v$
+follows from $\sfname{ExpOf}$ (the distinguished embedding of $D_A$ is $\tau_0$, and $i_0$ is the unique index). So $\mathrm{HTFor}(P,v)$. Let
+$w\in C$; then $w\notin H$, $\sigma_w$ is compatible with every $\sigma_v$, $q_{\sigma_w}=p_w\ne r_0$ and its elements are stable, so Step~8 gives
+$\sfname{CongP}(w,B)$ for every Satake multiset $B$ at $w$, i.e.\ $\mathrm{CongAll}(P,w)$.
+\end{proof}
+
+\begin{theorem}\label{pf:geo:planexof}
+The fifteen components imply $\sfname{PlanEx}$.
+\formallabel{UpperTheory.Gal.Int.Geo.Pl.planEx_of}
+\end{theorem}
+
+\begin{proof}
+Let the data of $\sfname{PlanEx}$ be given. Every place $w$ with $\ell\in w$ is $d$-usable: it is split, since non-split places do not contain
+$\ell$ ($\sfname{FieldOK}$), and $-d$ is a square in $\Ql$. Also $v'\sim_xw_0$. We apply the master lemma four times.
+(i) $H=\{v'\}$, $C=\emptyset$: the conditions on $v'$ hold ($v'$ is usable, apart from $w_0$, has a Satake multiset, and $v'\sim_xw_0$); this gives a
+plan with $\mathrm{HTFor}(P,v')$. (ii) For $w$ usable with $\ell\notin w$ and a Satake multiset at $w$: $H=\{v'\}$, $C=\{w\}$ ($w\ne v'$ as
+$\ell\in v'$). The place $w$ is apart from $w_0$: otherwise $\ell$, which lies in the place of $E^+$ below $w_0$, would lie in $w$. Since $p_w\ne\ell=p_{v'}$,
+the coherence conditions are empty. (iii) For $w$ as in (G3): $H=\{v',w\}$, $C=\emptyset$; the coherence conditions are $w\sim_xv'$ (given)
+and $w\sim_xw_0$, which follows from $w\sim_xv'\sim_xw_0$. This gives $\mathrm{HTFor}$ at $v'$ and $w$. (iv) For the same $w$: $H=\{v'\}$, $C=\{w\}$
+($w\ne v'$ since they are apart), giving $\mathrm{HTFor}(P,v')$ and $\mathrm{CongAll}(P,w)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:geo:planex}]
+Apply \cref{pf:geo:planexof}: $\sfname{Sides}$, $\sfname{IntCof}$ and $\sfname{RootsAlg}$ hold by \cref{pf:geo:easycomp}, $\sfname{SatCard}$
+is (S12) (\cref{pf:geo:norms}), and the other eleven components hold by the results cited in the list above.
+\end{proof}
+
+\subsubsection{The spectral component}\label{sec:pf:geo:spec}
+
+The component $\sfname{SpecTop}$ carries most of the weight of the construction of plans; it is where the Hecke eigensystem of
+$U$ is shown to occur in the algebraic modular forms of the definite inner forms of $G$, detected by traces of good test
+functions. Its formal proof (\lref{UpperTheory.Gal.Int.Geo.Pl.specTop_holds}, cited) has the following structure.
+\begin{enumerate}[label=(\roman*),nosep]
+\item \emph{Auxiliary prime} (\lref{UpperTheory.Gal.Spc.auxiliary_prime_holds}). Given $X$, a prime $r_0\notin X$, $r_0\ne p$, is chosen
+  larger than all primes in $X$, than $p$, than the discriminant of $\omega$ and the norms of the places of $S$, and with a root of
+  $X^2-\mathrm{tr}X+\mathrm{nm}$ modulo $r_0$; it is good for $A$, prime to the places of $S$, and comes with a set of places above it.
+\item \emph{Type datum} (\lref{UpperTheory.Gal.Spc.tyEx}). The supercuspidal type $(J,\chi_J)$ at $w_0$ is transported through the
+  frame to a type function $e$ in the Hecke algebra of a level $K_0$; $e$ is idempotent, and it satisfies the cuspidality condition
+  used in (v) at the place $w_0$ (\lref{UpperTheory.Gal.Spc.cuspIrr_kFinite_rep_eq_centralCuspForm}), because every smooth
+  irreducible representation containing the type is supercuspidal.
+\item \emph{Regularizing function} (\lref{UpperTheory.Gal.Spc.auxFn}). At the places above $r_0$ a function $u$ with a convolution
+  inverse $u'$ on the $e$-part is constructed, commuting with the Hecke functions of the seen Hecke data, such that for every $m\ge1$ the
+  support of the $m$-fold power of $u$ on the $e$-part consists of elements whose components at an auxiliary place above $r_0$ have
+  separable characteristic polynomial and which are regular (\cref{pf:ks1:def-htgroup}); this set of elements is stable under
+  multiplication by the supports of the Hecke functions $f_{g_j}$.
+\item \emph{Eigenvector and weight.} For the coefficient representation $\xi$ of the vector datum composed with the transpose-inverse,
+  the $\xi$-valued forms of the $e$-part contain an eigenvector of the Hecke functions $f_{g_j}$ with eigenvalues $\theta_j$
+  (\lref{UpperTheory.Gal.Spc.eigEx}), and $\xi$ has weight $\lambda_V$ in the sense of \cref{pf:ks1:def-spec}
+  (\lref{UpperTheory.Gal.Int.Geo.Pl.wtOf_holds}).
+\item \emph{Abstract spectral lemma} (\cref{pf:geo:specoff} below).
+\end{enumerate}
+The lemmas (i)--(iv) are proved in the formal development; their conversion is deferred. The abstract spectral lemma is proved
+below, modulo lemmas on Hecke algebras and orbital integrals which are cited.
+
+For a level $K$ of $G(\A_f^p)$, convolution makes the Hecke algebra of $K$ (bi-$K$-invariant compactly supported functions) a ring;
+for a family $(\psi_j)_{j\in J}$ of Hecke functions and a finitely supported function $s$ on words in $J$ we write $s(\psi)*f$ as in
+\cref{pf:ks1:def-spec}, and for Hecke functions $u,e$ we write $u^{*m}*e$ for the $m$-fold convolution of $u$ applied to $e$. Functions $e,u,u'$
+satisfy the \emph{commutation relations} with $(\psi_j)$ if $e*e=e$, $e*\psi_j*e=\psi_j*e$, $e*u*e=u*e$, $\psi_j*\psi_{j'}*e=\psi_{j'}*\psi_j*e$,
+$u*\psi_j*e=\psi_j*u*e$ and $u'*u*e=e$.
+
+\begin{proposition}[Abstract spectral lemma]\label{pf:geo:specoff}
+Let $G$ be a unitary similitude group for $p$ with one archimedean place of signature $(1,n-1)$, $K$ a level, $D,L$ a datum and a link,
+$\lambda$ a weight, $\xi$ a finite-dimensional representation of $C^\times\times\Q^\times$ of weight $\lambda$, $(\psi_j)_{j\in J}$ Hecke functions of
+level $K$, $\theta\colon J\to\C$, and $e,u,u'$ Hecke functions of level $K$ satisfying the commutation relations. Fix a place of $F$ at which a
+cuspidality condition $\mathrm{C}$ on functions is given and an auxiliary place at which a separability condition $\mathrm R$ is given
+(the characteristic polynomial of the component is separable), as in (ii) and (iii). Assume: the classes of definite forms are finite;
+$e$ satisfies $\mathrm{C}$; for every $m\ge1$ there is a set $\mathcal A_m$ of elements satisfying $\mathrm R$ and regular, stable under
+multiplication by the supports of the $\psi_j$, containing the support of $u^{*m}*e$; and some definite form class carries a nonzero
+$\xi$-valued form $\Phi$ with $T(e)\Phi=\Phi$ and $T(\psi_j)\Phi=\theta_j\Phi$ for all $j$, $T$ denoting the Hecke operators on forms
+(\cref{pf:ks1:def-dtrace}). Then there is $m\ge1$ with $\mathcal S(L,\lambda,K,(\psi_j),\theta,u^{*m}*e)$.
+\formallabel{UpperTheory.Gal.Spc.specOfF}
+\end{proposition}
+
+\begin{lemma}\label{pf:geo:specalg}
+Let $(W_q)_{q\in Q}$ be a finite family of finite-dimensional complex vector spaces, and for each $q$ let $T_q(j)$ ($j\in J$), $e_q,u_q,u'_q$ be
+endomorphisms of $W_q$ satisfying the commutation relations (for composition). Assume that some $W_{q_0}$ contains $x_0\ne0$ with
+$e_{q_0}x_0=x_0$ and $T_{q_0}(j)x_0=\theta_jx_0$ for all $j$. Then there are $m\ge1$ and a finitely supported function $a$ on words such that
+for every $s$ with $s(\theta)\ne0$
+\[
+  \sum_{q\in Q}\tr\bigl((as)(T_q)\,u_q^m\,e_q\mid W_q\bigr)\ne0,
+\]
+where $as$ is the product of $a$ and $s$ (concatenation of words).
+\formallabel{UpperTheory.Gal.Spc.specAlg}\formallabel{UpperTheory.Gal.CertificateRingHomMap.pTracePow_holds}
+\end{lemma}
+
+\begin{proof}
+Let $W=\bigoplus_qW_q$ and let $t_j$, $v$, $E$, $v'$ be the block diagonal operators with blocks $T_q(j)e_q$, $u_qe_q$, $e_q$, $u'_q$. By the
+commutation relations the $t_j$, $v$ and $E$ commute pairwise, $E$ is idempotent and $v'v=E$. By \cref{pf:geo:projone} there is $a$ with
+$a(\theta)=1$, $P=a(t)$ idempotent and $(t_j-\theta_j)^NP=0$ for some $N$. The vector $x=(0,\dots,x_0,\dots,0)$ satisfies $t_jx=\theta_jx$ and
+$Ex=x$, hence $Px=a(\theta)x=x$; so the idempotent $PE$ is nonzero. The operator $v$ commutes with $PE$ and is injective on $W'=PE(W)$,
+since $v'v=E$ is the identity on $W'$. Hence $v|_{W'}$ is invertible, and some power sum $\tr((v|_{W'})^m)$ with $m\ge1$ is nonzero: otherwise
+all power sums of the eigenvalues of $v|_{W'}$ would vanish, hence (Newton's identities, characteristic $0$) all elementary symmetric
+functions, and $v|_{W'}$ would be nilpotent. Now let $s(\theta)\ne0$. On $W'$ each $t_j$ acts as $\theta_j$ plus a nilpotent operator commuting with
+everything, so $s(t)$ acts on $W'$ as $s(\theta)$ plus a nilpotent operator commuting with $v$, and
+$\tr(s(t)\,P\,v^mE)=s(\theta)\tr((v|_{W'})^m)\ne0$. Finally, by the commutation relations
+$\sum_q\tr((as)(T_q)u_q^me_q)=\tr(a(t)s(t)v^mE)$, since $(T_q(j)e_q)$-words times $e_q$ equal $T_q(j)$-words times $e_q$ and
+$(u_qe_q)^me_q=u_q^me_q$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:geo:specoff}]
+The convolutions $u^{*m}*e$ and $s(\psi)*u^{*m}*e$ are Hecke functions of level $K$, and $\psi_j*\psi_{j'}*\psi_w*u^{*m}*e=\psi_{j'}*\psi_j*\psi_w*u^{*m}*e$
+for all words $w$ (\lref{UpperTheory.Gal.Spc.words}); this is the commutativity requirement of $\mathcal S$. For each class $q$ of
+definite forms (a finite set) let $W_q$ be the space of $\xi$-valued forms of the class (finite-dimensional by \cref{pf:geo:defclassfin}); the
+Hecke operators give an algebra homomorphism $f\mapsto T_q(f)$ from the Hecke algebra of $K$ to $\End(W_q)$
+(\lref{UpperTheory.Gal.Spc.opAlg}), and by definition $\mathrm{Tr}^{\mathrm{def}}(\xi;K,f;K_p,\mathbf 1_{K_p})=\sum_q\tr(T_q(f)\mid W_q)$. The
+eigenvector of the hypothesis can be moved to the chosen representative of its class (\lref{UpperTheory.Gal.Spc.clsMove}). The
+images $T_q(\psi_j),T_q(e),T_q(u),T_q(u')$ satisfy the commutation relations, so \cref{pf:geo:specalg} gives $m\ge1$ and $a$ such that for
+every $s$ with $s(\theta)\ne0$ the definite trace of $f_s=(as)(\psi)*u^{*m}*e$ is nonzero. It remains to show that $f_s$ is good
+(\cref{pf:ks1:def-spec}). Its support lies in $\mathcal A_m$, so it consists of regular elements satisfying $\mathrm R$. The cuspidality condition
+$\mathrm C$ passes from $e$ to $u^{*m}*e$ and to $f_s$ (\lref{UpperTheory.Gal.Spc.cuspIdeal}). For a cuspidal function supported on
+elements satisfying $\mathrm R$, the terms $\mathrm T_P$ of marked pairs $P$ with reducible characteristic polynomial vanish
+(\lref{UpperTheory.Gal.Spc.vanPairs}) and the orbital integrals at elements of the definite groups which are not regular irreducible
+vanish (\lref{UpperTheory.Gal.Spc.vanForms}); both rest on the vanishing of orbital integrals of cuspidal functions at non-elliptic
+elements (\lref{UpperTheory.Gal.Spc.orbK_eq_zero_of_cuspSlices}). Hence $f_s$ is good and $\mathcal S$ holds with the scalar multiple
+given by $a$.
+\end{proof}
+
+% ===========================================================================
+\subsection{The holomorphic Lefschetz formula for finite \'etale correspondences}\label{sec:pf:geo:hlf}
+
+Let $Z$ and $Y$ be schemes over $\C$. A \emph{complex point} of $Y$ is a morphism $y\colon\Spec\C\to Y$ over $\C$; we write $Y(\C)$ for
+the set of complex points and $b(y)\in\C$ for the value of a regular function $b$ at $y$.
+
+\begin{definition}[Tangent matrices]\label{pf:geo:istan}
+Let $c_1,c_2\colon Y\to Z$ be morphisms over $\C$, $\delta\in\N$, $y\in Y(\C)$ with $c_1(y)=c_2(y)$, and $A\in M_\delta(\C)$. Then $A$ is a
+\emph{tangent matrix of $(c_1,c_2)$ at $y$} if there are an affine open $U\subseteq Z$, an affine open $V\subseteq c_1^{-1}U\cap c_2^{-1}U$
+containing $y$, functions $t_1,\dots,t_\delta\in\OO(U)$ and a $\C$-linear map $\varphi\colon\Omega_{\OO(V)/\C}\to\C^\delta$ such that
+$\varphi(b\eta)=b(y)\varphi(\eta)$ for $b\in\OO(V)$, every $\eta$ with $\varphi(\eta)=0$ is a sum $\sum_ib_i\eta_i$ with $b_i(y)=0$,
+\[
+  \varphi\bigl(d(c_1^*t_l)\bigr)=e_l\quad\text{and}\quad\varphi\bigl(d(c_2^*t_j)\bigr)=(A_{jl})_{l}\qquad(1\le j,l\le\delta).
+\]
+\formal{GlobalTheory.W1.IsTan}
+\end{definition}
+
+Thus $\varphi$ identifies the cotangent space of $Y$ at $y$ with $\C^\delta$, the functions $c_1^*t_l$ are local coordinates at $y$, and
+$d(c_2^*t_j)=\sum_lA_{jl}\,d(c_1^*t_l)$ at $y$: if $c_1$ is \'etale, $A=(\partial(t_j\circ f)/\partial t_l)$ is the Jacobian matrix, in the
+coordinates $t$, of the local self-map $f=c_2\circ c_1^{-1}$ of $Z$ at its fixed point $c_1(y)$. This is the notion used in
+\cref{pf:ks2:def:istan}.
+
+\begin{theorem}[\cref{thm:galois:hlf}]\label{pf:geo:hlf}
+Let $Z$ be a scheme over $\C$ which is smooth of relative dimension $\delta$ and projective, $Y$ a scheme over $\C$, and
+$c_1,c_2\colon Y\to Z$ finite \'etale morphisms over $\C$. Let $\mathcal F\subseteq Y(\C)$ be a finite set such that $y\in\mathcal F$ if and only
+if $c_1(y)=c_2(y)$, and for $y\in\mathcal F$ let $A_y$ be a tangent matrix of $(c_1,c_2)$ at $y$ with $\det(1-A_y)\ne0$. Then for every
+$p\in\N$ the spaces $\geoHdg{Z}{p}{b}$ are finite-dimensional and
+\begin{equation}\label{eq:pf:geo:hlf}
+  \sum_{b=0}^{\delta}(-1)^b\,\tr\bigl((c_1)_*\circ(c_2)^*\mid\geoHdg{Z}{p}{b}\bigr)
+  =\sum_{y\in\mathcal F}\frac{[X^p]\det(1+XA_y)}{\det(1-A_y)}
+  =\sum_{y\in\mathcal F}\frac{\tr\bigl(\bigwedge^pA_y\bigr)}{\det(1-A_y)}.
+\end{equation}
+\formallabel{UpperTheory.Cb.lefschetz_fixedPoint_finite_etale_correspondence}\formallabel{GlobalTheory.T.lefschetz_fixedPoint_finite_etale_correspondence}\formallabel{UpperTheory.Gal.Int.Geo.weight_one_geometric_realization}
+\end{theorem}
+
+The proposition $\sfname{HLF}$ used in \cref{pf:geo:parts} and in \cref{pf:ks1:def-hlf,pf:ks2:main} is exactly this statement.
+The second equality in \eqref{eq:pf:geo:hlf} is the identity $\det(1+XA)=\sum_p\tr(\bigwedge^pA)X^p$.
+
+\subsubsection{Relation with the classical formula}
+
+\begin{littheorem}[{Atiyah--Bott \cite[Thm.~4.12]{AtiyahBott1968}}]\label{pf:geo:lit:ab}
+Let $X$ be a compact complex manifold, $\mathcal V$ a holomorphic vector bundle on $X$, $f\colon X\to X$ a holomorphic map with only simple fixed
+points (i.e.\ $\det(1-df_P)\ne0$ at every fixed point $P$), and $\phi\colon f^*\mathcal V\to\mathcal V$ a holomorphic bundle homomorphism. Then
+\[
+  \sum_q(-1)^q\tr\bigl((f,\phi)^*\mid H^q(X,\mathcal V)\bigr)=\sum_{f(P)=P}\frac{\tr\phi_P}{\det_\C(1-df_P)}.
+\]
+\end{littheorem}
+
+With $\mathcal V=\Omega^p$ and $\phi=\bigwedge^p({}^tdf)$ this gives
+\[
+  \sum_q(-1)^q\tr\bigl(f^*\mid H^q(X,\Omega^p)\bigr)=\sum_P\frac{\tr(\bigwedge^p{}^tdf_P)}{\det(1-df_P)};
+\]
+see also \cite{ToledoTong1978}.
+
+\begin{remark}[What goes beyond the classical formula]\label{pf:geo:rem:hlflit}
+(1) If $Y=Z$ and $c_1=\mathrm{id}$, \cref{pf:geo:hlf} is the case $\mathcal V=\Omega^p$ of \cref{pf:geo:lit:ab} for $f=c_2$, transported
+to algebraic Hodge cohomology by GAGA \cite{Serre1956} (which identifies $H^q(Z,\Omega^p)$ with the cohomology of the analytic
+sheaf, compatibly with pull-backs): the tangent matrix $A_y$ is then the Jacobian matrix of $f$ at $y$ in the coordinates $t$, the
+bundle map $\bigwedge^p{}^tdf_y$ has the matrix $\bigwedge^p$ of its transpose, and traces of exterior powers and $\det(1-\cdot)$ are
+invariant under transposition.
+
+(2) For a correspondence with $c_1\ne\mathrm{id}$ the formula is not covered by \cref{pf:geo:lit:ab}, whose geometric endomorphisms are
+defined by a single map \cite{AtiyahBott1967}. Atiyah and Bott remark \cite[p.~459]{AtiyahBott1968} that their formula for curves may be extended ``to any
+self-correspondence of a curve $X$ in a plausible manner'', recovering the trace formulas of Eichler and Selberg; and Tu
+\cite{Tu2023} formulates, for transversal holomorphic correspondences on compact complex manifolds, a conjectural holomorphic
+Lefschetz formula, and lists as an open problem the computation of traces of Hecke correspondences on coherent cohomology. We
+do not know a published proof of \cref{pf:geo:hlf} for general finite \'etale correspondences. The formal development proves it by
+an algebraic argument which does not use \cref{pf:geo:lit:ab}. Its structure is described below; the central algebraic lemma,
+the \emph{chart-lift theorem}, and the auxiliary lemmas on coordinates and \v{C}ech complexes are cited.
+\end{remark}
+
+\subsubsection{Reduction to integral schemes}
+
+\begin{littheorem}[{Finiteness \cite[Thm.~3.2.1]{Grothendieck1961}, \cite[Thm.~III.5.2]{Hartshorne1977}}]\label{pf:geo:lit:fin}
+If $Z$ is an integral scheme which is smooth of relative dimension $\delta$ and projective over $\C$, then every $\geoHdg{Z}{a}{b}$ is
+finite-dimensional.
+\formallabel{UpperTheory.finiteDimensional_hodgeCohomology_of_smooth_proj}
+\end{littheorem}
+
+Indeed $\Omega^a_{Z/\C}$ is coherent (locally free of finite rank), and the cohomology of a coherent sheaf on a proper scheme over a
+field is finite-dimensional; the development proves this.
+
+\begin{proposition}[Integral case]\label{pf:geo:hlfint}
+\Cref{pf:geo:hlf} holds if $Z$ and $Y$ are integral.
+\formallabel{UpperTheory.Cb.holomorphic_lefschetz_finiteEtale_integral}
+\end{proposition}
+
+\begin{proposition}[Reduction]\label{pf:geo:hlfred}
+If \cref{pf:geo:hlf} holds whenever $Z$ and $Y$ are integral, then it holds in general.
+\formallabel{UpperTheory.Core.block_fixed}\formallabel{UpperTheory.Cb.holomorphic_lefschetz_finiteEtale_correspondence}
+\end{proposition}
+
+\begin{proof}
+\emph{Decomposition of $Z$.} $Z$ is projective, hence quasi-compact, and smooth over $\C$, hence its connected components are
+integral; so $Z$ is the disjoint union of finitely many integral clopen subschemes $V_1,\dots,V_r$
+(\lref{UpperTheory.Cb.exists_integral_clopen_decomposition_of_smooth}). Each $V_j$ is smooth of relative dimension $\delta$ and
+projective (a clopen subscheme of a projective scheme is projective), so the spaces $\geoHdg{V_j}{p}{b}$ are finite-dimensional
+(\cref{pf:geo:lit:fin}), and $\geoHdg{Z}{p}{b}=\bigoplus_j\geoHdg{V_j}{p}{b}$ by restriction, since sheaf cohomology commutes with finite
+disjoint unions; this proves the finite-dimensionality. Put $W_{jk}=c_1^{-1}V_j\cap c_2^{-1}V_k$; these are clopen in $Y$, $Y$ is their
+disjoint union, and the restrictions $c_1\colon W_{jk}\to V_j$ and $c_2\colon W_{jk}\to V_k$ are finite \'etale. Pull-back and trace are
+compatible with restriction to clopen pieces, so under the decomposition of $\geoHdg{Z}{p}{b}$ the operator $(c_1)_*(c_2)^*$ is the block
+matrix with $(j,k)$ entry $(c_1|_{W_{jk}})_*(c_2|_{W_{jk}})^*\colon\geoHdg{V_k}{p}{b}\to\geoHdg{V_j}{p}{b}$, and its trace is the sum of the
+traces of the diagonal blocks. A fixed point $y$ lies in $W_{jj}$ for the $j$ with $c_1(y)\in V_j$, and a tangent matrix of $(c_1,c_2)$ at $y$
+is a tangent matrix of the restrictions to the open subscheme $W_{jj}$ (\lref{UpperTheory.Cb.isTangentMatrix_iff_restrict_open}). So
+\eqref{eq:pf:geo:hlf} for $(Z,c_1,c_2)$ is the sum over $j$ of \eqref{eq:pf:geo:hlf} for $(V_j,c_1|_{W_{jj}},c_2|_{W_{jj}})$, and we may assume $Z$
+integral.
+
+\emph{Decomposition of $Y$.} $Y$ is \'etale over $Z$, hence smooth, and finite over $Z$, hence quasi-compact; so $Y$ is the disjoint union of
+finitely many integral clopen subschemes $Y_i$, and the restrictions of $c_1,c_2$ to $Y_i$ are finite \'etale. The trace along $c_1$ is the sum
+of the traces along the $c_1|_{Y_i}$ (\lref{UpperTheory.Cb.hodgeTrace_eq_sum_clopen_decomposition}), pull-back along $c_2$ is compatible with
+restriction, and each fixed point lies in exactly one $Y_i$, where the tangent matrices are unchanged. Hence \eqref{eq:pf:geo:hlf} for
+$(Z,Y,c_1,c_2)$ is the sum over $i$ of the formulas for $(Z,Y_i,c_1|_{Y_i},c_2|_{Y_i})$, which hold by assumption.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:geo:hlf}]
+Combine \cref{pf:geo:hlfint,pf:geo:hlfred}.
+\end{proof}
+
+\subsubsection{The integral case}
+
+We describe the proof of \cref{pf:geo:hlfint}; it is an assembly of the following lemmas of the formal development. Let $Z,Y$ be
+integral, so $Y$ is smooth of relative dimension $\delta$ (being \'etale over $Z$), and $c_1,c_2$ induce $\C$-embeddings
+$c_1^*,c_2^*\colon\C(Z)\to\C(Y)$ of function fields. For a family $x=(x_0,\dots,x_\delta)$ of elements of a subfield $F$ of $\C(Z)$ and a subset
+$I\subseteq\{0,\dots,\delta\}$ let $R_I(Z)\subseteq\C(Z)$ be the ring of functions regular on $U_I=\bigcap_{i\in I}\{x_i\ne0\}$; similarly
+$R_I(Y)\subseteq\C(Y)$ for the pulled-back sets $c_1^{-1}U_I$. We say that $x$ defines a \emph{finite cover} if the $U_i$ are affine opens covering
+the scheme, with coordinate rings $R_{\{i\}}$, finite over the polynomial rings in the $x_m/x_i$.
+
+\begin{enumerate}[label=(\alph*),nosep]
+\item \emph{Coordinates} (\lref{GlobalTheory.T.exists_finiteCover_projSpace_reduced_fibre_origin}). There are $F$ and $x$ defining a
+  finite cover of $Z$ (a finite morphism to $\mathbb P^\delta$), such that the scheme-theoretic fibre of $U_0$ over the origin, i.e.\ the
+  spectrum of $R_{\{0\}}(Z)/(x_1/x_0,\dots,x_\delta/x_0)$, is reduced, and the points $c_1(y)$, $y\in\mathcal F$, lie in $U_0$ and in this fibre.
+  The proof uses forms without common zeros and transversal at prescribed complex points
+  (\lref{GlobalTheory.T.exists_forms_transversal_at_complexPoints}).
+\item \emph{\v{C}ech description} (\lref{GlobalTheory.T.exists_hodge_cohomology_equiv_cech_differentials}). The Hodge cohomology
+  $\geoHdg{Z}{a}{\bullet}$ is isomorphic to the cohomology of the \v{C}ech complex $I\mapsto\Omega^a_{R_I(Z)/\C}$ of the cover $(U_i)$, and similarly
+  for $Y$ with the cover $(c_1^{-1}U_i)$, which again defines a finite cover with reduced fibre over the origin
+  (\lref{UpperTheory.A.isFinCover_pull} and \lref{UpperTheory.etaleCorrespondence_fieldExtension_statement}); these isomorphisms are
+  natural for pull-backs and for traces of finite \'etale morphisms.
+\item \emph{Points} (\lref{UpperTheory.complexPoints_bijective_algHom_affineOpen} and \lref{UpperTheory.etaleCorrespondence_complexPoints_statement}).
+  Complex points of $Y$ in $c_1^{-1}U_i$ correspond bijectively to $\C$-algebra maps $e\colon R_{\{i\}}(Y)\to\C$, and the fixed points correspond to
+  the \emph{fixed characters} (those $e$ for which the two embeddings $c_1^*,c_2^*$ of $R_{\{i\}}(Z)$ give the same point). There are no fixed
+  characters over $U_i$ for $i\ne0$, and the fixed characters over $U_0$ vanish on the $x_m/x_0$.
+\item \emph{Local parameters} (\lref{UpperTheory.exists_regular_parameters_of_reduced_quotient} and \lref{UpperTheory.etaleCorrespondence_local_parameters_statement}).
+  For each fixed character $e$ and each $m$ there are $c,g_1,\dots,g_\delta\in R_{\{0\}}(Y)$ with $e(c)\ne0$ and
+  $c\cdot c_2^*(x_m/x_0)=\sum_lg_l\cdot c_1^*(x_l/x_0)$; the matrix $A'_e=(e(g_l)/e(c))_{m,l}$ is conjugate to the tangent matrix $A_y$ of the
+  corresponding fixed point $y$. Conjugate matrices have the same $\det(1-A)$ and the same coefficients of $\det(1+XA)$.
+\item \emph{Chart-lift theorem} (\lref{GlobalTheory.T.exists_chart_lift_of_finite_cover}). Let $F\subseteq K\subseteq K'$ be fields over $\C$,
+  $x$ a family in $F$ defining finite covers for $K$ and $K'$, and $j_2\colon K\to K'$ a $\C$-embedding. Assume: the fibre over the origin of the
+  cover of $K'$ is reduced; there are no fixed characters away from $U_0$; the fixed characters over $U_0$ vanish on the $x_m/x_0$; at every
+  fixed character the ideal of the origin is generated, locally, by the $x_l/x_0$; and the matrices $A'_e$ of (d) satisfy
+  $\det(1-A'_e)\ne0$, together with a compatibility between the charts of $K$ and $K'$. Let $u_q$ be endomorphisms of the \v{C}ech cohomology
+  groups $H^q$ of $I\mapsto\Omega^a_{R_I(K)}$ which \emph{lift} to the correspondence: every cocycle $b$ has a lift $\tilde b$ to the \v{C}ech
+  complex of the double cover of $K'$ indexed by pairs of index sets, which on the second family is the image of $b$ under $j_2$, and whose
+  part on the first family has trace (from $K'$ to $K$) a cocycle representing $u_q[b]$. If the $H^q$ are finite-dimensional, then
+  \[
+    \sum_{q=0}^{\delta}(-1)^q\tr(u_q)=\sum_{e}\frac{[X^a]\det(1+XA'_e)}{\det(1-A'_e)},
+  \]
+  the sum running over the fixed characters $e$ in the fibre over the origin.
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:geo:hlfint}]
+Finite-dimensionality is \cref{pf:geo:lit:fin}. Choose $F,x$ by (a) and transport $(c_1)_*(c_2)^*$ to the \v{C}ech cohomology by (b); by the
+naturality in (b), the transported operators lift to the correspondence in the sense of (e)
+(\lref{UpperTheory.etaleCorrespondence_family_statement}), with $K=\C(Z)$, $K'=\C(Y)$, the field embedding $c_1^*$ as the structure
+map and $j_2=c_2^*$; the remaining hypotheses of (e) are provided by (a), (c) and (d)
+(\lref{UpperTheory.etaleCorrespondence_sections_statement} and \lref{UpperTheory.etaleCorrespondence_differentials_statement}). By (c) the
+fixed characters in the fibre over the origin are in bijection with $\mathcal F$, and by (d) the local terms of (e) are those of
+\eqref{eq:pf:geo:hlf}. Since the alternating trace is invariant under the isomorphisms of (b), (e) gives \eqref{eq:pf:geo:hlf}.
+\end{proof}
+
+\begin{remark}\label{pf:geo:rem:hlfscope}
+The finite set $\mathcal F$ in \cref{pf:geo:hlf} must be exactly the set of fixed points, and every fixed point must be transversal
+($\det(1-A_y)\ne0$); the matrices $A_y$ are only constrained at the points of $\mathcal F$. Finite-dimensionality is part of the conclusion. In
+the proof of \cref{thm:geoone} the formula is used only through $\sfname{KSHodge}$, for Hecke correspondences on Kuga--Sato varieties
+composed with fibrewise multiplications (\cref{pf:ks1:def-hlf}).
+\end{remark}
+

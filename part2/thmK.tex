@@ -1,0 +1,2457 @@
+\section{Theorem K II: agreement of theta integrals and local matching}\label{sec:pf:thmK}
+
+\providecommand{\thmKAE}{\mathbb{A}_E}
+\providecommand{\thmKS}{\mathcal{S}}
+\providecommand{\thmKSo}{\mathcal{S}^{\circ}}
+\providecommand{\thmKPol}{\mathcal{P}}
+\providecommand{\thmKPD}{\operatorname{PD}}
+\providecommand{\thmKI}{\mathcal{I}}
+\providecommand{\thmKaug}{\mathfrak{a}}
+\providecommand{\thmKCT}{\operatorname{CT}}
+\providecommand{\thmKst}{\operatorname{st}}
+\providecommand{\thmKht}{\operatorname{ht}}
+\providecommand{\thmKqht}{\operatorname{qht}}
+\providecommand{\thmKcone}{\operatorname{cone}}
+\providecommand{\thmKEv}{\operatorname{Ev}}
+\providecommand{\thmKpure}{\operatorname{pure}}
+\providecommand{\thmKSpl}{\operatorname{Spl}}
+\providecommand{\thmKSt}{\operatorname{St}}
+\providecommand{\thmKacts}[1]{\mathrel{\stackrel{#1}{\leadsto}}}
+\providecommand{\thmKLS}[2]{L^{S_0}(#1,#2)}
+\providecommand{\thmKvac}{\mathrm{vac}}
+
+This section proves Theorem~K (\cref{thm:theorem-K}): the two propositions $\sfname{ThetaIntegralsAgree}$ and
+$\sfname{LocalMatching}$ of \cref{def:families:K} hold. Both are statements about \emph{all} configurations of
+complementary hermitian spaces $V,V'$ (of dimensions $a>a'$) and a skew-hermitian space $W$ of dimension $a+a'$ over a
+CM extension $E/F$, together with Weil representations $\omega,\omega'$ of $\Uni(V)\times\Uni(W)$ and
+$\Uni(V')\times\Uni(W)$. $\sfname{LocalMatching}$ asserts the existence of local identifications (``matching maps'')
+between quotients of the local Weil representations; $\sfname{ThetaIntegralsAgree}$ asserts convergence of the theta
+integrals $\thmKI$ and $\thmKI'$ of $V$ and $V'$, the existence of a unique non-zero constant $c$ with
+$\thmKI(\Phi)=c\,\thmKI'(\Phi')$ for all matched pairs, a description of the local coinvariants, and two recursion
+formulas (``steps'') for $c$ when a hyperbolic plane is removed.
+
+\paragraph{Strategy.}
+The proof is an induction on the integer $p+q$ which bounds the real ranks of $\Uni(V)$ and $\Uni(V')$. In the definite
+case $p=q=0$ all automorphic quotients are compact and the proportionality of $\thmKI$ and $\thmKI'$ follows from a
+Hilbert space argument in which the Siegel--Weil formula enters. If $p+q>0$ one removes a hyperbolic plane from $V$
+(if $q=0<p$) or from $V'$ (if $q>0$) and from $W$, and compares the constant terms of $\thmKI(\Phi)$ and
+$\thmKI'(\Phi')$ along the maximal parabolic subgroup of $\Uni(W)$ stabilising an isotropic line: each constant term has
+two components, distinguished by their characters under the Levi torus; one of them is an ``evaluation'' of the theta
+integral of the smaller configuration, the other a ``cone integral''. The local behaviour of cone integrals under the
+matching maps produces the partial $L$-values and epsilon factors of the steps; a cusp form argument (``end steps'')
+shows that agreement of one component of the constant terms forces agreement of the theta integrals. All the inputs of
+this argument are collected in twenty-six propositions, the \emph{leaves} (\cref{def:pf:thmK:leaves}); the deduction of
+Theorem~K from the leaves (\cref{sec:pf:thmK:induction}) is given in full.
+
+\paragraph{Organisation.}
+\Cref{sec:pf:thmK:setting} defines the data and states the theorem. \Cref{sec:pf:thmK:inputs} states the two analytic
+inputs (meromorphic continuation of Siegel Eisenstein series and the Siegel--Weil formula for definite spaces), which are
+classical theorems, introduces the auxiliary notions (constant terms, evaluation maps, cone integrals, towers) and states
+the leaves. \Cref{sec:pf:thmK:induction} deduces Theorem~K from the leaves. \Cref{sec:pf:thmK:leafproofs} proves the
+leaves: each leaf is either proved completely or reduced, by a complete argument, to statements of the formal development
+\cite{LeanSource2026} which we state precisely and cite. Complete arguments are given for the uniqueness of the
+constant-term decomposition and the derivation of the constant-term leaves from the general constant-term formulas, the
+towers, the non-vanishing of the step factors (Gauss sums), the construction of partners, the passage to arbitrary data on
+a definite small side, the change of Cartan data, the non-vanishing of theta integrals via the doubling zeta integral, the
+base case $p=q=0$, and the reduction of the local factors of the steps and of the end steps to local multiplicity one and
+to cuspidality statements. \Cref{sec:pf:thmK:deferred} proves the main results used there through their formal statements:
+partial $L$-functions at integers, an idelic Fubini theorem and the factorisation of the cone integral, the vanishing of
+theta integrals of killed tensors, bump functions and the local cone integral at $v_1$, mixed models, the modulus identity and
+the spherical functions at inert places, the unramified doubling integral, local multiplicity one (archimedean and
+ramified), matching maps at split places, and the existence of Weil representations; the end steps are reduced to fifteen
+statements in \cref{sec:pf:thmK:end}. The statements still cited are deeper ingredients: the general constant-term formulas,
+some local computations, the cusp form statements of the end steps, the local theta correspondence and the analytic
+estimates. \Cref{sec:pf:thmK:final} assembles the proof, and
+\cref{sec:pf:thmK:remarks} records peculiarities of the formal statements.
+
+% ===========================================================================
+\subsection{Data, theta integrals and the statement}\label{sec:pf:thmK:setting}
+
+\paragraph{Conventions.}
+Throughout, $F$ and $E$ are number fields, $E$ is an $F$-algebra and $\sigma\colon E\to E$ is a homomorphism of
+$F$-algebras. We write $\A=\A_F$, $\thmKAE=\A\otimes_FE$, $c_\sigma=\mathrm{id}\otimes\sigma$ on $\thmKAE$, $F_v$ and
+$\OO_v$ for the completion and its integers at a finite place $v$ of $F$ (a height one prime of $\OO_F$), $\A_f$ for the
+finite adeles and $F_\infty=F\otimes\R$. For a finite set $\kappa$ let $\thmKS(F_v^\kappa)$ be the space of locally
+constant compactly supported functions on $F_v^\kappa$ (and likewise $\thmKS(\A_f^\kappa)$), and let the space of
+\emph{test functions} $\thmKS(\A^\kappa)$ be the span of the functions $f\otimes\varphi\colon x\mapsto
+f(x_\infty)\varphi(x_f)$ with $f$ a Schwartz function on $F_\infty^\kappa$ and $\varphi\in\thmKS(\A_f^\kappa)$. For a
+Schwartz function $f$ and functions $\varphi_v$ on $F_v^\kappa$ ($v$ finite) put
+$\thmKpure(f,\varphi)(x)=f(x_\infty)\prod_v\varphi_v(x_v)$ (a finite product when $\varphi_v(x_v)=1$ for almost all
+$v$); for a place $u$ and a function $z$ on $F_u^\kappa$, $\varphi[u\mapsto z]$ is the family $\varphi$ with its
+component at $u$ replaced by $z$. Sums $\sum_{\xi}$ over infinite sets are unconditional sums and integrals are Bochner
+integrals; both are given the value $0$ when the sum or the integrand is not summable or integrable.
+
+\emph{Local action.} Let $T$ be an operator on functions on $\A^\kappa$ and $v$ a finite place. For functions
+$\varphi,\varphi_1$ on $F_v^\kappa$ we write $T\colon\varphi\thmKacts{v}\varphi_1$ (``$T$ acts at $v$ by
+$\varphi\mapsto\varphi_1$'') if $T(\varphi\otimes_v r)=\varphi_1\otimes_v r$ for every function $r$ on $\A^\kappa$
+which is invariant under translation by vectors supported at $v$ and such that
+$(\varphi\otimes_v r)(x)=\varphi(x_v)r(x)$ is a test function. The archimedean analogue (with $F_\infty$ and Schwartz
+functions) and the derivative analogue (for a one-parameter family $T_t$, with $\frac{d}{dt}|_{t=0}T_t$) are defined in
+the same way.
+
+\begin{definition}[Base data]\label{pf:thmK:def:base}
+A \emph{base datum} $B=(\psi,(\tau_w)_{w\mid\infty},m_\alpha,m_\beta,P,(\tau_v)_{v\in P},v_1,\tau_1)$ consists of an
+additive character $\psi\colon\A\to\C^\times$, for each infinite place $w$ of $F$ an embedding $\tau_w\colon E\to\C$
+above $w$, functions $m_\alpha,m_\beta$ from the infinite places to $\Z$, a finite set $P$ of finite places with
+$F$-algebra maps $\tau_v\colon E\to F_v$, and a finite place $v_1$ with an $F$-algebra map $\tau_1\colon E\to F_{v_1}$.
+It is \emph{good} if: $E/F$ is a CM extension with complex conjugation $\sigma$; $E/\Q$ is Galois; $\OO_E/\OO_F$ is
+unramified; $\psi$ is continuous, trivial on $F$, and $\psi(a)=\exp(-2\pi i\Tr_{F_\infty/\R}(a_\infty))$ for adeles $a$
+supported at the infinite places; for every finite place $v$ inert in $E$ one has $2\notin v$, $\Nm v>3$ and $\psi$ is
+unramified at $v$ (i.e.\ $\psi_v(x\OO_v)=1$ iff $x\in\OO_v$); and $\psi$ is unramified at every $v\in P$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base.IsGood}
+\end{definition}
+
+\begin{definition}[Spaces and unitary groups]\label{pf:thmK:def:spaces}
+A \emph{space} of dimension $n$ is a tuple $X=(J,L,\theta,\mathrm{bas})$ with $J\in M_n(E)$, $L$ an $\OO_E$-submodule
+of $E^n$, matrices $\theta_w\in M_n(\C)$ for the infinite places and $\mathrm{bas}_v\in\GL_n(F_v)$ for the finite
+places. Put $\langle x,y\rangle_J=x^{\mathsf T}J\sigma(y)$. For a base datum $B$, $X$ is \emph{hermitian of signature
+$(r,s)$}, $X\in\mathrm{Herm}_B(r,s)$, if $\sigma(J_{ji})=J_{ij}$; for every infinite $w$ the complex matrix $J^{\tau_w}$
+has signature $(r,s)$; $L$ is a lattice and $y\in L$ iff $\langle y,x\rangle_J$ is integral for all $x\in L$; each
+$\theta_w$ is a Cartan involution of $J^{\tau_w}$ ($\theta_w^2=1$, $\theta_w^{\mathsf T}J^{\tau_w}\overline{\theta_w}=
+J^{\tau_w}$, $\Re((\theta_wx)^{\mathsf T}J^{\tau_w}\bar x)>0$ for $x\ne0$); and for $v\in P$, $\mathrm{bas}_v$ is a
+\emph{split basis} of $L$ at $v$ (a vector $u\in F_v^n$ is integral iff $\mathrm{bas}_vu$ lies in the $\tau_v$-component of
+$L\otimes\OO_v$). It is \emph{skew-hermitian of signature $(r,s)$}, $X\in\mathrm{Skew}_B(r,s)$, if
+$\sigma(J_{ji})=-J_{ij}$, the matrices $iJ^{\tau_w}$ have signature $(r,s)$, $L$ is a lattice with $y\in L$ iff
+$\Tr_{E/\Q}(o\langle y,x\rangle_J)\in\Z$ for all $x\in L$, $o\in\OO_E$, the $\theta_w$ are Cartan involutions of
+$iJ^{\tau_w}$, and the $\mathrm{bas}_v$ ($v\in P$) are split bases.
+
+For $J\in M_n(E)$ let $\Uni(J)(\A)=\{g\in\GL_n(\thmKAE):g^{\mathsf T}Jc_\sigma(g)=J\}$, let $\Gamma_J\subset\Uni(J)(\A)$
+be the subgroup of elements coming from $\GL_n(E)$, let $\thmKht(g)$ be the adelic height of $g$ (the product over all
+places of $\max(1,\|g\|_v,\|g^{-1}\|_v)$) and $\thmKqht(g)=\inf_{\gamma\in\Gamma_J}\thmKht(\gamma g)$. We write
+$\Uni(X)$ for $\Uni(J_X)$; $\Uni(X)(F_v)$ (resp.\ $\Uni(X)(F_\infty)$) is the set of $g$ with $g-1$ supported at $v$
+(resp.\ at the infinite places); $K_\infty(X)$ is the set of $k\in\Uni(X)(F_\infty)$ whose components commute with all
+$\theta_w$; a \emph{one-parameter subgroup} of $X$ is a continuous homomorphism $\R\to\Uni(X)(F_\infty)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc.IsHerm}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc.IsSkew}
+\end{definition}
+
+\begin{definition}[Models, Weil representations, Weil pairs]\label{pf:thmK:def:models}
+Let $X,W$ be spaces of dimensions $n,d$. On $M_{n\times d}(\thmKAE)$ consider the alternating $\A$-bilinear form
+$\langle x,y\rangle=\Tr_{\thmKAE/\A}\bigl(-\sum_{i,j,k,l}x_{ij}(J_X)_{ik}(J_W)_{jl}c_\sigma(y_{kl})\bigr)$. A \emph{model}
+$M=(\mathbf e,(\thmKvac_v)_v,\mu,\mathrm{dom})$ for $(X,W)$ consists of Darboux coordinates
+$\mathbf e\colon M_{n\times d}(\thmKAE)\xrightarrow{\sim}\A^{n\times d}\times\A^{n\times d}$ (so that $\langle w,w'\rangle
+=\mathbf e(w)_1\cdot\mathbf e(w')_2-\mathbf e(w')_1\cdot\mathbf e(w)_2$), functions $\thmKvac_v$ on $F_v^{n\times d}$, a
+measure $\mu$ on $\Uni(X)(\A)$ and a subset $\mathrm{dom}\subset\Uni(X)(\A)$. With
+$\rho_\psi(w)\Phi(x)=\psi(x\cdot w_2+\tfrac12w_1\cdot w_2)\Phi(x+w_1)$, $(w_1,w_2)=\mathbf e(w)$, the model is
+\emph{good} if $\mathbf e$ maps rational matrices to rational vectors; each $\thmKvac_v$ is a \emph{vacuum}, i.e.\ a
+non-zero element of $\thmKS(F_v^{n\times d})$ such that, for some $\vartheta\in\OO_E$ with $\vartheta+\sigma(\vartheta)=1$
+and every element $\gamma$ of the lattice generated by the matrices $a\,xy^{\mathsf T}$ ($a\in\A$ supported and integral at
+$v$, $x\in L_X$, $y\in L_W$), the operator $\rho_\psi(\gamma)$ acts at $v$ on $\thmKvac_v$ by multiplication by
+$\psi(\tfrac12\langle\gamma,\gamma\rangle_\vartheta)$, where $\langle\cdot,\cdot\rangle_\vartheta$ is the form above with $-1$
+replaced by $\vartheta$; $\thmKvac_v=\one_{\OO_v^{n\times
+d}}$ for almost all $v$; $\mu$ is a Haar measure; and $\mathrm{dom}$ is a measurable fundamental domain for $\Gamma_X$.
+
+A \emph{representation} for $(X,W)$ is a monoid homomorphism $\omega$ from $\Uni(X)(\A)\times\Uni(W)(\A)$ to the
+endomorphisms of the space of functions on $\A^{n\times d}$. For Hecke characters $\chi_X,\chi_W$ (below), $\omega$ is a
+\emph{Weil representation for $M$ with splitting characters $(\chi_X,\chi_W)$} if: its restriction to $\Uni(W)(\A)$
+preserves test functions and the linear forms on $\thmKS(\A^{n\times d})$ which are continuous in the archimedean
+variable, is unitary and continuous on test functions, intertwines the Heisenberg operators
+($\omega(h)\rho_\psi(x)=\rho_\psi(xh^{\mathsf T})\omega(h)$), and extends compatibly to a representation of the doubled
+group $\Uni(W\oplus-W)(\A)$ with the same properties which satisfies Siegel's rule for the diagonal Lagrangian with the
+character $\chi_X(\det t)\,|\Nm\det t|^{n/2}$; the same holds for the restriction to $\Uni(X)(\A)$ with the roles of
+$X,W$ exchanged, the character $\chi_W$ and the exponent $d/2$; and $g\mapsto l(\omega(g)\Phi)$ is continuous for such
+linear forms $l$ and test functions $\Phi$.
+
+A \emph{Weil pair} for $(X,W)$ of signature $(r,s;r',s')$ with characters $(\chi_X,\chi_W)$ is a pair $(M,\omega)$ such
+that $B$ is good, $X\in\mathrm{Herm}_B(r,s)$, $W\in\mathrm{Skew}_B(r',s')$, $M$ is good, $\chi_X,\chi_W$ are Hecke
+characters with $\chi_X|_{\A^\times}=\eta^n$, $\chi_W|_{\A^\times}=\eta^d$, and $\omega$ is a Weil representation for $M$
+with splitting characters $(\chi_X,\chi_W)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.IsGood}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.IsWeil}
+\formal{GlobalTheory.ThK.IsPair}
+\end{definition}
+
+\begin{definition}[Fock space, polynomial data, the spaces $\thmKSo$]\label{pf:thmK:def:fock}
+Let $M$ be a model for $(X,W)$. The \emph{Fock space} $\thmKPol(M)$ is the smallest space of Schwartz functions on
+$F_\infty^{n\times d}$ which contains the Gaussians of $M$ (Schwartz functions on which the derivatives of the
+Heisenberg lines $t\mapsto\rho_\psi(tu)$, $u$ archimedean, and $t\mapsto\rho_\psi(tu')$ with
+$u'^{\tau_w}=\pm i\,\theta^X_wu^{\tau_w}(\theta^W_w)^{\mathsf T}$ differ by the factor $i$) and is stable under the
+derivatives of the archimedean Heisenberg lines. The space of \emph{polynomial data} $\thmKPD(M)$ is the span of the
+functions $\thmKpure(f,\varphi)$ with $f\in\thmKPol(M)$, $\varphi_v\in\thmKS(F_v^{n\times d})$ and
+$\varphi_v=\thmKvac_v$ for almost all $v$. For a finite place $v$ and $t\colon E\to F_v$, $\thmKSo_v(t)$ is the set of
+$\varphi\in\thmKS(F_v^{n\times d})$ whose image under some linear model at $v$ of conjugate type (a bijection of
+$\thmKS$ onto the locally constant compactly supported functions on $M_{n\times d}(F_v)$ which turns the Heisenberg action
+into translations and multiplications by characters) is supported on matrices of rank $n$; and $\thmKSo(M)$ is the span of
+the functions $\thmKpure(f,\varphi)$ with $f$ Schwartz, $\varphi_v\in\thmKS(F_v^{n\times d})$, $\varphi_v=\thmKvac_v$
+for almost all $v$ and $\varphi_{v_1}\in\thmKSo_{v_1}(\tau_1)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.Pol}
+\formal{GlobalTheory.ThK.PolData}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.So}
+\end{definition}
+
+\begin{definition}[Theta functions and theta integrals]\label{pf:thmK:def:theta}
+For a representation $\omega$ for $(X,W)$, a function $\Phi$ on $\A^{n\times d}$, $g\in\Uni(X)(\A)$ and
+$h\in\Uni(W)(\A)$ put
+\begin{equation}\label{pf:thmK:eq:theta}
+\theta_\omega(\Phi)(g,h)=\sum_{\xi\in F^{n\times d}}(\omega(g,h)\Phi)(\xi),\qquad
+\thmKI_{M,\omega}(\Phi)(h)=\int_{\mathrm{dom}}\theta_\omega(\Phi)(g,h)\,d\mu(g).
+\end{equation}
+We say that \emph{the theta integral of $\Phi$ converges} if $g\mapsto\theta_\omega(\Phi)(g,h)$ is integrable on
+$\mathrm{dom}$ for every $h$. Note that $\thmKI_{M,\omega}$ depends on $M$ only through $(\mu,\mathrm{dom})$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.I}
+\end{definition}
+
+\begin{definition}[Characters, $L$-values, step factors]\label{pf:thmK:def:chars}
+A character is a homomorphism $\chi\colon\thmKAE^\times\to S^1$; it is \emph{Hecke} if it is continuous and trivial on
+$E^\times$. We write $\chi|_{\A^\times}=\eta^n$ if $\chi(x)=1$ for $x\in F^\times\Nm(\thmKAE^\times)$ and $\chi(x)=(-1)^n$
+for the other $x\in\A^\times$. $\chi$ has \emph{infinity type} $m$ if $\chi(z)=\prod_w(z_w/|z_w|)^{m(w)}$ for ideles
+$z$ with trivial finite components (computed through $\tau_w$). For a finite set $S$ of places of $F$,
+$L^S(s,\chi)=\prod_{w}L_w(s,\chi)$ is the product over the finite places $w$ of $E$ not above $S$ of
+$L_w(s,\chi)=(1-\chi_w(\varpi_w)\Nm w^{-s})^{-1}$ if $\chi$ is unramified at $w$ and $1$ otherwise. For a fractional
+ideal $\mathfrak a$ of $E$, $\chi(\mathfrak a)=\prod_w\chi_w(\varpi_w)^{\ord_w\mathfrak a}$. For a character $\nu_v$ of
+$F_v^\times$ with conductor exponent $c=c(\nu_v)$ and a uniformiser $\varpi$, the Gauss sum and epsilon factor are
+\begin{equation}\label{pf:thmK:eq:gauss}
+\begin{gathered}
+g(\psi_v,\nu_v)=\sum_{y\in(\OO_v/\varpi^c)^\times}\nu_v(y)^{-1}\psi_v(y\varpi^{-c}),\\
+\eps(\psi_v,\nu_v,z)=\Nm v^{-cz}\,g(\psi_v,\nu_v)\,\nu_v(\varpi)^c\qquad(z\in\Z).
+\end{gathered}
+\end{equation}
+A \emph{character datum} $X=(\alpha,\beta,S_0,Q)$ consists of two characters and two finite sets of finite places; put
+$\nu=\alpha/\beta$ and $T=S_0\cup Q$. A finite place $v$ is \emph{good} for $X$ if $v\notin T$ and the rational prime
+below $v$ splits completely in $E$. For $v\in P$ let $\nu_v$ be the character of $F_v^\times$ obtained from $\nu$ through
+the place of $E$ determined by $\tau_v$. For $e_1,e_2,s\in\{\pm1\}$, fractional ideals $\mathfrak b,\mathfrak c$ of $E$ and
+$z\in\Z$, the \emph{step factor} is
+\begin{equation}\label{pf:thmK:eq:stepfac}
+\thmKst(e_1,e_2,s;\mathfrak b,\mathfrak c;z)=\nu(\mathfrak b)^{e_1}\nu(\mathfrak c)^{e_2}
+\prod_{v\in P\cap T}\nu_v(s)\,\eps(\psi_v,\nu_v,z)
+\end{equation}
+(it depends on $B$ and $X$, which will be clear from the context). The datum $X$ is \emph{good} for $(B,a,a')$ if
+$\alpha,\beta$ are Hecke characters with $\alpha|_{\A^\times}=\eta^{a'}$, $\beta|_{\A^\times}=\eta^{a}$ and infinity types
+$m_\alpha,m_\beta$; $S_0\cap Q=\emptyset$; $T\subseteq P$; $\nu$ is ramified at every place of $E$ above $T$;
+$\alpha,\beta$ are unramified outside $T$; and $v_1$ is good for $X$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.stepFac}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars.IsGood}
+\end{definition}
+
+\begin{definition}[Configurations and triples]\label{pf:thmK:def:geo}
+A \emph{configuration} $G=(p,q,V,V',W,M,M')$ of type $(a,a')$ consists of integers $p,q\ge0$, spaces $V,V',W$ of
+dimensions $a,a',a+a'$, a model $M$ for $(V,W)$ and a model $M'$ for $(V',W)$. It is \emph{good} for $B$ if: $a'<a$,
+$a+a'$ is even and $a+a'<m_\alpha(w)-m_\beta(w)$ for all infinite $w$; $2(p+q)+1<\lfloor(a-a')/2\rfloor$ and
+$2(p+q)+1<a'$; $V\in\mathrm{Herm}_B(a-p,p)$, $V'\in\mathrm{Herm}_B(q,a'-q)$, $W\in\mathrm{Skew}_B(a+a'-(p+q),p+q)$;
+and $M,M'$ are good. The data $(B,G,X,\omega,\omega')$ form a \emph{triple} if $B$ is good, $G$ is good for $B$, $X$ is
+good for $(B,a,a')$, $\omega$ is a Weil representation for $M$ with splitting characters $(\beta,\beta/\alpha)$ and
+$\omega'$ one for $M'$ with splitting characters $(\alpha,\alpha/\beta)$. We write $\thmKI=\thmKI_{M,\omega}$ and
+$\thmKI'=\thmKI_{M',\omega'}$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo.IsGood}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsTriple}
+\end{definition}
+
+\begin{lemma}[The Weil pairs of a triple]\label{pf:thmK:pairs}
+For a triple, $(M,\omega)$ is a Weil pair for $(V,W)$ of signature $(a-p,p;a+a'-(p+q),p+q)$ with characters
+$(\beta,\beta/\alpha)$, and $(M',\omega')$ is a Weil pair for $(V',W)$ of signature $(q,a'-q;a+a'-(p+q),p+q)$ with
+characters $(\alpha,\alpha/\beta)$; we call them the Weil pairs of $V$ and of $V'$. Moreover $(a+a')+2\min(a-p,p)<2a$.
+\formallabel{PositivityTheory.ThKG.pairV}\formallabel{PositivityTheory.ThKG.pairV'}
+\formallabel{PositivityTheory.ThKG.weilCondV}
+\end{lemma}
+
+\begin{proof}
+The quotient of two Hecke characters is a Hecke character, and $(\beta/\alpha)|_{\A^\times}=\eta^{a}\eta^{-a'}=\eta^{a+a'}$
+since $\eta^2=1$; similarly for $\alpha/\beta$. The inequality follows from $2(p+q)+1<\lfloor(a-a')/2\rfloor$.
+\end{proof}
+
+\begin{definition}[Matching maps]\label{pf:thmK:def:maps}
+Let $(B,G,X,\omega,\omega')$ be a triple. For a finite place $v$ the \emph{augmentation module} $\thmKaug_v(\omega)$ is the
+span of the differences $\varphi_1-\varphi$ with $\varphi,\varphi_1\in\thmKS(F_v^{a\times(a+a')})$ and
+$\omega(g,1)\colon\varphi\thmKacts{v}\varphi_1$ for some $g\in\Uni(V)(F_v)$; similarly $\thmKaug_v(\omega')$.
+\begin{enumerate}
+\item \emph{Real maps} $R=(\Pi_\infty,p,p')$: a complex vector space with linear maps $p,p'$ from the archimedean
+Schwartz spaces of $F_\infty^{a\times(a+a')}$, $F_\infty^{a'\times(a+a')}$ to $\Pi_\infty$. They are \emph{matching}
+if $p(\thmKPol(M))=\Pi_\infty$, $p$ kills the derivatives of $t\mapsto\omega(\gamma(t),1)f$ ($f\in\thmKPol(M)$, $\gamma$ a
+one-parameter subgroup of $V$) and $p(\omega(k,1)f)=p(f)$ for $k\in K_\infty(V)$; the same for $p'$; if $p(f)=p'(f')$
+($f\in\thmKPol(M)$, $f'\in\thmKPol(M')$) then $p(f_1)=p'(f'_1)$ for the derivatives $f_1,f'_1$ of $f,f'$ along the same
+one-parameter subgroup of $W$ and for the translates by the same $k\in K_\infty(W)$; and $\Pi_\infty$ is non-zero and every
+subspace stable under the action of the one-parameter subgroups of $W$ and of $K_\infty(W)$ induced through $p$ is $0$ or
+$\Pi_\infty$.
+\item \emph{Finite maps} $R_f=(\Pi_v,p_v,p'_v)_v$: for every finite $v$ a complex vector space with linear maps
+$p_v,p'_v$ from the functions on $F_v^{a\times(a+a')}$, $F_v^{a'\times(a+a')}$. They are \emph{matching} if for every
+$v$: $p_v,p'_v$ map $\thmKS$ onto $\Pi_v$ and vanish on $\thmKaug_v(\omega)$, $\thmKaug_v(\omega')$; if
+$p_v(\varphi)=p'_v(\varphi')$ and $h\in\Uni(W)(F_v)$ acts by $\varphi\mapsto\varphi_1$, $\varphi'\mapsto\varphi'_1$
+under $\omega(1,h)$, $\omega'(1,h)$, then $p_v(\varphi_1)=p'_v(\varphi'_1)$; $\Pi_v\ne0$ and every subspace stable under
+the induced action of $\Uni(W)(F_v)$ is $0$ or $\Pi_v$; for $v\notin T$, $p_v(\thmKvac_v)=p'_v(\thmKvac'_v)\ne0$; and for
+$v\in P\cap T$ the \emph{zeta condition} holds: there are linear models $\iota,\iota'$ at $v$ adapted to the bases
+$\mathrm{bas}_v$, sending the vacua to the characteristic functions of the integral matrices, such that
+$p_v(\varphi)=p'_v(\varphi')$ iff two explicit zeta integrals of Godement--Jacquet type \cite{GodementJacquet1972}
+attached to $(\iota\varphi,\nu_v,\beta_v)$ and $(\iota'\varphi',\nu_v,\alpha_v)$ agree as functions on
+$\GL_{a+a'}(F_v)$.
+\end{enumerate}
+The data $(B,G,X,\omega,\omega',R,R_f)$ are \emph{matched} if they form a triple and $R,R_f$ are matching.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsRealMaps}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsFinMaps}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsZetaAt}
+\end{definition}
+
+\begin{definition}[Matched functions and constants]\label{pf:thmK:def:match}
+Let $R,R_f$ be real and finite maps. Functions $\Phi$ on $\A^{a\times(a+a')}$ and $\Phi'$ on $\A^{a'\times(a+a')}$ are
+\emph{polynomially matched}, written $\Phi\approx\Phi'$, if there are a finite set $T'\supseteq T$ of finite places and
+decompositions $\Phi=\sum_i\thmKpure(f_i,\varphi_i)$, $\Phi'=\sum_j\thmKpure(f'_j,\varphi'_j)$ with $f_i\in\thmKPol(M)$,
+$f'_j\in\thmKPol(M')$, all local components in $\thmKS$ and equal to the vacua outside $T'$, such that
+\begin{equation}\label{pf:thmK:eq:polmatch}
+\sum_ip(f_i)\otimes\bigotimes_{v\in T'}p_v(\varphi_{i,v})=\sum_jp'(f'_j)\otimes\bigotimes_{v\in T'}p'_v(\varphi'_{j,v})
+\quad\text{in }\Pi_\infty\otimes\textstyle\bigotimes_{v\in T'}\Pi_v.
+\end{equation}
+They are \emph{matched}, written $\Phi\sim\Phi'$, if $\Phi'\in\thmKSo(M')$ and there are decompositions
+$\Phi=\sum_if_i\otimes g_i$, $\Phi'=\sum_jf'_j\otimes g'_j$ ($f$ Schwartz, $g\in\thmKS(\A_f)$) and sequences
+$s_{k,i}\to f_i$, $s'_{k,j}\to f'_j$ in the Schwartz topology such that for every $k$ the functions
+$\Phi_k=\sum_is_{k,i}\otimes g_i$, $\Phi'_k=\sum_js'_{k,j}\otimes g'_j$ satisfy $\Phi'_k\in\thmKSo(M')$ and
+$\Phi_k\approx\Phi'_k$. A number $c\in\C$ is a \emph{constant} if $\thmKI(\Phi)(h)=c\,\thmKI'(\Phi')(h)$ for all
+$\Phi\sim\Phi'$ and all $h\in\Uni(W)(\A)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.PolMatch}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Match}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsConst}
+\end{definition}
+
+\begin{definition}[Decay, one constant, coinvariants]\label{pf:thmK:def:decay}
+A triple satisfies the \emph{decay condition} if the theta integral of every test function $\Phi$ converges, and for every
+$\Phi'\in\thmKSo(M')$: for every $N$ there are $C,k$ with $|\theta_{\omega'}(\Phi')(g,h)|\,\thmKqht(g)^N\le
+C\thmKht(h)^k$ for all $g,h$, the theta integral of $\Phi'$ converges, and $|\thmKI'(\Phi')(h)|\le C\thmKht(h)^N$ for
+some $C,N$. Matched data satisfy the \emph{one-constant condition} if there is $\Phi'\in\thmKSo(M')$ with
+$\thmKI'(\Phi')\ne0$, there is exactly one constant, and every constant is non-zero. They satisfy the \emph{coinvariant
+condition} if for every place $v$ good for $X$: (i) $\ker p_v\cap\thmKS=\thmKaug_v(\omega)$ and $\ker p'_v\cap\thmKS=
+\thmKaug_v(\omega')$; (ii) for every $t\colon E\to F_v$, $p'_v$ maps $\thmKSo_v(t)$ onto $\Pi_v$; (iii) every linear form on
+the functions on $F_v^{a'\times(a+a')}$ vanishing on $\thmKaug_v(\omega')$ factors on $\thmKS$ through $p'_v$; and
+moreover $\thmKSo(M')$ is stable under all operators $\omega'(\gamma)$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Decay}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.OneConst}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Coinv}
+\end{definition}
+
+\begin{definition}[Adapted planes and step relations]\label{pf:thmK:def:steps}
+A \emph{plane} $H=(x,y,\iota,\mathfrak b)$ of dimensions $(n,n_1)$ consists of $x,y\in E^n$,
+$\iota\in M_{n\times n_1}(E)$ and a fractional ideal $\mathfrak b=\mathfrak b_H$ of $E$. It is \emph{adapted} to spaces
+$(Y,Y_1)$ at positions $(i_0,i_1)$ if $n=n_1+2$; $\langle x,x\rangle=\langle y,y\rangle=0$, $\langle x,y\rangle=1$; the
+image of $\iota$ is orthogonal to $x,y$ and $\iota^{\mathsf T}J_Y\sigma(\iota)=J_{Y_1}$; $u\in L_{Y_1}$ iff $\iota u\in
+L_Y$, and every $z\in L_Y$ is $sx+\iota u+ty$ with $sx,ty\in L_Y$ and $u\in L_{Y_1}$; $\mathfrak b=\{s:sx\in L_Y\}$;
+$\theta^Y_w\iota=\iota\theta^{Y_1}_w$ and $y^{\tau_w}\in\C^\times\theta^Y_wx^{\tau_w}$ for all $w$; and for $v\in P$ the
+columns $i_0,i_1$ of $\mathrm{bas}_v(Y)$ are $\tau_v(x),\tau_v(y)$ and the other columns are, in order, those of
+$\iota^{\tau_v}\mathrm{bas}_v(Y_1)$.
+
+For $e_1,e_2,s\in\{\pm1\}$ and fixed $F,E,\sigma$:
+\begin{enumerate}
+\item the \emph{$\beta$-step relation} $\thmKSt_\beta(e_1,e_2,s)$: for all $B$, $a,b$, configurations $G$ of type
+$(a,b+2)$ and $G_1$ of type $(a,b)$ with $V(G_1)=V(G)$, $p(G_1)=p(G)$, $q(G_1)+1=q(G)$, planes $H$ adapted to
+$(V'(G),V'(G_1))$ at $(0,b+1)$ and $H'$ adapted to $(W(G),W(G_1))$ at $(a,a+b+1)$, and all real maps $R,R_1$, there is
+$C\ne0$ such that for all character data $X$, all matched data $(\omega,\omega',R_f)$ for $(G,R)$ and
+$(\omega_1,\omega'_1,R_{f,1})$ for $(G_1,R_1)$ and all constants $c$ for $G$ and $c_1$ for $G_1$, there is $u$ with
+\begin{equation}\label{pf:thmK:eq:stepbeta}
+u\,C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};-k)=1,\qquad c\,\thmKLS{k+1}{\nu}=u\,c_1,\qquad
+k=\lfloor(a-(b+2))/2\rfloor;
+\end{equation}
+\item the \emph{$\alpha$-step relation} $\thmKSt_\alpha(e_1,e_2,s)$: for all $B$, $b,a'$, configurations $G$ of type
+$(b+2,a')$ and $G_1$ of type $(b,a')$ with $V'(G_1)=V'(G)$, $q(G)=q(G_1)=0$, $p(G_1)+1=p(G)$, planes $H$ adapted to
+$(V(G),V(G_1))$ at $(0,b+1)$ and $H'$ adapted to $(W(G),W(G_1))$ at $(0,b+1)$, and all $R,R_1$, there is $C\ne0$ such
+that, with the same quantifiers,
+\begin{equation}\label{pf:thmK:eq:stepalpha}
+c=C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k)\,\thmKLS{k}{\nu}\,c_1,\qquad k=\lfloor(b+2-a')/2\rfloor.
+\end{equation}
+\end{enumerate}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Plane.IsAdapted}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepBeta}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.StepAlpha}
+\end{definition}
+
+\begin{definition}[The two notions of Theorem K]\label{pf:thmK:def:K}
+$\sfname{LocalMatching}$ is the statement: for all number fields $F,E$ with $E$ an $F$-algebra, all $\sigma,B,a,a'$,
+configurations $G$ of type $(a,a')$, character data $X$ and representations $\omega,\omega'$ forming a triple, there are
+real maps $R$ and finite maps $R_f$ such that the data are matched. $\sfname{ThetaIntegralsAgree}$ is the conjunction of:
+(i) every triple satisfies the decay condition, and all matched data satisfy the one-constant condition and the
+coinvariant condition; (ii) there are $e_1,e_2,s\in\{\pm1\}$ with $\thmKSt_\beta(e_1,e_2,s)$ for all $F,E,\sigma$; (iii)
+there are $e_1,e_2,s\in\{\pm1\}$ with $\thmKSt_\alpha(e_1,e_2,s)$ for all $F,E,\sigma$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.LocalMatching}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ThetaIntegralsAgree}
+\end{definition}
+
+\begin{theorem}[\cref{thm:theorem-K}]\label{pf:thmK:main}
+$\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ hold.
+\formallabel{UpperTheory.LiteratureTheorems.theta_integrals_agree_and_local_matching_of_literature}
+\end{theorem}
+
+The formal statement has a hypothesis (a proof of three propositions on Galois representations and on the local Langlands
+correspondence) which is not used (\cref{pf:thmK:rem:unused}). The proof is completed in \cref{sec:pf:thmK:final}.
+
+
+% ===========================================================================
+\subsection{Analytic inputs, auxiliary notions and the leaves}\label{sec:pf:thmK:inputs}
+
+\subsubsection{Siegel Eisenstein series and the Siegel--Weil formula}\label{sec:pf:thmK:sw}
+For a space $Y$ of dimension $n$ let $G_2(Y)=\Uni(Y\oplus-Y)(\A)$ be the doubled group, $\Delta$ the diagonal Lagrangian
+and, for $p\in G_2(Y)$ and $t\in\GL_n(\thmKAE)$, write $p\in P_\Delta$ with Levi part $t$ if $p\Delta=\Delta t$. Frame
+data $(b,K,a)$ consist of a basis $b$ of $E^{2n}$ in which the doubled form is $\left(\begin{smallmatrix}0&1\\
+\pm1&0\end{smallmatrix}\right)$ and whose first $n$ vectors span $\Delta$, the subgroup $K$ of elements whose matrices
+in $b$ are unitary at the infinite places and, together with their inverses, integral at the finite places, and a
+function $a$ with $G_2(Y)=P_\Delta K$ and $a(pk)=|\det t|_{\thmKAE}$. A \emph{section} (for a Hecke character $\chi$ and
+$s_1\in\C$) is a continuous right $K$-finite function $f$ on $G_2(Y)$ with $f(px)=\chi(\det t)|\det t|^{s_1+n/2}f(x)$;
+its flat deformation is $f_s=a^{s-s_1}f$, and its Eisenstein series is $\sum_{\gamma\in P_\Delta(F)\backslash
+G_2(Y)(F)}f_s(\gamma x)$.
+
+\begin{littheorem}[Meromorphic continuation; \cite{Langlands1976,MoeglinWaldspurger1995}]\label{pf:thmK:eis}
+Let $B$ be good, $n\ge1$, $Y$ hermitian or skew-hermitian of dimension $n$, $\chi$ a Hecke character with
+$\chi|_{\A^\times}=\eta^{c}$ for some $c\in\N$, $(b,K,a)$ frame data and $f$ a section. There is $\hat E(s,x)$ such that the Eisenstein
+series converges to $\hat E(s,x)$ for $\Re s>t$ (some $t$) and is holomorphic there, and for every $s_0$ there are $k\ge0$,
+a neighbourhood $U$ of $s_0$ and a family $H(s)$ of functions of moderate growth with $H(s)=(s-s_0)^k\hat E(s,\cdot)$ on
+$U\smallsetminus\{s_0\}$ such that $s\mapsto\mu(H(s))$ is holomorphic on $U$ for every growth functional $\mu$.
+\formal{GlobalTheory.ThK.Dbl.EisBL}
+\formallabel{PositivityTheory.RgEis.Hd.eisBL}\formallabel{UpperTheory.LiteratureTheorems.eis_bl_of_literature}
+\end{littheorem}
+
+This is the meromorphic continuation of Siegel Eisenstein series, in a weak (functional-wise) form. In the development it
+is proved from the convergence in a half plane and a multiplicativity argument for the constant terms; we use it as a
+classical theorem.
+
+\begin{littheorem}[Siegel--Weil formula for definite spaces; \cite{Weil1965,KudlaRallis1988,Ichino2004}]\label{pf:thmK:sw:thm}
+Let $B$ be good, $m,n\ge1$, and let $A$, $Y$ be spaces of dimensions $m,n$, one hermitian and the other
+skew-hermitian, with $A$ of signature $(r,s)$, $\min(r,s)=0$. Let $\chi$ be a Hecke character with
+$\chi|_{\A^\times}=\eta^m$, and let $(\mathbf d,\omega,S,l)$ be a doubling datum: rational Darboux coordinates for
+$A\otimes(Y\oplus-Y)$, a Weil representation $\omega$ of $G_2(Y)$ satisfying Siegel's rule for $\Delta$ with the
+character $\chi$, a representation $S$ of $\Uni(A)(\A)$ by linear substitutions, and an admissible linear form $l$
+invariant under $S$ and under the Heisenberg translations by $z\Delta^{\mathsf T}$, with
+$\sum_{y}l(\rho_\psi(y,-y)\Phi)=\sum_\xi\Phi(\xi)$ for test functions $\Phi$. Let $(b,K,a)$ be frame data, $\mu$ a Haar
+measure and $D$ a fundamental domain for $\Gamma_A$. Then for every test function $\Phi$ whose $\omega(K)$-translates span
+a finite-dimensional space, the Eisenstein series of the flat deformation of the section $x\mapsto l(\omega(x)\Phi)$ has,
+at every $x$, a meromorphic continuation which is holomorphic at $s_0=(m-n)/2$ with value
+\begin{equation}\label{pf:thmK:eq:sw}
+E(x,s_0)=\kappa\,\frac1{\mu(D)}\int_D\sum_\xi\bigl(\omega(x)S(g)\Phi\bigr)(\xi)\,d\mu(g),\qquad
+\kappa=\begin{cases}1&n<m,\\2&n\ge m.\end{cases}
+\end{equation}
+\formal{GlobalTheory.ThK.Dbl.SiegelWeilStd}
+\formallabel{PositivityTheory.SiegelWeilFormula.Fin.siegelWeilStd}
+\formallabel{UpperTheory.LiteratureTheorems.siegel_weil_std_of_literature}
+\end{littheorem}
+
+Since $A$ is definite at the infinite places, it is anisotropic, and \eqref{pf:thmK:eq:sw} is the classical Siegel--Weil
+formula for the dual pair $(\Uni(A),\Uni(Y\oplus-Y))$ with its usual constant $\kappa\in\{1,2\}$
+\cite{Weil1965,KudlaRallis1988,Ichino2004}. In the development it is proved (via Poisson summation, a splitting of the
+constant terms and a comparison of Whittaker--Fourier coefficients); we use it as a classical theorem.
+
+\subsubsection{Auxiliary notions}\label{sec:pf:thmK:aux}
+Fix $B$, a configuration $G$ of type $(a,a')$, a character datum $X$ and representations $\omega,\omega'$; when matched
+data are given, $R,R_f$ denote the matching maps.
+
+\begin{definition}[Polynomial constants]\label{pf:thmK:def:polconst}
+$c\in\C$ is a \emph{polynomial constant} if $\thmKI(\Phi)(h)=c\,\thmKI'(\Phi')(h)$ for all $\Phi$, all
+$\Phi'\in\thmKSo(M')$ with $\Phi\approx\Phi'$ and all $h$.
+\formal{GlobalTheory.ThK.PolConst}
+\end{definition}
+
+\begin{definition}[Constant terms along a plane; splittings]\label{pf:thmK:def:ct}
+Let $H'=(x,y,\iota,\mathfrak b)$ be a plane adapted to $(W,W_1)$. Let $N(H')\subseteq\Uni(W)(\A)$ be the subgroup
+generated by the $u$ with $ux=x$ and $u\iota z\in\iota z+\thmKAE x$ for all $z$. For functions $f,c$ on $\Uni(W)(\A)$,
+$\thmKCT_{H'}(f)=c$ means: $c(h)=\int_{\mathcal F}f(uh)\,du$ for every Haar measure on $N(H')$ and every fundamental
+domain $\mathcal F$ of $N(H')\cap\Gamma_W$ of volume one. An element $m\in\Uni(W)(\A)$ is a \emph{Levi element}
+$m=m(t,h_1)$ ($t\in\thmKAE^\times$, $h_1\in\Uni(W_1)(\A)$) if $mx=tx$, $my=c_\sigma(t)^{-1}y$ and $m\iota=\iota h_1$. A
+function $f$ \emph{has law} $(\chi,z)$ if $f(mh)=\chi(t)|t|_{\thmKAE}^zf(h)$ for all Levi elements $m=m(t,1)$ and all
+$h$. For a configuration of type $(a,a')$, a \emph{splitting} of a function $f$ on $\Uni(W)(\A)$ along $H'$ is a pair
+$(f_\alpha,f_\beta)$ of functions with
+\begin{equation}\label{pf:thmK:eq:split2}
+\thmKCT_{H'}(f)=f_\alpha+f_\beta,\qquad f_\alpha\text{ of law }(\alpha,a'/2),\qquad f_\beta\text{ of law }(\beta,a/2);
+\end{equation}
+we write $(f_\alpha,f_\beta)\in\thmKSpl_{H'}(f)$, or $\thmKSpl(f)$. Clearly $(cf_\alpha,cf_\beta)\in\thmKSpl(cf)$ if
+$(f_\alpha,f_\beta)\in\thmKSpl(f)$, and $(0,0)\in\thmKSpl(0)$.
+\formal{GlobalTheory.ThK.IsCT}\formal{GlobalTheory.ThK.IsLevi}\formal{GlobalTheory.ThK.Split2}
+\end{definition}
+
+\begin{definition}[Evaluation maps, stabilisers, cone integrals]\label{pf:thmK:def:ev}
+Let $M$ be a model for $(X,W)$ and $M_1$ one for $(X_1,W_1)$, $\iota\in M_{n\times n_1}(E)$, $\iota'\in
+M_{d\times d_1}(E)$, and $I$ a set of matrices in $M_{n\times d}(\thmKAE)$. A linear map $e$ from functions on
+$\A^{n\times d}$ to functions on $\A^{n_1\times d_1}$ is an \emph{evaluation map}, $e\in\thmKEv(M,M_1;\iota,\iota';I)$,
+if it preserves test functions; $e(\rho_\psi(\iota z\iota'^{\mathsf T})\Phi)=\rho_\psi(z)e(\Phi)$ and
+$e(\rho_\psi(u)\Phi)=e(\Phi)$ for test functions $\Phi$, $z\in M_{n_1\times d_1}(\thmKAE)$ and $u\in I$; and there are a
+non-zero continuous linear map $e_\infty$ of Schwartz spaces and linear maps $e_v$ with $e_v(\thmKvac_v)=\thmKvac^{M_1}_v$
+and $e_v(\thmKS)=\thmKS$ such that $e(\thmKpure(f,\varphi))=\thmKpure(e_\infty f,(e_v\varphi_v)_v)$. For planes $H$ in $X$
+and $H'$ in $W$ put $I_0(H')=\{z\,x_{H'}^{\mathsf T}\}$, $I_A(H,H')=I_0(H')\cup\{x_H(\iota_{H'}z)^{\mathsf T}\}$ and
+$I_B(H,H')=\{x_Hz^{\mathsf T}\}\cup\{(\iota_Hz)x_{H'}^{\mathsf T}\}$ ($z$ ranging over adelic vectors).
+
+A subgroup $K\subseteq\Uni(X)(\A)$ is the \emph{stabiliser} of $X$ if $g\in K$ iff the components of $g$ commute with all
+$\theta_w$ and $g,g^{-1}$ preserve the closure of the group generated by the vectors $ax$ ($x\in L_X$, $a\in\A$ finite and
+integral). For such $K$ with a Haar measure $\mu_K$, a Haar measure $\mu$ on $\thmKAE^\times$, a map
+$u\colon\thmKAE^\times\to M_{n\times d}(\thmKAE)$, a character $\nu$ and $z\in\N$, the \emph{cone integral} is
+\begin{equation}\label{pf:thmK:eq:cone}
+\thmKcone(\Phi)(y)=\int_K\int_{\thmKAE^\times}e\bigl(\rho_\psi(u(l))\,\omega(k,1)\Phi\bigr)(y)\,\nu(l)\,|l|^z_{\thmKAE}
+\,d\mu(l)\,d\mu_K(k).
+\end{equation}
+We use $u=u_A(l)=l\,x_Hy_{H'}^{\mathsf T}$ and $u=u_B(l)=c_\sigma(l)\,y_Hx_{H'}^{\mathsf T}$.
+\formal{GlobalTheory.ThK.IsEv}\formal{GlobalTheory.ThK.IsStab}\formal{GlobalTheory.ThK.cone}
+\end{definition}
+
+\begin{definition}[Re-choices and step configurations]\label{pf:thmK:def:cfg}
+For spaces $X,Y$ of the same dimension let $X[Y]$ be $X$ with its Cartan involutions and local bases replaced by those of
+$Y$; for a configuration $G$, $G[V_2,V'_2,W_2]$ is $G$ with $V,V',W$ replaced by $V[V_2]$, $V'[V'_2]$, $W[W_2]$ and the same
+models, integers and theta integrals; we call it a \emph{re-choice} of $G$. For $G$ of type $(a,b+2)$ and $G_1$ of type
+$(a,b)$, $(G,G_1,H,H')$ is a \emph{$\beta$-step configuration} if $V(G_1)=V(G)$, $p(G_1)=p(G)$, $q(G_1)+1=q(G)$, $H$ is
+adapted to $(V'(G),V'(G_1))$ at $(0,b+1)$ and $H'$ to $(W(G),W(G_1))$ at $(a,a+b+1)$. For $G$ of type $(b+2,a')$ and $G_1$
+of type $(b,a')$, it is an \emph{$\alpha$-step configuration} if $V'(G_1)=V'(G)$, $q(G)=q(G_1)=0$, $p(G_1)+1=p(G)$, $H$ is
+adapted to $(V(G),V(G_1))$ at $(0,b+1)$ and $H'$ to $(W(G),W(G_1))$ at $(0,b+1)$. In both cases
+$p(G_1)+q(G_1)=p(G)+q(G)-1$.
+\formal{GlobalTheory.ThK.reG}\formal{GlobalTheory.ThK.CfgB}\formal{GlobalTheory.ThK.CfgA}
+\end{definition}
+
+In an $\alpha$-step configuration we write $\thmKcone_A$ for the cone integral \eqref{pf:thmK:eq:cone} on the $V$-side with
+$u=u_A$, $\nu=\alpha/\beta$ and $z=k_A:=\lfloor(b+2-a')/2\rfloor$; in a $\beta$-step configuration, $\thmKcone_B$ is the cone
+integral on the $V'$-side with $u=u_B$, $\nu$ and $z=k_B+1$, $k_B:=\lfloor(a-(b+2))/2\rfloor$. The theta integrals of $G_1$
+are denoted $\thmKI_1,\thmKI'_1$, and its models $M_1,M'_1$.
+
+\begin{definition}[Non-degenerate data]\label{pf:thmK:def:claim}
+Matched data are \emph{non-degenerate} if there is a non-zero polynomial constant, there is $\Phi\in\thmKPD(M)$ with
+$\thmKI(\Phi)\ne0$, and there is $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$ with $\thmKI'(\Phi')\ne0$. For $n\in\N$ let
+$\mathcal B(n)$ be the statement that all matched data (over all $F,E,\sigma,B,a,a',\dots$) with $p+q<n$ are
+non-degenerate. Clearly $\mathcal B(n)$ implies $\mathcal B(m)$ for $m\le n$.
+\formal{PositivityTheory.ThKG.Claim}\formal{PositivityTheory.ThKG.Below}
+\end{definition}
+
+\subsubsection{The leaves}\label{sec:pf:thmK:leavesdef}
+
+\begin{definition}[The leaves]\label{def:pf:thmK:leaves}
+The \emph{leaves} are the following twenty-six statements, each universally quantified over all number fields $F,E$,
+$\sigma$, base data, configurations, character data, representations and matching maps (``a triple'', ``matched data''
+and ``a Weil pair'' refer to \cref{pf:thmK:def:geo,pf:thmK:def:maps,pf:thmK:def:models}).
+\begin{enumerate}[label=(L\arabic*),leftmargin=*]
+\item\label{pf:thmK:L:evzero} \emph{Evaluation along $W$.} For a Weil pair for $(X,W)$, a plane $H'$ adapted to $(W,W_1)$
+and a good model $M_1$ for $(X,W_1)$ there is $e\in\thmKEv(M,M_1;1,\iota_{H'};I_0(H'))$, and every such $e$ maps
+$\thmKPD(M)$ onto $\thmKPD(M_1)$.
+\item\label{pf:thmK:L:evcone} \emph{Evaluation along $X$ and $W$.} For a Weil pair for $(X,W)$, planes $H$ adapted to
+$(X,X_1)$ and $H'$ adapted to $(W,W_1)$ and a good model $M_1$ for $(X_1,W_1)$, the sets
+$\thmKEv(M,M_1;\iota_H,\iota_{H'};I_A(H,H'))$ and $\thmKEv(M,M_1;\iota_H,\iota_{H'};I_B(H,H'))$ are non-empty.
+\item\label{pf:thmK:L:stab} \emph{Stabilisers.} For good $B$ and $X\in\mathrm{Herm}_B(r,s)$ the stabiliser $K$ of $X$
+exists and is compact, and there are Haar measures on $K$ and on $\thmKAE^\times$.
+\item\label{pf:thmK:L:towerA} \emph{$\alpha$-towers.} For a triple with $G$ of type $(b+2,a')$ and $q=0<p$ there are a
+re-choice $G_2=G[V_2,V'_2,W_2]$ such that $(B,G_2,X,\omega,\omega')$ is a triple, a configuration $G_1$ of type $(b,a')$,
+planes $H,H'$ such that $(G_2,G_1,H,H')$ is an $\alpha$-step configuration, and $\omega_1,\omega'_1$ such that
+$(B,G_1,X,\omega_1,\omega'_1)$ is a triple.
+\item\label{pf:thmK:L:towerB} \emph{$\beta$-towers.} The same for $G$ of type $(a,b+2)$ with $q\ge1$, with $G_1$ of type
+$(a,b)$ and a $\beta$-step configuration.
+\item\label{pf:thmK:L:facne} \emph{Non-vanishing of step factors.} For a triple,
+$\thmKst(e_1,e_2,s;\mathfrak b,\mathfrak c;z)\ne0$ for all $e_1,e_2,s,\mathfrak b,\mathfrak c,z$, and
+$\thmKLS{k}{\nu}\ne0$ for all integers $k\ge2$.
+\item\label{pf:thmK:L:matchex} \emph{Partners.} For matched data: (a) every $\Phi\in\thmKPD(M)$ has some
+$\Phi'\in\thmKSo(M')$ with $\Phi\approx\Phi'$; (b) every $\Phi'\in\thmKPD(M')$ has some $\Phi$ with $\Phi\approx\Phi'$; (c) if
+$\Phi\approx\Phi'$ and $\Phi'\in\thmKSo(M')$ then $\Phi\in\thmKPD(M)$, $\Phi'\in\thmKPD(M')$ and $\Phi\sim\Phi'$.
+\item\label{pf:thmK:L:levi} \emph{Levi elements.} For good $B$, $W\in\mathrm{Skew}_B(r,s)$ and $H'$ adapted to $(W,W_1)$,
+every $h_1\in\Uni(W_1)(\A)$ admits a Levi element $m(1,h_1)$.
+\item\label{pf:thmK:L:poldense} \emph{Density.} For a Weil pair, $\thmKPol(M)$ is dense in the Schwartz space.
+\item\label{pf:thmK:L:weilconv} \emph{Weil's convergence.} For a Weil pair with $d+2\min(r,s)<2n$ or $\min(r,s)=0$: the theta
+integral of every test function $\Phi$ converges and $\int_{\mathrm{dom}}|\theta_\omega(\Phi)(g,h)|\,d\mu(g)\le
+C\thmKht(h)^k$ for some $C,k$; and for $\varphi\in\thmKS(\A_f^{n\times d})$ and every $h$, $f\mapsto\thmKI(f\otimes
+\varphi)(h)$ is continuous on the Schwartz space.
+\item\label{pf:thmK:L:socont} \emph{Continuity on $\thmKSo$.} For a Weil pair, finitely many $\varphi_j\in\thmKS(\A_f^{n\times
+d})$ and Schwartz-convergent sequences $u_{k,j}\to f_j$ with $\sum_ju_{k,j}\otimes\varphi_j\in\thmKSo(M)$ for all $k$ and
+$\sum_jf_j\otimes\varphi_j\in\thmKSo(M)$, one has $\thmKI(\sum_ju_{k,j}\otimes\varphi_j)(h)\to
+\thmKI(\sum_jf_j\otimes\varphi_j)(h)$ for every $h$.
+\item\label{pf:thmK:L:splitex} \emph{Splittings.} For a triple and $H'$ adapted to $(W,W_1)$: every $\thmKI(\Phi)$,
+$\Phi\in\thmKPD(M)$, and every $\thmKI'(\Phi')$, $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$, has exactly one splitting along $H'$.
+\item\label{pf:thmK:L:ctbz} \emph{Evaluation part, big side.} For a $\beta$-step configuration $(G,G_1,H,H')$ and
+$e\in\thmKEv(M,M_1;1,\iota_{H'};I_0(H'))$ there is $C\ne0$ such that for all triples on $G$ and on $G_1$ (with the same
+$X$), all $\Phi\in\thmKPD(M)$, all $(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$, all Levi elements $m=m(1,h_1)$ and all
+$h$: $f_\beta(mh)=C\,\thmKI_1(e(\omega(1,h)\Phi))(h_1)$.
+\item\label{pf:thmK:L:ctsz} \emph{Evaluation part, small side.} For an $\alpha$-step configuration and an evaluation map
+$e'\in\thmKEv(M',M'_1;1,\iota_{H'};I_0(H'))$ there is $C\ne0$ with the following property: for all triples on $G$ and
+$G_1$ and all $\Phi'\in\thmKPD(M')$ there is a function $f'_\alpha$ with $(f'_\alpha,0)\in\thmKSpl(\thmKI'(\Phi'))$ such
+that, for all Levi elements $m=m(1,h_1)$ and all $h$, $f'_\alpha(mh)=C\,\thmKI'_1(e'(\omega'(1,h)\Phi'))(h_1)$.
+\item\label{pf:thmK:L:ctbc} \emph{Cone part, big side.} For an $\alpha$-step configuration,
+$e\in\thmKEv(M,M_1;\iota_H,\iota_{H'};I_A(H,H'))$, the stabiliser $K$ of $V$ and Haar measures $\mu_K,\mu$, there is $C\ne0$
+such that for all triples on $G,G_1$, $\Phi\in\thmKPD(M)$, $(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$, Levi elements
+$m=m(1,h_1)$ and $h$: $f_\alpha(mh)=C\,\thmKI_1(\thmKcone_A(\omega(1,h)\Phi))(h_1)$.
+\item\label{pf:thmK:L:ctsc} \emph{Cone part, small side.} For a $\beta$-step configuration,
+$e'\in\thmKEv(M',M'_1;\iota_H,\iota_{H'};I_B(H,H'))$, the stabiliser $K$ of $V'$ and Haar measures, there is $C\ne0$ such
+that for all triples on $G,G_1$, $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$, $(f'_\alpha,f'_\beta)\in\thmKSpl(\thmKI'(\Phi'))$,
+$m=m(1,h_1)$ and $h$: $f'_\beta(mh)=C\,\thmKI'_1(\thmKcone_B(\omega'(1,h)\Phi'))(h_1)$.
+\item\label{pf:thmK:L:anall} \emph{Definite small side.} For matched data with $q=0$ and a polynomial constant $c$,
+$\thmKI(\Phi)=c\,\thmKI'(\Phi')$ for \emph{all} $\Phi\approx\Phi'$.
+\item\label{pf:thmK:L:polre} \emph{Change of Cartan data.} For matched data $(\omega,\omega',R,R_f)$ on $G$ and matched data
+$(\omega,\omega',R_2,R_{f,2})$ on a re-choice $G_2=G[V_2,V'_2,W_2]$: if $G_2$ has a non-zero polynomial constant, so does
+$G$.
+\item\label{pf:thmK:L:nonzeroan} \emph{Non-vanishing.} For a triple, if $p=0$ there is $\Phi\in\thmKPD(M)$ with
+$\thmKI(\Phi)\ne0$, and if $q=0$ there is $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$ with $\thmKI'(\Phi')\ne0$.
+\item\label{pf:thmK:L:polzero} \emph{The definite case.} For matched data with $p=q=0$ there is a non-zero polynomial
+constant.
+\item\label{pf:thmK:L:locA} \emph{Local factors of $\alpha$-steps.} There are $e_1,e_2,s\in\{\pm1\}$ such that for an
+$\alpha$-step configuration, real maps $R,R_1$, $e\in\thmKEv(M,M_1;\iota_H,\iota_{H'};I_A)$,
+$e'\in\thmKEv(M',M'_1;1,\iota_{H'};I_0)$, $K,\mu_K,\mu$ as in \ref{pf:thmK:L:ctbc}, there is $C\ne0$ such that for all
+matched data on $G$ (with $R$) and $G_1$ (with $R_1$) satisfying $\mathcal B(p+q)$, and all $\Phi\approx\Phi'$ on $G$:
+\[
+\thmKcone_A\Phi\ \approx\ C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k_A)\,\thmKLS{k_A}{\nu}\,e'\Phi'\quad
+\text{on }G_1.
+\]
+\item\label{pf:thmK:L:locB} \emph{Local factors of $\beta$-steps.} There are $e_1,e_2,s$ such that for a $\beta$-step
+configuration, $R,R_1$, $e\in\thmKEv(M,M_1;1,\iota_{H'};I_0)$, $e'\in\thmKEv(M',M'_1;\iota_H,\iota_{H'};I_B)$ and
+$K,\mu_K,\mu$ as in \ref{pf:thmK:L:ctsc}, there is $C\ne0$ such that for matched data on $G,G_1$ with $\mathcal B(p+q)$ and
+$\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$: $\thmKcone_B\Phi'\in\thmKSo(M'_1)$ and
+\[
+C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};-k_B)\,\thmKLS{k_B+1}{\nu}\,e\Phi\ \approx\ \thmKcone_B\Phi'\quad
+\text{on }G_1.
+\]
+\item\label{pf:thmK:L:endA} \emph{$\alpha$-end step.} For matched data with $q=0<p$ and $\mathcal B(p+q)$, a plane $H'$
+adapted to $(W,W_1)$ and $c\in\C$: if $f_\alpha(m)=c\,f'_\alpha(m)$ for all $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$,
+all $(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$, $(f'_\alpha,f'_\beta)\in\thmKSpl(\thmKI'(\Phi'))$ and all Levi elements
+$m=m(1,h_1)$, then $c$ is a polynomial constant.
+\item\label{pf:thmK:L:endB} \emph{$\beta$-end step.} The same with $q\ge1$ and $f_\beta(m)=c\,f'_\beta(m)$.
+\item\label{pf:thmK:L:kreal} \emph{Archimedean matching.} Every triple admits matching real maps.
+\item\label{pf:thmK:L:kfin} \emph{Non-archimedean matching.} Every triple admits matching finite maps.
+\end{enumerate}
+Besides the leaves we use the statements \textup{(Dec)}: every triple satisfies the decay condition; and \textup{(Coi)}:
+all matched data satisfy the coinvariant condition.
+\formal{PositivityTheory.ThKG.Leaves}\formal{GlobalTheory.ThK.KDecay}\formal{GlobalTheory.ThK.KCoinv}
+\end{definition}
+
+
+% ===========================================================================
+\subsection{From the leaves to Theorem K}\label{sec:pf:thmK:induction}
+
+Throughout this subsection we assume the leaves. We use freely that a polynomially matched pair $\Phi\approx\Phi'$
+consists of polynomial data, $\Phi\in\thmKPD(M)$ and $\Phi'\in\thmKPD(M')$ (each pure tensor in
+\eqref{pf:thmK:eq:polmatch} lies in $\thmKPD$), and that $\thmKI(c\Phi)=c\,\thmKI(\Phi)$.
+
+\begin{lemma}\label{pf:thmK:parts}
+(i) If every triple satisfies the decay condition, all matched data satisfy the one-constant condition and the
+coinvariant condition, and the step relations $\thmKSt_\beta(e_1,e_2,s)$, $\thmKSt_\alpha(e'_1,e'_2,s')$ hold for some signs
+and all $F,E,\sigma$, then $\sfname{ThetaIntegralsAgree}$ holds. (ii) If every triple admits matching real maps and
+matching finite maps, then $\sfname{LocalMatching}$ holds; in particular, under the leaves every triple admits matching
+maps. (iii) For every triple and every test function $\Phi$ the theta integral of $\Phi$ converges; consequently $\thmKI$
+is linear on test functions.
+\formallabel{GlobalTheory.ThK.agree_of_parts}\formallabel{GlobalTheory.ThK.matching_of_parts}
+\formallabel{PositivityTheory.ThKG.Leaves.matched}\formallabel{PositivityTheory.ThKG.Leaves.conv}
+\end{lemma}
+
+\begin{proof}
+(i) and (ii) are the definitions (\cref{pf:thmK:def:K}) rearranged; for (ii) combine the real maps of
+\ref{pf:thmK:L:kreal} with the finite maps of \ref{pf:thmK:L:kfin}. (iii) The Weil pair of $V$ satisfies the hypothesis of
+\ref{pf:thmK:L:weilconv} by \cref{pf:thmK:pairs}. Linearity follows since the theta series of test functions are summable
+and the integrals in \eqref{pf:thmK:eq:theta} converge.
+\end{proof}
+
+\subsubsection{The two key lemmas}
+
+\begin{lemma}[Key lemma for $\beta$-steps]\label{pf:thmK:keyB}
+There are $e_1,e_2,s\in\{\pm1\}$ with the following property. Let $(G,G_1,H,H')$ be a $\beta$-step configuration, $G$ of
+type $(a,b+2)$, and let $R,R_1$ be real maps. Then there is $C\ne0$ such that for all matched data $(\omega,\omega',R_f)$ on
+$G$ and $(\omega_1,\omega'_1,R_{f,1})$ on $G_1$ (with $R$, $R_1$ and the same $X$) satisfying $\mathcal B(p+q)$:
+\begin{enumerate}
+\item for every polynomial constant $c_1$ of $G_1$, every $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$, all splittings
+$(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$, $(f'_\alpha,f'_\beta)\in\thmKSpl(\thmKI'(\Phi'))$ along $H'$ and every Levi
+element $m=m(1,h_1)$,
+\begin{equation}\label{pf:thmK:eq:keyB}
+\bigl(C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};-k_B)\,\thmKLS{k_B+1}{\nu}\bigr)\,f_\beta(m)=c_1\,f'_\beta(m);
+\end{equation}
+\item there is $\Phi\in\thmKPD(M)$ such that every splitting $(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$ has
+$f_\beta(m)\ne0$ for some Levi element $m=m(1,h_1)$.
+\end{enumerate}
+\formallabel{PositivityTheory.ThKG.keyB_of}\formallabel{PositivityTheory.ThKG.Leaves.keyB}
+\end{lemma}
+
+\begin{proof}
+Take $(e_1,e_2,s)$ from \ref{pf:thmK:L:locB}. Fix $G,G_1,H,H',R,R_1$. If there are no $X,\omega,\omega',\omega_1,
+\omega'_1$ with triples on both $G$ and $G_1$, the statement is vacuous and we take $C=1$. Otherwise fix such data; they
+are used only to produce the following objects, which do not depend on them. The Weil pair of $V$ and
+\ref{pf:thmK:L:evzero} (for $W_1=W(G_1)$, the plane $H'$ and the model $M_1$ of $(V,W_1)$) give
+$e\in\thmKEv(M,M_1;1,\iota_{H'};I_0(H'))$, and every such $e$ maps $\thmKPD(M)$ onto $\thmKPD(M_1)$. The Weil pair of $V'$
+and \ref{pf:thmK:L:evcone} give $e'\in\thmKEv(M',M'_1;\iota_H,\iota_{H'};I_B(H,H'))$. \ref{pf:thmK:L:stab} gives the
+compact stabiliser $K$ of $V'$ and Haar measures $\mu_K,\mu$. Let $C_0\ne0$, $C_1\ne0$, $C_2\ne0$ be the constants given by
+\ref{pf:thmK:L:ctbz} (for $e$), \ref{pf:thmK:L:ctsc} (for $e',K,\mu_K,\mu$) and \ref{pf:thmK:L:locB} (for
+$R,R_1,e,e',K,\mu_K,\mu$), and put $C=C_2C_1/C_0$. Write $\kappa_B=\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak
+b_{H'};-k_B)\,\thmKLS{k_B+1}{\nu}$.
+
+(1) Let the data be as in (1). By \ref{pf:thmK:L:ctbz} and \ref{pf:thmK:L:ctsc} with $h=1$,
+$f_\beta(m)=C_0\,\thmKI_1(e\Phi)(h_1)$ and $f'_\beta(m)=C_1\,\thmKI'_1(\thmKcone_B\Phi')(h_1)$. By \ref{pf:thmK:L:locB}, the
+function $\thmKcone_B\Phi'$ lies in $\thmKSo(M'_1)$ and $C_2\kappa_B\,e\Phi\approx\thmKcone_B\Phi'$ on $G_1$; since $c_1$ is a
+polynomial constant of $G_1$, we get $C_2\kappa_B\,\thmKI_1(e\Phi)(h_1)=c_1\,\thmKI'_1(\thmKcone_B\Phi')(h_1)$. Hence
+\[
+C\kappa_B\,f_\beta(m)=\frac{C_2C_1}{C_0}\kappa_B\,C_0\,\thmKI_1(e\Phi)(h_1)=C_1c_1\,\thmKI'_1(\thmKcone_B\Phi')(h_1)
+=c_1f'_\beta(m).
+\]
+(2) Since $p(G_1)+q(G_1)<p+q$, $\mathcal B(p+q)$ applied to the matched data on $G_1$ gives $\Phi_1\in\thmKPD(M_1)$ and $h_1$
+with $\thmKI_1(\Phi_1)(h_1)\ne0$. As $e$ maps $\thmKPD(M)$ onto $\thmKPD(M_1)$, $\Phi_1=e\Phi$ with $\Phi\in\thmKPD(M)$. By
+\ref{pf:thmK:L:levi} there is a Levi element $m=m(1,h_1)$, and for every splitting $(f_\alpha,f_\beta)$ of $\thmKI(\Phi)$,
+\ref{pf:thmK:L:ctbz} gives $f_\beta(m)=C_0\thmKI_1(\Phi_1)(h_1)\ne0$.
+\end{proof}
+
+\begin{lemma}[Key lemma for $\alpha$-steps]\label{pf:thmK:keyA}
+There are $e_1,e_2,s\in\{\pm1\}$ with the following property. Let $(G,G_1,H,H')$ be an $\alpha$-step configuration, $G$
+of type $(b+2,a')$, and let $R,R_1$ be real maps. Then there is $C\ne0$ such that for all matched data on $G$ and $G_1$
+(with $R,R_1$, the same $X$) satisfying $\mathcal B(p+q)$, every polynomial constant $c_1$ of $G_1$, and
+$\kappa=C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k_A)\,\thmKLS{k_A}{\nu}\,c_1$:
+\begin{enumerate}
+\item for every $\Phi\approx\Phi'$ there is $f'_\alpha$ with $(f'_\alpha,0)\in\thmKSpl(\thmKI'(\Phi'))$ such that
+$f_\alpha(m)=\kappa\,f'_\alpha(m)$ for every $(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$ and every Levi element
+$m=m(1,h_1)$;
+\item there are $\Phi\approx\Phi'$, $f'_\alpha$ as in (1) and a Levi element $m=m(1,h_1)$ with $f'_\alpha(m)\ne0$.
+\end{enumerate}
+\formallabel{PositivityTheory.ThKG.keyA_of}\formallabel{PositivityTheory.ThKG.Leaves.keyA}
+\end{lemma}
+
+\begin{proof}
+Take $(e_1,e_2,s)$ from \ref{pf:thmK:L:locA}, fix $G,G_1,H,H',R,R_1$, and as before take $C=1$ if there are no triples on
+$G$ and $G_1$. Otherwise fix triples to construct: by the Weil pair of $V'$ and \ref{pf:thmK:L:evzero} (note
+$V'(G_1)=V'(G)$), $e'\in\thmKEv(M',M'_1;1,\iota_{H'};I_0(H'))$, mapping $\thmKPD(M')$ onto $\thmKPD(M'_1)$; by the Weil pair of
+$V$ and \ref{pf:thmK:L:evcone}, $e\in\thmKEv(M,M_1;\iota_H,\iota_{H'};I_A(H,H'))$; by \ref{pf:thmK:L:stab}, the stabiliser
+$K$ of $V$ and $\mu_K$, $\mu$. Let $C_0,C_1,C_2$ be the non-zero constants of \ref{pf:thmK:L:ctsz} (for $e'$),
+\ref{pf:thmK:L:ctbc} (for $e,K,\mu_K,\mu$) and \ref{pf:thmK:L:locA}, and $C=C_2C_1/C_0$. Write
+$\kappa_A=\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k_A)\,\thmKLS{k_A}{\nu}$, so $\kappa=C\kappa_Ac_1$.
+
+We first show: for every $\Phi\approx\Phi'$ there is $f'_\alpha$ as in (1) which moreover satisfies
+$f'_\alpha(m)=C_0\,\thmKI'_1(e'\Phi')(h_1)$ for all Levi elements $m=m(1,h_1)$. Indeed \ref{pf:thmK:L:ctsz} gives
+$f'_\alpha$ with $(f'_\alpha,0)\in\thmKSpl(\thmKI'(\Phi'))$ and, at $h=1$, the last formula. Let
+$(f_\alpha,f_\beta)\in\thmKSpl(\thmKI(\Phi))$ and $m=m(1,h_1)$. By \ref{pf:thmK:L:ctbc}, $f_\alpha(m)=C_1\,
+\thmKI_1(\thmKcone_A\Phi)(h_1)$. By \ref{pf:thmK:L:locA}, $\thmKcone_A\Phi\approx C_2\kappa_A\,e'\Phi'$ on $G_1$; since
+$q(G_1)=0$, \ref{pf:thmK:L:anall} applies on $G_1$ to this pair (whose second member need not lie in $\thmKSo$) and gives
+$\thmKI_1(\thmKcone_A\Phi)(h_1)=c_1C_2\kappa_A\,\thmKI'_1(e'\Phi')(h_1)$. Therefore
+\[
+f_\alpha(m)=C_1c_1C_2\kappa_A\,\thmKI'_1(e'\Phi')(h_1)=\frac{C_2C_1}{C_0}\kappa_Ac_1\,\bigl(C_0\,\thmKI'_1(e'\Phi')(h_1)\bigr)
+=\kappa\,f'_\alpha(m).
+\]
+This proves (1). For (2), $\mathcal B(p+q)$ applied to $G_1$ gives $\Phi'_1\in\thmKPD(M'_1)\cap\thmKSo(M'_1)$ and $h_1$ with
+$\thmKI'_1(\Phi'_1)(h_1)\ne0$; write $\Phi'_1=e'\Phi'$ with $\Phi'\in\thmKPD(M')$; \ref{pf:thmK:L:matchex}(b) gives $\Phi$ with
+$\Phi\approx\Phi'$; take $f'_\alpha$ as just constructed and $m=m(1,h_1)$ from \ref{pf:thmK:L:levi}; then
+$f'_\alpha(m)=C_0\thmKI'_1(\Phi'_1)(h_1)\ne0$.
+\end{proof}
+
+\subsubsection{The induction on $p+q$}
+
+\begin{lemma}[Change of Fock space]\label{pf:thmK:nzmove}
+Let $(B,G,X,\omega,\omega')$ and $(B,G_2,X,\omega,\omega')$ be triples, where $G_2=G[V_2,V'_2,W_2]$ is a re-choice. If
+$\thmKI(\Phi)\ne0$ for some $\Phi\in\thmKPD(M_2)$, then $\thmKI(\Phi)\ne0$ for some $\Phi\in\thmKPD(M)$.
+\formallabel{PositivityTheory.ThKG.Leaves.nz_move}
+\end{lemma}
+
+\begin{proof}
+$G_2$ has the same models (hence the same vacua, measure, domain and theta integrals) as $G$, but other Cartan involutions,
+hence another Fock space. Suppose $\thmKI(\Phi)=0$ for all $\Phi\in\thmKPD(M)$; we show $\thmKI(\Psi)=0$ for all
+$\Psi\in\thmKPD(M_2)$, which is spanned by the $\thmKpure(f,\varphi)$ with $f\in\thmKPol(M_2)$. Fix $\varphi=(\varphi_v)$
+with $\varphi_v\in\thmKS$ and $\varphi_v=\thmKvac_v$ for almost all $v$. As the vacua are characteristic functions of
+$\OO_v^{a\times(a+a')}$ for almost all $v$, there is $g\in\thmKS(\A_f^{a\times(a+a')})$ with $\thmKpure(f,\varphi)=f\otimes g$
+for all Schwartz $f$. By \ref{pf:thmK:L:weilconv} (applicable to the Weil pair of $V$), for every $h$ the map
+$f\mapsto\thmKI(f\otimes g)(h)$ is continuous on the Schwartz space; it vanishes on $\thmKPol(M)$ by assumption, and
+$\thmKPol(M)$ is dense (\ref{pf:thmK:L:poldense}). Hence it vanishes identically, in particular on $\thmKPol(M_2)$. By
+linearity of $\thmKI$ on test functions, $\thmKI$ vanishes on $\thmKPD(M_2)$.
+\end{proof}
+
+\begin{proposition}[Existence of a polynomial constant]\label{pf:thmK:constof}
+Matched data $(\omega,\omega',R,R_f)$ on $G$ satisfying $\mathcal B(p+q)$ have a non-zero polynomial constant.
+\formallabel{PositivityTheory.ThKG.Leaves.const_of}
+\end{proposition}
+
+\begin{proof}
+\emph{Case $p=q=0$:} this is \ref{pf:thmK:L:polzero}.
+
+\emph{Case $q=0<p$.} Since $\lfloor(a-a')/2\rfloor>2(p+q)+1$, $a\ge2$; write $a=b+2$. \ref{pf:thmK:L:towerA} gives a re-choice
+$G_2$ carrying the triple $(B,G_2,X,\omega,\omega')$, a triple on $G_1$ of type $(b,a')$, and planes such that
+$(G_2,G_1,H,H')$ is an $\alpha$-step configuration. By \cref{pf:thmK:parts}(ii) there are matching maps $R_2,R_{f,2}$ on
+$G_2$ and $R_1,R_{f,1}$ on $G_1$. By \ref{pf:thmK:L:polre} it suffices to find a non-zero polynomial constant of $G_2$ (with
+$R_2,R_{f,2}$). Let $C$ and $(e_1,e_2,s)$ be given by \cref{pf:thmK:keyA} for $(G_2,G_1,H,H')$ and $R_2,R_1$. As
+$p(G_1)+q(G_1)=p+q-1$, $\mathcal B(p+q)$ gives a non-zero polynomial constant $c_1$ of $G_1$. Put
+$c=C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k_A)\,\thmKLS{k_A}{\nu}\,c_1$. Since $p\ge1$ we have
+$k_A=\lfloor(a-a')/2\rfloor>2(p+q)+1\ge2$, so $c\ne0$ by \ref{pf:thmK:L:facne}. We apply \ref{pf:thmK:L:endA} to the matched
+data on $G_2$, the plane $H'$ and $c$. Let $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$, splittings $(f_\alpha,f_\beta)$ of
+$\thmKI(\Phi)$ and $(f'_\alpha,f'_\beta)$ of $\thmKI'(\Phi')$, and $m=m(1,h_1)$. \Cref{pf:thmK:keyA}(1) (where $\kappa=c$) gives
+$f''_\alpha$ with $(f''_\alpha,0)\in\thmKSpl(\thmKI'(\Phi'))$ and $f_\alpha(m)=c\,f''_\alpha(m)$. Since $\Phi'\in\thmKPD(M')
+\cap\thmKSo(M')$, the uniqueness in \ref{pf:thmK:L:splitex} gives $(f'_\alpha,f'_\beta)=(f''_\alpha,0)$, so
+$f_\alpha(m)=c\,f'_\alpha(m)$. Hence $c$ is a polynomial constant of $G_2$.
+
+\emph{Case $q\ge1$.} Since $a'>2(p+q)+1\ge3$, write $a'=b+2$. \ref{pf:thmK:L:towerB} gives $G_2$ and $G_1$ of type $(a,b)$
+forming a $\beta$-step configuration $(G_2,G_1,H,H')$, with triples; take matching maps as before and reduce to $G_2$ by
+\ref{pf:thmK:L:polre}. Let $C,(e_1,e_2,s)$ be given by \cref{pf:thmK:keyB}, let $c_1\ne0$ be a polynomial constant of $G_1$
+($\mathcal B(p+q)$), and $\kappa=C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};-k_B)\,\thmKLS{k_B+1}{\nu}$, which is
+non-zero by \ref{pf:thmK:L:facne} as $k_B+1\ge2$. Put $c=c_1/\kappa\ne0$. In the situation of \ref{pf:thmK:L:endB},
+\eqref{pf:thmK:eq:keyB} gives $\kappa f_\beta(m)=c_1f'_\beta(m)$, i.e.\ $f_\beta(m)=c\,f'_\beta(m)$; so
+\ref{pf:thmK:L:endB} shows that $c$ is a polynomial constant of $G_2$.
+\end{proof}
+
+\begin{lemma}[Non-vanishing on the big side]\label{pf:thmK:nzV}
+For a triple with $q\ge1$ satisfying $\mathcal B(p+q)$ there is $\Phi\in\thmKPD(M)$ with $\thmKI(\Phi)\ne0$.
+\formallabel{PositivityTheory.ThKG.Leaves.nzV}
+\end{lemma}
+
+\begin{proof}
+As in the last case above, \ref{pf:thmK:L:towerB} gives a re-choice $G_2$ and $G_1$ forming a $\beta$-step configuration,
+with triples, and \cref{pf:thmK:parts}(ii) gives matching maps on both. By \cref{pf:thmK:keyB}(2) there is
+$\Phi\in\thmKPD(M_2)$ such that every splitting $(f_\alpha,f_\beta)$ of $\thmKI(\Phi)$ has $f_\beta(m)\ne0$ for some Levi
+element $m$. If $\thmKI(\Phi)=0$ then $(0,0)\in\thmKSpl(\thmKI(\Phi))$, a contradiction. So $\thmKI(\Phi)\ne0$, and
+\cref{pf:thmK:nzmove} gives the assertion.
+\end{proof}
+
+\begin{theorem}[Non-degeneracy of all matched data]\label{pf:thmK:claim}
+$\mathcal B(n)$ holds for every $n$; hence all matched data are non-degenerate.
+\formallabel{PositivityTheory.ThKG.Leaves.claim_of}\formallabel{PositivityTheory.ThKG.Leaves.below}
+\formallabel{PositivityTheory.ThKG.Leaves.claim}
+\end{theorem}
+
+\begin{proof}
+We first show: matched data satisfying $\mathcal B(p+q)$ are non-degenerate. \Cref{pf:thmK:constof} gives a non-zero
+polynomial constant $c$. If $q=0$, \ref{pf:thmK:L:nonzeroan} gives $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$ and $x$ with
+$\thmKI'(\Phi')(x)\ne0$; \ref{pf:thmK:L:matchex}(b) gives $\Phi\approx\Phi'$; then $\Phi\in\thmKPD(M)$ and
+$\thmKI(\Phi)(x)=c\,\thmKI'(\Phi')(x)\ne0$. If $q\ge1$, \cref{pf:thmK:nzV} gives $\Phi\in\thmKPD(M)$ with $\thmKI(\Phi)\ne0$;
+\ref{pf:thmK:L:matchex}(a) gives $\Phi'\in\thmKSo(M')$ with $\Phi\approx\Phi'$; then $\Phi'\in\thmKPD(M')$, and
+$\thmKI'(\Phi')\ne0$ since otherwise $\thmKI(\Phi)=c\,\thmKI'(\Phi')=0$.
+
+Now $\mathcal B(0)$ is vacuous, and if $\mathcal B(n)$ holds then matched data with $p+q<n+1$ satisfy $\mathcal B(p+q)$ by
+monotonicity, hence are non-degenerate; so $\mathcal B(n+1)$ holds. Given matched data, apply $\mathcal B(p+q+1)$.
+\end{proof}
+
+\subsubsection{Constants and steps}
+
+\begin{lemma}\label{pf:thmK:polconst}
+For matched data, a number is a constant if and only if it is a polynomial constant.
+\formallabel{PositivityTheory.ThKG.Leaves.polConst_of}\formallabel{PositivityTheory.ThKG.Leaves.isConst_of}
+\end{lemma}
+
+\begin{proof}
+If $c$ is a constant and $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$, then $\Phi\sim\Phi'$ by \ref{pf:thmK:L:matchex}(c),
+so $\thmKI(\Phi)=c\,\thmKI'(\Phi')$. Conversely let $c$ be a polynomial constant and $\Phi\sim\Phi'$, with
+$\Phi=\sum_if_i\otimes g_i$, $\Phi'=\sum_jf'_j\otimes g'_j$ and approximating sequences $s_{k,i}\to f_i$, $s'_{k,j}\to f'_j$ as
+in \cref{pf:thmK:def:match}. Fix $h$. Since $\thmKI$ is linear on test functions and $f\mapsto\thmKI(f\otimes g_i)(h)$ is
+continuous (\ref{pf:thmK:L:weilconv}), $\thmKI(\sum_is_{k,i}\otimes g_i)(h)\to\thmKI(\Phi)(h)$. By \ref{pf:thmK:L:socont} (for
+the Weil pair of $V'$), $\thmKI'(\sum_js'_{k,j}\otimes g'_j)(h)\to\thmKI'(\Phi')(h)$. Since the $k$-th approximants satisfy
+$\Phi_k\approx\Phi'_k$ with $\Phi'_k\in\thmKSo(M')$, $\thmKI(\Phi_k)(h)=c\,\thmKI'(\Phi'_k)(h)$, and uniqueness of limits
+gives $\thmKI(\Phi)(h)=c\,\thmKI'(\Phi')(h)$.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:kconst}
+All matched data satisfy the one-constant condition.
+\formallabel{PositivityTheory.ThKG.Leaves.kConst}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:thmK:claim} there are a non-zero polynomial constant $c$ and $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$, $x$ with
+$\thmKI'(\Phi')(x)\ne0$; \ref{pf:thmK:L:matchex}(b) gives $\Phi\approx\Phi'$. If $c'$ is a constant, it is a polynomial
+constant (\cref{pf:thmK:polconst}), so $c'\thmKI'(\Phi')(x)=\thmKI(\Phi)(x)=c\,\thmKI'(\Phi')(x)$ and $c'=c$. By
+\cref{pf:thmK:polconst}, $c$ is a constant. Hence there is exactly one constant, it is non-zero, and $\thmKI'(\Phi')\ne0$
+with $\Phi'\in\thmKSo(M')$.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:ksteps}
+The $\beta$-step relation holds with the signs of \cref{pf:thmK:keyB}, and the $\alpha$-step relation holds with the signs
+of \cref{pf:thmK:keyA}, for all $F,E,\sigma$.
+\formallabel{PositivityTheory.ThKG.Leaves.kBeta}\formallabel{PositivityTheory.ThKG.Leaves.kAlpha}
+\end{proposition}
+
+\begin{proof}
+\emph{The $\beta$-step relation.} Its hypotheses on $(G,G_1,H,H')$ say exactly that $(G,G_1,H,H')$ is a $\beta$-step
+configuration. Take $C$ from \cref{pf:thmK:keyB} (for $R,R_1$); by \cref{pf:thmK:claim}, $\mathcal B(p+q)$ holds. Let
+$c,c_1$ be constants of $G,G_1$. \Cref{pf:thmK:keyB}(2) gives $\Phi\in\thmKPD(M)$; \ref{pf:thmK:L:matchex}(a) gives
+$\Phi'\in\thmKSo(M')$ with $\Phi\approx\Phi'$, and \ref{pf:thmK:L:splitex} a splitting $(f'_\alpha,f'_\beta)$ of
+$\thmKI'(\Phi')$. As $c$ is a polynomial constant, $\thmKI(\Phi)=c\,\thmKI'(\Phi')$, so $(cf'_\alpha,cf'_\beta)\in
+\thmKSpl(\thmKI(\Phi))$, and \cref{pf:thmK:keyB}(2) gives $m$ with $cf'_\beta(m)\ne0$. By \eqref{pf:thmK:eq:keyB} (with the
+polynomial constant $c_1$), $C\kappa_B\,c\,f'_\beta(m)=c_1f'_\beta(m)$, where $\kappa_B=\thmKst(e_1,e_2,s;\mathfrak
+b_H,\mathfrak b_{H'};-k_B)\thmKLS{k_B+1}{\nu}$. Cancelling $f'_\beta(m)$ gives $C\,\thmKst(\dots;-k_B)\,c\,\thmKLS{k_B+1}{\nu}
+=c_1$. By \ref{pf:thmK:L:facne}, $C\,\thmKst(\dots;-k_B)\ne0$, and $u=(C\,\thmKst(\dots;-k_B))^{-1}$ satisfies both equations
+\eqref{pf:thmK:eq:stepbeta}.
+
+\emph{The $\alpha$-step relation.} Its hypotheses say that $(G,G_1,H,H')$ is an $\alpha$-step configuration. Take $C$ from
+\cref{pf:thmK:keyA}; let $c,c_1$ be constants and $\kappa=C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak
+b_{H'};1-k_A)\,\thmKLS{k_A}{\nu}\,c_1$. \Cref{pf:thmK:keyA}(2) gives $\Phi\approx\Phi'$, $f'_\alpha$ with
+$(f'_\alpha,0)\in\thmKSpl(\thmKI'(\Phi'))$ and the property (1), and $m$ with $f'_\alpha(m)\ne0$. Since $q(G)=0$,
+\ref{pf:thmK:L:anall} gives $\thmKI(\Phi)=c\,\thmKI'(\Phi')$, so $(cf'_\alpha,0)\in\thmKSpl(\thmKI(\Phi))$, and (1) gives
+$cf'_\alpha(m)=\kappa f'_\alpha(m)$; hence $c=\kappa$, which is \eqref{pf:thmK:eq:stepalpha}.
+\end{proof}
+
+\begin{theorem}[Theorem K from the leaves]\label{pf:thmK:agree}
+The leaves, \textup{(Dec)} and \textup{(Coi)} imply $\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$.
+\formallabel{PositivityTheory.ThKG.agree_of_leaves}
+\end{theorem}
+
+\begin{proof}
+Combine \cref{pf:thmK:parts} with \cref{pf:thmK:kconst,pf:thmK:ksteps} and the leaves \ref{pf:thmK:L:kreal},
+\ref{pf:thmK:L:kfin}.
+\end{proof}
+
+
+% ===========================================================================
+\subsection{Proofs of the leaves}\label{sec:pf:thmK:leafproofs}
+
+In this subsection we prove the twenty-six leaves and the statements \textup{(Dec)}, \textup{(Coi)}. Most leaves are
+deduced from a small number of further propositions of the development; when such a proposition is not proved here, we
+state what it asserts and cite its formal proof. In \cref{sec:pf:thmK:final} we record which hypotheses are used where.
+
+\subsubsection{Reduction theory and analytic estimates}\label{sec:pf:thmK:est}
+The analytic leaves rest on reduction theory for unitary groups, in the following form.
+
+\begin{littheorem}[Reduction theory; \cite{Borel1969,MoeglinWaldspurger1995}]\label{pf:thmK:siegel}
+Let $E/F$ be CM, $J\in M_n(E)$ a non-degenerate $\pm$hermitian matrix and $(X,Y)$ a Witt frame of $J$. There are a
+compact subgroup $K$ and a compact subset $\Omega$ of the minimal parabolic subgroup, and $c>0$, such that
+$\Uni(J)(\A)=P\,A\,K$ (Iwasawa decomposition), the Siegel set $\mathfrak S=\Omega A_cK$ is closed and $\Uni(J)(\A)=\Gamma_J
+\mathfrak S$, $\mathfrak S$ has finite Haar measure with the usual integration bound over $A_c$, heights on $\mathfrak S$
+are bounded by powers of heights of their $\Gamma_J$-translates, and smooth cuspidal functions of moderate growth decay
+rapidly on $\mathfrak S$.
+\formal{GlobalTheory.Published.SiegelSetUnitary}
+\end{littheorem}
+
+In the development this statement is \lref{PositivityTheory.ThKR.siegel_of_core}, which deduces it from a core
+statement on Siegel sets of the adelic unitary group (\lref{PositivityTheory.Prw.siegelCore_holds}).
+
+\begin{proposition}\label{pf:thmK:analytic}
+\textup{(a)} For a Weil pair and a test function $\Phi$, the function $(g,h)\mapsto\theta_\omega(\Phi)(g,h)$ is
+continuous, left $\Gamma_X\times\Gamma_W$-invariant and bounded by $C(\thmKht(g)\thmKht(h))^k$, and
+$f\mapsto\theta_\omega(f\otimes\varphi)(g,h)$ is continuous on Schwartz functions. \textup{(b)} The leaves
+\ref{pf:thmK:L:weilconv}, \ref{pf:thmK:L:socont} and the statement \textup{(Dec)} hold. \textup{(c)} The leaves
+\ref{pf:thmK:L:evzero}, \ref{pf:thmK:L:evcone}, \ref{pf:thmK:L:stab}, \ref{pf:thmK:L:levi} and \ref{pf:thmK:L:poldense} hold.
+\end{proposition}
+
+\begin{proof}
+(a) is \lref{PositivityTheory.ThKF0.thetaBasic}, which proves these properties of theta functions. (b) The leaves
+\ref{pf:thmK:L:weilconv}, \ref{pf:thmK:L:socont} and \textup{(Dec)} are \lref{PositivityTheory.ThKEst.weilConv},
+\lref{PositivityTheory.ThKEst.soCont} and \lref{PositivityTheory.ThKEst.kDecay}, each deduced from (a) and
+\cref{pf:thmK:siegel}: Weil's convergence argument \cite{Weil1965} on Siegel sets in the sufficient form ``$d+2\min(r,s)<2n$
+or $\min(r,s)=0$'' ($\min(r,s)$ bounds the Witt index of $X$), and, for functions in $\thmKSo$, bounds for lattice sums
+restricted to matrices of full rank, which give rapid decay in $g$. (c) \Lref{PositivityTheory.ThKF0.evaluation_at_zero_and_cone}
+constructs the evaluation maps of \ref{pf:thmK:L:evzero} and \ref{pf:thmK:L:evcone} and shows that those along $W$ map
+polynomial data onto polynomial data; \lref{PositivityTheory.ThKG.Tow.stabEx} shows that the stabiliser of the lattice
+and of the Cartan involutions is compact and that Haar measures exist (\ref{pf:thmK:L:stab});
+\lref{PositivityTheory.ThKG.Tow.leviEx} constructs the Levi elements $m(1,h_1)$ (\ref{pf:thmK:L:levi}); and
+\lref{GlobalTheory.ThK.Dbl.polDense} proves the density of polynomials times Gaussians in the Schwartz space
+(\ref{pf:thmK:L:poldense}).
+\end{proof}
+
+\subsubsection{Constant terms}\label{sec:pf:thmK:ct}
+The constant-term leaves are deduced from three general formulas for the constant term of a theta integral along a
+plane $H'$ of $W$. In the classical computation, the theta series is expanded according to the pairing of the variable
+with the isotropic vector $x_{H'}$; the terms where it vanishes give an \emph{evaluation} of the theta integral of the
+smaller pair $(X,W_1)$, and the other terms, after unfolding over the stabiliser of an isotropic line of $X$, give a
+\emph{cone integral} \eqref{pf:thmK:eq:cone}; the two contributions have different laws under the Levi torus.
+
+\begin{proposition}[General constant-term formulas]\label{pf:thmK:gen}
+Let $(X,W)$ have dimensions $(n,d)$, $H'$ be adapted to $(W,W_1)$, $M_1$ a good model for $(X,W_1)$ and
+$e_0\in\thmKEv(M,M_1;1,\iota_{H'};I_0(H'))$.
+\begin{enumerate}
+\item If $\min(r,s)=0$, there is $C\ne0$ such that for all Weil pairs $(M,\omega)$ of signature $(r,s;r',s')$ and
+$(M_1,\omega_1)$ of signature $(r,s;r_1,s_1)$ with the same characters $(\chi_X,\chi_W)$ and every test function $\Phi$
+there is $A_0$ with $\thmKCT_{H'}(\thmKI(\Phi))=A_0$, $A_0$ of law $(\chi_X,n/2)$, and $A_0(mh)=C\,\thmKI_{M_1,\omega_1}
+(e_0(\omega(1,h)\Phi))(h_1)$ for all Levi elements $m=m(1,h_1)$ and all $h$.
+\item Let moreover $H$ be adapted to $(X,X_1)$, $M_0$ a good model for $(X_1,W_1)$,
+$e\in\thmKEv(M,M_0;\iota_H,\iota_{H'};I_A(H,H'))$, $z\in\N$ with $2n=d+2z$ and $\min(r,s)+2\le z$, and $K$ a compact
+subgroup with $\Uni(X)(\A)=P_HK$, where $P_H$ is the stabiliser of the line $\thmKAE x_H$, with Haar measures $\mu_K,\mu$.
+There are $C_0,C_1\ne0$ such that for all Weil pairs on $M$ (signature $(r+1,s+1;r'+1,s'+1)$), $M_1$ (signature
+$(r+1,s+1;r',s')$) and $M_0$ (signature $(r,s;r',s')$) with the same characters, and all test functions $\Phi$ whose
+$\omega(K,1)$-translates span a finite-dimensional space, $\thmKCT_{H'}(\thmKI(\Phi))=A_0+A_1$ with $A_0$ of law
+$(\chi_X,n/2)$, $A_1$ of law $(\chi_X/\chi_W,(d-n)/2)$, $A_1(mh)=C_1\thmKI_{M_0,\omega_0}(\thmKcone(\omega(1,h)\Phi))(h_1)$
+for the cone integral with $u=u_A$, character $\chi_W^{-1}$ and exponent $z$, and $A_0(mh)=C_0\thmKI_{M_1,\omega_1}(e_0(
+\omega(1,h)\Phi))(h_1)$.
+\item The same with $I_B(H,H')$, $d+2=2n+2z$, $z\ge2$, $\Phi\in\thmKSo(M)$, the cone integral with $u=u_B$ and character
+$\chi_W$, and the formula for $A_0(mh)$ asserted only when $e_0(\omega(1,h)\Phi)\in\thmKSo(M_1)$.
+\end{enumerate}
+These are \lref{PositivityTheory.ThKCT.genAniso_of}, \lref{PositivityTheory.ThKCT.genBig_of} and
+\lref{PositivityTheory.ThKCT.genSmall_of}, applied to the hypotheses collected in the proof of \cref{pf:thmK:closesph}.
+\formal{PositivityTheory.ThKCT.GenAniso}\formal{PositivityTheory.ThKCT.GenBig}\formal{PositivityTheory.ThKCT.GenSmall}
+\end{proposition}
+
+\begin{lemma}[The evaluation part]\label{pf:thmK:evalpart}
+Let $(M,\omega)$ be a Weil pair for $(X,W)$ of signature $(r,s;r'+1,s'+1)$ with $n\ge3$, $H'$ adapted to $(W,W_1)$, $(M_1,
+\omega_1)$ a Weil pair for $(X,W_1)$ of signature $(r,s;r',s')$ with the same characters, and
+$e_0\in\thmKEv(M,M_1;1,\iota_{H'};I_0(H'))$. Assume either $2n=d+2z$ with $\min(r,s)+1\le z$, or $d+2=2n+2z$ with $z\ge2$.
+There is $C_0\ne0$, independent of the Weil pairs, such that for every $\Phi\in\thmKPD(M)$ (in the second case,
+$\Phi\in\thmKPD(M)\cap\thmKSo(M)$) the constant term of $\thmKI(\Phi)$ along $H'$ is $A_0+A_1$ with $A_0$ of law
+$(\chi_X,n/2)$, $A_1$ of law $(\chi_X/\chi_W,(d-n)/2)$, and $A_0(mh)=C_0\thmKI_{M_1,\omega_1}(e_0(\omega(1,h)\Phi))(h_1)$ for
+all Levi elements $m=m(1,h_1)$ and all $h$ (in the second case, whenever $e_0(\omega(1,h)\Phi)\in\thmKSo(M_1)$).
+\formallabel{PositivityTheory.ThKCT.theta_kernel_general_identity}\formallabel{PositivityTheory.ThKCT.anyBig}
+\formallabel{PositivityTheory.ThKCT.anySmall}
+\end{lemma}
+
+\begin{proof}
+If $\min(r,s)=0$ this is \cref{pf:thmK:gen}(1), with $A_1=0$. Otherwise $r,s\ge1$; if there are no Weil pairs as in the
+statement, take $C_0=1$. Otherwise, re-choosing the Cartan involutions of $X$ (which changes neither the model nor the
+theta integrals), we find a plane $H$ adapted to $(X,X_1)$ at $(0,1)$ with $X_1$ of signature $(r-1,s-1)$
+(\lref{PositivityTheory.ThKG.Tow.planeHerm}: after re-choosing the Cartan data, a hermitian space of signature $(r,s)$
+with $r,s\ge1$ contains such a plane), a good model $M_0$ for $(X_1,W_1)$ carrying Weil representations for the given
+characters (\lref{PositivityTheory.ThKG.Tow.pairEx_of}: good models exist and carry Weil representations), evaluation
+maps of types $I_A$ and $I_B$ (\ref{pf:thmK:L:evcone}), and the stabiliser $K$ of $X$ (\ref{pf:thmK:L:stab}), which satisfies
+$\Uni(X)(\A)=P_HK$ (\lref{PositivityTheory.ThKCT.iwaEx_of}: the Iwasawa decomposition with respect to the stabiliser of
+an isotropic line). Elements of $\thmKPD(M)$ are test functions whose $\omega(K,1)$-translates span a finite-dimensional
+space (\lref{PositivityTheory.ThKCT.kFinData_of}). Hence \cref{pf:thmK:gen}(2), resp.\ (3), applies with
+$(r,s)$ replaced by $(r-1,s-1)$, and its constant $C_0$ does the job.
+\end{proof}
+
+\begin{lemma}[Uniqueness of splittings]\label{pf:thmK:splituniq}
+Let $a'<a$, let $H'$ be adapted to $(W,W_1)$ with $W$ skew-hermitian for a good base datum, and let
+$(f_\alpha,f_\beta),(f'_\alpha,f'_\beta)\in\thmKSpl_{H'}(f)$. Then $f_\alpha=f'_\alpha$ and $f_\beta=f'_\beta$.
+\formallabel{PositivityTheory.ThKCT.split2_unique}\formallabel{PositivityTheory.ThKCT.split_uniq}
+\end{lemma}
+
+\begin{proof}
+By \lref{PositivityTheory.ThKCT.unipEx_of}, $N(H')$ carries a Haar measure with a fundamental domain for
+$N(H')\cap\Gamma_W$ of volume one, and there is a Levi element $m=m(t,1)$ with $|t|_{\thmKAE}>1$. Evaluating the
+definition of $\thmKCT_{H'}$ with this measure and domain gives $f_\alpha+f_\beta=f'_\alpha+f'_\beta$, so
+$D:=f_\alpha-f'_\alpha=f'_\beta-f_\beta$. By the laws, $D(mh)=\alpha(t)|t|^{a'/2}D(h)$ and
+$D(mh)=\beta(t)|t|^{a/2}D(h)$ for all $h$. If $D(h)\ne0$ for some $h$, then $\alpha(t)|t|^{a'/2}=\beta(t)|t|^{a/2}$;
+taking absolute values (the characters are unitary) gives $|t|^{a'/2}=|t|^{a/2}$, which is impossible since $|t|>1$ and
+$a'<a$. Hence $D=0$.
+\end{proof}
+
+\begin{proposition}[Constant-term leaves]\label{pf:thmK:ctleaves}
+The leaves \ref{pf:thmK:L:splitex}--\ref{pf:thmK:L:ctsc} hold.
+\formallabel{PositivityTheory.ThKCT.splitEx_of}\formallabel{PositivityTheory.ThKCT.ctBigZero_of}
+\formallabel{PositivityTheory.ThKCT.ctSmallZero_of}\formallabel{PositivityTheory.ThKCT.ctBigCone_of}
+\formallabel{PositivityTheory.ThKCT.ctSmallCone_of}\formallabel{PositivityTheory.ThKCT.ct_all}
+\end{proposition}
+
+\begin{proof}
+Let $(B,G,X,\omega,\omega')$ be a triple. For the Weil pair of $V$ ($n=a$, $d=a+a'$, characters $(\beta,\beta/\alpha)$) one
+has $\chi_X/\chi_W=\alpha$ and $(d-n)/2=a'/2$; for the Weil pair of $V'$ ($n=a'$, characters $(\alpha,\alpha/\beta)$) one has
+$\chi_X/\chi_W=\beta$ and $(d-n)/2=a/2$. The numerical hypotheses of \cref{pf:thmK:evalpart,pf:thmK:gen} follow from the
+inequalities of \cref{pf:thmK:def:geo}: an adapted plane lowers both signature indices of $W$ by one, so they are both
+positive (\lref{PositivityTheory.ThKCT.low_of}), whence $p+q\ge1$ and $a>a'>2(p+q)+1\ge3$; for $V$,
+$z=\lfloor(a-a')/2\rfloor>2(p+q)+1\ge\min(a-p,p)+1$; for $V'$, $z=\lfloor(a-a')/2\rfloor+1\ge2$; and $W_1$ has the signature
+required of the second Weil pair. Models of $(V,W_1)$, $(V',W_1)$ with Weil
+representations exist by \lref{PositivityTheory.ThKG.Tow.pairEx_of}, and evaluation maps along $W$ by
+\ref{pf:thmK:L:evzero}. In each case below the constant is fixed before the triple, and if no triple exists the statement
+is vacuous with constant $1$.
+
+\ref{pf:thmK:L:splitex}: for $\Phi\in\thmKPD(M)$, \cref{pf:thmK:evalpart} for the Weil pair of $V$ shows that $(A_1,A_0)$ is a
+splitting of $\thmKI(\Phi)$; for $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$, applied to the Weil pair of $V'$, that $(A_0,A_1)$ is a
+splitting of $\thmKI'(\Phi')$. Uniqueness is \cref{pf:thmK:splituniq}.
+
+\ref{pf:thmK:L:ctbz} ($\beta$-step configuration, Weil pair of $V$ with $W_1=W(G_1)$ and $M_1=M(G_1)$): by uniqueness the
+$\beta$-part of a splitting of $\thmKI(\Phi)$ is $A_0$, whence the formula.
+\ref{pf:thmK:L:ctsz} ($\alpha$-step configuration, $q=0$, so $V'$ is definite): \cref{pf:thmK:gen}(1) for the Weil pair of $V'$
+gives $(A_0,0)\in\thmKSpl(\thmKI'(\Phi'))$ and the formula for $A_0$.
+\ref{pf:thmK:L:ctbc} ($\alpha$-step configuration, $H$ adapted to $(V,V(G_1))$): \cref{pf:thmK:gen}(2) for the Weil pair of
+$V$, with $\chi_W^{-1}=\alpha/\beta=\nu$ and $z=k_A$, together with uniqueness, gives
+$f_\alpha(mh)=A_1(mh)=C_1\thmKI_1(\thmKcone_A(\omega(1,h)\Phi))(h_1)$.
+\ref{pf:thmK:L:ctsc} ($\beta$-step configuration, $H$ adapted to $(V',V'(G_1))$): \cref{pf:thmK:gen}(3) for the Weil pair of
+$V'$, with $\chi_W=\nu$ and $z=k_B+1$, gives $f'_\beta(mh)=A_1(mh)=C_1\thmKI'_1(\thmKcone_B(\omega'(1,h)\Phi'))(h_1)$.
+\end{proof}
+
+\begin{remark}\label{pf:thmK:rem:ctcone}
+The development contains a second proof of the statement \ref{pf:thmK:L:ctbc}, from a different collection of hypotheses,
+namely \lref{GlobalTheory.ThK.ctBigCone} (which proves the same cone formula for the $\alpha$-part of the constant term
+of $\thmKI(\Phi)$). It is not used in the proof of Theorem~K, which uses \cref{pf:thmK:ctleaves}.
+\end{remark}
+
+\subsubsection{Towers}\label{sec:pf:thmK:towers}
+
+\begin{proposition}[Towers]\label{pf:thmK:towers}
+The leaves \ref{pf:thmK:L:towerA} and \ref{pf:thmK:L:towerB} hold.
+\formallabel{PositivityTheory.ThKG.Tow.towerA_of}\formallabel{PositivityTheory.ThKG.Tow.towerB_of}
+\end{proposition}
+
+\begin{proof}
+We use, besides \cref{pf:thmK:weilex}, the existence of adapted planes (\lref{PositivityTheory.ThKG.Tow.planeEx}: for
+good $B$, a hermitian or skew-hermitian space $Y$ of dimension $n_1+2$, $n_1\ge1$, of signature $(r,s)$ with $r,s\ge1$, and
+positions $i_0<i_1<n_1+2$, there are a re-choice $Y[Y']$ of the same signature, a space $Y_1$ of signature $(r-1,s-1)$ and a
+plane adapted to $(Y[Y'],Y_1)$ at $(i_0,i_1)$) and of good models (\lref{PositivityTheory.ThKG.Tow.modelEx}: every pair
+of a hermitian and a skew-hermitian space has a good model).
+
+\ref{pf:thmK:L:towerB}: let the triple be given with $G$ of type $(a,b+2)$ and $q\ge1$. Since $a'=b+2>2(p+q)+1$, $b\ge1$.
+Apply the existence of planes to $V'\in\mathrm{Herm}(q,b+2-q)$ at $(0,b+1)$ and to $W\in\mathrm{Skew}(a+b+2-(p+q),p+q)$ at
+$(a,a+b+1)$; this gives $V'_2,V'_1,H$ and $W_2,W_1,H'$. The re-choice $G_2=G[V,V'_2,W_2]$ is still good and carries the triple
+(the models and $\omega,\omega'$ are unchanged). Put $G_1=(p,q-1,V,V'_1,W_1,M_1,M'_1)$ with good models $M_1,M'_1$; it is good:
+$a+b$ is even, $a+b<a+b+2<m_\alpha-m_\beta$, the inequalities $2(p+q-1)+1<\lfloor(a-b)/2\rfloor$ and $2(p+q-1)+1<b$ follow from
+those for $G$, and the signatures are those of $V$, $V'_1\in\mathrm{Herm}(q-1,b-(q-1))$ and
+$W_1\in\mathrm{Skew}(a+b-(p+q-1),p+q-1)$. The character datum is good for $(B,a,b)$ because
+$\alpha|_{\A^\times}=\eta^{b+2}=\eta^b$. \Cref{pf:thmK:weilex} gives Weil representations $\omega_1$ (characters
+$(\beta,\beta/\alpha)$) and $\omega'_1$ (characters $(\alpha,\alpha/\beta)$), and $(G_2,G_1,H,H')$ is a $\beta$-step
+configuration by construction. \ref{pf:thmK:L:towerA} is proved in the same way, removing the plane from
+$V\in\mathrm{Herm}(b+2-p,p)$ and from $W$ at $(0,b+1)$, with $G_1=(p-1,0,V_1,V',W_1,M_1,M'_1)$ and
+$\beta|_{\A^\times}=\eta^b$.
+\end{proof}
+
+\subsubsection{Non-vanishing of the step factors}\label{sec:pf:thmK:facne}
+
+\begin{lemma}[Gauss sums]\label{pf:thmK:gauss}
+Let $v$ be a finite place, $\psi_v$ unramified ($\psi_v(x\OO_v)=1$ iff $x\in\OO_v$) and $\nu_v$ a continuous character of
+$F_v^\times$ which is non-trivial on $\OO_v^\times$. Then $|g(\psi_v,\nu_v)|^2=\Nm v^{c}$, where $c=c(\nu_v)\ge1$; in
+particular $g(\psi_v,\nu_v)\ne0$.
+\formallabel{PositivityTheory.ThK.GaussNe.gauss_ne_zero}
+\end{lemma}
+
+\begin{proof}
+This is the classical computation. Let $q=\Nm v$, $\varpi$ a uniformiser and $\psi_c(y)=\psi_v(y\varpi^{-c})$, a function on
+$\OO_v/\varpi^c$. For $t\in\OO_v$, $y\mapsto\psi_c(ty)$ is a character of $\OO_v/\varpi^c$ which is trivial iff
+$t\varpi^{-c}\in\OO_v$, so $\sum_{y\in\OO_v/\varpi^c}\psi_c(ty)=q^c[t\in\varpi^c\OO_v]$ and similarly
+$\sum_{y\in\varpi\OO_v/\varpi^c}\psi_c(ty)=q^{c-1}[t\in\varpi^{c-1}\OO_v]$. Writing $x=uy$,
+\begin{align*}
+|g|^2&=\sum_{x,y}\nu_v(xy^{-1})^{-1}\psi_c(x-y)=\sum_{u}\nu_v(u)^{-1}\sum_{y\in(\OO_v/\varpi^c)^\times}\psi_c((u-1)y)\\
+&=q^c-q^{c-1}\sum_{u\equiv1\bmod\varpi^{c-1}}\nu_v(u)^{-1},
+\end{align*}
+the sums being over $(\OO_v/\varpi^c)^\times$. By minimality of the conductor, $\nu_v$ is non-trivial on
+$(1+\varpi^{c-1}\OO_v)/(1+\varpi^c\OO_v)$ (on $(\OO_v/\varpi)^\times$ if $c=1$), so the last sum vanishes.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:facne}
+The leaf \ref{pf:thmK:L:facne} holds.
+\formallabel{PositivityTheory.ThK.Close.facNe}
+\end{proposition}
+
+\begin{proof}
+Let a triple be given. The ideal values $\nu(\mathfrak b)^{e_1}\nu(\mathfrak c)^{e_2}$ and the numbers $\nu_v(s)$ are values of
+characters, hence non-zero. For $v\in P\cap T$, $\nu$ is ramified at the place of $E$ determined by $\tau_v$, so $\nu_v$ is
+non-trivial on $\OO_v^\times$ (\lref{PositivityTheory.ThK.Close.exists_unit_chrW_ne}: a character ramified at a place is
+non-trivial on some unit there); it is continuous because $\alpha,\beta$ are, and $\psi$ is unramified at $v\in P$ since $B$
+is good. By \cref{pf:thmK:gauss}, $g(\psi_v,\nu_v)\ne0$, hence $\eps(\psi_v,\nu_v,z)\ne0$ by \eqref{pf:thmK:eq:gauss}. So the
+step factor \eqref{pf:thmK:eq:stepfac} is non-zero. For an integer $k\ge2$ the Euler product $\thmKLS{k}{\nu}$ converges
+absolutely, with non-zero factors, since $|\nu|=1$ and $k>1$; an absolutely convergent product of non-zero factors is
+non-zero (\lref{GlobalTheory.LFun.converges_charFam}: the Euler product of a unitary character converges for $\Re s>1$).
+\end{proof}
+
+\subsubsection{Local matching}\label{sec:pf:thmK:local}
+
+\begin{proposition}[Local matching]\label{pf:thmK:localmatching}
+Assume that matching maps exist at the places of $T$, at the split places outside $T$ and at the inert places (in the sense
+of \cref{pf:thmK:def:maps}(2) at a single place). Then \ref{pf:thmK:L:kfin} holds. Moreover \ref{pf:thmK:L:kreal} and
+\textup{(Coi)} hold.
+\formallabel{PositivityTheory.ThK.kFin_of}
+\end{proposition}
+
+\begin{proof}
+\ref{pf:thmK:L:kfin}: for every finite $v$, choose a space $\Pi_v$ and maps $p_v,p'_v$ with the local properties of
+\cref{pf:thmK:def:maps}(2) at $v$ (including the sphericity at $v\notin T$ and the zeta condition at $v\in P\cap T$),
+according as $v\in T$, $v\notin T$ split ($E\to F_v$ exists) or $v\notin T$ inert; together they form finite maps, which
+are matching. The local existence statements are \lref{PositivityTheory.BernsteinRamification.Close.finRam} (places of
+$T$), \lref{PositivityTheory.BernsteinRamification.Close.finSplit} (split places, by Bernstein--Zelevinsky type arguments)
+and \lref{PositivityTheory.Sph.finInert_of} (inert places; it combines the facts that the vacuum generates the
+coinvariants at inert places, \lref{PositivityTheory.Sph.vacInert}, deduced from Howe's unramified computation
+\lref{PositivityTheory.Sph.howeInert}, cf.\ \cite{Howe1979}; that the spherical functionals of the two sides agree,
+\lref{PositivityTheory.Sph.sphFun_of_modSt}, which uses \cref{pf:thmK:modst}; and that local Weil representations exist,
+\lref{PositivityTheory.ThKH.Locrep.locRepEx}).
+
+\ref{pf:thmK:L:kreal} is \lref{PositivityTheory.ThKR.kReal'}, which produces matching real maps from the existence of the
+infinitesimal oscillator representation on Schwartz space (\lref{PositivityTheory.ThKR.localLift_holds}); the archimedean
+quotient is an irreducible quotient of the module generated by the Fock space, identified through the joint harmonics of the
+Fock model. \textup{(Coi)} is \lref{PositivityTheory.BernsteinRamification.Close.kCoinv}, which deduces the coinvariant
+condition from a dictionary statement at split places (linear models in which the local actions of $\Uni(X)(F_v)\cong
+\GL_n(F_v)$ and $\Uni(W)(F_v)$ become explicit); the dictionary statement is \lref{PositivityTheory.KCo.dictSt_of}, from
+\lref{PositivityTheory.ThKG.StdDict.dictX} (existence of the dictionary for the standard models) and
+\lref{PositivityTheory.KCo.section_statement} (a section statement for linear models).
+\end{proof}
+
+\begin{proposition}[Partners]\label{pf:thmK:matchex}
+\textup{(Coi)} implies the leaf \ref{pf:thmK:L:matchex}.
+\formallabel{PositivityTheory.ThKClose.matchEx_of}
+\formallabel{PositivityTheory.ThKClose.Partner.partner_of_big}
+\formallabel{PositivityTheory.ThKClose.Partner.partner_of_small}
+\formallabel{PositivityTheory.ThKClose.Partner.match_of_polMatch}
+\end{proposition}
+
+\begin{proof}
+Fix matched data. (a) Let $\Phi=\sum_{i\le m}\thmKpure(f_i,\varphi_i)\in\thmKPD(M)$. Let $T'$ be the union of $T$, $\{v_1\}$
+and the finitely many places where some $\varphi_{i,v}\ne\thmKvac_v$. Since $p'(\thmKPol(M'))=\Pi_\infty$ there are
+$f'_i\in\thmKPol(M')$ with $p'(f'_i)=p(f_i)$; since $p'_v(\thmKS)=\Pi_v$ there are $\chi_{i,v}\in\thmKS$ with
+$p'_v(\chi_{i,v})=p_v(\varphi_{i,v})$; and since $v_1$ is good for $X$, the coinvariant condition (ii) gives
+$\zeta_i\in\thmKSo_{v_1}(\tau_1)$ with $p'_{v_1}(\zeta_i)=p_{v_1}(\varphi_{i,v_1})$. Put $\varphi'_{i,v}=\chi_{i,v}$ for
+$v\in T'\smallsetminus\{v_1\}$, $\varphi'_{i,v_1}=\zeta_i$, and $\varphi'_{i,v}=\thmKvac'_v$ for $v\notin T'$. Then
+$\Phi'=\sum_i\thmKpure(f'_i,\varphi'_i)\in\thmKSo(M')$, and \eqref{pf:thmK:eq:polmatch} holds termwise with $T'$.
+(b) The same construction without the condition at $v_1$, exchanging the roles of $p,p'$ (using $p(\thmKPol(M))=\Pi_\infty$
+and $p_v(\thmKS)=\Pi_v$). (c) If $\Phi\approx\Phi'$ then $\Phi\in\thmKPD(M)$, $\Phi'\in\thmKPD(M')$; writing each pure tensor
+as $f\otimes g$ with $g$ the product of its finite components, the constant sequences show $\Phi\sim\Phi'$ when
+$\Phi'\in\thmKSo(M')$.
+\end{proof}
+
+\begin{lemma}[The theta integral kills the augmentation module]\label{pf:thmK:killaug}
+Let $(M,\omega)$ be a Weil pair for $(X,W)$ such that the theta integrals of all test functions converge, and assume
+$\thmKI(\omega(g,1)\Phi)=\thmKI(\Phi)$ for all test functions $\Phi$ and $g\in\Uni(X)(\A)$. Then $\thmKI$ extends to a linear
+map $J$ on all functions, and for every finite $v$, Schwartz $f$, family $\varphi$ with $\varphi_u\in\thmKS$ and
+$\varphi_u=\thmKvac_u$ for almost all $u$, and $z\in\thmKaug_v(\omega)$, one has $J(\thmKpure(f,\varphi[v\mapsto z]))=0$.
+\formallabel{PositivityTheory.ThKF.exists_Ilin}\formallabel{PositivityTheory.ThKF.kill_aug}
+\end{lemma}
+
+\begin{proof}
+$\thmKI$ is linear on the space of test functions (the theta series are summable and the integrals converge), so it extends
+linearly. Write $\thmKpure(f,\varphi[v\mapsto y])=y\otimes_v\rho$ with $\rho$ invariant under translations supported at $v$;
+then $y\mapsto J(y\otimes_v\rho)$ is linear, and it suffices to treat a generator $z=y_1-y$ of $\thmKaug_v(\omega)$, with
+$\omega(g,1)\colon y\thmKacts{v}y_1$, $g\in\Uni(X)(F_v)$, $y,y_1\in\thmKS$. Then $y\otimes_v\rho$ and $y_1\otimes_v\rho$ are
+test functions and $\omega(g,1)(y\otimes_v\rho)=y_1\otimes_v\rho$, so $J(y_1\otimes_v\rho)=\thmKI(\omega(g,1)(y\otimes_v
+\rho))=\thmKI(y\otimes_v\rho)$.
+\end{proof}
+
+The hypothesis $\thmKI(\omega(g,1)\Phi)=\thmKI(\Phi)$ holds for every Weil pair and test function $\Phi$
+(\lref{PositivityTheory.ThKF.iLeft}: by left invariance of the theta function and of the Haar measure); more generally
+$\thmKI(\omega(g,h)\Phi)(x)=\thmKI(\Phi)(xh)$ (\lref{PositivityTheory.ThKF.I_move}).
+
+\begin{proposition}[Definite small side]\label{pf:thmK:anall}
+The leaf \ref{pf:thmK:L:anall} follows from \ref{pf:thmK:L:weilconv}, \textup{(Coi)} and the left invariance of theta
+integrals.
+\formallabel{PositivityTheory.ThKF.anAll_of}
+\end{proposition}
+
+\begin{proof}
+Let matched data with $q=0$, a polynomial constant $c$ and $\Phi\approx\Phi'$ be given, with decompositions
+$\Phi=\sum_i\thmKpure(f_i,\varphi_i)$, $\Phi'=\sum_j\thmKpure(f'_j,\varphi'_j)$ and a set $T'$ as in
+\eqref{pf:thmK:eq:polmatch}. Since $q=0$, the Weil pair of $V'$ has $\min(q,a'-q)=0$, so by \ref{pf:thmK:L:weilconv} the theta
+integrals of all test functions converge and \cref{pf:thmK:killaug} applies to the Weil pair of $V'$. As $v_1$ is good for
+$X$, the coinvariant condition (ii) gives $y_j\in\thmKSo_{v_1}(\tau_1)$ with $p'_{v_1}(y_j)=p'_{v_1}(\varphi'_{j,v_1})$. Let
+$\varphi''_j=\varphi'_j[v_1\mapsto y_j]$ and $\Phi''=\sum_j\thmKpure(f'_j,\varphi''_j)\in\thmKSo(M')$. Enlarging $T'$ to
+$T'\cup\{v_1\}$ (the added tensor factors are the images of the vacua, which agree on both sides by the sphericity
+$p_v(\thmKvac_v)=p'_v(\thmKvac'_v)$ for $v\notin T$), we get $\Phi\approx\Phi''$, since the $v_1$-components have the same
+images. Hence $\thmKI(\Phi)=c\,\thmKI'(\Phi'')$. Finally $y_j-\varphi'_{j,v_1}\in\ker p'_{v_1}\cap\thmKS=\thmKaug_{v_1}(\omega')$
+by the coinvariant condition (i), and $\thmKpure(f'_j,\varphi''_j)=\thmKpure(f'_j,\varphi'_j)+\thmKpure(f'_j,\varphi'_j[v_1
+\mapsto y_j-\varphi'_{j,v_1}])$, so by \cref{pf:thmK:killaug} and linearity $\thmKI'(\Phi'')=\thmKI'(\Phi')$.
+\end{proof}
+
+\subsubsection{Change of Cartan data}\label{sec:pf:thmK:polre}
+
+\begin{proposition}\label{pf:thmK:polre}
+The leaf \ref{pf:thmK:L:polre} holds.
+\formallabel{PositivityTheory.HoweDualityUnitaryAlt.polRe_of2T}\formallabel{GlobalTheory.CompanionTheory.ThetaK.polRe_of2T}
+\end{proposition}
+
+\begin{proof}
+Let matched data on $G$ (with $R,R_f$) and on a re-choice $G_2=G[V_2,V'_2,W_2]$ (with $R_2,R_{f,2}$, the same $\omega,\omega'$)
+be given, and let $c_2\ne0$ be a polynomial constant of $G_2$. There is $h\in\Uni(W)(F_\infty)$ conjugating the Cartan
+involutions of $W_2$ into those of $W$ (\lref{PositivityTheory.ThKF.cartan_conjugacy_holds}: Cartan involutions of a
+skew-hermitian space of fixed signature are conjugate), and then there are $g\in\Uni(V)(F_\infty)$, $g'\in\Uni(V')(F_\infty)$
+such that the archimedean operators $T$, $T'$ induced by $\omega(g,h)$, $\omega'(g',h)$ map the Fock spaces of $G_2$ onto
+those of $G$ (\lref{PositivityTheory.ThKF.cartanMove_of}: archimedean operators of the Weil representation transport the
+Fock space of the conjugated Cartan data; the operators exist by \lref{PositivityTheory.ThKF.A.archOp}). Comparing the
+matching maps: there are a linear map $e$ of the archimedean quotients and $c\ne0$ with $e\circ p\circ T=p_2$ and $e\circ
+p'\circ T'=c\,p'_2$ on the Fock spaces of $G_2$ (\lref{PositivityTheory.ThKF.archimedean_matched_maps_compare}: two systems
+of matching real maps for the same triple differ by a linear map and a scalar on the small side; it rests on the joint
+harmonic description of the Fock spaces, \lref{PositivityTheory.ThKR.Join.joinTri_of}, and archimedean uniqueness); and
+for every finite $v$ there are a linear map $e_v$ and $c_v\ne0$ with $e_v\circ p_v=p_{2,v}$ and $e_v\circ p'_v=c_vp'_{2,v}$ on
+$\thmKS$ (\lref{GlobalTheory.CompanionTheory.ThetaK.cmp_finT}: the same comparison at a finite place, using the maximality
+of the local theta quotients, \lref{PositivityTheory.Sph.maxFinT_of}); for $v\notin T$, $c_v=1$ by comparing the images
+of the vacua. Put $\Lambda=c\prod_{v\in T}c_v$.
+
+If $\Phi\approx\Phi'$ on $G$ with $\Phi'\in\thmKSo(M')$, write the Fock components of $\Phi,\Phi'$ as $Tu_i$, $T'u'_j$ with
+$u_i,u'_j$ in the Fock spaces of $G_2$, and let $\Phi_2=\sum_i\thmKpure(u_i,\varphi_i)$, $\Phi'_2=\sum_j\thmKpure(u'_j,
+\varphi'_j)$. Then $\Phi=\omega(g,h)\Phi_2$ and $\Phi'=\omega'(g',h)\Phi'_2$; $\Phi'_2\in\thmKSo$ because $\thmKSo$ is stable
+under $\omega'$ (coinvariant condition); and applying $e\otimes\bigotimes_ve_v$ to \eqref{pf:thmK:eq:polmatch} shows
+$\Phi_2\approx\Lambda\Phi'_2$ on $G_2$. Since $\thmKI(\omega(g,h)\Psi)(x)=\thmKI(\Psi)(xh)$ for test functions $\Psi$, we get
+$\thmKI(\Phi)(x)=\thmKI(\Phi_2)(xh)=c_2\Lambda\,\thmKI'(\Phi'_2)(xh)=c_2\Lambda\,\thmKI'(\Phi')(x)$. So $c_2\Lambda\ne0$ is a
+polynomial constant of $G$.
+\end{proof}
+
+
+\subsubsection{Non-vanishing of theta integrals}\label{sec:pf:thmK:nonzero}
+We use three auxiliary statements about Weil pairs and triples. Polynomial data are test functions
+(\lref{GlobalTheory.ThK.Dbl.polSch}). If $\min(r,s)=0$ and $\thmKI$ vanishes on $\thmKPD(M)$, then it vanishes on all test
+functions (\lref{GlobalTheory.ThK.Dbl.schToPol_of}; by the continuity in \ref{pf:thmK:L:weilconv} and the density
+\ref{pf:thmK:L:poldense}, as in \cref{pf:thmK:nzmove}). For a triple with $q=0$, every $\Phi'\in\thmKPD(M')$ has some
+$\Psi\in\thmKPD(M')\cap\thmKSo(M')$ with $\thmKI'(\Psi)=\thmKI'(\Phi')$ (\lref{GlobalTheory.ThK.Dbl.toSo_of}, which replaces
+the component at $v_1$ by an element of $\thmKSo_{v_1}(\tau_1)$ with the same image in the coinvariants, as in the proof of
+\cref{pf:thmK:anall}).
+
+\begin{lemma}[Identity theorem]\label{pf:thmK:identity}
+Let $U\subseteq\C$ be open with discrete complement, let $f$ be holomorphic on $U\cap\{\Re z>0\}$ and suppose that there is
+$t$ with $z\in U$ and $f(z)=0$ whenever $\Re z>t$. Then $f(s)=0$ for all $s\in U$ with $\Re s>0$.
+\formallabel{GlobalTheory.ThK.Dbl.eq_zero_of_right}
+\end{lemma}
+
+\begin{proof}
+The complement of $U$ is closed and discrete, hence countable. The map $w\mapsto e^{\Re w}+i\Im w$ is a homeomorphism of
+$\C$ onto the half plane $\{\Re z>0\}$; the preimage of the complement of $U$ is countable, and the complement of a countable
+subset of $\C$ is connected. Hence $U\cap\{\Re z>0\}$ is connected, and the identity theorem applies.
+\end{proof}
+
+\begin{proposition}[The doubling argument]\label{pf:thmK:nonzerobot}
+For a triple with $p=q=0$ there are $\Phi\in\thmKPD(M)$ with $\thmKI(\Phi)\ne0$ and $\Phi'\in\thmKPD(M')$ with
+$\thmKI'(\Phi')\ne0$.
+\formallabel{GlobalTheory.ThK.Dbl.nonZeroBottom_of_doubling_integral}\formallabel{GlobalTheory.ThK.Dbl.pair_ne_zero}
+\end{proposition}
+
+The proof uses the following statements about a Weil pair $(M,\omega)$ for $(X,W)$ of signature $(r,s;r',s')$ with
+characters $(\chi_X,\chi_W)$, $\min(r,s)=\min(r',s')=0$, $1\le n<d$ and $d$ even. Let $G_2(X)$ be the doubled group with its
+stabiliser $K$ and height function $a$ (\cref{sec:pf:thmK:sw}), $\iota\colon\Uni(X)\times\Uni(X)\to G_2(X)$ the doubling
+embedding, $\nu$ a Haar measure on $\A^{n\times d}$, and for $\Phi\in\thmKPD(M)$ and $z\in\C$ let
+\begin{equation}\label{pf:thmK:eq:zint}
+Z_\Phi(z)=\int_{\Uni(X)(\A)}a(\iota(g,1))^{z-(d-n)/2}\,\langle\omega(g,1)\Phi,\Phi\rangle\,d\mu(g),\qquad
+\langle\Phi_1,\Phi_2\rangle=\int\Phi_1\overline{\Phi_2}\,d\nu .
+\end{equation}
+\begin{enumerate}[label=(D\arabic*)]
+\item\label{pf:thmK:D:norm} (\lref{GlobalTheory.ThK.Dbl.normZeta_of}, from the Siegel--Weil formula for the doubled pair
+and the meromorphic continuation.) There are an open set $U\ni(d-n)/2$ whose complement is discrete, a holomorphic
+function $Z$ on $U$ and $t_0$ such that for $\Re z>t_0$, $z\in U$, the integral \eqref{pf:thmK:eq:zint} converges and equals
+$Z(z)$; and if $\thmKI(\Phi)=0$ then $Z((d-n)/2)=0$.
+\item\label{pf:thmK:D:euler} (\lref{GlobalTheory.ThK.Dbl.eulerProd}, \lref{GlobalTheory.ThK.Dbl.locMeas},
+\lref{GlobalTheory.ThK.Dbl.locUnr_of}.) For a finite set $T$ of places such that $\chi_W$ is unramified outside $T$, an
+integrable function on $\Uni(X)(\A)$ with spherical behaviour at all $v\notin T$ integrates to the limit of the products of its
+local integrals at $v\notin T$ times its integral over the elements integral outside $T$; and for a spherical function $f$ at
+$v\notin T$, $\int_{\Uni(X)(F_v)}f(\iota(u,1))\,du\cdot d_v(z)=\prod_{i=0}^{n-1}L_v(z+\tfrac n2-i,\chi_W)$, where
+$d_v(z)=\prod_{i=0}^{n-1}(1-\epsilon_v^{\,n-1-i}\Nm v^{-(2z+i+1)})^{-1}$, with $\epsilon_v=1$ if $v$ splits in $E$ and $-1$
+otherwise (the unramified doubling integral; at inert places it is computed in \lref{GlobalTheory.ThK.Dbl.Inert.main}).
+\item\label{pf:thmK:D:dprod} (\lref{GlobalTheory.ThK.Dbl.dProd}.) $\prod_{v\notin T}d_v(z)$ converges to a non-vanishing
+holomorphic function $d_T(z)$ on $\Re z>0$.
+\item\label{pf:thmK:D:bad} (\lref{GlobalTheory.ThK.Dbl.realInv_of}, \lref{GlobalTheory.ThK.Dbl.badFactor}.) If $M$ has a
+non-trivial real quotient, there is a non-zero $K_\infty(X)$-invariant $f_0\in\thmKPol(M)$; and then, for $T\subseteq P$ with
+$\chi_X,\chi_W$ unramified outside $T$, there is $\Phi\in\thmKPD(M)$ whose integrand in \eqref{pf:thmK:eq:zint} is spherical at
+all $v\notin T$, whose integral $H(z)$ over the elements integral outside $T$ is entire, and with $H((d-n)/2)\ne0$.
+\item\label{pf:thmK:D:lint} (\lref{GlobalTheory.ThK.Dbl.lInt2}.) For a triple and $\chi\in\{\nu,\nu^{-1}\}$ there is an
+entire function $\Lambda$ with $\Lambda(s)=L^{\emptyset}(s,\chi)$ for $\Re s>1$ and $\Lambda(z)\ne0$ for all integers $z$ with
+$2z\ge-(a+a')$.
+\end{enumerate}
+
+\begin{proof}[Proof of \cref{pf:thmK:nonzerobot}]
+We first show, for a Weil pair as above, a finite set $T\subseteq P$ with $\chi_X,\chi_W$ unramified outside $T$ and $\chi_W$
+ramified at all places above $T$, a non-trivial real quotient of $M$, and an entire $\Lambda$ with $\Lambda=L^\emptyset(\cdot,
+\chi_W)$ on $\Re s>1$ and $\Lambda(z)\ne0$ for integers $2z\ge-d$: there is $\Phi\in\thmKPD(M)$ with $\thmKI(\Phi)\ne0$.
+Take $\Phi$ and $H$ from \ref{pf:thmK:D:bad}. For $\Re z>\max(t_0,n/2)$, \ref{pf:thmK:D:euler} and \ref{pf:thmK:D:dprod} give
+\begin{equation}\label{pf:thmK:eq:dbl}
+Z(z)\,d_T(z)=\prod_{i=0}^{n-1}\Lambda\bigl(z+\tfrac n2-i\bigr)\cdot H(z):
+\end{equation}
+the local integrals at $v\notin T$ multiplied by $d_v(z)$ give $\prod_iL_v(z+n/2-i,\chi_W)$; the product over $v\notin T$ of
+these local factors is $\prod_iL^\emptyset(z+n/2-i,\chi_W)$, because $\chi_W$ is ramified above $T$ (so its local factors there
+are $1$); and $\Re(z+n/2-i)>1$ for $i<n$. Both sides of \eqref{pf:thmK:eq:dbl} are holomorphic on $U\cap\{\Re z>0\}$, so by
+\cref{pf:thmK:identity} the identity holds at $z_0=(d-n)/2$, which lies in $U$ and has $\Re z_0>0$. Suppose $\thmKI(\Phi)=0$;
+then $Z(z_0)=0$ by \ref{pf:thmK:D:norm}, so $\prod_i\Lambda(z_0+n/2-i)\,H(z_0)=0$. But with $d=2k$, $z_0+n/2-i=k-i$ is an
+integer with $2(k-i)\ge-d$ (as $i<n<d$), so $\Lambda(k-i)\ne0$; and $H(z_0)\ne0$: a contradiction.
+
+Now let a triple with $p=q=0$ be given. By \ref{pf:thmK:L:kreal} there are matching real maps, whose quotients for $M$ and $M'$
+are non-trivial. $\nu=\alpha/\beta$ is a Hecke character with $\nu|_{\A^\times}=\eta^{a+a'}=1$ ($a+a'$ even), unramified
+outside $T$ and ramified above $T$, and $T\subseteq P$. Apply the above to the Weil pair of $V$ ($n=a<d=a+a'$,
+$\chi_W=\beta/\alpha=\nu^{-1}$, $\Lambda$ from \ref{pf:thmK:D:lint} for $\nu^{-1}$) and to the Weil pair of $V'$ ($n=a'<d$,
+$\chi_W=\nu$, $\Lambda$ for $\nu$); $V,V',W$ are definite since $p=q=0$.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:nonzeroan}
+The leaf \ref{pf:thmK:L:nonzeroan} holds.
+\formallabel{GlobalTheory.ThK.Dbl.nonZeroAn_of}\formallabel{GlobalTheory.ThK.Dbl.big_of}\formallabel{GlobalTheory.ThK.Dbl.small_of}
+\end{proposition}
+
+\begin{proof}
+\emph{The case $p=0$.} We show by induction on $q$: for every triple with $p=0$ there is $\Phi\in\thmKPD(M)$ with
+$\thmKI(\Phi)\ne0$. For $q=0$ this is \cref{pf:thmK:nonzerobot}. Let $q\ge1$ and write $a'=b+2$. \ref{pf:thmK:L:towerB} gives a
+re-choice $G_2$ carrying the triple and $G_1$ of type $(a,b)$ forming a $\beta$-step configuration $(G_2,G_1,H,H')$, with a
+triple $(\omega_1,\omega'_1)$ on $G_1$; $p(G_1)=0$, $q(G_1)=q-1$. By induction there is $\Phi_1\in\thmKPD(M_1)$ with
+$\thmKI_1(\Phi_1)\ne0$. \ref{pf:thmK:L:evzero} gives $e\in\thmKEv(M,M_1;1,\iota_{H'};I_0)$ (for the Weil pair of $V$ in $G_2$)
+mapping $\thmKPD(M_2)$ onto $\thmKPD(M_1)$, so $\Phi_1=e\Phi$ with $\Phi\in\thmKPD(M_2)$; let $C\ne0$ be the constant of
+\ref{pf:thmK:L:ctbz}. Suppose $\thmKI$ vanished on $\thmKPD(M)$; since $V$ is definite, it then vanishes on all test functions,
+in particular $\thmKI(\Phi)=0$. Then $(0,0)\in\thmKSpl(\thmKI(\Phi))$, and \ref{pf:thmK:L:ctbz} (with $h=1$ and a Levi element
+$m=m(1,g)$, which exists by \lref{GlobalTheory.ThK.Dbl.leviEx}) gives $0=C\,\thmKI_1(\Phi_1)(g)$ for every $g$, a
+contradiction.
+
+\emph{The case $q=0$.} By induction on $p$: for every triple with $q=0$ there is $\Phi'\in\thmKPD(M')$ with
+$\thmKI'(\Phi')\ne0$. For $p=0$ this is \cref{pf:thmK:nonzerobot}. For $p\ge1$, write $a=b+2$; \ref{pf:thmK:L:towerA} gives
+$G_2$ and $G_1$ of type $(b,a')$ forming an $\alpha$-step configuration, with $p(G_1)=p-1$, $q(G_1)=0$, and by induction
+$\Phi'_1\in\thmKPD(M'_1)$ with $\thmKI'_1(\Phi'_1)\ne0$; write $\Phi'_1=e'\Phi'$ by \ref{pf:thmK:L:evzero}. If $\thmKI'$ vanished
+on $\thmKPD(M')$, then ($V'$ definite) $\thmKI'(\Phi')=0$; by \ref{pf:thmK:L:ctsz} there is $f'_\alpha$ with
+$(f'_\alpha,0)\in\thmKSpl(0)$ and $f'_\alpha(m)=C\thmKI'_1(\Phi'_1)(g)$ for $m=m(1,g)$; by the uniqueness in
+\ref{pf:thmK:L:splitex} (applied to $0=\thmKI(0)$, $0\in\thmKPD(M_2)$, for which $(0,0)$ is a splitting) $f'_\alpha=0$, a
+contradiction. Finally, the replacement statement recalled above turns $\Phi'$ into an element of $\thmKPD(M')\cap\thmKSo(M')$
+with the same theta integral.
+\end{proof}
+
+\subsubsection{The definite case}\label{sec:pf:thmK:polzero}
+Let matched data with $p=q=0$ be given. Then $V$, $V'$ and $W$ are definite, and their automorphic quotients are compact:
+for $Y$ hermitian or skew-hermitian with $\min(r,s)=0$, $\Uni(Y)(\A)$ is locally compact and second countable, $\Gamma_Y$ is
+countable, there is a compact set meeting every orbit of $\Gamma_Y$, fundamental domains have finite non-zero volume and Haar
+measures are right invariant (\lref{GlobalTheory.ThK.Dbl.cptAll_of}). In particular continuous left
+$\Gamma_Y$-invariant functions are bounded, rapidly decreasing, and vanish if their Petersson norm vanishes. Fix a Haar
+measure $\mu$ on $\Uni(W)(\A)$ and a fundamental domain $D$. Let $\mathcal Y=\{(\Phi,\Phi'):\Phi'\in\thmKSo(M'),\
+\Phi\approx\Phi'\}$; for $y=(\Phi,\Phi')$ and $s,t\in\C$ put $\phi_{s,t}(y)=s\,\thmKI(\Phi)+t\,\thmKI'(\Phi')$, a continuous
+left $\Gamma_W$-invariant function, and $\langle\phi_1,\phi_2\rangle=\int_D\phi_1\overline{\phi_2}\,d\mu$. For a function
+$\phi$ on $\Uni(W)(\A)$ and a test function $\Psi$, let $\vartheta'(\phi,\Psi)(g)=\langle\phi,\theta_{\omega'}(\Psi)(g,
+\cdot)\rangle$, a function on $\Uni(V')(\A)$. We use three statements, valid for matched data with $p=q=0$:
+\begin{enumerate}[label=(P\arabic*)]
+\item\label{pf:thmK:P:herm} (\lref{GlobalTheory.ThK.Dbl.hermLine_of'}, an irreducibility argument for the
+$\Uni(W)$-stable space $\mathcal Y$.) For all $s,t,s',t'$ there is $\lambda$ with $\langle\phi_{s,t}(y),\phi_{s',t'}(y')
+\rangle=\lambda\,\langle\thmKI'(\Phi'),\thmKI'(\Phi'_2)\rangle$ for all $y=(\Phi,\Phi')$, $y'=(\Phi_2,\Phi'_2)$ in $\mathcal Y$.
+\item\label{pf:thmK:P:coef} (\lref{GlobalTheory.ThK.Dbl.coefLine_of}, using the Siegel--Weil formula for the doubled
+pair, derived from \cref{pf:thmK:sw:thm,pf:thmK:eis}.) If $\langle\phi_{s,t}(y),\phi_{s,t}(y')\rangle=\lambda\langle
+\thmKI'(\Phi'),\thmKI'(\Phi'_2)\rangle$ for all $y,y'\in\mathcal Y$, then for all $y\in\mathcal Y$ and $\Psi\in\thmKPD(M')$,
+$\|\vartheta'(\phi_{s,t}(y),\Psi)\|^2=\lambda\,\|\vartheta'(\thmKI'(\Phi'),\Psi)\|^2$, the norms being Petersson norms on
+$\Uni(V')$ over the domain of $M'$.
+\item\label{pf:thmK:P:const} (\lref{GlobalTheory.ThK.Dbl.thConst_of'}, using that Hecke $L$-functions are entire and
+non-zero at $s=1$, \cref{pf:thmK:hecke}.) For $y\in\mathcal Y$ and test functions $\Psi$, the functions
+$g\mapsto\vartheta'(\phi_{s,t}(y),\Psi)(g)$ (and the analogous ones on $\Uni(V)$) are constant.
+\end{enumerate}
+
+\begin{littheorem}[Hecke; \cite{Hecke1920,Tate1967thesis}]\label{pf:thmK:hecke}
+For a number field $K$ and a unitary Hecke character $\chi$ of $K$: if $\chi$ is not of the form $|\cdot|^{it}$, the
+Euler product $L(s,\chi)$ over the finite places ($\Re s>1$) extends to an entire function; and if $\chi\ne1$, it extends
+analytically to a neighbourhood of $s=1$ with a non-zero value at $s=1$.
+\formal{GlobalTheory.Published.HeckeLEntireAndNonzeroAtOne}
+\formallabel{GlobalTheory.Published.HeckeLEntireAndNonzeroAtOne_holds}
+\end{littheorem}
+
+This published statement enters the proof of Theorem~K only through \ref{pf:thmK:P:const} and the orthogonality
+statement \ref{pf:thmK:E:orthiso} of the end steps.
+
+\begin{lemma}[Fubini on compact quotients]\label{pf:thmK:fubini}
+For a continuous left $\Gamma_W$-invariant function $\phi$ on $\Uni(W)(\A)$ and a test function $\Psi$,
+$\int_{\mathrm{dom}'}\vartheta'(\phi,\Psi)\,d\mu'=\langle\phi,\thmKI'(\Psi)\rangle$, where $(\mu',\mathrm{dom}')$ are the
+measure and domain of $M'$.
+\formallabel{GlobalTheory.ThK.Dbl.int_th}
+\end{lemma}
+
+\begin{proof}
+The function $(g,h)\mapsto\phi(h)\overline{\theta_{\omega'}(\Psi)(g,h)}$ is continuous and invariant under $\Gamma_{V'}\times
+\Gamma_W$ (\cref{pf:thmK:analytic}(a)), hence bounded, and both domains have finite measure; so Fubini's theorem applies, and
+the inner integral over $\mathrm{dom}'$ is $\overline{\thmKI'(\Psi)(h)}$.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:polzeroprop}
+The leaf \ref{pf:thmK:L:polzero} holds.
+\formallabel{PositivityTheory.ThKR.polynomial_vanishing_of_compactness}\formallabel{GlobalTheory.ThK.Dbl.polZero_of}
+\end{proposition}
+
+\begin{proof}
+Let matched data with $p=q=0$ be given. Elements of $\mathcal Y$ are test functions, so the functions $\phi_{s,t}(y)$ are
+continuous and $\Gamma_W$-invariant, and all Petersson products below converge.
+
+By \ref{pf:thmK:P:herm} with $(s,t,s',t')=(1,0,0,1)$ there is $c$ with $\langle\thmKI(\Phi),\thmKI'(\Phi'_2)\rangle=c\,
+\langle\thmKI'(\Phi'),\thmKI'(\Phi'_2)\rangle$ for $y,y'\in\mathcal Y$; in particular
+\begin{equation}\label{pf:thmK:eq:orth}
+\langle\phi_{1,-c}(y),\thmKI'(\Phi')\rangle=0\qquad(y=(\Phi,\Phi')\in\mathcal Y).
+\end{equation}
+By \ref{pf:thmK:P:herm} with $(1,-c,1,-c)$ there is $\lambda$ with $\langle\phi_{1,-c}(y),\phi_{1,-c}(y')\rangle=\lambda\langle
+\thmKI'(\Phi'),\thmKI'(\Phi'_2)\rangle$ for $y,y'\in\mathcal Y$.
+
+By \ref{pf:thmK:L:nonzeroan} there are $\Phi_0\in\thmKPD(M)$ with $\thmKI(\Phi_0)\ne0$ and $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$
+with $\thmKI'(\Phi')\ne0$; by \ref{pf:thmK:L:matchex}(b) there is $\Phi$ with $y=(\Phi,\Phi')\in\mathcal Y$. By
+\ref{pf:thmK:P:const} and \cref{pf:thmK:fubini}, $\vartheta'(\phi_{s,t}(y),\Phi')$ is the constant
+$\langle\phi_{s,t}(y),\thmKI'(\Phi')\rangle/\mu'(\mathrm{dom}')$. Apply \ref{pf:thmK:P:coef} with $(s,t)=(1,-c)$, $\lambda$, $y$
+and $\Psi=\Phi'$: by \eqref{pf:thmK:eq:orth} the left side is $0$, and the right side is $\lambda\,|x|^2/\mu'(\mathrm{dom}')$
+with $x=\langle\thmKI'(\Phi'),\thmKI'(\Phi')\rangle$. Since $\thmKI'(\Phi')$ is continuous, invariant and non-zero, $x\ne0$;
+hence $\lambda=0$.
+
+Now for every $z=(\Psi,\Psi')\in\mathcal Y$, $\|\phi_{1,-c}(z)\|^2=\lambda\|\thmKI'(\Psi')\|^2=0$, so $\phi_{1,-c}(z)=0$, i.e.\
+$\thmKI(\Psi)=c\,\thmKI'(\Psi')$: $c$ is a polynomial constant. If $c=0$, take $\Psi'\in\thmKSo(M')$ with $\Phi_0\approx\Psi'$
+(\ref{pf:thmK:L:matchex}(a)); then $\thmKI(\Phi_0)=c\,\thmKI'(\Psi')=0$, a contradiction. So $c\ne0$.
+\end{proof}
+
+\subsubsection{Local factors of the steps}\label{sec:pf:thmK:loc}
+
+\begin{proposition}\label{pf:thmK:locAB}
+The leaves \ref{pf:thmK:L:locA} and \ref{pf:thmK:L:locB} hold.
+\formallabel{PositivityTheory.ThKG.Loc.locA_of}\formallabel{PositivityTheory.ThKG.Loc.locB_of}
+\end{proposition}
+
+\begin{proof}
+We prove \ref{pf:thmK:L:locA}; the proof of \ref{pf:thmK:L:locB} is the same with the roles of $V,V'$ and of the two
+characters exchanged, using the second part of \lref{PositivityTheory.ThKG.Loc.Cone.coneFac_all}, the local computation
+\lref{PositivityTheory.ThKG.Std.stdB} (the analogue of (b) below for $\beta$-steps) and the bump functions
+\lref{PositivityTheory.ThKG.Loc.Bump.bumpB_fin}; in addition, the local cone integral at $v_1$ maps
+$\thmKSo_{v_1}(\tau_1)$ into $\thmKSo_{v_1}(\tau_1)$ and is compatible with the augmentation modules at $v_1$
+(\lref{PositivityTheory.ThKG.Loc.FL.fLocB_of}), which gives $\thmKcone_B\Phi'\in\thmKSo(M'_1)$. The proof combines four
+groups of statements.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Factorisation of the cone integral} (\cref{pf:thmK:conefac}): there are signs $e_1,e_2$, $\kappa\ne0$, a
+continuous linear map $L$ of Schwartz spaces mapping $\thmKPol(M)$ into $\thmKPol(M_1)$, the local cone integrals $\Lambda_v$
+(preserving $\thmKS$) and numbers $u_v\ne0$ ($v\notin T$) with $\Lambda_v(\thmKvac_v)=u_v\thmKvac^{M_1}_v$, such that
+$\thmKcone_A$ is linear and \eqref{pf:thmK:eq:conefac} holds for every finite $T'\supseteq T$ and every pure tensor
+$\thmKpure(f,\varphi)$ with $\varphi_v=\thmKvac_v$ outside $T'$.
+\item \emph{Local computation at the places of $T$} (\lref{PositivityTheory.ThKG.Std.stdA}): there is $s\in\{\pm1\}$
+such that for $v\in T$ there are $\varphi,\varphi'\in\thmKS$ with $p_v(\varphi)=p'_v(\varphi')$, $p'_{1,v}(e'_v\varphi')\ne0$
+and $p_{1,v}(\Lambda_v\varphi)=\nu_v(s)\,\eps(\psi_v,\nu_v,1-k_A)\,p'_{1,v}(e'_v\varphi')$.
+\item \emph{Induced local maps} (\lref{PositivityTheory.ThKG.Loc.lams}): the global maps $\thmKcone_A$ and $e'$ induce
+linear maps $\lambda_\infty,\lambda'_\infty\colon\Pi_\infty(G)\to\Pi_\infty(G_1)$ and $\lambda_v,\lambda'_v\colon\Pi_v(G)\to
+\Pi_v(G_1)$ with $\lambda'_\infty\circ p'=p'_1\circ e'_\infty$, $\lambda_\infty\circ p=p_1\circ L$,
+$\lambda'_v\circ p'_v=p'_{1,v}\circ e'_v$, $\lambda_v\circ p_v=p_{1,v}\circ\Lambda_v$, all equivariant for the parabolic
+subgroup of $H'$ with the character $(\alpha,a'/2)$ of the Levi torus. Well-definedness uses that a theta integral of a pure
+tensor vanishes as soon as one local component is killed by the matching map
+(\lref{PositivityTheory.Sph.theta_kills_cusp_forms_spherical}, a consequence of square integrability, archimedean
+uniqueness and the spherical statements) together with an injectivity statement for the smaller configuration; equivariance
+comes from the constant-term formulas \ref{pf:thmK:L:ctsz}, \ref{pf:thmK:L:ctbc} and the invariance of the components of the
+constant terms (\lref{PositivityTheory.ThKCT.splitInv2_of}). The maps are non-zero by $\mathcal B(p+q)$ (the theta
+integrals of $G_1$ do not vanish identically) and by bump functions at the archimedean place
+(\lref{PositivityTheory.ThKG.Loc.Bump.bumpA_fin}).
+\item \emph{Multiplicity one}: two non-zero equivariant maps between the archimedean quotients are proportional
+(\lref{PositivityTheory.ThKG.CayleyTransformDarboux.archimedean_multiplicity_one_of_lie}); so are two such maps at a place
+$v\in T$, the first being non-zero (hypothesis \ref{pf:thmK:H:ram} of \cref{pf:thmK:closesph}); and at $v\notin T$ two such
+maps are proportional with the ratio of their values on the image of the vacuum
+(\lref{PositivityTheory.ThKG.Loc.unramifiedProportional_holds}).
+\end{enumerate}
+By (d) there is $c\ne0$ with $\lambda'_\infty=c\lambda_\infty$; for $v\in T$ (using (b)) $\lambda_v=\nu_v(s)\eps(\psi_v,\nu_v,
+1-k_A)\,\lambda'_v$; and for $v\notin T$ (using $\Lambda_v(\thmKvac_v)=u_v\thmKvac_v$ and sphericity) $\lambda_v=u_v\lambda'_v$.
+The constant $\kappa c$ does not depend on the triples (the maps $\lambda_\infty$ attached to two triples coincide, and the
+proportionality constant is unique; \lref{PositivityTheory.ThKG.Loc.one_const} is this elementary uniqueness argument).
+Let $\Phi\approx\Phi'$ with decompositions over $T'$. Apply $\lambda'_\infty\otimes\bigotimes_{v\in T'}\lambda'_v$ to
+\eqref{pf:thmK:eq:polmatch}; replacing $\lambda'$ by $\lambda$ on the left side produces the factor
+$c^{-1}\prod_{v\in T}(\nu_v(s)\eps(\psi_v,\nu_v,1-k_A))^{-1}\prod_{v\in T'\smallsetminus T}u_v^{-1}$. By
+\eqref{pf:thmK:eq:conefac} and the definition \eqref{pf:thmK:eq:stepfac} of the step factor (note $T\subseteq P$), the
+resulting identity of tensors says that $\thmKcone_A\Phi\approx C\,\thmKst(e_1,e_2,s;\mathfrak b_H,\mathfrak b_{H'};1-k_A)\,
+\thmKLS{k_A}{\nu}\,e'\Phi'$ on $G_1$, with $C=\kappa c$ (\lref{PositivityTheory.ThKG.Loc.tens_step} is this tensor
+computation). If there is no triple on $G$ the statement holds with $C=1$.
+\end{proof}
+
+\subsubsection{End steps}\label{sec:pf:thmK:end}\label{sec:pf:thmK:endsteps}
+Fix a triple. Let $\mathcal D$ be the set of functions $\thmKI(\Phi)-\thmKI'(\Phi')$ with $\Phi\in\thmKPD(M)$ and
+$\Phi'\in\thmKPD(M')\cap\thmKSo(M')$. A function on $\Uni(W)(\A)$ is \emph{automorphic} if it is continuous and left
+$\Gamma_W$-invariant; it is \emph{cuspidal} if for every non-zero totally isotropic subspace $U\subseteq E^{a+a'}$ its integral
+over a fundamental domain of $\Gamma_W\cap N_U$ in the unipotent radical $N_U$ of the stabiliser of $U$ (for any Haar measure)
+vanishes after any right translation. Two functions $g,f$ are \emph{orthogonal}, $g\perp f$, if $\int_{\mathcal F}g\bar f\,
+d\mu=0$ for every Haar measure $\mu$ on $\Uni(W)(\A)$ and every fundamental domain $\mathcal F$ of $\Gamma_W$. A function $f$
+is \emph{pure of law $(\chi,z)$} if for some plane $H'$ in $W$, $\thmKCT_{H'}(f)$ exists and has law $(\chi,z)$. Let $K_W$ be
+the set of $k\in\Uni(W)(\A)$ whose archimedean components commute with the Cartan involutions of $W$. For a plane $H'$ adapted
+to $(W,W_1)$, a function $T$ on $\Uni(W)(\A)$ and $k\in K_W$, a function $f_1$ on $\Uni(W_1)(\A)$ is a \emph{low} of $T$ at
+$k$ if $f_1(h_1)=T(m(1,h_1)k)$ for all Levi elements $m(1,h_1)$. Finally, for $G$ of type $(b+2,a')$ and $G_1$ of type
+$(b,a')$, $(G,G_1,H,H')$ is a \emph{plane-removal configuration} if $V'(G_1)=V'(G)$, $q(G_1)=q(G)$, $p(G_1)+1=p(G)$, $H$ is
+adapted to $(V(G),V(G_1))$ at $(0,b+1)$ and $H'$ to $(W(G),W(G_1))$ at $(0,b+1)$. The end steps rest on the following fifteen
+statements, quantified over all triples (and over the indicated further data); \lref{PositivityTheory.ThKEnd.Leaves}
+collects them.
+\begin{enumerate}[label=(E\arabic*)]
+\item\label{pf:thmK:E:iwa} For a plane $H'$ adapted to $(W,W_1)$, every $x\in\Uni(W)(\A)$ is $u\,m(t,1)\,m(1,h_1)\,k$ with
+$u\in N(H')$ and $k\in K_W$.
+\item\label{pf:thmK:E:ct} Constant terms along $H'$ are linear on automorphic functions; and if $\thmKCT_{H'}(f)=T_1+T_2$ for
+an automorphic $f$ with $T_1,T_2$ of laws with distinct exponents, then $T_1,T_2$ are left $N(H')$-invariant.
+\item\label{pf:thmK:E:linemove} If $f$ is automorphic and pure of law $(\chi,z)$, then for every plane $H'$ in $W$,
+$\thmKCT_{H'}(f)$ exists and has law $(\chi,z)$.
+\item\label{pf:thmK:E:aut} Theta integrals of elements of $\thmKPD(M)$ and of $\thmKPD(M')\cap\thmKSo(M')$ are automorphic.
+\item\label{pf:thmK:E:stab} For matched data, $k\in K_W$ and $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$:
+$\omega'(1,k)\Phi'\in\thmKSo(M')$ and $\omega(1,k)\Phi\approx\omega'(1,k)\Phi'$.
+\item\label{pf:thmK:E:sigre} If a re-choice $G[V_2,V'_2,W_2]$ (with the same $\omega,\omega'$) is again part of a triple, there
+is $h_0\in\Uni(W)(\A)$ such that $f\mapsto f(\cdot\,h_0)$ maps $\mathcal D$ into the set $\mathcal D$ of the re-choice.
+\item\label{pf:thmK:E:tower2} If $G$ has type $(b+2,a')$ and $p\ge1$, there are a re-choice of $G$ which is part of a triple
+and a plane-removal configuration $(G[V_2,V'_2,W_2],G_1,H,H')$ with a triple on $G_1$.
+\item\label{pf:thmK:E:alphazero} If $p=0<q$, every $f\in\mathcal D$ with a splitting $(f_\alpha,f_\beta)$ along a plane
+adapted to $(W,W_1)$, $W_1$ skew-hermitian, has $f_\alpha=0$.
+\item\label{pf:thmK:E:beta} If $q=0<p$, every $f\in\mathcal D$ with a splitting $(f_\alpha,f_\beta)$ along a plane adapted to
+$(W,W_1)$ has $f_\beta=0$.
+\item\label{pf:thmK:E:alphalow} In a plane-removal configuration with triples on $G$ and $G_1$ and $q\ge1$: for $f\in
+\mathcal D$ with a splitting $(f_\alpha,f_\beta)$ along $H'$ and $k\in K_W$ there is $f_1\in\mathcal D(G_1)$ which is a low of
+$f_\alpha$ at $k$.
+\item\label{pf:thmK:E:twostep} In the situation of \ref{pf:thmK:E:alphalow}, if $(f_\alpha,0)$ is a splitting of $f$, then
+every $f_1\in\mathcal D(G_1)$ which is a low of $f_\alpha$ at some $k\in K_W$ is pure of law $(\alpha,a'/2)$.
+\item\label{pf:thmK:E:cusp} If $f\in\mathcal D$ has $\thmKCT_{H'}(f)=0$ for a plane $H'$, then $f$ is cuspidal.
+\item\label{pf:thmK:E:orthiso} If $f\in\mathcal D$ is cuspidal, then $\thmKI(\Phi)\perp f$ for $\Phi\in\thmKPD(M)$ if $p\ge1$,
+and $\thmKI'(\Phi')\perp f$ for $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$ if $q\ge1$.
+\item\label{pf:thmK:E:orthan} If $f\in\mathcal D$ is cuspidal, then $\thmKI(\Phi)\perp f$ for $\Phi\in\thmKPD(M)$ if $p=0<q$,
+and $\thmKI'(\Phi')\perp f$ for $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$ if $q=0<p$.
+\item\label{pf:thmK:E:perp} If $f\in\mathcal D$ is orthogonal to all $\thmKI(\Phi)$, $\Phi\in\thmKPD(M)$, and to all
+$\thmKI'(\Phi')$, $\Phi'\in\thmKPD(M')\cap\thmKSo(M')$, then $f=0$.
+\end{enumerate}
+
+We first derive the end steps from these statements.
+
+\begin{lemma}\label{pf:thmK:zeroline}
+Assume \ref{pf:thmK:E:cusp}--\ref{pf:thmK:E:perp}. If $p+q\ge1$ and $f\in\mathcal D$ has $\thmKCT_{H'}(f)=0$ for a plane
+$H'$, then $f=0$.
+\formallabel{PositivityTheory.ThKEnd.zero_of_line}
+\end{lemma}
+
+\begin{proof}
+By \ref{pf:thmK:E:cusp} $f$ is cuspidal. If $p\ge1$, $\thmKI(\Phi)\perp f$ by \ref{pf:thmK:E:orthiso}; if $p=0$, then $q\ge1$
+and $\thmKI(\Phi)\perp f$ by \ref{pf:thmK:E:orthan}. Similarly $\thmKI'(\Phi')\perp f$. By \ref{pf:thmK:E:perp}, $f=0$.
+\end{proof}
+
+We also use two elementary consequences of \ref{pf:thmK:E:iwa}--\ref{pf:thmK:E:aut}. (Z) If $T$ has some law $(\chi,z)$, is
+left $N(H')$-invariant and $T(m(1,h_1)k)=0$ for all Levi elements $m(1,h_1)$ and all $k\in K_W$, then $T=0$: by
+\ref{pf:thmK:E:iwa}, $T(u\,m(t,1)m(1,h_1)k)=\chi(t)|t|^zT(m(1,h_1)k)=0$. (S) If $f\in\mathcal D$ is pure of law
+$(\alpha,a'/2)$ and $H'$ is adapted to $(W,W_1)$, then $(c,0)$ is a splitting of $f$ along $H'$ with
+$c=\thmKCT_{H'}(f)$: $f$ is automorphic by \ref{pf:thmK:E:aut} and \ref{pf:thmK:E:ct}, so by \ref{pf:thmK:E:linemove} its
+constant term along $H'$ exists and has law $(\alpha,a'/2)$, while $0$ has every law.
+
+\begin{lemma}[Pure differences vanish]\label{pf:thmK:sumb}
+Assume \ref{pf:thmK:E:iwa}--\ref{pf:thmK:E:perp} and the leaf \ref{pf:thmK:L:towerB}. For every triple with $q\ge1$, every
+$f\in\mathcal D$ which is pure of law $(\alpha,a'/2)$ vanishes.
+\formallabel{PositivityTheory.ThKEnd.sumB}
+\end{lemma}
+
+\begin{proof}
+By induction on $p$. Right translation by $h_0$ and passing to a re-choice preserve purity of law $(\alpha,a'/2)$ (the law
+of a constant term along $H'$ is preserved by right translations, and a re-choice has the same constant terms), and $f=0$ iff
+$f(\cdot\,h_0)=0$; so by \ref{pf:thmK:E:sigre} we may replace $G$ by any re-choice which is part of a triple.
+
+$p=0$. Write $a'=b+2$. By \ref{pf:thmK:L:towerB} there are a re-choice which is part of a triple and a $\beta$-step
+configuration $(G,G_1,H,H')$ with $H'$ adapted to $(W,W_1)$, $W_1$ skew-hermitian. By (S), $f$ has the splitting $(c,0)$ along
+$H'$, and \ref{pf:thmK:E:alphazero} gives $c=0$. So $\thmKCT_{H'}(f)=0$ and $f=0$ by \cref{pf:thmK:zeroline}.
+
+$p\ge1$. Write $a=b+2$. By \ref{pf:thmK:E:tower2} we may assume that there is a plane-removal configuration $(G,G_1,H,H')$
+with a triple on $G_1$; then $p(G_1)=p-1$ and $q(G_1)=q\ge1$. By (S), $f$ has the splitting $(c,0)$ along $H'$. By
+\ref{pf:thmK:E:alphalow}, for every $k\in K_W$ there is a low $f_1\in\mathcal D(G_1)$ of $c$ at $k$; by
+\ref{pf:thmK:E:twostep} it is pure of law $(\alpha,a'/2)$, so $f_1=0$ by induction. Hence $c(m(1,h_1)k)=0$ for all $h_1,k$.
+By \ref{pf:thmK:E:ct} (the exponents $a'/2$ and $a/2$ are distinct) $c$ is left $N(H')$-invariant, so $c=0$ by (Z), and
+$f=0$ by \cref{pf:thmK:zeroline}.
+\end{proof}
+
+\begin{proposition}\label{pf:thmK:endAB}
+Assume \ref{pf:thmK:E:iwa}--\ref{pf:thmK:E:perp} and the leaves \ref{pf:thmK:L:splitex}, \ref{pf:thmK:L:matchex},
+\ref{pf:thmK:L:towerB}. Then the leaves \ref{pf:thmK:L:endA} and \ref{pf:thmK:L:endB} hold.
+\formallabel{PositivityTheory.ThKEnd.endA_of}\formallabel{PositivityTheory.ThKEnd.endB_of}
+\formallabel{PositivityTheory.ThKG.endA'_of}\formallabel{PositivityTheory.ThKG.endB'_of}
+\end{proposition}
+
+\begin{proof}
+\ref{pf:thmK:L:endA}. Let matched data with $q=0<p$, a plane $H'$ adapted to $(W,W_1)$ and $c$ be as in
+\ref{pf:thmK:L:endA} (the hypothesis $\mathcal B(p+q)$ is not needed), and let $\Phi\approx\Phi'$ with $\Phi'\in\thmKSo(M')$.
+By \ref{pf:thmK:L:matchex}(c), $\Phi\in\thmKPD(M)$ and $\Phi'\in\thmKPD(M')$, so $f=\thmKI(\Phi)-c\,\thmKI'(\Phi')=
+\thmKI(\Phi)-\thmKI'(c\Phi')\in\mathcal D$. By \ref{pf:thmK:L:splitex} there are splittings $(f_\alpha,f_\beta)$ of
+$\thmKI(\Phi)$ and $(f'_\alpha,f'_\beta)$ of $\thmKI'(\Phi')$, and by \ref{pf:thmK:E:aut} and the linearity in
+\ref{pf:thmK:E:ct}, $f$ has the splitting $(T_1,T_2)=(f_\alpha-cf'_\alpha,f_\beta-cf'_\beta)$. By \ref{pf:thmK:E:ct} ($a'\ne
+a$) $T_1$ is left $N(H')$-invariant. For $k\in K_W$, $\omega(1,k)\Phi\approx\omega'(1,k)\Phi'$ with second member in
+$\thmKSo(M')$ \ref{pf:thmK:E:stab}; their theta integrals are the right translates by $k$, whose splittings are the right
+translates of the splittings above; so the hypothesis of \ref{pf:thmK:L:endA} gives $T_1(m(1,h_1)k)=0$ for all $h_1$ and
+$k$, and $T_1=0$ by (Z). By \ref{pf:thmK:E:beta}, $T_2=0$. Thus $\thmKCT_{H'}(f)=0$, and \cref{pf:thmK:zeroline} gives
+$f=0$, i.e.\ $\thmKI(\Phi)=c\,\thmKI'(\Phi')$: $c$ is a polynomial constant.
+
+\ref{pf:thmK:L:endB}. With $q\ge1$ the same argument, applied to the second components, gives $T_2=0$. So
+$\thmKCT_{H'}(f)=T_1$ has law $(\alpha,a'/2)$, $f$ is pure of law $(\alpha,a'/2)$, and $f=0$ by \cref{pf:thmK:sumb}.
+\end{proof}
+
+\begin{theorem}[End steps]\label{pf:thmK:endsteps}
+Assume \ref{pf:thmK:H:dict}, \ref{pf:thmK:H:finram}, \ref{pf:thmK:H:finsplit}, \ref{pf:thmK:H:fininert},
+\ref{pf:thmK:H:lie2}, \ref{pf:thmK:H:archlie} and \ref{pf:thmK:H:siegel}--\ref{pf:thmK:H:weilex} of
+\cref{pf:thmK:closesph}. Then \ref{pf:thmK:E:iwa}--\ref{pf:thmK:E:perp} hold, and the leaves \ref{pf:thmK:L:endA} and
+\ref{pf:thmK:L:endB} hold.
+\formallabel{PositivityTheory.Sph.Tr.endAB_sph}
+\end{theorem}
+
+\begin{proof}
+The fifteen statements are proved as follows; most of the auxiliary leaves used below are among those established in
+\cref{sec:pf:thmK:leafproofs} from the same hypotheses.
+\begin{itemize}
+\item \ref{pf:thmK:E:iwa} is \lref{PositivityTheory.ThKG.Tow.iwa}: an Iwasawa decomposition at the infinite places with
+respect to the parabolic subgroup of $H'$, obtained from frames adapted to $H'$ and to the Cartan involutions.
+\item \ref{pf:thmK:E:ct} is \lref{PositivityTheory.ThKEnd.Grp.ctBasic}. Linearity holds because constant terms are
+integrals over the compact quotient $N(H')/(N(H')\cap\Gamma_W)$ of functions which are continuous on it. For the invariance,
+fix $u\in N(H')$ and put $\phi_i(h)=T_i(uh)-T_i(h)$; then $\phi_1=-\phi_2$ since $\thmKCT_{H'}(f)$ is left
+$N(H')$-invariant, and for $m=m(t,1)$ the laws give $\phi_i(mh)=\chi_i(t)|t|^{z_i}\phi_i'(h)$, where $\phi'_i$ is defined
+with $m^{-1}um$ in place of $u$. Choosing $t$ with $|t|^{z_1}\ne|t|^{z_2}$ forces $\phi'_1=0$, and $m^{-1}um$ runs over
+$N(H')$ with $u$.
+\item \ref{pf:thmK:E:linemove}, \ref{pf:thmK:E:aut}, \ref{pf:thmK:E:stab}, \ref{pf:thmK:E:sigre} are
+\lref{PositivityTheory.ThKEnd.Grp.lineMove}, \lref{PositivityTheory.ThKEnd.Grp.iAut_of} (continuity and
+invariance of theta integrals, \cref{pf:thmK:analytic}), \lref{PositivityTheory.ThKEnd.Grp.matchStab_of} (the
+archimedean operators of $K_W$ preserve the Fock spaces and the matching, and $\thmKSo(M')$ is stable) and
+\lref{PositivityTheory.ThKEnd.Grp.sigRe_of} (Cartan involutions of the same signature are conjugate under
+$\Uni(W)(F_\infty)$, and conjugating the Cartan data moves the Fock spaces, \lref{PositivityTheory.ThKF.cartanMove_of}).
+\item \ref{pf:thmK:E:tower2} is \lref{PositivityTheory.ThKG.Tow.towerCodimensionTwo_of}, proved like the towers
+\cref{pf:thmK:towers} from the existence of adapted planes, of good models and of Weil representations
+(\cref{pf:thmK:weilex}).
+\item \ref{pf:thmK:E:alphazero}--\ref{pf:thmK:E:twostep} are \lref{PositivityTheory.ThKEnd.Comp.alphaZero_of},
+\lref{PositivityTheory.ThKEnd.Comp.betaZero_of}, \lref{PositivityTheory.ThKEnd.Comp.alphaLow_of} and
+\lref{PositivityTheory.ThKEnd.Two.twoStep_of'}. The first three compute the components of the constant terms of
+elements of $\mathcal D$ with the general constant-term formulas (\cref{pf:thmK:gen}), the factorisation of the cone integral
+(\cref{pf:thmK:conefac}) and a vanishing statement for real theta lifts
+(\lref{PositivityTheory.ThKEnd.Comp.realVanish_of}); the fourth combines the moderate growth of elements of $\mathcal D$
+with the existence of splittings along a second plane (\lref{PositivityTheory.ThKEnd.Two.two_kill}).
+\item \ref{pf:thmK:E:cusp} is \lref{PositivityTheory.ThKEnd.Cusp.cuspOfLine_of_keys}.
+\item \ref{pf:thmK:E:orthiso} is \lref{PositivityTheory.ThKEnd.Orth.orthIso_fin}; it uses the rapid decay of cuspidal
+elements of $\mathcal D$ (\lref{PositivityTheory.ThKEst.sigRapid}) and a constancy statement for theta lifts
+(\lref{PositivityTheory.ThKEnd.Orth.sigThConst_fin}, which uses the non-vanishing of Hecke $L$-functions at $s=1$,
+\cref{pf:thmK:hecke}).
+\item \ref{pf:thmK:E:orthan} is \lref{GlobalTheory.ThK.Dbl.orthAn_of}; it uses the doubling method with the
+Siegel--Weil formula and the meromorphic continuation (\cref{pf:thmK:sw:thm,pf:thmK:eis}), the rapid decay of cuspidal
+elements of $\mathcal D$, and the vanishing of the constant terms of the theta lifts of cuspidal elements
+(\lref{GlobalTheory.ThK.Dbl.cusp_lift}).
+\item \ref{pf:thmK:E:perp}: Let $f=\thmKI(\Phi_0)-\thmKI'(\Phi'_0)\in\mathcal D$ be orthogonal to all theta integrals as
+stated. All these theta integrals are square integrable over $\mathcal F$
+(\lref{PositivityTheory.ThKEst.Sq.sqInt_of_leaves}), hence
+$\int_{\mathcal F}|f|^2\,d\mu=\int_{\mathcal F}\thmKI(\Phi_0)\bar f\,d\mu-\int_{\mathcal F}\thmKI'(\Phi'_0)\bar f\,d\mu=0$.
+As $f$ is automorphic \ref{pf:thmK:E:aut}, it vanishes (as in the proof of \cref{pf:thmK:kills}).
+\end{itemize}
+The leaves \ref{pf:thmK:L:splitex}, \ref{pf:thmK:L:matchex} and \ref{pf:thmK:L:towerB} hold by
+\cref{pf:thmK:ctleaves,pf:thmK:matchex,pf:thmK:towers} (the coinvariant condition entering \ref{pf:thmK:L:matchex} follows from
+\ref{pf:thmK:H:dict} as in \cref{pf:thmK:closesph}). \Cref{pf:thmK:endAB} gives the leaves \ref{pf:thmK:L:endA} and
+\ref{pf:thmK:L:endB}.
+\end{proof}
+
+% ===========================================================================
+\subsection{Proofs of the deferred results}\label{sec:pf:thmK:deferred}
+This subsection proves the results which were used above through their formal statements: the analytic statements of the
+doubling method and of the cone integrals, the local multiplicity-one and matching statements, the vanishing of theta
+integrals of killed tensors, the existence of Weil representations, and the end steps. The references
+\lref{GlobalTheory.ThK.Dbl.lInt2}, \lref{PositivityTheory.ThKG.Loc.Cone.ideleFub}, \dots\ used in the previous
+subsections refer to the results proved here.
+
+\subsubsection{Partial $L$-functions at integers}\label{sec:pf:thmK:lint}
+
+\begin{littheorem}[Hecke; \cite{Hecke1920,Tate1967thesis}]\label{pf:thmK:heckefe}
+Let $K$ be a totally complex number field and $\mu$ a unitary Hecke character of $K$ which is not of the form
+$|\cdot|^{i\tau}$, $\tau\in\R$, with $\mu_w(z)=(z/|z|)^{m_w}$ on $K_w^\times\cong\C^\times$ for the infinite places $w$. Let
+$L(s,\mu)$ be the Euler product over the finite places ($\Re s>1$), $D=|d_K|\Nm\mathfrak f_\mu$, $\Gamma_\C(s)=
+2(2\pi)^{-s}\Gamma(s)$ and $\Gamma_\mu(s)=\prod_w\Gamma_\C(s+|m_w|/2)$. Then $\Lambda(s,\mu)=D^{s/2}\Gamma_\mu(s)L(s,\mu)$
+extends to an entire function; $\Lambda(s,\mu)=W(\mu)\Lambda(1-s,\mu^{-1})$ with $W(\mu)W(\mu^{-1})=1$; and an entire
+function which agrees with $L(s,\mu)$ on $\Re s>1$ has no zero on $\Re s\ge1$.
+\formal{GroundTheory.Global.HeckeCharacter.differentiable_completedLFunction}
+\formal{GroundTheory.Global.HeckeCharacter.completedLFunction_eq_rootNumber_mul_of_not}
+\formal{GroundTheory.Global.HeckeCharacter.continuation_ne_zero_of_one_le_re}
+\end{littheorem}
+
+\begin{lemma}[Partial $L$-functions at integers]\label{pf:thmK:lint}
+For a triple and $\chi\in\{\nu,\nu^{-1}\}$ there is an entire function $\Lambda$ with $\Lambda(s)=L^{\emptyset}(s,\chi)$ for
+$\Re s>1$ and $\Lambda(z)\ne0$ for every integer $z$ with $2z\ge-(a+a')$.
+\formallabel{GlobalTheory.ThK.Dbl.lInt2}
+\end{lemma}
+
+\begin{proof}
+Since $B$ is good, $E$ is a CM field, hence totally complex, and the embeddings $\tau_w$ ($w$ an infinite place of $F$) form
+a CM type: every embedding $E\to\C$ is $\tau_w$ or $\overline{\tau_w}$ for exactly one $w$. The character $\chi$ is a unitary
+Hecke character of $E$ whose infinity type is $\pm(m_\alpha-m_\beta)$, computed through the $\tau_w$. Let $\mu$ be $\chi$
+viewed as a Hecke character in the sense of \cref{pf:thmK:heckefe}; identifying the two notions (same local components,
+same Euler factors) is a matter of definitions. Each infinite place of $E$ is induced by exactly one $\tau_w$ up to
+conjugation, so $\mu$ has an infinity type $(m_{w'})$ with $|m_{w'}|=|m_\alpha(w)-m_\beta(w)|>a+a'$ for the place $w'$
+induced by $\tau_w$, by the conditions on a good configuration. In particular $\mu$ is not of the form $|\cdot|^{i\tau}$
+(whose infinity type is $0$), and $L(s,\mu)=L^\emptyset(s,\chi)$ for $\Re s>1$ (both are the products of the same local
+factors).
+
+Let $G(s)=D^{-s/2}\Gamma_\mu(s)^{-1}\Lambda(s,\mu)$. As $1/\Gamma$ is entire, $G$ is entire, and $G(s)=L(s,\mu)$ for
+$\Re s>1$. Let $z$ be an integer with $2z\ge-(a+a')$; then $2z+|m_{w'}|>0$ for all $w'$. If $z\ge1$, then $G(z)\ne0$ by the
+last assertion of \cref{pf:thmK:heckefe}. If $z\le0$, then $\Gamma_\mu(z)=\prod_{w'}2(2\pi)^{-z-|m_{w'}|/2}
+\Gamma(z+|m_{w'}|/2)$ is finite and non-zero because $z+|m_{w'}|/2>0$; $W(\mu)\ne0$; and, writing $G^-$ for the function
+attached in the same way to $\mu^{-1}$ (which is not of the form $|\cdot|^{i\tau}$ either), $G^-(1-z)\ne0$ since
+$1-z\ge1$, so $\Lambda(1-z,\mu^{-1})\ne0$. Hence $G(z)=D^{-z/2}\Gamma_\mu(z)^{-1}W(\mu)\Lambda(1-z,\mu^{-1})\ne0$. Take
+$\Lambda=G$.
+\end{proof}
+
+\subsubsection{An idelic Fubini theorem}\label{sec:pf:thmK:idelefub}
+For a finite place $v$ of $F$ put $E_v=E\otimes_FF_v=\prod_{w\mid v}E_w$, and $E_\infty=E\otimes_F F_\infty$; we view
+$E_v^\times$ and $E_\infty^\times$ as subgroups of $\thmKAE^\times$ (ideles supported at $v$, resp.\ at the infinite
+places). A \emph{system of local measures} consists of Haar measures $\mu_\infty$ on $E_\infty^\times$ and $\mu_v$ on
+$E_v^\times$ with $\mu_v(\OO_{E,v}^\times)=1$ (and the analogous measures on the local components of a compact subgroup,
+used in \cref{sec:pf:thmK:conefac}). For a non-zero fractional ideal $\mathfrak a$ of $E$ let $\mathfrak a_v=\mathfrak
+a\OO_{E,v}$, and for a character $\nu$ of $\thmKAE^\times$ unramified at all $w$ with $\ord_w\mathfrak a\ne0$ put
+$\nu(\mathfrak a)=\prod_w\nu_w(\varpi_w)^{\ord_w\mathfrak a}$. Let $|\cdot|$ be the idelic absolute value of $E$.
+
+\begin{lemma}[Idelic Fubini theorem]\label{pf:thmK:idelefub}
+Let $B$ be good, $(\mu_\infty,\mu_v)$ a system of local measures and $\mu$ a Haar measure on $\thmKAE^\times$. Let
+$\mathfrak a\ne0$ be a fractional ideal of $E$ and $z\ge2$ an integer. There is $\kappa\ne0$ such that for every continuous
+character $\nu$ of $\thmKAE^\times$ and all finite sets $S_0\subseteq S$ of finite places such that $\nu$ is unramified at
+the places above $v\notin S$, and $\nu$ is ramified and $\ord_w\mathfrak a=0$ at every place $w$ above $S$:
+\begin{enumerate}
+\item for $v\notin S$ the integral $u_v=\int_{E_v^\times}\one_{\mathfrak a_v}(l)\,\nu(l)|l|^z\,d\mu_v(l)$ converges
+absolutely and is non-zero;
+\item for every finite $T\supseteq S$ and all functions $g_\infty$ on $E_\infty^\times$ and $g_v$ on $E_v^\times$
+($v\in T$) such that $g_\infty\nu|\cdot|^z$ and the $g_v\nu|\cdot|^z$ are integrable, the function
+$\Psi(l)=g_\infty(l_\infty)\prod_{v\in T}g_v(l_v)\prod_{v\notin T}\one_{\mathfrak a_v}(l_v)\cdot\nu(l)|l|^z$ is
+$\mu$-integrable and
+\begin{equation}\label{pf:thmK:eq:idelefub}
+\Bigl(\prod_{v\in T\smallsetminus S}u_v\Bigr)\int\Psi\,d\mu=\kappa\,\nu(\mathfrak a)\,L^{S_0}(z,\nu)\int g_\infty\nu
+|\cdot|^z\,d\mu_\infty\prod_{v\in T}\int g_v\nu|\cdot|^z\,d\mu_v .
+\end{equation}
+\end{enumerate}
+\formallabel{PositivityTheory.ThKG.Loc.Cone.ideleFub}
+\end{lemma}
+
+\begin{proof}
+\emph{Haar measures.} For a finite set $T$ of finite places, $l\mapsto(l_\infty,(l_v)_{v\in T},l^T)$ is an isomorphism of
+topological groups from $\thmKAE^\times$ onto $E_\infty^\times\times\prod_{v\in T}E_v^\times\times\thmKAE^{T,\times}$,
+where $\thmKAE^{T,\times}$ is the restricted product of the $E_v^\times$, $v\notin T$, with respect to the unit groups. Let
+$\mu^T$ be the Haar measure on $\thmKAE^{T,\times}$ giving $\prod_{v\notin T}\OO_{E,v}^\times$ measure $1$. By uniqueness
+of Haar measures there is $c>0$ with $\mu=c\,(\mu_\infty\times\mu^\emptyset)$, and $\mu^\emptyset=\prod_{v\in T}\mu_v\times
+\mu^T$ for every $T$ (both sides are Haar measures and give $\prod_v\OO_{E,v}^\times$ measure $1$). Since $\nu$ and $|\cdot|$
+are multiplicative, $\Psi$ is a product of functions of $l_\infty$, of the $l_v$ ($v\in T$) and of $l^T$, and Fubini's
+theorem gives
+\begin{equation}\label{pf:thmK:eq:fubsplit}
+\int\Psi\,d\mu=c\int g_\infty\nu|\cdot|^z\,d\mu_\infty\prod_{v\in T}\int g_v\nu|\cdot|^z\,d\mu_v\cdot
+\int_{\thmKAE^{T,\times}}\prod_{v\notin T}\one_{\mathfrak a_v}(l_v)\,\nu(l)|l|^z\,d\mu^T(l),
+\end{equation}
+as soon as the last integral converges absolutely.
+
+\emph{Local integrals.} Let $v\notin S$. Then $E_v^\times=\prod_{w\mid v}E_w^\times$, $\mu_v$ is the product of the Haar
+measures giving $\OO_w^\times$ measure $1$, and $E_w^\times$ is the disjoint union of the shells $\varpi_w^k\OO_w^\times$,
+$k\in\Z$, on which $\nu_w$ is constant ($\nu$ is unramified at $w$) and $|\cdot|$ equals $\Nm w^{-k}$. Hence
+\[
+u_v=\prod_{w\mid v}\sum_{k\ge\ord_w\mathfrak a}\bigl(\nu_w(\varpi_w)\Nm w^{-z}\bigr)^k
+=\prod_{w\mid v}\bigl(\nu_w(\varpi_w)\Nm w^{-z}\bigr)^{\ord_w\mathfrak a}L_w(z,\nu),
+\]
+a product of absolutely convergent geometric series ($|\nu_w(\varpi_w)\Nm w^{-z}|<1$) with non-zero sums. This proves (1).
+
+\emph{The tail.} Let $T_0\supseteq T$ contain all places below the prime divisors of $\mathfrak a$. On
+$\thmKAE^{T_0,\times}$ the integrand is $\prod_{v\notin T_0}\one_{\OO_{E,v}}(l_v)\nu(l)|l|^z$. Its absolute value is the
+increasing limit, over finite sets $T_0\subseteq T_1$, of the functions $\prod_{v\in T_1\smallsetminus T_0}
+\one_{\OO_{E,v}}(l_v)|l_v|^z\cdot\prod_{v\notin T_1}\one_{\OO_{E,v}^\times}(l_v)$, whose integrals are
+$\prod_{w}(1-\Nm w^{-z})^{-1}$ over the $w$ above $T_1\smallsetminus T_0$; these are bounded by $\zeta_E(z)<\infty$ as
+$z\ge2$. By monotone and dominated convergence the integral converges absolutely and equals $\prod_{v\notin T_0}u_v$ (an
+absolutely convergent product). By Fubini over the finitely many places of $T_0\smallsetminus T$ the integral over
+$\thmKAE^{T,\times}$ in \eqref{pf:thmK:eq:fubsplit} converges absolutely and equals $\prod_{v\notin T}u_v$.
+
+\emph{Conclusion.} Multiplying by $\prod_{v\in T\smallsetminus S}u_v$ and using the formula for $u_v$,
+\[
+\Bigl(\prod_{v\in T\smallsetminus S}u_v\Bigr)\prod_{v\notin T}u_v=\prod_{v\notin S}u_v
+=\prod_{w}\Nm w^{-z\ord_w\mathfrak a}\cdot\nu(\mathfrak a)\cdot L^S(z,\nu),
+\]
+where we used $\ord_w\mathfrak a=0$ above $S$. Since $\nu$ is ramified at every place above $S$, its local factors there
+are $1$ and $L^S(z,\nu)=L^{S_0}(z,\nu)$. With $\kappa=c\prod_w\Nm w^{-z\ord_w\mathfrak a}\ne0$, which depends only on
+$\mu$, the system of measures, $\mathfrak a$ and $z$, \eqref{pf:thmK:eq:fubsplit} gives \eqref{pf:thmK:eq:idelefub}.
+\end{proof}
+
+\subsubsection{Theta integrals of killed pure tensors}\label{sec:pf:thmK:kills}
+For a Weil pair, a finite place $v$ and $x\in\thmKS(F_v^{n\times d})$, let $\Phi[v\mapsto x]$ denote the function obtained
+from a pure tensor $\Phi=\thmKpure(f,\varphi)$ by replacing its component at $v$ by $x$; if $\omega(g,1)\colon x\thmKacts{v}
+x_1$ for $g\in\Uni(X)(F_v)$, then $\omega(g,1)\Phi[v\mapsto x]=\Phi[v\mapsto x_1]$
+(\lref{PositivityTheory.ThKF.intersection_update_fsHerm_neg_one}). A subspace $N\subseteq\thmKS(F_v^{n\times d})$ is a
+\emph{theta subspace at $v$} if it contains $\thmKaug_v(\omega)$ and is stable under the local action of $\Uni(W)(F_v)$.
+Similarly, a subspace $N$ of $\thmKPol(M)$ is an \emph{archimedean theta subspace} if it contains the derivatives
+$\frac{d}{dt}\omega(\gamma(t),1)f|_{t=0}$ ($f\in\thmKPol(M)$, $\gamma$ a one-parameter subgroup of $X$) and the differences
+$\omega(k,1)f-f$ ($k\in K_\infty(X)$), and is stable under the derivatives along the one-parameter subgroups of $W$ and
+under $K_\infty(W)$; the span of these derivatives and differences is denoted $\thmKaug_\infty$.
+
+\begin{proposition}[Killed pure tensors]\label{pf:thmK:kills}
+Let matched data be given, and assume the conclusion of \ref{pf:thmK:H:so} and the statements \ref{pf:thmK:H:sph},
+\ref{pf:thmK:H:lie2}, \ref{pf:thmK:H:archlie} of \cref{pf:thmK:closesph}, and the coinvariant condition.
+\begin{enumerate}
+\item Let $f\in\thmKPol(M)$ and $\varphi=(\varphi_v)$ with $\varphi_v\in\thmKS$, $\varphi_v=\thmKvac_v$ for almost all
+$v$. If $p(f)=0$ or $p_v(\varphi_v)=0$ for some $v$, then $\thmKI(\thmKpure(f,\varphi))=0$.
+\item Let $f\in\thmKPol(M')$ and $\varphi$ as in (1) for $M'$ with $\varphi_{v_1}$ in the span of $\thmKSo_{v_1}(\tau_1)$.
+If $p'(f)=0$ or $p'_v(\varphi_v)=0$ for some $v$, then $\thmKI'(\thmKpure(f,\varphi))=0$.
+\end{enumerate}
+\formallabel{PositivityTheory.Sph.theta_kills_cusp_forms_spherical}
+\end{proposition}
+
+\begin{proof}
+We treat (1); the differences for (2) are indicated at the end. Fix a fundamental domain $\mathcal F$ of $\Gamma_W$ in
+$\Uni(W)(\A)$ and a Haar measure $\mu_W$, which is right invariant as $\Uni(W)(\A)$ is unimodular
+(\lref{PositivityTheory.ThKF.uniW}). For every test function $\Phi$, $\thmKI(\Phi)$ is continuous and left
+$\Gamma_W$-invariant, and for $\Phi\in\thmKPD(M)$ it is square integrable over $\mathcal F$; for (2) the same holds for
+$\Phi\in\thmKSo(M')$ (\lref{PositivityTheory.ThKF.clsV}, \lref{PositivityTheory.ThKF.clsV'}: these follow from
+\ref{pf:thmK:L:weilconv}, \ref{pf:thmK:L:socont}, the decay condition, the coinvariant condition and the square
+integrability of theta integrals, \lref{PositivityTheory.ThKEst.Sq.sqInt_of_leaves}).
+
+\emph{The positivity argument.} Let $Q$ be a space of local components at a place (below, $Q=\thmKS(F_v^{n\times d})$ or
+$Q=\thmKPol(M)$) and $u\colon Q\to\{\text{functions on }\Uni(W)(\A)\}$ a linear map such that each $u(x)$ is continuous,
+left $\Gamma_W$-invariant and square integrable on $\mathcal F$. Then
+\[
+\beta(x,y)=\int_{\mathcal F}\overline{u(x)(h)}\,u(y)(h)\,d\mu_W(h)
+\]
+is a positive semi-definite hermitian form on $Q$, and $\beta(x,x)=0$ implies $u(x)=0$: a continuous left
+$\Gamma_W$-invariant function vanishing almost everywhere on $\mathcal F$ vanishes almost everywhere on
+$\Gamma_W\mathcal F=\Uni(W)(\A)$ ($\Gamma_W$ is countable), hence everywhere, since Haar measure charges every non-empty
+open set. If $A$ is a linear map of $Q$ and $h_0\in\Uni(W)(\A)$ with $u(Ax)(h)=u(x)(hh_0)$ for all $x,h$, then
+$\beta(Ax,Ay)=\beta(x,y)$, because $\mathcal Fh_0$ is again a fundamental domain and $\mu_W$ is right invariant. If $D$ is a
+linear map of $Q$ and $\delta$ a one-parameter subgroup with $\frac{d}{dt}u(x)(h\delta(t))|_{t=0}=u(Dx)(h)$ for all $x,h$,
+then $\beta(Dx,y)+\beta(x,Dy)=0$: the function $t\mapsto\int_{\mathcal F}\overline{u(x)(h\delta(t))}u(y)(h\delta(t))\,
+d\mu_W(h)$ is constant by right invariance, and its derivative at $0$ may be computed under the integral sign
+(\lref{PositivityTheory.ThKF.L2.skew}, which justifies this from the continuity and square integrability of the
+functions involved).
+
+\emph{Finite places.} Suppose $p_v(\varphi_v)=0$, let $Q=\thmKS(F_v^{n\times d})$ and $u(x)=\thmKI(\thmKpure(f,\varphi)
+[v\mapsto x])$. By the above, $u$ has the required properties. Let $\omega_v$ be a local representation of
+$\Uni(V)(F_v)\times\Uni(W)(F_v)$ on $Q$ compatible with $\omega$ (\lref{PositivityTheory.ThKH.Locrep.locRepEx}). If
+$\omega(g,1)\colon x\thmKacts{v}x_1$, then $u(x_1)=\thmKI(\omega(g,1)\Phi[v\mapsto x])=u(x)$ by the left invariance of
+the theta integral (\lref{PositivityTheory.ThKF.iLeft}); so $u$ vanishes on $\thmKaug_v(\omega)$, and $\beta(x,y)=0$
+when $x$ or $y$ lies in $\thmKaug_v(\omega)$. For $h\in\Uni(W)(F_v)$, $u(\omega_v(1,h)x)(g)=u(x)(gh)$, hence $\beta$ is
+invariant under $\omega_v(1,h)$. The subspace $N=\ker p_v\cap Q$ is a theta subspace at $v$ (as $p_v$ kills the
+augmentation module and is equivariant) and $N\ne Q$ (as $p_v(Q)=\Pi_v\ne0$). By \ref{pf:thmK:H:sph} the local Weil
+representation at $v$ is irreducible or spherical.
+
+If it is irreducible, $N=\thmKaug_v(\omega)$, so $\varphi_v\in\thmKaug_v(\omega)$ and $u(\varphi_v)=0$.
+
+If it is spherical, there is $s\in Q$ such that (S1) $Q=\thmKaug_v(\omega)+\operatorname{span}\{\omega_v(1,h)s:h\in
+\Uni(W)(F_v)\}$, and (S2) for every $y\in Q$ there are $k_0,\dots,k_m\in\Uni(W)(F_v)$, $w_0,\dots,w_m\in\C$ and $c\in\C$
+with $w_i\,\omega_v(1,k_i)s=s$ and $\sum_iw_i\,\omega_v(1,k_i)y-cs\in\thmKaug_v(\omega)$. Then $s\ne0$ (otherwise
+$Q=\thmKaug_v(\omega)\subseteq N$ by (S1)) and $s\notin N$ (otherwise $Q\subseteq N$ by (S1), as $N$ is a theta
+subspace). Let $y\in N$ and choose $k_i,w_i,c$ as in (S2). Since $N$ is stable and contains the augmentation module,
+$cs\in N$, so $c=0$, and $z=\sum_iw_i\,\omega_v(1,k_i)y\in\thmKaug_v(\omega)$. As $s=w_i\,\omega_v(1,k_i)s$, invariance
+gives $\beta(s,\omega_v(1,k_i)y)=\overline{w_i}\,\beta(\omega_v(1,k_i)s,\omega_v(1,k_i)y)=\overline{w_i}\,\beta(s,y)$, hence
+\[
+0=\beta(s,z)=\Bigl(\sum_i|w_i|^2\Bigr)\beta(s,y).
+\]
+Some $w_i$ is non-zero (as $s\ne0$), so $\beta(s,y)=0$. Since $N$ is stable, $\beta(\omega_v(1,h)s,y)=\beta(s,
+\omega_v(1,h^{-1})y)=0$ for all $h$, and by (S1) and the vanishing of $\beta$ on the augmentation module, $\beta(x,y)=0$
+for all $x\in Q$ and $y\in N$. In particular $\beta(\varphi_v,\varphi_v)=0$, so $\thmKI(\thmKpure(f,\varphi))=u(\varphi_v)
+=0$.
+
+\emph{The archimedean place.} Suppose $p(f)=0$, let $Q=\thmKPol(M)$ and $u(x)=\thmKI(\thmKpure(x,\varphi))$. For
+$k\in K_\infty(W)$, $\omega(1,k)$ preserves $Q$ and $u(\omega(1,k)x)(h)=u(x)(hk)$; for a one-parameter subgroup $\delta$ of
+$W$ the derivative $D_\delta$ of $t\mapsto\omega(1,\delta(t))$ preserves $Q$ and $\frac{d}{dt}u(x)(h\delta(t))|_{t=0}=
+u(D_\delta x)(h)$ (\lref{PositivityTheory.ThKF.A.archOp} and \ref{pf:thmK:H:archlie}). Similarly $u$ vanishes on
+$\thmKaug_\infty$, by the left invariance of theta integrals and its derivative. Hence $\beta$ vanishes on
+$\thmKaug_\infty$, is $K_\infty(W)$-invariant and satisfies $\beta(D_\delta x,y)+\beta(x,D_\delta y)=0$; consequently the
+radical $\ker\beta$ is an archimedean theta subspace. The space $N=\ker p\cap Q$ is a maximal proper archimedean theta
+subspace (\lref{PositivityTheory.ThKF.maxInfP}: this follows from the matching properties of $p$ and the irreducibility
+of $\Pi_\infty$). We use two further facts. (R) For a form $\beta$ as above and a subspace $P\supseteq\ker\beta$ stable
+under all $D_\delta$, either $P\subseteq\ker\beta$ or $P=Q$ (\lref{PositivityTheory.ThKF.Unit.radMax_of}, a
+consequence of the explicit action of the Lie algebra on the Fock space, \ref{pf:thmK:H:lie2}). (J) The sum of two proper
+archimedean theta subspaces is proper (\lref{PositivityTheory.ThKR.Join.joinTri_of}). If $\ker\beta=Q$ there is
+nothing to prove. Otherwise apply (R) to $P=N+\ker\beta$: $P=Q$ is impossible by (J), so $N\subseteq\ker\beta$. Thus
+$f\in\ker\beta$, $\beta(f,f)=0$ and $\thmKI(\thmKpure(f,\varphi))=u(f)=0$.
+
+\emph{The case (2).} The same arguments apply to $M'$ and $\omega'$, with $u$ built from functions in $\thmKSo(M')$:
+replacing the component at a place $v\ne v_1$, or the archimedean component, of a pure tensor whose $v_1$-component lies in
+the span of $\thmKSo_{v_1}(\tau_1)$ gives again an element of $\thmKSo(M')$. It remains to treat $p'_{v_1}(\varphi_{v_1})=0$.
+The place $v_1$ is good, so by the coinvariant condition $\varphi_{v_1}\in\thmKaug_{v_1}(\omega')$, and by the conclusion of
+\ref{pf:thmK:H:so}, $\varphi_{v_1}$ lies in the span of the differences $y-x$ with $x$ in the span of
+$\thmKSo_{v_1}(\tau_1)$ and $\omega'(g,1)\colon x\thmKacts{v_1}y$. For such $x,y$ the functions $\Phi[v_1\mapsto x]$ and
+$\Phi[v_1\mapsto y]=\omega'(g,1)\Phi[v_1\mapsto x]$ lie in $\thmKSo(M')$ (which is stable under $\omega'$), and their theta
+integrals agree by left invariance. By linearity $\thmKI'(\Phi[v_1\mapsto\varphi_{v_1}])=0$.
+\end{proof}
+
+\subsubsection{Factorisation of the cone integral}\label{sec:pf:thmK:conefac}
+Let $K$ be the stabiliser of $X$. Its elements supported at a finite place $v$, resp.\ at the infinite places, form compact
+groups $K_v$, $K_\infty$; a \emph{system of local measures} for $K$ (and $\thmKAE^\times$) consists of Haar measures
+$\mu_{K,v}$ of total mass $1$ on the $K_v$, a Haar measure $\mu_{K,\infty}$ on $K_\infty$, and measures $\mu_\infty,\mu_v$ on
+$E_\infty^\times,E_v^\times$ as in \cref{sec:pf:thmK:idelefub}. For an evaluation map $e$ with local components
+$(e_\infty,(e_v))$, a map $u$ as in \eqref{pf:thmK:eq:cone}, a character $\nu$ and $z\in\N$, the \emph{local cone integrals}
+are
+\begin{align*}
+\Lambda_v(\varphi)&=\int_{K_v}\int_{E_v^\times}e_v\bigl(\rho_\psi(u(l))\omega(k,1)\varphi\bigr)\nu(l)|l|^z\,d\mu_v(l)\,
+d\mu_{K,v}(k),\\
+L(f)&=\int_{K_\infty}\int_{E_\infty^\times}e_\infty\bigl(\rho_\psi(u(l))\omega(k,1)f\bigr)\nu(l)|l|^z\,d\mu_\infty(l)\,
+d\mu_{K,\infty}(k),
+\end{align*}
+for $\varphi\in\thmKS(F_v^{n\times d})$ and archimedean Schwartz functions $f$, where the operators act through the local
+actions at $v$, resp.\ at the infinite places.
+
+\begin{proposition}[Factorisation of the cone integral]\label{pf:thmK:conefac}
+There are signs $e_1,e_2$ with the following property. Let $(G,G_1,H,H')$ be an $\alpha$-step configuration,
+$e\in\thmKEv(M,M_1;\iota_H,\iota_{H'};I_A(H,H'))$ with local components $(e_\infty,(e_v))$, $K$ the stabiliser of $V$ with a
+Haar measure $\mu_K$, $\mu$ a Haar measure on $\thmKAE^\times$ and a system of local measures. There is $\kappa\ne0$ such
+that for every pair of triples on $G$ and $G_1$ (with the same character datum), with $\nu=\alpha/\beta$, $z=k_A$ and
+$u=u_A$:
+\begin{enumerate}
+\item $\thmKcone_A$ is linear on test functions;
+\item $L$ is a continuous linear map of Schwartz spaces with $L(\thmKPol(M))\subseteq\thmKPol(M_1)$; the local cone
+integrals $\Lambda_v$ converge and map $\thmKS$ into $\thmKS$; and for $v\notin T$ there is $u_v\ne0$ with
+$\Lambda_v(\thmKvac_v)=u_v\thmKvac^{M_1}_v$;
+\item for every finite $T'\supseteq T$ and every pure tensor $\thmKpure(f,\varphi)$ with $\varphi_v\in\thmKS$ for all $v$
+and $\varphi_v=\thmKvac_v$ for $v\notin T'$,
+\begin{multline}\label{pf:thmK:eq:conefac}
+\Bigl(\prod_{v\in T'\smallsetminus T}u_v\Bigr)\thmKcone_A(\thmKpure(f,\varphi))\\
+=\kappa\,\nu(\mathfrak b_H)^{e_1}\nu(\mathfrak b_{H'})^{e_2}\,\thmKLS{k_A}{\nu}\;\thmKpure\bigl(Lf,(\Lambda_v\varphi_v)_{v\in
+T'},(\thmKvac^{M_1}_v)_{v\notin T'}\bigr).
+\end{multline}
+\end{enumerate}
+The same holds, with other signs, for $\beta$-step configurations ($e\in\thmKEv(M',M'_1;\iota_H,\iota_{H'};I_B(H,H'))$,
+the cone integral $\thmKcone_B$ on the $V'$-side, $K$ the stabiliser of $V'$, $u=u_B$, $z=k_B+1$, and $L^{S_0}(k_B+1,\nu)$
+in \eqref{pf:thmK:eq:conefac}), and for the plane-removal configurations of \cref{sec:pf:thmK:endsteps}.
+\formallabel{PositivityTheory.ThKG.Loc.Cone.coneFac_all}
+\end{proposition}
+
+\begin{proof}
+We treat $\alpha$-steps; the other two cases are proved in the same way (for $\beta$-steps with $u_B$ and the ideal
+identity below for $u_B$; the plane-removal case contains the $\alpha$-step case as a special case). If there is no pair of
+triples, take $\kappa=1$. Otherwise the following ingredients are available.
+\begin{enumerate}[label=(\roman*)]
+\item\emph{Ideal identity} (\lref{PositivityTheory.ThKG.Loc.Cone.Id.idealId'}). There are signs $e_1,e_2$, independent
+of all data, and a non-zero fractional ideal $\mathfrak a$ of $E$ such that: for every finite $v$ and $l\in E_v^\times$,
+the matrix $u(l)$ is integral at $v$ (lies in the lattice generated by the $a\,xy^{\mathsf T}$, $x\in L_V$, $y\in L_W$) iff
+$l\in\mathfrak a_v$; $\ord_w\mathfrak a=0$ for the places $w$ above $P$; and $\nu(\mathfrak a)=\nu(\mathfrak b_H)^{e_1}
+\nu(\mathfrak b_{H'})^{e_2}$ for every continuous character $\nu$ trivial on $\A^\times$ and unramified outside $P$. The
+ideal $\mathfrak a$ is computed from the coordinates of $x_H$ and $y_{H'}$ in the lattices; the signs come from the
+duality between $L_X$ and its dual lattice.
+\item\emph{Pure tensors} (\lref{PositivityTheory.ThKG.Loc.Cone.pureFac_of}). For a finite set $T'$ outside of which
+the splitting characters are unramified, a pure tensor $\Phi=\thmKpure(f,\varphi)$ with vacua outside $T'$, $k\in K$ and
+$l\in\thmKAE^\times$,
+\begin{multline*}
+e\bigl(\rho_\psi(u(l))\omega(k,1)\Phi\bigr)=\one\bigl[\,u(l_v)\text{ integral for all }v\notin T'\bigr]\\
+\cdot\thmKpure\Bigl(e_\infty\bigl(\rho_\psi(u(l_\infty))\omega(k_\infty,1)f\bigr),\bigl(e_v(\rho_\psi(u(l_v))\omega(k_v,1)
+\varphi_v)\bigr)_{v\in T'},(\thmKvac^{M_1}_v)_{v\notin T'}\Bigr),
+\end{multline*}
+where $k_\infty,k_v$ and $l_\infty,l_v$ are the components. This rests on the factorisation of the global operators into
+local actions, the invariance of the vacuum under $K_v$ at places where the splitting characters are unramified
+(\lref{PositivityTheory.ThKG.Loc.Cone.vacFixX_of}), and the formula $e_v(\rho_\psi(u(l))\thmKvac_v)=\thmKvac^{M_1}_v$
+or $0$ according as $u(l)$ is integral at $v$ or not.
+\item\emph{Local integrals} (\lref{PositivityTheory.ThKG.Loc.Cone.Fin.finCone2_of},
+\lref{PositivityTheory.ThKG.Loc.Bump.archCone_of}). For $z\ge2$ the local cone integrals $\Lambda_v$ converge
+absolutely and map $\thmKS$ into $\thmKS$, and the integrands are integrable over $K_v\times E_v^\times$; for $z\ge1$ the
+archimedean cone integral $L$ converges absolutely, is a continuous linear map and maps the Fock space of $M$ into that of
+$M_1$.
+\item\emph{Fubini on $K$} (\lref{PositivityTheory.ThKG.Loc.Cone.kFub_of}). There is $\kappa_2\ne0$ such that for
+integrable $h_\infty$ on $K_\infty$ and $h_v$ on $K_v$ ($v\in T'$) the function $k\mapsto h_\infty(k_\infty)\prod_{v\in T'}
+h_v(k_v)$ is $\mu_K$-integrable with integral $\kappa_2\int h_\infty\,d\mu_{K,\infty}\prod_{v\in T'}\int h_v\,d\mu_{K,v}$; this
+is the decomposition of Haar measure on $K=K_\infty\times\prod_vK_v$.
+\item\emph{Spanning} (\lref{PositivityTheory.ThKG.Loc.Cone.Fin.schSpan}). Test functions are linear combinations of
+pure tensors $\thmKpure(f,\varphi)$ with $\varphi_v=\thmKvac_v$ outside a finite set; this follows from the fact that the
+locally constant compactly supported functions on $\A_f^{n\times d}$ are spanned by characteristic functions of products of
+cosets.
+\end{enumerate}
+Note $k_A\ge2$, by the inequalities defining a good configuration.
+
+Let $\kappa_1$ be the constant of \cref{pf:thmK:idelefub} for $\mathfrak a$, $z=k_A$ and $\mu$, and $\kappa=\kappa_1\kappa_2$. Fix
+a pair of triples, $T'\supseteq T$, a pure tensor $\Phi=\thmKpure(f,\varphi)$ as in (3) and $y$. By (i) the indicator in (ii)
+equals $\prod_{v\notin T'}\one_{\mathfrak a_v}(l_v)$. Hence, by (ii), the integrand of \eqref{pf:thmK:eq:cone} at $(k,l)$ is
+\[
+\Bigl(\prod_{v\notin T'}\thmKvac^{M_1}_v(y_v)\Bigr)\,g_\infty(k_\infty,l_\infty)\prod_{v\in T'}g_v(k_v,l_v)\cdot
+\prod_{v\notin T'}\one_{\mathfrak a_v}(l_v)\,\nu(l)|l|^{k_A},
+\]
+with $g_\infty(k,l)=e_\infty(\rho_\psi(u(l))\omega(k,1)f)(y_\infty)$ and $g_v(k,l)=e_v(\rho_\psi(u(l))\omega(k,1)
+\varphi_v)(y_v)$. Apply \cref{pf:thmK:idelefub} with $S=T$, $S_0$ the corresponding set of the character datum and $T'$: its
+hypotheses hold since $\nu$ is unramified outside $T$, ramified above $T$, and $\ord_w\mathfrak a=0$ above $T\subseteq P$; the
+integrability hypotheses are (iii). For each $k$ this gives the integral over $l$, multiplied by $\prod_{v\in T'\smallsetminus
+T}u_v$, as $\kappa_1\nu(\mathfrak a)L^{S_0}(k_A,\nu)$ times the product of the local integrals over $l_\infty$ and the $l_v$
+($v\in T'$). Integrating over $k$ with (iv) gives
+\[
+\Bigl(\prod_{v\in T'\smallsetminus T}u_v\Bigr)\thmKcone_A(\Phi)(y)=\kappa\,\nu(\mathfrak a)\,L^{S_0}(k_A,\nu)\,(Lf)(y_\infty)
+\prod_{v\in T'}(\Lambda_v\varphi_v)(y_v)\prod_{v\notin T'}\thmKvac^{M_1}_v(y_v),
+\]
+which is \eqref{pf:thmK:eq:conefac} by (i), since $\nu=\alpha/\beta$ is trivial on $\A^\times$ (its restriction is
+$\eta^{a'}\eta^{-(b+2)}$ with $a'+b$ even) and unramified outside $T\subseteq P$. Here $u_v=\int_{E_v^\times}
+\one_{\mathfrak a_v}\nu|\cdot|^{k_A}d\mu_v\ne0$ by \cref{pf:thmK:idelefub}(1). For $v\notin T$ the vacuum is fixed by $K_v$
+and $e_v(\rho_\psi(u(l))\thmKvac_v)=\one_{\mathfrak a_v}(l)\thmKvac^{M_1}_v$, so, as $\mu_{K,v}(K_v)=1$, $\Lambda_v(\thmKvac_v)
+=u_v\thmKvac^{M_1}_v$. This proves (2) and (3).
+
+For (1), the integrability statements above show that the double integral \eqref{pf:thmK:eq:cone} converges absolutely for
+pure tensors with vacua outside a finite set; the set of test functions for which it converges absolutely is a vector
+space on which $\thmKcone_A$ is linear, and by (v) it contains all test functions.
+\end{proof}
+
+\subsubsection{Bump functions for $\beta$-steps}\label{sec:pf:thmK:bumpb}
+
+\begin{lemma}[Archimedean bump functions]\label{pf:thmK:bumpb}
+Let $(G,G_1,H,H')$ be a $\beta$-step configuration, $e'\in\thmKEv(M',M'_1;\iota_H,\iota_{H'};I_B(H,H'))$ with archimedean
+component $e'_\infty$, $K$ the stabiliser of $V'$ with a system of local measures, and let triples on $G$ and $G_1$ be
+given. Let $L$ be the archimedean cone integral of $\thmKcone_B$ (with $u=u_B$, $\nu$ and $z=k_B+1$). If $l$ is a non-zero
+continuous linear form on the archimedean Schwartz space of $M'_1$ such that $l(f_1)=l(f)$ whenever
+$\omega'_1(g,1)\colon f\thmKacts{\infty}f_1$ with $g\in\Uni(V'_1)(F_\infty)$, then $l(Lf)\ne0$ for some $f$.
+\formallabel{PositivityTheory.ThKG.Loc.Bump.bumpB_fin}
+\end{lemma}
+
+\begin{proof}
+Suppose $l(Lf)=0$ for all $f$. Identify $E_\infty=E\otimes_FF_\infty$ with $\C^I$, $I$ the set of infinite places of $F$,
+through the $\tau_w$. The character $\nu$ has infinity type $\kappa=(\kappa_w)$ with $\kappa_w=|m_\alpha(w)-m_\beta(w)|$ up
+to sign, so $2k_B<\kappa_w$ for all $w$; write $r(c)=\prod_w(\bar c_w/|c_w|)^{\kappa_w}|c_w|^{2k_B}$ (the density of
+$\nu(l)|l|^{k_B+1}d^\times l$ with respect to Lebesgue measure $dc$ on $\C^I$, up to conjugation of the variable). For an
+archimedean Schwartz function $f$ put
+\[
+a_f(k,c)=l\Bigl(e'_\infty\bigl(\rho_\psi(\bar c\,y_Hx_{H'}^{\mathsf T})\,\omega'(k,1)f\bigr)\Bigr)\qquad(k\in K_\infty,\ c\in
+\C^I).
+\]
+By the description of the archimedean operators (\lref{PositivityTheory.ThKF.A.archOp}) and the Heisenberg calculus,
+$a_f$ is continuous, rapidly decreasing in $c$ uniformly in $k$, and $l(Lf)=c_0\int_{K_\infty}\int_{\C^I}a_f(k,c)r(c)\,dc\,dk$
+with a constant $c_0\ne0$ (\lref{PositivityTheory.ThKG.Loc.Bump.archSlice_of}). Hence
+\begin{equation}\label{pf:thmK:eq:bumpzero}
+\int_{K_\infty}\int_{\C^I}a_f(k,c)\,r(c)\,dc\,dk=0\qquad\text{for every }f.
+\end{equation}
+\emph{Translations.} The form $\langle x\,x_{H'}^{\mathsf T},x'\,x_{H'}^{\mathsf T}\rangle$ vanishes, and $e'$ is invariant
+under the Heisenberg translations by $I_B(H,H')$. Using this, replacing $f$ by the Heisenberg translate
+$\rho_\psi(Y(\eta)x_{H'}^{\mathsf T})f$ by a vector $Y(\eta)$ built from $\eta\in\C^I$ changes $a_f(k,c)$ into
+$a_f(k,c+\beta(k,\eta))$, where $\beta(k,\eta)$ is a continuous function, linear in $\eta$ and bounded by a multiple of
+$|\eta|$, with $\langle\beta(k,\eta),t\rangle=\langle\eta,\pi(k,t)\rangle$ for a continuous map $\pi$ recording the
+coordinate of $k^{-1}x_H$ along $x_H$. So \eqref{pf:thmK:eq:bumpzero} holds with $a_f(k,c+\beta(k,\eta))$ for all $\eta$.
+
+\emph{Scaling.} At the points $(k,t)$ with $\pi(k,t)=\pi(1,1)$, the element $k$ acts on the line of $x_H$ through a Levi
+element $m(t,\cdot)$, and the mixed-model formula (\cref{pf:thmK:mixx} for $V'$, applied to $(G,G_1)$, and the invariance
+of $l$) gives $a_f(k,c)=\chi(t)|t|^{\rho}a_f(1,tc)$ for the splitting character $\chi=\nu$ and an exponent $\rho$; hence the
+Fourier transform $\widehat{a_f(k,\cdot)}$ satisfies
+\[
+\widehat{a_f(k,\cdot)}(t)\,r(t)^{-1}|t|^{-1}\,\widehat{a_f(1,\cdot)}(1)^{-1}=|t|^{\rho-k_B-2}>0 .
+\]
+\emph{Choice of $f$.} Since $l\ne0$ and the image of $e'_\infty$ is dense, there is $f_0$ with $a_{f_0}(1,0)\ne0$; then the
+Fourier transform of $c\mapsto a_{f_0}(1,c)$ does not vanish identically, and after a Heisenberg translation of $f_0$ we
+obtain $f$ with $\widehat{a_f(1,\cdot)}(1)\ne0$.
+
+\emph{Conclusion.} The following analytic statement (\lref{PositivityTheory.ThKG.Loc.Bump.coreB}) gives a
+contradiction. Let $a$ be a continuous function on $K_\infty\times\C^I$ which decreases rapidly in the second variable,
+$\beta,\pi$ as above, $2e<\kappa_w$ for all $w$, $r=r_{\kappa,e}$, and $c\in\C$; if $\int\int a(k,x+\beta(k,\eta))r(x)\,dx\,
+dk=0$ for all $\eta$, then $\Re\bigl(c\,\widehat{a(k,\cdot)}(t)r(t)^{-1}|t|^{-1}\bigr)>0$ cannot hold at all points of
+$\pi^{-1}(x_0)$ for a point $x_0$ of the image of $\pi$. Its proof combines a local functional equation
+$\int\widehat H(t)r(t)^{-1}|t|^{-1}dt=Z\int H(x)r(x)\,dx$ ($Z\ne0$; \lref{PositivityTheory.ThKG.Loc.Bump.tate}),
+Fourier inversion in $\eta$ and a bump function concentrated near $x_0$. We apply it with $a=a_f$, $e=k_B$ and
+$c=\widehat{a_f(1,\cdot)}(1)^{-1}$.
+\end{proof}
+
+\subsubsection{The local cone integral at $v_1$}\label{sec:pf:thmK:flocb}
+
+\begin{lemma}[The cone integral at $v_1$]\label{pf:thmK:flocb}
+In the situation of \cref{pf:thmK:bumpb}, let $\Lambda_{v_1}$ be the local cone integral of $\thmKcone_B$ at $v=v_1$.
+\begin{enumerate}
+\item If $g\in\Uni(V')(F_{v_1})$, $\omega'(g,1)\colon\varphi\thmKacts{v_1}\varphi_1$ with $\varphi,\varphi_1\in\thmKS$, and
+$l$ is a linear form vanishing on $\thmKaug_{v_1}(\omega'_1)$, then $l(\Lambda_{v_1}\varphi_1)=l(\Lambda_{v_1}\varphi)$.
+\item $\Lambda_{v_1}$ maps $\thmKSo_{v_1}(\tau_1)$ for $M'$ into the span of $\thmKSo_{v_1}(\tau_1)$ for $M'_1$.
+\end{enumerate}
+\formallabel{PositivityTheory.ThKG.Loc.FL.fLocB_of}
+\end{lemma}
+
+\begin{proof}
+Write $v=v_1$, let $\omega_v$ be a local representation for $\omega'$ at $v$
+(\lref{PositivityTheory.ThKH.Locrep.locRepEx}) and
+\[
+A(\varphi)=\int_{E_v^\times}e'_v\bigl(\rho_\psi(u_B(s))\varphi\bigr)\,\nu(s)|s|^{z}\,d\mu_v(s),\qquad z=k_B+1\ge2,
+\]
+so that $\Lambda_v(\varphi)=\int_{K_v}A(\omega_v(k,1)\varphi)\,d\mu_{K,v}(k)$. For $\varphi\in\thmKS$ the integrand of $A$
+takes finitely many values in $\thmKS$, on measurable sets, and $A(\varphi)\in\thmKS$
+(\lref{PositivityTheory.ThKG.Loc.FL.tate'}); and $k\mapsto\omega_v(k,1)\varphi$ is locally constant. Hence linear
+forms commute with both integrals.
+
+(1) Let $f(x)=l(A(\omega_v(x,1)\varphi))$ for $x\in\Uni(V')(F_v)$; it is locally constant. For $u$ in the unipotent radical of
+the stabiliser $P_H$ of the line $E x_H$, a Levi element $m=m(t,g_1)$ at $v$ and $x$, the mixed-model formula and the
+invariance of $l$ under $\thmKaug_v(\omega'_1)$ give
+\[
+l\bigl(e'_v(\rho_\psi(u_B(s))\omega_v(um,1)\psi)\bigr)=\nu(t)\,|t|^{(a+b+2)/2}\,l\bigl(e'_v(\rho_\psi(u_B(ts))\psi)\bigr)
+\]
+(\lref{PositivityTheory.ThKG.Loc.FL.point}); substituting $s\mapsto t^{-1}s$ in $A$ and using $(a+b+2)/2=(b+1)+z$,
+\[
+f(umx)=\nu(t)|t|^{(a+b+2)/2}\,\nu(t)^{-1}|t|^{-z}f(x)=|t|^{b+1}f(x).
+\]
+So $f$ lies in the representation of $\Uni(V')(F_v)$ induced from the modulus character of $P_H(F_v)$ (note $\dim V'_1=b$).
+On such functions integration over $K_v$ is invariant under right translations by $\Uni(V')(F_v)$
+(\lref{PositivityTheory.ThKG.Loc.KInv.kInv}; this uses the Iwasawa decomposition $\Uni(V')(F_v)=P_H(F_v)K_v$ and the
+decomposition of Haar measure along it). Since $\omega_v(k,1)\varphi_1=\omega_v(kg,1)\varphi$, we get
+$l(\Lambda_v\varphi_1)=\int_{K_v}f(kg)\,dk=\int_{K_v}f(k)\,dk=l(\Lambda_v\varphi)$.
+
+(2) Let $\varphi\in\thmKSo_v(\tau_1)$, $k\in K_v$, $s\in E_v^\times$, and let $\Phi=\thmKpure(f_0,\varphi[v])$ be a pure tensor
+with vacua outside $v$ and $e'_\infty(f_0)\ne0$. Then $\Phi\in\thmKSo(M')$; $\omega'(k,1)\Phi\in\thmKSo(M')$ by the
+stability of $\thmKSo(M')$ (\lref{PositivityTheory.ThKCT.soStab_of}); and $e'(\rho_\psi(u_B(s))\omega'(k,1)\Phi)\in
+\thmKSo(M'_1)$, since evaluation maps of type $I_B$ map the Heisenberg translates of elements of $\thmKSo(M')$ by
+$u_B(s)$ into $\thmKSo(M'_1)$ (\lref{PositivityTheory.ThKCT.soEv_of'}). This function is the pure tensor with archimedean
+component $e'_\infty(f_0)\ne0$, the vacua outside $v$ and the component $e'_v(\rho_\psi(u_B(s))\omega_v(k,1)\varphi)$ at $v$;
+hence that component lies in the span of $\thmKSo_v(\tau_1)$ for $M'_1$. As the integrals defining $\Lambda_v\varphi$ are
+finite linear combinations of such components, (2) follows.
+\end{proof}
+
+\subsubsection{Mixed models}\label{sec:pf:thmK:mixx}
+
+\begin{proposition}[Mixed models]\label{pf:thmK:mixx}
+Let $(M,\omega)$ be a Weil pair for $(X,W)$ with characters $(\chi_X,\chi_W)$, $H$ a plane adapted to $(X,X_1)$ and
+$(M_1,\omega_1)$ a Weil pair for $(X_1,W)$ with the same characters. Then there is an evaluation map
+$e\in\thmKEv(M,M_1;\iota_H,1;\{x_Hz^{\mathsf T}\})$, and every such $e$ satisfies
+\[
+e\bigl(\omega(um,h)\Phi\bigr)=\chi_W(t)\,|t|^{d/2}\,\omega_1(g_1,h)\,e(\Phi)
+\]
+for all test functions $\Phi$, $u$ in the unipotent radical of the stabiliser of $Ex_H$, Levi elements $m=m(t,g_1)$ and
+$h\in\Uni(W)(\A)$.
+\formallabel{PositivityTheory.Mix.mixX_closed}
+\end{proposition}
+
+\begin{proof}
+Write $\omega(um,h)=\omega(u,1)\omega(m,1)\omega(1,h)$. The existence of $e$ comes from a mixed model of the Weil
+representation adapted to the decomposition of $X$ given by $x_H$, $y_H$ and $\iota_H(X_1)$
+(\lref{GlobalTheory.ThKMixXEx.exists_isEv_mixedX_m}). The three identities
+\[
+e(\omega(1,h)\Phi)=\omega_1(1,h)e(\Phi),\quad e(\omega(m,1)\Phi)=\chi_W(t)|t|^{d/2}\omega_1(g_1,1)e(\Phi),\quad
+e(\omega(u,1)\Phi)=e(\Phi)
+\]
+are \lref{PositivityTheory.Mix.theta_tower_hermitian_first_holds},
+\lref{PositivityTheory.Mix.theta_tower_hermitian_second_holds} and \lref{GlobalTheory.MixXUnip.unip_trivial_m}.
+They are derived from the defining properties of Weil representations and of evaluation maps: the intertwining of the
+Heisenberg operators, Siegel's rule (which produces the factor $\chi_W(t)|t|^{d/2}$ for the Levi element), and the
+invariance of $e$ under the Heisenberg translations by the matrices $x_Hz^{\mathsf T}$. Applying the three identities in
+turn (all operators preserve test functions) gives the formula.
+\end{proof}
+
+\subsubsection{The modulus identity and spherical functions at inert places}\label{sec:pf:thmK:inert}
+
+\begin{proposition}[Modulus identity at inert places]\label{pf:thmK:modst}
+Let $B$ be good, $W\in\mathrm{Skew}_B(r,s)$ of dimension $d$, $v$ a finite place inert in $E$, $C_y\in M_{d\times
+m}(\thmKAE)$ a matrix which is Lagrangian and adapted at $v$ with stabiliser $P$, $K$ the stabiliser of the local lattice
+at $v$, $p\in P$ and $t$ with $pC_y=C_yt$. Then $[P\cap K:(P\cap K)\cap p^{-1}(P\cap K)p]=|\Nm\det t_v|_v^{m}\,[P\cap
+K:(P\cap K)\cap p(P\cap K)p^{-1}]$.
+\formal{PositivityTheory.Sph.ModSt}
+\formallabel{PositivityTheory.Sph.modSt2}
+\end{proposition}
+
+\begin{proof}
+Let $Y$ be the column span of $C_y$ at $v$, a Lagrangian subspace of $W_v$, so $d=2m$. $P$ is a closed subgroup of the
+locally compact totally disconnected group $\Uni(W)(F_v)$ and $U=P\cap K$ is a compact open subgroup of $P$. Let $\lambda$
+be a left Haar measure on $P$ and $\Delta$ its modular function, $\lambda(Ap)=\Delta(p)\lambda(A)$. Then
+\[
+\lambda(U\cap p^{-1}Up)=\lambda\bigl(p^{-1}(pUp^{-1}\cap U)p\bigr)=\Delta(p)\,\lambda(pUp^{-1}\cap U),
+\]
+and dividing $\lambda(U)$ by both sides gives $[U:U\cap p^{-1}Up]=\Delta(p)^{-1}[U:U\cap pUp^{-1}]$. It remains to show
+$\Delta(p)=|\Nm\det t|^{-m}$. Choose a complementary Lagrangian $Y'$; then $P=M\ltimes N$, where $M\cong\GL(Y)$ consists of
+the elements $m(t)$ acting by $t$ on $Y$ and preserving $Y'$, and $N$ is the unipotent radical, the group of elements
+$n(X)$ acting trivially on $Y$ and on $W/Y$, with $X$ in an $F_v$-vector space $\mathfrak n$ of hermitian-type $m\times m$
+matrices of $F_v$-dimension $m^2$ and $m(t)n(X)m(t)^{-1}=n(tX\sigma(t)^{\mathsf T})$. The group $N$ is a union of compact open
+subgroups and $M\cong\GL_m(E_v)$ is unimodular, so $\Delta$ is trivial on $N$ and $\Delta(m(t))=|\det(\mathrm{Ad}\,m(t)|
+_{\mathfrak n})|_v^{-1}$ (as $\lambda$ is the product of Haar measures of $M$ and $N$ in the coordinates $p=mn$). For
+$t=\mathrm{diag}(t_1,\dots,t_m)$ the map $X\mapsto tX\sigma(t)^{\mathsf T}$ multiplies the diagonal entries (in $F_v$) by
+$\Nm t_i$ and the pairs of off-diagonal entries (in $E_v$) by $t_i\sigma(t_j)$, of $F_v$-determinant $\Nm t_i\Nm t_j$;
+so its determinant is $\prod_i\Nm t_i^{\,m}=\Nm(\det t)^m$. Both sides being characters of $\GL_m(E_v)$ which agree on the
+diagonal torus and are trivial on the elementary matrices (unipotent), the formula holds for all $t$. As $\Delta(p)$
+depends only on the image $t$ of $p$ in $M$, $\Delta(p)=|\Nm\det t|_v^{-m}$. (The formal proof carries out the same
+computation by counting cosets in coordinates adapted to $C_y$ and the lattice:
+\lref{PositivityTheory.Sph.M2.locMod}.)
+\end{proof}
+
+\begin{proposition}[Spherical functions at inert places]\label{pf:thmK:sphfun}
+Assume the modulus identity of \cref{pf:thmK:modst}. Let $(B,G,X,\omega,\omega')$ be a triple, $v$ a finite place inert in
+$E$, and $\omega_v,\omega'_v$ local representations for $\omega,\omega'$ at $v$ such that the vacua are fixed by the
+stabiliser $K_v$ of the lattice of $W$ at $v$. Then there are linear forms $l,l'$ on the local Schwartz spaces, vanishing
+on the augmentation modules, $K_v$-invariant and with $l(\thmKvac_v)=l'(\thmKvac'_v)=1$, such that
+$l(\omega_v(1,h)\thmKvac_v)=l'(\omega'_v(1,h)\thmKvac'_v)$ for all $h\in\Uni(W)(F_v)$.
+\formallabel{PositivityTheory.Sph.sphFun_of_modSt}
+\end{proposition}
+
+\begin{proof}
+Since $v$ is inert and $v\notin T$, the characters are unramified at $v$. Let $m=(a+a')/2$.
+\begin{enumerate}[label=(\roman*)]
+\item There is a Lagrangian $C_y$ adapted at $v$ such that $\Uni(W)(F_v)=PK_v$ for its stabiliser $P$
+(\lref{PositivityTheory.ThKH.Iwas.iwasawa}); moreover $h^{-1}\in K_vhK_v$ for all $h$
+(\lref{PositivityTheory.Sph.cartanSt2}, from the Cartan decomposition), and each $K_vhK_v$ is a finite union of cosets
+$pK_v$ (\lref{PositivityTheory.Sph.finSt}).
+\item There is a linear form $l_0$ on $\thmKS(F_v^{a\times d})$ with $l_0(\thmKvac_v)\ne0$ which vanishes on the
+augmentation module (\lref{PositivityTheory.ThKH.Evl.evVac}, \lref{PositivityTheory.Sph.evInvSt}) and satisfies
+Siegel's rule $l_0(\omega_v(1,p)\varphi)=\beta(z)\,|\Nm\det t|^{a/2}\,l_0(\varphi)$ for $p\in P$ with $pC_y=C_yt$, where
+$z\in E_v^\times$ is a unit-adjusted lift of $\det t$ (\lref{PositivityTheory.Sph.siegSt},
+\lref{PositivityTheory.Sph.unitLiftSt}); similarly $l'_0$ for $\omega'$ with $\alpha(z)|\Nm\det t|^{a'/2}$; and
+$\alpha(z)\beta(z)=1$ for these $z$ (\lref{PositivityTheory.Sph.charSt}).
+\item Put $F(h)=l_0(\omega_v(1,h)\thmKvac_v)/l_0(\thmKvac_v)$ and $F'$ similarly. Then $F(phk)=c(p)F(h)$ and
+$F'(phk)=c'(p)F'(h)$ for $p\in P$, $k\in K_v$, with $c(p)=\beta(z)|\Nm\det t|^{a/2}$, $c'(p)=\alpha(z)|\Nm\det t|^{a'/2}$,
+and $F(1)=F'(1)=1$. By (ii) and the modulus identity,
+\[
+c(p)\,c'(p)=|\Nm\det t|^{m}=\frac{[U:U\cap p^{-1}Up]}{[U:U\cap pUp^{-1}]}\qquad(U=P\cap K_v).
+\]
+\item The forms $l(\varphi)=\int_{K_v}l_0(\omega_v(1,k)\varphi)\,dk/l_0(\thmKvac_v)$ and $l'$ (normalised Haar measure)
+are $K_v$-invariant, vanish on the augmentation modules, satisfy $l(\thmKvac_v)=1$ (the vacuum is $K_v$-fixed), and
+$l(\omega_v(1,h)\thmKvac_v)=\int_{K_v}F(kh)\,dk$ (\lref{PositivityTheory.Sph.exists_form},
+\lref{PositivityTheory.Sph.avgSt}).
+\item Finally, for functions $F,F'$ as in (iii) the averages $\int_{K_v}F(kh)\,dk$ and $\int_{K_v}F'(kh)\,dk$ coincide
+(\lref{PositivityTheory.Sph.countSt}). This is the classical relation between the spherical functions attached to a
+character $c$ of $P$ and to $c^{-1}\Delta^{-1}$, evaluated at $h$ and $h^{-1}$ \cite{Casselman1980}: decomposing $K_vhK_v$
+into cosets $p_iK_v$ and $K_vh^{-1}K_v=K_vhK_v$ into cosets $p'_jK_v$, both averages become finite sums of the values
+$c(p_i)$, resp.\ $c'(p'_j)$, weighted by indices of the form $[U:U\cap p^{\pm1}Up^{\mp1}]$, and the relation in (iii)
+identifies the two sums.
+\end{enumerate}
+\end{proof}
+
+\subsubsection{The unramified doubling integral at inert places}\label{sec:pf:thmK:dblinert}
+
+\begin{proposition}[Unramified doubling integral]\label{pf:thmK:dblinert}
+Let $B$ be good, $Y\in\mathrm{Herm}_B(r,s)$ of dimension $n$, $\chi$ a Hecke character with $\chi|_{\A^\times}=\eta^0$,
+$G_2(Y)$ the doubled group with stabiliser $K$ and doubling embedding $\iota$, $v$ a finite place inert in $E$ at which
+$\chi$ is unramified, and $\mu$ the Haar measure on $\Uni(Y)(F_v)$ with $\mu(\Uni(Y)(F_v)\cap K)=1$. For $\Re z>n/2$ and
+every $K$-spherical section $f$ at $v$ of the degenerate principal series of $G_2(Y)(F_v)$ with parameter $z+n/2$ and
+character $\chi$, normalised by $f(1)=1$, the function $u\mapsto f(\iota(u,1))$ is integrable and
+\[
+\int_{\Uni(Y)(F_v)}f(\iota(u,1))\,d\mu(u)\cdot\prod_{i=0}^{n-1}\bigl(1-(-1)^{n-1-i}\Nm v^{-(2z+i+1)}\bigr)^{-1}
+=\prod_{i=0}^{n-1}L_v\bigl(z+\tfrac n2-i,\chi\bigr).
+\]
+\formallabel{GlobalTheory.ThK.Dbl.Inert.main}
+\end{proposition}
+
+\begin{proof}
+The place $w$ of $E$ above $v$ is unique and $E_w/F_v$ is the unramified quadratic extension. Choosing a uniformiser of
+$F_v$ (which is also one of $E_w$) and a basis of the lattice of $Y$ at $v$ adapted to the hermitian form, one identifies
+$\Uni(Y)(F_v)$ with an unramified unitary group, $K\cap\Uni(Y)(F_v)$ with its standard maximal compact subgroup,
+$G_2(Y)(F_v)$ with the corresponding quasi-split unitary group in $2n$ variables and $f$ with the normalised spherical
+section in standard coordinates; since $\chi$ is trivial on $\A^\times$ and unramified at the inert place $w$, $\chi_w$ is
+trivial, and the factors $L_v(\cdot,\chi)$ are those of the trivial character of $E_w$. These identifications preserve the
+measures and the integrals. The statement in these coordinates is the classical computation of the unramified doubling
+zeta integral of the trivial representation \cite{GelbartPiatetskiShapiroRallis1987,Li1992}, which the formal proof carries
+out by an explicit count of lattices (\lref{GlobalTheory.CompanionTheory.InertZetaTop.unramDoublingInert}): the integral
+is decomposed along double cosets of the maximal compact subgroup, the values of $f$ are powers of $\Nm v^{-(z+n/2)}$
+determined by elementary divisors (computed through Smith normal forms and the action of a Levi subgroup on cosets), the
+volumes are computed by counting cosets in Heisenberg-type groups, and summing the resulting series gives the right-hand side
+divided by the normalising factor.
+\end{proof}
+
+\subsubsection{Local multiplicity one}\label{sec:pf:thmK:multone}
+
+\begin{proposition}[Archimedean multiplicity one]\label{pf:thmK:archmult}
+Assume \ref{pf:thmK:H:lie2}. Let matched data on $G$ and $G_1$ be related by an $\alpha$- or $\beta$-step with Levi
+character $(\chi,r)$, and let $H'$ be adapted to $(W,W_1)$. If $\lambda,\lambda'\colon\Pi_\infty(G)\to\Pi_\infty(G_1)$ are
+linear maps compatible, through the archimedean matching maps, with the action of the Levi torus of $H'$ by $(\chi,r)$, of
+its unipotent radical and of the Levi factor $\Uni(W_1)$, and $\lambda\ne0$, then $\lambda'=c\lambda$ for some $c$.
+\formallabel{PositivityTheory.ThKG.CayleyTransformDarboux.archimedean_multiplicity_one_of_lie}
+\end{proposition}
+
+\begin{proof}
+Choose, at each infinite place, frames of $W$ and $W_1$ adapted to the Cartan involutions and to $H'$ (a basis completing
+$x_{H'},y_{H'}$ and the image of $\iota_{H'}$). Through the Fock model, the archimedean matching maps identify
+$\Pi_\infty(G)$ and $\Pi_\infty(G_1)$ with modules over the complexified Lie algebras of $\Uni(W)(F_\infty)$ and
+$\Uni(W_1)(F_\infty)$, on which these Lie algebras act by explicit operators in the chosen frames (by \ref{pf:thmK:H:lie2}
+and the first-order formulas; \lref{PositivityTheory.ThKG.CayleyTransformDarboux.exists_mod}). The equivariance of a map
+$\lambda$ under the Levi torus (through the derivative of $(\chi,r)$), the unipotent radical and $\Uni(W_1)$ translates,
+by differentiating along one-parameter subgroups, into a list of commutation relations between $\lambda$ and these
+operators. Two maps satisfying these relations, the first non-zero, are proportional
+(\lref{PositivityTheory.ThKG.CayleyTransformDarboux.par_line}): the relations determine such a map from its value on a
+generator of the cyclic module $\Pi_\infty(G)$, and confine that value to a line.
+\end{proof}
+
+\begin{proposition}[Multiplicity one at the places of $T$]\label{pf:thmK:rammult}
+Let $v$ be a place with an embedding $t\colon E\to F_v$ at which $\chi_W$ is ramified, $(M,\omega)$ a Weil pair for $(X,W)$
+with characters $(\chi_X,\chi_W)$, $H'$ adapted to $(W,W_1)$ with $n\le d_1$, and $(\tau,P)$ an irreducible representation of
+$\Uni(W_1)(F_v)\cong\GL_{d_1}(F_v)$ of countable dimension. Let $\Lambda,\Lambda'$ be linear maps from
+$\thmKS(F_v^{n\times d})$ to $P$ which vanish on $\thmKaug_v(\omega)$ and are equivariant for the parabolic subgroup of $H'$
+with the Levi character $(\chi_X,r)$ and the action $\tau$ of $\Uni(W_1)(F_v)$. If $\Lambda\ne0$ on $\thmKS$, then
+$\Lambda'=c\Lambda$ on $\thmKS$. In particular hypothesis \ref{pf:thmK:H:ram} of \cref{pf:thmK:closesph} holds.
+\formallabel{PositivityTheory.BernsteinRamification.Close.ramifiedMultiplicityOne}
+\end{proposition}
+
+\begin{proof}
+\emph{Linear models.} At the split place $v$ the dictionary for linear models
+(\lref{PositivityTheory.KCo.section_statement}; \lref{PositivityTheory.ThKG.StdDict.dictX}) gives a bijection
+$\iota$ of $\thmKS$ onto the locally constant compactly supported functions on $M_{n\times d}(F_v)$ in which
+$\Uni(X)(F_v)\cong\GL_n(F_v)$ acts by left translation twisted by $\chi_W$, and an element of $\Uni(W)(F_v)$ corresponding to
+$CpC^{-1}$ ($p\in\GL_d(F_v)$, $C$ a frame adapted to $H'$) acts by $\Phi\mapsto\chi_X(\det p)|\det p|^{n/2}\Phi(\cdot\,p)$.
+In these coordinates the parabolic subgroup of $H'$ becomes the group of block matrices $p$ preserving the decomposition
+$F_v^{d}=F_v^{d_1}\oplus F_v^2$ in the appropriate way, its Levi torus $m(z,1)$ corresponds to $\mathrm{diag}(1,x,y)$ with
+$x,y$ given by $z$ (\lref{PositivityTheory.ThKG.LocalRamifiedLeviRestriction.idele_two},
+\lref{PositivityTheory.ThKG.LocalRamifiedLeviRestriction.is_levi}), and $\Lambda\circ\iota^{-1}$, $\Lambda'\circ
+\iota^{-1}$ become linear maps $L,L'$ which are invariant under $\GL_n(F_v)$, transform under the block-diagonal elements
+$\mathrm{diag}(1,x,y)$ with $x,y$ units by a character $\nu$ with $\nu(l)\ne1$ for some unit $l$ (because $\chi_W$ is
+ramified), and are $\GL_{d_1}(F_v)$-equivariant.
+
+\emph{Reduction to full rank.} Because $\nu$ is ramified, $L$ and $L'$ are determined by their restrictions $\mu,\mu'$ to
+the space $S$ of functions of the form $\psi\otimes\one\otimes\one$, with $\psi$ supported on the matrices of rank $n$ in
+$M_{n\times d_1}(F_v)$ and the characteristic functions of the integral vectors in the last two columns; $S$ is stable under
+$\GL_{d_1}(F_v)$, and $\mu\ne0$
+(\lref{GlobalTheory.CompanionTheory.BernNarrow.local_multiplicity_one_irreducible_GL}).
+
+\emph{Irreducibility and Schur's lemma.} The kernel of $\mu$ contains the augmentation module of $S$ and is
+$\GL_{d_1}(F_v)$-stable; using the irreducibility of the representations of $\GL_{d_1}(F_v)$ induced from characters of
+maximal parabolic subgroups --- for smooth unitary characters $\chi_1,\chi_2$ of $F_v^\times$ and $a\ne b$ or
+$\chi_1\ne\chi_2$, the representation of $\GL_{a+b}(F_v)$ induced from $\chi_1\circ\det\otimes\chi_2\circ\det$ is
+irreducible (\lref{PositivityTheory.BernsteinRamification.narrowBern}, deduced from the geometric lemma of
+Bernstein--Zelevinsky \cite{BernsteinZelevinsky1977,Bernstein1984}) --- one obtains $\ker\mu\subseteq\ker\mu'$. Thus $\mu'$
+factors through $\mu(S)=P$, giving a $\GL_{d_1}(F_v)$-endomorphism $A$ of the irreducible representation $P$. Since $P$ has
+countable dimension, $A$ is a scalar: otherwise $A-\lambda$ is injective, hence (its image being a non-zero
+subrepresentation) bijective, for every $\lambda\in\C$, and for $0\ne x\in P$ the uncountably many vectors
+$(A-\lambda)^{-1}x$ would be linearly independent. Hence $\mu'=c\mu$ and $\Lambda'=c\Lambda$ on $\thmKS$.
+\end{proof}
+
+\subsubsection{Local matching at split places}\label{sec:pf:thmK:finsplit}
+
+\begin{proposition}[Matching maps at split places]\label{pf:thmK:finsplit}
+For every triple and every finite place $v\notin T$ at which $E/F$ splits there are a non-zero complex vector space $\Pi_v$
+and linear maps $p_v,p'_v$ satisfying the conditions of \cref{pf:thmK:def:maps} at $v$. In particular hypothesis
+\ref{pf:thmK:H:finsplit} of \cref{pf:thmK:closesph} holds.
+\formallabel{PositivityTheory.BernsteinRamification.Close.finSplit}
+\end{proposition}
+
+\begin{proof}
+At $v$ fix $t\colon E\to F_v$ and linear models (\lref{PositivityTheory.ThK.SplitDict.split_place_dictionary}): $\Uni(W)(F_v)\cong
+\GL_{a+a'}(F_v)$, $\Uni(V)(F_v)\cong\GL_a(F_v)$, $\Uni(V')(F_v)\cong\GL_{a'}(F_v)$, and the local Weil representations become
+the natural actions on the locally constant compactly supported functions on $M_{a\times(a+a')}(F_v)$, resp.\
+$M_{a'\times(a+a')}(F_v)$, twisted by the unramified characters $\alpha_v,\beta_v$ (\lref{PositivityTheory.ThK.SplitAsm.split_character_facts};
+the actions are unique, \lref{PositivityTheory.KCo.action_uniqueness}). Let $\Pi_v$ be the representation of
+$\GL_{a+a'}(F_v)$ induced from the characters $\beta_v\circ\det\otimes\alpha_v\circ\det$ of the Levi subgroup
+$\GL_a\times\GL_{a'}$ of a maximal parabolic subgroup; it is irreducible, since $a\ne a'$
+(\lref{PositivityTheory.BernsteinRamification.narrowBern}, as in the proof of \cref{pf:thmK:rammult}). Define $p_v$ and
+$p'_v$ by local zeta integrals of Godement--Jacquet type \cite{GodementJacquet1972}: $p_v(\varphi)$ is the function
+$g\mapsto\int_{\GL_a(F_v)}(\iota\varphi)\bigl((h,0)g\bigr)\beta_v(\det h)|\det h|^{s}\,dh$ at the appropriate point $s$, and
+$p'_v$ similarly with $\GL_{a'}$ and $\alpha_v$ (\lref{GlobalTheory.CompanionTheory.BernBridge.Split.unrMaps_of_lt}).
+These integrals converge for $a'<a$ (\lref{PositivityTheory.ThK.SplitLoc.Unr.conv_finite}); they are invariant under
+$\GL_a(F_v)$, resp.\ $\GL_{a'}(F_v)$, so they vanish on the augmentation modules; they are equivariant for $\GL_{a+a'}(F_v)$;
+they are surjective onto the irreducible $\Pi_v$ as soon as they are non-zero; and on the vacua (characteristic functions of
+the integral matrices) both take the value of the normalised spherical vector, by the unramified computation of the zeta
+integrals (\lref{PositivityTheory.ThK.SplitLoc.Unr.pUnr'_eq}). A function vanishing on the integrals over all
+translates is zero (\lref{PositivityTheory.ThK.SplitDict.induced_vanish_of_vanish_on_integral}), which
+gives the compatibility of $p_v$ and $p'_v$ with the action of $\Uni(W)(F_v)$ required in \cref{pf:thmK:def:maps}.
+\end{proof}
+
+\subsubsection{Existence of Weil representations}\label{sec:pf:thmK:weilex}
+
+\begin{proposition}[Existence of Weil representations]\label{pf:thmK:weilex}
+For good $B$, $X\in\mathrm{Herm}_B(r,s)$, $W\in\mathrm{Skew}_B(r',s')$, a good model $M$ for $(X,W)$ and Hecke characters
+$\chi_X,\chi_W$ with $\chi_X|_{\A^\times}=\eta^n$, $\chi_W|_{\A^\times}=\eta^d$, there is a Weil representation for $M$
+with splitting characters $(\chi_X,\chi_W)$.
+\formal{PositivityTheory.ThKG.Tow.WeilEx}
+\formallabel{PositivityTheory.ThKW.weilEx}
+\end{proposition}
+
+\begin{proof}
+This is the existence of the global Weil representation of $\Uni(X)\times\Uni(W)$ \cite{Weil1964} with the splitting of
+Kudla \cite{Kudla1994}, in the axiomatic form of \cref{pf:thmK:def:models}. The formal construction proceeds in four steps.
+\begin{enumerate}[label=(\roman*)]
+\item\emph{Hermitian reformulation.} Choose $\xi_0\in E^\times$ with $\sigma(\xi_0)=-\xi_0$. Then $J_S=-\xi_0J_W^{-1}$ is
+hermitian and non-degenerate, as is $J_T=J_X^{\mathsf T}$, and the lattices of $X$ and $W$ give a self-dual lattice for the
+pair $(J_S,J_T)$ (\lref{PositivityTheory.ThKW.latH_of}).
+\item\emph{A Weil datum with characters $\eta^{n},\eta^{d}$.} Choose a Hecke character $\eta$ of $E$ with
+$\eta|_{\A^\times}=\eta_{E/F}$ (\lref{PositivityTheory.ThKW.exists_eta}). The theta distribution attached to the
+lattice is invariant under the rational Heisenberg group (\lref{GlobalTheory.T.theta_function_heisenberg_invariant});
+the lattice model then gives a Weil datum for the pair (\lref{PositivityTheory.ThKW.latRep}), and Kudla's splitting
+with the characters $\eta^n,\eta^d$ turns it into a representation of the two unitary groups
+(\lref{PositivityTheory.ThKW.datumEta}).
+\item\emph{Twisting.} Multiplying the operators by $(\chi_X\eta^{-n})(\det g)$ and $(\chi_W\eta^{-d})(\det h)$, characters
+trivial on $\A^\times$, changes the splitting characters to $(\chi_X,\chi_W)$
+(\lref{GlobalTheory.T.weil_datum_twist_by_hecke_characters_trivial_base}).
+\item\emph{Transport to the model.} Transporting the resulting representation to the Schwartz space of $M$ through the
+Darboux coordinates of $M$ (which map rational matrices to rational vectors since $M$ is good) gives a representation
+$\omega$ which preserves test functions and the admissible linear forms, intertwines the Heisenberg operators, is unitary
+and continuous (\lref{GlobalTheory.T.exists_weilTransport_adelicSchwartz_cmExtension}); the extensions to the doubled
+groups and Siegel's rule are obtained by applying the same construction to the doubled pairs
+(\lref{PositivityTheory.ThKW.S.exists_dbl_target}). These are exactly the conditions of \cref{pf:thmK:def:models}.
+\end{enumerate}
+\end{proof}
+
+
+% ===========================================================================
+\subsection{Proof of Theorem K}\label{sec:pf:thmK:final}
+
+\begin{theorem}[Reduction to the leaves]\label{pf:thmK:closesph}
+Assume the following fourteen statements.
+\begin{enumerate}[label=(H\arabic*),leftmargin=*]
+\item\label{pf:thmK:H:dict} If the dictionary statement at split places holds (at every finite place $v$ with an embedding
+$t\colon E\to F_v$, every Weil pair admits linear models of conjugate type at $v$, and in each of them the local actions of
+$\Uni(X)(F_v)$ and $\Uni(W)(F_v)$ are the standard actions of $\GL_n(F_v)\times\GL_d(F_v)$ twisted by two unitary
+characters), then \textup{(Coi)} holds.
+\item\label{pf:thmK:H:so} If \ref{pf:thmK:L:kfin} holds, then for every triple, an element of the span of
+$\thmKSo_{v_1}(\tau_1)$ lying in $\thmKaug_{v_1}(\omega')$ lies in the augmentation module generated inside that span.
+\item\label{pf:thmK:H:ram} Local multiplicity one at the places of $T$: for matched data on $G$ and $G_1$ related by a step, a
+plane $H'$ and $v\in T$, two linear maps $\Pi_v(G)\to\Pi_v(G_1)$ which are equivariant for the parabolic subgroup of $H'$ with
+the character of the step, the first non-zero, are proportional.
+\item\label{pf:thmK:H:finram} Matching maps exist at the places of $T$ (with the zeta condition).
+\item\label{pf:thmK:H:finsplit} Matching maps exist at the split places outside $T$.
+\item\label{pf:thmK:H:sph} For every triple and finite $v$, each of the two local Weil representations at $v$ is either
+spherical (it admits a spherical vector in every local model) or irreducible (every $\Uni(W)(F_v)$-stable subspace of $\thmKS$
+containing the augmentation module is the augmentation module or $\thmKS$).
+\item\label{pf:thmK:H:fininert} Matching maps exist at the inert places outside $T$.
+\item\label{pf:thmK:H:lie2} The derivatives of a Weil representation along one-parameter subgroups act on the Fock model
+by the standard second-order operators, shifted by half the infinity type of the splitting character.
+\item\label{pf:thmK:H:archlie} For a Weil pair and one-parameter subgroups $\gamma$ of $X$ and $\delta$ of $W$, every $f$ in
+the Fock space is differentiable along $t\mapsto\omega(\gamma(t),\delta(t))$ with derivative in the Fock space, compatibly
+with the archimedean operators implementing $\omega(\gamma(t),\delta(t))$.
+\item\label{pf:thmK:H:kreal} The leaf \ref{pf:thmK:L:kreal}.
+\item\label{pf:thmK:H:siegel} Reduction theory, \cref{pf:thmK:siegel}.
+\item\label{pf:thmK:H:eis} The meromorphic continuation, \cref{pf:thmK:eis}.
+\item\label{pf:thmK:H:sw} The Siegel--Weil formula, \cref{pf:thmK:sw:thm}.
+\item\label{pf:thmK:H:weilex} The existence of Weil representations, \cref{pf:thmK:weilex}.
+\end{enumerate}
+Then $\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ hold.
+\formallabel{PositivityTheory.Sph.Tr.closeSph}
+\end{theorem}
+
+\begin{proof}
+By \cref{pf:thmK:agree} it suffices to establish the twenty-six leaves, \textup{(Dec)} and \textup{(Coi)} under these
+hypotheses. \textup{(Coi)} follows from \ref{pf:thmK:H:dict} and the dictionary statement (\cref{pf:thmK:localmatching}). The
+leaves \ref{pf:thmK:L:evzero}--\ref{pf:thmK:L:stab}, \ref{pf:thmK:L:levi}, \ref{pf:thmK:L:poldense} and, using
+\ref{pf:thmK:H:siegel}, \ref{pf:thmK:L:weilconv}, \ref{pf:thmK:L:socont} and \textup{(Dec)} are \cref{pf:thmK:analytic}. The
+towers \ref{pf:thmK:L:towerA}, \ref{pf:thmK:L:towerB} are \cref{pf:thmK:towers} (with \ref{pf:thmK:H:weilex});
+\ref{pf:thmK:L:facne} is \cref{pf:thmK:facne}; \ref{pf:thmK:L:matchex} is \cref{pf:thmK:matchex}; the constant-term leaves
+\ref{pf:thmK:L:splitex}--\ref{pf:thmK:L:ctsc} are \cref{pf:thmK:ctleaves}, where the general formulas \cref{pf:thmK:gen} are
+applied to the collection consisting of the statements on mixed models (\lref{PositivityTheory.Mix.mixW_closed} and
+\lref{PositivityTheory.Mix.mixX_closed}, which describe the effect of Levi elements on evaluation maps), the basic
+properties of theta functions (\cref{pf:thmK:analytic}(a)), \ref{pf:thmK:L:evzero}, \ref{pf:thmK:L:evcone},
+\ref{pf:thmK:L:stab}, the existence of models with Weil representations (by \ref{pf:thmK:H:weilex}), the existence of adapted
+planes, the topological properties of the unitary groups, \ref{pf:thmK:L:weilconv} and the decay statements for
+$\thmKSo$-data (by \ref{pf:thmK:H:siegel}). \ref{pf:thmK:L:anall} is \cref{pf:thmK:anall}; \ref{pf:thmK:L:polre} is
+\cref{pf:thmK:polre} (with \ref{pf:thmK:H:sph}, \ref{pf:thmK:H:lie2}, \ref{pf:thmK:H:archlie}); \ref{pf:thmK:L:nonzeroan} is
+\cref{pf:thmK:nonzeroan}, where \cref{pf:thmK:nonzerobot} uses \ref{pf:thmK:H:kreal}, \ref{pf:thmK:H:eis},
+\ref{pf:thmK:H:sw}; \ref{pf:thmK:L:polzero} is \cref{pf:thmK:polzeroprop} (with \ref{pf:thmK:H:eis}, \ref{pf:thmK:H:sw});
+\ref{pf:thmK:L:locA}, \ref{pf:thmK:L:locB} are \cref{pf:thmK:locAB} (with \ref{pf:thmK:H:so}, \ref{pf:thmK:H:ram},
+\ref{pf:thmK:H:sph}, \ref{pf:thmK:H:lie2}, \ref{pf:thmK:H:archlie}); \ref{pf:thmK:L:endA}, \ref{pf:thmK:L:endB} are
+\cref{pf:thmK:endsteps} (from \ref{pf:thmK:H:dict},
+\ref{pf:thmK:H:finram}, \ref{pf:thmK:H:finsplit}, \ref{pf:thmK:H:fininert}, \ref{pf:thmK:H:lie2}, \ref{pf:thmK:H:archlie},
+\ref{pf:thmK:H:siegel}--\ref{pf:thmK:H:weilex}); \ref{pf:thmK:L:kreal} is \ref{pf:thmK:H:kreal}; and \ref{pf:thmK:L:kfin} is
+\cref{pf:thmK:localmatching} (with \ref{pf:thmK:H:finram}, \ref{pf:thmK:H:finsplit}, \ref{pf:thmK:H:fininert}).
+\end{proof}
+
+\begin{theorem}[Theorem K from the analytic inputs]\label{pf:thmK:head}
+The modulus identity of \cref{pf:thmK:modst}, the meromorphic continuation of \cref{pf:thmK:eis} and the Siegel--Weil formula
+of \cref{pf:thmK:sw:thm} imply $\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$; hence the latter two statements
+imply them.
+\formallabel{PositivityTheory.ThKR.theoremK_head2_of_mod}\formallabel{PositivityTheory.ThKR.theoremK_head2}
+\end{theorem}
+
+\begin{proof}
+We verify the hypotheses of \cref{pf:thmK:closesph}. Hypotheses \ref{pf:thmK:H:dict}--\ref{pf:thmK:H:finsplit} are
+\lref{PositivityTheory.BernsteinRamification.Close.kCoinv},
+\lref{PositivityTheory.BernsteinRamification.Close.soCoinv},
+\lref{PositivityTheory.BernsteinRamification.Close.ramifiedMultiplicityOne},
+\lref{PositivityTheory.BernsteinRamification.Close.finRam} and
+\lref{PositivityTheory.BernsteinRamification.Close.finSplit}, which prove exactly these statements, all from a filtration
+of the local Weil representations at split places by the geometric lemma of Bernstein--Zelevinsky type
+\cite{BernsteinZelevinsky1977}. Hypothesis \ref{pf:thmK:H:sph} is \lref{PositivityTheory.Sph.sphTri_of}, which deduces it
+from the spherical analysis at split places (\lref{PositivityTheory.Sph.sphSplit_geo}) and the generation of the
+coinvariants by the vacuum at inert places (\lref{PositivityTheory.Sph.vacInert}). Hypothesis \ref{pf:thmK:H:fininert} is
+\lref{PositivityTheory.Sph.finInert_of}, applied as in \cref{pf:thmK:localmatching}; it is the only place where the modulus
+identity enters, through \lref{PositivityTheory.Sph.sphFun_of_modSt}. Hypotheses \ref{pf:thmK:H:lie2},
+\ref{pf:thmK:H:archlie}, \ref{pf:thmK:H:kreal} are \lref{PositivityTheory.ThKR.lieSecond2},
+\lref{PositivityTheory.ThKR.archLie'} and \lref{PositivityTheory.ThKR.kReal'}, which prove them from the local
+oscillator representation on Schwartz space (\lref{PositivityTheory.ThKR.localLift_holds}). Hypothesis
+\ref{pf:thmK:H:siegel} is \cref{pf:thmK:siegel}; \ref{pf:thmK:H:eis} and \ref{pf:thmK:H:sw} are the hypotheses; and
+\ref{pf:thmK:H:weilex} is \cref{pf:thmK:weilex}. For the second assertion, the modulus identity holds by
+\cref{pf:thmK:modst}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:thmK:main}]
+By \cref{pf:thmK:eis,pf:thmK:sw:thm} the meromorphic continuation and the Siegel--Weil formula hold; apply
+\cref{pf:thmK:head}.
+\end{proof}
+
+% ===========================================================================
+\subsection{Remarks on the formal statements}\label{sec:pf:thmK:remarks}
+
+\begin{remark}[Unused hypothesis]\label{pf:thmK:rem:unused}
+The formal statement of \cref{pf:thmK:main} takes as hypothesis the conjunction of three propositions (a local-global
+compatibility for Galois representations attached to polarised pairs, which appears twice, and the existence of a local
+Langlands correspondence). It is not used: the proof applies \cref{pf:thmK:head} to \cref{pf:thmK:eis,pf:thmK:sw:thm}, and the
+formal statements supplying these two theorems do not use the hypothesis either. The suffix ``of literature'' of the formal name is
+therefore not descriptive.
+\end{remark}
+
+\begin{remark}[Scope of the statements]\label{pf:thmK:rem:scope}
+$\sfname{ThetaIntegralsAgree}$ and $\sfname{LocalMatching}$ are universally quantified over all data forming a triple; they say
+nothing about the existence of such data. The conditions on a triple are strong ($E/F$ unramified at all finite places with
+$E/\Q$ Galois, inert places odd of norm $>3$, $m_\alpha-m_\beta>a+a'$, $\lfloor(a-a')/2\rfloor$ and $a'$ larger than
+$2(p+q)+1$). The step relations assert the existence of signs $(e_1,e_2,s)$ and of a non-zero constant $C$ depending on the
+geometric data and the real maps, but not their values.
+\end{remark}
+
+\begin{remark}[Weil representations]\label{pf:thmK:rem:weil}
+Weil representations are characterised by properties (\cref{pf:thmK:def:models}); no uniqueness is asserted, and the theorem
+holds for every representation with these properties. The local actions at a place are extracted from the global operators
+through the relation $T\colon\varphi\thmKacts{v}\varphi_1$, which holds vacuously when no admissible function $r$ exists; in
+all uses $\varphi\in\thmKS$.
+\end{remark}
+
+\begin{remark}[Values of divergent expressions]\label{pf:thmK:rem:junk}
+Theta series are unconditional sums and theta integrals are Bochner integrals, both $0$ when they diverge; convergence is
+asserted separately in the decay condition. Partial $L$-functions are infinite products and occur only at integers $\ge2$,
+where they converge absolutely. The zeta integrals in the zeta condition of \cref{pf:thmK:def:maps} are defined with a finite
+sum over Cartan cells which is $0$ when infinitely many cells contribute, so that condition has its intended meaning only for
+functions with finitely many contributing cells.
+\formal{GlobalTheory.SplitFlip.shellSum}
+\end{remark}
+
+\begin{remark}[Hypotheses not used]\label{pf:thmK:rem:below}
+In \ref{pf:thmK:L:endA} and \ref{pf:thmK:L:endB} the hypothesis $\mathcal B(p+q)$ is not used by the proof
+(\cref{pf:thmK:endAB}). In \cref{pf:thmK:keyB,pf:thmK:keyA} and in the leaves \ref{pf:thmK:L:ctbz}--\ref{pf:thmK:L:ctsc},
+\ref{pf:thmK:L:locA}, \ref{pf:thmK:L:locB}, the constant is taken to be $1$ when no triple exists on the configurations, and
+the statements are then vacuous.
+\end{remark}

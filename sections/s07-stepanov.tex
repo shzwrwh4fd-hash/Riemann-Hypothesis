@@ -1,0 +1,294 @@
+\section{A Stepanov-type bound for prime counts in Frobenius classes}\label{sec:stepanov}
+
+This section describes the arithmetic heart of the proof. \Cref{thm:cheb-windows} requires, at every
+large window scale $x$, a host together with an upper bound with square-root error for the weighted
+inert counts $\mathrm{ASK}$ of \cref{sec:hosts}. Such bounds are obtained from a \emph{record}: a list of
+real numbers attached to lattices built from chains of theta lifts, subject to eleven systems of
+inequalities. Once the record is identified with the arithmetic of the host, the bound follows from
+these inequalities by linear arithmetic.
+
+\subsection{Records}
+
+Let $U_0$ be a finite set (later $U_0=A$, the Frobenius classes modulo $A_0$-cosets). For each $u_0\in U_0$
+let $W(u_0)$ be a finite non-empty set of \emph{words}; let $\mathrm{Top}$ be a finite set and $m,f\ge1$.
+
+\begin{definition}[Records]\label{def:record}
+A \emph{record} $\mathbb D$ is a list of real numbers, indexed as follows:
+\begin{itemize}
+\item scalars $x,\eps,a,b,b',k,L,L_a,B_0,N_c,\gamma,L_{pL},v,\mathrm{lg},\log\Gamma$;
+\item a weight function $a_T$ on $\mathrm{Top}$, and weights $w(u_0,j,\rho)>0$ for $j<m$ and $\rho<f$;
+\item for each word $u\in W(u_0)$: a positive weight $d(u_0,u)$, a level $T(u_0,u)>0$, numbers
+$\mu_N(u_0,u)\le\mu^{\max}_N(u_0,u)$ and $\mu_M(u_0,u)\le\mu^{\max}_M(u_0,u)$, a number $h(u_0,u)$, and
+contributions $E_j(u_0,u)$ for $j<m$;
+\item for each $u_0$: numbers $\mu_{CC}(u_0)\ge\mu^{\min}_{CC}(u_0)$, and
+$F_o,\mathrm{Ga},\mathrm{Ta},\mathrm{ASK},\mathrm{IO},\mathrm{HH},\delta,\eta,e$;
+\item bounds $\bar\delta,\bar\eta,\bar e$.
+\end{itemize}
+In the records produced from families (\cref{thm:global-chain}), $\mu_N,\mu^{\max}_N$ and
+$\mu_M,\mu^{\max}_M$ are the mean and maximal slopes of lattices $N_u$ and $M_u$ attached to the word
+$u$, $h$ is the height of a Bessel-type functional, $\mu_{CC}$ is the slope of a lattice assembled from all
+words, and $\mathrm{Ga}$ is the divisibility gain at inert places (\cref{rem:stepanov:mechanism}).
+
+Put $\mathrm{ph}(y)=y\log y-y$, $\log\Omega=\gamma+\log(\pi/v)-L_{pL}$ and $E(u_0,u)=\sum_jE_j(u_0,u)$.
+Let $s(u_0)=\sum_u d(u_0,u)(\mu_N-h)(u_0,u)/\sum_ud(u_0,u)$ be the weighted mean, and define the
+\emph{main term}
+\[
+\mathrm{Main}(u_0)=\sum_{j<m}\sum_{\tau\in\mathrm{Top}}a_T(\tau)\Big(\log a_T(\tau)-1-\gamma+L_{pL}
+-\frac1f\sum_{\rho<f}\log w(u_0,j,\rho)\Big).
+\]
+\formal{Formalism.RankGapBounds.WeightedMeanData.Data}
+\end{definition}
+
+The size conditions $\sfname{SizeData}_2(\mathbb D,C,X'')$, with respect to a list of constants $C$,
+are the conjunction of the following eleven systems. They hold for all $u_0$ and all words $u,u'$;
+we write $n_T=|\mathrm{Top}|$.
+\formal{Formalism.LFunctionChainParameters.LChain.SizeData₂}
+\begin{enumerate}[label=(S\arabic*)]
+\item\label{S:setting} \emph{Setting}: the obvious positivity conditions, $\bar\delta<1$ and $\bar e\le\frac14$.
+\item\label{S:div} \emph{Divisibility}:
+$\mu_{CC}(u_0)+h(u_0,u)-F_o(u_0)\le\sum_\tau\big(m(\mathrm{ph}(a_T(\tau))-a_T(\tau)\log\Omega)-a_T(\tau)\log T(u_0,u)\big)
++C_{\rm Div}\big(n_Ta L_a+m(B_0+N_c)x^{e_{\rm Div}\eps}\big)$.
+\item\label{S:ecomp} \emph{Comparison of $E$}: $|E(u_0,u)-m\,\mathrm{lg}\sum_\tau a_T(\tau)|\le C_E\,mB_0$.
+\item\label{S:hcomp} \emph{Comparison of heights}:
+$h(u)+\sum_\tau a_T(\tau)\log T(u)$ varies with $u$ by at most $C_H(n_TaL_a+mB_0)$.
+\item\label{S:count} \emph{Count}: $\log T(u_0,u)$ is at least
+$\sum_{j}f^{-1}\sum_\rho\log(w(u_0,j,\rho)v/\pi)+m\,\mathrm{lg}-C(L_a+m^2L_a/k)$ and at most $CmL$, and it
+varies with $u$ by at most $C\log k$.
+\item\label{S:slopes} \emph{Slopes of $M$}: $-C n_TaL_a(1+m/k)\le\mu_M$ and $\mu^{\max}_M\le Cn_TaL_a$.
+\item\label{S:quot} \emph{Quotient slopes}:
+$\mu_M+\mathrm{Ga}+F_o-E-\mathrm{Lo}\le\mu_N$ and $\mu^{\max}_N\le\mu^{\max}_M+\mathrm{Ga}+F_o-E+C\,mB_0$, where
+$\mathrm{Lo}$ is an explicit small term involving $\mathrm{IO}$ and $\log T$.
+\item\label{S:loss} \emph{Losses}: $\mathrm{ASK}(u_0)-\mathrm{Ga}(u_0)\le\mathrm{LoP}$ and $\mathrm{IO}(u_0)\le\mathrm{LoP}$,
+where $\mathrm{LoP}=C_{\rm Loss}n_Tmb\,x^{e_{\rm Loss}\eps}$.
+\item\label{S:slopeineq} \emph{Slope inequality}: if $0\le\delta<1$, $\eta,e\ge0$, $e\le\frac14$ and
+$0<s-\mu^{\min}_{CC}\le\mathrm{HH}$, then
+\[
+s(u_0)-\log|W(u_0)|-\frac{4u_F\log(1+\mathrm{HH}/u_F)+(\eta+4\sqrt e)\,\mathrm{HH}}{1-\delta}\le\mu_{CC}(u_0),
+\]
+where $u_F=\max_u(\mu^{\max}_N-h)-s$.
+\item\label{S:hh} \emph{Height bound}: $s-\mu^{\min}_{CC}\le\mathrm{HH}\le x^{c_{HH}}b$, and $\mathrm{HH}>0$.
+\item\label{S:fparams} \emph{Parameters}: $0\le\delta\le\bar\delta$, $0\le\eta\le\bar\eta$ and $0\le e\le\bar e$.
+\end{enumerate}
+
+\begin{proposition}[Pointwise bound]\label{prop:stepanov:pointwise}
+If $\sfname{SizeData}_2(\mathbb D,C,X'')$ holds, then for every $u_0$
+\[
+\mathrm{ASK}(u_0)\le\mathrm{Main}(u_0)+\mathrm{Err}_5(u_0),
+\]
+where $\mathrm{Err}_5$ is an explicit expression in the record and in $C$. Its main contributions are
+$\sum_\tau a_T(\tau)\,C(L_a+m^2L_a/k)$, the divisibility error of \ref{S:div}, $\log|W(u_0)|$,
+$\mathrm{LoP}$, and $(1-\bar\delta)^{-1}\big(4\log(1+x^{c_{HH}})(\bar U+b)+(\bar\eta+4\sqrt{\bar e})x^{c_{HH}}b\big)$,
+where $\bar U$ bounds $u_F$.
+\formal{Formalism.LFunctionChainParameters.WeightedSlopeBounds.each_unit_bound_statement}
+\end{proposition}
+
+\begin{proof}
+By \ref{S:loss}, $\mathrm{ASK}\le\mathrm{Ga}+\mathrm{LoP}$. By the first inequality of \ref{S:quot},
+for every word $u$,
+\[
+\mathrm{Ga}\le\mu_N(u)-\mu_M(u)-F_o+E(u)+\mathrm{Lo}(u).
+\]
+Take the $d$-weighted mean over $u$. The mean of $\mu_N-h$ is $s(u_0)$. By
+\ref{S:slopeineq}--\ref{S:fparams},
+\[
+s\le\mu_{CC}+\log|W|+(1-\bar\delta)^{-1}\big(4u_F\log(1+\mathrm{HH}/u_F)+(\bar\eta+4\sqrt{\bar e})\mathrm{HH}\big),
+\]
+where $u_F$ is bounded using the second inequality of \ref{S:quot} and \ref{S:slopes}, and
+$\mathrm{HH}\le x^{c_{HH}}b$. Next, \ref{S:div} bounds $\mu_{CC}+h(u)-F_o$; \ref{S:hcomp} allows us to
+compare $h(u)+\sum a_T\log T(u)$ across words; \ref{S:ecomp} replaces $E(u)$ by
+$m\,\mathrm{lg}\sum a_T$; and \ref{S:slopes} bounds $-\mu_M$. After these substitutions, the
+remaining terms
+\[
+\sum_\tau m\big(\mathrm{ph}(a_T)-a_T\log\Omega\big)-\sum_\tau a_T\log T(u)+m\,\mathrm{lg}\sum_\tau a_T
+\]
+are bounded by $\mathrm{Main}(u_0)$ plus admissible errors, using the lower bound for $\log T$ in
+\ref{S:count}. The terms $\log(v/\pi)$ of \ref{S:count} cancel those of $\log\Omega$.
+\end{proof}
+
+\begin{remark}[The Stepanov mechanism]\label{rem:stepanov:mechanism}
+The record encodes an inequality between local and global information.
+\begin{itemize}
+\item The \emph{gain} $\mathrm{Ga}(u_0)$ measures the divisibility of the lattices $N_u$ at the inert
+primes: it is a sum over inert places of $\log p$ times the local index gained along the chain of
+lifts. By \ref{S:loss} it dominates the inert prime count $\mathrm{ASK}(u_0)$; this is the analogue of
+the total order of vanishing of Stepanov's auxiliary function at the rational points.
+\item By \ref{S:quot}, this divisibility raises the slope of $N_u$ above that of $M_u$.
+\item By the slope inequality \ref{S:slopeineq} and the divisibility bound \ref{S:div}, the slope of $N_u$
+is in turn bounded by archimedean data: heights of Bessel-type functionals, the level $T$, and the period
+$\log\Omega$. For the hosts used below, $\log\Omega=\gamma+\log(\pi/v)-\Re\,L'/L(1,\chi_{-d})$ is a
+Chowla--Selberg quantity \cite{ChowlaSelberg1967}. This is the analogue of the degree bound. The
+approximate orthogonality of \cref{thm:theorem-S} enters through the parameters $\delta,\eta,e$ of
+\ref{S:slopeineq}, in the manner of Bost's slope inequalities \cite{Bost1996,Bost2001}.
+\end{itemize}
+The chain length $m$ plays the role of the multiplicity: each inert prime contributes $m$ times to the
+gain. The errors in $\mathrm{Err}_5$ are of size $m(B_0+N_c)x^{O(\eps)}+n_Ta L_a(1+m^2/k)+\dots$.
+With $m\asymp\sqrt x$, $k\asymp x^{9/2+10\eps}$ and the normalisations of \cref{sec:top}, these errors
+are $x^{1/2+O(\eps)}$ relative to the main term (\cref{prop:gap-bound}).
+\end{remark}
+
+\subsection{Chain-tied families and the gap bound}
+
+\begin{definition}[Chain-tied families]\label{def:chaintied}
+Let $\mathcal F$ be a family with parameter $\eps$, and let $x$ be a window scale.
+$\mathcal F$ is \emph{chain-tied} at $x$ with exponents $(e_D,e_L)$ if the following exist:
+\begin{itemize}
+\item a member $i_0\in I(x)$, whose datum carries a host $H$ on a frame $\varphi$;
+\item integers $m,f$, a record $\mathbb D$ with $U_0=A_\varphi$ and $\mathrm{Top}\cong T$, constants
+$C,X''$ with $C.e_{\rm Div}\le e_D$ and $C.e_{\rm Loss}\le e_L$, a function $\ell$ compatible with $H$,
+an integer $N$, sets $T,T_2\subset A_\varphi$, and functions $a$ and $w$;
+\end{itemize}
+such that:
+\begin{enumerate}[label=(\roman*)]
+\item four tie conditions relate these objects to the family; in particular $T$ is the set $T_H$ of
+the host;
+\item \emph{identification}: $a_T=a$, $w_{\mathbb D}=w$ via the bijections $\mathrm{Top}\cong T$ and
+$\{0,\dots,f-1\}\cong\Phi$, $L_{pL}=\Re\ell(\chi_C)$, and
+\[
+\mathrm{ASK}_{\mathbb D}(u)=\sum_{t\in T}\sum_{j<m}\mathrm{ASK}\big(\mathrm{arith}(H),N,a(t),t,w(u,j,\cdot)\big);
+\]
+\item $\sfname{SizeData}_2(\mathbb D,C,X'')$ holds, together with error windows, bounds for $B_0$ and
+$N_c$, and the size conditions of \cref{thm:cheb-windows}.
+\end{enumerate}
+\formal{Formalism.MainNotions.ChainTied}
+\end{definition}
+
+The identification (ii) ties the record to arithmetic: $\mathrm{ASK}_{\mathbb D}$ is the actual weighted
+count of primes inert in $\Q(\sqrt{-d})$, in the Frobenius classes of the host field.
+
+\begin{proposition}[Gap bound]\label{prop:gap-bound}
+If $\mathcal F$ is chain-tied at $x$ with exponents $(e_D,e_L)$, then for every $u\in A_\varphi$
+\[
+\mathrm{gap}(u)\le x^{(e_D+e_L+3)\eps}\,\mathrm{EB},
+\]
+with $\mathrm{gap}$ and $\mathrm{EB}$ as in \cref{thm:cheb-windows}, provided $\log x\le x^\eps$ and $x$
+is large. \formal{Deduction.ch_top}
+\end{proposition}
+
+\begin{proof}
+By the identification, $\mathrm{gap}(u)=\mathrm{ASK}_{\mathbb D}(u)-\mathrm{Main}(u)$, since
+$\mathrm{MAIN}(\ell,a,w)$ is exactly the summand of $\mathrm{Main}$. Apply
+\cref{prop:stepanov:pointwise}, and estimate
+$\mathrm{Err}_5\le x^{(e_D+e_L+3)\eps}\mathrm{EB}$ using the bounds for $B_0$, $N_c$ and the error
+windows.
+\end{proof}
+
+\subsection{Links}
+
+Records are produced from families of arithmetic data by \emph{links}. Each link is a property of the
+form ``eventually in $x$, for all $i\in I(x)$, an inequality or a structural condition holds for the
+datum $D(x,i)$ and its size record''.
+
+\begin{definition}[Links]\label{def:links}
+The main links are the following.
+\begin{itemize}
+\item $\sfname{LinkN}$: for every lift index $j$, a weighted sum over the twisted places $w$ of local
+indices $\eta_j(w)$ is at most
+\[
+d_{Z_0}(j)\Big(C\big(fm\,b\,L^2+(\log x)^2N_c\big)+\sum_\ell\log\ell\sum_{1\le e<t}\mathrm{sh}_\ell(e)\Big)
+\]
+whenever the relevant Tate--Shafarevich groups are finite. This is the Galois-cohomological link;
+the sum of $\mathrm{sh}_\ell$ is bounded by $\sfname{VVle}$.
+\item $\sfname{LinkIRR}$: the proportion $\delta_p$ of non-generic rows satisfies
+$0\le\delta_p\le\exp(-x^{\eps/(7J)})$.
+\item $\sfname{LinkG}$: local lattice lengths $\mathrm{len}_{MN}(u,w)\le d_u(\tau(w)+\iota(w))$ comparing
+$M_u$ and $N_u$ at places $w$ not above the level, orbit bounds, and, at inert places of residue
+characteristic $p\le X''$, the bounds $0\le\mathrm{gain}(j,w)\le4|T|a/p$ together with a von Mangoldt
+class-sum inequality.
+\item $\sfname{LinkDIV}$: the divisibility conditions. These are a frame bound, a Bessel identity (the
+functionals $B_u$ agree with a fixed pairing up to scalars and isometries), the height bounds
+$\mathrm{ht}(B_k(u))\le h(u)$, an upper bound for $\mu_{\rm dual}+h(u)-F_o$ by the main term plus errors,
+and the approximate identities behind \ref{S:ecomp} and \ref{S:hcomp}.
+\item $\sfname{LinkS}$ (``Theorem~S''): with $\Gamma=\exp(C_\Gamma m^5fL)$, if
+$C_0^{-1}\le d_u\Gamma^2/D_*\le C_0$ for all words $u$, then the off-diagonal Hilbert--Schmidt masses
+satisfy $\|K_{uu'}\|_{HS}^2\le(1+\eta_0)d_ud_{u'}/D_*$, and the diagonal defects satisfy
+$\|K_{uu}-1\|_{HS}^2\le e_0d_u$; moreover $D_{\rm all}\le(1+\eta_1)D_*$. Here
+$\eta_0,\eta_1,\sqrt{e_0}\le\exp(-x^{\eps/8})$.
+\item $\sfname{LinkMu}$, $\sfname{LinkEta}$ and $\sfname{SmallLevelRankEq}$: slope bookkeeping
+and coverage conditions.
+\end{itemize}
+\formal{Formalism.MainNotions.GlobalTheoremInputs}
+\end{definition}
+
+\begin{theorem}[The global theorem]\Fmark\label{thm:global-chain}
+Let $\mathcal F$ satisfy the following eleven properties:
+\begin{itemize}
+\item Siegel-type mass ratios for all members, and the equality of base volumes and masses;
+\item explicit two-sided bounds for degrees in terms of gaps;
+\item lower and upper slope inequalities;
+\item column valuations;
+\item free $T$-data, slope lines, Hecke integrality, ramified level zero, and a second-branch
+inclusion length.
+\end{itemize}
+Assume a size condition on $T$. If the seven-share weight condition holds, and $\sfname{LinkG}$,
+$\sfname{LinkS}$, $\sfname{LinkIRR}$, $\sfname{LinkDIV}$ and $\sfname{LinkMu}$ hold, then $\mathcal F$
+is chain-tied at all sufficiently large window scales.
+\formal{Formalism.MainNotions.linkGLOBAL7_min} \formal{Formalism.MainNotions.Lnk.linkCore}
+\end{theorem}
+
+\begin{proofoutline}
+From the inputs one derives the family-level statements: a count statement (from the mass and volume
+properties), slope statements for $M$ and for $N$ (the latter by a lemma on minimal places), lattice
+and node statements, frame statements, losses (from the seven-share lemma), characters and windows.
+The lemma $\sfname{linkCore}$ then assembles the record. The correspondence is:
+\begin{itemize}
+\item \ref{S:count} comes from the count statement;
+\item \ref{S:slopes} and \ref{S:quot} come from the slope statements, together with $\sfname{LinkG}$;
+\item \ref{S:loss} comes from the losses;
+\item \ref{S:slopeineq}--\ref{S:fparams} come from the frame statements; the parameter $\delta$ is the
+proportion $\delta_p$ of non-generic rows, bounded through $\sfname{LinkIRR}$, and $\eta,e$ come from the
+frame statement, which is derived (among other inputs) from $\sfname{LinkS}$;
+\item \ref{S:div}--\ref{S:hcomp} come from $\sfname{LinkDIV}$, and \ref{S:hh} from $\sfname{LinkDIV}$ and the
+lattice statements.
+\end{itemize}
+The identification (ii) of \cref{def:chaintied} comes from the characters and the host data. The
+slope inequalities rest on exact column-lattice slopes, a short-dual-basis lemma, a base-change formula
+for Hermite--Siegel slopes, and a hook-length bound.
+
+%P2PTR thm:global-chain
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proofoutline}
+
+\subsection{The shape theorem}
+
+\begin{theorem}[Shape theorem]\Fmark\label{thm:shape}
+If $\sfname{Green}$ holds and $\sfname{HypsAlt}(\sfname{LinkN},\sfname{DefiniteSideCondition})$ is
+non-empty, then $\sfname{TopG}$ holds.
+\formal{UpperTheory.Top.shape_closed_link_n_of_green}
+\formal{GlobalTheory.Fc.forall_goal_of_shape_of_hyps}
+\end{theorem}
+
+\begin{proofoutline}
+Let $\mathcal A$ be the family class of an element of the hypothesis package. Fix $\lambda>1$ and a
+requirement $\mathcal G$ with $\sfname{HostExW}(\lambda,\mathcal G)$ such that the families of
+$\mathcal G.\mathrm{cls}(\lambda)$ satisfy $\sfname{VVle}$.
+\begin{enumerate}[label=(\alph*)]
+\item The field $h_{\rm Ex}$ provides, for all small $\eps$, designed families in
+$\mathcal A\cap\mathcal G.\mathrm{cls}(\lambda)$ that are large in the required sense.
+\item The links are closed on the relevant class:
+  \begin{itemize}
+  \item $\sfname{LinkN}$ is a field of the package;
+  \item $\sfname{LinkIRR}$ follows from $\sfname{Green}$, through the weights of Gelfand--Graev and
+  Jacquet idempotents (\cref{thm:linkIRR});
+  \item $\sfname{LinkG}$ follows from a local lattice theorem (\cref{thm:linkG});
+  \item $\sfname{LinkDIV}$ follows from bridge-kernel bounds and $\sfname{LinkS}$ from Theorem~S
+  (\cref{thm:theorem-S});
+  \item the divisibility statement $\sfname{DIVinN}$ follows from $\sfname{LinkN}$, $\sfname{VVle}$ and
+  $\sfname{SmallLevelRankEq}$.
+  \end{itemize}
+\item The mass, volume, slope and integrality properties required by \cref{thm:global-chain} are
+fields of the package, or follow from them.
+\end{enumerate}
+By (a)--(c) and \cref{thm:global-chain}, the designed families are chain-tied at all large window
+scales. Hence $\mathcal G.\mathrm{cls}(\lambda)$ is connected. The individual inputs are discussed in
+\cref{sec:families}.
+
+%P2PTR thm:shape
+A complete proof is given in \cref{sec:pf:top-shape}.
+\end{proofoutline}
+
+\begin{remark}
+\Cref{thm:shape} is a conditional statement: all of its arithmetic substance lies in the hypothesis
+package. This is why the non-emptiness of the package (\cref{thm:hyps-nonempty}) is the largest part
+of the formal proof. It accounts for about four million of the eleven million lines in the
+dependency closure of the main theorem.
+\end{remark}

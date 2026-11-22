@@ -1,0 +1,253 @@
+\section{The top-level deduction}\label{sec:top}
+
+This section reduces $\sfname{ZeroFreeAll}$ to three propositions: Green's parametrisation of cuspidal
+characters, the window bound $\sfname{VWin}$, and the non-emptiness of the hypothesis package
+$\sfname{HypsAlt}$. The deduction passes through the proposition $\sfname{TopG}$ of
+\cref{def:topg}, which asserts the existence of families of hosts that carry the gap bound of
+\cref{thm:cheb-windows}.
+
+\subsection{The three inputs}
+
+\begin{definition}[Green]\label{def:green}
+An \emph{identification datum} $L$ for a prime $g$ consists of an injective homomorphism
+$\mathrm{teich}:\overline\F_g^\times\to\C^\times$ and generators $\mathrm{gen}(d)$ of the groups
+$\F_{g^d}^\times$, compatible under the norm maps. For a root $x$ of a monic irreducible $P$ of degree
+$d$ over $\F_g$, put $\theta_x(\mathrm{gen}(d)^n)=\mathrm{teich}(x)^n$.
+
+$\sfname{Green}$ is the following statement. For every prime $g$, every identification datum $L$ and
+every $d\ge1$, there is a map $\tau$ from polynomials over $\F_g$ to class functions on $\GL_d(\F_g)$
+with the following properties.
+\begin{itemize}
+\item For every monic irreducible $P$ of degree $d$ with $P(0)\ne0$, $\tau(P)$ is a cuspidal
+irreducible character of degree $\prod_{i=1}^{d-1}(g^i-1)$. Its value at every regular elliptic
+element $y$ with eigenvalue $z$ is
+\[
+\tau(P)(y)=(-1)^{d-1}\sum_{i<d}\theta_x\big(z^{g^i}\big)
+\]
+for every root $x$ of $P$.
+\item $\tau$ is injective on these polynomials.
+\item Every cuspidal irreducible character of $\GL_d(\F_g)$ is of the form $\tau(P)$.
+\end{itemize}
+Here \emph{cuspidal} means that all averages over the unipotent radicals of proper standard
+parabolic subgroups vanish. \formal{GlobalTheory.GLq.Green}
+\end{definition}
+
+\begin{littheorem}[Green {\cite{Green1955}}]\label{lit:top:green}
+$\sfname{Green}$ holds. \formal{GlobalTheory.GreenBridge.green_of_regular}
+\end{littheorem}
+
+In the formal development $\sfname{Green}$ is deduced from a formalized form of Green's
+parametrisation of the regular characters (\cref{sec:literature}).
+
+\begin{definition}[The window bound]\label{def:vwin}
+Let $\psi\in\mathcal P$, $\eps\in(0,\frac1{52})$, $Y,x\ge1$ and $e\in\N$.
+\begin{itemize}
+\item $\sfname{PageN}(\eps,x,e)$ means $x^{2+8\eps}\le2^e\le2x^{2+8\eps}$.
+\item $\sfname{WinPair}(\eps,Y,q,d)$ means: $q\equiv3\pmod 8$ and $d\equiv7\pmod{16}$ are primes with
+$\frac12Y^{\eps/5}<\log q\le Y^{\eps/5}$ and $\frac12Y^{\eps/5}\log^2Y<\log d\le Y^{\eps/5}\log^2Y$, and
+$q$ and every odd prime $p\le Y^{\eps/5}$ divide $d+1$.
+\item A number field $E$ is a \emph{$\chi$-field} for $(\psi,e,q,d)$ if it is the subfield of a cyclotomic
+field fixed by the automorphisms $\zeta\mapsto\zeta^a$ with $a\equiv\pm1\pmod{2^{e+2}}$, $\psi(a)=1$
+and $(\frac aq)=(\frac ad)=1$.
+\item $\sfname{VVle}(E,t,B)$ means: for every prime $\ell$ and $0<j<t$ the length
+$\mathrm{sh}_\ell(E,j)$ is finite, and $\sum_{\ell\in S}\log\ell\sum_{1\le j<t}\mathrm{sh}_\ell(E,j)\le B$
+for every finite set $S$ of primes.
+\item $\sfname{VWinAt}(\psi,C_t)$ means: for every $\eps\in(0,\frac1{52})$ and every function $e$ with
+$\sfname{PageN}(\eps,x,e(x))$ for all $x\ge1$, there are $J\ge1$ and $X_0$ with the following
+property. For all $X\ge X_0$ and all $q,d$ with $\sfname{WinPair}(\eps,X^{1/J},q,d)$ there is $Y$ with
+$X^{1/J}\le Y\le X^{1/2}$ such that every $\chi$-field $E$ for $(\psi,e(x),q,d)$ satisfies
+$\sfname{VVle}(E,\lfloor x^{C_t}\rfloor,\exp(x^\eps/2))$ for all $x\in[Y,Y^2]$.
+\item $\sfname{VWin}$ is the statement that $\sfname{VWinAt}(\psi,401)$ holds for every $\psi\in\mathcal P$.
+\end{itemize}
+\formal{UpperTheory.Top.VWin}
+\end{definition}
+
+The window bound is proved in \cref{sec:window} (\cref{thm:vwin}).
+
+\subsection{Families, requirements and \texorpdfstring{$\sfname{TopG}$}{TopG}}
+
+A \emph{scale} is a triple $s=(x,\eps,J)$ with $x>1$, $0<\eps<\frac1{52}$ and $J\ge1$. Put
+$\delta_1(s)=x^{-\eps/8}$ and $b(s)=\exp(x^\eps)$.
+
+A \emph{family} $\mathcal F$ with parameter $\eps$ (\cref{def:record}) consists of the following data:
+\begin{itemize}
+\item a threshold $x_1$;
+\item an unbounded set $\mathrm{Win}(\mathcal F)$ of \emph{window scales};
+\item non-empty index sets $I(x)$ for $x\in\mathrm{Win}(\mathcal F)$;
+\item for each $i\in I(x)$, an arithmetic datum $D(x,i)$ and a size record $L(x,i)$ at the scale
+$(x,\eps,J)$.
+\end{itemize}
+Each datum contains a frame, a host on it, a finite set $T\subset A$ and ranks
+\[
+R=(n,m,k,t,\dots).
+\]
+The family \emph{has windows of exponent $\lambda$} if $\mathrm{Win}(\mathcal F)$ does.
+
+\begin{definition}[Requirements]\label{def:requirement}
+A \emph{requirement} $\mathcal G$ is a predicate on tuples $(s,\varphi,H,T,t)$. Its \emph{family class}
+$\mathcal G.\mathrm{cls}(\lambda)$ consists of the families having windows of exponent $\lambda$ whose
+data $(s,\varphi,H,T,t)$ satisfy $\mathcal G$ for all $x>x_1$ and $i\in I(x)$. The requirement
+attached to $\psi\in\mathcal P$ is
+\[
+\mathcal G_\psi(s,\varphi,H,T,t)\iff (H,T)\text{ satisfies the host conditions at }(x,\eps,4)
+\ \wedge\ \sfname{VVle}\big(E_H,t,\sqrt{b(s)}\big).
+\]
+\formal{UpperTheory.Top.FReq} \formal{UpperTheory.Top.GChi}
+\end{definition}
+
+\begin{definition}[Host existence on windows]\label{def:hostexw}
+$\sfname{HostExW}(\lambda,\mathcal G)$ means the following. For every $\eps\in(0,\frac1{52})$ there
+are constants and a set of scales having windows of exponent $\lambda$, such that every scale $s$ in
+it with $x(s)$ large admits ranks $R$, a host $H$ and an auxiliary prime $q_0$ satisfying
+$\mathcal G$ together with:
+\begin{enumerate}[label=(\roman*)]
+\item the \emph{rank sizes}
+\[
+x^{2+8\eps}\le n\le2x^{2+8\eps},\qquad \sqrt{x\delta_1}\le m\le2\sqrt{x\delta_1},\qquad
+x^{9/2+10\eps}\le k\le2x^{9/2+10\eps};
+\]
+\item a list of fourteen size and arithmetic conditions on $H$. These include:
+  \begin{itemize}
+  \item the sizes of $q$ and $d$;
+  \item norm-one elements $\pi$ with $\pi\bar\pi=g_i$ and $\pi\equiv1\pmod{Q_Sqd}$ for auxiliary
+  primes $g_i\equiv1\pmod{\lcm(15,Q_Sqd)}$;
+  \item a prime $q_0\equiv1\pmod{Q_Sqd}$ with $q_0\le(Q_Sqd)^{C}$.
+  \end{itemize}
+\end{enumerate}
+\formal{GlobalTheory.EX.HostExW}
+\end{definition}
+
+Thus $m$ is the chain length, of size about $\sqrt x$, and $n=|A|$ is of size about $x^{2+8\eps}$.
+
+\begin{definition}[$\sfname{TopG}$]\label{def:topg}
+A family class $\mathcal E$ is \emph{connected} if there are $e_D,e_L$ and $\eps_1>0$ such that for
+every $\eps\in(0,\eps_1)$ some $\mathcal F\in\mathcal E$ with parameter $\eps$ is \emph{chain-tied}
+with exponents $(e_D,e_L)$ at all large window scales (\cref{def:chaintied}).
+
+$\sfname{TopG}$ is the statement: for every $\lambda>1$ and every requirement $\mathcal G$, if
+$\sfname{HostExW}(\lambda,\mathcal G)$ holds and every family in $\mathcal G.\mathrm{cls}(\lambda)$
+satisfies $\sfname{VVle}(E_{H(x,i)},t,\sqrt{b})$ eventually, then $\mathcal G.\mathrm{cls}(\lambda)$
+is connected. \formal{UpperTheory.Top.TopG}
+\end{definition}
+
+\begin{definition}[The hypothesis package]\label{def:hyps}
+$\sfname{HypsAlt}(N,\mathrm{DR})$ is a structure consisting of a family class $\mathcal A$, a ``raw
+selection'' for $\mathcal A$, a function $c_T$, and $43$ further fields.
+
+Most of these fields are statements of the form ``$P$ is \emph{closed} on a class derived from
+$\mathcal A$''. Here a property $P(\mathcal F,C_H)$ is \emph{closed} on a class $\mathcal C$ if, for
+all small $\eps$, it holds for every $\mathcal F\in\mathcal C$ with parameter $\eps$ that is large
+with respect to some transport datum.
+
+The fields include the closedness of the Sha link $N=\sfname{LinkN}$, the mass and volume identities,
+the row conditions, the divisibility rows, and the definite-side condition $\mathrm{DR}$. They also
+include the non-emptiness field
+\[
+h_{\mathrm{Ex}}:\ \sfname{MinkDiv}\Rightarrow\sfname{ExS}(\mathcal A,c_T).
+\]
+This field asserts that for every $\lambda>1$ and every requirement $\mathcal G$ with
+$\sfname{HostExW}(\lambda,\mathcal G)$, there are ``designed'' families in
+$\mathcal A\cap\mathcal G.\mathrm{cls}(\lambda)$ with prescribed properties.
+\formal{GlobalTheory.Fc.HypsAlt}
+\end{definition}
+
+Its non-emptiness, for $N=\sfname{LinkN}$ and the definite-side condition, is
+\cref{thm:hyps-nonempty} (\cref{sec:families}). The universality of $\sfname{TopG}$ over all
+requirements is inherited from $h_{\mathrm{Ex}}$.
+
+\subsection{From \texorpdfstring{$\sfname{TopG}$}{TopG} to zero-freeness}
+
+\begin{theorem}\label{thm:topg-to-zerofree}
+Let $\lambda>1$. If $\sfname{TopG}$ holds and $\sfname{HostExW}(\lambda,\mathcal G_\psi)$ holds for
+every $\psi\in\mathcal P$, then $\sfname{ZeroFreeAll}$ holds. \formal{UpperTheory.Top.zeroFreeAll_of_topG}
+\end{theorem}
+
+\begin{proof}
+Fix $\psi$, and let $s$ with $\Re s>\frac12$ be given. Put $\mu=\min(\Re s-\frac12,\frac12)$. The
+families in $\mathcal G_\psi.\mathrm{cls}(\lambda)$ satisfy $\sfname{VVle}$ by the definition of
+$\mathcal G_\psi$. So $\sfname{TopG}$ gives $e_D,e_L,\eps_1$ and, for each $\eps<\eps_1$, a family
+$\mathcal F\in\mathcal G_\psi.\mathrm{cls}(\lambda)$ that is chain-tied at all large window scales.
+
+Choose $\eps$ with $(e_D+e_L+7)\eps\le\mu/2$. At every large window scale $x$, the gap bound of
+\cref{prop:gap-bound} holds for some member $D(x,i)$, and the host conditions hold by the definition
+of $\mathcal G_\psi$. Hence \cref{thm:cheb-windows}, applied with $C'=e_D+e_L+3$, gives
+\[
+G_\psi(x)\le x^{1/2+(e_D+e_L+7)\eps}\le x^{\theta},\qquad\theta=\tfrac12+\tfrac\mu2.
+\]
+The window scales of $\mathcal F$ have windows of exponent $\lambda$, so \cref{cor:landau:formB}
+shows that $\psi$ is zero-free above $\theta<\Re s$.
+\end{proof}
+
+\begin{theorem}[Supply of hosts]\Fmark\label{thm:supply}
+For every $\psi\in\mathcal P$, $\sfname{VWinAt}(\psi,401)$ implies $\sfname{HostExW}(\frac32,\mathcal G_\psi)$.
+\formal{UpperTheory.Top.supplyChi}
+\end{theorem}
+
+\begin{proofoutline}
+Let $M=N_\psi$. The auxiliary primes $(q,d)$ are chosen \emph{good} for $(M,\eps,Y,Y^A)$:
+\begin{itemize}
+\item $\sfname{WinPair}(\eps,Y,q,d)$ holds;
+\item for every character $\xi$ modulo $M$, every $(i,j)\ne(0,0)$ and every $y\in[Y,Y^A]$, the
+primitive character $\chi$ attached to $\xi(\frac\cdot q)^i(\frac\cdot d)^j$ satisfies
+$|g_\chi(y)|\le y^{1/2+\eps/2}$ and $|\ell(\chi)|\le4\log y$;
+\item the $L$-functions of the twisted real characters have no zeros with $\Re s>1-\frac1{400}$ in a
+box of explicit height.
+\end{itemize}
+Good pairs exist for every large $Y$. This is a mean-square argument over quadratic twists, using the
+classical zero-free region, Siegel's theorem and the Siegel--Walfisz theorem
+\cite{Davenport2000,IwaniecKowalski2004}; it is
+\formal{UpperTheory.Top.QH.pairEx}.
+
+Given a good pair, the host is the $\chi$-field of $(\psi,e,q,d)$, with $e$ determined by
+$\sfname{PageN}$. Its Artin map, the set $T$ with the coset shares of \cref{rem:hosts:fourier}, the
+ranks and the auxiliary primes are then constructed explicitly. The ``thick'' subsets used for the weights
+of \cref{thm:cheb-windows} are taken from sets of $n\exp(-C\sqrt{\log n\log L})/L$ integers below $n/4L$
+without additive relations of a prescribed type. These come from Behrend's construction
+\cite{Behrend1946} (\formal{Formalism.FrobeniusOrbits.hostThickExists}). The bound
+$\sfname{VVle}(E,t,\sqrt{b})$ needed in $\mathcal G_\psi$ is supplied by $\sfname{VWinAt}(\psi,401)$ on
+the windows $[Y,Y^2]$. These contain windows of exponent $\frac32$.
+
+%P2PTR thm:supply
+A complete proof is given in \cref{sec:pf:top-supply}.
+\end{proofoutline}
+
+\begin{theorem}[Top-level deduction]\label{thm:top-deduction}
+Suppose that $\sfname{Green}$ and $\sfname{VWin}$ hold, and that the hypothesis package
+$\sfname{HypsAlt}$ with $N=\sfname{LinkN}$ and the definite-side condition is non-empty. Then
+$\sfname{ZeroFreeAll}$ holds. \formal{UpperTheory.Top.zero_free_all_of_green_v_win}
+\end{theorem}
+
+\begin{proof}
+By \cref{thm:shape}, $\sfname{Green}$ and an element of the hypothesis package give $\sfname{TopG}$.
+By \cref{thm:supply}, $\sfname{VWin}$ gives $\sfname{HostExW}(\frac32,\mathcal G_\psi)$ for every
+$\psi$. Now apply \cref{thm:topg-to-zerofree} with $\lambda=\frac32$.
+
+%P2PTR thm:top-deduction
+A complete proof is given in \cref{sec:pf:top-supply}.
+\end{proof}
+
+\begin{theorem}\label{thm:zerofreeall}
+$\sfname{ZeroFreeAll}$ holds. \formal{UpperTheory.FinalTheorems.everyCharacter}
+\end{theorem}
+
+\begin{proof}
+$\sfname{Green}$ holds by \cref{lit:top:green}, and $\sfname{VWin}$ by \cref{thm:vwin}. The
+hypothesis package is non-empty by \cref{thm:hyps-nonempty}. These three results use as inputs:
+\begin{itemize}
+\item the Galois representations of \cref{thm:row0b};
+\item the local parameters of \cref{thm:rectexists};
+\item the theta-integral identities of \cref{thm:theorem-K};
+\item the covolume bound of \cref{thm:covol};
+\item the published results of \cref{sec:literature}, all of which are proved in the formal development.
+\end{itemize}
+Conclude by \cref{thm:top-deduction}.
+\end{proof}
+
+\begin{remark}\label{rem:top:assembly}
+In the formal development the inputs are bundled. The structure $\sfname{OpenLiteratureStatements}$
+is the conjunction of $\sfname{Row0b}$ (\cref{def:row0b}) and $\sfname{RecTExists}$
+(\cref{def:rectexists}), and it is instantiated with \cref{thm:row0b,thm:rectexists}. From it, a
+theorem with $194$ corollaries derives the published statements used downstream
+(\formal{UpperTheory.LiteratureTheorems.every_character_of_literature_of_vWin}). Despite the names,
+all these statements are proved within the development. Nothing is assumed.
+\end{remark}

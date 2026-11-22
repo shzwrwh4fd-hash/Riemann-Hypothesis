@@ -1,0 +1,1082 @@
+\section{The chart-lift theorem}\label{sec:pf:hlf-chart}
+
+\providecommand{\hlfcC}{\check{C}}
+\providecommand{\hlfcH}{\check{H}}
+\providecommand{\hlfcfib}{\Phi}
+\providecommand{\hlfcloc}{\lambda}
+\providecommand{\hlfcdl}{\operatorname{dlog}}
+\providecommand{\hlfcres}{\operatorname{res}}
+\providecommand{\hlfcmult}{\operatorname{m}}
+
+This section proves the \emph{chart-lift theorem} (\cref{pf:hlf-chart:main}), the algebraic statement on which the integral case of
+the holomorphic Lefschetz formula for finite \'etale correspondences (\cref{thm:galois:hlf}) rests: in the proof of
+\lref{UpperTheory.Cb.holomorphic_lefschetz_finiteEtale_integral} (see \cref{sec:pf:geo}, item (e) of the description of the integral
+case), the Hodge cohomology $H^p(Z,\Omega^a)$ of a smooth projective variety $Z$ of dimension $d$ is replaced by the \v{C}ech cohomology of the
+affine cover defined by a finite morphism $Z\to\mathbb P^d$, the correspondence $(c_1)_*(c_2)^*$ by operators $u_p$ which lift to the
+correspondence at the level of \v{C}ech cocycles, and the chart-lift theorem computes $\sum_p(-1)^p\tr(u_p)$ as a sum of local terms over the
+fixed points. Everything is formulated in terms of the function fields $K=\C(Z)$, $K'=\C(Y)$ and of subrings of them.
+
+\subsection*{Idea of the proof}
+The proof is the classical argument for Lefschetz formulas through the class of the diagonal, carried out explicitly with \v{C}ech and
+Koszul complexes. Let $X$ be the smooth projective variety with function field $K$ which is finite over $\mathbb P^d$ via $x$, and $Y$ the
+analogous variety for $K'$, with the two maps $c_1,c_2\colon Y\to X$ given by the two embeddings of $K$ into $K'$.
+\begin{enumerate}[label=(\arabic*),nosep]
+\item A \emph{trace functional} $\theta$ on $\Omega^d_K$ (the $\tau$-coefficient with respect to $\hlfcdl t_1\wedge\dots\wedge\hlfcdl t_d$, traced
+down to $F=\C(t_1,\dots,t_d)$, followed by the constant term $\rho$ of Laurent polynomials) induces a pairing between \v{C}ech cocycles of
+complementary degrees (\cref{pf:hlf-chart:prb}).
+\item The diagonal of $X\times X$ is cut out, in each product chart, by the $2\times2$ minors of the homogeneous coordinates and by
+finitely many elements $b\otimes1-1\otimes b$ (\cref{pf:hlf-chart:zfam}). A cocycle $c$ of the associated \v{C}ech--Koszul total complex,
+normalized at the local (Koszul) level, exists (\cref{pf:hlf-chart:zex}); its \v{C}ech part is a cocycle of the product cover which acts as the
+identity on \v{C}ech cohomology (\cref{pf:hlf-chart:zact}). With the K\"unneth decomposition this gives classes $e_k,f_k$ which are dual
+with respect to the pairing (\cref{pf:hlf-chart:zid}); hence $\sum_p(-1)^p\tr(u_p)$ is a sum of pairings $\langle e_k,u(f_k)\rangle$.
+\item Pulling $c$ back along the graph $(c_1,c_2)$ of the correspondence gives a cocycle on $Y$ whose class, by the lifting property of the
+$u_p$, computes this sum (\cref{pf:hlf-chart:lcup,pf:hlf-chart:edgeb}). On $Y$ the Koszul elements cut out the fixed points; comparing,
+at each fixed point, the regular sequence $c_2^*t-c_1^*t$ with the regular sequence $c_1^*t$ by the transition matrix (whose value is
+$1-A_e$) shows that the pulled-back class equals the class of an explicit cocycle $h\cdot\hlfcdl t_1\wedge\dots\wedge\hlfcdl t_d$, with $h$
+taking the value $\hlfcloc_a(A_e)$ at the fixed point $e$ (\cref{pf:hlf-chart:ymain}).
+\item The trace functional of $h\cdot\hlfcdl t_1\wedge\dots\wedge\hlfcdl t_d$ is the sum of the values of $h$ over the fibre of $Y$ above the
+origin of $\mathbb P^d$ (\cref{pf:hlf-chart:rt1}).
+\end{enumerate}
+The development formalizes each step from scratch; the many lemmas of homological algebra (Koszul complexes, filtrations of double complexes,
+K\"unneth decomposition) and of commutative algebra (local rings at points, trace duality for finite covers) which it proves along the way are
+standard, and we state them and give references or short proofs. Some technical lemmas on explicit cocycles (the local diagonal classes in
+\cref{pf:hlf-chart:zex,pf:hlf-chart:zact}, the local cocycles on $Y$ in \cref{pf:hlf-chart:valg,pf:hlf-chart:ybig}) are cited from the development
+\cite{LeanSource2026} with their statements and the idea of their proofs.
+
+\subsection*{Organization}
+\Cref{pf:hlf-chart:ss:setting} fixes notation and states the theorem; \cref{pf:hlf-chart:ss:red} reduces it to a core statement
+(\cref{pf:hlf-chart:core}). \Cref{pf:hlf-chart:ss:forms} treats forms, traces and the trace functional; \cref{pf:hlf-chart:ss:cx}
+the weighted \v{C}ech complexes and the Koszul lemmas; \cref{pf:hlf-chart:ss:diag} the diagonal; \cref{pf:hlf-chart:ss:graph} the
+pull-back to the correspondence and the localization at the fixed points; \cref{pf:hlf-chart:ss:core} assembles the proof of the core
+statement. Throughout, $d\ge0$ is the dimension; it is called $\delta$ in \cref{sec:pf:geo}.
+
+\subsection{Setting and statement}\label{pf:hlf-chart:ss:setting}
+
+\subsubsection*{Fields, coordinates and charts}
+Let $F,K,K'$ be fields containing $\C$, with $\C$-algebra maps $F\to K\to K'$; we regard $F$ as a subfield of $K$ and of $K'$ and write
+$j_1\colon K\to K'$ for the given (structure) map, which is $F$-linear. Let $j_2\colon K\to K'$ be a second $\C$-algebra map. Let
+$x=(x_0,\dots,x_d)\in F^{d+1}$ and $[d]=\{0,1,\dots,d\}$. For a subset $I\subseteq[d]$ let
+\[
+  A_I=\C\bigl[x_m/x_i : i\in I,\ m\in[d]\bigr]\subseteq F,
+\]
+and let $B_I\subseteq K$ and $B'_I\subseteq K'$ be the integral closures of $A_I$ in $K$ and in $K'$. Thus $A_\emptyset=\C$, and
+$A_{\{i\}}$ is the coordinate ring of the $i$-th standard chart of $\mathbb P^d$ when the $x_m/x_0$ are independent. Put $t_m=x_m/x_0$
+($1\le m\le d$), so $t_m\in A_{\{0\}}$. For $J\subseteq[d]$ let $B''_J\subseteq K'$ be the integral closure in $K'$ of $j_2(B_J)$, and for
+$I,J\subseteq[d]$ let $B'_{I,J}=B'_I\cdot B''_J$ be the $\C$-subalgebra of $K'$ generated by $B'_I$ and $B''_J$.
+
+\begin{definition}[Finite cover]\label{pf:hlf-chart:def:fincover}
+Let $L$ be a field containing $F$ (compatibly with $\C$). We say that $x$ \emph{defines a finite cover} of $L$ if
+(i) $x_i\ne0$ for all $i$, the elements $t_1,\dots,t_d$ are algebraically independent over $\C$ and generate $F$ as a field over $\C$;
+(ii) $L$ is a finite separable extension of $F$; (iii) for every $i\in[d]$ the integral closure of $A_{\{i\}}$ in $L$ is smooth over $\C$.
+\formal{GlobalTheory.PD.IsFinCover}
+\end{definition}
+
+Geometrically, $F$ is the function field of $\mathbb P^d$ with homogeneous coordinates $x$, $B_{\{i\}}$ is the coordinate ring of the inverse
+image $U_i$ of the $i$-th standard chart in the normalization $X$ of $\mathbb P^d$ in $K$, and $B_I$ is that of $U_I=\bigcap_{i\in I}U_i$. We
+shall not use this interpretation; all arguments are algebraic.
+
+\subsubsection*{Forms and \v{C}ech complexes}
+For a field $L\supseteq\C$ let $\Omega^q_L=\bigwedge^q_L\Omega_{L/\C}$ and $\Omega^\bullet_L=\bigoplus_q\Omega^q_L$ (the exterior algebra
+over $L$), with the universal derivation $d\colon L\to\Omega^1_L$. For a $\C$-subalgebra $B\subseteq L$ let
+\[
+  \Omega^q(B)=\operatorname{span}_\C\{b\,db_1\wedge\dots\wedge db_q : b,b_1,\dots,b_q\in B\}\subseteq\Omega^q_L,
+\]
+the \emph{regular $q$-forms over $B$}. Ring maps induce maps of exterior algebras: $j_1$ induces the $K$-algebra map
+$j_1^*\colon\Omega^\bullet_K\to\Omega^\bullet_{K'}$ and $j_2$ the $\C$-algebra map $j_2^*\colon\Omega^\bullet_K\to\Omega^\bullet_{K'}$, with
+$j_i^*(b\,db_1\wedge\dots)=j_i(b)\,dj_i(b_1)\wedge\dots$. When $K'/K$ is finite separable there is a unique $\C$-linear map
+$\Tr\colon\Omega^\bullet_{K'}\to\Omega^\bullet_K$ with $\Tr(b\cdot j_1^*\omega)=\Tr_{K'/K}(b)\,\omega$ for $b\in K'$, $\omega\in\Omega^\bullet_K$
+(\cref{pf:hlf-chart:trdr}), the \emph{trace of forms}.
+
+Let $\Sigma$ be a finite totally ordered set and $(M_s)_{s\subseteq\Sigma}$ a family of $\C$-subspaces of a vector space $E$. The
+\emph{\v{C}ech complex} $\hlfcC^\bullet(M)$ has as $p$-cochains the families $c=(c_s)$ indexed by the subsets $s\subseteq\Sigma$, with
+$c_s\in M_s$ if $s\ne\emptyset$ and $|s|=p+1$, and $c_s=0$ otherwise; the differential is
+\begin{equation}\label{eq:pf:hlf-chart:cech}
+  (\delta c)_s=\sum_{i\in s}(-1)^{\#\{j\in s:\,j<i\}}c_{s\smallsetminus\{i\}}.
+\end{equation}
+We write $Z^p,B^p,\hlfcH^p$ for cocycles, coboundaries and cohomology. (If $M_s\subseteq M_{s'}$ for $s\subseteq s'$, which will always be the
+case, $\delta$ maps cochains to cochains.) We use two instances:
+\begin{itemize}[nosep]
+\item $\hlfcC^\bullet(B_\bullet,a)$: $\Sigma=[d]$, $M_I=\Omega^a(B_I)\subseteq\Omega^\bullet_K$; similarly $\hlfcC^\bullet(B'_\bullet,a)$;
+\item the \emph{double cover complex} $\hlfcC^\bullet(B'_{\bullet\bullet},a)$: $\Sigma=[d]\sqcup[d]$, the disjoint union of two copies of $[d]$
+ordered so that the first copy precedes the second; a subset of $\Sigma$ is written $I\sqcup\bar J$ with $I,J\subseteq[d]$, and
+$M_{I\sqcup\bar J}=\Omega^a(B'_{I,J})\subseteq\Omega^\bullet_{K'}$.
+\end{itemize}
+Note that $B'_{I,\emptyset}=B'_I$ and $B'_{\emptyset,J}=B''_J$ (\cref{pf:hlf-chart:rybasic}); the double cover complex is the \v{C}ech
+complex of the cover of $Y$ by the $2(d+1)$ open sets $c_1^{-1}U_i$ and $c_2^{-1}U_j$.
+
+\subsubsection*{Points, values and fixed points}
+For a $\C$-subalgebra $B$ of a field $L$, a \emph{character} of $B$ is a $\C$-algebra map $e\colon B\to\C$. The \emph{local ring} of $B$ at $e$
+is $B_e=\{v\in L:\exists b\in B,\ e(b)\ne0,\ bv\in B\}$; for $v\in L$ and $\gamma\in\C$ we say that \emph{$v$ has the value $\gamma$ at $e$},
+written $v(e)=\gamma$, if there is $b\in B$ with $e(b)\ne0$, $bv\in B$ and $e(bv)=e(b)\gamma$. ($B_e$ is a subring, $e$ extends uniquely to a
+character of $B_e$, and $v(e)=\gamma$ if and only if $v\in B_e$ and this extension maps $v$ to $\gamma$; \cref{pf:hlf-chart:valbasic}.)
+
+A character $e$ of $B'_{\{i\}}$ is \emph{fixed} if $j_2(b)(e)=e(j_1(b))$ for every $b\in B_{\{i\}}$ (recall $j_1(B_I)\subseteq B'_I$). The
+\emph{fibre over the origin} is the set $\hlfcfib$ of characters $e$ of $B'_{\{0\}}$ with $e(t_1)=\dots=e(t_d)=0$. For
+$A\in M_d(\C)$ and $a\ge0$ put
+\begin{equation}\label{eq:pf:hlf-chart:locterm}
+  \hlfcloc_a(A)=\frac{[X^a]\det(1+XA)}{\det(1-A)}\qquad\bigl([X^a]=\text{coefficient of }X^a\bigr),
+\end{equation}
+so that $\hlfcloc_a(A)=\tr(\bigwedge^aA)/\det(1-A)$ (\cref{pf:hlf-chart:minorsum}).
+
+\begin{theorem}[Chart-lift theorem]\label{pf:hlf-chart:main}
+Let $d,a\ge0$, let $F\to K\to K'$, $x$, $j_2$ be as above, and assume:
+\begin{enumerate}[label=\textup{(H\arabic*)},nosep]
+\item\label{pf:hlf-chart:H1} $x$ defines a finite cover of $K$ and of $K'$;
+\item\label{pf:hlf-chart:H2} for every $i\in[d]$ and every character $e$ of $B'_{\{i\}}$ there is $j\in[d]$ with $B''_{\{j\}}\subseteq(B'_{\{i\}})_e$;
+\item\label{pf:hlf-chart:H3} the ring $B'_{\{0\}}/(t_1,\dots,t_d)$ is reduced;
+\item\label{pf:hlf-chart:H4} for $i\ne0$ no character of $B'_{\{i\}}$ is fixed;
+\item\label{pf:hlf-chart:H5} every fixed character of $B'_{\{0\}}$ vanishes on $t_1,\dots,t_d$;
+\item\label{pf:hlf-chart:H6} $\mathcal F\subseteq\hlfcfib$ is a finite set and $e\in\mathcal F$ if and only if $e\in\hlfcfib$ is fixed;
+\item\label{pf:hlf-chart:H7} for $e\in\mathcal F$ and $b\in B_{\{0\}}$ with $e(j_1b)=0$ there are $c,g_1,\dots,g_d\in B_{\{0\}}$ with $e(j_1c)\ne0$ and
+$cb=\sum_lg_lt_l$;
+\item\label{pf:hlf-chart:H8} $(A_e)_{e\in\hlfcfib}$ is a family of matrices in $M_d(\C)$ such that for every $e\in\mathcal F$ and $1\le m\le d$
+there are $c,g_1,\dots,g_d\in B'_{\{0\}}$ with $e(c)\ne0$, $c\,j_2(t_m)=\sum_lg_lt_l$ and $e(g_l)=e(c)\,(A_e)_{ml}$ for all $l$;
+\item\label{pf:hlf-chart:H9} $\det(1-A_e)\ne0$ for $e\in\mathcal F$;
+\item\label{pf:hlf-chart:H10} $(u_p)_{p\ge0}$ are $\C$-linear endomorphisms of $\hlfcH^p(B_\bullet,a)$ which \emph{lift to the correspondence}: for
+every $p$-cocycle $b$ of $\hlfcC^\bullet(B_\bullet,a)$ there is a $p$-cocycle $\tilde b$ of $\hlfcC^\bullet(B'_{\bullet\bullet},a)$ such that
+$\tilde b_{\emptyset\sqcup\bar J}=j_2^*(b_J)$ for all $J$, the family $(\Tr\tilde b_{I\sqcup\emptyset})_I$ is a $p$-cocycle of
+$\hlfcC^\bullet(B_\bullet,a)$, and $u_p[b]=[(\Tr\tilde b_{I\sqcup\emptyset})_I]$;
+\item\label{pf:hlf-chart:H11} every $\hlfcH^p(B_\bullet,a)$ is finite-dimensional.
+\end{enumerate}
+Then
+\[
+  \sum_{p=0}^{d}(-1)^p\tr(u_p)=\sum_{e\in\mathcal F}\hlfcloc_a(A_e).
+\]
+\formallabel{GlobalTheory.T.exists_chart_lift_of_finite_cover}\formallabel{UpperTheory.Cb.exists_chart_lift_of_finite_cover}
+\end{theorem}
+
+\begin{remark}[On the formal statement]\label{pf:hlf-chart:rem:stmt}
+(1) Hypotheses \ref{pf:hlf-chart:H7} and \ref{pf:hlf-chart:H11} are not used in the proof. Finite-dimensionality of the
+$\hlfcH^p(B_\bullet,a)$, $p\le d$, is in fact a consequence of the other hypotheses (\cref{pf:hlf-chart:alttrace}). In the development the trace of
+an endomorphism of an infinite-dimensional space is defined to be $0$; this convention plays no role here.
+(2) In \ref{pf:hlf-chart:H8} the matrix $A_e$ is the matrix of $c_2^*$ on the cotangent space at the fixed point $e$ in the basis
+$dt_1,\dots,dt_d$; it is required only for $e\in\mathcal F$, and the values $A_e$ for $e\in\hlfcfib\smallsetminus\mathcal F$ play no role.
+(3) Separability in \cref{pf:hlf-chart:def:fincover} is automatic in characteristic $0$; it is part of the formal definition.
+(4) The operators $u_p$ enter only through \ref{pf:hlf-chart:H10}, which determines $u_p$ on every class.
+\end{remark}
+
+\subsection{Reduction to the core statement}\label{pf:hlf-chart:ss:red}
+
+\begin{lemma}[Forms of high degree]\label{pf:hlf-chart:dlog}
+Assume that $x$ defines a finite cover of $L$. Then $\hlfcdl t_m=t_m^{-1}dt_m$ $(1\le m\le d)$ is a basis of the $L$-vector space
+$\Omega^1_L$, hence $\Omega^q_L=0$ for $q>d$ and $\Omega^d_L=L\cdot\omega_0$, where
+\[
+  \omega_0=\hlfcdl t_1\wedge\dots\wedge\hlfcdl t_d .
+\]
+There is an $L$-linear map $\tau\colon\Omega^\bullet_L\to L$ with $\tau(\omega_0)=1$ and $\tau(\Omega^q_L)=0$ for $q\ne d$, and for every such $\tau$
+one has $y=\tau(y)\,\omega_0$ for $y\in\Omega^d_L$.
+\formallabel{GlobalTheory.T.dlog_basis_and_vanishing_above_dimension}\formallabel{GlobalTheory.T.exists_topDegreeCoefficientForm_and_eq_on_top_forms}
+\end{lemma}
+
+\begin{proof}
+$F=\C(t_1,\dots,t_d)$ is purely transcendental, so $dt_1,\dots,dt_d$ is a basis of $\Omega^1_F$, and for the finite separable extension
+$L/F$ the natural map $L\otimes_F\Omega^1_F\to\Omega^1_L$ is an isomorphism \cite[\S\S25--26]{Matsumura1989}. As $t_m\ne0$,
+the $\hlfcdl t_m$ form a basis as well, and the statements on $\Omega^q_L$ follow. Then $\Omega^\bullet_L=\bigoplus_q\Omega^q_L$ with
+$\Omega^d_L$ free of rank one on $\omega_0$; let $\tau$ be the projection to $\Omega^d_L$ followed by the coordinate with respect to
+$\omega_0$. If $\tau$ is any map with the stated properties and $y=\gamma\omega_0\in\Omega^d_L$, then $\tau(y)=\gamma$.
+\end{proof}
+
+We fix such a $\tau$ for $K$ (the \emph{top coefficient}); for $K'$ we use the analogous $\tau'$. A family $x$ defining a finite cover has
+$x_i\ne0$, so the $x_i$ are units of $F$.
+
+The \emph{tangent data} at the fixed points are the following reformulation of \ref{pf:hlf-chart:H8}: for every $e\in\mathcal F$ there are
+$g_{ml}\in K'$ ($1\le m,l\le d$) with
+\begin{equation}\label{eq:pf:hlf-chart:tan}
+  j_2(t_m)=\sum_{l}g_{ml}\,t_l\quad\text{and}\quad g_{ml}(e)=(A_e)_{ml}\quad\text{for all }m,l .
+\end{equation}
+Indeed, given $c,g_l$ as in \ref{pf:hlf-chart:H8}, we have $c\ne0$ because $e(c)\ne0$, and $g_{ml}=g_l/c$ satisfies
+$j_2(t_m)=\sum_lg_{ml}t_l$; and $g_l/c$ has the value $e(g_l)/e(c)=(A_e)_{ml}$ at $e$, since $c\cdot(g_l/c)=g_l\in B'_{\{0\}}$ and
+$e(c\cdot g_l/c)=e(c)\cdot e(g_l)/e(c)$.
+
+\begin{theorem}[Core statement]\label{pf:hlf-chart:core}
+Assume \ref{pf:hlf-chart:H1}--\ref{pf:hlf-chart:H6} and \ref{pf:hlf-chart:H9}, let $(A_e)_{e\in\hlfcfib}$ satisfy \eqref{eq:pf:hlf-chart:tan}
+for every $e\in\mathcal F$, let $a\le d$, and let $(u_p)$ satisfy \ref{pf:hlf-chart:H10}. Then
+$\sum_{p=0}^{d}(-1)^p\tr(u_p)=\sum_{e\in\mathcal F}\hlfcloc_a(A_e)$.
+\formallabel{UpperTheory.Gal.productCup_of_system.fieldLe_of}
+\end{theorem}
+
+The proof of \cref{pf:hlf-chart:core} occupies the rest of the section; it is completed in \cref{pf:hlf-chart:ss:core}.
+
+\begin{lemma}[Reduction]\label{pf:hlf-chart:field0}
+\Cref{pf:hlf-chart:core} implies \cref{pf:hlf-chart:main}.
+\formallabel{UpperTheory.Gal.productCup_of_system.field0_of}
+\end{lemma}
+
+\begin{proof}
+If $a\le d$, the hypotheses of \cref{pf:hlf-chart:core} hold by the discussion of \eqref{eq:pf:hlf-chart:tan}, and the conclusions agree.
+Let $a>d$. Then $\Omega^a_K=0$ by \cref{pf:hlf-chart:dlog}, so all cochain groups of $\hlfcC^\bullet(B_\bullet,a)$ vanish, $\hlfcH^p(B_\bullet,a)=0$
+and $\tr(u_p)=0$ for all $p$. On the other side $\det(1+XA)$ is a polynomial of degree $\le d<a$, so $[X^a]\det(1+XA_e)=0$ and every
+$\hlfcloc_a(A_e)$ vanishes. Both sides are $0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:hlf-chart:main}]
+Combine \cref{pf:hlf-chart:field0} with \cref{pf:hlf-chart:core}, proved in \cref{pf:hlf-chart:ss:core}.
+\end{proof}
+
+\subsection{Charts, traces and the trace functional}\label{pf:hlf-chart:ss:forms}
+
+\subsubsection*{Local rings and charts}
+
+\begin{lemma}[Values]\label{pf:hlf-chart:valbasic}
+Let $B$ be a $\C$-subalgebra of a field $L$ and $e$ a character of $B$. Then $B\subseteq B_e$, $B_e$ is a subring of $L$, there is a unique
+character $e$ of $B_e$ extending $e$, and $v(e)=\gamma$ holds if and only if $v\in B_e$ and $e(v)=\gamma$. If $v(e)=\gamma\ne0$, then $v\ne0$
+and $v^{-1}\in B_e$.
+\formallabel{UpperTheory.Gal.productCup_of_system.valBasic_of}
+\end{lemma}
+
+\begin{proof}
+$B_e$ is the localization of $B$ at the prime ideal $\ker e$, viewed inside $L$; the extension is $v\mapsto e(bv)/e(b)$ for any $b$ with
+$e(b)\ne0$, $bv\in B$, which does not depend on $b$ (if $b,b'$ are two choices, $e(b')e(bv)=e(b'bv)=e(b)e(b'v)$). If $v(e)=\gamma\ne0$,
+with $b$ as in the definition, then $bv\in B$ and $e(bv)\ne0$, so $v^{-1}=b\cdot(bv)^{-1}\in B_e$.
+\end{proof}
+
+\begin{lemma}[Charts]\label{pf:hlf-chart:rybasic}
+Assume \ref{pf:hlf-chart:H1} and \ref{pf:hlf-chart:H2}. Then for all $I,I',J,J'\subseteq[d]$:
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item $B_I\subseteq B_{I'}$ and $B'_I\subseteq B'_{I'}$ for $I\subseteq I'$, and $B'_{I,J}\subseteq B'_{I',J'}$ for $I\subseteq I'$, $J\subseteq J'$;
+  $B'_{I,\emptyset}=B'_I$;
+\item $j_1(B_I)\subseteq B'_I$ and $j_2(B_I)\subseteq B''_I$;
+\item if $j\in J$ and $j'\in[d]$, every $y\in B''_{J\cup\{j'\}}$ satisfies $y\,j_2(x_{j'}/x_j)^N\in B''_J$ for some $N\ge0$; similarly, every
+  $y\in B_{I\cup\{i'\}}$ satisfies $y\,(x_{i'}/x_i)^N\in B_I$ for $i\in I$ and some $N$.
+  \end{enumerate}
+\formallabel{UpperTheory.Gal.productCup_of_system.rYBasic_of}
+\end{lemma}
+
+\begin{proof}
+(a), (b): $A_I\subseteq A_{I'}$, integral closure is monotone, $j_1$ is the identity on $F$ and $j_2(B_I)$ is integral over $j_2(A_I)$.
+$B'_{I,\emptyset}=B'_I\cdot B''_\emptyset$ and $B''_\emptyset$, the integral closure of $j_2(\C)=\C$ in $K'$, is contained in $B'_I$.
+(c): $A_{J\cup\{j'\}}=A_J[x_j/x_{j'}]$ for $j\in J$, so $A_{J\cup\{j'\}}$ is the localization of $A_J$ at the powers of $s=x_{j'}/x_j\in A_J$;
+since integral closure commutes with localization \cite[Prop.~5.12]{AtiyahMacdonald1969}, $B_{J\cup\{j'\}}=B_J[s^{-1}]$, and the same
+holds after applying $j_2$ and taking integral closures in $K'$.
+\end{proof}
+
+\begin{lemma}[Finite generation]\label{pf:hlf-chart:ryft}
+Assume \ref{pf:hlf-chart:H1}. For $I\ne\emptyset$ the $\C$-algebras $B_I$, $B'_I$ and $B'_{I,J}$ are finitely generated.
+\formallabel{UpperTheory.Gal.productCup_of_system.rYFT_of}
+\end{lemma}
+
+\begin{proof}
+$A_{\{i\}}$ is a polynomial ring and $K'/F$ is finite, so $B'_{\{i\}}$ is a finite $A_{\{i\}}$-module \cite[Cor.~13.13]{Eisenbud1995}, and
+$B'_I$ is a localization of $B'_{\{i\}}$ ($i\in I$) at one element by \cref{pf:hlf-chart:rybasic}(c); the same holds for $B_I$. For $J\ne\emptyset$
+the same argument applies to $B''_J$, the integral closure of $j_2(A_J)$ in $K'$: $K'$ is finite over $j_2(F)$, being finitely generated over
+$\C$ of transcendence degree $d$ and algebraic over $j_2(F)$, which also has transcendence degree $d$. Finally $B''_\emptyset\subseteq B'_I$, so
+$B'_{I,J}$ is generated by finitely many elements.
+\end{proof}
+
+\begin{lemma}[Regular forms]\label{pf:hlf-chart:omloc}
+Let $B\subseteq B'$ be $\C$-subalgebras of a field $L$ and $q\ge0$. Then $\Omega^q(B)\subseteq\Omega^q(B')$, $\Omega^q(B)$ is stable under
+multiplication by $B$, $\Omega^p(B)\wedge\Omega^q(B)\subseteq\Omega^{p+q}(B)$, and for every character $e$ of $B$ the span of
+$\{\omega:\exists b\in B,\ e(b)\ne0,\ b\omega\in\Omega^q(B)\}$ is $\Omega^q(B_e)$.
+\formallabel{UpperTheory.Gal.productCup_of_system.omLoc_of}
+\end{lemma}
+
+\begin{proof}
+The first three statements are clear from the definition. If $b\omega\in\Omega^q(B)$ with $e(b)\ne0$, then $\omega=b^{-1}(b\omega)$ is a sum of
+terms $b^{-1}c\,dc_1\wedge\dots$ with $c,c_i\in B$, and $b^{-1}c\in B_e$; conversely, for $v,v_1,\dots,v_q\in B_e$ choose $b\in B$ with
+$e(b)\ne0$ and $bv,bv_i\in B$; then $b^{q+2}v\,dv_1\wedge\dots\wedge dv_q$ lies in $\Omega^q(B)$, as one sees by writing
+$b\,dv_i=d(bv_i)-v_i\,db$ and expanding.
+\end{proof}
+
+\subsubsection*{The trace of forms}
+
+\begin{lemma}[Trace of forms]\label{pf:hlf-chart:trdr}
+Let $K'/K$ be a finite separable extension of fields containing $\C$, with structure map $j_1$. There is a unique $\C$-linear map
+$\Tr\colon\Omega^\bullet_{K'}\to\Omega^\bullet_K$ with $\Tr(b\cdot j_1^*\omega)=\Tr_{K'/K}(b)\,\omega$ for $b\in K'$, $\omega\in\Omega^\bullet_K$.
+It satisfies the projection formula $\Tr(j_1^*w\wedge y)=w\wedge\Tr(y)$.
+\formallabel{GlobalTheory.T.deRhamFormTrace_exists_unique}\formallabel{GlobalTheory.T.deRhamFormTrace_projection_formula}
+\end{lemma}
+
+\begin{proof}
+$K'\otimes_K\Omega^1_K\to\Omega^1_{K'}$ is an isomorphism (as in the proof of \cref{pf:hlf-chart:dlog}), hence so is
+$K'\otimes_K\Omega^\bullet_K\to\Omega^\bullet_{K'}$, $b\otimes\omega\mapsto b\,j_1^*\omega$. Put $\Tr=\Tr_{K'/K}\otimes\mathrm{id}$. Uniqueness holds because
+the elements $b\,j_1^*\omega$ span $\Omega^\bullet_{K'}$. For the projection formula take $y=b\,j_1^*\omega$:
+$\Tr(j_1^*w\wedge b\,j_1^*\omega)=\Tr(b\,j_1^*(w\wedge\omega))=\Tr_{K'/K}(b)\,w\wedge\omega=w\wedge\Tr(y)$.
+\end{proof}
+
+\subsubsection*{The residue functional and the trace functional}
+For $\emptyset\ne I\subseteq[d]$ let
+\[
+  \Omega_F(I)=\Bigl\{f\in F : f\cdot\prod_{l\in[d]}\frac{x_i}{x_l}\in A_I\ \text{for all }i\in I\Bigr\}.
+\]
+On the chart $x_i\ne0$ of $\mathbb P^d$, with coordinates $s_l=x_l/x_i$ ($l\ne i$), one has
+$\hlfcdl t_1\wedge\dots\wedge\hlfcdl t_d=\pm\prod_{l\ne i}s_l^{-1}\,\bigwedge_{l\ne i}ds_l$; so $f\in\Omega_F(I)$ means that the $d$-form
+$f\omega_0$ of $F$ is regular on $\bigcap_{i\in I}\{x_i\ne0\}$.
+
+\begin{lemma}[Residue functional]\label{pf:hlf-chart:rho}
+Assume that $t_1,\dots,t_d$ are algebraically independent over $\C$ and generate $F$. There is a $\C$-linear map $\rho\colon F\to\C$ with
+$\rho(1)=1$ and $\rho(\prod_jx_j^{m_j})=0$ for every $0\ne m\in\Z^{d+1}$ with $\sum_jm_j=0$. Every such $\rho$ satisfies:
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item $\rho(f)=f(0)$ for $f\in A_{\{0\}}=\C[t_1,\dots,t_d]$;
+\item $\rho(\Omega_F(I))=0$ for every nonempty $I\subsetneq[d]$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.exists_laurentConstantTermForm_functionField}\formallabel{GlobalTheory.T.residue_functional_vanishes_on_omega_forms}
+\end{lemma}
+
+\begin{proof}
+The monomials $\prod_jx_j^{m_j}$ with $\sum m_j=0$ are the Laurent monomials $\prod_{l\ge1}t_l^{m_l}$; they are linearly independent over $\C$
+by the algebraic independence of the $t_l$, and $m\mapsto\prod_jx_j^{m_j}$ is injective on $\{\sum m_j=0\}$. Define $\rho$ on their span by
+$\rho(1)=1$ and $\rho=0$ on the other monomials, and extend it linearly to $F$ (choose a complement of the span). (a) is immediate since
+$t^n=\prod_jx_j^{m_j}$ with $m_0=-\sum n_l$, $m_l=n_l$. (b) Let $i\in I$ and $l_0\notin I$. An element of $A_I$ is a linear combination of
+monomials $\prod_jx_j^{m_j}$ with $\sum m_j=0$ and $m_j\ge0$ for $j\notin I$, since the generators $x_m/x_{i'}$, $i'\in I$, have negative
+exponents only at indices in $I$. If $f\in\Omega_F(I)$, then $f=g\prod_l(x_l/x_i)$ with $g\in A_I$, and $\prod_l(x_l/x_i)$ has exponent $1$ at
+every $l\ne i$. So $f$ is a combination of monomials whose exponent at $l_0$ is $\ge1$; these monomials are $\ne1$, and $\rho(f)=0$.
+\end{proof}
+
+We fix such a $\rho$. The \emph{trace functional} of $K$ is the $\C$-linear map
+\[
+  \theta=\rho\circ\Tr_{K/F}\circ\tau\colon\Omega^\bullet_K\to\C,
+\]
+and similarly $\theta'=\rho\circ\Tr_{K'/F}\circ\tau'$ for $K'$. By \cref{pf:hlf-chart:dlog}, $\theta$ vanishes off degree $d$ and $\theta(h\omega_0)=\rho(\Tr_{K/F}h)$.
+
+\begin{littheorem}[Trace duality for finite covers; formalized]\label{pf:hlf-chart:dual}
+Assume that $x$ defines a finite cover of $L$, let $\tau_L$ be a top coefficient (\cref{pf:hlf-chart:dlog}), $B_I(L)$ the integral closure of
+$A_I$ in $L$, and $\emptyset\ne I\subseteq[d]$.
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item For $z\in L$: $\Tr_{L/F}(zb)\in\Omega_F(I)$ for all $b\in B_I(L)$ if and only if $z=\tau_L(y)$ for some $y\in\Omega^d(B_I(L))$.
+\item For $p+q=d$ and $y\in\Omega^q_L$: $y\in\Omega^q(B_I(L))$ if and only if $\Tr_{L/F}\tau_L(w\wedge y)\in\Omega_F(I)$ for all $w\in\Omega^p(B_I(L))$.
+\end{enumerate}
+\formallabel{GlobalTheory.T.complementaryModule_standardOpens_iff}\formallabel{GlobalTheory.T.twistedDual_regularForms_finiteCover}
+\end{littheorem}
+
+In geometric terms: let $\pi\colon U\to V$ be the finite morphism from $U=\operatorname{Spec}B_I(L)$ (smooth) to the open subset
+$V=\operatorname{Spec}A_I$ of $\mathbb P^d$. Statement (a) says that the trace of differential forms identifies $\pi_*\Omega^d_U$ with
+$\mathcal Hom_{\mathcal O_V}(\pi_*\mathcal O_U,\Omega^d_V)$, i.e.\ $\pi^!\Omega^d_V=\Omega^d_U$: this is duality for finite morphisms of smooth
+varieties \cite[III, Ex.~6.10 and Ex.~7.2]{Hartshorne1977}, in the explicit form in which the abstract trace map is the trace of differential
+forms and the dual of $\pi_*\mathcal O_U$ is Dedekind's complementary module (see \cite{Kunz1986} and \cite{Lipman1984}). Statement (b)
+follows from (a) and the perfectness of the pairing $\Omega^p_U\times\Omega^q_U\to\Omega^d_U$, $\Omega^1_U$ being locally free of rank $d$.
+The development proves both statements directly, through the complementary module $\{z:\Tr_{L/F}(zB_I(L))\subseteq\Omega_F(I)\}$; we use
+them as stated.
+
+\begin{lemma}[Traces of regular top forms]\label{pf:hlf-chart:trreg}
+Assume \ref{pf:hlf-chart:H1}. Let $I\subseteq[d]$ be nonempty.
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item If $y\in\Omega^d(B_I)$, then $\Tr_{K/F}\tau(y)\in\Omega_F(I)$; if moreover $I\ne[d]$, then $\theta(y)=0$.
+\item If $y\in\Omega^d(B'_I)$, then $\Tr(y)\in\Omega^d(B_I)$; if moreover $I\ne[d]$, then $\theta(\Tr y)=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Apply \cref{pf:hlf-chart:dual}(a) with $z=\tau(y)$ and $b=1$, then \cref{pf:hlf-chart:rho}(b). (b) Let $z'=\tau'(y)$, so $y=z'\omega'_0$
+with $\omega'_0=j_1^*\omega_0$ (the $t_m$ lie in $F$), and $\Tr(y)=\Tr_{K'/K}(z')\,\omega_0$ by \cref{pf:hlf-chart:trdr}. For $b\in B_I$,
+$\Tr_{K/F}(\Tr_{K'/K}(z')\,b)=\Tr_{K'/F}(z'j_1(b))\in\Omega_F(I)$ by \cref{pf:hlf-chart:dual}(a) for $K'$, since $j_1(b)\in B'_I$. By
+\cref{pf:hlf-chart:dual}(a) for $K$, $\Tr_{K'/K}(z')=\tau(y_1)$ with $y_1\in\Omega^d(B_I)$, and $\Tr(y)=\tau(y_1)\omega_0=y_1$. The last
+assertion follows from (a).
+\end{proof}
+
+\subsubsection*{The pairing}
+For families $e=(e_s)$ and $f=(f_s)$ indexed by subsets of $[d]$ (with values in $\Omega^\bullet_K$) put
+\begin{equation}\label{eq:pf:hlf-chart:pair}
+  \langle e,f\rangle=\sum_{j=0}^{d}\theta\bigl(e_{\{0,\dots,j\}}\wedge f_{\{j,\dots,d\}}\bigr).
+\end{equation}
+If $e$ is a $(d-q)$-cochain and $f$ a $q$-cochain of \v{C}ech complexes, only $j=d-q$ contributes. More generally, for a bilinear map
+$\mu\colon E\times E'\to E''$ the \emph{cup product} of families $e,f$ is $(e\cup_\mu f)_s=\sum_{j\in s}\mu(e_{\{i\in s:i\le j\}},f_{\{i\in s:i\ge j\}})$,
+so that $\langle e,f\rangle=\theta((e\cup_\wedge f)_{[d]})$. For \v{C}ech cochains of degrees $p,q$ it satisfies the Leibniz rule
+$\delta(e\cup_\mu f)=\delta e\cup_\mu f+(-1)^pe\cup_\mu\delta f$ (a direct computation with \eqref{eq:pf:hlf-chart:cech}).
+
+\begin{lemma}[Adjointness]\label{pf:hlf-chart:adj}
+Let $(M_s)$, $(M'_s)$ be increasing families of subspaces (as for \v{C}ech complexes on $[d]$) and $\beta\colon E\times E'\to\C$ bilinear with
+$\beta(M_{[d]\smallsetminus\{i\}},M'_{[d]\smallsetminus\{i\}})=0$ whenever $[d]\smallsetminus\{i\}\ne\emptyset$. Then for each $n$ there is a sign $\varepsilon$
+such that $\beta$-pairing \eqref{eq:pf:hlf-chart:pair} satisfies $\langle\delta e,f\rangle_\beta=\varepsilon\langle e,\delta f\rangle_\beta$ for all
+$n$-cochains $e$ of $\hlfcC^\bullet(M)$ and $(d-n-1)$-cochains $f$ of $\hlfcC^\bullet(M')$.
+\formallabel{GlobalTheory.T.cechDifferential_adjoint_cupProductPairing}
+\end{lemma}
+
+\begin{proof}
+$\langle\delta e,f\rangle_\beta+(-1)^n\langle e,\delta f\rangle_\beta=\beta$ applied to $\delta(e\cup f)_{[d]}=\sum_i\pm(e\cup f)_{[d]\smallsetminus\{i\}}$,
+and every $(e\cup f)_{[d]\smallsetminus\{i\}}$ is a sum of products of elements of $M_{[d]\smallsetminus\{i\}}$ and $M'_{[d]\smallsetminus\{i\}}$
+(monotonicity), on which $\beta$ vanishes. Take $\varepsilon=-(-1)^n$.
+\end{proof}
+
+\begin{lemma}[The pairing descends to cohomology]\label{pf:hlf-chart:prb}
+Assume \ref{pf:hlf-chart:H1}, $a\le d$, $q\le d$. If $e\in Z^{d-q}(\hlfcC^\bullet(B_\bullet,d-a))$ and $y\in B^q(\hlfcC^\bullet(B_\bullet,a))$, then
+$\langle e,y\rangle=0$.
+\formallabel{UpperTheory.Gal.productCup_of_system.prB_of}
+\end{lemma}
+
+\begin{proof}
+For $i\in[d]$ with $I=[d]\smallsetminus\{i\}\ne\emptyset$, $w\in\Omega^{d-a}(B_I)$ and $w'\in\Omega^a(B_I)$ we have $w\wedge w'\in\Omega^d(B_I)$,
+so $\theta(w\wedge w')=0$ by \cref{pf:hlf-chart:trreg}(a). By \cref{pf:hlf-chart:adj}, if $y=\delta y'$ then
+$\langle e,\delta y'\rangle=\pm\langle\delta e,y'\rangle=0$.
+\end{proof}
+
+\begin{lemma}[Trace and the top degree]\label{pf:hlf-chart:trtop}
+Assume \ref{pf:hlf-chart:H1}. Then $\Tr(j_1^*w\wedge y)=w\wedge\Tr(y)$; $\theta(\Tr(h\omega'_0))=\rho(\Tr_{K'/F}h)$ for $h\in K'$; and
+$\theta(\Tr(y_{[d]}))=0$ for every $y\in B^d(\hlfcC^\bullet(B'_\bullet,d))$.
+\formallabel{UpperTheory.Gal.productCup_of_system.trTop_of}
+\end{lemma}
+
+\begin{proof}
+The first identity is \cref{pf:hlf-chart:trdr}. Next, $\Tr(h\omega'_0)=\Tr(h\,j_1^*\omega_0)=\Tr_{K'/K}(h)\omega_0$, so
+$\theta(\Tr(h\omega'_0))=\rho(\Tr_{K/F}\Tr_{K'/K}h)=\rho(\Tr_{K'/F}h)$. Finally, if $y=\delta w$, then
+$y_{[d]}=\sum_i\pm w_{[d]\smallsetminus\{i\}}$ with $w_{[d]\smallsetminus\{i\}}\in\Omega^d(B'_{[d]\smallsetminus\{i\}})$ (and $y=0$ if $d=0$), and each
+$\theta(\Tr w_{[d]\smallsetminus\{i\}})$ vanishes by \cref{pf:hlf-chart:trreg}(b).
+\end{proof}
+
+\begin{lemma}[Residue of a trace]\label{pf:hlf-chart:rt1}
+Let $x$ define a finite cover of $L$ with $B_{\{0\}}(L)/(t_1,\dots,t_d)$ reduced, and let $\hlfcfib_L$ be the set of characters of $B_{\{0\}}(L)$
+vanishing on $t_1,\dots,t_d$. Then $\hlfcfib_L$ is finite and for every $h\in B_{\{0\}}(L)$
+\[
+  \rho\bigl(\Tr_{L/F}h\bigr)=\theta_L(h\omega_0)=\sum_{e\in\hlfcfib_L}e(h).
+\]
+\formallabel{GlobalTheory.T.trace_cechCochain_fraction_eq_sum_fibre}\formallabel{UpperTheory.Gal.productCup_of_system.deRham_restriction_trace_degree_one}
+\end{lemma}
+
+\begin{proof}
+We give the standard argument. Let $A=A_{\{0\}}=\C[t_1,\dots,t_d]$, $B=B_{\{0\}}(L)$, $\mathfrak m=(t_1,\dots,t_d)\subseteq A$. $B$ is a finite
+$A$-module \cite[Cor.~13.13]{Eisenbud1995}; it is smooth over $\C$, hence regular, hence Cohen--Macaulay, and a finite extension of the regular
+ring $A$ by a Cohen--Macaulay ring of the same dimension is flat \cite[Thm.~23.1]{Matsumura1989}. So $B_\mathfrak m=B\otimes_AA_\mathfrak m$ is free of
+rank $n=[L:F]$ over the local ring $A_\mathfrak m$, and $\Tr_{L/F}(h)$ is the trace of multiplication by $h$ on $B_\mathfrak m$ (base change to $F$).
+Hence $\Tr_{L/F}(h)\in A_\mathfrak m$, and $\Tr_{L/F}(h)\in A$ because $A$ is integrally closed and $\Tr_{L/F}h$ is integral over $A$
+\cite[Prop.~5.15]{AtiyahMacdonald1969}. Reducing modulo $\mathfrak m$, $\Tr_{L/F}(h)(0)$ is the trace of multiplication by $h$ on the finite
+$\C$-algebra $B/\mathfrak mB$; this algebra is reduced, hence isomorphic to $\C^{\hlfcfib_L}$ via its characters, which are the elements of
+$\hlfcfib_L$; so the trace is $\sum_{e\in\hlfcfib_L}e(h)$. Finally $\rho(\Tr_{L/F}h)=\Tr_{L/F}(h)(0)$ by \cref{pf:hlf-chart:rho}(a), and
+$\theta_L(h\omega_0)=\rho(\Tr_{L/F}h)$ by definition.
+\end{proof}
+
+\subsubsection*{Traces of linear maps}
+
+\begin{lemma}[Traces through dual families]\label{pf:hlf-chart:trlin}
+Let $V$ be a $\C$-vector space, $\varphi_1,\dots,\varphi_n\in V^*$ and $v_1,\dots,v_n\in V$ with $y=\sum_k\varphi_k(y)v_k$ for all $y\in V$.
+Then $V$ is finite-dimensional and $\tr(u)=\sum_k\varphi_k(u(v_k))$ for every endomorphism $u$ of $V$.
+\formallabel{UpperTheory.Gal.productCup_of_system.trLin_of}
+\end{lemma}
+
+\begin{proof}
+$V$ is spanned by the $v_k$. With $P\colon\C^n\to V$, $P(c)=\sum c_kv_k$, and $Q\colon V\to\C^n$, $Q(y)=(\varphi_k(y))_k$, we have $PQ=\mathrm{id}_V$,
+so $\tr(u)=\tr(uPQ)=\tr(QuP)=\sum_k\varphi_k(u(v_k))$.
+\end{proof}
+
+\begin{lemma}[Alternating trace through a dual decomposition]\label{pf:hlf-chart:alttrace}
+Assume \ref{pf:hlf-chart:H1} and $a\le d$. Let $(p_k,e_k,f_k)_{1\le k\le M}$ be triples with $p_k\le d$,
+$e_k\in Z^{d-p_k}(\hlfcC^\bullet(B_\bullet,d-a))$, $f_k\in Z^{p_k}(\hlfcC^\bullet(B_\bullet,a))$, such that for every $q$ and every
+$\alpha\in Z^q(\hlfcC^\bullet(B_\bullet,a))$
+\begin{equation}\label{eq:pf:hlf-chart:dualdec}
+  \alpha\equiv\sum_{k:\,p_k=q}\langle e_k,\alpha\rangle\,f_k\pmod{B^q}.
+\end{equation}
+Let $u_q$ be endomorphisms of $\hlfcH^q(B_\bullet,a)$ and $g_k\in Z^{p_k}$ with $u_{p_k}[f_k]=[g_k]$. Then every $\hlfcH^q(B_\bullet,a)$ is
+finite-dimensional and $\sum_{q=0}^d(-1)^q\tr(u_q)=\sum_k(-1)^{p_k}\langle e_k,g_k\rangle$.
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:hlf-chart:prb}, $\varphi_k[\alpha]=\langle e_k,\alpha\rangle$ is well defined on $\hlfcH^{p_k}$; by \eqref{eq:pf:hlf-chart:dualdec} the
+$\varphi_k,[f_k]$ with $p_k=q$ satisfy the hypothesis of \cref{pf:hlf-chart:trlin} on $V=\hlfcH^q$ (for $q>d$ the sum is empty and $\hlfcH^q=0$).
+Hence $\tr(u_q)=\sum_{p_k=q}\langle e_k,g_k\rangle$; multiply by $(-1)^q$ and sum over $q\le d$.
+\end{proof}
+
+\begin{lemma}[Principal minors]\label{pf:hlf-chart:minorsum}
+For $A\in M_d(\C)$, $[X^a]\det(1+XA)=\sum_{|S|=a}\det(A_{S,S})=\tr\bigl(\bigwedge^aA\bigr)$, the sum running over the subsets $S\subseteq\{1,\dots,d\}$
+of cardinality $a$ and $A_{S,S}$ denoting the principal submatrix.
+\formallabel{UpperTheory.Gal.productCup_of_system.minorSum_of}
+\end{lemma}
+
+\begin{proof}
+Expand $\det(1+XA)$ by multilinearity in the columns: choosing the column of $XA$ for $j\in S$ and of $1$ for $j\notin S$ gives
+$X^{|S|}\det(A_{S,S})$. The matrix of $\bigwedge^aA$ in the basis $e_S$ has diagonal entries $\det(A_{S,S})$.
+\end{proof}
+
+\subsection{Weighted \v{C}ech complexes and Koszul complexes}\label{pf:hlf-chart:ss:cx}
+
+All complexes of the proof are instances of one construction, which treats \v{C}ech differentials and Koszul differentials alike.
+
+\begin{definition}[Weighted \v{C}ech complexes]\label{pf:hlf-chart:def:wcx}
+Let $\Sigma$ be a finite totally ordered set, $E$ a $\C$-vector space, $(A_s)_{s\subseteq\Sigma}$ subspaces of $E$ and $w\colon\Sigma\to\End_\C(E)$
+pairwise commuting endomorphisms (the \emph{weights}) with $w_i(A_s)\subseteq A_{s\cup\{i\}}$ for $i\notin s$. The complex $\mathcal C(A,w)$ has
+$n$-cochains the families $c=(c_s)_{s\subseteq\Sigma}$ with $c_s\in A_s$ if $|s|=n$ and $c_s=0$ otherwise, and differential
+\[
+  (\partial_wc)_s=\sum_{i\in s}(-1)^{\#\{j\in s:\,j<i\}}\,w_i\bigl(c_{s\smallsetminus\{i\}}\bigr).
+\]
+\formal{GlobalTheory.WH.acx}
+\end{definition}
+
+Thus $\partial_w^2=0$, and $\partial_{w+w'}=\partial_w+\partial_{w'}$, $\partial_w\partial_{w'}+\partial_{w'}\partial_w=0$ if $w,w'$ commute and have
+disjoint supports (\lref{UpperTheory.Gal.productCup_of_system.wdBasic_of}, a direct computation). Examples:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $w\equiv1$ and $A_\emptyset=0$: the \v{C}ech complex $\hlfcC^\bullet(A)$ of \eqref{eq:pf:hlf-chart:cech}, with degrees shifted by one.
+\item $A_s=M$ for all $s$ and $w_l$ the action of elements $r_l$ of a commutative ring $S$ acting on $E$, $M$ being stable under a subring $R$
+containing the $r_l$: the (cohomological) \emph{Koszul complex} $K(r;M)$. Its top cohomology is $M/(r)M$, where $(r)M=\sum_lr_lM$.
+\item $\Sigma=[d]\sqcup[d]$ (first copy first), $w\equiv1$ and $A_{I\sqcup\bar J}=M_{I,J}$ if $I,J\ne\emptyset$, $A_{I\sqcup\bar J}=0$ otherwise:
+the \emph{mixed complex} $\mathrm{Mix}(M)$ of a family $(M_{I,J})$; it is the total complex of the \v{C}ech double complex of a product of two
+covers, the degree of the $(I,J)$-component being $|I|+|J|$ (\v{C}ech bidegree plus $2$).
+\end{enumerate}
+For $\Sigma=\Sigma_1\sqcup\Sigma_2$ ($\Sigma_1$ first) and $s=b\sqcup L$, $(\partial_wc)_{b\sqcup L}$ is the sum of the differential in the
+$\Sigma_1$-variables at fixed $L$ and $(-1)^{|b|}$ times the differential in the $\Sigma_2$-variables at fixed $b$
+(\lref{UpperTheory.Gal.productCup_of_system.wdUni_of}). For a cochain $c$ and $b\subseteq\Sigma_1$, the \emph{column} of $c$ at $b$ is
+$\mathrm{col}_b(c)=(c_{b\sqcup L})_{L\subseteq\Sigma_2}$.
+
+\begin{definition}[Systems and \v{C}ech--Koszul complexes]\label{pf:hlf-chart:def:sys}
+A \emph{system} $T$ (of dimension $d$) consists of a commutative $\C$-algebra $S$ acting on a $\C$-vector space $E$, units
+$X_0,\dots,X_d$ and $Y_0,\dots,Y_d$ of $S$, subalgebras $R_{I,J}\subseteq S$ and subspaces $M_{I,J}\subseteq E$ ($I,J\subseteq[d]$). It is
+\emph{good} if, for nonempty $I\subseteq I'$, $J\subseteq J'$: $R_{I,J}\subseteq R_{I',J'}$, $M_{I,J}\subseteq M_{I',J'}$, $R_{I,J}M_{I,J}\subseteq M_{I,J}$,
+and $X_m/X_i,\ Y_m/Y_j\in R_{I,J}$ for $i\in I$, $j\in J$, $m\in[d]$. \emph{Koszul data} for $T$ are a finite totally ordered set $\kappa$,
+bidegrees $n_l=(n_l',n_l'')\in\N^2$ and elements $z_l\in S$ ($l\in\kappa$); their \emph{dehomogenizations} are
+\[
+  u_l(i,j)=X_i^{n'_l}Y_j^{n''_l},\qquad r_l(i,j)=z_l/u_l(i,j)\qquad(i,j\in[d]),
+\]
+and the data are \emph{admissible} if $r_l(i,j)\in R_{\{i\},\{j\}}$ for all $i,j,l$. The \emph{\v{C}ech--Koszul complex}
+$\mathrm{Tot}_T(n,z)$ is the weighted \v{C}ech complex on $\Sigma=[d]\sqcup[d]\sqcup\kappa$ (in this order) with
+\[
+  A_{I\sqcup\bar J\sqcup L}=u_L(\min I,\min J)\,M_{I,J}\ \ (I,J\ne\emptyset),\qquad A_{I\sqcup\bar J\sqcup L}=0\ \text{otherwise},
+\]
+where $u_L=\prod_{l\in L}u_l$, and weights $1$ on $[d]\sqcup[d]$ and $z_l$ on $l\in\kappa$. Its $(I,J)$-\emph{column complex} is the weighted complex
+on $\kappa$ with modules $u_L(\min I,\min J)M_{I,J}$ and weights $z_l$. The \emph{mixed complex} of $T$ is $\mathrm{Mix}(T)=\mathrm{Mix}(M)$, and
+$\mathrm{top}(c)=(c_{I\sqcup\bar J\sqcup\emptyset})_{I,J}$.
+\formal{UpperTheory.Gal.productCup_of_system.Sys.cx}
+\end{definition}
+
+The \emph{diagonal} Koszul elements of a system are the $2\times2$ minors $\mu_{(m,m')}=X_mY_{m'}-X_{m'}Y_m$, indexed by the ordered pairs
+$(m,m')\in[d]^2$ (lexicographic order), of bidegree $(1,1)$. For $j\in[d]$ we write $D_j=\{(m,j):m\ne j\}$, a set of $d$ pairs.
+
+\begin{lemma}[Basic properties]\label{pf:hlf-chart:sysbasic}
+Let $T$ be a good system with admissible Koszul data $(n,z)$, and $N\in\Z$.
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item $\mathrm{Tot}_T(n,z)$ is a complex; a family $c$ is an $N$-cochain if and only if each column $\mathrm{col}_{I,J}(c)$ is an
+  $(N-|I|-|J|)$-cochain of the $(I,J)$-column complex (and $c$ vanishes where $I$ or $J$ is empty).
+\item $\mathrm{top}$ maps cocycles to cocycles and coboundaries to coboundaries of $\mathrm{Mix}(T)$.
+\item If $c$ is an $N$-cocycle whose components with $|I'|+|J'|<|I|+|J|$ vanish, then $\mathrm{col}_{I,J}(c)$ is a cocycle of the column complex.
+\item The restriction of a cocycle to the index sets $I\sqcup\bar J\sqcup L$ with $L$ contained in a subset $\kappa'\subseteq\kappa$ is a cocycle of
+  $\mathrm{Tot}_T(n|_{\kappa'},z|_{\kappa'})$.
+\item The $(I,J)$-column complex is isomorphic, by $c\mapsto(u_L^{-1}c_L)_L$, to the Koszul complex $K(r(\min I,\min J);M_{I,J})$, and the
+  column complexes are monotone: $Z^m$ of the $(I,J)$-column is contained in $Z^m$ of the $(I',J')$-column for $I\subseteq I'$, $J\subseteq J'$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.productCup_of_system.sysBasic_of}\formallabel{UpperTheory.Gal.productCup_of_system.sysOk_of}\formallabel{UpperTheory.Gal.productCup_of_system.rS_of}
+\end{lemma}
+
+\begin{proof}
+The weights satisfy the condition of \cref{pf:hlf-chart:def:wcx}: with $i=\min I$, $j=\min J$,
+\[
+  z_l\,u_L(i,j)M_{I,J}=u_{L\cup\{l\}}(i,j)\,r_l(i,j)M_{I,J},
+\]
+and $r_l(i,j)\in R_{I,J}$ by admissibility and goodness; moreover, when $I$ grows, $\min I$ may change, and the quotient
+$u_L(i,j)/u_L(i',j')$ is a product of the elements $X_i/X_{i'}$, $Y_j/Y_{j'}$, which lie in $R_{I',J'}$. This gives (a) and the monotonicity in (e).
+(b): the differential of a component with $L=\emptyset$ only involves components with $L=\emptyset$. (c): by the decomposition of $\partial$ along
+$\Sigma=([d]\sqcup[d])\sqcup\kappa$, the $(I,J)$-column of $\partial c$ is the column differential of $\mathrm{col}_{I,J}(c)$ plus \v{C}ech terms
+involving components with smaller $|I'|+|J'|$. (d): the differential of a component indexed by $s$ only involves components indexed by subsets of
+$s$. (e): $z_l=r_lu_l$.
+\end{proof}
+
+\subsubsection*{Koszul complexes}
+In the following lemmas $S$ acts on $E$, $R\subseteq S$ is a subring, $M\subseteq E$ is an $R$-stable subspace and $r=(r_l)_{l\in\kappa}$ is a
+finite family in $R$; we write $(r)M=\sum_lr_lM$. We say that $K(r;M)$ is \emph{exact below $d$} if $Z^m\subseteq B^m$ for all $m<d$. A sequence
+$f_1,\dots,f_d\in S$ is \emph{$M$-regular} if $f_km\in(f_1,\dots,f_{k-1})M$ implies $m\in(f_1,\dots,f_{k-1})M$ for $m\in M$ (no
+condition $M\ne(f)M$ is imposed).
+
+\begin{lemma}[Koszul complexes]\label{pf:hlf-chart:koszul}
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item If $g=\sum_la_lr_l$ with $a_l\in R$, then multiplication by $g$ maps $Z^n(K(r;M))$ into $B^n(K(r;M))$.
+\item If $f_1,\dots,f_d$ is an $M$-regular sequence with every $f_k\in\sum_lRr_l$, then $K(r;M)$ is exact below $d$.
+\item Every coboundary of $K(r;M)$ has all components in $(r)M$. If $e\colon\{1,\dots,d\}\to\kappa$ is an order embedding and $K(r\circ e;M)$ is
+  exact below $d$, then so is $K(r;M)$, and:
+\item for $m\in M$ with $r_lm\in(r\circ e)M$ for all $l\in\kappa$, there is $c\in Z^d(K(r;M))$ with $c_{e(\{1..d\})}=m$;
+\item a cocycle $c\in Z^d(K(r;M))$ with $c_{e(\{1..d\})}\in(r\circ e)M$ is a coboundary;
+\item if $e'$ is a second order embedding with image disjoint from that of $e$ and $r_{e'(a)}=\sum_jN_{aj}r_{e(j)}$ with $N_{aj}\in R$, then
+  $c_{e'(\{1..d\})}-\det(N)\,c_{e(\{1..d\})}\in(r\circ e)M$ for every $c\in Z^d(K(r;M))$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.productCup_of_system.htpy_of}\formallabel{UpperTheory.Gal.productCup_of_system.firstCohomologyBound_of_boundaryBound}\formallabel{UpperTheory.Gal.productCup_of_system.kSub_of}\formallabel{UpperTheory.Gal.productCup_of_system.koszulTwoExact_of_gl2}\formallabel{UpperTheory.Gal.productCup_of_system.koszulTwoInjective_of_gl1}\formallabel{UpperTheory.Gal.productCup_of_system.koszulThree_of_det}
+\end{lemma}
+
+\begin{proof}
+(a) The map $h(c)_s=\sum_la_l\,(\pm c_{s\cup\{l\}})$ (contraction with $a$) satisfies $\partial h+h\partial=g$; this is the standard homotopy
+\cite[\S17]{Eisenbud1995}. (b) This is the depth sensitivity of the Koszul complex \cite[\S1.6]{BrunsHerzog1993}
+(stated there for homology; $K(r;M)$ in cohomological degree $n$ is the Koszul homology complex in degree $|\kappa|-n$), whose proof (induction on
+$d$, using (a) and the exact sequence of Koszul complexes for $M\xrightarrow{f_1}M\to M/f_1M$) applies to arbitrary modules; the development
+proves it in this way. (c) The first assertion is clear. $K(r;M)$ is the tensor product of $K(r\circ e;M)$ with the Koszul complex of the remaining
+elements; filtering by the number of indices outside the image of $e$, each graded piece is a sum of shifted copies of $K(r\circ e;M)$, exact
+below $d$; this gives exactness below $d$ and, by the same filtration (the standard staircase argument for a filtered complex), (d) and (e): in
+(d) one extends the component $m$ step by step to a cocycle, the obstructions lying in $Z^{<d}$ of shifted copies of $K(r\circ e;M)$ or, at the
+last step, being killed by the hypothesis $r_lm\in(r\circ e)M$; in (e) one removes the component at $e(\{1..d\})$ by a coboundary and then
+proceeds by descending induction on the filtration. (f) Since the $r\circ e'$ lie in the ideal generated by the $r\circ e$, the matrix $N$
+defines a morphism from the Koszul complex of $r\circ e'$ to that of $r\circ e$ which is $\bigwedge^dN$, i.e.\ multiplication by $\det N$, in top
+degree; applying (e) to the cocycle $c$ corrected by this comparison gives the claim. In the development, (f) is deduced from the identity
+\lref{UpperTheory.Gal.productCup_of_system.det_of} (the maximal minors of a matrix $\rho$ form a Koszul cocycle for the family
+$\sum_b\rho_{lb}f_b$).
+\end{proof}
+
+\subsubsection*{Double complexes with exact columns}
+
+\begin{lemma}[Gluing and boundary criterion]\label{pf:hlf-chart:glue}
+Let $T$ be a good system with admissible Koszul data $(n,z)$, and assume that every column complex of $\mathrm{Tot}=\mathrm{Tot}_T(n,z)$ is exact
+below $d$.
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item Let $c^0_{ij}$ ($i,j\in[d]$) be $d$-cocycles of the $(\{i\},\{j\})$-column complexes such that $c^0_{ij}-c^0_{i'j}$ is a coboundary of the
+  $(\{i,i'\},\{j\})$-column complex and $c^0_{ij}-c^0_{ij'}$ one of the $(\{i\},\{j,j'\})$-column complex. Then there is a cocycle
+  $c\in Z^{d+2}(\mathrm{Tot})$ with $\mathrm{col}_{\{i\},\{j\}}(c)=c^0_{ij}$ for all $i,j$ and $c_{I\sqcup\bar J\sqcup L}=0$ for $|L|>d$.
+\item Let $c\in Z^N(\mathrm{Tot})$ with $c_{I\sqcup\bar J\sqcup L}=0$ for $|L|>d$, and assume that $\mathrm{col}_{I,J}(c)$ is a coboundary of the
+  $(I,J)$-column complex whenever $|I|+|J|=N-d$. Then $c\in B^N(\mathrm{Tot})$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.productCup_of_system.coordinateSystem_degree_two_of_universalDerivation}\formallabel{UpperTheory.Gal.productCup_of_system.coordinateSystem_degree_one_of_universalDerivation}
+\end{lemma}
+
+\begin{proof}
+Filter $\mathrm{Tot}$ by the Koszul degree $|L|$. Since the columns are exact below $d$, the usual staircase argument for double complexes
+(\cite[\S5.6]{Weibel1994}; equivalently, the spectral sequence of the filtration degenerates to the \v{C}ech complex of the column cohomologies
+in Koszul degree $d$) gives: (a) the cochain $c^0$ (placed in the columns with $|I|=|J|=1$) has \v{C}ech differential a sum of column
+coboundaries by hypothesis; choosing column primitives and correcting step by step towards lower Koszul degree produces $c$, each obstruction
+being a column cocycle of Koszul degree $<d$, hence a column coboundary; (b) one subtracts from $c$ the total differential of column primitives of
+its lowest-\v{C}ech-degree columns, which removes those columns at the cost of terms of lower Koszul degree, and concludes by induction, the
+remaining column cocycles being in Koszul degree $<d$ and hence coboundaries. The development proves the corresponding statements for arbitrary
+weighted complexes with exact columns (\lref{UpperTheory.Gal.productCup_of_system.localTwo_of_gl2} and \lref{UpperTheory.Gal.productCup_of_system.localOne_of_gl1}, based on the filtration criteria \lref{UpperTheory.Gal.productCup_of_system.filtrationCocycleLiftCriterion_of_wdBasic} and \lref{UpperTheory.Gal.productCup_of_system.filtrationBoundaryCriterion_of_wdBasic})
+and specializes them.
+\end{proof}
+
+\begin{lemma}[K\"unneth decomposition]\label{pf:hlf-chart:kundec}
+Let $(A_s)$, $(B_s)$ be increasing families of subspaces of $E$, $E'$ indexed by the nonempty subsets of $[d]$, and let
+$t\in Z^{d+2}(\mathrm{Mix}(A\otimes B))$, where $(A\otimes B)_{I,J}$ is the image of $A_I\otimes B_J$ in $E\otimes_\C E'$. Then there are finitely
+many triples $(p_k,a_k,b_k)$ with $p_k\le d$, $a_k\in Z^{d-p_k}(\hlfcC^\bullet(A))$, $b_k\in Z^{p_k}(\hlfcC^\bullet(B))$ such that
+\[
+  t-\sum_k a_k\boxtimes b_k\in B^{d+2}(\mathrm{Mix}(A\otimes B)),\qquad (a\boxtimes b)_{I\sqcup\bar J}=a_I\otimes b_J .
+\]
+\formallabel{UpperTheory.Gal.productCup_of_system.kunDec_of}
+\end{lemma}
+
+\begin{proof}
+$\mathrm{Mix}(A\otimes B)$ is, up to the shift by $2$ and signs, the tensor product over $\C$ of the complexes $\hlfcC^\bullet(A)$ and $\hlfcC^\bullet(B)$.
+Over a field, the K\"unneth map $\bigoplus_{p+q=n}\hlfcH^p(A)\otimes\hlfcH^q(B)\to H^n(\hlfcC^\bullet(A)\otimes\hlfcC^\bullet(B))$ is an isomorphism
+\cite[Thm.~3.6.3]{Weibel1994}; surjectivity in total degree $d$ gives the decomposition (finitely many terms, as every element of a tensor
+product is a finite sum of pure tensors).
+\end{proof}
+
+\subsubsection*{Edge maps}
+For a cochain $y$ of $\hlfcC^\bullet(M)$ on $[d]$ define the cochains $\mathrm{edge}_1(y)$ and $\mathrm{edge}_2(y)$ of a mixed complex by
+$\mathrm{edge}_1(y)_{I\sqcup\bar J}=y_I$ if $|J|=1$ and $0$ otherwise, and $\mathrm{edge}_2(y)_{I\sqcup\bar J}=y_J$ if $|I|=1$ and $0$ otherwise.
+For families $a$ on $[d]$ and $b$ on $[d]$ (or on $\bar{[d]}$) and a bilinear $\mu$, $\mathrm{join}_\mu(a,b)_{I\sqcup\bar J}=\mu(a_I,b_J)$.
+
+\begin{lemma}[Edge relations]\label{pf:hlf-chart:edgerel}
+Let $\gamma$ be a $p$-cocycle of the \v{C}ech complex of a family $(G_s)$ indexed by the subsets of $[d]\sqcup[d]$, write
+$\gamma^{(1)}=(\gamma_{I\sqcup\emptyset})_I$ and $\gamma^{(2)}=(\gamma_{\emptyset\sqcup\bar J})_J$, and let $\mathrm{Mix}(G)$ be the mixed complex of
+$G_{I,J}=G_{I\sqcup\bar J}$. Then $\mathrm{edge}_2(\gamma^{(2)})-(-1)^p\,\mathrm{edge}_1(\gamma^{(1)})\in B^{p+2}(\mathrm{Mix}(G))$. In particular, for
+a $p$-cocycle $\alpha$ of an increasing family $(G_s)_{s\subseteq[d]}$, $\mathrm{edge}_2(\alpha)-(-1)^p\mathrm{edge}_1(\alpha)$ is a coboundary of
+the mixed complex of $(G_{I\cup J})$.
+\formallabel{UpperTheory.Gal.productCup_of_system.edgeRel_of}
+\end{lemma}
+
+\begin{proof}
+Let $\eta$ be the $(p+1)$-cochain of $\mathrm{Mix}(G)$ with $\eta_{I\sqcup\bar J}=\gamma_{I\sqcup\bar J}$ ($I,J\ne\emptyset$). For $I,J\ne\emptyset$
+with $|I|+|J|=p+2$, the cocycle condition $(\delta\gamma)_{I\sqcup\bar J}=0$ differs from $(\partial\eta)_{I\sqcup\bar J}$ exactly by the terms
+in which the removed index empties $I$ or $J$: removing the only element of $I$ (sign $+1$, as it is the smallest index) gives $\gamma_{\emptyset\sqcup\bar J}$,
+and removing the only element of $J$ (sign $(-1)^{|I|}=(-1)^{p+1}$) gives $\gamma_{I\sqcup\emptyset}$. Hence
+$\partial\eta=-\mathrm{edge}_2(\gamma^{(2)})+(-1)^p\mathrm{edge}_1(\gamma^{(1)})$. For the second statement apply this to the pull-back
+$\gamma$ of $\alpha$ along the map $[d]\sqcup[d]\to[d]$ which is the identity on both copies: $\gamma_{I\sqcup\bar J}=\varepsilon\,\alpha_{I\cup J}$
+if $I\cap J=\emptyset$, where $\varepsilon$ is the sign of the permutation putting the elements of $I\sqcup J$ in increasing order, and
+$\gamma_{I\sqcup\bar J}=0$ otherwise. Identifying cochains indexed by subsets with alternating cochains, $\gamma$ is the image of $\alpha$
+under the refinement map, which commutes with the differentials; so $\gamma$ is a $p$-cocycle (with $\gamma_{I\sqcup\bar J}\in G_{I\cup J}$),
+and $\gamma^{(1)}=\gamma^{(2)}=\alpha$.
+\end{proof}
+
+\subsection{The diagonal}\label{pf:hlf-chart:ss:diag}
+
+Throughout this subsection we assume \ref{pf:hlf-chart:H1} for $K$ (only $K$ is involved) and fix $a\le d$, a top coefficient $\tau$ and a residue
+functional $\rho$.
+
+\subsubsection*{The product system and kernels}
+The \emph{product system} $T_Z$ has $S=K\otimes_\C K$ acting on $E=\Omega^\bullet_K\otimes_\C\Omega^\bullet_K$ factorwise, $X_i=x_i\otimes1$,
+$Y_i=1\otimes x_i$, $R_{I,J}=B_I\otimes B_J$ and $M_{I,J}=\Omega^{d-a}(B_I)\otimes\Omega^a(B_J)$ (images in $E$; for $I$ or $J$ empty these play no
+role). It is good by \cref{pf:hlf-chart:rybasic,pf:hlf-chart:omloc} and since $x_m/x_i\in A_I\subseteq B_I$ for $i\in I$
+(\lref{UpperTheory.Gal.productCup_of_system.goodZ_of}). Its mixed complex $\mathrm{Mix}(T_Z)$ is the \v{C}ech complex of the product cover of
+$X\times X$ for the sheaf $\Omega^{d-a}\boxtimes\Omega^a$. Let $\hlfcmult\colon K\otimes K\to K$ be the multiplication.
+
+For $m=\sum_k\beta_k\otimes\beta'_k\in E$ and $w\in\Omega^\bullet_K$ put
+\[
+  \mu_\tau(m,w)=\sum_k\Tr_{K/F}\bigl(\tau(\beta_k\wedge w)\bigr)\otimes\beta'_k\in F\otimes_\C\Omega^\bullet_K,
+\]
+and let $\hlfcmult_F,\hlfcres_\rho\colon F\otimes_\C\Omega^\bullet_K\to\Omega^\bullet_K$ be $f\otimes\beta\mapsto f\beta$ and $f\otimes\beta\mapsto\rho(f)\beta$. We say that
+$m$ \emph{acts as} $\gamma\in K$ if $\hlfcmult_F(\mu_\tau(m,w))=\gamma w$ for all $w\in\Omega^a_K$. Note that $\hlfcres_\rho\mu_\tau(\beta\otimes\beta',w)=\theta(\beta\wedge w)\beta'$.
+For a cochain $t$ of $\mathrm{Mix}(T_Z)$ and a cochain $\alpha$ of $\hlfcC^\bullet(B_\bullet,a)$ define the \emph{transform}
+\begin{equation}\label{eq:pf:hlf-chart:transform}
+  (t\star\alpha)_J=\sum_{i\in[d]}\hlfcres_\rho\,\mu_\tau\bigl(t_{\{0..i\}\sqcup\bar J},\,\alpha_{\{i..d\}}\bigr)\qquad(J\subseteq[d]).
+\end{equation}
+For cochains $e$ of $\hlfcC^\bullet(B_\bullet,d-a)$ and $f$ of $\hlfcC^\bullet(B_\bullet,a)$ we have $(e\boxtimes f)\star\alpha=\langle e,\alpha\rangle f$
+(compare \eqref{eq:pf:hlf-chart:pair}).
+
+For a set $L$ of $d$ ordered pairs $l=(l_1,l_2)\in[d]^2$ let
+\[
+  \kappa_L=\det\begin{pmatrix}e_0\\ x_{l_1}x_{l_2}\,(e_{l_1}-e_{l_2})\ \ (l\in L)\end{pmatrix}\in F\subseteq K,
+\]
+the determinant of the $(d+1)\times(d+1)$ matrix whose first row is the unit vector $e_0$ and whose other rows, in increasing order of $l$, are
+the rows $x_{l_1}x_{l_2}(e_{l_1}-e_{l_2})$; it is the image under $\hlfcmult$ of the analogous determinant formed with the rows of the derivatives of
+the minors $\mu_l=X_{l_1}Y_{l_2}-X_{l_2}Y_{l_1}$ (\lref{UpperTheory.Gal.productCup_of_system.kapInd_of}). For $L=D_0=\{(m,0):1\le m\le d\}$,
+$\kappa_{D_0}=x_0^d\prod_{m\ge1}x_m=x_0^{2d}\prod_{l\in[d]}(x_l/x_0)$.
+
+\begin{definition}[Diagonal data]\label{pf:hlf-chart:def:zf}
+\emph{Diagonal Koszul data} are admissible Koszul data $(n,z)$ for $T_Z$, indexed by a finite totally ordered set $\kappa$, such that
+$\hlfcmult(z_l)=0$ for all $l$, and such that for every $i\in[d]$ the elements $b\in B_{\{i\}}$ for which $z_l=(X_iY_i)^N(b\otimes1-1\otimes b)$ and
+$n_l=(N,N)$ for some $l$ and $N$ generate $B_{\{i\}}$ as a $\C$-algebra. A cocycle $c$ of $\mathrm{Tot}_{T_Z}(\mu)$, the \v{C}ech--Koszul complex of
+the minors, is \emph{diagonal} if $c_{\{i\}\sqcup\{\bar j\}\sqcup L}$ acts as $(-1)^d\kappa_L$ for all $i,j\in[d]$ and all sets $L$ of $d$ pairs.
+\formal{UpperTheory.Gal.productCup_of_system.ZF}\formal{UpperTheory.Gal.productCup_of_system.IsDiag}
+\end{definition}
+
+Geometrically, the minors cut out the diagonal of $\mathbb P^d\times\mathbb P^d$, hence $X\times_{\mathbb P^d}X$ in $X\times X$, and the $z_l$ cut out the
+diagonal of $X$ inside $X\times_{\mathbb P^d}X$. A diagonal cocycle is a \v{C}ech--Koszul representative of the class of the diagonal, normalized
+at the local level by the condition that its top Koszul components act as the identity (up to the factor $(-1)^d\kappa_L$).
+
+\begin{lemma}[Diagonal data exist]\label{pf:hlf-chart:zfam}
+There are diagonal Koszul data $(n,z)$ indexed by $\kappa=\{1,\dots,M\}$.
+\formallabel{UpperTheory.Gal.productCup_of_system.zFam_of}
+\end{lemma}
+
+\begin{proof}
+For each $i$ choose finitely many $\C$-algebra generators $b$ of $B_{\{i\}}$ (\cref{pf:hlf-chart:ryft}). For each such $b$ and each $i'\in[d]$,
+$b\in B_{\{i\}}\subseteq B_{\{i,i'\}}$, so $b\,(x_i/x_{i'})^{N}\in B_{\{i'\}}$ for large $N$ (\cref{pf:hlf-chart:rybasic}(c)); choose $N=N(b)$ working for all
+$i'$ and put $z=(X_iY_i)^N(b\otimes1-1\otimes b)$, $n=(N,N)$. Then $\hlfcmult(z)=x_i^{2N}(b-b)=0$, and for all $i',j'$
+\[
+  \frac{z}{X_{i'}^NY_{j'}^N}=\Bigl(\frac{x_i}{x_{i'}}\Bigr)^Nb\otimes\Bigl(\frac{x_i}{x_{j'}}\Bigr)^N-\Bigl(\frac{x_i}{x_{i'}}\Bigr)^N\otimes\Bigl(\frac{x_i}{x_{j'}}\Bigr)^Nb
+  \in B_{\{i'\}}\otimes B_{\{j'\}},
+\]
+so the data are admissible. Enumerate all these elements.
+\end{proof}
+
+\begin{lemma}[A diagonal cocycle]\label{pf:hlf-chart:zex}
+Let $(n,z)$ be diagonal Koszul data. There is a cocycle $c\in Z^{d+2}(\mathrm{Tot}_{T_Z}(\mu\sqcup z))$, for the Koszul data consisting of the minors
+(bidegree $(1,1)$) followed by $(n,z)$, whose restriction to the minors is diagonal.
+\formallabel{UpperTheory.Gal.productCup_of_system.zEx_of}
+\end{lemma}
+
+\begin{proof}
+We use the following results of the development.
+(i) For $i\in I$, $j\in J$, the Koszul complex of the $d$ dehomogenized minors $r_{(m,j)}(i,j)$, $m\ne j$, on $M_{I,J}$ is exact below $d$,
+and an element of $M_{I,J}$ which acts as $0$ lies in the submodule generated by these minors
+(\lref{UpperTheory.Gal.productCup_of_system.colZ_of}); in the chart $X_iY_j\ne0$ the elements $r_{(m,j)}(i,j)$ are, up to units, the
+differences $s_m\otimes1-1\otimes s_m$ of the affine coordinates, which form a regular sequence on $M_{I,J}$, a lattice over $A_I\otimes A_J$
+(\lref{UpperTheory.Gal.productCup_of_system.latOm_of} and \lref{UpperTheory.Gal.productCup_of_system.regLat_of}), and the second statement
+is the trace duality of \cref{pf:hlf-chart:dual} (\lref{UpperTheory.Gal.productCup_of_system.dualForm_of}).
+(ii) For all $i,j$ there is a $d$-cocycle $c^0_{ij}$ of the $(\{i\},\{j\})$-column complex of the Koszul data $\mu\sqcup z$ whose components at the
+sets $L$ of $d$ minors act as $(-1)^d\kappa_L$ (\lref{UpperTheory.Gal.productCup_of_system.zCol_of}): it is obtained from the Koszul cocycle
+formed by the maximal minors of the matrix of derivatives of the $\mu_l$ (\lref{UpperTheory.Gal.productCup_of_system.thMu_of}), multiplied
+by a kernel which acts as $\hlfcmult$ of the relevant determinant (\lref{UpperTheory.Gal.productCup_of_system.idIJ_of}), and extended to the
+$z_l$ by \cref{pf:hlf-chart:koszul}(d) (the products of $z_l$ with such a kernel act as $\hlfcmult(z_l)\cdot(\ )=0$, the kernels compatible with the
+action forming a module over $K\otimes K$, \lref{UpperTheory.Gal.productCup_of_system.actsLin_of}).
+
+By (i) and \cref{pf:hlf-chart:sysbasic}(e), \cref{pf:hlf-chart:koszul}(c), all column complexes of $\mathrm{Tot}_{T_Z}(\mu\sqcup z)$ are exact below $d$.
+On an overlap $(\{i,i'\},\{j\})$ or $(\{i\},\{j,j'\})$ consider the difference of the two cocycles $c^0$ (regarded in the column of the overlap,
+\cref{pf:hlf-chart:sysbasic}(e)). Its component at $D_j$ is the difference of two elements acting as $(-1)^d\kappa_{D_j}$, hence acts as $0$, hence
+lies in the submodule generated by the minors indexed by $D_j$ by (i); so the difference is a column coboundary by \cref{pf:hlf-chart:koszul}(e).
+\Cref{pf:hlf-chart:glue}(a) glues the $c^0_{ij}$ to a cocycle $c$ of degree $d+2$ with $(\{i\},\{\bar j\})$-columns $c^0_{ij}$. Its restriction to the
+minors (\cref{pf:hlf-chart:sysbasic}(d)) has components $c_{\{i\}\sqcup\{\bar j\}\sqcup L}=(c^0_{ij})_L$ for sets $L$ of $d$ minors, so it is diagonal.
+\end{proof}
+
+\begin{lemma}[The diagonal acts as the identity]\label{pf:hlf-chart:zact}
+Let $c$ be a diagonal cocycle of $\mathrm{Tot}_{T_Z}(\mu)$ of degree $d+2$. Then for every $q$ and every $\alpha\in Z^q(\hlfcC^\bullet(B_\bullet,a))$,
+$\alpha-\mathrm{top}(c)\star\alpha\in B^q(\hlfcC^\bullet(B_\bullet,a))$.
+\formallabel{UpperTheory.Gal.productCup_of_system.zAct_of}
+\end{lemma}
+
+\begin{proof}
+The proof compares $c$ with an explicit cocycle over $\mathbb P^d\times X$. Let $T_P$ be the system with $S=F\otimes K$ acting on $F\otimes\Omega^\bullet_K$,
+$X_i=x_i\otimes1$, $Y_i=1\otimes x_i$, $R_{I,J}=A_I\otimes B_J$ and $M_{I,J}=\Omega_F(I)\otimes\Omega^a(B_J)$. Let $\alpha\in Z^q$. The development
+proves:
+(i) the cochain $\Theta$ with
+$\Theta_{I\sqcup\bar J\sqcup L}=(-1)^{q(|J|+|L|)}\sum_{i\in I}\mu_\tau(c_{\{i'\in I:i'\le i\}\sqcup\bar J\sqcup L},\alpha_{\{i'\in I:i'\ge i\}})$
+is a cocycle of $\mathrm{Tot}_{T_P}(\mu)$ of degree $d+q+2$, vanishing in Koszul degrees $>d$, and $\hlfcmult_F(\Theta_{b\sqcup L})=
+\varepsilon\,\kappa_L\,\mathrm{edge}_1(\alpha)_b$ for $|L|=d$, with $\varepsilon=(-1)^{q(d+1)+d}$ (\lref{UpperTheory.Gal.productCup_of_system.pCup_of};
+this uses that $c$ is diagonal);
+(ii) there is a cocycle $\Theta'$ of $\mathrm{Tot}_{T_P}(\mu)$ of the same degree, vanishing in Koszul degrees $>d$, with
+$\hlfcmult_F(\Theta'_{b\sqcup L})=\varepsilon'\,\kappa_L\,\mathrm{edge}_2(\alpha)_b$ for $|L|=d$, $\varepsilon'=(-1)^{(q+1)d}$, and
+$\Theta'_{[d]\sqcup\bar J\sqcup\emptyset}=1\otimes\alpha_J$ for all $J$ (\lref{UpperTheory.Gal.productCup_of_system.pTheta_of}); it is built from
+the Koszul cocycle of maximal minors over $\mathbb P^d$, which is explicit (\lref{UpperTheory.Gal.productCup_of_system.mJ_of});
+(iii) a cocycle of $\mathrm{Tot}_{T_P}(\mu)$ vanishing in Koszul degrees $>d$ whose top Koszul components are $\kappa_L$ times a coboundary of the
+mixed complex of $(\Omega^a(B_{I\cup J}))$ is a coboundary (\lref{UpperTheory.Gal.productCup_of_system.pCmp_of}; this is
+\cref{pf:hlf-chart:glue}(b) combined with the exactness of the columns, \lref{UpperTheory.Gal.productCup_of_system.colP_of});
+(iv) if $t$ is a coboundary of $\mathrm{Mix}(T_P)$ then $(\hlfcres_\rho t_{[d]\sqcup\bar J})_J$ is a coboundary of $\hlfcC^\bullet(B_\bullet,a)$
+(\lref{UpperTheory.Gal.productCup_of_system.pInt_of}; by \cref{pf:hlf-chart:rho}(b), $\rho$ kills the components over index sets $I\ne[d]$).
+
+By \cref{pf:hlf-chart:edgerel}, $\mathrm{edge}_2(\alpha)-(-1)^q\mathrm{edge}_1(\alpha)$ is a coboundary of the mixed complex. Since
+$\varepsilon\varepsilon'=(-1)^q$, the top Koszul components of $\Theta-\Theta'$ satisfy
+$\hlfcmult_F((\Theta-\Theta')_{b\sqcup L})=-\varepsilon'\kappa_L(\mathrm{edge}_2(\alpha)-(-1)^q\mathrm{edge}_1(\alpha))_b$, so (iii) shows that
+$\Theta-\Theta'$ is a coboundary of $\mathrm{Tot}_{T_P}(\mu)$. Its top part is then a coboundary of $\mathrm{Mix}(T_P)$ (\cref{pf:hlf-chart:sysbasic}(b)),
+and by (iv) $(\hlfcres_\rho(\Theta-\Theta')_{[d]\sqcup\bar J\sqcup\emptyset})_J$ is a coboundary of $\hlfcC^\bullet(B_\bullet,a)$. Since $\rho(1)=1$, the
+second term is $\alpha$. In the first, only $|J|=q+1$ contributes (the components of $c$ have $i+1+|J|=d+2$ and those of $\alpha$ have $d-i+1=q+1$),
+the sign is $(-1)^{q(q+1)}=1$, and the term is $\mathrm{top}(c)\star\alpha$ by \eqref{eq:pf:hlf-chart:transform}.
+\end{proof}
+
+\begin{lemma}[Transforms of coboundaries]\label{pf:hlf-chart:rcuptop}
+If $t\in B^{d+2}(\mathrm{Mix}(T_Z))$ and $\alpha\in Z^q(\hlfcC^\bullet(B_\bullet,a))$, then $t\star\alpha\in B^q(\hlfcC^\bullet(B_\bullet,a))$.
+\formallabel{UpperTheory.Gal.productCup_of_system.rCupTop_of}
+\end{lemma}
+
+\begin{proof}
+Let $t=\partial s$. Expanding $\partial s$ by the decomposition of the differential along $[d]\sqcup\bar{[d]}$ (\cref{pf:hlf-chart:def:wcx}), the
+part of $\partial s$ differentiating in the second copy gives, after the transform, $\pm\delta(s\star\alpha)$; the part differentiating in the first
+copy gives, by the computation of \cref{pf:hlf-chart:adj} with $J$ as a passive parameter and $\delta\alpha=0$, a sum of terms
+$\hlfcres_\rho\mu_\tau(s_{I'\sqcup\bar J},\alpha_{I''})$ with $I'\cup I''\subseteq[d]\smallsetminus\{i\}$ for some $i$. Such terms vanish: their first
+factors are $\Tr_{K/F}\tau(\beta\wedge w)$ with $\beta\wedge w\in\Omega^d(B_{[d]\smallsetminus\{i\}})$, which lie in $\Omega_F([d]\smallsetminus\{i\})$
+(\cref{pf:hlf-chart:trreg}(a)) and are killed by $\rho$. Hence $t\star\alpha=\pm\delta(s\star\alpha)$.
+\end{proof}
+
+\begin{lemma}[Dual decomposition of the diagonal]\label{pf:hlf-chart:zid}
+Let $c$ be a diagonal cocycle of $\mathrm{Tot}_{T_Z}(\mu)$ of degree $d+2$. There are finitely many triples $(p_k,e_k,f_k)$ with $p_k\le d$,
+$e_k\in Z^{d-p_k}(\hlfcC^\bullet(B_\bullet,d-a))$ and $f_k\in Z^{p_k}(\hlfcC^\bullet(B_\bullet,a))$ such that
+\begin{equation}\label{eq:pf:hlf-chart:topdec}
+  \mathrm{top}(c)-\sum_ke_k\boxtimes f_k\in B^{d+2}(\mathrm{Mix}(T_Z)),
+\end{equation}
+and every $\alpha\in Z^q(\hlfcC^\bullet(B_\bullet,a))$ satisfies \eqref{eq:pf:hlf-chart:dualdec}.
+\formallabel{UpperTheory.Gal.productCup_of_system.zId_of}
+\end{lemma}
+
+\begin{proof}
+$\mathrm{top}(c)$ is a cocycle of $\mathrm{Mix}(T_Z)=\mathrm{Mix}(A\otimes B)$ with $A_I=\Omega^{d-a}(B_I)$, $B_J=\Omega^a(B_J)$ (\cref{pf:hlf-chart:sysbasic}(b)),
+and these families are increasing (\cref{pf:hlf-chart:rybasic,pf:hlf-chart:omloc}). \Cref{pf:hlf-chart:kundec} gives the triples and
+\eqref{eq:pf:hlf-chart:topdec}. Let $\alpha\in Z^q$. By \cref{pf:hlf-chart:zact}, $\alpha\equiv\mathrm{top}(c)\star\alpha$; by
+\cref{pf:hlf-chart:rcuptop} applied to the coboundary in \eqref{eq:pf:hlf-chart:topdec}, $\mathrm{top}(c)\star\alpha\equiv\sum_k(e_k\boxtimes f_k)\star\alpha
+=\sum_k\langle e_k,\alpha\rangle f_k$, modulo $B^q$. Finally $\langle e_k,\alpha\rangle=0$ unless $p_k=q$: the summand $j$ of
+\eqref{eq:pf:hlf-chart:pair} needs $j+1=d-p_k+1$ and $d-j+1=q+1$.
+\end{proof}
+
+\subsection{The correspondence and the localization}\label{pf:hlf-chart:ss:graph}
+
+In this subsection we assume \ref{pf:hlf-chart:H1}--\ref{pf:hlf-chart:H3}.
+
+\subsubsection*{The graph system}
+The \emph{graph system} $T_Y$ has $S=K'$ acting on $E=\Omega^\bullet_{K'}$ by multiplication, $X_i=x_i$, $Y_i=j_2(x_i)$, $R_{I,J}=B'_{I,J}$ and
+$M_{I,J}=\Omega^d(B'_{I,J})$; it is good by \cref{pf:hlf-chart:rybasic,pf:hlf-chart:omloc}, as $x_m/x_i\in B'_I$ and $j_2(x_m/x_j)\in B''_J$ for
+$i\in I$, $j\in J$. Its mixed complex is the \v{C}ech complex of $\Omega^d_Y$ for the product of the covers $(c_1^{-1}U_i)$ and $(c_2^{-1}U_j)$. The
+\emph{graph maps} are the $\C$-algebra map $g\colon K\otimes K\to K'$, $b\otimes b'\mapsto j_1(b)j_2(b')$, and the $\C$-linear map
+\[
+  \gamma\colon\Omega^\bullet_K\otimes\Omega^\bullet_K\to\Omega^\bullet_{K'},\qquad\beta\otimes\beta'\mapsto j_1^*\beta\wedge j_2^*\beta'.
+\]
+We extend $\gamma$ to cochains componentwise.
+
+\begin{lemma}[Pull-back along the graph]\label{pf:hlf-chart:gmap}
+For $a\le d$: $g$ maps the minors of $T_Z$ to the minors $x_mj_2(x_{m'})-x_{m'}j_2(x_m)$ of $T_Y$; $\gamma(s\cdot m)=g(s)\gamma(m)$;
+$g(B_I\otimes B_J)\subseteq B'_{I,J}$; $\gamma$ maps $\mathrm{Mix}(T_Z)$-coboundaries to $\mathrm{Mix}(T_Y)$-coboundaries; and for all Koszul data $(n,z)$ of
+$T_Z$, $\gamma$ maps cocycles of $\mathrm{Tot}_{T_Z}(n,z)$ to cocycles of $\mathrm{Tot}_{T_Y}(n,g(z))$.
+\formallabel{UpperTheory.Gal.productCup_of_system.gMap_of}
+\end{lemma}
+
+\begin{proof}
+The first three statements follow from the definitions and \cref{pf:hlf-chart:rybasic}(b), since $j_1^*$ and $j_2^*$ are ring homomorphisms. In
+particular $\gamma(\Omega^{d-a}(B_I)\otimes\Omega^a(B_J))\subseteq\Omega^{d-a}(B'_{I,J})\wedge\Omega^a(B'_{I,J})\subseteq\Omega^d(B'_{I,J})$, and $\gamma$
+maps the modules $u_L\,M^Z_{I,J}$ to $g(u_L)\,M^Y_{I,J}$, with $g(X_i)=x_i$ and $g(Y_i)=j_2(x_i)$. As $\gamma$ is linear, applied componentwise, and
+satisfies $\gamma(z_l m)=g(z_l)\gamma(m)$, it commutes with the weighted differentials.
+\end{proof}
+
+\begin{lemma}[Cup products and edges]\label{pf:hlf-chart:lcup}
+Let $\mu\colon E\times E'\to E''$ be bilinear, $(A_I)$ a family of subspaces of $E$ indexed by the subsets of $[d]$, $(G_s)$ one of $E'$ indexed by
+the subsets of $[d]\sqcup[d]$, and $(H_{I,J})$ one of $E''$, such that $\mu(A_{I'},G_s)\subseteq H_{I,J}$ whenever $\emptyset\ne I'\subseteq I$,
+$\emptyset\ne s\subseteq I\sqcup\bar J$ and $J\ne\emptyset$. Let $a\in Z^q(\hlfcC^\bullet(A))$ and $\gamma\in Z^p(\hlfcC^\bullet(G))$, and put
+$\gamma^{(1)}=(\gamma_{I\sqcup\emptyset})_I$, $\gamma^{(2)}=(\gamma_{\emptyset\sqcup\bar J})_J$. Then $a\cup_\mu\gamma^{(1)}$ is a $(p+q)$-cocycle and
+\[
+  \mathrm{join}_\mu(a,\gamma^{(2)})-(-1)^p\,\mathrm{edge}_1(a\cup_\mu\gamma^{(1)})\in B^{p+q+2}(\mathrm{Mix}(H)).
+\]
+\formallabel{UpperTheory.Gal.productCup_of_system.lCupRel_of}
+\end{lemma}
+
+\begin{proof}
+$\delta(a\cup\gamma^{(1)})=\delta a\cup\gamma^{(1)}\pm a\cup\delta\gamma^{(1)}=0$ by the Leibniz rule. Let $\tilde a$ be the cochain on $[d]\sqcup[d]$
+with $\tilde a_{I\sqcup\emptyset}=a_I$ and $\tilde a_{I\sqcup\bar J}=0$ for $J\ne\emptyset$. Then $(\delta\tilde a)_{I\sqcup\{\bar j\}}=(-1)^{|I|}a_I$ and
+all other components of $\delta\tilde a$ vanish, so $\Gamma=\tilde a\cup_\mu\gamma$ satisfies
+$(\delta\Gamma)_{I\sqcup\bar J}=(\delta\tilde a\cup\gamma)_{I\sqcup\bar J}=(-1)^{|I|}\mu(a_I,\gamma_{\emptyset\sqcup\bar J})$ for $J\ne\emptyset$ (the only
+splitting point is $\min\bar J$), while $\Gamma_{\emptyset\sqcup\bar J}=0$ and $\Gamma_{I\sqcup\emptyset}=(a\cup\gamma^{(1)})_I$. Let $\eta$ be the
+cochain of $\mathrm{Mix}(H)$ with $\eta_{I\sqcup\bar J}=\Gamma_{I\sqcup\bar J}=\sum_{i\in I}\mu(a_{\{i'\in I:i'\le i\}},\gamma_{\{i'\in I:i'\ge i\}\sqcup\bar J})$
+for $I,J\ne\emptyset$; it lies in $\mathrm{Mix}(H)$ by the hypothesis on $\mu$. As in the proof of \cref{pf:hlf-chart:edgerel},
+$(\partial\eta)_{I\sqcup\bar J}$ is $(\delta\Gamma)_{I\sqcup\bar J}$ minus the terms in which the removed index empties $I$ or $J$; with $|I|=q+1$ in the
+first and $|I|=p+q+1$ in the last term this gives
+$\partial\eta=(-1)^{q+1}\bigl(\mathrm{join}_\mu(a,\gamma^{(2)})-(-1)^p\mathrm{edge}_1(a\cup\gamma^{(1)})\bigr)$.
+\end{proof}
+
+\begin{lemma}[Exact rows]\label{pf:hlf-chart:rowex}
+Assume \ref{pf:hlf-chart:H1}, \ref{pf:hlf-chart:H2}, and let $\emptyset\ne I\subseteq[d]$, $q\ge0$. The weighted \v{C}ech complex on $[d]$ with modules
+$\Omega^q(B'_{I,J})$ for \emph{all} $J\subseteq[d]$ (including $J=\emptyset$, where the module is $\Omega^q(B'_I)$) and weights $1$ is exact.
+\formallabel{UpperTheory.Gal.productCup_of_system.rowEx_of}
+\end{lemma}
+
+\begin{proof}
+All modules are $B'_I$-modules (\cref{pf:hlf-chart:omloc}) and $B'_I$ is a finitely generated $\C$-algebra (\cref{pf:hlf-chart:ryft}), so it suffices to
+prove exactness after localization at the maximal ideal $\ker e$ of every character $e$ of $B'_I$
+(\cite[Prop.~3.9]{AtiyahMacdonald1969} and the Nullstellensatz; the development proves this local--global principle directly,
+\lref{UpperTheory.Gal.productCup_of_system.lG_of}). By \cref{pf:hlf-chart:omloc} the localized modules are $\Omega^q$ of the rings
+$(B'_I)_e\cdot B''_J$. Choose $i\in I$; by \ref{pf:hlf-chart:H2} applied to the restriction of $e$ to $B'_{\{i\}}$ there is $j\in[d]$ with
+$B''_{\{j\}}\subseteq(B'_{\{i\}})_e\subseteq(B'_I)_e$, and then $(B'_I)_e\cdot B''_{J\cup\{j\}}=(B'_I)_e\cdot B''_J$ for all $J$, since
+$B''_{J\cup\{j\}}=B''_J[j_2(x_{j'}/x_j)]$ for $j'\in J$ (\cref{pf:hlf-chart:rybasic}(c)) and $j_2(x_{j'}/x_j)\in B''_{\{j\}}$ (for $J=\emptyset$ the
+claim is $B''_{\{j\}}\subseteq(B'_I)_e$). For such a family the complex is contractible: the map $h(c)_J=\pm c_{J\cup\{j\}}$ ($j\notin J$),
+$h(c)_J=0$ ($j\in J$), with the sign making $j$ the first index, satisfies $\delta h+h\delta=\mathrm{id}$, as in the proof of
+\cite[III, Lemma~4.2]{Hartshorne1977}.
+\end{proof}
+
+\begin{lemma}[Edge injectivity]\label{pf:hlf-chart:edgeb}
+Assume \ref{pf:hlf-chart:H1}, \ref{pf:hlf-chart:H2}. If $y\in Z^d(\hlfcC^\bullet(B'_\bullet,d))$ and $\mathrm{edge}_1(y)\in B^{d+2}(\mathrm{Mix}(T_Y))$, then
+$y\in B^d(\hlfcC^\bullet(B'_\bullet,d))$.
+\formallabel{UpperTheory.Gal.productCup_of_system.edgeB_of}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal D$ be the weighted \v{C}ech complex on $[d]\sqcup[d]$ with modules $\Omega^d(B'_{I,J})$ for $I\ne\emptyset$ (and all $J$, including $\emptyset$)
+and $0$ for $I=\emptyset$, and weights $1$. Filtering by $|I|$, its graded pieces are the complexes of \cref{pf:hlf-chart:rowex}, which are exact; hence
+$\mathcal D$ is exact (\cite[Lemma~2.7.3]{Weibel1994}, the filtration being finite). Let $\tilde y$ be the cochain of $\mathcal D$ with
+$\tilde y_{I\sqcup\emptyset}=y_I$ and all other components $0$. Since $\delta y=0$, $\partial\tilde y$ has only the components
+$(\partial\tilde y)_{I\sqcup\{\bar j\}}=(-1)^{|I|}y_I$, i.e.\ $\partial\tilde y=(-1)^{d+1}\mathrm{edge}_1(y)$, regarded in $\mathcal D$. If
+$\mathrm{edge}_1(y)=\partial\xi$ with $\xi$ a cochain of $\mathrm{Mix}(T_Y)\subseteq\mathcal D$, then $\tilde y-(-1)^{d+1}\xi$ is a cocycle of $\mathcal D$, hence
+$=\partial\zeta$. Taking components with $J=\emptyset$ (where $\xi$ vanishes and only differentials in the first copy occur) gives
+$y=\delta\bigl((\zeta_{I\sqcup\emptyset})_I\bigr)$.
+\end{proof}
+
+\subsubsection*{The fibre over the origin}
+
+\begin{lemma}[Points of the fibre]\label{pf:hlf-chart:crt}
+Let $x$ define a finite cover of $L$ with $B_{\{0\}}(L)/(t_1,\dots,t_d)$ reduced. Then $\hlfcfib_L$ is finite, and for every function
+$v\colon\hlfcfib_L\to\C$ there is $h\in B_{\{0\}}(L)$ with $e(h)=v(e)$ for all $e\in\hlfcfib_L$.
+\formallabel{UpperTheory.Gal.productCup_of_system.cRT_of}
+\end{lemma}
+
+\begin{proof}
+$B=B_{\{0\}}(L)$ is finite over $A_{\{0\}}$ (\cref{pf:hlf-chart:ryft}), so $B/(t)$ is a finite-dimensional reduced $\C$-algebra, hence isomorphic to
+$\C^{\hlfcfib_L}$ by the Chinese remainder theorem, its characters being the elements of $\hlfcfib_L$. Lift the element $v$ along the surjection
+$B\to B/(t)$.
+\end{proof}
+
+Let $dt_\star=dt_1\wedge\dots\wedge dt_d=\bigl(\prod_{l\ge1}t_l\bigr)\omega'_0\in\Omega^d(B'_{\{0\}})$ (in $K'$; similarly in $K$). The \emph{origin data} of
+$T_Y$ are the Koszul data $(x_1,\dots,x_d)$ of bidegree $(1,0)$; their dehomogenizations at $(0,j)$ are $t_1,\dots,t_d$, which cut out
+$\hlfcfib$ in the chart $B'_{\{0\}}$. For diagonal Koszul data $(n,z)$ of $T_Z$ (\cref{pf:hlf-chart:def:zf}) the \emph{fixed-point data} of $T_Y$ are the
+images under $g$ of the minors followed by $(n,g(z))$; they cut out the points where $c_1$ and $c_2$ agree.
+
+\begin{lemma}[Value of the pulled-back diagonal kernel]\label{pf:hlf-chart:valg}
+Assume \ref{pf:hlf-chart:H1}--\ref{pf:hlf-chart:H6}, \ref{pf:hlf-chart:H9} and \eqref{eq:pf:hlf-chart:tan}, and let $a\le d$. If
+$m\in\Omega^{d-a}(B_{\{0\}})\otimes\Omega^a(B_{\{0\}})$ acts as $\prod_{l\ge1}t_l$, then $\gamma(m)=s\,dt_\star$ for some $s\in K'$ with
+$s(e)=[X^a]\det(1+XA_e)$ for every $e\in\mathcal F$ (value in $B'_{\{0\}}$).
+\formallabel{UpperTheory.Gal.productCup_of_system.valG_of}
+\end{lemma}
+
+\begin{proof}
+Write $m=\sum_kw'_k\otimes w_k$. Let $e\in\mathcal F$. By the development: (i) $e$ lies over a point $z$ of the fibre of $B_{\{0\}}$ such that $j_1(v)$
+and $j_2(v)$ have the value $v(z)$ at $e$ whenever $v$ has a value at $z$
+(\lref{UpperTheory.Gal.productCup_of_system.fixZ_of}, from \ref{pf:hlf-chart:H5} and the definition of fixed points); (ii) the local rings at
+points of the fibres are regular with parameters $t_1,\dots,t_d$, and the regular $q$-forms near such a point are the combinations of the
+$dt_S=\bigwedge_{l\in S}dt_l$ ($|S|=q$) with coefficients in the local ring
+(\lref{UpperTheory.Gal.productCup_of_system.locForms_of} and \lref{UpperTheory.Gal.productCup_of_system.dtBasic_of}); (iii) writing
+$w'_k\wedge dt_S=g_{kS}\,dt_\star$ and $w_k=\sum_{|T|=a}b_{kT}\,dt_T$, the values $\alpha_{kS}=g_{kS}(z)$, $\beta_{kT}=b_{kT}(z)$ satisfy
+$\sum_k\alpha_{kS}\beta_{kT}=\delta_{ST}$ for $|S|=|T|=a$, because $m$ acts as $\prod t_l$ and $\omega_0=dt_\star/\prod t_l$
+(\lref{UpperTheory.Gal.productCup_of_system.idVal_of}, which uses \cref{pf:hlf-chart:rt1} and the trace duality); (iv)
+$j_1^*dt_T=dt_T$ and $j_2^*dt_T=\sum_{|S|=|T|}c_{TS}\,dt_S$ with $c_{TS}(e)=\det\bigl((A_e)_{T,S}\bigr)$, by \eqref{eq:pf:hlf-chart:tan}
+(\lref{UpperTheory.Gal.productCup_of_system.dtPull_of}). Then, since $j_1^*dt_\star=dt_\star$,
+$\gamma(m)=\sum_kj_1^*w'_k\wedge j_2^*w_k=\sum_{k,T,S}j_2(b_{kT})\,c_{TS}\,j_1^*w'_k\wedge dt_S=s\,dt_\star$ with
+$s=\sum_{k,T,S}j_1(g_{kS})\,j_2(b_{kT})\,c_{TS}$, all factors having values at $e$; by (i), (iii), (iv),
+$s(e)=\sum_{S,T}\bigl(\sum_k\alpha_{kS}\beta_{kT}\bigr)\det((A_e)_{T,S})=\sum_{|S|=a}\det((A_e)_{S,S})=[X^a]\det(1+XA_e)$ (\cref{pf:hlf-chart:minorsum}).
+\end{proof}
+
+The following three statements are the local heart of the localization; they are proved in the development by the lemmas of
+\cref{pf:hlf-chart:ss:cx} applied to the Koszul complexes of the fixed-point and origin data on $Y$, whose exactness properties
+(\lref{UpperTheory.Gal.productCup_of_system.yCols_of} and \lref{UpperTheory.Gal.productCup_of_system.yKE_of}) come from the following facts:
+at a character of $B'_{I,J}$ at which all fixed-point data vanish, $J=\{0\}$ (by \ref{pf:hlf-chart:H4}) and the character lies over a point of
+$\mathcal F$ (by \ref{pf:hlf-chart:H5}, \ref{pf:hlf-chart:H6}; \lref{UpperTheory.Gal.productCup_of_system.ptG_of}); at $e\in\mathcal F$ the
+dehomogenized minors $r_{(a,0)}(0,0)=t_a-j_2(t_a)$ satisfy $t_a-j_2(t_a)=\sum_lN_{al}t_l$ with $N=(\delta_{al}-g_{al})$, a matrix over the local ring
+whose determinant has the value $\det(1-A_e)\ne0$, so that conversely the $t_l$ lie locally in the ideal of the $r_{(a,0)}(0,0)$, by
+\eqref{eq:pf:hlf-chart:tan}, \ref{pf:hlf-chart:H9} (\lref{UpperTheory.Gal.productCup_of_system.fixLoc_of}); and $t_1,\dots,t_d$ is a regular sequence on the local forms at
+points of the fibre, which is reduced by \ref{pf:hlf-chart:H3} (\lref{UpperTheory.Gal.productCup_of_system.locReg_of} and \lref{UpperTheory.Gal.productCup_of_system.locMax_of}).
+Exactness and membership in ideals are then checked locally (\lref{UpperTheory.Gal.productCup_of_system.lG_of}).
+
+\begin{lemma}[Local cocycles on $Y$]\label{pf:hlf-chart:ybig}
+Assume \ref{pf:hlf-chart:H1}--\ref{pf:hlf-chart:H6}, \ref{pf:hlf-chart:H9} and \eqref{eq:pf:hlf-chart:tan}; let $(n,z)$ be diagonal Koszul data and
+$h\in B'_{\{0\}}$.
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item If $e(h)=0$ for $e\in\hlfcfib\smallsetminus\mathcal F$, there is a cocycle $c_1$ of degree $d+2$ of $\mathrm{Tot}_{T_Y}$ for the fixed-point data
+followed by the origin data, whose component at $\{0\}\sqcup\{\bar0\}\sqcup\{\text{all origin indices}\}$ is $(-1)^dx_0^dh\,dt_\star$ and whose
+$(\{i\},\{\bar j\})$-columns vanish for $(i,j)\ne(0,0)$ \textup{(\lref{UpperTheory.Gal.productCup_of_system.yBig_of})}.
+\item If $e(h)=0$ for $e\in\hlfcfib\smallsetminus\mathcal F$ and $c$ is a cocycle of degree $d+2$ of $\mathrm{Tot}_{T_Y}$ for the origin data, with component
+$(-1)^dx_0^dh\,dt_\star$ at $\{0\}\sqcup\{\bar0\}\sqcup\{1..d\}$ and vanishing $(\{i\},\{\bar j\})$-columns for $(i,j)\ne(0,0)$, then
+$\mathrm{top}(c)-\mathrm{edge}_1(h\omega'_0)\in B^{d+2}(\mathrm{Mix}(T_Y))$, where $h\omega'_0$ denotes the $d$-cochain of $\hlfcC^\bullet(B'_\bullet,d)$ with
+component $h\omega'_0$ at $[d]$ \textup{(\lref{UpperTheory.Gal.productCup_of_system.yCmpT_of})}.
+\item If $s\in K'$ has the value $e(h)\det(1-A_e)$ at every $e\in\mathcal F$, $c_1$ is as in \textup{(a)}, and $c'$ is a cocycle of degree $d+2$ of
+$\mathrm{Tot}_{T_Y}$ for the fixed-point data with component $(-1)^d(x_0j_2(x_0))^ds\,dt_\star$ at $\{0\}\sqcup\{\bar0\}\sqcup D_0$, then
+$\mathrm{top}(c')-\mathrm{top}(c_1)\in B^{d+2}(\mathrm{Mix}(T_Y))$ \textup{(\lref{UpperTheory.Gal.productCup_of_system.yCmpG_of})}.
+\end{enumerate}
+\end{lemma}
+
+The idea is the transformation law of local residues: (a) and (b) say that the class of the Koszul cocycle
+$h\,dt_\star/(t_1\cdots t_d)$ supported on the fibre is the \v{C}ech class $h\omega'_0$ on $\bigcap_iB'_{\{i\}}$ (the residue map in \v{C}ech form), while
+(c) changes the regular sequence $t$ into the sequence $t-j_2(t)$ cutting out the fixed points, which multiplies the local component by
+$\det(N)$, whose value at $e$ is $\det(1-A_e)$ (\cref{pf:hlf-chart:koszul}(f)). We do not reproduce the bookkeeping of the columns.
+
+\begin{lemma}[Localization]\label{pf:hlf-chart:ymain}
+Assume \ref{pf:hlf-chart:H1}--\ref{pf:hlf-chart:H6}, \ref{pf:hlf-chart:H9} and \eqref{eq:pf:hlf-chart:tan}; let $a\le d$, $(n,z)$ diagonal Koszul data
+and $c\in Z^{d+2}(\mathrm{Tot}_{T_Z}(\mu\sqcup z))$ a cocycle whose restriction to the minors is diagonal. Then there is $h\in B'_{\{0\}}$ such that
+\begin{enumerate}[label=\textup{(\alph*)},nosep]
+\item $\gamma(\mathrm{top}(c))-\mathrm{edge}_1(h\omega'_0)\in B^{d+2}(\mathrm{Mix}(T_Y))$;
+\item the cochain $h\omega'_0$ (component at $[d]$ only) is a $d$-cocycle of $\hlfcC^\bullet(B'_\bullet,d)$;
+\item $\sum_{e\in\hlfcfib}e(h)=\sum_{e\in\mathcal F}\hlfcloc_a(A_e)$.
+\end{enumerate}
+\formallabel{UpperTheory.Gal.productCup_of_system.yMain_of}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:hlf-chart:crt} choose $h\in B'_{\{0\}}$ with $e(h)=\hlfcloc_a(A_e)$ for $e\in\mathcal F$ and $e(h)=0$ for $e\in\hlfcfib\smallsetminus\mathcal F$;
+this gives (c). For (b): $\omega'_0\in\Omega^d(B'_{[d]})$ since the $t_l$ are units in $B'_{[d]}$, and a cochain concentrated at $[d]$ in degree $d$ is
+a cocycle (there are no sets of cardinality $d+2$).
+
+For (a), let $c_0=c_{\{0\}\sqcup\{\bar 0\}\sqcup D_0}$ (the $D_0$-minors, with no index from $\kappa$). Its column lies in $u\,M^Z_{\{0\},\{0\}}$ with
+$u=(X_0Y_0)^d$ (\cref{pf:hlf-chart:sysbasic}(a)), so $c_0=u\,m'$ with $m'\in\Omega^{d-a}(B_{\{0\}})\otimes\Omega^a(B_{\{0\}})$. As the restriction of $c$
+to the minors is diagonal, $c_0$ acts as $(-1)^d\kappa_{D_0}$; hence $m=(-1)^dm'=(-1)^du^{-1}c_0$ acts as
+$\hlfcmult((-1)^du^{-1})(-1)^d\kappa_{D_0}=x_0^{-2d}\kappa_{D_0}=\prod_{l\ge1}t_l$ (the computation of $\kappa_{D_0}$ above; kernels which act form
+a module, \lref{UpperTheory.Gal.productCup_of_system.actsLin_of}). By \cref{pf:hlf-chart:valg}, $\gamma(m)=s\,dt_\star$ with
+$s(e)=[X^a]\det(1+XA_e)=e(h)\det(1-A_e)$ for $e\in\mathcal F$, and therefore
+\[
+  \gamma(c_0)=g\bigl((-1)^du\bigr)\gamma(m)=(-1)^d\bigl(x_0j_2(x_0)\bigr)^d s\,dt_\star .
+\]
+By \cref{pf:hlf-chart:gmap}, $c'=\gamma(c)$ is a cocycle of degree $d+2$ of $\mathrm{Tot}_{T_Y}$ for the fixed-point data, with component $\gamma(c_0)$ at
+$\{0\}\sqcup\{\bar0\}\sqcup D_0$. Let $c_1$ be the cocycle of \cref{pf:hlf-chart:ybig}(a). By \cref{pf:hlf-chart:ybig}(c),
+$\mathrm{top}(c')-\mathrm{top}(c_1)$ is a coboundary of $\mathrm{Mix}(T_Y)$. The restriction of $c_1$ to the origin data is a cocycle
+(\cref{pf:hlf-chart:sysbasic}(d)) with the same top part, the component $(-1)^dx_0^dh\,dt_\star$ at $\{0\}\sqcup\{\bar0\}\sqcup\{1..d\}$ and vanishing
+$(\{i\},\{\bar j\})$-columns for $(i,j)\ne(0,0)$; by \cref{pf:hlf-chart:ybig}(b), $\mathrm{top}(c_1)-\mathrm{edge}_1(h\omega'_0)$ is a coboundary. Adding,
+and using $\mathrm{top}(\gamma(c))=\gamma(\mathrm{top}(c))$, gives (a).
+\end{proof}
+
+\subsection{Proof of the core statement}\label{pf:hlf-chart:ss:core}
+
+\begin{proof}[Proof of \cref{pf:hlf-chart:core}]
+Fix a top coefficient $\tau$ for $K$ (\cref{pf:hlf-chart:dlog}) and a residue functional $\rho$ (\cref{pf:hlf-chart:rho}); let $\theta$ be the trace
+functional of $K$ and $\langle\ ,\ \rangle$ the pairing \eqref{eq:pf:hlf-chart:pair}.
+
+\emph{Step 1: the diagonal.} Choose diagonal Koszul data $(n,z)$ (\cref{pf:hlf-chart:zfam}) and a cocycle $c\in Z^{d+2}(\mathrm{Tot}_{T_Z}(\mu\sqcup z))$
+whose restriction $c^\mu$ to the minors is diagonal (\cref{pf:hlf-chart:zex}); $c^\mu$ is a cocycle (\cref{pf:hlf-chart:sysbasic}(d)) and
+$\mathrm{top}(c^\mu)=\mathrm{top}(c)$. By \cref{pf:hlf-chart:zid} there are triples $(p_k,e_k,f_k)_{1\le k\le M}$ with $p_k\le d$,
+$e_k\in Z^{d-p_k}(\hlfcC^\bullet(B_\bullet,d-a))$, $f_k\in Z^{p_k}(\hlfcC^\bullet(B_\bullet,a))$, satisfying \eqref{eq:pf:hlf-chart:topdec} and
+\eqref{eq:pf:hlf-chart:dualdec}.
+
+\emph{Step 2: the trace as a sum of pairings.} By \ref{pf:hlf-chart:H10} applied to $f_k$ there are $\tilde b_k\in Z^{p_k}(\hlfcC^\bullet(B'_{\bullet\bullet},a))$
+with $(\tilde b_k)_{\emptyset\sqcup\bar J}=j_2^*((f_k)_J)$ for all $J$, such that $g_k=(\Tr(\tilde b_k)_{I\sqcup\emptyset})_I$ is a $p_k$-cocycle of
+$\hlfcC^\bullet(B_\bullet,a)$ with $u_{p_k}[f_k]=[g_k]$. By \cref{pf:hlf-chart:alttrace},
+\begin{equation}\label{eq:pf:hlf-chart:step2}
+  \sum_{q=0}^d(-1)^q\tr(u_q)=\sum_k(-1)^{p_k}\langle e_k,g_k\rangle .
+\end{equation}
+
+\emph{Step 3: a cocycle on $Y$.} Put $a_k=(j_1^*(e_k)_I)_I$ and $b_k=((\tilde b_k)_{I\sqcup\emptyset})_I$. Since $j_1(B_I)\subseteq B'_I$
+(\cref{pf:hlf-chart:rybasic}) and $j_1^*$ commutes with $\delta$, $a_k\in Z^{d-p_k}(\hlfcC^\bullet(B'_\bullet,d-a))$; $b_k$ is the restriction of the
+cocycle $\tilde b_k$ to the index sets contained in the first copy of $[d]$, hence $b_k\in Z^{p_k}(\hlfcC^\bullet(B'_\bullet,a))$ ($B'_{I,\emptyset}=B'_I$). Let
+\[
+  \Lambda=\sum_k(-1)^{p_k}\,a_k\cup_\wedge b_k ,
+\]
+a $d$-cocycle of $\hlfcC^\bullet(B'_\bullet,d)$ (\cref{pf:hlf-chart:lcup}, or the Leibniz rule; $\Omega^{d-a}(B'_{I'})\wedge\Omega^a(B'_{I''})\subseteq\Omega^d(B'_I)$ for
+$I',I''\subseteq I$ by \cref{pf:hlf-chart:rybasic,pf:hlf-chart:omloc}).
+
+\emph{Step 4: comparison with the pulled-back diagonal.} Apply \cref{pf:hlf-chart:lcup} with $\mu=\wedge$, $A_I=\Omega^{d-a}(B'_I)$,
+$G_{I\sqcup\bar J}=\Omega^a(B'_{I,J})$ and $H_{I,J}=\Omega^d(B'_{I,J})$; its hypothesis holds by the monotonicity of $B'_{I,J}$
+(\cref{pf:hlf-chart:rybasic}(a)) and \cref{pf:hlf-chart:omloc}. With $a=a_k$, $\gamma=\tilde b_k$ we get
+\[
+  \mathrm{join}_\wedge(a_k,\tilde b_k^{(2)})-(-1)^{p_k}\,\mathrm{edge}_1(a_k\cup_\wedge b_k)\in B^{d+2}(\mathrm{Mix}(T_Y)).
+\]
+Here $\mathrm{join}_\wedge(a_k,\tilde b_k^{(2)})_{I\sqcup\bar J}=j_1^*(e_k)_I\wedge j_2^*(f_k)_J=\gamma\bigl((e_k\boxtimes f_k)_{I\sqcup\bar J}\bigr)$. By
+\eqref{eq:pf:hlf-chart:topdec} and \cref{pf:hlf-chart:gmap}, $\gamma(\mathrm{top}(c))-\sum_k\gamma(e_k\boxtimes f_k)$ is a coboundary of
+$\mathrm{Mix}(T_Y)$. Summing,
+\[
+  \gamma(\mathrm{top}(c))-\mathrm{edge}_1(\Lambda)\in B^{d+2}(\mathrm{Mix}(T_Y)).
+\]
+
+\emph{Step 5: localization.} Let $h\in B'_{\{0\}}$ be as in \cref{pf:hlf-chart:ymain}. Subtracting \cref{pf:hlf-chart:ymain}(a) from the last relation,
+$\mathrm{edge}_1(\Lambda-h\omega'_0)\in B^{d+2}(\mathrm{Mix}(T_Y))$, where $\Lambda-h\omega'_0$ is a $d$-cocycle by \cref{pf:hlf-chart:ymain}(b). By
+\cref{pf:hlf-chart:edgeb}, $\Lambda-h\omega'_0\in B^d(\hlfcC^\bullet(B'_\bullet,d))$. By \cref{pf:hlf-chart:trtop}, \cref{pf:hlf-chart:rt1} (for $L=K'$,
+using \ref{pf:hlf-chart:H1} and \ref{pf:hlf-chart:H3}) and \cref{pf:hlf-chart:ymain}(c),
+\begin{equation}\label{eq:pf:hlf-chart:step5}
+  \theta\bigl(\Tr(\Lambda_{[d]})\bigr)=\theta\bigl(\Tr(h\omega'_0)\bigr)=\rho\bigl(\Tr_{K'/F}h\bigr)=\sum_{e\in\hlfcfib}e(h)=\sum_{e\in\mathcal F}\hlfcloc_a(A_e).
+\end{equation}
+
+\emph{Step 6: the pairings.} For each $k$, by the projection formula (\cref{pf:hlf-chart:trdr}),
+\[
+  \Tr\bigl((a_k\cup_\wedge b_k)_{[d]}\bigr)=\sum_j\Tr\bigl(j_1^*(e_k)_{\{0..j\}}\wedge(\tilde b_k)_{\{j..d\}\sqcup\emptyset}\bigr)
+  =\sum_j(e_k)_{\{0..j\}}\wedge(g_k)_{\{j..d\}},
+\]
+so $\theta(\Tr((a_k\cup b_k)_{[d]}))=\langle e_k,g_k\rangle$ and $\theta(\Tr(\Lambda_{[d]}))=\sum_k(-1)^{p_k}\langle e_k,g_k\rangle$. Comparing with
+\eqref{eq:pf:hlf-chart:step2} and \eqref{eq:pf:hlf-chart:step5} gives $\sum_{q=0}^d(-1)^q\tr(u_q)=\sum_{e\in\mathcal F}\hlfcloc_a(A_e)$.
+\end{proof}
+
+\begin{remark}[Scope]\label{pf:hlf-chart:rem:scope}
+The proof uses the operators $u_q$ only through the lifts of the finitely many cocycles $f_k$, and it shows that the spaces $\hlfcH^q(B_\bullet,a)$
+are finite-dimensional (\cref{pf:hlf-chart:alttrace}), which is why \ref{pf:hlf-chart:H11} is not needed. The hypothesis \ref{pf:hlf-chart:H7} is
+not used.
+\end{remark}

@@ -1,0 +1,2378 @@
+\section{Theta lifts between definite unitary groups}\label{sec:pf:tlift}
+
+\providecommand{\tliftS}{\mathcal{S}}
+\providecommand{\tliftPol}{\mathcal{P}}
+\providecommand{\tliftPD}{\mathcal{P}_{\A}}
+\providecommand{\tliftAE}{\A_E}
+\providecommand{\tliftdia}{\Delta}
+\providecommand{\tliftK}{K_2}
+\providecommand{\tliftKfr}{K_{\mathrm{fr}}}
+\providecommand{\tliftht}{\mathsf{a}}
+\providecommand{\tliftlift}{\Theta}
+\providecommand{\tliftZ}{Z}
+\providecommand{\tliftM}{M}
+\providecommand{\tliftLW}{\mathrm{LW}}
+\providecommand{\tliftLP}{\mathrm{LP}}
+\providecommand{\tliftInt}{K^{\mathrm{int}}}
+\providecommand{\tliftGinf}{G_\infty}
+\providecommand{\tliftGS}{G_S}
+\providecommand{\tliftGoff}{G^{S}}
+\providecommand{\tliftvac}{\varphi^{\circ}}
+\providecommand{\tliftsymp}{\langle\cdot,\cdot\rangle}
+\providecommand{\tliftV}{V}
+\providecommand{\tliftPP}{\mathbf{P}}
+\providecommand{\tliftE}{\widehat{E}}
+
+This section proves \cref{thm:galois:tlift}: the statement $\sfname{TLiftK}$ of
+\cref{def:galois:tliftk}, an existence theorem for global theta lifts from a totally definite unitary
+group $\Uni(X)$ of rank $n$ to totally definite unitary groups $\Uni(W)$ of every rank $d$ beyond a
+threshold $d_0$, with control of the archimedean weights and of the local components at the split
+places. It is used in step (iv) of the proof of \cref{thm:galois:reduction}(b), to pass from odd to even
+rank.
+
+\subsubsection*{The idea}
+Let $\omega$ be a Weil representation of $\Uni(X)(\A)\times\Uni(W)(\A)$ on the Schwartz--Bruhat space of
+$M_{n\times d}(\A)$ (with $\A$ the adeles of the totally real field $F=E^+$), split by Hecke
+characters $\chi_X,\chi_W$ \cite{Weil1964,Kudla1994}, and let $\theta(g,h;\Phi)$ be the associated
+theta series. For an automorphic form $\varphi$ on $\Uni(X)$ the theta lift
+\[
+  \tliftlift(\Phi,\varphi)(h)=\int_{\Uni(X)(F)\backslash\Uni(X)(\A)}\theta(g,h;\Phi)\,\overline{\varphi(g)}\,dg
+\]
+is an automorphic form on $\Uni(W)$, and it depends equivariantly on $(\Phi,\varphi)$. Three things have
+to be shown.
+\begin{enumerate}[label=(\arabic*),nosep]
+\item \emph{Archimedean matching.} In the Fock model of $\omega$ at the infinite places (where both
+  groups are compact) one finds a polynomial Fock vector $f_0$ which generates, under $\Uni(X)(F_\infty)$,
+  the same irreducible type as a vector $\varphi$ of the given automorphic representation $U$, and whose
+  $\Uni(W)(F_\infty)$-type has the prescribed highest weight $\lambda'$. Here the joint highest weight
+  vectors of the pair $(\GL_n,\GL_d)$ acting on polynomials on $M_{n\times d}$ are used
+  \cite{KashiwaraVergne1978,Howe1989}.
+\item \emph{Non-vanishing.} For $d\ge d_0$ the doubling integral
+  $\int_{\Uni(X)(\A)}\langle\omega(g)\Phi,\Phi\rangle\,\overline{\langle\varphi(\cdot\,g),\varphi\rangle}\,dg$ converges
+  absolutely, and it vanishes if $\tliftlift(\Phi,\varphi)=0$: this is the Rallis inner product
+  argument \cite{Rallis1984,PiatetskiShapiroRallis1987,Li1992}, deduced from the Siegel--Weil formula on the
+  doubled group $\Uni(X\oplus(-X))$ \cite{Weil1965,KudlaRallis1988,Ichino2007}. On the other hand, the
+  doubling integral is \emph{not} zero for $\Phi=f_0\otimes\bigotimes_v\phi_v$ with suitable ``bump
+  vectors'' $\phi_v$ at finitely many places: the integrand vanishes off a small open subgroup at these
+  places, the archimedean integral is computed by Schur orthogonality, and the contribution of the
+  remaining places is controlled by a tail estimate. The threshold $d_0$ comes from an integrability
+  exponent of a height function on the doubled group.
+\item \emph{Reading off the lift.} A nonzero lift has a nonzero equivariant projection to an
+  automorphic representation $U'$ of $\Uni(W)$; $U'$ has the weights determined by $f_0$, and at a split
+  place the equivariance of the lift produces a nonzero equivariant map from the Schwartz space to
+  antilinear maps between the local components, i.e.\ the type II local theta correspondence
+  \cite{Minguez2008}.
+\end{enumerate}
+The formal proof \cite{LeanSource2026} follows this plan. It proves everything it uses about the Weil
+representation, the Siegel--Weil formula and the Fock model; we state these results precisely in
+\cref{pf:tlift:tools}, compare them with their published forms in \cref{pf:tlift:classical}, and convert the
+arguments that are specific to this proof.
+
+\subsubsection*{Organisation}
+\Cref{pf:tlift:setting} defines the objects in the statement and restates \cref{thm:galois:tlift}.
+\Cref{pf:tlift:tools} introduces Schwartz spaces, Heisenberg operators, Weil representations, theta
+series and the polynomial Fock space, and states the analytic and representation-theoretic tools
+(including the Siegel--Weil formula). \Cref{pf:tlift:classical} gives the published forms of the Weil
+representation and of the Siegel--Weil formula, the differences with the formal statements, and the structure of
+their formal proofs. \Cref{pf:tlift:dblgrp} treats the doubled group: compactness of the standard maximal compact
+subgroup, the Iwasawa decomposition, heights and the integrability exponent. \Cref{pf:tlift:rallis}
+proves the Rallis inner product statement. \Cref{pf:tlift:nonvan} proves the non-vanishing of the
+doubling integral. \Cref{pf:tlift:real} constructs the archimedean data, \cref{pf:tlift:autsec} shows that
+lifts are automorphic forms, \cref{pf:tlift:read} projects and reads off the lift, and
+\cref{pf:tlift:proof} assembles the proof.
+
+% ---------------------------------------------------------------------------
+\subsection{Setting and statement}\label{pf:tlift:setting}
+
+Throughout, $E$ is a CM field, $F=E^+$ its maximal totally real subfield, and $x\mapsto\bar x$ the
+complex conjugation of $E$; it is also used for the induced automorphisms of $E\otimes_FR$ for
+$F$-algebras $R$, and on matrices entrywise. We write $\A=\A_F$, $\A_f$ for the finite adeles,
+$F_\infty=F\otimes_\Q\R$, and $\tliftAE=\A\otimes_FE$. For a finite place $v$ of $F$ (a nonzero prime of
+$\OO_F$) let $F_v$, $\OO_v$ and $\Nm v$ be the completion, its valuation ring and the norm. For an
+infinite place $w$ of $F$ we fix below an embedding $\tau_w\colon E\to\C$ above $w$; then
+$E\otimes_FF_w\cong\C$ via $\tau_w$, and we write $\tau_w$ also for the induced maps $\tliftAE\to\C$ and on
+matrices. If a finite place $v$ splits in $E$, an $F$-embedding $t\colon E\to F_v$ determines the place
+$w_t$ of $E$ above $v$ at which $t$ is continuous, an isomorphism $F_v\cong E_{w_t}$, and a projection
+$\pi_t\colon\tliftAE\to F_v$. Let $\eta$ be the quadratic character of $\A^\times$ which is trivial
+exactly on $F^\times\Nm(\tliftAE^\times)$.
+
+\begin{definition}[Good CM data]\label{pf:tlift:good}
+\emph{Base data} for $E$ consist of a character $\psi\colon\A\to\C^\times$; for each infinite place $w$ of
+$F$ an embedding $\tau_w\colon E\to\C$ above $w$; a finite set $P$ of finite places of $F$ with an
+$F$-embedding $t_v\colon E\to F_v$ for each $v\in P$; and some further entries (two integer-valued
+functions on the infinite places and one more finite place with an embedding), which play no role in
+this section. The base data are \emph{good} if:
+\begin{enumerate}[label=(G\arabic*),nosep]
+\item $E/F$ is a CM extension: $F$ is totally real, $E$ is totally complex, $[E:F]=2$, and
+  $\tau(\bar x)=\overline{\tau(x)}$ for every $\tau\colon E\to\C$ and $x\in E$;
+\item $E$ contains a square root of $-D$ for some integer $D>0$;
+\item $E/F$ is unramified at every finite place;
+\item $\psi$ is \emph{standard}: continuous, trivial on $F$, and $\psi(a)=\exp(-2\pi i\Tr_{F_\infty/\R}a)$
+  for every $a\in\A$ whose finite components vanish;
+\item every finite place $v$ of $F$ which is inert in $E$ satisfies $v\nmid2$ and $\Nm v>3$, and
+  $\psi_v=\psi|_{F_v}$ is unramified at $v$, i.e.\ $\{x\in F_v:\psi_v(x\OO_v)=1\}=\OO_v$;
+\item $\psi_v$ is unramified at every $v\in P$.
+\end{enumerate}
+\formal{UpperTheory.TP.W.GoodK}
+\end{definition}
+
+For $J\in M_m(E)$ and $x,y\in E^m$ (or in $\tliftAE^m$) we put $h_J(x,y)={}^tx\,J\,\bar y$.
+
+\begin{definition}[Hermitian and skew-hermitian spaces]\label{pf:tlift:spaces}
+Fix base data. A \emph{space of dimension $m$} is a tuple $Y=(J,L,\vartheta,b)$ with $J\in M_m(E)$, an
+$\OO_E$-submodule $L\subset E^m$, matrices $\vartheta_w\in M_m(\C)$ for the infinite places $w$ of $F$, and
+$b_v\in\GL_m(F_v)$ for the finite places $v$. It is a \emph{hermitian space of signature $(r,s)$} if
+\begin{enumerate}[label=(H\arabic*),nosep]
+\item ${}^t\bar J=J$;
+\item for every $w$ the hermitian matrix $\tau_w(J)$ has signature $(r,s)$: $r+s=m$ and
+  ${}^tA\,\tau_w(J)\,\bar A=\mathrm{diag}(1_r,-1_s)$ for some $A\in M_m(\C)$;
+\item $L$ is a lattice in $E^m$;
+\item $L$ is self-dual: $L=\{y\in E^m:h_J(y,x)\in\OO_E\text{ for all }x\in L\}$;
+\item $\vartheta_w$ is a Cartan involution of $\tau_w(J)$: $\vartheta_w^2=1$,
+  ${}^t\vartheta_w\,\tau_w(J)\,\bar\vartheta_w=\tau_w(J)$ and $\Re\,h_{\tau_w(J)}(\vartheta_wz,z)>0$ for $z\ne0$;
+\item for $v\in P$, $b_v$ is a basis of the $\OO_v$-lattice $t_v(L\otimes_{\OO_F}\OO_v)\subset F_v^m$.
+\end{enumerate}
+It is a \emph{skew-hermitian space of signature $(r,s)$} if (H3) and (H6) hold and
+\begin{enumerate}[label=(S\arabic*),nosep]
+\item ${}^t\bar J=-J$;
+\item[(S2)] $i\,\tau_w(J)$ has signature $(r,s)$ for every $w$;
+\item[(S4)] $L=\{y:\Tr_{E/\Q}(o\,h_J(y,x))\in\Z\text{ for all }x\in L,\ o\in\OO_E\}$;
+\item[(S5)] $\vartheta_w$ is a Cartan involution of $i\,\tau_w(J)$.
+\end{enumerate}
+A space is \emph{definite} if $\min(r,s)=0$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc}
+\end{definition}
+
+If $Y$ is definite, then $\vartheta_w=\pm1$: an involution preserving a definite form has no eigenvector
+$z$ of eigenvalue $\mp1$ by the positivity in (H5). The space $(1_n,L,1,b)$ with $L$ self-dual for the
+standard form is a positive definite hermitian space; this is the space $X$ of the statement below.
+
+\subsubsection*{Unitary groups and automorphic representations}
+For a nondegenerate $J\in M_m(E)$ and an $F$-algebra $R$ let
+$\Uni_J(R)=\{g\in\GL_m(R\otimes_FE):{}^tg\,J\,\bar g=J\}$, and for a space $Y$ write
+$\Uni(Y)=\Uni_{J_Y}$. The group $\Uni_J(\A)$ is a closed subgroup of $\GL_m(\tliftAE)$, locally compact,
+second countable and Hausdorff, and
+$\Uni_J(F)=\Uni_J(\A)\cap\GL_m(E)$.
+
+The statement uses the \emph{standard} model $\Uni_n(\A)=\{g\in\GL_n(\A_E):{}^tg\,\bar g=1\}$, where $\A_E$ is
+the adele ring of $E$. It contains the subgroups $\Uni_n(E)$ of rational points, $\Uni_n(E_\infty)$ of
+elements with trivial finite components, $\Uni_n(\A_f)$ of elements with trivial infinite components,
+for each infinite place $w$ of $F$ the subgroup $\Uni_n(F_w)$ of elements of $\Uni_n(E_\infty)$ which are
+trivial at the infinite places other than $w$, with the isomorphism $k\mapsto\tau_w(k)$ onto the compact
+group $\Uni(n)\subset\GL_n(\C)$, and for each finite place $w$ of $E$ the subgroup $\Uni_n(F_v)$,
+$v=w|_F$, of elements of $\Uni_n(\A_f)$ with trivial components at the places of $E$ not above $v$, with
+the projection $c_w\colon\Uni_n(F_v)\to\GL_n(E_w)$. If $v$ splits, $c_w$ is an isomorphism of
+topological groups. We write $R(x)\varphi=\varphi(\,\cdot\,x)$ for right translation.
+
+\begin{definition}[Automorphic forms and representations; weights; local components]\label{pf:tlift:aut}
+Let $n\ge1$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item An \emph{automorphic form} on $\Uni_n$ is a continuous function $\varphi$ on $\Uni_n(\A)$ with
+  $\varphi(\gamma g)=\varphi(g)$ for $\gamma\in\Uni_n(E)$, such that the elements $k\in\Uni_n(\A_f)$ with
+  $R(k)\varphi=\varphi$ form an open subset of $\Uni_n(\A_f)$, and such that the right translates
+  $R(k)\varphi$, $k\in\Uni_n(E_\infty)$, span a finite-dimensional space.
+\item An \emph{automorphic representation} of $\Uni_n$ is a nonzero space $U$ of automorphic forms which
+  is stable under all $R(x)$, $x\in\Uni_n(\A)$, and has no invariant subspaces other than $0$ and $U$.
+\item For a dominant weight $\lambda\in\Z^n$ ($\lambda_1\ge\dots\ge\lambda_n$) let $V_\lambda$ be the
+  irreducible algebraic representation of $\GL_n(\C)$ of highest weight $\lambda$, realised as a
+  space of polynomial functions on $M_n(\C)$ (the dual Weyl module of the dominant weight
+  $\lambda-\lambda_n$), on which $g$ acts by left substitution twisted by $\det(g)^{\lambda_n}$.
+  $U$ has \emph{weight $\lambda$ at $\tau_w$} if there is a
+  nonzero linear map $j\colon V_\lambda\to U$ with $j(V_\lambda(\tau_w(k))x)=R(k)j(x)$ for
+  $k\in\Uni_n(F_w)$.
+\item Let $w$ be a finite place of $E$ and $v=w|_F$. A smooth irreducible representation $\tau$ of
+  $\GL_n(E_w)$ is a \emph{local component} of $U$ at $w$ if there is a nonzero linear map
+  $f\colon\tau\to U$ with $f(\tau(c_w(x))y)=R(x)f(y)$ for $x\in\Uni_n(F_v)$.
+\end{enumerate}
+\formal{GlobalTheory.UnitaryBC.IsAutRepU}
+\end{definition}
+
+\begin{definition}[Splitting characters]\label{pf:tlift:chars}
+A \emph{unitary Hecke character} of $E$ is a continuous homomorphism $\chi\colon\tliftAE^\times\to S^1$
+trivial on $E^\times$. For $m\in\N$ we write $\chi|_{\A^\times}=\eta^m$ if $\chi(a)=1$ for
+$a\in F^\times\Nm(\tliftAE^\times)$ and $\chi(a)=(-1)^m$ for the other $a\in\A^\times$. A family
+$(m(w))_w$ of integers indexed by the infinite places of $F$ is the family of \emph{archimedean exponents}
+of $\chi$ if
+\[
+  \chi(z)=\prod_w\Bigl(\frac{\tau_w(z)}{|\tau_w(z)|}\Bigr)^{m(w)}
+\]
+for every $z\in\tliftAE^\times$ whose finite components are $1$. If $v$ splits and $t\colon E\to F_v$, we
+write $\chi_t$ for the character of $F_v^\times$ obtained from the component of $\chi$ at $w_t$ and the
+isomorphism $F_v\cong E_{w_t}$.
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.HasExp}
+\end{definition}
+
+For a split place $v$, $t\colon E\to F_v$, characters $\nu,\beta$ of $F_v^\times$ and
+$\Phi\colon M_{n\times d}(F_v)\to\C$, $g\in\GL_n(F_v)$, $h\in\GL_d(F_v)$, put
+\begin{equation}\label{eq:tlift:omA}
+  \bigl(\omega^{\nu,\beta}(g,h)\Phi\bigr)(x)=\nu(\det g)^{-1}\beta(\det h)\,|\det g|_v^{-d/2}\,
+  |\det h|_v^{-n/2}\,\Phi\bigl(g^{-1}x\,{}^th^{-1}\bigr),
+\end{equation}
+where $|\cdot|_v$ is the normalised absolute value. Let
+$\tliftS(M_{n\times d}(F_v))$ be the space of locally constant compactly supported functions.
+
+\begin{definition}[Lifts]\label{pf:tlift:islift}
+Let $\lambda\in\Z^n$, $\lambda'\in\Z^d$ be dominant and $m_X,m_W\in\Z$. The relation
+$\tliftLW(\lambda,m_X,m_W,\lambda')$ means
+\begin{equation}\label{eq:tlift:liftwt}
+  2\lambda'_k=\begin{cases}2\lambda_k-d-m_W+n+m_X,&k\le n,\\ n+m_X,&n<k\le d.\end{cases}
+\end{equation}
+For a split place $v$, $t\colon E\to F_v$, unitary Hecke characters $\chi_X,\chi_W$ and smooth irreducible
+representations $\tau$ of $\GL_n(E_{w_t})$ and $\tau'$ of $\GL_d(E_{w_t})$, the relation
+$\tliftLP_t(\chi_X,\chi_W,\tau,\tau')$ means: there is a nonzero linear map $\beta$ from
+$\tliftS(M_{n\times d}(F_v))$ to the antilinear maps $\tau\to\tau'$ such that
+\begin{equation}\label{eq:tlift:locpair}
+  \beta\bigl(\omega^{\chi_{W,t}^{-1},\chi_{X,t}}(g,h)\Phi\bigr)\circ\tau(g)=\tau'(h)\circ\beta(\Phi)
+  \qquad(g\in\GL_n(F_v),\ h\in\GL_d(F_v),\ \Phi\in\tliftS),
+\end{equation}
+with $\GL_n(F_v)\cong\GL_n(E_{w_t})$. Given base data, an automorphic representation $U$ of $\Uni_n$
+with weights $\lambda_w$ at $\tau_w$, and $\chi_X,\chi_W,m_X,m_W$, a space $U'$ of functions on
+$\Uni_d(\A)$ is a \emph{lift} of $U$ if $U'$ is an automorphic representation of $\Uni_d$; for every
+infinite place $w$ it has a weight $\lambda'_w$ at $\tau_w$ with
+$\tliftLW(\lambda_w,m_X(w),m_W(w),\lambda'_w)$; and $\tliftLP_t(\chi_X,\chi_W,\tau,\tau')$ holds for every
+split place $v$, every $t\colon E\to F_v$ and all local components $\tau$ of $U$ and $\tau'$ of $U'$ at
+$w_t$. \formal{UpperTheory.TP.IsLift}
+\end{definition}
+
+In terms of $\lambda_w=\mu_w+a_w$ with $2a_w=d+m_W(w)$ and $2b_w=n+m_X(w)$, \eqref{eq:tlift:liftwt}
+says $\lambda'_w=(\mu_w,0,\dots,0)+b_w$, the Kashiwara--Vergne correspondence of highest weights
+\cite{KashiwaraVergne1978}. Relation \eqref{eq:tlift:locpair} is the statement that $(\tau,\tau')$ occurs
+in the type II local theta correspondence for the Weil representation \eqref{eq:tlift:omA} of
+$\GL_n\times\GL_d$ \cite{Minguez2008}.
+
+\begin{theorem}[\cref{thm:galois:tlift}]\label{pf:tlift:main}
+Let $E$ be a CM field with good base data $(\psi,(\tau_w),P,\dots)$, let $n\ge1$ and let $X$ be an
+$n$-dimensional positive definite hermitian space with $J_X=1_n$. There is $d_0\in\N$ with the following
+property. Let $d\ge d_0$, let $W$ be a $d$-dimensional skew-hermitian space of signature $(d,0)$ with
+$J_W=\delta\cdot1_d$ for some $\delta\in E$, let $\chi_X,\chi_W$ be unitary Hecke characters with
+$\chi_X|_{\A^\times}=\eta^n$, $\chi_W|_{\A^\times}=\eta^d$ and archimedean exponents $m_X,m_W$, and let $U$ be
+an automorphic representation of $\Uni_n$ with weights $\lambda_w$ at $\tau_w$ such that
+\begin{equation}\label{eq:tlift:dom}
+  d+m_W(w)\le2\lambda_{w,k}\qquad\text{for all infinite places $w$ and all $k$.}
+\end{equation}
+Then there is a lift $U'$ of $U$ (\cref{pf:tlift:islift}).
+\formallabel{UpperTheory.TP.K.tLiftK}\formallabel{UpperTheory.TP.tLift_holds_k}
+\end{theorem}
+
+\begin{remark}[On the formal statement]\label{pf:tlift:remstmt}
+\begin{enumerate}[label=(\alph*),nosep]
+\item The second tag is the formal proof; its statement is a verbatim copy of $\sfname{TLiftK}$.
+\item The threshold $d_0$ depends only on $E$, the base data, $n$ and $X$. In the proof
+  $d_0=\max(N,2n)$ for an integer $N>2t_0$, where $t_0$ is an integrability exponent of a height function
+  on the doubled group of $X$ (\cref{pf:tlift:hgtfst}). The formal statement gives no explicit value; tracing the
+  constants of the proof shows that $d_0=5+16n^2[F:\Q]$ is admissible (\cref{pf:tlift:remdzero}).
+\item The archimedean exponents are imposed on all archimedean ideles $z$ (those with finite components $1$);
+  since $E_\infty^\times\cong(\C^\times)^{[F:\Q]}$ is connected, this is equivalent to imposing them near $1$. The relation
+  $\tliftLP$ is required for all pairs of local components (no uniqueness of local components is
+  asserted or needed). No cuspidality is involved: every automorphic form on the compact quotient
+  $\Uni_n(E)\backslash\Uni_n(\A)$ is admitted.
+\item Of the base data only $\psi$, the embeddings $\tau_w$, the set $P$ and the embeddings $t_v$ enter;
+  $P$ enters only through (G6) and (H6).
+\end{enumerate}
+\end{remark}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Weil representations, theta series and the tools}\label{pf:tlift:tools}
+
+In this subsection $(\psi,(\tau_w),P,\dots)$ are good base data, $X$ is a hermitian space of dimension $n$
+and $W$ a skew-hermitian space of dimension $d$ (\cref{pf:tlift:spaces}), and $\kappa=\{1,\dots,n\}\times
+\{1,\dots,d\}$. For a ring $R$ we identify $R^\kappa$ with $M_{n\times d}(R)$.
+
+\subsubsection*{Schwartz spaces and Heisenberg operators}
+Let $\tliftS(F_\infty^\kappa)$ be the Schwartz space of $F_\infty^\kappa\cong\R^{[F:\Q]nd}$ and, for a finite
+place $v$, $\tliftS(F_v^\kappa)$ the space of locally constant compactly supported functions. The
+\emph{Schwartz--Bruhat space} $\tliftS(\A^\kappa)$ is the span of the functions $f\otimes\phi_f$,
+$x\mapsto f(x_\infty)\phi_f(x_f)$, with $f\in\tliftS(F_\infty^\kappa)$ and $\phi_f$ locally constant with compact
+support on $\A_f^\kappa$. For $f\in\tliftS(F_\infty^\kappa)$ and a family $\phi=(\phi_v)_v$ with
+$\phi_v\in\tliftS(F_v^\kappa)$ and $\phi_v=\one_{\OO_v^\kappa}$ for almost all $v$, the \emph{pure tensor}
+$f\otimes\phi$ is the function $x\mapsto f(x_\infty)\prod_v\phi_v(x_v)$; it lies in $\tliftS(\A^\kappa)$.
+
+Let $h(u,u')=\sum_{i,j,k,l}u_{ij}\,(J_X)_{ik}(J_W)_{jl}\,\bar u'_{kl}$ for $u,u'\in M_{n\times d}(\tliftAE)$ and
+\[
+  \langle u,u'\rangle=-\Tr_{\tliftAE/\A}h(u,u').
+\]
+This is an alternating $\A$-bilinear form, and $(g,h)\cdot u=g\,u\,{}^th$ defines an action of
+$\Uni(X)(\A)\times\Uni(W)(\A)$ preserving it. \emph{Darboux coordinates} are an $\A$-linear isomorphism
+$e=(e_1,e_2)\colon M_{n\times d}(\tliftAE)\to\A^\kappa\times\A^\kappa$ with
+$\langle u,u'\rangle=e_1(u)\cdot e_2(u')-e_1(u')\cdot e_2(u)$. The \emph{Heisenberg operators} are
+\begin{equation}\label{eq:tlift:schr}
+  (\rho(u)\Phi)(x)=\psi\bigl(x\cdot e_2(u)+\tfrac12\,e_1(u)\cdot e_2(u)\bigr)\,\Phi(x+e_1(u))\qquad(x\in\A^\kappa).
+\end{equation}
+An adele, a matrix of adeles or a group element $g$ is \emph{supported at} a finite place $v$ (resp.\ at
+infinity) if it (resp.\ $g-1$) is killed by every adele whose $v$-component (resp.\ archimedean
+component) vanishes. An operator $T$ on functions on $\A^\kappa$ \emph{acts at $v$} by $\phi\mapsto\phi_1$
+($\phi,\phi_1$ functions on $F_v^\kappa$) if $T(\phi\otimes r)=\phi_1\otimes r$ for every function $r$ on
+$\A^\kappa$ which is invariant under translations supported at $v$ and such that $\phi\otimes r$ is a
+Schwartz--Bruhat function; here $(\phi\otimes r)(x)=\phi(x_v)r(x)$. Acting at infinity is defined in the
+same way.
+
+\begin{definition}[Good models]\label{pf:tlift:model}
+A \emph{model} for $(X,W)$ is $M=(e,(\tliftvac_v)_v,\mu,D)$ with Darboux coordinates $e$, functions
+$\tliftvac_v$ on $F_v^\kappa$ for the finite places $v$, a measure $\mu$ on $\Uni(X)(\A)$ and a set
+$D\subset\Uni(X)(\A)$. It is \emph{good} if
+\begin{enumerate}[label=(M\arabic*),nosep]
+\item $e$ maps $M_{n\times d}(E)$ into $F^\kappa\times F^\kappa$;
+\item for every $v$, $\tliftvac_v$ is a \emph{vacuum vector}: $\tliftvac_v\in\tliftS(F_v^\kappa)$, $\tliftvac_v\ne0$, and
+  for some $\vartheta\in\OO_E$ with $\vartheta+\bar\vartheta=1$, every $\gamma$ in the group $\Lambda_v$ generated
+  by the matrices $a\,x\,{}^ty$ ($a\in\A$ supported at $v$ with $a_v\in\OO_v$, $x\in L_X$, $y\in L_W$)
+  satisfies: $\rho(\gamma)$ acts at $v$ by
+  $\tliftvac_v\mapsto\psi\bigl(\tfrac12\Tr_{\tliftAE/\A}(\vartheta\,h(\gamma,\gamma))\bigr)\tliftvac_v$;
+\item $\tliftvac_v=\one_{\OO_v^\kappa}$ for almost all $v$;
+\item $\mu$ is a Haar measure and $D$ is a measurable fundamental domain for the left action of
+  $\Uni(X)(F)$.
+\end{enumerate}
+\formal{GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model.IsGood}
+\end{definition}
+
+\subsubsection*{Weil representations}
+The formal notion of a Weil representation with a splitting is the following characterisation of
+Kudla's splittings \cite{Kudla1994,HarrisKudlaSweet1996} through the action of the Siegel parabolic
+subgroup of a doubled group in the Schr\"odinger model. A linear form $\ell$ on $\tliftS(\A^{\kappa'})$ is
+\emph{admissible} if for every locally constant compactly supported $\phi_f$ on $\A_f^{\kappa'}$ the form
+$f\mapsto\ell(f\otimes\phi_f)$ is continuous on $\tliftS(F_\infty^{\kappa'})$. For $t\in\GL_m(\tliftAE)$ we put
+$|\det t|_{\tliftAE}=|\Nm_{\tliftAE/\A}\det t|_\A$.
+
+\begin{definition}[Weil representations]\label{pf:tlift:weil}
+Let $M$ be a model and $\chi_X,\chi_W$ unitary Hecke characters. A homomorphism $\omega$ from
+$\Uni(X)(\A)\times\Uni(W)(\A)$ to the linear endomorphisms of the space of functions on $\A^\kappa$ is a
+\emph{Weil representation} for $(M,\psi,\chi_X,\chi_W)$ if:
+\begin{enumerate}[label=(W\arabic*),nosep]
+\item $\omega$ preserves $\tliftS(\A^\kappa)$ and is unitary on it for the $L^2$-norm of every Haar measure;
+  $\ell\circ\omega(x)$ is admissible and $x\mapsto\ell(\omega(x)\Phi)$ is continuous for every admissible $\ell$
+  and $\Phi\in\tliftS(\A^\kappa)$; and $\omega(g,h)\rho(u)\Phi=\rho(g\,u\,{}^th)\,\omega(g,h)\Phi$;
+\item (splitting of $\Uni(W)$ by $\chi_X$) there are Darboux coordinates $e^{(2)}$ on
+  $M_{n\times2d}(\tliftAE)$, for the form built from $J_X$ and $\mathrm{diag}(J_W,-J_W)$, with
+  \[e^{(2)}(u_1\,|\,u_2)=\bigl((e_1(u_1),e_1(u_2)),(e_2(u_1),-e_2(u_2))\bigr),\]
+  and a representation
+  $\omega^{(2)}$ of $\Uni_{\mathrm{diag}(J_W,-J_W)}(\A)$ which satisfies (W1) for the action $u\mapsto u\,{}^tg$
+  and the \emph{Siegel rule}: if $\ell$ is admissible and $\ell(\rho^{(2)}(z\,{}^t\tliftdia)\Phi)=\ell(\Phi)$
+  for all $z\in M_{n\times d}(\tliftAE)$, where $\tliftdia={1_d\choose 1_d}$, then
+  \[
+    \ell(\omega^{(2)}(p)\Phi)=\chi_X(\det t)\,|\det t|_{\tliftAE}^{n/2}\,\ell(\Phi)\qquad\text{whenever }p\tliftdia=\tliftdia\,t;
+  \]
+  moreover $\omega^{(2)}(\mathrm{diag}(h,1))(\Phi_1\otimes\Phi_2)=\omega(1,h)\Phi_1\otimes\Phi_2$;
+\item (splitting of $\Uni(X)$ by $\chi_W$) the same with the roles of $X$ and $W$ exchanged, using the
+  coordinates $u\mapsto e({}^tu)$; and $\omega$ is continuous in the sense of (W1).
+\end{enumerate}
+A \emph{Weil pair} $(M,\chi_X,\chi_W,\omega)$ for $(X,W)$ consists of a good model $M$, unitary Hecke
+characters with $\chi_X|_{\A^\times}=\eta^n$ and $\chi_W|_{\A^\times}=\eta^d$, and a Weil representation $\omega$ for
+$(M,\psi,\chi_X,\chi_W)$.
+\formal{GlobalTheory.WeilM.IsUWeilPair}
+\end{definition}
+
+For a Weil pair the \emph{theta series} and the \emph{theta lift} of a function $\varphi$ on
+$\Uni(X)(\A)$ are
+\begin{equation}\label{eq:tlift:theta}
+  \theta(g,h;\Phi)=\sum_{\xi\in F^\kappa}(\omega(g,h)\Phi)(\xi),\qquad
+  \tliftlift_M(\Phi,\varphi)(h)=\int_D\theta(g,h;\Phi)\,\overline{\varphi(g)}\,d\mu(g).
+\end{equation}
+We also use the matrix coefficients, for a Haar measure $\nu$ on $\A^\kappa$,
+\begin{equation}\label{eq:tlift:coef}
+  \tliftZ_\Phi(g)=\int_{\A^\kappa}(\omega(g,1)\Phi)(x)\,\overline{\Phi(x)}\,d\nu(x),\qquad
+  \tliftM_\varphi(g)=\int_D\varphi(yg)\,\overline{\varphi(y)}\,d\mu(y).
+\end{equation}
+
+\subsubsection*{The polynomial Fock space}
+For $u$ supported at infinity (an \emph{archimedean} $u$) and $f\in\tliftS(F_\infty^\kappa)$, let $D_uf$ be the
+function such that $\frac{d}{dt}\big|_{t=0}\rho(tu)(f\otimes r)=D_uf\otimes r$ pointwise, for all
+admissible complementary factors $r$. Let $\vartheta_{X,w},\vartheta_{W,w}$ be the Cartan involutions of $X$ and $W$.
+
+\begin{definition}[Polynomial Fock space]\label{pf:tlift:pol}
+$f_0\in\tliftS(F_\infty^\kappa)$ is a \emph{Gaussian} if there are signs $\varepsilon_w\in\{\pm1\}$ such that
+$D_{u'}f_0=i\,D_uf_0$ for all archimedean $u,u'$ with
+$\tau_w(u')=\varepsilon_w\,i\,\vartheta_{X,w}\,\tau_w(u)\,{}^t\vartheta_{W,w}$ for every $w$. The \emph{polynomial Fock
+space} $\tliftPol=\tliftPol_M$ is the smallest subspace of $\tliftS(F_\infty^\kappa)$ containing the Gaussians
+and stable under all $D_u$. A family $\phi=(\phi_v)_v$ with $\phi_v\in\tliftS(F_v^\kappa)$ for all $v$ and
+$\phi_v=\tliftvac_v$ for almost all $v$ is called \emph{finite data}, and $\tliftPD=\tliftPD(M)$ is the span of the
+pure tensors $f\otimes\phi$ with $f\in\tliftPol$ and finite data $\phi$.
+\formal{GlobalTheory.ThK.PolData}
+\end{definition}
+
+\subsubsection*{The doubled group}
+For a space $Y$ of dimension $m$ let $G_2(Y)=\Uni_{\mathrm{diag}(J_Y,-J_Y)}$, the unitary group of
+$Y\oplus(-Y)$, and $\tliftdia={1_m\choose1_m}$. The \emph{Siegel parabolic} $P$ consists of the $p$ with
+$p\tliftdia=\tliftdia\,t_p$ for some $t_p\in\GL_m$, the \emph{Levi component} of $p$. Put $\iota(g,g')=\mathrm{diag}(g,g')$
+for $g,g'\in\Uni(Y)(\A)$; thus $\iota(g,g)\in P(\A)$ with $t_{\iota(g,g)}=g$. Let $\widehat L_Y\subset\tliftAE^m$ be
+the closure of $L_Y$.
+
+\begin{definition}[Standard maximal compact subgroup, heights]\label{pf:tlift:stab2}
+The \emph{standard maximal compact subgroup} $\tliftK\subset G_2(Y)(\A)$ consists of the $k$ such that
+$\tau_w(k)$ commutes with $\mathrm{diag}(\vartheta_w,-\vartheta_w)$ for every infinite $w$, and both $k$ and $k^{-1}$
+map $\widehat L_Y\oplus\widehat L_Y$ into itself. A \emph{height} for $\tliftK$ is a function $\tliftht$ on
+$G_2(Y)(\A)$ such that $G_2(Y)(\A)=P(\A)\tliftK$ and $\tliftht(pk)=|\det t_p|_{\tliftAE}$ for $p\in P(\A)$,
+$k\in\tliftK$. \formal{GlobalTheory.ThK.Dbl.IsHgt}
+\end{definition}
+
+\subsubsection*{Doubling data, sections and Eisenstein series}
+Let $\kappa_2=\kappa\sqcup\kappa$. For functions $\Phi_1,\Phi_2$ on $\A^\kappa$ let $\Phi_1\boxtimes\bar\Phi_2$ be the
+function $(x,y)\mapsto\Phi_1(x)\overline{\Phi_2(y)}$ on $\A^{\kappa_2}$.
+
+\begin{definition}[Doubling data]\label{pf:tlift:dbl}
+Let $A$ be a space of dimension $m'$ and $Y$ a space of dimension $m$, one hermitian and one
+skew-hermitian, and $\chi$ a unitary Hecke character. \emph{Doubling data} for $(A,Y,\chi)$ consist of
+Darboux coordinates $e^{(2)}$ on $M_{m'\times2m}(\tliftAE)$ (for $J_A$ and $\mathrm{diag}(J_Y,-J_Y)$) mapping
+rational matrices to rational vectors, a Weil representation $\omega_2$ of $G_2(Y)(\A)$ on functions on
+$\A^{\kappa_2}$ ($\kappa_2$ the index set of these coordinates) satisfying (W1) and the Siegel rule of (W2) with
+the character $\chi$ and the Lagrangian $\tliftdia$, a representation $S$ of $\Uni(A)(\A)$ satisfying (W1) for
+the linear action $u\mapsto gu$, and an admissible linear form $\ell$ on $\tliftS(\A^{\kappa_2})$ which is
+invariant under $S$ and under the Heisenberg operators $\rho_2(z\,{}^t\tliftdia)$, and such that
+$\sum_{y\in M_{m'\times m}(E)}\ell\bigl(\rho_2(y\,|\,{-y})\Psi\bigr)=\sum_{\xi\in F^{\kappa_2}}\Psi(\xi)$ for
+$\Psi\in\tliftS(\A^{\kappa_2})$. We write $\theta_2(x,h;\Psi)=\sum_\xi(\omega_2(x)S(h)\Psi)(\xi)$.
+\formal{GlobalTheory.ThK.Dbl.IsDbl}
+\end{definition}
+
+\begin{definition}[Sections, Eisenstein series, continuation]\label{pf:tlift:eiscont}
+A continuous function $f$ on $G_2(Y)(\A)$ is a \emph{section} of exponent $s_1$ for $(\tliftK,\chi)$ if
+$f(px)=\chi(\det t_p)\,|\det t_p|_{\tliftAE}^{s_1+m/2}f(x)$ for $p\in P(\A)$ and the right translates
+$f(\,\cdot\,k)$, $k\in\tliftK$, span a finite-dimensional space. For a height $\tliftht$ and $s\in\C$ put
+$f_s=\tliftht^{\,s-s_1}f$, and let
+\begin{equation}\label{eq:tlift:eis}
+  E(x,s;f)=\sum_{\gamma\in P(F)\backslash G_2(Y)(F)}f_s(\gamma x).
+\end{equation}
+A \emph{continuation} of $E(\cdot,\cdot;f)$ on an open set $\mathcal U\subset\C$ is a function $\tliftE(s,x)$ on
+$\mathcal U\times G_2(Y)(\A)$ such that: $\mathcal U$ is connected and contains a punctured neighbourhood of
+every point of $\C$; there is $t$ with $\{\Re s>t\}\subset\mathcal U$ and \eqref{eq:tlift:eis} converging to
+$\tliftE(s,x)$ there; $\tliftE$ is holomorphic in $s$ and jointly continuous; and $\tliftE$ is of moderate
+growth in $x$, locally uniformly in $s$. \formal{GlobalTheory.ThK.Dbl.IsEisCont}
+\end{definition}
+
+\subsubsection*{The tool package}
+The following results are proved in the development. For those which are classical we give the
+references and do not reproduce the formal proofs.
+
+\begin{theorem}[Weil representations]\label{pf:tlift:weilex}
+Let the base data be good, $X$ hermitian and $W$ skew-hermitian (of any signatures), $M$ a good model,
+and $\chi_X,\chi_W$ unitary Hecke characters with $\chi_X|_{\A^\times}=\eta^n$ and $\chi_W|_{\A^\times}=\eta^d$. Then
+there is a Weil representation for $(M,\psi,\chi_X,\chi_W)$.
+\formallabel{PositivityTheory.ThKW.S.weilEx_k}\formallabel{PositivityTheory.ThKW.S.exists_isWeil_k}
+\end{theorem}
+
+This is the existence of the Weil representation of the dual pair $(\Uni(X),\Uni(W))$ over a number field
+\cite{Weil1964}, with the splitting of the metaplectic cover over the unitary groups attached to the
+characters $\chi_X,\chi_W$ \cite{Kudla1994,HarrisKudlaSweet1996}. The published form, the differences with the
+formal statement and the formal proof are given in \cref{pf:tlift:classical}.
+
+\begin{proposition}[Good models; Weil pairs]\label{pf:tlift:pairex}
+Under the assumptions of \cref{pf:tlift:weilex} (without $M$) a good model exists. Consequently Weil pairs
+$(M,\chi_X,\chi_W,\omega)$ exist for every good model $M$ and all characters as in \cref{pf:tlift:weilex}.
+\formallabel{PositivityTheory.ThKG.Tow.modelEx_k}\formallabel{PositivityTheory.ThKG.Tow.pairEx_of_k}
+\end{proposition}
+
+\begin{proof}
+Rational Darboux coordinates exist (\lref{Tw.RatDarboux.exists_rational_darboux_of_isGood_k}), a Haar
+measure on $\Uni(X)(\A)$ with a fundamental domain exists (\lref{PositivityTheory.ThKF.unimodularity_holds}),
+vacuum vectors exist at every place (\lref{Tw.VacAny.exists_isVac_any_darboux_k}), and
+$\one_{\OO_v^\kappa}$ is a vacuum vector for almost all $v$ (\lref{Tw.VacIndic.eventually_isVac_indicator_k}).
+Take $\tliftvac_v=\one_{\OO_v^\kappa}$ whenever it is a vacuum vector, and some vacuum vector otherwise; then
+(M1)--(M4) hold. The second assertion combines this with \cref{pf:tlift:weilex}.
+\end{proof}
+
+\begin{proposition}[Compact quotients]\label{pf:tlift:cpt}
+Let $Y$ be a definite space. There is a compact $\Omega\subset\Uni(Y)(\A)$ with
+$\Uni(Y)(\A)=\Uni(Y)(F)\,\Omega$; $\Uni(Y)(F)$ is countable; Haar measures on $\Uni(Y)(\A)$ are right invariant;
+fundamental domains for $\Uni(Y)(F)$ exist and have finite Haar measure. In particular continuous left
+$\Uni(Y)(F)$-invariant functions on $\Uni(Y)(\A)$ are bounded.
+\formallabel{GlobalTheory.ThK.Dbl.cptAll_of_k}
+\end{proposition}
+
+\begin{proof}
+This is reduction theory \cite{Borel1969,PlatonovRapinchuk1994}: the formal proof combines the topology of
+the adelic group (\lref{PositivityTheory.ThKEst.grpTop_of}), Siegel sets for unitary groups
+(\lref{UpperTheory.Lit.siegelSetUnitary_of_core}, \lref{PositivityTheory.ThKEst.siegelAll_of}),
+finiteness of the volume (\lref{PositivityTheory.ThKEst.finVolU}) and unimodularity
+(\lref{PositivityTheory.ThKF.unimodularity_holds}). Since $Y$ is definite, the Witt index of $Y$, which is at most
+$\min(r,s)$, vanishes (\lref{PositivityTheory.ThKEst.epsOf_of_k}); hence the torus part of the Siegel set is trivial
+and the Siegel set is the compact set $\Omega$.
+\end{proof}
+
+\begin{lemma}[Anisotropy]\label{pf:tlift:aniso}
+If $Y$ is definite, then $h_{J_Y}(x,x)=0$ implies $x=0$ for $x\in E^m$.
+\formallabel{GlobalTheory.ThK.Dbl.aniso_of_k}
+\end{lemma}
+
+\begin{proof}
+Apply $\tau_w$ for one infinite place $w$: $\tau_w(J_Y)$ (resp.\ $i\tau_w(J_Y)$) has signature $(m,0)$ or $(0,m)$,
+so the hermitian form it defines is definite and $\tau_w(x)=0$.
+\end{proof}
+
+\begin{proposition}[Theta series]\label{pf:tlift:basic}
+Let $(M,\chi_X,\chi_W,\omega)$ be a Weil pair. For $\Phi\in\tliftS(\A^\kappa)$, $\theta(g,h;\Phi)$ is continuous in
+$(g,h)$, invariant under $\Uni(X)(F)\times\Uni(W)(F)$ on the left, and of moderate growth:
+$|\theta(g,h;\Phi)|\le C(\mathrm{ht}(g)\mathrm{ht}(h))^k$ for some $C,k$, where $\mathrm{ht}$ is the height on
+$\GL_m(\tliftAE)$ defined as the product over all places of local heights; for fixed finite part,
+$\theta$ depends continuously on the archimedean factor. Moreover $\tliftPD(M)\subset\tliftS(\A^\kappa)$.
+\formallabel{PositivityTheory.ThKF0.thetaBasic_k}\formallabel{GlobalTheory.ThK.Dbl.polSch_k}
+\end{proposition}
+
+\begin{proof}
+The theta distribution $\Psi\mapsto\sum_{\xi\in F^\kappa}\Psi(\xi)$ is an admissible linear form
+(\lref{GlobalTheory.T.theta_distribution_nonzero_admissible}), so continuity in $(g,h)$ and in the
+archimedean factor follow from (W1). Invariance under rational points is
+\lref{PositivityTheory.ThKF0.thetaSum_rational_pair_invariant}, and the growth estimate
+(\lref{PositivityTheory.ThKF0.norm_theta_le_mul_ht_pow_of_isPair}) follows from the uniform decay
+$|\omega(g,h)\Phi(x)|(1+\|x_\infty\|)^N\le C(\mathrm{ht}(g)\mathrm{ht}(h))^k$
+(\lref{PositivityTheory.ThKF0.weil_schwartz_decay_bound}); the formal proof is
+\lref{PositivityTheory.ThKF0.thetaBasic_of_k}. The last assertion holds because pure tensors with
+finite data are Schwartz--Bruhat functions, by (M3).
+\end{proof}
+
+\begin{proposition}[Local actions]\label{pf:tlift:acts}
+Let $(M,\chi_X,\chi_W,\omega)$ be a Weil pair and $v$ a finite place. For $g\in\Uni(X)(\A)$ and $h\in\Uni(W)(\A)$
+supported at $v$ and $\phi\in\tliftS(F_v^\kappa)$ there is a unique $\phi_1\in\tliftS(F_v^\kappa)$ such that
+$\omega(g,h)$ acts at $v$ by $\phi\mapsto\phi_1$; the same holds for $\rho(u)$, $u$ supported at $v$; and
+every $\phi\in\tliftS(F_v^\kappa)$ is fixed in this sense by $\omega(x)$ for all $x$ supported at $v$ in some
+neighbourhood of $1$.
+\formallabel{PositivityTheory.ThKF0.actsEx_k}
+\end{proposition}
+
+\begin{proof}
+Fix a factor $r_0$ and a point $x_0$ with $r_0(x_0)=1$; the local operator is
+$\phi\mapsto(\omega(g,h)(\phi\otimes r_0))(\cdot,x_0)$ (\lref{PositivityTheory.ThKH.Locrep.locRepEx_k}); it
+does not depend on the choices because $\omega(g,h)$ commutes with the Heisenberg operators supported
+away from $v$, by (W1). Smoothness follows from the continuity in (W1), since the compact open subgroups
+supported at $v$ form a basis of neighbourhoods of $1$ in the group of elements supported at $v$.
+\end{proof}
+
+\begin{proposition}[Doubling]\label{pf:tlift:dblx}
+For a Weil pair $(M,\chi_X,\chi_W,\omega)$ there are doubling data $(e^{(2)},\omega_2,S,\ell)$ for
+$(W,X,\chi_W)$ such that for $\Phi_1,\Phi_2\in\tliftS(\A^\kappa)$ one has $\Phi_1\boxtimes\bar\Phi_2\in\tliftS(\A^{\kappa_2})$
+and, for $g,g'\in\Uni(X)(\A)$ and $h\in\Uni(W)(\A)$,
+\begin{align}
+  \chi_W(\det g')^{-1}\,\theta_2\bigl(\iota(g,g'),h;\Phi_1\boxtimes\bar\Phi_2\bigr)
+    &=\theta(g,h;\Phi_1)\,\overline{\theta(g',h;\Phi_2)},\label{eq:tlift:dbltheta}\\
+  \chi_W(\det g')^{-1}\,\omega_2(\iota(g,g'))(\Phi_1\boxtimes\bar\Phi_2)
+    &=\omega(g,1)\Phi_1\boxtimes\overline{\omega(g',1)\Phi_2};\label{eq:tlift:dblact}
+\end{align}
+the coordinates $e^{(2)}$ restrict to $e$ on each copy of $M_{n\times d}$; and for every Haar measure $\nu$ on
+$\A^\kappa$ there is $c'>0$ with $\ell(\Psi_1\boxtimes\bar\Psi_2)=c'\int\Psi_1\bar\Psi_2\,d\nu$ for
+$\Psi_i\in\tliftS(\A^\kappa)$.
+\formallabel{GlobalTheory.ThK.Dbl.dblX_k}
+\end{proposition}
+
+\begin{proof}
+The data are constructed from the splitting (W3) of $\Uni(X)$ in \lref{GlobalTheory.ThK.Dbl.dbl_main},
+which also gives \eqref{eq:tlift:dblact} and the identity
+$\chi_W(\det g')^{-1}\theta_2(\iota(g,g'),1;\Psi_1\boxtimes\bar\Psi_2)=\theta(g,1;\Psi_1)\overline{\theta(g',1;\Psi_2)}$.
+Applying the latter to $\Psi_i=\omega(1,h)\Phi_i$ and using that $S(h)(\Phi_1\boxtimes\bar\Phi_2)=
+\omega(1,h)\Phi_1\boxtimes\overline{\omega(1,h)\Phi_2}$ and $\omega(g,1)\omega(1,h)=\omega(g,h)$ gives
+\eqref{eq:tlift:dbltheta}. The last assertion is the uniqueness of Haar measure
+(\lref{GlobalTheory.ThK.Dbl.lD_haar}).
+\end{proof}
+
+\begin{lemma}[Section law]\label{pf:tlift:law}
+In the situation of \cref{pf:tlift:dblx}, for $\Psi\in\tliftS(\A^{\kappa_2})$ the function
+$f_\Psi(x)=\ell(\omega_2(x)\Psi)$ on $G_2(X)(\A)$ satisfies
+$f_\Psi(px)=\chi_W(\det t_p)\,|\det t_p|_{\tliftAE}^{d/2}f_\Psi(x)$ for $p\in P(\A)$.
+\formallabel{GlobalTheory.ThK.Dbl.Bad.law_k}
+\end{lemma}
+
+\begin{proof}
+$f_\Psi(px)=\ell(\omega_2(p)\,\omega_2(x)\Psi)$, and $\omega_2(x)\Psi\in\tliftS$; the Siegel rule, applied to $\ell$
+(which is admissible and invariant under the $\rho_2(z\,{}^t\tliftdia)$), gives the factor
+$\chi_W(\det t_p)|\det t_p|_{\tliftAE}^{d/2}$, $d$ being the dimension of $W$.
+\end{proof}
+
+\begin{proposition}[Unfolding]\label{pf:tlift:unfold}
+Let $Y$ be a definite space, $\chi$ a unitary Hecke character and $\iota$ as above. Let $f$ be continuous on
+$G_2(Y)(\A)$ with $f(px)=\chi(\det t_p)|\det t_p|^z_{\tliftAE}f(x)$ for some $z\in\C$, such that
+$\tliftE(x)=\sum_{\gamma\in P(F)\backslash G_2(Y)(F)}f(\gamma x)$ converges for every $x$ and $g\mapsto f(\iota(1,g))$ is
+integrable for a Haar measure $\mu$ with fundamental domain $D$. Then for every bounded continuous left
+$\Uni(Y)(F)$-invariant $\varphi$ and every $h$,
+\begin{equation}\label{eq:tlift:unfold}
+  \int_D\tliftE(\iota(h,h'))\,\chi(\det h')^{-1}\varphi(h')\,d\mu(h')
+  =\int_{\Uni(Y)(\A)}f(\iota(1,g))\,\chi(\det g)^{-1}\varphi(hg)\,d\mu(g).
+\end{equation}
+\formallabel{GlobalTheory.ThK.Dbl.unfold0_k}
+\end{proposition}
+
+\begin{proof}
+Since $Y$ is anisotropic (\cref{pf:tlift:aniso}), $\gamma\mapsto P(F)\iota(1,\gamma)$ is a bijection from $\Uni(Y)(F)$
+onto $P(F)\backslash G_2(Y)(F)$ (\lref{GlobalTheory.ThK.Dbl.Law.hasSum}), so
+$\tliftE(\iota(h,h'))=\sum_{\gamma}f(\iota(h,\gamma h'))$. As $\iota(h,h)\in P(\A)$ has Levi component $h$ and
+$|\det h|_{\tliftAE}=1$, the law gives $f(\iota(h,g))=\chi(\det h)f(\iota(1,h^{-1}g))$
+(\lref{GlobalTheory.ThK.Dbl.Law.diag}). Since $\chi(\det\gamma)=1$ and $\varphi(\gamma h')=\varphi(h')$ for rational
+$\gamma$, the integrand on the left of \eqref{eq:tlift:unfold} equals $\sum_\gamma k(\gamma h')$ with
+$k(g)=\chi(\det h)\chi(\det g)^{-1}f(\iota(1,h^{-1}g))\varphi(g)$, an integrable function. Unfolding the integral
+over the fundamental domain (\lref{GlobalTheory.ThK.Dbl.An.unfold}) gives $\int k\,d\mu$, and the
+substitution $g\mapsto hg$ gives the right side.
+\end{proof}
+
+\begin{theorem}[Siegel--Weil formula; formal form]\label{pf:tlift:swstd}
+Let the base data be good, $A$ a definite space of dimension $m'\ge1$ and $Y$ a space of dimension
+$m\ge1$, one of them hermitian and the other skew-hermitian, $\chi$ a unitary Hecke character with
+$\chi|_{\A^\times}=\eta^{m'}$, $(e^{(2)},\omega_2,S,\ell)$ doubling data for $(A,Y,\chi)$, $\tliftKfr$ the maximal compact
+subgroup of $G_2(Y)(\A)$ attached to a frame of $Y$ (\cref{pf:tlift:frameconj}) with a height $\tliftht_0$,
+and $\mu_A$ a Haar measure on $\Uni(A)(\A)$ with fundamental domain $D_A$. Let
+$\Psi\in\tliftS(\A^{\kappa_2})$ be $\tliftKfr$-finite under $\omega_2$, $f(x)=\ell(\omega_2(x)\Psi)$ and $s_0=\frac{m'-m}2$.
+Then for every $x$ the series $E(x,s;f)$ of \eqref{eq:tlift:eis} (with $\tliftht_0$ and $s_1=s_0$) converges
+for $\Re s$ large and extends to a meromorphic function of $s\in\C$ which is analytic at $s_0$ with value
+\[
+  \kappa\cdot\frac1{\mu_A(D_A)}\int_{D_A}\theta_2(x,h;\Psi)\,d\mu_A(h),\qquad\kappa=1\text{ if }m<m',\quad\kappa=2\text{ if }m\ge m'.
+\]
+\formallabel{PositivityTheory.SiegelWeilFormula.Fin.siegelWeilStd_k}
+\end{theorem}
+
+This is the Siegel--Weil formula for the dual pair $(\Uni(A),G_2(Y))$ with $A$ anisotropic
+\cite{Weil1965,KudlaRallis1988,Ichino2007}; it is used below only with $m'=d\ge2m=2n$, where $\kappa=1$. The published form,
+the differences with the formal statement and the structure of the formal proof (more than $15{,}000$ lines) are
+given in \cref{pf:tlift:classical}.
+
+\begin{theorem}[Continuation of Siegel Eisenstein series; formal form]\label{pf:tlift:eisbl}
+Let $Y$ be a hermitian or skew-hermitian space of dimension $m\ge1$, $\chi$ a unitary Hecke character with
+$\chi|_{\A^\times}=\eta^c$ for some $c$, $\tliftKfr$ the maximal compact subgroup attached to a frame with a height,
+and $f$ a section of exponent $s_1$ for $(\tliftKfr,\chi)$. Then $E(x,s;f)$ converges for $\Re s>t$ (some $t$) to a
+function holomorphic in $s$, and for every $s_0\in\C$ there are $k\in\N$ and a neighbourhood $\mathcal V$ of $s_0$
+such that $(s-s_0)^kE(\cdot,s;f)$ extends from $\mathcal V\cap\{\Re s>t\}$ to a weakly holomorphic function on
+$\mathcal V$ with values in the functions of moderate growth.
+\formallabel{PositivityTheory.RgEis.Hd.eisBL_k}
+\end{theorem}
+
+This is the meromorphic continuation of Eisenstein series \cite{Langlands1976}, \cite[IV]{MoeglinWaldspurger1995}
+in the case of the Siegel parabolic of a quasi-split unitary group of rank $m$; the formal proof is
+long and we do not reproduce it.
+
+\begin{lemma}[Frames]\label{pf:tlift:frameconj}
+Let $Y$ be a hermitian or skew-hermitian space of dimension $m$. A \emph{frame} of $Y$ is a matrix
+$b\in\GL_{2m}(E)$ with ${}^tb\,\mathrm{diag}(J_Y,-J_Y)\,\bar b={0\ \ 1\choose\epsilon\ \ 0}$ for a sign $\epsilon$ and whose
+first $m$ columns span the column space of $\tliftdia$; the \emph{maximal compact subgroup attached to $b$}
+consists of the $k\in G_2(Y)(\A)$ such that $b^{-1}kb$ is unitary at every infinite place and $b^{-1}k^{\pm1}b$
+have integral entries at every finite place. The standard maximal compact subgroup $\tliftK$ is conjugate
+to the subgroup $\tliftKfr$ attached to some frame: $\tliftK=p\tliftKfr p^{-1}$ for some $p\in P(\A)$.
+\formallabel{GlobalTheory.ThK.Dbl.frameConj_k}
+\end{lemma}
+
+\begin{proof}
+The formal proof constructs the frame and the conjugating element explicitly, from bases of the
+archimedean spaces adapted to the Cartan involutions (\lref{GlobalTheory.ThK.Dbl.Frame.exists_arch}),
+adelic bases of the lattice $\widehat L_Y$ (\lref{GlobalTheory.ThK.Dbl.Frame.exists_ad_k}), and an element
+$\vartheta\in\OO_E$ with $\vartheta+\bar\vartheta=1$, which exists because $E/F$ is unramified at all finite places
+(\lref{GlobalTheory.exists_int_add_conj_eq_one_of_base_good_k}).
+\end{proof}
+
+\begin{proposition}[Siegel--Weil formula in the form used]\label{pf:tlift:sw}
+Let $(M,\chi_X,\chi_W,\omega)$ be a Weil pair with $n,d\ge1$ and $W$ definite, $(e^{(2)},\omega_2,S,\ell)$ doubling
+data as in \cref{pf:tlift:dblx}, $\tliftK$ the standard maximal compact subgroup of $G_2(X)(\A)$ with a height
+$\tliftht$, $\mu_W$ a Haar measure on $\Uni(W)(\A)$ with fundamental domain $D_W$, and
+$\Phi_1,\Phi_2\in\tliftPD(M)$. Put $s_0=\frac{d-n}2$ and $f(x)=\ell(\omega_2(x)(\Phi_1\boxtimes\bar\Phi_2))$. Then $f$
+is a section of exponent $s_0$ for $(\tliftK,\chi_W)$, and $E(\cdot,\cdot;f)$ has a continuation $\tliftE$ on an
+open set $\mathcal U\ni s_0$ with
+\begin{equation}\label{eq:tlift:sw}
+  \tliftE(s_0,x)=\kappa\cdot\frac1{\mu_W(D_W)}\int_{D_W}\theta_2\bigl(x,h;\Phi_1\boxtimes\bar\Phi_2\bigr)\,d\mu_W(h),
+  \qquad\kappa=\begin{cases}1,&n<d,\\2,&n\ge d.\end{cases}
+\end{equation}
+\formallabel{GlobalTheory.ThK.Dbl.swFullX_of_k}
+\end{proposition}
+
+\begin{proof}
+\emph{Section property} (\lref{GlobalTheory.ThK.Dbl.boxSecX_of_k}). Continuity follows from (W1), and
+the law from \cref{pf:tlift:law} since $s_0+\frac n2=\frac d2$. For the $\tliftK$-finiteness it suffices, by
+bilinearity, to treat $\Phi_i=f_i\otimes\phi^{(i)}$ with $f_i\in\tliftPol$. At the finite places
+$\Phi_1\boxtimes\bar\Phi_2$ is fixed by an open subgroup of the compact group $\tliftK$
+(\lref{GlobalTheory.ThK.Dbl.finLevel_k}, \cref{pf:tlift:stab2cpt}); at the infinite places $\tliftK$
+preserves the span of the $D_{u_1}\cdots D_{u_j}f_0$ with $f_0$ Gaussian and $j$ bounded, which is
+finite-dimensional, and $\tliftPol$ is contained in the union of these spaces
+(\lref{GlobalTheory.ThK.Dbl.Box.box_kfin_k}; compare \cref{pf:tlift:polfin} below).
+
+\emph{Continuation.} By \cref{pf:tlift:frameconj}, $\tliftK=p\tliftKfr p^{-1}$ with $\tliftKfr$ attached to a frame,
+$p\in P(\A)$. The function $x\mapsto f(xp^{-1})$ is a section of exponent $s_0$ for $(\tliftKfr,\chi_W)$, and
+$\tliftht_0(x)=|\det t_p|_{\tliftAE}\,\tliftht(xp^{-1})$ is a height for $\tliftKfr$. Applying
+\cref{pf:tlift:eisbl} to these and translating back by $x\mapsto xp$ (which multiplies the terms of
+\eqref{eq:tlift:eis} by the constant $|\det t_p|_{\tliftAE}^{s_0-s}$) gives a continuation $\tliftE$ of
+$E(\cdot,\cdot;f)$ on an open set $\mathcal U$, such that for every $s_1\in\C$ some $(s-s_1)^k\tliftE(s,\cdot)$ is
+holomorphic near $s_1$ (\lref{GlobalTheory.ThK.Dbl.eisContinues_of_k}).
+
+\emph{Value at $s_0$.} Translating \cref{pf:tlift:swstd} from $\tliftKfr$ to $\tliftK$ in the same way
+(\lref{GlobalTheory.ThK.Dbl.Box.sw_transl_k}) and applying it with $(A,Y)=(W,X)$ and
+$\Psi=\Phi_1\boxtimes\bar\Phi_2$, which is $\tliftK$-finite by the first step, shows that for each $x$ the function
+$s\mapsto E(x,s;f)$ is the restriction of a meromorphic function analytic at $s_0$ with value the right
+side of \eqref{eq:tlift:sw} (\lref{GlobalTheory.ThK.Dbl.siegelWeilAniso_of_k}). This meromorphic
+function coincides with $\tliftE(\cdot,x)$ on a half plane, hence on $\mathcal U\setminus\{s_0\}$ near $s_0$; so the
+singularity of $\tliftE$ at $s_0$ (of order at most $k$) is removable, and defining $\tliftE(s_0,\cdot)$ by
+\eqref{eq:tlift:sw} gives a continuation on $\mathcal U\cup\{s_0\}$; the required holomorphy, continuity and
+growth near $s_0$ are deduced from those of $(s-s_0)^k\tliftE(s,\cdot)$
+(\lref{GlobalTheory.ThK.Dbl.IsEisCont.update}).
+\end{proof}
+
+\begin{proposition}[Split places]\label{pf:tlift:split}
+Let $(M,\chi_X,\chi_W,\omega)$ be a Weil pair, $v$ a split place and $t\colon E\to F_v$. There is a linear
+bijection $\iota_t\colon\tliftS(F_v^\kappa)\to\tliftS(M_{n\times d}(F_v))$ intertwining the Heisenberg operators
+supported at $v$ with translations and multiplications by characters (a \emph{linear model}); and for
+every linear model $\iota_t$, if $g\in\Uni(X)(\A)$ and $h\in\Uni(W)(\A)$ are supported at $v$ and $\omega(g,h)$ acts at
+$v$ by $\phi\mapsto\phi_1$, then
+\[
+  \iota_t\phi_1=\omega^{\chi_{W,t}^{-1},\chi_{X,t}}\bigl(\pi_t(g),\pi_t(h)\bigr)\,\iota_t\phi
+\]
+in the notation of \eqref{eq:tlift:omA}.
+\formallabel{UpperTheory.TP.splitFree_k}
+\end{proposition}
+
+\begin{proof}
+At a split place $\Uni(X)(F_v)\cong\GL_n(F_v)$ and $\Uni(W)(F_v)\cong\GL_d(F_v)$ via $\pi_t$, and
+$M_{n\times d}(E\otimes_FF_v)\cong M_{n\times d}(F_v)\times M_{n\times d}(F_v)$ is a decomposition into two Lagrangians
+stable under both groups. A linear model is an intertwiner from the Schr\"odinger model to the model
+attached to this polarisation; it exists by \lref{UpperTheory.TP.exists_linW_k}. The formula is
+\lref{UpperTheory.TP.split_formula_k}, deduced from the description of the action of $\omega$ in the
+linear models (\lref{PositivityTheory.KCo.dictX_proof_k}). This is the classical description of the
+Weil representation of a type II dual pair \cite{MoeglinVignerasWaldspurger1987,Minguez2008}.
+\end{proof}
+
+\begin{proposition}[Fixed vacuum]\label{pf:tlift:vacfix}
+Let $(M,\chi_X,\chi_W,\omega)$ be a Weil pair, $(e^{(2)},\omega_2,S,\ell)$ doubling data as in \cref{pf:tlift:dblx},
+$\tliftK$ the standard maximal compact subgroup of $G_2(X)(\A)$, and $v$ a finite place such that $\chi_W$ is
+unramified at every place of $E$ above $v$. If $k\in\tliftK$ and $k-1$ is supported at $v$, then $\omega_2(k)$
+acts at $v$ trivially on $\tliftvac_v\boxtimes\overline{\tliftvac_v}$.
+\formallabel{GlobalTheory.ThK.Dbl.vacFix2_k}
+\end{proposition}
+
+\begin{proof}
+Since $k^{\pm1}$ preserve the doubled lattice, $\omega_2(k)$ maps $\tliftvac_v\boxtimes\overline{\tliftvac_v}$ to a
+multiple $c\,\tliftvac_v\boxtimes\overline{\tliftvac_v}$: by (M2) and the Heisenberg relation in (W1), both are
+eigenvectors with the same eigencharacter for the Heisenberg operators of the doubled lattice, and such
+eigenvectors are unique up to scalars (\lref{PositivityTheory.ThKG.Loc.Cone.Vf.dbl_eigen_k}). The formal
+proof then shows $c=1$ by decomposing $k$, using its first block column, into an element of the Siegel
+parabolic with integral entries and integral elements of an opposite unipotent subgroup
+(\cref{pf:tlift:beta}); the factors are evaluated with the Siegel rule, in
+which $\chi_W$ is unramified at $v$ and the Levi component is a unit.
+\end{proof}
+
+\begin{theorem}[The tool package]\label{pf:tlift:toolsthm}
+\Cref{pf:tlift:pairex,pf:tlift:cpt,pf:tlift:basic,pf:tlift:acts,pf:tlift:dblx,pf:tlift:unfold,pf:tlift:sw,%
+pf:tlift:split,pf:tlift:vacfix} hold, as well as \cref{pf:tlift:stab2cpt} and the Lie algebra actions of
+\cref{pf:tlift:fock}.
+\formallabel{UpperTheory.TP.tools_holds_k}
+\end{theorem}
+
+\begin{proof}
+This collects the results of this subsection, \cref{pf:tlift:stab2cpt} below, and the two statements on
+the infinitesimal action of the unitary groups on the Fock model, \lref{PositivityTheory.RL.lieFirst} and
+\lref{PositivityTheory.ThKR.lieSecond2} (recalled in \cref{pf:tlift:fock}).
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The Weil representation and the Siegel--Weil formula}\label{pf:tlift:classical}
+
+This subsection contains the formal proofs of \cref{pf:tlift:weilex,pf:tlift:swstd}. Both are forms of classical
+theorems. For each we state the published form, describe how the formal statement differs from it, and convert
+the parts of the formal proof which are specific to the development. The classical cores (the construction of the
+Weil representation in a lattice model, and the comparison of Fourier coefficients of Eisenstein series and theta
+integrals) are cited with one-sentence paraphrases.
+
+\subsubsection*{The Weil representation: published form and formal form}
+\begin{littheorem}[{\cite{Weil1964,Kudla1994}; see also \cite{HarrisKudlaSweet1996}}]\label{pf:tlift:litweil}
+Let $V$ be a nondegenerate hermitian space of dimension $m$ and $U$ a nondegenerate skew-hermitian space of
+dimension $k$ over $E$, let $\psi$ be a nontrivial character of $\A/F$, and let $\chi_V,\chi_U$ be characters of
+$\tliftAE^\times/E^\times$ with $\chi_V|_{\A^\times}=\eta^m$ and $\chi_U|_{\A^\times}=\eta^k$. The Weil representation of the
+metaplectic cover of $\mathrm{Sp}(\mathrm{Res}_{E/F}(V\otimes_EU))(\A)$, realised on the Schwartz--Bruhat space of a
+Lagrangian, restricts, through the splitting of the cover over $\Uni(V)(\A)\times\Uni(U)(\A)$ determined by
+$(\chi_V,\chi_U)$, to a smooth unitary representation $\omega$ of $\Uni(V)(\A)\times\Uni(U)(\A)$ which satisfies the
+Heisenberg relation $\omega(g)\rho(u)\omega(g)^{-1}=\rho(g u)$. If $U=U_1\oplus U_2$ is a complete polarisation and
+$P\subset\Uni(U)$ is the stabiliser of $U_2$, with Levi elements $m(a)$, $a\in\GL(U_2)$, then in the model on the
+Schwartz--Bruhat space of $(V\otimes_EU_2)(\A)$ the linear form $\phi\mapsto\phi(0)$ is invariant under the unipotent
+radical of $P$ and satisfies $(\omega(m(a))\phi)(0)=\chi_V(\det a)\,|\det a|_{\tliftAE}^{m/2}\,\phi(0)$.
+\end{littheorem}
+
+\begin{remark}[The formal statement]\label{pf:tlift:remweil}
+\Cref{pf:tlift:weilex} differs from \cref{pf:tlift:litweil} as follows.
+\begin{enumerate}[label=(\alph*),nosep]
+\item The formal notion of a Weil representation (\cref{pf:tlift:weil}) is axiomatic: no metaplectic group
+  appears, every representation on functions on $\A^\kappa$ satisfying (W1)--(W3) qualifies, and no uniqueness is
+  asserted.
+\item The splitting characters enter only through the Siegel rules in (W2) and (W3): the representation of the
+  doubled group is part of the data, and the Siegel rule prescribes the action of the Siegel parabolic on every
+  admissible linear form which is invariant under the Heisenberg translations along the diagonal Lagrangian, as
+  in the last assertion of \cref{pf:tlift:litweil} (the evaluation at $0$ being one such form).
+\item The coordinates are arbitrary rational Darboux coordinates (those of a good model); the representation acts
+  on functions on $\A^\kappa$, not on the Schwartz space of a Lagrangian adapted to the dual pair.
+\item The hypotheses are those of good base data; the formal construction uses that $E/F$ is unramified at every
+  finite place and that $\psi$ is standard.
+\end{enumerate}
+\end{remark}
+
+The formal proof passes through a second realisation, the \emph{theta model}, in which the representation acts on
+functions on the full symplectic space which are quasi-periodic under the rational points.
+
+\begin{definition}[Theta functions; Weil data in the theta model]\label{pf:tlift:weildatumdef}
+Let $J_S\in M_{n_S}(E)$ and $J_T\in M_{n_T}(E)$ be nondegenerate hermitian matrices and $\xi_0\in E^\times$ with
+$\bar\xi_0=-\xi_0$. On $\mathcal W=M_{n_T\times n_S}(\tliftAE)$ let $\langle\cdot,\cdot\rangle_0$ be one half of the alternating
+$\A$-bilinear form attached to $(J_S,J_T,\xi_0)$, and let $\Uni_{J_S}(\A)\times\Uni_{J_T}(\A)$ act by
+$(g,h)\cdot w=h\,w\,g^{-1}$ (in the matrix realisations of the groups). The Heisenberg operators are
+$(\rho_0(w_0)f)(w)=\psi(\langle w,w_0\rangle_0)\,f(w+w_0)$. A \emph{theta function} is a continuous function $f$ on $\mathcal W$
+with $f(\gamma+w)=\psi(-\langle\gamma,w\rangle_0)f(w)$ for $\gamma\in M_{n_T\times n_S}(E)$, which is fixed by $\rho_0(u)$ for all $u$
+with trivial archimedean components in some open subgroup, and which is smooth along archimedean directions. A
+\emph{Weil datum} for $(J_S,J_T,\xi_0,\psi)$ with characters $(\chi_S,\chi_T)$ (Hecke characters with
+$\chi_S|_{\A^\times}=\eta^{n_S}$, $\chi_T|_{\A^\times}=\eta^{n_T}$, $\psi$ standard) is a homomorphism $\omega$ from
+$\Uni_{J_S}(\A)\times\Uni_{J_T}(\A)$ to the linear operators on functions on $\mathcal W$ which preserves theta
+functions, satisfies $\omega(g,h)\rho_0(w_0)=\rho_0((g,h)\cdot w_0)\,\omega(g,h)$ on them, fixes their value at $0$
+under rational elements, is continuous pointwise, is unitary for the $L^2$-norm on a fundamental domain of
+$\mathcal W/M_{n_T\times n_S}(E)$, and satisfies the following \emph{splitting rule}: if $e\in\tliftAE$ is an idempotent with
+$e\bar e=0$ and $e+\bar e$ the idempotent of a place $v$ of $F$, and $g,h$ are supported at $v$, then there is $r>0$
+such that $\ell(\omega(g,h)f)=r\,\chi_T(x)^{-1}\chi_S(y)\,\ell(f)$ for every theta function $f$ and every linear form $\ell$
+invariant under the $\rho_0(u)$ with $\bar e u=u$, where $x=e\det g+1-e$ and $y=e\det h+1-e$.
+\formal{Formalism.IndefR.DatumF.IsWeilDatumOF}
+\end{definition}
+
+\begin{proposition}[Weil data exist]\label{pf:tlift:weildatum}
+Let the base data be good, $J_S,J_T,\xi_0$ as in \cref{pf:tlift:weildatumdef}, and suppose there is a finitely
+generated $\OO_E$-submodule $\Lambda\subset M_{n_T\times n_S}(E)$ of full rank which is self-dual for the pairing
+$(M,M')\mapsto\Tr_{E/\Q}(\xi_0\,h_0(M,M'))$ attached to $(J_S,J_T)$. Then for all Hecke characters $\chi_S,\chi_T$ with
+$\chi_S|_{\A^\times}=\eta^{n_S}$ and $\chi_T|_{\A^\times}=\eta^{n_T}$ there is a Weil datum with characters $(\chi_S,\chi_T)$.
+\formallabel{PositivityTheory.ThKW.S.exists_isWeilDatumOF_k}
+\end{proposition}
+
+\begin{proof}
+\emph{An auxiliary character.} There is a Hecke character $\eta_1$ of $E$ with $\eta_1|_{\A^\times}=\eta$, archimedean
+exponents all equal to $1$, and unramified at the inert places
+(\lref{PositivityTheory.ThKW.exists_eta_k}; such characters are classical, e.g.\ the unitary normalisation of a
+Hecke character of type $z/|z|$ at every infinite place).
+
+\emph{A Weil datum with characters $(\eta_1^{n_S},\eta_1^{n_T})$.} From the lattice $\Lambda$ one builds the lattice
+representation: a representation of $\Uni_{J_S}(\A)\times\Uni_{J_T}(\A)$ on the span of the Heisenberg translates of
+the theta functions attached to the vacuum vectors of the lattice models at the finite places
+(\lref{UpperTheory.TP.W.latK}, using that theta functions are stable under rational Heisenberg translations,
+\lref{GlobalTheory.T.theta_function_heisenberg_translate}). Its splitting factors are computed explicitly in the
+lattice models, by lattice indices and signs, and are the characters $\eta_1^{n_S},\eta_1^{n_T}$
+(\lref{UpperTheory.TP.W.datumK_k}). This is the classical construction of the Weil representation from lattice
+models at the finite places (cf.\ \cite{Weil1964,MoeglinVignerasWaldspurger1987}).
+
+\emph{Changing the characters.} Put $\nu_S=\chi_S\eta_1^{-n_S}$ and $\nu_T=\chi_T\eta_1^{-n_T}$. These are Hecke characters,
+and they are trivial on $\A^\times$: on $\A^\times$, $\chi_S$ and $\eta_1^{n_S}$ both restrict to $\eta^{n_S}$, and similarly for $T$.
+A Weil datum with characters $(\chi_1,\chi_2)$ can be twisted into one with characters $(\chi_1\nu_1,\chi_2\nu_2)$ for any
+Hecke characters $\nu_1,\nu_2$ trivial on $\A^\times$ (\lref{GlobalTheory.T.weil_datum_splitting_characters}). Applied
+with $(\nu_S,\nu_T)$ this gives a Weil datum with characters $(\eta_1^{n_S}\nu_S,\eta_1^{n_T}\nu_T)=(\chi_S,\chi_T)$.
+\end{proof}
+
+\begin{proposition}[From the theta model to the Schr\"odinger model]\label{pf:tlift:weilpairhp}
+In the situation of \cref{pf:tlift:weildatum}, let $\omega_0$ be a Weil datum with characters $(\chi_S,\chi_T)$, let
+$J_A={}^tJ_T$, and let $J_B\in M_{n_S}(E)$ and $\xi\in\tliftAE$ satisfy $\xi J_B=\xi_0J_S^{-1}$. Let $e$ be Darboux
+coordinates for the alternating form built from $(\xi,J_A,J_B)$ which map $M_{n_T\times n_S}(E)$ into rational vectors.
+Then there is a homomorphism $\omega$ from $\Uni_{J_A}(\A)\times\Uni_{J_B}(\A)$ to the operators on functions on $\A^\kappa$
+which satisfies the conditions (W1)--(W3) of \cref{pf:tlift:weil} for these coordinates, for the alternating form built
+from $(\xi,J_A,J_B)$, with $\Uni_{J_B}$ split by $\chi_T$ and $\Uni_{J_A}$ split by $\chi_S$.
+\formallabel{PositivityTheory.ThKW.S.exists_isUWeilPair_cm_k}
+\end{proposition}
+
+\begin{proof}
+\emph{Transport.} The theta transform $\Phi\mapsto\theta_\Phi$, $\theta_\Phi(w)=\sum_{\xi\in F^\kappa}(\rho(w)\Phi)(\xi)$, maps
+Schwartz--Bruhat functions on $\A^\kappa$ to theta functions (\lref{GlobalTheory.TransportHeisF.isThetaFunOF_thetaTr_k}),
+and $\omega_0$ is transported to a representation $\omega$ on functions on $\A^\kappa$ with
+$\theta_{\omega(p)\Phi}=\omega_0(p)\theta_\Phi$ (\lref{GlobalTheory.T.weil_representation_hermitian_pair}).
+
+\emph{Condition (W1).} $\omega$ preserves $\tliftS(\A^\kappa)$, is continuous in the sense of (W1)
+(\lref{GlobalTheory.T.weil_representation_pair_continuous}, \lref{GlobalTheory.T.weil_representation_pair_smooth}),
+is unitary, which follows from the unitarity of $\omega_0$ on a fundamental domain
+(\lref{GlobalTheory.T.weil_representation_pair_unitary}), and satisfies the Heisenberg relation, which follows from
+the Heisenberg equivariance of $\omega_0$ (\lref{GlobalTheory.T.weil_representation_pair_equivariant}).
+
+\emph{Conditions (W2), (W3).} For the factor $\Uni_{J_A}$ there are doubled Darboux coordinates on
+$\A^{\kappa\sqcup\kappa}$ and a representation of the unitary group of $\mathrm{diag}(J_A,-J_A)$ which satisfies (W1), the Siegel
+rule with the character $\chi_S$ for the diagonal Lagrangian, and the compatibility
+$\omega^{(2)}(\mathrm{diag}(g,1))(\Phi_1\boxtimes\Phi_2)=\omega(g,1)\Phi_1\boxtimes\Phi_2$ on Schwartz--Bruhat functions
+(\lref{PositivityTheory.ThKW.S.exists_dbl_target_k}). The same statement for the factor $\Uni_{J_B}$, with the
+character $\chi_T$, is deduced from it by exchanging the roles of the two spaces
+(\lref{PositivityTheory.ThKW.dblS_of_dblT_k}).
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:tlift:weilex}]
+Since $E$ contains $\sqrt{-D}$ with $D>0$ (G2), there is $\xi_0\in E^\times$ with $\bar\xi_0=-\xi_0$
+(take $\xi_0=\sqrt{-D}$, whose images under all $\tau$ are purely imaginary). The Gram matrices $J_X$ and $J_W$ are invertible, since
+$\tau_w(J_X)$ and $i\tau_w(J_W)$ have signatures $(r,s)$ with $r+s$ equal to the dimension. Put
+$J_S=-\xi_0J_W^{-1}$ and $J_T={}^tJ_X$. Both are hermitian: ${}^t\bar J_W=-J_W$ gives
+${}^t\overline{J_W^{-1}}=-J_W^{-1}$, hence ${}^t\bar J_S=-\bar\xi_0\,{}^t\overline{J_W^{-1}}=-\xi_0J_W^{-1}=J_S$. A lattice $\Lambda$ as in
+\cref{pf:tlift:weildatum} is built from $L_X$ and $L_W$ (\lref{PositivityTheory.ThKW.latH_of}), and the restriction
+conditions on $\chi_X,\chi_W$ have the form required there
+(\lref{GlobalTheory.T.restricted_eta_power_character}). \Cref{pf:tlift:weildatum} gives a Weil datum for
+$(J_S,J_T,\xi_0)$ with characters $(\chi_W,\chi_X)$. Finally ${}^tJ_T=J_X$ and
+$\xi_0J_S^{-1}=\xi_0(-\xi_0)^{-1}J_W=-J_W$, so \cref{pf:tlift:weilpairhp} applies with $(J_A,J_B,\xi)=(J_X,J_W,-1)$ and the
+Darboux coordinates of $M$, which are rational by (M1). It gives a Weil representation for $(M,\psi,\chi_X,\chi_W)$.
+\end{proof}
+
+\subsubsection*{The Siegel--Weil formula: published form and formal form}
+For a hermitian space $V$ of dimension $m$ and Witt index $r$, a split skew-hermitian space of dimension $2k$ with
+unitary group $\Uni(k,k)$ and Siegel parabolic $P$, a $K$-finite $\phi\in\tliftS(V^k(\A))$ and the Weil representation
+$\omega$ of \cref{pf:tlift:litweil}, let $E(g,s,\phi)=\sum_{\gamma\in P(F)\backslash\Uni(k,k)(F)}\Phi(\gamma g,s)$ with the standard
+section $\Phi(g,s)=(\omega(g)\phi)(0)\,|a(g)|^{s-s_0}$, $s_0=\frac{m-k}2$, and let
+$I(g,\phi)=\int_{\Uni(V)(F)\backslash\Uni(V)(\A)}\theta(g,h;\phi)\,dh$ with the invariant probability measure.
+
+\begin{littheorem}[{\cite{Weil1965,KudlaRallis1988,Ichino2007}}]\label{pf:tlift:litsw}
+\begin{enumerate}[label=(\alph*),nosep]
+\item \cite{Weil1965} If $m>2k$, then $E(g,s,\phi)$ converges absolutely at $s=s_0$ and $E(g,s_0,\phi)=I(g,\phi)$.
+\item \cite{Ichino2007} If $V$ is anisotropic or $m-r>k$, then $E(g,s,\phi)$ is holomorphic at $s=s_0$ and
+  $E(g,s_0,\phi)=\kappa\,I(g,\phi)$, where $\kappa=1$ if $m>k$ and $\kappa=2$ if $m\le k$.
+\end{enumerate}
+\end{littheorem}
+
+Part (b) is the unitary analogue of the theorem of Kudla and Rallis for orthogonal--symplectic pairs
+\cite{KudlaRallis1988}; see also \cite{Yamana2014} for all classical dual pairs.
+
+\begin{remark}[The formal statement]\label{pf:tlift:remsw}
+\Cref{pf:tlift:swstd} is the case of \cref{pf:tlift:litsw}(b) in which the space carrying the theta integral is
+definite at every infinite place, hence anisotropic, in the following form.
+\begin{enumerate}[label=(\alph*),nosep]
+\item The section is $f(x)=\ell(\omega_2(x)\Psi)$ for the admissible linear form $\ell$ of doubling data
+  (\cref{pf:tlift:dbl}); $\ell$ plays the role of the evaluation at $0$ in a model adapted to the Siegel parabolic,
+  and its normalisation $\sum_y\ell(\rho_2(y\,|\,{-y})\Psi)=\sum_\xi\Psi(\xi)$ ties it to the theta distribution. The
+  Weil representations are those of \cref{pf:tlift:weil}, in arbitrary rational Darboux coordinates.
+\item The maximal compact subgroup and the height are attached to a frame, $\Psi$ is finite under this compact
+  subgroup, and the value is normalised by the volume of a fundamental domain.
+\item Both orders (the anisotropic space hermitian and the other skew-hermitian, or conversely) and all dimensions
+  $m'=\dim A\ge1$, $m=\dim Y\ge1$ are covered; with $(m,k)$ of \cref{pf:tlift:litsw} replaced by $(m',m)$ the
+  constant $\kappa$ is the same.
+\item The continuation is asserted pointwise in $x$, as a meromorphic function of $s$ analytic at $s_0$.
+\end{enumerate}
+In this section the formula is used only for $m'=d\ge2n=2m$, that is, in Weil's range of \cref{pf:tlift:litsw}(a) when
+$d>2n$, and on its boundary when $d=2n$.
+\end{remark}
+
+The formal proof of \cref{pf:tlift:swstd} is an induction on the rank of the doubled group which compares Fourier
+coefficients along the Siegel parabolic. We describe its structure and convert the two statements on the
+degenerate coefficients of Eisenstein series which carry the induction.
+
+\begin{definition}[Siegel data; Fourier coefficients; lower-rank data]\label{pf:tlift:sdata}
+A \emph{Siegel datum} consists of a definite space $A$ of dimension $m'$, a space $Y$ of dimension $m$, a unitary Hecke
+character $\chi$, doubling data $(e^{(2)},\omega_2,S,\ell)$ for $(A,Y,\chi)$, a frame $b$ of $Y$ with its maximal compact
+subgroup $\tliftKfr$ and a height $\tliftht_0$, and a Haar measure with fundamental domain on $\Uni(A)(\A)$, subject to the
+conditions of \cref{pf:tlift:swstd}; $G=G_2(Y)$ and $P$ is its Siegel parabolic. For a section $f$ of exponent $s_1$
+and $z\in\C$ put $\phi_z=\tliftht_0^{\,z-s_1}f$ and $E_z(x)=\sum_{\gamma\in P(F)\backslash G(F)}\phi_z(\gamma x)$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item \emph{Coefficient data} $(n,\lambda,\mathcal G)$ consist of a parametrisation $\beta\mapsto n(\beta)$ of the unipotent
+  radical $N(\A)$ of $P(\A)$, written in the frame $b$, by an additive group $\mathcal N(\A)$ of matrices (with rational points
+  $\mathcal N(F)$ corresponding to $N(F)$), a Haar measure $\lambda$ on $\mathcal N(\A)$, and a fundamental domain $\mathcal G$ for $\mathcal N(F)$ with
+  $\lambda(\mathcal G)=1$. For $T\in\mathcal N(F)$ the $T$-th \emph{Fourier coefficient} of a function $\phi$ on
+  $G(\A)$ is $\mathrm{fc}_T(\phi)(x)=\int_{\mathcal G}\phi(n(\beta)x)\,\psi(-\Tr\tr(T\beta))\,d\lambda(\beta)$.
+\item A \emph{lower-rank datum} consists of a Siegel datum for a space $Y'$ of dimension $m-1$ (with the same $A$), an
+  index $i_0$, an injection of the other indices, and a continuous homomorphism $j\colon G_2(Y')(\A)\to G(\A)$ which in
+  the frames is the identity in the $i_0$-th coordinates and the given inclusion in the others, compatible with
+  the Weil representations.
+\item \emph{Unipotent data} $(u,\nu,\mathcal U)$ consist of the map $c\mapsto u(c)$ from $\tliftAE^{m-1}$ to the Levi subgroup of $P$
+  whose first block is $1+\sum_jc_j\epsilon_{i_0,j}$ in the frame, a Haar measure $\nu$, and a fundamental domain $\mathcal U$ for
+  $E^{m-1}$ with $\nu(\mathcal U)=1$.
+\item For $T\in\mathcal N(F)$ and $T'\in\mathcal N'(F)$ we write $T\rhd T'$ if the $i_0$-th row and column of $T$ vanish and
+  $T'$ is $T$ with them removed.
+\item The \emph{first orbit} consists of the $\gamma\in G(F)$ whose lower left block has vanishing $i_0$-th column in the
+  frame. For every infinite place $w$ there is a family of \emph{dilations} $\iota_w(y)\in G(F_w)$ in the $i_0$-th
+  coordinate, with parameter $\tau\in\R$.
+\end{enumerate}
+\formal{PositivityTheory.SiegelWeilFormula.SD_k}
+\end{definition}
+
+\begin{lemma}[Unfolding of the second orbit]\label{pf:tlift:unf}
+Let a Siegel datum, a lower-rank datum, coefficient data $(n,\lambda,\mathcal G)$ and $(n',\lambda',\mathcal G')$ for $Y$ and $Y'$,
+unipotent data $(u,\nu,\mathcal U)$, $T\rhd T'$, a section $f$ and $z\in\C$ be given. Let $w_1\in G(F)$ be an element which in
+the frame is the identity except in the $i_0$-th coordinates, where it is $\bigl(\begin{smallmatrix}0&a\\ b&0\end{smallmatrix}\bigr)$ with
+$a,b\in E^\times$; let $\delta\in E^\times$ and let $c=(c_1,t)\mapsto c_M(c)$ be a continuous map from $\tliftAE^{m-1}\times\A$ to
+$P(\A)$ whose Levi part is $u(c_1)$ and whose unipotent part has the single entry $t\delta$ at the place $(i_0,i_0)$; and
+let $\kappa$ be a Haar measure on $\tliftAE^{m-1}\times\A$. Assume that for every $x$ and every $\gamma\in G(F)$ the function
+$(c,\beta)\mapsto\phi_z(\gamma\,n(\beta)\,u(c)\,x)\,\psi(-\Tr\tr(T\beta))$ is integrable on $\mathcal U\times\mathcal G$, and that the integrals of its absolute
+value are summable over representatives $\gamma$ of $P(F)\backslash G(F)$. Let
+\[
+  S_2(x)=\sum_{\gamma}\int_{\mathcal U}\int_{\mathcal G}\phi_z\bigl(\gamma\,n(\beta)\,u(c)\,x\bigr)\,\psi(-\Tr\tr(T\beta))\,d\lambda(\beta)\,d\nu(c)
+\]
+(the \emph{second-orbit section}), the sum being over representatives $\gamma$ of the cosets outside the first orbit.
+Then there is $K\in\C$ such that for all $x$
+\[
+  S_2(x)=K\sum_{\gamma'\in P'(F)\backslash G_2(Y')(F)}\int_{\mathcal G'}\Bigl(\int\phi_z\bigl(w_1\,c_M(c)\,j(\gamma'n'(\beta'))\,x\bigr)\,d\kappa(c)\Bigr)
+  \psi(-\Tr\tr(T'\beta'))\,d\lambda'(\beta').
+\]
+\formallabel{PositivityTheory.SiegelWeilFormula.Act.C5.unf_k}
+\end{lemma}
+
+\begin{proof}
+\emph{Orbits.} The cosets outside the first orbit are in bijection with the pairs $(\gamma',r)$, $\gamma'\in P'(F)\backslash G_2(Y')(F)$
+and $r\in E^{m-1}\times F$, through $\gamma=p\,w_1\,c_M(r)\,j(\gamma')$ with $p\in P(F)$
+(\lref{PositivityTheory.SiegelWeilFormula.Act.C5.second_orbit_bijection}); since $\phi_z$ is left
+$P(F)$-invariant ($\chi$ and the height are trivial on $P(F)$), $p$ may be dropped.
+
+\emph{Coordinates.} Let $\mathcal A$ be a fundamental domain of $\A/F$ of finite measure. There is an isomorphism
+$\beta\mapsto(c(\beta),\beta')$ of $\mathcal N(\A)$ onto $(\tliftAE^{m-1}\times\A)\times\mathcal N'(\A)$ whose image measure is $c_P$ times the product
+of the Haar measures, for a constant $c_P>0$. In these coordinates, for every function $\Psi$ on $G(\A)$ which is left
+invariant under the rational elements fixing the $i_0$-th basis vector, the integral of
+$\Psi(n(\beta)u(c)x)\psi(-\Tr\tr(T\beta))$ over $\mathcal U\times\mathcal G$ equals $c_P$ times the integral over
+$\mathcal G'\times\mathcal U\times\mathcal U\times\mathcal A$ of $\Psi(s(c'')\,c_M(c',t)\,j(n'(\beta'))\,x)\,\psi(-\Tr\tr(T'\beta'))$, where $c''\mapsto s(c'')$ is an
+explicit map into $G(\A)$; here the character becomes $\psi(-\Tr\tr(T'\beta'))$ because the $i_0$-th row and column of $T$
+vanish. The same holds for nonnegative functions, and $\kappa$ is $c_K$ times the product of the Haar measures used
+(\lref{PositivityTheory.SiegelWeilFormula.Act.C5.coordsC_k},
+\lref{PositivityTheory.SiegelWeilFormula.Act.C5.coordsE_k},
+\lref{PositivityTheory.SiegelWeilFormula.Act.C5.lam_map_k},
+\lref{PositivityTheory.SiegelWeilFormula.Act.C5.kap_eq_k}). These are applied to the second-orbit terms, which
+have the required invariance after the orbit decomposition.
+
+\emph{Unfolding.} The same computation for $|\phi_z|$, together with the assumed absolute convergence, shows that the
+double series over $(\gamma',r)$ of the absolute values of the integrals is finite. By Tonelli's and Fubini's theorems
+the sum over $r\in E^{m-1}\times F$ and the integral over the fundamental domain $\mathcal U\times\mathcal A$ combine into the integral over
+$\tliftAE^{m-1}\times\A$ with respect to $\kappa$, and the claim follows with $K=c_P/c_K$.
+\end{proof}
+
+\begin{proposition}[Splitting of the degenerate coefficients]\label{pf:tlift:ctsplit}
+Let a Siegel datum, a lower-rank datum and the dilations $\iota_w$ be given, and let $f$ be a section of exponent $s_1$
+for $(\tliftKfr,\chi)$ such that $E_z$ has a meromorphic continuation in the following sense: for every $s'\in\C$ there are an
+open set containing $s'$ and a right half plane, a nonzero polynomial $p$ and a holomorphic, continuous, left
+$G(F)$-invariant function $\tliftE$ on it with $\tliftE(z,\cdot)=p(z)E_z$ where the series converges locally uniformly. Then
+there is $t\in\R$ such that for every $z$ with $\Re z>t$, all coefficient data for $Y$ and $Y'$, all unipotent data
+and all $T\rhd T'$ there is a function $c_2$ on $G(\A)$ with
+\begin{equation}\label{eq:tlift:ctsplit}
+  \int_{\mathcal U}\mathrm{fc}_T(E_z)\bigl(u(c)x\bigr)\,d\nu(c)=\mathrm{fc}'_{T'}\Bigl(g\mapsto\sum_{\gamma'\in P'(F)\backslash G_2(Y')(F)}
+  \phi_z\bigl(j(\gamma'g)\,x\bigr)\Bigr)(1)+c_2(x)
+\end{equation}
+for all $x$, and $c_2(\iota_w(y)x)=e^{\tau(m-2z)}c_2(x)$ for every infinite place $w$ and every dilation $y$ with
+parameter $\tau$.
+\formallabel{PositivityTheory.SiegelWeilFormula.Act.ctSplit_of_k}
+\end{proposition}
+
+\begin{proof}
+\emph{Choices.} Fundamental domains $\mathcal G,\mathcal U,\mathcal G'$ with compact closure exist, and both sides of
+\eqref{eq:tlift:ctsplit} do not depend on the choice of the fundamental domains
+(\lref{PositivityTheory.SiegelWeilFormula.Act.cptDom_k},
+\lref{PositivityTheory.SiegelWeilFormula.Act.indepDom_k}); so we may assume them relatively compact. There is $t$
+such that for $\Re z>t$ the series defining $E_z$, integrated over $\mathcal U\times\mathcal G$ against the character, converges
+absolutely (\lref{PositivityTheory.SiegelWeilFormula.Act.absConv_k}); then the left side of
+\eqref{eq:tlift:ctsplit} is the sum over $\gamma\in P(F)\backslash G(F)$ of the integrals
+$\int_{\mathcal U}\int_{\mathcal G}\phi_z(\gamma n(\beta)u(c)x)\psi(-\Tr\tr(T\beta))\,d\lambda\,d\nu$.
+
+\emph{First orbit.} For $\Re z$ large the sum over the cosets in the first orbit equals the first term on the right of
+\eqref{eq:tlift:ctsplit} (\lref{PositivityTheory.SiegelWeilFormula.Act.firstEq_k}).
+
+\emph{Second orbit.} Let $c_2=S_2$ be the sum over the remaining cosets. The development provides $w_1$, $c_M$ and $\kappa$ as
+in \cref{pf:tlift:unf} such that (i) $j(g)$ commutes with $\iota_w(y)$; (ii) $w_1\iota_w(y)=p\,w_1$ with $p\in P(\A)$ whose Levi
+component $t_p$ satisfies $|\det t_p|_{\tliftAE}=e^{-2\tau}$ and $\chi(\det t_p)=1$; (iii) $c_M(c)\iota_w(y)=\iota_w(y)c_M(\sigma(c))$ for a
+measurable bijection $\sigma$ with $\sigma_*\kappa=e^{2m\tau}\kappa$
+(\lref{PositivityTheory.SiegelWeilFormula.Act.cLawEx_k}). By \cref{pf:tlift:unf}, $c_2(\iota_w(y)x)$ is $K$ times the
+sum over $\gamma'$ and the integral over $\beta'$ of $\int\phi_z(w_1c_M(c)j(\gamma'n'(\beta'))\iota_w(y)x)\,d\kappa(c)$. Moving $\iota_w(y)$ to
+the left with (i) and (iii) and substituting $c\mapsto\sigma^{-1}(c)$ gives the factor $e^{2m\tau}$; then (ii) and the law
+$\phi_z(px)=\chi(\det t_p)|\det t_p|_{\tliftAE}^{z+m/2}\phi_z(x)$ (the section law with exponent $s_1$, multiplied by the
+height to the power $z-s_1$) give the factor $e^{-2\tau(z+m/2)}$. Altogether $c_2(\iota_w(y)x)=e^{\tau(m-2z)}c_2(x)$
+(\lref{PositivityTheory.SiegelWeilFormula.Act.secUnf_of_k},
+\lref{PositivityTheory.SiegelWeilFormula.Act.secLaw_of_k}).
+\end{proof}
+
+The formal statement of \cref{pf:tlift:ctsplit} has two further hypotheses, two auxiliary propositions about Siegel
+data and their Fourier coefficients, which are not used in its proof.
+
+\begin{theorem}[Siegel--Weil formula from the splitting of the degenerate coefficients]\label{pf:tlift:swfromct}
+If the conclusion of \cref{pf:tlift:ctsplit} holds for all Siegel data, then \cref{pf:tlift:swstd} holds.
+\formallabel{PositivityTheory.SiegelWeilFormula.Fin.siegelWeilStd_of_ct_k}
+\end{theorem}
+
+\begin{proof}
+The formal proof assembles the following statements, all proved in the development.
+\begin{enumerate}[label=(\arabic*),nosep]
+\item \emph{Poisson summation:} for the self-dual measure $\nu$ on the space of the doubled Schr\"odinger model and every
+  Schwartz--Bruhat $f$, the sum over rational points of the Fourier transform of $f$ (for the pairing
+  $(X,Z)\mapsto\psi(\pm\mathrm{tr}\,\mathrm{gram}(X,Z))$) equals the sum of $f$ over rational points
+  (\lref{PositivityTheory.SiegelWeilFormula.TW.Twp.poisson_k}).
+\item \emph{Automorphy of the doubled theta function:} the Weyl element of $G$ acts in the model adapted to the Siegel
+  parabolic by this Fourier transform, the Siegel parabolic acts by the Siegel rule, and consequently
+  $x\mapsto\theta_2(x,h;\Psi)$ is left $G(F)$-invariant
+  (\lref{PositivityTheory.SiegelWeilFormula.Fin.tWeyl_of_k},
+  \lref{PositivityTheory.SiegelWeilFormula.Fin.tAll_of_k}).
+\item \emph{Finiteness:} a Schwartz--Bruhat function on the doubled space is finite under the maximal compact
+  subgroup if and only if its image in the model adapted to the Siegel parabolic is a finite datum tensored with a
+  polynomial Fock vector (\lref{PositivityTheory.SiegelWeilFormula.KFP.kFinPoly_of_k},
+  \lref{PositivityTheory.SiegelWeilFormula.KK.polyKFin_of_k}).
+\item \emph{Lower-rank data} exist for $m\ge2$ (\lref{PositivityTheory.SiegelWeilFormula.Ald.ldEx_of_k}).
+\item \emph{Nondegenerate coefficients:} for nondegenerate $T$ and finite $\Phi$, the Jacquet integral
+  $z\mapsto\int_{\mathcal N(\A)}\phi_z(w\,n(\beta)x)\psi(-\Tr\tr(T\beta))\,d\lambda(\beta)$ ($w$ a Weyl element) is holomorphic at $s_0$ with
+  value $c\cdot\mathrm{orb}_T(\omega_2(x)\Phi)$, where $\mathrm{orb}_T$ is the average over a fundamental domain of $\Uni(A)(\A)$ of the
+  sum of the adapted model of $\Phi$ over the rational $X$ with $\mathrm{gram}(X)=-2T$, and $c=1$ if $m<m'$, $c=2$ if $m=m'$, and
+  $c=0$ (for vacuum vectors) if $m'<m$ (\lref{PositivityTheory.SiegelWeilFormula.KWhit.whitK_of_k},
+  \lref{PositivityTheory.SiegelWeilFormula.KWhit.whitEq_of_k},
+  \lref{PositivityTheory.SiegelWeilFormula.KWhit.whitLow_of_k}); and $\mathrm{orb}_T(\omega_2(x)\Phi)$ is the $T$-th Fourier
+  coefficient of the theta integral (\lref{PositivityTheory.SiegelWeilFormula.Fin.thetaCoef_k}).
+\item \emph{Induction step} (for $m'<m$): the identity $E(x,s_0)=2I(x)$ for vacuum vectors of a lower-rank datum
+  implies the same identity for the datum itself; this step uses \cref{pf:tlift:ctsplit}
+  (\lref{PositivityTheory.SiegelWeilFormula.AStep.stepOf_k}).
+\item \emph{Conclusion:} from (1)--(6) the identity $E(x,s_0)=\kappa\,I(x)$ follows, first for vacuum vectors and then,
+  since these generate the finite vectors, for all finite $\Psi$; the meromorphic continuation and the analyticity at
+  $s_0$ are obtained along the way (\lref{PositivityTheory.SiegelWeilFormula.Atop.siegelWeilStd_of_k},
+  \lref{PositivityTheory.SiegelWeilFormula.Fin.siegelWeilStd_of_k}).
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:tlift:swstd}]
+Combine \cref{pf:tlift:swfromct,pf:tlift:ctsplit}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The doubled group: compactness, heights and integrability}\label{pf:tlift:dblgrp}
+
+In this subsection the base data are good and $Y=(J,L,\vartheta,b)$ is a hermitian or skew-hermitian space of
+dimension $m$ (of any signature); $G_2=G_2(Y)$, $P$, $\iota$ and $\tliftK$ are as in
+\cref{pf:tlift:stab2}.
+
+\begin{lemma}[Compactness of $\tliftK$]\label{pf:tlift:stab2cpt}
+The standard maximal compact subgroup $\tliftK\subset G_2(\A)$ is compact.
+\formallabel{GlobalTheory.ThK.Dbl.stab2Cpt_k}
+\end{lemma}
+
+\begin{proof}
+Let $c=1$ if $Y$ is hermitian and $c=i$ if it is skew-hermitian, so that $H_w=c\,\tau_w(J)$ is a hermitian
+matrix with Cartan involution $\vartheta_w$. For $k\in\tliftK$ the matrix $A=\tau_w(k)$ satisfies
+${}^tA\,\mathrm{diag}(H_w,-H_w)\,\bar A=\mathrm{diag}(H_w,-H_w)$ and commutes with $\mathrm{diag}(\vartheta_w,-\vartheta_w)$, which is a
+Cartan involution of $\mathrm{diag}(H_w,-H_w)$; so $A$ preserves the positive definite hermitian form
+$z\mapsto\Re\,h_{\mathrm{diag}(H_w,-H_w)}(\mathrm{diag}(\vartheta_w,-\vartheta_w)z,z)$, and its entries are bounded by a constant
+$R_w$ depending only on $H_w$ and $\vartheta_w$ (\lref{GlobalTheory.ThK.Dbl.cartan_bound2}). At the finite
+places, $k$ maps $\widehat L\oplus\widehat L$ into itself; since $L$ is a lattice, there are compact sets
+$C_{ij}\subset\tliftAE$ such that every matrix mapping $\widehat L$ into itself has its finite $(i,j)$-entry in
+$C_{ij}$ (\lref{GlobalTheory.ThK.Dbl.St.fin_bound}). Writing an adele of $E$ as the sum of its archimedean
+and finite parts, the entries of $k$ and of $k^{-1}\in\tliftK$ lie in fixed compact subsets of $\tliftAE$. The
+group $\tliftK$ is closed in $G_2(\A)$ (commuting with a fixed matrix at infinity and mapping the closed set
+$\widehat L\oplus\widehat L$ into itself are closed conditions), and $G_2(\A)$ is closed in
+$\GL_{2m}(\tliftAE)$; a closed set of invertible matrices whose entries and whose inverses' entries lie in
+compact sets is compact (\lref{GlobalTheory.ThK.Dbl.St.isCompact_of_units}).
+\end{proof}
+
+\begin{proposition}[Iwasawa decomposition]\label{pf:tlift:iwasawa}
+$G_2(\A)=P(\A)\,\tliftK$.
+\formallabel{GlobalTheory.ThK.Dbl.Hgt.iwasawa2_k}
+\end{proposition}
+
+\begin{proof}
+Write $H=\mathrm{diag}(J,-J)$, so that $G_2=\Uni_H$, and $\tliftdia={1_m\choose1_m}$; then $P$ is the stabiliser of the Lagrangian
+$\tliftdia$ (the column space of $\tliftdia$), and $x\in P(\A)\tliftK$ if and only if $x\tliftdia=k\tliftdia\,t$ for some $k\in\tliftK$ and some
+invertible $t$, i.e.\ if and only if the Lagrangian $x\tliftdia$ is a $\tliftK$-translate of $\tliftdia$. Multiplying $J$ by a scalar (and
+transposing) does not change the groups involved, so we may assume that $H$ is hermitian.
+
+\emph{Finite places.} Let $v$ be finite, $\OO=\OO_E\otimes\OO_v$ and $M_v=\widehat L_v\oplus\widehat L_v$, where $\widehat L_v$ is the
+$v$-component of $\widehat L$; let $K_v$ be the stabiliser of $M_v$ in $\Uni_H(F_v)$. In a frame of $\widehat L_v$ (an
+$\OO$-basis, which exists because $\OO$ is a finite product of discrete valuation rings) the matrix of $lH$ is integral with
+integral inverse for some $l\in E^\times$, by the self-duality of $L$. Let $y\in\Uni_H(F_v)$ and $\mathcal L=y\tliftdia\otimes F_v$.
+Because $\OO$ is a product of discrete valuation rings, $\mathcal L\cap M_v$ is a direct summand of $M_v$ of rank $m$ (the columns
+of $y\tliftdia$ can be rescaled by some $t\in\GL_m(E\otimes F_v)$ to an integral matrix with an integral left inverse). Choose
+an $\OO$-basis $n_1,\dots,n_m$ of $\mathcal L\cap M_v$. Since $lH$ is perfect on $M_v$ and $\mathcal L$ is isotropic, there are
+$f_1,\dots,f_m\in M_v$ with $lH(n_i,f_j)=\delta_{ij}$, and after subtracting from each $f_j$ a suitable combination of the
+$n_k$ (whose coefficients are $w_0$ times the values of $lH$ on the $f$'s, for an element $w_0\in\OO_E$ with $w_0+\bar w_0=1$,
+which exists because $E/F$ is unramified at all finite places,
+\lref{GlobalTheory.exists_int_add_conj_eq_one_of_base_good_k}) the $f_j$ are isotropic as well. Thus $M_v$ has a
+basis $(n_i,f_j)$ in which $lH$ has the standard antidiagonal form and whose first half spans $\mathcal L\cap M_v$; the same
+construction gives such a basis whose first half spans $\tliftdia\cap M_v$. The element of $\Uni_H(F_v)$ which maps the second
+basis to the first lies in $K_v$ and maps $\tliftdia$ to $\mathcal L$. Hence $K_v$ acts transitively on Lagrangians and
+$\Uni_H(F_v)=K_vP(F_v)=P(F_v)K_v$, the second equality by taking inverses.
+
+\emph{Infinite places.} Let $w$ be infinite and $\Theta=\mathrm{diag}(\vartheta_w,-\vartheta_w)$, a Cartan involution of $\tau_w(H)$. Then
+$\C^{2m}=V_+\oplus V_-$ with $V_\pm$ the $\pm1$-eigenspaces of $\Theta$, on which $\tau_w(H)$ is positive, resp.\ negative,
+definite. A Lagrangian $\mathcal L$ meets $V_\pm$ trivially, hence is the graph of a linear map $T\colon V_+\to V_-$, and
+isotropy says $h(Tv,Tv)=-h(v,v)$, where $h$ is the form of $\tau_w(H)$. The group of $k\in\Uni_H(F_w)$ commuting with $\Theta$ is
+$\Uni(V_+)\times\Uni(V_-)$, and it acts transitively on such graphs. Hence again $\Uni_H(F_w)=P(F_w)K_w$, $K_w$ the
+centraliser of $\Theta$; in the formal proof this is done in frames adapted to the Cartan involutions
+(\lref{GlobalTheory.ThK.Dbl.Frame.exists_arch}).
+
+\emph{Assembly.} Let $x\in G_2(\A)$. The matrices $x$ and $x^{-1}$ preserve $M_v$ for all but finitely many $v$. At those
+places put $p_v=1$, $k_v=x_v$; at the finitely many remaining finite places and at the infinite places decompose
+$x_v=p_vk_v$ as above. Then $p=(p_v)\in P(\A)$, $k=(k_v)\in\tliftK$ (the conditions defining $\tliftK$ are local), and $x=pk$.
+\end{proof}
+
+\begin{proposition}[Iwasawa decomposition and heights]\label{pf:tlift:hgtex}
+$G_2(\A)=P(\A)\tliftK$; there is a height $\tliftht$ for $\tliftK$ (\cref{pf:tlift:stab2}), and every height
+is continuous and positive; and $\iota\colon\Uni(Y)(\A)\times\Uni(Y)(\A)\to G_2(\A)$,
+$(h,h')\mapsto\mathrm{diag}(h,h')$, is a continuous homomorphism.
+\formallabel{GlobalTheory.ThK.Dbl.hgtEx_of_k}\formallabel{GlobalTheory.ThK.Dbl.Hgt.hgtEx_core_k}
+\end{proposition}
+
+\begin{proof}
+The decomposition is \cref{pf:tlift:iwasawa}. Given it, put
+$\tliftht(pk)=|\det t_p|_{\tliftAE}$. This is well defined: if $pk=p'k'$ then
+$p'^{-1}p=k'k^{-1}\in P(\A)\cap\tliftK$, and $p\mapsto|\det t_p|_{\tliftAE}$ is a continuous homomorphism on the
+closed subgroup $P(\A)$, so its image on the compact group $P(\A)\cap\tliftK$ is a compact subgroup of
+$\R_{>0}$, i.e.\ trivial. Continuity of $\tliftht$
+is deduced from the same two facts, compactness of $\tliftK$ and continuity of $p\mapsto|\det t_p|_{\tliftAE}$.
+Any two heights for $\tliftK$ coincide, since they agree on every $pk$. Positivity is clear and $\iota$ is
+obviously a continuous homomorphism.
+\end{proof}
+
+\begin{lemma}[Integrability from a distribution bound]\label{pf:tlift:count}
+Let $\mu$ be a measure on a measurable space $G$ and $f\colon G\to\R$ measurable with $0<f\le R$ for some
+$R\ge1$. Suppose there are $C<\infty$ and $b\ge0$ with $\mu\{g:f(g)\ge2^{-j}\}\le C\,b^j$ for all $j\in\N$.
+Then there is $t_0$ such that $f^t$ is $\mu$-integrable for every $t\ge t_0$.
+\formallabel{GlobalTheory.ThK.Dbl.Hgt.integrable_of_count}
+\end{lemma}
+
+\begin{proof}
+Choose $k\in\N$ with $2^{-k}<1/(b+1)$ and let $t\ge t_0=k$. The sets $P_j=\{2^{-j}\le f\le2R\cdot2^{-j}\}$,
+$j\ge0$, cover $G$: given $g$, let $j$ be minimal with $2^{-j}\le f(g)$; if $j=0$ then $f(g)\le R\le 2R$,
+and if $j\ge1$ then $f(g)<2^{-(j-1)}=2\cdot2^{-j}\le2R\cdot2^{-j}$. On $P_j$ we have
+$f^t\le(2R)^t2^{-jt}$, and $\mu(P_j)\le Cb^j$. Hence
+\[
+  \int f^t\,d\mu\le\sum_{j\ge0}(2R)^t\,C\,(2^{-t}b)^j<\infty,
+\]
+because $2^{-t}b\le2^{-k}b<b/(b+1)<1$.
+\end{proof}
+
+The following counting lemma supplies the distribution bound for heights. Let $q$ denote the rank of a free
+$\A$-module.
+
+\begin{lemma}[Counting]\label{pf:tlift:countad}
+Let $B$ be a ring which is an $\A$-algebra, with an $\A$-linear homeomorphism $c\colon B\to\A^\kappa$ onto a free module of finite rank
+$q=|\kappa|$; let $H\subset B^\times$ be a closed subgroup with a Haar measure $\mu$, and let $\Omega\subset B$ and $\Omega_0\subset\A$ be compact.
+Then there are $R\ge1$, $C<\infty$ and $b\ge0$ such that $|u|_{\tliftAE}\le R$ for every $u\in\tliftAE^\times$ with $\Nm u\in\Omega_0$, and for
+every $j\in\N$ the set of $g\in H$ for which there is $u\in\tliftAE^\times$ with
+\[
+  \Nm u\in\Omega_0,\qquad|u|_{\tliftAE}\ge2^{-j},\qquad(\Nm u)\,g\in\Omega,\qquad(\Nm u)\,g^{-1}\in\Omega
+\]
+has $\mu$-measure at most $Cb^j$. One can take $b=2^{1+4q[F:\Q]}$.
+\formallabel{GlobalTheory.ThK.Dbl.Hgt.count_ad}
+\end{lemma}
+
+\begin{proof}
+Let $\rho\in\A^\times$ have components $\frac12$ at the infinite places and $1$ at the finite places, and let $\nu$ be a Haar measure on
+$\A$. Multiplication by $\rho^{-1}$ multiplies $\nu$ by $\delta=2^{[F:\Q]}$, since $F$ is totally real; multiplication by a rational
+number $m\ne0$ preserves $\nu$ (product formula).
+
+\emph{Step 1: scaling.} There are $i_0\in\N$ and a compact set $C_0\subset\A$ such that (a) $m\rho^{2i}\in C_0$ for all $i\in\N$ and all
+integers $0\le m\le2^i$, and (b) for $u\in\tliftAE^\times$ with $\Nm u\in\Omega_0$ one has $|u|_{\tliftAE}\le2^{i_0}$, and for every $j$ with
+$|u|_{\tliftAE}\ge2^{-j}$ there are an integer $0<m\le2^{j+i_0}$ and $x\in C_0$ with $m\rho^{2(j+i_0)}=x\Nm u$. Indeed, by compactness there
+are an integer $c\ge1$ and $R_0$ with $|a_w|\le R_0$ at the infinite places and $c\,a_v$ integral at the finite places for $a\in\Omega_0$. Let
+$C_1=\{x\in\A:|x_w|\le1,\ |x_v|_v\le1\text{ for all }w,v\}$, $C_0=C_1\cup c^2C_1$, $R_1=\max(1,c^2R_0)$, and choose $i_0$ with
+$R_1^{[F:\Q]}\le2^{i_0}$. (a) holds because $|m\rho^{2i}|_w=m4^{-i}\le1$ and $m$ is integral. For (b) put $\nu_u=\Nm(cu)=c^2\Nm u$; then
+$|\nu_{u,w}|\le R_1$, $\nu_{u,v}$ is integral, and $|u|_{\tliftAE}=|\nu_u|_\A$ by the product formula, so
+$|u|_{\tliftAE}\le R_1^{[F:\Q]}\le2^{i_0}$. If $|u|_{\tliftAE}\ge2^{-j}$, put $i=j+i_0$, so that $R_1^{[F:\Q]}\le2^i|\nu_u|_\A$, and let
+$m=\prod_v|\nu_{u,v}|_v^{-1}$, the absolute norm of the ideal generated by the finite part of $\nu_u$; it is a positive integer with
+$|m|_v\le|\nu_{u,v}|_v$ for every finite $v$. Since $\prod_w|\nu_{u,w}|\le R_1^{[F:\Q]}$ we get $m\le2^i$, and since
+$|\nu_u|_\A\le|\nu_{u,w}|R_1^{[F:\Q]}$ for each $w$ we get $|\nu_{u,w}|\ge2^{-i}$. Hence $x'=m\rho^{2i}\nu_u^{-1}$ satisfies
+$|x'_w|\le2^i4^{-i}2^i=1$ and $|x'_v|_v\le1$, so $x'\in C_1$ and $m\rho^{2i}=(c^2x')\Nm u$ with $c^2x'\in C_0$.
+
+\emph{Step 2: packing.} If $V\subset\A$ is a compact neighbourhood of $0$, $Z\subset\A$ has finite measure and $X+V\subset Z$, then there is a
+finite set $s\subset\A$ with $|s|\,\nu(V)\le\nu(Z)$ and $X\subset s+(V-V)$: take a maximal family of points $x_i\in X$ with pairwise
+disjoint translates $x_i+V$; these lie in $Z$, which bounds their number, and by maximality every $x\in X$ satisfies
+$x-x_i\in V-V$ for some $i$.
+
+\emph{Step 3: covering.} Let $\Omega'\subset B$ and $W\subset\A$ be compact. There are compact sets $X\subset\A$ and $U\subset H$ such that for every
+$l\in\A^\times$ and every finite set $s$ with $X\subset s+l^2W$,
+\[
+  \mu\{g\in H:lg\in\Omega',\ lg^{-1}\in\Omega'\}\le|s|^q\,\mu(U).
+\]
+Take for $X$ the union of the coordinate projections of $c(\Omega')$, and let $\Omega''$ be the compact set of the $1+\omega\,c^{-1}(w_1-w_2)$
+with $\omega\in\Omega'$ and $w_1,w_2\in W^\kappa$, and $U=\{h\in H:h,h^{-1}\in\Omega''\}$, which is compact because $H$ is closed in $B^\times$. For
+$y\in s^\kappa$ let $S(y)$ be the set of $g$ with $lg^{-1}\in\Omega'$ and $c(lg)_k-y_k\in l^2W$ for all $k$. The set on the left is covered by
+the $|s|^q$ sets $S(y)$. If $g,g'\in S(y)$, then $c(lg')-c(lg)=l^2(w'-w)$ with $w,w'\in W^\kappa$, so $g'-g=l\,c^{-1}(w'-w)$ and
+$g^{-1}g'=1+(lg^{-1})\,c^{-1}(w'-w)\in\Omega''$, and symmetrically $g'^{-1}g\in\Omega''$. Thus $S(y)\subset gU$, and $\mu(S(y))\le\mu(U)$ by
+left invariance.
+
+\emph{Step 4: conclusion.} Apply Step 3 with $\Omega'=C_0\Omega$ and $W=V-V$, $V$ a compact neighbourhood of $0$, and put
+$Z=X+C_0C_0V$ and $A_0=\nu(Z)/\nu(V)$. Let $i\in\N$, $0<m\le2^i$ and $l=m\rho^{2i}$. Then $l\in C_0$ by Step 1(a), so $X+l^2V\subset Z$, and
+Step 2 (with $l^2V$ in place of $V$) gives $s$ with $X\subset s+l^2W$ and $|s|\le\nu(Z)/\nu(l^2V)=A_0\delta^{4i}$, because $l^2V$ has
+measure $\delta^{-4i}\nu(V)$. By Step 3,
+\[
+  \mu\{g:lg\in C_0\Omega,\ lg^{-1}\in C_0\Omega\}\le(A_0\delta^{4i})^q\mu(U).
+\]
+Now let $j\in\N$ and let $g,u$ be as in the statement, and put $i=j+i_0$. By Step 1(b), $m\rho^{2i}=x\Nm u$ with $0<m\le2^i$ and
+$x\in C_0$, hence $m\rho^{2i}g=x(\Nm u)g\in C_0\Omega$, and likewise for $g^{-1}$. Summing the last estimate over the at most $2^i$
+values of $m$, the set in question has measure at most
+$2^i(A_0\delta^{4i})^q\mu(U)=A_0^q\mu(U)(2\delta^{4q})^{i_0}\cdot(2\delta^{4q})^j$. This is the claim with $R=2^{i_0}$,
+$C=A_0^q\mu(U)(2\delta^{4q})^{i_0}$ and $b=2\delta^{4q}=2^{1+4q[F:\Q]}$.
+\end{proof}
+
+\begin{remark}[An explicit threshold]\label{pf:tlift:remdzero}
+In \cref{pf:tlift:hgtint} below, \cref{pf:tlift:countad} is applied with $B=M_m(\tliftAE)$, a free $\A$-module of rank $q=2m^2$, so
+$b=2^{1+8m^2[F:\Q]}$, and \cref{pf:tlift:count} holds with any integer $t_0$ such that $2^{t_0}>b+1$, for instance
+$t_0=2+8m^2[F:\Q]$. Through \cref{pf:tlift:hgtfst} and the proof of \cref{pf:tlift:main} (where $m=n$ and $d_0=\max(N,2n)$
+for an integer $N>2t_0$) this shows that $d_0=5+16n^2[F:\Q]$ is an admissible value of the threshold. The formal
+statement only asserts the existence of $d_0$.
+\end{remark}
+
+\begin{proposition}[Integrability of heights]\label{pf:tlift:hgtint}
+Let $\tliftht$ be a height for $\tliftK$ and $\mu$ a Haar measure on $\Uni(Y)(\A)$. There is $t_0$ such that
+$g\mapsto\tliftht(\iota(1,g))^t$ is $\mu$-integrable for all $t\ge t_0$.
+\formallabel{GlobalTheory.ThK.Dbl.hgtInt_of_k}
+\end{proposition}
+
+\begin{proof}
+Let $g\in\Uni(Y)(\A)$ and write $\iota(1,g)=pk$ with $p\in P(\A)$, $k\in\tliftK$ and $t=t_p$. Then
+$k^{-1}=\iota(1,g^{-1})p$, and since $p\tliftdia=\tliftdia t$,
+\begin{equation}\label{eq:tlift:rows}
+  k^{-1}\tliftdia=\iota(1,g^{-1})\tliftdia\,t={t\choose g^{-1}t}.
+\end{equation}
+Let $T(k),T'(k)\in M_m(\tliftAE)$ be the upper and lower blocks of $k^{-1}\tliftdia$; they depend continuously on
+$k\in\tliftK$, and $\tliftht(\iota(1,g))=|\det t|_{\tliftAE}$ with $t=T(k)$, $g^{-1}t=T'(k)$. Put
+$u=\det t\in\tliftAE^\times$ and $N=\Nm_{\tliftAE/\A}u=u\bar u$. Since $g^{-1}$ is unitary,
+$\det(g^{-1})\overline{\det(g^{-1})}=1$, and the elementary identity
+\[
+  (\det t\,\overline{\det t})\,g=\overline{\det t'}\;t\,\mathrm{adj}(t'),\qquad
+  (\det t\,\overline{\det t})\,g^{-1}=\overline{\det t}\;t'\,\mathrm{adj}(t)\qquad(t'=g^{-1}t)
+\]
+(\lref{GlobalTheory.ThK.Dbl.Hgt.graph_alg}; it follows from $t=g\,t'$, $M\,\mathrm{adj}(M)=\det M$ and
+$\det t'=\det g^{-1}\det t$) shows that $N\,g$ and $N\,g^{-1}$ lie in the compact set $\Omega$ obtained as the
+image of $\tliftK$ under the continuous maps $k\mapsto\overline{\det T'(k)}\,T(k)\,\mathrm{adj}(T'(k))$ and
+$k\mapsto\overline{\det T(k)}\,T'(k)\,\mathrm{adj}(T(k))$ (with $\bar{\ }$ the conjugation of $\tliftAE$), while $N$ lies in
+the compact set $\Omega_0=\{\Nm\det T(k):k\in\tliftK\}$.
+
+By \cref{pf:tlift:countad} (applied to the closed subgroup
+$\Uni(Y)(\A)$ of $\GL_m(\tliftAE)$, the compact sets $\Omega,\Omega_0$ and $\mu$) there are $R\ge1$, $C<\infty$ and
+$b\ge0$ such that $|u|_{\tliftAE}\le R$ for every $u\in\tliftAE^\times$ with $\Nm u\in\Omega_0$, and for every $j$ the set of $g$
+for which there is $u\in\tliftAE^\times$ with $\Nm u\in\Omega_0$, $|u|_{\tliftAE}\ge2^{-j}$, $(\Nm u)\,g\in\Omega$ and $(\Nm u)\,g^{-1}\in\Omega$ has
+measure at most $Cb^j$. Applying it with $u=\det t$ shows $\tliftht(\iota(1,g))\le R$ and
+$\mu\{g:\tliftht(\iota(1,g))\ge2^{-j}\}\le Cb^j$. The function $g\mapsto\tliftht(\iota(1,g))$ is continuous and
+positive (\cref{pf:tlift:hgtex}), and \cref{pf:tlift:count} gives $t_0$.
+\end{proof}
+
+\begin{proposition}[The integrability exponent]\label{pf:tlift:hgtfst}
+Let $X$ be a positive definite hermitian space, $\tliftK$ the standard maximal compact subgroup of
+$G_2(X)(\A)$, $\tliftht$ a height for $\tliftK$ and $\iota$ as above. There is $t_0\in\R$ such that for every Haar
+measure $\mu$ on $\Uni(X)(\A)$ and every $t\ge t_0$ the function $g\mapsto\tliftht(\iota(g,1))^t$ is $\mu$-integrable.
+\formallabel{UpperTheory.TP.hgtFst_k}
+\end{proposition}
+
+\begin{proof}
+Fix a Haar measure $\mu_0$ and let $t_0$ be given by \cref{pf:tlift:hgtint} for $\mu_0$. Every Haar measure is a
+multiple of $\mu_0$, so $g\mapsto\tliftht(\iota(1,g))^t$ is integrable for every Haar measure $\mu$ and $t\ge t_0$. Next,
+$\iota(g,1)=\iota(g,g)\,\iota(1,g^{-1})$, where $\iota(g,g)\in P(\A)$ has Levi component $g$, and
+$|\det g|_{\tliftAE}=1$ for unitary $g$ (as $\det g\,\overline{\det g}=1$); hence
+\begin{equation}\label{eq:tlift:swap}
+  \tliftht(\iota(g,1))=\tliftht(\iota(1,g^{-1})).
+\end{equation}
+Haar measures on $\Uni(X)(\A)$ are right invariant (\cref{pf:tlift:cpt}), so the image of $\mu$ under $g\mapsto g^{-1}$
+is a multiple of $\mu$ (\lref{GlobalTheory.ThK.Dbl.inv_scale}), and integrability is preserved under
+$g\mapsto g^{-1}$.
+\end{proof}
+
+\subsubsection*{An integral decomposition}
+The following lemma is used in the proof of \cref{pf:tlift:vacfix}. For a hermitian space $X$ and a finite place $v$ we say that
+a matrix $a\in M_n(\tliftAE)$ is \emph{integral at $v$} if its $v$-component, written in an $\OO_E\otimes\OO_v$-basis of $\widehat L_{X,v}$,
+has integral entries. We write $a^*$ for the adjoint of $a$ with respect to $J_X$, i.e.\ ${}^ta\,J_X=J_X\,\overline{a^*}$.
+
+\begin{lemma}[Integral decomposition at a place]\label{pf:tlift:beta}
+Let $X$ be a hermitian space, $v$ a finite place and $g\in G_2(X)(\A)$ with $g\tliftdia={x\choose y}$. Suppose that $x,y$ and some
+$a_1,a_2$ are integral at $v$ with $a_1x+a_2y=1$, and that $x-1$ and $y-1$ are supported at $v$. Then there are $b$ integral at $v$
+with $b+b^*=-1$ and $t'$ integral at $v$ with $\bigl(y+b(y-x)\bigr)t'=1$.
+\formallabel{GlobalTheory.ThK.Dbl.Vf2.exists_beta_k}
+\end{lemma}
+
+\begin{proof}
+Let $\OO=\OO_E\otimes\OO_v$; it is either a discrete valuation ring with residue field $k$ (inert $v$) or a product of two
+discrete valuation rings with residue field $k\times k$ ($v$ split). Fix an $\OO$-basis of $\widehat L_{X,v}$; in it the Gram matrix $G$ of
+$J_X$ is hermitian and integral with integral inverse, by self-duality. Let $\theta\in\OO_E$ with $\theta+\bar\theta=1$
+(\lref{GlobalTheory.exists_int_add_conj_eq_one_of_base_good_k}) and $b_0=-\theta\cdot1$; then $b_0^*=-\bar\theta\cdot1$ and
+$b_0+b_0^*=-1$. We look for $b=b_0+S$ with $S^*=-S$ (in the basis: ${}^tS\,G+G\,\bar S=0$). Put $M=y+b_0(y-x)$ and
+$m=y-x$, written in the basis at $v$; then $y+b(y-x)=M+Sm$. Since $g$ preserves $\mathrm{diag}(J_X,-J_X)$, the columns of
+$g\tliftdia$ span an isotropic subspace, which gives ${}^tM\,G\,\bar m+{}^tm\,G\,\bar M=0$ (\lref{GlobalTheory.ThK.Dbl.Vf2.lag_of}); and
+$a_1x+a_2y=1$ gives $PM+Qm=1$ with $P=a_1+a_2$ and $Q=-a_1-(a_1+a_2)b_0$, both integral. It suffices to find $S$, $G$-skew with
+integral entries, such that $M+Sm$ is invertible over $\OO$: then $t'=(M+Sm)^{-1}$ is integral and $b=b_0+S$ is as required.
+
+Let $r$ be the reduction modulo the maximal ideal of one of the factors of $\OO$, onto a field $K$. An element $z\in\OO$ is a unit if
+$r(z)\ne0$ and $r(\bar z)\ne0$. In the inert case the residue involution is nontrivial: there is $\kappa\in\OO$ with $r(\kappa-\bar\kappa)\ne0$,
+and $r(z)=0$ implies $r(\bar z)=0$. In the split case there is $\eta\in\OO$ with $r(\eta)=1$ and $r(\bar\eta)=0$
+(the residue fields being those of $E_w$, $w\mid v$). We show: if $r(M)$ is singular, there is an integral $G$-skew $S'$ with
+$\mathrm{rank}\,r(M+S'm)>\mathrm{rank}\,r(M)$. Since $M+S'm$ again satisfies the two identities above (with $Q-PS'$ in place of $Q$), at
+most $n$ such steps give $S$ with $r(\det(M+Sm))\ne0$. Then also $r(\overline{\det(M+Sm)})\ne0$: if $r(\overline{N})y_1=0$ for
+$N=M+Sm$, the isotropy identity ${}^tN\,G\,\bar m+{}^tm\,G\,\bar N=0$ gives $r({}^tN)r(G)r(\bar m)y_1=0$, hence $r(\bar m)y_1=0$ since $r(N)$ and
+$r(G)$ are invertible, and then the conjugate of $PN+(Q-PS)m=1$ gives $y_1=0$. So $\det(M+Sm)$ is a unit.
+
+For the step, let $y_0\ne0$ with $r(M)y_0=0$, lifted to $\OO^n$. Some coordinate $i$ has $r((my_0)_i)\ne0$, since otherwise
+$r(PM+Qm)y_0=0$. Let $e_i$ be the $i$-th basis vector, $w=\overline{G^{-1}e_i}$, so that $G\bar w=e_i$. For every $u\in\OO^n$ the
+matrix $S_u=u\,{}^te_i-w\,{}^t(G\bar u)$ is $G$-skew. In the split case take $z\notin\mathrm{im}\,r(M)$ and $u=\eta z$; in the inert case
+take $u=\kappa w$ and $z=r(\kappa-\bar\kappa)r(w)$. In both cases $r(S_u)=z\,{}^te_i$, so $r(M+S_um)=r(M)+z\,({}^te_i\,r(m))$, a rank one
+perturbation of $r(M)$ which does not vanish on $y_0$; its rank exceeds that of $r(M)$ provided $z\notin\mathrm{im}\,r(M)$. In the inert
+case this holds: if $r(M)x_0=z$, then $r(w-Mx_0')=0$ for $x_0'=r(\kappa-\bar\kappa)^{-1}x_0$, hence also $r(\overline{w-Mx_0'})=0$, and
+pairing the isotropy identity with $y_0$ and $\bar x_0'$ gives
+$(my_0)_i={}^t(my_0)G\,\overline{(w-Mx_0')}-{}^t(My_0)G\,\overline{(mx_0')}$, whose reduction vanishes, a contradiction.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The Rallis inner product}\label{pf:tlift:rallis}
+
+From now on $X$ is a positive definite hermitian space of dimension $n\ge1$ and $W$ a skew-hermitian
+space of dimension $d\ge1$ and signature $(d,0)$, $(M,\chi_X,\chi_W,\omega)$ is a Weil pair for $(X,W)$ with
+$M=(e,(\tliftvac_v),\mu,D)$, $\tliftK$ is the standard maximal compact subgroup of $G_2(X)(\A)$ with a height $\tliftht$,
+and $\iota(g,g')=\mathrm{diag}(g,g')$. We use the matrix coefficients \eqref{eq:tlift:coef}. A function $\varphi$
+on $\Uni(X)(\A)$ which is continuous and left $\Uni(X)(F)$-invariant is bounded (\cref{pf:tlift:cpt}).
+
+\begin{lemma}[Petersson coefficients]\label{pf:tlift:mc}
+Let $\varphi$ be continuous and left $\Uni(X)(F)$-invariant. Then $\tliftM_\varphi$ is continuous and bounded, and
+$\tliftM_\varphi(g^{-1})=\overline{\tliftM_\varphi(g)}$. If moreover $\varphi\ne0$, then $r=\tliftM_\varphi(1)>0$ and
+$|\tliftM_\varphi(g)|\le r$ for all $g$.
+\formallabel{UpperTheory.TP.coef_facts_pk}\formallabel{UpperTheory.matrix_coefficient_bounded_by_value_at_one}
+\end{lemma}
+
+\begin{proof}
+Continuity and boundedness follow from dominated convergence, $\varphi$ being bounded by some $C$ and
+$\mu(D)<\infty$. For the symmetry, the function $y\mapsto\varphi(y)\overline{\varphi(yg)}$ is left $\Uni(X)(F)$-invariant
+and $Dg^{-1}$ is again a fundamental domain (right translation preserves $\mu$); integrating over $Dg^{-1}$
+instead of $D$ gives $\tliftM_\varphi(g^{-1})=\int_D\varphi(yg^{-1})\overline{\varphi(y)}\,d\mu=\int_D\varphi(y)\overline{\varphi(yg)}\,d\mu$.
+Next, $\tliftM_\varphi(1)=\int_D|\varphi|^2\,d\mu$; it is nonzero, since a continuous left invariant function with
+vanishing integral of $|\varphi|^2$ over a fundamental domain vanishes identically
+(\lref{GlobalTheory.ThK.Dbl.Cpt.eq_zero}). The bound $|\tliftM_\varphi(g)|\le\tliftM_\varphi(1)$ is the Cauchy--Schwarz
+inequality together with $\int_D|\varphi(yg)|^2\,d\mu=\int_D|\varphi|^2\,d\mu$, which holds because $Dg$ is again a
+fundamental domain and $\mu$ is right invariant.
+\end{proof}
+
+\begin{theorem}[Rallis inner product]\label{pf:tlift:rallisthm}
+Let $t_0\in\R$ be such that $g\mapsto\tliftht(\iota(g,1))^t$ is $\mu$-integrable for all $t\ge t_0$, and suppose
+$t_0<d/2$. Let $\nu$ be a Haar measure on $\A^\kappa$, $\Phi\in\tliftPD(M)$, and $\varphi$ continuous and left
+$\Uni(X)(F)$-invariant. Then $g\mapsto\tliftZ_\Phi(g)\overline{\tliftM_\varphi(g)}$ is $\mu$-integrable, and
+\[
+  \tliftlift_M(\Phi,\varphi)=0\quad\Longrightarrow\quad\int_{\Uni(X)(\A)}\tliftZ_\Phi(g)\,\overline{\tliftM_\varphi(g)}\,d\mu(g)=0.
+\]
+\formallabel{UpperTheory.TP.rallis_k}
+\end{theorem}
+
+The integral is the doubling zeta integral at the point $s_0=\frac{d-n}2$, and the argument is the
+classical one \cite{Rallis1984,PiatetskiShapiroRallis1987,Li1992}: by the Siegel--Weil formula the value of
+the doubling integral of the Eisenstein series at $s_0$ is a multiple of the Petersson norm of the theta
+lift; by unfolding it is the integral above.
+
+\begin{proof}
+\emph{Step 1: data.} By \cref{pf:tlift:cpt} for $W$ there are a Haar measure $\mu_W$ on $\Uni(W)(\A)$ and a
+fundamental domain $D_W$ of finite measure. By \cref{pf:tlift:hgtex} the height $\tliftht$ is continuous and
+positive. Let $(e^{(2)},\omega_2,S,\ell)$ be doubling data as in \cref{pf:tlift:dblx} and $c'>0$ the constant with
+$\ell(\Psi_1\boxtimes\bar\Psi_2)=c'\int\Psi_1\bar\Psi_2\,d\nu$. By \cref{pf:tlift:basic}, $\Phi\in\tliftS(\A^\kappa)$. Let
+$s_0=\frac{d-n}2$ and $f(x)=\ell(\omega_2(x)(\Phi\boxtimes\bar\Phi))$; by \cref{pf:tlift:sw}, $f$ is a section of exponent
+$s_0$ for $(\tliftK,\chi_W)$ and $E(\cdot,\cdot;f)$ has a continuation $\tliftE$ on an open set $\mathcal U\ni s_0$ satisfying
+\eqref{eq:tlift:sw}. Finally let $c\ne0$ be the constant with $\int F(g^{-1})\,d\mu=c\int F\,d\mu$ for integrable
+$F$ (\lref{GlobalTheory.ThK.Dbl.inv_scale}).
+
+\emph{Step 2: the section on the embedded group.} For $g\in\Uni(X)(\A)$,
+\begin{equation}\label{eq:tlift:idf}
+  f(\iota(1,g))\,\chi_W(\det g)^{-1}=c'\,\tliftZ_\Phi(g^{-1}).
+\end{equation}
+Indeed $\iota(1,g)=\iota(g,g)\,\iota(g^{-1},1)$ with $\iota(g,g)\in P(\A)$ of Levi component $g$ and
+$|\det g|_{\tliftAE}=1$, so the section law gives $f(\iota(1,g))=\chi_W(\det g)f(\iota(g^{-1},1))$; and by
+\eqref{eq:tlift:dblact} with $g'=1$, $\omega_2(\iota(g^{-1},1))(\Phi\boxtimes\bar\Phi)=\omega(g^{-1},1)\Phi\boxtimes\bar\Phi$, whose
+image under $\ell$ is $c'\tliftZ_\Phi(g^{-1})$. In particular $\tliftZ_\Phi$ is continuous.
+
+\emph{Step 3: bounds.} Since $\tliftK$ is compact and $f$ continuous, $|f(pk)|=|\det t_p|_{\tliftAE}^{d/2}|f(k)|$ gives
+$|f(x)|\le C_f\,\tliftht(x)^{d/2}$. With \eqref{eq:tlift:idf} and
+$\tliftht(\iota(1,g^{-1}))=\tliftht(\iota(g,1))$ (\eqref{eq:tlift:swap}) this gives
+$|\tliftZ_\Phi(g)|\le c'^{-1}C_f\,\tliftht(\iota(g,1))^{d/2}$. By \cref{pf:tlift:mc}, $|\tliftM_\varphi|\le C_m$. Hence
+\begin{equation}\label{eq:tlift:zbound}
+  |\tliftZ_\Phi(g)\,\overline{\tliftM_\varphi(g)}|\le C\,\tliftht(\iota(g,1))^{d/2}.
+\end{equation}
+For $z\in\C$ let $I(z)=\int\tliftht(\iota(g,1))^{z-s_0}\tliftZ_\Phi(g)\overline{\tliftM_\varphi(g)}\,d\mu(g)$. By
+\eqref{eq:tlift:zbound} the integrand is bounded by $C\tliftht(\iota(g,1))^{\Re z-s_0+d/2}$, which is integrable as soon as
+$\Re z-s_0+d/2\ge t_0$. Hence $I$ is defined on the half plane $H=\{\Re z>t_0+s_0-d/2\}$, and it is holomorphic
+there: on a disc of radius $\epsilon$ around a point of $H$ the integrand is dominated by
+$C(\tliftht^{u-\epsilon}+\tliftht^{u+\epsilon})$ with $u-\epsilon\ge t_0$, and holomorphy follows by differentiation under the
+integral. Since $t_0<d/2$, $s_0\in H$, and $I(s_0)$ is the integral
+of the theorem; this proves the integrability assertion.
+
+\emph{Step 4: unfolding.} For $s\in\mathcal U$ let
+\[
+  \mathcal Z(s)=\int_{D\times D}\tliftE\bigl(s,\iota(y_1,y_2)\bigr)\,\chi_W(\det y_2)^{-1}\,\varphi(y_2)\,\overline{\varphi(y_1)}\,d\mu(y_1)\,d\mu(y_2).
+\]
+The function $\tliftE(s,\iota(\cdot,\cdot))$ is left invariant under $\Uni(X)(F)^2$ (it is so on a half plane, where it is
+given by the Eisenstein series, and the identity extends by analytic continuation) and continuous,
+hence bounded on $D\times D$ locally uniformly in $s$, since $\Uni(X)(\A)=\Uni(X)(F)\Omega$ with $\Omega$ compact; so
+$\mathcal Z$ is holomorphic on $\mathcal U$. By \cref{pf:tlift:hgtint} and \eqref{eq:tlift:swap}, $g\mapsto\tliftht(\iota(1,g))^t$ is
+integrable for $t\ge t_0$, so for $\Re s$ large $g\mapsto f_s(\iota(1,g))$ is integrable ($|f_s|\le C_f\tliftht^{\Re s-s_0+d/2}$),
+and the unfolding \cref{pf:tlift:unfold}, applied to $f_s$ (whose law has exponent $s-s_0+\frac d2$) and
+integrated against $\overline{\varphi(y_1)}$ over $y_1=h\in D$ (Fubini), gives for $\Re s$ larger than some $t_1$
+\[
+  \mathcal Z(s)=\int_{\Uni(X)(\A)}f_s(\iota(1,g))\,\chi_W(\det g)^{-1}\,\tliftM_\varphi(g)\,d\mu(g).
+\]
+By \eqref{eq:tlift:idf}, $\tliftht(\iota(1,g))=\tliftht(\iota(g^{-1},1))$ and $\tliftM_\varphi(g)=\overline{\tliftM_\varphi(g^{-1})}$, the
+integrand equals $c'\,\tliftht(\iota(g^{-1},1))^{s-s_0}\tliftZ_\Phi(g^{-1})\overline{\tliftM_\varphi(g^{-1})}$, and the substitution
+$g\mapsto g^{-1}$ gives
+\begin{equation}\label{eq:tlift:zeta}
+  \mathcal Z(s)=c\,c'\,I(s)\qquad(\Re s>t_1).
+\end{equation}
+
+\emph{Step 5: analytic continuation.} The function $\mathcal Z-cc'I$ is holomorphic on $\mathcal U\cap H$ and vanishes
+for $\Re s>t_1$. Since $\mathcal U$ is open and contains a punctured neighbourhood of every point of $\C$, its
+complement is closed and discrete, so $\mathcal U\cap H$ is connected; by the identity theorem
+$\mathcal Z-cc'I$ vanishes on $\mathcal U\cap H$, in particular at $s_0$:
+$\mathcal Z(s_0)=cc'I(s_0)$.
+
+\emph{Step 6: Siegel--Weil.} By \eqref{eq:tlift:sw} and \eqref{eq:tlift:dbltheta},
+\[
+  \tliftE\bigl(s_0,\iota(y_1,y_2)\bigr)\chi_W(\det y_2)^{-1}
+  =\frac{\kappa}{\mu_W(D_W)}\int_{D_W}\theta(y_1,h;\Phi)\,\overline{\theta(y_2,h;\Phi)}\,d\mu_W(h).
+\]
+The theta series is bounded on $\Uni(X)(\A)\times\Uni(W)(\A)$ (it is continuous and invariant under the rational
+points of both compact quotients), so Fubini's theorem applies and
+\begin{align*}
+  \mathcal Z(s_0)&=\frac{\kappa}{\mu_W(D_W)}\int_{D_W}\Bigl(\int_D\theta(y_1,h;\Phi)\overline{\varphi(y_1)}\,d\mu(y_1)\Bigr)
+  \Bigl(\int_D\varphi(y_2)\overline{\theta(y_2,h;\Phi)}\,d\mu(y_2)\Bigr)d\mu_W(h)\\
+  &=\frac{\kappa}{\mu_W(D_W)}\int_{D_W}\bigl|\tliftlift_M(\Phi,\varphi)(h)\bigr|^2d\mu_W(h)
+\end{align*}
+(\lref{GlobalTheory.ThK.Dbl.An.at_value}). If $\tliftlift_M(\Phi,\varphi)=0$, then $\mathcal Z(s_0)=0$, and since $c,c'\ne0$,
+$I(s_0)=0$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Non-vanishing of the doubling integral}\label{pf:tlift:nonvan}
+
+We keep the assumptions of \cref{pf:tlift:rallis}; in addition $E$ is the CM field of the statement, so
+$F=E^+$ and the conjugation is the complex conjugation.
+
+\subsubsection*{The standard groups}
+\begin{lemma}[Identification with the standard group]\label{pf:tlift:brex}
+Let $Y$ be a space of dimension $m$ with $J_Y=\delta\cdot1_m$, $\delta\in E^\times$. There is an isomorphism of
+topological groups $e_Y\colon\Uni_m(\A)\to\Uni(Y)(\A)$ which maps $\Uni_m(E)$ onto $\Uni(Y)(F)$, $\Uni_m(E_\infty)$ onto
+the subgroup generated by the elements supported at infinity, $\Uni_m(\A_f)$ onto the subgroup of elements with
+trivial archimedean components, and, for every finite place $w$ of $E$ above $v$, $\Uni_m(F_v)$ onto the subgroup
+generated by the elements supported at $v$; and which satisfies $\tau_w(e_Y(g))=\tau_w(g)$ for the embeddings
+$\tau_w$ and $\pi_t(e_Y(g))=c_{w_t}(g)$ (under $F_v\cong E_{w_t}$) at the split places.
+\formallabel{UpperTheory.TP.brEx}
+\end{lemma}
+
+\begin{proof}
+Since $\delta\ne0$ is a scalar, ${}^tg\,\delta\,\bar g=\delta$ if and only if ${}^tg\,\bar g=1$, so $\Uni(Y)=\Uni_{1_m}$ as subgroups of
+$\GL_m$. The map $e_Y$ is induced by the canonical isomorphism of topological rings between the adele ring
+$\A_E$ of $E$ and $\A\otimes_FE$, which is compatible with the conjugations and with the decompositions into
+archimedean, finite and local components; the listed compatibilities follow from these.
+\end{proof}
+
+We fix such isomorphisms $e=e_X$ and $e'=e_W$ (with $\delta=1$ for $X$). For a function $\varphi$ on $\Uni_n(\A)$ put
+$\varphi^\flat=\varphi\circ e^{-1}$, a function on $\Uni(X)(\A)$.
+
+\begin{definition}[Matching types]\label{pf:tlift:sametype}
+Let $U$ be an automorphic representation of $\Uni_n$, $f_0\in\tliftS(F_\infty^\kappa)$ and $\varphi\in U$. We say that
+$f_0$ and $\varphi$ \emph{have the same type} if there are a finite-dimensional irreducible representation
+$(V,\rho)$ of $\Uni_n(E_\infty)$, linear maps $i\colon V\to\tliftS(F_\infty^\kappa)$ and $j\colon V\to U$ and $x_0\in V$ with
+$i(x_0)=f_0$, $j(x_0)=\varphi$, $j(\rho(k)x)=R(k)j(x)$, and such that $\omega(e(k),1)$ acts at infinity by
+$i(x)\mapsto i(\rho(k)x)$, for all $k\in\Uni_n(E_\infty)$ and $x\in V$.
+\formal{UpperTheory.TP.SameType}
+\end{definition}
+
+\subsubsection*{Decomposition of the adelic group}
+For a finite place $v$ let $\Uni(X)(F_v)$ be the subgroup of $\Uni(X)(\A)$ generated by the elements supported
+at $v$, and $K_v$ the set of $g$ such that $g$ and $g^{-1}$ map the $v$-component of $\widehat L_X$ into itself
+(\emph{integral at $v$}). Let $\tliftInt=\bigcap_vK_v$. For a finite set $S$ of finite places let $\tliftGinf$ be
+the subgroup generated by the elements supported at infinity, $\tliftGS$ the subgroup generated by the
+$\Uni(X)(F_v)$, $v\in S$, and $\tliftGoff$ the subgroup generated by the elements with trivial components at
+infinity and at the places of $S$.
+
+\begin{lemma}[Decomposition]\label{pf:tlift:decomp}
+Let $S$ be a finite set of finite places.
+\begin{enumerate}[label=(\alph*),nosep]
+\item Multiplication $\tliftGinf\times\tliftGS\times\tliftGoff\to\Uni(X)(\A)$ is an isomorphism of topological groups;
+  in particular the three subgroups commute with each other.
+\item $\tliftGinf$ is compact, $\tliftGS$ and $\tliftGoff$ are closed, $\tliftInt$ is compact and open, and
+  $\tliftGinf\subset\tliftInt$.
+\item For $b\in\tliftGS$ there are $c_v\in\Uni(X)(F_v)$ ($v\in S$) such that $c_v^{-1}b$ has trivial component at $v$, and
+  every subgroup containing all $c_v$, $v\in S$, contains $b$.
+\item Every $g\in\Uni(X)(\A)$ lies in $K_v$ for almost all $v$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.decomp_k}
+\end{lemma}
+
+\begin{proof}
+Let $\epsilon_\infty\in\A$ be the idempotent with archimedean components $1$ and finite components $0$, $\epsilon_S$
+the idempotent which is $1$ exactly at the places of $S$, and $\epsilon^S=1-\epsilon_\infty-\epsilon_S$; these are orthogonal
+idempotents with sum $1$. An element $g$ lies in $\tliftGinf$, $\tliftGS$, $\tliftGoff$ if and only if
+$\epsilon(g-1)=g-1$ for $\epsilon=\epsilon_\infty,\epsilon_S,\epsilon^S$ respectively; these are closed conditions. The map
+$g\mapsto\bigl(1+\epsilon_\infty(g-1),\,1+\epsilon_S(g-1),\,1+\epsilon^S(g-1)\bigr)$ is a continuous inverse of the multiplication map,
+because $(1+\epsilon(g-1))(1+\epsilon'(g'-1))=1+\epsilon(g-1)+\epsilon'(g'-1)$ for orthogonal $\epsilon,\epsilon'$, and each component
+is again unitary since the $\epsilon$ are fixed by the conjugation. This proves (a) and the closedness. The set
+$\tliftInt$ is the intersection of $\Uni(X)(\A)$ with the standard maximal compact subgroup of
+$\GL_n$ stabilising $\widehat L_X$; it is compact because $\Uni(X)(F_\infty)$ is compact for positive definite $X$
+and $\widehat L_X$ is compact, and open because the stabiliser of a lattice is open. Elements supported at infinity act trivially on $\widehat L_X$,
+so $\tliftGinf\subset\tliftInt$, and $\tliftGinf$ is a closed subset of the compact set $\tliftInt$. For (c) take
+$c_v=1+\epsilon_v(b-1)$, $\epsilon_v$ the idempotent of $v$; then $b=\prod_{v\in S}c_v$. For (d), the matrices $g$ and $g^{-1}$
+have integral entries at almost all places.
+\end{proof}
+
+\subsubsection*{The tail estimate}
+\begin{lemma}[Tail]\label{pf:tlift:tail}
+Let $t\in\R$ be such that $g\mapsto\tliftht(\iota(g,1))^t$ is $\mu$-integrable. For every finite set $S_0$ of finite places
+there is a finite set $S\supseteq S_0$ such that for every Haar measure $\mu_C$ on $\tliftGoff$
+\begin{equation}\label{eq:tlift:tail}
+  \int_{\tliftGoff\setminus\tliftInt}\tliftht(\iota(c,1))^t\,d\mu_C(c)<\mu_C\bigl(\tliftGoff\cap\tliftInt\bigr).
+\end{equation}
+\formallabel{UpperTheory.TP.tail_k}
+\end{lemma}
+
+\begin{proof}
+For $u\in\tliftInt$ we have $\iota(u,1)\in\tliftK$ (the Cartan involutions of $X$ are $1$, and $u$ preserves $\widehat L_X$), hence
+$\tliftht(\iota(gu,1))=\tliftht(\iota(g,1)\iota(u,1))=\tliftht(\iota(g,1))$. Thus $f(g)=\tliftht(\iota(g,1))^t$ is right $\tliftInt$-invariant,
+hence locally constant ($\tliftInt$ is open), and $m=f\mu$ is a finite measure. For finite $S$ let
+$A(S)=\{g:g\in K_v\text{ for }v\in S\}\setminus\tliftInt$. The sets $A(S)$ are measurable, decrease as $S$ grows, and
+$\bigcap_SA(S)=\emptyset$ (an element of all of them would lie in every $K_v$, hence in $\tliftInt$). Hence
+$m(A(S))\to0$ along the directed set of finite $S$, and since $\mu(\tliftInt)>0$ ($\tliftInt$ is open and contains $1$)
+there is $S\supseteq S_0$ with $m(A(S))<\mu(\tliftInt)$.
+
+Let $\mathcal D=\tliftGinf\tliftGS\cong\tliftGinf\times\tliftGS$, so $\Uni(X)(\A)=\mathcal D\times\tliftGoff$ by \cref{pf:tlift:decomp}, and choose Haar
+measures $\mu_{\mathcal D}$ on $\mathcal D$ and $\mu_C$ on $\tliftGoff$; then $\mu_{\mathcal D}\times\mu_C$ is a multiple of $\mu$. Let
+$T=\mathcal D\cap\tliftInt$, an open set of positive and finite measure. For $x\in\mathcal D$ and $c\in\tliftGoff$: $xc\in\tliftInt$ if and
+only if $x\in\tliftInt$ and $c\in\tliftInt$, since integrality is a condition on the components at each finite place and
+$x$, $c$ live at disjoint sets of places (the components of $x$ at places outside $S$ and of $c$ at places of $S$
+are trivial). If $x\in T$ and $c\in\tliftGoff\setminus\tliftInt$, then $xc\in A(S)$ and $f(xc)=f(cx)=f(c)$. Hence
+\[
+  \mu_{\mathcal D}(T)\int_{\tliftGoff\setminus\tliftInt}f\,d\mu_C\le(\mu_{\mathcal D}\times\mu_C)\text{-}\!\!\int_{A(S)}f
+  <(\mu_{\mathcal D}\times\mu_C)(\tliftInt)=\mu_{\mathcal D}(T)\,\mu_C(\tliftGoff\cap\tliftInt),
+\]
+where the strict inequality is $m(A(S))<\mu(\tliftInt)$ rescaled. Dividing by $\mu_{\mathcal D}(T)\in(0,\infty)$ gives
+\eqref{eq:tlift:tail}.
+\end{proof}
+
+\subsubsection*{An abstract non-vanishing lemma}
+\begin{lemma}[Abstract non-vanishing]\label{pf:tlift:absne}
+Let $(\mathcal A,\mu_A)$, $(\mathcal B,\mu_B)$, $(\mathcal C,\mu_C)$ be $s$-finite measure spaces, $H\subset\mathcal B$ measurable with
+$0<\mu_B(H)<\infty$, and $K\subset\mathcal C$ measurable with $\mu_C(K)<\infty$. Let $f\colon\mathcal A\times\mathcal B\times\mathcal C\to\C$ be integrable
+for $\mu_A\times\mu_B\times\mu_C$, and let $m\colon\mathcal A\times\mathcal C\to\C$, $s,c_0\colon\mathcal C\to\C$, $w\colon\mathcal C\to[0,\infty]$,
+$\kappa\in\C^\times$ and $r>0$ satisfy:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $f(x,b,c)=0$ for $b\notin H$, and $f(x,b,c)=s(c)\,m(x,c)$ for $b\in H$;
+\item $\int m(x,c)\,d\mu_A(x)=\kappa\,c_0(c)$ for every $c$;
+\item $s(c)=1$ and $c_0(c)=r$ for $c\in K$; $|c_0(c)|\le r$ and $|s(c)|\le w(c)$ for all $c$;
+\item $\int_{\mathcal C\setminus K}w\,d\mu_C<\mu_C(K)$.
+\end{enumerate}
+Then $\int f\,d(\mu_A\times\mu_B\times\mu_C)\ne0$.
+\formallabel{UpperTheory.TP.absNe}
+\end{lemma}
+
+\begin{proof}
+By Fubini and (i), (ii), the integral of $f$ over $x$ is $\one_H(b)\,\kappa\,s(c)c_0(c)$, and $c\mapsto s(c)c_0(c)$ is
+integrable (otherwise $\mu_B$-almost every $b$ would lie outside $H$, contradicting $\mu_B(H)>0$). Hence
+$\int f=\mu_B(H)\,\kappa\int_{\mathcal C}s\,c_0\,d\mu_C$, and it suffices to show $\int_{\mathcal C}s\,c_0\ne0$. By (iii),
+$\int_Ks\,c_0=r\mu_C(K)$, while $|\int_{\mathcal C\setminus K}s\,c_0|\le r\int_{\mathcal C\setminus K}w<r\mu_C(K)$ by (iii), (iv).
+\end{proof}
+
+\subsubsection*{Bump vectors}
+\begin{definition}[Bump vectors]\label{pf:tlift:bump}
+Let $v$ be a finite place. A pair $(H,\phi)$ consisting of a subgroup $H\subset\Uni(X)(F_v)$ and
+$\phi\in\tliftS(F_v^\kappa)$ is a \emph{bump} at $v$ if: $\phi\ne0$; $H\subset K_v$; $H$ contains $\Uni(X)(F_v)\cap O$ for some
+open neighbourhood $O$ of $1$; $\omega(g,1)$ acts at $v$ trivially on $\phi$ for $g\in H$; and for every
+$g\in\Uni(X)(F_v)\setminus H$ there are $u$ supported at $v$ and $c\ne c'$ such that $\rho(u)$ and $\rho(gu)$ act at $v$ on
+$\phi$ by the scalars $c$ and $c'$ respectively.
+\formal{UpperTheory.TP.IsBump}
+\end{definition}
+
+The last condition makes the matrix coefficient vanish off $H$:
+
+\begin{lemma}[Orthogonality]\label{pf:tlift:orth}
+Let $\Phi\in\tliftS(\A^\kappa)$, $\Phi\ne0$, $g\in\Uni(X)(\A)$ and $u$ with $\rho(u)\Phi=c\Phi$ and $\rho(gu)\Phi=c'\Phi$, $c\ne c'$. Then
+$\tliftZ_\Phi(g)=0$.
+\formallabel{GlobalTheory.ThK.Dbl.Bad.orth_k}
+\end{lemma}
+
+\begin{proof}
+By (W1), $\rho(gu)\,\omega(g,1)\Phi=\omega(g,1)\rho(u)\Phi=c\,\omega(g,1)\Phi$. The operator $\rho(gu)$ is unitary for the
+$L^2$-norm of $\nu$ (as $|\psi|=1$ and $\nu$ is translation invariant), so
+$\langle\rho(gu)A,\rho(gu)B\rangle=\langle A,B\rangle$ for $A=\omega(g,1)\Phi$, $B=\Phi$ gives $c\,\bar c'\,\tliftZ_\Phi(g)=\tliftZ_\Phi(g)$, and for
+$A=B=\Phi$ it gives $|c'|^2=1$ (as $\langle\Phi,\Phi\rangle>0$). If $\tliftZ_\Phi(g)\ne0$ then $c\bar c'=1=c'\bar c'$, so $c=c'$.
+\end{proof}
+
+\begin{lemma}[Lattice data]\label{pf:tlift:latdatum}
+Assume $2n\le d$, and let $v$ be a finite place. There are:
+\begin{enumerate}[label=(\roman*),nosep]
+\item an additive group $\Lambda$ of $n\times n$ matrices supported at $v$ which is closed under multiplication, contains
+  $1_v$ (the idempotent of $v$ times the identity) and is stable under multiplication by integral adeles supported at
+  $v$, such that $a\gamma\in\Lambda_v$ for $a\in\Lambda$ and $\gamma\in\Lambda_v$ ($\Lambda_v$ as in (M2));
+\item $x_1\in\Lambda_v$ with $x_1J_W{}^t\bar x_1=0$, and a matrix $r$ with $x_1r=1_v$ and $\gamma r\in\Lambda$ for all $\gamma\in\Lambda_v$;
+\item $\varpi\in\OO_v$ with $\varpi\ne0$ and $|\varpi|<1$ such that $1_v+\varpi p$ has a right inverse in $\Lambda$ for every $p\in\Lambda$;
+\end{enumerate}
+such that the sets $H_k=\{g\in\Uni(X)(F_v):g-1\in\varpi^k\Lambda,\ g^{-1}-1\in\varpi^k\Lambda\}$ satisfy: every neighbourhood of $1$ in
+$\Uni(X)(\A)$ contains $H_k$ for all large $k$, and for every $k$ there is an open $O\ni1$ with $\Uni(X)(F_v)\cap O\subset H_k$.
+\formallabel{UpperTheory.exists_weilLatticeDatum}
+\end{lemma}
+
+\begin{proof}
+\emph{An isotropic splitting of $W$ at $v$.} Since $E/F$ is unramified at $v$, the place $v$ is split or inert. Because $d\ge2n$,
+there are matrices $Y\in M_{n\times d}(\tliftAE)$ and $R\in M_{d\times n}(\tliftAE)$, supported at $v$, such that the rows of $Y$ lie in
+the local lattice $L_{W,v}$ of $W$ at $v$, $YR=1_v$, $YJ_W{}^t\bar Y=0$, and $zR$ has integral coordinates for every $z\in L_{W,v}$
+(\lref{UpperTheory.exists_isotropic_splitting_of_two_mul_le} at split places,
+\lref{UpperTheory.exists_isotropic_splitting_at_inert_prime} at inert places): the rows of $Y$ span an
+$n$-dimensional isotropic subspace of $W\otimes_FF_v$ which is a direct summand of the lattice.
+
+\emph{A frame of $X$ at $v$.} Since $\OO_E\otimes\OO_v$ is a product of discrete valuation rings, the local lattice $L_{X,v}$ is
+free; so there are matrices $b,c$ supported at $v$ with $bc=cb=1_v$, the columns of $b$ in $L_{X,v}$, and $cz$ integral for
+$z\in L_{X,v}$. Let $\varpi$ be a uniformiser of $F_v$.
+
+\emph{Definition and properties.} Let $\Lambda$ be the set of matrices $a$ supported at $v$ such that $cab$ is integral, and put
+$x_1=bY$, $r=Rc$. Then: $c(aa')b=(cab)(ca'b)$ because $bc=1_v$, so $\Lambda$ is closed under multiplication; $c1_vb=1_v$; and
+$\Lambda$ is stable under integral scalars. For $a\in\Lambda$ and $z\in L_{X,v}$, $az=b\,(cab)(cz)\in L_{X,v}$; applied to the generators
+$z\,{}^ty$ of $\Lambda_v$ this gives (i). Next, $x_1=\sum_kb_{\cdot k}Y_{k\cdot}\in\Lambda_v$, $x_1J_W{}^t\bar x_1=b\,(YJ_W{}^t\bar Y)\,{}^t\bar b=0$,
+$x_1r=b(YR)c=bc=1_v$, and for a generator $\gamma=z\,{}^ty$ of $\Lambda_v$, $c\gamma rb=(cz)({}^tyR)(cb)$ is integral; this gives (ii). Under
+$a\mapsto cab$, $\Lambda$ is identified with the ring of integral $n\times n$ matrices over $\OO_E\otimes\OO_v$, in which
+$1+\varpi p$ is invertible (its determinant is congruent to $1$ modulo $\varpi$); this gives (iii). Finally, under the same
+identification the sets $\varpi^k\Lambda$ form a basis of neighbourhoods of $0$ in the matrices supported at $v$, and the
+topology of $\Uni(X)(F_v)$ is that of matrices together with their inverses; this gives the last assertion.
+\end{proof}
+
+\begin{lemma}[Separation]\label{pf:tlift:separate}
+Let $v$ be a finite place, $g\in\Uni(X)(\A)$ supported at $v$, and $y\in M_{n\times d}(\tliftAE)$ supported at $v$ with
+$y\notin\Lambda_v+g^{-1}\Lambda_v$. Then there is $u\in\Lambda_v$ with $gu\in\Lambda_v$ and $\psi(\langle u,y\rangle)\ne1$.
+\formallabel{UpperTheory.exists_separating_of_not_mem_lattice_coset}
+\end{lemma}
+
+\begin{proof}
+The lattice $\Lambda_v$ is self-dual: a matrix $z$ supported at $v$ lies in $\Lambda_v$ if and only if $\psi(\langle z,\gamma\rangle)=1$ for all
+$\gamma\in\Lambda_v$ (\lref{GlobalTheory.LatSelfDualAll.latAtV_selfDual_k}; this uses the self-duality of $L_X$ and
+$L_W$). The Darboux coordinates at $v$ identify the matrices supported at $v$ with $F_v^\kappa\times F_v^\kappa$, and
+$S=\Lambda_v+g^{-1}\Lambda_v$ with an $\OO_v$-submodule which contains $\Lambda_v$ and is bounded, since $\Lambda_v$ and $g^{-1}\Lambda_v$
+are. Since the locally compact group $F_v^\kappa\times F_v^\kappa$ is identified with its Pontryagin dual by
+$(w,s)\mapsto\psi(\langle w,s\rangle)$, the closed subgroup $S$ is the annihilator of its annihilator: if $y\notin S$, there is $w$ with
+$\psi(\langle w,s\rangle)=1$ for all $s\in S$ and $\psi(\langle w,y\rangle)\ne1$. Then $u=w$ works:
+$u\in\Lambda_v$ by self-duality, since $\Lambda_v\subset S$; and for $\gamma\in\Lambda_v$,
+$\psi(\langle gu,\gamma\rangle)=\psi(\langle u,g^{-1}\gamma\rangle)=1$ because $g^{-1}\gamma\in S$ and the form is invariant, so $gu\in\Lambda_v$.
+\end{proof}
+
+\begin{proposition}[Existence of bumps]\label{pf:tlift:bumpany}
+Assume $2n\le d$. For every finite place $v$ and every neighbourhood $N$ of $1$ in $\Uni(X)(\A)$ there is a bump
+$(H,\phi)$ at $v$ with $H\subset N$.
+\formallabel{UpperTheory.TP.bumpAny_k}
+\end{proposition}
+
+\begin{proof}
+\emph{Lattice datum.} Let $(\Lambda,x_1,r,\varpi)$ be as in \cref{pf:tlift:latdatum} (this is where $2n\le d$ is used), and $H_k$ the
+congruence subgroups defined there.
+
+\emph{Construction.} By \cref{pf:tlift:acts} there is a neighbourhood $U_1$ of $1$ such that $\omega(g,1)$ fixes
+$\tliftvac_v$ at $v$ for $g\in U_1$ supported at $v$; and $K_v$ is open. Choose $k_0$ with $H_k\subset N\cap U_1\cap K_v$ for
+$k\ge k_0$, let $k=k_0+1$, $H=H_k$, $x_0=\varpi^{-k}x_1$ (supported at $v$) and $\phi$ the vector by which $\rho(x_0)$ acts
+on $\tliftvac_v$; $\phi\ne0$ since $\rho(x_0)$ is invertible. $H$ is a subgroup ($(1+\varpi^ka)(1+\varpi^kb)=1+\varpi^k(a+b+\varpi^kab)$), it
+contains $\Uni(X)(F_v)\cap O$ for an open $O\ni1$ since the $H_k$ are neighbourhoods of $1$, and $H\subset N\cap K_v$.
+
+\emph{$H$ fixes $\phi$.} Let $g\in H$, $g-1=\varpi^ka$ with $a\in\Lambda$. Then $gx_0=x_0+ax_1$ with $ax_1\in\Lambda_v$. By (M2),
+$\rho(ax_1)$ acts on $\tliftvac_v$ by $\psi(\frac12\Tr(\vartheta h(ax_1,ax_1)))=1$, because $h(ax_1,ax_1)$ is a multiple of
+$x_1J_W{}^t\bar x_1=0$; for the same reason $\langle x_0,ax_1\rangle=0$, so $\rho(x_0+ax_1)=\rho(x_0)\rho(ax_1)$. As $\omega(g,1)$
+fixes $\tliftvac_v$ (since $g\in U_1$), (W1) gives
+\[
+  \omega(g,1)\phi=\omega(g,1)\rho(x_0)\tliftvac_v=\rho(gx_0)\,\omega(g,1)\tliftvac_v=\rho(x_0)\rho(ax_1)\tliftvac_v=\rho(x_0)\tliftvac_v=\phi
+\]
+(all at $v$).
+
+\emph{Eigenvectors.} For $\gamma\in\Lambda_v$, the Heisenberg relations and (M2) give that $\rho(\gamma)$ acts on $\phi$ by the
+scalar $\psi(\langle\gamma,x_0\rangle)\,Q(\gamma)$, $Q(\gamma)=\psi(\frac12\Tr(\vartheta h(\gamma,\gamma)))$.
+
+\emph{Separation.} Let $g\in\Uni(X)(F_v)\setminus H$ and $y=g^{-1}x_0-x_0$. If $y=a+g^{-1}b$ with $a,b\in\Lambda_v$, then using
+$x_1r=1_v$, $\gamma r\in\Lambda$ and the invertibility of $1_v+\varpi p$ in $\Lambda$ one solves for $g-1$ and $g^{-1}-1$ in $\varpi^k\Lambda$,
+i.e.\ $g\in H$ (an explicit matrix identity, \lref{UpperTheory.TP.BA.cong_key_pk}); this is excluded. Hence
+$y\notin\Lambda_v+g^{-1}\Lambda_v$, and by \cref{pf:tlift:separate} there is $u\in\Lambda_v$ with $gu\in\Lambda_v$ and $\psi(\langle u,y\rangle)\ne1$.
+Now $Q(gu)=Q(u)$ and
+$\langle gu,x_0\rangle=\langle u,g^{-1}x_0\rangle$ by invariance, so the eigenvalues $c=\psi(\langle u,x_0\rangle)Q(u)$ and
+$c'=\psi(\langle gu,x_0\rangle)Q(gu)$ of $\rho(u)$ and $\rho(gu)$ on $\phi$ satisfy $c'/c=\psi(\langle u,y\rangle)\ne1$.
+\end{proof}
+
+\subsubsection*{The doubling integral on a bump datum}
+\begin{proposition}[Bump data]\label{pf:tlift:datum}
+Let $S$ be a finite set of finite places such that $\chi_W$ is unramified at every place of $E$ above every
+$v\notin S$. Let $\phi$ be finite data with bumps $(H_v,\phi_v)$ at the places $v\in S$ and $\phi_v=\tliftvac_v$ for $v\notin S$,
+let $\mathcal H$ be the subgroup generated by the $H_v$, $v\in S$, and let $0\ne f_0\in\tliftPol$ and $\Phi=f_0\otimes\phi$. Then
+$\tliftZ_\Phi(1)\ne0$, and for $x\in\tliftGinf$, $b\in\tliftGS$, $c\in\tliftGoff$:
+\begin{enumerate}[label=(\alph*),nosep]
+\item if $b\notin\mathcal H$ then $\tliftZ_\Phi(xbc)=0$;
+\item there is $s=s(c)\in\C$ with $|s|=\tliftht(\iota(c,1))^{d/2}$, $s=1$ if $c\in\tliftInt$, and
+  $\tliftZ_\Phi(x'b'c)=s\,\tliftZ_\Phi(x')$ for all $x'\in\tliftGinf$ and $b'\in\mathcal H$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.datum_k}
+\end{proposition}
+
+\begin{proof}
+$\Phi$ is a nonzero Schwartz--Bruhat function, so $\tliftZ_\Phi(1)=\int|\Phi|^2d\nu>0$.
+
+(a) Write $b=\prod_{v\in S}c_v$ as in \cref{pf:tlift:decomp}(c). If $b\notin\mathcal H$, some $c_v$ is not in $H_v$, and the bump
+property gives $u$ supported at $v$ and $c\ne c'$ with $\rho(u)\phi_v=c\phi_v$, $\rho(c_vu)\phi_v=c'\phi_v$. Since $x$, $c$ and the
+$c_{v'}$, $v'\ne v$, have trivial component at $v$, $(xbc)u=c_vu$; as $\rho(u)$ and $\rho(c_vu)$ act only at $v$,
+$\rho(u)\Phi=c\Phi$ and $\rho((xbc)u)\Phi=c'\Phi$, and \cref{pf:tlift:orth} gives $\tliftZ_\Phi(xbc)=0$.
+
+(b) Let $(e^{(2)},\omega_2,S_W,\ell)$ be doubling data as in \cref{pf:tlift:dblx}, with $\ell(\Psi_1\boxtimes\bar\Psi_2)=c_0'\int\Psi_1\bar\Psi_2\,d\nu$,
+and $F(x)=\ell(\omega_2(x)(\Phi\boxtimes\bar\Phi))$. By \eqref{eq:tlift:dblact},
+$F(\iota(g,1))=c_0'\,\tliftZ_\Phi(g)$. If $c\in\tliftInt$, put $p=1$, $t=1$, $k=\iota(c,1)\in\tliftK$; otherwise apply the Iwasawa
+decomposition to the components of $\iota(c,1)$ outside $S$ and at infinity, obtaining $\iota(c,1)=pk$ with $p\in P(\A)$
+of Levi component $t$ and $k\in\tliftK$, where $p$ and $k$ have trivial components at infinity and at the places of
+$S$ (cut the decomposition of $\iota(c,1)$ with the idempotent of these places). Put $s=\chi_W(\det t)|\det t|_{\tliftAE}^{d/2}$; then
+$|s|=|\det t|^{d/2}_{\tliftAE}=\tliftht(\iota(c,1))^{d/2}$, and $s=1$ if $c\in\tliftInt$.
+
+Next, $\omega_2(k)$ fixes $\Psi=\Phi\boxtimes\bar\Phi$. Let $v\notin S$ and let $k'\in\tliftK$ with $k'-1$ supported at $v$.
+Since $\chi_W$ is unramified above $v$, $\omega_2(k')$ acts at $v$ trivially on the factor
+$\tliftvac_v\boxtimes\overline{\tliftvac_v}$ of $\Psi$ (\cref{pf:tlift:vacfix}), so $\omega_2(k')\Psi=\Psi$. For a finite set $T$ of
+finite places let $k_T$ be the element which agrees with $k$ at the places of $T$ and is trivial elsewhere (cut
+$k-1$ with the idempotent of $T$). Then $k_T\in\tliftK$, and $k_T$ is the product of the elements $k_{\{v\}}$,
+$v\in T\setminus S$, each of which lies in $\tliftK$ and is supported at a single place $v\notin S$ (recall that $k$ is
+trivial at infinity and at $S$); hence $\omega_2(k_T)\Psi=\Psi$. As $T$ grows, $k_T\to k$, and for every point $z$ the map
+$g\mapsto(\omega_2(g)\Psi)(z)$ is continuous by (W1), the evaluation at $z$ being an admissible linear form.
+Hence $\omega_2(k)\Psi=\Psi$. Let $y\in\tliftGinf\tliftGS$; then $y$ commutes with $c$ and $\iota(y,1)$
+commutes with $k$, as they live at disjoint sets of places. Hence $\iota(yc,1)=\iota(cy,1)=p\,k\,\iota(y,1)=p\,\iota(y,1)\,k$ and, by
+the section law (\cref{pf:tlift:law}),
+\[
+  c_0'\tliftZ_\Phi(yc)=F(p\,\iota(y,1)\,k)=s\,\ell\bigl(\omega_2(\iota(y,1))\omega_2(k)(\Phi\boxtimes\bar\Phi)\bigr)=s\,F(\iota(y,1))=s\,c_0'\,\tliftZ_\Phi(y).
+\]
+Finally, for $x'\in\tliftGinf$ and $b'\in\mathcal H$: $\omega(b',1)\Phi=\Phi$, because each $H_v$ fixes $\phi_v$ at $v$; so
+$\tliftZ_\Phi(x'b'c)=s\,\tliftZ_\Phi(x'b')=s\,\langle\omega(x',1)\omega(b',1)\Phi,\Phi\rangle=s\,\tliftZ_\Phi(x')$.
+\end{proof}
+
+\subsubsection*{The archimedean integral}
+\begin{proposition}[Schur orthogonality step]\label{pf:tlift:schur}
+Let $U$ be an automorphic representation of $\Uni_n$, and let $0\ne f_0\in\tliftS(F_\infty^\kappa)$ and $0\ne\varphi\in U$ have
+the same type (\cref{pf:tlift:sametype}). Let $\phi$ be finite data, $\Phi=f_0\otimes\phi$, and $\mu_A$ a Haar measure on the
+compact group $\tliftGinf$. There is $\kappa\ne0$ such that for every $c$ with trivial archimedean components
+\[
+  \int_{\tliftGinf}\tliftZ_\Phi(x)\,\overline{\tliftM_{\varphi^\flat}(xc)}\,d\mu_A(x)=\kappa\,\tliftZ_\Phi(1)\,\overline{\tliftM_{\varphi^\flat}(c)}.
+\]
+\formallabel{UpperTheory.TP.schurStep_k}
+\end{proposition}
+
+\begin{proof}
+Let $(V,\rho,i,j,x_0)$ be as in \cref{pf:tlift:sametype}, and transport $\rho$ to $\tliftGinf$ via $e$ (\cref{pf:tlift:brex}),
+writing $\pi(x)=\rho(e^{-1}x)$. Since $\pi$ is irreducible and $\ker j$ is invariant, $j$ is injective ($j(x_0)=\varphi\ne0$).
+For $a\in V$ let $\Psi(a)=i(a)\otimes\phi$ and $J(a)=j(a)^\flat$. Then $\omega(x,1)\Psi(a)=\Psi(\pi(x)a)$ and
+$J(\pi(x)a)=R(x)J(a)$ for $x\in\tliftGinf$. Consider the sesquilinear forms
+\[
+  B_1(a,b)=\int\Psi(a)\,\overline{\Psi(b)}\,d\nu,\qquad B(a,b)=\int_DJ(a)\,\overline{J(b)}\,d\mu.
+\]
+Both are $\pi$-invariant: $B_1$ by unitarity of $\omega$ (W1), $B$ by right invariance of $\mu$ and the fact that
+$Dx$ is a fundamental domain; and $B$ is
+hermitian and positive definite since $J$ is injective and $J(a)$ is continuous and left invariant. By
+Schur's lemma for the irreducible finite-dimensional $\pi$, $B_1=c_1B$ for some $c_1\in\C$. Fix $c$ and let $u=R(c)\varphi^\flat$; by the
+Riesz representation for $B$ there is $u_0\in V$ with $\int_Du\,\overline{J(b)}\,d\mu=B(u_0,b)$ for all $b$. For $x\in\tliftGinf$ one
+gets $\tliftM_{\varphi^\flat}(xc)=\int_Du(yx)\overline{J(x_0)(y)}\,d\mu(y)=B(\pi(x)u_0,x_0)$ (substitute $y\mapsto yx^{-1}$ and use
+invariance), and $\tliftZ_\Phi(x)=B_1(\pi(x)x_0,x_0)$ since $\omega(x,1)\Phi=\Psi(\pi(x)x_0)$.
+Schur's orthogonality relations for the compact group $\tliftGinf$ and the invariant inner product $B$ give
+\[
+  \int_{\tliftGinf}B(\pi(x)a,b)\,\overline{B(\pi(x)a',b')}\,d\mu_A(x)=\frac{\mu_A(\tliftGinf)}{\dim V}\,B(a,a')\,\overline{B(b,b')}.
+\]
+With $a=x_0$, $a'=u_0$, $b=b'=x_0$ and $B_1=c_1B$ this yields the claim with
+$\kappa=\mu_A(\tliftGinf)/\dim V$, using $B(x_0,u_0)=\overline{B(u_0,x_0)}=\overline{\tliftM_{\varphi^\flat}(c)}$ and
+$c_1B(x_0,x_0)=\tliftZ_\Phi(1)$.
+\end{proof}
+
+\subsubsection*{Non-vanishing}
+\begin{theorem}[Non-vanishing of the lift]\label{pf:tlift:nonvanthm}
+Assume $2n\le d$, and let $t_0<d/2$ be such that $g\mapsto\tliftht(\iota(g,1))^t$ is $\mu$-integrable for all $t\ge t_0$. Let
+$U$ be an automorphic representation of $\Uni_n$, and $0\ne f_0\in\tliftPol$, $0\ne\varphi\in U$ of the same type. Then
+there are finite data $\phi$ such that $\tliftlift_M(f_0\otimes\phi,\varphi^\flat)\ne0$.
+\formallabel{UpperTheory.TP.nonVan_k}
+\end{theorem}
+
+\begin{proof}
+\emph{Choices.} $\varphi^\flat$ is continuous and left $\Uni(X)(F)$-invariant, and nonzero. Let $r=\tliftM_{\varphi^\flat}(1)>0$, so that
+$|\tliftM_{\varphi^\flat}|\le r$ (\cref{pf:tlift:mc}). Since $\varphi$ is an automorphic form, the $k\in\Uni_n(\A_f)$ with
+$R(k)\varphi=\varphi$ form an open subset of $\Uni_n(\A_f)$ containing $1$; transporting by $e$ we obtain an open
+neighbourhood $N$ of $1$ in $\Uni(X)(\A)$ such that $\varphi^\flat(yg)=\varphi^\flat(y)$ for all $y$ and all $g\in N$ with trivial
+archimedean components. Since $\tliftInt$ is compact and the
+groups $G^{S}$ are closed, decrease with $S$ and have intersection $\{1\}$, there is a finite $S_0$ such that every
+$c\in G^{S_0}\cap\tliftInt$ lies in $N$ (the sets $(\tliftInt\setminus\mathrm{int}(N))\cap G^S$ form a directed family of closed
+subsets of a compact set with empty intersection, so one of them is empty). Let $R$ be a finite set of finite places outside of which
+$\chi_W$ is unramified ($\chi_W$ is continuous, hence unramified at almost all places). The function
+$\tliftht(\iota(g,1))^{d/2}$ is integrable as $t_0<d/2$; let $S\supseteq S_0\cup R$ be as in \cref{pf:tlift:tail} for $t=d/2$. For
+$v\in S$ choose a bump $(H_v,\phi_v)$ at $v$ with $H_v\subset N$ (\cref{pf:tlift:bumpany}), put $\phi_v=\tliftvac_v$ for $v\notin S$,
+and let $\Phi=f_0\otimes\phi\in\tliftPD(M)$ and $\mathcal H$ the group generated by the $H_v$.
+
+\emph{Suppose the lift vanishes.} By \cref{pf:tlift:rallisthm} (applicable since $t_0<d/2$),
+$F(g)=\tliftZ_\Phi(g)\overline{\tliftM_{\varphi^\flat}(g)}$ is integrable and $\int F\,d\mu=0$. Choose Haar measures $\mu_A,\mu_B,\mu_C$ on
+$\tliftGinf,\tliftGS,\tliftGoff$; by \cref{pf:tlift:decomp}(a), $f(x,b,c)=F(xbc)$ is integrable for $\mu_A\times\mu_B\times\mu_C$ and its
+integral is a constant multiple of $\int F\,d\mu=0$ (the image of $\mu_A\times\mu_B\times\mu_C$ is a Haar measure on
+$\Uni(X)(\A)$). We now verify the hypotheses of
+\cref{pf:tlift:absne} with $\mathcal A=\tliftGinf$, $\mathcal B=\tliftGS$, $\mathcal C=\tliftGoff$, $H=\mathcal H$, $K=\tliftGoff\cap\tliftInt$,
+\[
+  m(x,c)=\tliftZ_\Phi(x)\overline{\tliftM_{\varphi^\flat}(xc)},\quad c_0(c)=\overline{\tliftM_{\varphi^\flat}(c)},\quad
+  w(c)=\tliftht(\iota(c,1))^{d/2},
+\]
+$s(c)$ as in \cref{pf:tlift:datum}(b) and $\kappa$ replaced by $\kappa\,\tliftZ_\Phi(1)$ with $\kappa$ from \cref{pf:tlift:schur}; this
+gives $\int f\ne0$, a contradiction.
+
+\emph{The measure of $\mathcal H$.} $\mathcal H$ is open in $\tliftGS$, since it contains $\Uni(X)(F_v)\cap O_v$ for open $O_v\ni1$ and every
+$b$ near $1$ in $\tliftGS$ has components $c_v$ near $1$;
+so $\mu_B(\mathcal H)>0$. And $\mathcal H\subset\tliftInt\cap\tliftGS$, which is compact, so $\mu_B(\mathcal H)<\infty$. Similarly
+$\mu_C(K)<\infty$.
+
+\emph{(i).} If $b\notin\mathcal H$ then $F(xbc)=0$ by \cref{pf:tlift:datum}(a). If $b\in\mathcal H$, then
+$\tliftZ_\Phi(xbc)=s(c)\tliftZ_\Phi(x)$ by \cref{pf:tlift:datum}(b); and since $b$ commutes with $c$ and $b\in\mathcal H\subset N$,
+$\varphi^\flat(yxbc)=\varphi^\flat(yxcb)=\varphi^\flat(yxc)$, so $\tliftM_{\varphi^\flat}(xbc)=\tliftM_{\varphi^\flat}(xc)$. Hence $f(x,b,c)=s(c)m(x,c)$.
+
+\emph{(ii)} is \cref{pf:tlift:schur}: $\int m(x,c)\,d\mu_A(x)=\kappa\tliftZ_\Phi(1)c_0(c)$, and $\kappa\tliftZ_\Phi(1)\ne0$ by
+\cref{pf:tlift:datum}.
+
+\emph{(iii).} For $c\in K$: $s(c)=1$ by \cref{pf:tlift:datum}(b), and $c\in G^{S_0}\cap\tliftInt\subset N$, so
+$\varphi^\flat(yc)=\varphi^\flat(y)$ and $c_0(c)=\overline{\tliftM_{\varphi^\flat}(1)}=r$. For all $c$, $|c_0(c)|\le r$ and $|s(c)|=w(c)$.
+
+\emph{(iv)} is \eqref{eq:tlift:tail} with $t=d/2$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{The archimedean pairing}\label{pf:tlift:real}
+
+We keep the assumptions of \cref{pf:tlift:nonvan}, and assume moreover $J_X=1_n$, $J_W=\delta\cdot1_d$, $n\le d$,
+and that $\chi_X,\chi_W$ have archimedean exponents $m_X,m_W$.
+
+\subsubsection*{Polynomials and the Fock model}
+Let $\tliftPP=\C[M_{n\times d}]$ be the polynomial ring in the entries $Z_{ij}$ of an $n\times d$ matrix $Z$. For $a,b\in\Z$,
+$g\in\GL_n(\C)$, $h\in\GL_d(\C)$ and $P\in\tliftPP$ put
+\[
+  (L_a(g)P)(Z)=\det(g)^a\,P({}^tg\,Z),\qquad(R_b(h)P)(Z)=\det(h)^b\,P(Z\,h).
+\]
+For $1\le s\le n$ let $\Delta_s(Z)$ be the determinant of the upper left $s\times s$ block of $Z$, and for $\mu\in\N^n$ with
+$\mu_1\ge\dots\ge\mu_n$ put $\Delta^\mu=\prod_{s=1}^n\Delta_s^{\mu_s-\mu_{s+1}}$ ($\mu_{n+1}=0$). The polynomial $\Delta^\mu$ is a
+highest weight vector for both actions (it is the joint highest weight vector of the pair
+$(\GL_n,\GL_d)$ \cite{Howe1989}).
+
+The development provides a Fock model for the archimedean part of $\omega$: frames $A_w$ of $\tau_w(J_X)$ and $C_w$ of
+$i\,\tau_w(J_W)$ adapted to the Cartan involutions (\lref{UpperTheory.TP.RP.frames}); an injective linear map
+$\Phi_F\colon\bigotimes_w\tliftPP\to\tliftS(F_\infty^\kappa)$ (tensor product over the infinite places of $F$) through which
+the derivatives $D_u$ act by explicit first order operators determined by $\tau_w(u)$ and the frames
+(\lref{GlobalTheory.RealLift.Main.i_fockex}), and whose image is the polynomial Fock space $\tliftPol$
+(\lref{GlobalTheory.RealLift.Main.i_polrange}); and the infinitesimal actions of the two unitary groups:
+for a one-parameter subgroup $\gamma$ of $\Uni(X)(F_\infty)$ with generators $Y_w$ (written in the frames),
+\[
+  \frac{d}{dt}\Big|_{t=0}\omega(\gamma(t),1)\Phi_F(T)=\Phi_F\Bigl(\sum_w\bigl(\mathcal L(Y_w)+\tfrac{m_W(w)}2\tr Y_w\bigr)_wT\Bigr),
+\]
+where $\mathcal L(Y)$ is the derivation of $\tliftPP$ induced by left substitution plus $\frac d2\tr Y$ (so that
+$\mathcal L(Y)1=\frac d2\tr(Y)\,1$) and $(\cdot)_w$ means acting on the $w$-th factor; and the analogous statement for
+$\Uni(W)(F_\infty)$ with right substitution, $\frac n2\tr$ and $m_X$
+(\lref{PositivityTheory.RL.lieFirst}, \lref{PositivityTheory.ThKR.lieSecond2}). These are the
+classical Fock model formulas for the compact dual pair $(\Uni(n),\Uni(d))$ \cite{KashiwaraVergne1978,Howe1989}.
+The frames have the property that $\tau_w(g)A_w=A_w\exp(Y)$ implies $\tau_w(g)=\exp(Y)$, and similarly for $C_w$
+(\lref{UpperTheory.TP.RP.frames}).
+
+\subsubsection*{From the Lie algebra to the group}
+For a linear operator $L$ on a complex vector space $V$ and a linear operator $U$ we say that $U=\exp(L)$ \emph{weakly} if
+$\sum_{k\ge0}\lambda(L^kv)/k!$ converges to $\lambda(Uv)$ for every $v\in V$ and every linear form $\lambda$ on $V$; $U$ is then determined by $L$.
+If $L$ is \emph{locally finite} (every vector lies in a finite-dimensional $L$-stable subspace), then $\exp(L)$ exists and is
+given on each finite-dimensional stable subspace by the usual exponential series. For $Y\in M_n(\C)$ let $D_Y$ be the derivation
+of $\tliftPP$ with $(D_YP)(Z)=\frac d{dt}\big|_{t=0}P({}^t\exp(tY)Z)$, so that $\mathcal L(Y)=D_Y+\frac d2\tr Y$; and for
+$Y\in M_d(\C)$ let $D'_Y$ be the derivation with $(D'_YP)(Z)=\frac d{dt}\big|_{t=0}P(Z\exp(tY))$, and $\mathcal R(Y)=D'_Y+\frac n2\tr Y$.
+
+\begin{lemma}[Exponentials of the infinitesimal actions]\label{pf:tlift:expfirst}
+Let $c\in\Z$ and $\kappa\in\C$.
+\begin{enumerate}[label=(\alph*),nosep]
+\item If $Y\in M_n(\C)$ and $2c=d+2\kappa$, then $L_c(\exp Y)=\exp(\mathcal L(Y)+\kappa\tr Y)$ weakly.
+\item If $Y\in M_d(\C)$ and $2c=n+2\kappa$, then $R_c(\exp Y)=\exp(\mathcal R(Y)+\kappa\tr Y)$ weakly.
+\end{enumerate}
+\formallabel{UpperTheory.TP.RP.expFirst}\formallabel{UpperTheory.TP.RP.expSecond}
+\end{lemma}
+
+\begin{proof}
+(a) Since $2c=d+2\kappa$, $\mathcal L(Y)+\kappa\tr Y=D_Y+c\tr Y$. The derivation $D_Y$ preserves the finite-dimensional space
+$\tliftPP_{\le k}$ of polynomials of degree at most $k$, and so does the substitution $S(g)P(Z)=P({}^tgZ)$. On $\tliftPP_{\le k}$ the map
+$t\mapsto S(\exp tY)$ is a continuous one-parameter group of linear maps whose derivative at $t=0$ is $D_Y$, by the chain rule;
+hence $S(\exp tY)=\exp(tD_Y)$ on $\tliftPP_{\le k}$ for all $t$, and so $S(\exp Y)=\exp(D_Y)$ weakly on $\tliftPP$. Since $c\tr Y$ is a
+scalar commuting with $D_Y$, $\exp(D_Y+c\tr Y)=e^{c\tr Y}S(\exp Y)=\det(\exp Y)^cS(\exp Y)=L_c(\exp Y)$, using $\det\exp Y=e^{\tr Y}$.
+(b) is proved in the same way with right substitution.
+\end{proof}
+
+In the next two lemmas let $W'$ be a space of dimension $N\ge1$ with frames $C_w$ at the infinite places in which
+$b\,\tau_w(J_{W'})$ becomes the identity for a constant $b$, let $\omega'$ be a homomorphism from $\Uni(W')(\A)$ to the linear operators on
+functions on $\A^\kappa$ such that $\lambda\circ\omega'(g)$ is admissible for every admissible $\lambda$, let
+$\Phi_F\colon\bigotimes_w\tliftPP'\to\tliftS(F_\infty^\kappa)$ be injective and linear ($\tliftPP'$ a polynomial ring), let
+$Y\mapsto\mathrm{act}(Y)$ be a linear map from $M_N(\C)$ to the operators on $\tliftPP'$ such that every $\mathrm{act}(Y)+z$ is locally finite,
+and let $(c_w)$ be complex numbers. Assume:
+\begin{itemize}[nosep]
+\item[$(\ast)$] for every continuous homomorphism $\gamma\colon\R\to\Uni(W')(\A)$ with values supported at infinity and all
+  $Y_w\in M_N(\C)$ with $\tau_w(\gamma(t))C_w=C_w\exp(tY_w)$ for all $t$ and $w$, the derivative at $t=0$ of $\omega'(\gamma(t))$ on
+  $\Phi_F(T)$ is $\Phi_F\bigl(\sum_w(\mathrm{act}(Y_w)+c_w\tr Y_w)_wT\bigr)$, in the sense that
+  $\frac d{dt}\big|_{t=0}\lambda\bigl(\omega'(\gamma(t))(\Phi_F(T)\otimes\phi)\bigr)=\lambda\bigl(\Phi_F(\cdots)\otimes\phi\bigr)$ for every finite
+  part $\phi$ and every admissible $\lambda$.
+\end{itemize}
+By a general exponentiation statement for locally finite infinitesimal actions
+(\lref{GlobalTheory.T.weakExponential_action_on_fockVectors}), $(\ast)$ implies that $\omega'(\gamma(1))$ acts at infinity by
+$\Phi_F(T)\mapsto\Phi_F(UT)$, where $U=\exp\bigl(\sum_w(\mathrm{act}(Y_w)+c_w\tr Y_w)_w\bigr)$ weakly.
+
+\begin{lemma}[Parity]\label{pf:tlift:parity}
+In this situation assume moreover that $\mathrm{act}(Y)1=\frac D2\tr(Y)\cdot1$ for all $Y$, for some $D\in\N$, and that $c_w=\frac{m(w)}2$ with
+$m(w)\in\Z$. Then $D+m(w)$ is even for every infinite place $w$.
+\formallabel{UpperTheory.TP.RP.FockModelActions.parity_of_pk}
+\end{lemma}
+
+\begin{proof}
+Fix $w$ and let $Y_0=\mathrm{diag}(2\pi i,0,\dots,0)\in M_N(\C)$, which is skew-hermitian with $\exp Y_0=1$ and $\tr Y_0=2\pi i$; let $Y_w=Y_0$ and
+$Y_{w'}=0$ for $w'\ne w$. Since the $Y_{w'}$ lie in the Lie algebra of the unitary group of the identity form, there is a
+continuous homomorphism $\gamma\colon\R\to\Uni(W')(\A)$ with values supported at infinity and $\tau_{w'}(\gamma(t))C_{w'}=C_{w'}\exp(tY_{w'})$
+(\lref{GlobalTheory.T.unitaryLieElements_generate_oneParamLines}). Then $\tau_{w'}(\gamma(1))C_{w'}=C_{w'}$ for all $w'$, and since the
+$C_{w'}$ are invertible and $\gamma(1)$ is supported at infinity, $\gamma(1)=1$. By $(\ast)$ and the exponentiation statement,
+$\omega'(\gamma(1))=1$ acts by $\Phi_F(T)\mapsto\Phi_F(UT)$, so $\Phi_F(UT_0)=\Phi_F(T_0)$ for $T_0=\otimes_{w'}1$, and $UT_0=T_0$ by injectivity.
+On the other hand $T_0$ is an eigenvector of $L=\sum_{w'}(\mathrm{act}(Y_{w'})+c_{w'}\tr Y_{w'})_{w'}$ with eigenvalue
+$\mu=\bigl(\frac D2+\frac{m(w)}2\bigr)2\pi i$, so $UT_0=e^\mu T_0$ by the exponential series. Hence $e^\mu=1$, $\mu\in2\pi i\Z$, and
+$\frac{D+m(w)}2\in\Z$.
+\end{proof}
+
+\begin{lemma}[Group action from the Lie algebra action]\label{pf:tlift:actsofk}
+In the same situation assume that $e\colon\Uni_N(\A)\to\Uni(W')(\A)$ is as in
+\cref{pf:tlift:brex}, the Cartan involutions satisfy $\vartheta_wC_w=C_w$, and $\tau_w(g)C_w=C_w\exp(Y)$ implies $\tau_w(g)=\exp(Y)$.
+Let $U^w(g)$, $g\in\GL_N(\C)$, be operators on $\tliftPP'$ with $U^w(\exp Y)=\exp(\mathrm{act}(Y)+c_w\tr Y)$ weakly for all $Y\in M_N(\C)$.
+Then for every $k\in\Uni_N(E_\infty)$ the operator $\omega'(e(k))$ acts at infinity by
+$\Phi_F(T)\mapsto\Phi_F\bigl((\otimes_wU^w(\tau_w(k)))T\bigr)$.
+\formallabel{UpperTheory.TP.RP.FockModelActions.acts_of_k_pk}
+\end{lemma}
+
+\begin{proof}
+The element $e(k)$ is supported at infinity and commutes with the Cartan involutions, which are trivial. Every such element
+lies on a one-parameter subgroup: there are $\gamma$ as in $(\ast)$ and $Y_w$ with $\gamma(1)=e(k)$
+(\lref{GlobalTheory.T.maximalCompact_oneParameterLines_of_lieLines}; this is the surjectivity of the exponential map of
+the compact connected groups $\Uni(N)$). Then $\tau_w(e(k))=\tau_w(k)$ (\cref{pf:tlift:brex}) and $\tau_w(k)C_w=C_w\exp(Y_w)$, hence
+$\tau_w(k)=\exp(Y_w)$. By $(\ast)$ and the exponentiation statement, $\omega'(e(k))$ acts by $\Phi_F(T)\mapsto\Phi_F(UT)$ with
+$U=\exp(\sum_w L_w)$, $L_w=(\mathrm{act}(Y_w)+c_w\tr Y_w)_w$. The operators $L_w$ act on different tensor factors and are locally
+finite; on a tensor product of finite-dimensional stable subspaces they commute, so $\exp(\sum_wL_w)=\prod_w\exp(L_w)$ there,
+and $\exp(L_w)$ is $\exp(\mathrm{act}(Y_w)+c_w\tr Y_w)=U^w(\tau_w(k))$ on the $w$-th factor. Hence $U=\otimes_wU^w(\tau_w(k))$, by uniqueness of weak exponentials.
+\end{proof}
+
+\begin{proposition}[Fock model for the definite pair]\label{pf:tlift:fock}
+There are an injective linear map $\Phi_F\colon\bigotimes_w\tliftPP\to\tliftS(F_\infty^\kappa)$ with image $\tliftPol$ and integers
+$a_w,b_w$ with $2a_w=d+m_W(w)$ and $2b_w=n+m_X(w)$ such that for $T\in\bigotimes_w\tliftPP$:
+\begin{enumerate}[label=(\alph*),nosep]
+\item for $k\in\Uni_n(E_\infty)$, $\omega(e(k),1)$ acts at infinity by $\Phi_F(T)\mapsto\Phi_F\bigl((\otimes_wL_{a_w}(\tau_w(k)))T\bigr)$;
+\item for $h\in\Uni_d(E_\infty)$, $\omega(1,e'(h))$ acts at infinity by $\Phi_F(T)\mapsto\Phi_F\bigl((\otimes_wR_{b_w}(\tau_w(h)))T\bigr)$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.RP.fockOf_k}
+\end{proposition}
+
+\begin{proof}
+Take $\Phi_F$ as above. The infinitesimal action of $\Uni(X)(F_\infty)$ satisfies $(\ast)$ with $\omega'=\omega(\cdot,1)$,
+$\mathrm{act}=\mathcal L$ and $c_w=\frac{m_W(w)}2$, and $\mathcal L(Y)1=\frac d2\tr(Y)\,1$; so $a_w=\frac{d+m_W(w)}2\in\Z$ by \cref{pf:tlift:parity}.
+By \cref{pf:tlift:expfirst}(a) with $c=a_w$ and $\kappa=\frac{m_W(w)}2$, the operators $U^w(g)=L_{a_w}(g)$ satisfy
+$U^w(\exp Y)=\exp(\mathcal L(Y)+\frac{m_W(w)}2\tr Y)$, and \cref{pf:tlift:actsofk} gives (a). The same argument for $\Uni(W)(F_\infty)$, with
+$\mathcal R$, $c_w=\frac{m_X(w)}2$, $D=n$ and \cref{pf:tlift:expfirst}(b), gives $b_w\in\Z$ and (b).
+\end{proof}
+
+\subsubsection*{Joint highest weight vectors}
+\begin{lemma}[Equivariant maps hitting $\Delta^\mu$]\label{pf:tlift:joint}
+Let $n\le d$ and $\mu\in\N^n$ non-increasing.
+\begin{enumerate}[label=(\alph*),nosep]
+\item If $\lambda\in\Z^n$ is dominant, $a\in\Z$ and $\lambda_k=\mu_k+a$ for all $k$, there is a linear map
+  $i\colon V_\lambda\to\tliftPP$ with $i(V_\lambda(g)x)=L_a(g)i(x)$ for $g\in\GL_n(\C)$ and $\Delta^\mu\in i(V_\lambda)$.
+\item If $\lambda'\in\Z^d$ is dominant, $b\in\Z$ and $\lambda'_k=\mu_k+b$ for $k\le n$, $\lambda'_k=b$ for $k>n$, there is a linear
+  map $i\colon V_{\lambda'}\to\tliftPP$ with $i(V_{\lambda'}(h)x)=R_b(h)i(x)$ for $h\in\GL_d(\C)$ and $\Delta^\mu\in i(V_{\lambda'})$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.RP.exists_act1_equivariant_nablaSq_map_hitting_joint}%
+\formallabel{UpperTheory.TP.RP.exists_act2_equivariant_nablaSq_map_hitting_joint}
+\end{lemma}
+
+\begin{proof}
+In the model of \cref{pf:tlift:aut}(c), $V_\lambda$ consists of polynomials on $M_n(\C)$, $g$ acts by
+$\det(g)^{\lambda_n}$ times left substitution by ${}^tg$, and the highest weight vector is the product of leading
+principal minors $\prod_s\Delta_s^{(\lambda_s-\lambda_n)-(\lambda_{s+1}-\lambda_n)}$ (with the convention $\lambda_{n+1}=\lambda_n$).
+
+(a) Let $\sigma$ send a polynomial $P$ on $M_n$ to $Z\mapsto P(Z_0)$, $Z_0$ the first $n$ columns of $Z$, and put
+$i(P)=\sigma(P)\,\Delta_n^{\lambda_n-a}$ (note $\lambda_n-a=\mu_n\ge0$). Since $\sigma$ commutes with left substitution and
+$\Delta_n({}^tgZ)=\det(g)\Delta_n(Z)$, $i$ intertwines $\det^{\lambda_n}\cdot(\text{left substitution})$ with $L_a$; the highest weight
+vector goes to $\prod_s\Delta_s^{\mu_s-\mu_{s+1}}=\Delta^\mu$, because $\lambda_s-\lambda_{s+1}=\mu_s-\mu_{s+1}$.
+
+(b) Let $\sigma'$ send a polynomial $P$ on $M_d$ to $Z\mapsto P(\tilde Z)$, where the first $n$ columns of
+$\tilde Z\in M_d(\C)$ form ${}^tZ$ and the others vanish, and put $i(P)=\sigma'(P)\,\Delta_n^{\lambda'_d-b}$ (the exponent is $0$ if
+$n<d$ and $\mu_n$ if $n=d$). Left substitution by ${}^th$ on $\tilde Z$ corresponds to $Z\mapsto Zh$, and if $n=d$,
+$\Delta_n(Zh)=\det(h)\Delta_n(Z)$; so $i$ intertwines with $R_b$. The highest weight vector of $V_{\lambda'}$ is sent to
+$\Delta^\mu$ by the same computation.
+\end{proof}
+
+\begin{lemma}[Archimedean types of $U$]\label{pf:tlift:formex}
+Let $U$ be an automorphic representation of $\Uni_n$ with weights $\lambda_w$ at $\tau_w$. Then
+$V=\bigotimes_wV_{\lambda_w}$, with $\rho(k)=\otimes_wV_{\lambda_w}(\tau_w(k))$ for $k\in\Uni_n(E_\infty)$, is a finite-dimensional
+irreducible representation, and there is an injective linear map $j\colon V\to U$ with $j(\rho(k)x)=R(k)j(x)$.
+\formallabel{UpperTheory.TP.RP.formEx}
+\end{lemma}
+
+\begin{proof}
+For each $w$, the subgroup $\Uni_n(F_w)$ commutes with the elements of $\Uni_n(\A)$ trivial at $w$, so the
+$V_{\lambda_w}$-isotypic part of $U$ for $\Uni_n(F_w)$ is $\Uni_n(\A)$-invariant; it is nonzero because $U$ has weight
+$\lambda_w$ at $\tau_w$, hence equal to $U$ by irreducibility (\lref{GlobalTheory.DefU.iSup_range_weight_eq_top}).
+The subgroups $\Uni_n(F_w)$ commute with each other and generate $\Uni_n(E_\infty)$
+(\lref{UpperTheory.archimedeanUnitary_le_iSup_embU_and_commute}); for a representation of such a group which is
+$V_{\lambda_w}$-isotypic for each factor there is a nonzero multilinear intertwiner $\prod_wV_{\lambda_w}\to U$
+(\lref{UpperTheory.exists_multilinear_intertwiner_of_commuting_subgroups}), i.e.\ a nonzero equivariant
+$j\colon V\to U$. The external tensor product of the irreducible representations $V_{\lambda_w}$ of the factors
+(\lref{GlobalTheory.DefU.isIrreducible_sqRep}) is irreducible, so the invariant subspace $\ker j$ is $0$.
+\end{proof}
+
+\begin{definition}[Archimedean type of a Fock vector for $\Uni(W)$]\label{pf:tlift:hastype}
+Let $f_0\in\tliftS(F_\infty^\kappa)$, $w$ an infinite place and $\lambda'\in\Z^d$ dominant. We say that $f_0$ \emph{has type
+$\lambda'$ at $w$} if there is a linear map $i\colon V_{\lambda'}\to\tliftPol$ with $f_0\in i(V_{\lambda'})$ such that $\omega(1,e'(k))$ acts at
+infinity by $i(x)\mapsto i(V_{\lambda'}(\tau_w(k))x)$ for all $k\in\Uni_d(F_w)$ and $x\in V_{\lambda'}$.
+\formal{UpperTheory.TP.HasType}
+\end{definition}
+
+\begin{proposition}[The archimedean pairing]\label{pf:tlift:realpair}
+Let $U$ be an automorphic representation of $\Uni_n$ with weights $\lambda_w$ at $\tau_w$ satisfying
+\eqref{eq:tlift:dom}. There are $0\ne f_0\in\tliftPol$ and $0\ne\varphi\in U$ of the same type
+(\cref{pf:tlift:sametype}), and for every infinite place $w$ a dominant $\lambda'_w\in\Z^d$ with
+$\tliftLW(\lambda_w,m_X(w),m_W(w),\lambda'_w)$ such that $f_0$ has type $\lambda'_w$ at $w$.
+\formallabel{UpperTheory.TP.realPair_k}
+\end{proposition}
+
+\begin{proof}
+Let $\Phi_F,a_w,b_w$ be as in \cref{pf:tlift:fock}. By \eqref{eq:tlift:dom}, $2\lambda_{w,k}\ge d+m_W(w)=2a_w$, so
+$\mu_w=\lambda_w-a_w\in\N^n$, and $\mu_w$ is non-increasing. By \cref{pf:tlift:joint}(a) there are $i_w\colon V_{\lambda_w}\to\tliftPP$,
+intertwining $V_{\lambda_w}$ with $L_{a_w}$, and $x_w\in V_{\lambda_w}$ with $i_w(x_w)=\Delta^{\mu_w}\ne0$. Let
+$(V,\rho)$ and $j$ be as in \cref{pf:tlift:formex}, and put
+\[
+  T_0=\otimes_w\Delta^{\mu_w},\qquad f_0=\Phi_F(T_0),\qquad x_0=\otimes_wx_w,\qquad\varphi=j(x_0).
+\]
+Then $f_0\in\tliftPol$, $f_0\ne0$ because $\Phi_F$ is injective and $T_0\ne0$, and $\varphi\in U$, $\varphi\ne0$ because $j$ is injective and
+$x_0\ne0$. With $i=\Phi_F\circ(\otimes_wi_w)$ we have $i(x_0)=f_0$ and, by \cref{pf:tlift:fock}(a), $\omega(e(k),1)$ acts at
+infinity by $i(x)\mapsto i(\rho(k)x)$; together with the equivariance of $j$ this shows that $f_0$ and $\varphi$ have the
+same type.
+
+Fix $w$ and let $\lambda'_w=(\mu_w,0,\dots,0)+b_w\in\Z^d$; it is dominant since $\mu_w\ge0$ is non-increasing, and
+$2\lambda'_{w,k}=2\mu_{w,k}+2b_w=2\lambda_{w,k}-d-m_W(w)+n+m_X(w)$ for $k\le n$, $2\lambda'_{w,k}=n+m_X(w)$ for $k>n$; this is
+\eqref{eq:tlift:liftwt}. By \cref{pf:tlift:joint}(b) there are $i'\colon V_{\lambda'_w}\to\tliftPP$ intertwining $V_{\lambda'_w}$ with
+$R_{b_w}$ and $x'$ with $i'(x')=\Delta^{\mu_w}$. Let $\mathrm{up}_w(P)$ be the pure tensor with $P$ at $w$ and $\Delta^{\mu_{w'}}$
+at $w'\ne w$, and $i=\Phi_F\circ\mathrm{up}_w\circ i'$. Then $i(x')=f_0$, $i$ takes values in $\tliftPol$, and for $k\in\Uni_d(F_w)$,
+$\tau_{w'}(k)=1$ for $w'\ne w$, so by \cref{pf:tlift:fock}(b) $\omega(1,e'(k))$ acts at infinity by
+$i(x)\mapsto\Phi_F(\mathrm{up}_w(R_{b_w}(\tau_w(k))i'(x)))=i(V_{\lambda'_w}(\tau_w(k))x)$. Thus $f_0$ has type $\lambda'_w$ at $w$.
+\end{proof}
+
+
+% ---------------------------------------------------------------------------
+\subsection{Theta lifts are automorphic forms}\label{pf:tlift:autsec}
+
+We keep the assumptions of \cref{pf:tlift:nonvan}. For $\Phi\in\tliftPD(M)$ and an automorphic form $\varphi$ on $\Uni_n$
+put
+\begin{equation}\label{eq:tlift:Theta}
+  \tliftlift(\Phi,\varphi)=\tliftlift_M(\Phi,\varphi^\flat)\circ e'\colon\Uni_d(\A)\to\C.
+\end{equation}
+(In the formal statement $\tliftlift$ is defined for all functions $\varphi$ on $\Uni_n(\A)$, by first projecting
+$\varphi$ linearly onto the space of continuous left $\Uni_n(E)$-invariant functions; this makes $\tliftlift$
+sesquilinear on all functions and does not change it on automorphic forms.)
+
+\begin{lemma}[Archimedean operators]\label{pf:tlift:archop}
+Let $k\in\Uni(W)(\A)$ be supported at infinity and $f\in\tliftS(F_\infty^\kappa)$. There is $f_1\in\tliftS(F_\infty^\kappa)$ with
+$\omega(1,k)(f\otimes\phi)=f_1\otimes\phi$ for every locally constant compactly supported function $\phi$ on $\A_f^\kappa$.
+\formallabel{PositivityTheory.ThKOwn.KPol.exists_arch_operator}
+\end{lemma}
+
+\begin{proof}
+For $\phi$ as in the statement, $\omega(1,k)(f\otimes\phi)$ is a Schwartz--Bruhat function by (W1). For $\xi\in F_\infty^\kappa$ let $T_\xi\phi$ be
+the function $y\mapsto\omega(1,k)(f\otimes\phi)(\xi,y)$ on $\A_f^\kappa$; it is locally constant with compact support, and $T_\xi$ is linear.
+The translations $\phi\mapsto\phi(\cdot+x)$ and the multiplications by the characters $\phi\mapsto\psi(\langle\cdot,y\rangle)\phi$, for $x,y$ with
+trivial archimedean components, are induced by Heisenberg operators $\rho(u)$ with $u$ having trivial archimedean components;
+for such $u$, $u\,{}^tk=u$ because $k$ has trivial finite components, so $\omega(1,k)$ commutes with $\rho(u)$ by (W1). Hence $T_\xi$
+commutes with all translations and all multiplications by characters, and is therefore a scalar $c(\xi)$
+(\lref{GlobalTheory.CompanionTheory.SW.SchurChar.schur_translations_characters}). Choose $\phi_0$ with $\phi_0(0)=1$ and let
+$f_1(\xi)=\omega(1,k)(f\otimes\phi_0)(\xi,0)$; then $f_1=c$, $f_1$ is a Schwartz function (a slice of a Schwartz--Bruhat function),
+and $\omega(1,k)(f\otimes\phi)(\xi,y)=c(\xi)\phi(y)=f_1(\xi)\phi(y)$.
+\end{proof}
+
+For a Haar measure $\mu$ on $\A^\kappa$ and $\Phi_1,\Phi_2\in\tliftS(\A^\kappa)$ let
+$c(\Phi_1,\Phi_2)(z)=\int(\rho(z)\Phi_1)\,\overline{\Phi_2}\,d\mu$ ($z\in M_{n\times d}(\tliftAE)$) be their Heisenberg matrix coefficient.
+
+\begin{lemma}[Smoothness at the finite places]\label{pf:tlift:nhdsfix}
+Let $\phi$ be a locally constant compactly supported function on $\A_f^\kappa$. There is a neighbourhood $U$ of $1$ in $\Uni(X)(\A)$ such that
+$\omega(u,1)(f\otimes\phi)=f\otimes\phi$ for every $u\in U$ with trivial archimedean components and every $f\in\tliftS(F_\infty^\kappa)$.
+\formallabel{UpperTheory.exists_nhds_one_weil_fixes_pure_tensor}
+\end{lemma}
+
+\begin{proof}
+If all $f\otimes\phi$ vanish there is nothing to prove; otherwise fix $f_0$ and $x_0$ with $\Phi_0(x_0)\ne0$, $\Phi_0=f_0\otimes\phi$. We use
+three facts on the coefficients.
+\begin{enumerate}[label=(\roman*),nosep]
+\item By (W1) (unitarity and the Heisenberg relation),
+  $c(\omega(u,1)\Phi_1,\omega(u,1)\Phi_2)(z)=c(\Phi_1,\Phi_2)(u^{-1}z)$.
+\item There is a compact set $C$ of matrices with trivial archimedean components such that $c(f\otimes\phi,f'\otimes\phi)(z)=0$ unless
+  $z\in C+M_{n\times d}(E_\infty)$, for all $f,f'$ (\lref{PositivityTheory.ThKEst.coefBd_of_k}): the translation part of $\rho(z)$ moves the
+  support of $\phi$, and the character part produces a Fourier transform of a locally constant compactly supported function.
+\item The coefficients determine the functions: if $c(\Phi_1,\Phi_2)=c(\Phi_3,\Phi_4)$, then $\Phi_1(x)\overline{\Phi_2(y)}=\Phi_3(x)\overline{\Phi_4(y)}$
+  for all $x,y$ (\lref{PositivityTheory.ThKEst.fourierInj_of}).
+\end{enumerate}
+The coefficient $c(f\otimes\phi,f'\otimes\phi)(z)$ is the product of an archimedean coefficient of $f,f'$ at the archimedean part of $z$ and of
+the coefficient $c(\phi,\phi)$ at the finite part, which is locally constant; as $C$ is compact, there is a symmetric neighbourhood
+$U_1$ of $1$ such that $c(f\otimes\phi,\Phi_0)(u^{-1}z)=c(f\otimes\phi,\Phi_0)(z)$ for all $f$, all $u\in U_1$ with trivial archimedean components and
+all $z\in C+M_{n\times d}(E_\infty)$. Let $U_2$ be a neighbourhood of $1$ on which $|\omega(u,1)\Phi_0(x_0)/\Phi_0(x_0)-1|<\frac12$ (continuity, (W1)),
+let $K'\subset U_1\cap U_2$ be a compact open subgroup of the group of elements with trivial archimedean components (such
+subgroups form a basis of neighbourhoods of $1$ there),
+and let $U=\tliftGinf K'$, an open neighbourhood of $1$ (\cref{pf:tlift:decomp}).
+
+Let $u\in U$ have trivial archimedean components, so $u\in K'$. For every $f$ and $z$, $c(\omega(u,1)(f\otimes\phi),\omega(u,1)\Phi_0)(z)=
+c(f\otimes\phi,\Phi_0)(u^{-1}z)=c(f\otimes\phi,\Phi_0)(z)$: by (i), and then by the choice of $U_1$ (applied to $u$, or to $u^{-1}$ and
+$u^{-1}z$) if $z$ or $u^{-1}z$ lies in $C+M_{n\times d}(E_\infty)$, and by (ii) (both sides vanish) otherwise. By (iii),
+$\omega(u,1)(f\otimes\phi)(x)\,\overline{\omega(u,1)\Phi_0(x_0)}=(f\otimes\phi)(x)\,\overline{\Phi_0(x_0)}$ for all $x$; for $f=f_0$, $x=x_0$ this shows
+$\omega(u,1)\Phi_0(x_0)\ne0$. Hence $\omega(u,1)$ acts on all $f\otimes\phi$ by the same scalar $\lambda_u$, and by the homomorphism property
+$\omega(u^k,1)$ acts by $\lambda_u^k$. As $u^k\in K'\subset U_2$ for all $k$, $|\lambda_u^k-1|<\frac12$ for all $k\in\N$, and this forces $\lambda_u=1$
+(\lref{PositivityTheory.ThKH.Locrep.eq_one_of_pow_near}).
+\end{proof}
+
+\begin{lemma}[Finiteness of archimedean orbits]\label{pf:tlift:polfin}
+For $f\in\tliftPol$ there is a finite-dimensional subspace $N_f\subset\tliftS(F_\infty^\kappa)$ which contains every $f_1$ such
+that $\omega(1,k)$ acts at infinity by $f\mapsto f_1$ for some $k\in\Uni(W)(\A)$ supported at infinity. Consequently,
+for every $\Phi\in\tliftPD(M)$ the vectors $\omega(1,k)\Phi$, $k$ supported at infinity, lie in a finite-dimensional
+subspace of $\tliftS(\A^\kappa)$.
+\formallabel{GlobalTheory.ThK.Dbl.polFin_k}%
+\formallabel{UpperTheory.exists_finiteDimensional_weil_archimedean_orbit}
+\end{lemma}
+
+\begin{proof}
+Since $W$ is definite, its Cartan involutions are $\vartheta_{W,w}=1$, so every $k$ supported at infinity commutes with
+them. Each such $k$ acts at infinity through an operator $A_k$ on $\tliftS(F_\infty^\kappa)$
+(\cref{pf:tlift:archop}), and by (W1)
+$A_k\,D_u=D_{u\,{}^tk}\,A_k$ for archimedean $u$ (\lref{PositivityTheory.ThKOwn.KPol.inter}). Let $\mathcal N$ be the set of
+$f$ for which a finite-dimensional $N_f$ with $A_kf\in N_f$ for all $k$ exists; it is a subspace. It contains the
+Gaussians: $A_k$ maps a Gaussian with signs $\varepsilon$ to a Gaussian with the same signs, because the defining relation
+of \cref{pf:tlift:pol} is preserved under $u\mapsto u\,{}^tk$ (\lref{PositivityTheory.ThKOwn.KPol.gauss_impl}), and the
+Gaussians with given signs span a finite-dimensional space (\lref{GlobalTheory.ThK.Dbl.Dense.vacSp_fin}); there are
+finitely many sign vectors. It is stable under each $D_u$: if $A_kf\in N_f$ for all $k$, then
+$A_kD_uf=D_{u{}^tk}A_kf$ lies in the span of the $D_{u'}N_f$, $u'$ archimedean, which is finite-dimensional because
+$u'\mapsto D_{u'}g$ is $\R$-linear on the finite-dimensional real space of archimedean $u'$
+(\lref{GlobalTheory.ThK.Dbl.Dense.exists_dop_fin}). By minimality of $\tliftPol$, $\tliftPol\subset\mathcal N$. For the
+second assertion, $\omega(1,k)(f\otimes\phi)=(A_kf)\otimes\phi$ for pure tensors with finite data
+at infinity, so the span of the $N_f\otimes\phi$ works for $f\otimes\phi$, and sums of such
+spaces work for $\tliftPD(M)$.
+\end{proof}
+
+\begin{lemma}[Stability of $\tliftPD$]\label{pf:tlift:polstab}
+$\omega(x,y)\tliftPD(M)\subset\tliftPD(M)$ for all $x\in\Uni(X)(\A)$, $y\in\Uni(W)(\A)$.
+\formallabel{UpperTheory.TP.polStab_k}
+\end{lemma}
+
+\begin{proof}
+It suffices to treat $(x,1)$ and $(1,y)$. For elements supported at infinity this holds because the operators $A_k$
+preserve $\tliftPol$ (\lref{PositivityTheory.ThKF.A.archOp_k}); for elements supported at a
+finite place $v$, $\omega$ only changes the factor at $v$ of a pure tensor, which remains in $\tliftS(F_v^\kappa)$
+(\cref{pf:tlift:acts}). Every $\Phi\in\tliftPD$ is fixed by
+$\omega(u,1)$ (and by $\omega(1,u)$) for all $u$ in a neighbourhood of $1$ with trivial archimedean components
+(\cref{pf:tlift:nhdsfix}, \lref{PositivityTheory.ThKEst.level_k}): the finite
+data are fixed by a compact open subgroup, and at almost all places the vacuum vectors are fixed by the
+integral points. A general $x$ is the product of its archimedean component, its components at a finite set $S$
+of places, and an element $u$ which tends to $1$ as $S$ grows; for $S$ large, $u$ fixes $\Phi$, and the claim follows
+from the previous cases.
+\end{proof}
+
+\begin{proposition}[Automorphy and equivariance of the lift]\label{pf:tlift:liftaut}
+For $\Phi\in\tliftPD(M)$ and an automorphic form $\varphi$ on $\Uni_n$:
+\begin{enumerate}[label=(\alph*),nosep]
+\item $\tliftlift(\Phi,\varphi)$ is an automorphic form on $\Uni_d$;
+\item $\tliftlift$ is linear in $\Phi$ and antilinear in $\varphi$;
+\item for $g\in\Uni_n(\A)$ and $h\in\Uni_d(\A)$, $\Phi_1=\omega(e(g),e'(h))\Phi$ lies in $\tliftPD(M)$ and
+  $\tliftlift(\Phi_1,R(g)\varphi)=R(h)\tliftlift(\Phi,\varphi)$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.liftAut_k}\formallabel{UpperTheory.TP.aut_lift_k}
+\end{proposition}
+
+\begin{proof}
+Write $\varphi^\flat=\varphi\circ e^{-1}$; it is continuous, left $\Uni(X)(F)$-invariant and bounded. All functions below are
+integrable over $D$ by boundedness of $\theta$ in $g$ (\cref{pf:tlift:basic}, \cref{pf:tlift:cpt}).
+
+(b) is clear from \eqref{eq:tlift:theta}.
+
+(c) $\Phi_1\in\tliftPD$ by \cref{pf:tlift:polstab}. For $a\in\Uni(X)(\A)$, $b\in\Uni(W)(\A)$ we have
+$\theta(g,h;\omega(a,b)\Phi)=\theta(ga,hb;\Phi)$, so
+\begin{align*}
+  \tliftlift_M(\omega(a,b)\Phi,\varphi^\flat(\,\cdot\,a))(h)&=\int_D\theta(ga,hb;\Phi)\overline{\varphi^\flat(ga)}\,d\mu(g)\\
+  &=\int_{Da}\theta(g,hb;\Phi)\overline{\varphi^\flat(g)}\,d\mu(g)=\tliftlift_M(\Phi,\varphi^\flat)(hb),
+\end{align*}
+because $Da$ is again a fundamental domain, $\mu$ is right invariant and the integrand is left
+$\Uni(X)(F)$-invariant. With $a=e(g)$, $b=e'(h)$ and
+$(R(g)\varphi)^\flat=\varphi^\flat(\,\cdot\,e(g))$ this is (c).
+
+(a) \emph{Continuity}: $(g,h)\mapsto\theta(g,h;\Phi)\overline{\varphi^\flat(g)}$ is continuous and bounded, so the integral over the
+set $D$ of finite measure is continuous in $h$ by dominated convergence. \emph{Left invariance}: $\theta(g,\gamma h;\Phi)=\theta(g,h;\Phi)$ for
+$\gamma\in\Uni(W)(F)$, and $e'$ preserves rational points (\cref{pf:tlift:brex}). \emph{Smoothness}: by
+\lref{PositivityTheory.ThKEst.level_k} there is a neighbourhood $N'$ of $1$ such that $\omega(1,u)\Phi=\Phi$ for
+$u\in N'$ with trivial archimedean components; for $k\in\Uni_d(\A_f)$ with $e'(k)\in N'$, (c) with $g=1$ gives
+$R(k)\tliftlift(\Phi,\varphi)=\tliftlift(\omega(1,e'(k))\Phi,\varphi)=\tliftlift(\Phi,\varphi)$; so the stabiliser contains a
+neighbourhood of $1$ in $\Uni_d(\A_f)$, and being a subgroup it is open. \emph{$\Uni_d(E_\infty)$-finiteness}: for
+$k\in\Uni_d(E_\infty)$, $R(k)\tliftlift(\Phi,\varphi)=\tliftlift(\omega(1,e'(k))\Phi,\varphi)$ by (c), and $\omega(1,e'(k))\Phi$ lies in the
+finite-dimensional space of \cref{pf:tlift:polfin} ($e'(k)$ is supported at infinity), so these translates lie
+in the image of a finite-dimensional space under the linear map $\Psi\mapsto\tliftlift(\Psi,\varphi)$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Projection and reading off the lift}\label{pf:tlift:read}
+
+\begin{lemma}[Projection to an automorphic representation]\label{pf:tlift:projex}
+Let $\psi\ne0$ be an automorphic form on $\Uni_d$. There are an automorphic representation $U'$ of $\Uni_d$ and a linear
+map $\mathrm{pr}$ from the functions on $\Uni_d(\A)$ to themselves such that $\mathrm{pr}(\psi)\ne0$, and for every automorphic form
+$f$: $\mathrm{pr}(f)\in U'$ and $\mathrm{pr}(R(x)f)=R(x)\mathrm{pr}(f)$ for all $x\in\Uni_d(\A)$.
+\formallabel{UpperTheory.TP.projEx}
+\end{lemma}
+
+\begin{proof}
+Let $\mathcal A$ be the space of automorphic forms on $\Uni_d$. There is a positive definite hermitian form on $\mathcal A$
+invariant under right translations (the Petersson inner product over a fundamental domain;
+\lref{GlobalTheory.T.exists_invariant_positive_petersson_form}), and with it every automorphic form lies in the
+sum of the automorphic representations of $\Uni_d$ (\lref{UpperTheory.mem_iSup_automorphicReps_of_invariant_form}).
+It remains to prove the following algebraic statement: if $G$ acts linearly on a
+vector space $V$, $\mathcal A\subset V$ is a subspace contained in the sum of a family $\mathcal S$ of invariant irreducible subspaces
+$Y\subset\mathcal A$, and $0\ne\psi\in\mathcal A$, then there are $U'\in\mathcal S$ and a linear $\mathrm{pr}\colon V\to V$ with $\mathrm{pr}(\psi)\ne0$, $\mathrm{pr}(\mathcal A)\subset U'$
+and $\mathrm{pr}$ equivariant on $\mathcal A$.
+
+By Zorn's lemma there is a maximal invariant subspace $C\subset\mathcal A$ with $\psi\notin C$ (a union of a chain of such
+subspaces is again one). Some $U'\in\mathcal S$ is not contained in $C$, since $\psi\notin C$ lies in the sum of $\mathcal S$. Then
+$C\cap U'=0$ by irreducibility, and $\psi\in C\oplus U'$ by maximality. Every $Y\in\mathcal S$ is contained in $C\oplus U'$: otherwise
+$Y\not\subset C$, $(C\oplus U')\cap Y=0$ by irreducibility, and $\psi\in C+Y$ by maximality, say $\psi=c+y$; then $y=\psi-c\in(C\oplus U')\cap Y$,
+so $y=0$ and $\psi\in C$, a contradiction. Hence $\mathcal A\subset C\oplus U'$. Choose a complement $D$ of $C\oplus U'$ in $V$ and let $\mathrm{pr}$
+be the projection onto $U'$ along $C\oplus D$. Writing $\psi=c+u$ with $c\in C$, $u\in U'$, we get $\mathrm{pr}(\psi)=u\ne0$; and for
+$f=c+u\in\mathcal A$, $\mathrm{pr}(R(x)f)=\mathrm{pr}(R(x)c+R(x)u)=R(x)u=R(x)\mathrm{pr}(f)$ since $C$ and $U'$ are invariant.
+\end{proof}
+
+\begin{lemma}[Isotypic components]\label{pf:tlift:absiso}
+Let a group $G$ act linearly on $V$ by $\rho$, let $U\subset V$ be an invariant subspace without invariant subspaces other
+than $0$ and $U$, let $H\subset G$ be a subgroup such that every $g\in G$ can be written $g=hz$ with $h\in H$ and $z$ commuting
+with $H$, and let $(\tau,T)$ be an irreducible representation of $H$ with a nonzero $H$-equivariant linear map
+$f\colon T\to V$ with values in $U$. Then:
+\begin{enumerate}[label=(\alph*),nosep]
+\item every $u\in U$ is a finite sum $\sum_ic_i(x_i)$ with $H$-equivariant linear maps $c_i\colon T\to V$ with values in
+  $U$ and $x_i\in T$;
+\item for every $0\ne u\in U$ there is a linear map $p\colon V\to T$ with $p(u)\ne0$ and $p(\rho(h)y)=\tau(h)p(y)$ for $h\in H$,
+  $y\in U$.
+\end{enumerate}
+\formallabel{UpperTheory.TP.absIso}
+\end{lemma}
+
+\begin{proof}
+Let $Z$ be the centraliser of $H$ and $\Sigma$ the span of the vectors $\rho(z)f(x)$, $z\in Z$, $x\in T$. Each $\rho(z)\circ f$ is
+$H$-equivariant, and $\Sigma\subset U$. $\Sigma$ is $G$-invariant: for $g=hz'$ ($h\in H$, $z'\in Z$; then also $h^{-1}gz\in Z$ for
+$z\in Z$), $\rho(g)\rho(z)f(x)=\rho(h^{-1}gz\,h)f(x)=\rho(h^{-1}gz)f(\tau(h)x)$. As $f\ne0$, $\Sigma\ne0$, so $\Sigma=U$; this is (a).
+By (a), $U$ is contained in the $\tau$-isotypic component $I$ of $V$ restricted to $H$, which is isomorphic to a direct
+sum of copies of $\tau$. For $0\ne u\in U$, some coordinate projection $I\to T$ in such a decomposition is $H$-equivariant
+and does not vanish on $u$; extend it linearly from $I$ to $V$.
+\end{proof}
+
+\begin{proposition}[Reading off the lift]\label{pf:tlift:readlift}
+Let $U$ be an automorphic representation of $\Uni_n$, $U'$ one of $\Uni_d$, and $\mathrm{pr}$ a linear map with $\mathrm{pr}(f)\in U'$ and
+$\mathrm{pr}(R(x)f)=R(x)\mathrm{pr}(f)$ for automorphic forms $f$ on $\Uni_d$. Let $f_0\in\tliftPol$, $\varphi\in U$ and $\phi$ finite data with
+$\mathrm{pr}(\tliftlift(f_0\otimes\phi,\varphi))\ne0$. Then:
+\begin{enumerate}[label=(\alph*),nosep]
+\item if $f_0$ has type $\lambda'$ at the infinite place $w$ (\cref{pf:tlift:hastype}), then $U'$ has weight $\lambda'$ at
+  $\tau_w$;
+\item for every split place $v$, $t\colon E\to F_v$ and local components $\tau$ of $U$ and $\tau'$ of $U'$ at $w_t$,
+  $\tliftLP_t(\chi_X,\chi_W,\tau,\tau')$ holds.
+\end{enumerate}
+\formallabel{UpperTheory.TP.readLift_k}\formallabel{UpperTheory.TP.real_part_k}\formallabel{UpperTheory.TP.split_part_k}
+\end{proposition}
+
+\begin{proof}
+(a) Let $i\colon V_{\lambda'}\to\tliftPol$ and $x'$ with $i(x')=f_0$ be as in \cref{pf:tlift:hastype}, and
+$J(x)=\mathrm{pr}(\tliftlift(i(x)\otimes\phi,\varphi))$, a linear map $V_{\lambda'}\to U'$ (\cref{pf:tlift:liftaut}(a),(b)) with $J(x')\ne0$. For
+$k\in\Uni_d(F_w)$, $\omega(1,e'(k))(i(x)\otimes\phi)=i(V_{\lambda'}(\tau_w(k))x)\otimes\phi$, since $\omega(1,e'(k))$ acts at infinity by
+$i(x)\mapsto i(V_{\lambda'}(\tau_w(k))x)$; hence by \cref{pf:tlift:liftaut}(c) with $g=1$ and the equivariance of $\mathrm{pr}$,
+$J(V_{\lambda'}(\tau_w(k))x)=R(k)J(x)$. As $V_{\lambda'}$ is irreducible, $U'$ has weight $\lambda'$ at $\tau_w$.
+
+(b) Let $w=w_t$. The subgroup $\Uni_n(F_v)\cong\GL_n(E_w)$ and the elements of $\Uni_n(\A)$ trivial above $v$ satisfy the
+hypothesis of \cref{pf:tlift:absiso}, and similarly for $\Uni_d$. Let $P(y)=\mathrm{pr}(\tliftlift(f_0\otimes\phi,y))$ for $y\in U$; it maps
+$U$ to $U'$, additively. By \cref{pf:tlift:absiso}(a) applied to $\varphi\in U$ and the local component $\tau$, $\varphi$ is a sum of
+values $c_i(x_i)$ of equivariant maps $c_i\colon\tau\to U$; by \cref{pf:tlift:absiso}(b) applied to $0\ne P(\varphi)\in U'$ and
+$\tau'$, there is an equivariant $p\colon\{\text{functions on }\Uni_d(\A)\}\to\tau'$ with $p(P(\varphi))\ne0$. Hence some
+$c=c_i$, $x_0=x_i$ satisfy $p(P(c(x_0)))\ne0$. Let $\iota_t$ be a linear model at $v$ (\cref{pf:tlift:split}) and, for
+$\Psi\in\tliftS(M_{n\times d}(F_v))$, let $\phi^\Psi$ be the finite data obtained from $\phi$ by replacing $\phi_v$ with $\iota_t^{-1}\Psi$.
+Define
+\[
+  \beta(\Psi)(x)=p\Bigl(\mathrm{pr}\bigl(\tliftlift(f_0\otimes\phi^\Psi,c(x))\bigr)\Bigr)\qquad(x\in\tau).
+\]
+Then $\beta(\Psi)$ is antilinear in $x$ (\cref{pf:tlift:liftaut}(b)) and $\beta$ is linear in $\Psi$ (pure tensors are linear in
+each factor). $\beta(\iota_t\phi_v)(x_0)=p(P(c(x_0)))\ne0$, so $\beta\ne0$. For equivariance let $g\in\GL_n(F_v)$, $h\in\GL_d(F_v)$, and
+$\hat g\in\Uni_n(F_v)$, $\hat h\in\Uni_d(F_v)$ with $c_w(\hat g)=g$, $c_w(\hat h)=h$ (under $F_v\cong E_w$). Then $e(\hat g)$, $e'(\hat h)$
+are supported at $v$ and $\pi_t(e(\hat g))=g$, $\pi_t(e'(\hat h))=h$ (\cref{pf:tlift:brex}); if $\omega(e(\hat g),e'(\hat h))$ acts at
+$v$ by $\iota_t^{-1}\Psi\mapsto\psi_1$, then by \cref{pf:tlift:split} $\iota_t\psi_1=\omega^{\chi_{W,t}^{-1},\chi_{X,t}}(g,h)\Psi$, i.e.
+$\omega(e(\hat g),e'(\hat h))(f_0\otimes\phi^\Psi)=f_0\otimes\phi^{\Psi_1}$ with $\Psi_1=\omega^{\chi_{W,t}^{-1},\chi_{X,t}}(g,h)\Psi$. By
+\cref{pf:tlift:liftaut}(c), the equivariance of $c$, $\mathrm{pr}$ and $p$:
+\begin{align*}
+  \beta(\Psi_1)(\tau(g)x)&=p\bigl(\mathrm{pr}(\tliftlift(\omega(e(\hat g),e'(\hat h))(f_0\otimes\phi^\Psi),R(\hat g)c(x)))\bigr)\\
+  &=p\bigl(R(\hat h)\,\mathrm{pr}(\tliftlift(f_0\otimes\phi^\Psi,c(x)))\bigr)=\tau'(h)\,\beta(\Psi)(x).
+\end{align*}
+This is \eqref{eq:tlift:locpair}.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Proof of \texorpdfstring{\cref{pf:tlift:main}}{the theorem}}\label{pf:tlift:proof}
+
+\begin{proposition}[Assembly]\label{pf:tlift:assembly}
+\Cref{pf:tlift:main} follows from \cref{pf:tlift:toolsthm,pf:tlift:hgtex,pf:tlift:hgtfst,pf:tlift:brex,pf:tlift:realpair,%
+pf:tlift:nonvanthm,pf:tlift:liftaut,pf:tlift:projex,pf:tlift:readlift}.
+\formallabel{UpperTheory.TP.tLift_of_k}\formallabel{UpperTheory.TP.tLift_of_tools_k}
+\end{proposition}
+
+\begin{proof}
+Let $E$, the base data, $n$ and $X$ be given. Let $\tliftK$ be the standard maximal compact subgroup of $G_2(X)(\A)$,
+$\tliftht$ its height and $\iota$ the embedding (\cref{pf:tlift:hgtex}), and let $t_0$ be as in \cref{pf:tlift:hgtfst}. Choose
+an integer $N>2t_0$ and put $d_0=\max(N,2n)$.
+
+Let $d\ge d_0$ and $W,\delta,\chi_X,\chi_W,m_X,m_W,U,(\lambda_w)$ be as in the theorem. Then $2n\le d$ and $t_0<N/2\le d/2$. Also $\delta\ne0$:
+if $\delta=0$ then $i\tau_w(J_W)=0$ could not have signature $(d,0)$ with $d\ge1$. By \cref{pf:tlift:pairex} there is a
+Weil pair $(M,\chi_X,\chi_W,\omega)$ for $(X,W)$, and by \cref{pf:tlift:brex} there are $e=e_X$ and $e'=e_W$. By
+\cref{pf:tlift:realpair} (applicable as $n\le2n\le d$) there are $0\ne f_0\in\tliftPol$, $0\ne\varphi\in U$ of the same type
+and $\lambda'_w$ with $\tliftLW(\lambda_w,m_X(w),m_W(w),\lambda'_w)$ such that $f_0$ has type $\lambda'_w$ at $w$. By
+\cref{pf:tlift:hgtfst}, $g\mapsto\tliftht(\iota(g,1))^t$ is $\mu$-integrable for $t\ge t_0$; as $2n\le d$ and $t_0<d/2$,
+\cref{pf:tlift:nonvanthm} gives finite data $\phi$ with $\tliftlift_M(f_0\otimes\phi,\varphi^\flat)\ne0$. Since $e'$ is bijective,
+$\psi=\tliftlift(f_0\otimes\phi,\varphi)\ne0$, and $\psi$ is an automorphic form on $\Uni_d$ by \cref{pf:tlift:liftaut}. By
+\cref{pf:tlift:projex} there are $U'$ and $\mathrm{pr}$ with $\mathrm{pr}(\psi)\ne0$. By \cref{pf:tlift:readlift}, $U'$ has weight $\lambda'_w$ at
+$\tau_w$ for every $w$, and $\tliftLP_t(\chi_X,\chi_W,\tau,\tau')$ holds for all split places and local components. Thus $U'$ is a
+lift of $U$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:tlift:main}]
+By \cref{pf:tlift:toolsthm} the tool package holds, \cref{pf:tlift:stab2cpt,pf:tlift:hgtex} give the heights, and
+\cref{pf:tlift:hgtfst,pf:tlift:brex,pf:tlift:realpair,pf:tlift:nonvanthm,pf:tlift:liftaut,pf:tlift:projex,pf:tlift:readlift}
+are proved above from the tool package; \cref{pf:tlift:assembly} concludes.
+\end{proof}
+

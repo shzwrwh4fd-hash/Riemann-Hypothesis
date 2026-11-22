@@ -1,0 +1,140 @@
+\section{Introduction}\label{sec:intro}
+
+\subsection{The results}\label{sec:intro:results}
+
+Let $\zeta(s)$ be the Riemann zeta function, and for an integer $N\ge1$ and a Dirichlet character
+$\chi$ modulo $N$ let $L(s,\chi)$ be the meromorphic continuation of $\sum_{n\ge1}\chi(n)n^{-s}$.
+We prove the following theorems.
+
+\begin{theorem}[The Riemann Hypothesis]\label{thm:main-rh}
+Let $s\in\C$ with $\zeta(s)=0$. If $s$ is not one of the trivial zeros $-2,-4,-6,\dots$, then
+$\Re s=\frac12$.
+\formal{riemannHypothesis}
+\end{theorem}
+
+\begin{theorem}[The Generalized Riemann Hypothesis for Dirichlet $L$-functions]\label{thm:main-grh}
+Let $N\ge1$, let $\chi$ be a Dirichlet character modulo $N$, primitive or not, and let $s\in\C$ with
+$\Re s>\frac12$. Then $L(s,\chi)\neq0$, unless $\chi$ is the trivial character and $s=1$.
+\formal{LFunction_ne_zero_of_half_lt_re}
+\end{theorem}
+
+\begin{corollary}\label{cor:main-strip}
+Let $\chi$ be a Dirichlet character modulo $N\ge1$ and $s\in\C$ with $0<\Re s<1$ and $L(s,\chi)=0$.
+Then $\Re s=\frac12$. In particular, all non-trivial zeros of $L(s,\chi)$ for primitive $\chi$ lie on
+the critical line.
+\formal{LFunction_eq_zero_re} \formal{LFunction_eq_zero_re_of_isPrimitive}
+\end{corollary}
+
+The statements are those of the formal development, which uses Mathlib's definitions
+\cite{Mathlib2020}. In particular, $L(s,\chi)$ is Mathlib's \texttt{DirichletCharacter.LFunction}:
+it is entire for $\chi\neq\one$, and for the trivial character modulo $1$ it equals $\zeta(s)$.
+Mathlib assigns to $\zeta$ the value $\frac12(\gamma-\log4\pi)$ at its pole, which is why $s\neq1$
+appears as a hypothesis in the formal version of \cref{thm:main-rh}. The deduction of
+\cref{thm:main-rh} and \cref{cor:main-strip} from \cref{thm:main-grh} is classical and is given in
+\cref{sec:reduction}.
+
+By the classical criteria of Robin \cite{Robin1984} and Lagarias \cite{Lagarias2002},
+\cref{thm:main-rh} implies that $\sigma(n)<e^{\gamma}n\log\log n$ for all $n>5040$, and that
+$\sigma(n)\le H_n+e^{H_n}\log H_n$ for all $n\ge1$, where $\sigma$ is the sum-of-divisors function and
+$H_n$ the $n$-th harmonic number. Both inequalities have also been obtained formally, by combining
+the formal proof with an independent formalization of these criteria \cite{Robin1984Lean}; see
+\cite{Sutherland2026} and \cref{sec:verification:arith}.
+
+\subsection{The formal proof}\label{sec:intro:formal}
+
+The complete proof of \cref{thm:main-rh,thm:main-grh} and \cref{cor:main-strip} has been formalized
+in the proof assistant Lean~4 \cite{deMouraUllrich2021} on top of Mathlib \cite{LeanSource2026}.
+The formal development consists of $175\,187$ files with about $1.07$ million declarations. About
+$720\,000$ of these declarations, with eleven million lines of source text, are used in the proof of
+the main theorems. The formal statements of the main theorems refer only to Mathlib's definitions of
+$\zeta$, of Dirichlet characters, of their $L$-functions and of primitivity.
+
+The formal proof has been checked independently by A.~V.~Sutherland \cite{Sutherland2026}. All
+modules compile without errors. The five main theorems depend only on the three standard axioms
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. Every module has been replayed
+through the Lean kernel. The exported proof is accepted by the independently written kernels
+\emph{nanoda} and \emph{con-leche}, and \emph{lean4lean} accepts every compiled module. A sandboxed
+rebuild reproduces the exported proof byte for byte. At the time of writing, two further
+single-threaded kernel runs on the exported proof were still in progress. We refer to
+\cref{sec:verification} for details.
+
+\subsection{Strategy}\label{sec:intro:strategy}
+
+The proof is modelled on Stepanov's elementary proof of the Riemann Hypothesis for curves over finite
+fields \cite{Stepanov1969,Bombieri1974}; compare \cite{Weil1948,Deligne1974}. To bound the number of
+points of a curve $C$ over $\F_q$, Stepanov constructs an auxiliary function that vanishes to high
+order $m$ at every $\F_q$-rational point. Comparing the total order of vanishing with the degree gives
+an upper bound $\#C(\F_q)\le q+O(\sqrt q)$, and the optimal choice of $m$ is of size $\sqrt q$. A
+one-sided bound suffices, because it can be applied to all twists of $C$ at once.
+
+Over the integers there is no evident notion of multiplicity. In the present argument the
+multiplicity is supplied by chains
+\[
+\Uni(X_0)\longrightarrow\Uni(X_1)\longrightarrow\cdots\longrightarrow\Uni(X_m)
+\]
+of theta lifts between totally definite unitary groups attached to a CM field. The length of the
+chain is comparable to the square root of the length of the prime sum being estimated
+\cite{Announcement2026}. The argument has five steps.
+
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{One-sided bounds suffice} (\cref{sec:reduction,sec:landau}). Theorem~B follows from the
+statement that $L(s,\psi)\ne0$ for primitive $\psi$ and $\Re s>\frac12$. By a Landau-type theorem on
+windows (\cref{thm:landau-window}), it is enough to prove an \emph{upper} bound
+$G_\psi(y)\le y^{1/2+\eps}$ for the Riesz-weighted prime sums
+\[
+G(y)=\sum_{n\le y}\Lambda(n)\Big(\frac yn-1\Big)-y(\log y-1-\gamma),\qquad
+g_\chi(y)=\sum_{n\le y}\Lambda(n)\chi(n)\Big(\frac yn-1\Big)+y\,\frac{L'}{L}(1,\chi),
+\]
+combined as in \cref{def:landau:Gm}. The bound is only needed for $y$ in windows $[Y,Y^\lambda]$
+with $Y$ arbitrarily large.
+\item \emph{Prime counts in Frobenius classes} (\cref{sec:hosts}). Fix a primitive character $\psi$.
+At each scale $x$ we choose a \emph{host field}: an abelian number field $E$ with Galois group
+$(\Z/2)^2\times A$, cut out by $\psi$, by the quadratic characters of two auxiliary primes $q$ and
+$d$, and by $2$-power congruences. An exact orthogonality identity, the \emph{balance identity}
+(\cref{prop:balance}), expresses weighted counts of the primes that are inert in $\Q(\sqrt{-d})$ and
+lie in a given Frobenius class of $E$ in terms of the prime sums $g_\chi$ of the characters of $E$.
+An upper bound with error $x^{1/2+O(\eps)}$ for these counts, averaged over a suitable set of
+classes, implies the bound in (1) (\cref{thm:cheb-windows}).
+\item \emph{The Stepanov-type bound} (\cref{sec:stepanov,sec:families}). The required upper bound
+for the inert-prime counts comes from numerical records attached to lattices constructed from chains
+of theta lifts of length $m\asymp\sqrt x$. Two families of inequalities control these records:
+  \begin{itemize}
+  \item \emph{local} inequalities: every inert prime $p$ contributes divisibility, measured by local
+  lattice lengths at $p$, in proportion to the multiplicity $m$ (\cref{thm:linkG});
+  \item \emph{archimedean} inequalities: slopes and covolumes, computed through the Siegel--Weil
+  formula, mass formulas and the Chowla--Selberg formula, bound the total divisibility, as in the
+  slope inequalities of Bost \cite{Bost1996,Bost2001}.
+  \end{itemize}
+Approximate orthogonality of the relevant theta series (Theorem~S, \cref{thm:theorem-S}), Green's
+parametrization of the cuspidal characters of finite general linear groups \cite{Green1955}, and a
+Galois-cohomological link complete the inputs. Combining these inequalities by linear arithmetic
+yields the required upper bound (\cref{prop:gap-bound,thm:global-chain}).
+\item \emph{Existence of hosts and Galois cohomology} (\cref{sec:top,sec:window}). Hosts with the
+required properties exist at all scales in suitable windows. This uses a bound, the \emph{window
+bound}, for the lengths of the Tate--Shafarevich groups $\Sha^1(G_{E,S_\ell},\Ql/\Zl(-j))$ of the host
+fields (\cref{thm:vwin}). This bound is a weak form of Vandiver's conjecture, and it is proved using
+Galois representations attached to polarized cuspidal representations (\cref{sec:galois}), base
+change, and Kato-type Euler systems.
+\item \emph{Covolumes and literature} (\cref{sec:covolume,sec:literature}). Arithmetic-geometric
+covolume bounds and a large body of classical results enter the construction. All of them are proved
+in the formal development.
+\end{enumerate}
+
+\subsection{Organisation and conventions}\label{sec:intro:conv}
+
+\Cref{sec:reduction,sec:landau,sec:hosts} contain complete proofs. \Cref{sec:top} reduces the main
+theorem to three propositions: Green's theorem, the window bound, and the non-emptiness of a
+hypothesis package. \Cref{sec:stepanov} explains the Stepanov-type gap bound and how it follows from
+a list of inequalities. \Cref{sec:families,sec:window,sec:galois,sec:covolume} describe how the
+arithmetic inputs are established, and \cref{sec:literature} lists the published results that are
+used. These sections form Part~I. Part~II proves the arithmetic inputs.
+
+Most arithmetic inputs have formal proofs of hundreds of thousands of lines. Part~I states these results
+precisely and gives outlines of their proofs; such results are marked with a superscript~\Fmark{}. Their
+proofs are given in Part~II, converted from the formal development; \cref{sec:pf:intro} explains the
+organisation and the conventions of Part~II, and \cref{tab:pf:map} lists the section of Part~II in
+which each of these results is proved. Formal counterparts are cited by the name of the Lean
+declaration in square brackets, as in \formal{UpperTheory.FinalTheorems.everyCharacter}.
+\Cref{sec:dictionary} lists the formal counterparts of all numbered results of Part~I. When a formal
+statement differs from the classical result its name suggests (for instance, when a weaker form
+suffices), this is stated in a remark.

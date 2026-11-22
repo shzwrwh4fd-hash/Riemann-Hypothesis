@@ -1,0 +1,1806 @@
+\section{The window bound: hypotheses H and E}\label{sec:pf:vwin-he}
+
+\providecommand{\vwinheQZ}{\Q_\ell/\Z_\ell}
+\providecommand{\vwinhecyc}{\chi_{\mathrm{cyc}}}
+\providecommand{\vwinheVt}{\widetilde V}
+\providecommand{\vwinheX}{\mathcal X}
+\providecommand{\vwinheA}{\mathcal A}
+\providecommand{\vwinhesat}{\operatorname{sat}}
+\providecommand{\vwinhecot}{\operatorname{Cot}}
+\providecommand{\vwinhecotlen}{\lambda^{\mathrm{cot}}}
+\providecommand{\vwinheloclen}{\lambda}
+\providecommand{\vwinhesecs}{\operatorname{secs}}
+\providecommand{\vwinheIrr}{\operatorname{Irr}}
+\providecommand{\vwinheAnn}{\operatorname{Ann}}
+\providecommand{\vwinheD}{\mathfrak D}
+\providecommand{\vwinheXX}{\mathfrak X}
+\providecommand{\vwinhecoker}{\lambda^{\mathrm{co}}}
+
+This section proves \cref{thm:window:HE}: the package $\sfname{HypothesesH'}$ of theorems of the formal
+development implies the window bound $\sfname{VWin}$ of \cref{def:window:vwin}. The proof
+(\cref{sec:pf:vwin-he:proof}) is a short chain of nine results, each proved elsewhere in Part II. From
+$\sfname{HypothesesH'}$ they produce Lemma K (\cref{thm:window:lemmaK}), the vanishing theorem for Bloch--Kato
+Selmer groups (\cref{thm:kato}), automorphy statements for three- and four-dimensional Galois representations,
+the counting statements $\sfname{CountI}$, $\sfname{CountII}$, $\sfname{CountIII}$, $\sfname{CountV}$ for the plus
+part, and finally $\sfname{VWin}$. The counting statements are made precise in \cref{sec:pf:vwin-he:counts}; the
+package and the intermediate statements are described in \cref{sec:pf:vwin-he:hyps}.
+
+The remaining subsections treat two auxiliary results which enter the proofs of several of these inputs.
+\Cref{sec:pf:vwin-he:lemmaM} is devoted to Lemma M, a bound for the length of the cotangent module in degree $-1$
+of a $\Z$-graded algebra at a fixed point $x$ of the grading torus, modulo given equations, by twice the sum of the
+valuations of a degree-zero function at representatives of the orbits of the other points. It is the commutative
+algebra behind step (ii) of the Eisenstein congruence method of \cref{sec:window:eis}, and it is used in the proofs
+of $\sfname{CountI}$, $\sfname{CountII}$, $\sfname{CountIII}$ and $\sfname{CountV}$. Its proof compares two
+estimates for Euler characteristics of Koszul type on a trigraded Rees algebra: a lower bound computed on a formal
+chart at $x$, and an upper bound computed from the points. We give this argument completely; the auxiliary lemmas
+are stated where they are used and proved in \cref{sec:pf:vwin-he:auxproofs}, and a few deeper ingredients
+(finiteness of the points on a slice, the prime ideals of the Rees algebra, a separation property of charts, and
+three further estimates) are cited with precise statements. \Cref{sec:pf:vwin-he:descent} proves the descent formula along
+cyclotomic $\Z_\ell$-towers underlying \cref{lem:window:tower}: the length of the Tate--Shafarevich group of a
+Tate twist over a layer of the cyclotomic tower equals the length of the cokernel of $\gamma^{\ell^m}-1$ on a
+twisted Iwasawa module. This proof is complete.
+
+\subsection{Coefficient rings, hosts and the counting statements}\label{sec:pf:vwin-he:counts}
+
+Throughout this section $\Omega$ is an algebraic closure of $\Q$ and $G_\Q=\Gal(\Omega/\Q)$, with the Krull
+topology. For a prime $\ell$ we fix an algebraic closure $\Qlbar$ of $\Ql$, and $\vwinhecyc:G_\Q\to\Zl^\times$ is
+the $\ell$-adic cyclotomic character. Cohomology of profinite groups is continuous cohomology; modules of the form
+$\OO\otimes\vwinheQZ$ carry the discrete topology. A valuation ring of $\Omega$ is any valuation subring
+$A\subset\Omega$ (the trivial one $A=\Omega$ included); $D_A=\{g\in G_\Q: gA=A\}$ and
+$I_A=\{g\in D_A: v_A(ga-a)<1\ \text{for all}\ a\in A\}$ are its decomposition and inertia groups. For the trivial
+valuation ring, $I_\Omega=1$.
+
+\begin{definition}[Coefficient rings and normalized lengths]\label{pf:vwin-he:coef}
+Let $\ell$ be a prime. A \emph{coefficient ring} for $\ell$ is a $\Zl$-subalgebra $\OO\subset\Qlbar$ which is a
+discrete valuation ring and a finitely generated $\Zl$-module. Put $e_\OO=\len_\OO(\OO/\ell\OO)$, the
+ramification index of $\OO$ over $\Zl$. For $n\in\N\cup\{\infty\}$ put $\|n\|_\OO=n/e_\OO$ if $n<\infty$, and
+$\|\infty\|_\OO=0$.
+\end{definition}
+
+The convention $\|\infty\|_\OO=0$ is that of the formal development, where a length in $\N\cup\{\infty\}$ enters
+real inequalities through its natural-number part. For this reason every bound below for normalized lengths is
+accompanied by a separate finiteness assertion.
+
+\begin{definition}[The lengths $V_\ell(\theta,j)$]\label{pf:vwin-he:V}
+Let $\ell$ be a prime, $\OO$ a coefficient ring for $\ell$, $N\ge1$, $\theta$ a Dirichlet character modulo $N$
+with values in $\OO$, and $j\ge0$. Let $\kappa_N:G_\Q\to(\Z/N)^\times$ be the cyclotomic character modulo $N$
+($g\zeta=\zeta^{\kappa_N(g)}$ for $\zeta^N=1$), and $\theta_G=\theta\circ\kappa_N:G_\Q\to\OO^\times$. Let
+$M_{\theta,j}=\OO\otimes_{\Zl}\vwinheQZ$, on which $G_\Q$ acts through $\theta_G^{-1}\vwinhecyc^{-j}$. For $n\ge1$
+let $\Sha_n(\Q,M_{\theta,j})\subset H^1(G_\Q,M_{\theta,j})$ be the submodule of classes whose restrictions to
+$I_A$ for every valuation ring $A$ of $\Omega$, and to $D_A$ for every valuation ring $A$ whose maximal ideal
+contains $n$, vanish. Put
+\[
+ V_\ell(\theta,j)=\len_\OO\Sha_{\ell N}(\Q,M_{\theta,j})\in\N\cup\{\infty\},\qquad
+ \vwinheVt_\ell(\theta,j)=\|V_\ell(\theta,j)\|_\OO .
+\]
+For $B\in\R$ we say that $(\theta,j)$ is \emph{bounded by $B$} if $V_\ell(\theta,j)<\infty$ and
+$\vwinheVt_\ell(\theta,j)\log\ell\le B$.
+\formallabel{UpperTheory.V.HV.VLe}
+\end{definition}
+
+These are the lengths of \cref{def:window:host}; they depend on $\Omega$, which is fixed in each statement below.
+
+\begin{definition}[Hosts]\label{pf:vwin-he:host}
+A \emph{host} $h=(\chi,m,q_1,d)$ consists of a primitive Dirichlet character $\chi$ with complex values, of
+conductor $N_\chi$ and order $o_\chi$, an integer $m\ge2$, and primes $q_1\equiv3\pmod8$, $d\equiv7\pmod{16}$ with
+$q_1d$ prime to $N_\chi$. Put $N_h=\lcm(2^{m+2},N_\chi)\,q_1d$ and let $H_h\subset(\Z/N_h)^\times$ be the
+subgroup of classes $a$ with $a\equiv\pm1\pmod{2^{m+2}}$, $\chi(a)=1$, and $a$ a square modulo $q_1$ and modulo
+$d$. For a prime $\ell$, a coefficient ring $\OO$ for $\ell$ and $j\ge0$, let $\vwinheX_h(\OO,j)$ be the finite
+set of Dirichlet characters $\theta$ modulo $N_h$ with values in $\OO$ such that $H_h\subset\ker\theta$ and
+$\theta(-1)=(-1)^j$. With $p_K(\chi)$, $h^*(\chi)$, $p_1(\chi)$ and the bad set $B_\chi$ of
+\cref{def:window:cases}, the host $h$ is \emph{big for} $t\in\N$ if $2t+1<\min(q_1,d)$ and each of $N_\chi$,
+$o_\chi$, $p_K(\chi)$, $h^*(\chi)$, $p_1(\chi)$ is smaller than $\min(q_1,d)$.
+\end{definition}
+
+\begin{definition}[Components of characters, and the cases]\label{pf:vwin-he:cases}
+Let $N\ge1$ and let $\psi$ be a Dirichlet character modulo $N$ with values in a commutative ring. For a prime $r$
+let $\psi_{(r)}=\psi\circ\pi_r$, where $\pi_r(u)\in(\Z/N)^\times$ is congruent to $u$ modulo the $r$-part of $N$
+and to $1$ modulo its prime-to-$r$ part. For a prime $\ell$ write $\psi=\psi^{(\ell)}\psi_{\ell'}$ with
+$\psi^{(\ell)}$ of $\ell$-power order and $\psi_{\ell'}$ of order prime to $\ell$, and put
+\[
+ \psi^\flat=\psi_{\ell'}\,(\psi_{\ell'})_{(\ell)}^{-1},\qquad \psi^\sharp=\psi_{\ell'}\,(\psi_{\ell'})_{(2)}^{-1}.
+\]
+Let $f_0(\ell,\psi)$ be the order of $\ell$ modulo $\lcm(4,\ord\psi^\sharp)$, $n_0(\ell,\psi)=v_2(\ell^{f_0(\ell,\psi)}-1)$,
+and $c_2(\psi)=v_2(\cond\psi_{(2)})$. For a host $h=(\chi,m,q_1,d)$, a prime $\ell$, $j\ge1$ and a character
+$\theta$ modulo $N_h$, put $R_1(h,\ell,\theta)=16\,o_\chi(\ell N_\chi)^2\,4^{n_0(\ell,\theta)}$, and say that
+$(\ell,j,\theta)$ is
+\begin{enumerate}[label=(\Roman*)]
+\item[(I)] in case I if $\ell\notin B_\chi$ and $(\ell-1)\nmid2j$;
+\item[(II)] in case II if $j\ge2$, $\ord\theta^\flat$ is even, and $\ell\in B_\chi$ or $(\ell-1)\mid2j$;
+\item[(III)] in case III if $\ell\notin B_\chi$, $(\ell-1)\mid 2j$, $\ord\theta$ is odd and $\theta\ne1$;
+\item[(V)] in case V if $\ell\in B_\chi$ and $j=1$.
+\end{enumerate}
+\formallabel{UpperTheory.V.HV.n0}
+\end{definition}
+
+The character $\theta^\flat$ is the character of \cref{def:window:cases}, and the four cases are those of
+\cref{tab:window:cases}.
+
+\begin{definition}[Counting statements]\label{pf:vwin-he:countdef}
+For a property $P$ of tuples $(h,\ell,\OO,j,\theta)$, let $\mathrm{Count}(P)$ be the statement: \emph{for every
+primitive Dirichlet character $\chi$ there is $C\in\N$ such that for every host $h$ with character $\chi$, every
+$t\in\N$ for which $h$ is big, every algebraic closure $\Omega$ of $\Q$, every odd prime $\ell$, every coefficient
+ring $\OO$ for $\ell$, every $0<j<t$ and every $\theta\in\vwinheX_h(\OO,j)$ with $P(h,\ell,\OO,j,\theta)$, the pair
+$(\theta,j)$ is bounded by $(\ell N_hj)^C$.} Then
+\begin{itemize}
+\item $\sfname{CountII}$ and $\sfname{CountIII}$ are $\mathrm{Count}(P)$ for $P$: ``$(\ell,j,\theta)$ is in
+case II'', resp.\ ``in case III'';
+\item $\sfname{CountV}$ is $\mathrm{Count}(P)$ for $P$: ``$(\ell,j,\theta)$ is in case V and
+$R_1(h,\ell,\theta)\le2^{c_2(\theta)}$'';
+\item $\sfname{CountI}$ is the statement: \emph{for every primitive $\chi$ there are $C\in\N$ and primes $r_1,r_2$
+such that for every host $h=(\chi,m,q_1,d)$ with $r_1,r_2<\min(q_1,d)$, every $t$ for which $h$ is big, every
+$0<j<t$, every $\Omega$, every choice of a coefficient ring $\OO_\ell$ for each prime $\ell$, and every finite set
+$L$ of odd primes $\ell$ such that $(\ell,j)$ is in case I, one has $V_\ell(\theta,j)<\infty$ for $\ell\in L$ and
+$\theta\in\vwinheX_h(\OO_\ell,j)$, and}
+\[
+ \sum_{\ell\in L}\log\ell\sum_{\theta\in\vwinheX_h(\OO_\ell,j)}\vwinheVt_\ell(\theta,j)\ \le\ (N_ht)^C .
+\]
+\end{itemize}
+\formallabel{UpperTheory.V.HV.CountShape}
+\formallabel{UpperTheory.V.HV.CountI}
+\formallabel{UpperTheory.V.HV.CountII}
+\formallabel{UpperTheory.V.HV.CountIII}
+\formallabel{UpperTheory.V.HV.CountV}
+\end{definition}
+
+These are the statements of \cref{def:window:counts}; the auxiliary $2$-adic condition of case V is
+$R_1(h,\ell,\theta)\le2^{c_2(\theta)}$. Case I is the only case summed over primes; in the other cases the bound
+depends on $\ell$.
+
+\subsection{The package H and the intermediate statements}\label{sec:pf:vwin-he:hyps}
+
+The hypothesis of \cref{thm:window:HE} is a conjunction of statements, each of which is a theorem of the formal
+development \cite{LeanSource2026}; most are formalized published theorems, a few are formal proofs of known
+theorems (see \cref{sec:window:arch} and \cref{rem:window:bc}). Its only role in this section is to be passed to
+the results cited in \cref{sec:pf:vwin-he:proof}, so we list its components briefly.
+
+\begin{definition}[The package $\sfname{HypothesesH'}$]\label{pf:vwin-he:H}
+$\sfname{HypothesesH'}$ is the conjunction of the following statements.
+\begin{enumerate}[label=(H\arabic*)]
+\item\label{pf:vwin-he:H1} $\sfname{LiteratureRankNHypothesis}$, which consists of four groups of statements:
+ (a) the representation theory of $\GL_n$ over $p$-adic fields used in the development (finiteness theorems of
+ Bernstein--Zelevinsky, the geometric lemma, Zelevinsky's classification and polynomial ring, the Langlands
+ classification by multisegments, standard modules and their cosocles, irreducibility criteria for parabolic
+ induction, square-integrable and tempered representations, the Moy--Prasad isomorphism, depth-zero induction,
+ the local converse theorem, Brauer's theorem in degree zero, Chevalley's unit theorem and Green's regular
+ characters) \cite{BernsteinZelevinsky1977,Zelevinsky1980,MoyPrasad1994};
+ (b) automorphic forms on $\GL_n$ and Galois representations: rapid decay of cusp forms, Harish-Chandra's
+ finiteness theorem, finiteness of automorphic forms of fixed type, the theorem of Jacquet--Shalika and the
+ cuspidal spectrum \cite{JacquetShalika1981}, base change from definite unitary groups to isobaric representations
+ (\cref{rem:window:bc}(i)), Gelfand--Kazhdan duality, the existence of Galois representations attached to
+ polarized regular algebraic cuspidal representations, of the type of \cref{thm:row0b}, Clozel's purity
+ and cohomologicality theorems \cite{Clozel1990}, global Artin reciprocity and ray class fields, $\ell$-adic
+ characters attached to algebraic Hecke characters, and Berger's theorem that de Rham representations are
+ potentially semistable \cite{Berger2002};
+ (c) Galois cohomology: Poitou--Tate duality, finiteness, Tate duality and Euler characteristics for local fields
+ (also for finite extensions of $\Ql$), global finiteness and Euler characteristics, orthogonality of unramified
+ classes, the Greenberg--Wiles formula \cite{Wiles1995} and Bloch--Kato's local theory \cite{BlochKato1990};
+ (d) complex multiplication: Grothendieck's deformation theory, de Rham cohomology, dual crystals, period
+ comparison and Gauss--Manin periods of abelian varieties, the Serre--Tate good reduction criterion, the main
+ theorem of complex multiplication for elliptic curves, the Hilbert class field via $j$, the theorem of
+ Siegel--Klingen--Deligne--Ribet \cite{DeligneRibet1980}, and the functional equations of partial zeta functions
+ and Hecke $L$-functions.
+\item\label{pf:vwin-he:H2} Further statements on automorphic forms: Clozel's criterion for cohomological cuspidal
+ representations of $\GL_a$ over totally imaginary fields and the existence of $\Aut(\C)$-conjugates of regular
+ algebraic cuspidal representations \cite{Clozel1990}; Borel's bound for the number of cohomological cuspidal
+ representations of given level by the dimension of the cohomology of the locally symmetric space
+ \cite{Borel1983}; Galois representations with local--global compatibility for regular algebraic polarized cuspidal
+ representations of $\GL_2$ over totally real fields \cite{Carayol1986,Taylor1989}; strong multiplicity one,
+ Gelfand--Kazhdan duality (the contragredient is the transpose-inverse) and admissibility for cuspidal
+ representations of $\GL_a$ over totally real fields; quadratic base change for $\GL_2$ from a totally real field to
+ a totally imaginary quadratic extension \cite{Langlands1980}; and the cuspidal representation of $\GL_2(\A_\Q)$
+ attached to a classical newform of weight $\ge2$.
+\item\label{pf:vwin-he:H3} The base change and descent statements of \cref{rem:window:bc}: descent of regular
+ algebraic conjugate self-dual cuspidal representations $\pi$ of $\GL_n(\A_E)$, $2\le n\le4$, $E$ a CM field
+ unramified over $E^+$ at all finite places, to an automorphic representation of the definite unitary group which is
+ unramified at the non-split places and whose components at almost all split places have the Satake parameters of
+ $\pi$ (cf.\ \cite{Labesse2011}); cyclic base change and descent of prime degree over totally imaginary fields
+ \cite{ArthurClozel1989}; descent to $\Q$ of regular algebraic cuspidal representations of $\GL_2$ over an imaginary
+ quadratic field with sufficiently regular infinitesimal character and Galois-invariant Satake parameters at almost
+ all places, or an alternative Galois-theoretic form of this descent; the existence of a totally definite quaternion
+ algebra over every totally real field of even degree \cite{Vigneras1980}; and the semisimplicity of the space of
+ cusp forms over totally real fields.
+\end{enumerate}
+\formal{UpperTheory.V.Af.HypothesesH'}
+\end{definition}
+
+The intermediate statements of the proof are the following. Two of them are recalled from Part I:
+$\sfname{LemmaK}(C_K)$, for $C_K\in\R$, is the bound of \cref{def:window:lemmaK}, namely
+$\log\#H^2(G_{L,S_\ell},\Zl(j+1))\le\exp\bigl((2j[L:\Q])^{C_K}\log(2|d_L|)\bigr)$ for all totally imaginary $L$
+containing $\mu_\ell$ ($\mu_4$ if $\ell=2$) and all $j\ge1$; and $\sfname{KatoTwoW}$ is the vanishing of the
+Bloch--Kato Selmer groups of $W$ and $W\otimes\vartheta$ for the two-dimensional representations $W$ of
+\cref{def:window:kato}. The other four are automorphy statements for the deformation problems used for the plus
+part. They occur below only as conclusions and hypotheses of cited theorems, so we only describe their content.
+
+\begin{definition}[Automorphy statements for the plus part]\label{pf:vwin-he:autstmts}
+\leavevmode
+\begin{enumerate}[label=(\arabic*)]
+\item\label{pf:vwin-he:Sp} \emph{Symplectic automorphy} $(\mathrm{Sp})$: for every host $h$ big for $t$, every odd
+prime $\ell$, every coefficient ring $\OO$, every $0<j<t$, every $\theta\in\vwinheX_h(\OO,j)$ and every admissible
+four-dimensional deformation datum of $\GSp_4$-type attached to $(\ell,j,\theta)$ in case II or III, the following
+hold: the weight-zero subalgebras generated by the points of the datum are finite $\OO$-modules; at the
+block-diagonal characteristic-zero points, the values of the upper $2\times2$ block span a proper subspace of the
+$2\times2$ matrices; and there is an isomorphism $\iota:\Qlbar\cong\C$ such that every irreducible
+characteristic-zero point $r$ of the datum is automorphic in the following sense: for every imaginary quadratic field
+$K$ with $r|_{G_K}$ irreducible, $r|_{G_K}$ is attached via $\iota$ to a regular algebraic cuspidal representation of
+$\GL_4(\A_K)$, and a window condition on Satake parameters holds.
+\item\label{pf:vwin-he:Ue} \emph{Unitary automorphy at the ordinary points} $(\mathrm{U}_{\mathrm{ord}})$: for every
+prime $\ell$, every coefficient ring $\OO$, every $j$ and Dirichlet character $\theta$ with values in $\OO$, every
+datum $D$ consisting of an imaginary quadratic field $K$ (with quadratic character $\eta$) satisfying the genericity
+conditions of case I for $(K,\ell,j,\theta)$, a complex conjugation and an $\ell$-adic place, and every place $B$ of
+$\Omega$ above $\ell$, there is an element $g_1\in G_\Q$ with the marking property such that: (1) on some subgroup of
+finite index of $\ker\eta$, the characteristic polynomials of all ordinary three-dimensional points of unitary type
+attached to $(\eta,\Psi=\vwinhecyc^j\theta_G,g_1,B)$ with coefficients in algebras over the residue field of $\OO$
+agree with those of the base representation; (2) every such ordinary point with coefficients in a finite discrete
+valuation ring inside $\Qlbar$ which is irreducible on every open subgroup of $\ker\eta$ becomes, after restriction
+to $G_K$ and twist by $\vwinhecyc^{-1}$, automorphic of conjugate self-dual type over $K$; and (3) at the endoscopic
+such points, every two-dimensional representation $W$ agreeing with the two-dimensional block on $\ker\eta$ and of
+trace $0$ at the complex conjugation is such that $W\otimes\vwinhecyc^{-j}$ is attached to a newform of weight
+$2j+1$, and $W$ satisfies the window condition $\sfname{WitAQ}$ of \cref{def:window:kato}.
+\item\label{pf:vwin-he:Ui} \emph{Unitary automorphy over $\Q(i)$} $(\mathrm{U}_{i})$: for $K=\Q(i)$ and all host
+data, the universal ring of every host frame (the three-dimensional unitary deformation problem used in case V)
+has a weight-zero part which is a finite $\OO$-module, and all its irreducible characteristic-zero points are
+automorphic over $K$.
+\item\label{pf:vwin-he:Uu} \emph{Unitary automorphy with unramified coefficients} $(\mathrm{U}_{\mathrm{ur}})$: for
+every datum $D$ as in $(\mathrm{U}_{\mathrm{ord}})$ with unramified coefficient ring ($e_\OO=1$) and every
+$\iota:\Qlbar\cong\C$, there is a marked Frobenius element such that the weight-zero subalgebras of the relevant
+deformation rings are finite over $\OO$, their irreducible characteristic-zero points are automorphic, and at their
+endoscopic points the two-dimensional block is modular in the sense used in case I.
+\end{enumerate}
+\formal{UpperTheory.V.Aut.SymplecticFourImageDense}
+\formal{UpperTheory.V.Pr.GdEndAlt}
+\formal{UpperTheory.V.Aut.ThmS6Core_s}
+\formal{UpperTheory.V.Aut.AutomorphyUnramifiedCoefficientsAlt}
+\end{definition}
+
+Statement $(\mathrm{U}_{\mathrm{ur}})$ is the ``automorphy statement of $R=T$ type'' of \cref{thm:window:countI}.
+
+\subsection{Proof of the main reduction}\label{sec:pf:vwin-he:proof}
+
+\begin{theorem}[\cref{thm:window:HE}]\label{pf:vwin-he:main}
+$\sfname{HypothesesH'}$ implies $\sfname{VWin}$.
+\formallabel{UpperTheory.V.HV.DescentVanishingReductions.vwin_of_hypotheses_H_E_alt}
+\end{theorem}
+
+\begin{proof}
+Assume $\sfname{HypothesesH'}$; in particular its component \ref{pf:vwin-he:H1} holds. We use the following nine
+results; for each we say what it states, exactly in the form in which it is used.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:a} \ref{pf:vwin-he:H1} implies that $\sfname{LemmaK}(C_K)$ holds for some $C_K\in\R$
+(\lref{UpperTheory.V.ZK.lemmaK_litN_alt}; this is \cref{thm:window:lemmaK}).
+\item\label{pf:vwin-he:b} $\sfname{HypothesesH'}$ implies $(\mathrm{U}_{\mathrm{ord}})$ and $(\mathrm{U}_i)$
+(\lref{UpperTheory.V.Z.Win.Dn.ends0_alt}).
+\item\label{pf:vwin-he:c} $\sfname{HypothesesH'}$ implies $(\mathrm{Sp})$
+(\lref{UpperTheory.V.HV.DescentVanishingReductions.sp4In0_alt}).
+\item\label{pf:vwin-he:d} $\sfname{HypothesesH'}$ implies $\sfname{KatoTwoW}$
+(\lref{UpperTheory.V.Z.Kato.WeilSphericalRecords.katoTwoW_of_printsH}; this is \cref{thm:kato}).
+\item\label{pf:vwin-he:e} \ref{pf:vwin-he:H1} and $(\mathrm{U}_{\mathrm{ord}})$ imply $(\mathrm{U}_{\mathrm{ur}})$
+(\lref{UpperTheory.V.HV.Core0.automorphyUnramified_of_litN_of_gdEnd}).
+\item\label{pf:vwin-he:f} $\sfname{HypothesesH'}$, the existence of $C_K$ with $\sfname{LemmaK}(C_K)$,
+$\sfname{KatoTwoW}$ and $(\mathrm{U}_{\mathrm{ur}})$ imply $\sfname{CountI}$
+(\lref{UpperTheory.V.Z.J.count_i_of_printed_bound_k_kato_automorphy}; this is \cref{thm:window:countI}).
+\item\label{pf:vwin-he:g} $\sfname{HypothesesH'}$, the existence of $C_K$ with $\sfname{LemmaK}(C_K)$, and
+$(\mathrm{Sp})$ imply $\sfname{CountII}$ and $\sfname{CountIII}$
+(\lref{UpperTheory.V.HV.DescentVanishingReductions.countII_and_countIII_of_printsH_of_sp4In}).
+\item\label{pf:vwin-he:h} $\sfname{HypothesesH'}$, the existence of $C_K$ with $\sfname{LemmaK}(C_K)$, and
+$(\mathrm{U}_i)$ imply $\sfname{CountV}$ (\lref{UpperTheory.V.Z.J.count_v_of_printed_bound_k_reduced_unitary_lift}).
+\item\label{pf:vwin-he:i} \ref{pf:vwin-he:H1}, the existence of $C_K$ with $\sfname{LemmaK}(C_K)$, $\sfname{CountI}$,
+$\sfname{CountII}$, $\sfname{CountIII}$ and $\sfname{CountV}$ imply $\sfname{VWin}$
+(\lref{UpperTheory.V.HV.Core.of_four_alt}).
+\end{enumerate}
+By \ref{pf:vwin-he:a} there is $C_K$ with $\sfname{LemmaK}(C_K)$. By \ref{pf:vwin-he:b}, \ref{pf:vwin-he:c} and
+\ref{pf:vwin-he:d} the statements $(\mathrm{U}_{\mathrm{ord}})$, $(\mathrm{U}_i)$, $(\mathrm{Sp})$ and
+$\sfname{KatoTwoW}$ hold, and then $(\mathrm{U}_{\mathrm{ur}})$ holds by \ref{pf:vwin-he:e}. Now \ref{pf:vwin-he:f}
+gives $\sfname{CountI}$, \ref{pf:vwin-he:g} gives $\sfname{CountII}$ and $\sfname{CountIII}$, and \ref{pf:vwin-he:h}
+gives $\sfname{CountV}$. Finally \ref{pf:vwin-he:i} gives $\sfname{VWin}$.
+\end{proof}
+
+\begin{remark}[On the structure of the reduction]\label{pf:vwin-he:rem-structure}
+(1) The package is used in full only through the cited results \ref{pf:vwin-he:b}--\ref{pf:vwin-he:d} and
+\ref{pf:vwin-he:f}--\ref{pf:vwin-he:h}; the steps \ref{pf:vwin-he:a}, \ref{pf:vwin-he:e}, \ref{pf:vwin-he:i} use
+only its component \ref{pf:vwin-he:H1}.
+
+(2) The statement $\sfname{CountZ}$ of \cref{prop:window:propZ}, the bounds for the $2$-part and the bad layers
+(\cref{thm:window:bab}) and the minus part (\cref{prop:psibound}) are not hypotheses of \ref{pf:vwin-he:i}: they are
+established in its proof from \ref{pf:vwin-he:H1} and $\sfname{LemmaK}$. Accordingly, the plus-part inputs which
+require automorphy are exactly the four counts.
+
+(3) The three- and four-dimensional automorphy statements enter only through
+\ref{pf:vwin-he:f}--\ref{pf:vwin-he:h}: $(\mathrm{Sp})$ is used for cases II and III, $(\mathrm{U}_{\mathrm{ur}})$
+(deduced from $(\mathrm{U}_{\mathrm{ord}})$) together with $\sfname{KatoTwoW}$ for case I, and $(\mathrm{U}_i)$ for
+case V.
+\end{remark}
+
+\subsection{Lemma M: cotangent lengths of graded algebras}\label{sec:pf:vwin-he:lemmaM}
+
+In the method of \cref{sec:window:eis}, the length of a Selmer-type group is compared with a graded piece of the
+cotangent module of a deformation ring at the Eisenstein point, and the latter is bounded by valuations of a trace
+difference at the characteristic-zero points (step (ii) there). The deformation rings carry an action of the
+multiplicative group by conjugation with a cocharacter, i.e.\ a $\Z$-grading, the Eisenstein point is fixed by it,
+and the other points move in orbits. Lemma M is the abstract form of this step.
+
+\subsubsection{The setting}
+
+Throughout this subsection, $\OO$ is a complete discrete valuation ring of characteristic $0$ with uniformizer
+$\varpi$ and fraction field $\mathrm{Frac}(\OO)$, $K$ is an algebraically closed field containing $\OO$ (i.e.\ an
+$\OO$-algebra with $\OO\to K$ injective), and $v:K\to\R$ is a \emph{normalized valuation}: $v(ab)=v(a)+v(b)$ and
+$v(a+b)\ge\min(v(a),v(b))$ whenever $a$, $b$ and (in the second case) $a+b$ are non-zero, and $v(c)=\ord_\OO(c)$ for
+$0\ne c\in\OO$. A local ring $R$ with an $\OO$-algebra structure is \emph{complete over $\OO$} if it is Noetherian,
+complete for its maximal ideal, $\OO\to R$ is a local homomorphism, and every element of $R$ is congruent to an
+element of $\OO$ modulo the maximal ideal.
+
+\begin{definition}[Weighted rings and their points]\label{pf:vwin-he:wring}
+A \emph{weighted ring} is a $\Z$-graded $\OO$-algebra $A=\bigoplus_{j\in\Z}A_j$ (the $A_j$ being $\OO$-submodules
+with $A_iA_j\subset A_{i+j}$) together with an $\OO$-algebra homomorphism $x:A\to\OO$ such that: $A_0$ is complete
+over $\OO$; $A$ is generated as an $\OO$-algebra by $A_0$ and finitely many homogeneous elements of degrees
+$-2,-1,1,2$; and $x(A_j)=0$ for $j\ne0$. A \emph{$K$-point} is an $\OO$-algebra homomorphism $\xi:A\to K$; it lies
+on an ideal $I$ if $\xi(I)=0$. The group $K^\times$ acts on $K$-points by $(t\cdot\xi)(f)=t^j\xi(f)$ for $f\in A_j$.
+A $K$-point is \emph{negatively trivial} (resp.\ \emph{positively trivial}) if it vanishes on $A_j$ for all $j<0$
+(resp.\ $j>0$), and \emph{two-signed} if it is neither. A \emph{point derivation} at $\xi$ is an $\OO$-linear map
+$\delta:A\to K$ with $\delta(fg)=\xi(f)\delta(g)+\xi(g)\delta(f)$.
+\formal{UpperTheory.V.Alg.IsWRing}
+\end{definition}
+
+Two-signed points are never fixed by $K^\times$, and the restriction of a $K$-point to $A_0$ only depends on its
+orbit.
+
+\begin{definition}[The saturated cotangent lattice]\label{pf:vwin-he:cot}
+Let $(A,x)$ be a weighted ring and $\mathfrak m_x=\ker x$. Let $\vwinhesat(x)=\{f\in A: cf\in\mathfrak m_x^2\
+\text{for some}\ 0\ne c\in\OO\}$, an $\OO$-submodule of $A$, and for $j\in\Z$ let
+$\vwinhecot_j(x)\subset A/\vwinhesat(x)$ be the image of $A_j\cap\mathfrak m_x$. For a family $F=(F_i)$ of elements
+of $A$ let $\langle F\rangle\subset A/\vwinhesat(x)$ be the $\OO$-span of their images. We say that $F$
+\emph{spans the cotangent space in degree $j$} if for every $p\in\vwinhecot_j(x)$ there is $0\ne c\in\OO$ with
+$cp\in\langle F\rangle$, and we put
+\[
+ \vwinhecotlen_j(x;F)=\len_\OO\Bigl(\vwinhecot_j(x)\big/\bigl(\vwinhecot_j(x)\cap\langle F\rangle\bigr)\Bigr)\in\N\cup\{\infty\}.
+\]
+\formallabel{UpperTheory.V.Alg.cotLen}
+\end{definition}
+
+Since $\vwinhesat(x)$ is saturated, $A/\vwinhesat(x)$ is a torsion-free $\OO$-module; $\vwinhecot_{-1}(x)$ is the
+lattice of degree $-1$ in the cotangent space $\mathfrak m_x/\mathfrak m_x^2$ modulo torsion.
+
+\begin{definition}[Smooth points and charts]\label{pf:vwin-he:chart}
+Let $(A,x)$ be a weighted ring, $\tau$ a finite set with a weight function $\mathrm{wt}:\tau\to\Z$, and
+$\mathrm{Frac}(\OO)[[\tau]]$ the ring of formal power series in variables indexed by $\tau$; the weight of a monomial
+$\prod_iX_i^{\nu_i}$ is $\sum_i\nu_i\mathrm{wt}(i)$. A \emph{chart} at $x$ is an $\OO$-algebra homomorphism
+$\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ such that: $\phi(A_j)$ consists of power series all of whose monomials have
+weight $j$; the constant term of $\phi(f)$ is $x(f)$; for each $i\in\tau$ there is $f\in A$ such that the linear
+part of $\phi(f)$ is a non-zero multiple of $X_i$; and every $f\in\mathfrak m_x$ such that $\phi(f)$ has no linear
+terms lies in $\vwinhesat(x)$. For $n:\Z\to\N$, the point $x$ is \emph{smooth with tangent dimensions $n$} if there
+is a chart with $\#\{i:\mathrm{wt}(i)=j\}=n(j)$ for all $j$. A \emph{reduced chart} is a homomorphism $\phi$ with the
+first three properties and all of whose variables have weights in $\{-2,-1,1,2\}$.
+\formal{UpperTheory.V.Alg.SmoothPt}
+\end{definition}
+
+\begin{definition}[Equations and the conditions M1--M5]\label{pf:vwin-he:eqns}
+Let $(A,x)$ be a weighted ring and $r,s,r',s',m\in\N$. A \emph{system of equations of type $(r,s,r',s',m)$} consists
+of elements $F_0,\dots,F_r\in A_{-1}$, $G_1,\dots,G_s\in A_{-2}$, $E_1,\dots,E_{r'}\in A_1$,
+$E'_1,\dots,E'_{s'}\in A_2$ and $Z_1,\dots,Z_m\in A_0\cap\mathfrak m_x$; let $I\subset A$ be the ideal they
+generate. Let $n_{r,s,r',s',m}:\Z\to\N$ take the values $r,s,r'+1,s'+1,m$ at $-1,-2,1,2,0$ and $0$ elsewhere. For
+$a\in A$ consider the conditions:
+\begin{enumerate}[label=(M\arabic*)]
+\item $r\ge1$; $x$ is smooth with tangent dimensions $n_{r,s,r',s',m}$; and the $F_i$, the $G_i$ and the $Z_i$
+span the cotangent space in degrees $-1$, $-2$ and $0$ respectively;
+\item the image of $A_0$ in $A/I$ is a finitely generated $\OO$-module;
+\item for every $K$-point $x_1\ne x$ on $I$ which is both negatively and positively trivial, there do not exist both a
+$K$-point on $I$ which is negatively but not positively trivial and agrees with $x_1$ on $A_0$, and a $K$-point on
+$I$ which is positively but not negatively trivial and agrees with $x_1$ on $A_0$;
+\item at every two-signed $K$-point $\xi$ on $I$, any two point derivations at $\xi$ vanishing on $I$ are linearly
+dependent over $K$;
+\item $a\in A_0$, $x(a)=0$, and $\xi(a)\ne0$ for every two-signed $K$-point $\xi$ on $I$.
+\end{enumerate}
+A finite set $T$ of two-signed $K$-points on $I$ \emph{covers} $I$ if every two-signed $K$-point on $I$ lies in the
+$K^\times$-orbit of an element of $T$.
+\formal{UpperTheory.V.Alg.Eqns}
+\end{definition}
+
+Condition (M4) says that at a two-signed point the tangent space of $\Spec(A/I)$ over $K$ has dimension at most one,
+the dimension of the orbit of the point. Condition (M3) concerns the fixed points other than $x$. Note that there
+are $r+1$ equations $F_i$ of degree $-1$, one more than the tangent dimension $r$ of $x$ in that degree.
+
+\begin{theorem}[Lemma M]\label{pf:vwin-he:lemmaM}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations of type $(r,s,r',s',m)$ generating the ideal
+$I$, and $a\in A$, and assume \textup{(M1)}--\textup{(M5)}. Then a finite set covering $I$ exists,
+$\vwinhecotlen_{-1}(x;F)<\infty$, and for every finite set $T$ covering $I$,
+\[
+ \vwinhecotlen_{-1}(x;F)\ \le\ 2\sum_{\xi\in T}v(\xi(a)).
+\]
+\formallabel{UpperTheory.V.Alg.LemmaM}
+\formallabel{UpperTheory.V.Alg.M.main_holds}
+\end{theorem}
+
+The theorem holds for every algebraically closed $K\supset\OO$ and every normalized valuation $v$ on $K$. The terms
+$v(\xi(a))$ are non-negative (\cref{pf:vwin-he:vnn} below), and the sum does not depend on
+the choice of the representatives in the orbits, since $\xi(a)$, $a\in A_0$, is constant on orbits.
+
+\subsubsection{Reduction to a normalized system}
+
+\begin{lemma}[Elementary divisors]\label{pf:vwin-he:sm}
+Let $(A,x)$ be a weighted ring, $F_0,\dots,F_r\in A_{-1}$, and assume that $\vwinhecot_{-1}(x)$ is a finitely
+generated $\OO$-module of rank $r$ and that the $F_i$ span the cotangent space in degree $-1$. Then there are
+$F'_0,\dots,F'_r\in A$ with the same $\OO$-span as $F_0,\dots,F_r$, elements $y_0,\dots,y_{r-1}\in A_{-1}$ and
+integers $c_0,\dots,c_{r-1}\ge0$ such that $F'_i-\varpi^{c_i}y_i\in\vwinhesat(x)$ for $i<r$,
+$F'_r\in\vwinhesat(x)$, and $\vwinhecotlen_{-1}(x;F)=\sum_{i<r}c_i$.
+\formallabel{UpperTheory.V.Alg.M.sm_holds}
+\end{lemma}
+
+\begin{proof}
+Write $P=\vwinhecot_{-1}(x)$; it is torsion-free, hence free of rank $r$. Since $x(A_{-1})=0$, the images of the
+$F_i$ lie in $P$; let $N=P\cap\langle F\rangle$ be their span. As $F$ spans the cotangent space, $P/N$ is torsion,
+so $N$ has rank $r$. By the elementary divisor theorem over the discrete valuation ring $\OO$ there are a basis
+$b_0,\dots,b_{r-1}$ of $P$ and integers $c_i\ge0$ such that $\varpi^{c_0}b_0,\dots,\varpi^{c_{r-1}}b_{r-1}$ is a basis
+of $N$; then $P/N\cong\bigoplus_i\OO/\varpi^{c_i}$ has length $\sum_ic_i$. Let $\Psi:\OO^{r+1}\to P$ be the map
+$e_i\mapsto$ image of $F_i$; its image is $N$, of rank $r$, so its kernel has rank one. Choose $w_i\in\OO^{r+1}$ with
+$\Psi(w_i)=\varpi^{c_i}b_i$ ($i<r$) and a generator $w_r$ of $\ker\Psi$. Then $w_0,\dots,w_r$ generate $\OO^{r+1}$
+(for $u\in\OO^{r+1}$ write $\Psi(u)=\sum a_i\varpi^{c_i}b_i$; then $u-\sum a_iw_i\in\ker\Psi$), hence form a basis.
+Put $F'_i=\sum_kw_{i,k}F_k$; these have the same span as the $F_k$. Let $y_i\in A_{-1}\cap\mathfrak m_x$ be lifts of
+$b_i$. Then the image of $F'_i$ in $A/\vwinhesat(x)$ is $\varpi^{c_i}b_i$ for $i<r$ and $0$ for $i=r$, which are the
+remaining assertions.
+\end{proof}
+
+\begin{lemma}[Homogeneity]\label{pf:vwin-he:hom}
+For a system of equations as in \cref{pf:vwin-he:eqns}, the ideal $I$ and the ideal $I_2$ generated by the
+$F_i^2$, $G_i$, $E_i^2$, $E'_i$ and $Z_i$ are homogeneous, and $I_2\subset I$.
+\formallabel{UpperTheory.V.Alg.M.hom_holds}
+\end{lemma}
+
+\begin{proof}
+Both ideals are generated by homogeneous elements, and $F_i^2=F_i\cdot F_i$, $E_i^2=E_i\cdot E_i\in I$.
+\end{proof}
+
+The following four lemmas normalize the data; their proofs are given in \cref{sec:pf:vwin-he:pf-chart} and
+\cref{sec:pf:vwin-he:pf-points}. The notion of a finite set covering an ideal (\cref{pf:vwin-he:eqns}) makes sense for
+every ideal of $A$.
+
+\begin{lemma}[Rank of the cotangent lattice]\label{pf:vwin-he:rk}
+Let $(A,x)$ be a weighted ring which is smooth at $x$ with tangent dimensions $n$. Then $\vwinhecot_{-1}(x)$ is a
+finitely generated $\OO$-module of rank $n(-1)$.
+\formallabel{UpperTheory.V.Alg.M.rk_holds}
+\end{lemma}
+
+\begin{lemma}[Elimination of the variables of weight zero]\label{pf:vwin-he:cut}
+Let $(A,x)$ be a weighted ring and $(F,G,E,E',Z)$ a system of equations of type $(r,s,r',s',m)$ satisfying
+\textup{(M1)}. Then there are a finite set $\tau$ with a weight function and a reduced chart
+$\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ such that $\phi(Z_i)=0$ for all $i$ and
+$\#\{i:\mathrm{wt}(i)=j\}=n_{r,s,r',s',0}(j)$ for all $j\in\Z$.
+\formallabel{UpperTheory.V.Alg.M.cut_holds}
+\end{lemma}
+
+\begin{lemma}[Non-vanishing on the chart]\label{pf:vwin-he:nz}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations with ideal $I$ such that the $F_i$ span the
+cotangent space in degree $-1$, and $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ a reduced chart with at least one variable
+of weight $-1$ and at least one variable of weight $1$. Then for every $a\in A_0$ there is $a'\in A_0$ with
+$a'-a\in I$, $x(a')=x(a)$ and $\phi(a')\ne0$.
+\formallabel{UpperTheory.V.Alg.M.nz_holds}
+\end{lemma}
+
+\begin{lemma}[Existence of covering sets]\label{pf:vwin-he:fin}
+Let $(A,x)$ be a weighted ring and $J\subset A$ a homogeneous ideal such that the image of $A_0$ in $A/J$ is a
+finitely generated $\OO$-module and \textup{(M4)} holds with $J$ in place of $I$. Then a finite set covering $J$
+exists.
+\formallabel{UpperTheory.V.Alg.M.fin_holds}
+\end{lemma}
+
+\begin{theorem}[Core inequality]\label{pf:vwin-he:core}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations of type $(r,s,r',s',m)$ with ideal $I$, and
+$\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ a reduced chart with $\phi(Z_i)=0$ for all $i$ and
+$\#\{i:\mathrm{wt}(i)=j\}=n_{r,s,r',s',0}(j)$ for all $j$. Assume $r\ge1$, and let $y_0,\dots,y_{r-1}\in A_{-1}$ and
+$c_0,\dots,c_{r-1}\in\N$ satisfy $F_i-\varpi^{c_i}y_i\in\vwinhesat(x)$ for $i<r$ and $F_r\in\vwinhesat(x)$. Assume
+that the $F_i$ and the $G_i$ span the cotangent space in degrees $-1$ and $-2$, that \textup{(M2)}, \textup{(M3)},
+\textup{(M4)} hold, and that $a$ satisfies \textup{(M5)} and $\phi(a)\ne0$. Then for every finite set $T$ covering $I$,
+\[
+ \sum_{i<r}c_i\ \le\ 2\sum_{\xi\in T}v(\xi(a)).
+\]
+\formallabel{UpperTheory.V.Alg.M.core_holds}
+\end{theorem}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:lemmaM}, assuming \cref{pf:vwin-he:core}]
+By (M1) and \cref{pf:vwin-he:rk}, $\vwinhecot_{-1}(x)$ is finitely generated of rank
+$r$, and $x(A_{-1})=0$. \Cref{pf:vwin-he:sm} gives $F'$, $y$ and $c$ with
+$\vwinhecotlen_{-1}(x;F)=\sum_ic_i<\infty$. Since the $F'_i$ have the same $\OO$-span as the $F_i$, they generate the
+same ideal and $\langle F'\rangle=\langle F\rangle$; so replacing $F$ by $F'$ does not change $I$, the conditions
+(M1)--(M5), or $\vwinhecotlen_{-1}$. We may therefore assume $F=F'$. By \cref{pf:vwin-he:cut} there is a reduced
+chart $\phi$ with $\phi(Z_i)=0$ and $r\ge1$ variables of weight $-1$ and $r'+1\ge1$ of weight $1$. By
+\cref{pf:vwin-he:nz}, applied to $a\in A_0$, there is $a'\in A_0$ with $a'-a\in I$, $x(a')=x(a)=0$ and
+$\phi(a')\ne0$. Every $K$-point on $I$ takes the same value at $a'$ and at $a$, so $a'$ satisfies (M5) and
+$\sum_{\xi\in T}v(\xi(a'))=\sum_{\xi\in T}v(\xi(a))$ for every $T$. A finite set covering $I$ exists by
+\cref{pf:vwin-he:hom} and \cref{pf:vwin-he:fin}, and the inequality follows from \cref{pf:vwin-he:core} applied to
+$a'$.
+\end{proof}
+
+\subsubsection{Euler characteristics on multigraded algebras}
+
+We recall the calculus of Euler characteristics of Koszul type used in the proof of \cref{pf:vwin-he:core}. Let
+$k\ge1$; the group $\Z^k$ is partially ordered componentwise, $e_0,\dots,e_{k-1}$ are its unit vectors, and a
+statement about $d\in\Z^k$ holds \emph{for large $d$} if there is $d_0$ such that it holds for all $d\ge d_0$.
+
+\begin{definition}[Standard settings, graded modules and Euler characteristics]\label{pf:vwin-he:std}
+A \emph{standard setting} is a Noetherian local ring $B$ and a $\Z^k$-graded $B$-algebra $R=\bigoplus_dR_d$ (the
+$R_d$ being $B$-submodules) such that $R_d=0$ unless $d\ge0$, $R_0$ is the image of $B$, each $R_{e_i}$ is a
+finitely generated $B$-module, and $R_{d+e_i}=R_dR_{e_i}$ for $d\ge0$. Its \emph{irrelevant ideal} is
+$\vwinheIrr=\prod_iR\cdot R_{e_i}$. A \emph{graded module} is a finitely generated $R$-module $M$ with $B$-submodules
+$M_d$ such that $M=\bigoplus_dM_d$ and $R_dM_{d'}\subset M_{d+d'}$; for $s\in R$ we write $M/sM$ for the quotient
+with the induced grading, and $M[s](\delta)$ for the submodule $\{y:sy=0\}$ with grading $(M[s](\delta))_d=M[s]\cap
+M_{d-\delta}$. A \emph{valid list} is a finite list $ts=((\delta_1,s_1),\dots,(\delta_n,s_n))$ with $\delta_i\ge0$
+and $s_i\in R_{\delta_i}$; $\vwinhesecs(ts)$ is the ideal generated by the $s_i$. The \emph{Euler characteristic}
+$\chi(ts,M)(d)\in\Z$ is defined recursively by $\chi((),M)(d)=\len_BM_d$ (with the convention that an infinite
+length counts as $0$) and
+\[
+ \chi\bigl(((\delta,s))\cdot ts,M\bigr)(d)=\chi(ts,M/sM)(d)-\chi(ts,M[s](\delta))(d).
+\]
+A list $ts$ is \emph{admitted} for an ideal $J\subset R$ if $(\mathfrak m_BR\cdot\vwinheIrr)^n\subset
+J+\vwinhesecs(ts)$ for some $n$.
+\formal{Formalism.MainNotions.V.Pf.V2.Calc.chi}
+\end{definition}
+
+For $ts=((\delta_1,s_1),\dots,(\delta_n,s_n))$ and a module $M$ killed by all $s_i$, unwinding the definition gives the
+alternating sum $\sum_{S\subset\{1..n\}}(-1)^{|S|}\len M_{d-\sum_{i\in S}\delta_i}$; in general $\chi(ts,M)(d)$ is an
+Euler characteristic of Koszul type, built from the kernels and cokernels of the multiplications by the $s_i$. We use
+the following rules, for a standard setting, graded modules $M$, valid lists and large $d$:
+\begin{enumerate}[label=(E\arabic*)]
+\item\label{pf:vwin-he:E-gr} submodules generated by homogeneous elements, quotients by them, shifts, $M/sM$ and
+$M[s](\delta)$ for $s\in R_\delta$ are graded modules; the pieces $M_d$ are finitely generated $B$-modules; and if
+$()$ is admitted for the annihilator $\vwinheAnn(M)$, then $\len_BM_d<\infty$ for large $d$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleGr} and \lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleFin});
+\item\label{pf:vwin-he:E-iso} $\chi(ts,M)=\chi(ts,M')$ if $M\cong M'$ as graded modules
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleIso});
+\item\label{pf:vwin-he:E-nzd} if $s$ is a non-zero-divisor on $M$, then $\chi(((\delta,s))\cdot ts,M)=\chi(ts,M/sM)$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleNzd});
+\item\label{pf:vwin-he:E-perm} if $ts$ is admitted for $\vwinheAnn(M)$ and $ts'$ is a permutation of $ts$, then
+$\chi(ts,M)(d)=\chi(ts',M)(d)$ for large $d$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.euler_rule_two_of_graded_finite_iso}, together with the additivity of
+$\chi$ in short exact sequences, \lref{Formalism.MainNotions.V.Pf.V2.Calc.euler_additivity_of_rules});
+\item\label{pf:vwin-he:E-ub} if $ts\cdot us$ is admitted for $\vwinheAnn(M)$, then $\chi(ts\cdot us,M)(d)\le
+\chi(us,M/\vwinhesecs(ts)M)(d)$ for large $d$ (\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleUB});
+\item\label{pf:vwin-he:E-mono} if $0\to M'\to M\to M''\to0$ is an exact sequence of graded modules and $ts$ is admitted
+for $\vwinheAnn(M)$, then $\chi(ts,M'')(d)\le\chi(ts,M)(d)$ for large $d$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleMono});
+\item\label{pf:vwin-he:E-quot} for an ideal $J\subset R$, the successive quotient of $R/J$ by the elements of $ts$ is
+isomorphic, as a graded module, to $R/(J+\vwinhesecs(ts))$
+(\lref{UpperTheory.V.Alg.M.qi_holds});
+\item\label{pf:vwin-he:E-cong} if $ts$ and $ts'$ have the same degrees and $s_i-s'_i\in\vwinheAnn(M)$ for all $i$,
+then $\chi(ts,M)=\chi(ts',M)$;
+\item\label{pf:vwin-he:E-single} for $\beta\in B$, $\chi(((0,\beta)),M)(d)=\theta(\beta,M_d)$, where for a $B$-module
+$N$ we put $\theta(\beta,N)=\len_B(N/\beta N)-\len_BN[\beta]$ (finite lengths understood as above);
+\item\label{pf:vwin-he:E-prod} if $s\in R_0$, $s'\in R_\delta$, the list $((0,s),(\delta,s'))\cdot ts$ is valid and
+$((\delta,ss'))\cdot ts$ is admitted for $\vwinheAnn(M)$, then for large $d$
+\[
+ \chi\bigl(((\delta,ss'))\cdot ts,M\bigr)(d)=\chi\bigl(((0,s))\cdot ts,M\bigr)(d)+\chi\bigl(((\delta,s'))\cdot ts,M\bigr)(d)
+\]
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.euler_rule_product_zero});
+\item\label{pf:vwin-he:E-small} if $()$ is admitted for $\vwinheAnn(M)$ and $ts=((\delta_1,s_1),\dots,(\delta_n,s_n))$
+is valid, then $\chi(ts,M)(d)=\sum_{S\subset\{1,\dots,n\}}(-1)^{|S|}\len_BM_{d-\sum_{i\in S}\delta_i}$ for large $d$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.ruleSmall});
+\item\label{pf:vwin-he:E-pos} if $ts$ is admitted for $\vwinheAnn(M)$, then $\chi(ts,M)(d)\ge0$ for large $d$
+(\lref{Formalism.MainNotions.V.Pf.V2.Calc.rulePos}).
+\end{enumerate}
+\begin{lemma}\label{pf:vwin-he:E89}
+Rules \ref{pf:vwin-he:E-cong} and \ref{pf:vwin-he:E-single} hold, for every graded module $M$ (and every $d$).
+\formallabel{Formalism.MainNotions.V.Pf.V2.Calc.Cong.chi_cong}
+\formallabel{Formalism.MainNotions.V.Pf.V2.Calc.chi_single0}
+\end{lemma}
+
+\begin{proof}
+For \ref{pf:vwin-he:E-cong}, induct on the length of the lists: if $s-s'$ kills $M$, then $sM=s'M$ and $M[s]=M[s']$, so
+$M/sM=M/s'M$ and $M[s](\delta)=M[s'](\delta)$, and the annihilators of these modules contain $\vwinheAnn(M)$, so the
+induction hypothesis applies to the remaining entries. For \ref{pf:vwin-he:E-single}, the definition gives
+$\chi(((0,\beta)),M)(d)=\len_B(M/\beta M)_d-\len_B(M[\beta](0))_d$, and since $\beta$ has degree $0$ and $M$ is the
+direct sum of its pieces, $(M/\beta M)_d=M_d/\beta M_d$ and $(M[\beta](0))_d=M_d[\beta]$.
+\end{proof}
+
+\begin{definition}[The Rees algebra of a system of equations]\label{pf:vwin-he:rees}
+Let $(A,x)$ be a weighted ring and $(F,G,E,E',Z)$ a system of equations. Put $B=A_0$ and
+let $N_0=A_{-2}$, $N_1=A_2$ and $N_2=B\,F_r^2+A_{-2}A_{-2}A_2$, which are $B$-submodules of $A$, and for
+$\mu\in\N^3$ let $N^\mu=N_0^{\mu_0}N_1^{\mu_1}N_2^{\mu_2}$ (products of $B$-submodules of $A$, with $N_i^0=B$). The
+\emph{Rees algebra} is
+\[
+ R=\bigoplus_{\mu\in\N^3}N^\mu\,t^\mu\ \subset\ A[t_0,t_1,t_2],
+\]
+graded by $\mu\in\N^3\subset\Z^3$; for $p\in R$ we write $p_\mu\in N^\mu$ for the coefficient of $t^\mu$. For
+$f\in N_i$ write $f t_i\in R_{e_i}$. For an ideal $J\subset A$ let
+$J^R\subset R$ be the ideal of elements all of whose coefficients lie in $J$. The list of sections is
+\[
+ ts=\bigl((e_0,F_i^2t_0)_{i<r},\ (e_0,G_it_0)_{i\le s},\ (e_1,E_i^2t_1)_{i\le r'},\ (e_1,E'_it_1)_{i\le s'},\
+ (e_2,F_r^2t_2)\bigr),
+\]
+and $ts_{\mathrm F}$, $ts_{\mathrm R}$ denote its first part (the $r$ entries $F_i^2t_0$) and the rest.
+\formal{UpperTheory.V.Alg.M.mR}
+\end{definition}
+
+The entries of $ts$ lie in the right degrees since $F_i^2\in A_{-2}$ and $E_i^2\in A_2$.
+
+\begin{lemma}[Graded pieces of weighted rings]\label{pf:vwin-he:fg}
+Let $(A,x)$ be a weighted ring. Then every $A_j$ is a finitely generated $A_0$-module, and for $n\in\N$ we have
+$A_{2n}=(A_2)^n$ and $A_{-2n}=(A_{-2})^n$, as products of $A_0$-submodules of $A$ (with $(A_{\pm2})^0=A_0$).
+\formallabel{UpperTheory.V.Alg.M.fg_holds}
+\formallabel{UpperTheory.V.Alg.M.oz_two_mul_eq_pow}
+\end{lemma}
+
+\begin{proof}
+The ring $A_0$ is Noetherian, and $A$ is generated as an $A_0$-algebra by finitely many homogeneous elements, so $A$
+is Noetherian by Hilbert's basis theorem. Hence the ideal $A\cdot A_j$ is generated by finitely many elements
+$t_1,\dots,t_k\in A_j$. For $y\in A_j$ write $y=\sum_if_it_i$ with $f_i\in A$; taking components of degree $j$ gives
+$y=\sum_i(f_i)_0t_i$, where $(f_i)_0\in A_0$ is the component of degree $0$ of $f_i$. So $t_1,\dots,t_k$ generate
+$A_j$ over $A_0$.
+
+The inclusions $(A_{\pm2})^n\subset A_{\pm2n}$ hold as $A_iA_j\subset A_{i+j}$. Since $A$ is generated as an
+$\OO$-algebra by $A_0$ and homogeneous elements of degrees $\pm1,\pm2$, each $A_j$ is spanned over $\OO$ by products
+$z_1\cdots z_k$ of homogeneous elements $z_i$ of degrees $w_i\in\{-2,\dots,2\}$ with $\sum_iw_i=j$. If $j\ge2$, such
+a product has a factor of degree $2$ or two factors of degree $1$, since otherwise $\sum_iw_i\le1$; collecting these
+factors writes it as $uu'$ with $u\in A_2$ and $u'\in A_{j-2}$. Hence $A_j\subset A_2A_{j-2}$ for $j\ge2$, and
+$A_{2n}\subset(A_2)^n$ follows by induction on $n$. The case of $A_{-2n}$ is symmetric.
+\end{proof}
+
+\begin{lemma}[Rees algebras are standard]\label{pf:vwin-he:stdR}
+Let $B$ be a Noetherian local ring, $A$ a $B$-algebra, $k\ge1$ and $N_0,\dots,N_{k-1}$ finitely generated
+$B$-submodules of $A$. Then $B$ and the Rees algebra $R=\bigoplus_{\mu\in\N^k}N^\mu t^\mu\subset
+A[t_0,\dots,t_{k-1}]$, where $N^\mu=\prod_iN_i^{\mu_i}$, graded by $\Z^k$ with $R_d=0$ for $d\notin\N^k$, form a
+standard setting.
+\formallabel{UpperTheory.V.Alg.M.std_holds}
+\end{lemma}
+
+\begin{proof}
+Since $N^\mu N^{\mu'}=N^{\mu+\mu'}$, $R$ is a $\Z^k$-graded $B$-subalgebra of $A[t_0,\dots,t_{k-1}]$ whose elements
+of degree $\mu$ are exactly the $ft^\mu$ with $f\in N^\mu$. Thus $R_d=0$ unless $d\ge0$; $R_0=B\cdot1$ is the image of
+$B$; $R_{e_i}=N_it_i\cong N_i$ is finitely generated; and for $\mu\ge0$ we have
+$R_{\mu+e_i}=N^{\mu}N_i\,t^{\mu+e_i}=R_\mu R_{e_i}$, since the products $ft^\mu\cdot gt_i$ with $f\in N^\mu$ and
+$g\in N_i$ span $N^\mu N_i\,t^{\mu+e_i}$.
+\end{proof}
+
+By \cref{pf:vwin-he:fg}, the modules $N_0$, $N_1$ and $N_2$ of \cref{pf:vwin-he:rees} are finitely generated over the
+Noetherian local ring $B=A_0$, so $(B,R)$ is a standard setting by \cref{pf:vwin-he:stdR}.
+
+\subsubsection{The two estimates}
+
+For an $\OO$-algebra homomorphism $\sigma:B\to K$ and a $B$-module $M$ let $\vwinheloclen_\sigma(M)$ be the length of
+the localization of $M$ at the prime $\ker\sigma$, as a module over $B_{\ker\sigma}$. For an ideal $J\subset A$ and
+$w\in\Z$ let $(A/J)_w$ be the image of $A_w$ in $A/J$, a $B$-module; similarly, for an ideal $J'$ of the Rees algebra
+$R$ and $d\in\Z^3$, $(R/J')_d$ is the image of $R_d$ in $R/J'$. Let $I_D\subset B=A_0$ be the ideal generated by
+the products $fg$ with $f\in A_{-2}$, $g\in A_2$. Recall the ideal $I_2\subset I$ of \cref{pf:vwin-he:hom}.
+
+\begin{lemma}\label{pf:vwin-he:sign}
+Let $(A,x)$ be a weighted ring and $\xi:A\to\kappa$ an $\OO$-algebra homomorphism to a field. Then $\xi$ is not
+negatively trivial if and only if $\xi(f)\ne0$ for some $f\in A_{-2}$, and not positively trivial if and only if
+$\xi(g)\ne0$ for some $g\in A_2$. Consequently a $K$-point $\xi$ is two-signed if and only if $\xi|_{A_0}$ does not
+vanish on $I_D$.
+\formallabel{UpperTheory.V.Alg.M.sign_holds}
+\end{lemma}
+
+\begin{proof}
+If $\xi$ vanishes on $A_{-2}$, then $\xi(f)^2=\xi(f^2)=0$ for $f\in A_{-1}$, so $\xi$ vanishes on the homogeneous
+generators of negative degree. Every element of $A_j$, $j<0$, is a sum of products of elements of $A_0$ and of the
+homogeneous generators of total degree $j$, and each such product has a factor of negative degree; hence $\xi$
+vanishes on $A_j$. The converse is clear, and the positive case is symmetric. For the last assertion, $\xi(I_D)\ne0$
+if and only if $\xi(f)\xi(g)=\xi(fg)\ne0$ for some $f\in A_{-2}$, $g\in A_2$.
+\end{proof}
+
+The next five lemmas are proved in \cref{sec:pf:vwin-he:pf-val,sec:pf:vwin-he:pf-points,sec:pf:vwin-he:pf-rees}.
+
+\begin{lemma}[Non-negativity]\label{pf:vwin-he:vnn}
+Let $A=\bigoplus_jA_j$ be a $\Z$-graded $\OO$-algebra with $A_0$ complete over $\OO$, $I\subset A$ an ideal such
+that the image of $A_0$ in $A/I$ is a finitely generated $\OO$-module, $\xi:A\to K$ an $\OO$-algebra homomorphism
+vanishing on $I$, and $b\in A_0$ with $\xi(b)\ne0$. Then $v(\xi(b))\ge0$.
+\formallabel{UpperTheory.V.Alg.M.valuation_nonneg_apply_degreeZero_of_onS}
+\end{lemma}
+
+\begin{lemma}[A bound of Herbrand type]\label{pf:vwin-he:th}
+Let $B'$ be complete over $\OO$, $M$ a finitely generated $B'$-module such that $B'/\vwinheAnn(M)$ is a finitely
+generated $\OO$-module, $a\in B'$, $c\in\N$, and $S$ a finite set of $\OO$-algebra homomorphisms $B'\to K$ such
+that $\sigma(a)\ne0$, $v(\sigma(a))\ge0$ and $\vwinheloclen_\sigma(M)\le c$ for $\sigma\in S$, and
+$\vwinheloclen_\sigma(M)=0$ for all other $\OO$-algebra homomorphisms $\sigma:B'\to K$. Then, with $\theta$ as in
+\ref{pf:vwin-he:E-single} (for $B'$ in place of $B$),
+\[
+ \theta(a,M)\ \le\ c\sum_{\sigma\in S}v(\sigma(a)).
+\]
+\formallabel{UpperTheory.V.Alg.M.th_holds}
+\end{lemma}
+
+The proof shows that $\theta(a,M)=\sum_{\sigma\in S}\vwinheloclen_\sigma(M)\,v(\sigma(a))$; for a domain $M=D$ which
+is finite and torsion-free over $\OO$ this is the classical formula $\len_\OO(D/aD)=\sum_\sigma v(\sigma(a))$, the
+sum being over the $\OO$-algebra homomorphisms $\sigma:D\to K$ (\cref{pf:vwin-he:lqs}).
+
+\begin{lemma}[Vanishing of localized lengths]\label{pf:vwin-he:ann}
+Let $(A,x)$ be a weighted ring and $(F,G,E,E',Z)$ a system of equations with ideal $I$ such that the $F_i$ and the
+$G_i$ span the cotangent space in degrees $-1$ and $-2$ and \textup{(M2)}, \textup{(M3)} hold. Let $R$ and $ts$ be as
+in \cref{pf:vwin-he:rees}, and $J'\subset R$ an ideal generated by homogeneous elements which contains
+$\vwinhesecs(ts)$ and the elements $Z_i\in B=R_0$. Then for large $d$: $B/\vwinheAnn_B((R/J')_d)$ is a finitely
+generated $\OO$-module, and $\vwinheloclen_\sigma((R/J')_d)=0$ for every $\OO$-algebra homomorphism $\sigma:B\to K$
+which vanishes on $I_D$ or does not vanish on $B\cap I$.
+\formallabel{UpperTheory.V.Alg.M.eventually_mQ_gr_finite_annihilator}
+\end{lemma}
+
+\begin{lemma}[Comparison with the weight pieces]\label{pf:vwin-he:loc1}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations, $R$ and $ts$ as in \cref{pf:vwin-he:rees}, and
+$J'\subset R$ an ideal containing $\vwinhesecs(ts)$ and the $Z_i$. Let $\sigma:B\to K$ be an $\OO$-algebra
+homomorphism which does not vanish on $I_D$, and $d\in\Z^3$ with $d\ge e_0+e_1+e_2$. Then
+\[
+ \vwinheloclen_\sigma\bigl((R/J')_d\bigr)\ \le\ \vwinheloclen_\sigma\bigl((A/I_2)_{2(d_1-d_0-d_2)}\bigr).
+\]
+\formallabel{UpperTheory.V.Alg.M.locLen_mQ_gr_le_locLen_aPiece}
+\end{lemma}
+
+\begin{lemma}[Localized lengths at two-signed points]\label{pf:vwin-he:loc3}
+Let $(A,x)$ be a weighted ring and $J\subset A$ a homogeneous ideal such that the image of $A_0$ in $A/J$ is a
+finitely generated $\OO$-module and \textup{(M4)} holds with $J$ in place of $I$. Let $\sigma:B\to K$ be an
+$\OO$-algebra homomorphism which does not vanish on $I_D$. Then $\vwinheloclen_\sigma((A/J)_w)\le1$ for all $w\in\Z$.
+\formallabel{UpperTheory.V.Alg.M.locLen_quotientWeightPiece_le_one}
+\end{lemma}
+
+We shall also use the following three results of the formal development, whose proofs we do not reproduce.
+
+\begin{lemma}\label{pf:vwin-he:aux}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations of type $(r,s,r',s',m)$ with ideal $I$, and $R$,
+$ts$ as in \cref{pf:vwin-he:rees}.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:aux-loc2} If $\sigma:B\to K$ satisfies $\vwinheloclen_\sigma((A/I)_w)\le1$ for all $w$, then
+$\vwinheloclen_\sigma((A/I_2)_w)\le2^{r+1+r'}$ for all $w$
+(\lref{UpperTheory.V.Alg.M.locLen_aPiece_ideal2_le_two_pow}).
+\item\label{pf:vwin-he:aux-ext} If $J\subset A$ is a homogeneous ideal and $\sigma:B\to K$ vanishes on $B\cap J$,
+there is a $K$-point $\xi$ on $J$ with $\xi|_B=\sigma$ (\lref{UpperTheory.V.Alg.M.tsp_holds}).
+\item\label{pf:vwin-he:aux-adm} If the $F_i$ and $G_i$ span the cotangent space in degrees $-1$ and $-2$,
+\textup{(M2)}, \textup{(M3)} hold and $a$ satisfies \textup{(M5)}, then for every ideal $J\subset R$ containing the
+$Z_i$, the list $ts\cdot((0,a))$ is admitted for $J$ (\lref{UpperTheory.V.Alg.M.admissibility_holds}).
+\end{enumerate}
+\end{lemma}
+
+\begin{proposition}[Upper bound]\label{pf:vwin-he:up}
+Let $(A,x)$ be a weighted ring and $(F,G,E,E',Z)$ a system of equations with ideal $I$ such that the $F_i$ and $G_i$
+span the cotangent space in degrees $-1$ and $-2$ and \textup{(M2)}--\textup{(M4)} hold; let $a$ satisfy
+\textup{(M5)}, $T$ a finite set covering $I$, and $J'\subset R$ an ideal generated by homogeneous elements which
+contains $\vwinhesecs(ts)$ and the $Z_i$. Then for large $d$,
+\[
+ \chi\bigl(((0,a)),R/J'\bigr)(d)\ \le\ 2^{r+1+r'}\sum_{\xi\in T}v(\xi(a)).
+\]
+\formallabel{UpperTheory.V.Alg.M.up_holds}
+\end{proposition}
+
+\begin{proof}
+By \cref{pf:vwin-he:sign}, a $K$-point is two-signed if and only if its restriction to $B$ does not vanish on $I_D$.
+For $\xi\in T$ we have $\xi(a)\ne0$ by (M5) and $v(\xi(a))\ge0$ by \cref{pf:vwin-he:vnn}. Let
+$S=\{\xi|_B:\xi\in T\}$; since the terms are non-negative,
+$\sum_{\sigma\in S}v(\sigma(a))\le\sum_{\xi\in T}v(\xi(a))$. By \ref{pf:vwin-he:E-gr} and \cref{pf:vwin-he:ann}, for
+large $d$ (we also take $d\ge e_0+e_1+e_2$) the $B$-module
+$M_d=(R/J')_d$ is finitely generated, $B/\vwinheAnn(M_d)$ is a finitely generated $\OO$-module, and
+$\vwinheloclen_\sigma(M_d)=0$ whenever $\sigma$ vanishes on $I_D$ or not on $B\cap I$. Fix such a $d$; we apply
+\cref{pf:vwin-he:th} to $B'=B$, $M=M_d$, $a$, $S$ and $c=2^{r+1+r'}$.
+
+Let $\sigma=\xi|_B\in S$. Then $\sigma(a)\ne0$ and $v(\sigma(a))\ge0$; as $\xi$ is two-signed, $\sigma$ does not vanish
+on $I_D$, so by \cref{pf:vwin-he:loc1}, \cref{pf:vwin-he:aux}\ref{pf:vwin-he:aux-loc2} and \cref{pf:vwin-he:loc3}
+(with $J=I$, homogeneous by \cref{pf:vwin-he:hom})
+\[
+ \vwinheloclen_\sigma(M_d)\le\vwinheloclen_\sigma\bigl((A/I_2)_{2(d_1-d_0-d_2)}\bigr)\le2^{r+1+r'}.
+\]
+Let $\sigma\notin S$ and suppose $\vwinheloclen_\sigma(M_d)\ne0$. Then $\sigma$ does not vanish on $I_D$ and vanishes on
+$B\cap I$. By \cref{pf:vwin-he:aux}\ref{pf:vwin-he:aux-ext} there is a $K$-point $\xi$ on $I$ with $\xi|_B=\sigma$;
+it is two-signed, so $\xi=t\cdot\xi'$ for some $\xi'\in T$ and $t\in K^\times$. Since $K^\times$ acts trivially on
+$A_0=B$, $\sigma=\xi'|_B\in S$, a contradiction. Hence \cref{pf:vwin-he:th} gives
+$\theta(a,M_d)\le2^{r+1+r'}\sum_{\sigma\in S}v(\sigma(a))$, and $\chi(((0,a)),R/J')(d)=\theta(a,M_d)$ by
+\ref{pf:vwin-he:E-single}.
+\end{proof}
+
+For the lower bound we use a filtration on the target of the chart. Let $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ be a
+reduced chart. The \emph{negative weight} of a monomial $X^\nu=\prod_iX_i^{\nu_i}$ is
+$|\nu|_-=\sum_i\nu_i\max(-\mathrm{wt}(i),0)$, and its \emph{positive weight} is
+$|\nu|_+=\sum_i\nu_i\max(\mathrm{wt}(i),0)$. Let $\mathrm{Fil}^n$ be the set of power series without monomials of
+negative weight $<n$, and let $\mathrm{cnt}(a,b)$ be the number of monomials $\nu$ with $|\nu|_-=a$ and $|\nu|_+=b$;
+it is finite since no variable has weight $0$. For a list $L=(\delta_1,\dots,\delta_n)$ in $\Z^k$ and a function $h$
+on $\Z^k$ let $\Delta_Lh$ be the iterated difference: $\Delta_{()}h=h$ and
+$\Delta_{(\delta)\cdot L}h(d)=\Delta_Lh(d)-\Delta_Lh(d-\delta)$. The following four lemmas are proved in
+\cref{sec:pf:vwin-he:pf-chart,sec:pf:vwin-he:pf-count}.
+
+\begin{lemma}[The leading ideal]\label{pf:vwin-he:lk}
+Let $(A,x)$ be a weighted ring, $(F,G,E,E',Z)$ a system of equations of type $(r,s,r',s',m)$ with
+$F_r\in\vwinhesat(x)$, $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ a reduced chart, and $R$ the Rees algebra of
+\cref{pf:vwin-he:rees}. Let $\mathfrak q$ be the set of $p\in R$ with $\phi(p_\mu)\in\mathrm{Fil}^{2\mu_0+4\mu_2+1}$
+for all $\mu\in\N^3$. Then $\mathfrak q$ is an ideal of $R$ generated by homogeneous elements;
+$(\ker\phi)^R\subset\mathfrak q$; every $b\in B$ with $x(b)=0$ lies in $\mathfrak q$; if $0\ne c\in\OO$ and $p\in R$
+satisfy $cp\in\mathfrak q$, then $p\in\mathfrak q$; and $f^2t_0-g^2t_0\in\mathfrak q$ for all $f,g\in A_{-1}$ with
+$f-g\in\vwinhesat(x)$.
+\formallabel{UpperTheory.V.Alg.M.lk_holds}
+\end{lemma}
+
+\begin{lemma}[Hilbert function of the leading quotient]\label{pf:vwin-he:hf}
+In the situation of \cref{pf:vwin-he:lk}, let $\varpi$ be a uniformizer of $\OO$. Then for all $d\in\N^3$,
+\[
+ \len_B\bigl((R/\mathfrak q)/\varpi(R/\mathfrak q)\bigr)_d=\mathrm{cnt}(2d_0+4d_2,\,2d_1+2d_2).
+\]
+\formallabel{UpperTheory.V.Alg.M.hf_holds}
+\end{lemma}
+
+\begin{lemma}[A leading coefficient]\label{pf:vwin-he:num}
+Let $\tau$ be a finite set with a weight function $\mathrm{wt}$ such that $\#\{i:\mathrm{wt}(i)=j\}=n_{r,s,r',s',0}(j)$
+for all $j\in\Z$, where $r\ge1$, and let $\mathrm{cnt}$ be formed with these weights. Let
+$L=\bigl((e_0)^{r-1+s},(e_1)^{r'+s'},e_2\bigr)$, exponents denoting repetition. Then for large $d\in\Z^3$,
+\[
+ \Delta_L\bigl(d\mapsto\mathrm{cnt}(2d_0+4d_2,\,2d_1+2d_2)\bigr)(d)=2^{r-1+r'}.
+\]
+\formallabel{UpperTheory.V.Alg.M.num_holds}
+\end{lemma}
+
+\begin{lemma}[A lower bound for Euler characteristics]\label{pf:vwin-he:la}
+Let $(B,R)$ be a standard setting, $M$ a graded module, $\beta\in B$ a non-zero-divisor on $M$ such that $()$ is
+admitted for $\vwinheAnn(M/\beta M)$, $\delta\ge0$ in $\Z^k$, $y_1,\dots,y_n\in R_\delta$, $c_1,\dots,c_n\in\N$, and
+$us$ a valid list such that $ts''=((\delta,\beta^{c_i}y_i))_{1\le i\le n}\cdot us$ is admitted for $\vwinheAnn(M)$.
+Let $h(d)=\len_B(M/\beta M)_d$, let $\deg us$ be the list of degrees of $us$, and let $(\delta)^{n-1}$ be empty if
+$n=0$. Then for large $d$,
+\[
+ \Bigl(\sum_ic_i\Bigr)\,\Delta_{((\delta)^{n-1},\,\deg us)}h(d)\ \le\ \chi(ts'',M)(d).
+\]
+\formallabel{UpperTheory.V.Alg.M.la_holds}
+\end{lemma}
+
+In \cref{pf:vwin-he:num}, the variables are $r$ of weight $-1$, $s$ of weight $-2$, $r'+1$ of weight $1$ and $s'+1$ of
+weight $2$, so $\mathrm{cnt}(2d_0+4d_2,2d_1+2d_2)$ is a product of two counting functions of monomials of given
+weighted degree, and the iterated difference computes a leading coefficient.
+
+\begin{proposition}[Lower bound]\label{pf:vwin-he:low}
+In the situation of \cref{pf:vwin-he:core}, let $a\in A_0$ with $x(a)=0$, $J=(\ker\phi)^R$, and assume that $ts$ is
+admitted for $J+aR$. Then for large $d$,
+\[
+ 2^{r+r'}\sum_{i<r}c_i\ \le\ \chi\bigl(ts,(R/J)/a\bigr)(d).
+\]
+\formallabel{UpperTheory.V.Alg.M.low_holds}
+\end{proposition}
+
+\begin{proof}
+Let $\mathfrak q$ be as in \cref{pf:vwin-he:lk}, which applies as $F_r\in\vwinhesat(x)$; $J+aR\subset\mathfrak q$ since
+$x(a)=0$. The surjection $(R/J)/a\to R/\mathfrak q$ has a kernel generated by homogeneous elements, and $ts$ is
+admitted for $J+aR\subset\vwinheAnn((R/J)/a)$; by \ref{pf:vwin-he:E-gr} and \ref{pf:vwin-he:E-mono},
+\begin{equation}\label{pf:vwin-he:eq-mono}
+ \chi(ts,R/\mathfrak q)(d)\le\chi(ts,(R/J)/a)(d)\qquad\text{for large }d.
+\end{equation}
+Let $ts'=((e_0,\varpi^{2c_i}\,y_i^2t_0))_{i<r}\cdot ts_{\mathrm R}$. Since $F_i-\varpi^{c_i}y_i\in\vwinhesat(x)$, both
+elements lying in $A_{-1}$, \cref{pf:vwin-he:lk} gives
+$F_i^2t_0-(\varpi^{c_i}y_i)^2t_0\in\mathfrak q$, and $(\varpi^{c_i}y_i)^2t_0=\varpi^{2c_i}\,y_i^2t_0$; so $ts$ and $ts'$
+agree modulo $\mathfrak q=\vwinheAnn(R/\mathfrak q)$, and $\chi(ts,R/\mathfrak q)=\chi(ts',R/\mathfrak q)$ by
+\ref{pf:vwin-he:E-cong}. Moreover $ts'$ is admitted for $\mathfrak q$, since
+$\vwinhesecs(ts)\subset\mathfrak q+\vwinhesecs(ts')$.
+
+We apply \cref{pf:vwin-he:la} to $M=R/\mathfrak q$, $\beta=\varpi$, $\delta=e_0$,
+$n=r$, the elements $y_i^2t_0$, the integers $2c_i$ and $us=ts_{\mathrm R}$. Here $\varpi$ is a non-zero-divisor on
+$R/\mathfrak q$, and $()$ is admitted for $\vwinheAnn((R/\mathfrak q)/\varpi)$: for $b\in\mathfrak m_B$ we have
+$x(b)\in\varpi\OO$ as $x$ is local, and $b-x(b)\in\mathfrak q$, so $\mathfrak m_BR\subset\mathfrak q+\varpi R$. The
+degrees of $ts_{\mathrm R}$ are $(e_0)^s,(e_1)^{r'},(e_1)^{s'},e_2$, so the list of degrees in the conclusion is the
+list $L$ of \cref{pf:vwin-he:num}. By \cref{pf:vwin-he:hf} and \cref{pf:vwin-he:num} (the chart has the weight
+multiplicities $n_{r,s,r',s',0}$) we obtain, for large $d$,
+\[
+ 2^{r+r'}\sum_ic_i=\Bigl(\sum_i2c_i\Bigr)2^{r-1+r'}=\Bigl(\sum_i2c_i\Bigr)\Delta_Lh(d)\le\chi(ts',R/\mathfrak q)(d)
+ =\chi(ts,R/\mathfrak q)(d),
+\]
+and \eqref{pf:vwin-he:eq-mono} concludes the proof.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:core}]
+We have $a\in B=A_0$ by (M5). Let $J=(\ker\phi)^R$; it is generated by homogeneous elements (the monomials of an
+element of $J$ lie in $J$), and it contains the $Z_i$, since $\phi(Z_i)=0$. By
+\cref{pf:vwin-he:aux}\ref{pf:vwin-he:aux-adm}, $ts\cdot((0,a))$ is admitted for $J$; equivalently, $ts$ is admitted for
+$J+aR$. The element $a$ is a non-zero-divisor on $R/J$: if $ap\in J$, then $\phi(a)\phi(p_\mu)=0$ for all $\mu$, and
+$\phi(a)\ne0$ in the domain $\mathrm{Frac}(\OO)[[\tau]]$, so $p\in J$. Hence, for large $d$,
+\begin{align*}
+ \chi\bigl(ts,(R/J)/a\bigr)(d)&=\chi\bigl(((0,a))\cdot ts,R/J\bigr)(d)=\chi\bigl(ts\cdot((0,a)),R/J\bigr)(d)\\
+ &\le\chi\bigl(((0,a)),(R/J)/\vwinhesecs(ts)\bigr)(d)=\chi\bigl(((0,a)),R/(J+\vwinhesecs(ts))\bigr)(d),
+\end{align*}
+by \ref{pf:vwin-he:E-nzd}, \ref{pf:vwin-he:E-perm} (as $J\subset\vwinheAnn(R/J)$), \ref{pf:vwin-he:E-ub},
+\ref{pf:vwin-he:E-quot} and \ref{pf:vwin-he:E-iso}. The ideal $J'=J+\vwinhesecs(ts)$ is generated by homogeneous
+elements and contains $\vwinhesecs(ts)$ and the $Z_i$. Combining \cref{pf:vwin-he:low}, this chain and
+\cref{pf:vwin-he:up} for a common large $d$,
+\[
+ 2^{r+r'}\sum_ic_i\ \le\ 2^{r+1+r'}\sum_{\xi\in T}v(\xi(a)),
+\]
+and dividing by $2^{r+r'}$ gives the assertion.
+\end{proof}
+
+\begin{remark}[On the formal statements]\label{pf:vwin-he:rem-M}
+(1) The valuation $v$ is only required to be multiplicative and ultrametric on non-zero elements; $v(0)$ plays no
+role, since the points of $T$ do not vanish at $a$.
+(2) By (M2) and \cref{pf:vwin-he:vnn}, all terms $v(\xi(a))$ are non-negative; the bound is
+in terms of the order of vanishing of the degree-zero function $a$ along the two-signed orbits, and (M5) requires
+$a$ to vanish at $x$ but on none of these orbits.
+\end{remark}
+
+\subsection{Proofs of the auxiliary results}\label{sec:pf:vwin-he:auxproofs}
+
+This subsection contains the proofs of the lemmas of \cref{sec:pf:vwin-he:lemmaM} whose proofs were postponed; the
+notation is that of \cref{sec:pf:vwin-he:lemmaM}, and $B=A_0$. For a finite set $\tau$, a power series
+$P\in\mathrm{Frac}(\OO)[[\tau]]$ and $\nu\in\N^\tau$ we write $[X^\nu]P$ for the coefficient of $X^\nu$ in $P$,
+$[X_i]P$ for the coefficient of the variable $X_i$, and $\deg\nu=\sum_i\nu_i$; the \emph{linear part} of $P$ is
+$\sum_i([X_i]P)X_i$, and $P$ is \emph{of pure weight $j$} if all its monomials have weight $j$. For $f\in A$ and
+$j\in\Z$, $f_j\in A_j$ denotes the homogeneous component of degree $j$ of $f$.
+
+\subsubsection{Valuations and lengths}\label{sec:pf:vwin-he:pf-val}
+
+\begin{lemma}\label{pf:vwin-he:int}
+Let $y\in K$ be non-zero and integral over $\OO$. Then $v(y)\ge0$.
+\formallabel{UpperTheory.V.Alg.M.int_holds}
+\end{lemma}
+
+\begin{proof}
+From $v(1)=v(1\cdot1)=2v(1)$ and $2v(-1)=v(1)$ we get $v(\pm1)=0$; hence $v(-z)=v(z)$ for $z\ne0$, and
+$v(y^k)=kv(y)$. By induction on the number of terms, the ultrametric inequality shows that a non-zero finite sum of
+elements of $K$, each of which is zero or has valuation at least $\kappa$, has valuation at least $\kappa$. Suppose
+$v(y)<0$, and let $y^n+c_{n-1}y^{n-1}+\dots+c_0=0$ with $c_i\in\OO$; then $n\ge1$, and $S=\sum_{i<n}c_iy^i=-y^n$ is
+non-zero. Every non-zero term satisfies $v(c_iy^i)=\ord_\OO(c_i)+iv(y)\ge iv(y)\ge(n-1)v(y)$, as $i\le n-1$ and
+$v(y)<0$. Hence $v(S)\ge(n-1)v(y)$; but $v(S)=v(y^n)=nv(y)<(n-1)v(y)$, a contradiction.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:vnn}]
+The subring $\xi(A_0)$ of $K$ is the image, under the homomorphism $A/I\to K$ induced by $\xi$, of the image of
+$A_0$ in $A/I$; so it is a finitely generated $\OO$-module. It contains $\OO[\xi(b)]$, which is therefore a finitely
+generated $\OO$-module, $\OO$ being Noetherian. Hence $\xi(b)$ is integral over $\OO$, and \cref{pf:vwin-he:int}
+applies.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:lqs}
+Let $D$ be a domain which is an $\OO$-algebra, finitely generated as an $\OO$-module, with $\OO\to D$ injective, and
+let $0\ne a\in D$. Then the set $\Hom_\OO(D,K)$ of $\OO$-algebra homomorphisms $D\to K$ is finite, $D/aD$ has finite
+length over $\OO$, and
+\[
+ \len_\OO(D/aD)=\sum_{\sigma\in\Hom_\OO(D,K)}v(\sigma(a)).
+\]
+\formallabel{UpperTheory.V.Alg.M.length_quotient_span_eq_finsum_valuation}
+\end{lemma}
+
+\begin{proof}
+As $D$ is a domain and $\OO\to D$ is injective, $D$ is a torsion-free, hence free, $\OO$-module of some finite rank
+$n$. Multiplication by $a$ is an injective $\OO$-linear endomorphism $m_a$ of $D$ with cokernel $D/aD$. By the
+elementary divisor theorem there are bases of $D$ (as source and as target) in which $m_a$ is diagonal with entries
+$u_1\varpi^{c_1},\dots,u_n\varpi^{c_n}$, $u_i\in\OO^\times$; the determinant changes by a unit under these base
+changes. Hence $D/aD\cong\bigoplus_i\OO/\varpi^{c_i}$ has finite length $\sum_ic_i=\ord_\OO(N(a))$, where
+$N(a)=\det(m_a)\ne0$ is the norm of $a$.
+
+Let $F=\mathrm{Frac}(\OO)\subset K$ and $L=D\otimes_\OO F$, the localization of $D$ at $\OO\setminus\{0\}$; it is a
+domain of dimension $n$ over $F$, hence a field, and $N(a)=N_{L/F}(a)$ (same matrix). An $\OO$-algebra homomorphism
+$D\to K$ maps $\OO\setminus\{0\}$ into $K^\times$, so it extends uniquely to an $F$-embedding $L\to K$; thus
+restriction is a bijection from the set of $F$-embeddings $L\to K$ onto $\Hom_\OO(D,K)$. Since $F$ has
+characteristic $0$, $L/F$ is separable, and as $K$ is algebraically closed there are exactly $n$ embeddings and
+$N_{L/F}(a)=\prod_\tau\tau(a)$, the product over the $F$-embeddings $\tau:L\to K$. Hence $\Hom_\OO(D,K)$ is finite and
+$N(a)=\prod_\sigma\sigma(a)$ in $K$.
+
+Every $\sigma\in\Hom_\OO(D,K)$ is injective: $\ker\sigma$ is a prime ideal of $D$ with $\ker\sigma\cap\OO=0$, and $D$
+is integral over $\OO$, so $\ker\sigma=0$ by incomparability (the prime $0\subset\ker\sigma$ lies over $0$ as well).
+Hence all $\sigma(a)$ are non-zero, and as $v$ is multiplicative on non-zero elements and normalized on $\OO$,
+\[
+ \sum_\sigma v(\sigma(a))=v\Bigl(\prod_\sigma\sigma(a)\Bigr)=v(N(a))=\ord_\OO(N(a))=\len_\OO(D/aD).\qedhere
+\]
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:th}]
+Write $B$ for $B'$; lengths are over $B$ unless indicated otherwise. We use the following facts.
+(i) $\vwinheloclen_\sigma$ is additive in short exact sequences, since localization is exact.
+(ii) Let $P\subset B$ be a prime ideal. If $P=\ker\sigma$, then $(B/P)_P$ is the residue field of $B_P$ and
+$\vwinheloclen_\sigma(B/P)=1$. If $P\not\subset\ker\sigma$, an element of $P\setminus\ker\sigma$ becomes a unit which
+kills $(B/P)_{\ker\sigma}$, so $\vwinheloclen_\sigma(B/P)=0$.
+(iii) $\len_\OO X=\len_BX$ for every $B$-module $X$, as $B$ is local with the residue field of $\OO$.
+(iv) An endomorphism of a module of finite length has kernel and cokernel of the same length.
+(v) Every $\OO$-algebra homomorphism $\sigma:B\to K$ is injective on $\OO$, since $\OO\to K$ is.
+
+We show: \emph{let $I\subset B$ be an ideal such that $B/I$ is a finitely generated $\OO$-module, and $N$ a finitely
+generated $B$-module with $I\subset\vwinheAnn(N)$, $\vwinheloclen_\sigma(N)<\infty$ for $\sigma\in S$ and
+$\vwinheloclen_\sigma(N)=0$ for $\sigma\notin S$; then $N/aN$ and $N[a]$ have finite length and}
+\begin{equation}\label{pf:vwin-he:eq-herbrand}
+ \len(N/aN)-\len(N[a])=\sum_{\sigma\in S}\vwinheloclen_\sigma(N)\,v(\sigma(a)).
+\end{equation}
+For $I=\vwinheAnn(M)$ and $N=M$ this gives $\theta(a,M)=\sum_{\sigma\in S}\vwinheloclen_\sigma(M)\,v(\sigma(a))$,
+which is at most $c\sum_{\sigma\in S}v(\sigma(a))$, as $\vwinheloclen_\sigma(M)\le c$ and $v(\sigma(a))\ge0$ for
+$\sigma\in S$.
+
+The hypotheses on $N$ pass to submodules and quotients of $N$: annihilators grow, and by (i) localized lengths do not
+grow. As $B$ is Noetherian, $N$ has a finite filtration whose successive quotients are isomorphic to modules $B/P$
+with $P$ prime. Hence it suffices to treat $N=0$, where both sides vanish, the modules $N\cong B/P$, and extensions.
+
+\emph{Extensions.} Let $0\to N_1\to N_2\to N_3\to0$ be exact, with \eqref{pf:vwin-he:eq-herbrand} known for $N_1$ and
+$N_3$. The snake lemma for multiplication by $a$ gives an exact sequence
+\[
+ 0\to N_1[a]\to N_2[a]\to N_3[a]\to N_1/aN_1\to N_2/aN_2\to N_3/aN_3\to0 .
+\]
+Hence $N_2[a]$ and $N_2/aN_2$ have finite length, and the alternating sum of the six lengths vanishes; so the left
+side of \eqref{pf:vwin-he:eq-herbrand} is additive, and by (i) so is the right side.
+
+\emph{Prime quotients.} Let $N=B/P$ with $P$ prime. Then $I\subset P$, so $D=B/P$ is a domain and, as a quotient of
+$B/I$, a finitely generated $\OO$-module; let $\pi:B\to D$ be the projection. Suppose first $P\cap\OO=0$. Then $D$ is
+as in \cref{pf:vwin-he:lqs}, and every $\OO$-algebra homomorphism $\tau:D\to K$ is injective (see the proof of
+\cref{pf:vwin-he:lqs}). Hence $\ker(\tau\pi)=P$ and $\vwinheloclen_{\tau\pi}(D)=1$ by (ii), so $\tau\pi\in S$. Such
+$\tau$ exist, since $D\otimes_\OO\mathrm{Frac}(\OO)$ is a finite field extension of $\mathrm{Frac}(\OO)\subset K$ and
+$K$ is algebraically closed; as $(\tau\pi)(a)\ne0$, we get $\pi(a)\ne0$. Since $D$ is a domain, $D[a]=0$, and by (iii)
+and \cref{pf:vwin-he:lqs}
+\[
+ \len(D/aD)-\len(D[a])=\len_\OO(D/aD)=\sum_{\tau\in\Hom_\OO(D,K)}v(\tau(\pi(a))).
+\]
+On the right side of \eqref{pf:vwin-he:eq-herbrand}, an element $\sigma\in S$ contributes $0$ unless
+$P\subset\ker\sigma$, by (ii); in that case $\sigma=\tau\pi$ for a unique $\tau$, and $\vwinheloclen_\sigma(D)=1$.
+Since $\tau\mapsto\tau\pi$ is injective with image in $S$, both sides agree. Suppose now $P\cap\OO\ne0$. Then
+$P\cap\OO$ is the maximal ideal of $\OO$, and since $D$ is integral over $\OO$, $P$ is maximal; so $D$ is a simple
+$B$-module, and the left side of \eqref{pf:vwin-he:eq-herbrand} vanishes by (iv). If $P\subset\ker\sigma$, then
+$\sigma$ kills a non-zero element of $\OO$, contradicting (v); so $\vwinheloclen_\sigma(D)=0$ for all $\sigma$ by
+(ii), and the right side vanishes as well.
+\end{proof}
+
+\subsubsection{Charts}\label{sec:pf:vwin-he:pf-chart}
+
+\begin{lemma}\label{pf:vwin-he:lin}
+Let $(A,x)$ be a weighted ring and $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ an $\OO$-algebra homomorphism such that the
+constant term of $\phi(f)$ is $x(f)$ for all $f\in A$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:lin-sat} For $f\in\mathfrak m_x^2$, $\phi(f)$ has no terms of degree $\le1$. In particular
+$[X_i]\phi(f)=0$ for all $f\in\vwinhesat(x)$ and $i\in\tau$.
+\item\label{pf:vwin-he:lin-wt} If moreover $\phi(A_j)$ consists of series of pure weight $j$ for every $j$, then
+$[X_i]\phi(f)=[X_i]\phi(f_{\mathrm{wt}(i)})$ for all $f\in A$, and $[X_i]\phi(f)=0$ for $f\in A_j$ with
+$j\ne\mathrm{wt}(i)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For $f,g\in\mathfrak m_x$ the series $\phi(f)$, $\phi(g)$ have no constant term, so $\phi(fg)=\phi(f)\phi(g)$
+has no terms of degree $\le1$, and this passes to sums. If $cf\in\mathfrak m_x^2$ with $0\ne c\in\OO$, then
+$c\,[X_i]\phi(f)=[X_i]\phi(cf)=0$, and $c$ is invertible in $\mathrm{Frac}(\OO)$. (b) The variable $X_i$ has weight
+$\mathrm{wt}(i)$, so it does not occur in a series of pure weight $j\ne\mathrm{wt}(i)$; apply this to the components
+of $f$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:rk}]
+Let $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ be a chart with $\#\{i:\mathrm{wt}(i)=j\}=n(j)$ for all $j$, and let
+$\tau_{-1}$ be the set of variables of weight $-1$. As $x(A_{-1})=0$, $\vwinhecot_{-1}(x)$ is the image of $A_{-1}$ in
+$A/\vwinhesat(x)$. By \cref{pf:vwin-he:fg}, $A_{-1}$ is generated over $A_0$ by finitely many elements
+$s_1,\dots,s_k$. For $b\in A_0$ we have $bs_j-x(b)s_j=(b-x(b))s_j\in\mathfrak m_x^2$, since $b-x(b)$ and $s_j$ lie in
+$\mathfrak m_x$; so the images of $\sum_jb_js_j$ and of $\sum_jx(b_j)s_j$ in $A/\vwinhesat(x)$ coincide, and the
+images of the $s_j$ generate $\vwinhecot_{-1}(x)$ over $\OO$.
+
+By \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-sat}, $f\mapsto([X_i]\phi(f))_{i\in\tau_{-1}}$ induces an $\OO$-linear map
+$\Lambda:A/\vwinhesat(x)\to\mathrm{Frac}(\OO)^{\tau_{-1}}$. It is injective on $\vwinhecot_{-1}(x)$: if $f\in A_{-1}$
+and $\Lambda(f)=0$, then also $[X_i]\phi(f)=0$ for $\mathrm{wt}(i)\ne-1$ by
+\cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-wt}, so $\phi(f)$ has no linear terms, and $f\in\vwinhesat(x)$ by the last
+property of charts. Hence $\vwinhecot_{-1}(x)$ is torsion-free, thus free, of rank at most $\#\tau_{-1}$, since
+$\OO$-linearly independent elements of $\mathrm{Frac}(\OO)^{\tau_{-1}}$ are linearly independent over
+$\mathrm{Frac}(\OO)$. Conversely, for $i\in\tau_{-1}$ choose $f^{(i)}\in A$ whose linear part is $u_iX_i$ with
+$u_i\ne0$, and let $g^{(i)}=f^{(i)}_{-1}$. By \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-wt}, $\Lambda(g^{(i)})$ is $u_i$
+times the $i$-th unit vector, so the images of the $g^{(i)}$ in $\vwinhecot_{-1}(x)$ are linearly independent, and the
+rank is at least $\#\tau_{-1}=n(-1)$.
+\end{proof}
+
+\begin{lemma}[Formal implicit functions]\label{pf:vwin-he:ift}
+Let $E$ be a field, $\tau$ a finite set with a map $\mathrm{wt}$ to an abelian group $Y$, $\tau_0$ the set of
+$i\in\tau$ with $\mathrm{wt}(i)=0$ and $\tau'=\tau\setminus\tau_0$ with the restricted weights. Let $z_k\in E[[\tau]]$,
+$k\in\iota$, be finitely many series of pure weight $0$ without constant term, where $\#\iota=\#\tau_0$, and assume
+that for every $i\in\tau_0$ there are $c_{ik}\in E$ such that $\sum_kc_{ik}z_k$ has linear part $X_i$. Then there is an
+$E$-algebra homomorphism $\psi:E[[\tau]]\to E[[\tau']]$ which maps series of pure weight $j$ to series of pure weight
+$j$ for every $j\in Y$, such that $\psi(z_k)=0$ for all $k$, the constant term of $\psi(g)$ is that of $g$, and
+$[X_i]\psi(g)=[X_i]g$ for all $g\in E[[\tau]]$ and $i\in\tau'$.
+\formallabel{UpperTheory.V.Alg.M.ift_holds}
+\end{lemma}
+
+\begin{proof}
+For a family $h=(h_i)_{i\in\tau}$ of series in $E[[\tau']]$ without constant term, let $h^*:E[[\tau]]\to E[[\tau']]$
+be the substitution $X_i\mapsto h_i$; it is a well-defined $E$-algebra homomorphism, as a monomial $X^\nu$ is mapped
+to a series without terms of degree $<\deg\nu$. If each $h_i$ is of pure weight $\mathrm{wt}(i)$, then $h^*$ preserves
+pure weights. Put $G_i=X_i$ for $i\in\tau'$ and $G_i=0$ for $i\in\tau_0$, and $g_i=\sum_kc_{ik}z_k-X_i$ for
+$i\in\tau_0$ and $g_i=0$ for $i\in\tau'$. Each $g_i$ has no terms of degree $\le1$ and is of pure weight
+$\mathrm{wt}(i)$. We construct $h$ with
+\begin{equation}\label{pf:vwin-he:eq-ift}
+ h_i=G_i-h^*(g_i)\qquad(i\in\tau).
+\end{equation}
+Let $h^{(0)}=0$ and $h^{(n+1)}_i=G_i-(h^{(n)})^*(g_i)$. By induction, each $h^{(n)}_i$ has no constant term and is of
+pure weight $\mathrm{wt}(i)$. If two families $h,h'$ agree in degrees $<n$, then $h^*(g)$ and $h'^*(g)$ agree in
+degrees $<n+1$ for every $g$ without terms of degree $\le1$, since each monomial of such a $g$ is a product of at
+least two variables and is mapped to a product of at least two series without constant term. Hence $h^{(n+1)}$ and
+$h^{(n)}$ agree in degrees $<n+1$ for all $n$, the $h^{(n)}$ converge coefficientwise to a family $h$ without constant
+terms, with $h_i$ of pure weight $\mathrm{wt}(i)$, and $h$ satisfies \eqref{pf:vwin-he:eq-ift}. Let $\psi=h^*$.
+
+Then $\psi$ preserves pure weights, and constant terms since the $h_i$ have none. By \eqref{pf:vwin-he:eq-ift},
+$h_i-G_i$ has no terms of degree $\le1$; hence $\psi(g)$ is congruent to $g(0)+\sum_i([X_i]g)G_i$ modulo terms of
+degree $\ge2$, and $[X_i]\psi(g)=[X_i]g$ for $i\in\tau'$. Finally, for $i\in\tau_0$, \eqref{pf:vwin-he:eq-ift} reads
+$h_i=-\sum_kc_{ik}\psi(z_k)+\psi(X_i)=-\sum_kc_{ik}\psi(z_k)+h_i$, so $\sum_kc_{ik}\psi(z_k)=0$. The square matrices
+$C=(c_{ik})_{i\in\tau_0,k\in\iota}$ and $\Lambda=([X_i]z_k)_{k\in\iota,i\in\tau_0}$ satisfy $C\Lambda=1$, because
+$\sum_kc_{ik}[X_{i'}]z_k=[X_{i'}]X_i$ for $i,i'\in\tau_0$; hence $\Lambda C=1$, and
+$\psi(z_k)=\sum_{i}\Lambda_{ki}\sum_{k'}c_{ik'}\psi(z_{k'})=0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:cut}]
+By (M1) there is a chart $\phi_1:A\to\mathrm{Frac}(\OO)[[\tau_1]]$ with $\#\{i:\mathrm{wt}(i)=j\}=n_{r,s,r',s',m}(j)$
+for all $j$; the set $\tau_0\subset\tau_1$ of variables of weight $0$ has $m$ elements. Let $i\in\tau_0$. Choose
+$f\in A$ such that the linear part of $\phi_1(f)$ is $uX_i$ with $u\ne0$, and put $g=f_0-x(f_0)\in A_0\cap\mathfrak
+m_x$. By \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-wt} the linear part of $\phi_1(f_0)$, and hence that of
+$\phi_1(g)$, is again $uX_i$. Since the $Z_k$ span the cotangent space in degree $0$, there are $0\ne c\in\OO$ and
+$a_k\in\OO$ with $\sum_ka_kZ_k-cg\in\vwinhesat(x)$; by \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-sat}, the series
+$\sum_k(a_k/cu)\phi_1(Z_k)$ has linear part $X_i$. The series $z_k=\phi_1(Z_k)$ are of pure weight $0$ without
+constant term, as $Z_k\in A_0\cap\mathfrak m_x$. So \cref{pf:vwin-he:ift} (with $E=\mathrm{Frac}(\OO)$ and $Y=\Z$)
+gives $\psi:\mathrm{Frac}(\OO)[[\tau_1]]\to\mathrm{Frac}(\OO)[[\tau]]$, where $\tau=\tau_1\setminus\tau_0$. Let
+$\phi=\psi\circ\phi_1$. Then $\phi(Z_k)=0$; $\phi(A_j)$ consists of series of pure weight $j$; the constant term of
+$\phi(f)$ is $x(f)$; and for $i\in\tau$ and $f$ such that the linear part of $\phi_1(f)$ is $uX_i$, the linear part of
+$\phi(f)$ is the restriction of that of $\phi_1(f)$ to the variables in $\tau$, i.e.\ $uX_i$. Every $i\in\tau$ has
+$\mathrm{wt}(i)\ne0$ and $n_{r,s,r',s',m}(\mathrm{wt}(i))\ge1$, so $\mathrm{wt}(i)\in\{-2,-1,1,2\}$. Thus $\phi$ is a
+reduced chart, and $\#\{i\in\tau:\mathrm{wt}(i)=j\}$ equals $n_{r,s,r',s',m}(j)=n_{r,s,r',s',0}(j)$ for $j\ne0$, and
+$0=n_{r,s,r',s',0}(0)$ for $j=0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:nz}]
+If $\phi(a)\ne0$, take $a'=a$. Otherwise choose variables $i$ of weight $-1$ and $i'$ of weight $1$. By the third
+property of charts and \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-wt} (applied to a homogeneous component), there are
+$f\in A_{-1}$ with $[X_i]\phi(f)\ne0$ and $g\in A_1$ with $[X_{i'}]\phi(g)\ne0$; in particular $\phi(g)\ne0$. We
+claim that $\phi(F_k)\ne0$ for some $k$. Otherwise the $\OO$-linear map $\ell:A\to\mathrm{Frac}(\OO)$,
+$\ell(y)=[X_i]\phi(y)$, vanishes on all $F_k$ and, by \cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-sat}, on
+$\vwinhesat(x)$. As $f\in A_{-1}\subset\mathfrak m_x$ and the $F_k$ span the cotangent space in degree $-1$, there is
+$0\ne c\in\OO$ with $cf\in\sum_k\OO F_k+\vwinhesat(x)$; so $c\,\ell(f)=0$ and $\ell(f)=0$, a contradiction. Now put
+$a'=a+gF_k$. Then $gF_k\in A_1A_{-1}\subset A_0$ and $gF_k\in I$; $x(a')=x(a)+x(g)x(F_k)=x(a)$, as $x(A_1)=0$; and
+$\phi(a')=\phi(g)\phi(F_k)\ne0$, since $\mathrm{Frac}(\OO)[[\tau]]$ is a domain.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:filt}
+Let $(A,x)$ be a weighted ring and $\phi:A\to\mathrm{Frac}(\OO)[[\tau]]$ a reduced chart.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:filt-mul} If $P\in\mathrm{Fil}^a$ and $Q\in\mathrm{Fil}^b$, then $PQ\in\mathrm{Fil}^{a+b}$, and
+a series of pure weight $j$ lies in $\mathrm{Fil}^{\max(-j,0)}$. (This holds for power series over any commutative
+ring and for any weights.)
+\item\label{pf:vwin-he:filt-sat} If $f\in A_{-1}\cap\vwinhesat(x)$, then $\phi(f)\in\mathrm{Fil}^2$; if $b\in A_0$ and
+$x(b)=0$, then $\phi(b)\in\mathrm{Fil}^1$.
+\item\label{pf:vwin-he:filt-lat} Let $F\in A_{-1}\cap\vwinhesat(x)$, and let $N^\mu$ be formed as in
+\cref{pf:vwin-he:rees} with $F$ in place of $F_r$. Then $N^\mu\subset A_{2(\mu_1-\mu_0-\mu_2)}$ and
+$\phi(N^\mu)\subset\mathrm{Fil}^{2\mu_0+4\mu_2}$ for all $\mu\in\N^3$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Alg.M.fil_holds}
+\formallabel{UpperTheory.V.Alg.M.satfil_holds}
+\formallabel{UpperTheory.V.Alg.M.latfil_holds}
+\end{lemma}
+
+\begin{proof}
+(a) The coefficient of $X^\nu$ in $PQ$ is $\sum_{\nu'+\nu''=\nu}([X^{\nu'}]P)([X^{\nu''}]Q)$, and
+$|\nu|_-=|\nu'|_-+|\nu''|_-$; if $|\nu|_-<a+b$, then in each term $|\nu'|_-<a$ or $|\nu''|_-<b$. A monomial $\nu$ of
+weight $j=|\nu|_+-|\nu|_-$ has $|\nu|_-=|\nu|_+-j\ge-j$.
+
+(b) As the variables have weights in $\{-2,-1,1,2\}$, every monomial satisfies $\deg\nu\le|\nu|_-+|\nu|_+$. Let
+$f\in A_{-1}\cap\vwinhesat(x)$, and let $\nu$ satisfy $|\nu|_-<2$ and $[X^\nu]\phi(f)\ne0$. Then $\nu$ has weight
+$-1$, so $|\nu|_+=|\nu|_--1$, whence $|\nu|_-=1$, $|\nu|_+=0$ and $\deg\nu\le1$. But $cf\in\mathfrak m_x^2$ for some
+$0\ne c\in\OO$, so $\phi(cf)=c\phi(f)$ has no terms of degree $\le1$ by
+\cref{pf:vwin-he:lin}\ref{pf:vwin-he:lin-sat}, a contradiction. Similarly, if $b\in A_0$, $x(b)=0$, $|\nu|_-=0$ and
+$[X^\nu]\phi(b)\ne0$, then $\nu$ has weight $0$, so $|\nu|_+=0$ and $\nu=0$; but the constant term of $\phi(b)$ is
+$x(b)=0$.
+
+(c) For $j\in\Z$ and $n\in\N$ let $S(j,n)=\{f\in A_j:\phi(f)\in\mathrm{Fil}^n\}$. By (a), and as
+$\mathrm{Fil}^0$ contains all series, these are $A_0$-submodules with $S(j,n)S(j',n')\subset S(j+j',n+n')$, and
+$A_{-2}=S(-2,2)$, $A_2=S(2,0)$. By (b) and (a), $\phi(F^2)\in\mathrm{Fil}^4$, so $BF^2\subset S(-2,4)$; also
+$A_{-2}A_{-2}A_2\subset S(-2,4)$. Hence $N_0\subset S(-2,2)$, $N_1\subset S(2,0)$, $N_2\subset S(-2,4)$, and
+$N^\mu\subset S(2\mu_1-2\mu_0-2\mu_2,\,2\mu_0+4\mu_2)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:lk}]
+Write $n(\mu)=2\mu_0+4\mu_2$. Clearly $\mathfrak q$ is an additive subgroup of $R$. The ring $R$ is spanned by the
+elements $ut^{\mu'}$ with $u\in N^{\mu'}$, and for $p\in\mathfrak q$ the coefficient of $t^\mu$ in $ut^{\mu'}p$ is
+$up_{\mu-\mu'}$ if $\mu\ge\mu'$ and $0$ otherwise. By \cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-lat} (with $F=F_r$)
+and \ref{pf:vwin-he:filt-mul}, $\phi(u)\in\mathrm{Fil}^{n(\mu')}$ and
+$\phi(up_{\mu-\mu'})\in\mathrm{Fil}^{n(\mu')+n(\mu-\mu')+1}=\mathrm{Fil}^{n(\mu)+1}$; so $\mathfrak q$ is an ideal.
+Membership in $\mathfrak q$ is tested coefficientwise, so the homogeneous components $p_\mu t^\mu$ of an element
+$p\in\mathfrak q$ lie in $\mathfrak q$, and $\mathfrak q$ is generated by homogeneous elements. If all coefficients of
+$p$ lie in $\ker\phi$, then clearly $p\in\mathfrak q$. For $b\in B$ with $x(b)=0$, the only coefficient of
+$b\in R_0$ is $b$, and $\phi(b)\in\mathrm{Fil}^1$ by \cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-sat}. If
+$cp\in\mathfrak q$ with $0\ne c\in\OO$, then $c\phi(p_\mu)\in\mathrm{Fil}^{n(\mu)+1}$ for all $\mu$, and so is
+$\phi(p_\mu)$, as $\mathrm{Fil}^n$ is a $\mathrm{Frac}(\OO)$-subspace. Finally, for $f,g\in A_{-1}$ with
+$f-g\in\vwinhesat(x)$, the element $f^2t_0-g^2t_0$ has the single coefficient $f^2-g^2=(f-g)(f+g)$, at $\mu=e_0$; here
+$\phi(f-g)\in\mathrm{Fil}^2$ by \cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-sat} and $\phi(f+g)\in\mathrm{Fil}^1$ by
+\cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-mul}, as $f+g$ has pure weight $-1$; so
+$\phi(f^2-g^2)\in\mathrm{Fil}^3=\mathrm{Fil}^{n(e_0)+1}$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:diag}
+Let $B$ be an $\OO$-algebra, $x:B\to\OO$ an $\OO$-algebra homomorphism, $L$ a finitely generated $B$-module, $I$ a
+finite set and $\Lambda:L\to\mathrm{Frac}(\OO)^I$ an $\OO$-linear map with $\Lambda(bf)=x(b)\Lambda(f)$ for $b\in B$
+and $f\in L$, such that for every $i\in I$ some $f\in L$ has $\Lambda(f)_i\ne0$ and $\Lambda(f)_{i'}=0$ for all
+$i'\ne i$. Let $\pi:L\to P$ be a surjective $B$-linear map such that $\pi(f)=0$ if and only if
+$\Lambda(f)=\varpi\Lambda(g)$ for some $g\in L$. Then $\len_BP=\#I$.
+\end{lemma}
+
+\begin{proof}
+If $f_1,\dots,f_k$ generate $L$ over $B$, then $\Lambda(\sum_jb_jf_j)=\sum_jx(b_j)\Lambda(f_j)$; so $\Lambda(L)$ is
+the $\OO$-span of the $\Lambda(f_j)$, a finitely generated torsion-free, hence free, $\OO$-submodule of
+$\mathrm{Frac}(\OO)^I$. Its rank is at most $\#I$, and at least $\#I$ by the hypothesis on the coordinates; so
+$\Lambda(L)\cong\OO^I$ and $\Lambda(L)/\varpi\Lambda(L)\cong(\OO/\varpi)^I$. By hypothesis the kernel of the
+surjection $L\to\Lambda(L)/\varpi\Lambda(L)$ is $\ker\pi$, so $P\cong(\OO/\varpi)^I$ as $\OO$-modules. Moreover $B$
+acts on $P$ through $x$: $\pi(bf)-x(b)\pi(f)=\pi(bf-x(b)f)=0$, as $\Lambda(bf-x(b)f)=0$. Hence the $B$-submodules of
+$P$ are its $\OO$-submodules, and $\len_BP=\len_\OO P=\#I$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:hf}]
+Let $\mu=d\in\N^3$, $n=2\mu_0+4\mu_2$, $w=2(\mu_1-\mu_0-\mu_2)$, and let $P$ be the image of $R_\mu=N^\mu t^\mu$ in
+$R/(\mathfrak q+\varpi R)$, which is the piece of degree $\mu$ of $(R/\mathfrak q)/\varpi(R/\mathfrak q)$. Let
+$\pi:N^\mu\to P$ map $f$ to the class of $ft^\mu$; it is $B$-linear and surjective. As $\mathfrak q$ is defined
+coefficientwise, $ft^\mu\in\mathfrak q+\varpi R$ if and only if $\phi(f-\varpi g)\in\mathrm{Fil}^{n+1}$ for some
+$g\in N^\mu$ (if $ft^\mu-\varpi p\in\mathfrak q$, take $g=p_\mu$).
+
+Let $I$ be the set of $\nu\in\N^\tau$ with $|\nu|_-=n$ and $|\nu|_+=2\mu_1+2\mu_2$; it is finite, with
+$\mathrm{cnt}(2d_0+4d_2,2d_1+2d_2)$ elements. Let $\Lambda:N^\mu\to\mathrm{Frac}(\OO)^I$ be
+$\Lambda(f)=([X^\nu]\phi(f))_{\nu\in I}$. By \cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-lat} (with $F=F_r$), every
+$f\in N^\mu$ lies in $A_w$ and satisfies $\phi(f)\in\mathrm{Fil}^n$. Hence the monomials of negative weight $<n+1$
+which can occur in $\phi(f)$ have negative weight $n$ and weight $w$, so positive weight $w+n=2\mu_1+2\mu_2$; that is,
+they lie in $I$, and
+\begin{equation}\label{pf:vwin-he:eq-lead}
+ \phi(f)\in\mathrm{Fil}^{n+1}\iff\Lambda(f)=0\qquad(f\in N^\mu).
+\end{equation}
+
+We check the hypotheses of \cref{pf:vwin-he:diag} for $L=N^\mu$, which is finitely generated over $B$ by
+\cref{pf:vwin-he:fg}, and for $\Lambda$ and $\pi$. For $b\in B$, the element $b-x(b)\in A_0$ is killed by $x$, so
+$\phi(b-x(b))\in\mathrm{Fil}^1$ by \cref{pf:vwin-he:filt}\ref{pf:vwin-he:filt-sat}, and
+$\phi((b-x(b))f)\in\mathrm{Fil}^{n+1}$ for $f\in N^\mu$; by \eqref{pf:vwin-he:eq-lead}, $\Lambda(bf)=x(b)\Lambda(f)$.
+Next we use a separation property of reduced charts (\lref{UpperTheory.V.Alg.M.exists_mem_oz_pow_coeff_ne_zero_unique}):
+for $k,l\in\N$, every monomial $\nu$ with $|\nu|_-=2k$ and $|\nu|_+=2l$ admits $f\in(A_{-2})^k(A_2)^l$ with
+$[X^\nu]\phi(f)\ne0$ and $[X^{\nu'}]\phi(f)=0$ for all other $\nu'$ with $|\nu'|_-=2k$. For $\nu\in I$ we apply it with
+$k=\mu_0+2\mu_2$ and $l=\mu_1+\mu_2$; the resulting $f$ lies in
+$(A_{-2})^{\mu_0}(A_2)^{\mu_1}(A_{-2}A_{-2}A_2)^{\mu_2}\subset N^\mu$, and $\Lambda(f)$ is supported exactly at $\nu$.
+Finally, by the first paragraph and \eqref{pf:vwin-he:eq-lead}, $\pi(f)=0$ if and only if
+$\Lambda(f)=\varpi\Lambda(g)$ for some $g\in N^\mu$. Hence $\len_BP=\#I$.
+\end{proof}
+
+\subsubsection{Points, slices and localized lengths}\label{sec:pf:vwin-he:pf-points}
+
+We use the following finiteness theorem of the formal development, which we call the \emph{slice theorem}
+(\lref{UpperTheory.V.Alg.M.slice_holds}): if $(A,x)$ is a weighted ring, $J\subset A$ a homogeneous ideal such
+that the image of $A_0$ in $A/J$ is a finitely generated $\OO$-module and \textup{(M4)} holds for $J$, and
+$f\in A_{-2}$, $g\in A_2$, then the set of $K$-points $\xi$ on $J$ with $\xi(f)=1$ and $\xi(g)\ne0$ is finite, and for
+every $h\in A$ vanishing at all these points there are $n\in\N$ and $0\ne c\in\OO$ with $cg^nh\in J+(f-1)A$.
+
+\begin{proof}[Proof of \cref{pf:vwin-he:fin}]
+By \cref{pf:vwin-he:fg}, $A_{-2}$ and $A_2$ are generated over $A_0$ by finite sets $s_-$ and $s_+$. Let $T$ be the
+set of two-signed $K$-points $\xi$ on $J$ such that $\xi(f)=1$ and $\xi(g)\ne0$ for some $f\in s_-$ and $g\in s_+$; it
+is finite by the slice theorem. Let $\xi$ be a two-signed $K$-point on $J$. By \cref{pf:vwin-he:sign} there are
+$f'\in A_{-2}$ and $g'\in A_2$ with $\xi(f')\ne0\ne\xi(g')$; writing $f'$ and $g'$ as $A_0$-linear combinations of
+$s_-$ and $s_+$, we find $f\in s_-$ and $g\in s_+$ with $\xi(f)\ne0\ne\xi(g)$. Choose $t\in K^\times$ with
+$t^2=\xi(f)$ and let $\xi'=t\cdot\xi$. Then $\xi'(f)=t^{-2}\xi(f)=1$ and $\xi'(g)=t^2\xi(g)\ne0$; $\xi'$ vanishes on
+$J$, as $J$ is homogeneous and $\xi'(h)=\sum_jt^j\xi(h_j)$; and $\xi'$ is two-signed by \cref{pf:vwin-he:sign}. So
+$\xi'\in T$, and $\xi=t^{-1}\cdot\xi'$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:deh}
+Let $A=\bigoplus_jA_j$ be a $\Z$-graded $\OO$-algebra, $J\subset A$ a homogeneous ideal, $f\in A_d$ with $d\ne0$, and
+$h\in A_w$ with $h\in J+(f-1)A$. Then $f^nh\in J$ for some $n\in\N$.
+\formallabel{UpperTheory.V.Alg.M.deh_holds}
+\end{lemma}
+
+\begin{proof}
+Write $h=y+u(f-1)$ with $y\in J$ and $u\in A$, and denote classes in $A/J$ by a bar. Comparing the components of
+degree $j+d$, and using $y_{j+d}\in J$, gives $\bar h_{j+d}=\bar u_j\bar f-\bar u_{j+d}$ for all $j$, where
+$h_{j+d}=0$ unless $j+d=w$. Hence $\bar u_{j+d}=\bar u_j\bar f$ for $j+d\ne w$, and
+$\bar u_w=\bar u_{w-d}\bar f-\bar h$. Iterating along the progression $w+\Z d$ gives $\bar u_{w+kd}=\bar u_w\bar f^k$
+and $\bar u_{w-d}=\bar u_{w-kd}\bar f^{k-1}$ for $k\ge1$. As only finitely many $u_j$ are non-zero and $d\ne0$, for
+large $k$ we get $\bar u_w\bar f^k=0$ and $\bar u_{w-d}=0$; hence $\bar u_w=-\bar h$ and $\bar f^k\bar h=0$, i.e.\
+$f^kh\in J$.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:nil}
+Let $A=\bigoplus_jA_j$ be a $\Z$-graded $\OO$-algebra, $J\subset A$ an ideal such that the image of $B=A_0$ in $A/J$
+is a finitely generated $\OO$-module, $\sigma:B\to K$ an $\OO$-algebra homomorphism, and $p\in B$ with $\sigma(p)=0$.
+Then there are $b\in B$ with $\sigma(b)\ne0$ and $n\in\N$ with $bp^n\in J$.
+\end{lemma}
+
+\begin{proof}
+The image of $p$ in $A/J$ lies in the image of $B$, which is a ring and a finitely generated $\OO$-module; so it is
+integral over $\OO$, and $Q(p)\in J$ for some monic $Q\in\OO[X]$. Write $Q=X^nQ_1$ with $Q_1(0)\ne0$ and put
+$b=Q_1(p)\in B$. Then $bp^n=Q(p)\in J$, and $\sigma(b)=Q_1(\sigma(p))=Q_1(0)\ne0$ in $K$, as $\OO\to K$ is injective.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:loclen}
+Let $B$ be an $\OO$-algebra, $\sigma:B\to K$ an $\OO$-algebra homomorphism and $P=\ker\sigma$, a prime ideal.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:loclen-surj} Let $\varphi:L\to M$ be a surjective and $\psi:L\to N$ an arbitrary homomorphism
+of $B$-modules such that for every $y\in\ker\psi$ there is $t\in B$ with $\sigma(t)\ne0$ and $t\varphi(y)=0$. Then
+$\vwinheloclen_\sigma(M)\le\vwinheloclen_\sigma(N)$.
+\item\label{pf:vwin-he:loclen-one} Let $M$ be a $B$-module and $m_0\in M$ such that for all $p\in P$ and $m\in M$
+there is $b\notin P$ with $bpm=0$, and for every $m\in M$ there are $b\notin P$ and $a\in B$ with $bm=am_0$. Then
+$\vwinheloclen_\sigma(M)\le1$.
+\item\label{pf:vwin-he:loclen-zero} Let $M$ be a finitely generated $B$-module, $\mathfrak a,\mathfrak b\subset B$
+ideals and $n\in\N$ with $\mathfrak a^nM\subset\mathfrak bM$ and $\mathfrak b\subset P$, and assume $\sigma(b)\ne0$ for
+some $b\in\mathfrak a$. Then $\vwinheloclen_\sigma(M)=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Localization at $P$ is exact, so $\varphi_P$ is surjective; and $\ker\psi_P\subset\ker\varphi_P$, for if
+$\psi(y)/s=0$, then $\psi(uy)=0$ for some $u\notin P$, and $t\varphi(uy)=0$ with $tu\notin P$. Hence $M_P$ is a
+quotient of $L_P/\ker\psi_P$, which is isomorphic to $\psi_P(L_P)\subset N_P$. (b) The map $B_P\to M_P$,
+$\rho\mapsto\rho m_0$, is surjective, as $m/s=(a/bs)m_0$, and it kills $PB_P$, since $pm_0=0$ in $M_P$ for $p\in P$;
+so $M_P$ is a quotient of the residue field of $B_P$. (c) If $M_P\ne0$, then $P$ lies in the support of
+$M/\mathfrak bM$, as $M$ is finitely generated and $\mathfrak b\subset P$; but $b^n$ kills $M/\mathfrak bM$, so
+$b^n\in P$, contradicting $\sigma(b)\ne0$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:loc3}]
+Let $P=\ker\sigma$. As $\sigma$ does not vanish on $I_D$, there are $f\in A_{-2}$ and $g\in A_2$ such that
+$b_0=fg\in B$ satisfies $\sigma(b_0)\ne0$.
+
+\emph{Step 1: if $h\in A_j$, $b\in B$, $\sigma(b)\ne0$ and $bh^n\in J$ for some $n$, then $b'h\in J$ for some
+$b'\in B$ with $\sigma(b')\ne0$.} Every $K$-point $\xi$ on $J$ with $\xi(f)=1$ and $\xi(g)\ne0$ satisfies
+$\xi(b)\xi(h)^n=0$, hence $\xi(bh)=0$. By the slice theorem, $cg^Nbh\in J+(f-1)A$ for some $N\in\N$ and
+$0\ne c\in\OO$. The element $cg^Nbh$ is homogeneous, so \cref{pf:vwin-he:deh} gives $m$ with $f^mcg^Nbh\in J$. Then
+$b'=cb_0^{N+m}b\in B$ satisfies $\sigma(b')=c\,\sigma(b_0)^{N+m}\sigma(b)\ne0$ and
+$b'h=f^Ng^m\cdot f^mcg^Nbh\in J$.
+
+\emph{Step 2: for $p\in P$ and $h\in A_w$ there is $b\in B$ with $\sigma(b)\ne0$ and $bph\in J$.} By
+\cref{pf:vwin-he:nil} there are $b$ with $\sigma(b)\ne0$ and $n$ with $bp^n\in J$; then $b(ph)^n\in J$, and Step 1
+applies to $ph\in A_w$.
+
+\emph{Step 3: there is $h_0\in A_w$ such that for every $h\in A_w$ there are $b,a\in B$ with $\sigma(b)\ne0$ and
+$bh-ah_0\in J$.} Let $e=f^k$ and $e'=g^k$ if $w=k\ge0$, and $e=g^k$ and $e'=f^k$ if $w=-k<0$. Then $e\in A_{-2w}$ and
+$ee'=b_0^k$, so $hh'e\in B$ for $h,h'\in A_w$. If $\sigma(h_0h_0e)\ne0$ for some $h_0\in A_w$, take $b=h_0h_0e$ and
+$a=hh_0e$, so that $bh-ah_0=0$. Otherwise let $h_0=0$ and $h\in A_w$. As $\sigma(hhe)=0$, \cref{pf:vwin-he:nil} gives
+$b$ with $\sigma(b)\ne0$ and $n$ with $b(hhe)^n\in J$; then $bb_0^{kn}h^{2n}=e'^n\,b(hhe)^n\in J$ and
+$\sigma(bb_0^{kn})\ne0$, and Step 1 gives $b'h\in J$ with $\sigma(b')\ne0$.
+
+By Steps 2 and 3, \cref{pf:vwin-he:loclen}\ref{pf:vwin-he:loclen-one} applies to $M=(A/J)_w$ and the class $m_0$ of
+$h_0$, and $\vwinheloclen_\sigma((A/J)_w)\le1$.
+\end{proof}
+
+\subsubsection{The Rees algebra away from the fixed point}\label{sec:pf:vwin-he:pf-rees}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:loc1}]
+Choose $f\in A_{-2}$ and $g\in A_2$ such that $b_0=fg$ satisfies $\sigma(b_0)\ne0$. Write $d=\mu\in\N^3$ and
+$w(\nu)=2(\nu_1-\nu_0-\nu_2)$ for $\nu\in\N^3$. As $N_0,N_2\subset A_{-2}$ (recall $F_r^2\in A_{-2}$) and $N_1=A_2$, we
+have $N^\nu\subset A_{w(\nu)}$.
+
+(i) \emph{For $\nu\in\N^3$ and $c\in A_{w(\nu)}$ there is $n$ with $b_0^nc\in N^\nu$.} Let $k=\nu_0+2\nu_2$ and
+$l=\nu_1+\nu_2$; then $w(\nu)=2(l-k)$, and $(A_{-2})^k(A_2)^l\subset N^\nu$, as $A_{-2}A_{-2}A_2\subset N_2$. If
+$k\le l$, then $c\in(A_2)^{l-k}$ by \cref{pf:vwin-he:fg}, and $b_0^kc=f^kg^kc\in(A_{-2})^k(A_2)^l$; if $k>l$, then
+$c\in(A_{-2})^{k-l}$, and $b_0^lc\in(A_{-2})^k(A_2)^l$.
+
+(ii) Let $K_\mu$ be the set of $c\in A$ such that $b_0^nct^\mu$ is an element of $J'$ for some $n$; it is an additive
+subgroup of $A$, as $J'$ is an ideal and $b_0\in R_0$. Each of the generators $F_i^2$, $G_i$, $E_i^2$, $E'_i$, $Z_i$ of
+$I_2$ is an element $y\in A_{w(\nu)}$ with $yt^\nu\in J'$ for some $\nu\in\{0,e_0,e_1,e_2\}$: for $F_i^2$ ($i<r$) and
+$G_i$ take $\nu=e_0$, for $E_i^2$ and $E'_i$ take $\nu=e_1$, and for $F_r^2$ take $\nu=e_2$ (these are entries of $ts$),
+and for $Z_i$ take $\nu=0$. Let $c\in A$ and $\nu'=\mu-\nu$, which is $\ge0$ as $\mu\ge e_0+e_1+e_2$. Since $y$ is
+homogeneous, the component of degree $w(\mu)$ of $cy$ is $c_{w(\nu')}y$; by (i), $b_0^nc_{w(\nu')}t^{\nu'}\in R$ for
+some $n$, and $b_0^nc_{w(\nu')}y\,t^\mu=(b_0^nc_{w(\nu')}t^{\nu'})(yt^\nu)\in J'$. So $(cy)_{w(\mu)}\in K_\mu$, and as
+$K_\mu$ is a group, $z_{w(\mu)}\in K_\mu$ for every $z\in I_2$.
+
+(iii) Let $\varphi:N^\mu\to(R/J')_\mu$ map $h$ to the class of $ht^\mu$, and $\psi:N^\mu\to(A/I_2)_{w(\mu)}$ map $h$
+to its class; $\varphi$ is surjective. If $\psi(h)=0$, then $h=h_{w(\mu)}\in I_2$, so $b_0^n\varphi(h)=0$ for some $n$
+by (ii), and $\sigma(b_0^n)\ne0$. Now \cref{pf:vwin-he:loclen}\ref{pf:vwin-he:loclen-surj} gives the assertion.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:ann}]
+By \cref{pf:vwin-he:stdR} and the remark following it, $(B,R)$ is a standard setting, and $R$ is Noetherian, being
+generated over the Noetherian ring $B$ by the finitely generated modules $R_{e_i}$. The quotient $M=R/J'$ is a graded
+module, and its pieces $M_d=(R/J')_d$ are finitely generated $B$-modules by \ref{pf:vwin-he:E-gr}. We use three
+results of the formal development:
+\begin{enumerate}[label=(\roman*)]
+\item\label{pf:vwin-he:ann-kill} if $M$ is a graded module over a standard setting $(B,R)$ and
+$\mathfrak a,\mathfrak b\subset B$ are ideals with $(\mathfrak aR\cdot\vwinheIrr)^n\subset\vwinheAnn(M)+\mathfrak bR$,
+then $\mathfrak a^nM_d\subset\mathfrak bM_d$ for large $d$ (\lref{UpperTheory.V.Alg.M.kill_holds});
+\item\label{pf:vwin-he:ann-zi} every prime ideal $\mathfrak p\subset R$ with $\vwinheIrr\not\subset\mathfrak p$ which
+contains $\vwinhesecs(ts)$ and the $Z_i$ contains the image of $B\cap I$ (\lref{UpperTheory.V.Alg.M.zi_holds});
+\item\label{pf:vwin-he:ann-zii} under the hypotheses of \cref{pf:vwin-he:ann}, every prime ideal $\mathfrak p$ as in
+\ref{pf:vwin-he:ann-zi} with $I_DR\subset\mathfrak p$ contains $\mathfrak m_BR$
+(\lref{UpperTheory.V.Alg.M.zii_holds}).
+\end{enumerate}
+Let $\mathfrak a,\mathfrak b\subset B$ be ideals such that every prime ideal $\mathfrak p\subset R$ with
+$\vwinheIrr\not\subset\mathfrak p$ and $J'+\mathfrak bR\subset\mathfrak p$ contains $\mathfrak aR$. Then every prime
+ideal containing $J'+\mathfrak bR$ contains $\mathfrak aR\cdot\vwinheIrr$; so $\mathfrak aR\cdot\vwinheIrr$ lies in the
+radical of $J'+\mathfrak bR$, and as $R$ is Noetherian, $(\mathfrak aR\cdot\vwinheIrr)^n\subset J'+\mathfrak bR$ for
+some $n$. Since $J'\subset\vwinheAnn(M)$, \ref{pf:vwin-he:ann-kill} gives $\mathfrak a^nM_d\subset\mathfrak bM_d$ for
+large $d$. By \ref{pf:vwin-he:ann-zi} and \ref{pf:vwin-he:ann-zii} this applies to $(\mathfrak a,\mathfrak b)=(B\cap
+I,0)$ and to $(\mathfrak a,\mathfrak b)=(\mathfrak m_B,I_D)$: there are $n$ and $n'$ with $(B\cap I)^nM_d=0$ and
+$\mathfrak m_B^{n'}M_d\subset I_DM_d$ for large $d$. Fix such a $d$.
+
+Let $L=\vwinheAnn_B(M_d)$, so that $(B\cap I)^n\subset L$. The ring $B/(B\cap I)$ is the image of $B$ in $A/I$, a
+finitely generated $\OO$-module by (M2), and so is its quotient $B/(L+B\cap I)$. The ideal
+$\mathfrak n=(L+B\cap I)/L$ of the Noetherian ring $B/L$ satisfies $\mathfrak n^n=0$, and each
+$\mathfrak n^i/\mathfrak n^{i+1}$ is a finitely generated module over $B/(L+B\cap I)$, hence over $\OO$; so $B/L$ is a
+finitely generated $\OO$-module.
+
+Let $\sigma:B\to K$ be an $\OO$-algebra homomorphism. If $\sigma$ vanishes on $I_D$, then
+\cref{pf:vwin-he:loclen}\ref{pf:vwin-he:loclen-zero} with $(\mathfrak a,\mathfrak b)=(\mathfrak m_B,I_D)$ and $b=\varpi$
+(which lies in $\mathfrak m_B$, as $\OO\to B$ is local, and satisfies $\sigma(\varpi)\ne0$) gives
+$\vwinheloclen_\sigma(M_d)=0$. If $\sigma(b)\ne0$ for some $b\in B\cap I$, the same lemma with
+$(\mathfrak a,\mathfrak b)=(B\cap I,0)$ gives $\vwinheloclen_\sigma(M_d)=0$.
+\end{proof}
+
+\subsubsection{Counting}\label{sec:pf:vwin-he:pf-count}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:num}]
+No variable has a weight outside $\{-2,-1,1,2\}$, as $n_{r,s,r',s',0}$ vanishes there. For $i\in\tau$ let
+$w(i)=(\max(-\mathrm{wt}(i),0),\max(\mathrm{wt}(i),0))$, which is $(1,0)$, $(2,0)$, $(0,1)$ or $(0,2)$ according as
+$\mathrm{wt}(i)$ is $-1$, $-2$, $1$ or $2$; thus $(|\nu|_-,|\nu|_+)=\sum_i\nu_iw(i)$. For $U\subset\tau$ and $p\in\Z^2$
+let $N_U(p)$ be the (finite) number of $\nu\in\N^\tau$ supported on $U$ with $\sum_i\nu_iw(i)=p$; thus
+$\mathrm{cnt}(a,b)=N_\tau(a,b)$. For $v\in\Z^2$ let $S_v$ be the shift operator $(S_vh)(p)=h(p-v)$ on functions
+$h:\Z^2\to\Z$; these operators commute, and $S_{v+v'}=S_vS_{v'}$. Write $X=S_{(1,0)}$ and $Y=S_{(0,1)}$, and let
+$\lambda:\Z^3\to\Z^2$, $\lambda(d)=(2d_0+4d_2,2d_1+2d_2)$. As $\lambda$ is additive with $\lambda(e_0)=(2,0)$,
+$\lambda(e_1)=(0,2)$ and $\lambda(e_2)=(4,2)$, induction on the length of $L$ gives
+\begin{equation}\label{pf:vwin-he:eq-num1}
+ \Delta_L(N_\tau\circ\lambda)(d)=(\mathcal DN_\tau)(\lambda(d)),\qquad
+ \mathcal D=(1-X^2)^{r-1+s}(1-Y^2)^{r'+s'}(1-X^4Y^2).
+\end{equation}
+If $i\notin U$, splitting according to whether $\nu_i=0$ gives $N_{U\cup\{i\}}=N_U+S_{w(i)}N_{U\cup\{i\}}$, that is,
+$(1-S_{w(i)})N_{U\cup\{i\}}=N_U$; hence $\prod_{i\in U}(1-S_{w(i)})\,N_\tau=N_{\tau\setminus U}$ for every
+$U\subset\tau$. Choose variables $i_0$, $i_1$, $i_2$ of weights $-1$, $1$, $2$; they exist as $r\ge1$. Let
+$C=(1-X)^{r-1}(1-X^2)^s(1-Y)^{r'}(1-Y^2)^{s'}$. Counting the variables of each weight,
+\[
+ \prod_{i\ne i_0,i_1}(1-S_{w(i)})=C(1-Y^2),\qquad\prod_{i\ne i_1,i_2}(1-S_{w(i)})=C(1-X),
+\]
+so that $C(1-Y^2)N_\tau=N_{\{i_0,i_1\}}$ and $C(1-X)N_\tau=N_{\{i_1,i_2\}}$. Using $1-X^2=(1+X)(1-X)$,
+$1-Y^2=(1+Y)(1-Y)$ and $1-X^4Y^2=(1-Y^2)+Y^2(1+X^2)(1+X)(1-X)$, we obtain
+\[
+ \mathcal DN_\tau=(1+X)^{r-1}(1+Y)^{r'}\bigl(N_{\{i_0,i_1\}}+Y^2(1+X^2)(1+X)N_{\{i_1,i_2\}}\bigr).
+\]
+Now $N_{\{i_0,i_1\}}(a,b)=1$ for $a,b\ge0$, the only monomial being $X_{i_0}^aX_{i_1}^b$, and
+$N_{\{i_1,i_2\}}(a,b)=0$ for $a\ge1$, as these two variables have negative weight $0$. A shift of a function which is
+eventually equal to a constant $\kappa$ is eventually equal to $\kappa$; so the bracket is eventually equal to $1$, and
+$\mathcal DN_\tau$ is eventually equal to $2^{r-1+r'}$. Since $\lambda(d)$ is large when $d$ is large,
+\eqref{pf:vwin-he:eq-num1} proves the claim.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:la}]
+For every valid list $ts=((\delta_1,s_1),\dots,(\delta_n,s_n))$ we have, for large $d$,
+\begin{equation}\label{pf:vwin-he:eq-small}
+ \chi(ts,M/\beta M)(d)=\sum_{S\subset\{1,\dots,n\}}(-1)^{|S|}h\Bigl(d-\sum_{i\in S}\delta_i\Bigr)=\Delta_{\deg ts}h(d),
+\end{equation}
+by \ref{pf:vwin-he:E-small} applied to the graded module $M/\beta M$ and by expanding the iterated difference. A list
+admitted for an ideal remains admitted when it is permuted, or when an entry $s$ is replaced by a divisor of $s$, as
+$\vwinhesecs$ does not change, resp.\ grows.
+
+\emph{Step 1: for $y\in R_\delta$, a valid list $ts$ and $c\in\N$ such that $((\delta,\beta^cy))\cdot ts$ is admitted
+for $\vwinheAnn(M)$, we have for large $d$}
+\begin{equation}\label{pf:vwin-he:eq-peel}
+ \chi\bigl(((\delta,\beta^cy))\cdot ts,M\bigr)(d)=c\,\Delta_{\deg ts}h(d)+\chi\bigl(((\delta,y))\cdot ts,M\bigr)(d).
+\end{equation}
+For $c=0$ there is nothing to prove. For $c\ge1$ write $\beta^cy=\beta\cdot\beta^{c-1}y$; the list
+$((0,\beta),(\delta,\beta^{c-1}y))\cdot ts$ is valid, so by \ref{pf:vwin-he:E-prod}, \ref{pf:vwin-he:E-nzd} and
+\eqref{pf:vwin-he:eq-small}, for large $d$,
+\[
+ \chi\bigl(((\delta,\beta^cy))\cdot ts,M\bigr)(d)=\chi(ts,M/\beta M)(d)+\chi\bigl(((\delta,\beta^{c-1}y))\cdot ts,M\bigr)(d)
+\]
+with $\chi(ts,M/\beta M)(d)=\Delta_{\deg ts}h(d)$; as $((\delta,\beta^{c-1}y))\cdot ts$ is again admitted, induction on
+$c$ gives \eqref{pf:vwin-he:eq-peel}.
+
+\emph{Step 2: induction on $n$.} For $n=0$ the left side of the assertion vanishes, and $\chi(us,M)(d)\ge0$ for large
+$d$ by \ref{pf:vwin-he:E-pos}. Let $n\ge1$ and $L=((\delta,\beta^{c_i}y_i))_{2\le i\le n}$. By
+\eqref{pf:vwin-he:eq-peel} for $y_1$, $c_1$ and the list $L\cdot us$, whose list of degrees is
+$((\delta)^{n-1},\deg us)$,
+\[
+ \chi(ts'',M)(d)=c_1\,\Delta_{((\delta)^{n-1},\deg us)}h(d)+\chi\bigl(((\delta,y_1))\cdot L\cdot us,M\bigr)(d)
+\]
+for large $d$. The list $((\delta,y_1))\cdot L\cdot us$ is admitted for $\vwinheAnn(M)$, so by \ref{pf:vwin-he:E-perm}
+it may be replaced by its permutation $L\cdot((\delta,y_1))\cdot us$, which is admitted as well. The induction
+hypothesis, applied to $y_2,\dots,y_n$, $c_2,\dots,c_n$ and the valid list $((\delta,y_1))\cdot us$, shows that
+$\chi(L\cdot((\delta,y_1))\cdot us,M)(d)$ is at least $(\sum_{i\ge2}c_i)\,\Delta_{((\delta)^{n-1},\deg us)}h(d)$ for
+large $d$ (for $n=1$ it says that this Euler characteristic is non-negative). Adding the two contributions gives the
+assertion.
+\end{proof}
+
+\subsection{Descent along cyclotomic layers}\label{sec:pf:vwin-he:descent}
+
+In this subsection $\ell$ is a prime, $q=\ell$ if $\ell$ is odd and $q=4$ if $\ell=2$, $L_0$ is a number field
+containing a primitive $q$-th root of unity, $\Omega$ is an algebraic closure of $L_0$, $G=\Gal(\Omega/L_0)$ and
+$\vwinhecyc:G\to\Zl^\times$ is the cyclotomic character. Let $c_0$ be the largest integer $c$ such that $L_0$ contains a
+primitive $\ell^c$-th root of unity, and for $n\ge0$ let $G(n)=\{g\in G:\vwinhecyc(g)\equiv1\pmod{\ell^n}\}$. A
+\emph{layer of degree $\ell^m$} is an extension $L_1/L_0$ of degree $\ell^m$ generated by the $\ell^k$-th roots of
+unity for some $k$. For a number field $F$ and $e\in\Z$, let $\mathrm{shaLen}(F,\ell,e)$ be the $\Zl$-length of the
+group $\Sha_D(e)$ of \cref{def:window:sha}, for any algebraic closure of $F$ and any $\ell$-datum $D$; it depends only
+on $(F,\ell,e)$ (\lref{UpperTheory.V.LDataCardLeFinrank.shaLen_eq_shaInv}: the length of $\Sha_D(e)$ equals that of
+the group of classes of $\Gal(\overline F/F)$ which vanish on the inertia groups of the places not above $\ell$ and on
+the decomposition groups of the places above $\ell$, for a fixed algebraic closure $\overline F$).
+
+\begin{definition}[The Iwasawa module and its dual]\label{pf:vwin-he:dinf}
+Let $U\subset G$ be a closed normal subgroup, $U_\infty=U\cap\ker\vwinhecyc$, and $N\ge1$. Let $\vwinheD_N(U)$ be the
+$\Zl$-module of locally constant homomorphisms $\varphi:U_\infty\to\vwinheQZ$ which vanish on $U_\infty\cap I_A$ for
+every valuation ring $A$ of $\Omega$, and on $U_\infty\cap D_A$ for every valuation ring $A$ whose maximal ideal
+contains $N$. The group $G$ acts on $\vwinheD_N(U)$ by $(g\varphi)(u)=\varphi(g^{-1}ug)$, and for $e\in\Z$ we write
+$g\ast_e\varphi=\vwinhecyc(g)^{-e}\,g\varphi$. Let $\vwinheXX_N(U)=\Hom_{\Zl}(\vwinheD_N(U),\vwinheQZ)$, with the
+action $(g\ast_ex)(\varphi)=\vwinhecyc(g)^e\,x(g^{-1}\varphi)$; thus $(g\ast_ex)(\varphi)=x(g^{-1}\ast_e\varphi)$. For a
+subgroup $V\subset G$ let $\vwinheD_N(U)^{V,e}$ be the submodule of elements fixed by $V$ for the action $\ast_e$. For
+an endomorphism $T$ of a $\Zl$-module $M$ let $\vwinhecoker(T)=\len_{\Zl}(M/TM)\in\N\cup\{\infty\}$.
+\formallabel{UpperTheory.V.Kum.Dinf}
+\formallabel{UpperTheory.V.Tower.xTw}
+\formallabel{UpperTheory.V.Tower.xTw_apply_apply}
+\end{definition}
+
+Thus $\vwinheD_\ell(G)$ is the group of characters of order a power of $\ell$ of the Galois group of the maximal
+abelian extension of $L_0(\mu_{\ell^\infty})$ which is unramified at all places and in which the places above $\ell$
+split completely, i.e.\ the Pontryagin dual of the module $X'_\infty$ of \cref{lit:window:fw}.
+
+\begin{theorem}[Descent formula]\label{pf:vwin-he:step0}
+Let $\gamma\in G$ be such that $\vwinhecyc(G)$ is contained in the closure of the subgroup generated by
+$\vwinhecyc(\gamma)$. Let $e\ne0$, $m\ge0$, and let $L_1/L_0$ be a layer of degree $\ell^m$. Then
+\[
+ \mathrm{shaLen}(L_1,\ell,e)=\vwinhecoker\bigl(t^{\ell^m}-1\bigr),
+\]
+where $t$ is the action of $\gamma$ on $\vwinheXX_\ell(G)$ by $\ast_e$.
+\formallabel{UpperTheory.V.Tower.step0}
+\end{theorem}
+
+This is the identity behind the tower bounds of \cref{lem:window:tower}: the Tate--Shafarevich group of a twist
+over the layer of degree $\ell^m$ is measured by the coinvariants of $\gamma^{\ell^m}$ on the twisted module
+$\vwinheXX_\ell(G)$. The proof occupies the rest of this subsection.
+
+\subsubsection{Layers}
+
+\begin{lemma}\label{pf:vwin-he:layers}
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:layers-a} $L_0$ is totally imaginary, $c_0\ge1$ ($c_0\ge2$ if $\ell=2$), and
+$\vwinhecyc(G)=1+\ell^{c_0}\Zl$. For $c\ge0$, $L_0$ contains a primitive $\ell^c$-th root of unity if and only if
+$c\le c_0$, if and only if $G(c)=G$.
+\item\label{pf:vwin-he:layers-b} If $L_1/L_0$ is a layer of degree $\ell^m$ and $L_1$ is embedded in $\Omega$ over
+$L_0$, then $\Gal(\Omega/L_1)=G(c_0+m)$, and $[G:G(c_0+m)]=\ell^m$.
+\item\label{pf:vwin-he:layers-c} If $\vwinhecyc(G)$ is contained in the closure of the group generated by
+$\vwinhecyc(\gamma)$, then $\vwinhecyc(\gamma)\in(1+\ell^{c_0}\Zl)\smallsetminus(1+\ell^{c_0+1}\Zl)$, $\gamma\in G(1)$, and
+for every $m\ge0$, $\gamma^{\ell^m}\in G(c_0+m)$ and $\vwinhecyc(G(c_0+m))$ is contained in the closure of the group
+generated by $\vwinhecyc(\gamma^{\ell^m})$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Tower.muQ}
+\formallabel{UpperTheory.V.Tower.cycRange}
+\formallabel{UpperTheory.V.Tower.layerUniq}
+\formallabel{UpperTheory.V.Tower.layerGen}
+\end{lemma}
+
+\begin{proof}
+A primitive $q$-th root of unity is not real, so $L_0$ is totally imaginary, and $c_0\ge1$, resp.\ $c_0\ge2$. The
+group $\vwinhecyc(G)\cong\Gal(L_0(\mu_{\ell^\infty})/L_0)$ is an open, hence infinite, closed subgroup of
+$1+q\Zl$, and $L_0$ contains the $\ell^c$-th roots of unity if and only if $\vwinhecyc(G)\subset1+\ell^c\Zl$. For
+$c\ge1$ ($c\ge2$ if $\ell=2$) the $\ell$-adic logarithm is an isomorphism $1+\ell^c\Zl\cong\ell^c\Zl$ of topological
+groups \cite[Ch.~II, \S5]{Neukirch1999}, so the closed subgroups of $1+q\Zl$ are $1$ and the groups $1+\ell^c\Zl$;
+this gives $\vwinhecyc(G)=1+\ell^{c_0}\Zl$ and \ref{pf:vwin-he:layers-a}. If $L_1=L_0(\mu_{\ell^k})$, then
+$\Gal(\Omega/L_1)=G(k)$ and $[G:G(k)]=[1+\ell^{c_0}\Zl:1+\ell^{\max(k,c_0)}\Zl]=\ell^{\max(k,c_0)-c_0}$; as this is
+$\ell^m$, $\max(k,c_0)=c_0+m$ and $G(k)=G(c_0+m)$, which is \ref{pf:vwin-he:layers-b}. Under the logarithm, the
+topological generators of $1+\ell^{c_0}\Zl\cong\ell^{c_0}\Zl$ are the elements of valuation exactly $c_0$, and
+raising to the power $\ell^m$ multiplies by $\ell^m$; this gives \ref{pf:vwin-he:layers-c}.
+\end{proof}
+
+\subsubsection{Duality}
+
+For a $\Zl$-module $M$ put $M^\vee=\Hom_{\Zl}(M,\vwinheQZ)$, and for a homomorphism $T:M\to M'$ let
+$T^\vee:M'^\vee\to M^\vee$, $x\mapsto x\circ T$.
+
+\begin{lemma}\label{pf:vwin-he:dual}
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:dual-a} $\vwinheQZ$ is an injective $\Zl$-module, and for every $0\ne m\in M$ there is
+$x\in M^\vee$ with $x(m)\ne0$.
+\item\label{pf:vwin-he:dual-b} For $T:M\to M'$, an element $x\in M^\vee$ lies in the image of $T^\vee$ if and only if
+$x$ vanishes on $\ker T$; and for every submodule $P\subset M$ the restriction $M^\vee\to P^\vee$ is surjective.
+\item\label{pf:vwin-he:dual-c} $\len_{\Zl}M^\vee=\len_{\Zl}M$ in $\N\cup\{\infty\}$.
+\item\label{pf:vwin-he:dual-d} For an endomorphism $g$ of $M$, $\vwinhecoker(g^\vee)=\len_{\Zl}\ker g$.
+\end{enumerate}
+\formallabel{UpperTheory.V.PropA.qzInj}
+\formallabel{UpperTheory.V.Tower.qzSep}
+\formallabel{UpperTheory.V.Tower.dualKer}
+\formallabel{UpperTheory.V.Tower.lenDual}
+\formallabel{UpperTheory.V.Tower.cokerDual}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin-he:dual-a} $\vwinheQZ$ is divisible, hence injective over the principal ideal domain $\Zl$. The cyclic
+module $\Zl m\cong\Zl/\mathfrak a$ ($\mathfrak a\ne\Zl$) embeds into $\vwinheQZ$, and the embedding extends to $M$ by
+injectivity.
+\ref{pf:vwin-he:dual-b} If $x\in M^\vee$ vanishes on $\ker T$, it induces a homomorphism $T(M)\to\vwinheQZ$, which
+extends to $y\in M'^\vee$ by \ref{pf:vwin-he:dual-a}; then $x=y\circ T$. The converse is clear, and the surjectivity
+of the restriction is injectivity of $\vwinheQZ$.
+\ref{pf:vwin-he:dual-c} By \ref{pf:vwin-he:dual-a} and \ref{pf:vwin-he:dual-b}, $M\mapsto M^\vee$ is exact. If $M$ has
+finite length, induction on the length reduces the assertion to $M$ simple, i.e.\ $M\cong\F_\ell$, and
+$\F_\ell^\vee\cong\F_\ell$. If $M$ has infinite length, it has chains $0=M_0\subsetneq M_1\subsetneq\dots\subsetneq
+M_n\subset M$ of every length $n$. The submodules $K_i=\{x\in M^\vee:x(M_i)=0\}$ form a decreasing chain, and
+$K_{i-1}\ne K_i$: a non-zero homomorphism $M_i/M_{i-1}\to\vwinheQZ$ (which exists by \ref{pf:vwin-he:dual-a})
+extends to an element of $K_{i-1}\smallsetminus K_i$. Hence $M^\vee$ has infinite length.
+\ref{pf:vwin-he:dual-d} By \ref{pf:vwin-he:dual-b}, restriction to $\ker g$ induces an isomorphism
+$M^\vee/g^\vee(M^\vee)\cong(\ker g)^\vee$; conclude by \ref{pf:vwin-he:dual-c}.
+\end{proof}
+
+\subsubsection{The module $\vwinheD$}
+
+\begin{lemma}\label{pf:vwin-he:dinf-basic}
+Let $U\subset G$ be a closed normal subgroup and $N\ge1$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{pf:vwin-he:dinf-tors} Every $\varphi\in\vwinheD_N(U)$ is killed by a power of $\ell$, and $U_\infty$ acts
+trivially on $\vwinheD_N(U)$ and on $\vwinheXX_N(U)$, for every twisted action $\ast_e$.
+\item\label{pf:vwin-he:dinf-nil} For every $\varphi\in\vwinheD_N(U)$ there is $n$ such that $g\varphi=\varphi$ for all
+$g\in U\cap G(n)$.
+\item\label{pf:vwin-he:dinf-gen} Let $V\subset U$ be a subgroup and $\gamma\in V$ such that $\vwinhecyc(V)$ is contained
+in the closure of the group generated by $\vwinhecyc(\gamma)$. Then for every $e\in\Z$,
+$\vwinheD_N(U)^{V,e}$ is the kernel of $\gamma\ast_e-1$ and also the kernel of $\gamma^{-1}\ast_e-1$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Tower.dinfTors}
+\formallabel{UpperTheory.V.Kum.dinfNil}
+\formallabel{UpperTheory.V.Tower.shaDGen}
+\end{lemma}
+
+\begin{proof}
+\ref{pf:vwin-he:dinf-tors} $U_\infty$ is closed in the compact group $G$, so a locally constant $\varphi$ has finite
+image, which consists of torsion elements of $\vwinheQZ$. For $u,w\in U_\infty$,
+$\varphi(u^{-1}wu)=-\varphi(u)+\varphi(w)+\varphi(u)=\varphi(w)$, and $\vwinhecyc(u)=1$; so $U_\infty$ acts
+trivially on $\vwinheD_N(U)$, and then on its dual.
+
+\ref{pf:vwin-he:dinf-nil} The set $\{u\in U_\infty:\varphi(u)=0\}$ is open in $U_\infty$, so there is an open normal
+subgroup $W$ of the profinite group $G$ with $\varphi(W\cap U_\infty)=0$. For $w\in W$ and $u\in U_\infty$ we have
+$w^{-1}uwu^{-1}\in W\cap U_\infty$, hence $\varphi(w^{-1}uw)=\varphi(u)$: the elements of $W$ fix $\varphi$, and so do
+those of $U_\infty$ by \ref{pf:vwin-he:dinf-tors}. Hence every element of the open set $S=WU_\infty$ fixes
+$\varphi$. The set $U\smallsetminus S$ is compact, and $\vwinhecyc(U\smallsetminus S)$ is a compact subset of
+$\Zl^\times$ not containing $1$, since $U\cap\ker\vwinhecyc=U_\infty\subset S$. So it does not meet $1+\ell^n\Zl$
+for large $n$, i.e.\ $U\cap G(n)\subset S$.
+
+\ref{pf:vwin-he:dinf-gen} Invariants under $V$ are invariant under $\gamma$ and $\gamma^{-1}$. Conversely, let
+$\gamma\ast_e\varphi=\varphi$ (equivalently $\gamma^{-1}\ast_e\varphi=\varphi$), and $v\in V$. By
+\ref{pf:vwin-he:dinf-tors} and \ref{pf:vwin-he:dinf-nil} choose $r$ with $\ell^r\varphi=0$ and $n\ge r$ such that
+$U\cap G(n)$ fixes $\varphi$; then every $w\in U\cap G(n)$ satisfies $w\ast_e\varphi=\vwinhecyc(w)^{-e}\varphi=\varphi$,
+since $\vwinhecyc(w)^{-e}\equiv1\pmod{\ell^r}$. Since $\vwinhecyc(v)$ lies in the closure of the powers of
+$\vwinhecyc(\gamma)$, there is $j\in\Z$ with $\vwinhecyc(\gamma^{-j}v)\in1+\ell^n\Zl$, so
+$\gamma^{-j}v\in U\cap G(n)$ and $v\ast_e\varphi=\gamma^j\ast_e(\gamma^{-j}v)\ast_e\varphi=\varphi$.
+\end{proof}
+
+\subsubsection{Restriction to the cyclotomic kernel}
+
+Let $F$ be a number field with algebraic closure $\Omega$, $G_F=\Gal(\Omega/F)$, $\vwinhecyc$ its cyclotomic
+character and $U_\infty(F)=\ker\vwinhecyc$. We say that $F$ is \emph{procyclic at $\ell$} if $\ell$ is odd or
+$\vwinhecyc(G_F)\subset1+4\Z_2$; by \cref{pf:vwin-he:layers}\ref{pf:vwin-he:layers-a} this holds if $F$ contains a
+primitive $q$-th root of unity. Let $D$ be an $\ell$-datum for $F$ (\cref{def:window:sha}), with set $S=S_\ell$ of
+places above $\ell$ and group $G_{F,S}$, and let $e\in\Z$. For a continuous cocycle $z$ of $G_{F,S}$ with values in
+$\vwinheQZ(-e)$ (on which $G_{F,S}$ acts through $\vwinhecyc^{-e}$), the function $u\mapsto z(\bar u)$ on
+$U_\infty(F)$, $\bar u$ the image of $u$ in $G_{F,S}$, only depends on the class of $z$, since $U_\infty(F)$ acts
+trivially; this defines the \emph{restriction} $\mathrm{res}:H^1(G_{F,S},\vwinheQZ(-e))\to\mathrm{Map}(U_\infty(F),\vwinheQZ)$.
+With the notation of \cref{pf:vwin-he:dinf} for $F$ in place of $L_0$, let $\mathcal E_e(F)$ be the set of
+$\varphi\in\vwinheD_\ell(G_F)$ such that $\varphi(gug^{-1})=\vwinhecyc(g)^{-e}\varphi(u)$ for all $g\in G_F$ and
+$u\in U_\infty(F)$.
+
+\begin{lemma}[Generator criterion]\label{pf:vwin-he:cob}
+Let $\Gamma$ be a compact group, $\omega:\Gamma\to\Zl^\times$ a continuous homomorphism, $M$ a discrete abelian group
+with a continuous action of $\Gamma$ on which $\ker\omega$ acts trivially, and $\gamma\in\Gamma$ such that
+$\omega(\Gamma)$ is contained in the closure of the group generated by $\omega(\gamma)$ and $m\mapsto\gamma m-m$ is
+surjective on $M$. Then every continuous cocycle $z:\Gamma\to M$ vanishing on $\ker\omega$ is a coboundary.
+\formallabel{UpperTheory.V.Kum.cobOfGen}
+\end{lemma}
+
+\begin{proof}
+Choose $m_0$ with $\gamma m_0-m_0=z(\gamma)$ and put $z'(g)=z(g)-(gm_0-m_0)$. Then $z'$ is a continuous cocycle
+vanishing at $\gamma$ and on $\ker\omega$ (on which coboundaries vanish). For $n\in\ker\omega$,
+$z'(gn)=z'(g)+gz'(n)=z'(g)$, so $z'=\bar z\circ\omega$ for a function $\bar z$ on $\omega(\Gamma)$, which is
+continuous because $\omega:\Gamma\to\omega(\Gamma)$ is a continuous surjection from a compact space, hence a quotient
+map. By the cocycle relation $z'(\gamma^k)=0$ for all $k\in\Z$. Since $\omega(\Gamma)$ is compact, it is the closure of
+the group generated by $\omega(\gamma)$, and $\bar z$, being locally constant and zero on a dense subset, vanishes.
+Hence $z$ is the coboundary of $m_0$.
+\end{proof}
+
+\begin{lemma}[Injectivity]\label{pf:vwin-he:resinj}
+If $e\ne0$ and $F$ is procyclic at $\ell$, then $\mathrm{res}$ is injective.
+\formallabel{UpperTheory.V.Kum.resInfInj}
+\end{lemma}
+
+\begin{proof}
+First, $\vwinhecyc^e$ is not trivial on $G_F$. Otherwise let $n=|e|$, $k=n[F:\Q]+1$ and $\zeta\in\Omega$ a primitive
+$\ell^k$-th root of unity; for $g\in G_F$, $g\zeta=\zeta^{\vwinhecyc(g)}$ with $\vwinhecyc(g)$ an $n$-th root of unity
+in $\Zl$, of which there are at most $n$. So $[F(\zeta):F]\le n$ and $[\Q(\zeta):\Q]\le n[F:\Q]=k-1$, whereas
+$[\Q(\zeta):\Q]=\ell^{k-1}(\ell-1)\ge k$.
+
+The group $\vwinhecyc(G_F)$ is a closed subgroup of $\Zl^\times$, contained in $1+4\Z_2$ if $\ell=2$; so it contains
+an element $\vwinhecyc(\gamma)$ generating a dense subgroup (\lref{UpperTheory.V.Kum.existsGen}: such closed
+subgroups of $\Zl^\times$ are topologically generated by one element). Then $\vwinhecyc(\gamma)^{-e}\ne1$, for
+otherwise $\vwinhecyc^e$ would be trivial on $G_F$; hence $\gamma$ acts on $\vwinheQZ(-e)$ as multiplication by
+$\vwinhecyc(\gamma)^{-e}$, and $m\mapsto\gamma m-m$ is multiplication by a non-zero element of $\Zl$, which is
+surjective on the divisible group $\vwinheQZ$. If $\mathrm{res}(z)=0$, the cocycle $z$ vanishes on the image of
+$U_\infty(F)$, which is the kernel of $\vwinhecyc$ on $G_{F,S}$. By \cref{pf:vwin-he:cob} for $\Gamma=G_{F,S}$, $z$ is a
+coboundary.
+\end{proof}
+
+\begin{lemma}\label{pf:vwin-he:vanish}
+Let $M$ be an abelian group in which every element is killed by a power of $\ell$, $\varphi:U_\infty(F)\to M$ a
+locally constant homomorphism, and $\gamma\in G_F$ with $\vwinhecyc(\gamma)$ of infinite order. Then $\varphi$ vanishes
+on $U_\infty(F)\cap C$, where $C$ is the closure of the group generated by $\gamma$.
+\formallabel{UpperTheory.V.Kum.vanishCyc}
+\end{lemma}
+
+\begin{proof}
+Let $x\in U_\infty(F)\cap C$. There is an open normal subgroup $W\subset G_F$ with $\varphi(W\cap U_\infty(F))=0$.
+Choose $d\ge1$ with $\gamma^d\in W$ and write $d=\ell^ad'$ with $\ell\nmid d'$. As $\vwinhecyc(\gamma)$ has infinite
+order, there is $j$ such that $\vwinhecyc(\gamma)^k\equiv1\pmod{\ell^j}$ implies $\ell^a\mid k$ (use the logarithm
+on $1+\ell^2\Zl$ as in the proof of \cref{pf:vwin-he:layers}). Since $x\in C$, there is $k\in\Z$ with
+$x^{-1}\gamma^k\in W\cap G_F(j)$, where $G_F(j)=\{g:\vwinhecyc(g)\equiv1\pmod{\ell^j}\}$; as $\vwinhecyc(x)=1$,
+$\vwinhecyc(\gamma)^k\equiv1\pmod{\ell^j}$ and $\ell^a\mid k$. The elements $x$ and $\gamma$ commute, so
+$x^{d'}=(\gamma^k)^{d'}\bigl((x^{-1}\gamma^k)^{d'}\bigr)^{-1}$, where $(\gamma^k)^{d'}=(\gamma^d)^{k/\ell^a}\in W$ and
+$x^{-1}\gamma^k\in W$. Hence $x^{d'}\in W\cap U_\infty(F)$ and $d'\varphi(x)=\varphi(x^{d'})=0$; since $\varphi(x)$ has
+$\ell$-power order and $\ell\nmid d'$, $\varphi(x)=0$.
+\end{proof}
+
+\begin{lemma}[Extension of equivariant homomorphisms]\label{pf:vwin-he:ext}
+Assume that $F$ is procyclic at $\ell$. Let $M$ be a discrete abelian group in which every element is killed by a
+power of $\ell$, with a continuous action of $G_F$ which is trivial on $U_\infty(F)$, and let $\varphi:U_\infty(F)\to M$
+be a locally constant homomorphism with $\varphi(gug^{-1})=g\varphi(u)$ for $g\in G_F$, $u\in U_\infty(F)$. Then there is
+a continuous cocycle $z:G_F\to M$ with $z|_{U_\infty(F)}=\varphi$.
+\formallabel{UpperTheory.V.Kum.extCocycle}
+\end{lemma}
+
+\begin{proof}
+As in the proof of \cref{pf:vwin-he:resinj} choose $\gamma\in G_F$ such that $\vwinhecyc(\gamma)$ generates a dense
+subgroup of $\vwinhecyc(G_F)$; since $\vwinhecyc(G_F)\cong\Gal(F(\mu_{\ell^\infty})/F)$ is infinite,
+$\vwinhecyc(\gamma)$ has infinite order. Let $C$ be the closure of the group generated by $\gamma$. Since $\vwinhecyc(C)$
+is compact and contains the powers of $\vwinhecyc(\gamma)$, $\vwinhecyc(C)=\vwinhecyc(G_F)$, so $G_F=C\cdot U_\infty(F)$.
+Put $z(cu)=c\varphi(u)$ for $c\in C$, $u\in U_\infty(F)$. This is well defined: if $cu=c'u'$, then
+$c'^{-1}c=u'u^{-1}\in C\cap U_\infty(F)$, on which $\varphi$ vanishes by \cref{pf:vwin-he:vanish}; hence
+$\varphi(u')=\varphi(u)$, and $c\varphi(u)=c'\varphi(u)$ since $c'^{-1}c$ acts trivially. The multiplication map
+$C\times U_\infty(F)\to G_F$ is a continuous surjection of compact spaces, hence a quotient map, and
+$(c,u)\mapsto c\varphi(u)$ is continuous; so $z$ is continuous. For $c,c'\in C$ and $u,u'\in U_\infty(F)$,
+$cu\cdot c'u'=cc'\cdot(c'^{-1}uc')u'$, and using $\varphi(u)=c'\varphi(c'^{-1}uc')$ and the triviality of the action of
+$u$,
+\[
+ z(cuc'u')=cc'\varphi(c'^{-1}uc')+cc'\varphi(u')=c\varphi(u)+cu\cdot c'\varphi(u')=z(cu)+cu\,z(c'u').
+\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[Local triviality above $\ell$]\label{pf:vwin-he:deccob}
+Assume that $e\ne0$ and that $F$ is procyclic at $\ell$. Let $A$ be a valuation ring of $\Omega$ above a place $v$ of $F$
+above $\ell$, and $z:G_F\to\vwinheQZ(-e)$ a continuous cocycle vanishing on $D_A\cap U_\infty(F)$. Then the restriction
+of $z$ to $D_A$ is a coboundary.
+\formallabel{UpperTheory.V.Kum.decCob}
+\end{lemma}
+
+\begin{proof}
+$D_A$ is closed in $G_F$, hence compact, and $\vwinhecyc(D_A)$ is open in $\Zl^\times$
+(\lref{UpperTheory.V.LDataCardLeFinrank.isOpen_decImage}; indeed $D_A$ is the Galois group of the completion
+$F_v$, and $[F_v(\mu_{\ell^n}):F_v]\ge\ell^{n-1}(\ell-1)/[F_v:\Ql]$, so $\vwinhecyc(D_A)$ is a closed subgroup of finite
+index). As in the proof of \cref{pf:vwin-he:resinj}, it has a topological generator $\vwinhecyc(g_0)$, $g_0\in D_A$,
+which has infinite order since $\vwinhecyc(D_A)$ is infinite; so $\vwinhecyc(g_0)^{-e}\ne1$ and $m\mapsto g_0m-m$ is
+surjective. Apply \cref{pf:vwin-he:cob} to $\Gamma=D_A$ and $\omega=\vwinhecyc|_{D_A}$.
+\end{proof}
+
+\begin{lemma}[Image of the restriction]\label{pf:vwin-he:resimage}
+If $e\ne0$ and $F$ is procyclic at $\ell$, then $\mathrm{res}(\Sha_D(e))=\mathcal E_e(F)$.
+\formallabel{UpperTheory.V.Kum.resInfMem}
+\formallabel{UpperTheory.V.Kum.resInfOnto}
+\end{lemma}
+
+\begin{proof}
+Let $z$ be a cocycle of $G_{F,S}$ representing a class of $\Sha_D(e)$, viewed as a cocycle of $G_F$, and
+$\varphi=\mathrm{res}(z)$. Since $U_\infty(F)$ acts trivially, $\varphi$ is a homomorphism, and it is locally constant.
+It vanishes on $I_A$ for $A$ not above $\ell$, since $z$ is inflated from $G_{F,S}$. For $A$ above $\ell$, the
+restriction of $z$ to $D_A$ is a coboundary $g\mapsto gm-m$ (for the places $A_v$ of the datum by definition, and for
+the other places above $\ell$ because they are conjugate to these), which vanishes on $D_A\cap U_\infty(F)$; this
+includes $I_A\subset D_A$. Finally, for $g\in G_F$ and $u\in U_\infty(F)$ the cocycle relation and the triviality of
+the action of $u$ give $z(gug^{-1})=z(g)+g\,z(u)-gug^{-1}z(g)=g\,z(u)=\vwinhecyc(g)^{-e}z(u)$. So
+$\varphi\in\mathcal E_e(F)$.
+
+Conversely let $\varphi\in\mathcal E_e(F)$. By \cref{pf:vwin-he:ext} (with $M=\vwinheQZ(-e)$) there is a continuous
+cocycle $z$ of $G_F$ extending $\varphi$. For $A$ not above $\ell$, the inertia group $I_A$ is contained in
+$U_\infty(F)$, as $\vwinhecyc$ is unramified outside $\ell$, and $\varphi$ vanishes on it; so $z$ vanishes on the closed
+normal subgroup generated by these inertia groups, which acts trivially on $\vwinheQZ(-e)$, and $z$ factors through a
+cocycle of $G_{F,S}$. For $A$ above $\ell$, $z$ vanishes on $D_A\cap U_\infty(F)$, so its restriction to $D_A$ is a
+coboundary by \cref{pf:vwin-he:deccob}. Hence the class of $z$ lies in $\Sha_D(e)$, and $\mathrm{res}(z)=\varphi$.
+\end{proof}
+
+\begin{lemma}[Descent]\label{pf:vwin-he:desc}
+Let $L_1\subset\Omega$ be a finite extension of $L_0$, procyclic at $\ell$, with Galois group
+$G_{L_1}=\Gal(\Omega/L_1)\subset G$, let $U\subset G$ be a closed normal subgroup with
+$U\cap\ker\vwinhecyc=G_{L_1}\cap\ker\vwinhecyc$, let $e\ne0$, and let $D$ be an $\ell$-datum for $L_1$. Then restriction
+to $U_\infty$ induces an isomorphism of $\Zl$-modules $\Sha_D(e)\cong\vwinheD_\ell(U)^{G_{L_1},e}$.
+\formallabel{UpperTheory.V.Tower.desc}
+\formallabel{UpperTheory.V.Tower.dinfTransport}
+\end{lemma}
+
+\begin{proof}
+The groups $U_\infty=U\cap\ker\vwinhecyc$ and $U_\infty(L_1)=G_{L_1}\cap\ker\vwinhecyc$ coincide, and for a valuation ring
+$A$ of $\Omega$ the inertia and decomposition groups of $A$ in $G_{L_1}$ are those in $G$ intersected with $G_{L_1}$;
+since $U_\infty\subset G_{L_1}$, the conditions defining $\vwinheD_\ell(U)$ (for $L_0$) and $\vwinheD_\ell(G_{L_1})$
+(for $L_1$) agree, and the two modules are the same set of functions on $U_\infty$. For $\varphi$ in this module,
+$g\ast_e\varphi=\varphi$ means $\vwinhecyc(g)^{-e}\varphi(g^{-1}ug)=\varphi(u)$ for all $u$; for all $g\in G_{L_1}$ this
+is the condition $\varphi(gug^{-1})=\vwinhecyc(g)^{-e}\varphi(u)$ defining $\mathcal E_e(L_1)$. By
+\cref{pf:vwin-he:resinj,pf:vwin-he:resimage} for $F=L_1$, restriction is an isomorphism
+$\Sha_D(e)\to\mathcal E_e(L_1)=\vwinheD_\ell(U)^{G_{L_1},e}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:vwin-he:step0}]
+Embed $L_1$ into $\Omega$ over $L_0$ and choose an $\ell$-datum $D$ for $L_1$. As $L_1\supset L_0$ contains a primitive
+$q$-th root of unity, $L_1$ is procyclic at $\ell$. By \cref{pf:vwin-he:layers}\ref{pf:vwin-he:layers-b},
+$V:=G_{L_1}=G(c_0+m)$, and $V\cap\ker\vwinhecyc=G\cap\ker\vwinhecyc$. \Cref{pf:vwin-he:desc} with $U=G$ gives
+$\Sha_D(e)\cong\vwinheD^{V,e}$, where $\vwinheD=\vwinheD_\ell(G)$. By
+\cref{pf:vwin-he:layers}\ref{pf:vwin-he:layers-c}, $\gamma'=\gamma^{\ell^m}$ lies in $V$ and $\vwinhecyc(V)$ is contained in the
+closure of the group generated by $\vwinhecyc(\gamma')$; by
+\cref{pf:vwin-he:dinf-basic}\ref{pf:vwin-he:dinf-gen}, $\vwinheD^{V,e}=\ker g$ for the endomorphism
+$g=\gamma'^{-1}\ast_e-1$ of $\vwinheD$. Hence $\mathrm{shaLen}(L_1,\ell,e)=\len_{\Zl}\Sha_D(e)=\len_{\Zl}\ker g$. On
+$\vwinheXX_\ell(G)=\vwinheD^\vee$ we have $t^{\ell^m}=\gamma'\ast_e$, and for $x\in\vwinheD^\vee$ and
+$\varphi\in\vwinheD$,
+\[
+ \bigl((t^{\ell^m}-1)x\bigr)(\varphi)=x(\gamma'^{-1}\ast_e\varphi)-x(\varphi)=x(g\varphi),
+\]
+i.e.\ $t^{\ell^m}-1=g^\vee$. By \cref{pf:vwin-he:dual}\ref{pf:vwin-he:dual-d},
+$\vwinhecoker(t^{\ell^m}-1)=\len_{\Zl}\ker g$.
+\end{proof}
+
+\begin{remark}\label{pf:vwin-he:rem-descent}
+(1) The formula holds for all $e\ne0$, of either sign, and for $\ell=2$ (under the assumption $\mu_4\subset L_0$, which
+is what makes $\Gal(L_0(\mu_{2^\infty})/L_0)$ procyclic). No finiteness is assumed: both sides may be infinite.
+(2) The module $\vwinheXX_\ell(G)$ is the full $\Zl$-dual of $\vwinheD_\ell(G)$, i.e.\ the double dual of $X'_\infty$;
+no topology on $\vwinheXX_\ell(G)$ is needed, since only lengths of cokernels enter.
+(3) An element $\gamma$ as in the theorem exists (\lref{UpperTheory.V.Tower.genGal}: the absolute Galois group of
+a number field which is procyclic at $\ell$ contains an element whose cyclotomic image topologically generates the
+image of the cyclotomic character).
+\end{remark}
+

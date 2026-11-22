@@ -1,0 +1,2195 @@
+\section{Eisenstein congruences for U(3) and GSp(4)}\label{sec:pf:eis}
+
+\providecommand{\eisQZ}{\Q_\ell/\Z_\ell}
+\providecommand{\eiscyc}{\chi_{\mathrm{cyc}}}
+\providecommand{\eisVt}{\widetilde V}
+\providecommand{\eisX}{\mathcal X}
+\providecommand{\eisGG}{\mathcal G_3}
+\providecommand{\eisv}{v_\ell}
+\providecommand{\eisrz}{r_0}
+\providecommand{\eiseis}{\mathrm{eis}}
+\providecommand{\eistr}{\delta}
+\providecommand{\eiscot}{\lambda^{\mathrm{cot}}}
+\providecommand{\eisKill}{\mathcal N}
+
+This section proves four results of the formal development \cite{LeanSource2026} which supply the automorphic
+inputs of the plus part of the window bound (\cref{sec:window:plus,sec:window:eis}). Two of them are counting
+statements in the sense of \cref{pf:vwin-he:countdef}:
+\begin{itemize}
+\item $\sfname{CountI}$, the bound for the lengths $V_\ell(\theta,j)$ of \cref{pf:vwin-he:V} in case I, summed over
+  primes $\ell$ (\cref{thm:window:countI}, restated and proved as \cref{pf:eis:main});
+\item $\sfname{CountV}$, the bound in case V (\cref{pf:eis:countV}).
+\end{itemize}
+The other two are automorphy statements:
+\begin{itemize}
+\item the symplectic automorphy statement $(\mathrm{Sp})$ of \cref{pf:vwin-he:autstmts}, which is the input of the
+  counts in cases II and III (\cref{pf:eis:sp});
+\item a density statement for automorphic points of unitary groups in three variables
+  (\cref{pf:eis:dense}), which enters the proofs of the unitary automorphy statements $(\mathrm{U}_{\mathrm{ord}})$
+  and $(\mathrm{U}_i)$ of \cref{pf:vwin-he:autstmts}.
+\end{itemize}
+All four are proved from the package $\sfname{HypothesesH'}$ of \cref{pf:vwin-he:H}; the counts use in addition
+Lemma K (\cref{thm:window:lemmaK}), the vanishing theorem $\sfname{KatoTwoW}$ (\cref{thm:kato}) and the unitary
+automorphy statements.
+
+\emph{The counts.} Both counts are proved by the quantitative form of Ribet's method \cite{Ribet1976}, in the
+setting of \cite{BellaicheChenevier2009}, described in steps (i)--(v) of \cref{sec:window:eis}. Fix a character
+$\theta$, a twist $j$ and an imaginary quadratic field $K$ with quadratic character $\eta$, and put
+$\Psi=\eiscyc^j\theta$. The Eisenstein representation $\eisrz=\Psi\oplus1\oplus\Psi^{-1}$ of $G_K$ extends to a
+homomorphism of $G_\Q$ into the group $\eisGG=\GL_3\rtimes\{\pm1\}$ of unitary type (\cref{pf:eis:GG}), and
+deformations of its reduction carry an action of the multiplicative group by conjugation with
+$\mathrm{diag}(t,1,t^{-1})$, that is, a grading. The group $\Sha_{\ell N}(\Q,\OO\otimes\eisQZ(\theta^{-1}\eiscyc^{-j}))$
+injects into the part of degree $-1$ of the cotangent space of a suitable deformation ring at the Eisenstein
+point (lower bound, by Lemma M$'$), and the length of that part is at most twice the sum of the valuations of
+$\tr r(\sigma)-\tr\eisrz(\sigma)$ over representatives $r$ of the orbits of the other characteristic-zero points
+(upper bound, by Lemma M, \cref{pf:vwin-he:lemmaM}). The hypotheses of Lemma M are verified using rigidity of
+these points, which in turn rests on their automorphy and, at the endoscopic points, on $\sfname{KatoTwoW}$. In
+case I the field is $K=K^*_\chi=\Q(\sqrt{-p_K(\chi)})$, the automorphic points are then counted by an Eisenstein
+congruence number, and two auxiliary primes allow the bound to be summed over $\ell$. In case V the field is
+$\Q(i)$ and the bound is for one prime at a time.
+
+\emph{Organisation.} \Cref{sec:pf:eis:conv} fixes conventions and introduces the group $\eisGG$, its Eisenstein
+representations, and the admissible three-dimensional representations. \Cref{sec:pf:eis:countI} proves
+$\sfname{CountI}$ from a \emph{number statement} (an Eisenstein congruence number for admissible
+representations, proved elsewhere) and a \emph{one-character statement}; the latter is proved in
+\cref{sec:pf:eis:onechar}, where the comparison of a Selmer group with a graded cotangent space is carried out.
+\Cref{sec:pf:eis:countV} proves $\sfname{CountV}$ by the same method over $\Q(i)$. \Cref{sec:pf:eis:dense} proves
+the density statement for unitary groups by symmetric squares of Eisenstein-congruent forms, and
+\cref{sec:pf:eis:sp} reduces $(\mathrm{Sp})$ to its five inputs. The proofs of the main results are complete
+down to a list of precisely stated results of the formal development which we cite; among them are the
+construction of the deformation rings, the verification of the conditions of Lemma M, an abstract counting
+lemma for host frames, and the potential modularity and automorphic induction statements behind $(\mathrm{Sp})$.
+
+% ---------------------------------------------------------------------------
+\subsection{Conventions, the group \texorpdfstring{$\eisGG$}{G3} and admissible representations}\label{sec:pf:eis:conv}
+
+\subsubsection{Galois groups, places and coefficients}
+
+We keep the conventions of \cref{sec:pf:vwin-he:counts}: $\Omega$ is an algebraic closure of $\Q$ and
+$G_\Q=\Gal(\Omega/\Q)$. For a number field $K$ given with an embedding into $\Omega$, $G_K=\Gal(\Omega/K)$ is
+identified with the closed subgroup of $G_\Q$ fixing $K$. Places of $\Omega$ are valuation subrings $A\subset\Omega$,
+with decomposition and inertia groups $D_A\supset I_A$ in $G_\Q$ (or in $G_K$); $A$ \emph{lies over} a prime $w$ of
+$K$ if an element $x\in\OO_K$ satisfies $v_A(x)<1$ if and only if $x\in w$. An element $\sigma\in D_A\cap G_K$ is a
+\emph{Frobenius element at $A$} if $v_A(\sigma x-x^{\Nm w})<1$ for all $x\in A$. For $M\ge1$, a homomorphism $\chi$ on
+$G_K$ \emph{has conductor dividing $M$} (in the sense of the development) if it is trivial on the elements of $G_K$
+fixing all $M$-th roots of unity, i.e.\ if it factors through $\Gal(K(\mu_M)/K)$.
+
+$\Qlbar$ is an algebraic closure of $\Ql$ with the absolute value extending $|\ell|=\ell^{-1}$, and
+\begin{equation}\label{pf:eis:vl}
+\eisv(x)=-\log_\ell|x|\qquad(x\in\Qlbar),
+\end{equation}
+so that $\eisv(\ell)=1$; with the convention $\log0=0$ of the development one has $\eisv(0)=0$, but $\eisv$ is only
+evaluated at non-zero arguments below. For $0\ne n\in\Z$, $\eisv(n)$ is the $\ell$-adic valuation of $n$. There exist
+field isomorphisms $\iota:\Qlbar\cong\C$ (both fields are algebraically closed of characteristic $0$ and of the
+cardinality of the continuum). Coefficient rings $\OO$, their ramification indices $e_\OO$, the lengths
+$V_\ell(\theta,j)$, $\eisVt_\ell(\theta,j)=\|V_\ell(\theta,j)\|_\OO$ and the convention $\|\infty\|_\OO=0$ are those of
+\cref{pf:vwin-he:coef,pf:vwin-he:V}; hosts $h$, the sets $\eisX_h(\OO,j)$, the components $\psi_{(r)}$, $\psi^\flat$,
+the cases and the statements $\sfname{CountI}$, \dots, $\sfname{CountV}$ are those of
+\cref{pf:vwin-he:host,pf:vwin-he:cases,pf:vwin-he:countdef}.
+
+For a Dirichlet character $\theta$ modulo $N$ with values in $\OO$ we write $\theta_G=\theta\circ\kappa_N$ as in
+\cref{pf:vwin-he:V}, and for $j\ge0$
+\begin{equation}\label{pf:eis:Psi}
+\Psi_{\theta,j}=\eiscyc^{\,j}\,\theta_G:G_\Q\to\OO^\times .
+\end{equation}
+For $\sigma\in G_\Q$ the \emph{Eisenstein trace} is $\Psi_{\theta,j}(\sigma)+1+\Psi_{\theta,j}(\sigma)^{-1}$. For
+$q\ge1$, $e\ge0$ and $z\in\C^\times$ put
+\begin{equation}\label{pf:eis:eis3}
+\eiseis_3(q,e,z)=q^{-e}z+1+q^{e}z^{-1}.
+\end{equation}
+If $K$ is a number field, $w$ a prime of $K$ above a prime $p\nmid N\ell$ with $\Nm w=q$, and $\sigma\in G_K$ a
+Frobenius element at a place above $w$, then $\kappa_N(\sigma)=q$ and $\eiscyc(\sigma)=q$, so that
+$\Psi_{\theta,j}(\sigma)=q^j\theta(q)$, and $\iota$ carries the Eisenstein trace at $\sigma^{-1}$ to
+$\eiseis_3(q,j,\iota(\theta(q))^{-1})$.
+
+A representation $r:\Gamma\to\GL_n(k)$ of a group over a field is \emph{irreducible} if $k^n$ has no
+$\Gamma$-stable subspace other than $0$ and $k^n$; if $\Gamma$ is topological, $r$ is \emph{irreducible on open
+subgroups} if its restriction to every open subgroup is irreducible. Two representations $r,r'$ are
+\emph{isomorphic} if $r'=grg^{-1}$ for some $g\in\GL_n(k)$.
+
+\subsubsection{Automorphy and level}
+
+\begin{definition}[Automorphy and level]\label{pf:eis:autlevel}
+Let $F$ be a number field, $\ell$ a prime, $\iota:\Qlbar\cong\C$ and $r:G_F\to\GL_n(\Qlbar)$. We use the following
+notions of the development; they are only needed to state the results below.
+\begin{enumerate}[label=(\alph*)]
+\item $r$ is \emph{attached via $\iota$} to a cuspidal automorphic representation $\pi$ of $\GL_n(\A_F)$ if at
+  almost all finite places $v$, $\pi_v$ is unramified, $r$ is unramified at $v$ and the characteristic polynomial
+  of $r(\Frob_v)$ corresponds under $\iota$ to the Satake parameters of $\pi_v$.
+\item For $F$ CM, $r$ is \emph{automorphic of conjugate self-dual type} if it is attached via $\iota$ to a regular
+  algebraic cuspidal $\pi$ with $\pi^\vee\cong\pi^c$; and $r$ satisfies the \emph{window condition} if, in addition,
+  for every such $\pi$ attached to $r$ there is $t\in\R$ such that at all finite places $v\nmid\ell$, and at the places
+  $v\mid\ell$ at which $r$ has a potentially unlinked flag (no power of a ratio of two diagonal characters equals the
+  same power of $\eiscyc$), $\pi_v$ has cuspidal support in the diagonal torus and the characters $\xi$ of this
+  support satisfy $\Nm v^{t-1/2}<|\xi(\varpi_v)|<\Nm v^{t+1/2}$; and at places $v\mid\ell$ an unlinked flag
+  (defined in (c)) is potentially unlinked. We write
+  $\mathcal A_\iota(r)$ for: $r$ is automorphic of conjugate self-dual type, and if $r$ is continuous it satisfies
+  the window condition.
+\item Let $M\ge1$ and $m=(m_1,\dots,m_n)\in\Z^n$. $r$ has \emph{level $M$ and type $m$} if $r$ is continuous; at each
+  finite place $w\nmid\ell$ some inertia group at $w$ acts on $\Qlbar^n$ diagonally through characters of conductor
+  dividing $M$; and at each $w\mid\ell$, on some decomposition group $D_A$ at $w$, $r$ is upper triangular with
+  diagonal characters $\kappa_1,\dots,\kappa_n$ such that $\kappa_i=\eiscyc^{m_i}\chi_i$ on $I_A$ with $\chi_i$ of
+  conductor dividing $M$, and either $\kappa_i\ne\kappa_j\eiscyc$ for all $i,j$, or $r$ is potentially crystalline at
+  $A$. Such a flag is \emph{unlinked} if $\kappa_i\ne\kappa_j\eiscyc$ for all $i,j$; $r$ is \emph{unlinked of level $M$ and
+  type $m$} if at every $w\mid\ell$ such an unlinked flag exists.
+\item A newform $f$ of weight $k$ is \emph{attached via $\iota$} to $V:G_\Q\to\GL_2(\Qlbar)$ if $V$ is semisimple and
+  for almost all primes $p$, $V$ is unramified at $p$ and $\iota$ carries the characteristic polynomial of
+  $V(\Frob_p^{-1})$ to the Hecke polynomial of $f$ at $p$.
+\end{enumerate}
+\formal{UpperTheory.V.Z.Win.IsAutCsdA}
+\formal{UpperTheory.V.Af.Level}
+\formal{UpperTheory.V.Th.Unl}
+\end{definition}
+
+\subsubsection{The group \texorpdfstring{$\eisGG$}{G3} and its Eisenstein representations}
+
+\begin{definition}[The group $\eisGG$, weights and Eisenstein representations]\label{pf:eis:GG}
+Let $R$ be a commutative ring and $J\in\GL_3(R)$ the antidiagonal matrix with entries $1$. Let
+$\vartheta(g)=J\,{}^tg^{-1}J$ for $g\in\GL_3(R)$, an involutive automorphism, and
+$\eisGG(R)=\GL_3(R)\rtimes\{\pm1\}$, where $-1$ acts by $\vartheta$. For $x=(g,s)$ write $\mathrm{mat}(x)=g$ and
+$\nu(x)=s$. The \emph{weights} of the basis vectors are $w(1)=1$, $w(2)=0$, $w(3)=-1$, and the weight of the matrix
+entry $(a,b)$ is $w(a,b)=w(a)-w(b)$. For $t\in R^\times$ let $\tau(t)=\mathrm{diag}(t,1,t^{-1})$; conjugation by $\tau(t)$
+multiplies the $(a,b)$ entry by $t^{w(a,b)}$, and $\vartheta(\tau(t))=\tau(t)$.
+
+Let $\Gamma$ be a group, $\eta:\Gamma\to\{\pm1\}$ and $\Psi:\Gamma\to R^\times$ homomorphisms. The \emph{Eisenstein
+representation} is
+\[
+ \eisrz(\eta,\Psi):\Gamma\to\eisGG(R),\qquad g\mapsto\bigl(\tau(\Psi(g)),\eta(g)\bigr).
+\]
+For a homomorphism $r:\Gamma\to\eisGG(R)$ we say that $r$ \emph{has multiplier $\eta$} if $\nu\circ r=\eta$, and we write
+$r_K$ for the restriction of $\mathrm{mat}\circ r$ to $\ker\eta$ (a homomorphism $\ker\eta\to\GL_3(R)$). Assume $R$ is a field and
+$r$ has multiplier $\eta$. Then $r$ is
+\begin{itemize}
+\item \emph{upper} (resp.\ \emph{lower}) if the entries of $\mathrm{mat}(r(g))$ of negative (resp.\ positive) weight vanish for
+  $g\in\ker\eta$;
+\item \emph{of type I} if $r_K$ is irreducible;
+\item \emph{of type II} if the entries of odd weight of $\mathrm{mat}(r(g))$ vanish for $g\in\ker\eta$ and the $2\times2$ matrix
+  formed by the entries $(1,1),(1,3),(3,1),(3,3)$ (the \emph{corner}) is an irreducible representation of $\ker\eta$.
+\end{itemize}
+The \emph{adjoint representation} of $\eisGG(R)$ on $M_3(R)$ is $x\cdot X=\mathrm{mat}(x)\,X'\,\mathrm{mat}(x)^{-1}$, where $X'=X$ if
+$\nu(x)=1$ and $X'=-J\,{}^tX\,J$ if $\nu(x)=-1$. Let $\mathfrak g_j\subset M_3(R)$ be the matrices supported on entries of
+weight $j$.
+\formal{UpperTheory.V.U3.r0}
+\end{definition}
+
+The restriction of $\eisrz(\eta,\Psi)$ to $\ker\eta$ is $\Psi\oplus1\oplus\Psi^{-1}$. If $K$ is an imaginary quadratic
+field with quadratic character $\eta$ of $G_\Q$ and $r:G_\Q\to\eisGG(R)$ has multiplier $\eta$, then $r_K$ is a
+representation of $G_K$; this is the passage between representations of $G_\Q$ into $\eisGG$ and three-dimensional
+representations of $G_K$ of unitary type used throughout.
+
+\begin{definition}[Admissible three-dimensional representations]\label{pf:eis:adm}
+Let $K$ be an imaginary quadratic field, $\ell$ a prime, $\iota:\Qlbar\cong\C$, $e,N,M\ge1$ and
+$\rho:G_K\to\GL_3(\Qlbar)$.
+\begin{enumerate}[label=(\alph*)]
+\item $\rho$ is \emph{admissible of unitary type} (for $\iota,e,N$) if $\rho$ is irreducible, $\mathcal A_\iota(\rho\otimes\eiscyc^{-1})$
+  holds, and $\rho$ has level $N$ and type $(e,0,-e)$ and is unlinked of level $N$ and type $(e,0,-e)$.
+  \formal{UpperTheory.V.Z.J.Adm3U_s}
+\item $\rho$ is \emph{endoscopic} (for $\iota,e,M$) if there is an irreducible $W:G_\Q\to\GL_2(\Qlbar)$ such that a
+  newform of weight $2e+1$ is attached via $\iota$ to $W\otimes\eiscyc^{-e}$; $W$ satisfies the window condition
+  $\sfname{WitAQ}(\iota,W)$ of \cref{def:window:kato}; $W$ has level $M$ and type $(e,-e)$; $\det W$ is a character of
+  finite order with conductor dividing some $M'\ge1$; and $\rho$ is isomorphic to
+  \[
+   s\longmapsto\begin{pmatrix}W(s)_{11}&0&W(s)_{12}\\0&1&0\\W(s)_{21}&0&W(s)_{22}\end{pmatrix}.
+  \]
+  \formal{UpperTheory.V.Z.Win.Dn.Adm2A}
+\end{enumerate}
+We say that $\rho$ is \emph{admissible} if it satisfies (a) for $(\iota,e,N)$ or (b) for $(\iota,e,N|d_K|)$.
+\end{definition}
+
+The endoscopic representations are the type II points of the deformation problems below; the admissible
+representations of unitary type are the type I points.
+
+% ---------------------------------------------------------------------------
+\subsection{Case I: from one character to all primes}\label{sec:pf:eis:countI}
+
+\begin{theorem}[\cref{thm:window:countI}]\label{pf:eis:main}
+Assume $\sfname{HypothesesH'}$, $\sfname{LemmaK}(C_K)$ for some $C_K\in\R$, $\sfname{KatoTwoW}$ and the unitary automorphy
+statement with unramified coefficients $(\mathrm{U}_{\mathrm{ur}})$ (\cref{pf:eis:Uur}). Then $\sfname{CountI}$ holds.
+\formallabel{UpperTheory.V.Z.J.count_i_of_printed_bound_k_kato_automorphy}
+\end{theorem}
+
+The proof is given at the end of \cref{sec:pf:eis:onechar}. In this subsection we reduce $\sfname{CountI}$ to two
+statements about a single imaginary quadratic field $K$ and a single prime $p$: a number statement, which is proved
+elsewhere in the development, and a one-character statement, which is proved in \cref{sec:pf:eis:onechar}.
+
+\subsubsection{Genericity, and the two statements}
+
+\begin{definition}[Genericity conditions]\label{pf:eis:GD}
+Let $K\subset\Omega$ be a number field, $\ell$ a prime, $e\in\N$, $N\ge1$, and $\psi$ a Dirichlet character modulo $N$ with
+values in a commutative ring. We say that $\mathrm{GD}(K,\ell,e,\psi)$ holds if:
+\begin{enumerate}[label=(G\arabic*)]
+\item $\ell\ne2$, $e\ge1$ and $N$ is even;
+\item $\ell\nmid\ord\psi$ and $\psi_{(\ell)}^2=1$;
+\item $\psi(-1)=(-1)^e$;
+\item $K$ is imaginary quadratic, $\ell\nmid|d_K|h_K$ and $\gcd(|d_K|,N)=1$;
+\item the subgroup $\ker(\eiscyc\bmod\ell)\cap\ker\bigl((\psi^\flat)_G\bigr)$ of $G_\Q$ is not contained in $G_K$;
+\item $(\ell-1)\nmid2e$.
+\end{enumerate}
+\formal{UpperTheory.V.HV.GD}
+\end{definition}
+
+Condition (G5) says that $K$ is not contained in the field cut out by $\eiscyc\bmod\ell$ and $\psi^\flat$. For a
+subgroup $H\subset(\Z/N)^\times$ and a coefficient ring $\OO$ let $\mathrm{orb}(\OO,H)$ be the finite set of Dirichlet
+characters modulo $N$ with values in $\OO$ whose kernel (on $(\Z/N)^\times$) is exactly $H$.
+
+\begin{definition}[Number statement]\label{pf:eis:number}
+$(\mathrm{Num})$ is the statement: for every imaginary quadratic field $K$ there are $c,A\in\N$ with the following
+property. Let $e\ge1$, $N\ge1$, $p\ge7$ a prime with $p\nmid N$ and $p\nmid d_K$, $w$ a prime of $K$ above $p$, and
+$(z_o)_{o\in\mathcal O}$ a finite family of complex roots of unity which is stable under $\Aut(\C)$ (for every
+$\sigma\in\Aut(\C)$ there is a permutation $u$ of $\mathcal O$ with $z_{u(o)}=\sigma(z_o)$). Then there is an integer
+$\mathcal N\ne0$ with
+\[
+ \log|\mathcal N|\le c\cdot\#\mathcal O\cdot(N(e+1))^A\log p
+\]
+such that for every prime $\ell\notin\{2,p\}$, every $\Omega$ and $\iota:\Qlbar\cong\C$, every place $B$ of $\Omega$ over $w$, every
+Frobenius element $\sigma\in G_K$ at $B$, and every family $(X_o)_{o\in\mathcal O}$ of finite sets of admissible
+representations $G_K\to\GL_3(\Qlbar)$ (\cref{pf:eis:adm}, for $\iota,e,N$), pairwise non-isomorphic within each
+$X_o$, one has $\tr\rho(\sigma^{-1})\ne\iota^{-1}\eiseis_3(\Nm w,e,z_o)$ for $o\in\mathcal O$, $\rho\in X_o$, and
+\[
+ |\mathcal N|_\ell\ \le\ \prod_{o\in\mathcal O}\ \prod_{\rho\in X_o}\bigl|\tr\rho(\sigma^{-1})-\iota^{-1}\eiseis_3(\Nm w,e,z_o)\bigr|_\ell .
+\]
+\formal{UpperTheory.V.Z.J.NumberU3U_s}
+\end{definition}
+
+$(\mathrm{Num})$ follows from the part of $\sfname{HypothesesH'}$ consisting of classical theorems
+(\lref{UpperTheory.GalN.V.Win.N.numberU3U_of_prints}: this part of the package implies $(\mathrm{Num})$). It is the
+\emph{Eisenstein congruence number} of step (iv) of \cref{sec:window:eis}.
+
+\begin{definition}[One-character statement]\label{pf:eis:onecharstmt}
+$(\mathrm{One})$ is the statement: let $K\subset\Omega$ be imaginary quadratic, $\ell$ a prime, $\OO$ a coefficient ring,
+$N\ge1$, $e\in\N$ and $\psi$ a Dirichlet character modulo $N$ with values in $\OO$ such that $\mathrm{GD}(K,\ell,e,\psi)$
+holds; put $\Psi=\Psi_{\psi,e}$. Let $\iota:\Qlbar\cong\C$, $\sigma\in G_K$ and $t=\Psi(\sigma)+1+\Psi(\sigma)^{-1}$, and assume
+that $\tr\rho(\sigma)\ne t$ for every admissible $\rho:G_K\to\GL_3(\Qlbar)$. Then $V_\ell(\psi,e)<\infty$, and there is a
+finite set $X$ of pairwise non-isomorphic admissible representations such that
+\[
+ \eisVt_\ell(\psi,e)\ \le\ 2\sum_{\rho\in X}\eisv\bigl(\tr\rho(\sigma)-t\bigr).
+\]
+\formallabel{UpperTheory.V.Z.J.OneCharU_s}
+\end{definition}
+
+\begin{definition}[$\sfname{PropGK}$ and $\sfname{PropGK}^{\Sigma}$]\label{pf:eis:propGK}
+\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item $\sfname{PropGK}$: for every number field $K$ there are $c_5,A\in\N$ with the following property. Let $e,N\ge1$,
+  $H\subset(\Z/N)^\times$ a subgroup and $p$ a prime with $p\nmid30N|d_K|$. There is an integer $\mathcal N\ne0$ with
+  $\log|\mathcal N|\le c_5\,\varphi([(\Z/N)^\times:H])\,(N(e+1))^A\log p$ such that for every $\Omega\supset K$, every prime
+  $\ell\ne p$ and every coefficient ring $\OO$ for $\ell$: if some $\psi\in\mathrm{orb}(\OO,H)$ satisfies
+  $\mathrm{GD}(K,\ell,e,\psi)$, then $V_\ell(\psi,e)<\infty$ for all $\psi\in\mathrm{orb}(\OO,H)$ and
+  \[\textstyle\sum_{\psi\in\mathrm{orb}(\OO,H)}\eisVt_\ell(\psi,e)\le2\,\eisv(\mathcal N).\]
+\item $\sfname{PropGK}^{\Sigma}$: for every number field $K$ there are $c_5,A\in\N$ with the following property. Let $\Omega\supset K$,
+  $e,N\ge1$, $H\subset(\Z/N)^\times$, $p\ne p'$ primes not dividing $30N|d_K|$, $\OO_\ell$ a coefficient ring for each prime
+  $\ell$, and $L$ a finite set of primes such that for each $\ell\in L$ some $\psi\in\mathrm{orb}(\OO_\ell,H)$ satisfies
+  $\mathrm{GD}(K,\ell,e,\psi)$. Then $V_\ell(\psi,e)<\infty$ for $\ell\in L$ and $\psi\in\mathrm{orb}(\OO_\ell,H)$, and
+  \[
+   \sum_{\ell\in L}\log\ell\sum_{\psi\in\mathrm{orb}(\OO_\ell,H)}\eisVt_\ell(\psi,e)\ \le\
+   2c_5\,\varphi([(\Z/N)^\times:H])\,(N(e+1))^A(\log p+\log p').
+  \]
+\end{enumerate}
+\formallabel{UpperTheory.V.U3.PropGK}
+\formallabel{UpperTheory.V.U3.CorGK}
+\end{definition}
+
+\subsubsection{Characters with a given kernel}
+
+\begin{lemma}\label{pf:eis:orb}
+Let $\OO$ be a domain, $N\ge1$ and $\psi$ a Dirichlet character modulo $N$ with values in $\OO$. Then
+$[(\Z/N)^\times:\ker\psi]=\ord\psi$; the quotient $(\Z/N)^\times/\ker\psi$ is cyclic; a character $\psi'$ modulo $N$ with
+values in $\OO$ has $\ker\psi'=\ker\psi$ if and only if $\psi'=\psi^j$ for some $j$ prime to $\ord\psi$; and there are
+exactly $\varphi(\ord\psi)$ such characters.
+\formallabel{UpperTheory.V.HV.orbFacts}
+\end{lemma}
+
+\begin{proof}
+$\psi$ induces an injection of $C=(\Z/N)^\times/\ker\psi$ into $\OO^\times$, and finite subgroups of the unit group of a
+domain are cyclic; so $C$ is cyclic, of order $n=\#\psi((\Z/N)^\times)=\ord\psi$. Let $g$ generate $C$; then $\zeta=\psi(g)$
+is a primitive $n$-th root of unity, and the $n$-th roots of unity of $\OO$ are the powers of $\zeta$ (a domain has at
+most $n$ of them). If $\ker\psi'=\ker\psi$, then $\psi'$ is injective on $C$, so $\psi'(g)$ has order $n$ and equals
+$\zeta^j$ with $\gcd(j,n)=1$, whence $\psi'=\psi^j$; the converse is clear. Finally $j\mapsto\psi^j$ induces a bijection
+from $(\Z/n)^\times$ onto the set of these characters.
+\end{proof}
+
+\begin{lemma}\label{pf:eis:orbsum}
+Let $\Gamma$ be a finite abelian group and $T$ a finite set of subgroups $H\subset\Gamma$ with $\Gamma/H$ cyclic. Then
+$\sum_{H\in T}\varphi([\Gamma:H])\le\#\Gamma$.
+\formallabel{UpperTheory.V.HV.orbSum}
+\end{lemma}
+
+\begin{proof}
+If $\Gamma/H$ is cyclic of order $n$, the characters $\Gamma\to\C^\times$ with kernel exactly $H$ correspond to the
+injective characters of $\Gamma/H$, which send a generator to a primitive $n$-th root of unity; there are $\varphi(n)$ of
+them. The sets of characters with kernel $H$, $H\in T$, are disjoint, and $\#\Hom(\Gamma,\C^\times)=\#\Gamma$.
+\end{proof}
+
+\begin{lemma}\label{pf:eis:gdorb}
+If $\mathrm{GD}(K,\ell,e,\psi)$ holds and $\psi'$ is a character modulo $N$ with values in the same domain and
+$\ker\psi'=\ker\psi$, then $\mathrm{GD}(K,\ell,e,\psi')$ holds.
+\formallabel{UpperTheory.V.HV.gdFacts}
+\end{lemma}
+
+\begin{proof}
+By \cref{pf:eis:orb}, $\psi'=\psi^j$ with $\gcd(j,\ord\psi)=1$, and $\ord\psi'=\ord\psi$. Conditions (G1), (G4), (G6) do not
+involve $\psi$. (G2): $\ell\nmid\ord\psi'$, and $\psi'_{(\ell)}=\psi_{(\ell)}^j$ since $\chi\mapsto\chi_{(\ell)}$ is a
+homomorphism, so $\psi'^2_{(\ell)}=1$. (G3): $\psi(-1)=\pm1$; if $\psi(-1)=-1$ then $\ord\psi$ is even and $j$ is odd, so
+$\psi'(-1)=\psi(-1)^j=\psi(-1)$. (G5): the decomposition of a character into its parts of $\ell$-power order and of order
+prime to $\ell$ commutes with taking $j$-th powers, and so does $\chi\mapsto\chi_{(\ell)}$; hence
+$\psi'^\flat=(\psi^\flat)^j$. As $\ord\psi^\flat$ divides $\ord\psi$, $j$ is prime to it and $\ker(\psi'^\flat)_G=\ker(\psi^\flat)_G$.
+\end{proof}
+
+\begin{remark}\label{pf:eis:gdrem}
+The formal statement \cref{pf:eis:gdorb} contains in addition several elementary consequences of
+$\mathrm{GD}(K,\ell,e,\psi)$ which are not used in this section: $\ell\ge5$, $\psi$ has order prime to $\ell$,
+$\psi=\psi^\flat\psi_{(\ell)}$, $(\psi^\flat)_{(\ell)}=1$, $\ell\nmid\ord\psi^\flat$, and if $\psi_{(\ell)}\ne1$ then $\ell\mid N$ and
+$\psi_{(\ell)}$ has conductor $\ell$; moreover $\psi'_{(\ell)}=\psi_{(\ell)}$ for $\psi'$ as in the lemma.
+\end{remark}
+
+\begin{lemma}[Genericity in case I]\label{pf:eis:gdhost}
+Let $h=(\chi,m,q_1,d)$ be a host which is big for $t$, $K^*=K^*_\chi=\Q(\sqrt{-p_K(\chi)})\subset\Omega$, $\ell\ne2$ a prime and
+$0<e<t$ such that $(\ell,e)$ is in case I. Let $\theta$ be a Dirichlet character modulo $N_h$ with values in a domain,
+trivial on $H_h$, with $\theta(-1)=(-1)^e$. Then $\mathrm{GD}(K^*,\ell,e,\theta)$ holds.
+\formallabel{UpperTheory.V.HV.gdOfHost}
+\end{lemma}
+
+\begin{proof}
+Write $p_K=p_K(\chi)$, a prime with $p_K\equiv3\bmod4$ (\lref{UpperTheory.V.pK_pOne_prime_conditions}: $p_K(\chi)$ is a
+prime $\equiv3\bmod4$, $\ge7$, prime to $N_\chi$). By \lref{UpperTheory.V.HV.kstar} ($K^*$ has discriminant $-p_K$, is
+totally complex and of degree $2$) $K^*$ is imaginary quadratic with $|d_{K^*}|=p_K$. We use two shared facts on
+hosts: \lref{UpperTheory.V.HV.bchiFacts} (for $h$ big for $t$: $p_K\in B_\chi$, $p_K\nmid N_h$, and every odd prime
+$\ell\notin B_\chi$ satisfies $\ell\ne p_K$ and $\ell\nmid h^*(\chi)$, besides other properties) and
+\lref{UpperTheory.V.HV.cases} (for $h$ big for $t$, $\ell\ne2$, $0<e<t$ and $\theta$ trivial on $H_h$: if $\ell\notin B_\chi$ then
+$\ell\nmid\ord\theta$ and $\theta_{(\ell)}^2=1$, besides other properties). Now (G1) holds since $2^{m+2}\mid N_h$; (G2) by
+\lref{UpperTheory.V.HV.cases}, as $\ell\notin B_\chi$ in case I; (G3) by hypothesis; (G4) since $\ell\ne p_K$,
+$\ell\nmid h^*(\chi)=h_{K^*}$ and $p_K\nmid N_h$; (G6) is part of case I. For (G5) let $A$ be a place of $\Omega$ above $p_K$. Since
+$K^*$ is ramified at $p_K$, $I_A\not\subset G_{K^*}$ (\lref{UpperTheory.V.HV.kstarRam}). Since $\ell\ne p_K$ and $p_K\nmid N_h$, the
+cyclotomic characters $\eiscyc$ and $\kappa_{N_h}$ are trivial on $I_A$, so $I_A\subset\ker(\eiscyc\bmod\ell)\cap\ker(\theta^\flat)_G$,
+and this subgroup is not contained in $G_{K^*}$.
+\end{proof}
+
+\subsubsection{The reductions}
+
+\begin{proposition}\label{pf:eis:propGKpf}
+$(\mathrm{Num})$ and $(\mathrm{One})$ imply $\sfname{PropGK}$.
+\formallabel{UpperTheory.V.Z.J.propGK_of_numberU3U_of_oneCharU}
+\end{proposition}
+
+\begin{proof}
+Let $K$ be a number field. If $K$ is not imaginary quadratic, take $c_5=A=0$ and $\mathcal N=1$; the hypothesis of the
+conclusion is never satisfied, since $\mathrm{GD}$ requires $K$ to be imaginary quadratic. Otherwise let $c,A$ be the
+constants of $(\mathrm{Num})$ for $K$, and put $c_5=c$.
+
+Let $e,N,H,p$ be given with $p\nmid30N|d_K|$; then $p\nmid N$, $p\nmid d_K$ and $p\ge7$. Choose a prime $w$ of $K$ above $p$; its
+norm $q=\Nm w$ is a power of $p$, hence prime to $N$. Let $\mathcal O$ be the set of complex Dirichlet characters $\chi$
+modulo $N$ with kernel $H$, and $z_\chi=\chi(q)^{-1}$, a root of unity; for $\sigma\in\Aut(\C)$, $\chi\mapsto\sigma\circ\chi$ permutes
+$\mathcal O$ and $z_{\sigma\circ\chi}=\sigma(z_\chi)$. By \cref{pf:eis:orb}, $\#\mathcal O\le\varphi([(\Z/N)^\times:H])$ ($\mathcal O$ is empty
+or consists of the $\varphi(\ord\chi)$ characters with the kernel of one of its elements). $(\mathrm{Num})$ gives
+$\mathcal N\ne0$ with $\log|\mathcal N|\le c\,\#\mathcal O\,(N(e+1))^A\log p\le c_5\varphi([(\Z/N)^\times:H])(N(e+1))^A\log p$, and
+the last assertion of \cref{pf:eis:number}, which we call (P), for all $\ell\notin\{2,p\}$.
+
+Now let $\Omega$, $\ell\ne p$ and $\OO$ be given, and $\psi_0\in\mathrm{orb}(\OO,H)$ with $\mathrm{GD}(K,\ell,e,\psi_0)$; in particular
+$\ell\ne2$. Choose $\iota:\Qlbar\cong\C$, a place $B$ of $\Omega$ over $w$ and a Frobenius element $\sigma\in G_K$ at $B$. The map
+$E:\psi\mapsto\iota\circ\psi$ is a bijection from $\mathrm{orb}(\OO,H)$ onto $\mathcal O$: it is injective and maps into $\mathcal O$ since
+$\iota$ is injective, and every $\chi\in\mathcal O$ is a power $(\iota\circ\psi_0)^j=E(\psi_0^j)$ with $j$ prime to the order, by
+\cref{pf:eis:orb}. Let $\psi\in\mathrm{orb}(\OO,H)$. By \cref{pf:eis:gdorb}, $\mathrm{GD}(K,\ell,e,\psi)$ holds. Put
+$t_\psi=\iota^{-1}\eiseis_3(q,e,z_{E(\psi)})$; by the computation following \eqref{pf:eis:eis3},
+$t_\psi=\Psi_{\psi,e}(\sigma^{-1})+1+\Psi_{\psi,e}(\sigma^{-1})^{-1}$. Applying (P) to the families with $X_o=\{\rho\}$ for one
+admissible $\rho$ shows $\tr\rho(\sigma^{-1})\ne t_\psi$ for every admissible $\rho$. Hence $(\mathrm{One})$, applied to $\psi$, $\iota$
+and $\sigma^{-1}$, gives $V_\ell(\psi,e)<\infty$ and a finite set $X_\psi$ of pairwise non-isomorphic admissible representations
+with $\eisVt_\ell(\psi,e)\le2\sum_{\rho\in X_\psi}\eisv(\tr\rho(\sigma^{-1})-t_\psi)$.
+
+Apply (P) to the family $X_o=X_{E^{-1}(o)}$: all the differences are non-zero and
+$|\mathcal N|_\ell\le\prod_o\prod_{\rho\in X_o}|\tr\rho(\sigma^{-1})-t_{E^{-1}(o)}|_\ell$. Since $|\mathcal N|_\ell=\ell^{-\eisv(\mathcal N)}$, taking
+$-\log_\ell$ gives $\sum_o\sum_{\rho\in X_o}\eisv(\tr\rho(\sigma^{-1})-t_{E^{-1}(o)})\le\eisv(\mathcal N)$. Summing the bounds for
+$\eisVt_\ell(\psi,e)$ over $\psi$ and reindexing by $E$,
+\[
+ \sum_{\psi\in\mathrm{orb}(\OO,H)}\eisVt_\ell(\psi,e)\le2\sum_{o\in\mathcal O}\sum_{\rho\in X_o}\eisv\bigl(\tr\rho(\sigma^{-1})-t_{E^{-1}(o)}\bigr)
+ \le2\,\eisv(\mathcal N).\qedhere
+\]
+\end{proof}
+
+\begin{proposition}\label{pf:eis:corGK}
+$\sfname{PropGK}$ implies $\sfname{PropGK}^{\Sigma}$, with the same constants.
+\formallabel{UpperTheory.V.U3.corGK}
+\end{proposition}
+
+\begin{proof}
+Let $K$, $c_5$, $A$ be as in $\sfname{PropGK}$, and let $\Omega,e,N,H,p,p',(\OO_\ell),L$ be as in $\sfname{PropGK}^{\Sigma}$. If $L=\emptyset$ the sum
+vanishes and the right-hand side is $\ge0$. Otherwise $e\ge1$ by (G1), and $\sfname{PropGK}$ gives integers $\mathcal N\ne0$ for
+$p$ and $\mathcal N'\ne0$ for $p'$. For $\ell\in L$ we have $\ell\ne p$ or $\ell\ne p'$; applying $\sfname{PropGK}$ with the
+corresponding integer gives finiteness and
+$\sum_{\psi\in\mathrm{orb}(\OO_\ell,H)}\eisVt_\ell(\psi,e)\le2\eisv(\mathcal N)+2\eisv(\mathcal N')$. For $0\ne n\in\Z$ and a finite set $L$ of
+primes, $\prod_{\ell\in L}\ell^{\eisv(n)}$ divides $n$, so
+\begin{equation}\label{pf:eis:sumlog}
+\textstyle\sum_{\ell\in L}\log\ell\cdot\eisv(n)\le\log|n|.
+\end{equation}
+Therefore the left-hand side of $\sfname{PropGK}^{\Sigma}$ is at most
+$2\log|\mathcal N|+2\log|\mathcal N'|\le2c_5\varphi([(\Z/N)^\times:H])(N(e+1))^A(\log p+\log p')$.
+\end{proof}
+
+\begin{proposition}\label{pf:eis:countIcor}
+$\sfname{PropGK}^{\Sigma}$ implies $\sfname{CountI}$.
+\formallabel{UpperTheory.V.U3.countI}
+\end{proposition}
+
+\begin{proof}
+Let $\chi$ be a primitive character, $p_K=p_K(\chi)$ and $K^*=\Q(\sqrt{-p_K})$, imaginary quadratic with $|d_{K^*}|=p_K$
+(\lref{UpperTheory.V.HV.kstar}). Let $c_5,A$ be the constants of $\sfname{PropGK}^{\Sigma}$ for $K^*$. Choose primes
+$r_1\ge30N_\chi p_K+1$ and $r_2>r_1$, and $k\in\N$ with $2c_5(\log r_1+\log r_2)\le16^k$. We show that $C=k+1+A$, $r_1$, $r_2$
+satisfy $\sfname{CountI}$ for $\chi$.
+
+Let $h=(\chi,m,q_1,d)$ be a host with $r_1,r_2<\min(q_1,d)$, big for $t$, let $0<e<t$, $\Omega$, coefficient rings $\OO_\ell$, and a
+finite set $L$ of odd primes in case I be given; fix an embedding $K^*\to\Omega$. Write $N=N_h$ and
+$G=(\Z/N)^\times$.
+
+\emph{The auxiliary primes.} Let $r\in\{r_1,r_2\}$. Then $r\nmid30N p_K$: indeed $r>30$; the prime divisors of $N$ are $2$,
+the prime divisors of $N_\chi$, $q_1$ and $d$ (\lref{UpperTheory.V.HV.hostIndex}, which states among other facts that
+$16\mid N_h$ and that a prime divides $N_h$ if and only if it is $2$, divides $N_\chi$, or equals $q_1$ or $d$), and $r>N_\chi$,
+$r<q_1$, $r<d$; and $r>p_K$. As $|d_{K^*}|=p_K$, the primes $r_1\ne r_2$ satisfy the hypotheses of $\sfname{PropGK}^{\Sigma}$.
+
+\emph{Grouping by kernels.} Let $T$ be the finite set of subgroups $\ker\theta\subset G$ for $\theta\in\eisX_h(\OO_\ell,e)$,
+$\ell\in L$; for $H\in T$ let $L_H$ be the set of $\ell\in L$ such that some $\theta\in\eisX_h(\OO_\ell,e)$ has kernel $H$. For
+$\ell\in L_H$ such a $\theta$ lies in $\mathrm{orb}(\OO_\ell,H)$ and satisfies $\mathrm{GD}(K^*,\ell,e,\theta)$ by \cref{pf:eis:gdhost}.
+Hence $\sfname{PropGK}^{\Sigma}$ applies to $(H,r_1,r_2,(\OO_\ell),L_H)$. It gives the finiteness assertion of $\sfname{CountI}$ (every
+$\theta\in\eisX_h(\OO_\ell,e)$ lies in $\mathrm{orb}(\OO_\ell,\ker\theta)$ with $\ell\in L_{\ker\theta}$), and
+\begin{equation}\label{pf:eis:perH}
+ \sum_{\ell\in L_H}\log\ell\sum_{\psi\in\mathrm{orb}(\OO_\ell,H)}\eisVt_\ell(\psi,e)\le2c_5\varphi([G:H])(N(e+1))^A(\log r_1+\log r_2).
+\end{equation}
+Since $\eisVt\ge0$ and $\{\theta\in\eisX_h(\OO_\ell,e):\ker\theta=H\}\subset\mathrm{orb}(\OO_\ell,H)$, sorting the characters by their kernels gives
+\[
+ \sum_{\ell\in L}\log\ell\sum_{\theta\in\eisX_h(\OO_\ell,e)}\eisVt_\ell(\theta,e)\le\sum_{H\in T}\ \sum_{\ell\in L_H}\log\ell
+ \sum_{\psi\in\mathrm{orb}(\OO_\ell,H)}\eisVt_\ell(\psi,e).
+\]
+By \cref{pf:eis:orb} each $G/H$, $H\in T$, is cyclic, so \cref{pf:eis:orbsum} gives $\sum_{H\in T}\varphi([G:H])\le\#G\le N$.
+With \eqref{pf:eis:perH} the left-hand side of $\sfname{CountI}$ is therefore at most
+\[
+ 2c_5(\log r_1+\log r_2)\cdot N\cdot(N(e+1))^A\le N^k\cdot N\cdot(Nt)^A\le(Nt)^{k+1+A},
+\]
+using $2c_5(\log r_1+\log r_2)\le16^k\le N^k$ (as $16\mid N$), $e+1\le t$ and $t\ge1$.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{The one-character bound}\label{sec:pf:eis:onechar}
+
+In this subsection we prove $(\mathrm{One})$ (\cref{pf:eis:onecharthm}) and then \cref{pf:eis:main}. Throughout,
+$K\subset\Omega$ is an imaginary quadratic field, $\ell$ a prime, $\OO$ a coefficient ring for $\ell$ with residue field
+$k$, $N\ge1$, $e\in\N$ and $\psi$ a Dirichlet character modulo $N$ with values in $\OO$ such that
+$\mathrm{GD}(K,\ell,e,\psi)$ holds; $\Psi=\Psi_{\psi,e}$, and $\Psi_{\Qlbar}$ is its composite with $\OO\subset\Qlbar$. A
+\emph{complete $\OO$-algebra} is a complete local $\OO$-algebra $R$ as in \cref{sec:pf:vwin-he:lemmaM} (Noetherian,
+complete, with residue field $k$), and $\mathfrak m_R$ is its maximal ideal.
+
+\subsubsection{Data and deformation rings}
+
+\begin{definition}[Data]\label{pf:eis:dat}
+A \emph{datum} $D$ for $(K,\OO,e,\psi)$ consists of: a homomorphism $\eta:G_\Q\to\{\pm1\}$ with kernel $G_K$; an element
+$c\in G_\Q$ which is a complex conjugation (there is an embedding $\phi:\Omega\to\C$ with $\phi(cx)=\overline{\phi(x)}$); an
+embedding $j$ of $\Omega$ into an algebraically closed complete extension of $\Ql$ and the continuous homomorphism
+$\iota_\ell:G_{\Ql}\to G_\Q$ with $\sigma(j(x))=j(\iota_\ell(\sigma)x)$; a finite extension $K_v$ of $\Ql$ with
+$\eta(\iota_\ell(g))=1$ if and only if $g\in G_{K_v}$; such that $\eta\circ\iota_\ell$ is trivial on the inertia group
+$I_{\Ql}$, the kernel of $(\psi_{(\ell)})_G\circ\iota_\ell$ is open, all powers of $\Psi$ are continuous for the
+$\mathfrak m_\OO$-adic topology, and $\Psi(\iota_\ell(g))=\eiscyc(g)^e(\psi_{(\ell)})_G(\iota_\ell(g))$ for $g\in I_{\Ql}$.
+\formal{UpperTheory.V.U3.Dat}
+\end{definition}
+
+The image of $\iota_\ell$ is the decomposition group of a place of $\Omega$ above $\ell$, and $\iota_\ell$ maps $I_{\Ql}$ onto its
+inertia group (\lref{UpperTheory.V.U3.dat_loc}). By
+\lref{UpperTheory.V.U3.exists_dat}, $\mathrm{GD}(K,\ell,e,\psi)$ implies that a datum exists. Fix a datum $D$, and
+let $\bar r_0=\eisrz(\eta,\bar\Psi)$ be the reduction of $\eisrz(\eta,\Psi)$ modulo $\mathfrak m_\OO$. A \emph{lift} of
+$\bar r_0$ to a complete $\OO$-algebra $R$ is a homomorphism $r:G_\Q\to\eisGG(R)$ whose matrix entries are continuous for
+the $\mathfrak m_R$-adic topology and which reduces to $\bar r_0$; lifts of $\bar r_0\circ\iota_\ell$ are defined in the same
+way. For a property $P$ of lifts, a \emph{universal ring} for $P$ is a complete $\OO$-algebra $R$ with a lift $r$ such that
+for every complete $\OO$-algebra $R'$ the lifts $f\circ r$, $f:R\to R'$, have property $P$, and every lift to $R'$ with
+property $P$ is $f\circ r$ for a unique $f$.
+
+Let $\eisKill_D\subset G_\Q$ be the set of elements of inertia groups $I_A$ at places $A$ not above $\ell$ with
+$\bar r_0(g)=1$. An element $g_1\in G_\Q$ is \emph{marked} if $c^2=1$, $\eta(c)=-1$, $\Psi(c)=1$, $\eta(g_1)=1$ and
+$\Psi(g_1)^2-1\in\OO^\times$. A homomorphism $r:G_\Q\to\eisGG(R)$ is \emph{normalized} at $(c,g_1)$ if $\mathrm{mat}(r(c))=1$
+and the entries $(1,2)$ and $(2,1)$ of $\mathrm{mat}(r(g_1))-\mathrm{mat}(r(cg_1^{-1}c))$ vanish.
+
+\begin{definition}[The deformation rings]\label{pf:eis:rings}
+\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item $U$ is a universal ring for all lifts of $\bar r_0\circ\iota_\ell$ (no condition), with universal lift $r_U$.
+\item $I_t\subset U$ is the intersection of those minimal primes of the radical of an explicit ideal $I_Y$ of $U$ which are
+  contained in the kernel of every $\OO$-point $x:U\to\OO$ with $x\circ r_U=\eisrz(\eta,\Psi)\circ\iota_\ell$. Here $I_Y$ consists of
+  the elements $a$ with $\delta^na\in I_{\mathrm{ord}}$ for some $n$, where $I_{\mathrm{ord}}$ is generated by the coefficients
+  of the characteristic polynomials of $r_U(s)$ minus those of $\mathrm{diag}(\Psi,1,\Psi^{-1})(s)$ and by the entries of
+  products of three shifted matrices $r_U(s_i)-\Psi^{w(i)}(s_i)$, for inertia elements $s,s_i$ in an open subgroup, and
+  $\delta\in U$ is an explicit element (a multiple of $\ell$). It imposes an ordinarity condition at $\ell$.
+\item For a marked $g_1$, $S=S(U,g_1)$ is a universal ring for the lifts $r$ of $\bar r_0$ which are normalized at
+  $(c,g_1)$, trivial on $\eisKill_D$, and such that $r\circ\iota_\ell=f\circ r_U$ for some $f:U\to R$ with $f(I_t)=0$. We write
+  $r_S$ for its universal lift.
+\end{enumerate}
+\formal{UpperTheory.V.U3.SRing}
+\end{definition}
+
+\begin{definition}[Cohomological inputs]\label{pf:eis:coh}
+$(\mathrm{Coh})$ is the conjunction of the local results of the literature package (among them local Tate duality, finiteness
+and Euler characteristics over finite extensions of $\Ql$), Poitou--Tate duality, global finiteness, the global Euler characteristic
+formula, and $\sfname{LemmaK}(C_K)$ for some $C_K$.
+\formal{UpperTheory.V.U3.CohInp}
+\end{definition}
+
+$(\mathrm{Coh})$ follows from component \ref{pf:vwin-he:H1} of $\sfname{HypothesesH'}$ and Lemma K. Under $(\mathrm{Coh})$, $U$ exists
+(\lref{UpperTheory.V.U3.exists_uLoc}) and, for marked $g_1$, $S$ exists (\lref{UpperTheory.V.U3.exists_ring}).
+
+\emph{Points.} The \emph{weight-zero subalgebra} of $S$ is the $\OO$-subalgebra generated by the products of entries of
+$\mathrm{mat}(r_S(g))$ of total weight $0$. A \emph{point} of $S$ is an $\OO$-algebra homomorphism $f:S\to\Qlbar$; it is
+\emph{local} if $|f(x)|<1$ for $x\in\mathfrak m_S$; it defines $r_f=f\circ r_S:G_\Q\to\eisGG(\Qlbar)$, which has multiplier
+$\eta$. A \emph{base point} is an $\OO$-algebra homomorphism $x_0:S\to\OO$ with $x_0\circ r_S=\eisrz(\eta,\Psi)$. Conjugation by
+$\tau(t)$, $t\in\Qlbar^\times$, acts on the representations $r_f$.
+
+\begin{definition}[Two-signed points, trace differences, rigidity]\label{pf:eis:twopt}
+Let $f$ be a local point of $S$ and $\sigma\in G_\Q$.
+\begin{enumerate}[label=(\alph*)]
+\item $f$ is \emph{two-signed} if $r_f$ is neither upper nor lower (\cref{pf:eis:GG}).
+\item The \emph{trace difference} is $\eistr_\sigma(f)=f(\tr\mathrm{mat}(r_S(\sigma)))-\tr\mathrm{mat}(\eisrz(\eta,\Psi)(\sigma))$.
+\item A \emph{first-order deformation} of $f$ is an $\OO$-algebra homomorphism $F:S\to\Qlbar[\varepsilon]$, $\varepsilon^2=0$, with
+  first component $f$. Writing $\mathrm{mat}(F(r_S(g)))=\mathrm{mat}(r_f(g))+\varepsilon Y(g)$, its \emph{tangent cocycle} is
+  $y_F(g)=Y(g)\,\mathrm{mat}(r_f(g))^{-1}$, a $1$-cocycle of $G_\Q$ in the adjoint representation of $r_f$. The point $f$ is
+  \emph{rigid} if every tangent cocycle at $f$ is a coboundary $g\mapsto X-r_f(g)\cdot X$, and \emph{rigid in weight $j$} if
+  this holds for the tangent cocycles with values in $\mathfrak g_j$.
+\item For a base point $x_0$, $\mathrm{Pt}(x_0)$ is the conjunction of: every local point $f$ with $r_f$ upper and lower
+  satisfies $r_f=r_{x_0}$; $x_0$ (viewed as a point) is rigid in every weight $j\le0$; every two-signed point is rigid.
+\end{enumerate}
+\formallabel{UpperTheory.V.U3.TwoPt}
+\formallabel{UpperTheory.V.U3.trDiff}
+\formallabel{UpperTheory.V.U3.PtHyp}
+\end{definition}
+
+\begin{definition}[Models]\label{pf:eis:model}
+A \emph{model} $M$ of $S$ consists of a weighted ring $(A,x)$ (\cref{pf:vwin-he:wring}), integers $r\ge1$ and
+$s,r',s',m\ge0$, a system of equations $Q=(F_0,\dots,F_r,G,E,E',Z)$ of type $(r,s,r',s',m)$ with ideal $I$
+(\cref{pf:vwin-he:eqns}) such that $x$ is smooth with tangent dimensions $n_{r,s,r',s',m}$ (\cref{pf:vwin-he:chart}), an
+$\OO$-algebra homomorphism $q:A\to S$ with kernel $I$, and a base point $x_0$ of $S$ with $x_0\circ q=x$, such that:
+\begin{enumerate}[label=(\alph*)]
+\item the $(a,b)$ entry of $\mathrm{mat}(r_S(g))$ is $q(f)$ for some $f\in A_{w(a,b)}$, for all $g,a,b$;
+\item for $f\in A_j$ and $n\ge1$, $q(f)$ is congruent modulo $\mathfrak m_S^n$ to an $\OO$-linear combination of products of
+  entries of $r_S$ of total weight $j$;
+\item if condition (M2) of \cref{pf:vwin-he:eqns} holds, then for every $\Qlbar$-point $\xi$ of $A$ on $I$ there are
+  $t\in\Qlbar^\times$ and a local point $f$ of $S$ with $t\cdot\xi=f\circ q$;
+\item if (M2) holds, then for every local point $f$ of $S$, every point derivation of $A$ at $f\circ q$ which vanishes on $I$
+  is $y\mapsto F(q(y))_\varepsilon$ for a first-order deformation $F$ of $f$;
+\item a lifting property of derivations of weight $-1$ modulo non-zero elements of $\OO$, relating $S$ to $U$ and $I_t$ (used
+  only through \lref{UpperTheory.V.U3.model_lower} below).
+\end{enumerate}
+The \emph{length} of $M$ is $\lambda(M)=\eiscot_{-1}(x;F)\in\N\cup\{\infty\}$ (\cref{pf:vwin-he:cot}).
+\formal{UpperTheory.V.U3.Model}
+\end{definition}
+
+The grading of $A$ models the action of conjugation by $\tau(t)$: by (a), the torus acts on points of $A$ through the
+grading and on representations through conjugation. By \lref{UpperTheory.V.U3.exists_model} ($(\mathrm{Coh})$ and Lemma P
+imply that for every datum, marked $g_1$ and ring $S$ a model of $S$ over $\Qlbar$ exists), models exist; this is where
+Lemma P (\lref{UpperTheory.V.Alg.lemmaP}: weight-graded presentations of framed deformation rings, with numbers of
+generators and relations in each weight given by the dimensions of the graded pieces of $H^1$ and of the obstruction
+space) enters.
+
+\subsubsection{The hypotheses on automorphy and rigidity}
+
+\begin{definition}[Unitary automorphy with unramified coefficients]\label{pf:eis:Uur}
+$(\mathrm{U}_{\mathrm{ur}})$ is the statement: for all $\Omega,K,\ell,\OO,N,e,\psi$ as above with $e_\OO=1$, every datum $D$ and
+every $\iota:\Qlbar\cong\C$, there is a marked $g_1\in G_\Q$ such that for all rings $U$ and $S=S(U,g_1)$:
+\begin{enumerate}[label=(\alph*)]
+\item the weight-zero subalgebra of $S$ is a finite $\OO$-module;
+\item for every $\OO$-algebra homomorphism $\xi$ from the subalgebra of $S$ generated by the entries of $r_S$ to $\Qlbar$ such
+  that $r=\xi\circ r_S$ is of type I, $\mathcal A_\iota(r_K\otimes\eiscyc^{-1})$ holds;
+\item for every such $\xi$ with $r=\xi\circ r_S$ of type II and middle entry $1$ on $\ker\eta$, every
+  $W:G_\Q\to\GL_2(\Qlbar)$ which equals the corner of $r$ on $\ker\eta$ and has $\tr W(c)=0$ is \emph{modular}: a newform of
+  weight $2e+1$ is attached via $\iota$ to $W\otimes\eiscyc^{-e}$, and $\sfname{WitAQ}(\iota,W)$ holds.
+\end{enumerate}
+\formal{UpperTheory.V.Aut.AutomorphyUnramifiedCoefficientsAlt}
+\end{definition}
+
+This is the statement $(\mathrm{U}_{\mathrm{ur}})$ of \cref{pf:vwin-he:autstmts}. A continuous representation $V$ of $G_\Q$ on
+a finite-dimensional $\Qlbar$-vector space has \emph{vanishing Bloch--Kato Selmer group} if every continuous $1$-cocycle
+which satisfies the Bloch--Kato local conditions (unramified up to a coboundary on an inertia group at every place not above
+$\ell$, and crystalline at $\ell$ in the sense of the period ring of the development) is a coboundary
+\cite{BlochKato1990}.
+
+\begin{definition}[Rigidity and admissibility statements]\label{pf:eis:rigstmts}
+Let $D$ be a datum, $U$, a marked $g_1$, $S=S(U,g_1)$, $f$ a local point of $S$ and $\iota:\Qlbar\cong\C$.
+\begin{enumerate}[label=(\alph*)]
+\item $(\mathrm{R}_{\mathrm{I}})$: if $r_f$ is of type I and $\mathcal A_\iota((r_f)_K\otimes\eiscyc^{-1})$ holds, the Bloch--Kato Selmer group of
+  the adjoint representation of $r_f$ vanishes.
+\item $(\mathrm{R}_{\mathrm{II}})$: if $r_f$ is of type II and $W:G_\Q\to\GL_2(\Qlbar)$ is continuous, equals the corner of $r_f$ on
+  $\ker\eta$, has $\tr W(c)=0$, $\det W=\eta$ and is modular, then every representation $R$ of $G_\Q$ on $M_2(\Qlbar)$ of
+  \emph{adjoint type for $W$} has vanishing Bloch--Kato Selmer group; here $R$ is of adjoint type for $W$ if there are a
+  complex conjugation $c'$ and $P\in\GL_2(\Qlbar)$ with ${}^tW(s)PW(s')=\eta(s)P$ whenever $s'=c'sc'^{-1}$ ($s\in G_K$),
+  $R(s)X=W(s)XW(s)^{-1}$ for $s\in G_K$, and $R(c')X=-P^{-1}\,{}^tX\,P$.
+\item $(\mathrm{A}_{\mathrm{I}})$: if $r_f$ is of type I and $\mathcal A_\iota((r_f)_K\otimes\eiscyc^{-1})$ holds, then $(r_f)_K$ is admissible of
+  unitary type for $(\iota,e,N)$.
+\end{enumerate}
+\formallabel{UpperTheory.V.Th.RigidityFirstCase}
+\formallabel{UpperTheory.V.Th.RigiditySecondCase}
+\formallabel{UpperTheory.V.Z.J.AdmI_s}
+\end{definition}
+
+These three statements are theorems of the development, proved from $(\mathrm{Coh})$, $\sfname{HypothesesH'}$, an adjoint
+lifting theorem and an unlinkedness statement for ordinary points (see the proof of \cref{pf:eis:main}).
+
+\subsubsection{The upper bound}
+
+\begin{lemma}[Upper bound]\label{pf:eis:upper}
+Assume Lemma M. Let $D$ be a datum with $\ell\ne2$, $g_1$ marked, $S=S(U,g_1)$, and $M$ a model of $S$ with base point $x_0$.
+Assume that the weight-zero subalgebra of $S$ is a finite $\OO$-module, that $\mathrm{Pt}(x_0)$ holds, and let $\sigma\in\ker\eta$
+be such that $\eistr_\sigma(f)\ne0$ for every two-signed point $f$. Then $\lambda(M)<\infty$, and there is a finite set $T$ of
+two-signed points such that every two-signed point $f$ satisfies $r_f=\tau(t)r_{f'}\tau(t)^{-1}$ for some $f'\in T$ and
+$t\in\Qlbar^\times$, distinct elements of $T$ are not related in this way, and
+\[
+ \|\lambda(M)\|_\OO\ \le\ 2\sum_{f\in T}\eisv(\eistr_\sigma(f)).
+\]
+\formallabel{UpperTheory.V.U3.model_upper}
+\end{lemma}
+
+The lemma holds more generally for the universal rings of the abstract setting of the development (a group $\Gamma$ with a
+subgroup mapping to it, in place of $G_\Q$ and $G_{\Ql}$); we state it in the case used.
+
+\begin{proof}
+We verify the conditions (M1)--(M5) of \cref{pf:vwin-he:eqns} for the weighted ring $(A,x)$ and the system $Q$ of $M$, with a
+suitable $a\in A_0$, using the following results of the development, all for $\ell\ne2$ and marked $g_1$.
+\begin{itemize}
+\item \lref{UpperTheory.V.U3.modelIdeal_finiteness_of_weightZero_finite}: if the weight-zero subalgebra of $S$ is finite
+  over $\OO$, then (M2) holds.
+\item \lref{UpperTheory.V.U3.gradedModel_spansCot_of_rigid_weights}: (M2) and rigidity of the base point in all weights
+  $j\le0$ imply (M1).
+\item \lref{UpperTheory.V.U3.gradedModel_pointCondition_of_ptHyp}: (M2) and $\mathrm{Pt}(x_0)$ imply (M3).
+\item \lref{UpperTheory.V.U3.gradedModel_derivationCondition_of_ptHyp}: (M2) and $\mathrm{Pt}(x_0)$ imply (M4).
+\item \lref{UpperTheory.V.U3.model_signs} (signs): for local points $f$ of $S$, $f\circ q$ is negatively trivial if and only if
+  $r_f$ is upper, positively trivial if and only if $r_f$ is lower, and if $r_{f'}=\tau(t)r_f\tau(t)^{-1}$ then
+  $f'\circ q=t\cdot(f\circ q)$.
+\end{itemize}
+By the first four, (M1)--(M4) hold. By the signs, a local point $f$ is two-signed if and only if $f\circ q$ is a two-signed
+$\Qlbar$-point of $A$. Conversely, if $f\circ q=t\cdot(f'\circ q)$ for local points $f,f'$, then $r_f=\tau(t)r_{f'}\tau(t)^{-1}$: by
+(a) of \cref{pf:eis:model} each entry of $\mathrm{mat}(r_f(g))$ of weight $w$ is $f(q(e))$ with $e\in A_w$, and
+$(t\cdot\xi)(e)=t^w\xi(e)$ for $e\in A_w$, while conjugation by $\tau(t)$ multiplies entries of weight $w$ by $t^w$.
+
+\emph{Condition (M5).} By (a) of \cref{pf:eis:model} choose $E_{ii}\in A_0$ with $q(E_{ii})=\mathrm{mat}(r_S(\sigma))_{ii}$
+($w(i,i)=0$), and put $a=E_{11}+E_{22}+E_{33}-\tr\mathrm{mat}(\eisrz(\eta,\Psi)(\sigma))\in A_0$. Then $f(q(a))=\eistr_\sigma(f)$ for
+every point $f$, and $x(a)=x_0(q(a))=0$ because $x_0\circ r_S=\eisrz(\eta,\Psi)$. Let $\xi$ be a two-signed $\Qlbar$-point of $A$ on
+$I$. By (c) of \cref{pf:eis:model} (which applies since (M2) holds) there are $t$ and a local point $f$ with
+$t\cdot\xi=f\circ q$; as $a$ has degree $0$, $\xi(a)=(t\cdot\xi)(a)=\eistr_\sigma(f)$, and $f$ is two-signed because $t\cdot\xi$ is.
+Hence $\xi(a)\ne0$, and (M5) holds.
+
+\emph{Application of Lemma M.} The function $v=e_\OO\eisv$ on $\Qlbar$ is a normalized valuation in the sense of
+\cref{sec:pf:vwin-he:lemmaM}: it is multiplicative and ultrametric on non-zero elements, and $e_\OO\eisv(c)=\ord_\OO(c)$ for
+$0\ne c\in\OO$. Lemma M (\cref{pf:vwin-he:lemmaM}, with $K=\Qlbar$) gives a finite set $T_0$ of two-signed points of $A$ on
+$I$ covering $I$, $\lambda(M)<\infty$, and $\lambda(M)\le2\sum_{\xi\in T}v(\xi(a))$ for every finite set $T$ covering $I$.
+
+\emph{From points of $A$ to points of $S$.} For $\xi\in T_0$ choose by (c) an element $t_\xi$ and a local point $f_\xi$ with
+$t_\xi\cdot\xi=f_\xi\circ q$, and let $T_1=\{f_\xi\}$. Each $f_\xi$ is two-signed. If $f$ is two-signed, then $f\circ q$ is a
+two-signed point on $I$ ($q$ kills $I$), so $f\circ q=t\cdot\xi$ for some $\xi\in T_0$ and $t$, hence
+$f\circ q=(tt_\xi^{-1})\cdot(f_\xi\circ q)$ and $r_f$ is conjugate to $r_{f_\xi}$ by an element $\tau(\cdot)$. The relation
+``$r_f=\tau(t)r_{f'}\tau(t)^{-1}$ for some $t$'' is transitive, so removing successively elements of $T_1$ which are related to
+another element we obtain $T\subset T_1$ with the covering property and pairwise unrelated elements.
+
+Let $T'=\{f\circ q:f\in T\}$. It covers $I$: a two-signed point $\xi$ on $I$ satisfies $t\cdot\xi=f\circ q$ with $f$ two-signed,
+$r_f=\tau(t')r_{f'}\tau(t')^{-1}$ with $f'\in T$, hence $f\circ q=t'\cdot(f'\circ q)$ by the signs, and
+$\xi=(t^{-1}t')\cdot(f'\circ q)$. The map $f\mapsto f\circ q$ is injective on $T$, since $f\circ q=f'\circ q$ implies $r_f=r_{f'}$.
+Lemma M for $T'$ gives $\lambda(M)\le2e_\OO\sum_{f\in T}\eisv(\eistr_\sigma(f))$; dividing by $e_\OO\ge1$ gives the assertion.
+\end{proof}
+
+\subsubsection{The lower bound}
+
+Recall that $V_\ell(\psi,e)$ is the $\OO$-length of $\Sha_{\ell N}=\Sha_{\ell N}(\Q,\OO\otimes\eisQZ(\Psi^{-1}))$
+(\cref{pf:vwin-he:V}).
+
+\begin{lemma}[Lower bound]\label{pf:eis:lower}
+Assume $(\mathrm{Coh})$ and Lemma M$'$. Let $D$ be a datum, $g_1$ marked, $S=S(U,g_1)$ and $M$ a model of $S$. Then
+$V_\ell(\psi,e)\le\lambda(M)$.
+\formallabel{UpperTheory.V.U3.vlen_le}
+\end{lemma}
+
+\begin{proof}
+\emph{Torsion.} Every element of $\Sha_{\ell N}$ is killed by a non-zero element of $\OO$: a continuous cocycle of the compact group
+$G_\Q$ with values in the discrete module $\OO\otimes\eisQZ$ takes finitely many values, each killed by a non-zero element of $\OO$,
+and the product of these elements kills the cocycle. For a torsion module $X$ over the discrete valuation ring $\OO$ with
+uniformizer $\varpi$, $X$ is the increasing union of the submodules $X[\varpi^k]$, so $\len_\OO X=\sup_k\len_\OO X[\varpi^k]$.
+It therefore suffices to show $\len_\OO\Sha_{\ell N}[b]\le\lambda(M)$ for every $0\ne b\in\OO$.
+
+\emph{Injection into cocycles.} For $0\ne a\in\OO$ let $\mathcal C_a$ be the set of maps $\gamma:G_\Q\to M_3(\OO/a)$ which are
+locally constant, take values in $\mathfrak g_{-1}$, are $1$-cocycles for the reduction of $\eisrz(\eta,\Psi)$ modulo $a$, are
+normalized at $(c,g_1)$ (that is, $\gamma(c)=0$ and the entries $(1,2),(2,1)$ of
+$\gamma(g_1)\eisrz(g_1)-\gamma(cg_1^{-1}c)\eisrz(cg_1^{-1}c)$ vanish), vanish on $\eisKill_D$, and agree on $\iota_\ell(G_{\Ql})$ with
+the coboundary of an element of $\mathfrak g_{-1}(\OO/a)$. By \lref{UpperTheory.V.U3.sha_inj}, for every $0\ne b\in\OO$ there are
+$0\ne a\in\OO$ and an injective additive map $\gamma:\Sha_{\ell N}[b]\to\mathrm{Maps}(G_\Q,M_3(\OO/a))$ with image in $\mathcal C_a$.
+
+\emph{Comparison with the model.} By \lref{UpperTheory.V.U3.model_lower}, if $2\in\OO^\times$, $g_1$ is marked, Lemma M$'$
+holds (\lref{UpperTheory.V.Alg.M.mprime_holds}: a length bound by $\eiscot_j(x;F)$ for modules embedded into point derivations
+of weight $j$ modulo $c$ vanishing on the $F_i$), the pair $(U,I_t)$ is \emph{good} in the sense of the development (a local
+chart condition at the base point), all powers of $\Psi$ are continuous, and $\eisrz(\eta,\Psi)$ is trivial on $\eisKill_D$, then every
+$\OO$-module $X$ with an injective additive map into $\mathrm{Maps}(G_\Q,M_3(\OO/a))$ with image in $\mathcal C_a$ has
+$\len_\OO X\le\lambda(M)$. The pair $(U,I_t)$ is good by \lref{UpperTheory.V.Loc.locGood} (a consequence of the local
+results contained in $(\mathrm{Coh})$), and the remaining hypotheses are elementary properties of a datum
+(\lref{UpperTheory.V.U3.dat_facts}, which lists among others: $2\in\OO^\times$, continuity of $\eta$ and of the powers of
+$\Psi$, and $\eisrz(\eta,\Psi)(g)=1$ for $g\in\eisKill_D$). Applied to $X=\Sha_{\ell N}[b]$ this gives the claim.
+\end{proof}
+
+\subsubsection{Rigidity at the points}
+
+\begin{lemma}[Bloch--Kato vanishing at endoscopic points]\label{pf:eis:bktypeII}
+Assume $(\mathrm{Coh})$, $\sfname{KatoTwoW}$ and $(\mathrm{R}_{\mathrm{II}})$. Let $D$ be a datum, $g_1$ marked, $S=S(U,g_1)$, $f$ a local point
+with $r=r_f$ of type II, and $\iota:\Qlbar\cong\C$, and assume that every $W$ which equals the corner of $r$ on $\ker\eta$ and has
+$\tr W(c)=0$ is modular. Then the Bloch--Kato Selmer group of the adjoint representation of $r$ vanishes.
+\formallabel{UpperTheory.V.Z.Kato.WeilSphericalRecords.bloch_kato_selmer_vanishes_of_type_ii_modular_ext}
+\end{lemma}
+
+\begin{proof}
+By \lref{UpperTheory.V.U3.isPt_push}, $r$ is a \emph{point of $D$}: it has multiplier $\eta$, continuous integral entries,
+reduction $\bar r_0$, is normalized at $(c,g_1)$, trivial on $\eisKill_D$, and $r\circ\iota_\ell$ comes from a local point of $U$
+killing $I_t$. By \lref{UpperTheory.V.U3.typeII_facts}, for a point of $D$ of type II the middle entry of $\mathrm{mat}(r(g))$ is
+$1$ and the corner has determinant $1$ for $g\in\ker\eta$, and there is a continuous irreducible $W:G_\Q\to\GL_2(\Qlbar)$ with
+$W(g)=\mathrm{corner}(\mathrm{mat}(r(g)))$ if $\eta(g)=1$, $W(g)=\mathrm{corner}(\mathrm{mat}(r(g)))\,\mathrm{diag}(-1,1)$ if $\eta(g)=-1$,
+$\tr W(c)=0$ and $\det W=\eta$. In particular $W$ is modular by hypothesis.
+
+\emph{Block form.} For $g\in\ker\eta$, $\mathrm{mat}(r(g))=\begin{psmallmatrix}a&0&b\\0&1&0\\c'&0&d\end{psmallmatrix}$ with $ad-bc'=1$,
+since entries of odd weight vanish (type II). If $\eta(g)=-1$, then $r(g)=r(gc^{-1})r(c)$ with $\eta(gc^{-1})=1$ and
+$\mathrm{mat}(r(c))=1$, so $\mathrm{mat}(r(g))=\mathrm{mat}(r(gc^{-1}))$ has the same form. For $x\in\eisGG$ with matrix of this form
+consider the decomposition $M_3=\mathfrak a\oplus\mathfrak b_+\oplus\mathfrak b_-\oplus\mathfrak c$ given, for $X=(X_{ij})$, by
+\[
+ p_{\mathfrak a}(X)=\begin{psmallmatrix}X_{11}&X_{13}\\X_{31}&X_{33}\end{psmallmatrix},\quad
+ p_\pm(X)=(X_{12}\pm X_{23},\,X_{32}\mp X_{21}),\quad p_{\mathfrak c}(X)=X_{22}E_{22},
+\]
+with sections $s_{\mathfrak a}(Y)$ (placing $Y$ in the entries $(1,1),(1,3),(3,1),(3,3)$) and
+$s_\pm(v)=\begin{psmallmatrix}0&v_1&0\\\mp v_2&0&\pm v_1\\0&v_2&0\end{psmallmatrix}$, so that
+$X=s_{\mathfrak a}p_{\mathfrak a}X+\tfrac12s_+p_+X+\tfrac12s_-p_-X+p_{\mathfrak c}X$. A direct computation with the formula for the
+adjoint action in \cref{pf:eis:GG} shows, for $x=r(g)$:
+\begin{itemize}
+\item $p_{\mathfrak a}(x\cdot X)=p_{\mathfrak a}(x\cdot s_{\mathfrak a}p_{\mathfrak a}X)$ and $x\cdot s_{\mathfrak a}Y=s_{\mathfrak a}p_{\mathfrak a}(x\cdot s_{\mathfrak a}Y)$;
+  so $R_{\mathfrak a}(g)Y=p_{\mathfrak a}(r(g)\cdot s_{\mathfrak a}Y)$ is a representation of $G_\Q$ on $M_2$, equal to $Y\mapsto W(g)YW(g)^{-1}$
+  for $g\in G_K$ and to $Y\mapsto-J_2\,{}^tY\,J_2$ for $g=c$, where $J_2$ is the antidiagonal $2\times2$ matrix with entries $1$;
+\item $p_\pm(x\cdot X)=W_\pm(g)p_\pm(X)$ and $x\cdot s_\pm(v)=s_\pm(W_\pm(g)v)$, where $W_+=W$ and $W_-=W\otimes\eta$;
+\item $p_{\mathfrak c}(x\cdot X)=\eta(g)p_{\mathfrak c}(X)=\eisrz(\eta,\Psi)(g)\cdot p_{\mathfrak c}(X)$, and $x\cdot p_{\mathfrak c}(X)=\eta(g)p_{\mathfrak c}(X)$.
+\end{itemize}
+Moreover ${}^tW(s)J_2W(s')=\eta(s)J_2$ for $s\in G_K$ and $s'=csc^{-1}$ (as $W(c)=\mathrm{diag}(-1,1)$ and $\det W=\eta$), so $R_{\mathfrak a}$ is
+of adjoint type for $W$ with $c'=c$ and $P=J_2$.
+
+\emph{Vanishing on the pieces.} $R_{\mathfrak a}$ has vanishing Bloch--Kato Selmer group by $(\mathrm{R}_{\mathrm{II}})$. The
+representations $W$ and $W\otimes\eta$ have vanishing Bloch--Kato Selmer groups by $\sfname{KatoTwoW}$: by
+\lref{UpperTheory.V.Z.Kato.used_of_alt}, $W$ satisfies the configuration $\sfname{Used}$ of \cref{def:window:kato} for $K$, the
+twist $e$ and the character $\psi_G$ (it is ordinary at $\ell$ with the prescribed flag, of finite level, irreducible on
+$G_{K(\mu_{\ell^\infty})}$, and has the prescribed residual trace), and \lref{UpperTheory.V.Z.Kato.WeilSphericalRecords.kUse'}
+deduces from $\sfname{KatoTwoW}$ and the modularity of $W$ that $W$ and $W\otimes\eta$ have vanishing Bloch--Kato Selmer groups.
+Finally, a Bloch--Kato cocycle of the adjoint representation of $\eisrz(\eta,\Psi_{\Qlbar})$ with values in $\mathfrak g_0$ is a
+coboundary (\lref{UpperTheory.V.U3.bloch_kato_nonpositive_weight}, which states this for values in $\mathfrak g_j$, $j\le0$).
+
+\emph{Conclusion.} Let $\gamma$ be a Bloch--Kato cocycle of the adjoint representation of $r$. The maps $p_{\mathfrak a},p_\pm,p_{\mathfrak c}$
+are continuous, linear and equivariant, so they carry $\gamma$ to cocycles of $R_{\mathfrak a}$, $W$, $W\otimes\eta$ and
+$\mathrm{ad}\,\eisrz$ (values in $\mathfrak g_0$) which again satisfy the Bloch--Kato local conditions (the conditions are defined by
+the existence of local coboundaries and of elements of a tensor product with the period ring, and are preserved by equivariant
+linear maps). By the previous step they are coboundaries of elements $x_{\mathfrak a},x_+,x_-,x_{\mathfrak c}$. By the decomposition of
+$X$ and the equivariance of the sections, $\gamma$ is the coboundary of
+$s_{\mathfrak a}x_{\mathfrak a}+\tfrac12s_+x_++\tfrac12s_-x_-+p_{\mathfrak c}x_{\mathfrak c}$ ($\ell$ is odd, so $2$ is invertible).
+\end{proof}
+
+\begin{lemma}[The hypothesis $\mathrm{Pt}$]\label{pf:eis:pthyp}
+Assume $(\mathrm{Coh})$, $\sfname{KatoTwoW}$, $(\mathrm{R}_{\mathrm{I}})$ and $(\mathrm{R}_{\mathrm{II}})$. Let $D$ be a datum, $\iota:\Qlbar\cong\C$, and $g_1$
+marked such that (b) and (c) of \cref{pf:eis:Uur} hold for all $U$ and $S=S(U,g_1)$. Then $\mathrm{Pt}(x_0)$ holds for every
+base point $x_0$ of every such $S$.
+\formallabel{UpperTheory.V.Z.J.ptHyp_of_autB_of_lemW_of_isBase}
+\end{lemma}
+
+\begin{proof}
+As $x_0$ is a base point, $r_{x_0}=\eisrz(\eta,\Psi_{\Qlbar})$. We use the following results of the development (for marked $g_1$):
+\lref{UpperTheory.V.U3.isPt_push} (every $r_f$, $f$ local, is a point of $D$, see the proof of \cref{pf:eis:bktypeII});
+\lref{UpperTheory.V.U3.pt_fixed} (a point of $D$ which is upper and lower equals $\eisrz(\eta,\Psi_{\Qlbar})$);
+\lref{UpperTheory.V.U3.tanCoc_isBK} (for every first-order deformation $F$ of a local point $f$, the tangent cocycle $y_F$ is a
+continuous cocycle of the adjoint representation of $r_f$ satisfying the Bloch--Kato local conditions); and
+\lref{UpperTheory.V.U3.twoPt_shape} (for $\ell\ne2$, $r_f$ is of type I or of type II at every two-signed point $f$).
+
+\emph{Fixed points.} If $r_f$ is upper and lower, then $r_f=\eisrz(\eta,\Psi_{\Qlbar})=r_{x_0}$ by the first two results.
+
+\emph{Weights $j\le0$.} If $F$ is a first-order deformation of $x_0$ whose tangent cocycle takes values in $\mathfrak g_j$, $j\le0$,
+then $y_F$ is a Bloch--Kato cocycle of the adjoint representation of $\eisrz(\eta,\Psi_{\Qlbar})$ with values in $\mathfrak g_j$, hence a
+coboundary by \lref{UpperTheory.V.U3.bloch_kato_nonpositive_weight}.
+
+\emph{Two-signed points.} Let $f$ be two-signed and $F$ a first-order deformation of $f$. Since $y_F$ is a Bloch--Kato cocycle, it
+suffices that the Bloch--Kato Selmer group of the adjoint representation of $r_f$ vanishes. If $r_f$ is of type I, then
+$\mathcal A_\iota((r_f)_K\otimes\eiscyc^{-1})$ holds by (b) of \cref{pf:eis:Uur} (applied to the restriction of $f$ to the subalgebra
+generated by the entries), and $(\mathrm{R}_{\mathrm{I}})$ applies. If $r_f$ is of type II, its middle entry is $1$ on $\ker\eta$
+(\lref{UpperTheory.V.U3.typeII_facts}), so every $W$ extending its corner with $\tr W(c)=0$ is modular by (c) of
+\cref{pf:eis:Uur}, and \cref{pf:eis:bktypeII} applies.
+\end{proof}
+
+\subsubsection{Admissibility of the points}
+
+\begin{lemma}[Type II points are endoscopic]\label{pf:eis:admII}
+Assume $(\mathrm{Coh})$. Let $D$ be a datum, $g_1$ marked, $r$ a point of $D$ of type II and $\iota:\Qlbar\cong\C$, and assume
+that every $W$ which equals the corner of $r$ on $\ker\eta$ and has $\tr W(c)=0$ is modular. Then $r_K$ is endoscopic for
+$(\iota,e,N|d_K|)$ (\cref{pf:eis:adm}).
+\formallabel{UpperTheory.GalN.V.adm2B_rhoK_of_typeII_of_modular_extensions}
+\end{lemma}
+
+\begin{proof}
+Let $W$ be as in the proof of \cref{pf:eis:bktypeII} (\lref{UpperTheory.V.U3.typeII_facts}): continuous, irreducible, equal
+to the corner of $r$ on $\ker\eta$, with $\tr W(c)=0$ and $\det W=\eta$. It is modular by hypothesis. On $G_K=\ker\eta$, $r_K$ is the
+block embedding of $W|_{G_K}$, which is the last condition of \cref{pf:eis:adm}(b) (with conjugating matrix $1$). Since
+$\gcd(|d_K|,N)=1$ and $N$ is even, $|d_K|$ is odd; an element fixing the $N|d_K|$-th roots of unity fixes $K$ (a quadratic field of odd
+discriminant $d_K$ is contained in $\Q(\mu_{|d_K|})$; \lref{UpperTheory.mem_galOf_quadratic_of_fixes_discr_roots_of_unity}) and lies
+in the kernel of $\psi_G$. Hence $\det W=\eta$ has conductor
+dividing $N|d_K|$, so $\det W$ is a character of finite order as required. It remains to show that $W$ has level $N|d_K|$ and
+type $(e,-e)$, and we write $\Psi=\eiscyc^e\psi_G$ (in $\Qlbar$).
+
+\emph{Places $w\nmid\ell$.} Let $A$ be a place not above $\ell$. By \lref{UpperTheory.V.U3.pt_inertia_away} there is
+$M\in\GL_3(\Qlbar)$ with $M\,\mathrm{mat}(r(g))=\mathrm{mat}(\eisrz(\eta,\Psi)(g))\,M$ for $g\in I_A\cap\ker\eta$. On this subgroup
+$\mathrm{mat}(r(g))$ is the block embedding of $W(g)$ and $\eisrz(\eta,\Psi)(g)=\mathrm{diag}(\psi_G(g),1,\psi_G(g)^{-1})$, since $\eiscyc$
+is trivial on $I_A$. By \lref{UpperTheory.diagonal_on_subgroup_of_conjugate} (if the block embedding of a $2\times2$
+representation is conjugate to $\mathrm{diag}(\Psi',1,\Psi'^{-1})$ on a subgroup, the representation is diagonalizable there with
+characters $\Psi'^{\pm1}$), $W$ is diagonalizable on $I_A\cap\ker\eta$ with characters $\psi_G^{\pm1}$, and by
+\lref{UpperTheory.exists_isDiagOn_of_isDiagOn_inf_ker_sign} $W$ is diagonalizable on $I_A$ through characters $\chi_1,\chi_2$
+which are trivial at every $g$ with $\psi_G(g)=1$ and $\eta(g)=1$, in particular on the elements fixing the $N|d_K|$-th roots of
+unity.
+
+\emph{Places $w\mid\ell$.} Let $A$ be a place above $\ell$. As $\ell\nmid d_K$, $I_A\subset\ker\eta$, and by the list of properties
+of a datum (\lref{UpperTheory.V.U3.dat_facts}) there is $s_0\in I_A$ with $\Psi(s_0)^2-1\in\OO^\times$. By
+\lref{UpperTheory.V.U3.pt_inertia_above} there is $M\in\GL_3(\Qlbar)$ such that $M\,\mathrm{mat}(r(s))\,M^{-1}$ has vanishing entries of
+negative weight for $s\in D_A\cap\ker\eta$ and diagonal entries $\Psi(s),1,\Psi(s)^{-1}$ for $s\in I_A$. Hence $v=M^{-1}e_1$ is an
+eigenvector of $\mathrm{mat}(r(s))$ with eigenvalue $\Psi(s)$ for $s\in I_A$. The middle coordinate of $v$ vanishes, since the middle
+entry of $\mathrm{mat}(r(s_0))$ is $1$ and $\Psi(s_0)\ne1$; so $(v_1,v_3)\ne0$ is an eigenvector of $W|_{I_A}$ with eigenvalue $\Psi$.
+As $I_A$ is normal in $D_A$ and $\det W=\eta=1$ on $I_A$, \lref{UpperTheory.exists_isFlagOn_of_eigenvector_normal_subgroup}
+gives a flag of $W|_{D_A}$ with diagonal characters $\kappa_1,\kappa_2$ equal to $\Psi=\eiscyc^e\psi_G$ and $\Psi^{-1}=\eiscyc^{-e}\psi_G^{-1}$
+on $I_A$. The flag is unlinked: by \lref{UpperTheory.V.U3.dat_facts} there is $s\in I_A$ such that $\eiscyc(s)^n=1$ only for
+$n=0$; if $\kappa_i=\kappa_j\eiscyc$, evaluating at $s$ and raising to the power $n_0=\#(\Z/N)^\times$, which kills $\psi_G$, gives
+$\eiscyc(s)^{n_0(m_i-m_j-1)}=1$ with $(m_1,m_2)=(e,-e)$, hence $m_i-m_j=1$, which is impossible since $m_i-m_j\in\{0,\pm2e\}$.
+\end{proof}
+
+\subsubsection{Proof of the one-character bound}
+
+\begin{theorem}[One-character bound]\label{pf:eis:onecharthm}
+$(\mathrm{Coh})$, Lemma M, Lemma M$'$, Lemma P, $\sfname{KatoTwoW}$, $(\mathrm{R}_{\mathrm{I}})$, $(\mathrm{R}_{\mathrm{II}})$, $(\mathrm{A}_{\mathrm{I}})$ and
+$(\mathrm{U}_{\mathrm{ur}})$ imply $(\mathrm{One})$.
+\formallabel{UpperTheory.V.Z.J.oneCharU_of_katoTwoW_rig_admI_automorphy}
+\end{theorem}
+
+\begin{proof}
+Let $K,\ell,\OO,N,e,\psi,\iota,\sigma,t$ be as in \cref{pf:eis:onecharstmt}.
+
+\emph{Reduction to $e_\OO=1$.} By (G2), $n=\ord\psi$ is prime to $\ell$. There is a coefficient ring $\OO'$ with $e_{\OO'}=1$
+containing the $n$-th roots of unity (\lref{UpperTheory.V.HV.coefSup}, which states among other things that for $\ell\nmid n$
+such an unramified coefficient ring exists); hence there is a character $\psi'$ modulo $N$ with values in $\OO'$ and the same values
+as $\psi$ in $\Qlbar$. $\mathrm{GD}(K,\ell,e,\psi')$ holds: the conditions (G1)--(G6) only involve orders, kernels and the values $\pm1$,
+which are preserved by injective ring homomorphisms. By \lref{UpperTheory.V.HV.coefIndep} (if two characters with values in
+coefficient rings have the same values in $\Qlbar$, then $V_\ell$ is infinite for both or for neither, and $\eisVt_\ell$ agrees),
+$V_\ell(\psi,e)$, $V_\ell(\psi',e)$ are finite together and $\eisVt_\ell(\psi,e)=\eisVt_\ell(\psi',e)$. Since $\Psi_{\psi,e}$ and
+$\Psi_{\psi',e}$ agree in $\Qlbar$, $t$ and the hypothesis on admissible $\rho$ are the same. So we may assume $e_\OO=1$.
+
+\emph{The rings.} Choose a datum $D$ (\lref{UpperTheory.V.U3.exists_dat}). By $(\mathrm{U}_{\mathrm{ur}})$ there is a marked
+$g_1$ with (a)--(c) of \cref{pf:eis:Uur}. Choose $U$, $S=S(U,g_1)$ and a model $M$ of $S$ with base point $x_0$
+(\lref{UpperTheory.V.U3.exists_uLoc}, \lref{UpperTheory.V.U3.exists_ring}, and \lref{UpperTheory.V.U3.exists_model}). For a point $f$ of
+$S$ let $\rho_f=(r_f)_K:G_K\to\GL_3(\Qlbar)$.
+
+\emph{Traces.} Since $\sigma\in G_K=\ker\eta$, $\eisrz(\eta,\Psi)(\sigma)=\mathrm{diag}(\Psi(\sigma),1,\Psi(\sigma)^{-1})$ and
+$\eistr_\sigma(f)=\tr\rho_f(\sigma)-t$ for every point $f$.
+
+\emph{Admissibility.} Let $f$ be two-signed. Then $r_f$ is a point of $D$ (\lref{UpperTheory.V.U3.isPt_push}) of type I or II
+(\lref{UpperTheory.V.U3.twoPt_shape}). If it is of type I, (b) of \cref{pf:eis:Uur} and $(\mathrm{A}_{\mathrm{I}})$ show that $\rho_f$ is
+admissible of unitary type. If it is of type II, its middle entry is $1$ on $\ker\eta$ (\lref{UpperTheory.V.U3.typeII_facts}),
+(c) of \cref{pf:eis:Uur} gives modularity of the extensions of its corner, and \cref{pf:eis:admII} shows that $\rho_f$ is endoscopic.
+In both cases $\rho_f$ is admissible, so $\eistr_\sigma(f)\ne0$ by hypothesis.
+
+\emph{The bounds.} By \cref{pf:eis:pthyp}, $\mathrm{Pt}(x_0)$ holds; the weight-zero subalgebra of $S$ is finite by (a); $\ell\ne2$ by
+(G1). \Cref{pf:eis:upper} gives $\lambda(M)<\infty$ and a finite set $T$ of two-signed points, pairwise not conjugate under the torus,
+covering all two-signed points, with $\|\lambda(M)\|_\OO\le2\sum_{f\in T}\eisv(\eistr_\sigma(f))$. \Cref{pf:eis:lower} gives
+$V_\ell(\psi,e)\le\lambda(M)<\infty$, and as $\|\cdot\|_\OO$ is monotone on finite values,
+$\eisVt_\ell(\psi,e)\le\|\lambda(M)\|_\OO$.
+
+\emph{The set $X$.} Let $X=\{\rho_f:f\in T\}$; its elements are admissible. If $\rho_f$ and $\rho_{f'}$ are isomorphic for $f,f'\in T$,
+then by \lref{UpperTheory.V.U3.twoPt_shape} (which also states that a local point $f'$ whose $r_{f'}$ is isomorphic to $r_f$ on
+$\ker\eta$, for two-signed $f$, satisfies $r_{f'}=\tau(t)r_f\tau(t)^{-1}$ for some $t$) $f$ and $f'$ are related, hence $f=f'$. So the
+elements of $X$ are pairwise non-isomorphic, $f\mapsto\rho_f$ is injective on $T$, and
+\[
+ \eisVt_\ell(\psi,e)\le2\sum_{f\in T}\eisv(\eistr_\sigma(f))=2\sum_{\rho\in X}\eisv(\tr\rho(\sigma)-t).\qedhere
+\]
+\end{proof}
+
+\subsubsection{Proof of \texorpdfstring{\cref{pf:eis:main}}{Theorem CountI}}
+
+\begin{proof}[Proof of \cref{pf:eis:main}]
+Assume $\sfname{HypothesesH'}$, $\sfname{LemmaK}(C_K)$, $\sfname{KatoTwoW}$ and $(\mathrm{U}_{\mathrm{ur}})$. The local results contained in
+component \ref{pf:vwin-he:H1} of $\sfname{HypothesesH'}$ (\lref{UpperTheory.V.HV.U.locPrints_of_litN}), its global cohomological
+results and $\sfname{LemmaK}(C_K)$ give $(\mathrm{Coh})$. We use the following results proved elsewhere:
+\begin{itemize}
+\item \lref{UpperTheory.GalN.V.Win.N.numberU3U_of_prints}: $(\mathrm{Num})$ holds;
+\item \lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lifting_of_cohomology}: $\sfname{HypothesesH'}$ implies an
+  adjoint lifting theorem (vanishing of adjoint Selmer groups at locally generic automorphic points of universal ordinary
+  deformation rings of rank $2\le n\le4$ over CM fields);
+\item \lref{UpperTheory.V.Z.J.linkedUnlE_alt} and \lref{UpperTheory.V.Z.J.unlEnd3E}: $\sfname{HypothesesH'}$ implies a statement
+  $(\mathrm{Unl})$: ordinary points of the linked unitary deformation problems, with values in a discrete valuation ring
+  finite over $\OO$, which are irreducible on every open subgroup of $\ker\eta$ and have level $N'$ and type $(e,0,-e)$ at $\ell$,
+  are unlinked of level $N'$ and type $(e,0,-e)$;
+\item Lemma M (\cref{pf:vwin-he:lemmaM}), Lemma M$'$ (\lref{UpperTheory.V.Alg.M.mprime_holds}) and Lemma P
+  (\lref{UpperTheory.V.Alg.lemmaP}).
+\end{itemize}
+From these, $(\mathrm{R}_{\mathrm{I}})$ follows by \lref{UpperTheory.V.Z.J.rigIUE_alt} ($(\mathrm{Coh})$, $\sfname{HypothesesH'}$, the
+adjoint lifting theorem and $(\mathrm{Unl})$ imply $(\mathrm{R}_{\mathrm{I}})$), $(\mathrm{R}_{\mathrm{II}})$ by
+\lref{UpperTheory.V.Z.Win.RR.rigII_a_alt} ($(\mathrm{Coh})$, $\sfname{HypothesesH'}$ and the adjoint lifting theorem imply
+$(\mathrm{R}_{\mathrm{II}})$), and $(\mathrm{A}_{\mathrm{I}})$ by \lref{UpperTheory.V.Z.J.admissible_typeI_even_level_alt} ($(\mathrm{Coh})$,
+$\sfname{HypothesesH'}$ and $(\mathrm{Unl})$ imply $(\mathrm{A}_{\mathrm{I}})$). \Cref{pf:eis:onecharthm} gives $(\mathrm{One})$, and
+\cref{pf:eis:propGKpf,pf:eis:corGK,pf:eis:countIcor} give $\sfname{PropGK}$, $\sfname{PropGK}^{\Sigma}$ and $\sfname{CountI}$.
+\end{proof}
+
+\begin{remark}\label{pf:eis:countIrem}
+(1) The hypothesis $(\mathrm{U}_{\mathrm{ur}})$ is only applied to coefficient rings with $e_\OO=1$; the reduction to this case in
+\cref{pf:eis:onecharthm} uses that $\ell\nmid\ord\psi$.
+(2) The rigidity statements $(\mathrm{R}_{\mathrm{I}})$, $(\mathrm{R}_{\mathrm{II}})$ and the admissibility statement $(\mathrm{A}_{\mathrm{I}})$ reduce, in the formal proof,
+to the adjoint lifting theorem and to $(\mathrm{Unl})$ by placing the local point on an integral model (a discrete valuation
+ring finite over $\OO$) and by the ordinarity of points of $S$ at $\ell$.
+(3) $\sfname{KatoTwoW}$ enters only through \cref{pf:eis:bktypeII}, at the type II (endoscopic) points, for the two pieces $W$ and
+$W\otimes\eta$ of the adjoint representation, in accordance with the description in \cref{sec:window:eis}.
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{Case V: host frames over \texorpdfstring{$\Q(i)$}{Q(i)}}\label{sec:pf:eis:countV}
+
+\begin{theorem}\label{pf:eis:countV}
+Assume $\sfname{HypothesesH'}$, $\sfname{LemmaK}(C_K)$ for some $C_K\in\R$, and the unitary automorphy statement over $\Q(i)$,
+$(\mathrm{U}_i)$ (\cref{pf:eis:Ui}). Then $\sfname{CountV}$ holds.
+\formallabel{UpperTheory.V.Z.J.count_v_of_printed_bound_k_reduced_unitary_lift}
+\end{theorem}
+
+Case V concerns $\ell\in B_\chi$ and $j=1$, under the $2$-adic condition $R_1(h,\ell,\theta)\le2^{c_2(\theta)}$ of
+\cref{pf:vwin-he:countdef}. The proof follows the pattern of \cref{sec:pf:eis:onechar}, with $K=\Q(i)$, a deformation problem for
+$G_{\Q,S}$ (a \emph{host frame}) in place of the ring $S$, and an abstract counting lemma (\cref{pf:eis:abscount}) which combines the
+upper and lower bounds. Throughout, $\eta_4:G_\Q\to\{\pm1\}$ is the quadratic character of $\Q(i)$, whose kernel is $G_{\Q(i)}$.
+
+\subsubsection{Frames}
+
+\begin{definition}[Host data and host frames]\label{pf:eis:frame}
+Let $\ell$ be a prime, $\OO$ a coefficient ring, $N\ge1$, $e\in\N$, $\psi$ a Dirichlet character modulo $N$ with values in $\OO$, and
+$o_1\in\N$.
+\begin{enumerate}[label=(\alph*)]
+\item $\mathrm{H}(\ell,e,\psi,o_1)$ holds if $\ell\ne2$, $e\ge1$, $N$ is even, $\psi(-1)=(-1)^e$, $o_1\ge1$, $(\psi_{\ell'})_{(r)}^{2o_1}=1$
+  for every odd prime $r$, $8o_1v^2<2^{c_2(\psi)}$ for every $v\in T_b(\ell,\psi)$, and $c_2(\psi)\ge4$ (notation of \cref{pf:vwin-he:cases}).
+  Here $T_b(\ell,\psi)=\{\ell\}\cup S_b(\ell,\psi)$, where $S_b(\ell,\psi)$ is the set of primes $p\mid N$, $p\ne\ell$, with
+  $(\psi^{(\ell)})_{(p)}\ne1$.
+\item A \emph{frame} $F$ over $\OO$ indexed by a finite set $S$ consists of a homomorphism $\pi:G_\Q\to\Gamma$ to a profinite group,
+  homomorphisms $\eta:\Gamma\to\{\pm1\}$ and $\Psi:\Gamma\to\OO^\times$, an element $c\in\Gamma$, subgroups $I_v\subset D_v$ of $G_\Q$ for
+  $v\in S$, an element $v_\ell\in S$ and a subset $S_b\subset S$; put $T_b=\{v_\ell\}\cup S_b$. For $x\in G_\Q$ we write $\eta(x)$,
+  $\Psi(x)$ for $\eta(\pi(x))$, $\Psi(\pi(x))$.
+\item Assume $\mathrm{H}(\ell,e,\psi,o_1)$. A \emph{host frame} is a frame with $S$ the set of primes dividing $\ell N$,
+  $\Gamma=G_{\Q,S}$ the Galois group of the maximal extension of $\Q$ in $\Omega$ unramified outside $S$ (and $\infty$), $\pi$ the
+  projection, $\eta\circ\pi=\eta_4$, $\Psi\circ\pi=\Psi_{\psi,e}$, $c$ the image of a complex conjugation, $D_v=D_{A_v}$ and $I_v=I_{A_v}$ for
+  chosen places $A_v$ of $\Omega$ over $v\in S$, $v_\ell=\ell$, and $S_b$ the set of $v\in S$ above primes of $S_b(\ell,\psi)$.
+\end{enumerate}
+\formal{UpperTheory.V.UnitaryThreeInertia.HostData}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame}
+\formal{UpperTheory.V.UnitaryThreeInertia.IsHostFrame}
+\end{definition}
+
+By \lref{UpperTheory.V.UnitaryThreeInertia.exists_hostFrame}, host frames exist whenever $\mathrm{H}$ holds. For a
+frame, lifts of $\bar r_0=\eisrz(\eta,\bar\Psi)$ are defined as in \cref{sec:pf:eis:onechar} (with $\Gamma$ in place of $G_\Q$); here
+complete $\OO$-algebras are complete Noetherian local $\OO$-algebras with residue field $k$, and for $s\in D_v$ we write $r(s)$, $\eta(s)$,
+$\Psi(s)$ for $r(\pi(s))$, $\eta(\pi(s))$, $\Psi(\pi(s))$. Put $N_v=I_v\cap\ker\eta\cap\ker\bar\Psi$ (the inertia elements acting trivially
+through $\bar r_0$). A lift $r$ is a \emph{point} of $F$ (normalized at $(c,g_1)$) if it is
+normalized at $(c,g_1)$ and satisfies the local conditions
+\begin{itemize}
+\item[$(\mathrm P_\ell)$] there is $h\in\GL_3(R)$, $h\equiv1$ modulo $\mathfrak m_R$, such that $h^{-1}\mathrm{mat}(r(s))h$ is upper triangular for
+  $s\in D_{v_\ell}\cap\ker\eta$ and has diagonal entries $\Psi(s),1,\Psi(s)^{-1}$ for $s\in I_{v_\ell}\cap\ker\eta$;
+\item[$(\mathrm P_b)$] for $v\in S_b$, the same condition at $v$ with ``diagonal'' in place of ``upper triangular'';
+\item[$(\mathrm P_0)$] for $v\notin T_b$, $r(s)=1$ for $s\in N_v$.
+\end{itemize}
+The element $g_1\in\Gamma$ is
+\emph{marked} if $\eta(g_1)=1$ and $\Psi(g_1)^2-1\in\OO^\times$. A \emph{universal point} $(R,u)$ is a point $u:\Gamma\to\eisGG(R)$ such
+that every point to a complete $\OO$-algebra $R'$ is $f\circ u$ for a unique $f:R\to R'$. For $j\in\Z$ the \emph{weight-$j$ part} $R_j$ of
+$R$ is the set of $x\in R$ with $f'(x)=t^jf(x)$ whenever $f'\circ u=\tau(t)(f\circ u)\tau(t)^{-1}$; let $R_\bullet$ be the
+$\OO$-subalgebra generated by the $R_j$. For an $\OO$-algebra homomorphism $\xi:R_\bullet\to\Qlbar$, $r_\xi:\Gamma\to\eisGG(\Qlbar)$ denotes
+the specialization of $u$. A homomorphism $r:\Gamma\to\eisGG(\Qlbar)$ is a \emph{characteristic-zero point} if, up to conjugation by
+some $\tau(t)$, it is a point of $F$ with values in a discrete valuation ring $A\subset\Qlbar$ finite over $\OO$; it is \emph{rigid} if
+every continuous cocycle of the adjoint representation of $r$ which defines a first-order deformation satisfying the local
+conditions is a coboundary.
+
+\begin{definition}[Conditions on frames]\label{pf:eis:framecond}
+Let $\bar{\mathfrak g}_j$ be the representation of $\Gamma$ on $\mathfrak g_j(k)$ through $\bar r_0$ (the adjoint action twisted as in
+\cref{pf:eis:GG}). For $v\in S$ let $L_v(j)$ be the space of continuous $1$-cocycles $y:D_v\to\bar{\mathfrak g}_j$ such that $y$ vanishes on
+$N_v$ if $v\ne v_\ell$, $y$ is a coboundary if $v=v_\ell$ and $j<0$, and $y$ vanishes on $I_{v_\ell}$ if $v=v_\ell$ and $j=0$ (no condition if
+$v=v_\ell$ and $j>0$). The \emph{Selmer group} $H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_j)$ is the space of continuous $1$-cocycles of $\Gamma$ whose
+restrictions to all $D_v$ lie in $L_v(j)$, modulo coboundaries. A \emph{framed $2$-cocycle} is a pair $(\kappa,(\alpha_v)_{v\in S})$ of a
+continuous $2$-cocycle $\kappa$ of $\Gamma$ with values in $\bar{\mathfrak g}_j$ and continuous maps $\alpha_v:D_v\to\bar{\mathfrak g}_j$ with
+$d\alpha_v=\kappa|_{D_v}$; the \emph{framed coboundaries} are the sums of pairs $(d\beta,(\beta|_{D_v})_v)$, $\beta:\Gamma\to\bar{\mathfrak g}_j$
+continuous, and $(0,(z_v)_v)$ with $z_v\in L_v(j)$; and $\mathrm{Ob}_j$ is the quotient. The frame $F$ satisfies
+\begin{itemize}
+\item $(\mathrm{F1})$ if a list of conditions holds: $2\in\OO^\times$; $\pi$, $\eta$ and $\Psi$ are continuous; $c^2=1$, $\eta(c)=-1$, $\Psi(c)=1$;
+  $v_\ell\notin S_b$; the $D_v$ and $I_v$ are closed with $I_v$ normal in $D_v$, and there is $\varphi_v\in D_v$ which together with $I_v$
+  topologically generates $D_v$ and, for every $n\ge1$, is sent to the class of $1$ by some continuous homomorphism $D_v\to\Z/n\Z$
+  trivial on $I_v$; $\eta$ is trivial on $I_v$ and some $x\in D_v$ has $\eta(x)=1$, $\Psi(x)^2-1\in\OO^\times$ for $v\in T_b$; and $\Psi$
+  is trivial on $N_v$ for $v\notin T_b$;
+\item $(\mathrm{F2})$ if $H^2(D_v,\bar{\mathfrak g}_j)=0$ for $v\in T_b$ and $H^1(D_v,\bar{\mathfrak g}_j)=0$ for $v\in S_b$, for all $j\ne0$;
+\item $(\mathrm{F3})$ if for every $j$ both $H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_j)$ and $\mathrm{Ob}_j$ are finite-dimensional and
+  $\dim H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_j)-\dim\mathrm{Ob}_j=\epsilon_j$, where $\epsilon_{-1}=-1$, $\epsilon_1=\epsilon_2=1$ and $\epsilon_j=0$
+  otherwise;
+\item $(\mathrm{F4})$ if for every $j\le0$, every continuous cocycle of $\Gamma$ with values in $\mathfrak g_j(\OO)$ for $\eisrz(\eta,\Psi)$ which
+  vanishes on $N_v$ ($v\notin T_b$), on $I_v$ ($v\in T_b$) if $j=0$, and, if $j<0$, agrees with a coboundary on $D_{v_\ell}\cap\ker\eta$,
+  becomes a coboundary after multiplication by some $0\ne a\in\OO$;
+\item $(\mathrm{F5})$ if every locally constant homomorphism from $\ker\eta$ to an abelian group which is trivial on the conjugates of the
+  inertia groups $I_v$ lying in $\ker\eta$ is trivial;
+\item $(\mathrm{F6})$ if $H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_{-2})=0$.
+\end{itemize}
+For $0\ne a\in\OO$, $\Sha_F(a)\subset H^1(\Gamma,\OO/a)$ (with $\Gamma$ acting through $\Psi^{-1}$) is the $\OO$-submodule spanned by the classes
+of continuous cocycles which vanish on $N_v$ for $v\notin T_b$ and are coboundaries on $D_v$ for $v\in T_b$, and
+$\lambda_F(a)=\len_\OO\Sha_F(a)\in\N\cup\{\infty\}$.
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.Ok}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.LocVan}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.Count}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.VanE}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.Cl1}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.Xpp}
+\formal{UpperTheory.V.UnitaryThreeInertia.Frame.shaLen}
+\end{definition}
+
+\begin{definition}[The automorphy, rigidity and number statements over $\Q(i)$]\label{pf:eis:Ui}
+For a homomorphism $r:\Gamma\to\eisGG(\Qlbar)$ of a host frame and $\iota:\Qlbar\cong\C$, let $\mathrm{B}'_\iota(r)$ mean: $\mathrm{mat}\circ r\circ\pi$
+is irreducible on every open subgroup of $G_{\Q(i)}=\ker\eta_4$ and on $\ker\eta_4\cap\ker\eiscyc$, and its restriction $\rho$ to
+$G_{\Q(i)}$ satisfies $\mathcal A_\iota(\rho\otimes\eiscyc^{-1})$.
+\begin{enumerate}[label=(\alph*)]
+\item $(\mathrm{U}_i)$ is the statement: for $K=\Q(i)$, all $\Omega,\ell,\iota,\OO,N,e,\psi,o_1$ with $\mathrm{H}(\ell,e,\psi,o_1)$ and every host
+  frame $F$, there is a marked $g_1$ such that for every universal point $(R,u)$: $R_0$ is a finite $\OO$-module, and for every
+  $\xi:R_\bullet\to\Qlbar$ with $r_\xi$ of type I, the restriction of $\mathrm{mat}\circ r_\xi\circ\pi$ to $G_{\Q(i)}$, twisted by $\eiscyc^{-1}$,
+  satisfies $\mathcal A_\iota$.
+\item $(\mathrm{U}_i')$ is the same statement with the conclusion $\mathrm{B}'_\iota(r_\xi)$ for $r_\xi$ of type I.
+\item $(\mathrm{R}_i)$: for $K=\Q(i)$ and all data as in (a), every $\iota$ and marked $g_1$, every characteristic-zero point $r$ with
+  $\mathrm{B}'_\iota(r)$ is rigid.
+\item $(\mathrm{Num}_i)$: for $K=\Q(i)$ there is $C\in\N$ such that for all data as in (a), every $\iota$ and marked $g_1$, there is
+  $\varphi\in\Gamma$ such that $\tr r(\varphi)\ne\tr\eisrz(\varphi)$ for every characteristic-zero point $r$ of type I with $\mathrm{B}'_\iota(r)$, and
+  for every finite family $r_1,\dots,r_n$ of such points, pairwise non-isomorphic on $\ker\eta$,
+  \[\textstyle\Bigl(\sum_i\eisv\bigl(\tr r_i(\varphi)-\tr\eisrz(\varphi)\bigr)\Bigr)\log\ell\le(\ell Ne)^C.\]
+\item $(\mathrm{F4})_{\mathrm h}$: for all data as in (a), every host frame satisfies $(\mathrm{F4})$. $(\mathrm{F6})_{\mathrm h}$: for all data
+  as in (a) and every $q\in\N$ with $\mathrm{X}(\ell,\psi,q)$, every host frame satisfies $(\mathrm{F6})$; here $\mathrm{X}(\ell,\psi,q)$ means that
+  $q\ge1$, the conductor of $(\psi^\sharp)^2$ divides $q$, and $2\ell q\,4^{n_0(\ell,\psi)}\le2^{c_2(\psi)}$ (notation of \cref{pf:vwin-he:cases}).
+\end{enumerate}
+Here $\eisrz=\eisrz(\eta,\Psi)$.
+\formal{UpperTheory.V.Aut.BPrime_s}
+\formal{UpperTheory.V.Aut.ThmS6Core_s}
+\formallabel{UpperTheory.V.Aut.ThmS6_s}
+\formallabel{UpperTheory.V.UnitaryThreeInertia.HostRigid_s}
+\formallabel{UpperTheory.V.UnitaryThreeInertia.HostNumber_s}
+\end{definition}
+
+Statement (a) is the statement $(\mathrm{U}_i)$ of \cref{pf:vwin-he:autstmts}; (d) is the Eisenstein congruence number of case V.
+
+\subsubsection{Reductions}
+
+\begin{lemma}\label{pf:eis:s6}
+$(\mathrm{U}_i)$ implies $(\mathrm{U}_i')$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.unitary_lift_of_reduced_core}
+\end{lemma}
+
+\begin{proof}
+Given the data, take $g_1$ from $(\mathrm{U}_i)$; it remains to show $\mathrm{B}'_\iota(r_\xi)$ for $r_\xi$ of type I. The automorphy part is given by
+$(\mathrm{U}_i)$. Host frames satisfy $(\mathrm{F1})$ (\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_ok}). As $R_0$ is finite over $\OO$,
+$r_\xi$ is a characteristic-zero point (\lref{UpperTheory.V.UnitaryThreeInertia.isCharZeroPt_of_isPtHom}: under $(\mathrm{F1})$, for marked
+$g_1$, a universal point with $R_0$ finite over $\OO$, every specialization $r_\xi$ is a characteristic-zero point). For characteristic-zero
+points of type I of a host frame, irreducibility on every open subgroup of $\ker\eta_4$ and on $\ker\eta_4\cap\ker\eiscyc$ hold by
+\lref{UpperTheory.V.UnitaryThreeInertia.matIrr_open} and \lref{UpperTheory.V.UnitaryThreeInertia.matIrr_cyc}.
+\end{proof}
+
+\begin{lemma}\label{pf:eis:hostdata}
+Let $h=(\chi,m,q_1,d)$ be a host, $\OO$ a coefficient ring for a prime $\ell\ne2$, $e\ge1$ and $\theta\in\eisX_h(\OO,e)$ with
+$R_1(h,\ell,\theta)\le2^{c_2(\theta)}$. Then $\mathrm{H}(\ell,e,\theta,o_\chi)$ and $\mathrm{X}(\ell,\theta,N_\chi)$ hold.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.hostData_of_host}
+\end{lemma}
+
+\begin{proof}
+$\ell\ne2$, $e\ge1$ and $\theta(-1)=(-1)^e$ hold by hypothesis; $N_h$ is even and $o_\chi\ge1$ by
+\lref{UpperTheory.V.HV.hostIndex}. The order bound on the odd components and the conductor condition of $\mathrm{X}$ are part
+of \lref{UpperTheory.V.HV.hostTh1} (properties of the components of characters $\theta$ trivial on $H_h$). By
+\lref{UpperTheory.V.HV.cmDatum_char_two_adic_order_bounds}, $R_1(h,\ell,\theta)\le2^{c_2(\theta)}$ implies $c_2(\theta)\ge4$ and
+$8o_\chi v^2<2^{c_2(\theta)}$ for $v\in T_b(\ell,\theta)$. Finally, with $n_0=n_0(\ell,\theta)$ and $\ell\ge3$, $o_\chi\ge1$:
+$2\ell N_\chi\le16o_\chi(\ell N_\chi)^2$, so $2\ell N_\chi4^{n_0}\le R_1(h,\ell,\theta)\le2^{c_2(\theta)}$, the inequality of $\mathrm{X}$.
+\end{proof}
+
+\begin{proposition}[Abstract count]\label{pf:eis:abscount}
+Assume Lemma M and Lemma M$'$. Let $F$ be a frame over $\OO$ (with $\Gamma$ compact and totally disconnected and $S$ finite) satisfying
+$(\mathrm{F1})$, $(\mathrm{F2})$, $(\mathrm{F3})$, $(\mathrm{F4})$, $(\mathrm{F5})$ and $(\mathrm{F6})$, $g_1$ marked, $(R,u)$ a universal point with $R_0$ a finite
+$\OO$-module, $\varphi\in\Gamma$, and $\mathcal P$ a property of homomorphisms $\Gamma\to\eisGG(\Qlbar)$ such that $r_\xi$ has $\mathcal P$ whenever
+$r_\xi$ is of type I, and every characteristic-zero point $r$ of type I with $\mathcal P$ is rigid and has $\tr r(\varphi)\ne\tr\eisrz(\varphi)$. Then
+there are characteristic-zero points $r_1,\dots,r_n$ of type I with $\mathcal P$, pairwise non-isomorphic on $\ker\eta$, and $V\in\N$ such
+that $\lambda_F(a)\le V$ for all $0\ne a\in\OO$ and
+\[
+ V\le2e_\OO\sum_{i=1}^n\eisv\bigl(\tr r_i(\varphi)-\tr\eisrz(\varphi)\bigr).
+\]
+\formallabel{UpperTheory.V.UnitaryThreeInertia.abstract_count}
+\end{proposition}
+
+\begin{proof}
+The argument is that of \cref{pf:eis:upper,pf:eis:lower}, with an explicit presentation of $R$ in place of a model. We use the
+following results of the development (all under $(\mathrm{F1})$, for marked $g_1$ and the universal point $u$).
+\begin{enumerate}[label=(\arabic*)]
+\item \lref{UpperTheory.V.UnitaryThreeInertia.exists_adapted}: there is a \emph{weighted presentation}
+  $\pi_W:\OO[[x_s:s\in\sigma]]\to R$, surjective and homogeneous for weights $\mathrm{wt}(s)\in\{-2,\dots,2\}$ of the variables, adapted to $u$
+  (the variables are matrix entries of $u$ minus their values at $\eisrz$, of the weight of the entry, and $\pi_W$ carries the weight
+  grading to the decomposition $R_j$), and minimal.
+\item \lref{UpperTheory.V.UnitaryThreeInertia.hasOrigin}: the presentation has an origin, an $\OO$-point $o$ of $R$ with all variables
+  mapping to $0$, and $o\circ u=\eisrz$.
+\item \lref{UpperTheory.V.UnitaryThreeInertia.exists_relations} (also using $(\mathrm{F2})$, $(\mathrm{F3})$): $\ker\pi_W$ is generated by
+  elements $f_{j,i}$ of weight $j$, $1\le i\le\dim\mathrm{Ob}_j$.
+\item \lref{UpperTheory.V.UnitaryThreeInertia.finrank_H1L_le}: $\dim H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_j)\le\#\{s:\mathrm{wt}(s)=j\}$; with
+  $(\mathrm{F3})$, $\dim\mathrm{Ob}_j+\epsilon_j\le\#\{s:\mathrm{wt}(s)=j\}$ for all $j$.
+\item For $\xi:R_\bullet\to\Qlbar$, $r_\xi$ is a characteristic-zero point
+  (\lref{UpperTheory.V.UnitaryThreeInertia.isCharZeroPt_of_isPtHom}); if $\xi$ is non-zero on some $R_j$ with $j<0$ and on some $R_j$
+  with $j>0$ (we say $\xi$ is two-signed), then $r_\xi$ is neither upper nor lower
+  (\lref{UpperTheory.V.UnitaryThreeInertia.isPtHom_sign}) and hence of type I
+  (\lref{UpperTheory.V.UnitaryThreeInertia.typeI_of_twoSigned}, using $(\mathrm{F2})$ and $(\mathrm{F6})$); so $r_\xi$ has $\mathcal P$, is rigid,
+  and $\tr r_\xi(\varphi)\ne\tr\eisrz(\varphi)$.
+\item If $\xi$ vanishes on all $R_j$, $j\ne0$, then $r_\xi$ is upper and lower, hence equal to $\eisrz$
+  (\lref{UpperTheory.V.UnitaryThreeInertia.eq_rz_of_diag}, using $(\mathrm{F5})$), and $\xi$ agrees with $o$ on all homogeneous elements
+  (\lref{UpperTheory.V.UnitaryThreeInertia.isPtHom_act}: points with torus-conjugate specializations differ by the torus action).
+\item At a two-signed $\xi$, every point derivation $D$ of $R_\bullet$ at $\xi$ is a multiple of the orbit derivation: $D(x)=a\,j\,\xi(x)$ for $x\in R_j$
+  (\lref{UpperTheory.V.UnitaryThreeInertia.tangent_eq_orbit}, from the rigidity of $r_\xi$).
+\item A tangent vector at $o$ of weight $j\le0$ which is killed by the linear parts of the relations is zero
+  (\lref{UpperTheory.V.UnitaryThreeInertia.tangent_coord_eq_zero_of_nonpos_weight}, using $(\mathrm{F4})$).
+\item For $0\ne a\in\OO$ there is an injective additive map from $\Sha_F(a)$ to $(\OO/a)^\sigma$, supported on the variables of weight
+  $-1$ and killed by the linear parts of the relations (\lref{UpperTheory.V.UnitaryThreeInertia.mprime_coord}).
+\end{enumerate}
+Let $a=\tr\mathrm{mat}(u(\varphi))-\tr\eisrz(\varphi)\in R_0$; then $o(a)=0$, and $\xi(a)=\tr r_\xi(\varphi)-\tr\eisrz(\varphi)$, which is non-zero at
+two-signed $\xi$ by (5). The coordinate form of Lemmas M and M$'$ (\lref{UpperTheory.V.UnitaryThreeInertia.Abs.coord_count}), applied
+to the presentation, the relations, the bounds (4), the finiteness of $R_0$, the facts (6), (7), (8) and the function $a$, with the normalized
+valuation $e_\OO\eisv$, gives $n$, two-signed $\xi_1,\dots,\xi_n$ no two of which are related by the torus action, and $V\in\N$, such that every
+$\OO$-module with an injective map as in (9) has length $\le V$, and $V\le2\sum_ie_\OO\eisv(\xi_i(a))$. By (9), $\lambda_F(a)\le V$ for all
+$a\ne0$. Put $r_i=r_{\xi_i}$; these are characteristic-zero points of type I with $\mathcal P$ by (5), and the bound for $V$ is the asserted one.
+If $r_i$ and $r_{i'}$ are isomorphic on $\ker\eta$, then they are conjugate by some $\tau(t)$
+(\lref{UpperTheory.V.UnitaryThreeInertia.conj_of_matIso}, for characteristic-zero points of type I), so $\xi_i$ and $\xi_{i'}$ are related by
+the torus action (\lref{UpperTheory.V.UnitaryThreeInertia.isPtHom_act}) and $i=i'$.
+\end{proof}
+
+\begin{lemma}\label{pf:eis:vlenV}
+Let $\mathrm{H}(\ell,e,\psi,o_1)$ hold, let $F$ be a host frame and $V\in\N$ with $\lambda_F(a)\le V$ for all $0\ne a\in\OO$. Then
+$V_\ell(\psi,e)\le V$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.vlen_le}
+\end{lemma}
+
+\begin{proof}
+Let $S$ be the set of primes dividing $\ell N$. Since $\Psi^{-1}$ factors through $G_{\Q,S}$, the length $V_\ell(\psi,e)$ equals the length of
+the group $\Sha'$ of classes in $H^1(G_{\Q,S},\OO\otimes\eisQZ(\Psi^{-1}))$ which vanish on the decomposition groups at the places $A_v$,
+$v\in S$ (\lref{UpperTheory.V.Chr.litV}). The frame satisfies $(\mathrm{F1})$ (\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_ok}).
+Every class of $\Sha'$ is killed by a power of $\ell$ (a representing cocycle takes finitely many values), so $\Sha'$ is the increasing
+union of the submodules $\Sha'[\ell^k]$, and it suffices to show $\len_\OO\Sha'[\ell^k]\le\lambda_F(\ell^k)$ for every $k$. Let
+$a=\ell^k$ and $M=\OO\otimes\eisQZ(\Psi^{-1})$; then $M$ is divisible and $M[a]$ is identified with $\OO/a$ (with the action through $\Psi^{-1}$).
+If $z$ is a cocycle whose class lies in $\Sha'[a]$, then $az=dm_0$ is a coboundary, $m_0=am_1$, and $y=z-dm_1$ takes values in $M[a]=\OO/a$; it
+is a continuous cocycle. For $v\in S$ we have $z=dm$ on $D_v$ for some $m\in M$. If $v\notin T_b$, then $\Psi$ is trivial on $N_v$ by $(\mathrm{F1})$,
+so $y$ vanishes on $N_v$. If $v\in T_b$, choose $x\in D_v$ with $\Psi(x)^2-1\in\OO^\times$ (by $(\mathrm{F1})$); then $\Psi(x)-1$ is a unit, and from
+$a(y(x))=0$ one gets $a(m-m_1)=0$, so $y=d(m-m_1)$ on $D_v$ with $m-m_1\in M[a]$. Hence the class of $y$ lies in $\Sha_F(a)$, and its image
+under the natural map $J:H^1(\Gamma,\OO/a)\to H^1(\Gamma,M)$ is the class of $z$. So $\Sha'[a]\subset J(\Sha_F(a))$, and
+$\len_\OO\Sha'[a]\le\len_\OO\Sha_F(a)=\lambda_F(a)\le V$.
+\end{proof}
+
+\begin{theorem}\label{pf:eis:countVof}
+$(\mathrm{U}_i')$, Lemma M, Lemma M$'$, the local finiteness, Tate duality and Euler characteristic theorems over finite extensions of
+$\Ql$, global finiteness, the global Euler characteristic formula, Poitou--Tate duality, $(\mathrm{F4})_{\mathrm h}$, $(\mathrm{F6})_{\mathrm h}$,
+$(\mathrm{R}_i)$ and $(\mathrm{Num}_i)$ imply $\sfname{CountV}$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.countV_of_finiteness_duality_euler_host}
+\end{theorem}
+
+\begin{proof}
+Let $K=\Q(i)$ (\lref{UpperTheory.V.UnitaryThreeInertia.gaussian_field_range_eq_ker_quartic_char}: $\Q(i)$ exists as a CM field, and for every
+embedding into $\Omega$, $G_{\Q(i)}=\ker\eta_4$ and $d_{\Q(i)}=-4$), and let $C$ be the constant of $(\mathrm{Num}_i)$. We show that
+$C+1$ works in $\sfname{CountV}$, for every primitive $\chi$. Let $h$ be a host with character $\chi$, big for $t$, and let $\Omega$, an odd
+prime $\ell$, $\OO$, $0<e<t$ and $\theta\in\eisX_h(\OO,e)$ in case V with $R_1(h,\ell,\theta)\le2^{c_2(\theta)}$ be given; put $N=N_h$.
+
+By \cref{pf:eis:hostdata}, $\mathrm{H}(\ell,e,\theta,o_\chi)$ and $\mathrm{X}(\ell,\theta,N_\chi)$ hold. Choose a host frame $F$
+(\lref{UpperTheory.V.UnitaryThreeInertia.exists_hostFrame}) and $\iota:\Qlbar\cong\C$. $(\mathrm{U}_i')$ gives a marked $g_1$ with its
+properties. The frame satisfies $(\mathrm{F1})$ (\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_ok}) and the hypothesis needed for the
+existence of universal points (\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_phi}, from global finiteness), so a universal point
+$(R,u)$ exists (\lref{UpperTheory.V.UnitaryThreeInertia.exists_isUniv}); by $(\mathrm{U}_i')$, $R_0$ is finite over $\OO$ and every $r_\xi$ of
+type I satisfies $\mathrm{B}'_\iota$. $(\mathrm{Num}_i)$ gives $\varphi\in\Gamma$.
+
+We apply \cref{pf:eis:abscount} with $\mathcal P=\mathrm{B}'_\iota$. Its hypotheses hold: $(\mathrm{F2})$ by
+\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_locVan} (from the local finiteness, duality and Euler characteristic theorems);
+$(\mathrm{F3})$ by \lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_count} (from these and the global finiteness, Euler characteristic and
+Poitou--Tate theorems); $(\mathrm{F4})$ by $(\mathrm{F4})_{\mathrm h}$; $(\mathrm{F5})$ by \lref{UpperTheory.V.UnitaryThreeInertia.frame_class_one}; $(\mathrm{F6})$
+by $(\mathrm{F6})_{\mathrm h}$; rigidity of characteristic-zero points with $\mathrm{B}'_\iota$ by $(\mathrm{R}_i)$, and $\tr r(\varphi)\ne\tr\eisrz(\varphi)$ by
+$(\mathrm{Num}_i)$. We obtain points $r_1,\dots,r_n$ and $V$. By \cref{pf:eis:vlenV}, $V_\ell(\theta,e)\le V<\infty$. By $(\mathrm{Num}_i)$,
+applied to $r_1,\dots,r_n$, $(\sum_i\eisv(\tr r_i(\varphi)-\tr\eisrz(\varphi)))\log\ell\le(\ell Ne)^C$. Hence
+\[
+ \eisVt_\ell(\theta,e)\log\ell\le\frac{V}{e_\OO}\log\ell\le2\Bigl(\sum_i\eisv\bigl(\tr r_i(\varphi)-\tr\eisrz(\varphi)\bigr)\Bigr)\log\ell
+ \le2(\ell Ne)^C\le(\ell Ne)^{C+1},
+\]
+since $\ell Ne\ge2$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{pf:eis:countV}]
+Assume $\sfname{HypothesesH'}$, $\sfname{LemmaK}(C_K)$ and $(\mathrm{U}_i)$. By \cref{pf:eis:s6}, $(\mathrm{U}_i')$ holds. The local and global
+cohomological theorems are part of component \ref{pf:vwin-he:H1} of $\sfname{HypothesesH'}$. We use:
+\begin{itemize}
+\item \lref{UpperTheory.V.X.So.hostVanE}: $\sfname{LemmaK}(C_K)$, Poitou--Tate duality and the local finiteness, duality and Euler
+  characteristic theorems imply $(\mathrm{F4})_{\mathrm h}$;
+\item \lref{UpperTheory.V.X.xpp}: $(\mathrm{F6})_{\mathrm h}$ follows from the statement that, for the residual characters of
+  $G_\Q$ attached to products of a Dirichlet character of the type considered and a character modulo a power of $2$, every residual
+  $1$-cocycle satisfying the relevant unramifiedness conditions is a coboundary; this statement holds by
+  \lref{UpperTheory.V.X.corX}, from Lemma X (\lref{UpperTheory.V.X.lemmaX}) and the non-vanishing of residual Bernoulli
+  numbers (\lref{UpperTheory.V.X.residual_bernoulli_nonvanishing});
+\item \lref{UpperTheory.V.Z.J.hostRigidUE_alt}: $\sfname{HypothesesH'}$, the adjoint lifting theorem
+  (\lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lifting_of_cohomology}) and $(\mathrm{Unl})$
+  (\lref{UpperTheory.V.Z.J.unlEnd3E} and \lref{UpperTheory.V.Z.J.linkedUnlE_alt}) imply $(\mathrm{R}_i)$;
+\item \lref{UpperTheory.V.Z.J.hostNumberUE_alt}: $\sfname{HypothesesH'}$, $(\mathrm{Unl})$ and $(\mathrm{Num})$
+  (\lref{UpperTheory.GalN.V.Win.N.numberU3U_of_prints}) imply $(\mathrm{Num}_i)$;
+\item Lemma M (\cref{pf:vwin-he:lemmaM}) and Lemma M$'$ (\lref{UpperTheory.V.Alg.M.mprime_holds}).
+\end{itemize}
+\Cref{pf:eis:countVof} gives $\sfname{CountV}$.
+\end{proof}
+
+\begin{remark}\label{pf:eis:countVrem}
+(1) In case V the bound $(\ell N_hj)^{C+1}$ depends on $\ell$, as allowed by $\mathrm{Count}(P)$ of \cref{pf:vwin-he:countdef}; the field $K=\Q(i)$ and the constant $C$ do not
+depend on $\chi$. (2) The $2$-adic condition $R_1(h,\ell,\theta)\le2^{c_2(\theta)}$ is used only through \cref{pf:eis:hostdata}, to produce
+$\mathrm{H}$ and $\mathrm{X}$. (3) As in case I, the Selmer group is bounded by the length of a cotangent space of weight $-1$ (via
+(9) and Lemma M$'$), and this length by twice the sum of valuations of trace differences at the two-signed points (Lemma M).
+\end{remark}
+
+\subsubsection{Deformation theory of frames}\label{sec:pf:eis:framedef}
+
+We now prove the deformation-theoretic results used above: the existence of universal points, the presentation of
+universal rings by homogeneous relations (with the obstruction theory behind it), the dimension count $(\mathrm{F3})$ and the
+vanishing statement $(\mathrm{F4})_{\mathrm h}$ for host frames, the coordinate form of Lemmas M and M$'$, and the rigidity statement
+$(\mathrm{R}_i)$. Throughout, $F$ is a frame over $\OO$ indexed by a finite set $S$, $\Gamma$ is compact and totally
+disconnected, $k$ is the (finite) residue field of $\OO$ and $\ell$ its characteristic. A matrix $X$ over a graded
+$\OO$-algebra $A=\sum_iA_i$ is \emph{graded} if $X_{ab}\in A_{\mathrm{wt}(a,b)}$ for all $a,b$, where $\mathrm{wt}(a,b)$ is the weight of the
+entry $(a,b)$ (\cref{pf:eis:GG}).
+
+\begin{lemma}[Universal points]\label{pf:eis:univ}
+Assume $(\mathrm{F1})$, and that $\Gamma$ satisfies Mazur's finiteness condition $\Phi_\ell$: every open subgroup of $\Gamma$ has only
+finitely many continuous homomorphisms to $\Z/\ell\Z$. Then for every marked $g_1$ there is a universal point $(R,u)$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.exists_isUniv}
+\end{lemma}
+
+\begin{proof}
+Say that a property of $\OO$-algebra homomorphisms $f:R\to R'$ ($R'$ complete) is \emph{cut out} by an ideal $J\subset R$ if $f$ has
+the property exactly when $f(J)=0$. An equality $f(x)=f(y)$ is cut out by $(x-y)$, and the conjunction of any family of properties
+cut out by ideals $J_i$ is cut out by $\sum_iJ_i$.
+
+By \lref{UpperTheory.V.U3.exists_univ} (representability of the lifts of $\bar r_0$ under $\Phi_\ell$, Mazur's theorem \cite{Mazur1989} in
+the present setting; $\Phi_\ell$ passes to Hausdorff quotients of $\Gamma$, which is how the result is applied) there is a complete
+$\OO$-algebra $R$ with a lift $u$ of $\bar r_0$ such that every lift to a complete $\OO$-algebra $R'$ is $f\circ u$ for a unique
+$f:R\to R'$. We show that ``$f\circ u$ is a point'' is cut out by an ideal $J$. Then $R/J$, with the image of $u$, is a universal
+point: a point $r$ to $R'$ is $f\circ u$ for a unique $f$, which kills $J$ and so factors uniquely through $R/J$. Moreover $R/J\ne0$,
+since the base point $\eisrz(\eta,\Psi)$ is a point (\lref{UpperTheory.V.UnitaryThreeInertia.isPt_rz}) and the corresponding
+homomorphism $R\to\OO$ kills $J$; and $R/J$ is again complete Noetherian local with residue field $k$.
+
+The normalization at $(c,g_1)$ is cut out by the entries of $\mathrm{mat}(u(c))-1$ and the entries $(1,2),(2,1)$ of
+$\mathrm{mat}(u(g_1))-\mathrm{mat}(u(cg_1^{-1}c))$, and $(\mathrm P_0)$ at $v\notin T_b$ by the entries of $\mathrm{mat}(u(s))-1$, $s\in N_v$
+(note that $\eta(s)=1$ there). Let $v\in T_b$. By $(\mathrm{F1})$ there is $x\in D_v$ with $\eta(x)=1$ and $\Psi(x)^2-1\in\OO^\times$. Then
+$X=\mathrm{mat}(u(x))$ is congruent to $\mathrm{diag}(\Psi(x),1,\Psi(x)^{-1})$, and the differences of these three values are units, being unit
+multiples of $\Psi(x)-1$ or of $\Psi(x)^2-1$. By \lref{UpperTheory.V.UnitaryThreeInertia.exists_canon} there is
+$h_0\in\GL_3(R)$ with $h_0\equiv1$ modulo $\mathfrak m_R$ and diagonal entries $1$ such that $h_0^{-1}Xh_0$ is diagonal. Such an $h_0$ is
+unique: if $h_0'$ is another one, $h_0^{-1}h_0'$ is congruent to $1$ and conjugates one diagonal matrix with residually distinct entries
+into another, hence is diagonal, hence equal to $1$. By uniqueness, $f(h_0)$ is the corresponding matrix for $f(X)$
+(\lref{UpperTheory.V.UnitaryThreeInertia.canon_map}). We claim that $f\circ u$ satisfies $(\mathrm P_\ell)$ (if $v=v_\ell$),
+resp.\ $(\mathrm P_b)$ (if $v\in S_b$), if and only if the condition holds with $h=f(h_0)$
+(\lref{UpperTheory.V.UnitaryThreeInertia.cond_iff_canon}). Indeed, let $h$ be as in $(\mathrm P_\ell)$. Then
+$T=h^{-1}f(X)h$ is upper triangular, congruent to $\mathrm{diag}(\Psi(x),1,\Psi(x)^{-1})$, so it is diagonalized by a unique upper
+unitriangular matrix $n\equiv1$; for the diagonal matrix $d\equiv1$ which makes the diagonal entries of $hnd$ equal to $1$, $hnd=f(h_0)$ by
+uniqueness, and conjugation by the upper triangular matrix $nd$ preserves upper triangularity and the diagonal entries. The same
+argument applies to $(\mathrm P_b)$. Consequently $(\mathrm P_\ell)$ is cut out by the entries of negative weight of
+$h_0^{-1}\mathrm{mat}(u(s))h_0$ for $s\in D_{v_\ell}\cap\ker\eta$ and by the differences between the diagonal entries of
+$h_0^{-1}\mathrm{mat}(u(s))h_0$ and $\Psi(s),1,\Psi(s)^{-1}$ for $s\in I_{v_\ell}\cap\ker\eta$; and $(\mathrm P_b)$ by these elements for $v$ together
+with the entries of positive weight. Summing all these ideals gives $J$.
+\end{proof}
+
+\paragraph{Presentations.} A \emph{weighted presentation} of $R$ is a surjective $\OO$-algebra homomorphism
+$\pi_W:\OO[[x_s:s\in\sigma]]\to R$ from a power series ring in finitely many variables with weights $\mathrm{wt}(s)\in\Z$; it is
+\emph{adapted} to $u$ if each $\pi_W(x_s)$ is an entry $\mathrm{mat}(u(g))_{ab}-\mathrm{mat}(\eisrz(g))_{ab}$ for some $g\in\ker\eta$ and
+$\mathrm{wt}(s)=\mathrm{wt}(a,b)$, and $\pi_W$ maps the closure of the span of the monomials of weight $j$ onto $R_j$; it is \emph{minimal} if
+every element of $\ker\pi_W$ has all its linear coefficients in $\mathfrak m_\OO$. Adapted minimal presentations exist under
+$(\mathrm{F1})$ (\lref{UpperTheory.V.UnitaryThreeInertia.exists_adapted}). A surjection $p:A\to A'$ of complete $\OO$-algebras, with
+$A$ finite and graded by $\OO$-submodules $A_i$ ($A_iA_{i'}\subset A_{i+i'}$), is a \emph{small extension of weight $j$} if
+$I=\ker p$ satisfies $I\subset\mathfrak m_A$, $\mathfrak m_AI=0$ and $I\subset A_j$. Then $I$ is a $k$-vector space and $\Gamma$ acts on
+$\mathfrak g_j(I)=\bar{\mathfrak g}_j\otimes_kI$ through $\bar r_0$.
+
+\begin{lemma}[Obstructions]\label{pf:eis:obs}
+Assume $(\mathrm{F1})$ and $(\mathrm{F2})$, let $g_1$ be marked, and let $p:A\to A'$ be a small extension of weight $j$ with
+$\mathrm{Ob}_j$ finite and $\#\ker p>\#\mathrm{Ob}_j$. Let $r'$ be a point with values in $A'$ all of whose matrices are images of graded
+matrices over $A$. Then $p$ factors as $A\xrightarrow{p_1}A''\xrightarrow{q}A'$ with $p_1$ surjective and $q$ not injective, and there is a
+point $r''$ with values in $A''$ such that $q\circ r''=r'$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.exists_unobstructed}
+\end{lemma}
+
+\begin{proof}
+Let $I=\ker p$. \emph{Global and local lifts.} Since $A$ is finite, $r'$ is locally constant, and there is a locally constant map
+$s:\Gamma\to\eisGG(A)$ with graded matrices, multiplier $\eta$ and $p\circ s=r'$. For each $v\in S$ the restriction of $r'$ to $D_v$ lifts to a
+locally constant homomorphism $\rho_v:D_v\to\eisGG(A)$ with graded matrices which satisfies the local condition at $v$: at
+$v=v_\ell$ by \lref{UpperTheory.V.UnitaryThreeInertia.exists_graded_lift_unitary_local_tame}, at $v\in S_b$ by
+\lref{UpperTheory.V.UnitaryThreeInertia.exists_lift_d}, and at $v\notin T_b$ by
+\lref{UpperTheory.V.UnitaryThreeInertia.exists_lift_u} (these lift the flag, resp.\ the diagonal form, resp.\ the triviality on
+$N_v$; they use $(\mathrm{F2})$ and, for $v\notin T_b$, that $[I_v:N_v]$ divides $2\#k^\times$ and is prime to $\ell$). Write
+$s(g)s(g')=(1+K(g,g'))s(gg')$ and $s(g)=(1+A_v(g))\rho_v(g)$ for $g\in D_v$. Then $K$ and $A_v$ take values in $\mathfrak g_j(I)$
+(their images under $p$ vanish, and all matrices are graded with $I\subset A_j$), $K$ is a continuous $2$-cocycle, and
+$dA_v=K|_{D_v}$, computed with the action through $\bar r_0$ since $\mathfrak m_AI=0$.
+
+\emph{The obstruction.} For a $k$-linear $\phi:I\to k$, $(\phi\circ K,(\phi\circ A_v)_v)$ is a framed $2$-cocycle, and $\phi$ maps linearly
+to its class in $\mathrm{Ob}_j$. As $\#\mathrm{Hom}_k(I,k)=\#I>\#\mathrm{Ob}_j$, there is $\phi\ne0$ whose class vanishes:
+$\phi\circ K=d\beta$ and $\phi\circ A_v=\beta|_{D_v}+z_v$ with $z_v\in L_v(j)$. Let $A''=A/\ker\phi$ (an ideal, as $\mathfrak m_AI=0$), so that $q:A''\to A'$
+has kernel $I/\ker\phi\cong k$, generated by an element $\epsilon$ with $\phi$ identified with the coordinate along $\epsilon$
+(\lref{UpperTheory.exists_small_extension_factorization_of_functional}). Put $s''(g)=(1-\epsilon\beta(g))p_1(s(g))$. Since
+$\epsilon\mathfrak m_{A''}=0$, $s''$ is a homomorphism (its defect is $\epsilon(\phi\circ K-d\beta)=0$), and on $D_v$ we have
+$s''(g)=(1+\epsilon z_v(g))p_1(\rho_v(g))$. Since $z_v\in L_v(j)$, the twist of the local lift $p_1\circ\rho_v$ by the cocycle $z_v$ still
+satisfies the local condition at $v$: vanishing on $N_v$ preserves $(\mathrm P_0)$ and $(\mathrm P_b)$, a coboundary changes the
+conjugating matrix $h$ in $(\mathrm P_\ell)$ by $1+\epsilon Y$, vanishing on $I_{v_\ell}$ for $j=0$ preserves the diagonal characters, and for
+$j>0$ a cocycle with values in $\mathfrak g_j$ preserves upper triangularity and the diagonal. Hence $s''$ is a lift of $\bar r_0$ with
+values in $A''$ satisfying the local conditions, and $q\circ s''=r'$.
+
+\emph{Normalization.} Finally, conjugating by a suitable matrix congruent to $1$ modulo $\ker q$ normalizes $s''$ at $(c,g_1)$
+without changing $q\circ s''$ (\lref{UpperTheory.lift_along_surjection_graded}: since $\eta(c)=-1$ and $g_1$ is marked, the
+normalization conditions can be solved successively, as for the base point); this gives $r''$.
+\end{proof}
+
+\begin{proposition}[Relations]\label{pf:eis:rel}
+Assume $(\mathrm{F1})$, $(\mathrm{F2})$ and $(\mathrm{F3})$. Let $g_1$ be marked, $(R,u)$ a universal point and $\pi_W$ a minimal weighted
+presentation adapted to $u$. Then $\ker\pi_W$ is generated by elements $f_{j,i}$, $j\in\Z$, $1\le i\le\dim_k\mathrm{Ob}_j$, with $f_{j,i}$
+in the closure of the span of the monomials of weight $j$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.exists_relations}
+\end{proposition}
+
+\begin{proof}
+Let $P=\OO[[x_s]]$ and $J=\ker\pi_W$; write $d_j=\dim_k\mathrm{Ob}_j$, finite by $(\mathrm{F3})$.
+
+\emph{Step 1: small quotients.} Let $\varphi:P\to A$ be a surjection onto a finite complete $\OO$-algebra, graded compatibly with the
+weights of the monomials, and let $p:A\to A'$ be a small extension of weight $j$ with $\ker p=\varphi(J)$. We claim
+$\#\ker p\le\#k^{d_j}$. Otherwise, let $\psi:R\to A'$ be induced by $p\circ\varphi$ (it vanishes on $J$). The point $\psi\circ u$ has matrices
+which are images of graded matrices over $A$, since the entries of $u$ are images of variables of the right weight. By
+\cref{pf:eis:obs} there are $A\to A''\to A'$ with $q$ not injective and a point $r''$ to $A''$ lifting $\psi\circ u$, and by universality
+$r''=\sigma\circ u$ for some $\sigma:R\to A''$, with $q\circ\sigma=\psi$. The two homomorphisms $p_1\circ\varphi$ and $\sigma\circ\pi_W$ from $P$ to
+$A''$ agree modulo $\ker q$, which is killed by $\mathfrak m_{A''}$. Their difference is therefore additive and vanishes on
+$\mathfrak m_P^2$ (it satisfies $D(xy)=a(x)D(y)+D(x)b(y)\in\mathfrak m_{A''}\ker q=0$ for $x,y\in\mathfrak m_P$), and also on constants; since
+$\mathfrak m_\OO x_s\subset\mathfrak m_P^2$, the two maps agree on every $f$ whose linear coefficients lie in $\mathfrak m_\OO$. By minimality this
+applies to all $f\in J$, so $p_1(\varphi(J))=0$, i.e.\ $p_1$ kills $\ker p$. Then $q$ is injective on $A''=p_1(A)$: if $q(p_1(a))=0$ then
+$a\in\ker p$ and $p_1(a)=0$. This contradiction proves the claim.
+
+\emph{Step 2: truncation.} By the Artin--Rees lemma there is $N\ge1$ with $\mathfrak m_P^N\cap J\subset\mathfrak m_PJ$. Let $T_N\subset P$ be the
+ideal of series whose coefficient at each monomial $x^n$ lies in $\mathfrak m_\OO^{\max(N-|n|,0)}$; then $T_N\subset\mathfrak m_P^N$, $T_N$ is
+generated by homogeneous elements, and $B=P/T_N$ is a finite graded complete $\OO$-algebra. Let $\bar J$ be the (homogeneous)
+image of $J$ in $B$. For each $j$ let $K_j\subset\bar J$ be the homogeneous ideal generated by $\mathfrak m_B\bar J$ and the homogeneous components of
+$\bar J$ of weight $\ne j$; then $B/K_j\to B/\bar J$ is a small extension of weight $j$ with kernel the image of $\bar J$, so by Step 1 the
+weight-$j$ part of $\bar J/\mathfrak m_B\bar J$ has at most $d_j$ dimensions. By the graded Nakayama lemma
+(\lref{UpperTheory.V.UnitaryThreeInertia.Rel.exists_gens}) $\bar J$ is generated modulo $\mathfrak m_B\bar J$ by homogeneous elements $\bar f_{j,i}$
+of weight $j$, $i\le d_j$.
+
+\emph{Step 3: lifting.} Lift each $\bar f_{j,i}$ to an element of $J$ and take its homogeneous component of weight $j$, which lies in $J$
+because $J$ is homogeneous; this gives $f_{j,i}\in J$ of weight $j$ with image $\bar f_{j,i}$. Let $J'\subset J$ be the ideal they generate.
+For $x\in J$, the generation statement gives $y\in J'+\mathfrak m_PJ$ with $x-y\in T_N\cap J\subset\mathfrak m_P^N\cap J\subset\mathfrak m_PJ$; hence
+$J=J'+\mathfrak m_PJ$, and $J=J'$ by Nakayama's lemma.
+\end{proof}
+
+\begin{lemma}[An Euler characteristic for Selmer and obstruction groups]\label{pf:eis:ecsel}
+Let $j\in\Z$, assume that $\pi$ is continuous, that $H^1$ and $H^2$ of $\Gamma$ and of all $D_v$ with values in $\bar{\mathfrak g}_j$ are finite, and
+that every family of continuous local $2$-cocycles $(\kappa_v)_{v\in S}$ is, up to local coboundaries, the restriction of a global
+$2$-cocycle. Then $H^1_{\mathrm{Sel}}(\bar{\mathfrak g}_j)$ and $\mathrm{Ob}_j$ are finite and, with $h^i=\dim_kH^i$, $M=\bar{\mathfrak g}_j$,
+\[
+ \dim H^1_{\mathrm{Sel}}(M)-\dim\mathrm{Ob}_j=h^1(\Gamma,M)-h^2(\Gamma,M)+\sum_{v\in S}\bigl(h^2(D_v,M)-\dim Z^1(D_v,M)+\dim L_v(j)\bigr).
+\]
+\formallabel{UpperTheory.selmerComplex_finite_and_euler_characteristic}
+\end{lemma}
+
+\begin{proof}
+There is an exact sequence
+\[
+\begin{aligned}
+ 0\to H^1_{\mathrm{Sel}}(M)\to H^1(\Gamma,M)&\to\bigoplus_vZ^1(D_v,M)/L_v(j)\to\mathrm{Ob}_j\\
+ &\to H^2(\Gamma,M)\to\bigoplus_vH^2(D_v,M)\to0.
+\end{aligned}
+\]
+The second map is restriction, well defined because local coboundaries lie in $L_v(j)$; its kernel is the Selmer group by definition.
+The third map sends $(\alpha_v)$ to the class of $(0,(\alpha_v))$; this is zero if and only if $(0,\alpha)=(d\beta,\beta|_{D_v})+(0,z)$ with $z_v\in L_v(j)$,
+i.e.\ $\beta$ is a global cocycle with $\alpha_v-\beta|_{D_v}\in L_v(j)$. The fourth map sends $(\kappa,\alpha)$ to the class of $\kappa$; if $\kappa=d\beta$,
+then $(\kappa,\alpha)-(d\beta,\beta|_{D_v})=(0,\alpha-\beta|_{D_v})$ with $\alpha_v-\beta|_{D_v}$ a cocycle. Its image consists of the classes which are
+locally coboundaries, which is the kernel of the last map, surjective by hypothesis. Taking alternating sums of dimensions gives the
+formula.
+\end{proof}
+
+\begin{proposition}[Dimension count for host frames]\label{pf:eis:hfcount}
+Assume the local finiteness, Tate duality and Euler characteristic theorems over finite extensions of $\Ql$, global finiteness, the
+global Euler characteristic formula and Poitou--Tate duality. Then every host frame satisfies $(\mathrm{F3})$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.hostFrame_count}
+\end{proposition}
+
+\begin{proof}
+Let $F$ be a host frame, so $\Gamma=G_{\Q,S}$ with $S$ the primes dividing $\ell N$, $\ell$ odd; it satisfies $(\mathrm{F1})$
+(\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_ok}) and $(\mathrm{F2})$ (\lref{UpperTheory.V.UnitaryThreeInertia.hostFrame_locVan}).
+Fix $j$ and $M=\bar{\mathfrak g}_j$; then $\dim M=3-|j|$ for $|j|\le2$ and $M=0$ otherwise, and $\dim M^{c=1}$ is $1$ if $|j|\le1$ and $0$ otherwise
+(\lref{UpperTheory.finrank_gradedPiece_and_complexConjugation_invariants}, an elementary computation with the action of $c$ by
+$X\mapsto-J\,{}^tX\,J$).
+
+\emph{Hypotheses of \cref{pf:eis:ecsel}.} Finiteness is part of the cited theorems. For surjectivity of $H^2(\Gamma,M)\to\bigoplus_vH^2(D_v,M)$ we
+use \lref{UpperTheory.global_cohomology_finite_set}: by Poitou--Tate duality the cokernel is dual to $H^0(\Gamma,M^*)$,
+$M^*=\mathrm{Hom}(M,\mu_\ell)$, which vanishes if some $\sigma\in G_\Q$ acts on $M$ by a scalar $a$ different from its cyclotomic character
+$n$ modulo $\ell$ (then $\sigma$ acts on $M^*$ by $na^{-1}\ne1$). For $j\ne0$ take $\sigma$ in $D_{v_\ell}$ with $\eta(\sigma)=1$,
+$\Psi(\sigma)^2-1\in\OO^\times$ and cyclotomic character $\equiv1$ modulo $\ell$
+(\lref{UpperTheory.V.UnitaryThreeInertia.exists_sigma}): it acts on $M$ by $\bar\Psi(\sigma)^{\pm1}$ or $\bar\Psi(\sigma)^{\pm2}$, which is $\ne1$.
+For $j=0$ take $\sigma$ fixing $\sqrt{-1}$ with cyclotomic character $\not\equiv1$ modulo $\ell$, which exists as $\Q(i)$ and $\Q(\mu_\ell)$ are
+linearly disjoint (\lref{UpperTheory.exists_absGalois_fixing_sqrt_neg_one_cyclotomic_ne_one}); it acts trivially on
+$\mathfrak g_0$.
+
+\emph{Euler characteristics.} With $h^i=h^i(\Gamma,M)$ and $h^i_v=h^i(D_v,M)$: $h^1+\dim M^{c=1}=h^0+h^2+\dim M$ (global Euler characteristic
+formula, \lref{UpperTheory.global_euler_characteristic_rationals_odd_prime}); $h^1_v=h^0_v+h^2_v+\dim M$ for $v=v_\ell$ and
+$h^1_v=h^0_v+h^2_v$ otherwise (Tate's local formula, \lref{UpperTheory.local_euler_characteristic_rationals}); and
+$\dim Z^1(D_v,M)=h^1_v+\dim M-h^0_v$. Thus the term of $v$ in \cref{pf:eis:ecsel} is $\dim L_v(j)-\dim M$ for $v\ne v_\ell$ and
+$\dim L_{v_\ell}(j)-2\dim M$ for $v=v_\ell$.
+
+\emph{Local conditions away from $v_\ell$.} Let $v\ne v_\ell$. The restriction of a cocycle $y\in L_v(j)$ to $I_v$ vanishes on $N_v$, a normal
+subgroup of $I_v$ of index dividing $2\#k^\times$, hence prime to $\ell$; averaging over $I_v/N_v$ shows that $y|_{I_v}$ is a coboundary
+$dm$, and conversely every $dm$ ($m\in M$) restricted to $I_v$ comes from $dm\in L_v(j)$ ($N_v$ acts trivially on $M$). The kernel of $y\mapsto y|_{I_v}$
+consists of the cocycles vanishing on $I_v$, a space of dimension $\dim M^{I_v}$
+(\lref{UpperTheory.finrank_unramified_cocycles_eq_finrank_invariants}: such a cocycle is determined by its value at the element
+$\varphi_v$ of $(\mathrm{F1})$, which lies in $M^{I_v}$, and every value in $M^{I_v}$ occurs, using the homomorphisms $D_v\to\Z/n\Z$ of
+$(\mathrm{F1})$). Hence $\dim L_v(j)=(\dim M-\dim M^{I_v})+\dim M^{I_v}=\dim M$, and the term of $v$ is $0$.
+
+\emph{The place $v_\ell$.} If $j<0$, $L_{v_\ell}(j)$ consists of the coboundaries, of dimension $\dim M-h^0_{v_\ell}$. If $j=0$, $I_{v_\ell}$ acts
+trivially on $\mathfrak g_0$ (as $\eta$ is trivial on it), so by the same lemma $\dim L_{v_\ell}(0)=\dim M$. If $j>0$, $L_{v_\ell}(j)=Z^1(D_{v_\ell},M)$
+and the term is $h^2_{v_\ell}=0$ by $(\mathrm{F2})$. For $j\ne0$, $h^0=h^0_{v_\ell}=0$, since the element $x$ of $(\mathrm{F1})$ acts on $M$ by a
+scalar $\ne1$; for $j=0$, $h^0=\dim M^{c=1}$, since elements of $\ker\eta$ act trivially on $\mathfrak g_0$ and the others act as $c$.
+
+\emph{Conclusion.} By \cref{pf:eis:ecsel}, $\dim H^1_{\mathrm{Sel}}-\dim\mathrm{Ob}_j=h^0+\dim M-\dim M^{c=1}+t_{v_\ell}$, where $t_{v_\ell}$ is the term of $v_\ell$:
+for $j<0$ this is $0+\dim M-\dim M^{c=1}-\dim M=-\dim M^{c=1}$, which is $-1$ for $j=-1$ and $0$ for $j\le-2$; for $j=0$ it is
+$\dim M^{c=1}+\dim M-\dim M^{c=1}-\dim M=0$; for $j>0$ it is $\dim M-\dim M^{c=1}$, which is $2-1=1$ for $j=1$, $1-0=1$ for $j=2$ and $0$ for
+$j\ge3$. These are the numbers $\epsilon_j$ of $(\mathrm{F3})$.
+\end{proof}
+
+\begin{proposition}[Coordinate form of Lemmas M and M$'$]\label{pf:eis:coord}
+Assume Lemma M and Lemma M$'$. Let $\pi_W:\OO[[x_s:s\in\sigma]]\to R$ be a weighted presentation with weights in $\{-2,\dots,2\}$ and an origin
+$o:R\to\OO$ (all $o(\pi_W(x_s))=0$); let $R_j=\pi_W(\text{weight }j)$ and $R_\bullet=\sum_jR_j$, and let $K\supset\OO$ be algebraically closed with a
+normalized valuation $v$. Let $f_{j,i}$ ($j\in\Z$, $i\le b_j$) be homogeneous generators of $\ker\pi_W$ of weight $j$ with
+$b_j+\epsilon_j\le\#\{s:\mathrm{wt}(s)=j\}$, and $a\in R_0$ with $o(a)=0$. Assume:
+\begin{enumerate}[label=(m\arabic*)]
+\item for $j\le0$, a vector $(d_s)\in\OO^\sigma$ supported on the variables of weight $j$ and orthogonal to the linear parts of all elements of
+  $\ker\pi_W$ is zero;
+\item $R_0$ is a finite $\OO$-module;
+\item every $K$-point of $R_\bullet$ which vanishes on all $R_j$, $j\ne0$, agrees with $o$ on all $R_j$;
+\item at every two-signed $K$-point $\xi$ of $R_\bullet$, every point derivation $D$ satisfies $D(x)=c\,j\,\xi(x)$ for $x\in R_j$, for some $c\in K$;
+\item $\xi(a)\ne0$ at every two-signed $K$-point $\xi$.
+\end{enumerate}
+Then there are two-signed $K$-points $\xi_1,\dots,\xi_n$, no two in the same $K^\times$-orbit, and $V\in\N$ such that every $\OO$-module $M$
+with an injective additive map $M\to(\OO/c)^\sigma$ ($0\ne c\in\OO$) supported on the variables of weight $-1$ and orthogonal to the linear
+parts of the elements of $\ker\pi_W$ has length $\le V$, and $V\le2\sum_iv(\xi_i(a))$.
+\formallabel{UpperTheory.V.UnitaryThreeInertia.Abs.coord_count}
+\end{proposition}
+
+\begin{proof}
+If there is no variable of weight $-1$, take $n=0$ and $V=0$: the modules in question are zero. Otherwise let $A$ be the weighted ring
+formed by the finite sums of homogeneous elements of $\OO[[x_s]]$ (homogeneous components being closures of spans of monomials of
+a given weight), with base point $x$ the constant term (\cref{pf:vwin-he:wring}). Put $r=\#\mathrm{wt}^{-1}(-1)$, $s'=\#\mathrm{wt}^{-1}(-2)$,
+$r'=\#\mathrm{wt}^{-1}(1)-1$, $s''=\#\mathrm{wt}^{-1}(2)-1$, $m=\#\mathrm{wt}^{-1}(0)$. The bounds $b_j+\epsilon_j\le\#\mathrm{wt}^{-1}(j)$ say that there are at most
+$r+1$, $s'$, $r'$, $s''$, $m$ generators of weights $-1,-2,1,2,0$, and none of other weights; padding with zeros, the generators form a
+system of equations of type $(r,s',r',s'',m)$ (\cref{pf:vwin-he:eqns}) generating the ideal $I=\ker\pi_W\cap A$, whose quotient $A/I$ is
+$R_\bullet$ (\lref{UpperTheory.exists_weighted_equations_presenting_ker}). We verify (M1)--(M5):
+(M1): $x$ is smooth with tangent dimensions $n_{r,s',r',s'',m}$ (the variables give a chart,
+\lref{UpperTheory.smoothPt_weightedGradedAlgebra_basePoint}), and by (m1) the equations of weights $-1,-2,0$ span the cotangent
+spaces in these degrees, since a functional on the cotangent lattice of degree $j$ killing them would be a vector as in (m1)
+(\lref{UpperTheory.spansCot_of_linear_terms_nondegenerate}); (M2) is (m2), as $A_0/I_0\cong R_0$; (M3) holds since by (m3) a
+$K$-point on $I$ which is negatively and positively trivial equals $x$; (M4) follows from (m4), as two derivations which are multiples of the
+same derivation are linearly dependent; (M5) is (m5) for a homogeneous lift of $a$. Lemma M gives a finite set covering $I$; replace it by
+a subset $T$ of representatives of distinct orbits which still covers $I$
+(\lref{UpperTheory.exists_cover_with_distinct_orbit_representatives}), and put $V=\eiscot_{-1}(x;F)$ (the
+saturated cotangent length of \cref{pf:vwin-he:cot}). Lemma M gives $V\le2\sum_{\xi\in T}v(\xi(a))$, the points of $T$ are two-signed points of
+$R_\bullet$, and Lemma M$'$ (\lref{UpperTheory.length_le_cotLen_of_injective_tangent_map}) bounds the length of
+every module $M$ as in the statement by $V$.
+\end{proof}
+
+\begin{proposition}[Vanishing for host frames]\label{pf:eis:vanE}
+$\sfname{LemmaK}(C_K)$, Poitou--Tate duality, and the local finiteness, Tate duality and Euler characteristic theorems imply
+$(\mathrm{F4})_{\mathrm h}$.
+\formallabel{UpperTheory.V.X.So.hostVanE}
+\end{proposition}
+
+\begin{proof}
+Let $F$ be a host frame, $j\le0$, and $\gamma:\Gamma\to\mathfrak g_j(\OO)$ a continuous cocycle for $\eisrz=\eisrz(\eta,\Psi)$ satisfying the hypotheses of
+$(\mathrm{F4})$. Write $\bar a=4-a$ for $a\in\{1,2,3\}$.
+
+\emph{Lines.} For $s\in\{0,1\}$ let $\theta_{j,s}=\Psi^j\eta^s$. For every entry $(a,b)$ of weight $j$, $z_{ab,s}=\gamma_{ab}-(-1)^s\gamma_{\bar b\bar a}$ is a
+cocycle for the character $\theta_{j,s}$ (\lref{UpperTheory.V.X.So.vanEOf}: for $X\in M_3(\OO)$,
+$(\mathrm{ad}\,\eisrz(g)X)_{ab}-(-1)^s(\mathrm{ad}\,\eisrz(g)X)_{\bar b\bar a}=\theta_{\mathrm{wt}(a,b),s}(g)(X_{ab}-(-1)^sX_{\bar b\bar a})$, since $\eisrz(g)$ is diagonal
+for $\eta(g)=1$ and the twisted action of $c$ exchanges the entries $(a,b)$ and $(\bar b,\bar a)$ with a sign), and it inherits the local
+hypotheses of $\gamma$. It suffices to show that each $z_{ab,s}$ becomes a coboundary after multiplication by some $0\ne a_{ab,s}\in\OO$: then
+$2a\gamma$ is a coboundary for $a=\prod a_{ab,s}$, as $2\gamma_{ab}=z_{ab,0}+z_{ab,1}$.
+
+\emph{Weight $0$.} Let $j=0$ and $z=z_{ab,s}$; $\theta=\eta^s$ is trivial on $\ker\eta$, so $z$ is additive on $\ker\eta$. It vanishes on $I_v\cap\ker\eta$ for
+every $v$: for $v\in T_b$ by hypothesis, and for $v\notin T_b$ because $t^{\#k^\times}\in N_v$ for $t\in I_v\cap\ker\eta$, so that $\#k^\times z(t)=0$. By the cocycle
+relation $z$ vanishes on all conjugates of these elements lying in $\ker\eta$. For each $N$, $z$ modulo $\mathfrak m_\OO^N$ is a locally constant
+homomorphism on $\ker\eta$ trivial on these conjugates, hence trivial by $(\mathrm{F5})$, which holds for host frames
+(\lref{UpperTheory.V.UnitaryThreeInertia.frame_class_one}). So $z=0$ on $\ker\eta$, a subgroup of index $2$, and then $2z$ is a
+coboundary (\lref{UpperTheory.V.X.So.lineZero}).
+
+\emph{Negative weight.} Let $j=-n<0$. Pulled back to $G_\Q$, $\theta_{j,s}^{-1}=\eiscyc^{en}\psi'$ with $\psi'=\psi_G^n\eta_4^{-s}$ of finite order, so $z$ is a
+cocycle for $(\eiscyc^{en}\psi')^{-1}$, a character of negative weight. Locally, after multiplication by a non-zero constant, $z$ is a
+coboundary on every decomposition group: at $\ell$ because it is one on the subgroup $D_{v_\ell}\cap\ker\eta$ of index $\le2$ (hypothesis of $(\mathrm{F4})$),
+and at $p\ne\ell$ because local $H^1$ of a character of non-zero weight is torsion (\lref{UpperTheory.V.X.So.locTors}: $H^0$ and, by
+local duality, $H^2$ vanish rationally, so $H^1$ does by Tate's local Euler characteristic formula). By
+\lref{UpperTheory.V.X.soBar} (a cocycle of $G_\Q$ for $\psi^{-1}\eiscyc^{-e}$, $e\ge1$, with values in $\Qlbar$, which is locally a
+coboundary on all inertia groups and at $\ell$, is a coboundary; a consequence of $\sfname{LemmaK}$ and Poitou--Tate duality), $z$ is a
+coboundary over $\Qlbar$, hence $az$ is a coboundary over $\OO$ for some $0\ne a\in\OO$ (\lref{UpperTheory.V.X.So.lineNeg}).
+\end{proof}
+
+\begin{proposition}[Rigidity over $\Q(i)$]\label{pf:eis:rigi}
+$\sfname{HypothesesH'}$, the adjoint lifting theorem
+(\lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lifting_of_cohomology}) and $(\mathrm{Unl})$ imply $(\mathrm{R}_i)$.
+\formallabel{UpperTheory.V.Z.J.hostRigidUE_alt}
+\end{proposition}
+
+\begin{proof}
+Let $F$ be a host frame, $g_1$ marked, $r$ a characteristic-zero point with $\mathrm B'_\iota(r)$, and $y$ a continuous cocycle of the adjoint
+representation of $r$ defining a first-order deformation $r_\epsilon=(1+\epsilon y)r$ (with values in $\Qlbar[\epsilon]$) which satisfies the local
+conditions. We show that $y$ is a coboundary in two steps.
+
+\emph{Step 1: the Bloch--Kato Selmer group of $\mathrm{ad}\,r$ vanishes.} Write $r=\tau(t)^{-1}r'\tau(t)$ with $r'$ a point with values in a discrete
+valuation ring $B$ finite over $\OO$. Then $r'$ is an ordinary point of the linked unitary deformation problem of
+\cref{sec:pf:eis:onechar} for $\eta_4$ (\lref{UpperTheory.V.Pr.ordPt_of_isPt}): the local conditions of the host
+frame at $v_\ell$ are the ordinarity conditions. The restriction $\rho'$ of $r'$ to $G_{\Q(i)}$ is isomorphic to that of $r$, so by
+$\mathrm B'_\iota(r)$ it is irreducible on open subgroups and $\rho'\otimes\eiscyc^{-1}$ is automorphic of conjugate self-dual type with the
+window condition. By $(\mathrm{Unl})$ $\rho'$ is unlinked of level $\ell N$ and type $(e,0,-e)$
+(\lref{UpperTheory.V.Z.J.hostUnlE}), hence ``free'' at $\ell$ in the sense required by the adjoint lifting theorem
+(\lref{UpperTheory.V.Z.J.freeCU}). The rigidity theorem for ordinary points of the linked problems,
+\lref{UpperTheory.V.Th.rigEnd3} (a consequence of $\sfname{HypothesesH'}$ and the adjoint lifting theorem), then shows that the
+Bloch--Kato Selmer group of $\mathrm{ad}\,r'$ vanishes, and this property is invariant under conjugation.
+
+\emph{Step 2: $y$ is a Bloch--Kato cocycle.} At places outside $S$, $r$ and $y$ are trivial on inertia ($\Gamma=G_{\Q,S}$). At $v\in S_b$,
+$(\mathrm P_b)$ for $r_\epsilon$ gives $h=h_0(1+\epsilon H_1)$ with $h^{-1}r_\epsilon(s)h=\mathrm{diag}(\Psi(s),1,\Psi(s)^{-1})$ for $s\in I_v$ ($\eta$ is trivial on
+$I_v$); comparing with $h_0^{-1}r(s)h_0=\mathrm{diag}(\Psi(s),1,\Psi(s)^{-1})$ gives $y(s)=X-\mathrm{ad}(r(s))X$ on $I_v$ with $X=h_0H_1h_0^{-1}$
+(\lref{UpperTheory.V.UnitaryThreeInertia.rig_diag}). At $v\notin T_b$, $y$ vanishes on $N_v$, a subgroup of finite index of $I_v$, and
+in characteristic $0$ averaging over $I_v/N_v$ shows that $y|_{I_v}$ is a coboundary. At $v_\ell$, $(\mathrm P_\ell)$ for $r_\epsilon$ says that after
+conjugation $r_\epsilon$ is upper triangular on $D_{v_\ell}\cap\ker\eta$ with diagonal entries $\Psi,1,\Psi^{-1}$ on inertia. There is an open normal
+subgroup $H\subset D_{v_\ell}\cap\ker\eta$ on whose inertia $\Psi=\eiscyc^e$, containing an element whose cyclotomic character minus $1$ is a unit, at
+which the diagonal entries of $r$ are pairwise distinct (\lref{UpperTheory.V.UnitaryThreeInertia.rig_sub} and \lref{UpperTheory.V.UnitaryThreeInertia.rig_eig}).
+By \lref{UpperTheory.V.UnitaryThreeInertia.rig_loc} (a consequence of the local results of the literature package: a first-order
+deformation of an ordinary representation which remains upper triangular, with fixed diagonal characters $\eiscyc^{e},1,\eiscyc^{-e}$ of
+pairwise distinct Hodge--Tate weights on inertia, has its class in the Bloch--Kato subspace), $y|_{D_{v_\ell}}$ is a Bloch--Kato cocycle.
+Hence $y$ is a Bloch--Kato cocycle, and by Step 1 it is a coboundary.
+\end{proof}
+
+% ---------------------------------------------------------------------------
+\subsection{Density of automorphic points for \texorpdfstring{$\Uni(3)$}{U(3)}}\label{sec:pf:eis:dense}
+
+The unitary automorphy statements $(\mathrm{U}_{\mathrm{ord}})$ and $(\mathrm{U}_i)$ are proved elsewhere by propagating automorphy
+along chains of ordinary deformations, starting from \emph{seeds}: three-dimensional automorphic representations with prescribed
+residual and local behaviour. The following statement provides seeds of arbitrarily large weight; they are symmetric squares of
+modular forms congruent to Eisenstein series.
+
+\begin{definition}[Seeds]\label{pf:eis:seed}
+Let $L\subset\Omega$ be a CM field, $\ell$ a prime, $\iota:\Qlbar\cong\C$, $c\in G_\Q$ a complex conjugation, $n\ge1$,
+$\psi_i,\tau_i:G_L\to\Qlbar^\times$ ($1\le i\le n$), $m\in\Z^n$ and $\kappa:G_L\to\Qlbar^\times$. A homomorphism $r:G_L\to\GL_n(\Qlbar)$ is a
+\emph{seed} for $(\iota,c,\psi,\tau,m,\kappa)$ if:
+\begin{enumerate}[label=(\alph*)]
+\item $r$ is continuous and irreducible;
+\item there is a symmetric $P\in\GL_n(\Qlbar)$ with ${}^tr(s)Pr(s')=P$ whenever $s'=csc^{-1}$;
+\item the coefficients of the characteristic polynomial of $r(s)$ are congruent modulo the maximal ideal to those of
+  $\prod_i(X-\psi_i(s))$, for all $s$;
+\item at every place not above $\ell$, some inertia group acts diagonally through $\tau_1,\dots,\tau_n$;
+\item at every place $A$ above $\ell$, $r|_{D_A}$ is upper triangular with diagonal characters $\kappa_i$ such that $\kappa_i=\eiscyc^{m_i}$ on
+  $I_A$ and $\kappa_i\equiv\psi_i$ modulo the maximal ideal;
+\item $\mathcal A_\iota(r\otimes\kappa)$ holds.
+\end{enumerate}
+\formal{UpperTheory.V.Sd.IsSeedAlt}
+\end{definition}
+
+\begin{definition}[Admissible auxiliary data]\label{pf:eis:fieldpair}
+Let $K,L\subset\Omega$ be number fields, $\ell$ a prime, $c\in G_\Q$, $N,w,j\in\N$ and $\chi',\eta,\theta:G_\Q\to\Qlbar^\times$. A character
+$\phi$ is \emph{split at $(N,w)$} if it has conductor dividing $N$ and $\phi(s)=1$ whenever $s$ acts on the $N$-th roots of unity by
+$\zeta\mapsto\zeta^w$. The tuple satisfies the \emph{auxiliary conditions} if: $c$ is a complex conjugation; $\ell\ne2$, $N\ge1$,
+$\ell\nmid N$, $w$ is a prime not dividing $N$, $\theta\ne1$, $\theta^\ell=1$ and $\theta$ has conductor dividing $w$; $K$ is imaginary
+quadratic, $L$ is abelian over $\Q$ and $G_L\subset G_K$; $\ker\eta=G_K$; $\eta$ and $\chi'$ are split at $(N,w)$; $\theta$ is trivial on $G_L$;
+$\chi'(c)=(-1)^j$; and there is $s\in G_L$ with $(\eiscyc^j\chi')(s)^2\not\equiv1$ modulo the maximal ideal. For $M\ge1$, the CM field $L$
+is \emph{unramified and $M$-split} if $L$ is unramified over its maximal totally real subfield at all finite places and every finite
+place of $L$ dividing $M$ is split over that subfield.
+\formal{UpperTheory.V.Sd.FieldPairCharacterTripleConditions}
+\formal{UpperTheory.V.Z.Sym.UnrSplit}
+\end{definition}
+
+\begin{definition}[Density statement]\label{pf:eis:densestmt}
+$(\mathrm{D}_3)$ is the statement: let $K,L\subset\Omega$ with $L$ CM, $\ell$, $\iota$, $c$, $N,w,j$, $\chi',\eta,\theta$ satisfy the auxiliary
+conditions, with $\chi'\ne\eta$; let $M\ne0$ with $2\ell\mid M$, $L$ unramified and $M$-split, and $\chi'|_{G_L}$ unramified at all places of $L$
+not dividing $M$. Then for every $B\in\N$ there are $m\ge B$ with $m\equiv j\pmod{\ell-1}$ and $r:G_L\to\GL_3(\Qlbar)$, irreducible on open
+subgroups, which is a seed for $(\iota,c,\psi,\tau,(m,0,-m),\eiscyc^{-1})$, where $\psi=(\eiscyc^j\chi',1,(\eiscyc^j\chi')^{-1})|_{G_L}$ and
+$\tau=(\chi',1,\chi'^{-1})|_{G_L}$.
+\formal{UpperTheory.V.Z.Sym.UnitaryThreeAutomorphyDense}
+\end{definition}
+
+For a two-dimensional $\rho$ let $\mathrm{ad}^0\rho=\mathrm{Sym}^2\rho\otimes(\det\rho)^{-1}$. The proof uses three statements of the
+development.
+
+\begin{definition}[Inputs of the density statement]\label{pf:eis:denseinputs}
+\leavevmode
+\begin{enumerate}[label=(\alph*)]
+\item $(\mathrm{E})$: for $\ell,\Omega,\iota$, a complex conjugation $c$, and $N,w,\phi,\theta$ such that $(N,w,\theta)$ satisfy the conditions
+  on $(N,w,\theta)$ listed in \cref{pf:eis:fieldpair}, $\phi$ is split at $(N,w)$ and $\phi\ne1$, there is $k_0$ such that for every $k\ge k_0$
+  with $\phi(c)=(-1)^k$ there is $\rho:G_\Q\to\GL_2(\Qlbar)$ which is an \emph{Eisenstein representation} for $(\phi,\theta,k)$ --
+  continuous, irreducible, attached via $\iota$ to a cuspidal automorphic representation of $\GL_2(\A_\Q)$, with
+  $\det\rho=\eiscyc^{k-1}\phi\theta$, residually of characteristic polynomial that of $1\oplus\eiscyc^{k-1}\phi$, with inertia away from $\ell$
+  acting diagonally through $(1,\phi\theta)$, and, at every place above $\ell$, upper triangular on the decomposition group with diagonal
+  characters equal to $\eiscyc^{k-1}$ and $1$ on inertia and congruent to $\eiscyc^{k-1}\phi$ and $1$ -- and which satisfies two further
+  conditions of the development (a condition $\mathrm{PR}$, and unlinkedness of $\mathrm{ad}^0\rho$).
+\item $(\mathrm{T})$: for data as in $(\mathrm{D}_3)$ (with $\ell\mid M$), $m\ge2$ and an Eisenstein representation $\rho$ for $(\chi'\eta,\theta,m+1)$
+  which is irreducible on open subgroups and satisfies the two further conditions, with $(\chi'\eta)(c)=(-1)^{m+1}$, there is
+  $\kappa:G_L\to\Qlbar^\times$ such that $\rho|_{G_L}\otimes\kappa$ satisfies the condition $\mathcal W(\iota,M,m)$ of the development (a
+  two-dimensional representation of $G_L$ which is continuous, automorphic of conjugate self-dual type, irreducible on open subgroups,
+  unramified at the places not dividing $M$, and ordinary at $\ell$ with weight difference $m$).
+\item $(\mathrm{Ad})$: for a CM field $L$, $\ell\ne2$, $M\ne0$ with $2\ell\mid M$, $L$ unramified and $M$-split, and $r:G_L\to\GL_2(\Qlbar)$ with
+  $\mathcal W(\iota,M,m)$, the representation $\mathrm{ad}^0(r)\otimes\eiscyc^{-1}$ is automorphic of conjugate self-dual type and satisfies the
+  window condition at all places.
+\end{enumerate}
+\formallabel{UpperTheory.V.Z.Sym.W.PropEGW}
+\formallabel{UpperTheory.V.Z.Sym.W.SeedInW}
+\formallabel{UpperTheory.V.Z.Sym.W.AdAutW}
+\end{definition}
+
+$(\mathrm{E})$ is the existence of cusp forms of large weight congruent to Eisenstein series, with the information on their
+Galois representations needed below; $(\mathrm{Ad})$ is an automorphy statement for adjoint (symmetric square) lifts, which over
+$\Q$ is the theorem of Gelbart and Jacquet \cite{GelbartJacquet1978}. They are proved from $\sfname{HypothesesH'}$ in the development
+(\lref{UpperTheory.V.Z.Sym.W.prop_eg_w_of_printed_hida}, \lref{UpperTheory.V.Z.Sym.W.seedInW_alt}, and
+\lref{UpperTheory.V.Z.Sym.W.adjoint_automorphy_w_of_printed_hida_window}, the last also from the statement $\sfname{Row0b}$ with the
+local parameter predicate of \cref{sec:galois}).
+
+\begin{proposition}\label{pf:eis:denseprop}
+$(\mathrm{E})$, $(\mathrm{T})$ and $(\mathrm{Ad})$ imply $(\mathrm{D}_3)$.
+\formallabel{UpperTheory.V.Z.Sym.W.adjoint_lift_from_eisenstein_of_propagation}
+\end{proposition}
+
+\begin{proof}
+Let the data and $B$ be given. Since $\ker\eta=G_K$ and $K$ is quadratic, $\eta^2=1$; $\eta(c)=-1$, since $c\notin G_K$ ($K$ is imaginary). Put
+$\phi=\chi'\eta$. Then $\phi$ is split at $(N,w)$ (both factors are), and $\phi\ne1$ (otherwise $\chi'=\eta^{-1}=\eta$). Moreover $\phi$ has finite
+order, $\eta$ and $\theta$ are trivial on $G_L$ (as $G_L\subset G_K$), and $\chi'$ takes values of absolute value $1$. Let $k_0$ be given by
+$(\mathrm{E})$ for $(N,w,\phi,\theta)$. Put $t=B+k_0+2$ and $m=j+(\ell-1)t$; then $m\ge t\ge B$, $m\equiv j\pmod{\ell-1}$ and $m+1\ge k_0$. As
+$\ell-1$ is even, $\phi(c)=\chi'(c)\eta(c)=(-1)^{j+1}=(-1)^{m+1}$. Let $\rho$ be an Eisenstein representation for $(\phi,\theta,m+1)$ with the two
+further properties.
+
+Put $\Phi=\eiscyc^m\phi$ and $\Psi=\eiscyc^j\chi'$. For $s\in G_L$, $\Phi(s)\equiv\Psi(s)$ modulo the maximal ideal, since $\eta(s)=1$ and
+$\eiscyc(s)^{(\ell-1)t}\equiv1$. By the last auxiliary condition there is $s\in G_L$ with $\Psi(s)^2\not\equiv1$, hence $\Phi(s)^2\not\equiv1$; with
+this, \lref{UpperTheory.V.Sd.sI} (for $\ell\ne2$, $k\ge2$, $\phi$ of finite order and an Eisenstein representation $\rho$ for $(\phi,\theta,k)$:
+if $(\eiscyc^{k-1}\phi)(s)^2\not\equiv1$ for some $s$, then $\rho$ is irreducible on open subgroups) shows that $\rho$ is irreducible on open
+subgroups. Then $\mathrm{ad}^0\rho$ is irreducible on open subgroups (\lref{UpperTheory.V.Sd.ad0Irr}), so $r=\mathrm{ad}^0\rho|_{G_L}$ is
+irreducible on open subgroups. We check that $r$ is a seed for $(\iota,c,\psi,\tau,(m,0,-m),\eiscyc^{-1})$.
+
+(a) $r$ is continuous and irreducible. (b) A symmetric pairing $P$ with ${}^t\mathrm{ad}^0\rho(s)P\,\mathrm{ad}^0\rho(s')=P$ for $s'=csc^{-1}$ exists
+for the adjoint representation of any two-dimensional $\rho$ (\lref{UpperTheory.V.Sd.exists_symmetric_pairing_adjoint_zero}; for $s'=csc^{-1}$
+the trace form on trace-zero matrices composed with conjugation by $\rho(c)$). (c) Residually $\rho$ has the characteristic polynomial of
+$1\oplus\Phi$, so $\mathrm{ad}^0\rho$ has that of $\Phi\oplus1\oplus\Phi^{-1}$ (\lref{UpperTheory.V.Sd.ad0Facts}), which on $G_L$ is congruent to
+that of $\Psi\oplus1\oplus\Psi^{-1}$ (\lref{UpperTheory.V.Sd.shapeFacts}: congruences of characters are preserved by these operations).
+(d) Away from $\ell$, inertia acts on $\rho$ diagonally through $(1,\phi\theta)$, so on $\mathrm{ad}^0\rho$ through $(\phi\theta,1,(\phi\theta)^{-1})$, which
+on $G_L$ equals $(\chi',1,\chi'^{-1})=\tau$. (e) At $A\mid\ell$, $\rho$ is upper triangular on $D_A$ with diagonal characters equal to $\eiscyc^m$ and $1$ on inertia and congruent to
+$(\Phi,1)$, hence $\mathrm{ad}^0\rho$ is upper triangular with diagonal characters $\eiscyc^{m},1,\eiscyc^{-m}$ on inertia, congruent to
+$(\Phi,1,\Phi^{-1})\equiv(\Psi,1,\Psi^{-1})$ on $G_L$ (\lref{UpperTheory.V.Sd.order_at_adjoint_zero}). (f) By $(\mathrm{T})$ (with
+$\ell\mid M$) there is $\kappa$ with $\mathcal W(\iota,M,m)$ for $\rho|_{G_L}\otimes\kappa$, and by $(\mathrm{Ad})$,
+$\mathrm{ad}^0(\rho|_{G_L}\otimes\kappa)\otimes\eiscyc^{-1}$ is automorphic of conjugate self-dual type and satisfies the window condition at all
+places. Since $\mathrm{ad}^0$ is insensitive to twists, $\mathrm{ad}^0(\rho|_{G_L}\otimes\kappa)=r$, and $\mathcal A_\iota(r\otimes\eiscyc^{-1})$ follows
+(\lref{UpperTheory.V.Z.Win.Birth.mkCsdW'}, using that $r$ is potentially unlinked at $\ell$ by (e), as $m\ge2$:
+\lref{UpperTheory.V.Z.Win.Birth.potOrd}).
+\end{proof}
+
+\begin{theorem}\label{pf:eis:dense}
+$\sfname{HypothesesH'}$ implies $(\mathrm{D}_3)$. More precisely, $\sfname{HypothesesH'}$ and $\sfname{Row0b}$ (with the local parameter
+predicate $\sfname{IsRecT}$) imply $(\mathrm{D}_3)$, and $\sfname{HypothesesH'}$ contains $\sfname{Row0b}$.
+\formallabel{UpperTheory.V.Z.Sym.W.unitary_three_automorphy_dense_of_prints}
+\formallabel{UpperTheory.V.Z.Sym.W.unitary_three_automorphy_dense_of_prints_and_row}
+\end{theorem}
+
+\begin{proof}
+Given $\sfname{HypothesesH'}$ and $\sfname{Row0b}$, \lref{UpperTheory.V.Z.Sym.W.prop_eg_w_of_printed_hida} gives $(\mathrm{E})$,
+\lref{UpperTheory.V.Z.Sym.W.seedInW_alt} gives $(\mathrm{T})$, and
+\lref{UpperTheory.V.Z.Sym.W.adjoint_automorphy_w_of_printed_hida_window} gives $(\mathrm{Ad})$; \cref{pf:eis:denseprop} gives
+$(\mathrm{D}_3)$. The statement $\sfname{Row0b}$ is part of the literature package \ref{pf:vwin-he:H1} contained in
+$\sfname{HypothesesH'}$ (the existence of Galois representations attached to polarized regular algebraic cuspidal representations,
+\cref{thm:row0b}).
+\end{proof}
+
+\subsubsection{Proofs of the inputs \texorpdfstring{$(\mathrm{E})$, $(\mathrm{T})$ and $(\mathrm{Ad})$}{(E), (T) and (Ad)}}
+
+The first input rests on Ribet's construction of cusp forms congruent to Eisenstein series \cite{Ribet1976}, made explicit with an
+auxiliary prime.
+
+\begin{lemma}[Eisenstein-congruent eigenforms]\label{pf:eis:propEC}
+Let $\ell$ be an odd prime and $\iota:\Qlbar\cong\C$. Let $M>1$ with $\ell\nmid M$, $\phi_0$ a primitive Dirichlet character modulo $M$, $w$ a
+prime with $w\nmid M$, $\ell\mid w-1$ and $\phi_0(w)=1$, $\theta_0\ne1$ a character modulo $w$ with $\theta_0^\ell=1$, and $\chi=\phi_0\theta_0$ (modulo
+$Mw$). There is $k_0$ such that for every $k\ge k_0$ with $\phi_0(-1)=(-1)^k$ there is a normalized cuspidal eigenform $g$ of weight $k$,
+level $\Gamma_1(Mw)$ and character $\chi$, whose conjugates under $\mathrm{Aut}(\C)$ are again eigenforms of this kind, with
+\[
+ \iota^{-1}\bigl(a_p(g)\bigr)\equiv\iota^{-1}\bigl(1+\chi(p)p^{k-1}\bigr)\quad\text{modulo the maximal ideal, for all primes }p.
+\]
+\formallabel{UpperTheory.V.Z.Sym.Unl.propEC}
+\end{lemma}
+
+\begin{proof}
+The character $\chi$ is primitive modulo $Mw$, and $\chi(-1)=\phi_0(-1)=(-1)^k$ since $\theta_0$ has odd order. Let $E$ be the Eisenstein series
+of weight $k$ and character $\chi$ with $a_n(E)=\sigma_{k-1,\chi}(n)=\sum_{d\mid n}\chi(d)d^{k-1}$ for $n\ge1$; its constant term $a_0(E)$ is a
+multiple of $L(1-k,\chi)$ and is $\ell$-adically small: modulo the maximal ideal $\theta_0\equiv1$, and the Euler factor at $w$ gives
+$L(1-k,\phi_0\theta_0)\equiv L(1-k,\phi_0)(1-\phi_0(w)w^{k-1})\equiv0$, as $\phi_0(w)=1$ and $w\equiv1$ modulo $\ell$. By
+\lref{UpperTheory.V.Z.Sym.Unl.unitFormC} there is $k_0$ such that for every $k\ge k_0$ of the right parity there is a modular form $G$
+of weight $k$, level $Mw$ and character $\chi$ with $\ell$-integral coefficients, constant term $1$ at $\infty$ and $0$ at the other cusps at
+which $E$ has no constant term, whose conjugates are forms of the same kind (a combination of Eisenstein series with coefficients
+$\chi(a)^{-1}$, normalized by a unit). Then $f=E-a_0(E)G$ is a cusp form (\lref{UpperTheory.V.Z.Sym.Unl.cusp_comb}) with
+$\ell$-integral coefficients, $a_1(f)=1-a_0(E)a_1(G)$ is a unit, and $a_n(f)\equiv\sigma_{k-1,\chi}(n)$. The Hecke relations of $E$ show that
+$T_pf-(1+\chi(p)p^{k-1})f=-a_0(E)\bigl(T_pG-(1+\chi(p)p^{k-1})G\bigr)$ has coefficients in the maximal ideal. By the Deligne--Serre lifting lemma
+\cite[Lemme~6.11]{DeligneSerre1974}, in the form \lref{UpperTheory.V.Z.Sym.Unl.eigLiftC}, there is a normalized eigenform $g$ of the
+same weight, level and character whose eigenvalues are congruent to $1+\chi(p)p^{k-1}$; the conjugates of $g$ are eigenforms because those
+of $f$, $E$ and $G$ are of the same kind.
+\end{proof}
+
+\begin{proposition}\label{pf:eis:propE}
+$\sfname{HypothesesH'}$ implies $(\mathrm{E})$.
+\formallabel{UpperTheory.V.Z.Sym.W.prop_eg_w_of_printed_hida}
+\end{proposition}
+
+\begin{proof}
+Let $\ell,\Omega,\iota,c,N,w,\phi,\theta$ be as in $(\mathrm{E})$. Write $\phi$ and $\theta$ as the Galois characters of Dirichlet characters $\phi_0$, primitive of
+conductor $M\mid N$, and $\theta_0$ modulo $w$; then $\theta_0\ne1$ and $\theta_0^\ell=1$, so $\ell\mid w-1$; $M>1$ since $\phi\ne1$; $\ell\nmid Mw$; and $\phi_0(w)=1$,
+since $\phi$ is split at $(N,w)$. \Cref{pf:eis:propEC} gives $k_0$; let $k\ge\max(k_0,3)$ with $\phi(c)=(-1)^k$, and let $g$ be the eigenform. By the
+results of the literature package contained in $\sfname{HypothesesH'}$ (the Galois representations attached to cuspidal eigenforms,
+with their local properties, in particular ordinarity at $\ell$ when the $U_\ell$-eigenvalue is a unit), there is a continuous
+$r:G_\Q\to\GL_2(\Qlbar)$ attached to $g$, ordinary at $\ell$, with $\det r=D^{-1}$, $D=\eiscyc^{k-1}\phi\theta$. Put $\rho=r\otimes D$. Then:
+$\det\rho=D$; $\tr\rho(\Frob_p)\equiv1+\Phi(\Frob_p)$ for $p\nmid\ell Mw$, with $\Phi=\eiscyc^{k-1}\phi$, since $\theta\equiv1$ modulo the maximal ideal,
+so the residual characteristic polynomial is that of $1\oplus\Phi$ (Chebotarev); $\rho$ is irreducible because $g$ is cuspidal
+(\lref{UpperTheory.V.Sd.ordinary_irreducible_of_printed_hida}) and is attached to a cuspidal automorphic representation of
+$\GL_2(\A_\Q)$ (a twist of that of $g$); at $p\nmid\ell$, inertia acts diagonally through $(1,\phi\theta)$
+(\lref{UpperTheory.V.Z.Win.RR.ordAway_a_alt}, using that $\chi$ is primitive); and at $\ell$, $\rho$ is upper triangular on the
+decomposition group with diagonal characters $\eiscyc^{k-1}$ and $1$ on inertia, congruent to $\Phi$ and $1$
+(\lref{UpperTheory.V.Z.Win.RR.ordAbove_of_printsH}: the unramified quotient has Frobenius eigenvalue the unit root, which is
+$\equiv1$). The condition $\mathrm{PR}$ (the attached cuspidal representation has ``plain'' local components) follows from ordinarity
+(\lref{UpperTheory.V.Z.Win.Birth.prOrd}). Finally, by Deligne's estimates the Frobenius eigenvalues $\alpha,\beta$ of $\rho$ at unramified
+$p\ne\ell$ satisfy $|\iota\alpha|<p|\iota\beta|$ and $|\iota\alpha|^2\ne p|\iota\beta|^2$, and these imply that $\mathrm{ad}^0\rho$ is unlinked
+(\lref{UpperTheory.V.Z.Sym.Unl.adUnl}).
+\end{proof}
+
+\begin{proposition}\label{pf:eis:propT}
+$\sfname{HypothesesH'}$ implies $(\mathrm{T})$.
+\formallabel{UpperTheory.V.Z.Sym.W.seedInW_alt}
+\end{proposition}
+
+\begin{proof}
+Let the data, $m\ge2$ and $\rho$ be as in $(\mathrm{T})$, and put $\Theta=\chi'\eta\theta$, a character of finite order with $\Theta(c)=(-1)^{m+1}$ (as
+$\theta(c)=1$, $\theta$ having odd order), $\det\rho=\eiscyc^m\Theta$ and $\Theta|_{G_L}=\chi'|_{G_L}$ (as $\eta,\theta$ are trivial on $G_L$), unramified
+outside $M$.
+
+\emph{The twist.} By \lref{UpperTheory.V.Z.Sym.Pl.twEx} (an existence theorem for algebraic Hecke characters of the CM field $L$
+with prescribed restriction to the ideles of $L^+$ and prescribed infinity type, proved by global class field theory from the literature
+package, \lref{UpperTheory.V.Z.Sym.Pl.lemTWM}) there is a continuous algebraic character $\kappa:G_L\to\Qlbar^\times$, unramified at
+the places not dividing $M$, with $\kappa^k$ a power of the cyclotomic character on inertia above $\ell$ for some $k\ge1$, and with
+$\kappa(s)\kappa(csc^{-1})=\Theta(s)^{-1}\eiscyc(s)^{-(m+1)}$ for $s\in G_L$. Then $\det\rho(s)\kappa(s)\kappa(csc^{-1})=\eiscyc(s)^{-1}$, so
+$\rho|_{G_L}\otimes\kappa$ is conjugate self-dual with multiplier $\eiscyc^{-1}$ for every complex conjugation (any two complex conjugations
+differ by an element of $G_L$).
+
+\emph{Automorphy.} $\rho|_{G_K}$ is automorphic, by base change from $\Q$ to the imaginary quadratic field $K$
+(\lref{UpperTheory.V.Sd.up_quad_of_printed_results}), and so is $\rho|_{G_L}$, by solvable base change along the abelian extension
+$L/K$ (\lref{UpperTheory.V.Z.Bc.upSol_of_alt}), using that $\rho$ is irreducible on open subgroups. Twisting by the algebraic character
+$\kappa$ preserves automorphy (\lref{UpperTheory.V.Sd.twist_conjugate_selfDual}), and with the pairing above,
+$\rho|_{G_L}\otimes\kappa$ is automorphic of conjugate self-dual type
+(\lref{UpperTheory.GalN.V.aut_csd_zero_of_complex_conj_pair_automorphic}). The window condition holds for $\rho$ over $K$ by the
+condition $\mathrm{PR}$, is preserved by base change to $L$ and by the twist, and at the places above $\ell$ uses that $\rho$ is ordinary
+(\lref{UpperTheory.V.Z.Win.Birth.potOrd}).
+
+\emph{The remaining properties.} $\mathrm{ad}^0(\rho|_{G_L}\otimes\kappa)=\mathrm{ad}^0\rho|_{G_L}$ is unlinked, since $\mathrm{ad}^0\rho$ is
+(\lref{UpperTheory.V.Z.Sym.W.adjoint_zero_twist} and \lref{UpperTheory.GalN.V.L.wup}); irreducibility on open subgroups is inherited
+from $\rho$; at a place not dividing $M$, inertia acts on $\rho$ through $(1,\Theta)$ and $\Theta=\chi'$ and $\kappa$ are unramified there, so the twist
+is unramified; and at a place above $\ell$, the ordinary flag of $\rho$ with diagonal characters $\eiscyc^m$ and $1$ on inertia, twisted by $\kappa$,
+gives an ordinary flag with weight difference $m$. Hence $\rho|_{G_L}\otimes\kappa$ satisfies $\mathcal W(\iota,M,m)$.
+\end{proof}
+
+The third input is an automorphic adjoint lift for unitary groups in two and three variables, with control of the local components.
+
+\begin{proposition}\label{pf:eis:propAd}
+$\sfname{HypothesesH'}$ and $\sfname{Row0b}$ imply $(\mathrm{Ad})$.
+\formallabel{UpperTheory.V.Z.Sym.W.adjoint_automorphy_w_of_printed_hida_window}
+\end{proposition}
+
+\begin{proof}
+We use two statements proved in the development.
+\begin{enumerate}[label=(\alph*)]
+\item A descent package compatible with weights (\lref{UpperTheory.V.Z.Sym.W.weight_compatible_descent}, from
+  $\sfname{HypothesesH'}$ and $\sfname{Row0b}$): for CM fields $L$ unramified over $L^+$, automorphic representations of unitary groups
+  over $L^+$ split by $L$ have Galois representations satisfying local--global compatibility at the split places, compatible with the
+  Galois representations of their base change to $\GL_n(\A_L)$, and conjugate self-dual cuspidal representations of $\GL_n(\A_L)$,
+  $2\le n\le4$, regular algebraic, descend to the unitary groups.
+\item An adjoint lift for $U(2)$ with prescribed local components
+  (\lref{UpperTheory.V.Z.Sym.W.adjoint_lift_w_of_literal_automorphy_spec_out}, from the literature package and a local
+  statement on Weil--Deligne representations and depths, \lref{UpperTheory.V.Z.Sym.W.specOutS}): let $\sigma$ be an automorphic
+  representation of a unitary group in two variables over $L^+$, of weight $j\ge1$ at all infinite places, unramified outside a finite
+  set $S_0$ of split places, and let $P$ be a set of split places disjoint from $S_0$ at which the local components of $\sigma$ are
+  unramified regular principal series; prescribe the local components of $\sigma$ at $S_0\cup P$ as principal series $(\psi_{w,0},\psi_{w,1})$, with
+  $\psi_{w,0}/\psi_{w,1}$ not linked at $S_0$. Then either there is an automorphic representation $\sigma_3$ of a unitary group in three variables
+  whose local components at $S_0\cup P$ are the principal series $(\psi_{w,0}/\psi_{w,1},1,\psi_{w,1}/\psi_{w,0})$ and which is unramified wherever
+  $\sigma$ is, or $\sigma$ is endoscopic (induced from a character of a quadratic extension).
+\end{enumerate}
+Let $r$ satisfy $\mathcal W(\iota,M,m)$, and fix a place $w_0\mid M$ of $L$.
+
+\emph{The adjoint lift.} By (a), $r$ is attached to an automorphic representation $\sigma$ of the unitary group in two variables, of weight
+$m-1$ (\lref{UpperTheory.V.Z.Sym.W.aboveWeight}). Let $S$ consist of $w_0$ and one place above each place of $L^+$ dividing $M$ (all split, as
+$L$ is $M$-split), and let $Q$ be an infinite set of split places not dividing $M$ at which $r$ has a Frobenius element whose eigenvalue ratio avoids the
+finitely many degenerate values excluded in \lref{UpperTheory.V.Z.Sym.Ga.Bad} (\lref{UpperTheory.V.Z.Sym.Ga.select}). The local components of $\sigma$ at $S\cup Q$ are principal series
+whose characters are read off from $r$: at $Q$ they are unramified and regular
+(\lref{UpperTheory.V.Z.Sym.W.good_w_statement}); at the places of $S$ above $\ell$ they come from the ordinary flag of $r$ with weight gap
+$m\ge2$ (\lref{UpperTheory.V.Z.Sym.W.above_w_statement}); at the other places of $S$ they are not linked because
+$\mathrm{ad}^0r$ is unlinked (\lref{UpperTheory.V.Z.Sym.W.away_w_statement}). Apply (b) with $S_0=S$ and $P=Q$. The endoscopic
+alternative is impossible: an endoscopic $\sigma$ would make $r$ induced from a character, contradicting irreducibility on open subgroups
+at the places of $Q$ (\lref{UpperTheory.V.Z.Sym.W.branch_two_w_statement}). In the other alternative, the base change of
+$\sigma_3$ to $\GL_3(\A_L)$ is a regular algebraic conjugate self-dual cuspidal representation $\pi$ attached via $\iota$ to
+$\mathrm{ad}^0r\otimes\eiscyc^{-1}$, unramified at the places not dividing $M$
+(\lref{UpperTheory.V.Z.Sym.W.branch1W_alt}), whose local component at $w_0$ is a principal series of the plain type required by the
+window condition (\lref{UpperTheory.V.Z.Sym.W.plain_at_w_statement}).
+
+\emph{Gluing.} So $\mathrm{ad}^0r\otimes\eiscyc^{-1}$ is automorphic of conjugate self-dual type. The window condition is a condition on each place
+separately: at the places not dividing $M$ it holds for the lift obtained with any $w_0$, the local components being unramified with Satake
+parameters of the right size; at a place $w\mid M$ it holds for the lift obtained with $w_0=w$; since all these lifts are attached to the same
+Galois representation, they satisfy the condition simultaneously (\lref{UpperTheory.V.Z.Sym.W.glueW}).
+\end{proof}
+% ---------------------------------------------------------------------------
+\subsection{The symplectic automorphy statement}\label{sec:pf:eis:sp}
+
+Cases II and III are treated with four-dimensional representations of $G_\Q$ of $\GSp_4$-type whose residual representations are
+sums of four characters with Hodge--Tate weights $(j+1,j,1,0)$. The counting argument for these cases is carried out elsewhere
+(\lref{UpperTheory.V.HV.DescentVanishingReductions.countII_and_countIII_of_printsH_of_sp4In}); its automorphic input is the
+statement $(\mathrm{Sp})$, which we now state precisely and reduce to its inputs.
+
+\begin{definition}[Raw data]\label{pf:eis:raw}
+Let $\ell$ be a prime and $\OO$ a coefficient ring. A \emph{raw datum} $D$ over $\OO$ consists of a finite set $S$ of primes, $e\in\N$,
+characters $\psi,\xi,\omega:G_\Q\to\OO^\times$, elements $c,\phi,g_0\in G_\Q$, for each $p\in\N$ a place $A_p$ of $\Omega$ and an element
+$\sigma_p\in G_\Q$, and an element $s_0\in D_{A_\ell}$. Put
+\[
+ \Psi=\eiscyc^e\psi,\quad\alpha=\eiscyc\,\omega^{-1}\xi,\quad\beta=\Psi\alpha^{-1},\quad\vartheta=\alpha\Psi,\quad
+ r_0=\mathrm{diag}(\vartheta,\Psi,\alpha,1),
+\]
+a homomorphism $G_\Q\to\GL_4(\OO)$ with Hodge--Tate weights $(e+1,e,1,0)$, and $\bar r$ the reduction of $r_0$. Let $S_b$ be the set of $p\in S$, $p\ne\ell$, with
+$\ell\mid\#\psi(I_{A_p})$, and $T=\{\ell\}\cup S_b$. A matrix $g\in M_4(R)$ is in $\GSp_4$ with multiplier $\nu$ if
+$\mathrm{adj}(g)g=\nu\cdot1$, where $\mathrm{adj}(X)_{ij}=\epsilon_i\epsilon_jX_{5-j,5-i}$ with $\epsilon=(1,1,-1,-1)$; $r_0$ takes values in $\GSp_4$ with
+multiplier $\vartheta$. The entry $(i,j)$ has weight $(\lambda_i-\lambda_j,\mu_i-\mu_j)\in\Z^2$, with $\lambda=(1,0,1,0)$ and $\mu=(1,1,0,0)$.
+
+The datum is \emph{good} if: $\ell\ne2$; $S$ consists of primes and contains $2$ and $\ell$; $e\ge2$; $A_p$ lies over $p$ for every prime $p$; $c$ is a
+complex conjugation; $\psi$ has open kernel and is unramified outside $S$; $\Psi(c)=1$; $\omega^{\ell-1}=1$ and $\omega\equiv\eiscyc$ modulo the
+maximal ideal; $\xi$ has open kernel and order prime to $\ell$, is unramified outside $S$ and at the primes of $T$, and $\xi(c)=-1$; $\sigma_v$ is
+a Frobenius element at $A_v$ for $v\in T$ and $\eiscyc(\sigma_\ell)=1$; $\bar\xi\bar\Psi^i(\sigma_v)\ne1$ for $v\in T$ and $i\in\Z$; for
+$\gamma\in\{\alpha,\beta,\vartheta\}$ and its inverse, every continuous residual cocycle for $\bar\gamma$ which is unramified outside $T$ (in the
+sense above) and locally a coboundary at the primes of $T$ is a coboundary; $\phi=\lim_n\sigma_\ell^{\ell^{n!}}$; $\bar\alpha(g_0)\ne1$ and
+$\bar\Psi(g_0)\ne1$; and $s_0\in I_{A_\ell}\cap\ker\psi\cap\ker\omega$ with $\eiscyc(s_0)$ of infinite order.
+\formal{UpperTheory.V.GradeZeroInterpolatingElement.Raw}
+\formal{UpperTheory.V.GradeZeroInterpolatingElement.Raw.Good}
+\end{definition}
+
+\begin{definition}[Points and the conditions of $(\mathrm{Sp})$]\label{pf:eis:rawpts}
+Let $D$ be a raw datum. A \emph{point} of $D$ over a complete $\OO$-algebra $R$ is a homomorphism $r:G_\Q\to M_4(R)$ with continuous entries
+reducing to $\bar r$ such that: $r(g)$ is in $\GSp_4$ with multiplier $\vartheta(g)$; $r(g)=1$ for $g$ in inertia groups at places not above
+$T$ with $\bar r(g)=1$; $r(\phi)$ is block diagonal for $\lambda$ and the entries $(1,3)$, $(3,1)$ of $r(g_0)+\vartheta(g_0)r(g_0^{-1})$ vanish; and
+the restriction of $r$ to $D_{A_\ell}$ (resp.\ $D_{A_p}$, $p\in S_b$) factors through a domain on which the base representation $r_0$ satisfies
+the local condition at $\ell$ (multiplier $\vartheta$, and ordinarity with respect to the eigenvalues of $r(s_0)$ and the characters
+$(\vartheta,\Psi,\alpha,1)$ on inertia), resp.\ at $p$ (multiplier $\vartheta$ and triviality on $I_{A_p}\cap\ker\psi$). A $\Qlbar$-point is the image of
+a point under a homomorphism $R\to\Qlbar$. Then:
+\begin{itemize}
+\item $(\mathrm{S1})$: for every point $r$ over $R$, the $\OO$-subalgebra of $R$ generated by the products of entries of $r$ of total
+  weight $0$ is a finite $\OO$-module;
+\item $(\mathrm{S2})$: for every $\Qlbar$-point $r$ which is block diagonal for $\lambda$, the matrices formed by the entries
+  $(1,1),(1,3),(3,1),(3,3)$ of the $r(g)$ span a proper subspace of $M_2(\Qlbar)$;
+\item for $\iota:\Qlbar\cong\C$, $\mathrm{Aut}_4(\iota,r)$ means: if $r$ is continuous, then for every imaginary quadratic field $K$ such that
+  $r|_{G_K}$ is irreducible, $r|_{G_K}$ is attached via $\iota$ to a regular algebraic cuspidal automorphic representation of $\GL_4(\A_K)$
+  and satisfies the window condition;
+\item $(\mathrm{S3})_\iota$: every $\Qlbar$-point $r$ whose image spans $M_4(\Qlbar)$ satisfies $\mathrm{Aut}_4(\iota,r)$.
+\end{itemize}
+For a host $h$, $e$ and $\theta\in\eisX_h(\OO,e)$, $D$ is \emph{of the case of $(h,e,\theta)$} if either $(\ell,e,\theta)$ is in case II, $e_D=e$,
+$\psi=\theta_G$, $S$ is the set of prime divisors of $2\ell N_h$, and $\xi=\xi'_G$ for a primitive odd Dirichlet character $\xi'$ of conductor
+$2^{n_{II}}$; or $(\ell,e,\theta)$ is in case III, $e_D=e$, $\psi=\theta_G$, $S$ is the set of prime divisors of $2\ell N_hp_1(\chi)$, and
+$\xi=\xi_{0,G}\xi'_G$ with $\xi'$ primitive and odd of conductor $2^{n_{III}}$ and $\xi_0$ a character modulo $p_1(\chi)$ of order $\ord\theta$.
+Here $n_{II}=\lceil\log_2\max(\ell N_h4^{n_0},2^{c_2(\theta)+6}o_\chi\ell^3N_\chi^2)\rceil$ and
+$n_{III}=\lceil\log_2\max(\ell N_\chi p_1(\chi)4^{n_0},8\ell^2)\rceil$, $n_0=n_0(\ell,\theta)$.
+\formal{UpperTheory.V.Aut.OfCase}
+\end{definition}
+
+\begin{definition}[$(\mathrm{Sp})$]\label{pf:eis:spstmt}
+$(\mathrm{Sp})$ is the statement: for every $\Omega$, every host $h$ big for $t$, every prime $\ell\ne2$, every coefficient ring $\OO$, every
+$0<e<t$, every $\theta\in\eisX_h(\OO,e)$ and every good raw datum $D$ over $\OO$ of the case of $(h,e,\theta)$, $(\mathrm{S1})$ and
+$(\mathrm{S2})$ hold, and $(\mathrm{S3})_\iota$ holds for some $\iota:\Qlbar\cong\C$.
+\formal{UpperTheory.V.Aut.SymplecticFourImageDense}
+\end{definition}
+
+This is the statement $(\mathrm{Sp})$ of \cref{pf:vwin-he:autstmts}. Its proof rests on five inputs which concern \emph{towers} attached to
+a raw datum: finite families of totally real and CM fields over which the residual representation becomes induced or a tensor product
+of two-dimensional representations, together with framed deformation problems over these fields; the conditions $\mathrm{Ok}$,
+$\mathrm{Two}$, $\mathrm{Deep}$, $\mathrm{Fit}$ and $\mathrm{Four}$ on towers and the contexts II and III of a raw datum are those of the development.
+
+\begin{definition}[Inputs of $(\mathrm{Sp})$]\label{pf:eis:spinputs}
+\leavevmode
+\begin{enumerate}[label=(I\arabic*)]
+\item\label{pf:eis:I1} The local results of the literature package, Poitou--Tate duality, global finiteness, the
+  global Euler characteristic formula, orthogonality of unramified classes and the Greenberg--Wiles formula.
+\item\label{pf:eis:I2} The theorem of Ferrero--Washington (\cref{lit:window:fw}) \cite{FerreroWashington1979}, in the form: for every abelian
+  number field $K$ containing $\mu_\ell$ ($\mu_4$ if $\ell=2$) there is $r$ such that the class groups of the layers $K(\mu_{\ell^n})$ have
+  $\ell$-rank at most $r$.
+\item\label{pf:eis:I3} Seeds in context II: for every raw datum in context II and every tower $T$ attached to it with $\mathrm{Ok}$, $\mathrm{Two}$
+  and $\mathrm{Deep}$, and every $\iota$, after enlarging $\OO$ there is a \emph{seed pair} over the top field of $T$ whose reduction lies in the
+  space prescribed by the frame of $T$ and has a non-zero entry of root weight $-(1,0)$, or non-zero entries of root weights $(-1,1)$ and
+  $-(1,1)$.
+\item\label{pf:eis:I4} Seeds in context III: the analogous statement for context III, with an auxiliary prime $w$ split in the tower, for all
+  towers above a given one in which $w$ dies.
+\item\label{pf:eis:I5} Potential modularity towers: for every raw datum, every tower $T$ with $\mathrm{Fit}$ and $\mathrm{Deep}$, and every $\iota$, there is a
+  coefficient ring $\OO_1$ such that for every larger coefficient ring and every space of points of the frame of $T$ there is a potential
+  modularity tower.
+\end{enumerate}
+\formal{UpperTheory.V.GradeZeroInterpolatingElement.CohomologyHyp}
+\formal{UpperTheory.V.Ws.SeedIIAlt}
+\formal{UpperTheory.V.Cu.SeedIVAlt}
+\formal{UpperTheory.V.Ws.PMExAlt}
+\end{definition}
+
+\begin{lemma}\label{pf:eis:hfit}
+Every tower over a raw datum in context III which satisfies $\mathrm{Ok}$ and $\mathrm{Four}$ satisfies $\mathrm{Fit}$.
+\formallabel{UpperTheory.V.Cu.hFit}
+\end{lemma}
+
+\begin{proof}
+By definition $\mathrm{Fit}$ is the conjunction of $\mathrm{Ok}$ and of ``context II and $\mathrm{Two}$, or context III and $\mathrm{Three}_0$'', where
+$\mathrm{Three}_0$ means $\ell\ge5$, $S_b=\emptyset$ and $\psi$ has order prime to $\ell$; and $\mathrm{Four}$ consists of these three conditions and
+a fourth one.
+\end{proof}
+
+\begin{theorem}\label{pf:eis:sp}
+$\sfname{HypothesesH'}$ implies $(\mathrm{Sp})$. More precisely, \ref{pf:eis:I1}--\ref{pf:eis:I5} imply $(\mathrm{Sp})$.
+\formallabel{UpperTheory.V.HV.DescentVanishingReductions.sp4In0_alt}
+\formallabel{UpperTheory.V.Cu.sp4In_alt}
+\end{theorem}
+
+\begin{proof}
+The rank-four reduction theorem of the development (\lref{UpperTheory.V.Cu.main4_alt}) states that \ref{pf:eis:I1},
+\ref{pf:eis:I2}, the statement of \cref{pf:eis:hfit}, \ref{pf:eis:I3}, \ref{pf:eis:I4} and \ref{pf:eis:I5} imply $(\mathrm{Sp})$. With
+\cref{pf:eis:hfit} this proves the second assertion.
+
+Assume $\sfname{HypothesesH'}$. \ref{pf:eis:I1} is contained in it (\lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lift_of_prints},
+which extracts from $\sfname{HypothesesH'}$ a package containing \ref{pf:eis:I1}); \ref{pf:eis:I2} is
+\lref{UpperTheory.V.FW.ferreroWashington}; \ref{pf:eis:I3} is \lref{UpperTheory.V.Z.Bc.seedIIs_alt}; \ref{pf:eis:I4} is
+\lref{UpperTheory.V.Z.Win.Birth.fourth_initial_of_prints_h}; and \ref{pf:eis:I5} is
+\lref{UpperTheory.V.HV.DescentVanishingReductions.pmEx_of_printsH}, each of the last three a consequence of
+$\sfname{HypothesesH'}$.
+\end{proof}
+
+\subsubsection{Proofs of the inputs of \texorpdfstring{$(\mathrm{Sp})$}{(Sp)}}
+
+We now prove the rank-four reduction theorem used in \cref{pf:eis:sp} and the inputs \ref{pf:eis:I3}--\ref{pf:eis:I5}. The
+arguments are long in the formal development (roughly $66{,}000$ lines); we give their main steps and cite the intermediate results.
+The objects of the development used below are: \emph{towers} $T$ attached to a raw datum (a finite family of totally real and CM
+fields, with a top field $F_T$, over which the residual representation becomes induced or a tensor product of two-dimensional
+representations, together with a framed deformation problem over $F_T$ and the conditions $\mathrm{Ok}$, $\mathrm{Two}$,
+$\mathrm{Four}$, $\mathrm{Fit}$, $\mathrm{Deep}$); \emph{spaces of points} $X$ of the frame of $T$ (an algebra $A_X$ of finite type over a
+complete local ring $B_X$, carrying a family of four-dimensional points); \emph{potential modularity towers} $(X,J)$, $J\subset B_X$
+an ideal (the \emph{modular locus}) such that $B_X/J$ is Artinian modulo $\mathfrak m_\OO$ and the inertial characters, every point of $X$ on
+$V(J)$ with the right Hodge--Tate weights descends to a pure representation of $G_\Q$ which is automorphic when irreducible on
+$G_{L_T}$, and seeds and points with distinct inertial characters on $V(J)$ satisfy a local vanishing condition; and \emph{promodular}
+points: points of a raw datum which are conjugate to the specialization of a point of a potential modularity tower lying on $V(J)$.
+
+\begin{definition}[Hilbert modular inputs]\label{pf:eis:hilb}
+Let $F$ be a totally real field, $\ell$ an odd prime and $\iota:\Qlbar\cong\C$.
+\begin{enumerate}[label=(\alph*)]
+\item $(\mathrm{Hol})$: for every totally odd Hecke character $\omega$ of $F$ of finite order, of conductor $\mathfrak c\ne1$ prime to $\ell$, and every
+  set $P$ of finite places containing a place $w\mid\ell$ with $\omega(\varpi_w)\not\equiv1$ and omitting another such place, and every $B$, there are
+  $k\ge B$ with $(\ell-1)\mid k$ and a cuspidal Hilbert eigenform of parallel weight $k+1$, level $\mathfrak c$ with Iwahori level at $\ell$ and
+  character $\omega$ whose eigenvalues are congruent, via $\iota$, to those of the Eisenstein series of this weight, level and character which is
+  ordinary in the direction prescribed by $P$.
+\item $(\mathrm{WC})$: for $[F:\Q]\ge2$, $\ell$ split in $F$ (each infinite place $v$ determining via $\iota$ a place $w_v\mid\ell$), $k_0\ge4$, a level
+  $\mathfrak c$ with Iwahori level at all $w_v$ and divisible by a place of norm $2$, a Hecke character $\omega$ of finite order, and a cuspidal
+  eigenform $\varphi$ of parallel weight $k_0$, level $\mathfrak c$ and character $\omega$ with eigenvalues $\lambda_w$ such that the $U_{w_v}$-eigenvalues are
+  $\ell$-adic units: for every set $S$ of infinite places and every $B$ there are $t\ge B$ with $(\ell-1)\mid t$ and a cuspidal eigenform $\varphi'$ of
+  weight $k_0+2t$ at $S$ and $k_0$ elsewhere, of level $\mathfrak c$ and character $\omega$, with eigenvalues $\lambda'_w$ such that
+  $\lambda'_w\prod_{v\in S,\,w_v=w}\ell^t\equiv\lambda_w$ modulo the maximal ideal for all $w$.
+\item $(\mathrm{Mix})$: for $[F:\Q]$ even, $\ell$ split in $F$, a totally odd character $\xi$ of $G_F$ of finite order, unramified above $\ell$, ramified at a
+  place of norm $2$, with $\xi^2\not\equiv1$ and $\xi\not\equiv1$ on each decomposition group above $\ell$, and a set $P$ of places above $\ell$, neither empty nor
+  all of them: there are $k,t\ge2$ with $(\ell-1)\mid k,t$, a cuspidal $\pi$ of $\GL_2(\A_F)$ and $r:G_F\to\GL_2(\Qlbar)$ attached to $\pi$, continuous and
+  irreducible on open subgroups, with $\det r=\eiscyc^k\xi$, residually $1\oplus\xi$, inertia away from $\ell$ acting through $(1,\xi)$, the condition
+  $\mathrm{PR}$, and ordinary above $\ell$ with weights $(k+t,-t)$ at the places of $P$ and $(k,0)$ at the others.
+\item $(\mathrm{Ind})$: for a quadratic extension $M/K$ of totally imaginary number fields and a cuspidal $\pi$ of $\GL_2(\A_M)$ of mixed weight
+  (the infinitesimal characters at the two embeddings of $M$ above an embedding of $K$ differ) whose ramified places are split over $K$,
+  there is a cuspidal $P$ of $\GL_4(\A_K)$ whose Satake parameters at the places where both are unramified are those of the representation
+  induced from $\pi$, and whose infinitesimal character at each embedding of $K$ is the sum of those of $\pi$ at the two embeddings above it.
+\item $(\mathrm{Ind}')$: the four-dimensional representations $R$ of $G_\Q$ obtained from the data of a tower by inducing (a twist of) a
+  two-dimensional representation $r$ of a totally real field of the tower which satisfies $\mathrm{PR}$ are, restricted to the CM field of the
+  tower, automorphic with the window condition at all places.
+\end{enumerate}
+\formal{UpperTheory.V.Sd.PropMHol}
+\formal{UpperTheory.Esk.HolWC}
+\formal{UpperTheory.V.Z.Win.Birth.MixSeedP}
+\formal{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.IndCs}
+\formal{UpperTheory.V.Z.Win.Birth.IndAutLP}
+\end{definition}
+
+\begin{theorem}[Rank-four reduction]\label{pf:eis:main4}
+\ref{pf:eis:I1}, \ref{pf:eis:I2}, the statement of \cref{pf:eis:hfit}, \ref{pf:eis:I3}, \ref{pf:eis:I4} and \ref{pf:eis:I5} imply $(\mathrm{Sp})$.
+\formallabel{UpperTheory.V.Cu.main4_alt}
+\end{theorem}
+
+\begin{proof}
+Let $D$ be a good raw datum of the case of $(h,e,\theta)$ and fix $\iota$ (\lref{UpperTheory.V.Ws.ambZero}). Consider \emph{pairs} $(r,u)$ where
+$r$ is a point of $D$ with values in the valuation ring of a field of characteristic $0$ or $\ell$ (multiplier $\vartheta$, reduction $\bar r$, the local
+conditions at $S_b$ and $\ell$, the latter after conjugation by $u\in\GSp_4$), and say that $r$ is \emph{starred} if it is irreducible or a non-split
+block extension.
+
+\emph{Step 1: starred points are promodular.} In context II this is \lref{UpperTheory.V.Ws.proMod_of_pmEx_of_ctx2_of_kPair_of_star},
+from \ref{pf:eis:I1}, \ref{pf:eis:I2}, \ref{pf:eis:I3} and \ref{pf:eis:I5} (the seed pairs of \ref{pf:eis:I3} are points on the modular loci of
+the potential modularity towers of \ref{pf:eis:I5}, and the starred point is connected to them as in context III below). In context III it is
+\lref{UpperTheory.V.Cu.promodularity_case_three_of_chain_reduction}, combining four results:
+(a) for every admissible labelling there is a tower with $\mathrm{Ok}$ and $\mathrm{Four}$, tamely ramified above $\ell$, over which the residual
+representation becomes a tensor product (\lref{UpperTheory.V.Cu.existsTensorSeedTower_holds});
+(b) the chain lemma (\lref{UpperTheory.V.Cu.chain_rank_four_of_red_a_y_coin_fib_y}, from three lemmas on reduction types of residual
+points, \lref{UpperTheory.V.Cu.redTanA}, \lref{UpperTheory.V.Cu.yCoin}, and \lref{UpperTheory.V.Cu.torusY}): in a potential modularity
+tower over a tower with $\mathrm{Fit}$ and $\mathrm{Deep}$ and of sufficiently large degree, at a good residual point $x$, if one irreducible
+component of $\Spec A_X$ through $x$ lies in $V(J)$, then all do;
+(c) chains of good residual points connecting two residual points descend along enlargements of the coefficient ring
+(\lref{UpperTheory.V.Cu.chainDesc4});
+(d) from \ref{pf:eis:I4} and the statement of \cref{pf:eis:hfit}: for a tower $T_0$ as in (a) there is a larger tower $T_1$ such that over every deeper
+tower $T$ there is a seed pair whose residual point is connected to the residual point of $D$ by a chain (\lref{UpperTheory.V.Cu.chainIV_alt}).
+Given a starred point, \ref{pf:eis:I5} provides a potential modularity tower over a deep tower as in (d); the seed pair lies on $V(J)$, and by (b)
+applied along the chain of (c), (d), modularity propagates from the component of the seed to all components through the residual point of
+$D$, in particular to the component carrying the given point.
+
+\emph{Step 2: consequences of promodularity.} (i) There is no starred pair in characteristic $\ell$
+(\lref{UpperTheory.V.Ws.contradiction_star_promodular}: in characteristic $\ell$ a promodular point has the traces of $\bar r$, a sum of four
+characters, so its traces satisfy $\tr r(xgh)=\tr r(xhg)$ and it can be neither irreducible nor a non-split block extension); (ii) promodular points of the right weights are pure
+(\lref{UpperTheory.V.Ws.pureW_of_proModular_of_isZero}); (iii) irreducible promodular points of characteristic $0$ satisfy
+$\mathrm{Aut}_4(\iota,r)$ (\lref{UpperTheory.V.Ws.aut_n_alt}), by the automorphy axiom of potential modularity towers and descent from
+the CM field of the tower to the imaginary quadratic fields $K$.
+
+\emph{Step 3: conclusion.} From (i)--(iii) and \ref{pf:eis:I1}, \lref{UpperTheory.V.Ws.fin0_no_end_all_irr_of_good_con_purity_aut} derives
+$(\mathrm{S1})$, $(\mathrm{S2})$ and $(\mathrm{S3})_\iota$: a positive-dimensional family of points, or a block-diagonal point with spanning upper block,
+would produce a starred pair in characteristic $\ell$, contradicting (i), and every point whose image spans $M_4(\Qlbar)$ is irreducible and
+promodular, hence automorphic by (iii) (\lref{UpperTheory.V.Cu.modularity_rank_four_of_promodularity_case_three}).
+\end{proof}
+
+\begin{theorem}\label{pf:eis:seedII}
+$\sfname{HypothesesH'}$ implies \ref{pf:eis:I3}.
+\formallabel{UpperTheory.V.Z.Bc.seedIIs_alt}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: $(\mathrm{Hol})$.} By \lref{UpperTheory.V.Z.Bc.propMHolZ_alt}, $\sfname{HypothesesH'}$ together with the published existence
+of Hilbert Eisenstein series of weight one (part of the literature package) implies $(\mathrm{Hol})$: this is Ribet's construction over $F$, as in
+\cref{pf:eis:propEC}, with Hilbert Eisenstein series and a form congruent to $1$.
+
+\emph{Step 2: $(\mathrm{Mix})$.} By \lref{UpperTheory.Esk.mixSeed_of_holWC_alt}, $(\mathrm{Hol})$, $(\mathrm{WC})$ (\cref{pf:eis:wc}) and
+$\sfname{HypothesesH'}$ imply $(\mathrm{Mix})$ (via \lref{UpperTheory.V.Z.Win.Birth.mixOfP}): starting from a form of parallel weight
+$k+1$ given by $(\mathrm{Hol})$ (with $\omega$ the Hecke character of $\xi$), $(\mathrm{WC})$ applied to the set $S$ of infinite places corresponding to
+the places in $P$ produces a congruent eigenform of weight $k+1+2t$ at $S$; its Galois representation, attached by the results of the
+literature package and twisted, is ordinary of weights $(k+t,-t)$ on $P$ and $(k,0)$ off $P$, residually $1\oplus\xi$ by the congruence, and
+irreducible on open subgroups because the weights are not of CM type (\lref{UpperTheory.V.Z.Win.Birth.mix_birth_of_prints}).
+
+\emph{Step 3: $(\mathrm{Ind}')$.} By \lref{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indAutLP_of_printsH_upQuad_upSol_indCs},
+$(\mathrm{Ind}')$ follows from $\sfname{HypothesesH'}$, quadratic base change from totally real to CM fields
+(\lref{UpperTheory.V.Z.Bc.upQuadI_of_alt}), cyclic base change in rank two (\lref{UpperTheory.V.Z.Bc.upSolI_of_alt}) and
+$(\mathrm{Ind})$ (\cref{pf:eis:ind}): the representation $R$ restricted to the CM field of the tower is induced from a quadratic extension of CM
+fields, so it is automorphic once the two-dimensional representation is, after base change from the totally real field.
+
+\emph{Step 4: seed pairs.} By \lref{UpperTheory.V.Z.Bc.seedII_of_p_alt}, $(\mathrm{Mix})$ and $(\mathrm{Ind}')$ imply \ref{pf:eis:I3}: given a raw datum
+in context II and a tower $T$ with $\mathrm{Ok}$, $\mathrm{Two}$, $\mathrm{Deep}$, $(\mathrm{Mix})$ over the totally real field of the tower, with $P$ the places
+above $\ell$ singled out by the tower, gives $r$; the four-dimensional representation $R$ induced from a twist $r\otimes\delta$ is irreducible
+(\lref{UpperTheory.induced_irreducible}), has the local properties required by the frame of $T$
+(\lref{UpperTheory.GalN.V.indLoc0}), and is automorphic with the window condition by $(\mathrm{Ind}')$; its reduction lies in the space
+prescribed by the frame and has the required non-zero root entries (\lref{UpperTheory.induced_final_statement_alt}), so it is a seed
+pair.
+\end{proof}
+
+\begin{theorem}\label{pf:eis:seedIV}
+$\sfname{HypothesesH'}$ implies \ref{pf:eis:I4}.
+\formallabel{UpperTheory.V.Z.Win.Birth.fourth_initial_of_prints_h}
+\end{theorem}
+
+\begin{proof}
+By \lref{UpperTheory.V.Cu.fourth_initial_of_rank_four_data}, \ref{pf:eis:I4} follows from the following rank-four data, all available
+under $\sfname{HypothesesH'}$.
+(a) Automorphy of tensor products: a tensor product of two two-dimensional representations over the CM field of a tower, one automorphic
+over a totally real field and one induced from a character, is automorphic with the window condition
+(\lref{UpperTheory.V.Cu.rank_four_automorphy_of_tensor_of_base_change_of_induction}, from $\sfname{HypothesesH'}$, quadratic and cyclic
+base change, automorphic induction $(\mathrm{Ind})$ in the form \lref{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indAutCs_of_alt},
+and a polarization statement \lref{UpperTheory.V.Cu.polOf4_alt}).
+(b) Eisenstein-congruent two-dimensional representations, as in \cref{pf:eis:propE}
+(\lref{UpperTheory.V.Z.Win.Birth.propEGP_of_printsH}).
+(c) Auxiliary characters of weight four and twists adapted to the auxiliary prime $w$
+(\lref{UpperTheory.V.Cu2.exists_weight_four_auxiliary_characters}, \lref{UpperTheory.V.Cu.tauEx'}, and \lref{UpperTheory.V.Cu.twEx4}).
+(d) The verification that the resulting tensor product is a seed for the frame of the tower: it preserves the symplectic pairing up to the
+multiplier, has the prescribed residual shape, entries and weights, is compatible with the towers in which $w$ dies, and is irreducible
+(\lref{UpperTheory.V.Cu.irrOf4_of}) and automorphic (\lref{UpperTheory.V.Cu.autOf4_of}).
+\end{proof}
+
+\begin{theorem}\label{pf:eis:pmex}
+$\sfname{HypothesesH'}$ implies \ref{pf:eis:I5}.
+\formallabel{UpperTheory.V.HV.DescentVanishingReductions.pmEx_of_printsH}
+\end{theorem}
+
+\begin{proof}
+$\sfname{HypothesesH'}$ contains the unramified local inputs (\lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lift_of_prints})
+and implies the adjoint lifting theorem (\lref{UpperTheory.V.HV.DescentVanishingReductions.adjoint_lifting_of_cohomology}). From these,
+\lref{UpperTheory.Gal.projectedFormsSystemPart.pm_exists_of_unramified_adjoint_lifting} proves \ref{pf:eis:I5} in two steps.
+(a) Local vanishing at modular points (\lref{UpperTheory.V.Th.local_zero_of_modular_p}): at a point of a space of points attached to an
+automorphic representation, with distinct inertial characters at $\ell$, the local vanishing condition of potential modularity towers holds;
+this follows from the adjoint lifting theorem by lifting eigenbases of the inertial action (\lref{UpperTheory.V.Th.eigenbasis_rank_four}).
+(b) Construction of the towers (\lref{UpperTheory.Gal.projectedFormsSystemPart.promodular_existence_of_local_zero}): for a tower with
+$\mathrm{Fit}$ and $\mathrm{Deep}$, after enlarging the coefficient ring, the ideal $J$ cutting out the components of a space of points that
+contain modular points satisfies the axioms: the modular quotient is regular at its points
+(\lref{UpperTheory.V.Ws.modular_deformation_quotient_regular_at_point_alt}), points on $V(J)$ descend to $G_\Q$
+(\lref{UpperTheory.V.Z.Win.Dn.pmDown_alt}) and are pure (\lref{UpperTheory.V.Ws.pmPur_w_alt}), and the required links between
+residual points exist (\lref{UpperTheory.Gal.projectedFormsSystemPart.exists_two_links_same_kappa_not_dvd_of_fit_deep}).
+\end{proof}
+
+The last two inputs are formal proofs of special cases of classical theorems. The weight-changing congruence $(\mathrm{WC})$ is a
+consequence of Hida's theory of nearly ordinary Hecke algebras.
+
+\begin{littheorem}[Hida {\cite{Hida1988,Hida1989}}]\label{pf:eis:hida}
+Let $F$ be a totally real field, $p$ an odd prime, $\mathfrak n$ an ideal prime to $p$, and $\mathbf h^{\mathrm{n.o.}}$ the nearly ordinary Hecke algebra
+of level $\mathfrak np^\infty$ with coefficients in the ring of integers $\OO$ of a finite extension of $\Q_p$. Then $\mathbf h^{\mathrm{n.o.}}$ is finite and
+torsion-free over the Iwasawa algebra $\OO[[\mathbf T]]$ of the torsion-free part $\mathbf T$ of $(\OO_F\otimes\Z_p)^\times\times(\OO_F\otimes\Z_p)^\times$ modulo the
+closure of the global units, and for every arithmetic weight $(k,w)$ (with $k_v\ge2$ for all infinite places $v$) the specialization of
+$\mathbf h^{\mathrm{n.o.}}$ at the corresponding arithmetic point is the nearly ordinary Hecke algebra of weight $(k,w)$, level $\mathfrak np$ and the
+corresponding character. In particular, the system of Hecke eigenvalues of a nearly ordinary eigenform of weight $(k,w)$ is congruent
+modulo the maximal ideal (after the standard normalization of the $U_p$-eigenvalues) to that of a nearly ordinary eigenform of every weight
+$(k',w')$ congruent to $(k,w)$ modulo $p-1$ componentwise.
+\end{littheorem}
+
+\begin{theorem}\label{pf:eis:wc}
+$(\mathrm{WC})$ holds.
+\formallabel{UpperTheory.Esk.holWC}
+\end{theorem}
+
+The statement $(\mathrm{WC})$ is the special case of \cref{pf:eis:hida} for $p=\ell$ split in $F$, starting from parallel weight $k_0\ge4$ and changing the
+weight by $2t$ at a set $S$ of infinite places, with $(\ell-1)\mid t$; the factors $\ell^t$ in the congruence are the change of normalization of the
+$U_{w_v}$-eigenvalues. The formal statement differs from \cref{pf:eis:hida} in that it only asserts the existence of congruent forms for
+arbitrarily large $t$ (not for all congruent weights), requires $[F:\Q]\ge2$, Iwahori level at all places above $\ell$ and a place of norm $2$ in the level
+(which makes the relevant arithmetic groups torsion-free), and makes no statement about Hecke algebras over $\OO[[\mathbf T]]$; and it is proved
+directly by a comparison of traces, without $p$-adic families.
+
+\begin{proof}
+Let the data be given; let $\mathcal M_k$ denote the space of automorphic forms of weight $k$ (a function on the infinite places), level $\mathfrak c$
+and central character $\omega$ to which the trace formula below applies, with the Hecke operators $T_w$ ($w\nmid\mathfrak c$) and $U_w$ ($w\mid\mathfrak c$);
+$\varphi\in\mathcal M_{k_0}$. These spaces are finite-dimensional and the Hecke operators preserve them and commute
+(\lref{UpperTheory.Esk.s_HFin}). Put $N=\dim\mathcal M_{k_0}$ and
+$t=(\ell-1)\ell^N\max(B,1)$, so $t\ge B$, $(\ell-1)\mid t$, and $(\ell-1)\ell^N$ divides the weight shift at every infinite place.
+
+\emph{Trace congruences.} For every Hecke operator $h$ which is a product of double cosets at a list $W$ of places containing every place
+above $\ell$ at least $r\ge1$ times, the traces of $h$ on $\mathcal M_{k_0}$ and on $\mathcal M_{k_0+2t\mathbf 1_S}$, each multiplied by the normalizing factor
+$\prod_{w\in W}\Nm w^{k/2-1}\prod_{v:\,w_v=w}\ell^{t_v}$, are $\ell$-integral and congruent modulo $\ell^{\min(N,r)}$ (\lref{UpperTheory.Esk.pf_TrCong}).
+This is derived from the trace formula for the test functions defined by $h$ and the archimedean projectors onto the discrete series of
+the two weights (\lref{UpperTheory.Esk.s_TF}): in outline, the two traces have the same geometric expansion except for the
+archimedean factors, which depend on the weight through characters of the archimedean tori evaluated at the conjugacy classes; after the
+normalization these factors are $\ell$-integral and congruent modulo $\ell^{N+1}$ when the weights differ by multiples of $(\ell-1)\ell^N$, and the
+terms in which the $U$-operators repeated $r$ times do not act through units are divisible by $\ell^r$. The analytic inputs are bounds for
+the number of contributing conjugacy classes and the convergence and integrability of the hyperbolic terms
+(\lref{UpperTheory.Esk.dAx}).
+
+\emph{From traces to eigenforms} (\lref{UpperTheory.Esk.pf_HolWC}). Taking $r\ge N$, the normalized traces of all Hecke operators
+containing the $U$-operators above $\ell$ at least $r$ times agree on the two spaces modulo $\ell^N$; these operators see exactly the ordinary
+parts. On $\mathcal M_{k_0}$ the eigensystem $\lambda$ of $\varphi$ is ordinary and occurs with a multiplicity $1\le d\le N$, and $v_\ell(d)<N$; comparing the
+traces of suitable polynomials in the Hecke operators (which isolate the eigensystems congruent to $\lambda$ modulo the maximal ideal) shows
+that the normalized eigensystem $\lambda$ also occurs modulo the maximal ideal in $\mathcal M_{k_0+2t\mathbf 1_S}$. Hence some common eigenvector
+$\varphi'\in\mathcal M_{k_0+2t\mathbf 1_S}$ of all Hecke operators has eigenvalues $\lambda'$ with the asserted congruences, and it is a cusp form of the required
+weight, level and character.
+\end{proof}
+
+The automorphic induction statement $(\mathrm{Ind})$ is a special case of the following theorem.
+
+\begin{littheorem}[Arthur--Clozel {\cite[Ch.~3, Thm.~6.2]{ArthurClozel1989}}]\label{pf:eis:ac}
+Let $E/F$ be a cyclic extension of number fields of prime degree $q$ and $\pi$ a cuspidal automorphic representation of $\GL_m(\A_E)$. There is an
+automorphic representation $\Pi$ of $\GL_{mq}(\A_F)$, induced from cuspidal, such that at every place $v$ of $F$ at which $E$ and $\pi$ are
+unramified, $\Pi_v$ is the local automorphic induction of $(\pi_w)_{w\mid v}$: its Satake parameters are the union of those of the $\pi_w$ if $v$ splits,
+and the $q$-th roots of those of $\pi_w$ if $v$ is inert. $\Pi$ is cuspidal if and only if $\pi$ is not isomorphic to its conjugates under $\Gal(E/F)$.
+\end{littheorem}
+
+\begin{theorem}\label{pf:eis:ind}
+$(\mathrm{Ind})$ holds.
+\formallabel{UpperTheory.V.Z.Bc.indCs}
+\end{theorem}
+
+The statement $(\mathrm{Ind})$ is \cref{pf:eis:ac} for $q=2$, $m=2$ and totally imaginary $M/K$. The mixed weight condition makes $\pi$ not isomorphic
+to its conjugate, so $P$ is cuspidal; the formal statement adds the description of the infinitesimal characters (the archimedean case of
+local induction) and asserts the Satake parameters only at the places where both representations are unramified, under the assumption
+that the ramified places of $\pi$ are split over $K$.
+
+\begin{proof}
+The formal proof compares spectral sides of trace formulas for $\GL_2$ over $M$ and $\GL_4$ over $K$ for matching test functions, in outline as
+follows. (a) The matching of the geometric sides for unit elements of the spherical Hecke algebras, i.e.\ the base change fundamental lemma
+for the unit element (\lref{PositivityTheory.Rg.Tf.Loc.bcflUnit}, a formal proof of Kottwitz's theorem \cite{Kottwitz1986}), gives a
+global matching statement for the test functions used below (\lref{UpperTheory.ConvolutionTheory.GM.gm_of_bcfl}). (b) The contribution of
+$\pi$ is isolated in the spectral side by Hecke operators at finitely many split places: Iwahori--Hecke injectivity and spectral norm
+estimates for Chebyshev-type polynomials in the Hecke operators make the trace of the resulting operator on the cuspidal spectrum
+non-zero on the $\pi$-isotypic part and small elsewhere (\lref{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.cix}). (c) The
+matched trace on the $\GL_4$-side is therefore non-zero, which produces a cuspidal $P$ whose unramified Satake parameters and
+infinitesimal characters are those of the induced representation
+(\lref{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.coreInd}); finally the normalizations of the Satake parameters and
+infinitesimal characters are adjusted (\lref{UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indCs_of_gm}).
+\end{proof}
